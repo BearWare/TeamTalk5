@@ -129,42 +129,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             this, &PreferencesDlg::slotDesktopAccess);
 
     //sound tab
-    connect(ui.wasapiButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.dsoundButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.winmmButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.alsaButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.coreaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-    connect(ui.pulseaudioButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotSoundSystemChange);
-#if defined(Q_OS_WIN32)
-    ui.alsaButton->setDisabled(true);
-    ui.alsaButton->hide();
-    ui.coreaudioButton->setDisabled(true);
-    ui.coreaudioButton->hide();
-    ui.pulseaudioButton->setDisabled(true);
-    ui.pulseaudioButton->hide();
-#elif defined(Q_OS_DARWIN)
-    ui.wasapiButton->setDisabled(true);
-    ui.wasapiButton->hide();
-    ui.dsoundButton->setDisabled(true);
-    ui.dsoundButton->hide();
-    ui.winmmButton->setDisabled(true);
-    ui.winmmButton->hide();
-    ui.alsaButton->setDisabled(true);
-    ui.alsaButton->hide();
-    ui.winfwChkBox->hide();
-    ui.pulseaudioButton->setDisabled(true);
-    ui.pulseaudioButton->hide();
-#else
-    ui.winmmButton->setDisabled(true);
-    ui.winmmButton->hide();
-    ui.dsoundButton->setDisabled(true);
-    ui.dsoundButton->hide();
-    ui.coreaudioButton->setDisabled(true);
-    ui.coreaudioButton->hide();
-    ui.wasapiButton->setDisabled(true);
-    ui.wasapiButton->hide();
-    ui.winfwChkBox->hide();
-#endif
+    connect(ui.sndSysBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        showDevices(SoundSystem(ui.sndSysBox->currentData().toInt()));
+    });
     connect(ui.inputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &PreferencesDlg::slotSoundInputChange);
     connect(ui.outputdevBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
@@ -181,6 +149,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     //sound events
     m_soundmodel = new SoundEventsModel(this);
     ui.soundEventsTableView->setModel(m_soundmodel);
+    connect(ui.sndeventPlaybackComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.ttDeviceChkBox->setVisible(PlaybackMode(ui.sndeventPlaybackComboBox->currentData().toInt()) == PLAYBACKMODE_DEFAULT);
+    });
     connect(ui.soundEventsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::slotSoundEventToggled);
     connect(ui.soundEventsTableView->selectionModel(), &QItemSelectionModel::currentChanged, this, &PreferencesDlg::SoundEventSelected);
     connect(ui.soundEventsBrowseButton, &QPushButton::clicked, this, &PreferencesDlg::slotBrowseSoundEvent);
@@ -203,6 +175,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
         m_TTSVarMenu->exec(QCursor::pos());
     });
     connect(ui.TTSDefValButton, &QPushButton::clicked, this, &PreferencesDlg::TTSRestoreDefaultMessage);
+    connect(ui.TTSDefValAllButton, &QPushButton::clicked, this, &PreferencesDlg::TTSRestoreAllDefaultMessage);
     connect(ui.ttsengineComboBox, static_cast<void (QComboBox::*)(int)>(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotUpdateTTSTab);
     connect(ui.ttsLocaleComboBox, &QComboBox::currentTextChanged, this, &PreferencesDlg::slotTTSLocaleChanged);
     connect(ui.ttsEnableallButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTTSEnableAll);
@@ -269,8 +242,8 @@ void PreferencesDlg::initDevices()
     }
 
     //output device determines the selected sound system
-    SoundSystem sndsys = (SoundSystem)ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
-                                                        SOUNDSYSTEM_NONE).toInt();
+    SoundSystem sndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM,
+                                                        SOUNDSYSTEM_NONE).toInt());
     if(sndsys == SOUNDSYSTEM_NONE)
     {
         for(int i=0;i<m_sounddevices.size();i++)
@@ -313,18 +286,7 @@ SoundSystem PreferencesDlg::getSoundSystem()
 {
     SoundSystem sndsys = SOUNDSYSTEM_NONE;
     
-    if(ui.dsoundButton->isChecked())
-        sndsys = SOUNDSYSTEM_DSOUND;
-    if(ui.winmmButton->isChecked())
-        sndsys = SOUNDSYSTEM_WINMM;
-    if(ui.wasapiButton->isChecked())
-        sndsys = SOUNDSYSTEM_WASAPI;
-    if(ui.alsaButton->isChecked())
-        sndsys = SOUNDSYSTEM_ALSA;
-    if(ui.coreaudioButton->isChecked())
-        sndsys = SOUNDSYSTEM_COREAUDIO;
-    if (ui.pulseaudioButton->isChecked())
-        sndsys = SOUNDSYSTEM_PULSEAUDIO;
+    sndsys = SoundSystem(ui.sndSysBox->currentData().toInt());
 
     // ensure tab has been initialized, otherwise sound system will end up as 'none'
     Q_ASSERT(sndsys != SOUNDSYSTEM_NONE);
@@ -339,26 +301,6 @@ void PreferencesDlg::showDevices(SoundSystem snd)
 
     ui.inputdevBox->clear();
     ui.outputdevBox->clear();
-
-    switch(snd)
-    {
-    case SOUNDSYSTEM_DSOUND :
-        ui.dsoundButton->setChecked(true);break;
-    case SOUNDSYSTEM_WINMM :
-        ui.winmmButton->setChecked(true);break;
-    case SOUNDSYSTEM_WASAPI :
-        ui.wasapiButton->setChecked(true);break;
-    case SOUNDSYSTEM_ALSA :
-        ui.alsaButton->setChecked(true);break;
-    case SOUNDSYSTEM_COREAUDIO :
-        ui.coreaudioButton->setChecked(true);break;
-    case SOUNDSYSTEM_PULSEAUDIO :
-        ui.pulseaudioButton->setChecked(true);break;
-    case SOUNDSYSTEM_NONE :
-    case SOUNDSYSTEM_OPENSLES_ANDROID :
-    case SOUNDSYSTEM_AUDIOUNIT :
-        break;
-    }
 
     SoundDevice dev;
     int devid;
@@ -465,19 +407,12 @@ bool PreferencesDlg::getSoundFile(QString& filename)
 void PreferencesDlg::initGeneralTab()
 {
     ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString());
-    switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
-    {
-    case GENDER_MALE :
-        ui.maleRadioButton->setChecked(true);
-        break;
-    case GENDER_FEMALE:
-        ui.femaleRadioButton->setChecked(true);
-        break;
-    case GENDER_NEUTRAL:
-    default:
-        ui.neutralRadioButton->setChecked(true);
-        break;
-    }
+    ui.genderBox->clear();
+    ui.genderBox->addItem(tr("Male"), GENDER_MALE);
+    ui.genderBox->addItem(tr("Female"), GENDER_FEMALE);
+    ui.genderBox->addItem(tr("Neutral"), GENDER_NEUTRAL);
+    Gender gender = Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt());
+    setCurrentItemData(ui.genderBox, gender);
 
     QString bearwareid = ttSettings->value(SETTINGS_GENERAL_BEARWARE_USERNAME).toString();
     ui.bearwareidEdit->setText(bearwareid);
@@ -544,8 +479,11 @@ void PreferencesDlg::initDisplayTab()
                                                   SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt());
     ui.showusernameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
                                                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool());
-    ui.emojiChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_EMOJI,
-                                                 SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool());
+    ui.infoStyleBox->addItem(tr("None"), STYLE_NONE);
+    ui.infoStyleBox->addItem(tr("Emojis"), STYLE_EMOJI);
+    ui.infoStyleBox->addItem(tr("Text"), STYLE_TEXT);
+    UserInfoStyle style = UserInfoStyle(ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt());
+    setCurrentItemData(ui.infoStyleBox, style);
     ui.animChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ANIM,
                                                 SETTINGS_DISPLAY_ANIM_DEFAULT).toBool());
     ui.ServnameChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_SERVNAME,
@@ -592,6 +530,8 @@ void PreferencesDlg::initConnectionTab()
     QString appPath = QApplication::applicationFilePath();
     appPath = QDir::toNativeSeparators(appPath);
     ui.winfwChkBox->setChecked(TT_Firewall_AppExceptionExists(_W(appPath)));
+#else
+    ui.winfwChkBox->hide();
 #endif
     ui.subusermsgChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT).toBool());
     ui.subchanmsgChkBox->setChecked(ttSettings->value(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG_DEFAULT).toBool());
@@ -606,6 +546,20 @@ void PreferencesDlg::initConnectionTab()
 
 void PreferencesDlg::initSoundSystemTab()
 {
+    ui.sndSysBox->clear();
+#if defined(Q_OS_WIN32)
+    ui.sndSysBox->addItem(tr("Windows Audio Session API (WASAPI)"), SOUNDSYSTEM_WASAPI);
+    ui.sndSysBox->addItem(tr("DirectSound"), SOUNDSYSTEM_DSOUND);
+    ui.sndSysBox->addItem(tr("Windows legacy audio system"), SOUNDSYSTEM_WINMM);
+#elif defined(Q_OS_DARWIN)
+    ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
+#else
+    ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
+    ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
+#endif
+    int comboIndex = ui.sndSysBox->findData(SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt()));
+    if(comboIndex>=0)
+        ui.sndSysBox->setCurrentIndex(comboIndex);
     initDevices();
     ui.mediavsvoiceSlider->setValue(ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                                       SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toInt());
@@ -632,6 +586,7 @@ void PreferencesDlg::initSoundEventsTab()
     ui.sndeventPlaybackComboBox->addItem(tr("One by One"), PLAYBACKMODE_ONEBYONE);
     ui.sndeventPlaybackComboBox->addItem(tr("Overlapping"), PLAYBACKMODE_OVERLAPPING);
     setCurrentItemData(ui.sndeventPlaybackComboBox, ttSettings->value(SETTINGS_SOUNDEVENT_PLAYBACKMODE, SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT));
+    ui.ttDeviceChkBox->setChecked(ttSettings->value(SETTINGS_SOUNDEVENT_TTDEVICE, SETTINGS_SOUNDEVENT_TTDEVICE_DEFAULT).toBool());
     SoundEvents events = ttSettings->value(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT).toULongLong();
     m_soundmodel->setSoundEvents(events);
 }
@@ -767,12 +722,7 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-        if (ui.maleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_MALE);
-        else if (ui.femaleRadioButton->isChecked())
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_FEMALE);
-        else
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, GENDER_NEUTRAL);
+        ttSettings->setValue(SETTINGS_GENERAL_GENDER, getCurrentItemData(ui.genderBox, GENDER_NEUTRAL));
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
@@ -809,7 +759,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
         ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_EMOJI, ui.emojiChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, getCurrentItemData(ui.infoStyleBox, STYLE_EMOJI));
         ttSettings->setValue(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
 
@@ -885,11 +835,14 @@ void PreferencesDlg::slotSaveChanges()
         TT_CloseSoundLoopbackTest(m_sndloop);
 
         SoundSystem oldsndsys = SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt());
+        SoundSystem newsndsys = SoundSystem(ui.sndSysBox->currentData().toInt());
 
-        if(ui.wasapiButton->isChecked())
-            ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
-        else if(ui.dsoundButton->isChecked())
+        switch(newsndsys)
         {
+        case SOUNDSYSTEM_WASAPI:
+            ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
+        break;
+        case SOUNDSYSTEM_DSOUND :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_DSOUND);
             //in DirectSound 'Primary Sound Capture Driver' and 'Primary Sound Driver'
             //should be treated as default device
@@ -901,9 +854,8 @@ void PreferencesDlg::slotSaveChanges()
                 if(outputid == tmp_outputid)
                     outputid = SOUNDDEVICEID_DEFAULT;
             }
-        }
-        else if(ui.winmmButton->isChecked())
-        {
+        break;
+        case SOUNDSYSTEM_WINMM :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WINMM);
 /*
             //in WinMM 'Sound Mapper - Input' and 'Sound Mapper - Output'
@@ -917,13 +869,17 @@ void PreferencesDlg::slotSaveChanges()
                     outputid = SOUNDDEVICEID_DEFAULT;
             }
 */
-        }
-        else if(ui.coreaudioButton->isChecked())
+        break;
+        case SOUNDSYSTEM_COREAUDIO :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_COREAUDIO);
-        else if(ui.alsaButton->isChecked())
+        break;
+        case SOUNDSYSTEM_ALSA :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_ALSA);
-        else if (ui.pulseaudioButton->isChecked())
+        break;
+        case SOUNDSYSTEM_PULSEAUDIO :
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_PULSEAUDIO);
+        break;
+        }
 
         ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, "");
         for(int i=0;i<m_sounddevices.size();i++)
@@ -976,6 +932,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_SOUNDEVENT_VOLUME, ui.sndVolSpinBox->value());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_PLAYBACKMODE, getCurrentItemData(ui.sndeventPlaybackComboBox));
+        ttSettings->setValue(SETTINGS_SOUNDEVENT_TTDEVICE, ui.ttDeviceChkBox->isChecked());
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, m_soundmodel->getSoundEvents());
         ttSettings->setValue(SETTINGS_DISPLAY_SOUNDEVENTSHEADER, ui.soundEventsTableView->horizontalHeader()->saveState());
         saveCurrentFile();
@@ -1186,11 +1143,6 @@ void PreferencesDlg::slotDesktopAccess()
 {
     DesktopAccessDlg dlg(this);
     dlg.exec();
-}
-
-void PreferencesDlg::slotSoundSystemChange()
-{
-    showDevices(getSoundSystem());
 }
 
 void PreferencesDlg::slotSoundInputChange(int index)
@@ -1882,6 +1834,33 @@ void PreferencesDlg::TTSRestoreDefaultMessage()
         const TTSEventInfo& eventInfo = eventMap[eventId];
         QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
         ui.TTSMsgEdit->setText(defaultValue);
+    }
+}
+
+void PreferencesDlg::TTSRestoreAllDefaultMessage()
+{
+    QMessageBox answer;
+    answer.setText(tr("Are you sure you want to restore all TTS messages to default values?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(YesButton);
+    answer.setIcon(QMessageBox::Information);
+    answer.setWindowTitle(tr("Restore default values"));
+    answer.exec();
+    if(answer.clickedButton() == NoButton)
+        return;
+    auto eventMap = UtilTTS::eventToSettingMap();
+    for (TTSEvents event = TTS_USER_LOGGEDIN; event < TTS_NEXT_UNUSED; event <<= 1)
+    {
+        TTSEvents eventId = static_cast<TTSEvents>(event);
+        if (eventMap.contains(eventId))
+        {
+            const TTSEventInfo& eventInfo = eventMap[eventId];
+            QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
+            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            if (m_currentTTSIndex.isValid() && m_currentTTSIndex.internalId() == eventId)
+                ui.TTSMsgEdit->setText(defaultValue);
+        }
     }
 }
 

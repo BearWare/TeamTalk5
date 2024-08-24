@@ -59,8 +59,15 @@ void migrateSettings()
     if (!versionSameOrLater(iniversion, "5.2"))
     {
         // Gender changed in 5.2 format
-        Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
-        ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER).type() == QVariant::Bool)
+#else
+        if (ttSettings->value(SETTINGS_GENERAL_GENDER).typeId() == QMetaType::Bool)
+#endif
+        {
+            Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
+            ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
+        }
     }
     if (!versionSameOrLater(iniversion, "5.3"))
     {
@@ -85,13 +92,13 @@ void migrateSettings()
 
         // Sound Events changed in 5.4 format
         SoundEvents activeEvents = SOUNDEVENT_NONE;
-
-        for (int event = SOUNDEVENT_NEWUSER; event < int(SOUNDEVENT_NEXT_UNUSED); event <<= 1)
+        auto eventMap = UtilSound::eventToSettingMap();
+        for (SoundEvents event = SOUNDEVENT_NEWUSER; event < SOUNDEVENT_NEXT_UNUSED; event <<= 1)
         {
-            if (!getSoundEventFilename(SoundEvent(event)).isEmpty())
-            {
-                activeEvents = static_cast<SoundEvents>(activeEvents | event);
-            }
+            SoundEvents eventId = SoundEvent(event);
+            const SoundEventInfo& eventInfo = eventMap[eventId];
+            if (!ttSettings->value(eventInfo.settingKey).toString().isEmpty())
+                activeEvents |= event;
         }
 
         ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
@@ -136,7 +143,7 @@ void migrateSettings()
         // Shortcuts changed in 5.4 format
         Hotkeys hks = HOTKEY_NONE;
 
-        for (int hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
+        for (Hotkeys hk = HOTKEY_FIRST; hk < HOTKEY_NEXT_UNUSED; hk <<= 1)
         {
             hotkey_t hotkey;
             HotKeyID hki = static_cast<HotKeyID>(hk);
@@ -149,6 +156,13 @@ void migrateSettings()
         ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, hks);
         ttSettings->remove("general_/push-to-talk");
     }
+    if (!versionSameOrLater(iniversion, "5.5"))
+    {
+        // Setting to display emoji in channel list changed in 5.5 format
+        if (ttSettings->contains("display/show-emoji") && ttSettings->value("display/show-emoji").toBool() == false)
+            ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, STYLE_NONE);
+        ttSettings->remove("display/show-emoji");
+    }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);
@@ -158,33 +172,33 @@ QHash<StatusBarEvents, StatusBarEventInfo> UtilUI::eventToSettingMap()
 {
     static QHash<StatusBarEvents, StatusBarEventInfo> map =
     {
-        { STATUSBAR_USER_LOGGEDIN, {SETTINGS_STATUSBARMSG_USER_LOGGEDIN, {{"{user}", tr("User's nickname who logged in")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
-        { STATUSBAR_USER_LOGGEDOUT, {SETTINGS_STATUSBARMSG_USER_LOGGEDOUT, {{"{user}", tr("User's nickname who logged out")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
-        { STATUSBAR_USER_JOINED, {SETTINGS_STATUSBARMSG_USER_JOINED, {{"{user}", tr("User's nickname who joined channel")}, {"{channel}", tr("Channel's name joined by user")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
-        { STATUSBAR_USER_LEFT, {SETTINGS_STATUSBARMSG_USER_LEFT, {{"{user}", tr("User's nickname who left channel")}, {"{channel}", tr("Channel's name left by user")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
-        { STATUSBAR_USER_JOINED_SAME, {SETTINGS_STATUSBARMSG_USER_JOINED_SAME, {{"{user}", tr("User's nickname who joined channel")}}, "" } },
-        { STATUSBAR_USER_LEFT_SAME, {SETTINGS_STATUSBARMSG_USER_LEFT_SAME, {{"{user}", tr("User's nickname who left channel")}}, "" } },
-        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_VOICE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_VIDEO, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_DESKTOP, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_MEDIAFILE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
-        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_USER_LOGGEDIN, {SETTINGS_STATUSBARMSG_USER_LOGGEDIN, {{"{user}", tr("User's nickname who logged in")}, {"{username}", tr("User's username who logged in")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { STATUSBAR_USER_LOGGEDOUT, {SETTINGS_STATUSBARMSG_USER_LOGGEDOUT, {{"{user}", tr("User's nickname who logged out")}, {"{username}", tr("User's username who logged out")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { STATUSBAR_USER_JOINED, {SETTINGS_STATUSBARMSG_USER_JOINED, {{"{user}", tr("User's nickname who joined channel")}, {"{username}", tr("User's username who joined channel")}, {"{channel}", tr("Channel's name joined by user")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { STATUSBAR_USER_LEFT, {SETTINGS_STATUSBARMSG_USER_LEFT, {{"{user}", tr("User's nickname who left channel")}, {"{username}", tr("User's username who left channel")}, {"{channel}", tr("Channel's name left by user")}, {"{server}", tr("Server's name from which event was emited")}}, "" } },
+        { STATUSBAR_USER_JOINED_SAME, {SETTINGS_STATUSBARMSG_USER_JOINED_SAME, {{"{user}", tr("User's nickname who joined channel")}, {"{username}", tr("User's username who joined channel")}}, "" } },
+        { STATUSBAR_USER_LEFT_SAME, {SETTINGS_STATUSBARMSG_USER_LEFT_SAME, {{"{user}", tr("User's nickname who left channel")}, {"{username}", tr("User's username who left channel")}}, "" } },
+        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_PRIVATE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_CHANNEL, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_TEXTMSG_BROADCAST, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_VOICE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_VIDEO, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_DESKTOP, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_DESKTOPINPUT, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_MEDIAFILE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_PRIVATE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_TEXTMSG_CHANNEL, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VOICE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_VIDEO, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_DESKTOP, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
+        { STATUSBAR_SUBSCRIPTIONS_INTERCEPT_MEDIAFILE, {SETTINGS_STATUSBARMSG_SUBCHANGE, {{"{user}", tr("User concerns by change")}, {"{username}", tr("User's username concerns by change")}, {"{type}", tr("Subscription type")}, {"{state}", tr("Subscription state")}}, tr("Subscription change") } },
         { STATUSBAR_CLASSROOM_CHANMSG_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { STATUSBAR_CLASSROOM_VOICE_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { STATUSBAR_CLASSROOM_VIDEO_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { STATUSBAR_CLASSROOM_DESKTOP_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { STATUSBAR_CLASSROOM_MEDIAFILE_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
-        { STATUSBAR_FILE_ADD, {SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", tr("File name")}, {"{user}", tr("User's nickname who added the file")}, {"{filesize}", tr("File size")}}, "" } },
-        { STATUSBAR_FILE_REMOVE, {SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", tr("File name")}, {"{user}", tr("User's nickname who removed the file")}}, "" } },
+        { STATUSBAR_FILE_ADD, {SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", tr("File name")}, {"{user}", tr("User's nickname who added the file")}, {"{username}", tr("User's username who added the file")}, {"{filesize}", tr("File size")}}, "" } },
+        { STATUSBAR_FILE_REMOVE, {SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", tr("File name")}, {"{user}", tr("User's nickname who removed the file")}, {"{username}", tr("User's username who removed the file")}}, "" } },
     };
     return map;
 }

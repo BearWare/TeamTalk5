@@ -81,7 +81,6 @@ private:
     SoundSystem getSoundSystem();
     void showDevices(SoundSystem snd);
     QVector<SoundDevice> m_sounddevices;
-    void slotSoundSystemChange();
     void slotSoundInputChange(int index);
     void slotSoundOutputChange(int index);
     void slotSoundRestart();
@@ -114,6 +113,7 @@ private:
     void insertVariable();
     void saveCurrentMessage();
     void TTSRestoreDefaultMessage();
+    void TTSRestoreAllDefaultMessage();
     void slotTTSEnableAll(bool checked);
     void slotTTSClearAll(bool checked);
     void slotTTSRevert(bool checked);

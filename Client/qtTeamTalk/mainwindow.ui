@@ -2122,6 +2122,9 @@
    <property name="shortcut">
     <string>Ctrl+P</string>
    </property>
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
   </action>
   <action name="actionGenerateTTURL">
    <property name="checkable">

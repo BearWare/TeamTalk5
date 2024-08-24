@@ -106,7 +106,7 @@ void UserInfoDlg::updateUser()
     if(ui.usertypeLabel->text() != usertypeLabelText)
         ui.usertypeLabel->setText(usertypeLabelText);
 
-    if (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN || TT_GetMyUserID(ttInst) == user.nUserID)
+    if (_Q(user.szIPAddress).size() > 0)
     {
         QString ipLabelText = QString(tr("IP-address") + ": %1").arg(_Q(user.szIPAddress));
         if(ui.ipLabel->text() != ipLabelText)

@@ -76,6 +76,13 @@
            </property>
           </widget>
          </item>
+         <item>
+          <widget class="QPushButton" name="SBDefAllValButton">
+           <property name="text">
+            <string>Reset All to Default Value</string>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>

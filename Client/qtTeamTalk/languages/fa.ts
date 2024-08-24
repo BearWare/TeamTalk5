@@ -59,7 +59,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, چینی ساده‌شده&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, فرانسوی&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, آلمانی&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ابوالفضل سعیدیفر، فارسی&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;ابوالفضل سعیدیفر، Persian&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, لهستانی&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, پرتغالی از برزیل&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, ترکی&lt;/p&gt;
@@ -460,32 +460,17 @@ p, li { white-space: pre-wrap; }
         <translation>تغییر وضعیت</translation>
     </message>
     <message>
-        <location filename="../changestatus.ui" line="29"/>
+        <location filename="../changestatus.ui" line="31"/>
         <source>Status mode</source>
         <translation>حالت وضعیت</translation>
     </message>
     <message>
-        <location filename="../changestatus.ui" line="41"/>
-        <source>&amp;Available</source>
-        <translation>&amp;آنلاین</translation>
-    </message>
-    <message>
         <location filename="../changestatus.ui" line="48"/>
-        <source>A&amp;way</source>
-        <translation>د&amp;ور</translation>
-    </message>
-    <message>
-        <location filename="../changestatus.ui" line="55"/>
-        <source>&amp;Question</source>
-        <translation>&amp;پرسش</translation>
-    </message>
-    <message>
-        <location filename="../changestatus.ui" line="64"/>
         <source>Message</source>
         <translation>پیام</translation>
     </message>
     <message>
-        <location filename="../changestatus.ui" line="77"/>
+        <location filename="../changestatus.ui" line="63"/>
         <source>Display file name in status message when streaming</source>
         <translation>نمایش نام فایل در وضعیت هنگام استریم</translation>
     </message>
@@ -500,16 +485,31 @@ p, li { white-space: pre-wrap; }
         <translation>&amp;لغو</translation>
     </message>
     <message>
-        <location filename="../changestatusdlg.cpp" line="40"/>
-        <source>&amp;Available</source>
-        <comment>For female</comment>
-        <translation>&amp;آنلاین</translation>
+        <location filename="../changestatusdlg.cpp" line="33"/>
+        <source>Available</source>
+        <translation>آنلاین</translation>
     </message>
     <message>
-        <location filename="../changestatusdlg.cpp" line="41"/>
-        <source>A&amp;way</source>
+        <location filename="../changestatusdlg.cpp" line="34"/>
+        <source>Away</source>
+        <translation>دور</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="35"/>
+        <source>Question</source>
+        <translation>پرسش</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="43"/>
+        <source>Available</source>
         <comment>For female</comment>
-        <translation>د&amp;ور</translation>
+        <translation>آنلاین</translation>
+    </message>
+    <message>
+        <location filename="../changestatusdlg.cpp" line="44"/>
+        <source>Away</source>
+        <comment>For female</comment>
+        <translation>دور</translation>
     </message>
 </context>
 <context>
@@ -602,7 +602,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="223"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation>غیرفعال‌کردن ارسال خودکار صدا</translation>
+        <translation>غیرفعال‌کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="230"/>
@@ -851,12 +851,12 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChannelsTree</name>
     <message>
-        <location filename="../channelstree.cpp" line="1155"/>
+        <location filename="../channelstree.cpp" line="1172"/>
         <source>Expanded</source>
         <translation>باز‌شده</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1155"/>
+        <location filename="../channelstree.cpp" line="1172"/>
         <source>Collapsed</source>
         <translation>بسته‌شده</translation>
     </message>
@@ -901,7 +901,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="831"/>
         <source>Video transmission allowed for everyone: %1</source>
-        <translation>همه بتوانند ویدیو ارسال کنند: %1</translation>
+        <translation>همه بتوانند ویدیو اشتراک‌گذاری کنند: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="832"/>
@@ -921,7 +921,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="838"/>
         <source>Voice transmission</source>
-        <translation>ارسال صدا</translation>
+        <translation>انتقال صدا</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="839"/>
@@ -941,27 +941,118 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="960"/>
         <source>Text message transmission allowed: %1</source>
-        <translation>اجازه برای ارسال پیام متنی: %1</translation>
+        <translation>اجازۀ ارسال پیام متنی: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="961"/>
         <source>Voice transmission allowed: %1</source>
-        <translation>اجازه برای صحبت‌کردن: %1</translation>
+        <translation>اجازۀ صحبت‌کردن: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="962"/>
         <source>Video transmission allowed: %1</source>
-        <translation>اجازه برای اشتراک‌گذاری ویدیو: %1</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="963"/>
         <source>Desktop transmission allowed: %1</source>
-        <translation>اجازه برای اشتراک‌گذاری دسکتاپ: %1</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ: %1</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="964"/>
         <source>Media files transmission allowed: %1</source>
-        <translation>اجازه برای استریم: %1</translation>
+        <translation>اجازۀ استریم: %1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1144"/>
+        <location filename="../channelstree.cpp" line="1145"/>
+        <source>Hidden</source>
+        <translation>مخفی</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1157"/>
+        <location filename="../channelstree.cpp" line="1158"/>
+        <source>Password protected</source>
+        <translation>رمزدار</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1236"/>
+        <source>Unread message</source>
+        <translation>پیام خوانده نشده</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1240"/>
+        <source>Away</source>
+        <translation>دور</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1243"/>
+        <source>Question</source>
+        <translation>پرسش</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1247"/>
+        <source>Speaking</source>
+        <translation>در حال صحبت</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1249"/>
+        <source>Streaming mediafile</source>
+        <translation>در حال استریم</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1252"/>
+        <source>Streaming mediafile (Paused)</source>
+        <translation>در حال استریم, (مکث شده)</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1255"/>
+        <source>Video</source>
+        <translation>ویدیو</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1257"/>
+        <source>Desktop sharing</source>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1315"/>
+        <source>Female</source>
+        <translation>زن</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1318"/>
+        <source>Male</source>
+        <translation>مرد</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1321"/>
+        <source>Neutral</source>
+        <translation>خنثی</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1330"/>
+        <source>Administrator</source>
+        <comment>For female</comment>
+        <translation>مدیر</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1334"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation>مدیر</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1344"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation>اپراتور</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1348"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation>اپراتور</translation>
     </message>
 </context>
 <context>
@@ -1338,7 +1429,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
-        <translation>کلید خصوصی کلاینت</translation>
+        <translation>کلید شخصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="188"/>
@@ -1407,22 +1498,22 @@ Message of the day: %2</source>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="165"/>
         <source>Private key: %1 bits</source>
-        <translation>کلید خصوصی: %1 بیت</translation>
+        <translation>کلید شخصی: %1 بیت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="177"/>
         <source>Client Private Key (*.pem)</source>
-        <translation>کلید خصوصی کلاینت (*.pem)</translation>
+        <translation>کلید شخصی کلاینت (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="191"/>
         <source>Setup Client Private Key</source>
-        <translation>تنظیم کلید خصوصی کلاینت</translation>
+        <translation>تنظیم کلید شخصی کلاینت</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="192"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation>فایل %1 حاوی کلید خصوصی کلاینت معتبر نیست</translation>
+        <translation>فایل %1 حاوی کلید شخصی کلاینت معتبر نیست</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="201"/>
@@ -1441,7 +1532,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransfer.ui" line="25"/>
         <source>Filename:</source>
-        <translation>نام فایل:</translation>
+        <translation>نام:</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="45"/>
@@ -1486,7 +1577,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1 KBytes/second, last second %2 bytes</source>
-        <translation>سرعت انتقال داده در حال حاضر %1 کیلوبایت بر ثانیه است, حجم انتقال داده در آخرین ثانیه %2 بایت بوده است</translation>
+        <translation>%1 کیلوبایت بر ثانیه, در ثانیۀ گذشته %2 بایت</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -1553,7 +1644,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>اِعمالِ &apos;تنظیماتِ سفارشی برای کلاینت</translation>
+        <translation>اِعمالِ تنظیماتِ سفارشی برای کلاینت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -1729,27 +1820,27 @@ Message of the day: %2</source>
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="557"/>
+        <location filename="../utilui.cpp" line="571"/>
         <source>Username:</source>
         <translation>نام کاربری:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="562"/>
+        <location filename="../utilui.cpp" line="576"/>
         <source>Password:</source>
         <translation>رمز:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="568"/>
+        <location filename="../utilui.cpp" line="582"/>
         <source>Show password</source>
         <translation>نمایش رمز عبور</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="573"/>
+        <location filename="../utilui.cpp" line="587"/>
         <source>&amp;OK</source>
         <translation>&amp;تأیید</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="574"/>
+        <location filename="../utilui.cpp" line="588"/>
         <source>&amp;Cancel</source>
         <translation>&amp;لغو</translation>
     </message>
@@ -1779,7 +1870,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="221"/>
         <location filename="../mainwindow.ui" line="246"/>
         <location filename="../mainwindow.ui" line="249"/>
-        <location filename="../mainwindow.cpp" line="3271"/>
+        <location filename="../mainwindow.cpp" line="3273"/>
         <source>Microphone gain</source>
         <translation>میکروفون</translation>
     </message>
@@ -1788,7 +1879,7 @@ Message of the day: %2</source>
         <location filename="../mainwindow.ui" line="287"/>
         <location filename="../mainwindow.ui" line="290"/>
         <source>Voice activation level</source>
-        <translation>حساسیت تشخیص صدا</translation>
+        <translation>حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="346"/>
@@ -1818,8 +1909,8 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="405"/>
-        <location filename="../mainwindow.ui" line="1750"/>
-        <location filename="../mainwindow.cpp" line="7172"/>
+        <location filename="../mainwindow.ui" line="1757"/>
+        <location filename="../mainwindow.cpp" line="7226"/>
         <source>&amp;Video</source>
         <translation>&amp;ویدیو</translation>
     </message>
@@ -1877,13 +1968,13 @@ Message of the day: %2</source>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="680"/>
-        <location filename="../mainwindow.cpp" line="7180"/>
+        <location filename="../mainwindow.cpp" line="7234"/>
         <source>&amp;Desktops</source>
         <translation>&amp;دسکتاپ</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="966"/>
-        <location filename="../mainwindow.cpp" line="3138"/>
+        <location filename="../mainwindow.cpp" line="3140"/>
         <source>&amp;Files</source>
         <translation>&amp;فایل</translation>
     </message>
@@ -1956,264 +2047,264 @@ Message of the day: %2</source>
         <translation>&amp;اطلاعات کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1301"/>
+        <location filename="../mainwindow.ui" line="1308"/>
         <source>&amp;Server</source>
         <translation>&amp;سِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1316"/>
+        <location filename="../mainwindow.ui" line="1323"/>
         <source>&amp;Help</source>
         <translation>&amp;راهنما</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1380"/>
+        <location filename="../mainwindow.ui" line="1387"/>
         <source>&amp;Server List</source>
         <translation>&amp;سِروِر‌ها</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1383"/>
-        <location filename="../mainwindow.ui" line="1645"/>
+        <location filename="../mainwindow.ui" line="1390"/>
+        <location filename="../mainwindow.ui" line="1652"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1395"/>
+        <location filename="../mainwindow.ui" line="1402"/>
         <source>&amp;Connect</source>
         <translation>&amp;اتصال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1398"/>
+        <location filename="../mainwindow.ui" line="1405"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1427"/>
+        <location filename="../mainwindow.ui" line="1434"/>
         <source>&amp;Preferences</source>
         <translation>&amp;تنظیمات</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1430"/>
+        <location filename="../mainwindow.ui" line="1437"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1435"/>
-        <location filename="../mainwindow.cpp" line="2597"/>
+        <location filename="../mainwindow.ui" line="1442"/>
+        <location filename="../mainwindow.cpp" line="2599"/>
         <source>&amp;Exit</source>
         <translation>&amp;خروج</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1455"/>
+        <location filename="../mainwindow.ui" line="1462"/>
         <source>Enable &amp;Push To Talk</source>
         <translation>فعال‌کردن &amp;صحبت با دکمه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1458"/>
+        <location filename="../mainwindow.ui" line="1465"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1468"/>
+        <location filename="../mainwindow.ui" line="1475"/>
         <source>&amp;About</source>
         <translation>&amp;دربارۀ برنامه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1476"/>
+        <location filename="../mainwindow.ui" line="1483"/>
         <source>&amp;Manual</source>
         <translation>&amp;راهنما</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1479"/>
+        <location filename="../mainwindow.ui" line="1486"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1484"/>
+        <location filename="../mainwindow.ui" line="1491"/>
         <source>Server &amp;Properties</source>
         <translation>تنظیمات &amp;سِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1487"/>
+        <location filename="../mainwindow.ui" line="1494"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1492"/>
+        <location filename="../mainwindow.ui" line="1499"/>
         <source>&amp;Create Channel</source>
         <translation>&amp;ساختن کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1495"/>
+        <location filename="../mainwindow.ui" line="1502"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1500"/>
+        <location filename="../mainwindow.ui" line="1507"/>
         <source>&amp;Update Channel</source>
         <translation>&amp;ویرایش کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1503"/>
+        <location filename="../mainwindow.ui" line="1510"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1508"/>
+        <location filename="../mainwindow.ui" line="1515"/>
         <source>&amp;Delete Channel</source>
         <translation>&amp;حذف کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1511"/>
+        <location filename="../mainwindow.ui" line="1518"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1516"/>
+        <location filename="../mainwindow.ui" line="1523"/>
         <source>&amp;Join Channel</source>
         <translation>&amp;ورود به کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1519"/>
+        <location filename="../mainwindow.ui" line="1526"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1539"/>
+        <location filename="../mainwindow.ui" line="1546"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>روشن کردن &amp;ارسال صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1542"/>
+        <location filename="../mainwindow.ui" line="1549"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1547"/>
+        <location filename="../mainwindow.ui" line="1554"/>
         <source>Change &amp;Nickname</source>
         <translation>تغییر &amp;نام مستعار</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1550"/>
+        <location filename="../mainwindow.ui" line="1557"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1555"/>
+        <location filename="../mainwindow.ui" line="1562"/>
         <source>Change &amp;Status</source>
         <translation>تغییر &amp;وضعیت</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1558"/>
+        <location filename="../mainwindow.ui" line="1565"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1563"/>
+        <location filename="../mainwindow.ui" line="1570"/>
         <source>&amp;View User Information</source>
         <translation>&amp;دیدن مشخصات کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1566"/>
+        <location filename="../mainwindow.ui" line="1573"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1586"/>
+        <location filename="../mainwindow.ui" line="1593"/>
         <source>Mute &amp;All</source>
         <translation>قطع &amp;اسپیکر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1589"/>
+        <location filename="../mainwindow.ui" line="1596"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1594"/>
+        <location filename="../mainwindow.ui" line="1601"/>
         <source>Up&amp;load File</source>
         <translation>آپ&amp;لود</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1597"/>
+        <location filename="../mainwindow.ui" line="1604"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1602"/>
+        <location filename="../mainwindow.ui" line="1609"/>
         <source>D&amp;ownload File</source>
         <translation>د&amp;انلود</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1605"/>
+        <location filename="../mainwindow.ui" line="1612"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1610"/>
+        <location filename="../mainwindow.ui" line="1617"/>
         <source>Dele&amp;te File</source>
         <translation>حذ&amp;ف فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1613"/>
+        <location filename="../mainwindow.ui" line="1620"/>
         <source>Shift+Del</source>
         <translation>Shift+Delete</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1618"/>
+        <location filename="../mainwindow.ui" line="1625"/>
         <source>&amp;Banned Users</source>
         <translation>&amp;کاربران محروم‌شده</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1621"/>
+        <location filename="../mainwindow.ui" line="1628"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1626"/>
+        <location filename="../mainwindow.ui" line="1633"/>
         <source>&amp;User Accounts</source>
         <translation>&amp;حساب‌های کاربری</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1629"/>
+        <location filename="../mainwindow.ui" line="1636"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1634"/>
+        <location filename="../mainwindow.ui" line="1641"/>
         <source>&amp;Save Configuration</source>
         <translation>&amp;ذخیرۀ تنظیمات</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1637"/>
+        <location filename="../mainwindow.ui" line="1644"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1642"/>
+        <location filename="../mainwindow.ui" line="1649"/>
         <source>&amp;View Channel Info</source>
         <translation>&amp;دیدن اطلاعات کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1666"/>
+        <location filename="../mainwindow.ui" line="1673"/>
         <source>M&amp;essages</source>
         <translation>ا&amp;رسال پیام</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1669"/>
+        <location filename="../mainwindow.ui" line="1676"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1674"/>
+        <location filename="../mainwindow.ui" line="1681"/>
         <source>Kick and &amp;Ban From Server</source>
         <translation>اخراج و &amp;ممنوعیت از سِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2224"/>
+        <location filename="../mainwindow.ui" line="2246"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1686"/>
+        <location filename="../mainwindow.ui" line="1693"/>
         <source>&amp;Op</source>
         <translation>&amp;اپراتور</translation>
     </message>
@@ -2253,1301 +2344,1317 @@ Message of the day: %2</source>
         <translation>&amp;تنظیم دسترسی‌های ارتباطی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1406"/>
+        <location filename="../mainwindow.ui" line="1284"/>
+        <source>Streaming to Channel</source>
+        <translation>استریم در کانال</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="1413"/>
         <source>&amp;Enable Echo Cancellation</source>
         <translation>&amp;استفاده‌از حذف اکو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1414"/>
+        <location filename="../mainwindow.ui" line="1421"/>
         <source>Enable &amp;Automatic Gain Control</source>
         <translation>استفاده‌از &amp;تنظیم خودکار بلندی میکروفون</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1422"/>
+        <location filename="../mainwindow.ui" line="1429"/>
         <source>Enable &amp;Denoising</source>
         <translation>استفاده‌از &amp;نویزگیر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1440"/>
+        <location filename="../mainwindow.ui" line="1447"/>
         <source>&amp;Speak Client Statistics</source>
         <translation>&amp;اعلام آمار کلاینت</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1443"/>
+        <location filename="../mainwindow.ui" line="1450"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1463"/>
+        <location filename="../mainwindow.ui" line="1470"/>
         <source>&amp;Check for Update</source>
         <translation>&amp;بررسیِ به‌روزرسانی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1527"/>
+        <location filename="../mainwindow.ui" line="1534"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1571"/>
+        <location filename="../mainwindow.ui" line="1578"/>
         <source>&amp;Speak User Information</source>
         <translation>&amp;اعلام اطلاعات کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1574"/>
+        <location filename="../mainwindow.ui" line="1581"/>
         <source>Ctrl+G</source>
         <translation>Ctrl+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1650"/>
+        <location filename="../mainwindow.ui" line="1657"/>
         <source>&amp;Speak Channel Info</source>
         <translation>&amp;اعلام اطلاعات کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1653"/>
+        <location filename="../mainwindow.ui" line="1660"/>
         <source>Ctrl+Alt+G</source>
         <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1658"/>
+        <location filename="../mainwindow.ui" line="1665"/>
         <source>S&amp;peak Channel State</source>
         <translation>ا&amp;علام وضعیت کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1661"/>
+        <location filename="../mainwindow.ui" line="1668"/>
         <source>Ctrl+Shift+G</source>
         <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1689"/>
+        <location filename="../mainwindow.ui" line="1696"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1694"/>
+        <location filename="../mainwindow.ui" line="1701"/>
         <source>&amp;Volume</source>
         <translation>&amp;تنظیم صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1697"/>
+        <location filename="../mainwindow.ui" line="1704"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1709"/>
+        <location filename="../mainwindow.ui" line="1716"/>
         <source>V&amp;oice</source>
         <translation>ق&amp;طع صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1712"/>
+        <location filename="../mainwindow.ui" line="1719"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1724"/>
+        <location filename="../mainwindow.ui" line="1731"/>
         <source>&amp;User Messages</source>
         <translation>&amp;پیام شخصی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1727"/>
+        <location filename="../mainwindow.ui" line="1734"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1735"/>
+        <location filename="../mainwindow.ui" line="1742"/>
         <source>&amp;Channel Messages</source>
         <translation>&amp;پیام کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1738"/>
+        <location filename="../mainwindow.ui" line="1745"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1753"/>
+        <location filename="../mainwindow.ui" line="1760"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1761"/>
+        <location filename="../mainwindow.ui" line="1768"/>
         <source>&amp;Broadcast Messages</source>
         <translation>&amp;پیام همگانی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1764"/>
+        <location filename="../mainwindow.ui" line="1771"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1776"/>
+        <location filename="../mainwindow.ui" line="1783"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>اشتراک‌گذاری &amp;ویدیو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1779"/>
+        <location filename="../mainwindow.ui" line="1786"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1787"/>
+        <location filename="../mainwindow.ui" line="1794"/>
         <source>&amp;Stream Audio File to Channel</source>
         <translation>&amp;استریم فایل صوتی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1790"/>
+        <location filename="../mainwindow.ui" line="1797"/>
         <source>Ctrl+W</source>
         <translation>Ctrl+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1795"/>
+        <location filename="../mainwindow.ui" line="1802"/>
         <source>Stream Audio &amp;File to User</source>
         <translation>استریم &amp;فایل صوتی برای کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1798"/>
+        <location filename="../mainwindow.ui" line="1805"/>
         <source>Ctrl+Shift+W</source>
         <translation>Ctrl+Shift+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1810"/>
+        <location filename="../mainwindow.ui" line="1817"/>
         <source>Record Conversations to &amp;Disk</source>
         <translation>ضبط &amp;صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1813"/>
+        <location filename="../mainwindow.ui" line="1820"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>محل ذخیرۀ صدای کاربران را مشخص کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1816"/>
+        <location filename="../mainwindow.ui" line="1823"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1828"/>
+        <location filename="../mainwindow.ui" line="1835"/>
         <source>Intercept User Messages</source>
         <translation>شنود پیام شخصی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1831"/>
+        <location filename="../mainwindow.ui" line="1838"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1839"/>
+        <location filename="../mainwindow.ui" line="1846"/>
         <source>Intercept Channel Messages</source>
         <translation>شنود پیام کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1842"/>
+        <location filename="../mainwindow.ui" line="1849"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1854"/>
+        <location filename="../mainwindow.ui" line="1861"/>
         <source>Intercept Voice</source>
         <translation>شنود صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1857"/>
+        <location filename="../mainwindow.ui" line="1864"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1869"/>
+        <location filename="../mainwindow.ui" line="1876"/>
         <source>Intercept Video</source>
         <translation>شنود ویدیو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1872"/>
+        <location filename="../mainwindow.ui" line="1879"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1877"/>
+        <location filename="../mainwindow.ui" line="1884"/>
         <source>&amp;Broadcast Message</source>
         <translation>&amp;پیام همگانی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1885"/>
+        <location filename="../mainwindow.ui" line="1892"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>&amp;افزایش صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1893"/>
+        <location filename="../mainwindow.ui" line="1900"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>&amp;کاهش صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1901"/>
+        <location filename="../mainwindow.ui" line="1908"/>
         <source>&amp;Store User(s) for Move</source>
         <translation>&amp;انتخاب برای انتقال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1904"/>
+        <location filename="../mainwindow.ui" line="1911"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1909"/>
+        <location filename="../mainwindow.ui" line="1916"/>
         <source>&amp;Move User(s)</source>
         <translation>&amp;انتقال به اینجا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1912"/>
+        <location filename="../mainwindow.ui" line="1919"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1917"/>
+        <location filename="../mainwindow.ui" line="1924"/>
         <source>Move Users &amp;Dialog</source>
         <translation>استفاده از &amp;پنجرۀ محاوره‌ای برای انتقال کاربران</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1920"/>
+        <location filename="../mainwindow.ui" line="1927"/>
         <source>Ctrl+Alt+M</source>
         <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1929"/>
+        <location filename="../mainwindow.ui" line="1936"/>
         <source>&amp;BearWare.dk Website</source>
         <translation>&amp;سایت BearWare.dk</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1937"/>
+        <location filename="../mainwindow.ui" line="1944"/>
         <source>Allow V&amp;oice Transmission</source>
-        <translation>اجازه برای ص&amp;حبت</translation>
+        <translation>اجازۀ ص&amp;حبت</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1940"/>
+        <location filename="../mainwindow.ui" line="1947"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1948"/>
+        <location filename="../mainwindow.ui" line="1955"/>
         <source>Allow Video Transmission</source>
-        <translation>اجازه برای اشتراک ویدیو</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1951"/>
+        <location filename="../mainwindow.ui" line="1958"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1959"/>
+        <location filename="../mainwindow.ui" line="1966"/>
         <source>Allow All V&amp;oice Transmission</source>
-        <translation>اجازۀ ص&amp;حبت به همۀ کاربران</translation>
+        <translation>اجازۀ ص&amp;حبت به همه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1962"/>
+        <location filename="../mainwindow.ui" line="1969"/>
         <source>Ctrl+Alt+Shift+Q</source>
         <translation>Ctrl+Alt+Shift+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1970"/>
+        <location filename="../mainwindow.ui" line="1977"/>
         <source>Allow All Video Transmission</source>
-        <translation>اجازۀ اشتراک ویدیو به همۀ کاربران</translation>
+        <translation>اجازۀ اشتراک‌گذاری ویدیو به همه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1973"/>
+        <location filename="../mainwindow.ui" line="1980"/>
         <source>Ctrl+Alt+Shift+W</source>
         <translation>Ctrl+Alt+Shift+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1978"/>
+        <location filename="../mainwindow.ui" line="1985"/>
         <source>Server S&amp;tatistics</source>
         <translation>آمار س&amp;ِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1981"/>
+        <location filename="../mainwindow.ui" line="1988"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1986"/>
+        <location filename="../mainwindow.ui" line="1993"/>
         <source>&amp;New Client Instance</source>
         <translation>&amp;کلاینت جدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1989"/>
+        <location filename="../mainwindow.ui" line="1996"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1997"/>
+        <location filename="../mainwindow.ui" line="2004"/>
         <source>&amp;Online Users</source>
         <translation>&amp;کاربران آنلاین</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2000"/>
+        <location filename="../mainwindow.ui" line="2007"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2112"/>
+        <location filename="../mainwindow.ui" line="2120"/>
+        <location filename="../mainwindow.cpp" line="5374"/>
+        <source>Pause/Resume Stream</source>
+        <translation>مکث یا ادامۀ استریم</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2123"/>
+        <source>Ctrl+P</source>
+        <translation>Ctrl+P</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.ui" line="2134"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
         <translation>&amp;ایجاد لینک tt:// در کلیپ‌برد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2115"/>
+        <location filename="../mainwindow.ui" line="2137"/>
         <source>Ctrl+Shift+C</source>
         <translation>Ctrl+Shift+C</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2322"/>
+        <location filename="../mainwindow.ui" line="2344"/>
         <source>Toggle &amp;Question Mode</source>
         <translation>روشن یا خاموش کردن &amp;حالت پرسش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2328"/>
+        <location filename="../mainwindow.ui" line="2350"/>
         <source>Ctrl+F6</source>
         <translation>Ctrl+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2341"/>
+        <location filename="../mainwindow.ui" line="2363"/>
         <source>&amp;Relay Voice Stream</source>
         <translation>&amp;باز‌پخش استریم صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2349"/>
+        <location filename="../mainwindow.ui" line="2371"/>
         <source>Relay Media &amp;File Stream</source>
         <translation>باز‌پخش استریم &amp;فایل رسانه‌ای</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2325"/>
+        <location filename="../mainwindow.ui" line="2347"/>
         <source>Show blinking icon</source>
         <translation>نمایش آیکون چشمک‌زن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2012"/>
+        <location filename="../mainwindow.ui" line="2019"/>
         <source>Enable Desktop Sharing</source>
         <translation>اشتراک‌گذاری صفحه نمایش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2015"/>
+        <location filename="../mainwindow.ui" line="2022"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2023"/>
+        <location filename="../mainwindow.ui" line="2030"/>
         <source>Enable Text-To-Speech Events</source>
         <translation>روشن‌کردن هشدار‌های متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2026"/>
+        <location filename="../mainwindow.ui" line="2033"/>
         <source>Ctrl+Alt+S</source>
         <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2034"/>
+        <location filename="../mainwindow.ui" line="2041"/>
         <source>Enable Sound Events</source>
         <translation>روشن‌کردن هشدار‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2037"/>
+        <location filename="../mainwindow.ui" line="2044"/>
         <source>Ctrl+Alt+Z</source>
         <translation>Ctrl+Alt+Z</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2045"/>
+        <location filename="../mainwindow.ui" line="2052"/>
         <source>Allow Desktop Transmission</source>
-        <translation>اجازه برای اشتراک صفحه نمایش</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2048"/>
+        <location filename="../mainwindow.ui" line="2055"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2056"/>
+        <location filename="../mainwindow.ui" line="2063"/>
         <source>Allow All Desktop Transmission</source>
-        <translation>اجازۀ اشتراک صفحه نمایش به همۀ کاربران</translation>
+        <translation>اجازۀ اشتراک‌گذاری دسکتاپ به همه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2059"/>
+        <location filename="../mainwindow.ui" line="2066"/>
         <source>Ctrl+Alt+Shift+E</source>
         <translation>Ctrl+Alt+Shift+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2071"/>
+        <location filename="../mainwindow.ui" line="2078"/>
         <source>&amp;Desktop</source>
         <translation>&amp;دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2074"/>
+        <location filename="../mainwindow.ui" line="2081"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2086"/>
+        <location filename="../mainwindow.ui" line="2093"/>
         <source>Intercept Desktop</source>
         <translation>شنود دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2089"/>
+        <location filename="../mainwindow.ui" line="2096"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2101"/>
+        <location filename="../mainwindow.ui" line="2108"/>
         <source>Stream &amp;Media File to Channel</source>
         <translation>استریم &amp;فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2104"/>
+        <location filename="../mainwindow.ui" line="2111"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2127"/>
+        <location filename="../mainwindow.ui" line="2149"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>دستر&amp;سی دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2139"/>
+        <location filename="../mainwindow.ui" line="2161"/>
         <source>Allow Desktop Access</source>
         <translation>اجازۀ دسترسی به دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2142"/>
+        <location filename="../mainwindow.ui" line="2164"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2150"/>
+        <location filename="../mainwindow.ui" line="2172"/>
         <source>&amp;Deny</source>
         <translation>&amp;رد‌کردن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2162"/>
+        <location filename="../mainwindow.ui" line="2184"/>
         <source>Media File Stream</source>
         <translation>استریم فایل‌ها</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2165"/>
+        <location filename="../mainwindow.ui" line="2187"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2177"/>
+        <location filename="../mainwindow.ui" line="2199"/>
         <source>Intercept Media File Stream</source>
         <translation>شنود استریم فایل‌ها</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2180"/>
+        <location filename="../mainwindow.ui" line="2202"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2188"/>
+        <location filename="../mainwindow.ui" line="2210"/>
         <source>Allow Media File Transmission</source>
-        <translation>اجازه برای استریم فایل</translation>
+        <translation>اجازۀ استریم فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2191"/>
+        <location filename="../mainwindow.ui" line="2213"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2199"/>
+        <location filename="../mainwindow.ui" line="2221"/>
         <source>Allow All Media File Transmission</source>
-        <translation>اجازۀ استریم فایل به همۀ کاربران</translation>
+        <translation>اجازۀ استریم فایل به همه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2202"/>
+        <location filename="../mainwindow.ui" line="2224"/>
         <source>Ctrl+Alt+Shift+R</source>
         <translation>Ctrl+Alt+Shift+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2210"/>
+        <location filename="../mainwindow.ui" line="2232"/>
         <source>Mu&amp;te Voice</source>
         <translation>قط&amp;ع صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2213"/>
+        <location filename="../mainwindow.ui" line="2235"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2221"/>
+        <location filename="../mainwindow.ui" line="2243"/>
         <source>Mute Media File</source>
         <translation>قطع استریم‌ها</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2229"/>
+        <location filename="../mainwindow.ui" line="2251"/>
         <source>Kick From Channel</source>
         <translation>اخراج از کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2232"/>
+        <location filename="../mainwindow.ui" line="2254"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2237"/>
+        <location filename="../mainwindow.ui" line="2259"/>
         <source>Kick From Server</source>
         <translation>اخراج از سِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2240"/>
+        <location filename="../mainwindow.ui" line="2262"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2245"/>
+        <location filename="../mainwindow.ui" line="2267"/>
         <source>Increase Media File Volume</source>
         <translation>افزایش صدای استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2253"/>
+        <location filename="../mainwindow.ui" line="2275"/>
         <source>Lower Media File Volume</source>
         <translation>کاهش صدای استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2261"/>
+        <location filename="../mainwindow.ui" line="2283"/>
         <source>R&amp;eset Preferences to Default</source>
         <translation>ب&amp;ازنشانی تنظیمات</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2266"/>
+        <location filename="../mainwindow.ui" line="2288"/>
         <source>Kick and Ban From &amp;Channel</source>
         <translation>اخراج و ممنوعیت از &amp;کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2269"/>
+        <location filename="../mainwindow.ui" line="2291"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2274"/>
+        <location filename="../mainwindow.ui" line="2296"/>
         <source>Banned Users From Channel</source>
         <translation>کاربران محروم‌شده از کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2277"/>
+        <location filename="../mainwindow.ui" line="2299"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2285"/>
+        <location filename="../mainwindow.ui" line="2307"/>
         <source>Allow Channel Text Messages</source>
         <translation>اجازه برای ارسال پیام در کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2288"/>
+        <location filename="../mainwindow.ui" line="2310"/>
         <source>Ctrl+Alt+T</source>
         <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2296"/>
+        <location filename="../mainwindow.ui" line="2318"/>
         <source>Allow All Channel Text Messages</source>
         <translation>اجازۀ ارسال پیام در کانال به همۀ کاربران</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2299"/>
+        <location filename="../mainwindow.ui" line="2321"/>
         <source>Ctrl+Alt+Shift+T</source>
         <translation>Ctrl+Alt+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2307"/>
+        <location filename="../mainwindow.ui" line="2329"/>
         <source>&amp;Hear Myself</source>
         <translation>&amp;شنیدن صدای خودم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2310"/>
+        <location filename="../mainwindow.ui" line="2332"/>
         <source>Ctrl+Shift+3</source>
         <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="946"/>
-        <location filename="../mainwindow.cpp" line="2709"/>
+        <location filename="../mainwindow.cpp" line="948"/>
+        <location filename="../mainwindow.cpp" line="2711"/>
         <source>Firewall exception</source>
         <translation>استثنای فایروال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="947"/>
+        <location filename="../mainwindow.cpp" line="949"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>%1 از استثنائات فایروال ویندوز حذف نشد.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="963"/>
+        <location filename="../mainwindow.cpp" line="965"/>
         <source>Startup arguments</source>
         <translation>پارامترهای راه‌اندازی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="964"/>
+        <location filename="../mainwindow.cpp" line="966"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>برنامه نمیتواند پارامتر &quot;%1&quot; را تشخیص دهد.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1025"/>
-        <location filename="../mainwindow.cpp" line="2040"/>
+        <location filename="../mainwindow.cpp" line="1027"/>
+        <location filename="../mainwindow.cpp" line="2042"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>خطای اتصال به %1 , TCP: %2 , UDP: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="682"/>
+        <location filename="../mainwindow.cpp" line="684"/>
         <source>Translate</source>
         <translation>ترجمه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="842"/>
+        <location filename="../mainwindow.cpp" line="844"/>
         <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
         <translation>به نظر میرسد شما از صفحه خوان در این دستگاه استفاده میکنید. مایلید %1 را برای سازگاری بهتر با صفحه‌خوان بهینه کنید?</translation>
     </message>
     <message>
         <location filename="../settings.h" line="323"/>
-        <location filename="../mainwindow.cpp" line="790"/>
+        <location filename="../mainwindow.cpp" line="792"/>
         <source>Default</source>
         <translation>پیشفرض</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="793"/>
+        <location filename="../mainwindow.cpp" line="795"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation>پک صدای %1 پیدا نشد. مایلید از صداهای پیشفرض استفاده کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1041"/>
-        <location filename="../mainwindow.cpp" line="1045"/>
+        <location filename="../mainwindow.cpp" line="1043"/>
+        <location filename="../mainwindow.cpp" line="1047"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>ارتباط با %1 قطع شد. TCP: %2 , UDP: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1203"/>
-        <location filename="../mainwindow.cpp" line="1204"/>
-        <location filename="../mainwindow.cpp" line="1242"/>
-        <location filename="../mainwindow.cpp" line="1243"/>
-        <location filename="../mainwindow.cpp" line="3011"/>
-        <location filename="../mainwindow.cpp" line="3064"/>
-        <location filename="../mainwindow.cpp" line="5027"/>
-        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="1205"/>
+        <location filename="../mainwindow.cpp" line="1206"/>
+        <location filename="../mainwindow.cpp" line="1244"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
+        <location filename="../mainwindow.cpp" line="3013"/>
+        <location filename="../mainwindow.cpp" line="3066"/>
+        <location filename="../mainwindow.cpp" line="4966"/>
+        <location filename="../mainwindow.cpp" line="5884"/>
         <source>root</source>
         <translation>لابی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1066"/>
-        <location filename="../mainwindow.cpp" line="1069"/>
+        <location filename="../mainwindow.cpp" line="1068"/>
+        <location filename="../mainwindow.cpp" line="1071"/>
         <source>Kicked from server</source>
         <translation>از سِروِر اخراج شُدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1067"/>
+        <location filename="../mainwindow.cpp" line="1069"/>
         <source>You have been kicked from server by %1</source>
         <translation>%1 شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1070"/>
+        <location filename="../mainwindow.cpp" line="1072"/>
         <source>You have been kicked from server by unknown user</source>
         <translation>یک کاربر ناشناس شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1086"/>
-        <location filename="../mainwindow.cpp" line="1089"/>
+        <location filename="../mainwindow.cpp" line="1088"/>
+        <location filename="../mainwindow.cpp" line="1091"/>
         <source>Kicked from channel</source>
         <translation>از کانال اخراج شُدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1087"/>
+        <location filename="../mainwindow.cpp" line="1089"/>
         <source>You have been kicked from channel by %1</source>
         <translation>%1 شما را از کانال بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1090"/>
+        <location filename="../mainwindow.cpp" line="1092"/>
         <source>You have been kicked from channel by unknown user</source>
         <translation>یک کاربر ناشناس شما را از کانال بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1335"/>
-        <location filename="../mainwindow.cpp" line="5404"/>
+        <location filename="../mainwindow.cpp" line="1337"/>
+        <location filename="../mainwindow.cpp" line="5458"/>
         <source>Failed to download file %1</source>
         <translation>فایل %1 دانلود نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1339"/>
-        <location filename="../mainwindow.cpp" line="6281"/>
+        <location filename="../mainwindow.cpp" line="1341"/>
+        <location filename="../mainwindow.cpp" line="6335"/>
         <source>Failed to upload file %1</source>
         <translation>فایل %1 آپلود نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1352"/>
+        <location filename="../mainwindow.cpp" line="1354"/>
         <source>Failed to initialize sound input device</source>
         <translation>دستگاه ورودی صدا راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1354"/>
+        <location filename="../mainwindow.cpp" line="1356"/>
         <source>Failed to initialize sound output device</source>
         <translation>دستگاه خروجی صدا راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1356"/>
+        <location filename="../mainwindow.cpp" line="1358"/>
         <source>Failed to initialize audio codec</source>
         <translation>مبدل صوتی راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1363"/>
+        <location filename="../mainwindow.cpp" line="1365"/>
         <source>Internal message queue overloaded</source>
         <translation>صف پیام داخلی قادر به پردازش پیام‌های جدید نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1369"/>
+        <location filename="../mainwindow.cpp" line="1371"/>
         <source>Internal Error</source>
         <translation>خطای داخلی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1397"/>
+        <location filename="../mainwindow.cpp" line="1399"/>
         <source>Streaming from %1 started</source>
         <translation>%1 فایل استریم کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1419"/>
+        <location filename="../mainwindow.cpp" line="1421"/>
         <source>Error streaming media file to channel</source>
         <translation>خطای استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1423"/>
+        <location filename="../mainwindow.cpp" line="1425"/>
         <source>Started streaming media file to channel</source>
         <translation>استریم فایل شروع شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1426"/>
+        <location filename="../mainwindow.cpp" line="1428"/>
         <source>Finished streaming media file to channel</source>
         <translation>استریم فایل به پایان رسید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1430"/>
+        <location filename="../mainwindow.cpp" line="1432"/>
         <source>Aborted streaming media file to channel</source>
         <translation>استریم فایل لغو شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1478"/>
-        <location filename="../mainwindow.cpp" line="1506"/>
+        <location filename="../mainwindow.cpp" line="1480"/>
+        <location filename="../mainwindow.cpp" line="1508"/>
         <source>New video session from %1</source>
         <translation>نشست ویدیویی جدید از %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1531"/>
+        <location filename="../mainwindow.cpp" line="1533"/>
         <source>New desktop session from %1</source>
         <translation>نشست دسکتاپ جدید از %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1558"/>
+        <location filename="../mainwindow.cpp" line="1560"/>
         <source>Your desktop session was cancelled</source>
         <translation>نشست دسکتاپ شما لغو شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1569"/>
+        <location filename="../mainwindow.cpp" line="1571"/>
         <source>Writing audio file %1 for %2</source>
         <translation>در حال نوشتن فایل صوتی %1 برای %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1574"/>
+        <location filename="../mainwindow.cpp" line="1576"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>فایل صوتی %1 برای %2 نوشته نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1579"/>
+        <location filename="../mainwindow.cpp" line="1581"/>
         <source>Finished writing to audio file %1</source>
         <translation>نوشتن فایل صوتی %1 به پایان رسید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1583"/>
+        <location filename="../mainwindow.cpp" line="1585"/>
         <source>Aborted audio file %1</source>
         <translation>فایل صوتی %1 لغو شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1953"/>
+        <location filename="../mainwindow.cpp" line="1955"/>
         <source>Banned Users in Channel %1</source>
         <translation>کاربران محروم‌شده از کانال %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1929"/>
+        <location filename="../mainwindow.cpp" line="1931"/>
         <source>Cannot join channel %1</source>
         <translation>خطای ورود به %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2015"/>
+        <location filename="../mainwindow.cpp" line="2017"/>
         <source>Using sound input: %1</source>
         <translation>دستگاه ورودی صدا: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2015"/>
+        <location filename="../mainwindow.cpp" line="2017"/>
         <source>Using sound output: %2</source>
         <translation>دستگاه خروجی صدا: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2032"/>
+        <location filename="../mainwindow.cpp" line="2034"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>در حال اتصال به %1 , TCP: %2 , UDP: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1846"/>
-        <location filename="../mainwindow.cpp" line="1847"/>
+        <location filename="../mainwindow.cpp" line="1848"/>
+        <location filename="../mainwindow.cpp" line="1849"/>
         <source>Connected to %1</source>
         <translation>وارد %1 شُدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2143"/>
-        <location filename="../mainwindow.cpp" line="3194"/>
+        <location filename="../mainwindow.cpp" line="2145"/>
+        <location filename="../mainwindow.cpp" line="3196"/>
         <source>Error</source>
         <translation>خطا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2149"/>
+        <location filename="../mainwindow.cpp" line="2151"/>
         <source>Syntax error</source>
         <translation>خطای ساختاری</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2151"/>
+        <location filename="../mainwindow.cpp" line="2153"/>
         <source>Unknown command</source>
         <translation>دستور ناشناخته است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2153"/>
+        <location filename="../mainwindow.cpp" line="2155"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
         <translation>نسخۀ کلاینت با پروتکل سِروِر سازگار نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2155"/>
+        <location filename="../mainwindow.cpp" line="2157"/>
         <source>Unknown audio codec</source>
         <translation>مبدل صوتی ناشناخته است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2157"/>
+        <location filename="../mainwindow.cpp" line="2159"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>این کلاینت با سِروِر سازگار نیست, بنابراین این عمل قابل انجام نیست.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2160"/>
+        <location filename="../mainwindow.cpp" line="2162"/>
         <source>The username is invalid</source>
         <translation>نام کاربری اشتباه است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="659"/>
-        <location filename="../mainwindow.cpp" line="4049"/>
-        <location filename="../mainwindow.cpp" line="4067"/>
-        <location filename="../mainwindow.cpp" line="4082"/>
-        <location filename="../mainwindow.cpp" line="4457"/>
-        <location filename="../mainwindow.cpp" line="5639"/>
-        <location filename="../mainwindow.cpp" line="5953"/>
+        <location filename="../mainwindow.cpp" line="661"/>
+        <location filename="../mainwindow.cpp" line="3988"/>
+        <location filename="../mainwindow.cpp" line="4006"/>
+        <location filename="../mainwindow.cpp" line="4021"/>
+        <location filename="../mainwindow.cpp" line="4396"/>
+        <location filename="../mainwindow.cpp" line="5693"/>
+        <location filename="../mainwindow.cpp" line="6007"/>
         <source>&amp;OK</source>
         <translation>&amp;تأیید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1295"/>
-        <location filename="../mainwindow.cpp" line="1314"/>
-        <location filename="../mainwindow.cpp" line="6504"/>
+        <location filename="../mainwindow.cpp" line="1297"/>
+        <location filename="../mainwindow.cpp" line="1316"/>
+        <location filename="../mainwindow.cpp" line="6558"/>
         <source>You</source>
         <translation>شما</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2166"/>
-        <location filename="../mainwindow.cpp" line="2199"/>
-        <location filename="../mainwindow.cpp" line="2206"/>
+        <location filename="../mainwindow.cpp" line="2168"/>
+        <location filename="../mainwindow.cpp" line="2201"/>
+        <location filename="../mainwindow.cpp" line="2208"/>
         <source>Login error</source>
         <translation>خطای ورود</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2186"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Join channel error</source>
         <translation>خطای ورود به کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2200"/>
+        <location filename="../mainwindow.cpp" line="2202"/>
         <source>Banned from server</source>
         <translation>از سِروِر محروم هستید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2204"/>
+        <location filename="../mainwindow.cpp" line="2206"/>
         <source>Command not authorized</source>
         <translation>دستور مجاز نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2207"/>
+        <location filename="../mainwindow.cpp" line="2209"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>سِروِر پر است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2209"/>
+        <location filename="../mainwindow.cpp" line="2211"/>
         <source>Maximum disk usage exceeded</source>
         <translation>فضای آپلود کافی نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
+        <location filename="../mainwindow.cpp" line="2213"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>کانال پر است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2213"/>
+        <location filename="../mainwindow.cpp" line="2215"/>
         <source>Incorrect channel operator password</source>
         <translation>رمز اپراتور اشتباه است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2219"/>
+        <location filename="../mainwindow.cpp" line="2221"/>
         <source>The maximum number of channels has been exceeded</source>
         <translation>تعداد کانال‌ها زیاد است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2221"/>
+        <location filename="../mainwindow.cpp" line="2223"/>
         <source>Command flooding prevented by server</source>
         <translation>ارسال دستورات پیاپی توسط سِروِر مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2227"/>
+        <location filename="../mainwindow.cpp" line="2229"/>
         <source>Already logged in</source>
         <translation>قبلا وارد شده‌اید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2229"/>
+        <location filename="../mainwindow.cpp" line="2231"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>باید ابتدا کلاینت شما وارد سِروِر شود تا بتوانید این کار را انجام دهید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2232"/>
+        <location filename="../mainwindow.cpp" line="2234"/>
         <source>Cannot join the same channel twice</source>
         <translation>نمی‌توانید دو‌بار وارد کانال شوید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2234"/>
+        <location filename="../mainwindow.cpp" line="2236"/>
         <source>Channel already exists</source>
         <translation>کانال تکراری است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2240"/>
+        <location filename="../mainwindow.cpp" line="2242"/>
         <source>User not found</source>
         <translation>کاربر پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2243"/>
+        <location filename="../mainwindow.cpp" line="2245"/>
         <source>Server failed to open file</source>
         <translation>فایل اجرا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2245"/>
+        <location filename="../mainwindow.cpp" line="2247"/>
         <source>The login service is currently unavailable</source>
         <translation>سرویس ورود فعلا در دسترس نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2247"/>
+        <location filename="../mainwindow.cpp" line="2249"/>
         <source>This channel cannot be hidden</source>
         <translation>این کانال را نمیتوان مخفی کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2249"/>
+        <location filename="../mainwindow.cpp" line="2251"/>
         <source>Channel not found</source>
         <translation>کانال پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2251"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
         <source>Cannot leave channel because not in channel.</source>
         <translation>شما در این کانال نیستید, بنابراین نمیتوانید از آن خارج شوید.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2255"/>
         <source>Banned user not found</source>
         <translation>کاربرِ محروم‌شده پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2255"/>
+        <location filename="../mainwindow.cpp" line="2257"/>
         <source>File transfer not found</source>
         <translation>انتقال فایل پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2257"/>
+        <location filename="../mainwindow.cpp" line="2259"/>
         <source>User account not found</source>
         <translation>حساب کاربری پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2259"/>
+        <location filename="../mainwindow.cpp" line="2261"/>
         <source>File not found</source>
         <translation>فایل پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2261"/>
+        <location filename="../mainwindow.cpp" line="2263"/>
         <source>File already exists</source>
         <translation>فایل تکراری است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2263"/>
+        <location filename="../mainwindow.cpp" line="2265"/>
         <source>File sharing is disabled</source>
         <translation>اشتراکِ فایل غیرفعال است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2265"/>
+        <location filename="../mainwindow.cpp" line="2267"/>
         <source>Channel has active users</source>
         <translation>کانال خالی نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2270"/>
+        <location filename="../mainwindow.cpp" line="2272"/>
         <source>Unknown error occured</source>
         <translation>خطایی ناشناخته رخ داده است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2277"/>
+        <location filename="../mainwindow.cpp" line="2279"/>
         <source>The server reported an error:</source>
         <translation>خطای سِروِر:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4357"/>
+        <location filename="../mainwindow.cpp" line="4296"/>
         <source>No Sound Device</source>
         <translation>عدم استفاده از دستگاه صوتی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2354"/>
+        <location filename="../mainwindow.ui" line="2376"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation>&amp;تازه‌کردن دستگاه‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="637"/>
-        <location filename="../mainwindow.cpp" line="794"/>
-        <location filename="../mainwindow.cpp" line="843"/>
-        <location filename="../mainwindow.cpp" line="2698"/>
-        <location filename="../mainwindow.cpp" line="5183"/>
-        <location filename="../mainwindow.cpp" line="5418"/>
-        <location filename="../mainwindow.cpp" line="5690"/>
-        <location filename="../mainwindow.cpp" line="5919"/>
-        <location filename="../mainwindow.cpp" line="5939"/>
-        <location filename="../mainwindow.cpp" line="6248"/>
-        <location filename="../mainwindow.cpp" line="7286"/>
-        <location filename="../mainwindow.cpp" line="7372"/>
-        <location filename="../mainwindow.cpp" line="7396"/>
+        <location filename="../mainwindow.cpp" line="639"/>
+        <location filename="../mainwindow.cpp" line="796"/>
+        <location filename="../mainwindow.cpp" line="845"/>
+        <location filename="../mainwindow.cpp" line="2700"/>
+        <location filename="../mainwindow.cpp" line="5122"/>
+        <location filename="../mainwindow.cpp" line="5472"/>
+        <location filename="../mainwindow.cpp" line="5744"/>
+        <location filename="../mainwindow.cpp" line="5973"/>
+        <location filename="../mainwindow.cpp" line="5993"/>
+        <location filename="../mainwindow.cpp" line="6302"/>
+        <location filename="../mainwindow.cpp" line="7340"/>
+        <location filename="../mainwindow.cpp" line="7426"/>
+        <location filename="../mainwindow.cpp" line="7450"/>
         <source>&amp;Yes</source>
         <translation>&amp;بله</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="638"/>
-        <location filename="../mainwindow.cpp" line="795"/>
-        <location filename="../mainwindow.cpp" line="844"/>
-        <location filename="../mainwindow.cpp" line="2699"/>
-        <location filename="../mainwindow.cpp" line="5184"/>
-        <location filename="../mainwindow.cpp" line="5419"/>
-        <location filename="../mainwindow.cpp" line="5691"/>
-        <location filename="../mainwindow.cpp" line="5920"/>
-        <location filename="../mainwindow.cpp" line="5940"/>
-        <location filename="../mainwindow.cpp" line="6249"/>
-        <location filename="../mainwindow.cpp" line="7287"/>
-        <location filename="../mainwindow.cpp" line="7373"/>
-        <location filename="../mainwindow.cpp" line="7397"/>
+        <location filename="../mainwindow.cpp" line="640"/>
+        <location filename="../mainwindow.cpp" line="797"/>
+        <location filename="../mainwindow.cpp" line="846"/>
+        <location filename="../mainwindow.cpp" line="2701"/>
+        <location filename="../mainwindow.cpp" line="5123"/>
+        <location filename="../mainwindow.cpp" line="5473"/>
+        <location filename="../mainwindow.cpp" line="5745"/>
+        <location filename="../mainwindow.cpp" line="5974"/>
+        <location filename="../mainwindow.cpp" line="5994"/>
+        <location filename="../mainwindow.cpp" line="6303"/>
+        <location filename="../mainwindow.cpp" line="7341"/>
+        <location filename="../mainwindow.cpp" line="7427"/>
+        <location filename="../mainwindow.cpp" line="7451"/>
         <source>&amp;No</source>
         <translation>&amp;خیر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3002"/>
-        <location filename="../mainwindow.cpp" line="3014"/>
+        <location filename="../mainwindow.cpp" line="3004"/>
+        <location filename="../mainwindow.cpp" line="3016"/>
         <source>Joined classroom channel %1</source>
         <translation>وارد کلاس درس %1 شُدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3055"/>
-        <location filename="../mainwindow.cpp" line="3067"/>
+        <location filename="../mainwindow.cpp" line="3057"/>
+        <location filename="../mainwindow.cpp" line="3069"/>
         <source>Left classroom channel %1</source>
         <translation>از کلاس درس %1 رفتید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3059"/>
-        <location filename="../mainwindow.cpp" line="3071"/>
+        <location filename="../mainwindow.cpp" line="3061"/>
+        <location filename="../mainwindow.cpp" line="3073"/>
         <source>Left channel %1</source>
         <translation>از %1 رفتید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4764"/>
+        <location filename="../mainwindow.cpp" line="4703"/>
         <source>Voice for %1 disabled</source>
         <translation>صدای %1 قطع شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4766"/>
+        <location filename="../mainwindow.cpp" line="4705"/>
         <source>Voice for %1 enabled</source>
         <translation>صدای %1 وصل شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4783"/>
+        <location filename="../mainwindow.cpp" line="4722"/>
         <source>Media files for %1 disabled</source>
         <translation>استریم‌های %1 قطع شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4785"/>
+        <location filename="../mainwindow.cpp" line="4724"/>
         <source>Media files for %1 enabled</source>
         <translation>استریم‌های %1 وصل شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4801"/>
+        <location filename="../mainwindow.cpp" line="4740"/>
         <source>Master volume disabled</source>
-        <translation>صدا قطع شد</translation>
+        <translation>اسپیکر خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4806"/>
+        <location filename="../mainwindow.cpp" line="4745"/>
         <source>Master volume enabled</source>
-        <translation>صدا وصل شد</translation>
+        <translation>اسپیکر روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4938"/>
+        <location filename="../mainwindow.cpp" line="4877"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation>صدای %1 به %2% رسید</translation>
+        <translation>صدای %1 %2% شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4951"/>
+        <location filename="../mainwindow.cpp" line="4890"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation>صدای %1 به %2% رسید</translation>
+        <translation>صدای %1 %2% شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4964"/>
+        <location filename="../mainwindow.cpp" line="4903"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>صدای استریم‌های %1 به %2% رسید</translation>
+        <translation>صدای استریم‌های %1 %2% شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4977"/>
+        <location filename="../mainwindow.cpp" line="4916"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>صدای استریم‌های %1 به %2% رسید</translation>
+        <translation>صدای استریم‌های %1 %2% شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4996"/>
+        <location filename="../mainwindow.cpp" line="4935"/>
         <source>%1 selected for move</source>
         <translation>%1 انتخاب شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5028"/>
-        <location filename="../mainwindow.cpp" line="5032"/>
+        <location filename="../mainwindow.cpp" line="4967"/>
+        <location filename="../mainwindow.cpp" line="4971"/>
         <source>Selected users has been moved to channel %1</source>
         <translation>کاربران به %1 منتقل شدند</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5422"/>
+        <location filename="../mainwindow.cpp" line="5476"/>
         <source>Delete %1 files</source>
         <translation>حذف %1 فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2136"/>
-        <location filename="../mainwindow.cpp" line="2137"/>
+        <location filename="../mainwindow.cpp" line="2138"/>
+        <location filename="../mainwindow.cpp" line="2139"/>
         <source>Server configuration saved</source>
         <translation>تنظیمات سِروِر ذخیره شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5460"/>
+        <location filename="../mainwindow.cpp" line="5514"/>
         <source>Specify User Account</source>
         <translation>تعیین حساب کاربری</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5504"/>
+        <location filename="../mainwindow.cpp" line="5558"/>
         <source>Ascending</source>
         <translation>صعودی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5504"/>
+        <location filename="../mainwindow.cpp" line="5558"/>
         <source>Descending</source>
         <translation>نزولی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5506"/>
+        <location filename="../mainwindow.cpp" line="5560"/>
         <source>&amp;Name (%1)</source>
         <translation>&amp;نام (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5512"/>
+        <location filename="../mainwindow.cpp" line="5566"/>
         <source>&amp;Size (%1)</source>
         <translation>&amp;حجم (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5518"/>
+        <location filename="../mainwindow.cpp" line="5572"/>
         <source>&amp;Owner (%1)</source>
         <translation>&amp;آپلود‌کننده (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5524"/>
+        <location filename="../mainwindow.cpp" line="5578"/>
         <source>&amp;Upload Date (%1)</source>
         <translation>&amp;تاریخ آپلود (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5777"/>
+        <location filename="../mainwindow.cpp" line="5831"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation>مدیر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5777"/>
+        <location filename="../mainwindow.cpp" line="5831"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
         <translation>مدیر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5781"/>
+        <location filename="../mainwindow.cpp" line="5835"/>
         <source>User</source>
         <comment>For female</comment>
         <translation>کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5781"/>
+        <location filename="../mainwindow.cpp" line="5835"/>
         <source>User</source>
         <comment>For male and neutral</comment>
         <translation>کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5788"/>
+        <location filename="../mainwindow.cpp" line="5842"/>
         <source>Selected for move</source>
         <comment>For female</comment>
         <translation>انتخاب شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5788"/>
+        <location filename="../mainwindow.cpp" line="5842"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
         <translation>انتخاب شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5791"/>
+        <location filename="../mainwindow.cpp" line="5845"/>
         <source>Channel operator</source>
         <comment>For female</comment>
         <translation>اپراتور</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5791"/>
+        <location filename="../mainwindow.cpp" line="5845"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
         <translation>اپراتور</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5799"/>
+        <location filename="../mainwindow.cpp" line="5853"/>
         <source>Available</source>
         <comment>For female</comment>
         <translation>آنلاین</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5799"/>
+        <location filename="../mainwindow.cpp" line="5853"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
         <translation>آنلاین</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5802"/>
+        <location filename="../mainwindow.cpp" line="5856"/>
         <source>Away</source>
         <comment>For female</comment>
         <translation>دور</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5802"/>
+        <location filename="../mainwindow.cpp" line="5856"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
         <translation>دور</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7174"/>
+        <location filename="../mainwindow.cpp" line="7228"/>
         <source>&amp;Video (%1)</source>
         <translation>&amp;ویدیو (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7182"/>
+        <location filename="../mainwindow.cpp" line="7236"/>
         <source>&amp;Desktops (%1)</source>
         <translation>&amp;دسکتاپ (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7371"/>
+        <location filename="../mainwindow.cpp" line="7425"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>نسخۀ جدیدِ %1 منتشر شد: %2. مایلید آن را دانلود کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7376"/>
+        <location filename="../mainwindow.cpp" line="7430"/>
         <source>New version available</source>
         <translation>هشدارِ نسخۀ جدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7383"/>
+        <location filename="../mainwindow.cpp" line="7437"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -3556,17 +3663,17 @@ You can download it on the page below:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7395"/>
+        <location filename="../mainwindow.cpp" line="7449"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>بتای جدیدِ %1 منتشر شد: %2. مایلید آن را دانلود کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7400"/>
+        <location filename="../mainwindow.cpp" line="7454"/>
         <source>New beta version available</source>
         <translation>هشدارِ بتای جدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7407"/>
+        <location filename="../mainwindow.cpp" line="7461"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -3575,918 +3682,939 @@ You can download it on the page below:<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7509"/>
+        <location filename="../mainwindow.cpp" line="7563"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>صدایی برای متن-به-گفتار پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2595"/>
+        <location filename="../mainwindow.cpp" line="2597"/>
         <source>&amp;Restore</source>
         <translation>&amp;بازیابی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1058"/>
+        <location filename="../mainwindow.cpp" line="1060"/>
         <source>Kicked from server by %1</source>
         <translation>%1 شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1061"/>
+        <location filename="../mainwindow.cpp" line="1063"/>
         <source>Kicked from server by unknown user</source>
         <translation>یک کاربر ناشناس شما را از سِروِر بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1078"/>
+        <location filename="../mainwindow.cpp" line="1080"/>
         <source>Kicked from channel by %1</source>
         <translation>%1 شما را از کانال بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1081"/>
+        <location filename="../mainwindow.cpp" line="1083"/>
         <source>Kicked from channel by unknown user</source>
         <translation>یک کاربر ناشناس شما را از کانال بیرون کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="660"/>
-        <location filename="../mainwindow.cpp" line="4050"/>
-        <location filename="../mainwindow.cpp" line="4068"/>
-        <location filename="../mainwindow.cpp" line="4083"/>
-        <location filename="../mainwindow.cpp" line="4458"/>
-        <location filename="../mainwindow.cpp" line="5640"/>
-        <location filename="../mainwindow.cpp" line="5954"/>
+        <location filename="../mainwindow.cpp" line="662"/>
+        <location filename="../mainwindow.cpp" line="3989"/>
+        <location filename="../mainwindow.cpp" line="4007"/>
+        <location filename="../mainwindow.cpp" line="4022"/>
+        <location filename="../mainwindow.cpp" line="4397"/>
+        <location filename="../mainwindow.cpp" line="5694"/>
+        <location filename="../mainwindow.cpp" line="6008"/>
         <source>&amp;Cancel</source>
         <translation>&amp;لغو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="636"/>
+        <location filename="../mainwindow.cpp" line="638"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
         <translation>%1 تشخیص داد که زبان سیستم شما روی %2 تنظیم شده است. آیا می‌خواهید از زبان %2 استفاده کنید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="640"/>
+        <location filename="../mainwindow.cpp" line="642"/>
         <source>Language configuration</source>
         <translation>تنظیم زبان</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="663"/>
+        <location filename="../mainwindow.cpp" line="665"/>
         <source>Choose language</source>
         <translation>انتخاب زبان</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="664"/>
+        <location filename="../mainwindow.cpp" line="666"/>
         <source>Select the language will be use by %1</source>
         <translation>زبانِ %1 را انتخاب کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1031"/>
-        <location filename="../mainwindow.cpp" line="1032"/>
+        <location filename="../mainwindow.cpp" line="1033"/>
+        <location filename="../mainwindow.cpp" line="1034"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
         <translation>اتصال امن به دلیل خطای 0x%1 ناموفق بود: %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1358"/>
+        <location filename="../mainwindow.cpp" line="1360"/>
         <source>Audio preprocessor failed to initialize</source>
         <translation>پیش‌پردازشگر صوتی راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1360"/>
+        <location filename="../mainwindow.cpp" line="1362"/>
         <source>An audio effect could not be applied on the sound device</source>
         <translation>اِعمالِ افکتِ صوتی روی دستگاهِ صدا ناموفق بود</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1611"/>
+        <location filename="../mainwindow.cpp" line="1613"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
         <translation>دستگاه صوتی جدیدی در دسترس است: %1. برای شناسایی دستگاه جدید, از دکمۀ تازه‌سازی دستگاه‌های صوتی استفاده کنید.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1616"/>
+        <location filename="../mainwindow.cpp" line="1618"/>
         <source>Sound device removed: %1.</source>
         <translation>دستگاه صوتی %1 حذف شد.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2025"/>
+        <location filename="../mainwindow.cpp" line="2027"/>
         <source>Failed to setup encryption settings</source>
         <translation>تنظیمات رمزگذاری انجام نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2048"/>
-        <location filename="../mainwindow.cpp" line="2049"/>
+        <location filename="../mainwindow.cpp" line="2050"/>
+        <location filename="../mainwindow.cpp" line="2051"/>
         <source>Disconnected from %1</source>
         <translation>از %1 رفتید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2048"/>
-        <location filename="../mainwindow.cpp" line="2049"/>
+        <location filename="../mainwindow.cpp" line="2050"/>
+        <location filename="../mainwindow.cpp" line="2051"/>
         <source>Disconnected from server</source>
         <translation>از سِروِر رفتید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2092"/>
-        <location filename="../mainwindow.cpp" line="2093"/>
+        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2095"/>
         <source>Files in channel</source>
         <translation> , </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2166"/>
+        <location filename="../mainwindow.cpp" line="2168"/>
         <source>Incorrect username or password. Try again.</source>
         <translation>نام کاربری یا رمز عبور اشتباه است. دوباره امتحان کنید.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2186"/>
+        <location filename="../mainwindow.cpp" line="2188"/>
         <source>Incorrect channel password. Try again.</source>
         <translation>رمز کانال اشتباه است. دوباره امتحان کنید.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2202"/>
+        <location filename="../mainwindow.cpp" line="2204"/>
         <source>Banned from channel</source>
         <translation>از کانال محرومید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2215"/>
+        <location filename="../mainwindow.cpp" line="2217"/>
         <source>Maximum number of logins per IP-address exceeded</source>
         <translation>تعداد زیادی اتصال از یک آدرس IP وجود دارد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2217"/>
+        <location filename="../mainwindow.cpp" line="2219"/>
         <source>Maximum bitrate for audio codec exceeded</source>
         <translation>نرخ بیت فشرده‌ساز صوتی از حد مجاز فراتر رفته است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2223"/>
+        <location filename="../mainwindow.cpp" line="2225"/>
         <source>Maximum number of file transfers exceeded</source>
         <translation>تعداد انتقال فایل‌ها به حداکثر رسیده‌است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2389"/>
+        <location filename="../mainwindow.cpp" line="2391"/>
         <source>Voice transmission failed</source>
-        <translation>صدا ارسال نشد</translation>
+        <translation>انتقال صدا انجام نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2498"/>
+        <location filename="../mainwindow.cpp" line="2500"/>
         <source>Trying to reconnect to %1 port %2</source>
         <translation>در حال تلاش مجدد برای اتصال به %1 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2697"/>
+        <location filename="../mainwindow.cpp" line="2699"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>مایلید %1 را به لیست استثناهای فایروال ویندوز اضافه کنید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2710"/>
+        <location filename="../mainwindow.cpp" line="2712"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>%1 به استثنائات فایروال ویندوز اضافه نشد.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2725"/>
+        <location filename="../mainwindow.cpp" line="2727"/>
         <source>Private messages</source>
         <translation>پیام شخصی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2730"/>
-        <location filename="../mainwindow.cpp" line="6514"/>
+        <location filename="../mainwindow.cpp" line="2732"/>
+        <location filename="../mainwindow.cpp" line="6568"/>
         <source>Channel messages</source>
         <translation>پیام کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2735"/>
+        <location filename="../mainwindow.cpp" line="2737"/>
         <source>Broadcast messages</source>
         <translation>پیام همگانی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2740"/>
-        <location filename="../mainwindow.cpp" line="6527"/>
+        <location filename="../mainwindow.cpp" line="2742"/>
+        <location filename="../mainwindow.cpp" line="6581"/>
         <source>Voice</source>
         <translation>صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2745"/>
-        <location filename="../mainwindow.cpp" line="6540"/>
+        <location filename="../mainwindow.cpp" line="2747"/>
+        <location filename="../mainwindow.cpp" line="6594"/>
         <source>Video</source>
         <translation>ویدیو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2755"/>
+        <location filename="../mainwindow.cpp" line="2757"/>
         <source>Desktop input</source>
         <translation>ورودی دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2760"/>
-        <location filename="../mainwindow.cpp" line="6566"/>
+        <location filename="../mainwindow.cpp" line="2762"/>
+        <location filename="../mainwindow.cpp" line="6620"/>
         <source>Media files</source>
         <translation>استریم‌ها</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2765"/>
+        <location filename="../mainwindow.cpp" line="2767"/>
         <source>Intercept private messages</source>
         <translation>شنود پیام شخصی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2770"/>
+        <location filename="../mainwindow.cpp" line="2772"/>
         <source>Intercept channel messages</source>
         <translation>شنود پیام کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2775"/>
+        <location filename="../mainwindow.cpp" line="2777"/>
         <source>Intercept voice</source>
         <translation>شنود صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2780"/>
+        <location filename="../mainwindow.cpp" line="2782"/>
         <source>Intercept video capture</source>
         <translation>شنود ویدیو</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2785"/>
+        <location filename="../mainwindow.cpp" line="2787"/>
         <source>Intercept desktop</source>
         <translation>شنود دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2790"/>
+        <location filename="../mainwindow.cpp" line="2792"/>
         <source>Intercept media files</source>
         <translation>شنود استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2956"/>
+        <location filename="../mainwindow.cpp" line="2958"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 درخواست دسترسی به دسکتاپ را دارد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2962"/>
-        <location filename="../mainwindow.cpp" line="4884"/>
+        <location filename="../mainwindow.cpp" line="2964"/>
+        <location filename="../mainwindow.cpp" line="4823"/>
         <source>%1 granted desktop access</source>
         <translation>%1 اجازۀ دسترسی به دسکتاپ را صادر کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2968"/>
+        <location filename="../mainwindow.cpp" line="2970"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 اجازۀ دسترسی به دسکتاپ را پس گرفت</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3006"/>
-        <location filename="../mainwindow.cpp" line="3018"/>
+        <location filename="../mainwindow.cpp" line="3008"/>
+        <location filename="../mainwindow.cpp" line="3020"/>
         <source>Joined channel %1</source>
         <translation>وارد %1 شُدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3133"/>
-        <location filename="../mainwindow.cpp" line="3134"/>
+        <location filename="../mainwindow.cpp" line="3135"/>
+        <location filename="../mainwindow.cpp" line="3136"/>
         <source>Files in channel: %1</source>
         <translation> , </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3194"/>
+        <location filename="../mainwindow.cpp" line="3196"/>
         <source>Failed to start recording</source>
         <translation>خطای ضبط</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3198"/>
+        <location filename="../mainwindow.cpp" line="3200"/>
         <source>Recording to file: %1</source>
         <translation>ضبط در فایل: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3252"/>
+        <location filename="../mainwindow.cpp" line="3254"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>بلندی میکروفون توسط کانال کنترل میشود</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3628"/>
+        <location filename="../mainwindow.cpp" line="5336"/>
         <source>Failed to stream media file %1</source>
         <translation>%1 استریم نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3766"/>
+        <location filename="../mainwindow.cpp" line="3705"/>
         <source>Enable HotKey</source>
         <translation>فعال‌کردن کلید میانبر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3767"/>
+        <location filename="../mainwindow.cpp" line="3706"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>ثبت کلید میانبر امکان‌پذیر نیست. لطفا کلیدهای دیگری را امتحان کنید.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3772"/>
+        <location filename="../mainwindow.cpp" line="3711"/>
         <source>Push To Talk: </source>
         <translation>صحبت با دکمه: </translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3947"/>
+        <location filename="../mainwindow.cpp" line="3886"/>
         <source>Text messages blocked by channel operator</source>
         <translation>ارسال پیام متنی توسط اپراتور مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3951"/>
+        <location filename="../mainwindow.cpp" line="3890"/>
         <source>Voice transmission blocked by channel operator</source>
-        <translation>صحبت کردن توسط اپراتور مسدود شد</translation>
+        <translation>انتقال صدا توسط اپراتور مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3955"/>
+        <location filename="../mainwindow.cpp" line="3894"/>
         <source>Media file transmission blocked by channel operator</source>
         <translation>استریم‌ها توسط اپراتور مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3959"/>
+        <location filename="../mainwindow.cpp" line="3898"/>
         <source>Video transmission blocked by channel operator</source>
-        <translation>اشتراک ویدیو توسط اپراتور مسدود شد</translation>
+        <translation>اشتراک‌گذاری ویدیو توسط اپراتور مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3963"/>
+        <location filename="../mainwindow.cpp" line="3902"/>
         <source>Desktop transmission blocked by channel operator</source>
-        <translation>اشتراک دسکتاپ توسط اپراتور مسدود شد</translation>
+        <translation>اشتراک‌گذاری دسکتاپ توسط اپراتور مسدود شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4040"/>
-        <location filename="../mainwindow.cpp" line="4086"/>
+        <location filename="../mainwindow.cpp" line="3979"/>
+        <location filename="../mainwindow.cpp" line="4025"/>
         <source>New Profile</source>
         <translation>پروفایل جدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4040"/>
+        <location filename="../mainwindow.cpp" line="3979"/>
         <source>Delete Profile</source>
         <translation>حذف پروفایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4040"/>
+        <location filename="../mainwindow.cpp" line="3979"/>
         <source>Current Profile</source>
         <translation>پروفایل فعلی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4053"/>
-        <location filename="../mainwindow.cpp" line="4071"/>
+        <location filename="../mainwindow.cpp" line="3992"/>
+        <location filename="../mainwindow.cpp" line="4010"/>
         <source>New Client Instance</source>
         <translation>کلاینت جدید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4054"/>
+        <location filename="../mainwindow.cpp" line="3993"/>
         <source>Select profile</source>
         <translation>یک پروفایل انتخاب کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4072"/>
+        <location filename="../mainwindow.cpp" line="4011"/>
         <source>Delete profile</source>
         <translation>حذف پروفایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4087"/>
+        <location filename="../mainwindow.cpp" line="4026"/>
         <source>Profile name</source>
         <translation>نام پروفایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4463"/>
+        <location filename="../mainwindow.cpp" line="4402"/>
         <source>Specify new nickname for current server</source>
         <translation>یک نام مستعار برای این سِروِر تعیین کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4465"/>
+        <location filename="../mainwindow.cpp" line="4404"/>
         <source>Specify new nickname</source>
         <translation>تعیین نام مستعار</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4531"/>
+        <location filename="../mainwindow.cpp" line="4470"/>
         <source>Push-To-Talk enabled</source>
         <translation>صحبت با دکمه روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4537"/>
+        <location filename="../mainwindow.cpp" line="4476"/>
         <source>Push-To-Talk disabled</source>
         <translation>صحبت با دکمه خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4555"/>
+        <location filename="../mainwindow.cpp" line="4494"/>
         <source>Voice activation enabled</source>
         <translation>ارسال صدا روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4555"/>
+        <location filename="../mainwindow.cpp" line="4494"/>
         <source>Voice activation disabled</source>
         <translation>ارسال صدا خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4562"/>
+        <location filename="../mainwindow.cpp" line="4501"/>
         <source>Failed to enable voice activation</source>
-        <translation>ارسال خودکار صدا فعال نشد</translation>
+        <translation>ارسال صدا فعال نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4588"/>
-        <location filename="../mainwindow.cpp" line="6589"/>
+        <location filename="../mainwindow.cpp" line="4527"/>
+        <location filename="../mainwindow.cpp" line="6643"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>دستگاه ویدیویی به‌د&apos;رستی تنظیم نشده است. &apos;تنظیمات&apos; مربوط به دستگاه ویدیویی را بررسی کنید</translation>
+        <translation>دستگاه ویدیویی به‌درستی تنظیم نشده است. &apos;تنظیمات&apos; مربوط به دستگاه ویدیویی را بررسی کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4611"/>
+        <location filename="../mainwindow.cpp" line="4550"/>
         <source>Video transmission enabled</source>
-        <translation>اشتراک ویدیو روشن</translation>
+        <translation>اشتراک‌گذاری ویدیو روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4630"/>
+        <location filename="../mainwindow.cpp" line="4569"/>
         <source>Video transmission disabled</source>
-        <translation>اشتراک ویدیو خاموش</translation>
+        <translation>اشتراک‌گذاری ویدیو خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4677"/>
+        <location filename="../mainwindow.cpp" line="4616"/>
         <source>Desktop sharing enabled</source>
         <translation>اشتراک دسکتاپ روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4697"/>
+        <location filename="../mainwindow.cpp" line="4636"/>
         <source>Desktop sharing disabled</source>
         <translation>اشتراک دسکتاپ خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4721"/>
+        <location filename="../mainwindow.cpp" line="4660"/>
         <source>Sound events enabled</source>
         <translation>بازخورد صوتی روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4726"/>
+        <location filename="../mainwindow.cpp" line="4665"/>
         <source>Sound events disabled</source>
         <translation>بازخورد صوتی خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5089"/>
+        <location filename="../mainwindow.cpp" line="5028"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
         <translation>برای باز‌پخش استریم صدا از یک کانال دیگر, باید &quot;شنود صدا&quot; را فعال کنید.
 مایلید اکنون این کار را انجام دهید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5109"/>
+        <location filename="../mainwindow.cpp" line="5048"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
         <translation>برای باز‌پخش استریم فایل‌های رسانه‌ای از یک کانال دیگر, باید &quot;شنود استریم&quot; را فعال کنید.
 مایلید اکنون این کار را انجام دهید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5460"/>
-        <location filename="../mainwindow.cpp" line="5483"/>
+        <location filename="../mainwindow.cpp" line="5356"/>
+        <location filename="../mainwindow.cpp" line="5399"/>
+        <source>&amp;Pause Stream</source>
+        <translation>&amp;مکثِ استریم</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5395"/>
+        <source>Failed to resume the stream</source>
+        <translation>ادامۀ استریم امکان‌پذیر نیست</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5409"/>
+        <source>Failed to pause the stream</source>
+        <translation>مکثِ استریم امکان‌پذیر نیست</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5413"/>
+        <source>&amp;Resume Stream</source>
+        <translation>&amp;ادامۀ استریم</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="5514"/>
+        <location filename="../mainwindow.cpp" line="5537"/>
         <source>Share channel</source>
         <translation>اشتراک کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5483"/>
+        <location filename="../mainwindow.cpp" line="5537"/>
         <source>Type password of channel:</source>
         <translation>رمز کانال را بنویسید:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5496"/>
-        <location filename="../mainwindow.cpp" line="5497"/>
+        <location filename="../mainwindow.cpp" line="5550"/>
+        <location filename="../mainwindow.cpp" line="5551"/>
         <source>Link copied to clipboard</source>
         <translation>لینک کپی شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5503"/>
+        <location filename="../mainwindow.cpp" line="5557"/>
         <source>Sort By...</source>
         <translation>مرتب‌سازی بر اساسِ...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5853"/>
+        <location filename="../mainwindow.cpp" line="5907"/>
         <source>%1 users</source>
         <translation>%1 کاربر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5918"/>
+        <location filename="../mainwindow.cpp" line="5972"/>
         <source>Are you sure you want to kick yourself?</source>
         <translation>مطمئنید که میخواهید خودتان را اخراج کنید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5938"/>
+        <location filename="../mainwindow.cpp" line="5992"/>
         <source>Are you sure you want to kick and ban yourself?</source>
         <translation>مطمئنید که میخواهید خودتان را اخراج و محروم کنید?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5957"/>
+        <location filename="../mainwindow.cpp" line="6011"/>
         <source>Ban user #%1</source>
         <translation>ممنوعیت کاربر #%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5961"/>
+        <location filename="../mainwindow.cpp" line="6015"/>
         <source>Ban User From Server</source>
         <translation>ممنوعیت از سِروِر</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5987"/>
+        <location filename="../mainwindow.cpp" line="6041"/>
         <source>Ban IP-address</source>
         <translation>محروم‌کردن آدرس آیپی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5987"/>
+        <location filename="../mainwindow.cpp" line="6041"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
         <translation>آدرس آیپی (&apos;/&apos; برای زیرشبکه, مثلاً: 192.168.0.0/16)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6247"/>
+        <location filename="../mainwindow.cpp" line="6301"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
         <translation>فایلِ %1 در سِروِر تکراری است. جایگزین شود؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6252"/>
+        <location filename="../mainwindow.cpp" line="6306"/>
         <source>File exists</source>
         <translation>فایل تکراری است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6259"/>
+        <location filename="../mainwindow.cpp" line="6313"/>
         <source>Failed to delete existing file %1</source>
         <translation>فایل %1 حذف نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6271"/>
+        <location filename="../mainwindow.cpp" line="6325"/>
         <source>You do not have permission to replace the file %1</source>
         <translation>شما اجازۀ جایگزینی فایل %1 را ندارید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6502"/>
+        <location filename="../mainwindow.cpp" line="6556"/>
         <source>Everyone</source>
         <translation>همه</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6553"/>
+        <location filename="../mainwindow.cpp" line="6607"/>
         <source>Desktop windows</source>
         <translation>پنجره‌های دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7416"/>
+        <location filename="../mainwindow.cpp" line="7470"/>
         <source>Check for Update</source>
         <translation>بررسیِ به‌روزرسانی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7416"/>
+        <location filename="../mainwindow.cpp" line="7470"/>
         <source>%1 is up to date.</source>
         <translation>%1 به‌روز است.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7491"/>
+        <location filename="../mainwindow.cpp" line="7545"/>
         <source>Language %1 not found for Text-To-Speech</source>
         <translation>زبان %1 برای متن-به-گفتار پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7504"/>
+        <location filename="../mainwindow.cpp" line="7558"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
         <translation>صدای %1 برای متن-به-گفتار یافت نشد. از %2 استفاده خواهد شد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4599"/>
+        <location filename="../mainwindow.cpp" line="4538"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
-        <translation>تنظیمِ مبدلِ ویدیو انجام نشد. لطفاً &apos;تنظیماتِ&apos; مربوطه را از تنظیماتِ برنامه بررسی کنید</translation>
+        <translation>تنظیمِ فشرده‌سازیِ ویدیو انجام نشد. لطفاً &apos;تنظیماتِ&apos; مربوطه را از تنظیماتِ برنامه بررسی کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2815"/>
-        <location filename="../mainwindow.cpp" line="6516"/>
-        <location filename="../mainwindow.cpp" line="6529"/>
-        <location filename="../mainwindow.cpp" line="6542"/>
-        <location filename="../mainwindow.cpp" line="6555"/>
-        <location filename="../mainwindow.cpp" line="6568"/>
+        <location filename="../mainwindow.cpp" line="2817"/>
+        <location filename="../mainwindow.cpp" line="6570"/>
+        <location filename="../mainwindow.cpp" line="6583"/>
+        <location filename="../mainwindow.cpp" line="6596"/>
+        <location filename="../mainwindow.cpp" line="6609"/>
+        <location filename="../mainwindow.cpp" line="6622"/>
         <source>Enabled</source>
         <translation>روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2824"/>
-        <location filename="../mainwindow.cpp" line="6518"/>
-        <location filename="../mainwindow.cpp" line="6531"/>
-        <location filename="../mainwindow.cpp" line="6544"/>
-        <location filename="../mainwindow.cpp" line="6557"/>
-        <location filename="../mainwindow.cpp" line="6570"/>
+        <location filename="../mainwindow.cpp" line="2826"/>
+        <location filename="../mainwindow.cpp" line="6572"/>
+        <location filename="../mainwindow.cpp" line="6585"/>
+        <location filename="../mainwindow.cpp" line="6598"/>
+        <location filename="../mainwindow.cpp" line="6611"/>
+        <location filename="../mainwindow.cpp" line="6624"/>
         <source>Disabled</source>
         <translation>خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4647"/>
+        <location filename="../mainwindow.cpp" line="4586"/>
         <source>Failed to open X11 display.</source>
         <translation>نمایشگر X11 باز نشد.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4666"/>
+        <location filename="../mainwindow.cpp" line="4605"/>
         <source>Failed to start desktop sharing</source>
         <translation>خطای اشتراک دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4706"/>
+        <location filename="../mainwindow.cpp" line="4645"/>
         <source>Text-To-Speech enabled</source>
         <translation>متن به گفتار روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4711"/>
+        <location filename="../mainwindow.cpp" line="4650"/>
         <source>Text-To-Speech disabled</source>
         <translation>متن به گفتار خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5142"/>
-        <location filename="../mainwindow.cpp" line="5155"/>
+        <location filename="../mainwindow.cpp" line="5081"/>
+        <location filename="../mainwindow.cpp" line="5094"/>
         <source>Failed to issue command to create channel</source>
         <translation>کانال ساخته نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5169"/>
+        <location filename="../mainwindow.cpp" line="5108"/>
         <source>Failed to issue command to update channel</source>
         <translation>کانال به‌روز‌رسانی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5182"/>
+        <location filename="../mainwindow.cpp" line="5121"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>کانالِ &quot;%1&quot; را حذف می‌کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5194"/>
+        <location filename="../mainwindow.cpp" line="5133"/>
         <source>Failed to issue command to delete channel</source>
         <translation>کانال پاک نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5216"/>
-        <location filename="../mainwindow.cpp" line="5903"/>
+        <location filename="../mainwindow.cpp" line="5155"/>
+        <location filename="../mainwindow.cpp" line="5957"/>
         <source>Specify password</source>
         <translation>رمز کانال را وارد کنید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5231"/>
+        <location filename="../mainwindow.cpp" line="5170"/>
         <source>Failed to issue command to join channel</source>
         <translation>نمیتوانید وارد کانال شوید</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5332"/>
+        <location filename="../mainwindow.cpp" line="5271"/>
         <source>Nobody is active in this channel</source>
         <translation>همه ساکتند</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5374"/>
+        <location filename="../mainwindow.cpp" line="5428"/>
         <source>Open File</source>
         <translation>باز کردن فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5395"/>
+        <location filename="../mainwindow.cpp" line="5449"/>
         <source>Save File</source>
         <translation>ذخیرۀ فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5425"/>
+        <location filename="../mainwindow.cpp" line="5479"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>&quot;%1&quot; حذف شود؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5434"/>
+        <location filename="../mainwindow.cpp" line="5488"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>%1 فایل حذف شود؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5643"/>
+        <location filename="../mainwindow.cpp" line="5697"/>
         <source>Message to broadcast:</source>
         <translation>پیام:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5689"/>
+        <location filename="../mainwindow.cpp" line="5743"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>تنظیمات فعلی خود را حذف می‌کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5704"/>
+        <location filename="../mainwindow.cpp" line="5758"/>
         <source>Cannot find %1</source>
         <translation>%1 پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5711"/>
+        <location filename="../mainwindow.cpp" line="5765"/>
         <source>Cannot remove %1</source>
         <translation>%1 حذف نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5718"/>
+        <location filename="../mainwindow.cpp" line="5772"/>
         <source>Failed to copy %1 to %2</source>
         <translation>%1 در %2 کپی نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5289"/>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="5228"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Talking</source>
         <translation>در حال صحبت</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Mute</source>
         <translation>قطع صدا</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5300"/>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="5239"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Streaming</source>
         <translation>در حال استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Mute media file</source>
         <translation>قطع استریم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5311"/>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="5250"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Webcam</source>
         <translation>وب‌کم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2750"/>
-        <location filename="../mainwindow.cpp" line="5322"/>
-        <location filename="../mainwindow.cpp" line="5773"/>
+        <location filename="../mainwindow.cpp" line="2752"/>
+        <location filename="../mainwindow.cpp" line="5261"/>
+        <location filename="../mainwindow.cpp" line="5827"/>
         <source>Desktop</source>
         <translation>دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5805"/>
+        <location filename="../mainwindow.cpp" line="5859"/>
         <source>Question</source>
         <translation>پرسش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="5884"/>
         <source>Channel</source>
         <translation>کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="5884"/>
         <source>Password protected</source>
         <translation>رمزدار</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="5884"/>
         <source>Classroom</source>
         <translation>کلاس درس</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5830"/>
+        <location filename="../mainwindow.cpp" line="5884"/>
         <source>Hidden</source>
         <translation>مخفی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5849"/>
+        <location filename="../mainwindow.cpp" line="5903"/>
         <source>Topic: %1</source>
         <translation>موضوع: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5856"/>
+        <location filename="../mainwindow.cpp" line="5910"/>
         <source>%1 files</source>
         <translation>%1 فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5950"/>
+        <location filename="../mainwindow.cpp" line="6004"/>
         <source>IP-address</source>
         <translation>آدرس آیپی</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5950"/>
+        <location filename="../mainwindow.cpp" line="6004"/>
         <source>Username</source>
         <translation>نام کاربری</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5959"/>
+        <location filename="../mainwindow.cpp" line="6013"/>
         <source>Ban User From Channel</source>
         <translation>ممنوعیت از کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1524"/>
+        <location filename="../mainwindow.ui" line="1531"/>
         <source>&amp;Leave Channel</source>
         <translation>&amp;خروج از کانال</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6450"/>
+        <location filename="../mainwindow.cpp" line="6504"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>بیشترین تعداد کاربرانی که میتوانند صحبت کنند %1 نفر است</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6588"/>
+        <location filename="../mainwindow.cpp" line="6642"/>
         <source>Start Webcam</source>
         <translation>روشن کردن وب‌کم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6610"/>
-        <location filename="../mainwindow.cpp" line="6662"/>
+        <location filename="../mainwindow.cpp" line="6664"/>
+        <location filename="../mainwindow.cpp" line="6716"/>
         <source>Myself</source>
         <translation>خودم</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3144"/>
+        <location filename="../mainwindow.cpp" line="3146"/>
         <source>&amp;Files (%1)</source>
         <translation>&amp;فایل‌ها (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7008"/>
-        <location filename="../mainwindow.cpp" line="7013"/>
-        <location filename="../mainwindow.cpp" line="7019"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7030"/>
-        <location filename="../mainwindow.cpp" line="7035"/>
-        <location filename="../mainwindow.cpp" line="7041"/>
-        <location filename="../mainwindow.cpp" line="7046"/>
-        <location filename="../mainwindow.cpp" line="7052"/>
-        <location filename="../mainwindow.cpp" line="7057"/>
-        <location filename="../mainwindow.cpp" line="7063"/>
-        <location filename="../mainwindow.cpp" line="7068"/>
-        <location filename="../mainwindow.cpp" line="7076"/>
-        <location filename="../mainwindow.cpp" line="7081"/>
-        <location filename="../mainwindow.cpp" line="7086"/>
-        <location filename="../mainwindow.cpp" line="7091"/>
-        <location filename="../mainwindow.cpp" line="7096"/>
-        <location filename="../mainwindow.cpp" line="7101"/>
+        <location filename="../mainwindow.cpp" line="7062"/>
+        <location filename="../mainwindow.cpp" line="7067"/>
+        <location filename="../mainwindow.cpp" line="7073"/>
+        <location filename="../mainwindow.cpp" line="7078"/>
+        <location filename="../mainwindow.cpp" line="7084"/>
+        <location filename="../mainwindow.cpp" line="7089"/>
+        <location filename="../mainwindow.cpp" line="7095"/>
+        <location filename="../mainwindow.cpp" line="7100"/>
         <location filename="../mainwindow.cpp" line="7106"/>
         <location filename="../mainwindow.cpp" line="7111"/>
-        <location filename="../mainwindow.cpp" line="7116"/>
-        <location filename="../mainwindow.cpp" line="7121"/>
-        <location filename="../mainwindow.cpp" line="7126"/>
-        <location filename="../mainwindow.cpp" line="7131"/>
-        <location filename="../mainwindow.cpp" line="7136"/>
-        <location filename="../mainwindow.cpp" line="7141"/>
-        <location filename="../mainwindow.cpp" line="7146"/>
-        <location filename="../mainwindow.cpp" line="7151"/>
+        <location filename="../mainwindow.cpp" line="7117"/>
+        <location filename="../mainwindow.cpp" line="7122"/>
+        <location filename="../mainwindow.cpp" line="7130"/>
+        <location filename="../mainwindow.cpp" line="7135"/>
+        <location filename="../mainwindow.cpp" line="7140"/>
+        <location filename="../mainwindow.cpp" line="7145"/>
+        <location filename="../mainwindow.cpp" line="7150"/>
+        <location filename="../mainwindow.cpp" line="7155"/>
+        <location filename="../mainwindow.cpp" line="7160"/>
+        <location filename="../mainwindow.cpp" line="7165"/>
+        <location filename="../mainwindow.cpp" line="7170"/>
+        <location filename="../mainwindow.cpp" line="7175"/>
+        <location filename="../mainwindow.cpp" line="7180"/>
+        <location filename="../mainwindow.cpp" line="7185"/>
+        <location filename="../mainwindow.cpp" line="7190"/>
+        <location filename="../mainwindow.cpp" line="7195"/>
+        <location filename="../mainwindow.cpp" line="7200"/>
+        <location filename="../mainwindow.cpp" line="7205"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 دریافتِ &quot;%2&quot; از طرفِ شما را برای خودش %3 کرد</translation>
+        <translation>%1 اشتراکِ &quot;%2&quot; را %3 کرد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7012"/>
-        <location filename="../mainwindow.cpp" line="7013"/>
-        <location filename="../mainwindow.cpp" line="7023"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7035"/>
-        <location filename="../mainwindow.cpp" line="7045"/>
-        <location filename="../mainwindow.cpp" line="7046"/>
-        <location filename="../mainwindow.cpp" line="7056"/>
-        <location filename="../mainwindow.cpp" line="7057"/>
+        <location filename="../mainwindow.cpp" line="7066"/>
         <location filename="../mainwindow.cpp" line="7067"/>
-        <location filename="../mainwindow.cpp" line="7068"/>
-        <location filename="../mainwindow.cpp" line="7080"/>
-        <location filename="../mainwindow.cpp" line="7081"/>
-        <location filename="../mainwindow.cpp" line="7090"/>
-        <location filename="../mainwindow.cpp" line="7091"/>
+        <location filename="../mainwindow.cpp" line="7077"/>
+        <location filename="../mainwindow.cpp" line="7078"/>
+        <location filename="../mainwindow.cpp" line="7088"/>
+        <location filename="../mainwindow.cpp" line="7089"/>
+        <location filename="../mainwindow.cpp" line="7099"/>
         <location filename="../mainwindow.cpp" line="7100"/>
-        <location filename="../mainwindow.cpp" line="7101"/>
         <location filename="../mainwindow.cpp" line="7110"/>
         <location filename="../mainwindow.cpp" line="7111"/>
-        <location filename="../mainwindow.cpp" line="7120"/>
         <location filename="../mainwindow.cpp" line="7121"/>
-        <location filename="../mainwindow.cpp" line="7130"/>
-        <location filename="../mainwindow.cpp" line="7131"/>
-        <location filename="../mainwindow.cpp" line="7140"/>
-        <location filename="../mainwindow.cpp" line="7141"/>
-        <location filename="../mainwindow.cpp" line="7150"/>
-        <location filename="../mainwindow.cpp" line="7151"/>
+        <location filename="../mainwindow.cpp" line="7122"/>
+        <location filename="../mainwindow.cpp" line="7134"/>
+        <location filename="../mainwindow.cpp" line="7135"/>
+        <location filename="../mainwindow.cpp" line="7144"/>
+        <location filename="../mainwindow.cpp" line="7145"/>
+        <location filename="../mainwindow.cpp" line="7154"/>
+        <location filename="../mainwindow.cpp" line="7155"/>
+        <location filename="../mainwindow.cpp" line="7164"/>
+        <location filename="../mainwindow.cpp" line="7165"/>
+        <location filename="../mainwindow.cpp" line="7174"/>
+        <location filename="../mainwindow.cpp" line="7175"/>
+        <location filename="../mainwindow.cpp" line="7184"/>
+        <location filename="../mainwindow.cpp" line="7185"/>
+        <location filename="../mainwindow.cpp" line="7194"/>
+        <location filename="../mainwindow.cpp" line="7195"/>
+        <location filename="../mainwindow.cpp" line="7204"/>
+        <location filename="../mainwindow.cpp" line="7205"/>
         <source>On</source>
         <translation>روشن</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7012"/>
-        <location filename="../mainwindow.cpp" line="7013"/>
-        <location filename="../mainwindow.cpp" line="7023"/>
-        <location filename="../mainwindow.cpp" line="7024"/>
-        <location filename="../mainwindow.cpp" line="7034"/>
-        <location filename="../mainwindow.cpp" line="7035"/>
-        <location filename="../mainwindow.cpp" line="7045"/>
-        <location filename="../mainwindow.cpp" line="7046"/>
-        <location filename="../mainwindow.cpp" line="7056"/>
-        <location filename="../mainwindow.cpp" line="7057"/>
+        <location filename="../mainwindow.cpp" line="7066"/>
         <location filename="../mainwindow.cpp" line="7067"/>
-        <location filename="../mainwindow.cpp" line="7068"/>
-        <location filename="../mainwindow.cpp" line="7080"/>
-        <location filename="../mainwindow.cpp" line="7081"/>
-        <location filename="../mainwindow.cpp" line="7090"/>
-        <location filename="../mainwindow.cpp" line="7091"/>
+        <location filename="../mainwindow.cpp" line="7077"/>
+        <location filename="../mainwindow.cpp" line="7078"/>
+        <location filename="../mainwindow.cpp" line="7088"/>
+        <location filename="../mainwindow.cpp" line="7089"/>
+        <location filename="../mainwindow.cpp" line="7099"/>
         <location filename="../mainwindow.cpp" line="7100"/>
-        <location filename="../mainwindow.cpp" line="7101"/>
         <location filename="../mainwindow.cpp" line="7110"/>
         <location filename="../mainwindow.cpp" line="7111"/>
-        <location filename="../mainwindow.cpp" line="7120"/>
         <location filename="../mainwindow.cpp" line="7121"/>
-        <location filename="../mainwindow.cpp" line="7130"/>
-        <location filename="../mainwindow.cpp" line="7131"/>
-        <location filename="../mainwindow.cpp" line="7140"/>
-        <location filename="../mainwindow.cpp" line="7141"/>
-        <location filename="../mainwindow.cpp" line="7150"/>
-        <location filename="../mainwindow.cpp" line="7151"/>
+        <location filename="../mainwindow.cpp" line="7122"/>
+        <location filename="../mainwindow.cpp" line="7134"/>
+        <location filename="../mainwindow.cpp" line="7135"/>
+        <location filename="../mainwindow.cpp" line="7144"/>
+        <location filename="../mainwindow.cpp" line="7145"/>
+        <location filename="../mainwindow.cpp" line="7154"/>
+        <location filename="../mainwindow.cpp" line="7155"/>
+        <location filename="../mainwindow.cpp" line="7164"/>
+        <location filename="../mainwindow.cpp" line="7165"/>
+        <location filename="../mainwindow.cpp" line="7174"/>
+        <location filename="../mainwindow.cpp" line="7175"/>
+        <location filename="../mainwindow.cpp" line="7184"/>
+        <location filename="../mainwindow.cpp" line="7185"/>
+        <location filename="../mainwindow.cpp" line="7194"/>
+        <location filename="../mainwindow.cpp" line="7195"/>
+        <location filename="../mainwindow.cpp" line="7204"/>
+        <location filename="../mainwindow.cpp" line="7205"/>
         <source>Off</source>
         <translation>خاموش</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7245"/>
-        <location filename="../mainwindow.cpp" line="7254"/>
-        <location filename="../mainwindow.cpp" line="7264"/>
-        <location filename="../mainwindow.cpp" line="7275"/>
+        <location filename="../mainwindow.cpp" line="7299"/>
+        <location filename="../mainwindow.cpp" line="7308"/>
+        <location filename="../mainwindow.cpp" line="7318"/>
+        <location filename="../mainwindow.cpp" line="7329"/>
         <source>Load File</source>
         <translation>باز‌کردن فایل</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7246"/>
-        <location filename="../mainwindow.cpp" line="7255"/>
+        <location filename="../mainwindow.cpp" line="7300"/>
+        <location filename="../mainwindow.cpp" line="7309"/>
         <source>Failed to load file %1</source>
         <translation>فایل %1 باز نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7265"/>
+        <location filename="../mainwindow.cpp" line="7319"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>فایل &quot;%1&quot; با %2 سازگار نیست</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7276"/>
+        <location filename="../mainwindow.cpp" line="7330"/>
         <source>Failed to extract host-information from %1</source>
         <translation>اطلاعات سِروِر از %1 استخراج نشد</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7285"/>
+        <location filename="../mainwindow.cpp" line="7339"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation>فایل %1 حاوی اطلاعات نصب %2 است.<byte value="xd"/>
 مایلید این تنظیمات را اِعمال کنید؟</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7290"/>
+        <location filename="../mainwindow.cpp" line="7344"/>
         <source>Load %1 File</source>
         <translation>باز‌کردن فایل %1</translation>
     </message>
@@ -4872,22 +5000,22 @@ Should these settings be applied?</source>
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="613"/>
+        <location filename="../utilui.cpp" line="627"/>
         <source>Password</source>
         <translation>رمز</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="619"/>
+        <location filename="../utilui.cpp" line="633"/>
         <source>Show password</source>
         <translation>نمایش رمز عبور</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="624"/>
+        <location filename="../utilui.cpp" line="638"/>
         <source>&amp;OK</source>
         <translation>&amp;تأیید</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="625"/>
+        <location filename="../utilui.cpp" line="639"/>
         <source>&amp;Cancel</source>
         <translation>&amp;لغو</translation>
     </message>
@@ -4920,690 +5048,691 @@ Should these settings be applied?</source>
         <translation>جنسیت</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="152"/>
+        <location filename="../preferencesdlg.cpp" line="411"/>
         <source>Male</source>
         <translation>مرد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="162"/>
+        <location filename="../preferencesdlg.cpp" line="412"/>
         <source>Female</source>
         <translation>زن</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="280"/>
+        <location filename="../preferences.ui" line="237"/>
         <source>BearWare.dk Web Login ID</source>
         <translation>شناسۀ ورود با حساب BearWare.dk</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="297"/>
+        <location filename="../preferences.ui" line="254"/>
         <source>&amp;Activate</source>
         <translation>&amp;فعالسازی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="193"/>
+        <location filename="../preferences.ui" line="150"/>
         <source>Set away status after</source>
         <translation>تغییر وضعیت به حالت &quot;دور&quot; بعد از</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="169"/>
+        <location filename="../preferencesdlg.cpp" line="413"/>
         <source>Neutral</source>
         <translation>خنثی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="210"/>
+        <location filename="../preferences.ui" line="167"/>
         <source>seconds of inactivity (0 means disabled)</source>
         <translation>ثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="272"/>
+        <location filename="../preferences.ui" line="229"/>
         <source>BearWare.dk Web Login</source>
         <translation>ورود با حساب BearWare.dk</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="319"/>
+        <location filename="../preferences.ui" line="276"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
         <translation>بازیابی تنظیمات صدا و اشتراک‌ها هنگام ورود برای کاربران bearware.dk</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="329"/>
+        <location filename="../preferences.ui" line="286"/>
         <source>Voice Transmission Mode</source>
-        <translation>روش ارسال صدا</translation>
+        <translation>روش انتقال صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="337"/>
+        <location filename="../preferences.ui" line="294"/>
         <source>Push To Talk</source>
         <translation>صحبت با دکمه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="344"/>
+        <location filename="../preferences.ui" line="301"/>
         <source>&amp;Setup Keys</source>
         <translation>&amp;تنظیم کلید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="386"/>
+        <location filename="../preferences.ui" line="343"/>
         <source>Voice activated</source>
         <translation>فعال‌کردن ارسال خودکار صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="410"/>
+        <location filename="../preferences.ui" line="367"/>
         <source>Display</source>
         <translation>رابط کاربری</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="418"/>
+        <location filename="../preferences.ui" line="375"/>
         <source>User Interface Settings</source>
         <translation>شخصیسازی رابط کاربری</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="426"/>
+        <location filename="../preferences.ui" line="383"/>
         <source>User interface language</source>
         <translation>زبان</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="441"/>
+        <location filename="../preferences.ui" line="398"/>
         <source>Start minimized</source>
-        <translation>اجرای برنامه در حالت کوچک</translation>
+        <translation>کوچک‌نمایی برنامه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="448"/>
+        <location filename="../preferences.ui" line="405"/>
         <source>Minimize to tray icon</source>
-        <translation>کوچکنمایی آیکون برنامه در نوار وظیفه</translation>
+        <translation>کوچکنمایی آیکون در نوار وظیفه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="455"/>
+        <location filename="../preferences.ui" line="412"/>
         <source>&amp;Always on top</source>
-        <translation>&amp;نگه داشتن تیم‌تاک در بالای صفحه و در بالاترین اولویت</translation>
+        <translation>&amp;نگه داشتن در بالای صفحه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="462"/>
+        <location filename="../preferences.ui" line="419"/>
         <source>Enable VU-meter updates</source>
-        <translation>فعالسازی به‌روز‌رسانی سنجش میزان بلندی صدا. (نا‌مناسب برای صفحه‌خوان)</translation>
+        <translation>به‌روز‌رسانی سنجش میزان بلندی صدا. (نا‌مناسب برای صفحه‌خوان)</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="669"/>
+        <location filename="../preferences.ui" line="626"/>
         <source>Show number of users in channel</source>
         <translation>نمایش تعداد کاربران حاضر در کانال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="676"/>
+        <location filename="../preferences.ui" line="633"/>
         <source>Show username instead of nickname</source>
-        <translation>نمایش نام کاربری افراد بجای نام مستعار آنها</translation>
+        <translation>نمایش نام کاربری بجای نام مستعار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="683"/>
+        <location filename="../preferences.ui" line="640"/>
         <source>Show last to talk in yellow</source>
-        <translation>نشان‌دادن آخرین کاربری که صحبت کرده‌است به رنگ زرد</translation>
+        <translation>نمایش آخرین کاربری که صحبت کرده به رنگ زرد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="690"/>
-        <source>Show emojis and text for channel/user state</source>
-        <translation>نمایش شکلک و متن برای توصیف وضعیت کاربران و کانال‌ها</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="476"/>
+        <location filename="../preferences.ui" line="433"/>
         <source>Show both server and channel name in window title</source>
-        <translation>نشان‌دادن نام سِروِر و کانال در عنوان پنجره</translation>
+        <translation>نمایش نام سِروِر و کانال در عنوان پنجره</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="594"/>
+        <location filename="../preferences.ui" line="551"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>نمایش پیام‌های خصوصی در پنجرۀ مجزا</translation>
+        <translation>نمایش پیام‌های شخصی در پنجرۀ مجزا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="601"/>
+        <location filename="../preferences.ui" line="558"/>
         <source>Start video in popup dialog</source>
         <translation>نمایش تصویر کاربران در پنجرۀ مجزا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="608"/>
+        <location filename="../preferences.ui" line="565"/>
         <source>Start desktops in popup dialog</source>
         <translation>نمایش دسکتاپ کاربران در پنجرۀ مجزا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="483"/>
+        <location filename="../preferences.ui" line="440"/>
         <source>Timestamp text messages</source>
         <translation>درجِ تاریخ و زمان برای پیام‌های متنی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="516"/>
+        <location filename="../preferences.ui" line="473"/>
         <source>Show statusbar events in chat-window</source>
         <translation>نمایش هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="818"/>
+        <location filename="../preferences.ui" line="785"/>
         <source>Show new version available in dialog box</source>
         <translation>نمایش هشدار نسخۀ جدید در پنجرۀ محاوره‌ای</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="553"/>
+        <location filename="../preferences.ui" line="510"/>
         <source>Show source in corner of video window</source>
-        <translation>نمایش نام شخصی که تصویر خود را به اشتراک گذاشته‌است در گوشۀ پنجره</translation>
+        <translation>نمایش نام اشتراک‌گذار ویدیو در گوشۀ پنجره</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="230"/>
+        <location filename="../preferences.ui" line="187"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>غیرفعال‌کردن ارسال خودکار صدا در حالت عدم فعالیت</translation>
+        <translation>غیرفعال‌کردن ارسال صدا در حالت عدم فعالیت</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="254"/>
+        <location filename="../preferences.ui" line="211"/>
         <source>Status message during inactivity</source>
         <translation>پیام وضعیت در حالت عدم فعالیت</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="354"/>
+        <location filename="../preferences.ui" line="311"/>
         <source>Key Combination:</source>
         <translation>ترکیب کلیدها:</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="469"/>
+        <location filename="../preferences.ui" line="426"/>
         <source>Show voice activation level slider</source>
-        <translation>نمایش نوار لغزنده  حساسیت تشخیص صدا</translation>
+        <translation>نمایش نوار لغزنده  حساسیت صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="492"/>
+        <location filename="../preferences.ui" line="449"/>
         <source>Timestamp format</source>
         <translation>ساختار تاریخ و زمان</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="560"/>
+        <location filename="../preferences.ui" line="517"/>
         <source>Video window settings</source>
         <translation>تنظیمات پنجرۀ ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="588"/>
+        <location filename="../preferences.ui" line="545"/>
         <source>Dialogs</source>
         <translation>پنجره‌های محاوره‌ای</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="663"/>
+        <location filename="../preferences.ui" line="620"/>
         <source>Channels Tree</source>
         <translation>نمودار درختی کانال‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="713"/>
+        <location filename="../preferences.ui" line="663"/>
         <source>Maximum text length in channel list</source>
         <translation>حداکثر طول متن در لیست کانال‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="798"/>
+        <location filename="../preferences.ui" line="713"/>
+        <source>Style of user and channel info</source>
+        <translation>سَبکِ نمایشِ اطلاعاتِ کاربر و کانال</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="765"/>
         <source>Software Update</source>
         <translation>به‌روزرسانی نرم‌افزار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="844"/>
+        <location filename="../preferences.ui" line="811"/>
         <source>Connection</source>
         <translation>اتصال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="850"/>
+        <location filename="../preferences.ui" line="817"/>
         <source>Client Connection</source>
         <translation>نحوۀ اتصال کلاینت به سِروِر‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="856"/>
+        <location filename="../preferences.ui" line="823"/>
         <source>Connect to latest host on startup</source>
         <translation>اتصال خودکار به آخرین سِروِری که در آن حضور داشتید در هنگام اجرای برنامه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="863"/>
+        <location filename="../preferences.ui" line="830"/>
         <source>Reconnect on connection dropped</source>
         <translation>اتصال مجدد به سِروِر در صورت قطع اتصال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="870"/>
+        <location filename="../preferences.ui" line="837"/>
         <source>Join root channel upon connection</source>
         <translation>ورود به لابی در هنگام اتصال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="877"/>
+        <location filename="../preferences.ui" line="844"/>
         <source>Query server&apos;s maximum payload upon connection</source>
-        <translation>درخواست بارگذاری حداکثر داده‌های سِروِ&apos;ر هنگام اتصال</translation>
+        <translation>درخواست بارگذاری حداکثر داده‌های سِروِر هنگام اتصال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="884"/>
+        <location filename="../preferences.ui" line="851"/>
         <source>Add application to Windows Firewall exceptions list</source>
         <translation>اضافه‌کردن برنامه به فهرست استثناهای فایروال ویندوز</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="891"/>
-        <location filename="../preferences.ui" line="894"/>
+        <location filename="../preferences.ui" line="858"/>
+        <location filename="../preferences.ui" line="861"/>
         <source>Default Subscriptions upon Connection</source>
         <translation>اشتراک‌های پیشفرض در هنگام اتصال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="902"/>
+        <location filename="../preferences.ui" line="869"/>
         <source>User Messages</source>
-        <translation>پیام‌های خصوصی</translation>
+        <translation>پیام‌های شخصی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="909"/>
+        <location filename="../preferences.ui" line="876"/>
         <source>Channel Messages</source>
         <translation>پیام‌های کانال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="916"/>
+        <location filename="../preferences.ui" line="883"/>
         <source>Broadcast Messages</source>
         <translation>پیام‌های همگانی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="923"/>
-        <location filename="../preferences.ui" line="1790"/>
+        <location filename="../preferences.ui" line="890"/>
+        <location filename="../preferences.ui" line="1745"/>
         <source>Voice</source>
         <translation>صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="930"/>
-        <location filename="../preferences.ui" line="1979"/>
+        <location filename="../preferences.ui" line="897"/>
+        <location filename="../preferences.ui" line="1934"/>
         <source>Video Capture</source>
         <translation>ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="937"/>
+        <location filename="../preferences.ui" line="904"/>
         <source>Desktop</source>
         <translation>دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="949"/>
+        <location filename="../preferences.ui" line="916"/>
         <source>Desktop Access</source>
         <translation>دسترسی دسکتاپ</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="959"/>
+        <location filename="../preferences.ui" line="926"/>
         <source>Configure trusted list</source>
         <translation>پیکربندی لیست قابل اعتماد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="971"/>
+        <location filename="../preferences.ui" line="938"/>
         <source>Media Files</source>
         <translation>استریم</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="996"/>
-        <location filename="../preferences.ui" line="999"/>
+        <location filename="../preferences.ui" line="963"/>
+        <location filename="../preferences.ui" line="966"/>
         <source>Local Socket Settings</source>
         <translation>نحوه اتصال برنامه به شبکۀ محلی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1005"/>
+        <location filename="../preferences.ui" line="972"/>
         <source>TCP port</source>
         <translation>پورت TCP</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1015"/>
-        <location filename="../preferences.ui" line="1032"/>
+        <location filename="../preferences.ui" line="982"/>
+        <location filename="../preferences.ui" line="999"/>
         <source>Default: 0</source>
         <translation>پیشفرض: 0</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1022"/>
+        <location filename="../preferences.ui" line="989"/>
         <source>UDP port</source>
         <translation>پورت UDP</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1105"/>
-        <location filename="../preferencesdlg.cpp" line="963"/>
+        <location filename="../preferences.ui" line="1072"/>
+        <location filename="../preferences.ui" line="1099"/>
+        <location filename="../preferencesdlg.cpp" line="922"/>
         <source>Sound System</source>
         <translation>صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1111"/>
+        <location filename="../preferences.ui" line="1078"/>
         <source>Sound System Settings</source>
         <translation>تنظیمات صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1132"/>
-        <source>Windows Audio Session</source>
-        <translation>Windows Audio Session</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="1139"/>
+        <location filename="../preferencesdlg.cpp" line="552"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1146"/>
-        <source>Windows Standard</source>
-        <translation>Windows Standard</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="1153"/>
-        <source>ALSA</source>
-        <translation>ALSA</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="1160"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1191"/>
+        <location filename="../preferences.ui" line="1129"/>
         <source>Input device</source>
         <translation>دستگاه ورودی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1237"/>
+        <location filename="../preferences.ui" line="1175"/>
         <source>Output device</source>
         <translation>دستگاه خروجی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1943"/>
+        <location filename="../preferences.ui" line="1898"/>
         <source>Double click to configure keys</source>
         <translation>برای تنظیم کلید‌ها، دو‌بار کلیک کنید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1204"/>
-        <location filename="../preferences.ui" line="1250"/>
+        <location filename="../preferences.ui" line="1142"/>
+        <location filename="../preferences.ui" line="1188"/>
         <source>Refresh devices</source>
         <translation>تازه‌سازی دستگاه‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1297"/>
+        <location filename="../preferences.ui" line="1235"/>
         <source>&amp;Test Selected</source>
         <translation>&amp;بررسی عملکرد دستگاه‌های انتخاب‌شده</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1322"/>
+        <location filename="../preferences.ui" line="1260"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
         <translation>حذف اکو هنگام استفاده از اسپیکر</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1329"/>
+        <location filename="../preferences.ui" line="1267"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
         <translation>تنظیم خودکار بلندی میکروفون</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1336"/>
+        <location filename="../preferences.ui" line="1274"/>
         <source>Enable denoising (suppress noise from microphone)</source>
         <translation>استفاده از نویزگیر</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1345"/>
+        <location filename="../preferences.ui" line="1283"/>
         <source>Media file vs. voice volume</source>
         <translation>میزان صدای استریم‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1382"/>
-        <location filename="../preferences.ui" line="2269"/>
+        <location filename="../preferences.ui" line="1320"/>
+        <location filename="../preferences.ui" line="2224"/>
         <source>&amp;Default</source>
         <translation>&amp;بازنشانی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1408"/>
-        <location filename="../preferences.ui" line="1414"/>
+        <location filename="../preferences.ui" line="1346"/>
+        <location filename="../preferences.ui" line="1352"/>
         <source>Sound Events</source>
         <translation>هشدار‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1422"/>
+        <location filename="../preferences.ui" line="1360"/>
         <source>Sound pack</source>
         <translation>پک صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1448"/>
+        <location filename="../preferences.ui" line="1386"/>
         <source>Sound event volume level</source>
         <translation>میزان صدای هشدار‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1496"/>
+        <location filename="../preferences.ui" line="1444"/>
         <source>Enable/disable Sound Events</source>
         <translation>روشن یا خاموش کردن هشدار‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1502"/>
-        <location filename="../preferences.ui" line="1643"/>
+        <location filename="../preferences.ui" line="1450"/>
+        <location filename="../preferences.ui" line="1591"/>
         <source>Double click to check/uncheck</source>
         <translation>برای علامت زدن یا برداشتن علامت دو بار کلیک کنید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1521"/>
+        <location filename="../preferences.ui" line="1469"/>
         <source>Sound Event File</source>
         <translation>فایل هشدار صوتی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1527"/>
+        <location filename="../preferences.ui" line="1475"/>
         <source>File</source>
         <translation>فایل</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1540"/>
+        <location filename="../preferences.ui" line="1488"/>
         <source>Browse</source>
         <translation>تغییرِ صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="697"/>
+        <location filename="../preferences.ui" line="647"/>
         <source>Show user and channel icons</source>
         <translation>نمایش آیکون‌های کاربران و کانال‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="704"/>
+        <location filename="../preferences.ui" line="654"/>
         <source>Show channel topic in channel list</source>
         <translation>نمایش موضوع کانال در لیست کانال‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="629"/>
+        <location filename="../preferences.ui" line="586"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation>نمایش پیام روز سِروِ&apos;ر در پنجرۀ محاوره‌ای</translation>
+        <translation>نمایش پیام روز سِروِر در پنجرۀ محاوره‌ای</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="636"/>
+        <location filename="../preferences.ui" line="593"/>
         <source>Show dialog box with server list on startup</source>
         <translation>نمایش لیست سِروِر‌ها هنگام اجرای برنامه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="523"/>
+        <location filename="../preferences.ui" line="480"/>
         <source>Configure events</source>
         <translation>سفارشی‌سازی رویداد‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1167"/>
+        <location filename="../preferencesdlg.cpp" line="558"/>
         <source>PulseAudio</source>
         <translation>PulseAudio</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1481"/>
+        <location filename="../preferences.ui" line="1419"/>
         <source>Playback mode</source>
         <translation>حالت پخش</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1631"/>
+        <location filename="../preferences.ui" line="1579"/>
         <source>Text To Speech</source>
         <translation>متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1637"/>
+        <location filename="../preferences.ui" line="1585"/>
         <source>Enable/disable Text to Speech Events</source>
         <translation>پیکربندی بازخورد‌های صفحه‌خوان</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1562"/>
-        <location filename="../preferences.ui" line="1704"/>
+        <location filename="../preferences.ui" line="1510"/>
+        <location filename="../preferences.ui" line="1659"/>
         <source>Enable &amp;all</source>
         <translation>روشن‌کردنِ &amp;همۀ موارد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1582"/>
-        <location filename="../preferences.ui" line="1724"/>
+        <location filename="../preferences.ui" line="1432"/>
+        <source>Use the sound output device selected in TeamTalk for playing sound events</source>
+        <translation>استفاده از دستگاه خروجی صدای انتخاب‌شده برای پخش بازخورد‌های صوتی</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1435"/>
+        <source>Use selected sound output device for playback</source>
+        <translation>استفاده از دستگاه خروجی صدای انتخاب‌شده برای پخش</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1530"/>
+        <location filename="../preferences.ui" line="1679"/>
         <source>C&amp;lear all</source>
         <translation>خ&amp;اموش‌کردنِ همۀ موارد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1602"/>
-        <location filename="../preferences.ui" line="1744"/>
+        <location filename="../preferences.ui" line="1550"/>
+        <location filename="../preferences.ui" line="1699"/>
         <source>&amp;Revert</source>
         <translation>&amp;بازنشانی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1756"/>
+        <location filename="../preferences.ui" line="1647"/>
+        <source>Reset All to Default Values</source>
+        <translation>بازنشانی</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="1711"/>
         <source>Text to Speech Preferences</source>
         <translation>تنظیمات متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1764"/>
+        <location filename="../preferences.ui" line="1719"/>
         <source>Text to Speech Engine</source>
         <translation>موتور متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1777"/>
+        <location filename="../preferences.ui" line="1732"/>
         <source>Language</source>
         <translation>زبان</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1803"/>
+        <location filename="../preferences.ui" line="1758"/>
         <source>Voice rate</source>
         <translation>سرعت گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1829"/>
+        <location filename="../preferences.ui" line="1784"/>
         <source>Voice volume</source>
         <translation>میزان صدا</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1855"/>
+        <location filename="../preferences.ui" line="1810"/>
         <source>Display duration of notifications</source>
         <translation>نمایش مدت‌زمان اعلانها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1878"/>
+        <location filename="../preferences.ui" line="1833"/>
         <source>Text to Speech output mode</source>
         <translation>روش خروجی متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1891"/>
+        <location filename="../preferences.ui" line="1846"/>
         <source>Use SAPI instead of current screenreader</source>
         <translation>استفاده از SAPI بجای صفحه‌خوانِ فعلی</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1898"/>
+        <location filename="../preferences.ui" line="1853"/>
         <source>Switch to SAPI if current screenreader is not available</source>
         <translation>چنانچه صفحه‌خوانِ فعلی در دسترس نباشد, از SAPI برای اعلامِ هشدار‌های متن-به-گفتار استفاده شود</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1905"/>
+        <location filename="../preferences.ui" line="1860"/>
         <source>Interrupt current screenreader speech on new event</source>
         <translation>قطع صحبت صفحه‌خوان فعلی در هنگام رویداد جدید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1931"/>
+        <location filename="../preferences.ui" line="1886"/>
         <source>Shortcuts</source>
         <translation>میانبر‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1937"/>
+        <location filename="../preferences.ui" line="1892"/>
         <source>Keyboard Shortcuts</source>
         <translation>میانبر‌های صفحه‌کلید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1985"/>
+        <location filename="../preferences.ui" line="1940"/>
         <source>Video Capture Settings</source>
         <translation>تنظیمات اشتراک‌گذاری تصویر</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1991"/>
+        <location filename="../preferences.ui" line="1946"/>
         <source>Video Capture Device</source>
         <translation>دستگاه ضبط ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2011"/>
+        <location filename="../preferences.ui" line="1966"/>
         <source>Video Resolution</source>
         <translation>وضوح تصویر</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2026"/>
+        <location filename="../preferences.ui" line="1981"/>
         <source>Customize video format</source>
         <translation>شخصی‌سازی فرمت ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2040"/>
+        <location filename="../preferences.ui" line="1995"/>
         <source>Image Format</source>
         <translation>فرمت عکس</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2050"/>
+        <location filename="../preferences.ui" line="2005"/>
         <source>RGB32</source>
         <translation>قالب رنگ RGB با عمق 32 بیت</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2057"/>
+        <location filename="../preferences.ui" line="2012"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2064"/>
+        <location filename="../preferences.ui" line="2019"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2088"/>
-        <location filename="../preferencesdlg.cpp" line="1304"/>
+        <location filename="../preferences.ui" line="2043"/>
+        <location filename="../preferencesdlg.cpp" line="1257"/>
         <source>Test Selected</source>
         <translation>بررسی عملکرد دوربین</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2116"/>
-        <location filename="../preferences.ui" line="2119"/>
+        <location filename="../preferences.ui" line="2071"/>
+        <location filename="../preferences.ui" line="2074"/>
         <source>Video Codec Settings</source>
         <translation>تنظیمات مبدل ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2127"/>
+        <location filename="../preferences.ui" line="2082"/>
         <source>Codec</source>
         <translation>مبدل</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2183"/>
+        <location filename="../preferences.ui" line="2138"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="370"/>
+        <location filename="../preferencesdlg.cpp" line="312"/>
         <source>Default Input Device</source>
         <translation>دستگاه ورودی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="403"/>
+        <location filename="../preferencesdlg.cpp" line="345"/>
         <source>Default Output Device</source>
         <translation>دستگاه خروجی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="387"/>
-        <location filename="../preferencesdlg.cpp" line="416"/>
+        <location filename="../preferencesdlg.cpp" line="329"/>
+        <location filename="../preferencesdlg.cpp" line="358"/>
         <source>No Sound Device</source>
         <translation>عدم استفاده از دستگاه صوتی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="457"/>
+        <location filename="../preferencesdlg.cpp" line="399"/>
         <source>Open Wave File</source>
         <translation>باز‌کردن فایل Wave</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="458"/>
+        <location filename="../preferencesdlg.cpp" line="400"/>
         <source>Wave files (*.wav)</source>
         <translation>فایل‌های صوتی با فرمت .wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="847"/>
-        <location filename="../preferencesdlg.cpp" line="854"/>
+        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="807"/>
         <source>Windows Firewall</source>
         <translation>فایروال ویندوز</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="848"/>
+        <location filename="../preferencesdlg.cpp" line="801"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>افزودن %1 به فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="855"/>
+        <location filename="../preferencesdlg.cpp" line="808"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>حذف %1 از فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1322"/>
+        <location filename="../preferencesdlg.cpp" line="1275"/>
         <source>Sound Initialization</source>
         <translation>راه‌اندازی صدا</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1059"/>
-        <location filename="../preferencesdlg.cpp" line="1092"/>
+        <location filename="../preferencesdlg.cpp" line="1017"/>
+        <location filename="../preferencesdlg.cpp" line="1050"/>
         <source>Video Device</source>
         <translation>دستگاه ویدیویی</translation>
     </message>
@@ -5618,19 +5747,20 @@ Should these settings be applied?</source>
         <translation>&amp;لغو</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="485"/>
+        <location filename="../preferencesdlg.cpp" line="420"/>
         <source>&amp;Reset</source>
         <translation>&amp;بازنشانی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="643"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
+        <location filename="../preferencesdlg.cpp" line="598"/>
         <source>None</source>
         <translation>هیچ‌کدام</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="617"/>
-        <location filename="../preferencesdlg.cpp" line="631"/>
-        <location filename="../preferencesdlg.cpp" line="645"/>
+        <location filename="../preferencesdlg.cpp" line="571"/>
+        <location filename="../preferencesdlg.cpp" line="585"/>
+        <location filename="../preferencesdlg.cpp" line="600"/>
         <source>Default</source>
         <translation>پیشفرض</translation>
     </message>
@@ -5722,227 +5852,272 @@ Should these settings be applied?</source>
         <translation>درج ثانیه به‌صورت کامل، با صفر در ابتدای عدد، در صورت لزوم (0 تا 59)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="565"/>
+        <location filename="../preferencesdlg.cpp" line="551"/>
+        <source>Windows Audio Session API (WASAPI)</source>
+        <translation>WASAPI</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="553"/>
+        <source>Windows legacy audio system</source>
+        <translation>Legacy</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="557"/>
+        <source>Advanced Linux Sound Architecture (ALSA)</source>
+        <translation>ALSA</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="503"/>
         <source>Do nothing</source>
         <translation>هیچ اتفاقی نیفتد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="566"/>
+        <location filename="../preferencesdlg.cpp" line="483"/>
+        <source>Emojis</source>
+        <translation>شکلک</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="484"/>
+        <source>Text</source>
+        <translation>متن</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="504"/>
         <source>Join only</source>
         <translation>فقط ورود به کانال</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="567"/>
+        <location filename="../preferencesdlg.cpp" line="505"/>
         <source>Leave only</source>
         <translation>فقط خروج از کانال</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="568"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Join or leave</source>
         <translation>هم ورود به کانال و هم خروج از آن</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="572"/>
+        <location filename="../preferencesdlg.cpp" line="510"/>
         <source>Ascending</source>
         <translation>صعودی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="573"/>
+        <location filename="../preferencesdlg.cpp" line="511"/>
         <source>Popularity</source>
         <translation>شلوغ‌ترین</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="632"/>
+        <location filename="../preferencesdlg.cpp" line="586"/>
         <source>One by One</source>
         <translation>یک به یک</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="633"/>
+        <location filename="../preferencesdlg.cpp" line="587"/>
         <source>Overlapping</source>
         <translation>همزمان</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="648"/>
+        <location filename="../preferencesdlg.cpp" line="603"/>
         <source>Tolk</source>
         <translation>صفحه‌خوان فعلی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="651"/>
+        <location filename="../preferencesdlg.cpp" line="606"/>
         <source>Libnotify</source>
         <translation>کتابخانۀ نمایشِ اعلان‌ها</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="653"/>
+        <location filename="../preferencesdlg.cpp" line="608"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation>VoiceOver (از طریق اسکریپت اپل)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="656"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>Qt Accessibility Announcement</source>
         <translation>اعلان‌های دسترس‌پذیری QT</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1060"/>
-        <location filename="../preferencesdlg.cpp" line="1093"/>
-        <location filename="../preferencesdlg.cpp" line="1692"/>
+        <location filename="../preferencesdlg.cpp" line="1018"/>
+        <location filename="../preferencesdlg.cpp" line="1051"/>
+        <location filename="../preferencesdlg.cpp" line="1645"/>
         <source>Failed to initialize video device</source>
         <translation>دستگاه ویدیویی راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1148"/>
+        <location filename="../preferencesdlg.cpp" line="1106"/>
         <source>Key Combination: %1</source>
         <translation>ترکیب کلیدها: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1208"/>
+        <location filename="../preferencesdlg.cpp" line="1161"/>
         <source>Max Input Channels %1</source>
         <translation>بیشترین تعداد کانال‌های ورودی %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1210"/>
-        <location filename="../preferencesdlg.cpp" line="1234"/>
+        <location filename="../preferencesdlg.cpp" line="1163"/>
+        <location filename="../preferencesdlg.cpp" line="1187"/>
         <source>Sample Rates:</source>
         <translation>نرخ سمپل:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1232"/>
+        <location filename="../preferencesdlg.cpp" line="1185"/>
         <source>Max Output Channels %1</source>
         <translation>بیشترین تعداد کانال‌های خروجی %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1263"/>
+        <location filename="../preferencesdlg.cpp" line="1216"/>
         <source>Refresh Sound Devices</source>
         <translation>تازه‌کردن دستگاه‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1264"/>
+        <location filename="../preferencesdlg.cpp" line="1217"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>راه‌اندازی مجدد سیستم‌های صوتی ناموفق بود. لطفا برنامه را دوباره راه‌اندازی کنید.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1305"/>
+        <location filename="../preferencesdlg.cpp" line="1258"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>تنظیمات دستگاه صوتی برای حذف اکوی صدا بهینه نشده است. لطفا برای جزئیات بیشتر به راهنمای برنامه مراجعه کنید</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1323"/>
+        <location filename="../preferencesdlg.cpp" line="1276"/>
         <source>Failed to initialize new sound devices</source>
         <translation>دستگاه‌های صوتی جدید راه‌اندازی نشدند</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1515"/>
+        <location filename="../preferencesdlg.cpp" line="1468"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>استفاده از SAPI بجای صفحه‌خوانِ %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1516"/>
+        <location filename="../preferencesdlg.cpp" line="1469"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>چنانچه صفحه‌خوانِ %1 در دسترس نباشد, از SAPI برای اعلامِ هشدار‌های متن-به-گفتار استفاده شود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1522"/>
+        <location filename="../preferencesdlg.cpp" line="1475"/>
         <source>Speech and Braille</source>
         <translation>گفتار و بریل</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1524"/>
+        <location filename="../preferencesdlg.cpp" line="1477"/>
         <source>Braille only</source>
         <translation>فقط بریل</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1526"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech only</source>
         <translation>فقط گفتار</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1651"/>
+        <location filename="../preferencesdlg.cpp" line="1604"/>
         <source>Custom video format</source>
         <translation>فرمت ویدیویی دلخواه</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1744"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Default Video Capture</source>
         <translation>ضبط ویدئوی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1745"/>
+        <location filename="../preferencesdlg.cpp" line="1698"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>تنظیمات ضبط ویدئوی مورد نظر پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1820"/>
+        <location filename="../preferencesdlg.cpp" line="1773"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>پیام برای رویداد</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="376"/>
+        <location filename="../preferencesdlg.cpp" line="1843"/>
+        <source>Are you sure you want to restore all TTS messages to default values?</source>
+        <translation>مطمئنید که میخواهید همۀ پیام‌های متن به گفتار را به تنظیمات پیشفرض برگردانید?</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1844"/>
+        <source>&amp;Yes</source>
+        <translation>&amp;بله</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1845"/>
+        <source>&amp;No</source>
+        <translation>&amp;خیر</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1848"/>
+        <source>Restore default values</source>
+        <translation>باز‌نشانی</translation>
+    </message>
+    <message>
+        <location filename="../preferences.ui" line="333"/>
         <source>Press to transmit.  Press to stop transmit</source>
         <translation>برای صحبت کردن، دکمه را فشار دهید. برای خاموش کردن میکروفون، دوباره دکمه را فشار دهید</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="379"/>
+        <location filename="../preferences.ui" line="336"/>
         <source>Push To Talk Lock</source>
         <translation>قفل‌کردنِ کلیدِ صحبت با دکمه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="754"/>
+        <location filename="../preferences.ui" line="704"/>
         <source>Auto expand channels</source>
         <translation>گسترش خودکار کانال‌ها</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="780"/>
+        <location filename="../preferences.ui" line="747"/>
         <source>Double click on a channel</source>
         <translation>با دو‌بار کلیک روی نام کانال</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="763"/>
+        <location filename="../preferences.ui" line="730"/>
         <source>Sort channels by</source>
         <translation>مرتب‌کردنِ کانال‌ها بر اساسِ...</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="622"/>
+        <location filename="../preferences.ui" line="579"/>
         <source>Close dialog box when a file transfer is finished</source>
         <translation>بستن پنجرۀ محاوره‌ای هنگام پایان آپلود یا دانلود</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="615"/>
+        <location filename="../preferences.ui" line="572"/>
         <source>Show dialog box when excluded from channel or server</source>
         <translation>نمایش پنجرۀ محاوره‌ای هنگام اخراج از کانال یا سِروِر</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="804"/>
+        <location filename="../preferences.ui" line="771"/>
         <source>Check for software updates on startup</source>
         <translation>بررسی نسخه‌های بروز هنگام اجرای برنامه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="811"/>
+        <location filename="../preferences.ui" line="778"/>
         <source>Check for beta software updates on startup</source>
         <translation>بررسی نسخه‌های بتا هنگام اجرای برنامه</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1550"/>
+        <location filename="../preferences.ui" line="1498"/>
         <source>Reset to Default File</source>
         <translation>بازنشانی به فایل پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1662"/>
+        <location filename="../preferences.ui" line="1610"/>
         <source>Text to Speech Message</source>
         <translation>پیام متن به گفتار</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1670"/>
-        <location filename="../preferencesdlg.cpp" line="1820"/>
+        <location filename="../preferences.ui" line="1618"/>
+        <location filename="../preferencesdlg.cpp" line="1773"/>
         <source>Message</source>
         <translation>پیام</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="505"/>
-        <location filename="../preferences.ui" line="1685"/>
+        <location filename="../preferences.ui" line="462"/>
+        <location filename="../preferences.ui" line="1633"/>
         <source>&amp;Variables...</source>
         <translation>&amp;متغیرها...</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1692"/>
+        <location filename="../preferences.ui" line="1640"/>
         <source>Reset to Default Value</source>
         <translation>بازگشت به تنظیمات پیشفرض</translation>
     </message>
@@ -5998,7 +6173,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilhotkey.cpp" line="37"/>
         <source>Enable/disable voice activation</source>
-        <translation>روشن یا خاموش کردن ارسال خودکار صدا</translation>
+        <translation>روشن یا خاموش کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="39"/>
@@ -6503,8 +6678,8 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation>تنظیماتِ سِروِر&apos;ِ خود را به‌روز کنید تا نامِ سِروِر شاملِ متنِ #teamtalkpublish# شود.
-این کار تأیید میکند که ش&apos;ما مالکِ سِروِر هستید.
+        <translation>تنظیماتِ سِروِرِ خود را به‌روز کنید تا نامِ سِروِر شاملِ متنِ #teamtalkpublish# شود.
+این کار تأیید میکند که شما مالکِ سِروِر هستید.
 پس از تأیید‌شدنِ سِروِر, سِروِرِ شما در عرضِ چند دقیقه قابلِ مشاهده خواهد بود.
 
 هنگامی که سِروِر تأیید شده باشد, اعلانِ #teamtalkpublish# را میتوانید حذف کنید.
@@ -6895,7 +7070,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
         <source>Server&apos;s time online</source>
-        <translation>زمان کار سِروِ&apos;ر</translation>
+        <translation>زمان کار سِروِر</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="106"/>
@@ -7057,22 +7232,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="105"/>
         <source>User logged in</source>
-        <translation>ورود کاربر به سِروِر</translation>
+        <translation>ورود به سِروِر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="107"/>
         <source>User logged out</source>
-        <translation>خروج کاربر از سِروِر</translation>
+        <translation>خروج از سِروِر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation>ورود کاربر به سایر کانالها</translation>
+        <translation>ورود به کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation>خروج کاربر از سایر کانالها</translation>
+        <translation>خروج از کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
@@ -7092,7 +7267,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>بازخورد صوتی هنگامی که کاربر در حال نوشتن پیام شخصی در پنجرۀ فعلی است</translation>
+        <translation>نِوِشتَنِ پیامِ شخصی</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
@@ -7117,7 +7292,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation>هنگامی که آخرین کاربر صحبت خود را به پایان برساند و بعد از او هیچ کاربر دیگری صحبت نکند, این صدا پخش میشود</translation>
+        <translation>سکوت در کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
@@ -7132,92 +7307,92 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="135"/>
         <source>Desktop access request</source>
-        <translation>درخواست اجازۀ دسترسی به دسکتاپ</translation>
+        <translation>درخواست دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation>هنگام آپلود یا حذف‌شدن فایل‌ها از کانال, این صدا پخش میشود</translation>
+        <translation>آپلود یا حذفِ فایل</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
         <source>File transfer completed</source>
-        <translation>هنگامی که آپلود یا دانلود فایل‌ها به‌پایان برسد, این صدا پخش میشود</translation>
+        <translation>اتمامِ آپلود یا دانلود</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation>بازخورد صوتی برای حالت پرسش</translation>
+        <translation>روشن‌کردن حالت پرسش</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation>بازخورد صوتی هنگام روشن کردن ارسال خودکار صدا</translation>
+        <translation>روشن کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation>بازخورد صوتی هنگام خاموش کردن ارسال خودکار صدا</translation>
+        <translation>خاموش کردن ارسال صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A روشن شود, این صدا پخش میشود</translation>
+        <translation>روشن‌کردن ارسال صدا از طریق منوی &quot;من&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>چنانچه قابلیت ارسال خودکار صدا از طریق منوی &quot;من&quot; یا با استفاده از کلید‌های میانبر CTRL+SHIFT+A خاموش شود, این صدا پخش میشود</translation>
+        <translation>خاموش‌کردن ارسال صدا از طریق منوی &quot;من&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را روشن کند, این صدا پخش میشود</translation>
+        <translation>روشن‌شدن میکروفون توسط حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation>چنانچه قابلیت &quot;ارسال خودکار صدا&quot; فعال باشد و &quot;سطح حساسیت تشخیص صدا&quot; میکروفون شما را خاموش کند, این صدا پخش میشود</translation>
+        <translation>خاموش‌شدن میکروفون توسط حساسیت صدا</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
         <source>Mute master volume</source>
-        <translation>قطع‌شدن صدای اسپیکر</translation>
+        <translation>قطع اسپیکر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="157"/>
         <source>Unmute master volume</source>
-        <translation>وصل‌شدن صدای اسپیکر</translation>
+        <translation>صدا‌دار کردن اسپیکر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت فرا برسد, این صدا پخش میشود</translation>
+        <translation>تخصیص نوبت صحبت به شما هنگام فعال بودن قابلیت &quot;بدون وقفه&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>اگر قابلیت &quot;بدون وقفه, بدون ارسال همزمان صدا&quot; از تنظیمات کانال فعال باشد و نوبت شما برای صحبت تمام شود, این صدا پخش میشود</translation>
+        <translation>اتمام نوبت صحبت شما هنگام فعال بودن قابلیت &quot;بدون وقفه&quot;</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation>بازخورد صوتی هنگام شنود شدن</translation>
+        <translation>شنود توسط مدیر</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation>بازخورد صوتی هنگام اتمام شنود</translation>
+        <translation>اتمام شنود</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Enabled</source>
-        <translation>فعال شد</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
         <source>Disabled</source>
-        <translation>غیرفعال شد</translation>
+        <translation>خاموش</translation>
     </message>
 </context>
 <context>
@@ -7225,12 +7400,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="14"/>
         <source>Configure status bar</source>
-        <translation>سفارشی‌سازی نوار وضعیت</translation>
+        <translation>پیکربندی نوار وضعیت</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="20"/>
         <source>Enable/disable status bar events</source>
-        <translation>در این بخش مشخص کنید که میخواهید کدامیک از هشدار‌های نوار وضعیت در تاریخچۀ پیام‌ها به شما نشان داده شود</translation>
+        <translation>روشن یا خاموش کردن هشدار‌های نوار وضعیت</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="26"/>
@@ -7244,7 +7419,7 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="53"/>
-        <location filename="../statusbardlg.cpp" line="93"/>
+        <location filename="../statusbardlg.cpp" line="95"/>
         <source>Message</source>
         <translation>پیام</translation>
     </message>
@@ -7256,37 +7431,62 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
         <source>Reset to Default Value</source>
-        <translation>بازگشت به تنظیمات پیشفرض</translation>
+        <translation>باز‌نشانی</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="87"/>
+        <location filename="../statusbardlg.ui" line="82"/>
+        <source>Reset All to Default Value</source>
+        <translation>بازنشانی همه به تنظیمات پیشفرض</translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.ui" line="94"/>
         <source>Enable &amp;all</source>
-        <translation>روشن‌کردنِ &amp;همۀ موارد</translation>
+        <translation>روشن‌کردنِ &amp;همه</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="107"/>
+        <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
-        <translation>خ&amp;اموش‌کردنِ همۀ موارد</translation>
+        <translation>خ&amp;اموش‌کردنِ همه</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.ui" line="127"/>
+        <location filename="../statusbardlg.ui" line="134"/>
         <source>&amp;Revert</source>
         <translation>&amp;بازگشت به تنظیمات پیشفرض</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="33"/>
+        <location filename="../statusbardlg.cpp" line="34"/>
         <source>&amp;OK</source>
         <translation>&amp;تأیید</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="34"/>
+        <location filename="../statusbardlg.cpp" line="35"/>
         <source>&amp;Cancel</source>
         <translation>&amp;لغو</translation>
     </message>
     <message>
-        <location filename="../statusbardlg.cpp" line="93"/>
+        <location filename="../statusbardlg.cpp" line="95"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>پیام برای رویداد &quot;%1&quot;</translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="165"/>
+        <source>Are you sure you want to restore all Status bar messages to default values?</source>
+        <translation>همۀ تنظیمات پیام‌های نوار وضعیت را به حالت پیشفرض بر‌می‌گردانید?</translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="166"/>
+        <source>&amp;Yes</source>
+        <translation>&amp;بله</translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="167"/>
+        <source>&amp;No</source>
+        <translation>&amp;خیر</translation>
+    </message>
+    <message>
+        <location filename="../statusbardlg.cpp" line="170"/>
+        <source>Restore default values</source>
+        <translation>بازنشانی</translation>
     </message>
 </context>
 <context>
@@ -7314,12 +7514,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
         <source>Enabled</source>
-        <translation>فعال</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="192"/>
         <source>Disabled</source>
-        <translation>غیرفعال</translation>
+        <translation>خاموش</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="107"/>
@@ -7349,117 +7549,117 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User left current channel</source>
-        <translation>خروج کاربر از کانال فعلی</translation>
+        <translation>خروج کاربر از این کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="119"/>
         <source>Subscription private text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیامهای خصوصی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام شخصی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription channel text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیامهای همگانی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام همگانی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription voice stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک صدا</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription webcam stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک مشاهدۀ دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription desktop access changed</source>
-        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription media file stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک استریم</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام شخصی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود صدا</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود استریم</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز ارسال پیام در کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
+        <translation>تغییر مجوز صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز استریم فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>File added</source>
-        <translation>آپلود فایلها در کانال</translation>
+        <translation>آپلود فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>File removed</source>
-        <translation>حذف فایلها از کانال</translation>
+        <translation>حذف فایل</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Transmission blocked by channel operator</source>
-        <translation>مسدود‌شدن ارسال و دریافتها توسط اپراتور کانال</translation>
+        <translation>مسدود‌شدن انتقال‌ها توسط اپراتور</translation>
     </message>
 </context>
 <context>
@@ -7477,13 +7677,13 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="28"/>
         <source>Media file</source>
-        <translation>فایل جهتِ استریم</translation>
+        <translation>فایل برای استریم</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="45"/>
         <location filename="../streammediafile.ui" line="48"/>
         <source>Browse</source>
-        <translation>انتخاب فایل</translation>
+        <translation>انتخاب</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="51"/>
@@ -7732,7 +7932,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="406"/>
         <location filename="../streammediafiledlg.cpp" line="411"/>
         <source>Failed to activate audio preprocessor</source>
-        <translation>فعال‌سازی پیش‌پردازشگر صوتی با مشکل مواجه شد</translation>
+        <translation>پیش‌پردازشگر صوتی فعال نشد</translation>
     </message>
 </context>
 <context>
@@ -7760,12 +7960,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation>اعلام نام کاربری که در حال تایپ پیام خصوصی در پنجرۀ فعلی است</translation>
+        <translation>اعلام نام کاربری که در حال تایپ پیام شخصی در پنجرۀ فعلی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation>اعلام نام کاربری که در حال تایپ پیام خصوصی است</translation>
+        <translation>اعلام نام کاربری که در حال تایپ پیام شخصی است</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
@@ -7825,117 +8025,117 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="133"/>
         <source>User left current channel</source>
-        <translation>خروج کاربر از این</translation>
+        <translation>خروج کاربر از این کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>User enabled question mode</source>
-        <translation>اعلام نام کاربری که حالت پرسش را فعال میکند</translation>
+        <translation>روشن‌کردن حالت پرسش</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription private text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های خصوصی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام شخصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription channel text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های کانال شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>روشن یا خاموش کردن امکان دریافت پیام‌های همگانی شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک پیام همگانی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription voice stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن صدای شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription webcam stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ تصویر شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>روشن یا خاموش کردن امکان مشاهدۀ اشتراک‌گذاری صفحه نمایش شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک مشاهدۀ دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription desktop access changed</source>
-        <translation>روشن یا خاموش کردن امکان دسترسی به دسکتاپ شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک دسترسی به دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription media file stream changed</source>
-        <translation>روشن یا خاموش کردن امکان شنیدن استریم‌های شما توسط سایر کاربران</translation>
+        <translation>تغییر اشتراک استریم</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای خصوصی شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام شخصی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>روشن یا خاموش کردن شنود پیامهای کانال شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود پیام کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>روشن یا خاموش کردن شنود صدای شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>روشن یا خاموش کردن شنود تصویر شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>روشن یا خاموش کردن شنود اشتراک‌گذاری‌های دسکتاپ شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>روشن یا خاموش کردن شنود استریم‌های شما توسط مدیر سِروِر</translation>
+        <translation>تغییر اشتراک شنود استریم</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی ارسال پیام در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز ارسال پیام در کانال</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی صحبت‌کردن توسط اپراتور</translation>
+        <translation>تغییر مجوز صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری ویدیو توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی اشتراک‌گذاری صفحه نمایش توسط اپراتور</translation>
+        <translation>تغییر مجوز اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>روشن یا خاموش کردن دسترسی استریم فایل در کانال توسط اپراتور</translation>
+        <translation>تغییر مجوز استریم فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
         <source>File added</source>
-        <translation>آپلود فایلها در کانال</translation>
+        <translation>آپلود فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="193"/>
         <source>File removed</source>
-        <translation>حذف فایلها از کانال</translation>
+        <translation>حذف فایل</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="195"/>
@@ -7945,22 +8145,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="197"/>
         <source>Voice transmission mode toggled</source>
-        <translation>تغییر در روش ارسال صدا</translation>
+        <translation>تغییر در روش انتقال صدا</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Video transmission toggled</source>
-        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری ویدیو</translation>
+        <translation>تغییر در اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="201"/>
         <source>Desktop sharing toggled</source>
-        <translation>فعال یا غیرفعال‌کردن اشتراک‌گذاری صفحه نمایش</translation>
+        <translation>تغییر در اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="203"/>
         <source>Server connectivity</source>
-        <translation>اتصال یا قطع اتصال به سِروِر</translation>
+        <translation>وضعیت اتصال به سِروِر</translation>
     </message>
 </context>
 <context>
@@ -7969,7 +8169,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../textmessage.ui" line="14"/>
         <location filename="../textmessagedlg.cpp" line="91"/>
         <source>Messages</source>
-        <translation>پیامها</translation>
+        <translation>پیام شخصی با</translation>
     </message>
     <message>
         <location filename="../textmessage.ui" line="42"/>
@@ -8001,12 +8201,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../textmessagedlg.cpp" line="92"/>
         <source>Private chat with %1</source>
-        <translation>پیام خصوصی با %1</translation>
+        <translation>پیام شخصی با %1</translation>
     </message>
     <message>
         <location filename="../textmessagedlg.cpp" line="216"/>
         <source>New message - remote user typing.</source>
-        <translation>پیام جدید, - کاربر در حال نوشتن پیام است.</translation>
+        <translation>پیام جدید, - در حال نوشتن.</translation>
     </message>
 </context>
 <context>
@@ -8034,7 +8234,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="69"/>
         <source>Password</source>
-        <translation>رمز عبور</translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
@@ -8063,7 +8263,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="162"/>
         <source>User Actions Allowed on Server</source>
-        <translation>در این بخش میتوانید تعیین کنید که این کاربر چه دسترسی‌هایی داشته باشد و چه کار‌هایی بتواند انجام دهد</translation>
+        <translation>دسترسی‌های کاربر</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="194"/>
@@ -8075,12 +8275,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.ui" line="200"/>
         <location filename="../useraccountdlg.ui" line="203"/>
         <source>Auto-Operator Channels</source>
-        <translation>در این بخش میتوانید مشخص کنید که این کاربر بطور خودکار در چه کانال‌هایی اپراتور شود</translation>
+        <translation>کانال‌هایی که کاربر اپراتورِ آنهاست</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="209"/>
         <source>Selected Channels</source>
-        <translation>کانال‌هایی که این کاربر در حالِ حاضر اپراتورِ آنهاست</translation>
+        <translation>کانال‌های انتخاب‌شده</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
@@ -8130,7 +8330,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="325"/>
         <source>kbps (0 = disabled)</source>
-        <translation>کیلوبایت بر ثانیه. (برای خاموش کردن این ویژگی, عدد 0 را وارد کنید)</translation>
+        <translation>کیلوبایت بر ثانیه. (غیرفعال‌سازی با نوشتن 0)</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="349"/>
@@ -8140,17 +8340,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="355"/>
         <source>Flood Protection</source>
-        <translation>در این بخش میتوانید از سوءاستفاده, یا استفادۀ نادرستِ کاربران از سِروِر جلوگیری کنید</translation>
+        <translation>جلوگیری از اسپم</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="361"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>برای جلوگیری از ارسال پیام‌های اسپم, یک بازۀ زمانی برای کاربر مشخص کنید. در این بازۀ زمانی, میتوانید تعداد دستورات قابل‌ارسال توسط کاربر را محدود کنید. این دستورات شامل خاموش و روشن کردن امکان دریافت پیامها یا شنیدن صدای سایر کاربران, ارسال پیام‌های متنی, ورود و خروج کاربر از سِروِر یا کانالها, و سایر موارد میشود. به عنوان مثال, میتوانید تعیین کنید که این کاربر در 1 دقیقه بتواند 60 پیام ارسال کند.</translation>
+        <translation>جلوگیری از اسپم با محدود کردن تعداد دستورات قابل ارسال توسط کاربر در یک بازۀ زمانی مشخص.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="373"/>
         <source>Limit issued commands</source>
-        <translation>تعداد دَستوراتی که کاربر میتواند ارسال کند را محدود کنید</translation>
+        <translation>محدود‌سازی تعداد دستورات قابل ارسال</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="57"/>
@@ -8181,22 +8381,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="97"/>
         <source>10 commands in 10 sec.</source>
-        <translation>کاربر بتواند در 10 ثانیه, 10 دستور ارسال کند.</translation>
+        <translation>10 دستور در 10 ثانیه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="98"/>
         <source>10 commands in 1 minute</source>
-        <translation>کاربر بتواند در 1 دقیقه, 10 دستور ارسال کند.</translation>
+        <translation>10 دستور در 1 دقیقه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="99"/>
         <source>60 commands in 1 minute</source>
-        <translation>کاربر بتواند در 1 دقیقه, 60 دستور ارسال کند.</translation>
+        <translation>60 دستور در 1 دقیقه.</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="100"/>
         <source>Custom specified</source>
-        <translation>این قابلیت را مطابق نیاز خود شخصی‌سازی کنید</translation>
+        <translation>شخصی‌سازی</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="116"/>
@@ -8354,7 +8554,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
         <source>Are you sure you want to delete user &quot;%1&quot;?</source>
-        <translation>آیا مطمئن هستید که میخواهید کاربرِ &quot;%1&quot; را حذف کنید?</translation>
+        <translation>کاربرِ &quot;%1&quot; را حذف می‌کنید?</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="128"/>
@@ -8372,7 +8572,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="36"/>
         <source>Password</source>
-        <translation>رمز عبور</translation>
+        <translation>رمز</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="37"/>
@@ -8503,12 +8703,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfo.ui" line="143"/>
         <source>Copy User Information to Clipboard</source>
-        <translation>کپی‌کردنِ اطلاعاتِ کاربر در کلیپ‌برد</translation>
+        <translation>کپی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
         <source>User ID</source>
-        <translation>شمارۀ کاربر</translation>
+        <translation>شماره</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="58"/>
@@ -8553,17 +8753,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="125"/>
         <source>Audio file packets loss</source>
-        <translation>میزان از دست رفتن بسته‌های استریم فایل‌های صوتی</translation>
+        <translation>میزان از دست رفتن بسته‌های فایل صوتی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="126"/>
         <source>Video file frame loss</source>
-        <translation>میزان از دست رفتن فریم‌های استریم فایل‌های ویدیویی</translation>
+        <translation>میزان از دست رفتن فریم‌های فایل ویدیویی</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="52"/>
         <source>Information of %1</source>
-        <translation>اطلاعاتِ مربوط به %1</translation>
+        <translation>اطلاعاتِ %1</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="66"/>
@@ -8633,134 +8833,134 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>User can log in multiple times</source>
-        <translation>کاربر دسترسی مولتی لاگین داشته باشد و بتواند با استفاده از یک نام کاربری, بطور همزمان, توسط دستگاهها و کلاینت‌های مختلف وارد سِروِر شود</translation>
+        <translation>دسترسی مولتی لاگین</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>User can see users in all channels</source>
-        <translation>کاربر بتواند سایر کاربران را در همۀ کانالها ببیند</translation>
+        <translation>دیدن کاربران در سایر کانال‌ها</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>User can see hidden channels</source>
-        <translation>کاربر بتواند کانال‌های مخفی را مشاهده کند</translation>
+        <translation>دیدن کانال‌های مخفی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>User can create/modify all channels</source>
-        <translation>کاربر دارای مجوز کامل برای ایجاد, ویرایش و حذف همۀ کانالها باشد, (مثلا بتواند کانال‌هایی که ایجاد میکند را بطور دائمی در سِروِر ذخیره کند و تنظیمات سایر کانالها را تغییر دهد)</translation>
+        <translation>ساختن یا ویرایش کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>User can create temporary channels</source>
-        <translation>کاربر فقط بتواند کانال‌های موقت بسازد. (کانال‌های موقت, در سِروِر ذخیره نمیشوند و با خروج آخرین کاربر از کانال, بطور خودکار از بین میروند)</translation>
+        <translation>ساختن کانال‌های موقت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>User can broadcast text messages</source>
-        <translation>کاربر بتواند پیام‌های همگانی ارسال کند</translation>
+        <translation>ارسال پیام همگانی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>User can kick users off the server</source>
-        <translation>کاربر بتواند سایر کاربران را از سِروِر بیرون کند</translation>
+        <translation>بیرون کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>User can ban users from server</source>
-        <translation>کاربر بتواند سایر کاربران را از ورود مجدد به سِروِر محروم کند</translation>
+        <translation>محروم‌کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>User can move users between channels</source>
-        <translation>کاربر بتواند سایر کاربران را از یک کانال به کانال دیگر منطقل کند</translation>
+        <translation>انتقال کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>User can make other users channel operator</source>
-        <translation>کاربر بتواند بدون نیاز به استفاده از &quot;رمز عبور اپراتور&quot;, سایر کاربران را در کانال‌های مختلف اپراتور کند</translation>
+        <translation>اپراتور‌کردن کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>User can upload files</source>
-        <translation>کاربر بتواند فایل آپلود کند</translation>
+        <translation>آپلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>User can download files</source>
-        <translation>کاربر بتواند فایل‌های آپلود‌شده را دانلود کند</translation>
+        <translation>دانلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>User can record voice in all channels</source>
-        <translation>کاربر بتواند در همۀ کانالها صدای سایر کاربران را ضبط کند</translation>
+        <translation>ضبط صدا</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>User can update server properties</source>
-        <translation>کاربر بتواند تنظیمات سِروِر را تغییر دهد</translation>
+        <translation>تغییر تنظیمات سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>User can transmit voice data (microphone)</source>
-        <translation>کاربر بتواند صحبت کند</translation>
+        <translation>صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>User can transmit video data (webcam)</source>
-        <translation>کاربر بتواند تصویر خود را به اشتراک بگذارد</translation>
+        <translation>اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>User can transmit desktop sessions (shared desktop)</source>
-        <translation>کاربر بتواند صفحه نمایش خود را به اشتراک بگذارد</translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>User can get remote access to desktop sessions</source>
-        <translation>چنانچه سایر کاربران صفحه نمایش خود را به اشتراک بگذارند, کاربر بتواند از راه دور, ماوس و صفحه‌کلید آنان را در پنجرۀ دسکتاپ به اشتراک‌گذاشته‌شده کنترل کند</translation>
+        <translation>کنترل دسکتاپ سایر کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>User can transmit audio files (wav, mp3 files)</source>
-        <translation>کاربر قادر به استریم فایل‌های صوتی با فرمت wav و mp3 باشد</translation>
+        <translation>استریم فایل‌های صوتی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>User can transmit video files (avi, mp4 files)</source>
-        <translation>کاربر قادر به استریم فایل‌های ویدیویی با فرمت avi و mp4 باشد</translation>
+        <translation>استریم فایل‌های ویدیویی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="275"/>
         <source>User can send private text messages</source>
-        <translation>کاربر امکان ارسال پیام‌های خصوصی به دیگران را داشته‌باشد</translation>
+        <translation>ارسال پیام شخصی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>User can send channel text messages</source>
-        <translation>کاربر امکان ارسال پیام در کانال را داشته‌باشد</translation>
+        <translation>ارسال پیام کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>User can change nickname</source>
-        <translation>کاربر بتواند نام مستعار خود را تغییر دهد</translation>
+        <translation>تغییر نام مستعار</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>User can change status mode</source>
-        <translation>کاربر بتواند وضعیت خود را تغییر دهد</translation>
+        <translation>تغییر وضعیت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
         <location filename="../useraccountsmodel.cpp" line="293"/>
         <source>Enabled</source>
-        <translation>بله</translation>
+        <translation>روشن</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
         <location filename="../useraccountsmodel.cpp" line="293"/>
         <source>Disabled</source>
-        <translation>خیر</translation>
+        <translation>خاموش</translation>
     </message>
 </context>
 <context>
@@ -8809,7 +9009,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="20"/>
         <source>Voice Volume Settings</source>
-        <translation>تنظیم میزان صدای کاربر</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="50"/>
@@ -8821,132 +9021,132 @@ Delete the published user account to unregister your server.</source>
         <location filename="../uservolume.ui" line="56"/>
         <location filename="../uservolume.ui" line="112"/>
         <source>Mute left</source>
-        <translation>قطعِ صدا از سمتِ چپ</translation>
+        <translation>قطع صدا از چپ</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="63"/>
         <location filename="../uservolume.ui" line="119"/>
         <source>Mute right</source>
-        <translation>قطعِ صدا از سمتِ راست</translation>
+        <translation>قطع صدا از راست</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="76"/>
         <source>Media File Volume Settings</source>
-        <translation>تنظیم میزان صدای استریم‌های کاربر</translation>
+        <translation>صدای استریم‌ها</translation>
     </message>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>&amp;بازگردانی تنظیمات صدای این کاربر به حالت پیشفرض</translation>
+        <translation>&amp;پیشفرض</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="54"/>
         <source>Volume for %1</source>
-        <translation>تنظیمِ صدای %1</translation>
+        <translation>صدای %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="80"/>
         <source>Failed to change user&apos;s volume</source>
-        <translation>امکانِ تغییرِ صدای این کارب&apos;ر وجود ندارد</translation>
+        <translation>تغییرِ صدای کاربر انجام نشد</translation>
     </message>
 </context>
 <context>
     <name>UtilTTS</name>
     <message>
-        <location filename="../settings.h" line="426"/>
-        <source>{user} has logged in on {server}</source>
-        <translation>وقتی کاربر وارد سِروِر میشود</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="428"/>
-        <source>{user} has logged out from {server}</source>
-        <translation>وقتی کاربر از سِروِر میرود</translation>
+        <source>{user} has logged in on {server}</source>
+        <translation>{user} وارد سِروِر {server} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="430"/>
-        <source>{user} joined channel {channel}</source>
-        <translation>وقتی کاربر وارد کانال میشود</translation>
+        <source>{user} has logged out from {server}</source>
+        <translation>{user} از سِروِر {server} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="432"/>
-        <source>{user} left channel {channel}</source>
-        <translation>وقتی کاربر از کانال میرود</translation>
+        <source>{user} joined channel {channel}</source>
+        <translation>{user} وارد {channel} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="434"/>
-        <source>{user} joined channel</source>
-        <translation>وقتی کاربر وارد کانال فعلی میشود</translation>
+        <source>{user} left channel {channel}</source>
+        <translation>{user} از {channel} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="436"/>
-        <source>{user} left channel</source>
-        <translation>وقتی کاربر از کانال فعلی میرود</translation>
+        <source>{user} joined channel</source>
+        <translation>{user} وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"/>
-        <source>Private message from {user}: {message}</source>
-        <translation>وقتی پیام شخصی دریافت میکنید</translation>
+        <source>{user} left channel</source>
+        <translation>{user} از کانال رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"/>
-        <source>Private message sent: {message}</source>
-        <translation>وقتی پیام شخصی میفرستید</translation>
+        <source>Private message from {user}: {message}</source>
+        <translation>پیام شخصی از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"/>
-        <source>{user} is typing...</source>
-        <translation>وقتی کاربر در حال نوشتن پیام است...</translation>
+        <source>Private message sent: {message}</source>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
-        <source>{user} set question mode</source>
-        <translation>وقتی کاربر حالت پرسش را فعال میکند</translation>
+        <source>{user} is typing...</source>
+        <translation>{user} در حال نوشتن...</translation>
     </message>
     <message>
         <location filename="../settings.h" line="446"/>
-        <source>Channel message from {user}: {message}</source>
-        <translation>وقتی پیام کانال دریافت میکنید</translation>
+        <source>{user} set question mode</source>
+        <translation>{user} حالت پرسش را فعال کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
-        <source>Channel message sent: {message}</source>
-        <translation>وقتی پیام کانال ارسال میکنید</translation>
+        <source>Channel message from {user}: {message}</source>
+        <translation>پیام کانال از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="450"/>
-        <source>Broadcast message from {user}: {message}</source>
-        <translation>وقتی پیام همگانی دریافت میکنید</translation>
+        <source>Channel message sent: {message}</source>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"/>
-        <source>Broadcast message sent: {message}</source>
-        <translation>وقتی پیام همگانی ارسال میکنید</translation>
+        <source>Broadcast message from {user}: {message}</source>
+        <translation>پیام همگانی از {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="454"/>
-        <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
+        <source>Broadcast message sent: {message}</source>
+        <translation>ارسال شد: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="456"/>
-        <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
+        <source>Subscription &quot;{type}&quot; {state} for {user}</source>
+        <translation>اشتراکِ &quot;{type}&quot; برای {user} {state} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="458"/>
-        <source>File {filename} added by {user}</source>
-        <translation>وقتی کاربر در کانال فایل آپلود میکند</translation>
+        <source>Transmission &quot;{type}&quot; {state} for {user}</source>
+        <translation>انتقال &quot;{type}&quot; {state} برای {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="460"/>
-        <location filename="../settings.h" line="481"/>
+        <source>File {filename} added by {user}</source>
+        <translation>{user} فایلِ {filename} را آپلود کرد</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="462"/>
+        <location filename="../settings.h" line="483"/>
         <source>File {file} removed by {user}</source>
-        <translation>وقتی کاربر از کانال فایل حذف میکند</translation>
+        <translation>{user} فایلِ {file} را پاک کرد</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربری که وارد سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
@@ -8956,41 +9156,63 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation>نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
+        <translation>نام سِروِری که این اتفاق در آن افتاده است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="45"/>
+        <source>User&apos;s username who logged in</source>
+        <translation>نامِ کاربریِ کاربری که واردِ سِروِر شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s nickname who logged out</source>
-        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
+        <translation>نام مستعار کاربری که از سِروِر رفته است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="46"/>
+        <source>User&apos;s username who logged out</source>
+        <translation>نامِ کاربریِ کاربری که از سِروِر رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s nickname who joined channel</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
+        <translation>نام مستعار کاربری که وارد کانال شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
         <source>Channel&apos;s name joined by user</source>
-        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
+        <translation>نام کانالی که کاربر وارد آن شده است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="47"/>
+        <location filename="../utiltts.cpp" line="49"/>
+        <source>User&apos;s username who joined channel</source>
+        <translation>نامِ کاربریِ کاربری که واردِ کانال شده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
+        <translation>نام مستعار کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
         <source>Channel&apos;s name left by user</source>
-        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
+        <translation>نام کانالی که کاربر آن را ترک کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="48"/>
+        <location filename="../utiltts.cpp" line="50"/>
+        <source>User&apos;s username who left channel</source>
+        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation>نام مستعار کاربر&apos;ی که پیام میفرستد</translation>
+        <translation>نام مستعار کاربری که پیام فرستاده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9003,21 +9225,39 @@ Delete the published user account to unregister your server.</source>
         <translation>محتوای پیام</translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="51"/>
+        <location filename="../utiltts.cpp" line="56"/>
+        <location filename="../utiltts.cpp" line="58"/>
+        <source>User&apos;s username who sent message</source>
+        <translation>نامِ کاربریِ کاربری که پیام فرستاده است</translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s nickname who is typing</source>
-        <translation>نام مستعار کاربر&apos;ی که در حال نوشتن است</translation>
+        <translation>نام مستعار کاربری که در حال نوشتن است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User typing</source>
-        <translation>کاربر در حال تایپ کردن</translation>
+        <translation>کاربر در حال نوشتن</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="53"/>
+        <location filename="../utiltts.cpp" line="54"/>
+        <source>User&apos;s username who is typing</source>
+        <translation>نامِ کاربریِ کاربری که در حالِ نوشتن است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation>نام مستعار کاربر&apos;ی که حالت پرسش را فعال میکند</translation>
+        <translation>نام مستعار کاربری که حالت پرسش را فعال کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="55"/>
+        <source>User&apos;s username who set question mode</source>
+        <translation>نامِ کاربریِ کاربری که حالتِ پرسش را فعال کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9097,13 +9337,31 @@ Delete the published user account to unregister your server.</source>
         <translation>تغییر اشتراک</translation>
     </message>
     <message>
+        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="61"/>
+        <location filename="../utiltts.cpp" line="62"/>
+        <location filename="../utiltts.cpp" line="63"/>
+        <location filename="../utiltts.cpp" line="64"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="66"/>
+        <location filename="../utiltts.cpp" line="67"/>
+        <location filename="../utiltts.cpp" line="68"/>
+        <location filename="../utiltts.cpp" line="69"/>
+        <location filename="../utiltts.cpp" line="70"/>
+        <location filename="../utiltts.cpp" line="71"/>
+        <location filename="../utiltts.cpp" line="72"/>
+        <location filename="../utiltts.cpp" line="73"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation>نامِ کاربریِ کاربری که این اتفاق برای او افتاده است</translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="74"/>
         <location filename="../utiltts.cpp" line="75"/>
         <location filename="../utiltts.cpp" line="76"/>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
         <source>Transmission type</source>
-        <translation>شیوۀ ارسال</translation>
+        <translation>نوع انتقال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9112,7 +9370,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
         <source>Transmission state</source>
-        <translation>وضعیت ارسال</translation>
+        <translation>وضعیت انتقال</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9132,180 +9390,212 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
+        <translation>نام مستعار کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>حجم</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="79"/>
+        <source>User&apos;s username who added the file</source>
+        <translation>نامِ کاربریِ کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
+        <translation>نام مستعار کاربری که فایل حذف کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="80"/>
+        <source>User&apos;s username who removed the file</source>
+        <translation>نامِ کاربریِ کاربری که فایل حذف کرده است</translation>
     </message>
 </context>
 <context>
     <name>UtilUI</name>
     <message>
-        <location filename="../settings.h" line="463"/>
-        <source>{user} has logged in</source>
-        <translation>ورود کاربر به سِروِر</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="465"/>
-        <source>{user} has logged out</source>
-        <translation>خروج کاربر از سِروِر</translation>
+        <source>{user} has logged in</source>
+        <translation>{user} وارد سِروِر شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="467"/>
-        <source>{user} joined channel {channel}</source>
-        <translation>وقتی کاربر وارد کانال میشود</translation>
+        <source>{user} has logged out</source>
+        <translation>{user} از سِروِر رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="469"/>
-        <source>{user} left channel {channel}</source>
-        <translation>وقتی کاربر از کانال میرود</translation>
+        <source>{user} joined channel {channel}</source>
+        <translation>{user} وارد {channel} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="471"/>
-        <source>{user} joined channel</source>
-        <translation>وقتی کاربر وارد کانال فعلی میشود</translation>
+        <source>{user} left channel {channel}</source>
+        <translation>{user} از {channel} رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
-        <source>{user} left channel</source>
-        <translation>وقتی کاربر از کانال فعلی میرود</translation>
+        <source>{user} joined channel</source>
+        <translation>{user} وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"/>
-        <source>Subscription &quot;{type}&quot; {state} for {user}</source>
-        <translation>اشتراک &quot;نوع&quot; وضعیت برای کاربر</translation>
+        <source>{user} left channel</source>
+        <translation>{user} از کانال رفت</translation>
     </message>
     <message>
         <location filename="../settings.h" line="477"/>
-        <source>Transmission &quot;{type}&quot; {state} for {user}</source>
-        <translation>ارسال &quot;شیوه&quot; وضعیت برای کاربر</translation>
+        <source>Subscription &quot;{type}&quot; {state} for {user}</source>
+        <translation>اشتراکِ &quot;{type}&quot; برای {user} {state} شد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="479"/>
+        <source>Transmission &quot;{type}&quot; {state} for {user}</source>
+        <translation>انتقال &quot;{type}&quot; {state} برای {user}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="481"/>
         <source>File {filename} added by {user}</source>
-        <translation>وقتی کاربر در کانال فایل آپلود میکند</translation>
+        <translation>{user} فایلِ {filename} را آپلود کرد</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="161"/>
+        <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s nickname who logged in</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد سِروِر میشود</translation>
+        <translation>نام مستعار کاربری که وارد سِروِر شده است</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="161"/>
-        <location filename="../utilui.cpp" line="162"/>
-        <location filename="../utilui.cpp" line="163"/>
-        <location filename="../utilui.cpp" line="164"/>
-        <source>Server&apos;s name from which event was emited</source>
-        <translation>نام سِروِر&apos;ی که این اتفاق در آن افتاده است</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="162"/>
-        <source>User&apos;s nickname who logged out</source>
-        <translation>نام مستعار کاربر&apos;ی که از سِروِر میرود</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="163"/>
-        <location filename="../utilui.cpp" line="165"/>
-        <source>User&apos;s nickname who joined channel</source>
-        <translation>نام مستعار کاربر&apos;ی که وارد کانال میشود</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="163"/>
-        <source>Channel&apos;s name joined by user</source>
-        <translation>نام کانال&apos;ی که کاربر وارد آن میشود</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="164"/>
-        <location filename="../utilui.cpp" line="166"/>
-        <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربر&apos;ی که از کانال میرود</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="164"/>
-        <source>Channel&apos;s name left by user</source>
-        <translation>نام کانال&apos;ی که کاربر آن را ترک میکند</translation>
-    </message>
-    <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
         <location filename="../utilui.cpp" line="175"/>
         <location filename="../utilui.cpp" line="176"/>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="178"/>
+        <source>Server&apos;s name from which event was emited</source>
+        <translation>نام سِروِری که این اتفاق در آن افتاده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="175"/>
+        <source>User&apos;s username who logged in</source>
+        <translation>نامِ کاربریِ کاربری که واردِ سِروِر شده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="176"/>
+        <source>User&apos;s nickname who logged out</source>
+        <translation>نام مستعار کاربری که از سِروِر رفته است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="176"/>
+        <source>User&apos;s username who logged out</source>
+        <translation>نامِ کاربریِ کاربری که از سِروِر رفته است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
+        <source>User&apos;s nickname who joined channel</source>
+        <translation>نام مستعار کاربری که وارد کانال شده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
+        <source>Channel&apos;s name joined by user</source>
+        <translation>نام کانالی که کاربر وارد آن شده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="177"/>
+        <location filename="../utilui.cpp" line="179"/>
+        <source>User&apos;s username who joined channel</source>
+        <translation>نامِ کاربریِ کاربری که واردِ کانال شده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
+        <source>User&apos;s nickname who left channel</source>
+        <translation>نام مستعار کاربری که از کانال رفته است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
+        <source>Channel&apos;s name left by user</source>
+        <translation>نام کانالی که کاربر آن را ترک کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="178"/>
+        <location filename="../utilui.cpp" line="180"/>
+        <source>User&apos;s username who left channel</source>
+        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
+    </message>
+    <message>
         <location filename="../utilui.cpp" line="181"/>
         <location filename="../utilui.cpp" line="182"/>
         <location filename="../utilui.cpp" line="183"/>
         <location filename="../utilui.cpp" line="184"/>
         <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>User concerns by change</source>
         <translation>کاربری که این اتفاق برای او افتاده‌است</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription type</source>
         <translation>نوع اشتراک</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription state</source>
         <translation>وضعیت اشتراک</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="167"/>
-        <location filename="../utilui.cpp" line="168"/>
-        <location filename="../utilui.cpp" line="169"/>
-        <location filename="../utilui.cpp" line="170"/>
-        <location filename="../utilui.cpp" line="171"/>
-        <location filename="../utilui.cpp" line="172"/>
-        <location filename="../utilui.cpp" line="173"/>
-        <location filename="../utilui.cpp" line="174"/>
-        <location filename="../utilui.cpp" line="175"/>
-        <location filename="../utilui.cpp" line="176"/>
-        <location filename="../utilui.cpp" line="177"/>
-        <location filename="../utilui.cpp" line="178"/>
-        <location filename="../utilui.cpp" line="179"/>
-        <location filename="../utilui.cpp" line="180"/>
+        <location filename="../utilui.cpp" line="181"/>
+        <location filename="../utilui.cpp" line="182"/>
+        <location filename="../utilui.cpp" line="183"/>
+        <location filename="../utilui.cpp" line="184"/>
+        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
         <source>Subscription change</source>
         <translation>تغییر اشتراک</translation>
     </message>
@@ -9315,47 +9605,75 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="183"/>
         <location filename="../utilui.cpp" line="184"/>
         <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="188"/>
+        <location filename="../utilui.cpp" line="189"/>
+        <location filename="../utilui.cpp" line="190"/>
+        <location filename="../utilui.cpp" line="191"/>
+        <location filename="../utilui.cpp" line="192"/>
+        <location filename="../utilui.cpp" line="193"/>
+        <location filename="../utilui.cpp" line="194"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation>نامِ کاربریِ کاربری که این اتفاق برای او افتاده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Transmission type</source>
-        <translation>شیوۀ ارسال</translation>
+        <translation>نوع انتقال</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="181"/>
-        <location filename="../utilui.cpp" line="182"/>
-        <location filename="../utilui.cpp" line="183"/>
-        <location filename="../utilui.cpp" line="184"/>
-        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Transmission state</source>
-        <translation>وضعیت ارسال</translation>
+        <translation>وضعیت انتقال</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="181"/>
-        <location filename="../utilui.cpp" line="182"/>
-        <location filename="../utilui.cpp" line="183"/>
-        <location filename="../utilui.cpp" line="184"/>
-        <location filename="../utilui.cpp" line="185"/>
+        <location filename="../utilui.cpp" line="195"/>
+        <location filename="../utilui.cpp" line="196"/>
+        <location filename="../utilui.cpp" line="197"/>
+        <location filename="../utilui.cpp" line="198"/>
+        <location filename="../utilui.cpp" line="199"/>
         <source>Classroom transmission authorization change</source>
         <translation>تغییر دسترسی صحبت‌کردن در کانالهای کلاس درس</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
-        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="201"/>
         <source>File name</source>
         <translation>نام فایل</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل آپلود میکند</translation>
+        <translation>نام مستعار کاربری که فایل آپلود کرده است</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="186"/>
+        <location filename="../utilui.cpp" line="200"/>
         <source>File size</source>
-        <translation>حجم فایل</translation>
+        <translation>حجم</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="187"/>
+        <location filename="../utilui.cpp" line="200"/>
+        <source>User&apos;s username who added the file</source>
+        <translation>نامِ کاربریِ کاربری که فایل آپلود کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>نام مستعار کاربر&apos;ی که فایل حذف میکند</translation>
+        <translation>نام مستعار کاربری که فایل حذف کرده است</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="201"/>
+        <source>User&apos;s username who removed the file</source>
+        <translation>نامِ کاربریِ کاربری که فایل حذف کرده است</translation>
     </message>
 </context>
 <context>
@@ -9464,7 +9782,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotextdlg.cpp" line="37"/>
         <source>Video window settings</source>
-        <translation>تنظیمات پنجرۀ نمایش ویدیو</translation>
+        <translation>تنظیمات پنجرۀ ویدیو</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="183"/>

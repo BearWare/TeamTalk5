@@ -39,6 +39,7 @@ private:
     void insertVariable();
     void saveCurrentMessage();
     void statusBarRestoreDefaultMessage();
+    void statusBarRestoreAllDefaultMessage();
     QMenu* m_SBVarMenu;
     QModelIndex m_currentIndex;
     void slotStatusBarEnableAll(bool checked);

@@ -1084,7 +1084,8 @@ void ChannelsTree::updateChannelItem(int channelid)
 
 void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
 {
-    bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    bool emoji = ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt() == STYLE_EMOJI;
+    bool text = ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt() == STYLE_TEXT;
     bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
@@ -1131,15 +1132,31 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
             channameAccessible = QString("%1 (%2)").arg(channameAccessible).arg(count);
         }
     }
-    if (emoji && (chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
+    if ((chan.uChannelType & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
     {
-        channameDisplay += " - 👻";
-        channameAccessible += " - 👻";
+        if (emoji)
+        {
+            channameDisplay += " - 👻";
+            channameAccessible += " - 👻";
+        }
+        if (text)
+        {
+            channameDisplay += " - " + tr("Hidden");
+            channameAccessible += " - " + tr("Hidden");
+        }
     }
-    if (emoji && chan.bPassword)
+    if (chan.bPassword)
     {
-        channameDisplay += " - 🔒";
-        channameAccessible += " - 🔒";
+        if (emoji)
+        {
+            channameDisplay += " - 🔒";
+            channameAccessible += " - 🔒";
+        }
+        if (text)
+        {
+            channameDisplay += " - " + tr("Password protected");
+            channameAccessible += " - " + tr("Password protected");
+        }
     }
     if (ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool() == true && _Q(chan.szTopic).size())
     {
@@ -1159,7 +1176,8 @@ void ChannelsTree::updateChannelItem(QTreeWidgetItem* item)
 
 void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 {
-    bool emoji = ttSettings->value(SETTINGS_DISPLAY_EMOJI, SETTINGS_DISPLAY_EMOJI_DEFAULT).toBool();
+    bool emoji = ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt() == STYLE_EMOJI;
+    bool text = ttSettings->value(SETTINGS_DISPLAY_INFOSTYLE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT).toUInt() == STYLE_TEXT;
     bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
     int maxstrlen = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING,
                                       SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
@@ -1209,6 +1227,34 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
 
         if (user.nStatusMode & STATUSMODE_VIDEOTX)
             itemtext += ", 🎥";
+        if (user.nStatusMode & STATUSMODE_DESKTOP)
+            itemtext += ", 💻";
+    }
+    if (text)
+    {
+        if(item->data(COLUMN_ITEM, Qt::UserRole).toInt() & MESSAGED_TYPE)
+            itemtext += ", " + tr("Unread message");
+        switch (user.nStatusMode & STATUSMODE_MODE)
+        {
+        case STATUSMODE_AWAY :
+            itemtext += ", " + tr("Away");
+            break;
+        case STATUSMODE_QUESTION :
+            itemtext += ", " + tr("Question");
+            break;
+        }
+        if((user.uUserState & USERSTATE_VOICE) || (user.nUserID == TT_GetMyUserID(ttInst) && isMyselfTalking() == TRUE && userCanVoiceTx(TT_GetMyUserID(ttInst), chan) == TRUE))
+            itemtext += ", " + tr("Speaking");
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE)
+            itemtext += ", " + tr("Streaming mediafile");
+
+        if (user.nStatusMode & STATUSMODE_STREAM_MEDIAFILE_PAUSED)
+            itemtext += ", " + tr("Streaming mediafile (Paused)");
+
+        if (user.nStatusMode & STATUSMODE_VIDEOTX)
+            itemtext += ", " + tr("Video");
+        if (user.nStatusMode & STATUSMODE_DESKTOP)
+            itemtext += ", " + tr("Desktop sharing");
     }
 
     if(_Q(user.szStatusMsg).size())
@@ -1257,6 +1303,49 @@ void ChannelsTree::updateUserItem(QTreeWidgetItem* item)
                 break;
             case STATUSMODE_NEUTRAL :
                 itemtext += " (👮)";
+                break;
+            }
+        }
+    }
+    if (text)
+    {
+        switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+        {
+        case STATUSMODE_FEMALE :
+            itemtext += ", " + tr("Female");
+            break;
+        case STATUSMODE_MALE :
+            itemtext += ", " + tr("Male");
+            break;
+        case STATUSMODE_NEUTRAL :
+            itemtext += ", " + tr("Neutral");
+            break;
+        }
+
+        if (user.uUserType & USERTYPE_ADMIN)
+        {
+            switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+            {
+            case STATUSMODE_FEMALE :
+                itemtext += " (" + tr("Administrator", "For female") + ")";
+                break;
+            case STATUSMODE_MALE :
+            case STATUSMODE_NEUTRAL :
+                itemtext += " (" + tr("Administrator", "For male and neutral") + ")";
+                break;
+            }
+        }
+
+        if (TT_IsChannelOperator(ttInst, user.nUserID, user.nChannelID))
+        {
+            switch (user.nStatusMode & STATUSMODE_GENDER_MASK)
+            {
+            case STATUSMODE_FEMALE :
+                itemtext += " (" + tr("Channel operator", "For female") + ")";
+                break;
+            case STATUSMODE_MALE :
+            case STATUSMODE_NEUTRAL :
+                itemtext += " (" + tr("Channel operator", "For male and neutral") + ")";
                 break;
             }
         }
