@@ -933,92 +933,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">Gizli</translation>
+        <translation>Gizli</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">Parola korumalı</translation>
+        <translation>Parola korumalı</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>Okunmamış mesaj</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">Uzakta</translation>
+        <translation>Uzakta</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">Soru</translation>
+        <translation>Soru</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>konuşuyor</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>Medya dosyası akışı</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>medya dosyası akışı (duraklatıldı)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">Video</translation>
+        <translation>Video</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü paylaşımı</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">Kadın</translation>
+        <translation>Kadın</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">Erkek</translation>
+        <translation>Erkek</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished"></translation>
+        <translation>nötr</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Yönetici</translation>
+        <translation>Yönetici</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">kanal yöneticisi</translation>
+        <translation>kanal yöneticisi</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">kanal yöneticisi</translation>
+        <translation>kanal yöneticisi</translation>
     </message>
 </context>
 <context>
@@ -5215,7 +5215,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Style of user and channel info</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı stili ve kanal bilgileri</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="765"/>
@@ -5502,12 +5502,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1432"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses olaylarını oynatmak için TeamTalk'ta seçilen ses çıkış cihazını kullanın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>Use selected sound output device for playback</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma için seçilen ses çıkış cihazını kullan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1530"/>
@@ -5524,7 +5524,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü Varsayılan Değerlere Sıfırla</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -5839,12 +5839,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="483"/>
         <source>Emojis</source>
-        <translation type="unfinished"></translation>
+        <translation>Emojiler</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="484"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>metin</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="504"/>
@@ -5997,22 +5997,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1843"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm TTS mesajlarını varsayılan değerlere geri yüklemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1844"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1845"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1848"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan değerleri geri yükle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -7399,7 +7399,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Tümünü Varsayılan Değere Sıfırla</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
@@ -7434,22 +7434,22 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm Durum çubuğu mesajlarını varsayılan değerlere geri yüklemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>Varsayılan değerleri geri yükle</translation>
     </message>
 </context>
 <context>
@@ -9124,7 +9124,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş yapan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
@@ -9134,7 +9134,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış yapan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
@@ -9151,7 +9151,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanala katılan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
@@ -9168,7 +9168,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldan ayrılan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9192,7 +9192,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mesaj gönderen kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -9210,7 +9210,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>Yazan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
@@ -9220,7 +9220,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Soru modunu ayarlayan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9315,7 +9315,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının kullanıcı adı değişikliği nedeniyle endişeleniyor</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9363,7 +9363,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı ekleyen kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
@@ -9373,7 +9373,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı kaldıran kullanıcının kullanıcı adı</translation>
     </message>
 </context>
 <context>
@@ -9439,7 +9439,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>Giriş yapan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="176"/>
@@ -9449,7 +9449,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utilui.cpp" line="176"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkış yapan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
@@ -9466,7 +9466,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanala katılan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
@@ -9483,7 +9483,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanaldan ayrılan kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="181"/>
@@ -9578,7 +9578,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="193"/>
         <location filename="../utilui.cpp" line="194"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcının kullanıcı adı değişikliği nedeniyle endişeleniyor</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9626,7 +9626,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı ekleyen kullanıcının kullanıcı adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
@@ -9636,7 +9636,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosyayı kaldıran kullanıcının kullanıcı adı</translation>
     </message>
 </context>
 <context>
