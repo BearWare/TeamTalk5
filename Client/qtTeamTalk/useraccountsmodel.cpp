@@ -228,57 +228,57 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
             Q_ASSERT(m_userrights[index.row()] != USERRIGHT_NONE);
             break;
         case USERRIGHT_MULTI_LOGIN :
-            return tr("User can log in multiple times");
+            return tr("Log in multiple times");
         case USERRIGHT_VIEW_ALL_USERS :
-            return tr("User can see users in all channels");
+            return tr("See users in all channels");
         case USERRIGHT_VIEW_HIDDEN_CHANNELS :
-            return tr("User can see hidden channels");
+            return tr("See hidden channels");
         case USERRIGHT_MODIFY_CHANNELS :
-            return tr("User can create/modify all channels");
+            return tr("Create/modify all channels");
         case USERRIGHT_CREATE_TEMPORARY_CHANNEL :
-            return tr("User can create temporary channels");
+            return tr("Create temporary channels");
         case USERRIGHT_TEXTMESSAGE_BROADCAST :
-            return tr("User can broadcast text messages");
+            return tr("Broadcast text messages");
         case USERRIGHT_KICK_USERS :
-            return tr("User can kick users off the server");
+            return tr("Kick users off the server");
         case USERRIGHT_BAN_USERS :
-            return tr("User can ban users from server");
+            return tr("Ban users from server");
         case USERRIGHT_MOVE_USERS :
-            return tr("User can move users between channels");
+            return tr("Move users between channels");
         case USERRIGHT_OPERATOR_ENABLE :
-            return tr("User can make other users channel operator");
+            return tr("Make other users channel operator");
         case USERRIGHT_UPLOAD_FILES :
-            return tr("User can upload files");
+            return tr("Upload files");
         case USERRIGHT_DOWNLOAD_FILES :
-            return tr("User can download files");
+            return tr("Download files");
         case USERRIGHT_RECORD_VOICE :
-            return tr("User can record voice in all channels");
+            return tr("Record voice in all channels");
         case USERRIGHT_UPDATE_SERVERPROPERTIES :
-            return tr("User can update server properties");
+            return tr("Update server properties");
         case USERRIGHT_TRANSMIT_VOICE :
-            return tr("User can transmit voice data (microphone)");
+            return tr("Transmit voice data (microphone)");
         case USERRIGHT_TRANSMIT_VIDEOCAPTURE :
-            return tr("User can transmit video data (webcam)");
+            return tr("Transmit video data (webcam)");
         case USERRIGHT_TRANSMIT_DESKTOP :
-            return tr("User can transmit desktop sessions (shared desktop)");
+            return tr("Transmit desktop sessions (shared desktop)");
         case USERRIGHT_TRANSMIT_DESKTOPINPUT :
-            return tr("User can get remote access to desktop sessions");
+            return tr("Get remote access to desktop sessions");
         case USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO :
-            return tr("User can transmit audio files (wav, mp3 files)");
+            return tr("Transmit audio files (wav, mp3 files)");
         case USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO :
-            return tr("User can transmit video files (avi, mp4 files)");
+            return tr("Transmit video files (avi, mp4 files)");
         case USERRIGHT_TRANSMIT_MEDIAFILE :
             // OR'ed value
             Q_ASSERT(m_userrights[index.row()] != USERRIGHT_TRANSMIT_MEDIAFILE);
             break;
         case USERRIGHT_TEXTMESSAGE_USER :
-            return tr("User can send private text messages");
+            return tr("Send private text messages");
         case USERRIGHT_TEXTMESSAGE_CHANNEL :
-            return tr("User can send channel text messages");
+            return tr("Send channel text messages");
         case USERRIGHT_LOCKED_NICKNAME :
-            return tr("User can change nickname"); // inverted text explanation due to compatibility
+            return tr("Change nickname"); // inverted text explanation due to compatibility
         case USERRIGHT_LOCKED_STATUS :
-            return tr("User can change status mode"); // inverted text explanation due to compatibility
+            return tr("Change status mode"); // inverted text explanation due to compatibility
         }
 
         break;
