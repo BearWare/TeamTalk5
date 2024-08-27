@@ -283,11 +283,11 @@ class ChannelListViewController :
                     isTransmitting(ttInst!, stream: STREAMTYPE_VOICE)) {
                         
                 cell.userImage.image = UIImage(named: female ? "woman_green.png" : "man_green.png")
-                cell.userImage.accessibilityLabel = NSLocalizedString("Talking", comment: "channel list")
+                cell.userImage.accessibilityHint = NSLocalizedString("Talking", comment: "channel list")
             }
             else {
                 cell.userImage.image = UIImage(named: female ? "woman_blue.png" : "man_blue.png")
-                cell.userImage.accessibilityLabel = NSLocalizedString("Silent", comment: "channel list")
+                cell.userImage.accessibilityHint = NSLocalizedString("Silent", comment: "channel list")
             }
             
             cell.messageBtn.tag = Int(user.nUserID)
@@ -338,7 +338,7 @@ class ChannelListViewController :
         var textcolor : UIColor? = nil
         var title : String?, subtitle : String?
         
-        cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
+        cell.chanimage.accessibilityHint = NSLocalizedString("Channel", comment: "channel list")
         
         if curchannel.nChannelID == 0 {
             
@@ -404,8 +404,6 @@ class ChannelListViewController :
                 cell.chanimage.accessibilityLabel = NSLocalizedString("No password", comment: "channel list")
             }
             
-            cell.chanimage.accessibilityLabel =
-                String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)
         }
         
         cell.channame.textColor = textcolor
