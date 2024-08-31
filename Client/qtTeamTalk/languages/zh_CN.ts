@@ -967,92 +967,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">隐藏</translation>
+        <translation>隐藏</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">密码保护</translation>
+        <translation>密码保护</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>未读消息</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">离开</translation>
+        <translation>离开</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">提问</translation>
+        <translation>提问</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>发言中</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>流媒体文件</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>流媒体文件（已暂停）</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">视频</translation>
+        <translation>视频</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>桌面共享</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">女</translation>
+        <translation>女</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">男</translation>
+        <translation>男</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished">中性</translation>
+        <translation>中性</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">管理员</translation>
+        <translation>管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">频道管理员</translation>
+        <translation>频道管理员</translation>
     </message>
 </context>
 <context>
@@ -5250,7 +5250,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Style of user and channel info</source>
-        <translation type="unfinished"></translation>
+        <translation>用户和频道信息的样式</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="765"/>
@@ -5537,12 +5537,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1432"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 TeamTalk 中选择的声音输出设备播放声音事件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>Use selected sound output device for playback</source>
-        <translation type="unfinished"></translation>
+        <translation>使用选定的声音输出设备进行播放</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1530"/>
@@ -5559,7 +5559,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation type="unfinished"></translation>
+        <translation>全部重置为默认值</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -5874,12 +5874,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="483"/>
         <source>Emojis</source>
-        <translation type="unfinished"></translation>
+        <translation>表情符号</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="484"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>文本</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="504"/>
@@ -6032,22 +6032,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1843"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要将所有 TTS 消息恢复为默认值吗？</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1844"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1845"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1848"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复默认值</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -7436,7 +7436,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>全部重置为默认值</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
@@ -7471,22 +7471,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>您确实要将所有状态栏消息恢复为默认值吗？</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">是(&amp;Y)</translation>
+        <translation>是(&amp;Y)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation type="unfinished">否(&amp;N)</translation>
+        <translation>否(&amp;N)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复默认值</translation>
     </message>
 </context>
 <context>
@@ -9161,7 +9161,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>登录用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
@@ -9171,7 +9171,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>登出用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
@@ -9188,7 +9188,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>加入频道的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
@@ -9205,7 +9205,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>离开频道的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9229,7 +9229,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>发送消息的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -9247,7 +9247,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>正在输入的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
@@ -9257,7 +9257,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>设置提问模式的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9352,7 +9352,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>用户的用户名关注变化</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9400,7 +9400,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>添加文件的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
@@ -9410,7 +9410,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>删除文件的用户的用户名</translation>
     </message>
 </context>
 <context>
@@ -9476,7 +9476,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="175"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>登录用户的用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="176"/>
@@ -9486,7 +9486,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="176"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>登出用户的用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="177"/>
@@ -9503,7 +9503,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="177"/>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>加入频道的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="178"/>
@@ -9520,7 +9520,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="178"/>
         <location filename="../utilui.cpp" line="180"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>离开频道的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="181"/>
@@ -9615,7 +9615,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="193"/>
         <location filename="../utilui.cpp" line="194"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>用户的用户名关注变化</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"/>
@@ -9663,7 +9663,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="200"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>添加文件的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="201"/>
@@ -9673,7 +9673,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>删除文件的用户的用户名</translation>
     </message>
 </context>
 <context>
