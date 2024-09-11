@@ -66,6 +66,9 @@ void ChangeStatusDlg::slotAccepted()
     case STATUSMODE_QUESTION :
         m_user.nStatusMode |= STATUSMODE_QUESTION;
     break;
+    default :
+        Q_ASSERT(false /* this status mode is not implemented*/);
+        break;
     }
 
     ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.msgEdit->text());

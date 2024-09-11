@@ -2309,6 +2309,10 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
 {
     switch(id)
     {
+    case HOTKEY_NONE :
+    case HOTKEY_NEXT_UNUSED :
+        Q_ASSERT(false /* these hotkey are not implemented*/);
+        break;
     case HOTKEY_PUSHTOTALK :
         pttHotKey(active);
         break;
