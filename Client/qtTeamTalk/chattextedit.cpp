@@ -215,7 +215,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     appendPlainText(line);
 
     //show disk quota in red
-    line = tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024);
+    line = tr("Disk quota: %1").arg(getFormattedFileSize(chan.nDiskQuota));
     format.setForeground(QBrush(Qt::darkRed));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
