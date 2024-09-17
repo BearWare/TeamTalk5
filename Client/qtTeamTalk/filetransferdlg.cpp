@@ -80,8 +80,8 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
     setWindowTitle(_Q(transfer.szRemoteFileName));
     ui.filenameLabel->setText(_Q(transfer.szRemoteFileName));
     ui.filenameLabel->setAccessibleName(QString("%1 %2").arg(ui.label->text()).arg(_Q(transfer.szRemoteFileName)));
-    ui.filesizeLabel->setText(getFormattedFileSize(transfer.nFileSize));
-    ui.filesizeLabel->setAccessibleName(QString("%1 %2").arg(ui.label_2->text()).arg(getFormattedFileSize(transfer.nFileSize)));
+    ui.filesizeLabel->setText(getFormattedSize(transfer.nFileSize));
+    ui.filesizeLabel->setAccessibleName(QString("%1 %2").arg(ui.label_2->text()).arg(getFormattedSize(transfer.nFileSize)));
     double percent = 100.0;
     if(transfer.nFileSize)
         percent = transfer.nTransferred * 100 / transfer.nFileSize;

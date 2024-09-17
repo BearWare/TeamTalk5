@@ -74,7 +74,7 @@ QVariant FilesModel::data ( const QModelIndex & index, int role /*= Qt::DisplayR
         case COLUMN_INDEX_NAME :
             return _Q(m_files[index.row()].szFileName);
         case COLUMN_INDEX_SIZE :
-            return getFormattedFileSize(m_files[index.row()].nFileSize);
+            return getFormattedSize(m_files[index.row()].nFileSize);
         case COLUMN_INDEX_OWNER :
             return _Q(m_files[index.row()].szUsername);
         case COLUMN_INDEX_UPLOADED :
