@@ -17,6 +17,7 @@
 
 #include "serverstatsdlg.h"
 #include "appinfo.h"
+#include "utilui.h"
 
 #include <QTimer>
 
@@ -50,21 +51,21 @@ void ServerStatisticsDlg::slotCmdSuccess(int cmdid)
 
 void ServerStatisticsDlg::slotUpdateStats(const ServerStatistics& stats)
 {
-    ui.totalRXTXLabel->setText(QString(tr("Total RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nTotalBytesRX/1024)
-        .arg(stats.nTotalBytesTX/1024));
-    ui.voiceRXTXLabel->setText(QString(tr("Voice RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nVoiceBytesRX/1024)
-        .arg(stats.nVoiceBytesTX/1024));
-    ui.videoRXTXLabel->setText(QString(tr("Video RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nVideoCaptureBytesRX/1024)
-        .arg(stats.nVideoCaptureBytesTX/1024));
-    ui.mediafileRXTXLabel->setText(QString(tr("Media File RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nMediaFileBytesRX/1024)
-        .arg(stats.nMediaFileBytesTX/1024));
-    ui.desktopRXTXLabel->setText(QString(tr("Desktop RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nDesktopBytesRX/1024)
-        .arg(stats.nDesktopBytesTX/1024));
+    ui.totalRXTXLabel->setText(QString(tr("Total RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nTotalBytesRX))
+        .arg(getFormattedSize(stats.nTotalBytesTX)));
+    ui.voiceRXTXLabel->setText(QString(tr("Voice RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nVoiceBytesRX))
+        .arg(getFormattedSize(stats.nVoiceBytesTX)));
+    ui.videoRXTXLabel->setText(QString(tr("Video RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nVideoCaptureBytesRX))
+        .arg(getFormattedSize(stats.nVideoCaptureBytesTX)));
+    ui.mediafileRXTXLabel->setText(QString(tr("Media File RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nMediaFileBytesRX))
+        .arg(getFormattedSize(stats.nMediaFileBytesTX)));
+    ui.desktopRXTXLabel->setText(QString(tr("Desktop RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nDesktopBytesRX))
+        .arg(getFormattedSize(stats.nDesktopBytesTX)));
     if(m_lastStats.nUptimeMSec)
     {
         qint64 diff = stats.nUptimeMSec - m_lastStats.nUptimeMSec;
@@ -83,9 +84,9 @@ void ServerStatisticsDlg::slotUpdateStats(const ServerStatistics& stats)
     }
     else
         ui.kbpsLabel->hide();
-    ui.filesRXTXLabel->setText(QString(tr("Files RX/TX") + ": %L1 / %L2 " + tr("KBytes"))
-        .arg(stats.nFilesRx/1024)
-        .arg(stats.nFilesTx/1024));
+    ui.filesRXTXLabel->setText(QString(tr("Files RX/TX") + ": %L1 / %L2")
+        .arg(getFormattedSize(stats.nFilesRx))
+        .arg(getFormattedSize(stats.nFilesTx)));
     ui.usersLabel->setText(QString(tr("Users served") + ": %1").arg(stats.nUsersServed));
     ui.usersPeakLabel->setText(QString(tr("Users peak") + ": %1").arg(stats.nUsersPeak));
 

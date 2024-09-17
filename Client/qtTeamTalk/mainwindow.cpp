@@ -1295,8 +1295,8 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
         User user;
         TT_GetUserByUsername(ttInst, file.szUsername, &user);
         QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
-        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
+        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
     }
 }
 
@@ -2423,7 +2423,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status = QString("RX: %1KB TX: %2KB").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
+            QString status = QString("RX: %1 TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
