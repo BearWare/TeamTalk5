@@ -6,12 +6,12 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>323</width>
-    <height>340</height>
+    <width>400</width>
+    <height>400</height>
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Volume</string>
+   <string>Volume and Position</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
@@ -121,6 +121,76 @@
           </widget>
          </item>
         </layout>
+       </widget>
+      </item>
+     </layout>
+    </widget>
+   </item>
+   <item>
+    <widget class="QGroupBox" name="groupBox_5">
+     <property name="title">
+      <string>3D Position Settings</string>
+     </property>
+     <layout class="QVBoxLayout" name="verticalLayout_4">
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_6">
+        <item>
+         <widget class="QLabel" name="label_3">
+          <property name="text">
+           <string>X Coordinate</string>
+          </property>
+          <property name="buddy">
+           <cstring>xCoordSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="xCoordSpinBox">
+          <property name="minimum">
+           <double>-10.0</double>
+          </property>
+          <property name="maximum">
+           <double>10.0</double>
+          </property>
+          <property name="singleStep">
+           <double>0.1</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout_7">
+        <item>
+         <widget class="QLabel" name="label_4">
+          <property name="text">
+           <string>Y Coordinate</string>
+          </property>
+          <property name="buddy">
+           <cstring>yCoordSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QDoubleSpinBox" name="yCoordSpinBox">
+          <property name="minimum">
+           <double>-10.0</double>
+          </property>
+          <property name="maximum">
+           <double>10.0</double>
+          </property>
+          <property name="singleStep">
+           <double>0.1</double>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <widget class="QPushButton" name="applyPositionButton">
+        <property name="text">
+         <string>Apply Position</string>
+        </property>
        </widget>
       </item>
      </layout>

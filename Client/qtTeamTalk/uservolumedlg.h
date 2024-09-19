@@ -27,10 +27,11 @@ class UserVolumeDlg : public QDialog
 public:
     UserVolumeDlg(int userid, QWidget * parent = 0);
 
-private:
+private slots:
     void slotVolumeChanged(int);
     void slotMuteChannel();
     void slotDefaults();
+    void slotApplyPosition(); // Slot for applying the 3D position
 
 private:
     int m_userid;
