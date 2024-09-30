@@ -844,6 +844,11 @@ void PreferencesDlg::slotSaveChanges()
 
         switch(newsndsys)
         {
+        case SOUNDSYSTEM_NONE :
+        case SOUNDSYSTEM_OPENSLES_ANDROID :
+        case SOUNDSYSTEM_AUDIOUNIT :
+            Q_ASSERT(false /* these sound systems are not supported*/);
+            break;
         case SOUNDSYSTEM_WASAPI:
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
         break;

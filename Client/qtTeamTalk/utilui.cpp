@@ -504,22 +504,22 @@ QString getTimestampFormat()
     return format;
 }
 
-QString getFormattedFileSize(qint64 filesize)
+QString getFormattedSize(qint64 size)
 {
-    QString formattedFileSize;
+    QString formattedSize;
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    if (filesize >= 1024*1024*1024)
-        formattedFileSize = QString("%1 G").arg(Filesize/(1024*1024*1024));
-    else if (filesize >= 1024*1024)
-        formattedFileSize = QString("%1 M").arg(filesize/(1024*1024));
-    else if (filesize >= 1024)
-        formattedFileSize = QString("%1 K").arg(filesize/1024);
+    if (size >= 1024*1024*1024)
+        formattedSize = QString("%1 G").arg(Filesize/(1024*1024*1024));
+    else if (size >= 1024*1024)
+        formattedSize = QString("%1 M").arg(filesize/(1024*1024));
+    else if (size >= 1024)
+        formattedSize = QString("%1 K").arg(filesize/1024);
     else
-        formattedFileSize = QString("%1").arg(filesize);
+        formattedSize = QString("%1").arg(filesize);
 #else
-    formattedFileSize = QLocale().formattedDataSize(filesize, 1, QLocale::DataSizeSIFormat);
+    formattedSize = QLocale().formattedDataSize(size, 1, QLocale::DataSizeSIFormat);
 #endif
-    return formattedFileSize;
+    return formattedSize;
 }
 
 QString UtilUI::getDefaultValue(const QString& paramKey)
