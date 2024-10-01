@@ -173,6 +173,9 @@ do {                                                            \
 //user ID to pass to store local user's voice stream
 #define AUDIOSTORAGE_LOCAL_USERID 0
 
+#define SPEEXDSP_AGC_GAINLEVEL_MIN 0
+#define SPEEXDSP_AGC_GAINLEVEL_MAX 0x8000
+
 #ifdef Q_OS_WIN32
 #define WM_TEAMALK_CLIENTEVENT     (WM_APP + 1)
 #define WM_TEAMTALK_HOTKEYEVENT     (WM_APP + 2)
