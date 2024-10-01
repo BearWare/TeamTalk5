@@ -497,6 +497,11 @@ void PreferencesDlg::initDisplayTab()
     }
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
     int index = ui.languageBox->findData(lang);
+    if (index < 0)
+    {
+        QString langPrefix = lang.section('_', 0, 0);
+        index = ui.languageBox->findData(langPrefix);
+    }
     if (index >= 0)
         ui.languageBox->setCurrentIndex(index);
 
