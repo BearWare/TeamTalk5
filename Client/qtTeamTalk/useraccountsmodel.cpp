@@ -179,7 +179,7 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_VIEW_HIDDEN_CHANNELS);
     m_userrights.push_back(USERRIGHT_MODIFY_CHANNELS);
     m_userrights.push_back(USERRIGHT_CREATE_TEMPORARY_CHANNEL);
-    m_userrights.push_back(USERRIGHT_TEXTMESSAGE_BROADCAST);
+    m_userrights.push_back(USERRIGHT_UPDATE_SERVERPROPERTIES);
     m_userrights.push_back(USERRIGHT_KICK_USERS);
     m_userrights.push_back(USERRIGHT_BAN_USERS);
     m_userrights.push_back(USERRIGHT_MOVE_USERS);
@@ -187,7 +187,6 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_UPLOAD_FILES);
     m_userrights.push_back(USERRIGHT_DOWNLOAD_FILES);
     m_userrights.push_back(USERRIGHT_RECORD_VOICE);
-    m_userrights.push_back(USERRIGHT_UPDATE_SERVERPROPERTIES);
     m_userrights.push_back(USERRIGHT_TRANSMIT_VOICE);
     m_userrights.push_back(USERRIGHT_TRANSMIT_VIDEOCAPTURE);
     m_userrights.push_back(USERRIGHT_TRANSMIT_DESKTOP);
@@ -196,6 +195,7 @@ void UserRightsModel::insertUserRights()
     m_userrights.push_back(USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
     m_userrights.push_back(USERRIGHT_TEXTMESSAGE_USER);
     m_userrights.push_back(USERRIGHT_TEXTMESSAGE_CHANNEL);
+    m_userrights.push_back(USERRIGHT_TEXTMESSAGE_BROADCAST);
     //m_userrights.push_back(USERRIGHT_LOCKED_STATUS);
 }
 
@@ -237,8 +237,8 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return tr("Create/modify all channels");
         case USERRIGHT_CREATE_TEMPORARY_CHANNEL :
             return tr("Create temporary channels");
-        case USERRIGHT_TEXTMESSAGE_BROADCAST :
-            return tr("Broadcast text messages");
+        case USERRIGHT_UPDATE_SERVERPROPERTIES :
+            return tr("Edit server properties");
         case USERRIGHT_KICK_USERS :
             return tr("Kick users off the server");
         case USERRIGHT_BAN_USERS :
@@ -253,8 +253,6 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return tr("Download files");
         case USERRIGHT_RECORD_VOICE :
             return tr("Record voice in all channels");
-        case USERRIGHT_UPDATE_SERVERPROPERTIES :
-            return tr("Update server properties");
         case USERRIGHT_TRANSMIT_VOICE :
             return tr("Transmit voice data (microphone)");
         case USERRIGHT_TRANSMIT_VIDEOCAPTURE :
@@ -264,9 +262,9 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
         case USERRIGHT_TRANSMIT_DESKTOPINPUT :
             return tr("Get remote access to desktop sessions");
         case USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO :
-            return tr("Transmit audio files (wav, mp3 files)");
+            return tr("Stream audio files (wav, mp3 files)");
         case USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO :
-            return tr("Transmit video files (avi, mp4 files)");
+            return tr("Stream video files (avi, mp4 files)");
         case USERRIGHT_TRANSMIT_MEDIAFILE :
             // OR'ed value
             Q_ASSERT(m_userrights[index.row()] != USERRIGHT_TRANSMIT_MEDIAFILE);
@@ -275,6 +273,8 @@ QVariant UserRightsModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return tr("Send private text messages");
         case USERRIGHT_TEXTMESSAGE_CHANNEL :
             return tr("Send channel text messages");
+        case USERRIGHT_TEXTMESSAGE_BROADCAST :
+            return tr("Send broadcast text messages");
         case USERRIGHT_LOCKED_NICKNAME :
             return tr("Change nickname"); // inverted text explanation due to compatibility
         case USERRIGHT_LOCKED_STATUS :
