@@ -517,7 +517,7 @@
        </widget>
        <widget class="QWidget" name="tab">
         <attribute name="title">
-         <string>Media</string>
+         <string>M&amp;edia</string>
         </attribute>
         <layout class="QVBoxLayout" name="verticalLayout_11">
          <item>
