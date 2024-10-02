@@ -712,8 +712,17 @@ void MainWindow::loadSettings()
             this->ui.retranslateUi(this);
         else
         {
-            QMessageBox::information(this, tr("Translate"),
-                QString("Failed to load language file %1").arg(lang));
+            QString langPrefix = lang.section('_', 0, 0);
+            if (switchLanguage(langPrefix))
+            {
+                this->ui.retranslateUi(this);
+                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, langPrefix);
+            }
+            else
+            {
+                QMessageBox::information(this, tr("Translate"),
+                    QString("Failed to load language file %1").arg(lang));
+            }
         }
     }
 
@@ -890,9 +899,9 @@ void MainWindow::initialScreenReaderSetup()
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             }
         }
-        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
+    ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
 }
 
 bool MainWindow::parseArgs(const QStringList& args)
