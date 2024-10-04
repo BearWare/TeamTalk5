@@ -1058,7 +1058,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../chattextedit.cpp" line="218"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Disk kotası: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="376"/>
@@ -2277,77 +2277,77 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.ui" line="520"/>
         <source>M&amp;edia</source>
-        <translation type="unfinished"></translation>
+        <translation>M&amp;edya</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="528"/>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>kayıttan yürütme</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="538"/>
         <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynat/Duraklat</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="549"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>durdur</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="560"/>
         <source>Browse</source>
-        <translation type="unfinished">Gözat</translation>
+        <translation>Gözat</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="594"/>
         <source>Filename:</source>
-        <translation type="unfinished">Dosya adı:</translation>
+        <translation>Dosya adı:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="608"/>
         <source>Duration:</source>
-        <translation type="unfinished">Süre:</translation>
+        <translation>Süre:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="622"/>
         <source>Audio format:</source>
-        <translation type="unfinished">Ses biçimi:</translation>
+        <translation>Ses biçimi:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="636"/>
         <source>Video format:</source>
-        <translation type="unfinished">Video biçimi:</translation>
+        <translation>Video biçimi:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="650"/>
         <source>Elapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="660"/>
         <source>Elapsed time</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçen süre</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="663"/>
         <source>Start position</source>
-        <translation type="unfinished">Başlangıç konumu</translation>
+        <translation>Başlangıç konumu</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="699"/>
         <source>Volume</source>
-        <translation type="unfinished">Ses düzeyi</translation>
+        <translation>Ses düzeyi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <source>Volume level</source>
-        <translation type="unfinished">Ses düzeyi</translation>
+        <translation>Ses düzeyi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="722"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>MetinEtiketi</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
@@ -3654,48 +3654,48 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
         <source>Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akışı sürdür</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6400"/>
         <location filename="../mainwindow.cpp" line="6423"/>
         <source>&amp;Play</source>
-        <translation type="unfinished">&amp;Çal</translation>
+        <translation>&amp;Çal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6405"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished">&amp;Duraklat</translation>
+        <translation>&amp;Duraklat</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6409"/>
         <location filename="../mainwindow.cpp" line="6425"/>
         <source>Duration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Süre: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6415"/>
         <location filename="../mainwindow.cpp" line="6428"/>
         <source>Audio format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses biçimi: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6416"/>
         <location filename="../mainwindow.cpp" line="6429"/>
         <source>Video format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Video biçimi: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6433"/>
         <source>File name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya adı: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6442"/>
         <location filename="../mainwindow.cpp" line="6448"/>
         <location filename="../mainwindow.cpp" line="6454"/>
         <source>%1 %</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7432"/>
@@ -4190,12 +4190,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5531"/>
         <source>Failed to change volume of the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Akışın ses düzeyi değiştirilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5547"/>
         <source>Failed to change playback position</source>
-        <translation type="unfinished"></translation>
+        <translation>Oynatma konumu değiştirilemedi</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
@@ -6313,33 +6313,33 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../utilmedia.cpp" line="30"/>
         <source>Stereo</source>
-        <translation type="unfinished">Stereo</translation>
+        <translation>Stereo</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="32"/>
         <source>Mono</source>
-        <translation type="unfinished">Mono</translation>
+        <translation>Mono</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="34"/>
         <source>%1 audio channels</source>
-        <translation type="unfinished">%1 ses kanalı</translation>
+        <translation>%1 ses kanalı</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 Hz, %2</source>
-        <translation type="unfinished">%1 Hz, %2</translation>
+        <translation>%1 Hz, %2</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="39"/>
         <location filename="../utilmedia.cpp" line="49"/>
         <source>Unknown format</source>
-        <translation type="unfinished">Bilinmeyen biçim</translation>
+        <translation>Bilinmeyen biçim</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="47"/>
         <source>%1x%2 %3 FPS</source>
-        <translation type="unfinished">%1x%2 %3 FPS</translation>
+        <translation>%1x%2 %3 FPS</translation>
     </message>
 </context>
 <context>
@@ -8911,122 +8911,122 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>Log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>Birden çok kez oturum açma</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>See users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm kanallardaki kullanıcıları görün</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>See hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Gizli kanalları görme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm kanalları oluşturma/değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>Create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Geçici kanallar oluşturma</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>Edit server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu özelliklerini düzenleme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıları sunucudan atma</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıları sunucudan yasaklama</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcıları kanallar arasında taşıma</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>Diğer kullanıcıları kanal operatörü yapma</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya yükleme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Download files</source>
-        <translation type="unfinished"></translation>
+        <translation>Dosya indirme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm kanallarda ses kaydetme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses verisi iletme (mikrofon)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>Video verisi aktarma (web kamerası)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü oturumlarını iletme (paylaşılan masaüstü)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>Masaüstü oturumlarına uzaktan erişim elde etme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Stream audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses dosyalarını aktarma (wav, mp3 dosyaları)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Stream video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>Video dosyalarını aktarma (avi, mp4 dosyaları)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Özel metin mesajları gönderme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="275"/>
         <source>Send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal metin mesajları gönderme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>Send broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>Yayın metin mesajları gönderme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Takma ad değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>Durum modu değiştirme</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
