@@ -1092,7 +1092,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../chattextedit.cpp" line="218"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘配额：%1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="376"/>
@@ -2311,77 +2311,77 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="520"/>
         <source>M&amp;edia</source>
-        <translation type="unfinished"></translation>
+        <translation>媒体(&amp;E)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="528"/>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>回放</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="538"/>
         <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>播放/暂停</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="549"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>停止</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="560"/>
         <source>Browse</source>
-        <translation type="unfinished">浏览</translation>
+        <translation>浏览</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="594"/>
         <source>Filename:</source>
-        <translation type="unfinished">文件名：</translation>
+        <translation>文件名：</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="608"/>
         <source>Duration:</source>
-        <translation type="unfinished">持续时间：</translation>
+        <translation>持续时间：</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="622"/>
         <source>Audio format:</source>
-        <translation type="unfinished">音频格式：</translation>
+        <translation>音频格式：</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="636"/>
         <source>Video format:</source>
-        <translation type="unfinished">视频格式：</translation>
+        <translation>视频格式：</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="650"/>
         <source>Elapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>经过</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="660"/>
         <source>Elapsed time</source>
-        <translation type="unfinished"></translation>
+        <translation>经过时间</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="663"/>
         <source>Start position</source>
-        <translation type="unfinished">起始位置</translation>
+        <translation>起始位置</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="699"/>
         <source>Volume</source>
-        <translation type="unfinished">音量</translation>
+        <translation>音量</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <source>Volume level</source>
-        <translation type="unfinished">音量级别</translation>
+        <translation>音量级别</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="722"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>文本标签</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
@@ -3710,48 +3710,48 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
         <source>Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>恢复流媒体</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6400"/>
         <location filename="../mainwindow.cpp" line="6423"/>
         <source>&amp;Play</source>
-        <translation type="unfinished">播放(&amp;P)</translation>
+        <translation>播放(&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6405"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished">暂停(&amp;P)</translation>
+        <translation>暂停(&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6409"/>
         <location filename="../mainwindow.cpp" line="6425"/>
         <source>Duration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>持续时间：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6415"/>
         <location filename="../mainwindow.cpp" line="6428"/>
         <source>Audio format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>音频格式：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6416"/>
         <location filename="../mainwindow.cpp" line="6429"/>
         <source>Video format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>视频格式：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6433"/>
         <source>File name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>文件名：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6442"/>
         <location filename="../mainwindow.cpp" line="6448"/>
         <location filename="../mainwindow.cpp" line="6454"/>
         <source>%1 %</source>
-        <translation type="unfinished"></translation>
+        <translation>%1%</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7432"/>
@@ -4243,12 +4243,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5531"/>
         <source>Failed to change volume of the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>无法更改流的音量</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5547"/>
         <source>Failed to change playback position</source>
-        <translation type="unfinished"></translation>
+        <translation>无法更改播放位置</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
@@ -6348,33 +6348,33 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilmedia.cpp" line="30"/>
         <source>Stereo</source>
-        <translation type="unfinished">立体声</translation>
+        <translation>立体声</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="32"/>
         <source>Mono</source>
-        <translation type="unfinished">单声道</translation>
+        <translation>单声道</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="34"/>
         <source>%1 audio channels</source>
-        <translation type="unfinished">%1 声道</translation>
+        <translation>%1声道</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 Hz, %2</source>
-        <translation type="unfinished">%1 Hz, %2</translation>
+        <translation>%1Hz, %2</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="39"/>
         <location filename="../utilmedia.cpp" line="49"/>
         <source>Unknown format</source>
-        <translation type="unfinished">未知格式</translation>
+        <translation>未知格式</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="47"/>
         <source>%1x%2 %3 FPS</source>
-        <translation type="unfinished">%1x%2 %3 FPS</translation>
+        <translation>%1x%2 %3 FPS</translation>
     </message>
 </context>
 <context>
@@ -8948,122 +8948,122 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>Log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>多次登录</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>See users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>查看所有频道用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>See hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>查看隐藏频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>创建/修改所有频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>Create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>创建临时频道</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>Edit server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>编辑服务器属性</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>将用户踢出服务器</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>禁止用户访问服务器</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>在频道间移动用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>使其他用户成为频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>上传文件</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Download files</source>
-        <translation type="unfinished"></translation>
+        <translation>下载文件</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>在所有频道中录音</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>传输语音数据（麦克风）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>传输视频数据（网络摄像头）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>传输桌面会话（共享桌面）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>远程访问桌面会话</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Stream audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>流式传输音频文件（wav、mp3 文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Stream video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>流式传输视频文件（avi、mp4 文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>发送私人消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="275"/>
         <source>Send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>发送频道消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>Send broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>发送广播消息</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>更改昵称</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>更改状态模式</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
