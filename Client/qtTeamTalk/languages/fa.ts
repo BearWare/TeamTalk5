@@ -1092,7 +1092,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../chattextedit.cpp" line="218"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>فضای آپلود: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="376"/>
@@ -2311,77 +2311,77 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="520"/>
         <source>M&amp;edia</source>
-        <translation type="unfinished"></translation>
+        <translation>ا&amp;ستریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="528"/>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>پخش</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="538"/>
         <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>پخش/مکث</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="549"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>توقف</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="560"/>
         <source>Browse</source>
-        <translation type="unfinished"></translation>
+        <translation>انتخاب</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="594"/>
         <source>Filename:</source>
-        <translation type="unfinished">نام:</translation>
+        <translation>نام:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="608"/>
         <source>Duration:</source>
-        <translation type="unfinished">مدت‌زمان:</translation>
+        <translation>مدت‌زمان:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="622"/>
         <source>Audio format:</source>
-        <translation type="unfinished">فرمت صدا:</translation>
+        <translation>فرمت صدا:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="636"/>
         <source>Video format:</source>
-        <translation type="unfinished">فرمت ویدیو:</translation>
+        <translation>فرمت ویدیو:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="650"/>
         <source>Elapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>سپری‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="660"/>
         <source>Elapsed time</source>
-        <translation type="unfinished"></translation>
+        <translation>زمانِ سپری‌شده</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="663"/>
         <source>Start position</source>
-        <translation type="unfinished">نقطۀ شروع</translation>
+        <translation>نقطۀ شروع</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="699"/>
         <source>Volume</source>
-        <translation type="unfinished">بلندی صدا</translation>
+        <translation>صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <source>Volume level</source>
-        <translation type="unfinished">صدا</translation>
+        <translation>میزان صدا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="722"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>برچسب متن</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
@@ -3710,48 +3710,48 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
         <source>Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>ادامۀ استریم</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6400"/>
         <location filename="../mainwindow.cpp" line="6423"/>
         <source>&amp;Play</source>
-        <translation type="unfinished">&amp;پخش</translation>
+        <translation>&amp;پخش</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6405"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished">&amp;مکث</translation>
+        <translation>&amp;مکث</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6409"/>
         <location filename="../mainwindow.cpp" line="6425"/>
         <source>Duration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>مدت‌زمان: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6415"/>
         <location filename="../mainwindow.cpp" line="6428"/>
         <source>Audio format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمت صدا: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6416"/>
         <location filename="../mainwindow.cpp" line="6429"/>
         <source>Video format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>فرمت ویدیو: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6433"/>
         <source>File name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>نام فایل: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6442"/>
         <location filename="../mainwindow.cpp" line="6448"/>
         <location filename="../mainwindow.cpp" line="6454"/>
         <source>%1 %</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 درصد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7432"/>
@@ -4243,12 +4243,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5531"/>
         <source>Failed to change volume of the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییرِ صدای استریم انجام نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5547"/>
         <source>Failed to change playback position</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییرِ موقعیتِ پخش انجام نشد</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
@@ -6348,33 +6348,33 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilmedia.cpp" line="30"/>
         <source>Stereo</source>
-        <translation type="unfinished">استریو</translation>
+        <translation>استریو</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="32"/>
         <source>Mono</source>
-        <translation type="unfinished">مُنُ</translation>
+        <translation>مُنُ</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="34"/>
         <source>%1 audio channels</source>
-        <translation type="unfinished">%1 کانال‌های صوتی</translation>
+        <translation>%1 کانال‌های صوتی</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 Hz, %2</source>
-        <translation type="unfinished">%1 هرتز, %2</translation>
+        <translation>%1 هرتز, %2</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="39"/>
         <location filename="../utilmedia.cpp" line="49"/>
         <source>Unknown format</source>
-        <translation type="unfinished">فرمت ناشناخته</translation>
+        <translation>فرمت ناشناخته</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="47"/>
         <source>%1x%2 %3 FPS</source>
-        <translation type="unfinished">%1x%2 %3 فریم بر ثانیه</translation>
+        <translation>%1x%2 %3 فریم بر ثانیه</translation>
     </message>
 </context>
 <context>
@@ -8948,122 +8948,122 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="231"/>
         <source>Log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>دسترسی مولتی‌لاگین</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="233"/>
         <source>See users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>دیدن کاربران در سایر کانال‌ها</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="235"/>
         <source>See hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>دیدن کانال‌های مخفی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ساختن یا ویرایش کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>Create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ساختن کانال‌های موقت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>Edit server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییرِ تنظیماتِ سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>بیرون‌کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>محروم‌کردن کاربران از سِروِر</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>انتقال کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>اپراتور‌کردن کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>آپلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Download files</source>
-        <translation type="unfinished"></translation>
+        <translation>دانلود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>ضبط صدا</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>صحبت‌کردن</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>اشتراک‌گذاری ویدیو</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>اشتراک‌گذاری دسکتاپ</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>کنترل دسکتاپ سایر کاربران</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Stream audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>استریم فایل‌های صوتی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Stream video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>استریم فایل‌های ویدیویی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال پیام شخصی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="275"/>
         <source>Send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال پیام کانال</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="277"/>
         <source>Send broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال پیام همگانی</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر نام مستعار</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>تغییر حالت وضعیت</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="291"/>
