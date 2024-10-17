@@ -38,6 +38,7 @@ QVariant UserAccountsModel::headerData(int section, Qt::Orientation orientation,
             case COLUMN_INDEX_NOTE: return tr("Note");
             case COLUMN_INDEX_CHANNEL: return tr("Channel");
             case COLUMN_INDEX_MODIFIED : return tr("Modified");
+            case COLUMN_INDEX_LASTLOGIN : return tr("Last Login");
         }
     }
     return QVariant();
@@ -76,6 +77,8 @@ QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::Dis
             return _Q(m_users[index.row()].szInitChannel);
         case COLUMN_INDEX_MODIFIED :
             return getFormattedDateTime(_Q(m_users[index.row()].szLastModified), "yyyy/MM/dd hh:mm");
+        case COLUMN_INDEX_LASTLOGIN :
+            return getFormattedDateTime(_Q(m_users[index.row()].szLastLoginTime), "yyyy/MM/dd hh:mm");
         }
         break;
     case Qt::AccessibleTextRole:
