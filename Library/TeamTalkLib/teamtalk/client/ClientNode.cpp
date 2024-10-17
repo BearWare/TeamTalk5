@@ -1204,7 +1204,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     assert(enc_length <= MAX_ENC_FRAMESIZE);
 
     VoicePacket* newpacket;
-    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
         ACE_NEW(newpacket, 
                 VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
@@ -1233,7 +1233,7 @@ void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
     TTASSERT(org_frame.userdata == STREAMTYPE_MEDIAFILE_AUDIO);
     
     AudioFilePacket* newpacket;
-    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
         ACE_NEW(newpacket, 
                 AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 

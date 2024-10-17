@@ -186,6 +186,17 @@ namespace teamtalk
         }
     }
 
+    bool GetAudioCodecVariableFrameSizes(const AudioCodec& codec)
+    {
+        switch(codec.codec)
+        {
+        case CODEC_OPUS :
+            return GetAudioCodecVBRMode(codec) || codec.opus.dtx;
+        default :
+            return GetAudioCodecVBRMode(codec);
+        }
+    }
+
     bool GetAudioCodecVBRMode(const AudioCodec& codec)
     {
         switch(codec.codec)
