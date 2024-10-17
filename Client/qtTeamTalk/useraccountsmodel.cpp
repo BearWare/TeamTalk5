@@ -102,6 +102,9 @@ QVariant UserAccountsModel::data(const QModelIndex & index, int role /*= Qt::Dis
         case COLUMN_INDEX_MODIFIED :
             return _Q(m_users[index.row()].szLastModified);
             break;
+        case COLUMN_INDEX_LASTLOGIN :
+            return _Q(m_users[index.row()].szLastLoginTime);
+            break;
         default :
             return data(index, Qt::DisplayRole);
             break;

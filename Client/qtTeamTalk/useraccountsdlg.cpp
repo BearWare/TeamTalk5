@@ -194,6 +194,12 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
     const QString modified = "modified";
     sortModified->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == modified)?true:false);
     sortMenu->addAction(sortModified);
+    QAction* sortLogin = new QAction(sortMenu);
+    sortLogin->setText(tr("&Last Login Time (%1)").arg(m_proxyModel->sortOrder() == Qt::AscendingOrder?asc:desc));
+    sortLogin->setCheckable(true);
+    const QString lastLogin = "lastLogin";
+    sortLogin->setChecked((ttSettings->value(SETTINGS_DISPLAY_USERACCOUNT_SORT, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT).toString() == lastLogin)?true:false);
+    sortMenu->addAction(sortLogin);
     QAction* addUser = menu.addAction(tr("&Create New User Account"));
     QAction* delUser = menu.addAction(tr("&Delete Selected User Account"));
     QAction* editUser = menu.addAction(tr("&Edit Selected User Account"));
@@ -222,6 +228,11 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
             ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, modified);
+        }
+        else if (action == sortLogin)
+        {
+            ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_LASTLOGIN, m_proxyModel->sortColumn() == COLUMN_INDEX_LASTLOGIN ? sortToggle : Qt::AscendingOrder);
+            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, lastLogin);
         }
         else if (action == addUser)
             slotAddUser();
