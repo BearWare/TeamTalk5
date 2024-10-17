@@ -36,6 +36,7 @@ public class UserAccount {
     public int nAudioCodecBpsLimit;
     public AbusePrevention abusePrevent = new AbusePrevention();
     public String szLastModified = "";
+    public String szLastLoginTime = "";
 
     public void copy(UserAccount u)
     {

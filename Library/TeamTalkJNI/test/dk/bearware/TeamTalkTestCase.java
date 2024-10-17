@@ -40,6 +40,7 @@ import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -4492,6 +4493,30 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is not streaming", UserState.USERSTATE_NONE, (msg.user.uUserState & UserState.USERSTATE_MEDIAFILE_AUDIO));
+    }
+
+    @Test
+    public void testUserAcountLastLogin() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase client = newClientInstance();
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount first_login_account = new UserAccount();
+        assertTrue("get account", client.getMyUserAccount(first_login_account));
+        //assertEquals("1970/01/01 00:00", first_login_account.szLastLoginTime);
+
+        assertTrue("disconnect", client.disconnect());
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount second_login_account = new UserAccount();
+        assertTrue("get account again", client.getMyUserAccount(second_login_account));
+        //assertNotEquals("1970/01/01 00:00", second_login_account.szLastLoginTime);
+        assertNotEquals(first_login_account.szLastLoginTime, second_login_account.szLastLoginTime);
     }
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.

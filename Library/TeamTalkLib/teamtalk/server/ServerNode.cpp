@@ -33,7 +33,6 @@
 #include <ace/OS_NS_sys_socket.h>
 
 #include <stack>
-#include <queue>
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -2739,6 +2738,14 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     if (m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDIN)
     {
         m_srvguard->OnUserLogin(*user);
+    }
+
+    // update last login
+    if (IsAutoSaving())
+    {
+        auto err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            m_srvguard->OnSaveConfiguration(user.get());
     }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);

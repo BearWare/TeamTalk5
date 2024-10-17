@@ -2168,6 +2168,10 @@ namespace BearWare
          * Date/time is converted local time. */
         [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
         public string szLastModified;
+        /** @brief Timestamp of user account's last successful login.
+         *  Read-only property. Date/time is converted local time. */
+        [MarshalAs(UnmanagedType.ByValTStr, SizeConst = TeamTalkBase.TT_STRLEN)]
+        public string szLastLoginTime;
     }
     /** @} */
 
