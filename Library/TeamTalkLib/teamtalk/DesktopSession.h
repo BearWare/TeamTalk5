@@ -71,11 +71,11 @@ namespace teamtalk {
     protected:
         void Init();
         DesktopWindow m_wnd;
-        int m_pixel_size;
-        int m_padding;
-        int m_w_blocks, m_h_blocks;
-        int m_block_width, m_block_height;
-        int m_bytes_per_line;
+        int m_pixel_size = 0;
+        int m_padding = 0;
+        int m_w_blocks = 0, m_h_blocks = 0;
+        int m_block_width = 0, m_block_height = 0;
+        int m_bytes_per_line = 0;
     };
 
     class BMPPalette

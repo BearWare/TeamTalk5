@@ -28,11 +28,6 @@ namespace teamtalk {
 
     User::User(int userid)
         : m_userid(userid)
-        , m_statusmode(0)
-        , m_packet_protocol(0)
-        , m_tm_ok(false)
-        , m_mtu_data_size(MAX_PAYLOAD_DATA_SIZE)
-        , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
     {
     }
 

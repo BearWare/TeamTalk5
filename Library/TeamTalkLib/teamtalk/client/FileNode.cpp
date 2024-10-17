@@ -37,19 +37,13 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
                    FileTransferListener* listener)
 : m_reactor(reactor)
 , m_listener(listener)
-, m_timerid(-1)
-, m_binarymode(false)
 , m_remoteAddr(addr)
 , m_srvprop(srvprop)
-, m_completed(false)
-, m_pending_complete(false)
 , m_transfer(transfer)
 #if defined(ENABLE_ENCRYPTION)
 , m_crypt_connector(&reactor, ACE_NONBLOCK)
-, m_crypt_stream(NULL)
 #endif
 , m_connector(&reactor)
-, m_def_stream(NULL)
 {
     m_filebuffer.resize(FILEBUFFERSIZE);
 

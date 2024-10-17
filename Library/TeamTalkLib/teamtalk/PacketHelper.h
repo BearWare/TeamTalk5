@@ -176,8 +176,8 @@ namespace teamtalk {
     private:
         void AddSentDesktopPacket(const DesktopPacket& packet);
 
-        uint8_t m_session_id;
-        uint32_t m_update_timeid;
+        uint8_t m_session_id = 0;
+        uint32_t m_update_timeid = 0;
 
         //packet id -> packet
         typedef std::map<uint16_t, desktoppacket_t> map_desktop_packets_t;
@@ -191,9 +191,9 @@ namespace teamtalk {
         //packet id -> sent time
         typedef std::map<uint16_t, uint32_t> map_sent_time_t;
         map_sent_time_t m_sent_times, m_sent_ack_times;
-        int m_tx_count;
+        int m_tx_count = 4;
         //round trip time (sent -> ack time)
-        uint32_t m_pingtime;
+        uint32_t m_pingtime = 0;
     };
 
     typedef std::shared_ptr< DesktopTransmitter > desktop_transmitter_t;
@@ -207,8 +207,8 @@ namespace teamtalk {
         uint32_t GetUpdateID() const { return m_update_timeid; }
 
     private:
-        uint8_t m_session_id;
-        uint32_t m_update_timeid;
+        uint8_t m_session_id = 0;
+        uint32_t m_update_timeid = 0;
     };
 
     typedef std::shared_ptr< DesktopNakTransmitter > desktop_nak_tx_t;

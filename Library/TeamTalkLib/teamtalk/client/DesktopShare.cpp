@@ -42,8 +42,6 @@ DesktopInitiator::DesktopInitiator(int userid, const DesktopWindow& wnd,
                                    uint16_t max_payload_size)
 : DesktopSession(wnd)
 , m_userid(userid)
-, m_newsession(true)
-, m_abort(false)
 , m_max_chunk_size(max_chunk_size)
 , m_max_payload_size(max_payload_size)
 {

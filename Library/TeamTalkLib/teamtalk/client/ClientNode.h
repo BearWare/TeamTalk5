@@ -102,39 +102,28 @@ namespace teamtalk {
 
     struct ClientStats
     {
-        ACE_INT64 udpbytes_sent;
-        ACE_INT64 udpbytes_recv;
-        ACE_INT64 voicebytes_sent;
-        ACE_INT64 voicebytes_recv;
-        ACE_INT64 vidcapbytes_sent;
-        ACE_INT64 vidcapbytes_recv;
-        ACE_INT64 mediafile_audio_bytes_sent;
-        ACE_INT64 mediafile_audio_bytes_recv;
-        ACE_INT64 mediafile_video_bytes_sent;
-        ACE_INT64 mediafile_video_bytes_recv;
-        ACE_INT64 desktopbytes_sent;
-        ACE_INT64 desktopbytes_recv;
-        ACE_INT32 udpping_time;
-        ACE_INT32 tcpping_time;
+        ACE_INT64 udpbytes_sent = 0;
+        ACE_INT64 udpbytes_recv = 0;
+        ACE_INT64 voicebytes_sent = 0;
+        ACE_INT64 voicebytes_recv = 0;
+        ACE_INT64 vidcapbytes_sent = 0;
+        ACE_INT64 vidcapbytes_recv = 0;
+        ACE_INT64 mediafile_audio_bytes_sent = 0;
+        ACE_INT64 mediafile_audio_bytes_recv = 0;
+        ACE_INT64 mediafile_video_bytes_sent = 0;
+        ACE_INT64 mediafile_video_bytes_recv = 0;
+        ACE_INT64 desktopbytes_sent = 0;
+        ACE_INT64 desktopbytes_recv = 0;
+        ACE_INT32 udpping_time = -1;
+        ACE_INT32 tcpping_time = -1;
         //internal use
-        ACE_UINT32 tcp_silence_sec;
-        ACE_UINT32 udp_silence_sec;
+        ACE_UINT32 tcp_silence_sec = 0;
+        ACE_UINT32 udp_silence_sec = 0;
         ACE_Time_Value ping_issue_time;
-        bool udp_ping_dirty;
-        bool tcp_ping_dirty;
+        bool udp_ping_dirty = true;
+        bool tcp_ping_dirty = true;
         int streamcapture_delay_msec = 0;
-        ClientStats()
-        {
-            udpbytes_sent = udpbytes_recv = 
-                voicebytes_sent = voicebytes_recv = 
-                vidcapbytes_sent = vidcapbytes_recv = 
-                desktopbytes_sent = desktopbytes_recv = 
-                mediafile_audio_bytes_sent = mediafile_audio_bytes_recv = 
-                mediafile_video_bytes_sent = mediafile_video_bytes_recv = 0;
-            udpping_time = tcpping_time = -1;
-            tcp_silence_sec = udp_silence_sec = 0;
-            tcp_ping_dirty = udp_ping_dirty = true;
-        }
+        ClientStats() { }
     };
 
     struct ClientKeepAlive
@@ -528,10 +517,10 @@ namespace teamtalk {
         audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;
-        DefaultStreamHandler::StreamHandler_t* m_def_stream;
+        DefaultStreamHandler::StreamHandler_t* m_def_stream = nullptr;
 #if defined(ENABLE_ENCRYPTION)
         crypt_connector_t m_crypt_connector;
-        CryptStreamHandler::StreamHandler_t* m_crypt_stream;
+        CryptStreamHandler::StreamHandler_t* m_crypt_stream = nullptr;
 #endif
         //TCP send/receive buffer for StreamHandler
         ACE_CString m_recvbuffer, m_sendbuffer;
@@ -549,7 +538,7 @@ namespace teamtalk {
 
         clientchannel_t m_rootchannel;
         clientchannel_t m_mychannel;
-        int m_myuserid;
+        int m_myuserid = 0;
         UserAccount m_myuseraccount;
         clientuser_t m_local_voicelog;
 
@@ -570,23 +559,23 @@ namespace teamtalk {
 
         //encode voice from sound input
         AudioThread m_voice_thread;
-        uint8_t m_voice_stream_id; //0 means not used
-        uint16_t m_voice_pkt_counter;
+        uint8_t m_voice_stream_id = 0; //0 means not used
+        uint16_t m_voice_pkt_counter = 0;
         std::atomic<bool> m_voice_tx_closed{false}; // CLIENT_TX_VOICE was toggled (transmit next packet)
 
         //encode video from video capture
         vidcap::videocapture_t m_vidcap;
         VideoThread m_vidcap_thread;
         ACE_Message_Queue<ACE_MT_SYNCH> m_local_vidcapframes; //local RGB32 video frames
-        uint8_t m_vidcap_stream_id; //0 means not used
+        uint8_t m_vidcap_stream_id = 0; //0 means not used
 
         //media streamer to channels
         mediafile_streamer_t m_mediafile_streamer;
-        uint8_t m_mediafile_stream_id; //0 means not used
+        uint8_t m_mediafile_stream_id = 0; //0 means not used
 
         //encode audio of media file
         AudioThread m_audiofile_thread;
-        uint16_t m_audiofile_pkt_counter;
+        uint16_t m_audiofile_pkt_counter = 0;
 
         //encode video of media file
         video_thread_t m_videofile_thread;
@@ -602,14 +591,14 @@ namespace teamtalk {
         desktop_initiator_t m_desktop;
         desktop_transmitter_t m_desktop_tx;
         desktop_nak_tx_t m_desktop_nak_tx;
-        uint8_t m_desktop_session_id;
+        uint8_t m_desktop_session_id = 0;
 
         //UDP packets waiting for transmission
         PacketQueue m_tx_queue;
 
         //unique IDs for Do* commands
-        uint16_t m_cmdid_counter; 
-        uint16_t m_current_cmdid; 
+        uint16_t m_cmdid_counter = 0;
+        uint16_t m_current_cmdid = 0;
 
         //local UDP sockets to use (stored in case UDP socket must be recreated)
         ACE_INET_Addr m_localTcpAddr, m_localUdpAddr;
@@ -617,13 +606,13 @@ namespace teamtalk {
         //query MTU (timestamp -> MTU packet)
         typedef std::map<uint32_t, ka_mtu_packet_t> mtu_packets_t;
         mtu_packets_t m_mtu_packets;
-        uint16_t m_mtu_data_size, m_mtu_max_payload_size;
+        uint16_t m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
 
         //the client's version number
         ACE_TString m_version;
 
         //The listener of the ClientNode instance
-        ClientListener* m_listener;
+        ClientListener* m_listener = nullptr;
     };
 }
 

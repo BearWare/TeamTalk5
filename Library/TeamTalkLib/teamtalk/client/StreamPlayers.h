@@ -54,10 +54,10 @@ namespace teamtalk {
     {
         std::vector<char> enc_frames;
         std::vector<uint16_t> enc_frame_sizes;
-        uint32_t timestamp;
-        int stream_id;
+        uint32_t timestamp = 0;
+        int stream_id = 0;
 
-        encframe() : timestamp(0), stream_id(0) {}
+        encframe() { }
         void reset()
         {
             timestamp = 0;
@@ -113,36 +113,36 @@ namespace teamtalk {
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
 
-        int m_userid;
-        StreamType m_streamtype;
+        int m_userid = 0;
+        StreamType m_streamtype = STREAMTYPE_NONE;
         soundsystem::soundsystem_t m_sndsys;
         useraudio_callback_t m_audio_callback;
-        bool m_talking;
+        bool m_talking = false;
         AudioCodec m_codec;
         //start/stop playback attributes
-        uint32_t m_last_playback;  //local timestamp for last playback
-        uint32_t m_play_stopped_delay; //wait for how long to stop playing
-        uint32_t m_played_packet_time; //time of last packet to be send to audio buffer
+        uint32_t m_last_playback = 0;  //local timestamp for last playback
+        uint32_t m_play_stopped_delay = STOPPED_TALKING_DELAY; //wait for how long to stop playing
+        uint32_t m_played_packet_time = 0; //time of last packet to be send to audio buffer
         //AudioMuxer attributes
-        ACE_UINT32 m_samples_played;
+        ACE_UINT32 m_samples_played = 0;
         //Resample buffer
         audio_resampler_t m_resampler;
         std::vector<short> m_resample_buffer;
-        StereoMask m_stereo;
-        bool m_no_recording;
+        StereoMask m_stereo = STEREO_BOTH;
+        bool m_no_recording = false;
         //id of the stream currently being played
-        int m_stream_id;
+        int m_stream_id = 0;
 
         //stats
-        int m_audiopackets_recv;
-        int m_audiopacket_lost;
+        int m_audiopackets_recv = 0;
+        int m_audiopacket_lost = 0;
 
         //received frames
         typedef std::map<uint16_t, encframe, w16_less_comp> enc_frames_t;
         enc_frames_t m_buffer;
-        int m_buffer_msec;
+        int m_buffer_msec = 0;
         //current packet number being played
-        uint16_t m_play_pkt_no;
+        uint16_t m_play_pkt_no = 0;
 
         //container for fragmented packets
         //packet no -> fragments
@@ -221,22 +221,22 @@ namespace teamtalk {
 
         void dumpFragments();
 
-        int m_userid;
-        int m_video_pkts_recv;
-        int m_videoframes_recv;
-        int m_videoframes_lost;
-        int m_videoframes_dropped;
+        int m_userid = 0;
+        int m_video_pkts_recv = 0;
+        int m_videoframes_recv = 0;
+        int m_videoframes_lost = 0;
+        int m_videoframes_dropped = 0;
 
-        uint8_t m_videostream_id;
-        uint32_t m_packet_no;
+        uint8_t m_videostream_id = 0;
+        uint32_t m_packet_no = 0;
         //local time stamp of latest packet to arrive
-        uint32_t m_local_timestamp;
+        uint32_t m_local_timestamp = 0;
 
         struct enc_frame
         {
             std::vector<char> enc_data;
-            uint32_t packet_no;
-            enc_frame() : packet_no(0) {}
+            uint32_t packet_no = 0;
+            enc_frame() { }
         };
 
         //packetno -> video fragments (sorted by UINT32 wrap)
@@ -248,7 +248,7 @@ namespace teamtalk {
         video_frames_t m_video_frames;
 
         VpxDecoder m_decoder;
-        bool m_decoder_ready;
+        bool m_decoder_ready = false;
 
         ACE_Recursive_Thread_Mutex m_mutex;
     };

@@ -42,8 +42,8 @@ namespace teamtalk {
     struct ServerProperties;
     struct ClosedDesktopSession
     {
-        uint8_t session_id;
-        uint32_t update_id;
+        uint8_t session_id = 0;
+        uint32_t update_id = 0;
     };
         
     typedef std::shared_ptr< ServerChannel > serverchannel_t;
@@ -65,14 +65,14 @@ namespace teamtalk {
 
         struct LocalFileTransfer
         {
-            bool inbound;
-            int transferid;
+            bool inbound = false;
+            int transferid = 0;
             ACE_TString filename;
             MyFile file;
-            int64_t filesize;
-            bool active;
+            int64_t filesize = 0;
+            bool active = false;
             std::vector<char> readbuffer;
-            LocalFileTransfer() : inbound(0), transferid(0), filesize(0), active(false)
+            LocalFileTransfer()
             {
                 readbuffer.resize(FILEBUFFERSIZE);
             }
@@ -114,8 +114,8 @@ namespace teamtalk {
         void SetStreamProtocol(const ACE_TString& protocol){m_stream_protocol=protocol;}
         const ACE_TString& GetStreamProtocol() const { return m_stream_protocol; }
 
-        int GetLastKeepAlive() const { return m_nLastKeepAlive; }
-        void SetLastKeepAlive(int lasttime){ m_nLastKeepAlive = lasttime; }
+        int GetLastKeepAlive() const { return m_lastkeepalive; }
+        void SetLastKeepAlive(int lasttime){ m_lastkeepalive = lasttime; }
 
         void SetChannel(serverchannel_t& channel){ m_channel = channel; }
         serverchannel_t GetChannel() const { return m_channel.lock(); }
@@ -258,18 +258,18 @@ namespace teamtalk {
 
         ACE_TString m_stream_protocol;
         ServerNode& m_servernode;
-        ACE_HANDLE m_stream_handle;
+        ACE_HANDLE m_stream_handle = ACE_INVALID_HANDLE;
 #if defined(ENABLE_TEAMTALKPRO)
         uint8_t m_accesstoken[CRYPTKEY_SIZE];
 #endif
             
-        int m_nLastKeepAlive;
+        int m_lastkeepalive = 0;
         std::weak_ptr< ServerChannel > m_channel;
         ACE_Time_Value m_LogonTime;
 
         //commands received so far
         ACE_CString m_recvbuf, m_sendbuf;
-        bool m_cmdsuspended;
+        bool m_cmdsuspended = false;
 
         //file transfer variables
         std::unique_ptr<LocalFileTransfer> m_filetransfer;

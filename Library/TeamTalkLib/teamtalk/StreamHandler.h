@@ -67,9 +67,6 @@ public:
                   ACE_Message_Queue<ACE_MT_SYNCH> *mq = 0,
                   ACE_Reactor *reactor = ACE_Reactor::instance())
     : super(thr_mgr, mq, reactor)
-    , m_listener(NULL)
-    , sent_(0)
-    , recv_(0)
     {
         m_buffer.resize(4096);
 
@@ -206,10 +203,10 @@ public:
         return -1;
     }
 
-    ACE_INT64 sent_, recv_;
+    ACE_INT64 sent_ = 0, recv_ = 0;
 
 protected:
-    StreamListener<StreamHandler>* m_listener;
+    StreamListener<StreamHandler>* m_listener = nullptr;
     std::vector<char> m_buffer;
 };
 

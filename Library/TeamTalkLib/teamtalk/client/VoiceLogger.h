@@ -59,16 +59,12 @@ namespace teamtalk {
     struct VoiceLogFile
     {
         ACE_TString filename;
-        int samplerate;
-        int channels;
-        int duration;
-        AudioFileFormat aff;
+        int samplerate = 0;
+        int channels = 0;
+        int duration = 0;
+        AudioFileFormat aff = AFF_NONE;
 
-        VoiceLogFile()
-            : samplerate(0)
-            , channels(0)
-            , duration(0)
-            , aff(AFF_NONE) {}
+        VoiceLogFile() { }
     };
 
     // Mutex of VoiceLog is ensured by VoiceLogger
@@ -113,10 +109,10 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
-        int m_packet_current;
+        int m_packet_current = -1;
         ACE_Time_Value m_last;
         uint32_t m_packet_timestamp = 0; // timestamp of most recent packet
-        int m_tot_msec; // auto close voice log after this timeout
+        int m_tot_msec = 0; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)
         std::unique_ptr<SpeexDecoder> m_speex;
 #endif
@@ -136,12 +132,12 @@ namespace teamtalk {
         ACE_TString m_filename;
 
         teamtalk::AudioCodec m_codec;
-        AudioFileFormat m_aff;
+        AudioFileFormat m_aff = AFF_NONE;
         std::vector<short> m_samples_buf;
-        bool m_active;
-        bool m_closing;
-        int m_userid;
-        int m_streamid;
+        bool m_active = false;
+        bool m_closing = false;
+        int m_userid = 0;
+        int m_streamid = 0;
     };
 
     typedef std::shared_ptr< VoiceLog > voicelog_t;
@@ -182,8 +178,8 @@ namespace teamtalk {
         mapvlogs_t m_mLogs;
         ACE_Recursive_Thread_Mutex m_add_mtx, m_flush_mtx;
         ACE_Reactor m_reactor;
-        int m_timerid;
-        VoiceLogListener* m_listener;
+        int m_timerid = -1;
+        VoiceLogListener* m_listener = nullptr;
     };
 
     typedef std::shared_ptr< VoiceLogger > voicelogger_t;
