@@ -97,7 +97,8 @@ namespace teamtalk
             return GetSpeexBandModeSampleRate(codec.speex_vbr.bandmode);
         case CODEC_OPUS :
             return codec.opus.samplerate;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return 0;
         }
     }
@@ -114,7 +115,8 @@ namespace teamtalk
                 codec.speex_vbr.frames_per_packet);
         case CODEC_OPUS :
             return codec.opus.frame_size * codec.opus.frames_per_packet;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return 0;
         }
     }
@@ -151,7 +153,8 @@ namespace teamtalk
             return 1; //speex doesn't allow stereo
         case CODEC_OPUS :
             return codec.opus.channels;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return 0;
         }
     }
@@ -166,7 +169,8 @@ namespace teamtalk
             return GetSpeexBandModeFrameSize(codec.speex_vbr.bandmode);
         case CODEC_OPUS :
             return codec.opus.frame_size;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return 0;
         }
     }
@@ -181,7 +185,8 @@ namespace teamtalk
             return codec.speex_vbr.frames_per_packet;
         case CODEC_OPUS :
             return codec.opus.frames_per_packet;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return 0;
         }
     }
@@ -192,7 +197,10 @@ namespace teamtalk
         {
         case CODEC_OPUS :
             return GetAudioCodecVBRMode(codec) || codec.opus.dtx;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+        case CODEC_SPEEX_VBR :
+        case CODEC_SPEEX :
             return GetAudioCodecVBRMode(codec);
         }
     }
@@ -206,7 +214,8 @@ namespace teamtalk
         case CODEC_OPUS :
             return codec.opus.vbr;
         case CODEC_SPEEX :
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
             return false;
         }
     }
@@ -219,7 +228,9 @@ namespace teamtalk
             return codec.speex.sim_stereo;
         case CODEC_SPEEX_VBR :
             return codec.speex_vbr.sim_stereo;
-        default :
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+        case CODEC_OPUS :
             return false;
         }
     }
@@ -320,7 +331,7 @@ namespace teamtalk
                 codec.speex_vbr.bitrate : codec.speex_vbr.max_bitrate;
         case CODEC_OPUS :
             return codec.opus.bitrate;
-        default :
+        case CODEC_WEBM_VP8 :
             return 0;
         } /* codec switch */
     }
@@ -361,7 +372,10 @@ namespace teamtalk
             return codec.speex.bandmode;
         case CODEC_SPEEX_VBR :
             return codec.speex_vbr.bandmode;
-        default : return -1;
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+        case CODEC_OPUS :
+            return -1;
         }
     }
 
@@ -373,7 +387,10 @@ namespace teamtalk
             return codec.speex.quality;
         case CODEC_SPEEX_VBR :
             return (int)codec.speex_vbr.vbr_quality;
-        default : return -1;
+        case CODEC_NO_CODEC :
+        case CODEC_WEBM_VP8 :
+        case CODEC_OPUS :
+            return -1;
         }
     }
 
@@ -451,7 +468,8 @@ namespace teamtalk
                 if (GetAudioCodecCbMillis(codec) > 60)
                     return true;
                 break;
-            default :
+            case CODEC_NO_CODEC :
+            case CODEC_WEBM_VP8 :
                 break;
             }
         }
