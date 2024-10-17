@@ -39,6 +39,7 @@ namespace teamtalk
     int GetAudioCodecChannels(const AudioCodec& codec);
     int GetAudioCodecFrameSize(const AudioCodec& codec);
     int GetAudioCodecFramesPerPacket(const AudioCodec& codec);
+    bool GetAudioCodecVariableFrameSizes(const AudioCodec& codec);
     bool GetAudioCodecVBRMode(const AudioCodec& codec);
     bool GetAudioCodecSimulateStereo(const AudioCodec& codec);
     int GetAudioCodecBitRate(const AudioCodec& codec);
