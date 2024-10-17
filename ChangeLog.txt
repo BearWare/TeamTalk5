@@ -2,7 +2,7 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.17.1, unreleased
+Version 5.18, unreleased
 Default Qt Client
 - Media tab in main window for controlling media file streaming
 - Support "{username}" variable for majority of TTS and status events related to user action
@@ -11,6 +11,7 @@ Default Qt Client
 - All byte sizes converted to local format
 - Option to use TeamTalk Sound Output device for default sound event playback mode
 - Option to choose bitween text or emoji for user and channel info in channel list
+- Last login time display in "User Accounts" dialog
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start

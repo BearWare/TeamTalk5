@@ -117,6 +117,7 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
         this->setAccessibleDescription(tr("Add User on Server"));
         ui->typeComboBox->setCurrentIndex(ui->typeComboBox->findData(USERTYPE_DEFAULT));
         ui->lastEditLabel->setVisible(false);
+        ui->lastLoginLabel->setVisible(false);
         ui->typeComboBox->setFocus();
         break;
     case USER_UPDATE :
@@ -369,6 +370,7 @@ void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
     ui->noteEdit->setPlainText(_Q(useraccount.szNote));
     ui->channelComboBox->lineEdit()->setText(_Q(useraccount.szInitChannel));
     ui->lastEditLabel->setText(tr("Last edited: %1").arg(getFormattedDateTime(_Q(useraccount.szLastModified), "yyyy/MM/dd hh:mm")));
+    ui->lastLoginLabel->setText(tr("Last login: %1").arg(getFormattedDateTime(_Q(useraccount.szLastLoginTime), "yyyy/MM/dd hh:mm")));
 
     updateUserRights(useraccount);
 
