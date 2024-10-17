@@ -2065,7 +2065,7 @@ extern "C" {
          * Requires TeamTalk version 5.2.3.4896. */
         AbusePrevention abusePrevent;
         /** @brief Timestamp of last modification of user account.
-         * Date/time is converted local time. */
+         * Read-only property. Date/time is converted local time. */
         TTCHAR szLastModified[TT_STRLEN];
         /** @brief Timestamp of user account's last successful login.
          *  Read-only property. Date/time is converted local time. */
@@ -2654,8 +2654,8 @@ extern "C" {
         INT64 nFileSize;
         /** @brief Username of the person who uploaded the file. */
         TTCHAR szUsername[TT_STRLEN];
-        /** @brief Time when file was uploaded. Date/time is converted
-         * local time. */
+        /** @brief Time when file was uploaded.
+         *  Read-only property. Date/time is converted local time. */
         TTCHAR szUploadTime[TT_STRLEN];
     } RemoteFile;
     /** @} */
