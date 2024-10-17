@@ -159,6 +159,7 @@ namespace teamtalk {
         bool GetNextUser(int index, UserAccount& user);
         bool AuthenticateUser(UserAccount& user);
         bool GetUser(const std::string& username, UserAccount& user);
+        void UpdateLastLogin(const UserAccount& user);
         /****** </users> *****/
 
         /********** <serverbans>  ************/

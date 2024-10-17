@@ -33,7 +33,7 @@
 #include <set>
 #include <map>
 
-#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.13")
+#define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.14")
 
 /* parameter names */
 #define TT_USERID ACE_TEXT("userid")
@@ -142,6 +142,7 @@
 #define TT_TOTMEDIAFILE ACE_TEXT("mediafiletot") // v5.12
 #define TT_TRANSFERKEY ACE_TEXT("filetxkey") // v5.13
 #define TT_BANOWNER ACE_TEXT("owner") // v5.13
+#define TT_LASTLOGINTIME ACE_TEXT("lastlogin") // v5.14
 
 //    Client ---> Server
 //    -------------------------

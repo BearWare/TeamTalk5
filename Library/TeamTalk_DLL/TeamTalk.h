@@ -2067,6 +2067,9 @@ extern "C" {
         /** @brief Timestamp of last modification of user account.
          * Date/time is converted local time. */
         TTCHAR szLastModified[TT_STRLEN];
+        /** @brief Timestamp of user account's last successful login.
+         *  Read-only property. Date/time is converted local time. */
+        TTCHAR szLastLoginTime[TT_STRLEN];
     } UserAccount;
     /** @} */
 

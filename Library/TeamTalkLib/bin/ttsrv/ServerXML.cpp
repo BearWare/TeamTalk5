@@ -1318,6 +1318,7 @@ namespace teamtalk{
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel).c_str());
         PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()).c_str());
+        PutString(userElement, "last-login-time", DateToString(user.lastlogin.sec()).c_str());
         TiXmlElement opchanElement("channel-operator");
         for(intset_t::const_iterator i=user.auto_op_channels.begin();
             i!=user.auto_op_channels.end();i++)
@@ -1386,6 +1387,9 @@ namespace teamtalk{
         GetInteger(userElement, "audiocodec-bps-limit", bpslimit);
         GetString(userElement, "modified-time", tmp);
         user.lastupdated = StringToDate(tmp);
+        tmp.clear();
+        GetString(userElement, "last-login-time", tmp);
+        user.lastlogin = StringToDate(tmp);
 
         if(b)
         {
@@ -1440,6 +1444,8 @@ namespace teamtalk{
             user = int_user;
             if(user.usertype == USERTYPE_ADMIN)
                 user.userrights = USERRIGHT_ALL;
+
+            UpdateLastLogin(user);
             return true;
         }
         return false;
@@ -1477,6 +1483,14 @@ namespace teamtalk{
             int_user = UserAccount(); //reset
         }
         return false;
+    }
+
+    void ServerXML::UpdateLastLogin(const UserAccount& user)
+    {
+        RemoveUser(UnicodeToUtf8(user.username).c_str());
+        UserAccount updateduser = user;
+        updateduser.lastlogin = ACE_OS::gettimeofday();
+        AddNewUser(updateduser);
     }
 
     /******* </users> ******/

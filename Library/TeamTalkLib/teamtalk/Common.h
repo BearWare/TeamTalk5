@@ -267,6 +267,7 @@ namespace teamtalk {
         Abuse abuse;
         ACE_TString nickname; /* TODO: add to TT API */
         ACE_Time_Value lastupdated;
+        ACE_Time_Value lastlogin;
         
         UserAccount();
         bool IsWebLogin() const;

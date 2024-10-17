@@ -1310,6 +1310,7 @@ void AppendUserAccount(const UserAccount& useraccount, ACE_TString& command)
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
     AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
+    AppendProperty(TT_LASTLOGINTIME, useraccount.lastlogin, command);
 }
 
 void ServerUser::DoAccepted(const UserAccount& useraccount)
