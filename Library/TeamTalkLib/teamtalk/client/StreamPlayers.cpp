@@ -40,19 +40,8 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type, soundsystem::sounds
 , m_streamtype(stream_type)
 , m_sndsys(sndsys)
 , m_audio_callback(audio_cb)
-, m_talking(false)
 , m_codec(codec)
-, m_last_playback(0)
-, m_play_stopped_delay(STOPPED_TALKING_DELAY)
-, m_played_packet_time(0)
-, m_samples_played(0)
 , m_resampler(resampler)
-, m_stereo(STEREO_BOTH)
-, m_no_recording(false)
-, m_stream_id(0)
-, m_audiopackets_recv(0)
-, m_audiopacket_lost(0)
-, m_play_pkt_no(0)
 {
     MYTRACE(ACE_TEXT("New AudioPlayer() - #%d\n"), m_userid);
 
@@ -608,14 +597,8 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
 
 WebMPlayer::WebMPlayer(int userid, int stream_id)
 : m_userid(userid)
-, m_video_pkts_recv(0)
-, m_videoframes_recv(0)
-, m_videoframes_lost(0)
-, m_videoframes_dropped(0)
 , m_videostream_id(stream_id)
-, m_packet_no(0)
 , m_local_timestamp(GETTIMESTAMP())
-, m_decoder_ready(false)
 {
     MYTRACE(ACE_TEXT("New WebMPlayer() - #%d stream id %d\n"), m_userid, stream_id);
 }

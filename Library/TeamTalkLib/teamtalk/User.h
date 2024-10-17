@@ -84,14 +84,14 @@ namespace teamtalk {
         ACE_TString GetClientName() const { return m_clientname; }
 
     private:
-        int m_userid;
-        int m_packet_protocol;
+        int m_userid = 0;
+        int m_packet_protocol = 0;
         ACE_TString m_ipaddr;
-        int m_statusmode;
+        int m_statusmode = 0;
         ACE_TString m_statusmsg;
-        bool m_tm_ok;
-        ACE_UINT32 m_timestamp;
-        int m_mtu_data_size, m_mtu_max_payload_size;
+        bool m_tm_ok = false;
+        ACE_UINT32 m_timestamp = 0;
+        int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PAYLOAD_DATA_SIZE;
         typedef std::map<PacketKind, ACE_UINT32> packet_timestamps_t;
         packet_timestamps_t m_pkt_timestamps;
     protected:

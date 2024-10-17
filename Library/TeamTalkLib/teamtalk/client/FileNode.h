@@ -109,23 +109,23 @@ namespace teamtalk {
         void CloseTransfer();
 
         ACE_Reactor& m_reactor;
-        FileTransferListener* m_listener;
+        FileTransferListener* m_listener = nullptr;
 
-        long m_timerid;
+        long m_timerid = -1;
         ACE_INET_Addr m_remoteAddr;
         ServerProperties m_srvprop;
-        bool m_binarymode;
+        bool m_binarymode = false;
         ACE_CString m_readbuffer, m_sendbuffer;
         std::vector<char> m_filebuffer;
 
-        bool m_pending_complete, m_completed;
+        bool m_pending_complete = false, m_completed = false;
 
 #if defined(ENABLE_ENCRYPTION)
         crypt_connector_t m_crypt_connector;
-        CryptStreamHandler::StreamHandler_t* m_crypt_stream;
+        CryptStreamHandler::StreamHandler_t* m_crypt_stream = nullptr;
 #endif
         connector_t m_connector;
-        DefaultStreamHandler::StreamHandler_t* m_def_stream;
+        DefaultStreamHandler::StreamHandler_t* m_def_stream = nullptr;
         teamtalk::FileTransfer m_transfer;
         MyFile m_file;
     };

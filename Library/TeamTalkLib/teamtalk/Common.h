@@ -36,7 +36,6 @@
 #include <ace/INET_Addr.h>
 #include <ace/Time_Value.h>
 
-#include <regex>
 #include <map>
 #include <vector>
 #include <set>
@@ -107,45 +106,35 @@ namespace teamtalk {
 
     struct ServerStats
     {
-        ACE_INT64 total_bytessent;
-        ACE_INT64 total_bytesreceived;
-        ACE_INT64 last_bytessent;
-        ACE_INT64 last_bytesreceived;
-        ACE_INT64 avg_bytessent;
-        ACE_INT64 avg_bytesreceived;
-        ACE_INT64 voice_bytesreceived;
-        ACE_INT64 voice_bytessent;
-        ACE_INT64 last_voice_bytessent;
-        ACE_INT64 vidcap_bytesreceived;
-        ACE_INT64 vidcap_bytessent;
-        ACE_INT64 last_vidcap_bytessent;
-        ACE_INT64 mediafile_bytesreceived;
-        ACE_INT64 mediafile_bytessent;
-        ACE_INT64 last_mediafile_bytessent;
-        ACE_INT64 desktop_bytesreceived;
-        ACE_INT64 desktop_bytessent;
-        ACE_INT64 last_desktop_bytessent;
-        ACE_INT64 files_bytesreceived;
-        ACE_INT64 files_bytessent;
+        ACE_INT64 total_bytessent = 0;
+        ACE_INT64 total_bytesreceived = 0;
+        ACE_INT64 last_bytessent = 0;
+        ACE_INT64 last_bytesreceived = 0;
+        ACE_INT64 avg_bytessent = 0;
+        ACE_INT64 avg_bytesreceived = 0;
+        ACE_INT64 voice_bytesreceived = 0;
+        ACE_INT64 voice_bytessent = 0;
+        ACE_INT64 last_voice_bytessent = 0;
+        ACE_INT64 vidcap_bytesreceived = 0;
+        ACE_INT64 vidcap_bytessent = 0;
+        ACE_INT64 last_vidcap_bytessent = 0;
+        ACE_INT64 mediafile_bytesreceived = 0;
+        ACE_INT64 mediafile_bytessent = 0;
+        ACE_INT64 last_mediafile_bytessent = 0;
+        ACE_INT64 desktop_bytesreceived = 0;
+        ACE_INT64 desktop_bytessent = 0;
+        ACE_INT64 last_desktop_bytessent = 0;
+        ACE_INT64 files_bytesreceived = 0;
+        ACE_INT64 files_bytessent = 0;
 
-        int userspeak;
-        int usersservered;
+        int userspeak = 0;
+        int usersservered = 0;
         //uptime
         ACE_Time_Value starttime;
         
         ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
 
-        ServerStats()
-            : total_bytessent(0), total_bytesreceived(0), last_bytessent(0)
-            , last_bytesreceived(0), avg_bytessent(0), avg_bytesreceived(0)
-            , voice_bytesreceived(0), voice_bytessent(0)
-            , vidcap_bytesreceived(0), vidcap_bytessent(0)
-            , last_voice_bytessent(0), last_vidcap_bytessent(0)
-            , mediafile_bytesreceived(0), desktop_bytesreceived(0)
-            , desktop_bytessent(0), last_desktop_bytessent(0)
-            , mediafile_bytessent(0), last_mediafile_bytessent(0), userspeak(0)
-            , usersservered(0), files_bytesreceived(0), files_bytessent(0)
-        {}
+        ServerStats() { }
     };
 
     /* Remember to updated DLL header file when modifying this */
@@ -232,9 +221,9 @@ namespace teamtalk {
 
     struct Abuse
     {
-        int n_cmds;
-        int cmd_msec;
-        Abuse() : n_cmds(0), cmd_msec(0) {}
+        int n_cmds = 0;
+        int cmd_msec = 0;
+        Abuse() { }
 
         std::vector<int> toParam() const
         {
@@ -440,30 +429,18 @@ namespace teamtalk {
 
     struct SpeexDSP
     {
-        bool enable_agc;
-        int agc_gainlevel;
-        int agc_maxincdbsec;
-        int agc_maxdecdbsec;
-        int agc_maxgaindb;
-        bool enable_denoise;
-        int maxnoisesuppressdb;
-        bool enable_aec;
-        int aec_suppress_level;
-        int aec_suppress_active;
+        bool enable_agc = false;
+        int agc_gainlevel = 0;
+        int agc_maxincdbsec = 0;
+        int agc_maxdecdbsec = 0;
+        int agc_maxgaindb = 0;
+        bool enable_denoise = false;
+        int maxnoisesuppressdb = 0;
+        bool enable_aec = 0;
+        int aec_suppress_level = 0;
+        int aec_suppress_active = 0;
 
-        SpeexDSP()
-        {
-            enable_agc = false;
-            agc_gainlevel = 0;
-            agc_maxincdbsec = 0;
-            agc_maxdecdbsec = 0;
-            agc_maxgaindb = 0;
-            enable_denoise = false;
-            maxnoisesuppressdb = 0;
-            enable_aec = false;
-            aec_suppress_level = 0;
-            aec_suppress_active = 0;
-        }
+        SpeexDSP() { }
     };
 
     struct TTAudioPreprocessor
@@ -600,18 +577,18 @@ namespace teamtalk {
         ACE_TString passwd;
         ACE_TString topic;
         ACE_TString oppasswd;
-        ACE_INT64 diskquota;
-        int maxusers;
-        bool bProtected;
+        ACE_INT64 diskquota = 0;
+        int maxusers = MAX_USERS_IN_CHANNEL;
+        bool bProtected = false;
         std::set<int> setops;
-        int channelid;
-        int parentid;
+        int channelid = 0;
+        int parentid = 0;
         AudioCodec audiocodec;
         AudioConfig audiocfg;
         files_t files;
-        ChannelTypes chantype;
-        ACE_UINT32 chankey;
-        int userdata;
+        ChannelTypes chantype = CHANNEL_DEFAULT;
+        ACE_UINT32 chankey = 0;
+        int userdata = 0;
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
         int transmitswitchdelay = 0;
@@ -626,15 +603,8 @@ namespace teamtalk {
 
         ChannelProp()
         {
-            bProtected = false;
-            channelid = parentid = 0;
-            diskquota = 0;
-            chankey = 0;
-            userdata = 0;
-            maxusers = MAX_USERS_IN_CHANNEL;
             memset(&audiocodec, 0, sizeof(audiocodec));
             audiocodec.codec = CODEC_NO_CODEC;
-            chantype = CHANNEL_DEFAULT;
 
             // ensure we can use std::map<>.at()
             transmitusers[STREAMTYPE_VOICE] = std::set<int>();
@@ -656,16 +626,11 @@ namespace teamtalk {
 
     struct DesktopInput
     {
-        ACE_UINT16 x;
-        ACE_UINT16 y;
-        ACE_UINT32 keycode;
-        KeyStateMask keystate;
-        DesktopInput()
-        : x(-1)
-        , y(-1)
-        , keycode(-1)
-        , keystate(KEYSTATE_NONE)
-        { }
+        ACE_UINT16 x = -1;
+        ACE_UINT16 y = -1;
+        ACE_UINT32 keycode = -1;
+        KeyStateMask keystate = KEYSTATE_NONE;
+        DesktopInput() { }
     };
 
     /* Remember to updated DLL header file when modifying this */

@@ -51,13 +51,11 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
                    const AudioCodec& codec, AudioFileFormat aff,
                    int stream_id, int stoppedtalking_delay)
 : m_tot_msec(stoppedtalking_delay)
-, m_packet_current(-1)
 , m_userid(userid)
 , m_codec(codec)
 , m_filename(filename)
 , m_aff(aff)
 , m_streamid(stream_id)
-, m_closing(false)
 {
     int samplerate = GetAudioCodecSampleRate(m_codec);
     int channels = GetAudioCodecChannels(m_codec);
@@ -506,8 +504,7 @@ int VoiceLog::GetChannels() const
 //  VoiceLogger
 ////////////////////
 VoiceLogger::VoiceLogger(VoiceLogListener* listener)
-: m_timerid(-1)
-, m_listener(listener)
+: m_listener(listener)
 {
 }
 

@@ -71,17 +71,17 @@ namespace teamtalk {
         //crc value for blocks
         map_crc_blocks_t m_crc_blocks;
         //timestamp of dirty blocks
-        uint32_t m_timestamp;
+        uint32_t m_timestamp = 0;
         //generated desktop packets from new bitmap
         desktoppackets_t m_desktop_packets;
         //true when a new session is started
-        bool m_newsession;
+        bool m_newsession = true;
         //my userid
-        int m_userid;
+        int m_userid = 0;
         //abort thread
-        bool m_abort;
+        bool m_abort = false;
         //max packet data size
-        uint16_t m_max_chunk_size, m_max_payload_size;
+        uint16_t m_max_chunk_size = 0, m_max_payload_size = 0;
     };
 
     typedef std::shared_ptr< DesktopInitiator > desktop_initiator_t;

@@ -470,7 +470,7 @@ namespace teamtalk {
         uint8_t* FindField_NonConst(uint8_t fieldtype) const;
         const uint8_t* FindField(uint8_t fieldtype) const;
         std::vector<iovec> m_iovec;
-        bool m_cleanup;
+        bool m_cleanup = false;
 #ifdef ENABLE_ENCRYPTION
         //Holds which part of 'm_iovec' should be encrypted by 'CryptPacket'
         std::set<uint8_t> m_crypt_sections;
@@ -695,19 +695,19 @@ namespace teamtalk {
     //desktop block with pointer to data
     struct desktop_block
     {
-        const char* block_data;
-        uint16_t block_size;
+        const char* block_data = nullptr;
+        uint16_t block_size = 0;
     };
     //blockno -> block
     typedef std::map< uint16_t, desktop_block > map_block_t;
     //a fragmented block
     struct block_fragment
     {
-        uint16_t block_no;
-        uint8_t frag_no;
-        uint8_t frag_cnt;
-        const char* frag_data;
-        uint16_t frag_size;
+        uint16_t block_no = 0;
+        uint8_t frag_no = 0;
+        uint8_t frag_cnt = 0;
+        const char* frag_data = nullptr;
+        uint16_t frag_size = 0;
     };
     //blockno -> fragment
     typedef std::list<block_fragment> block_frags_t;

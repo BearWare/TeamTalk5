@@ -42,15 +42,12 @@ namespace teamtalk {
     struct ServerInfo : public ServerProperties
     {
         ACE_TString protocol;
-        int packetprotocol;
+        int packetprotocol = 0;
         ACE_TString motd_raw;
         std::vector<ACE_INET_Addr> hostaddrs;
         ACE_INET_Addr udpaddr; // same as hostaddrs[0] but port number may be different
         ACE_TString accesstoken;
-        ServerInfo()
-        {
-            packetprotocol = 0;
-        }
+        ServerInfo() { }
     };
 
     typedef ACE_Connector<DefaultStreamHandler::StreamHandler_t, ACE_SOCK_CONNECTOR> connector_t;

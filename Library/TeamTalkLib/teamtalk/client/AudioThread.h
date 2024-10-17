@@ -70,8 +70,8 @@ public:
 
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
-    int m_voiceactlevel;
-    ACE_Time_Value m_voiceact_delay;
+    int m_voiceactlevel = VU_METER_MIN;
+    ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
 
     //real maximum is 100 (when all samples are 32768)
     static const int VU_METER_MAX = 100;
@@ -82,7 +82,7 @@ public:
     void ProcessQueue(ACE_Time_Value* tm);
 
     //voice gain
-    int m_gainlevel;    //GAIN_NORMAL == disabled
+    int m_gainlevel = GAIN_NORMAL;    //GAIN_NORMAL == disabled
 
 private:
     int close(u_long);
@@ -125,19 +125,19 @@ private:
     std::vector<short> m_echobuf;
     teamtalk::AudioCodec m_codec;
 
-    int m_voicelevel;
+    int m_voicelevel = VU_METER_MIN;
 
     // TTAudioPreprocessor
     StereoMask m_stereo = STEREO_BOTH;
 
     //encoder state has been reset
-    bool m_enc_cleared;
+    bool m_enc_cleared = true;
 
     //voice activation
     ACE_Time_Value m_lastActive;
 
     // tone generation
-    ACE_UINT32 m_tone_sample_index, m_tone_frequency;
+    ACE_UINT32 m_tone_sample_index = 0, m_tone_frequency = 0;
 };
 
 typedef std::shared_ptr< AudioThread > audio_thread_t;

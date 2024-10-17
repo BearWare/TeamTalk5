@@ -367,7 +367,7 @@ namespace teamtalk {
         std::map<ACE_TString, ACE_Time_Value> m_logindelay;
         
         //user id incrementer
-        int m_userid_counter;
+        int m_userid_counter = 0;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
         typedef std::shared_ptr<CryptAcceptor> cryptacceptor_t;
@@ -392,7 +392,7 @@ namespace teamtalk {
         filetransfers_t m_filetransfers;
 
         //one second timer id
-        long m_onesec_timerid;
+        long m_onesec_timerid = -1;
         //ack desktop data received (user id -> timer id)
         typedef std::map<int, long> user_desktopack_timers_t;
         user_desktopack_timers_t m_desktop_ack_timers;
@@ -404,15 +404,15 @@ namespace teamtalk {
         std::set<int> m_updUserIPs;
 
         //file transfer id and file id counters
-        int m_filetx_id_counter, m_file_id_counter;
+        int m_filetx_id_counter = 0, m_file_id_counter = 0;
 
         std::map<ACE_thread_t, ACE_Reactor*> m_reactors;
-        ACE_Reactor* m_timer_reactor, *m_tcp_reactor, *m_udp_reactor;
+        ACE_Reactor* m_timer_reactor = nullptr, *m_tcp_reactor = nullptr, *m_udp_reactor = nullptr;
 
         //server stats
         ServerStats m_stats;
         //listener for changes
-        ServerNodeListener* m_srvguard;
+        ServerNodeListener* m_srvguard = nullptr;
         //server's properties
         ServerSettings m_properties;
     };

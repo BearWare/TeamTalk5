@@ -54,14 +54,10 @@ ServerNode::ServerNode(const ACE_TString& version,
                        ACE_Reactor* tcpReactor, 
                        ACE_Reactor* udpReactor, 
                        ServerNodeListener* listener /*= NULL*/)
-                       : m_userid_counter(0)
-                       , m_timer_reactor(timerReactor)
+                       : m_timer_reactor(timerReactor)
                        , m_tcp_reactor(tcpReactor)
                        , m_udp_reactor(udpReactor)
                        , m_srvguard(listener)
-                       , m_onesec_timerid(-1)
-                       , m_filetx_id_counter(0)
-                       , m_file_id_counter(0)
 {
     m_properties.version = version;
 

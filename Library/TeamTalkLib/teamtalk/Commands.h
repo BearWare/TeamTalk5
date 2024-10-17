@@ -291,9 +291,9 @@ namespace teamtalk {
 
     struct ErrorMsg
     {
-        int errorno;
+        int errorno = TT_CMDERR_SUCCESS;
         ACE_TString errmsg, paramname;
-        ErrorMsg() : errorno(TT_CMDERR_SUCCESS) { }
+        ErrorMsg() { }
         ErrorMsg(int cmderrno, const ACE_TString& param = ACE_TEXT(""))
             : errorno(cmderrno), paramname(param)
         {

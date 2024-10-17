@@ -80,29 +80,23 @@ namespace teamtalk {
 
     struct SoundProperties
     {
-        int inputdeviceid;
-        int outputdeviceid;
+        int inputdeviceid = SOUNDDEVICE_IGNORE_ID;
+        int outputdeviceid = SOUNDDEVICE_IGNORE_ID;
         //sound group for current instance
-        int soundgroupid;
+        int soundgroupid = 0;
         // AGC, AEC and denoise settings
         AudioPreprocessor preprocessor;
         //dereverb
-        bool dereverb;
+        bool dereverb = true;
         //count transmitted samples
-        uint32_t samples_transmitted;
+        uint32_t samples_transmitted = 0;
         //total samples recorded
-        uint32_t samples_recorded;
-        uint32_t samples_delay_msec;
+        uint32_t samples_recorded = 0;
+        uint32_t samples_delay_msec = 0;
         SoundDeviceEffects effects;
 
         SoundProperties()
         {
-            inputdeviceid = outputdeviceid = SOUNDDEVICE_IGNORE_ID;
-            soundgroupid = 0;
-            dereverb = true;
-            samples_transmitted = 0;
-            samples_recorded = 0;
-            samples_delay_msec = 0;
             // default to TT Audio preprocessor to be compatible with
             // SetVoiceGainLevel()
             preprocessor.preprocessor = AUDIOPREPROCESSOR_TEAMTALK;

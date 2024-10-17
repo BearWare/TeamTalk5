@@ -71,11 +71,11 @@ namespace teamtalk {
         //the blocks which were updated in an view update
         map_updated_blocks_t m_updated_blocks;
         //time of the current desktop window (update time)
-        uint32_t m_current_desktop_time;
+        uint32_t m_current_desktop_time = 0;
         //time of the update which is currently pending (can be the same as 
         //'m_current_desktop_time' if it's the initial update or if the 
         //current desktop has completed).
-        uint32_t m_pending_update_time;
+        uint32_t m_pending_update_time = 0;
         //container of the current desktop window (all blocks)
         map_blocks_t m_blocks;
         //blocks' crc value
@@ -83,7 +83,7 @@ namespace teamtalk {
         //crc value for blocks
         map_crc_blocks_t m_crc_blocks;
         //owner user id
-        int m_userid;
+        int m_userid = 0;
     };
 
     typedef std::shared_ptr< DesktopCache > desktop_cache_t;

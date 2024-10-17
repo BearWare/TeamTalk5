@@ -56,11 +56,7 @@ namespace teamtalk {
         const Channel& operator = (const Channel& ch);
 
         Channel(channel_t parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
-            : m_protected(false)
-            , m_maxusers(MAX_USERS_IN_CHANNEL)
-            , m_channelid(channelid)
-            , m_userdata(0)
-            , m_maxdiskusage(0)
+            : m_channelid(channelid)
             , m_chantype(chantype)
             , m_parent(parent)
             , m_name(name)
@@ -525,13 +521,13 @@ namespace teamtalk {
         ACE_TString m_topic;
         std::set< int > m_setOps;
         std::weak_ptr< CHANNEL > m_parent;
-        bool m_protected;
-        ACE_INT64 m_maxdiskusage;
+        bool m_protected = false;
+        ACE_INT64 m_maxdiskusage = 0;
         typedef std::map<ACE_TString, RemoteFile> mfiles_t;
         mfiles_t m_files;
-        int m_maxusers;
-        int m_channelid;
-        int m_userdata;
+        int m_maxusers = MAX_USERS_IN_CHANNEL;
+        int m_channelid = 0;
+        int m_userdata = 0;
         AudioCodec m_audiocodec;
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;

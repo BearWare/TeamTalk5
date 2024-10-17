@@ -77,11 +77,11 @@ private:
 #if defined(ENABLE_VPX)
     VpxEncoder m_vpx_encoder;
 #endif
-    ACE_UINT32 m_packet_counter;
+    ACE_UINT32 m_packet_counter = 0;
     media::VideoFormat m_cap_format;
     teamtalk::VideoCodec m_codec;
 
-    int m_frames_passed, m_frames_dropped;
+    int m_frames_passed = 0, m_frames_dropped = 0;
 };
 
 typedef std::shared_ptr< VideoThread > video_thread_t;

@@ -29,10 +29,7 @@ using namespace media;
 using namespace teamtalk;
 
 VideoThread::VideoThread()
-: m_packet_counter(0)
-, m_codec()
-, m_frames_passed(0)
-, m_frames_dropped(0)
+: m_codec()
 {
     m_codec.codec = CODEC_NO_CODEC;
 }
