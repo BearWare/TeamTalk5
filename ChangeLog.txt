@@ -16,6 +16,7 @@ Default Qt Client
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start
+- Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
 -
 iOS Client
