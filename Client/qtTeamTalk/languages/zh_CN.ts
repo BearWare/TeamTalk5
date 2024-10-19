@@ -1103,42 +1103,42 @@ Message of the day: %2</source>
 <context>
     <name>CustomCmdLimitDialog</name>
     <message>
-        <location filename="../useraccountdlg.cpp" line="453"/>
+        <location filename="../useraccountdlg.cpp" line="455"/>
         <source>Command Limit: </source>
         <translation>命令限制：</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="454"/>
+        <location filename="../useraccountdlg.cpp" line="456"/>
         <source>Command Limit</source>
         <translation>命令限制</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="460"/>
+        <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval: </source>
         <translation>间隔</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="461"/>
+        <location filename="../useraccountdlg.cpp" line="463"/>
         <source>sec</source>
         <translation>秒</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="462"/>
+        <location filename="../useraccountdlg.cpp" line="464"/>
         <source>Interval</source>
         <translation>间隔</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="466"/>
+        <location filename="../useraccountdlg.cpp" line="468"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="467"/>
+        <location filename="../useraccountdlg.cpp" line="469"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="473"/>
+        <location filename="../useraccountdlg.cpp" line="475"/>
         <source>Set Command Limits</source>
         <translation>设置命令限制</translation>
     </message>
@@ -8368,102 +8368,102 @@ Delete the published user account to unregister your server.</source>
         <translation>用户登录后自动加入此频道</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="156"/>
-        <location filename="../useraccountdlg.ui" line="168"/>
-        <location filename="../useraccountdlg.cpp" line="247"/>
-        <location filename="../useraccountdlg.cpp" line="365"/>
+        <location filename="../useraccountdlg.ui" line="166"/>
+        <location filename="../useraccountdlg.ui" line="178"/>
+        <location filename="../useraccountdlg.cpp" line="248"/>
+        <location filename="../useraccountdlg.cpp" line="366"/>
         <source>User Rights</source>
         <translation>用户权限</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="162"/>
+        <location filename="../useraccountdlg.ui" line="172"/>
         <source>User Actions Allowed on Server</source>
         <translation>服务器上允许的用户行为</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="194"/>
-        <location filename="../useraccountdlg.cpp" line="257"/>
+        <location filename="../useraccountdlg.ui" line="204"/>
+        <location filename="../useraccountdlg.cpp" line="258"/>
         <source>Channel Operator</source>
         <translation>频道管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="200"/>
-        <location filename="../useraccountdlg.ui" line="203"/>
+        <location filename="../useraccountdlg.ui" line="210"/>
+        <location filename="../useraccountdlg.ui" line="213"/>
         <source>Auto-Operator Channels</source>
         <translation>管理频道</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="209"/>
+        <location filename="../useraccountdlg.ui" line="219"/>
         <source>Selected Channels</source>
         <translation>已选频道</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="219"/>
+        <location filename="../useraccountdlg.ui" line="229"/>
         <source>User will automatically become operator when joining these channels</source>
         <translation>加入这些频道时，用户将自动成为管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="232"/>
+        <location filename="../useraccountdlg.ui" line="242"/>
         <source>Available Channels</source>
         <translation>可用频道</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="251"/>
+        <location filename="../useraccountdlg.ui" line="261"/>
         <source>Set selected user auto operator for selected channels</source>
         <translation>为选定频道设置选定用户为管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="254"/>
+        <location filename="../useraccountdlg.ui" line="264"/>
         <source>Add</source>
         <translation>添加</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="261"/>
+        <location filename="../useraccountdlg.ui" line="271"/>
         <source>No longer set selected user auto operator for selected channels</source>
         <translation>不再为选定频道设置选定用户为管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="264"/>
+        <location filename="../useraccountdlg.ui" line="274"/>
         <source>Remove</source>
         <translation>移除</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="290"/>
+        <location filename="../useraccountdlg.ui" line="300"/>
         <source>Codec Limitations</source>
         <translation>编解码器限制</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="296"/>
+        <location filename="../useraccountdlg.ui" line="306"/>
         <source>Audio Codec Limitations</source>
         <translation>音频编解码器限制</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="302"/>
+        <location filename="../useraccountdlg.ui" line="312"/>
         <source>Max bitrate for audio codecs</source>
         <translation>音频编解码器最大比特率</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="325"/>
+        <location filename="../useraccountdlg.ui" line="335"/>
         <source>kbps (0 = disabled)</source>
         <translation>kbps（0 = 禁用）</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="349"/>
+        <location filename="../useraccountdlg.ui" line="359"/>
         <source>Abuse Prevention</source>
         <translation>防止滥用</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="355"/>
+        <location filename="../useraccountdlg.ui" line="365"/>
         <source>Flood Protection</source>
         <translation>防洪</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="361"/>
+        <location filename="../useraccountdlg.ui" line="371"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation>例如通过限制用户在给定时间内发出的命令数量，防止用户乱发消息等。</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="373"/>
+        <location filename="../useraccountdlg.ui" line="383"/>
         <source>Limit issued commands</source>
         <translation>限制发出的命令</translation>
     </message>
@@ -8524,62 +8524,67 @@ Delete the published user account to unregister your server.</source>
         <translation>在服务器上添加用户</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="124"/>
+        <location filename="../useraccountdlg.cpp" line="125"/>
         <source>Edit User</source>
         <translation>编辑用户</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="125"/>
+        <location filename="../useraccountdlg.cpp" line="126"/>
         <source>Edit User %1</source>
         <translation>编辑用户 %1</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="130"/>
+        <location filename="../useraccountdlg.cpp" line="131"/>
         <source>View User Information</source>
         <translation>查看用户信息</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="131"/>
+        <location filename="../useraccountdlg.cpp" line="132"/>
         <source>View %1 Information</source>
         <translation>查看 %1 信息</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="145"/>
+        <location filename="../useraccountdlg.cpp" line="146"/>
         <source>&amp;Close</source>
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="195"/>
+        <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Create anonymous user account?</source>
         <translation>创建匿名用户帐户吗？</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="196"/>
+        <location filename="../useraccountdlg.cpp" line="197"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="197"/>
+        <location filename="../useraccountdlg.cpp" line="198"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="200"/>
+        <location filename="../useraccountdlg.cpp" line="201"/>
         <source>Anonymous User</source>
         <translation>匿名用户</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="258"/>
+        <location filename="../useraccountdlg.cpp" line="259"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>用户可以自动成为频道管理员的频道数为 %1。</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="371"/>
+        <location filename="../useraccountdlg.cpp" line="372"/>
         <source>Last edited: %1</source>
         <translation>最后编辑：%1</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="436"/>
+        <location filename="../useraccountdlg.cpp" line="373"/>
+        <source>Last login: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountdlg.cpp" line="438"/>
         <source>Custom (%1 commands per %2 seconds)</source>
         <translation>自定义（每 %2 秒 %1 个命令）</translation>
     </message>
@@ -8652,17 +8657,22 @@ Delete the published user account to unregister your server.</source>
         <translation>修改 (%1) (&amp;M)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="197"/>
+        <location filename="../useraccountsdlg.cpp" line="198"/>
+        <source>&amp;Last Login Time (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="203"/>
         <source>&amp;Create New User Account</source>
         <translation>创建新用户帐户(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="198"/>
+        <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>&amp;Delete Selected User Account</source>
         <translation>删除选定的用户帐户(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="199"/>
+        <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>&amp;Edit Selected User Account</source>
         <translation>编辑选定的用户帐户(&amp;E)</translation>
     </message>
@@ -8710,22 +8720,27 @@ Delete the published user account to unregister your server.</source>
         <translation>修改时间</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="66"/>
+        <location filename="../useraccountsmodel.cpp" line="41"/>
+        <source>Last Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountsmodel.cpp" line="67"/>
         <source>Administrator</source>
         <translation>管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="68"/>
+        <location filename="../useraccountsmodel.cpp" line="69"/>
         <source>Default User</source>
         <translation>默认用户</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="70"/>
+        <location filename="../useraccountsmodel.cpp" line="71"/>
         <source>Disabled</source>
         <translation>禁用</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="72"/>
+        <location filename="../useraccountsmodel.cpp" line="73"/>
         <source>Unknown</source>
         <translation>未知</translation>
     </message>
@@ -8941,139 +8956,139 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserRightsModel</name>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="208"/>
+        <location filename="../useraccountsmodel.cpp" line="214"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="231"/>
+        <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Log in multiple times</source>
         <translation>多次登录</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="233"/>
+        <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>See users in all channels</source>
         <translation>查看所有频道用户</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="235"/>
+        <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>See hidden channels</source>
         <translation>查看隐藏频道</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="237"/>
+        <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Create/modify all channels</source>
         <translation>创建/修改所有频道</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="239"/>
+        <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Create temporary channels</source>
         <translation>创建临时频道</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="241"/>
+        <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Edit server properties</source>
         <translation>编辑服务器属性</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="243"/>
+        <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Kick users off the server</source>
         <translation>将用户踢出服务器</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="245"/>
+        <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Ban users from server</source>
         <translation>禁止用户访问服务器</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="247"/>
+        <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Move users between channels</source>
         <translation>在频道间移动用户</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="249"/>
+        <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Make other users channel operator</source>
         <translation>使其他用户成为频道管理员</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="251"/>
+        <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Upload files</source>
         <translation>上传文件</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="253"/>
+        <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Download files</source>
         <translation>下载文件</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="255"/>
+        <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Record voice in all channels</source>
         <translation>在所有频道中录音</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="257"/>
+        <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Transmit voice data (microphone)</source>
         <translation>传输语音数据（麦克风）</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="259"/>
+        <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Transmit video data (webcam)</source>
         <translation>传输视频数据（网络摄像头）</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="261"/>
+        <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Transmit desktop sessions (shared desktop)</source>
         <translation>传输桌面会话（共享桌面）</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="263"/>
+        <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>Get remote access to desktop sessions</source>
         <translation>远程访问桌面会话</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="265"/>
+        <location filename="../useraccountsmodel.cpp" line="271"/>
         <source>Stream audio files (wav, mp3 files)</source>
         <translation>流式传输音频文件（wav、mp3 文件）</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="267"/>
+        <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Stream video files (avi, mp4 files)</source>
         <translation>流式传输视频文件（avi、mp4 文件）</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="273"/>
+        <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Send private text messages</source>
         <translation>发送私人消息</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="275"/>
+        <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Send channel text messages</source>
         <translation>发送频道消息</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="277"/>
+        <location filename="../useraccountsmodel.cpp" line="283"/>
         <source>Send broadcast text messages</source>
         <translation>发送广播消息</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="279"/>
+        <location filename="../useraccountsmodel.cpp" line="285"/>
         <source>Change nickname</source>
         <translation>更改昵称</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="281"/>
+        <location filename="../useraccountsmodel.cpp" line="287"/>
         <source>Change status mode</source>
         <translation>更改状态模式</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="291"/>
-        <location filename="../useraccountsmodel.cpp" line="293"/>
+        <location filename="../useraccountsmodel.cpp" line="297"/>
+        <location filename="../useraccountsmodel.cpp" line="299"/>
         <source>Enabled</source>
         <translation>启用</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="291"/>
-        <location filename="../useraccountsmodel.cpp" line="293"/>
+        <location filename="../useraccountsmodel.cpp" line="297"/>
+        <location filename="../useraccountsmodel.cpp" line="299"/>
         <source>Disabled</source>
         <translation>禁用</translation>
     </message>

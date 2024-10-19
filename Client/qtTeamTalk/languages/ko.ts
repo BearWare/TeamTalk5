@@ -1069,42 +1069,42 @@ Message of the day: %2</source>
 <context>
     <name>CustomCmdLimitDialog</name>
     <message>
-        <location filename="../useraccountdlg.cpp" line="453"/>
+        <location filename="../useraccountdlg.cpp" line="455"/>
         <source>Command Limit: </source>
         <translation>동작 한도: </translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="454"/>
+        <location filename="../useraccountdlg.cpp" line="456"/>
         <source>Command Limit</source>
         <translation>동작 한도</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="460"/>
+        <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval: </source>
         <translation>간격: </translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="461"/>
+        <location filename="../useraccountdlg.cpp" line="463"/>
         <source>sec</source>
         <translation>초</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="462"/>
+        <location filename="../useraccountdlg.cpp" line="464"/>
         <source>Interval</source>
         <translation>간격</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="466"/>
+        <location filename="../useraccountdlg.cpp" line="468"/>
         <source>&amp;OK</source>
         <translation>확인 (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="467"/>
+        <location filename="../useraccountdlg.cpp" line="469"/>
         <source>&amp;Cancel</source>
         <translation>취소 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="473"/>
+        <location filename="../useraccountdlg.cpp" line="475"/>
         <source>Set Command Limits</source>
         <translation>동작 한도 설정</translation>
     </message>
@@ -8334,102 +8334,102 @@ Delete the published user account to unregister your server.</source>
         <translation>로그인하면 이 채널에 자동 입장합니다</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="156"/>
-        <location filename="../useraccountdlg.ui" line="168"/>
-        <location filename="../useraccountdlg.cpp" line="247"/>
-        <location filename="../useraccountdlg.cpp" line="365"/>
+        <location filename="../useraccountdlg.ui" line="166"/>
+        <location filename="../useraccountdlg.ui" line="178"/>
+        <location filename="../useraccountdlg.cpp" line="248"/>
+        <location filename="../useraccountdlg.cpp" line="366"/>
         <source>User Rights</source>
         <translation>사용자 권한</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="162"/>
+        <location filename="../useraccountdlg.ui" line="172"/>
         <source>User Actions Allowed on Server</source>
         <translation>서버에서 허용한 사용자 동작</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="194"/>
-        <location filename="../useraccountdlg.cpp" line="257"/>
+        <location filename="../useraccountdlg.ui" line="204"/>
+        <location filename="../useraccountdlg.cpp" line="258"/>
         <source>Channel Operator</source>
         <translation>채널 관리자</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="200"/>
-        <location filename="../useraccountdlg.ui" line="203"/>
+        <location filename="../useraccountdlg.ui" line="210"/>
+        <location filename="../useraccountdlg.ui" line="213"/>
         <source>Auto-Operator Channels</source>
         <translation>자동 관리 채널</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="209"/>
+        <location filename="../useraccountdlg.ui" line="219"/>
         <source>Selected Channels</source>
         <translation>선택한 채널</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="219"/>
+        <location filename="../useraccountdlg.ui" line="229"/>
         <source>User will automatically become operator when joining these channels</source>
         <translation>입장하면 자동으로 관리자 권한을 얻을 수 있는 채널입니다</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="232"/>
+        <location filename="../useraccountdlg.ui" line="242"/>
         <source>Available Channels</source>
         <translation>사용 가능 채널</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="251"/>
+        <location filename="../useraccountdlg.ui" line="261"/>
         <source>Set selected user auto operator for selected channels</source>
         <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="254"/>
+        <location filename="../useraccountdlg.ui" line="264"/>
         <source>Add</source>
         <translation>추가</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="261"/>
+        <location filename="../useraccountdlg.ui" line="271"/>
         <source>No longer set selected user auto operator for selected channels</source>
         <translation>선택한 사용자들에게 선택한 채널의 관리자 권한 부여 안 함</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="264"/>
+        <location filename="../useraccountdlg.ui" line="274"/>
         <source>Remove</source>
         <translation>제거</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="290"/>
+        <location filename="../useraccountdlg.ui" line="300"/>
         <source>Codec Limitations</source>
         <translation>코덱 제한</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="296"/>
+        <location filename="../useraccountdlg.ui" line="306"/>
         <source>Audio Codec Limitations</source>
         <translation>오디오 코덱 제한</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="302"/>
+        <location filename="../useraccountdlg.ui" line="312"/>
         <source>Max bitrate for audio codecs</source>
         <translation>오디오 코덱 비트레이트 한도</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="325"/>
+        <location filename="../useraccountdlg.ui" line="335"/>
         <source>kbps (0 = disabled)</source>
         <translation>kbps (0 = 비활성화됨)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="349"/>
+        <location filename="../useraccountdlg.ui" line="359"/>
         <source>Abuse Prevention</source>
         <translation>어뷰징 방지</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="355"/>
+        <location filename="../useraccountdlg.ui" line="365"/>
         <source>Flood Protection</source>
         <translation>도배 방지</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="361"/>
+        <location filename="../useraccountdlg.ui" line="371"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
         <translation>특정 시간 내에 실행할 수 있는 동작 한도를 정하여 메시지 도배 등을 방지합니다.</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.ui" line="373"/>
+        <location filename="../useraccountdlg.ui" line="383"/>
         <source>Limit issued commands</source>
         <translation>동작 한도</translation>
     </message>
@@ -8490,62 +8490,67 @@ Delete the published user account to unregister your server.</source>
         <translation>서버에 사용자 추가</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="124"/>
+        <location filename="../useraccountdlg.cpp" line="125"/>
         <source>Edit User</source>
         <translation>사용자 편집</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="125"/>
+        <location filename="../useraccountdlg.cpp" line="126"/>
         <source>Edit User %1</source>
         <translation>%1 사용자 편집</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="130"/>
+        <location filename="../useraccountdlg.cpp" line="131"/>
         <source>View User Information</source>
         <translation>사용자 정보 보기</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="131"/>
+        <location filename="../useraccountdlg.cpp" line="132"/>
         <source>View %1 Information</source>
         <translation>%1 정보 보기</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="145"/>
+        <location filename="../useraccountdlg.cpp" line="146"/>
         <source>&amp;Close</source>
         <translation>닫기 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="195"/>
+        <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Create anonymous user account?</source>
         <translation>익명 계정을 만들까요?</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="196"/>
+        <location filename="../useraccountdlg.cpp" line="197"/>
         <source>&amp;Yes</source>
         <translation>예 (&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="197"/>
+        <location filename="../useraccountdlg.cpp" line="198"/>
         <source>&amp;No</source>
         <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="200"/>
+        <location filename="../useraccountdlg.cpp" line="201"/>
         <source>Anonymous User</source>
         <translation>익명 사용자</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="258"/>
+        <location filename="../useraccountdlg.cpp" line="259"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
         <translation>최대 %1개의 채널에서 채널 관리자 권한을 자동으로 획득할 수 있어요.</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="371"/>
+        <location filename="../useraccountdlg.cpp" line="372"/>
         <source>Last edited: %1</source>
         <translation>마지막 편집: %1</translation>
     </message>
     <message>
-        <location filename="../useraccountdlg.cpp" line="436"/>
+        <location filename="../useraccountdlg.cpp" line="373"/>
+        <source>Last login: %1</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountdlg.cpp" line="438"/>
         <source>Custom (%1 commands per %2 seconds)</source>
         <translation>사용자 지정 (%2초동안 %1개 동작 가능)</translation>
     </message>
@@ -8618,17 +8623,22 @@ Delete the published user account to unregister your server.</source>
         <translation>수정됨 (%1) (&amp;M)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="197"/>
+        <location filename="../useraccountsdlg.cpp" line="198"/>
+        <source>&amp;Last Login Time (%1)</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountsdlg.cpp" line="203"/>
         <source>&amp;Create New User Account</source>
         <translation>새 계정 만들기 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="198"/>
+        <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>&amp;Delete Selected User Account</source>
         <translation>선택한 계정 삭제 (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../useraccountsdlg.cpp" line="199"/>
+        <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>&amp;Edit Selected User Account</source>
         <translation>선택한 계정 편집 (&amp;E)</translation>
     </message>
@@ -8676,22 +8686,27 @@ Delete the published user account to unregister your server.</source>
         <translation>수정됨</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="66"/>
+        <location filename="../useraccountsmodel.cpp" line="41"/>
+        <source>Last Login</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../useraccountsmodel.cpp" line="67"/>
         <source>Administrator</source>
         <translation>서버 관리자</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="68"/>
+        <location filename="../useraccountsmodel.cpp" line="69"/>
         <source>Default User</source>
         <translation>기본 사용자</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="70"/>
+        <location filename="../useraccountsmodel.cpp" line="71"/>
         <source>Disabled</source>
         <translation>비활성화됨</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="72"/>
+        <location filename="../useraccountsmodel.cpp" line="73"/>
         <source>Unknown</source>
         <translation>알 수 없음</translation>
     </message>
@@ -8907,139 +8922,139 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UserRightsModel</name>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="208"/>
+        <location filename="../useraccountsmodel.cpp" line="214"/>
         <source>Name</source>
         <translation>이름</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="231"/>
+        <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Log in multiple times</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="233"/>
+        <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>See users in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="235"/>
+        <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>See hidden channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="237"/>
+        <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Create/modify all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="239"/>
+        <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Create temporary channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="241"/>
+        <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Edit server properties</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="243"/>
+        <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Kick users off the server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="245"/>
+        <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Ban users from server</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="247"/>
+        <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Move users between channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="249"/>
+        <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Make other users channel operator</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="251"/>
+        <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Upload files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="253"/>
+        <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Download files</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="255"/>
+        <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Record voice in all channels</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="257"/>
+        <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Transmit voice data (microphone)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="259"/>
+        <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Transmit video data (webcam)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="261"/>
+        <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Transmit desktop sessions (shared desktop)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="263"/>
+        <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>Get remote access to desktop sessions</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="265"/>
+        <location filename="../useraccountsmodel.cpp" line="271"/>
         <source>Stream audio files (wav, mp3 files)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="267"/>
+        <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Stream video files (avi, mp4 files)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="273"/>
+        <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Send private text messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="275"/>
+        <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Send channel text messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="277"/>
+        <location filename="../useraccountsmodel.cpp" line="283"/>
         <source>Send broadcast text messages</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="279"/>
+        <location filename="../useraccountsmodel.cpp" line="285"/>
         <source>Change nickname</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="281"/>
+        <location filename="../useraccountsmodel.cpp" line="287"/>
         <source>Change status mode</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="291"/>
-        <location filename="../useraccountsmodel.cpp" line="293"/>
+        <location filename="../useraccountsmodel.cpp" line="297"/>
+        <location filename="../useraccountsmodel.cpp" line="299"/>
         <source>Enabled</source>
         <translation>활성화됨</translation>
     </message>
     <message>
-        <location filename="../useraccountsmodel.cpp" line="291"/>
-        <location filename="../useraccountsmodel.cpp" line="293"/>
+        <location filename="../useraccountsmodel.cpp" line="297"/>
+        <location filename="../useraccountsmodel.cpp" line="299"/>
         <source>Disabled</source>
         <translation>비활성화됨</translation>
     </message>
