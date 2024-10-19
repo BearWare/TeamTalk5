@@ -99,8 +99,9 @@ namespace teamtalk
             return codec.opus.samplerate;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return 0;
+            break;
         }
+        return 0;
     }
 
     int GetAudioCodecCbSamples(const AudioCodec& codec)
@@ -117,8 +118,9 @@ namespace teamtalk
             return codec.opus.frame_size * codec.opus.frames_per_packet;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return 0;
+            break;
         }
+        return 0;
     }
 
     int GetAudioCodecCbBytes(const AudioCodec& codec)
@@ -155,8 +157,9 @@ namespace teamtalk
             return codec.opus.channels;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return 0;
+            break;
         }
+        return 0;
     }
 
     int GetAudioCodecFrameSize(const AudioCodec& codec)
@@ -171,8 +174,9 @@ namespace teamtalk
             return codec.opus.frame_size;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return 0;
+            break;
         }
+        return 0;
     }
 
     int GetAudioCodecFramesPerPacket(const AudioCodec& codec)
@@ -187,8 +191,9 @@ namespace teamtalk
             return codec.opus.frames_per_packet;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return 0;
+            break;
         }
+        return 0;
     }
 
     bool GetAudioCodecVariableFrameSizes(const AudioCodec& codec)
@@ -201,8 +206,9 @@ namespace teamtalk
         case CODEC_WEBM_VP8 :
         case CODEC_SPEEX_VBR :
         case CODEC_SPEEX :
-            return GetAudioCodecVBRMode(codec);
+            break;
         }
+        return GetAudioCodecVBRMode(codec);
     }
 
     bool GetAudioCodecVBRMode(const AudioCodec& codec)
@@ -216,8 +222,9 @@ namespace teamtalk
         case CODEC_SPEEX :
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
-            return false;
+            break;
         }
+        return false;
     }
 
     bool GetAudioCodecSimulateStereo(const AudioCodec& codec)
@@ -231,16 +238,15 @@ namespace teamtalk
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
-            return false;
+            break;
         }
+        return false;
     }
 
     int GetAudioCodecBitRate(const AudioCodec& codec)
     {
         switch(codec.codec)
         {
-        case CODEC_NO_CODEC :
-            return 0;
         case CODEC_SPEEX :
             switch(codec.speex.bandmode)
             {
@@ -332,8 +338,10 @@ namespace teamtalk
         case CODEC_OPUS :
             return codec.opus.bitrate;
         case CODEC_WEBM_VP8 :
-            return 0;
+        case CODEC_NO_CODEC :
+            break;
         } /* codec switch */
+        return 0;
     }
 
     // AudioPacket can contain a maximum of 0xfff bytes
@@ -375,8 +383,9 @@ namespace teamtalk
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
-            return -1;
+            break;
         }
+        return -1;
     }
 
     int GetSpeexQuality(const AudioCodec& codec)
@@ -390,8 +399,9 @@ namespace teamtalk
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
-            return -1;
+            break;
         }
+        return -1;
     }
 
 
