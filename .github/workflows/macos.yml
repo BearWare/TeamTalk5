@@ -1,6 +1,9 @@
 name: macOS
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - debug_workflow
 
 env:
   # TeamTalk unit test environment variables

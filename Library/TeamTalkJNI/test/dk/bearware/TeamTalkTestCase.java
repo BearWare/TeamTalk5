@@ -4526,7 +4526,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testTimeZone() {
-        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        final String USERNAME = getTestMethodName(), PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
         makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
 
@@ -4550,7 +4550,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertTrue("get account again", client.getMyUserAccount(second_login_account));
         Date logintime = fmt.parse(second_login_account.szLastLoginTime, new ParsePosition(0));
         Date now = new Date();
-        assertEquals("time stamp match within 2 minutes", now.getTime() / 1000 , logintime.getTime() / 1000, 120);
+        long diff = now.getTime() - logintime.getTime();
+        diff /= 1000;
+        assertEquals("time stamp match within 2 minutes", diff, 0, 120);
     }
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.

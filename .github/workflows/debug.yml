@@ -1,0 +1,64 @@
+name: Debug
+
+on:
+  push:
+    branches-ignore:
+      - debug_workflow
+
+env:
+  # TeamTalk unit test environment variables
+  INPUTDEVICEID: 1978
+  OUTPUTDEVICEID: 1978
+  VIDEODEVICEID: None
+  VERBOSE: 0
+  GITHUBSKIP: 1
+
+jobs:
+  msvc:
+    strategy:
+      matrix:
+        include:
+          - name: VS2019Release32
+            vmimage: windows-2019
+            cmakeplatform: Win32
+            dotnetarch: x86
+    runs-on: ${{ matrix.vmimage }}
+    name: ${{ matrix.name }}
+    steps:
+    - uses: actions/checkout@v2
+
+    - name: Setup VSTest Path
+      uses: darenm/Setup-VSTest@v1
+
+    - name: Cur PATH
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        echo PATH
+        echo %PATH%
+
+    - name: Cur GITHUB_PATH
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        echo GITHUB_PATH
+        echo %GITHUB_PATH%
+
+    - name: Content of GITHUB_PATH
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        type %GITHUB_PATH%
+
+    - name: Append PATH set
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL >> %GITHUB_PATH%
+        echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs >> %GITHUB_PATH%
+
+    - name: Step PATH set
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        echo %PATH%
