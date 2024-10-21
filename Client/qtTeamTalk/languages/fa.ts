@@ -8581,7 +8581,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="373"/>
         <source>Last login: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>آخرین ورود: %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="438"/>
@@ -8659,7 +8659,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Last Login Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;آخرین زمان ورود (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
@@ -8722,7 +8722,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="41"/>
         <source>Last Login</source>
-        <translation type="unfinished"></translation>
+        <translation>آخرین ورود</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="67"/>
