@@ -110,35 +110,38 @@ void migrateSettings()
 #endif
 
         // Language files was renamed in 5.4 format
-        QString lc_code;
-        QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
-        if (lang == "Bulgarian") lc_code = "bg";
-        else if (lang == "Chinese_Simplified") lc_code = "zh_CN";
-        else if (lang == "Chinese_Traditional") lc_code = "zh_TW";
-        else if (lang == "Croatian") lc_code = "hr";
-        else if (lang == "Czech") lc_code = "cs";
-        else if (lang == "Danish") lc_code = "da";
-        else if (lang == "Dutch") lc_code = "nl";
-        else if (lang == "English") lc_code = "en";
-        else if (lang == "French") lc_code = "fr";
-        else if (lang == "German") lc_code = "de";
-        else if (lang == "Hebrew") lc_code = "he";
-        else if (lang == "Hungarian") lc_code = "hu";
-        else if (lang == "Indonesian") lc_code = "id";
-        else if (lang == "Italian") lc_code = "it";
-        else if (lang == "Korean") lc_code = "ko";
-        else if (lang == "Persian") lc_code = "fa";
-        else if (lang == "Polish") lc_code = "pl";
-        else if (lang == "Portuguese_BR") lc_code = "pt_BR";
-        else if (lang == "Portuguese_EU") lc_code = "pt_PT";
-        else if (lang == "Russian") lc_code = "ru";
-        else if (lang == "Slovak") lc_code = "sk";
-        else if (lang == "Slovenian") lc_code = "sl";
-        else if (lang == "Spanish") lc_code = "es";
-        else if (lang == "Thai") lc_code = "th";
-        else if (lang == "Turkish") lc_code = "tr";
-        else if (lang == "Vietnamese") lc_code = "vi";
-        ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+        if (ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
+        {
+            QString lc_code;
+            QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
+            if (lang == "Bulgarian") lc_code = "bg";
+            else if (lang == "Chinese_Simplified") lc_code = "zh_CN";
+            else if (lang == "Chinese_Traditional") lc_code = "zh_TW";
+            else if (lang == "Croatian") lc_code = "hr";
+            else if (lang == "Czech") lc_code = "cs";
+            else if (lang == "Danish") lc_code = "da";
+            else if (lang == "Dutch") lc_code = "nl";
+            else if (lang == "English") lc_code = "en";
+            else if (lang == "French") lc_code = "fr";
+            else if (lang == "German") lc_code = "de";
+            else if (lang == "Hebrew") lc_code = "he";
+            else if (lang == "Hungarian") lc_code = "hu";
+            else if (lang == "Indonesian") lc_code = "id";
+            else if (lang == "Italian") lc_code = "it";
+            else if (lang == "Korean") lc_code = "ko";
+            else if (lang == "Persian") lc_code = "fa";
+            else if (lang == "Polish") lc_code = "pl";
+            else if (lang == "Portuguese_BR") lc_code = "pt_BR";
+            else if (lang == "Portuguese_EU") lc_code = "pt_PT";
+            else if (lang == "Russian") lc_code = "ru";
+            else if (lang == "Slovak") lc_code = "sk";
+            else if (lang == "Slovenian") lc_code = "sl";
+            else if (lang == "Spanish") lc_code = "es";
+            else if (lang == "Thai") lc_code = "th";
+            else if (lang == "Turkish") lc_code = "tr";
+            else if (lang == "Vietnamese") lc_code = "vi";
+            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+        }
 
         // Shortcuts changed in 5.4 format
         Hotkeys hks = HOTKEY_NONE;
@@ -501,22 +504,22 @@ QString getTimestampFormat()
     return format;
 }
 
-QString getFormattedFileSize(qint64 filesize)
+QString getFormattedSize(qint64 size)
 {
-    QString formattedFileSize;
+    QString formattedSize;
 #if QT_VERSION < QT_VERSION_CHECK(5,10,0)
-    if (filesize >= 1024*1024*1024)
-        formattedFileSize = QString("%1 G").arg(Filesize/(1024*1024*1024));
-    else if (filesize >= 1024*1024)
-        formattedFileSize = QString("%1 M").arg(filesize/(1024*1024));
-    else if (filesize >= 1024)
-        formattedFileSize = QString("%1 K").arg(filesize/1024);
+    if (size >= 1024*1024*1024)
+        formattedSize = QString("%1 G").arg(Filesize/(1024*1024*1024));
+    else if (size >= 1024*1024)
+        formattedSize = QString("%1 M").arg(filesize/(1024*1024));
+    else if (size >= 1024)
+        formattedSize = QString("%1 K").arg(filesize/1024);
     else
-        formattedFileSize = QString("%1").arg(filesize);
+        formattedSize = QString("%1").arg(filesize);
 #else
-    formattedFileSize = QLocale().formattedDataSize(filesize, 1, QLocale::DataSizeSIFormat);
+    formattedSize = QLocale().formattedDataSize(size, 1, QLocale::DataSizeSIFormat);
 #endif
-    return formattedFileSize;
+    return formattedSize;
 }
 
 QString UtilUI::getDefaultValue(const QString& paramKey)

@@ -31,10 +31,8 @@
 #define SETTINGS_VERSION                            "5.5"
 #define SETTINGS_GENERAL_VERSION                    "general_/version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
-#if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
-#endif
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
 #define SETTINGS_GENERAL_NICKNAME_DEFAULT           ""
@@ -492,6 +490,7 @@
 
 #define SETTINGS_STREAMMEDIA_FILENAME               "stream-media/%1_stream-media-filename"
 #define SETTINGS_STREAMMEDIA_LOOP                   "stream-media/stream-media-file-loop"
+#define SETTINGS_STREAMMEDIA_LOOP_DEFAULT           false
 #define SETTINGS_STREAMMEDIA_CODEC                  "stream-media/codec"
 #define SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE        "stream-media/codec/webmvp8-bitrate"
 #define SETTINGS_STREAMMEDIA_OFFSET                 "stream-media/offset"

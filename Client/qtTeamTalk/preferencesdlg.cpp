@@ -497,6 +497,11 @@ void PreferencesDlg::initDisplayTab()
     }
     QString lang = ttSettings->value(SETTINGS_DISPLAY_LANGUAGE, SETTINGS_DISPLAY_LANGUAGE_DEFAULT).toString();
     int index = ui.languageBox->findData(lang);
+    if (index < 0)
+    {
+        QString langPrefix = lang.section('_', 0, 0);
+        index = ui.languageBox->findData(langPrefix);
+    }
     if (index >= 0)
         ui.languageBox->setCurrentIndex(index);
 
@@ -839,6 +844,11 @@ void PreferencesDlg::slotSaveChanges()
 
         switch(newsndsys)
         {
+        case SOUNDSYSTEM_NONE :
+        case SOUNDSYSTEM_OPENSLES_ANDROID :
+        case SOUNDSYSTEM_AUDIOUNIT :
+            Q_ASSERT(false /* these sound systems are not supported*/);
+            break;
         case SOUNDSYSTEM_WASAPI:
             ttSettings->setValue(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_WASAPI);
         break;

@@ -33,7 +33,6 @@
 #include <ace/OS_NS_sys_socket.h>
 
 #include <stack>
-#include <queue>
 #include <memory>
 #include <vector>
 #include <algorithm>
@@ -54,14 +53,10 @@ ServerNode::ServerNode(const ACE_TString& version,
                        ACE_Reactor* tcpReactor, 
                        ACE_Reactor* udpReactor, 
                        ServerNodeListener* listener /*= NULL*/)
-                       : m_userid_counter(0)
-                       , m_timer_reactor(timerReactor)
+                       : m_timer_reactor(timerReactor)
                        , m_tcp_reactor(tcpReactor)
                        , m_udp_reactor(udpReactor)
                        , m_srvguard(listener)
-                       , m_onesec_timerid(-1)
-                       , m_filetx_id_counter(0)
-                       , m_file_id_counter(0)
 {
     m_properties.version = version;
 
@@ -2739,6 +2734,14 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     if (m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDIN)
     {
         m_srvguard->OnUserLogin(*user);
+    }
+
+    // update last login
+    if (IsAutoSaving())
+    {
+        auto err = m_srvguard->SaveConfiguration(*user, *this);
+        if (err.success() && (m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG))
+            m_srvguard->OnSaveConfiguration(user.get());
     }
 
     return ErrorMsg(TT_CMDERR_SUCCESS);

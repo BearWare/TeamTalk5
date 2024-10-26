@@ -956,8 +956,6 @@ int RemoveObsoleteDesktopPackets(const DesktopPacket& packet,
 DesktopTransmitter::DesktopTransmitter(uint8_t session_id, uint32_t upd_timeid)
 : m_session_id(session_id)
 , m_update_timeid(upd_timeid)
-, m_tx_count(4)
-, m_pingtime(0)
 {
 }
 

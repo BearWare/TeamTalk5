@@ -33,13 +33,6 @@ using namespace std;
 using namespace teamtalk;
 
 AudioThread::AudioThread()
-: m_voicelevel(VU_METER_MIN)
-, m_voiceactlevel(VU_METER_MIN)
-, m_gainlevel(GAIN_NORMAL)
-, m_enc_cleared(true)
-, m_voiceact_delay(1, 500000)
-, m_tone_sample_index(0)
-, m_tone_frequency(0)
 {
     memset(&m_codec, 0, sizeof(m_codec));
     m_codec.codec = teamtalk::CODEC_NO_CODEC;

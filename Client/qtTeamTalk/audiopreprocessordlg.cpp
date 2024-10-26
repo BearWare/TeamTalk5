@@ -34,7 +34,7 @@ AudioPreprocessorDlg::AudioPreprocessorDlg(AudioPreprocessor preprocess, QWidget
     ui.gainlevelSlider->setRange(SOUND_GAIN_MIN, SOUND_GAIN_MAX);
 
     // SpeexDSP audio preprocessor
-    ui.gainlevelSpinBox->setRange(0, 0x7FFF);
+    ui.gainlevelSpinBox->setRange(SPEEXDSP_AGC_GAINLEVEL_MIN, SPEEXDSP_AGC_GAINLEVEL_MAX);
     ui.maxdecSpinBox->setRange(-100, 0);
     ui.maxdenoiseSpinBox->setRange(-100, 0);
 

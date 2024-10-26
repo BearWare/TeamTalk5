@@ -33,13 +33,19 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.Socket;
+import java.text.ParsePosition;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.TimeZone;
 import java.util.Vector;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertTrue;
 
 @FixMethodOrder(MethodSorters.NAME_ASCENDING)
@@ -4492,6 +4498,61 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
         assertEquals("User is not streaming", UserState.USERSTATE_NONE, (msg.user.uUserState & UserState.USERSTATE_MEDIAFILE_AUDIO));
+    }
+
+    @Test
+    public void testUserAcountLastLogin() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase client = newClientInstance();
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount first_login_account = new UserAccount();
+        assertTrue("get account", client.getMyUserAccount(first_login_account));
+        //assertEquals("1970/01/01 00:00", first_login_account.szLastLoginTime);
+
+        assertTrue("disconnect", client.disconnect());
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount second_login_account = new UserAccount();
+        assertTrue("get account again", client.getMyUserAccount(second_login_account));
+        //assertNotEquals("1970/01/01 00:00", second_login_account.szLastLoginTime);
+        assertNotEquals(first_login_account.szLastLoginTime, second_login_account.szLastLoginTime);
+    }
+
+    @Test
+    public void testTimeZone() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_TRANSMIT_MEDIAFILE | UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm");
+        Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
+        calendar.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
+        
+        TeamTalkBase client = newClientInstance();
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount first_login_account = new UserAccount();
+        assertTrue("get account", client.getMyUserAccount(first_login_account));
+        assertEquals("must be 1970/01/01 in local time", fmt.format(calendar.getTime()), first_login_account.szLastLoginTime);
+
+        assertTrue("disconnect", client.disconnect());
+        connect(client);
+        login(client, NICKNAME, USERNAME, PASSWORD);
+
+        UserAccount second_login_account = new UserAccount();
+        assertTrue("get account again", client.getMyUserAccount(second_login_account));
+        Date logintime = fmt.parse(second_login_account.szLastLoginTime, new ParsePosition(0));
+        Date now = new Date();
+        long diff = now.getTime() - logintime.getTime();
+        diff /= 1000;
+        assertEquals("time stamp match within 2 minutes", diff, 0, 120);
     }
 
     /* cannot test output levels since a user is muted by sound system after decoding and callback.

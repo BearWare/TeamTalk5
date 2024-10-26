@@ -73,23 +73,10 @@ using namespace std::placeholders;
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        : m_flags(CLIENT_CLOSED)
                        , m_connector(GetEventLoop(), ACE_NONBLOCK)
-                       , m_def_stream(NULL)
 #if defined(ENABLE_ENCRYPTION)
                        , m_crypt_connector(GetEventLoop(), ACE_NONBLOCK)
-                       , m_crypt_stream(NULL)
 #endif
                        , m_packethandler(GetEventLoop())
-                       , m_myuserid(0)
-                       , m_voice_stream_id(0)
-                       , m_voice_pkt_counter(0)
-                       , m_vidcap_stream_id(0)
-                       , m_mediafile_stream_id(0)
-                       , m_audiofile_pkt_counter(0)
-                       , m_desktop_session_id(0)
-                       , m_cmdid_counter(0)
-                       , m_current_cmdid(0)
-                       , m_mtu_data_size(MAX_PAYLOAD_DATA_SIZE)
-                       , m_mtu_max_payload_size(MAX_PACKET_PAYLOAD_SIZE)
                        , m_version(version)
                        , m_listener(listener)
 {
@@ -1204,7 +1191,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     assert(enc_length <= MAX_ENC_FRAMESIZE);
 
     VoicePacket* newpacket;
-    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
         ACE_NEW(newpacket, 
                 VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
@@ -1233,7 +1220,7 @@ void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
     TTASSERT(org_frame.userdata == STREAMTYPE_MEDIAFILE_AUDIO);
     
     AudioFilePacket* newpacket;
-    if (GetAudioCodecFramesPerPacket(codec)>1 && GetAudioCodecVBRMode(codec))
+    if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
         ACE_NEW(newpacket, 
                 AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 

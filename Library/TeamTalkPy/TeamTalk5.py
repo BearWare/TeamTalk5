@@ -642,6 +642,7 @@ class UserAccount(Structure):
     ("nAudioCodecBpsLimit", INT32),
     ("abusePrevent", AbusePrevention),
     ("szLastModified", TTCHAR*TT_STRLEN),
+    ("szLastLoginTime", TTCHAR*TT_STRLEN),
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.USERACCOUNT) == ctypes.sizeof(UserAccount))

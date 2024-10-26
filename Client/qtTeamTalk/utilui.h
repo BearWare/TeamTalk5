@@ -173,7 +173,7 @@ QString getLanguageDisplayName(const QString &languageCode);
 bool switchLanguage(const QString& language);
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
 QString getTimestampFormat();
-QString getFormattedFileSize(qint64 filesize);
+QString getFormattedSize(qint64 size);
 
 class UtilUI : public QObject
 {

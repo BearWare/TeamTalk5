@@ -388,6 +388,7 @@ namespace teamtalk {
         GetProperty(properties, TT_AUTOOPCHANNELS, useraccount.auto_op_channels);
         GetProperty(properties, TT_AUDIOBPSLIMIT, useraccount.audiobpslimit);
         GetProperty(properties, TT_MODIFIEDTIME, useraccount.lastupdated);
+        GetProperty(properties, TT_LASTLOGINTIME, useraccount.lastlogin);
 
         vector<int> flood;
         if(GetProperty(properties, TT_CMDFLOOD, flood))

@@ -28,7 +28,6 @@
 
 #include <teamtalk/Commands.h>
 #include <queue>
-#include <type_traits>
 #include <cstdio>
 
 #if defined(ENABLE_ENCRYPTION)
@@ -51,11 +50,9 @@ ServerUser::ServerUser(int userid,
                        : User(userid)
                        , m_servernode(servernode) //init parent class
                        , m_stream_handle(h)
-                       , m_cmdsuspended(false)
 {
     //MYTRACE("StreamHandler for userid %d is %d\n", GetUserID(), handler.get_handle());
     //TTASSERT(handler.get_handle() != ACE_INVALID_HANDLE);
-    m_nLastKeepAlive = 0;
 
 #if defined(ENABLE_TEAMTALKPRO)
     RAND_bytes(m_accesstoken, sizeof(m_accesstoken));
@@ -1310,6 +1307,7 @@ void AppendUserAccount(const UserAccount& useraccount, ACE_TString& command)
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.toParam(), command);
     AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
+    AppendProperty(TT_LASTLOGINTIME, useraccount.lastlogin, command);
 }
 
 void ServerUser::DoAccepted(const UserAccount& useraccount)

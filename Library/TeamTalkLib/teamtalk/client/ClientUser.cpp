@@ -36,10 +36,6 @@ using namespace std::placeholders;
 #define TIMEOUT_STOP_AUDIO_PLAYBACK          30000    //msec for timeout of when to stop stream
 #define TIMEOUT_STOP_VIDEOFILE_PLAYBACK      5000
 
-#define VOICE_BUFFER_MSEC              1000
-#define MEDIAFILE_BUFFER_MSEC          20000
-
-
 int JitterCalculator::PacketReceived(const int streamid, const int nominal_delay, bool& isfirststreampacket)
 {
     //Note: reentrancy is assumed to be guarded outside this function
@@ -259,30 +255,7 @@ ClientUser::ClientUser(int userid, ClientNodeBase* clientnode,
                        , m_clientnode(clientnode)
                        , m_listener(listener)
                        , m_soundsystem(sndsys)
-                       , m_usertype(USERTYPE_NONE)
-                       , m_userdata(0)
-                       , m_voice_active(false)
-                       , m_voice_buf_msec(VOICE_BUFFER_MSEC)
                        , m_jitter_calculator(userid)
-                       , m_audiofile_active(false)
-                       , m_media_buf_msec(MEDIAFILE_BUFFER_MSEC)
-                       , m_desktop_packets_expected(0)
-                       , m_desktop_input_rx_pktno(0)
-                       , m_desktop_input_tx_pktno(0)
-                       , m_snddev_error(false)
-                       , m_snd_duplexmode(false)
-                       , m_voice_volume(VOLUME_DEFAULT)
-                       , m_audiofile_volume(VOLUME_DEFAULT)
-                       , m_voice_mute(false)
-                       , m_audiofile_mute(false)
-                       , m_voice_stopped_delay(STOPPED_TALKING_DELAY)
-                       , m_audiofile_stopped_delay(STOPPED_TALKING_DELAY)
-                       , m_voice_stereo(STEREO_BOTH)
-                       , m_audiofile_stereo(STEREO_BOTH)
-                       , m_localsubscriptions(SUBSCRIBE_NONE)
-                       , m_peersubscriptions(SUBSCRIBE_NONE)
-                       , m_aff(AFF_NONE)
-                       , m_voicelog_counter(0)
 {
     TTASSERT(clientnode);
     m_voice_position[0] = m_voice_position[1] = m_voice_position[2] = 0.0f;

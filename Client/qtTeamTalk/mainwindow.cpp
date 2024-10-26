@@ -45,6 +45,7 @@
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilxml.h"
+#include "utilmedia.h"
 #include "moveusersdlg.h"
 #include "useraccountdlg.h"
 
@@ -215,6 +216,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_dtxprogress);
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
+    ui.playbackOffsetSlider->setMaximum(MEDIAFILE_SLIDER_MAXIMUM);
 
 
 #if defined(Q_OS_WIN32)
@@ -223,21 +225,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.actionExit->setShortcut(QKeySequence::Quit);
 #endif
 
-    connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.sendButton, &QAbstractButton::clicked,
-            this, &MainWindow::slotSendChannelMessage);
-    connect(ui.msgEdit, &ChatLineEdit::sendTextMessage,
-            this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videosendButton, &QAbstractButton::clicked,
-            this, &MainWindow::slotSendChannelMessage);
-    connect(ui.desktopsendButton, &QAbstractButton::clicked,
-            this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videomsgEdit, &ChatLineEdit::sendTextMessage,
-            this, &MainWindow::slotSendChannelMessage);
-    connect(ui.videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
-    connect(ui.desktopmsgEdit, &ChatLineEdit::sendTextMessage,
-            this, &MainWindow::slotSendChannelMessage);
+    /* Volume controls */
     connect(ui.micSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMicrophoneGainChanged);
     connect(ui.volumeSlider, &QAbstractSlider::valueChanged,
@@ -245,7 +233,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.voiceactSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotVoiceActivationLevelChanged);
 
-    /* ui.channelsWidget */
+    /* Channels tree */
     connect(ui.channelsWidget, &QTreeWidget::itemSelectionChanged,
             this, &MainWindow::slotTreeSelectionChanged);
     connect(ui.channelsWidget, &QWidget::customContextMenuRequested,
@@ -259,6 +247,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.channelsWidget,
             &ChannelsTree::transmitusersChanged,
             this, &MainWindow::slotTransmitUsersChanged);
+
     /* Video-tab (video-grid) */
     connect(this, &MainWindow::newVideoCaptureFrame, ui.videogridWidget,
             &VideoGridWidget::slotNewVideoFrame);
@@ -272,6 +261,7 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUpdateVideoTabUI);
     connect(ui.videogridWidget, &VideoGridWidget::userVideoSelected,
             this, &MainWindow::slotUpdateVideoTabUI);
+
     /* Desktop-tab (desktop-grid) */
     connect(this, &MainWindow::newDesktopWindow, ui.desktopgridWidget,
             &DesktopGridWidget::userDesktopWindowUpdate);
@@ -289,6 +279,34 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUpdateDesktopTabUI);
     connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
             this, &MainWindow::slotUpdateDesktopTabUI);
+
+    /* Chat-tab */
+    connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui.sendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.msgEdit, &ChatLineEdit::sendTextMessage,
+            this, &MainWindow::slotSendChannelMessage);
+
+    /* Media-tab */
+    connect(ui.playbackOffsetSlider, &QSlider::sliderMoved,
+            this, &MainWindow::changeMediaFileOffset);
+    connect(ui.playMediaFileButton, &QAbstractButton::clicked, this, [&] {
+        switch (m_mfi.value_or(MediaFileInfo()).nStatus)
+        {
+        case MFS_PAUSED :
+        case MFS_PLAYING :
+            slotPauseResumeStream();
+            break;
+        default :
+            startStreamMediaFile();
+            break;
+        }
+    });
+    connect(ui.stopMediaFileButton, &QAbstractButton::clicked, this,
+            &MainWindow::stopStreamMediaFile);
+    connect(ui.openMediaFileButton, &QAbstractButton::clicked, this, &MainWindow::openStreamMediaFileDlg);
+    connect(ui.mediaVolumeSlider, &QSlider::sliderMoved, this, &MainWindow::changeMediaFileVolume);
+
     /* Files-tab */
     connect(ui.uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
     connect(ui.downloadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsDownloadFile);
@@ -303,7 +321,13 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUploadFiles);
     connect(ui.filesView, &QWidget::customContextMenuRequested,
             this, &MainWindow::slotFilesContextMenu);
+
     /* Video-tab buttons */
+    connect(ui.videosendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.videomsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui.videomsgEdit, &ChatLineEdit::sendTextMessage,
+            this, &MainWindow::slotSendChannelMessage);
     connect(ui.initVideoButton, &QAbstractButton::clicked,
             ui.actionEnableVideoTransmission, &QAction::triggered);
     connect(ui.addVideoButton, &QAbstractButton::clicked, this, &MainWindow::slotAddUserVideo);
@@ -314,6 +338,11 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(this, &MainWindow::preferencesModified,
             ui.videogridWidget, &VideoGridWidget::preferencesModified);
     /* Desktop-tab buttons */
+    connect(ui.desktopsendButton, &QAbstractButton::clicked,
+            this, &MainWindow::slotSendChannelMessage);
+    connect(ui.desktopmsgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
+    connect(ui.desktopmsgEdit, &ChatLineEdit::sendTextMessage,
+            this, &MainWindow::slotSendChannelMessage);
     connect(ui.detachDesktopButton, &QAbstractButton::clicked,
             this, &MainWindow::slotDetachUserDesktopGrid);
     connect(ui.addDesktopButton, &QAbstractButton::clicked,
@@ -592,6 +621,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     //pull using a timer
     m_timers.insert(startTimer(20), TIMER_PROCESS_TTEVENT);
 #endif
+
+    updateTabPages();
 }
 
 MainWindow::~MainWindow()
@@ -628,7 +659,7 @@ void MainWindow::loadSettings()
     migrateSettings();
 
     // Ask to set language at first start
-    if (!ttSettings->contains(SETTINGS_DISPLAY_LANGUAGE))
+    if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
     {
         QLocale locale = QLocale::system();
         QString languageCode = locale.name();
@@ -681,8 +712,17 @@ void MainWindow::loadSettings()
             this->ui.retranslateUi(this);
         else
         {
-            QMessageBox::information(this, tr("Translate"),
-                QString("Failed to load language file %1").arg(lang));
+            QString langPrefix = lang.section('_', 0, 0);
+            if (switchLanguage(langPrefix))
+            {
+                this->ui.retranslateUi(this);
+                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, langPrefix);
+            }
+            else
+            {
+                QMessageBox::information(this, tr("Translate"),
+                    QString("Failed to load language file %1").arg(lang));
+            }
         }
     }
 
@@ -813,6 +853,8 @@ void MainWindow::loadSettings()
 
     if ((ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool() == true && ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool() == false) && ((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED))
         slotClientConnect();
+
+    ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     slotUpdateUI();
 }
 
@@ -859,7 +901,6 @@ void MainWindow::initialScreenReaderSetup()
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             }
         }
-        ttSettings->setValue(SETTINGS_GENERAL_FIRSTSTART, false);
     }
 #endif
 }
@@ -1295,8 +1336,8 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
         User user;
         TT_GetUserByUsername(ttInst, file.szUsername, &user);
         QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
-        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedFileSize(file.nFileSize)}}));
+        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
     }
 }
 
@@ -1427,6 +1468,9 @@ void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
     case MFS_FINISHED :
         addStatusMsg(STATUSBAR_BYPASS, tr("Finished streaming media file to channel"));
         stopStreamMediaFile();
+
+        if (ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, SETTINGS_STREAMMEDIA_LOOP_DEFAULT).toBool())
+            startStreamMediaFile();
         break;
     case MFS_ABORTED :
         addStatusMsg(STATUSBAR_BYPASS, tr("Aborted streaming media file to channel"));
@@ -1438,16 +1482,16 @@ void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
         break;
     }
 
-    if (mediafileinfo.nStatus == MFS_FINISHED &&
-       ttSettings->value(SETTINGS_STREAMMEDIA_LOOP, false).toBool())
-    {
-        startStreamMediaFile();
-    }
-
     emit(mediaStreamUpdate(mediafileinfo));
 
     //update if still talking
     emit(updateMyself());
+
+    // only allow updates to 'm_mfi' if a user has actively started playback
+    if (m_mfi)
+        m_mfi = mediafileinfo;
+
+    slotUpdateMediaTabUI();
 }
 
 void MainWindow::clienteventUserVideoCapture(int source, int streamid)
@@ -1666,9 +1710,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         emit(cmdSuccess(msg.nSource));
     break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-        //ui.chatEdit->updateServer();
         //store user account settings
         m_myuseraccount = msg.useraccount;
+        updateTabPages();
         break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDOUT :
         disconnectFromServer();
@@ -2102,6 +2146,7 @@ void MainWindow::disconnectFromServer()
     m_mychannel = {};
     m_myuseraccount = {};
     relayAudioStream(0, STREAMTYPE_NONE, false);
+    stopStreamMediaFile();
 
     m_useraccounts.clear();
     m_bannedusers.clear();
@@ -2112,6 +2157,7 @@ void MainWindow::disconnectFromServer()
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
 
+    updateTabPages();
     updateWindowTitle();
 }
 
@@ -2309,6 +2355,10 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
 {
     switch(id)
     {
+    case HOTKEY_NONE :
+    case HOTKEY_NEXT_UNUSED :
+        Q_ASSERT(false /* these hotkey are not implemented*/);
+        break;
     case HOTKEY_PUSHTOTALK :
         pttHotKey(active);
         break;
@@ -2419,7 +2469,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status = QString("RX: %1KB TX: %2KB").arg(rx / 1024.0, 2, 'f', 2, '0').arg(tx / 1024.0, 2, 'f', 2, '0');
+            QString status = QString("RX: %1 TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
@@ -2534,6 +2584,10 @@ void MainWindow::timerEvent(QTimerEvent *event)
         break;
     case TIMER_APP_UPDATE :
         checkAppUpdate();
+        break;
+    case TIMER_CHANGE_MEDIAFILE_POSITION :
+        setMediaFilePosition();
+        killLocalTimer(TIMER_CHANGE_MEDIAFILE_POSITION);
         break;
     default :
         Q_ASSERT(0);
@@ -2715,6 +2769,13 @@ void MainWindow::firewallInstall()
     }
 }
 #endif
+
+void MainWindow::updateTabPages()
+{
+    slotUpdateMediaTabUI();
+    slotUpdateVideoTabUI();
+    slotUpdateDesktopTabUI();
+}
 
 void MainWindow::subscribeCommon(bool checked, Subscriptions subs, int userid/* = 0*/)
 {
@@ -5291,6 +5352,11 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
         return;
     }
 
+    openStreamMediaFileDlg();
+}
+
+void MainWindow::openStreamMediaFileDlg()
+{
     StreamMediaFileDlg dlg(this);
     connect(this, &MainWindow::mediaStreamUpdate, &dlg, &StreamMediaFileDlg::slotMediaStreamProgress);
     connect(this, &MainWindow::mediaPlaybackUpdate, &dlg, &StreamMediaFileDlg::slotMediaPlaybackProgress);
@@ -5301,6 +5367,7 @@ void MainWindow::slotChannelsStreamMediaFile(bool checked/*=false*/)
         return;
     }
 
+    stopStreamMediaFile();
     startStreamMediaFile();
 }
 
@@ -5352,8 +5419,7 @@ void MainWindow::startStreamMediaFile()
 
         transmitOn(STREAMTYPE_MEDIAFILE);
 
-        ui.actionPauseResumeStream->setEnabled(true);
-        ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
+        m_mfi = MediaFileInfo();
     }
 }
 
@@ -5367,14 +5433,18 @@ void MainWindow::stopStreamMediaFile()
 
     m_statusmode &= ~(STATUSMODE_STREAM_MEDIAFILE | STATUSMODE_STREAM_MEDIAFILE_PAUSED);
 
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-    TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+    if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+    {
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+    }
 
-    ui.actionPauseResumeStream->setEnabled(false);
-    ui.actionPauseResumeStream->setText(tr("Pause/Resume Stream"));
+    m_mfi.reset();
     m_mfp = {};
+    ttSettings->remove(SETTINGS_STREAMMEDIA_OFFSET);
 
     slotUpdateUI();
+    slotUpdateMediaTabUI();
 }
 
 void MainWindow::slotPauseResumeStream()
@@ -5384,8 +5454,6 @@ void MainWindow::slotPauseResumeStream()
 #if defined(Q_OS_WINDOWS)
     fileName = fileName.remove('"');
 #endif
-    if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
-        statusmsg = QFileInfo(fileName).fileName();
 
     if (m_mfp.bPaused)
     {
@@ -5393,10 +5461,10 @@ void MainWindow::slotPauseResumeStream()
         if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
         {
             QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to resume the stream"));
+            stopStreamMediaFile();
         }
         else
         {
-            ui.actionPauseResumeStream->setText(tr("&Pause Stream"));
             m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
             m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE_PAUSED;
         }
@@ -5407,16 +5475,78 @@ void MainWindow::slotPauseResumeStream()
         if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
         {
             QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to pause the stream"));
+            stopStreamMediaFile();
         }
         else
         {
-            ui.actionPauseResumeStream->setText(tr("&Resume Stream"));
             m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
             m_statusmode |= STATUSMODE_STREAM_MEDIAFILE_PAUSED;
             m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE;
         }
     }
+
+    if (ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool())
+        statusmsg = QFileInfo(fileName).fileName();
     TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+}
+
+void MainWindow::changeMediaFileOffset(int pos)
+{
+    if (!m_mfi)
+        return;
+
+    double percent = pos / double(ui.playbackOffsetSlider->maximum());
+    ui.playbackTimeLabel->setText(durationToString(UINT32(m_mfi->uDurationMSec * percent)));
+
+    if (timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
+        killLocalTimer(TIMER_CHANGE_MEDIAFILE_POSITION);
+
+    m_timers.insert(startTimer(500), TIMER_CHANGE_MEDIAFILE_POSITION);
+}
+
+void MainWindow::changeMediaFileVolume(int pos)
+{
+    switch (m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        if (m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel == pos)
+            return;
+        m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel = pos;
+        break;
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        if (m_mfp.audioPreprocessor.speexdsp.nGainLevel == pos)
+            return;
+        m_mfp.audioPreprocessor.speexdsp.nGainLevel = pos;
+        break;
+    case WEBRTC_AUDIOPREPROCESSOR :
+    case NO_AUDIOPREPROCESSOR :
+        return;
+    }
+
+    saveAudioPreprocessor(m_mfp.audioPreprocessor);
+
+    m_mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+    if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
+    {
+        QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to change volume of the stream"));
+        stopStreamMediaFile();
+    }
+}
+
+void MainWindow::setMediaFilePosition()
+{
+    if (!m_mfi)
+        return;
+
+    double percent = ui.playbackOffsetSlider->value() / double(ui.playbackOffsetSlider->maximum());
+
+    m_mfp.uOffsetMSec = UINT32(m_mfi->uDurationMSec * percent);
+
+    if (!TT_UpdateStreamingMediaFileToChannel(ttInst, &m_mfp, &m_mfp_videocodec))
+    {
+        QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to change playback position"));
+    }
+    ttSettings->setValue(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec);
 }
 
 void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
@@ -6212,6 +6342,8 @@ void MainWindow::slotUpdateUI()
     ui.actionDeleteChannel->setEnabled(chanid>0);
     ui.actionStreamMediaFileToChannel->setChecked(statemask & 
                                                   (CLIENT_STREAM_AUDIO | CLIENT_STREAM_VIDEO));
+    ui.actionPauseResumeStream->setEnabled(m_mfi && (m_mfi->nStatus == MFS_PLAYING || m_mfi->nStatus == MFS_PAUSED));
+    ui.actionPauseResumeStream->setText((m_mfi && m_mfi->nStatus == MFS_PAUSED) ? tr("Resume Stream") : tr("&Pause Stream"));
     ui.actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
     ui.actionDeleteFile->setEnabled(filescount>0);
@@ -6252,6 +6384,78 @@ void MainWindow::slotUpdateUI()
 
     ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+}
+
+void MainWindow::slotUpdateMediaTabUI()
+{
+    auto mfi = m_mfi.value_or(MediaFileInfo());
+
+    switch (mfi.nStatus)
+    {
+    case MFS_PAUSED :
+    case MFS_PLAYING :
+    case MFS_STARTED :
+        if (mfi.nStatus == MFS_PAUSED)
+        {
+            ui.playMediaFileButton->setText(tr("&Play"));
+            ui.playMediaFileButton->setIcon(QIcon(QString::fromUtf8(":/images/images/play.png")));
+        }
+        else
+        {
+            ui.playMediaFileButton->setText(tr("&Pause"));
+            ui.playMediaFileButton->setIcon(QIcon(QString::fromUtf8(":/images/images/pause.png")));
+        }
+
+        ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(mfi.uDurationMSec)));
+        if (!timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
+        {
+            ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
+            setMediaFileProgress(ui.playbackOffsetSlider, mfi);
+        }
+        ui.mediaAudioFmtLabel->setText(tr("Audio format: %1").arg(getMediaAudioDescription(mfi.audioFmt)));
+        ui.mediaVideoFmtLabel->setText(tr("Video format: %1").arg(getMediaVideoDescription(mfi.videoFmt)));
+        break;
+    case MFS_CLOSED :
+    case MFS_ERROR :
+    case MFS_ABORTED :
+        ui.playbackOffsetSlider->setValue(0);
+    case MFS_FINISHED :
+        ui.playMediaFileButton->setText(tr("&Play"));
+        ui.playMediaFileButton->setIcon(QIcon(QString::fromUtf8(":/images/images/play.png")));
+        ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(0)));
+        ui.playbackTimeLabel->setText(durationToString(0));
+        setMediaFileProgress(ui.playbackOffsetSlider, mfi);
+        ui.mediaAudioFmtLabel->setText(tr("Audio format: %1").arg(""));
+        ui.mediaVideoFmtLabel->setText(tr("Video format: %1").arg(""));
+        break;
+    }
+    ui.playbackOffsetSlider->setEnabled(mfi.nStatus != MFS_CLOSED);
+    ui.mediaFileNameLabel->setText(tr("File name: %1").arg(_Q(mfi.szFileName)));
+
+    // init volume slider for media streaming
+    switch (m_mfp.audioPreprocessor.nPreprocessor)
+    {
+    case SPEEXDSP_AUDIOPREPROCESSOR :
+        ui.mediaVolumeSlider->setEnabled(m_mfp.audioPreprocessor.speexdsp.bEnableAGC);
+        ui.mediaVolumeSlider->setRange(SPEEXDSP_AGC_GAINLEVEL_MIN, SPEEXDSP_AGC_GAINLEVEL_MAX);
+        ui.mediaVolumeSlider->setValue(m_mfp.audioPreprocessor.speexdsp.nGainLevel);
+        ui.mediaVolumeLabel->setText(tr("%1 %").arg(100 * m_mfp.audioPreprocessor.speexdsp.nGainLevel / DEFAULT_SPEEXDSP_AGC_GAINLEVEL));
+        break;
+    case TEAMTALK_AUDIOPREPROCESSOR :
+        ui.mediaVolumeSlider->setEnabled(true);
+        ui.mediaVolumeSlider->setRange(SOUND_GAIN_MIN, /*SOUND_GAIN_MAX*/8000);
+        ui.mediaVolumeSlider->setValue(m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel);
+        ui.mediaVolumeLabel->setText(tr("%1 %").arg(100 * m_mfp.audioPreprocessor.ttpreprocessor.nGainLevel / SOUND_GAIN_DEFAULT));
+        break;
+    case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR :
+        ui.mediaVolumeSlider->setEnabled(false);
+        ui.mediaVolumeSlider->setValue(0);
+        ui.mediaVolumeLabel->setText(tr("%1 %").arg(100));
+        break;
+    }
+
+    ui.openMediaFileButton->setEnabled(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED);
 }
 
 void MainWindow::slotUpdateVideoTabUI()

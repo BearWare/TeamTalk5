@@ -30,11 +30,13 @@
 
 #include <teamtalk/User.h>
 
-#include <map>
 #include <queue>
 
 #define DESKTOPINPUT_QUEUE_MAX_SIZE 100
 #define DESKTOPINPUT_MAX_RTX_PACKETS 16
+
+#define VOICE_BUFFER_MSEC              1000
+#define MEDIAFILE_BUFFER_MSEC          20000
 
 namespace teamtalk {
 
@@ -80,36 +82,23 @@ namespace teamtalk {
 
     struct ClientUserStats
     {
-        ACE_INT64 voicepackets_recv;
-        ACE_INT64 voicepackets_lost;
+        ACE_INT64 voicepackets_recv = 0;
+        ACE_INT64 voicepackets_lost = 0;
 
-        ACE_INT64 vidcappackets_recv;
-        ACE_INT64 vidcapframes_recv;
-        ACE_INT64 vidcapframes_lost;
-        ACE_INT64 vidcapframes_dropped;
+        ACE_INT64 vidcappackets_recv = 0;
+        ACE_INT64 vidcapframes_recv = 0;
+        ACE_INT64 vidcapframes_lost = 0;
+        ACE_INT64 vidcapframes_dropped = 0;
 
-        ACE_INT64 mediafile_audiopackets_recv;
-        ACE_INT64 mediafile_audiopackets_lost;
+        ACE_INT64 mediafile_audiopackets_recv = 0;
+        ACE_INT64 mediafile_audiopackets_lost = 0;
 
-        ACE_INT64 mediafile_video_packets_recv;
-        ACE_INT64 mediafile_video_frames_recv;
-        ACE_INT64 mediafile_video_frames_lost;
-        ACE_INT64 mediafile_video_frames_dropped;
+        ACE_INT64 mediafile_video_packets_recv = 0;
+        ACE_INT64 mediafile_video_frames_recv = 0;
+        ACE_INT64 mediafile_video_frames_lost = 0;
+        ACE_INT64 mediafile_video_frames_dropped = 0;
 
-        ClientUserStats()
-            : voicepackets_recv(0)
-            , voicepackets_lost(0)
-            , vidcappackets_recv(0)
-            , vidcapframes_recv(0)
-            , vidcapframes_lost(0)
-            , vidcapframes_dropped(0)
-            , mediafile_audiopackets_recv(0)
-            , mediafile_audiopackets_lost(0)
-            , mediafile_video_packets_recv(0)
-            , mediafile_video_frames_recv(0)
-            , mediafile_video_frames_lost(0)
-            , mediafile_video_frames_dropped(0)
-        {}
+        ClientUserStats() { }
     };
 
     typedef std::list<desktoppacket_t> desktop_queue_t;
@@ -252,22 +241,22 @@ namespace teamtalk {
 
         void SetDirtyProps();
 
-        ClientNodeBase* m_clientnode;
-        ClientListener* m_listener;
+        ClientNodeBase* m_clientnode = nullptr;
+        ClientListener* m_listener = nullptr;
         soundsystem::soundsystem_t m_soundsystem;
 
         ClientUserStats m_stats;
         // public properties of user's UserAccount
         ACE_TString m_username;
-        UserTypes m_usertype;
-        int m_userdata;
+        UserTypes m_usertype = USERTYPE_NONE;
+        int m_userdata = 0;
 
         std::weak_ptr< ClientChannel > m_channel;
 
         //voice playback
         audio_player_t m_voice_player;
-        bool m_voice_active;
-        int m_voice_buf_msec;
+        bool m_voice_active = false;
+        int m_voice_buf_msec = VOICE_BUFFER_MSEC;
         JitterCalculator m_jitter_calculator;
         std::queue<audiopacket_t> m_jitterbuffer;
 
@@ -278,8 +267,8 @@ namespace teamtalk {
 
         //audio file playback
         audio_player_t m_audiofile_player;
-        bool m_audiofile_active;
-        int m_media_buf_msec;
+        bool m_audiofile_active = false;
+        int m_media_buf_msec = MEDIAFILE_BUFFER_MSEC;
 
         //video file playback
 #if defined(ENABLE_VPX)
@@ -291,37 +280,37 @@ namespace teamtalk {
         desktop_queue_t m_desktop_queue; //queue for desktop packets until session becomes valid
         map_desktoppacket_t m_block_fragments; //fragmented desktop packets
         map_dup_blocks_t m_dup_blocks;
-        uint16_t m_desktop_packets_expected;
+        uint16_t m_desktop_packets_expected = 0;
         std::set<uint16_t> m_acked_desktoppackets;
 
         //desktop input received from user (for ClientNode's desktop session)
         std::list<desktopinput_pkt_t> m_desktop_input_rx;
-        uint8_t m_desktop_input_rx_pktno; //packet_no of next expect packet
+        uint8_t m_desktop_input_rx_pktno = 0; //packet_no of next expect packet
 
         //TT instance's tx queue for desktop input to this user
         std::list< desktopinput_pkt_t > m_desktop_input_tx, m_desktop_input_rtx;
-        uint8_t m_desktop_input_tx_pktno;
+        uint8_t m_desktop_input_tx_pktno = 0;
 
         //sound state
-        bool m_snddev_error;
+        bool m_snddev_error = false;
         // whether sound duplex mode was used by LaunchAudioPlayer()
-        bool m_snd_duplexmode;
+        bool m_snd_duplexmode = false;
 
         //gaining audio
         float m_voice_position[3], m_audiofile_position[3];
-        int m_voice_volume, m_audiofile_volume;
-        bool m_voice_mute, m_audiofile_mute;
-        int m_voice_stopped_delay, m_audiofile_stopped_delay;
+        int m_voice_volume = VOLUME_DEFAULT, m_audiofile_volume = VOLUME_DEFAULT;
+        bool m_voice_mute = false, m_audiofile_mute = false;
+        int m_voice_stopped_delay = STOPPED_TALKING_DELAY, m_audiofile_stopped_delay = STOPPED_TALKING_DELAY;
         int m_recording_close_extra_delay = 0;
-        StereoMask m_voice_stereo, m_audiofile_stereo;
+        StereoMask m_voice_stereo = STEREO_BOTH, m_audiofile_stereo = STEREO_BOTH;
 
-        Subscriptions m_localsubscriptions, m_peersubscriptions;
+        Subscriptions m_localsubscriptions = SUBSCRIBE_NONE, m_peersubscriptions = SUBSCRIBE_NONE;
 
         //audio storage
         ACE_TString m_audiofolder;
         ACE_TString m_vlog_vars;
-        AudioFileFormat m_aff;
-        ACE_UINT32 m_voicelog_counter;
+        AudioFileFormat m_aff = AFF_NONE;
+        ACE_UINT32 m_voicelog_counter = 0;
     };
 }
 #endif
