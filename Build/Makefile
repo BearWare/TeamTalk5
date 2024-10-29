@@ -265,6 +265,32 @@ depend-debian9:
                     doxygen g++ openjdk-8-jdk \
                     qttools5-dev-tools ninja-build libpcap-dev junit4 cmake libxss-dev
 
+depend-debian12:
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		git \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libssl-dev \
+		libtool \
+		ninja-build \
+		openjdk-17-jdk \
+		p7zip-full \
+		pkg-config \
+		python3-pytest \
+		qt6-base-dev \
+		qt6-declarative-dev \
+		qt6-multimedia-dev \
+		qt6-speech-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		yasm
+
 # TeamTalk 5 dependencies for Raspbian 10 Buster
 depend-rasp10:
 	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
