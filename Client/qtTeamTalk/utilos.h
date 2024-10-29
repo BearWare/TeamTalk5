@@ -18,6 +18,12 @@
 #ifndef UTILOS_H
 #define UTILOS_H
 
+#if defined(Q_OS_LINUX)
+// Forward declaration of Display because it is not possible to
+// include X11/Xlib.h due to namespace collisions.
+typedef struct _XDisplay Display;
+#endif
+
 bool isComputerIdle(int idle_secs);
 
 #endif // UTILOS_H
