@@ -21,10 +21,7 @@
 #include "ui_desktopshare.h"
 
 #include "common.h"
-
-#ifdef Q_OS_LINUX
-#include <QX11Info>
-#endif
+#include "utilos.h"
 
 class DesktopShareDlg : public QDialog
 {
@@ -51,7 +48,6 @@ private:
 #if defined(Q_OS_LINUX)
     Display* m_display;
 #endif
-}; 
+};
 
 #endif
-

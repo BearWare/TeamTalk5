@@ -20,6 +20,13 @@
 
 #include "ui_mainwindow.h"
 
+#include "common.h"
+#include "textmessagecontainer.h"
+#include "utilhotkey.h"
+#include "utilos.h"
+#include "utilsound.h"
+#include "utilui.h"
+
 #include <QMap>
 #include <QSet>
 #include <QQueue>
@@ -27,16 +34,6 @@
 #include <QNetworkAccessManager>
 #include <QSortFilterProxyModel>
 #include <optional>
-
-#include "common.h"
-#include "textmessagecontainer.h"
-#include "utilsound.h"
-#include "utilui.h"
-#include "utilhotkey.h"
-
-#ifdef Q_OS_LINUX
-#include <QX11Info>
-#endif
 
 #if defined(Q_OS_DARWIN)
 #include <Carbon/Carbon.h>
@@ -86,7 +83,7 @@ enum
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
-    
+
 public:
     MainWindow(const QString& cfgfile);
     ~MainWindow();
@@ -94,7 +91,7 @@ public:
     void loadSettings();
 
     bool parseArgs(const QStringList& args);
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
     //X11 hotkeys
     void keysActive(quint32 keycode, quint32 mods, bool active);
 #endif
@@ -278,6 +275,7 @@ private:
 #if defined(Q_OS_WIN32)
     HWND m_hShareWnd;
 #endif
+
 #if defined(Q_OS_LINUX)
     //set of native key codes
     typedef QSet<quint32> keycomp_t;
@@ -369,7 +367,7 @@ private:
     void slotChannelsDownloadFile(bool checked=false);
     void slotChannelsDeleteFile(bool checked=false);
     void slotChannelsGenerateTTUrl(bool checked=false);
-    
+
     void slotServerUserAccounts(bool checked=false);
     void slotServerBannedUsers(bool checked=false);
     void slotServerOnlineUsers(bool checked=false);

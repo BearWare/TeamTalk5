@@ -75,11 +75,14 @@
 #include <QTextToSpeech>
 #endif
 
-#ifdef Q_OS_LINUX //For hotkeys and DBus on X11
+#if defined(Q_OS_LINUX) //For hotkeys and DBus on X11
 #include <QtDBus/QtDBus>
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
+#if QT_VERSION < QT_VERSION_CHECK(6,0,0)
+#include <QX11Info>
 #endif
+#endif /*Q_OS_LINUX */
 
 #include <functional>
 #include <algorithm>
@@ -627,7 +630,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
 MainWindow::~MainWindow()
 {
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
     if(m_display)
         XCloseDisplay(m_display);
 #endif
@@ -2327,7 +2330,7 @@ void MainWindow::showTTErrorMessage(const ClientErrorMsg& msg, CommandComplete c
     }
 }
 
-#ifdef Q_OS_LINUX
+#if defined(Q_OS_LINUX)
 void MainWindow::keysActive(quint32 keycode, quint32 mods, bool active)
 {
     keycomp_t comp;
@@ -3353,7 +3356,7 @@ bool MainWindow::sendDesktopWindow()
 #elif defined(Q_OS_LINUX)
     {
         if(!m_display)
-            m_display = XOpenDisplay(0);
+            m_display = XOpenDisplay(nullptr);
 
         if(!m_display)
             return false;
@@ -3691,10 +3694,10 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
     //disable first so we don't double register
     disableHotKey(id);
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
     TT_HotKey_Register(ttInst, id, &hk[0], INT32(hk.size()));
 
-#elif defined(Q_OS_LINUX)
+#elif defined(Q_OS_LINUX) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
     Display* display = QX11Info::display();
     Window x11window = QX11Info::appRootWindow();
@@ -3774,11 +3777,11 @@ void MainWindow::enableHotKey(HotKeyID id, const hotkey_t& hk)
 
 void MainWindow::disableHotKey(HotKeyID id)
 {
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 
     TT_HotKey_Unregister(ttInst, id);
 
-#elif defined(Q_OS_LINUX)
+#elif defined(Q_OS_LINUX) && QT_VERSION < QT_VERSION_CHECK(6,0,0)
 
     Display* display = QX11Info::display();
     Window window = QX11Info::appRootWindow();
@@ -4640,7 +4643,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     {
 #if defined(Q_OS_LINUX)
         if(!m_display)
-            m_display = XOpenDisplay(0);
+            m_display = XOpenDisplay(nullptr);
 
         if(!m_display)
             QMessageBox::critical(this, MENUTEXT(ui.actionEnableDesktopSharing->text()),

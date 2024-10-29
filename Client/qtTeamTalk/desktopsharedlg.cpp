@@ -73,7 +73,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
     while(TT_MacOS_GetWindow(i++, &wnd))
     {
         if(_Q(wnd.szWindowTitle).size())
-            ui.windowComboBox->addItem(_Q(wnd.szWindowTitle) + 
+            ui.windowComboBox->addItem(_Q(wnd.szWindowTitle) +
                                        QString(" - (%1x%2)").arg(wnd.nWidth)
                                        .arg(wnd.nHeight), (qint64)wnd.nWindowID);
     }
@@ -99,7 +99,7 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
     //             ZERO_STRUCT(attr);
     //             Status s_attr = XGetWindowAttributes(m_display, children[i], &attr);
     //             ui.windowComboBox->addItem(QString("%1 - (%2x%3)")
-    //                                        .arg(str).arg(attr.width).arg(attr.height), 
+    //                                        .arg(str).arg(attr.width).arg(attr.height),
     //                                        (qint64)children[i]);
     //             XFree(str);
     //         }
@@ -212,7 +212,7 @@ void DesktopShareDlg::accept()
     else
         ttSettings->setValue(SETTINGS_DESKTOPSHARE_INTERVAL, 0);
 
-    ttSettings->setValue(SETTINGS_DESKTOPSHARE_BMPMODE, 
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_BMPMODE,
                          ui.rgbComboBox->itemData(ui.rgbComboBox->currentIndex()));
 
     ttSettings->setValue(SETTINGS_DESKTOPSHARE_CURSOR, ui.cursorChkBox->isChecked());
