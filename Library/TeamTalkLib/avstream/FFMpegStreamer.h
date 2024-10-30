@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -43,11 +43,11 @@ class FFMpegStreamer : public MediaFileStreamer
 public:
     FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
     virtual ~FFMpegStreamer();
-    
+
     virtual bool IsSystemTime() const { return false; }
 
 protected:
-    virtual bool SetupInput(struct AVInputFormat *iformat,
+    virtual bool SetupInput(const struct AVInputFormat *iformat,
                             struct AVDictionary *options,
                             struct AVFormatContext*& fmt_ctx,
                             struct AVCodecContext*& aud_dec_ctx,
@@ -71,7 +71,7 @@ private:
 };
 
 bool OpenInput(const ACE_TString& filename,
-               AVInputFormat *iformat,
+               const AVInputFormat *iformat,
                AVDictionary *options,
                AVFormatContext*& fmt_ctx,
                AVCodecContext*& aud_dec_ctx,

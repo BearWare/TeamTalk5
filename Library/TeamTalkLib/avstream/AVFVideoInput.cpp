@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -32,7 +32,7 @@ extern "C" {
 
 using namespace vidcap;
 
-bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
+bool AVFVideoInput::SetupInput(const AVInputFormat *iformat,
                                AVDictionary *options,
                                AVFormatContext*& fmt_ctx,
                                AVCodecContext*& aud_dec_ctx,
@@ -42,7 +42,7 @@ bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
 {
 
     auto vidfmt = GetMediaOutput().video;
-    
+
     iformat = av_find_input_format(m_dev.api.c_str());
     int fps = 1;
     if (vidfmt.fps_denominator)
@@ -67,4 +67,3 @@ bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
                                         audio_stream_index,
                                         video_stream_index);
 }
-
