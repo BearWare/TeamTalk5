@@ -14,7 +14,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-arm64-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n4.3.8
+      GIT_TAG           n5.1.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
@@ -61,7 +61,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-intel-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n4.3.8
+      GIT_TAG           n5.1.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
@@ -151,6 +151,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   find_library(BZ2_LIBRARY bz2)
   find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
   find_library (VIDEOTOOLBOX_LIBRARY VideoToolBox)
+  find_library (METAL_LIBRARY Metal)
 
   set (FFMPEG_LINK ${COCOA_LIBRARY} ${AVFOUNDATION_LIBRARY}
     ${COREMEDIA_LIBRARY}
@@ -160,7 +161,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ${QUARTZCORE_LIBRARY}
     ${BZ2_LIBRARY}
     ${AUDIOTOOLBOX_LIBRARY}
-    ${VIDEOTOOLBOX_LIBRARY})
+    ${VIDEOTOOLBOX_LIBRARY}
+    ${METAL_LIBRARY})
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -270,7 +272,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n4.3.8
+      GIT_TAG           n5.1.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -356,7 +358,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n4.3.8
+      GIT_TAG           n5.1.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -513,7 +515,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n4.3.8
+      GIT_TAG           n5.1.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg

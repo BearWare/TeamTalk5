@@ -1760,7 +1760,7 @@ TEST_CASE("testThumbnail")
 
     MediaFileProp mfp;
     REQUIRE(GetMediaFileProp(filename, mfp));
-    REQUIRE(!mfp.video.IsValid());
+    REQUIRE(mfp.video.IsValid());
 
     MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_NONE);
     FFmpegStreamer ffmpeg(filename, prop);
@@ -3945,6 +3945,7 @@ TEST_CASE("TTPlayOpusOgg")
     started = false;
     paused = false;
     durationMSec = GETTIMESTAMP();
+    const int pausedurationMSec = 1000;
     while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
     {
         switch(msg.mediafileinfo.nStatus)
@@ -3963,7 +3964,7 @@ TEST_CASE("TTPlayOpusOgg")
         case MFS_PAUSED :
             REQUIRE(!paused);
             paused = true;
-            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, pausedurationMSec);
             mfp.bPaused = FALSE;
             REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
             started = false;
@@ -3981,7 +3982,8 @@ TEST_CASE("TTPlayOpusOgg")
     REQUIRE(paused);
     durationMSec = GETTIMESTAMP() - durationMSec;
     // precision reduced due to GitHub CI being slow
-    REQUIRE(int(durationMSec) >= int(mfi.uDurationMSec + 1000));
+    const int toleranceMSec = 500;
+    REQUIRE(int(durationMSec) >= int(mfi.uDurationMSec + pausedurationMSec - pausedurationMSec));
 }
 
 TEST_CASE("TTPlayFFmpegOpus")

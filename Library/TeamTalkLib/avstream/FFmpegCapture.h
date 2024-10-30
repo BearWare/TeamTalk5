@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -55,7 +55,7 @@ namespace vidcap {
                                                   const media::VideoFormat& fmt) = 0;
         ffmpegvideoinput_t m_videoinput;
         VideoCaptureCallback m_callback;
-        
+
     public:
         FFmpegCapture();
         virtual ~FFmpegCapture();
@@ -63,7 +63,7 @@ namespace vidcap {
         // VideoCapture interface
         bool InitVideoCapture(const ACE_TString& deviceid,
                               const media::VideoFormat& vidfmt);
-        
+
         bool StartVideoCapture();
 
         void StopVideoCapture();
@@ -72,7 +72,7 @@ namespace vidcap {
 
         bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
         void UnregisterVideoFormat(media::FourCC fcc);
-        
+
         // MediaStreamListener interface
         bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                       ACE_Message_Block* mb_video);
@@ -84,4 +84,3 @@ namespace vidcap {
 }
 
 #endif
-
