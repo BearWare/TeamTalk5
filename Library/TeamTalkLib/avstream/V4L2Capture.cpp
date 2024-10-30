@@ -51,7 +51,7 @@ public:
     : FFmpegVideoInput(viddevice, fmt) { }
 
     // FFmpegStreamer override
-    bool SetupInput(AVInputFormat *iformat,
+    bool SetupInput(const AVInputFormat *iformat,
                     AVDictionary *options,
                     AVFormatContext*& fmt_ctx,
                     AVCodecContext*& aud_dec_ctx,
@@ -113,7 +113,7 @@ vidcap_devices_t V4L2Capture::GetDevices()
 {
     vidcap_devices_t devs;
 
-    AVInputFormat* in_fmt = av_input_video_device_next(NULL), *indev_fmt = NULL;
+    const AVInputFormat* in_fmt = av_input_video_device_next(NULL), *indev_fmt = NULL;
     while(in_fmt) {
         if (av_match_name("v4l2", in_fmt->name)) {
             indev_fmt = in_fmt;

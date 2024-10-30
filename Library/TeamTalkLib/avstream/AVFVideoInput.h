@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -32,9 +32,9 @@ namespace vidcap {
                       const media::VideoFormat& fmt)
             : FFmpegVideoInput(viddevice, fmt) {
         }
-    
+
         // FFmpegStreamer override
-        bool SetupInput(struct AVInputFormat *iformat,
+        bool SetupInput(const struct AVInputFormat *iformat,
                         struct AVDictionary *options,
                         struct AVFormatContext*& fmt_ctx,
                         struct AVCodecContext*& aud_dec_ctx,
