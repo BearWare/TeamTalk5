@@ -14,26 +14,38 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-arm64-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n3.4.13
+      GIT_TAG           n4.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Fix-int-vs.-ptrdiff_t-signature-for-weight_h264_pixe.patch
-      CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
-      <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
-      --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
-      --disable-libxcb-shape --disable-securetransport
-      --disable-schannel --disable-xlib --disable-jack
+      CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
+      --prefix=<INSTALL_DIR>
+      # External libraries:
+      --disable-iconv
+      --disable-libxcb
+      --disable-libxcb-shape
+      --disable-libxcb-shm
+      --disable-libxcb-xfixes
       --disable-lzma
+      --disable-schannel
+      --disable-sdl2
+      --disable-securetransport
+      --disable-xlib
+      --enable-openssl
+      # Programs/docs
+      --disable-doc
+      --disable-programs
+      # Compile options (yasm does not work for arm64)
+      --disable-asm
+      --disable-optimizations
+      --disable-stripping
+      --enable-debug=3
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
-      --disable-videotoolbox --disable-sdl2 --pkg-config-flags=--static
-      --enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
-      --enable-cross-compile --target-os=darwin --arch=arm64 --disable-asm
-      # Seems --arch=arm64 has no effect and '-arch arm64' has to be applied
+      --pkg-config-flags=--static
+      --enable-cross-compile --target-os=darwin --arch=arm64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -49,24 +61,36 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-intel-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n3.4.13
+      GIT_TAG           n4.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Fix-int-vs.-ptrdiff_t-signature-for-weight_h264_pixe.patch
-      CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig &&
-      <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --disable-iconv
-      --disable-libxcb --disable-libxcb-shm --disable-libxcb-xfixes
-      --disable-libxcb-shape --disable-securetransport
-      --disable-schannel --disable-xlib --disable-jack
+      CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
+      --prefix=<INSTALL_DIR>
+      # External libraries:
+      --disable-iconv
+      --disable-libxcb
+      --disable-libxcb-shape
+      --disable-libxcb-shm
+      --disable-libxcb-xfixes
       --disable-lzma
+      --disable-schannel
+      --disable-sdl2
+      --disable-securetransport
+      --disable-xlib
+      --enable-openssl
+      # Programs/docs
+      --disable-doc
+      --disable-programs
+      # Compile options
+      --disable-optimizations
+      --disable-stripping
+      --enable-debug=3
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
       --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
       --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
-      --disable-videotoolbox --disable-sdl2 --pkg-config-flags=--static
-      --enable-debug=3 --disable-optimizations --disable-stripping --enable-openssl
+      --pkg-config-flags=--static
       --enable-cross-compile --target-os=darwin --arch=x86_64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
@@ -126,6 +150,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   find_library(QUARTZCORE_LIBRARY QuartzCore)
   find_library(BZ2_LIBRARY bz2)
   find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
+  find_library (VIDEOTOOLBOX_LIBRARY VideoToolBox)
 
   set (FFMPEG_LINK ${COCOA_LIBRARY} ${AVFOUNDATION_LIBRARY}
     ${COREMEDIA_LIBRARY}
@@ -134,7 +159,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ${VIDEODECODEACCELERATION_LIBRARY}
     ${QUARTZCORE_LIBRARY}
     ${BZ2_LIBRARY}
-    ${AUDIOTOOLBOX_LIBRARY})
+    ${AUDIOTOOLBOX_LIBRARY}
+    ${VIDEOTOOLBOX_LIBRARY})
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -200,7 +226,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(gas-preprocessor
       GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor
-      GIT_TAG           cbe8847
+      GIT_TAG           7380ac2
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/gas-preprocessor
       INSTALL_DIR       ""
@@ -244,13 +270,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n3.4.13
+      GIT_TAG           n4.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Fix-int-vs.-ptrdiff_t-signature-for-weight_h264_pixe.patch
       CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
@@ -332,16 +356,20 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n3.4.13
+      GIT_TAG           n4.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Fix-int-vs.-ptrdiff_t-signature-for-weight_h264_pixe.patch
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
-      --enable-pic --enable-openssl --disable-jack
+      # External libraries:
       --disable-libxcb
+      --enable-openssl
+      # Programs/docs
+      --disable-doc
+      --disable-programs
+      # Compile options
+      --enable-pic
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -485,16 +513,20 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg
-      GIT_TAG           n3.4.13
+      GIT_TAG           n4.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-signature-of-read_probe-AVProbeData-p-in-libavfo.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Fix-int-vs.-ptrdiff_t-signature-for-weight_h264_pixe.patch
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
+      # External libraries:
+      --disable-indev=v4l2
+      # Programs/docs
+      --disable-doc
+      --disable-programs
+      # Compile options
+      --enable-pic
       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
-      --enable-pic --disable-doc --disable-programs --disable-indev=v4l2
       BUILD_COMMAND     ${FFMPEG_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   ${FFMPEG_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
