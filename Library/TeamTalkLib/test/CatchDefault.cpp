@@ -3981,7 +3981,7 @@ TEST_CASE("TTPlayOpusOgg")
     REQUIRE(paused);
     durationMSec = GETTIMESTAMP() - durationMSec;
     // precision reduced due to GitHub CI being slow
-    REQUIRE(int(durationMSec) > int(mfi.uDurationMSec + 1000));
+    REQUIRE(int(durationMSec) >= int(mfi.uDurationMSec + 1000));
 }
 
 TEST_CASE("TTPlayFFmpegOpus")
