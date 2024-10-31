@@ -21,19 +21,19 @@
  *
  */
 
-#include "FFMpeg3Capture.h"
+#include "FFmpegCapture.h"
 
 namespace vidcap {
 
-    class AVFVideoInput : public FFMpegVideoInput
+    class AVFVideoInput : public FFmpegVideoInput
     {
     public:
         AVFVideoInput(const VidCapDevice& viddevice,
                       const media::VideoFormat& fmt)
-            : FFMpegVideoInput(viddevice, fmt) {
+            : FFmpegVideoInput(viddevice, fmt) {
         }
     
-        // FFMpegStreamer override
+        // FFmpegStreamer override
         bool SetupInput(struct AVInputFormat *iformat,
                         struct AVDictionary *options,
                         struct AVFormatContext*& fmt_ctx,

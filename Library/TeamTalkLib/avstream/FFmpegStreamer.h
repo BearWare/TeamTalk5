@@ -38,11 +38,11 @@ void InitAVConv();
 
 bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop);
 
-class FFMpegStreamer : public MediaFileStreamer
+class FFmpegStreamer : public MediaFileStreamer
 {
 public:
-    FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
-    virtual ~FFMpegStreamer();
+    FFmpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
+    virtual ~FFmpegStreamer();
     
     virtual bool IsSystemTime() const { return false; }
 

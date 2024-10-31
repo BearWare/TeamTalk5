@@ -43,14 +43,14 @@ using namespace std;
 using namespace vidcap;
 using namespace media;
 
-class V4L2Input : public FFMpegVideoInput
+class V4L2Input : public FFmpegVideoInput
 {
 public:
     V4L2Input(const VidCapDevice& viddevice,
               const media::VideoFormat& fmt)
-    : FFMpegVideoInput(viddevice, fmt) { }
+    : FFmpegVideoInput(viddevice, fmt) { }
 
-    // FFMpegStreamer override
+    // FFmpegStreamer override
     bool SetupInput(AVInputFormat *iformat,
                     AVDictionary *options,
                     AVFormatContext*& fmt_ctx,
@@ -79,7 +79,7 @@ public:
 
         av_dict_set(&options, "pixel_format", "0rgb", 0);
 
-        return FFMpegVideoInput::SetupInput(iformat, options, fmt_ctx,
+        return FFmpegVideoInput::SetupInput(iformat, options, fmt_ctx,
                                             aud_dec_ctx, vid_dec_ctx,
                                             audio_stream_index,
                                             video_stream_index);

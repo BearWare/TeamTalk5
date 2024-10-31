@@ -32,7 +32,7 @@
 #endif /* ENABLE_DSHOW */
 
 #if defined(ENABLE_FFMPEG3)
-#include "FFMpeg3Streamer.h"
+#include "FFmpegStreamer.h"
 #endif /* ENABLE_FFMPEG3*/
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
@@ -77,7 +77,7 @@ mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const Me
 #elif defined(ENABLE_DSHOW)
     streamer.reset(new DSWrapperThread());
 #elif defined(ENABLE_FFMPEG3)
-    streamer.reset(new FFMpegStreamer(filename, out_prop));
+    streamer.reset(new FFmpegStreamer(filename, out_prop));
 #endif
 
     return streamer;

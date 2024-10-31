@@ -62,7 +62,7 @@ bool AVFVideoInput::SetupInput(AVInputFormat *iformat,
     av_dict_set(&options, "pixel_format", "0rgb", 0);
     av_dict_set_int(&options, "video_device_index", atoi(m_dev.deviceid.c_str()), 0);
 
-    return FFMpegVideoInput::SetupInput(iformat, options, fmt_ctx,
+    return FFmpegVideoInput::SetupInput(iformat, options, fmt_ctx,
                                         aud_dec_ctx, vid_dec_ctx,
                                         audio_stream_index,
                                         video_stream_index);

@@ -109,8 +109,8 @@ SOURCES +=  main.cpp \
             $$TEAMTALKLIB_ROOT/avstream/AudioInputStreamer.cpp \
             $$TEAMTALKLIB_ROOT/avstream/SpeexPreprocess.cpp \
             $$TEAMTALKLIB_ROOT/avstream/SpeexResampler.cpp \
-            $$TEAMTALKLIB_ROOT/avstream/FFMpeg3Streamer.cpp \
-            $$TEAMTALKLIB_ROOT/avstream/FFMpeg3Resampler.cpp \
+            $$TEAMTALKLIB_ROOT/avstream/FFmpegStreamer.cpp \
+            $$TEAMTALKLIB_ROOT/avstream/FFmpegResampler.cpp \
             $$TEAMTALKLIB_ROOT/avstream/WebRTCPreprocess.cpp \
             $$TEAMTALKLIB_ROOT/avstream/WebRTCPreprocess.h \
             $$TEAMTALKLIB_ROOT/avstream/OpusFileStreamer.cpp \
