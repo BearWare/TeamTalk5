@@ -21,7 +21,7 @@
  *
  */
 
-#include "FFMpeg3Streamer.h"
+#include "FFmpegStreamer.h"
 
 #include <inttypes.h>
 #include <myace/MyACE.h>
@@ -328,7 +328,7 @@ void FFMpegStreamer::Run()
     InitBuffers();
     
     //wait for start signal
-    MYTRACE(ACE_TEXT("FFMpeg3 waiting to start streaming: %s\n"), m_media_in.filename.c_str());
+    MYTRACE(ACE_TEXT("FFmpeg waiting to start streaming: %s\n"), m_media_in.filename.c_str());
     m_run.get(start);
     if(!start)
         goto fail;
@@ -528,7 +528,7 @@ void FFMpegStreamer::Run()
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, MEDIASTREAM_FINISHED);
 
-    MYTRACE(ACE_TEXT("FFMpeg3 finished streaming: %s\n"), m_media_in.filename.c_str());
+    MYTRACE(ACE_TEXT("FFmpeg finished streaming: %s\n"), m_media_in.filename.c_str());
     goto end;
 
 fail:

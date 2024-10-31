@@ -30,7 +30,7 @@
 #if defined(ENABLE_DMORESAMPLER)
 #include "DMOResampler.h"
 #elif defined(ENABLE_FFMPEG3)
-#include "FFMpeg3Resampler.h"
+#include "FFmpegResampler.h"
 #endif
 
 #include <myace/MyACE.h>

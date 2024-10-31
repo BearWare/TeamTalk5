@@ -32,7 +32,7 @@
 #endif /* ENABLE_DSHOW */
 
 #if defined(ENABLE_FFMPEG3)
-#include "FFMpeg3Streamer.h"
+#include "FFmpegStreamer.h"
 #endif /* ENABLE_FFMPEG3*/
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)

@@ -21,7 +21,7 @@
  *
  */
 
-#include "FFMpeg3Capture.h"
+#include "FFmpegCapture.h"
 
 namespace vidcap {
 

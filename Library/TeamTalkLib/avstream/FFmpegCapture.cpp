@@ -21,7 +21,7 @@
  *
  */
 
-#include "FFMpeg3Capture.h"
+#include "FFmpegCapture.h"
 
 #include <memory>
 #include <sstream>
@@ -37,16 +37,16 @@ FFMpegVideoInput::FFMpegVideoInput(const VidCapDevice& viddevice,
 }
 
 
-FFMpeg3Capture::FFMpeg3Capture()
+FFmpegCapture::FFmpegCapture()
 {
     InitAVConv();
 }
 
-FFMpeg3Capture::~FFMpeg3Capture()
+FFmpegCapture::~FFmpegCapture()
 {
 }
 
-bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
+bool FFmpegCapture::InitVideoCapture(const ACE_TString& deviceid,
                                       const media::VideoFormat& vidfmt)
 {
     vidcap_devices_t devs = GetDevices();
@@ -60,9 +60,9 @@ bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
 
     ffmpegvideoinput_t streamer = createStreamer(dev, vidfmt);
     assert(streamer.get());
-    streamer->RegisterVideoCallback(std::bind(&FFMpeg3Capture::MediaStreamVideoCallback,
+    streamer->RegisterVideoCallback(std::bind(&FFmpegCapture::MediaStreamVideoCallback,
                                               this, _1, _2), true);
-    streamer->RegisterStatusCallback(std::bind(&FFMpeg3Capture::MediaStreamStatusCallback,
+    streamer->RegisterStatusCallback(std::bind(&FFmpegCapture::MediaStreamStatusCallback,
                                                this, _1, _2), true);
     if (!streamer->Open())
         return false;
@@ -72,7 +72,7 @@ bool FFMpeg3Capture::InitVideoCapture(const ACE_TString& deviceid,
     return true;
 }
 
-bool FFMpeg3Capture::StartVideoCapture()
+bool FFmpegCapture::StartVideoCapture()
 {
     if (!m_videoinput)
         return false;
@@ -86,20 +86,20 @@ bool FFMpeg3Capture::StartVideoCapture()
     return true;
 }
 
-void FFMpeg3Capture::StopVideoCapture()
+void FFmpegCapture::StopVideoCapture()
 {
     m_videoinput.reset();
     m_callback = {};
 }
 
-media::VideoFormat FFMpeg3Capture::GetVideoCaptureFormat()
+media::VideoFormat FFmpegCapture::GetVideoCaptureFormat()
 {
     if (m_videoinput)
         return m_videoinput->GetVideoFormat();
     return media::VideoFormat();
 }
 
-bool FFMpeg3Capture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
+bool FFmpegCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
 {
     if (m_videoinput && m_videoinput->GetVideoFormat().fourcc == fcc)
     {
@@ -109,7 +109,7 @@ bool FFMpeg3Capture::RegisterVideoFormat(VideoCaptureCallback callback, media::F
     return false;
 }
 
-void FFMpeg3Capture::UnregisterVideoFormat(media::FourCC fcc)
+void FFmpegCapture::UnregisterVideoFormat(media::FourCC fcc)
 {
     if (m_videoinput && m_videoinput->GetVideoFormat().fourcc == fcc)
     {
@@ -117,7 +117,7 @@ void FFMpeg3Capture::UnregisterVideoFormat(media::FourCC fcc)
     }
 }
 
-bool FFMpeg3Capture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
+bool FFmpegCapture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                               ACE_Message_Block* mb_video)
 {
     assert(m_videoinput.get());
@@ -128,7 +128,7 @@ bool FFMpeg3Capture::MediaStreamVideoCallback(media::VideoFrame& video_frame,
     return false;
 }
 
-void FFMpeg3Capture::MediaStreamStatusCallback(const MediaFileProp& /*mfp*/,
+void FFmpegCapture::MediaStreamStatusCallback(const MediaFileProp& /*mfp*/,
                                                MediaStreamStatus /*status*/)
 {
 }

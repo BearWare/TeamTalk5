@@ -21,10 +21,10 @@
  *
  */
 
-#include "FFMpeg3Resampler.h"
+#include "FFmpegResampler.h"
 #include <assert.h>
 
-#include "FFMpeg3Streamer.h" // need InitAVConv()
+#include "FFmpegStreamer.h" // need InitAVConv()
 
 extern "C" {
 #include <libswresample/swresample.h>

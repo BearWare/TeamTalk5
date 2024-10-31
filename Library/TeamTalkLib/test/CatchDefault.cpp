@@ -63,7 +63,7 @@
 #include <codec/WaveFile.h>
 
 #if defined(ENABLE_FFMPEG3)
-#include <avstream/FFMpeg3Streamer.h>
+#include <avstream/FFmpegStreamer.h>
 #endif
 
 #if defined (ENABLE_PORTAUDIO)

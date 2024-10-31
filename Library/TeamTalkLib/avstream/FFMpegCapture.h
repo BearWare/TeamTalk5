@@ -25,7 +25,7 @@
 #define FFMPEG3CAPTURE_H
 
 #include "VideoCapture.h"
-#include "FFMpeg3Streamer.h"
+#include "FFmpegStreamer.h"
 #include <myace/MyACE.h>
 
 #include <map>
@@ -48,7 +48,7 @@ namespace vidcap {
 
     typedef std::unique_ptr<FFMpegVideoInput> ffmpegvideoinput_t;
     
-    class FFMpeg3Capture : public VideoCapture
+    class FFmpegCapture : public VideoCapture
     {
     protected:
         virtual ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
@@ -57,8 +57,8 @@ namespace vidcap {
         VideoCaptureCallback m_callback;
         
     public:
-        FFMpeg3Capture();
-        virtual ~FFMpeg3Capture();
+        FFmpegCapture();
+        virtual ~FFmpegCapture();
 
         // VideoCapture interface
         bool InitVideoCapture(const ACE_TString& deviceid,

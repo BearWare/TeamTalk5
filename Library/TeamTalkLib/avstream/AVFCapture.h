@@ -28,7 +28,7 @@
 
 namespace vidcap {
 
-    class AVFCapture : public FFMpeg3Capture
+    class AVFCapture : public FFmpegCapture
     {
     protected:
         ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
