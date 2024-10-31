@@ -21,7 +21,7 @@
  *
  */
 
-#include "FFMpeg3Streamer.h"
+#include "FFmpegStreamer.h"
 
 #include <inttypes.h>
 #include <myace/MyACE.h>
@@ -33,7 +33,7 @@
 #include <mach/mach_time.h>
 #endif
 
-// FFMpeg type collides with AVFoundation, so keep in cpp file
+// FFmpeg type collides with AVFoundation, so keep in cpp file
 extern "C" {
 #include <libavutil/rational.h>
 #include <libavcodec/avcodec.h>
@@ -86,13 +86,13 @@ bool OpenInput(const ACE_TString& filename,
 
     if (avformat_open_input(&fmt_ctx, filename.c_str(), iformat, &options) < 0)
     {
-        MYTRACE(ACE_TEXT("FFMpeg opened %s\n"), filename.c_str());
+        MYTRACE(ACE_TEXT("FFmpeg opened %s\n"), filename.c_str());
         goto cleanup;
     }
     
     if (avformat_find_stream_info(fmt_ctx, NULL) < 0)
     {
-        MYTRACE(ACE_TEXT("FFMpeg found stream info\n"));
+        MYTRACE(ACE_TEXT("FFmpeg found stream info\n"));
         goto cleanup;
     }
 
@@ -215,19 +215,19 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFMpegStreamer::FFMpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+FFmpegStreamer::FFmpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
     InitAVConv();
 }
 
-FFMpegStreamer::~FFMpegStreamer()
+FFmpegStreamer::~FFmpegStreamer()
 {
     Close();
-    MYTRACE(ACE_TEXT("~FFMpegStreamer()\n"));
+    MYTRACE(ACE_TEXT("~FFmpegStreamer()\n"));
 }
 
-bool FFMpegStreamer::SetupInput(AVInputFormat *iformat,
+bool FFmpegStreamer::SetupInput(AVInputFormat *iformat,
                                 AVDictionary *options,
                                 AVFormatContext*& fmt_ctx,
                                 AVCodecContext*& aud_dec_ctx,
@@ -240,7 +240,7 @@ bool FFMpegStreamer::SetupInput(AVInputFormat *iformat,
 }
 
 
-void FFMpegStreamer::Run()
+void FFmpegStreamer::Run()
 {
     AVFormatContext *fmt_ctx = NULL;
     int audio_stream_index = -1, video_stream_index = -1;
@@ -328,7 +328,7 @@ void FFMpegStreamer::Run()
     InitBuffers();
     
     //wait for start signal
-    MYTRACE(ACE_TEXT("FFMpeg3 waiting to start streaming: %s\n"), m_media_in.filename.c_str());
+    MYTRACE(ACE_TEXT("FFmpeg waiting to start streaming: %s\n"), m_media_in.filename.c_str());
     m_run.get(start);
     if(!start)
         goto fail;
@@ -528,7 +528,7 @@ void FFMpegStreamer::Run()
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, MEDIASTREAM_FINISHED);
 
-    MYTRACE(ACE_TEXT("FFMpeg3 finished streaming: %s\n"), m_media_in.filename.c_str());
+    MYTRACE(ACE_TEXT("FFmpeg finished streaming: %s\n"), m_media_in.filename.c_str());
     goto end;
 
 fail:
@@ -555,10 +555,10 @@ end:
     av_frame_free(&aud_frame);
     av_frame_free(&vid_frame);
     av_frame_free(&filt_frame);
-    MYTRACE(ACE_TEXT("Quitting FFMpegStreamer thread\n"));
+    MYTRACE(ACE_TEXT("Quitting FFmpegStreamer thread\n"));
 }
 
-int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
+int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
                                            AVFrame* filt_frame,
                                            AVStream* aud_stream,
                                            ACE_UINT32 start_time,
@@ -606,7 +606,7 @@ int64_t FFMpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     return frame_timestamp;
 }
 
-int64_t FFMpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
+int64_t FFmpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                                            AVFrame* filt_frame,
                                            AVStream* vid_stream,
                                            ACE_UINT32 start_time,

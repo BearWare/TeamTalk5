@@ -63,7 +63,7 @@
 #include <codec/WaveFile.h>
 
 #if defined(ENABLE_FFMPEG3)
-#include <avstream/FFMpeg3Streamer.h>
+#include <avstream/FFmpegStreamer.h>
 #endif
 
 #if defined (ENABLE_PORTAUDIO)
@@ -1763,7 +1763,7 @@ TEST_CASE("testThumbnail")
     REQUIRE(!mfp.video.IsValid());
 
     MediaStreamOutput prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_NONE);
-    FFMpegStreamer ffmpeg(filename, prop);
+    FFmpegStreamer ffmpeg(filename, prop);
 
     REQUIRE(ffmpeg.Open());
 
