@@ -29,7 +29,7 @@
 
 #if defined(ENABLE_DMORESAMPLER)
 #include "DMOResampler.h"
-#elif defined(ENABLE_FFMPEG3)
+#elif defined(ENABLE_FFMPEG)
 #include "FFmpegResampler.h"
 #endif
 
@@ -140,7 +140,7 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
     resampler.reset(dmo);
     ret = dmo->Init(SAMPLEFORMAT_INT16, SAMPLEFORMAT_INT16);
     MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
-#elif defined(ENABLE_FFMPEG3)
+#elif defined(ENABLE_FFMPEG)
     auto ffmpeg = new FFMPEGResampler(informat, outformat, input_samples_size);
     resampler.reset(ffmpeg);
     ret = ffmpeg->Init();
