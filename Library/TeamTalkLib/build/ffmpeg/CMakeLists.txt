@@ -239,7 +239,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     ExternalProject_Get_Property(gas-preprocessor SOURCE_DIR)
     set (GAS_DIR ${SOURCE_DIR})
 
-    set (FFMPEG_CFG_FLAGS --target-os=darwin --sysroot=${CMAKE_OSX_SYSROOT} --enable-pic --disable-doc --disable-programs --enable-cross-compile)
+    set (FFMPEG_CFG_FLAGS --target-os=darwin --sysroot=${CMAKE_OSX_SYSROOT}
+      --enable-pic
+      --enable-cross-compile
+      --disable-doc
+      --disable-programs
+      --disable-audiotoolbox)
 
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       list (APPEND FFMPEG_CFG_FLAGS --arch=arm --cpu=cortex-a8)
