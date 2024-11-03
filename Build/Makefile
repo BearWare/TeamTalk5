@@ -127,7 +127,7 @@ rasp:
                               BUILDDIR=build-$@ generic
 
 mac:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_DEPLOYMENT_TARGET=10.9 -DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
 
 ios-build:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS \
