@@ -70,6 +70,9 @@ ubuntu18:
 ubuntu22:
 	make TT5DIST=teamtalk-$(VERSION)-ubuntu22-x86_64 linux
 
+ubuntu24:
+	make TT5DIST=teamtalk-$(VERSION)-ubuntu24-x86_64 linux
+
 rasp:
 	make TT5DIST=teamtalk-$(VERSION)-raspbian10-armhf linux
 
@@ -101,6 +104,9 @@ ubuntu18pro:
 
 ubuntu22pro:
 	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-ubuntu22-x86_64 linuxpro
+
+ubuntu24pro:
+	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-ubuntu24-x86_64 linuxpro
 
 rasppro:
 	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-raspbian10-armhf linuxpro
