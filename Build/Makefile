@@ -229,35 +229,89 @@ teamtalk-jar:
 # TeamTalk 5 dependencies for Ubuntu 18
 depend-ubuntu18:
 # Duplicate install in Docker/Dockerfile_ubuntu18
-	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++ python3-pytest \
-                    libpulse-dev libxss-dev
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev
+		ninja-build \
+		openjdk-11-jdk \
+		pkg-config \
+		python \
+		python3-pytest \
+		qt5-default \
+		qtmultimedia5-dev \
+		qttools5-dev \
+		qttools5-dev-tools \
+		yasm
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20
-	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python g++ \
-                    libpulse-dev libxss-dev
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		ninja-build \
+		openjdk-17-jdk \
+		pkg-config \
+		python \
+		qt5-default \
+		qtmultimedia5-dev \
+		qttools5-dev \
+		qttools5-dev-tools \
+		yasm
 
 depend-ubuntu22:
 # Duplicate install in Docker/Dockerfile_ubuntu22
-	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-18-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev yasm autoconf libtool pkg-config \
-                    libasound2-dev wget python2 g++ p7zip-full python3-pytest \
-                    libpulse-dev libxss-dev
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		ninja-build \
+		openjdk-18-jdk \
+		p7zip-full \
+		pkg-config \
+		python2 \
+		python3-pytest \
+		qtbase5-dev \
+		qtmultimedia5-dev \
+		qttools5-dev \
+		qttools5-dev-tools \
+		yasm
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
 
 depend-ubuntu24:
-	# Duplicate install in Docker/Dockerfile_ubuntu24
+# Duplicate install in Docker/Dockerfile_ubuntu24
 	apt install \
 		autoconf \
 		cmake \
@@ -268,7 +322,6 @@ depend-ubuntu24:
 		libasound2-dev \
 		libpcap-dev \
 		libpulse-dev \
-		qt6-speech-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \
@@ -278,25 +331,56 @@ depend-ubuntu24:
 		pkg-config \
 		python3-pytest \
 		qt6-base-dev \
+		qt6-declarative-dev \
 		qt6-multimedia-dev \
+		qt6-speech-dev \
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
-		wget \
 		yasm
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
 depend-ubuntu18-android:
-	apt install doxygen ninja-build junit4 cmake openjdk-11-jdk junit4 autoconf libtool pkg-config python
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		junit4 \
+		libtool \
+		ninja-build \
+		openjdk-11-jdk \
+		pkg-config \
+		python
 
 depend-ubuntu22-android:
-	apt install doxygen ninja-build junit4 cmake openjdk-18-jdk junit4 autoconf libtool pkg-config python2 python3-pytest
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		junit4 \
+		libtool \
+		ninja-build \
+		openjdk-18-jdk \
+		pkg-config \
+		python2 \
+		python3-pytest
 
 # TeamTalk 5 dependencies for Debian 9
 depend-debian9:
-	apt install qt5-default qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
-                    doxygen g++ openjdk-8-jdk \
-                    qttools5-dev-tools ninja-build libpcap-dev junit4 cmake libxss-dev
+	apt install \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libpcap-dev \
+		libqt5x11extras5-dev \
+		libxss-dev \
+		ninja-build \
+		openjdk-8-jdk \
+		qt5-default \
+		qtbase5-dev \
+		qtmultimedia5-dev \
+		qttools5-dev-tools
 
 depend-debian12:
 	apt install \
@@ -326,20 +410,60 @@ depend-debian12:
 
 # TeamTalk 5 dependencies for Raspbian 10 Buster
 depend-rasp10:
-	apt install qt5-default libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-11-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget python libpulse-dev libxss-dev
+	apt install \
+		autoconf \
+		cmake \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		ninja-build \
+		openjdk-11-jdk \
+		pkg-config \
+		python \
+		qt5-default \
+		qtmultimedia5-dev \
+		qttools5-dev doxygen \
+		qttools5-dev-tools \
+		yasm
 
 # TeamTalk 5 dependencies for Raspbian 11 Bullseye
 depend-rasp11:
-	apt install qtbase5-dev libqt5x11extras5-dev qtmultimedia5-dev \
-                    libqt5texttospeech5-dev qttools5-dev-tools qttools5-dev doxygen \
-                    openjdk-17-jdk ninja-build libpcap-dev junit4 cmake \
-                    libssl-dev autoconf libtool pkg-config \
-                    libasound2-dev wget g++ p7zip-full python3-pytest \
-                    libpulse-dev libxss-dev
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev
+		ninja-build \
+		openjdk-17-jdk
+		p7zip-full \
+		pkg-config \
+		python3-pytest \
+		qtbase5-dev \
+		qtmultimedia5-dev \
+		qttools5-dev \
+		qttools5-dev-tools
 
 depend-mac:
-	brew install autoconf automake libtool pkg-config yasm ninja python-setuptools
+	brew install \
+		autoconf \
+		automake \
+		libtool \
+		ninja \
+		pkg-config \
+		python-setuptools \
+		yasm
