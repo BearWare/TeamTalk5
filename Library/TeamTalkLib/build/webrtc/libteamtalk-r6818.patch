@@ -1,0 +1,18 @@
+diff --git a/modules/audio_processing/BUILD.gn b/modules/audio_processing/BUILD.gn
+index 03a63bb6c0..636d21f7c7 100644
+--- a/modules/audio_processing/BUILD.gn
++++ b/modules/audio_processing/BUILD.gn
+@@ -209,6 +209,13 @@ rtc_library("audio_processing") {
+   }
+ }
+ 
++static_library("teamtalk") {
++  complete_static_lib = true
++  deps = [
++    ":audio_processing",
++  ]
++}
++
+ rtc_library("residual_echo_detector") {
+   poisonous = [ "default_echo_detector" ]
+   configs += [ ":apm_debug_dump" ]
