@@ -189,7 +189,7 @@ void AudioThread::StopEncoder()
 #endif
 
 #if defined(ENABLE_WEBRTC)
-    m_apm.reset();
+    m_apm.release();
     m_aps.reset();
 #endif
 
@@ -235,7 +235,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
 #if defined(ENABLE_WEBRTC)
     if (preprocess.preprocessor != AUDIOPREPROCESSOR_WEBRTC)
     {
-        m_apm.reset();
+        m_apm.release();
         m_aps.reset();
     }
 #endif
@@ -267,11 +267,11 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         }
 
         if (!m_apm)
-            m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+            m_apm = webrtc::AudioProcessingBuilder().Create();
         m_apm->ApplyConfig(preprocess.webrtc);
         if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
         {
-            m_apm.reset();
+            m_apm.release();
             MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor\n"));
             return false;
         }
@@ -424,7 +424,7 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
 
 bool AudioThread::IsVoiceActive()
 {
-#if defined(ENABLE_WEBRTC)
+#if defined(ENABLE_WEBRTC_R4332)
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
     if (m_apm && m_apm->GetConfig().voice_detection.enabled)
@@ -440,14 +440,13 @@ bool AudioThread::IsVoiceActive()
 
 int AudioThread::GetCurrentVoiceLevel()
 {
-#if defined(ENABLE_WEBRTC)
+#if defined(ENABLE_WEBRTC_R4332)
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
     if (m_apm)
     {
         assert(m_aps);
-        auto cfg = m_apm->GetConfig();
-        if (cfg.level_estimation.enabled)
+        if (m_apm->GetConfig().level_estimation.enabled)
         {
             // WebRTC's maximum value for dB from digital full scale
             float value = 127.f - m_aps->output_rms_dbfs.value_or(0);
@@ -693,6 +692,7 @@ void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock, bool& vad)
         MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
     }
 
+#if defined(ENABLE_WEBRTC_R4332)
     vad = m_apm->GetConfig().voice_detection.enabled;
     if (vad)
     {
@@ -700,6 +700,7 @@ void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock, bool& vad)
         if (m_aps->voice_detected.value_or(false))
             m_lastActive = ACE_OS::gettimeofday();
     }
+#endif
 }
 #endif
 

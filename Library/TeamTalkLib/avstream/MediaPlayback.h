@@ -134,7 +134,7 @@ private:
     std::shared_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
 #endif
 #if defined(ENABLE_WEBRTC)
-    std::unique_ptr<webrtc::AudioProcessing> m_apm;
+    rtc::scoped_refptr<webrtc::AudioProcessing> m_apm;
 #endif
     bool m_last_callback = false;
     ACE_Future<bool> m_drained;
