@@ -111,7 +111,7 @@ private:
     SpeexPreprocess m_preprocess_left, m_preprocess_right;
 #endif
 #if defined(ENABLE_WEBRTC)
-    std::unique_ptr<webrtc::AudioProcessing> m_apm;
+    rtc::scoped_refptr<webrtc::AudioProcessing> m_apm;
     std::vector<short> m_prev_buffer;
 #endif
     std::vector<short> m_preprocess_buffer_left, m_preprocess_buffer_right;

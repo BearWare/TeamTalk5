@@ -1,5 +1,6 @@
-is_clang=false
+is_clang=true
 is_debug=false
+libsrtp_build_boringssl=false
 rtc_build_examples=false
 rtc_build_libvpx=false
 rtc_build_ssl=false
@@ -11,6 +12,6 @@ rtc_exclude_field_trial_default=true
 rtc_include_opus=false
 rtc_include_tests=false
 rtc_libvpx_build_vp9=false
-rtc_ssl_root="@OPENSSL_DIR@/include"
 target_cpu="@WEBRTC_ARCH@"
 use_custom_libcxx=false
+use_lld=false
