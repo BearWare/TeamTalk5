@@ -167,10 +167,11 @@
     <string name="channel_prop_title_novoiceact">No Voice Activation</string>
     <string name="channel_prop_title_noaudiorecord">No Audio Recording</string>
 
-
     <string name="user_prop_title_username">Username</string>
+    <string name="user_prop_title_statusmsg">StatusMessage</string>
     <string name="user_prop_title_clientname">Client Name</string>
     <string name="user_prop_clientversion">version</string>
+    <string name="user_prop_title_ipaddress">IPAddress</string>
     <string name="user_prop_title_voice_volume">Voice Volume</string>
     <string name="user_prop_title_mute_voice">Mute Voice</string>
     <string name="user_prop_title_media_volume">Media File Volume</string>
