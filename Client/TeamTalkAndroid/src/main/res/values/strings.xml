@@ -167,6 +167,7 @@
     <string name="channel_prop_title_novoiceact">No Voice Activation</string>
     <string name="channel_prop_title_noaudiorecord">No Audio Recording</string>
 
+
     <string name="user_prop_title_username">Username</string>
     <string name="user_prop_title_statusmsg">StatusMessage</string>
     <string name="user_prop_title_clientname">Client Name</string>
