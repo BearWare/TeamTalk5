@@ -44,7 +44,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}

@@ -233,19 +233,19 @@ jobs:
       shell: msys2 {0}
 
     - name: Archive TeamTalk SDK Binaries
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-windows-${{ matrix.dotnetarch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - name: Build Portable Archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - name: Build TeamTalk Pro Server Archive
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
