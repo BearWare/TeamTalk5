@@ -1,32 +1,16 @@
-TeamTalk 5 for Debian 10 / Raspbian 10 / Ubuntu 22.04
------------------------------------------------------
+TeamTalk 5 for Linux
+--------------------
 
-TeamTalk 5 runs on Linux using ALSA sound system for audio and
+TeamTalk 5 supports ALSA sound system and PulseAudio for audio and
 Video4Linux2 (V4L2) for video capture.
 
+Officially supported Linux distributions are the follow:
 
-Dependencies
-------------
+- Debian 10, Raspbian 10, Ubuntu 22.04
+- Debian 12, Raspberry PI OS (Bookworm), Ubuntu 24.04
 
-In order to run TeamTalk the following dependencies must be
-installed first:
-
-- libqt5x11extras5
-- libqt5widgets5
-- libqt5multimedia5
-- libqt5gui5
-- libqt5network5
-- libqt5xml5
-- libqt5core5a
-- libqt5texttospeech5 
-- libasound2
-- libxss1
-
-To install the packages run the following command as 'root':
-
-apt install libqt5x11extras5 libqt5widgets5 libqt5multimedia5 \
-  libqt5gui5 libqt5network5 libqt5xml5 libqt5core5a libqt5texttospeech5 \
-  libasound2 libxss1
+Checkout the Dependencies sections to see what libraries must be
+installed to run TeamTalk 5.
 
 
 Run TeamTalk
@@ -57,3 +41,30 @@ Help
 If you have problems running TeamTalk then search on
 http://www.bearware.dk for help.
 
+
+Dependencies
+------------
+
+Several dependencies must be installed in order to run TeamTalk by
+using apt package manager. The follow two sections list the packages
+to install depending on your Linux distribution.
+
+
+Dependencies for Debian 10 / Raspbian 10 / Ubuntu 22.04
+-------------------------------------------------------
+
+To install the packages run the following command as 'root':
+
+apt install libqt5x11extras5 libqt5widgets5 libqt5multimedia5 \
+  libqt5gui5 libqt5network5 libqt5xml5 libqt5core5a libqt5texttospeech5 \
+  libasound2 libpulse0 libxss1
+
+
+Dependencies for Debian 12 / Raspberry PI OS (Bookworm) / Ubuntu 24.04
+----------------------------------------------------------------------
+
+To install the packages run the following command as 'root':
+
+apt install libqt6dbus6 libqt6multimedia6 libqt6network6 \
+  libqt6texttospeech6 libqt6widgets6 libqt6xml6 \
+  libasound2 libpulse0 libxss1
