@@ -123,9 +123,7 @@ centos7:
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
-                              -DTOOLCHAIN_OPENSSL=OFF \
-                              -DBUILD_TEAMTALK_CLIENTS=OFF \
-                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" \
+                              -DTOOLCHAIN_OPENSSL=OFF" \
                               BUILDDIR=build-$@ generic
 
 mac:
