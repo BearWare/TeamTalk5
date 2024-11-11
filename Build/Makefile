@@ -447,7 +447,6 @@ depend-rasp11:
 		libqt5x11extras5-dev \
 		libssl-dev \
 		libtool \
-		libxss-dev
 		ninja-build \
 		openjdk-17-jdk
 		p7zip-full \
@@ -457,6 +456,33 @@ depend-rasp11:
 		qtmultimedia5-dev \
 		qttools5-dev \
 		qttools5-dev-tools
+
+depend-raspios12:
+	apt install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		git \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libssl-dev \
+		libtool \
+		ninja-build \
+		openjdk-17-jdk \
+		p7zip-full \
+		pkg-config \
+		python3-pytest \
+		qt6-base-dev \
+		qt6-declarative-dev \
+		qt6-multimedia-dev \
+		qt6-speech-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		libxss-dev \
+		yasm
 
 depend-mac:
 	brew install \
