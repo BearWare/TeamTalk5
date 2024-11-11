@@ -74,7 +74,7 @@ ubuntu24:
 	make TT5DIST=teamtalk-$(VERSION)-ubuntu24-x86_64 linux
 
 rasp:
-	make TT5DIST=teamtalk-$(VERSION)-raspbian10-armhf linux
+	make TT5DIST=teamtalk-$(VERSION)-raspios12-arm64 linux
 
 linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
