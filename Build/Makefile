@@ -55,12 +55,6 @@ android-all: android-armeabi-v7a android-arm64-v8a android-x86 android-x64
 generic:
 	$(MAKE) buildlib
 
-deb32:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DTOOLCHAIN_OPENSSL=OFF" generic
-
-deb64:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON -DTOOLCHAIN_OPENSSL=OFF" generic
-
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) \
@@ -94,32 +88,6 @@ ubuntu22:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
-
-centos7:
-	@echo TeamTalk depends on CMake 3.1 or later.
-	@echo To install CMake 3:
-	@echo $ yum --enablerepo=extras install epel-release
-	@echo Setup CMake 3 as default cmake:
-	@echo $ ln -s /bin/cmake3 /bin/cmake
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
-                              -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
-                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
-                              -DBUILD_TEAMTALK_SERVERS=OFF \
-                              -DBUILD_TEAMTALK_CLIENTS=OFF \
-                              -DSTATICCPP=OFF \
-                              -DTOOLCHAIN_OPENSSL=OFF \
-                              -DTOOLCHAIN_ZLIB=OFF \
-                              -DTOOLCHAIN_CATCH2=OFF \
-                              -DTOOLCHAIN_LIBVPX=OFF \
-                              -DTOOLCHAIN_FFMPEG=OFF \
-                              -DTOOLCHAIN_OGG=OFF \
-                              -DTOOLCHAIN_OPUS=OFF \
-                              -DTOOLCHAIN_PORTAUDIO=OFF \
-                              -DTOOLCHAIN_SPEEX=OFF \
-                              -DTOOLCHAIN_SPEEXDSP=OFF \
-                              -DFEATURE_OPUSTOOLS=OFF \
-                              -DFEATURE_WEBRTC=OFF" \
-                              BUILDDIR=build-$@ buildlib
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
@@ -363,23 +331,6 @@ depend-ubuntu22-android:
 		python2 \
 		python3-pytest
 
-# TeamTalk 5 dependencies for Debian 9
-depend-debian9:
-	apt install \
-		cmake \
-		doxygen \
-		g++ \
-		junit4 \
-		libpcap-dev \
-		libqt5x11extras5-dev \
-		libxss-dev \
-		ninja-build \
-		openjdk-8-jdk \
-		qt5-default \
-		qtbase5-dev \
-		qtmultimedia5-dev \
-		qttools5-dev-tools
-
 depend-debian12:
 	apt install \
 		autoconf \
@@ -405,55 +356,6 @@ depend-debian12:
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
 		yasm
-
-# TeamTalk 5 dependencies for Raspbian 10 Buster
-depend-rasp10:
-	apt install \
-		autoconf \
-		cmake \
-		junit4 \
-		libasound2-dev \
-		libpcap-dev \
-		libpulse-dev \
-		libqt5texttospeech5-dev \
-		libqt5x11extras5-dev \
-		libssl-dev \
-		libtool \
-		libxss-dev \
-		ninja-build \
-		openjdk-11-jdk \
-		pkg-config \
-		python \
-		qt5-default \
-		qtmultimedia5-dev \
-		qttools5-dev doxygen \
-		qttools5-dev-tools \
-		yasm
-
-# TeamTalk 5 dependencies for Raspbian 11 Bullseye
-depend-rasp11:
-	apt install \
-		autoconf \
-		cmake \
-		doxygen \
-		g++ \
-		junit4 \
-		libasound2-dev \
-		libpcap-dev \
-		libpulse-dev \
-		libqt5texttospeech5-dev \
-		libqt5x11extras5-dev \
-		libssl-dev \
-		libtool \
-		ninja-build \
-		openjdk-17-jdk
-		p7zip-full \
-		pkg-config \
-		python3-pytest \
-		qtbase5-dev \
-		qtmultimedia5-dev \
-		qttools5-dev \
-		qttools5-dev-tools
 
 depend-raspios12:
 	apt install \
