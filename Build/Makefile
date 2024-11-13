@@ -344,6 +344,7 @@ depend-debian12:
 		libpulse-dev \
 		libssl-dev \
 		libtool \
+		libxss-dev \
 		ninja-build \
 		openjdk-17-jdk \
 		p7zip-full \
@@ -370,6 +371,7 @@ depend-raspios12:
 		libpulse-dev \
 		libssl-dev \
 		libtool \
+		libxss-dev \
 		ninja-build \
 		openjdk-17-jdk \
 		p7zip-full \
@@ -381,7 +383,6 @@ depend-raspios12:
 		qt6-speech-dev \
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
-		libxss-dev \
 		yasm
 
 depend-mac:
