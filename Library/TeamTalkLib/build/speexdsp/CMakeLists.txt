@@ -172,15 +172,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(speexdsp PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
-  else()
-    target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(speexdsp PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
-  endif()
+  target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speexdsp PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
@@ -235,14 +229,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speexdsp speexdsp-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(speexdsp PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
-  else()
-    target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(speexdsp PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
-  endif()
+  target_include_directories (speexdsp INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speexdsp PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeexdsp.a)
 
 endif()

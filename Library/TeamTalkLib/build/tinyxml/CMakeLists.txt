@@ -96,15 +96,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       add_dependencies(tinyxml tinyxml-src)
     endif()
 
-    if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-      set_target_properties(tinyxml PROPERTIES
-        INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-        IMPORTED_LOCATION ${INSTALL_DIR}/lib/libtinyxml.a)
-    else()
-      target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
-      set_target_properties(tinyxml PROPERTIES
-        IMPORTED_LOCATION ${INSTALL_DIR}/lib/libtinyxml.a)
-    endif()
+    target_include_directories (tinyxml INTERFACE ${INSTALL_DIR}/include)
+    set_target_properties(tinyxml PROPERTIES
+      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libtinyxml.a)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
