@@ -109,7 +109,7 @@ ubuntu24pro:
 	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-ubuntu24-x86_64 linuxpro
 
 rasppro:
-	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-raspbian10-armhf linuxpro
+	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-raspios12-arm64 linuxpro
 
 centos5:
 	$(eval TT5DIST=teamtalk-$(VERSION)-centos5-i386)
