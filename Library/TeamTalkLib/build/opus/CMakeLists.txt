@@ -138,15 +138,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(opus PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
-  else()
-    target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(opus PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
-  endif()
+  target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(opus PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
@@ -184,13 +178,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(opus opus-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(opus PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
-  else()
-    target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(opus PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
-  endif()
+  target_include_directories (opus INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(opus PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libopus.a)
 endif()

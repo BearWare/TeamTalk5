@@ -344,19 +344,12 @@ else()
     add_dependencies(webrtc webrtc-src)
   endif()
 
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set (WEBRTC_INCLUDE_DIRS ${WEBRTC_INSTALL_ROOT}/include ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${WEBRTC_INCLUDE_DIRS}"
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
-  else()
-    target_include_directories (webrtc INTERFACE
-      ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
-      ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
-  endif()
+  target_include_directories (webrtc INTERFACE
+    ${WEBRTC_INSTALL_ROOT}/include
+    ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
+    ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
+  set_target_properties(webrtc PROPERTIES
+    IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
 
   # $ find webrtc/obj/ -name *.a -exec nm -A -C {} \; | grep webrtc::rnn_vad::RnnBasedVad::RnnBasedVad
 endif()

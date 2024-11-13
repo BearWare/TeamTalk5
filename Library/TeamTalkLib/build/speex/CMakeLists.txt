@@ -171,15 +171,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(speex PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
-  else()
-    target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(speex PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
-  endif()
+  target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speex PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
@@ -226,14 +220,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(speex speex-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(speex PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
-  else()
-    target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(speex PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
-  endif()
+  target_include_directories (speex INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(speex PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libspeex.a)
 
 endif()
