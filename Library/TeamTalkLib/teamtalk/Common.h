@@ -458,7 +458,8 @@ namespace teamtalk {
         AUDIOPREPROCESSOR_NONE      = 0,
         AUDIOPREPROCESSOR_SPEEXDSP  = 1,
         AUDIOPREPROCESSOR_TEAMTALK  = 2,
-        AUDIOPREPROCESSOR_WEBRTC    = 3,
+        AUDIOPREPROCESSOR_WEBRTC_OBSOLETE_R4332    = 3,
+        AUDIOPREPROCESSOR_WEBRTC    = 4,
     };
     
     struct AudioPreprocessor
