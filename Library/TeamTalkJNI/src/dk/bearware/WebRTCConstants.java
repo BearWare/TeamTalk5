@@ -27,14 +27,13 @@ public interface WebRTCConstants
 {
     public static final boolean DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE = false;
     public static final float DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR = 1.0f;
-    public static final boolean DEFAULT_WEBRTC_VAD_ENABLE = false;
-    public static final boolean DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE = false;
     public static final boolean DEFAULT_WEBRTC_GAINCTL_ENABLE = false;
-    public static final float DEFAULT_WEBRTC_GAINDB = 15;
+    public static final float DEFAULT_WEBRTC_GAINDB = 0;
     public static final boolean DEFAULT_WEBRTC_SAT_PROT_ENABLE = false;
-    public static final float DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB = 20;
-    public static final float DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB = 2;
-    public static final float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 3;
+    public static final float DEFAULT_WEBRTC_HEADROOM_DB = 5;
+    public static final float DEFAULT_WEBRTC_MAXGAIN_DB = 50;
+    public static final float DEFAULT_WEBRTC_INITIAL_GAIN_DB = 15;
+    public static final float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 6;
     public static final float DEFAULT_WEBRTC_MAX_OUT_NOISE = -50;
     public static final boolean DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE = false;
     public static final int DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = 2;

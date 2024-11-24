@@ -1310,23 +1310,6 @@ namespace BearWare
         }
         public NoiseSuppression noisesuppression;
 
-        /** @brief Configuration of WebRTC's voice detection. */
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct VoiceDetection
-        {
-            /** @brief Use WebRTC's voice detection to trigger
-             * #BearWare.TeamTalkBase.OnVoiceActivation.
-             *
-             * TeamTalkBase.EnableVoiceActivation() must still be called to
-             * activate voice detection event
-             * #BearWare.TeamTalkBase.OnVoiceActivation.
-             *
-             * Enabling WebRTC's voice detection invalidates use of
-             * TeamTalkBase.SetVoiceActivationLevel() */
-            public bool bEnable;
-        }
-        public VoiceDetection voicedetection;
-
         /** @brief Configuration of WebRTC's gain controller 2 for
          * AGC. */
         [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
@@ -1350,14 +1333,16 @@ namespace BearWare
             [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
             public struct AdaptiveDigital
             {
-                /* @brief Enable saturation protector where saturation
-                 * margin is 2 dB. */
+                /* @brief Configuration for fine tuning gain level after echo
+                 *  cancellation and noise suppression. */
                 public bool bEnable;
-                /* Range: 0 <= x <= 100. Default: 20 dB */
-                public float fInitialSaturationMarginDB;
-                /* Range: 0 <= x <= 100. Default: 2 dB */
-                public float fExtraSaturationMarginDB;
-                /* Range: 0 < x < infinite. Default: 3 dB/sec */
+                /** @brief Range: 0 <= x < infinite. Default: 5 dB */
+                public float fHeadRoomDB;
+                /** @brief Range: 0 < x < infinite. Default: 50 dB */
+                public float fMaxGainDB;
+                /** @brief Range: 0 <= x < infinite. Default: 15 dB */
+                public float fInitialGainDB;
+                /* Range: 0 < x < infinite. Default: 6 dB/sec */
                 public float fMaxGainChangeDBPerSecond;
                 /* Range: -infinite < x < 0. Default: -50 */
                 public float fMaxOutputNoiseLevelDBFS;
@@ -1365,19 +1350,6 @@ namespace BearWare
             public AdaptiveDigital adaptivedigital;
         }
         public GainController2 gaincontroller2;
-
-        /** @brief Configuration of WebRTC's level estimater. */
-        [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
-        public struct LevelEstimation
-        {
-            /** @brief Enable level estimater. When enabled
-             * TeamTalkBase.GetSoundInputLevel() will return a value based on
-             * WebRTC's level estimater. A WebRTC level estimater
-             * value of 0 will result in #BearWare.SoundLevel.SOUND_VU_MAX and level
-             * estimater value of 127 will return #BearWare.SoundLevel.SOUND_VU_MIN. */
-            public bool bEnable;
-        }
-        public LevelEstimation levelestimation;
 
         public WebRTCAudioPreprocessor(bool set_defaults)
         {
@@ -1391,18 +1363,15 @@ namespace BearWare
                 noisesuppression.bEnable = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
                 noisesuppression.nLevel = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
 
-                voicedetection.bEnable = WebRTCConstants.DEFAULT_WEBRTC_VAD_ENABLE;
-
                 gaincontroller2.bEnable = WebRTCConstants.DEFAULT_WEBRTC_GAINCTL_ENABLE;
                 gaincontroller2.fixeddigital.fGainDB = WebRTCConstants.DEFAULT_WEBRTC_GAINDB;
 
                 gaincontroller2.adaptivedigital.bEnable = WebRTCConstants.DEFAULT_WEBRTC_SAT_PROT_ENABLE;
-                gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
-                gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+                gaincontroller2.adaptivedigital.fHeadRoomDB = WebRTCConstants.DEFAULT_WEBRTC_HEADROOM_DB;
+                gaincontroller2.adaptivedigital.fMaxGainDB = WebRTCConstants.DEFAULT_WEBRTC_MAXGAIN_DB;
+                gaincontroller2.adaptivedigital.fInitialGainDB = WebRTCConstants.DEFAULT_WEBRTC_INITIAL_GAIN_DB;
                 gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = WebRTCConstants.DEFAULT_WEBRTC_MAXGAIN_DBSEC;
                 gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = WebRTCConstants.DEFAULT_WEBRTC_MAX_OUT_NOISE;
-
-                levelestimation.bEnable = WebRTCConstants.DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
             }
             else
             {
@@ -1414,18 +1383,15 @@ namespace BearWare
                 noisesuppression.bEnable = false;
                 noisesuppression.nLevel = 0;
 
-                voicedetection.bEnable = false;
-
                 gaincontroller2.bEnable = false;
                 gaincontroller2.fixeddigital.fGainDB = 0.0f;
 
                 gaincontroller2.adaptivedigital.bEnable = false;
-                gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = 0.0f;
-                gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = 0.0f;
+                gaincontroller2.adaptivedigital.fHeadRoomDB = 0.0f;
+                gaincontroller2.adaptivedigital.fMaxGainDB = 0.0f;
+                gaincontroller2.adaptivedigital.fInitialGainDB = 0.0f;
                 gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = 0.0f;
                 gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = 0.0f;
-
-                levelestimation.bEnable = false;
             }
         }
     }
@@ -1435,14 +1401,13 @@ namespace BearWare
     {
         public const bool DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE = false;
         public const float DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR = 1.0f;
-        public const bool DEFAULT_WEBRTC_VAD_ENABLE = false;
-        public const bool DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE = false;
         public const bool DEFAULT_WEBRTC_GAINCTL_ENABLE = false;
         public const float DEFAULT_WEBRTC_GAINDB = 15;
         public const bool DEFAULT_WEBRTC_SAT_PROT_ENABLE = false;
-        public const float DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB = 20;
-        public const float DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB = 2;
-        public const float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 3;
+        public const float DEFAULT_WEBRTC_HEADROOM_DB = 5;
+        public const float DEFAULT_WEBRTC_MAXGAIN_DB = 50;
+        public const float DEFAULT_WEBRTC_INITIAL_GAIN_DB = 15;
+        public const float DEFAULT_WEBRTC_MAXGAIN_DBSEC = 6;
         public const float DEFAULT_WEBRTC_MAX_OUT_NOISE = -50;
         public const bool DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE = false;
         public const int DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = 2;
@@ -5483,9 +5448,6 @@ namespace BearWare
          * GetSoundInputLevel(). When GetSoundInputLevel() is
          * greater or equal to voice activation level then
          * #OnVoiceActivation is triggered.
-         *
-         * If #BearWare.WebRTCAudioPreprocessor is active with @c voicedetection
-         * enabled then SetVoiceActivationLevel() is not applicable.
          *
          * @param nLevel Must be between #BearWare.SoundLevel.SOUND_VU_MIN and #BearWare.SoundLevel.SOUND_VU_MAX
          * @see TeamTalkBase.EnableVoiceActivation

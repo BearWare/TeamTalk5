@@ -96,7 +96,7 @@ private:
     void PreprocessSpeex(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_WEBRTC)
-    void PreprocessWebRTC(media::AudioFrame& audblock, bool& vad);
+    void PreprocessWebRTC(media::AudioFrame& audblock);
 #endif
 #if defined(ENABLE_SPEEX)
     const char* ProcessSpeex(const media::AudioFrame& audblock,
