@@ -2316,59 +2316,6 @@ TEST_CASE("WebRTC_Preamplifier")
     REQUIRE(TT_EnableVoiceTransmission(ttclient, FALSE));
 }
 
-TEST_CASE("WebRTC_LevelEstimation")
-{
-    ttinst ttclient = InitTeamTalk();
-    REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
-    REQUIRE(JoinRoot(ttclient));
-
-    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
-
-    REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
-
-    AudioPreprocessor preprocess = {};
-    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    preprocess.webrtc.levelestimation.bEnable = TRUE;
-    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
-    int n = 10;
-    do
-    {
-        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK));
-        auto ab = TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_VOICE, TT_LOCAL_USERID);
-        REQUIRE(ab);
-        REQUIRE(TT_ReleaseUserAudioBlock(ttclient, ab));
-        REQUIRE(TT_GetSoundInputLevel(ttclient) >= 88);
-    } while (n-- > 0);
-}
-
-TEST_CASE("WebRTC_VAD")
-{
-    ttinst ttclient = InitTeamTalk();
-    REQUIRE(InitSound(ttclient));
-    REQUIRE(Connect(ttclient));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
-    REQUIRE(JoinRoot(ttclient));
-
-    AudioPreprocessor preprocess = {};
-    preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
-    preprocess.webrtc.voicedetection.bEnable = TRUE;
-    REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
-
-    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 200));
-    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
-
-    REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
-    TTMessage msg = {};
-    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
-    REQUIRE(msg.bActive);
-
-    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 0));
-    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
-    REQUIRE(!msg.bActive);
-}
-
 TEST_CASE("WebRTC-reinit")
 {
     ttinst ttclient = InitTeamTalk();

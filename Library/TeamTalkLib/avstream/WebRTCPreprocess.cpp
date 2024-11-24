@@ -117,11 +117,6 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         if (stats)
         {
             auto wstats = apm.GetStatistics();
-#if defined(ENABLE_WEBRTC_R4332)
-            output_rms_dbfs += wstats.output_rms_dbfs.value_or(0);
-            assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() <= 127);
-            assert(!wstats.output_rms_dbfs.has_value() || wstats.output_rms_dbfs.value() >= 0);
-#endif
             voice_detected |= wstats.voice_detected.value_or(false);
         }
 
@@ -132,9 +127,6 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
 
     if (stats && n > 0)
     {
-#if defined(ENABLE_WEBRTC_R4332)
-        stats->output_rms_dbfs = output_rms_dbfs / n;
-#endif
         stats->voice_detected = voice_detected;
     }
 
