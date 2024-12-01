@@ -23,6 +23,7 @@ RUN apt install -y \
 		pkg-config \
 		python3-pytest \
 		qt6-base-dev \
+		qt6-declarative-dev \
 		qt6-multimedia-dev \
 		qt6-speech-dev \
 		qt6-tools-dev \
