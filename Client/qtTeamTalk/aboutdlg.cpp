@@ -28,7 +28,7 @@ AboutDlg::AboutDlg(QWidget* parent)
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
     QString dateTimeString = QString("%1 %2").arg(__DATE__).arg(__TIME__);
-    QString compile = QString(tr("Compiled on %1 using Qt %2 (Qt %3 used by this instance).")).arg(getFormattedDateTime(dateTimeString, "MMM dd yyyy HH:mm:ss")).arg(QT_VERSION_STR).arg(qVersion()) + "\r\n" +
+    QString compile = QString(tr("Compiled on %1 using Qt %2 (Qt %3 used by this instance).")).arg(getFormattedDateTime(dateTimeString, "MMM d yyyy HH:mm:ss")).arg(QT_VERSION_STR).arg(qVersion()) + "\r\n" +
         tr("Version ") + (TEAMTALK_VERSION ".\r\n");
     if(sizeof(void*) == 8)
         compile += QString(tr("TeamTalk 64-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
