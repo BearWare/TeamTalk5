@@ -4,13 +4,15 @@ on: [push]
 
 env:
   # TeamTalk unit test environment variables
-  VIDEODEVICEID: None
-  VERBOSE: 0
   GITHUBSKIP: 1
+  INPUTDEVICEID: 1978
+  OUTPUTDEVICEID: 1978
+  VERBOSE: 0
+  VIDEODEVICEID: None
 
 jobs:
   build:
-    runs-on: macos-12
+    runs-on: macos-latest
 
     steps:
     - uses: actions/checkout@v4
@@ -48,7 +50,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
       run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
