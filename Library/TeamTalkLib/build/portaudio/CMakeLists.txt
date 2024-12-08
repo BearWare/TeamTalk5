@@ -59,10 +59,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO})
   endif()
 
-  find_library (CARBON_LIBRARY Carbon)
+  find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
   find_library (AUDIOUNIT_LIBRARY AudioUnit)
+  find_library (CARBON_LIBRARY Carbon)
   find_library (COREAUDIO_LIBRARY CoreAudio)
-  find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox )
 
   add_library(portaudio STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)

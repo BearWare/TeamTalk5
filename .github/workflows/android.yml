@@ -1,6 +1,9 @@
 name: Android
 
-on: [push]
+on:
+  push:
+    branches-ignore:
+      - debug_workflow
 
 jobs:
   build:
