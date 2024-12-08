@@ -7,15 +7,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: iOS armv7
-            cmakearch: armv7
-            cmakesysroot: iphoneos
           - name: iOS arm64
             cmakearch: arm64
             cmakesysroot: iphoneos
-#         - name: iOS i386
-#           cmakearch: i386
-#           cmakesysroot: iphonesimulator
           - name: iOS x86_64
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
