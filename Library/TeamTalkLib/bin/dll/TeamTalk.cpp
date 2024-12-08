@@ -588,6 +588,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
 #endif
             break;
         case NO_AUDIOPREPROCESSOR :
+        case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
             break;
         }
     }

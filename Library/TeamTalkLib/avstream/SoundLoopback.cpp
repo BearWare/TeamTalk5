@@ -120,7 +120,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 #if defined(ENABLE_WEBRTC)
     if (IsEnabled(apm_cfg))
     {
-        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+        m_apm = webrtc::AudioProcessingBuilder().Create();
         if (!m_apm)
         {
             StopTest();
@@ -214,7 +214,7 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
 #if defined(ENABLE_WEBRTC)
     if (IsEnabled(apm_cfg))
     {
-        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+        m_apm = webrtc::AudioProcessingBuilder().Create();
         if (!m_apm)
         {
             StopTest();
@@ -254,7 +254,7 @@ bool SoundLoopback::StopTest()
 #endif
 
 #if defined(ENABLE_WEBRTC)
-    m_apm.reset();
+    m_apm.release();
 #endif
     m_preprocess_buffer_left.clear();
     m_preprocess_buffer_right.clear();

@@ -92,16 +92,7 @@ AudioPreprocessor InitDefaultAudioPreprocessor(AudioPreprocessorType preprocesso
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = preprocessor.ttpreprocessor.bMuteRightSpeaker = FALSE;
         break;
     case WEBRTC_AUDIOPREPROCESSOR:
-        preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
-        preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = DEFAULT_WEBRTC_MAXGAIN_DBSEC;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = DEFAULT_WEBRTC_MAX_OUT_NOISE;
-        preprocessor.webrtc.noisesuppression.bEnable = DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
-        preprocessor.webrtc.noisesuppression.nLevel = DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
-        preprocessor.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE;
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         break;
     }
     return preprocessor;

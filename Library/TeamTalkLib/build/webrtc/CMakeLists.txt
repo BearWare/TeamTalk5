@@ -9,9 +9,19 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_WEBRTC ${TOOLCHAIN_INSTALL_PREFIX}/webrtc)
 
 if (MSVC)
+  # WebRTC for Windows depends on "Windows 11 SDK (10.0.22621.0)". This
+  # can be installed from Visual Studio Installer.
+  #
+  # WebRTC for Windows depends on "C++ Clang Compiler for Windows (18.1.8)".
+  # This can be installed from Visual Studio Installer.
+
   # Force C:\webrtc to avoid build errors due to long path names (MAX_PATH=260)
   set (WEBRTC_FETCH_PATH C:/webrtc/${CMAKE_SYSTEM_NAME})
+  file(TO_NATIVE_PATH ${WEBRTC_FETCH_PATH} WEBRTC_FETCH_PATH_NATIVE)
+
   set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
+  file(TO_NATIVE_PATH ${WEBRTC_SOURCE_ROOT} WEBRTC_SOURCE_ROOT_NATIVE)
+
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX})
       set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/x64)
@@ -50,19 +60,20 @@ if (MSVC)
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
     file (TO_NATIVE_PATH ${DEPOTTOOLS_DIR} DEPOTTOOLS_DIR_NATIVE)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/depottools-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat @ONLY)
 
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
-      set (WEBRTC_FETCH_CMD1 SET DEPOT_TOOLS_WIN_TOOLCHAIN=0)
-      set (WEBRTC_FETCH_CMD2 SET PATH=${DEPOTTOOLS_DIR_NATIVE}$<SEMICOLON>%PATH%$<SEMICOLON>)
-      set (WEBRTC_FETCH_CMD3 cd ${WEBRTC_FETCH_PATH})
-      set (WEBRTC_FETCH_CMD4 CALL fetch --nohooks webrtc)
-      set (WEBRTC_FETCH_CMD5 CALL gclient sync --with_branch_heads --with_tags)
-      set (WEBRTC_FETCH_CMD6 cd ${WEBRTC_SOURCE_ROOT})
-      set (WEBRTC_FETCH_CMD7 CALL git checkout branch-heads/4332)
-      set (WEBRTC_FETCH_CMD8 CALL gclient sync -D)
+      set (WEBRTC_FETCH_CMD1 ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
+      set (WEBRTC_FETCH_CMD2 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD3 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD4 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD5 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD6 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD7 echo "Skip WebRTC CMD")
+      set (WEBRTC_FETCH_CMD8 echo "Skip WebRTC CMD")
       set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT})
-      set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r4332.patch)
+      set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r6818.patch)
     else()
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
       set (WEBRTC_FETCH_CMD1 echo "Skipping WebRTC fetching")
@@ -76,11 +87,8 @@ if (MSVC)
       set (WEBRTC_PATCH_CMD2 echo "Skipping WebRTC patching")
     endif()
 
-    # WebRTC for Windows depends on Windows SDK v10.0.20348.0. This
-    # can be downloaded from Visual Studio Installer
-
     configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
-    
+
     ExternalProject_Add(webrtc-src
       DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
       COMMAND           ${WEBRTC_FETCH_CMD2}
@@ -97,20 +105,20 @@ if (MSVC)
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
       COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\debug
-      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release      
+      COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release
       BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\debug teamtalk
       COMMAND           CALL ninja -v -C <INSTALL_DIR>\\lib\\release teamtalk
       INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT}
       COMMAND           DEL /S /Q ${WEBRTC_INSTALL_ROOT_NATIVE}\\include
       COMMAND           XCOPY *.h /S ${WEBRTC_INSTALL_ROOT_NATIVE}\\include
+      COMMAND           XCOPY *.inc /S ${WEBRTC_INSTALL_ROOT_NATIVE}\\include
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/debug/obj/modules/audio_processing/teamtalk.lib
       <INSTALL_DIR>/lib/release/obj/modules/audio_processing/teamtalk.lib
       DEPENDS depot-tools
       )
 
     file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include)
-    file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include)
     file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
   endif()
 
@@ -121,7 +129,6 @@ if (MSVC)
     endif()
     target_include_directories (webrtc INTERFACE
       ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
       ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
     set_target_properties(webrtc PROPERTIES
       IMPORTED_LOCATION_DEBUG ${WEBRTC_INSTALL_ROOT}/lib/debug/obj/modules/audio_processing/teamtalk.lib
@@ -133,7 +140,6 @@ if (MSVC)
     endif()
     target_include_directories (webrtc INTERFACE
       ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
       ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
     set_target_properties(webrtc PROPERTIES
       IMPORTED_LOCATION_DEBUG ${WEBRTC_INSTALL_ROOT}/lib/debug/obj/modules/audio_processing/teamtalk.lib
@@ -205,7 +211,7 @@ else()
 
     ExternalProject_Add(depot-tools
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
-      GIT_TAG           3b39cefc
+      GIT_TAG           39b2e4ef
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
@@ -214,7 +220,7 @@ else()
       )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
-    set (DEPOTTOOLS_EXPORT export PATH=${DEPOTTOOLS_DIR}:$ENV{PATH} OPENSSL_DIR=${OPENSSL_DIR})
+    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR} OPENSSL_DIR=${OPENSSL_DIR})
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       set (WEBRTC_REPO_NAME webrtc_ios)
@@ -231,12 +237,15 @@ else()
     # Danger: This assumes all iOS architectures use the same branch
     # and no modifications have been made to WebRTC folder
     # (WEBRTC_FETCH_PATH)
+    #
+    # Ensure HomeBrew path (/usr/local/bin) is not active when 'fetch'
+    # is executed.
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
       set (WEBRTC_FETCH_CMD1 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && fetch --nohooks ${WEBRTC_REPO_NAME} && gclient sync --with_branch_heads --with_tags)
-      set (WEBRTC_FETCH_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/4332)
+      set (WEBRTC_FETCH_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/6818)
       set (WEBRTC_FETCH_CMD3 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && gclient sync -D)
-      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/libteamtalk-r4332.patch)
+      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/libteamtalk-r6818.patch)
     else()
       set (WEBRTC_FETCH_CMD1 true)
       set (WEBRTC_FETCH_CMD2 true)
@@ -255,7 +264,7 @@ else()
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
-        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -270,7 +279,7 @@ else()
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
-        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -283,8 +292,8 @@ else()
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
-        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        BUILD_COMMAND     ninja -v -C <INSTALL_DIR> teamtalk
+        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -296,8 +305,8 @@ else()
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
-        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        BUILD_COMMAND     ninja -v -C <INSTALL_DIR> teamtalk
+        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -327,6 +336,7 @@ else()
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec cp -r --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -335,7 +345,6 @@ else()
     endif()
 
     file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include)
-    file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include)
     file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
   endif()
 
@@ -346,7 +355,6 @@ else()
 
   target_include_directories (webrtc INTERFACE
     ${WEBRTC_INSTALL_ROOT}/include
-    ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
     ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
   set_target_properties(webrtc PROPERTIES
     IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
