@@ -4091,7 +4091,7 @@ Vous pouvez la télécharger sur la page suivante:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="3772"/>
         <source>Push To Talk: </source>
-        <translation>Maintenir-pour-parler</translation>
+        <translation>Maintenir-pour-parler: </translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3947"/>
