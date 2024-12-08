@@ -141,28 +141,31 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
   endif()
 
-  find_library(COCOA_LIBRARY Cocoa)
-  find_library(AVFOUNDATION_LIBRARY AVFoundation)
-  find_library(COREMEDIA_LIBRARY CoreMedia)
-  find_library(OPENGL_LIBRARY OpenGL)
-  find_library(COREFOUNDATION_LIBRARY CoreFoundation)
-  find_library(VIDEODECODEACCELERATION_LIBRARY VideoDecodeAcceleration)
-  find_library(QUARTZCORE_LIBRARY QuartzCore)
-  find_library(BZ2_LIBRARY bz2)
   find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
-  find_library (VIDEOTOOLBOX_LIBRARY VideoToolBox)
+  find_library (AVFOUNDATION_LIBRARY AVFoundation)
+  find_library (BZ2_LIBRARY bz2)
+  find_library (COCOA_LIBRARY Cocoa)
+  find_library (COREAUDIO_LIBRARY CoreAudio)
+  find_library (COREFOUNDATION_LIBRARY CoreFoundation)
+  find_library (COREMEDIA_LIBRARY CoreMedia)
   find_library (METAL_LIBRARY Metal)
+  find_library (OPENGL_LIBRARY OpenGL)
+  find_library (QUARTZCORE_LIBRARY QuartzCore)
+  find_library (VIDEODECODEACCELERATION_LIBRARY VideoDecodeAcceleration)
+  find_library (VIDEOTOOLBOX_LIBRARY VideoToolBox)
 
-  set (FFMPEG_LINK ${COCOA_LIBRARY} ${AVFOUNDATION_LIBRARY}
-    ${COREMEDIA_LIBRARY}
-    ${OPENGL_LIBRARY}
-    ${COREFOUNDATION_LIBRARY}
-    ${VIDEODECODEACCELERATION_LIBRARY}
-    ${QUARTZCORE_LIBRARY}
+  set (FFMPEG_LINK ${AUDIOTOOLBOX_LIBRARY}
+    ${AVFOUNDATION_LIBRARY}
     ${BZ2_LIBRARY}
-    ${AUDIOTOOLBOX_LIBRARY}
-    ${VIDEOTOOLBOX_LIBRARY}
-    ${METAL_LIBRARY})
+    ${COCOA_LIBRARY}
+    ${COREAUDIO_LIBRARY}
+    ${COREFOUNDATION_LIBRARY}
+    ${COREMEDIA_LIBRARY}
+    ${METAL_LIBRARY}
+    ${OPENGL_LIBRARY}
+    ${QUARTZCORE_LIBRARY}
+    ${VIDEODECODEACCELERATION_LIBRARY}
+    ${VIDEOTOOLBOX_LIBRARY})
 
   add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
