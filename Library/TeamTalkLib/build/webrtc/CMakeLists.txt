@@ -220,7 +220,7 @@ else()
       )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
-    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR} OPENSSL_DIR=${OPENSSL_DIR})
+    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR})
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       set (WEBRTC_REPO_NAME webrtc_ios)
@@ -264,7 +264,9 @@ else()
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
-        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -292,7 +294,7 @@ else()
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ninja -v -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
@@ -305,7 +307,7 @@ else()
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ninja -v -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
