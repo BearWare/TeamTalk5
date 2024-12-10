@@ -243,11 +243,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (GAS_DIR ${SOURCE_DIR})
 
     set (FFMPEG_CFG_FLAGS --target-os=darwin --sysroot=${CMAKE_OSX_SYSROOT}
-      --enable-pic
-      --enable-cross-compile
+      # External libraries:
+      --disable-videotoolbox
+      --disable-audiotoolbox
+      # Programs/docs
       --disable-doc
       --disable-programs
-      --disable-audiotoolbox)
+      # Compile options
+      --enable-pic
+      --enable-cross-compile)
 
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       list (APPEND FFMPEG_CFG_FLAGS --arch=arm --cpu=cortex-a8)
