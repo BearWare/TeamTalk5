@@ -94,15 +94,18 @@ do {                                                            \
 
 #define DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE      FALSE
 #define DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR  1.0f
-#define DEFAULT_WEBRTC_VAD_ENABLE               FALSE
-#define DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE   FALSE
+/* gain controller 2 */
 #define DEFAULT_WEBRTC_GAINCTL_ENABLE           DEFAULT_AGC_ENABLE
-#define DEFAULT_WEBRTC_GAINDB                   15
+/* gain controller 2 - fixed digital */
+#define DEFAULT_WEBRTC_GAINDB                   0.0f
+/* gain controller 2 - adaptive digital */
 #define DEFAULT_WEBRTC_SAT_PROT_ENABLE          TRUE
-#define DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB       20
-#define DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB      2
-#define DEFAULT_WEBRTC_MAXGAIN_DBSEC            3
-#define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50
+#define DEFAULT_WEBRTC_HEADROOM_DB              5.0f
+#define DEFAULT_WEBRTC_MAXGAIN_DB               50.0f
+#define DEFAULT_WEBRTC_INITIAL_GAIN_DB          15.0f
+#define DEFAULT_WEBRTC_MAXGAIN_DBSEC            6.0f
+#define DEFAULT_WEBRTC_MAX_OUT_NOISE            -50.0f
+/* noise suppression */
 #define DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE     DEFAULT_DENOISE_ENABLE
 #define DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL      2
 #define DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE       FALSE /* requires duplex mode */
