@@ -67,6 +67,14 @@ void MyTableView::keyPressEvent(QKeyEvent* e)
             this->setCurrentIndex(lastRowIndex);
         }
     }
+#if defined(Q_OS_LINUX)
+    else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    {
+        QModelIndex currentIndex = this->currentIndex();
+        if (currentIndex.isValid())
+            emit this->doubleClicked(currentIndex);        
+    }
+#endif
     else
     {
         QTableView::keyPressEvent(e);

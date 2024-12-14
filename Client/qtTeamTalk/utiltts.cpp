@@ -116,13 +116,14 @@ void addTextToSpeechMessage(const QString& msg)
         int timestamp = ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt();
         QString noquote = msg;
         noquote.replace('"', ' ');
-        QProcess ps;
-        ps.startDetached(QString("%1 -t %2 -a \"%3\" -u low \"%4: %5\"")
-            .arg(TTSENGINE_NOTIFY_PATH)
-            .arg(timestamp)
-            .arg(APPNAME_SHORT)
-            .arg(APPNAME_SHORT)
-            .arg(noquote));
+    
+        QStringList arguments;
+        arguments << "-t" << QString::number(timestamp)
+                << "-a" << APPNAME_SHORT
+                << "-u" << "low"
+                << QString("%1: %2").arg(APPNAME_SHORT, noquote);
+
+        QProcess::startDetached(TTSENGINE_NOTIFY_PATH, arguments);
 #endif
         break;
     }
