@@ -189,7 +189,7 @@ void AudioThread::StopEncoder()
 #endif
 
 #if defined(ENABLE_WEBRTC)
-    m_apm.reset();
+    m_apm.release();
     m_aps.reset();
 #endif
 
@@ -235,7 +235,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
 #if defined(ENABLE_WEBRTC)
     if (preprocess.preprocessor != AUDIOPREPROCESSOR_WEBRTC)
     {
-        m_apm.reset();
+        m_apm.release();
         m_aps.reset();
     }
 #endif
@@ -247,6 +247,8 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
     MYTRACE(ACE_TEXT("Setting up audio preprocessor: %d\n"), preprocess.preprocessor);
     switch (preprocess.preprocessor)
     {
+    case AUDIOPREPROCESSOR_WEBRTC_OBSOLETE_R4332 :
+        return false;
     case AUDIOPREPROCESSOR_NONE :
         // 'm_gainlevel' should not be reset
         return true;
@@ -267,11 +269,11 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         }
 
         if (!m_apm)
-            m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+            m_apm = webrtc::AudioProcessingBuilder().Create();
         m_apm->ApplyConfig(preprocess.webrtc);
         if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
         {
-            m_apm.reset();
+            m_apm.release();
             MYTRACE(ACE_TEXT("Failed to initialize WebRTC audio preprocessor\n"));
             return false;
         }
@@ -427,7 +429,7 @@ bool AudioThread::IsVoiceActive()
 #if defined(ENABLE_WEBRTC)
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
-    if (m_apm && m_apm->GetConfig().voice_detection.enabled)
+    if (m_apm)
     {
         assert(m_aps);
         return m_aps->voice_detected.value_or(false) ||
@@ -440,23 +442,6 @@ bool AudioThread::IsVoiceActive()
 
 int AudioThread::GetCurrentVoiceLevel()
 {
-#if defined(ENABLE_WEBRTC)
-    std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
-
-    if (m_apm)
-    {
-        assert(m_aps);
-        auto cfg = m_apm->GetConfig();
-        if (cfg.level_estimation.enabled)
-        {
-            // WebRTC's maximum value for dB from digital full scale
-            float value = 127.f - m_aps->output_rms_dbfs.value_or(0);
-            value /= 127.f;
-            return int(VU_METER_MAX * value);
-        }
-    }
-#endif
-
     return m_voicelevel;
 }
 
@@ -492,7 +477,6 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 #endif
 
 #if defined(ENABLE_WEBRTC)
-    bool vad = false;
     if (m_gainlevel > 0)
     {
         // WebRTC preprocessing (especially AEC) is very CPU-intensive
@@ -501,14 +485,11 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
         // no PTT and thus prevent the processing hit.
         // AEC still functions fine if it's activated like this, although there's
         // minute echo fragment at the (re)start of the preprocessing
-        PreprocessWebRTC(audblock, vad);
+        PreprocessWebRTC(audblock);
     }
-
-    if (!vad)
 #endif
-    {
-        MeasureVoiceLevel(audblock);
-    }
+
+    MeasureVoiceLevel(audblock);
 
     // mute left or right speaker (if enabled)
     if(audblock.inputfmt.channels == 2)
@@ -681,7 +662,7 @@ void AudioThread::PreprocessSpeex(media::AudioFrame& audblock)
 #endif
 
 #if defined(ENABLE_WEBRTC)
-void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock, bool& vad)
+void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock)
 {
     std::unique_lock<std::recursive_mutex> g(m_preprocess_lock);
 
@@ -691,14 +672,6 @@ void AudioThread::PreprocessWebRTC(media::AudioFrame& audblock, bool& vad)
     if (WebRTCPreprocess(*m_apm, audblock, audblock, m_aps.get()) != audblock.input_samples)
     {
         MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
-    }
-
-    vad = m_apm->GetConfig().voice_detection.enabled;
-    if (vad)
-    {
-        assert(m_aps);
-        if (m_aps->voice_detected.value_or(false))
-            m_lastActive = ACE_OS::gettimeofday();
     }
 }
 #endif
