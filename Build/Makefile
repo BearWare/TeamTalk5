@@ -297,30 +297,21 @@ depend-ubuntu24:
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
-depend-ubuntu18-android:
+depend-ubuntu24-android:
 	apt install \
 		autoconf \
 		cmake \
+		curl \
 		doxygen \
 		junit4 \
 		libtool \
 		ninja-build \
-		openjdk-11-jdk \
+		openjdk-21-jdk \
+		p7zip-full \
 		pkg-config \
-		python
-
-depend-ubuntu22-android:
-	apt install \
-		autoconf \
-		cmake \
-		doxygen \
-		junit4 \
-		libtool \
-		ninja-build \
-		openjdk-18-jdk \
-		pkg-config \
-		python2 \
-		python3-pytest
+		unzip \
+		wget \
+		xz-utils
 
 depend-debian12:
 	apt install \
