@@ -42,6 +42,7 @@ if (MSVC)
 
     file(MAKE_DIRECTORY ${WEBRTC_FETCH_PATH})
 
+    # To list possible args for "gn gen" use: gn args --list OUTPUTDIR
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_win_debug ${WEBRTC_INSTALL_ROOT}/lib/debug/args.gn @ONLY)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_win_release ${WEBRTC_INSTALL_ROOT}/lib/release/args.gn @ONLY)
 
@@ -281,7 +282,8 @@ else()
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
-        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -or -name "*.inc" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec cp -r --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
