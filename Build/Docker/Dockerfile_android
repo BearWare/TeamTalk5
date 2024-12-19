@@ -1,9 +1,10 @@
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
-LABEL Description="TeamTalk for Android in Ubuntu 22.04"
+LABEL Description="TeamTalk for Android in Ubuntu 24.04"
 
 RUN apt update --fix-missing
-# Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu22-android
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata keyboard-configuration
+# Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu24-android
 RUN apt install -y \
                    autoconf \
                    cmake \
@@ -14,14 +15,14 @@ RUN apt install -y \
                    libtool \
                    make \
                    ninja-build \
-                   openjdk-18-jdk \
+                   openjdk-21-jdk \
                    p7zip-full \
                    pkg-config \
-                   python2 \
-                   python3-pytest \
-                   unzip
+                   unzip \
+                   wget \
+                   xz-utils
 
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 12
 RUN mkdir /root/tt5dist
 RUN curl https://dl.google.com/android/repository/android-ndk-r27c-linux.zip -o /root/tt5dist/android-ndk.zip
 RUN cd /root/tt5dist && unzip android-ndk.zip
