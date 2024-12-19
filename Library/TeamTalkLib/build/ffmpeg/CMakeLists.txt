@@ -1,4 +1,4 @@
-project(OpenSSL)
+project(FFmpeg)
 
 include(ExternalProject)
 
