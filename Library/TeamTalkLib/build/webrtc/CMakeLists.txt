@@ -188,6 +188,7 @@ else()
       message(WARNING "Unknown Android architecture")
     endif()
 
+    set (ANDROID_NDK_HOME $ENV{ANDROID_NDK_HOME})
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_android ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -221,7 +222,7 @@ else()
       )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
-    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR})
+    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR} DEPOT_TOOLS_UPDATE=0)
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       set (WEBRTC_REPO_NAME webrtc_ios)

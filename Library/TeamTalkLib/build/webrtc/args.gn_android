@@ -21,3 +21,6 @@ target_cpu="@WEBRTC_ARCH@"
 target_os="android"
 treat_warnings_as_errors=false
 use_custom_libcxx=false
+android_ndk_root="@ANDROID_NDK_HOME@"
+android32_ndk_api_level=@ANDROID_PLATFORM_LEVEL@
+android64_ndk_api_level=@ANDROID_PLATFORM_LEVEL@
