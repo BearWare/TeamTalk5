@@ -46,7 +46,7 @@ services:
     user: root
     working_dir: /TeamTalk5
     environment:
-      - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r21e
+      - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r27c
 
   centos7:
     build:
