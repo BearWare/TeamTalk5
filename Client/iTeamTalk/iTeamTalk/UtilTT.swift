@@ -181,14 +181,13 @@ let DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE = INT32(-15)
 
 let DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE = FALSE
 let DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR = Float(1)
-let DEFAULT_WEBRTC_VAD_ENABLE = FALSE
-let DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE = FALSE
 let DEFAULT_WEBRTC_GAINCTL_ENABLE = DEFAULT_AGC_ENABLE
 let DEFAULT_WEBRTC_GAINDB = Float(15)
 let DEFAULT_WEBRTC_SAT_PROT_ENABLE = TRUE
-let DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB = Float(20)
-let DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB = Float(2)
-let DEFAULT_WEBRTC_MAXGAIN_DBSEC = Float(3)
+let DEFAULT_WEBRTC_HEADROOM_DB = Float(5)
+let DEFAULT_WEBRTC_MAXGAIN_DB = Float(50)
+let DEFAULT_WEBRTC_INITIAL_GAIN_DB = Float(15)
+let DEFAULT_WEBRTC_MAXGAIN_DBSEC = Float(6)
 let DEFAULT_WEBRTC_MAX_OUT_NOISE = Float(-50)
 let DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE = DEFAULT_DENOISE_ENABLE
 let DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL = INT32(2)
@@ -295,15 +294,14 @@ func newAudioPreprocessor(preprocessor: AudioPreprocessorType) -> AudioPreproces
         ap.webrtc.echocanceller.bEnable = DEFAULT_WEBRTC_ECHO_CANCEL_ENABLE
         ap.webrtc.noisesuppression.bEnable = DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE
         ap.webrtc.noisesuppression.nLevel = DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL
-        ap.webrtc.voicedetection.bEnable = DEFAULT_WEBRTC_VAD_ENABLE
         ap.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE
         ap.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB
         ap.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE
-        ap.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB
-        ap.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB
+        ap.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB = DEFAULT_WEBRTC_HEADROOM_DB
+        ap.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB = DEFAULT_WEBRTC_MAXGAIN_DB
+        ap.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB = DEFAULT_WEBRTC_INITIAL_GAIN_DB
         ap.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = DEFAULT_WEBRTC_MAXGAIN_DBSEC
         ap.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = DEFAULT_WEBRTC_MAX_OUT_NOISE
-        ap.webrtc.levelestimation.bEnable = DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE
     case NO_AUDIOPREPROCESSOR :
         fallthrough
     default :

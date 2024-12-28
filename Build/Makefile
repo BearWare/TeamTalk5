@@ -260,6 +260,7 @@ depend-ubuntu22:
 		qtmultimedia5-dev \
 		qttools5-dev \
 		qttools5-dev-tools \
+		wget \
 		yasm
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
@@ -290,34 +291,27 @@ depend-ubuntu24:
 		qt6-speech-dev \
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
+		wget \
+		xz-utils \
 		yasm
 	@echo "Ensure a default python is set up for WebRTC to compile:"
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
-depend-ubuntu18-android:
+depend-ubuntu24-android:
 	apt install \
 		autoconf \
 		cmake \
+		curl \
 		doxygen \
 		junit4 \
 		libtool \
 		ninja-build \
-		openjdk-11-jdk \
+		openjdk-21-jdk \
+		p7zip-full \
 		pkg-config \
-		python
-
-depend-ubuntu22-android:
-	apt install \
-		autoconf \
-		cmake \
-		doxygen \
-		junit4 \
-		libtool \
-		ninja-build \
-		openjdk-18-jdk \
-		pkg-config \
-		python2 \
-		python3-pytest
+		unzip \
+		wget \
+		xz-utils
 
 depend-debian12:
 	apt install \
@@ -344,6 +338,7 @@ depend-debian12:
 		qt6-speech-dev \
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
+		wget \
 		yasm
 
 depend-raspios12:

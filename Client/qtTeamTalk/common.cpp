@@ -340,9 +340,10 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
     AudioPreprocessor preprocessor = initDefaultAudioPreprocessor(preprocessortype);
     switch (preprocessor.nPreprocessor)
     {
-    case NO_AUDIOPREPROCESSOR:
+    case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         break;
-    case SPEEXDSP_AUDIOPREPROCESSOR:
+    case SPEEXDSP_AUDIOPREPROCESSOR :
         preprocessor.speexdsp.bEnableAGC = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, DEFAULT_SPEEXDSP_AGC_ENABLE).toBool();
         preprocessor.speexdsp.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, DEFAULT_SPEEXDSP_AGC_GAINLEVEL).toInt();
         preprocessor.speexdsp.nMaxIncDBSec = ttSettings->value(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, DEFAULT_SPEEXDSP_AGC_INC_MAXDB).toInt();
@@ -354,7 +355,7 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
         preprocessor.speexdsp.nEchoSuppress = DEFAULT_SPEEXDSP_ECHO_SUPPRESS;
         preprocessor.speexdsp.nEchoSuppressActive = DEFAULT_SPEEXDSP_ECHO_SUPPRESSACTIVE;
         break;
-    case TEAMTALK_AUDIOPREPROCESSOR:
+    case TEAMTALK_AUDIOPREPROCESSOR :
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, false).toBool();
         preprocessor.ttpreprocessor.bMuteRightSpeaker = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, false).toBool();
         preprocessor.ttpreprocessor.nGainLevel = ttSettings->value(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, SOUND_GAIN_DEFAULT).toInt();
@@ -363,8 +364,9 @@ AudioPreprocessor loadAudioPreprocessor(AudioPreprocessorType preprocessortype)
         preprocessor.webrtc.gaincontroller2.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_GAINCTL_ENABLE, DEFAULT_WEBRTC_GAINCTL_ENABLE).toBool();
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_GAINDB, DEFAULT_WEBRTC_GAINDB).toFloat();
         preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_SAT_PROT_ENABLE, DEFAULT_WEBRTC_SAT_PROT_ENABLE).toBool();
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_INIT_SAT_MARGIN_DB, DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB).toFloat();
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_EXTRA_SAT_MARGIN_DB, DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_HEADROOM_DB, DEFAULT_WEBRTC_HEADROOM_DB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DB, DEFAULT_WEBRTC_MAXGAIN_DB).toFloat();
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_INITGAIN_DB, DEFAULT_WEBRTC_INITIAL_GAIN_DB).toFloat();
         preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DBSEC, DEFAULT_WEBRTC_MAXGAIN_DBSEC).toFloat();
         preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE, DEFAULT_WEBRTC_MAX_OUT_NOISE).toFloat();
         preprocessor.webrtc.noisesuppression.bEnable = ttSettings->value(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE, DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE).toBool();
@@ -380,9 +382,10 @@ void saveAudioPreprocessor(const AudioPreprocessor& preprocessor)
     ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, preprocessor.nPreprocessor);
     switch (preprocessor.nPreprocessor)
     {
-    case NO_AUDIOPREPROCESSOR:
+    case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         break;
-    case SPEEXDSP_AUDIOPREPROCESSOR:
+    case SPEEXDSP_AUDIOPREPROCESSOR :
         ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_ENABLE, preprocessor.speexdsp.bEnableAGC);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_GAINLEVEL, preprocessor.speexdsp.nGainLevel);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_AGC_INC_MAXDB, preprocessor.speexdsp.nMaxIncDBSec);
@@ -391,7 +394,7 @@ void saveAudioPreprocessor(const AudioPreprocessor& preprocessor)
         ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_ENABLE, preprocessor.speexdsp.bEnableDenoise);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_SPX_DENOISE_SUPPRESS, preprocessor.speexdsp.nMaxNoiseSuppressDB);
         break;
-    case TEAMTALK_AUDIOPREPROCESSOR:
+    case TEAMTALK_AUDIOPREPROCESSOR :
         ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTELEFT, preprocessor.ttpreprocessor.bMuteLeftSpeaker);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_MUTERIGHT, preprocessor.ttpreprocessor.bMuteRightSpeaker);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_TTAP_GAINLEVEL, preprocessor.ttpreprocessor.nGainLevel);
@@ -400,8 +403,9 @@ void saveAudioPreprocessor(const AudioPreprocessor& preprocessor)
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_GAINCTL_ENABLE, preprocessor.webrtc.gaincontroller2.bEnable);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_GAINDB, preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_SAT_PROT_ENABLE, preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable );
-        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_INIT_SAT_MARGIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
-        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_EXTRA_SAT_MARGIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_HEADROOM_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB);
+        ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_INITGAIN_DB, preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_MAXGAIN_DBSEC, preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_MAX_OUT_NOISE, preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
         ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBRTC_NOISESUPPRESS_ENABLE, preprocessor.webrtc.noisesuppression.bEnable);

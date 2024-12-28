@@ -2385,18 +2385,17 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         preprocess.nPreprocessor = AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR;
         preprocess.webrtc.preamplifier.bEnable = true;
         preprocess.webrtc.preamplifier.fFixedGainFactor = 5;
-        preprocess.webrtc.voicedetection.bEnable = true;
         preprocess.webrtc.echocanceller.bEnable = false;
         preprocess.webrtc.gaincontroller2.bEnable = true;
         preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 4;
         preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable = true;
-        preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = 5;
-        preprocess.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = 6;
-        preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = 7;
-        preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = 8;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB = 5;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB = 6;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB = 7;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = 8;
+        preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = 9;
         preprocess.webrtc.noisesuppression.bEnable = true;
         preprocess.webrtc.noisesuppression.nLevel = 2;
-        preprocess.webrtc.levelestimation.bEnable = true;
 
         if (WEBRTC_AVAILABLE) {
             assertTrue("Enable WebRTC", ttclient.setSoundInputPreprocess(preprocess));
@@ -2409,17 +2408,16 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertEquals("webrtc2", (int)preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, (int)preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
 
             assertEquals("webrtc3", preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
-            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
-            assertEquals("webrtc5", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
-            assertEquals("webrtc6", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
-            assertEquals("webrtc7", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
+            assertEquals("webrtc4", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB);
+            assertEquals("webrtc5", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB);
+            assertEquals("webrtc6", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB);
+            assertEquals("webrtc7", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
+            assertEquals("webrtc8", (int)preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS, (int)preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
 
-            assertEquals("webrtc8", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
-            assertEquals("webrtc9", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
-            assertEquals("webrtc10", preprocess.webrtc.preamplifier.bEnable, preprocess2.webrtc.preamplifier.bEnable);
-            assertEquals("webrtc11", (int)preprocess.webrtc.preamplifier.fFixedGainFactor, (int)preprocess2.webrtc.preamplifier.fFixedGainFactor);
-            assertEquals("webrtc12", preprocess.webrtc.voicedetection.bEnable, preprocess2.webrtc.voicedetection.bEnable);
-            assertEquals("webrtc13", preprocess.webrtc.levelestimation.bEnable, preprocess2.webrtc.levelestimation.bEnable);
+            assertEquals("webrtc9", preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
+            assertEquals("webrtc10", preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
+            assertEquals("webrtc11", preprocess.webrtc.preamplifier.bEnable, preprocess2.webrtc.preamplifier.bEnable);
+            assertEquals("webrtc12", (int)preprocess.webrtc.preamplifier.fFixedGainFactor, (int)preprocess2.webrtc.preamplifier.fFixedGainFactor);
         }
     }
 

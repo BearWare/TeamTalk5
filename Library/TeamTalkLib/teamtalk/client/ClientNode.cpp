@@ -3111,6 +3111,7 @@ bool ClientNode::SetVoiceGainLevel(int gainlevel)
         m_soundprop.preprocessor.ttpreprocessor.gainlevel = gainlevel; //cache vvalue
         return SetSoundPreprocess(m_soundprop.preprocessor);
     case AUDIOPREPROCESSOR_NONE :
+    case AUDIOPREPROCESSOR_WEBRTC_OBSOLETE_R4332 :
     case AUDIOPREPROCESSOR_WEBRTC :
     case AUDIOPREPROCESSOR_SPEEXDSP : // maybe only denoising is used
                                       // in SpeexDSP but gain should
@@ -3465,6 +3466,8 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
             return false;
 #endif
     }
+    case AUDIOPREPROCESSOR_WEBRTC_OBSOLETE_R4332 :
+        return false;
     case AUDIOPREPROCESSOR_WEBRTC :
 #if defined(ENABLE_WEBRTC)
         if (!playback->SetupWebRTCPreprocess(preprocessor.webrtc))

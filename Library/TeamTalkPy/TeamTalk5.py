@@ -363,15 +363,14 @@ class WebRTCAudioPreprocessor(Structure):
         ("echocanceller_bEnable", BOOL),
         ("noisesuppression_bEnable", BOOL),
         ("noisesuppression_nLevel", INT32),
-        ("voicedetection_bEnable", BOOL),
         ("gaincontroller2_bEnable", BOOL),
         ("gaincontroller2_fixeddigital_fGainDB", FLOAT),
         ("gaincontroller2_adaptivedigital_bEnable", BOOL),
-        ("gaincontroller2_adaptivedigital_fInitialSaturationMarginDB", FLOAT),
-        ("gaincontroller2_adaptivedigital_fExtraSaturationMarginDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_fHeadRoomDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_fMaxGainDB", FLOAT),
+        ("gaincontroller2_adaptivedigital_fInitialGainDB", FLOAT),
         ("gaincontroller2_adaptivedigital_fMaxGainChangeDBPerSecond", FLOAT),
-        ("gaincontroller2_adaptivedigital_fMaxOutputNoiseLevelDBFS", FLOAT),
-        ("levelestimation_bEnable", BOOL)
+        ("gaincontroller2_adaptivedigital_fMaxOutputNoiseLevelDBFS", FLOAT)
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.WEBRTCAUDIOPREPROCESSOR) == ctypes.sizeof(WebRTCAudioPreprocessor))
@@ -380,7 +379,8 @@ class AudioPreprocessorType(INT32):
     NO_AUDIOPREPROCESSOR = 0
     SPEEXDSP_AUDIOPREPROCESSOR = 1
     TEAMTALK_AUDIOPREPROCESSOR = 2
-    WEBRTC_AUDIOPREPROCESSOR = 3
+    WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 = 3
+    WEBRTC_AUDIOPREPROCESSOR = 4
 
 class AudioPreprocessorUnion(Union):
     _fields_ = [
