@@ -18,7 +18,7 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
--
+- IP Address and status message is now shown on user Properties dialog
 iOS Client
 -
 Server
