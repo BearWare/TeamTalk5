@@ -984,12 +984,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
@@ -1630,12 +1630,12 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../generatettfile.ui" line="161"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="174"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="184"/>
@@ -5141,12 +5141,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="411"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="412"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="237"/>
