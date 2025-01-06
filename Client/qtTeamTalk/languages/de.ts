@@ -984,12 +984,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
@@ -1006,7 +1006,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation>Administratorin</translation>
+        <translation>Administrator</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
@@ -1630,12 +1630,12 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../generatettfile.ui" line="161"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="174"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="184"/>
@@ -5141,12 +5141,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="411"/>
         <source>Male</source>
-        <translation>Männlich</translation>
+        <translation>Mann</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="412"/>
         <source>Female</source>
-        <translation>Weiblich</translation>
+        <translation>Frau</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="237"/>
@@ -8547,7 +8547,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../useraccountdlg.cpp" line="373"/>
         <source>Last login: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Anmeldung: %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="438"/>
@@ -8625,7 +8625,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Last Login Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Letzte Anmeldezeit (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
@@ -8688,7 +8688,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../useraccountsmodel.cpp" line="41"/>
         <source>Last Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Letzte Anmeldung</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="67"/>
