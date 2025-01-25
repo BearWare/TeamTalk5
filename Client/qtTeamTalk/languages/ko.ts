@@ -453,29 +453,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished">사용 가능</translation>
+        <translation>사용 가능</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">자리비움</translation>
+        <translation>자리비움</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">질문 모드</translation>
+        <translation>질문 모드</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">사용 가능</translation>
+        <translation>사용 가능</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">자리비움</translation>
+        <translation>자리비움</translation>
     </message>
 </context>
 <context>
@@ -933,92 +933,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">숨겨짐</translation>
+        <translation>숨겨짐</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">암호로 보호됨</translation>
+        <translation>암호로 보호됨</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>안 읽은 메시지</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">자리비움</translation>
+        <translation>자리비움</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">질문 모드</translation>
+        <translation>질문 모드</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>말하는 중</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>미디어 파일 스트리밍 중</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>미디어 파일 스트리밍 중 (일시 중지됨)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">동영상</translation>
+        <translation>동영상</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 공유 중</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">여성</translation>
+        <translation>여성</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">남성</translation>
+        <translation>남성</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished">중립</translation>
+        <translation>중립</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">서버 관리자</translation>
+        <translation>서버 관리자</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">서버 관리자</translation>
+        <translation>서버 관리자</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">채널 관리자</translation>
+        <translation>채널 관리자</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">채널 관리자</translation>
+        <translation>채널 관리자</translation>
     </message>
 </context>
 <context>
@@ -1058,7 +1058,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../chattextedit.cpp" line="218"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>디스크 할당량: %1</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="376"/>
@@ -2277,77 +2277,77 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="520"/>
         <source>M&amp;edia</source>
-        <translation type="unfinished"></translation>
+        <translation>미디어 (&amp;e)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="528"/>
         <source>Playback</source>
-        <translation type="unfinished"></translation>
+        <translation>재생</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="538"/>
         <source>Play/Pause</source>
-        <translation type="unfinished"></translation>
+        <translation>재생/일시 중지</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="549"/>
         <source>Stop</source>
-        <translation type="unfinished"></translation>
+        <translation>중지</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="560"/>
         <source>Browse</source>
-        <translation type="unfinished">찾아보기</translation>
+        <translation>찾아보기</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="594"/>
         <source>Filename:</source>
-        <translation type="unfinished">파일 이름:</translation>
+        <translation>파일 이름:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="608"/>
         <source>Duration:</source>
-        <translation type="unfinished">시간:</translation>
+        <translation>시간:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="622"/>
         <source>Audio format:</source>
-        <translation type="unfinished">오디오 형식:</translation>
+        <translation>오디오 형식:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="636"/>
         <source>Video format:</source>
-        <translation type="unfinished">비디오 형식:</translation>
+        <translation>비디오 형식:</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="650"/>
         <source>Elapsed</source>
-        <translation type="unfinished"></translation>
+        <translation>경과</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="660"/>
         <source>Elapsed time</source>
-        <translation type="unfinished"></translation>
+        <translation>경과 시간</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="663"/>
         <source>Start position</source>
-        <translation type="unfinished">시작 위치</translation>
+        <translation>시작 위치</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="699"/>
         <source>Volume</source>
-        <translation type="unfinished">볼륨</translation>
+        <translation>볼륨</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="709"/>
         <source>Volume level</source>
-        <translation type="unfinished">볼륨 수준</translation>
+        <translation>볼륨 수준</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="722"/>
         <source>TextLabel</source>
-        <translation type="unfinished"></translation>
+        <translation>텍스트 레이블</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
@@ -2387,7 +2387,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="1497"/>
         <source>Streaming to Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에 스트리밍</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1626"/>
@@ -2722,12 +2722,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.ui" line="2336"/>
         <source>Pause/Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍 일시 중지/재개</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2339"/>
         <source>Ctrl+P</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+P</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2347"/>
@@ -3676,48 +3676,48 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
         <source>Resume Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍 재개</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6400"/>
         <location filename="../mainwindow.cpp" line="6423"/>
         <source>&amp;Play</source>
-        <translation type="unfinished">재생 (&amp;P)</translation>
+        <translation>재생 (&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6405"/>
         <source>&amp;Pause</source>
-        <translation type="unfinished">일시정지 (&amp;P)</translation>
+        <translation>일시 중지 (&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6409"/>
         <location filename="../mainwindow.cpp" line="6425"/>
         <source>Duration: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>기간: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6415"/>
         <location filename="../mainwindow.cpp" line="6428"/>
         <source>Audio format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 형식: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6416"/>
         <location filename="../mainwindow.cpp" line="6429"/>
         <source>Video format: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>비디오 형식: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6433"/>
         <source>File name: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 이름: %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6442"/>
         <location filename="../mainwindow.cpp" line="6448"/>
         <location filename="../mainwindow.cpp" line="6454"/>
         <source>%1 %</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 %</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7432"/>
@@ -4191,27 +4191,27 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5531"/>
         <source>Failed to change volume of the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍 음량을 변경할 수 없습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5547"/>
         <source>Failed to change playback position</source>
-        <translation type="unfinished"></translation>
+        <translation>재생 위치를 변경할 수 없습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6346"/>
         <source>&amp;Pause Stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍 일시 중지 (&amp;P)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5463"/>
         <source>Failed to resume the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍을 재개할 수 없습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5477"/>
         <source>Failed to pause the stream</source>
-        <translation type="unfinished"></translation>
+        <translation>스트리밍을 일시 중지할 수 없습니다</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5644"/>
@@ -5341,7 +5341,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="713"/>
         <source>Style of user and channel info</source>
-        <translation type="unfinished"></translation>
+        <translation>사용자/채널 정보 스타일</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="765"/>
@@ -5628,12 +5628,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1432"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation type="unfinished"></translation>
+        <translation>TeamTalk에서 선택된 사운드 출력 장치를 사용하여 소리 이벤트를 재생합니다</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1435"/>
         <source>Use selected sound output device for playback</source>
-        <translation type="unfinished"></translation>
+        <translation>선택한 사운드 출력 장치를 재생에 사용합니다</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1530"/>
@@ -5650,7 +5650,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1647"/>
         <source>Reset All to Default Values</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -5945,17 +5945,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="556"/>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows Audio Session API (WASAPI)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="558"/>
         <source>Windows legacy audio system</source>
-        <translation type="unfinished"></translation>
+        <translation>Windows legacy audio system</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="562"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Advanced Linux Sound Architecture (ALSA)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="508"/>
@@ -5965,12 +5965,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="483"/>
         <source>Emojis</source>
-        <translation type="unfinished"></translation>
+        <translation>이모지</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="484"/>
         <source>Text</source>
-        <translation type="unfinished"></translation>
+        <translation>텍스트</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="509"/>
@@ -6123,22 +6123,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1853"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 TTS 메시지를 기본값으로 재설정할까요?</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1854"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">예 (&amp;Y)</translation>
+        <translation>예 (&amp;Y)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1855"/>
         <source>&amp;No</source>
-        <translation type="unfinished">아니요 (&amp;N)</translation>
+        <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1858"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -6314,33 +6314,33 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilmedia.cpp" line="30"/>
         <source>Stereo</source>
-        <translation type="unfinished">스테레오</translation>
+        <translation>스테레오</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="32"/>
         <source>Mono</source>
-        <translation type="unfinished">모노</translation>
+        <translation>모노</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="34"/>
         <source>%1 audio channels</source>
-        <translation type="unfinished">오디오 채널 %1</translation>
+        <translation>오디오 채널 %1</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 Hz, %2</source>
-        <translation type="unfinished">%1 Hz, %2</translation>
+        <translation>%1 Hz, %2</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="39"/>
         <location filename="../utilmedia.cpp" line="49"/>
         <source>Unknown format</source>
-        <translation type="unfinished">알 수 없는 형식</translation>
+        <translation>알 수 없는 형식</translation>
     </message>
     <message>
         <location filename="../utilmedia.cpp" line="47"/>
         <source>%1x%2 %3 FPS</source>
-        <translation type="unfinished">%1x%2 %3 FPS</translation>
+        <translation>%1x%2 %3 FPS</translation>
     </message>
 </context>
 <context>
@@ -7548,7 +7548,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="82"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="94"/>
@@ -7583,22 +7583,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 상태 표시줄 메시지를 기본값으로 재설정할까요?</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">예 (&amp;Y)</translation>
+        <translation>예 (&amp;Y)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="167"/>
         <source>&amp;No</source>
-        <translation type="unfinished">아니요 (&amp;N)</translation>
+        <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="170"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>기본값으로 재설정</translation>
     </message>
 </context>
 <context>
@@ -7991,7 +7991,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../streammediafiledlg.cpp" line="370"/>
         <location filename="../streammediafiledlg.cpp" line="403"/>
         <source>&amp;Pause</source>
-        <translation>일시정지 (&amp;P)</translation>
+        <translation>일시 중지 (&amp;P)</translation>
     </message>
     <message>
         <location filename="../streammediafiledlg.cpp" line="324"/>
@@ -8547,7 +8547,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="373"/>
         <source>Last login: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막 로그인: %1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="438"/>
@@ -8625,7 +8625,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Last Login Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막 로그인 시간 (&amp;L) (%1)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
@@ -8688,7 +8688,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="41"/>
         <source>Last Login</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막 로그인</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="67"/>
@@ -8929,122 +8929,122 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Log in multiple times</source>
-        <translation type="unfinished"></translation>
+        <translation>다중 로그인</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>See users in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 내 모든 사용자 보기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
         <source>See hidden channels</source>
-        <translation type="unfinished"></translation>
+        <translation>숨겨진 채널 보기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="243"/>
         <source>Create/modify all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 채널 만들기/바꾸기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="245"/>
         <source>Create temporary channels</source>
-        <translation type="unfinished"></translation>
+        <translation>임시 채널 만들기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="247"/>
         <source>Edit server properties</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 속성 편집</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="249"/>
         <source>Kick users off the server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 사용자 추방</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Ban users from server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 사용자 차단</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
         <source>Move users between channels</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 간 사용자 이동</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Make other users channel operator</source>
-        <translation type="unfinished"></translation>
+        <translation>다른 사용자에게 채널 관리자 권한 부여</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
         <source>Upload files</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 업로드</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"/>
         <source>Download files</source>
-        <translation type="unfinished"></translation>
+        <translation>파일 다운로드</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Record voice in all channels</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 채널에서 말하기 녹음</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
         <source>Transmit voice data (microphone)</source>
-        <translation type="unfinished"></translation>
+        <translation>말하기 데이터 전송 (마이크)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Transmit video data (webcam)</source>
-        <translation type="unfinished"></translation>
+        <translation>비디오 데이터 전송 (웹캠)</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
         <source>Transmit desktop sessions (shared desktop)</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 공유 세션 전송</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="269"/>
         <source>Get remote access to desktop sessions</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 공유 세션에 원격 접속</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="271"/>
         <source>Stream audio files (wav, mp3 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>오디오 파일(wav, mp3) 스트리밍</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Stream video files (avi, mp4 files)</source>
-        <translation type="unfinished"></translation>
+        <translation>비디오 파일(avi, mp4) 스트리밍</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Send private text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 메시지 보내기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
         <source>Send channel text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 메시지 보내기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="283"/>
         <source>Send broadcast text messages</source>
-        <translation type="unfinished"></translation>
+        <translation>방송 보내기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="285"/>
         <source>Change nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>대화명 바꾸기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="287"/>
         <source>Change status mode</source>
-        <translation type="unfinished"></translation>
+        <translation>상태 유형 바꾸기</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="297"/>
@@ -9257,7 +9257,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="45"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
@@ -9267,7 +9267,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="46"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="47"/>
@@ -9284,7 +9284,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="47"/>
         <location filename="../utiltts.cpp" line="49"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에 입장한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="48"/>
@@ -9301,7 +9301,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="48"/>
         <location filename="../utiltts.cpp" line="50"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 퇴장한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="51"/>
@@ -9325,7 +9325,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="56"/>
         <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who sent message</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 보낸 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"/>
@@ -9343,7 +9343,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="53"/>
         <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who is typing</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 입력 중인 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
@@ -9353,7 +9353,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who set question mode</source>
-        <translation type="unfinished"></translation>
+        <translation>질문 모드로 전환한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9376,7 +9376,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
         <source>User concerns by change</source>
-        <translation>상태가 변경된 사용자</translation>
+        <translation>상태가 변경된 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9448,7 +9448,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="72"/>
         <location filename="../utiltts.cpp" line="73"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>상태가 변경된 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="74"/>
@@ -9496,7 +9496,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="79"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 추가한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
@@ -9506,7 +9506,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="80"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 삭제한 사용자 이름</translation>
     </message>
 </context>
 <context>
@@ -9572,7 +9572,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="178"/>
         <source>User&apos;s username who logged in</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="179"/>
@@ -9582,7 +9582,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="179"/>
         <source>User&apos;s username who logged out</source>
-        <translation type="unfinished"></translation>
+        <translation>로그아웃한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="180"/>
@@ -9599,7 +9599,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="180"/>
         <location filename="../utilui.cpp" line="182"/>
         <source>User&apos;s username who joined channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에 입장한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="181"/>
@@ -9616,7 +9616,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="181"/>
         <location filename="../utilui.cpp" line="183"/>
         <source>User&apos;s username who left channel</source>
-        <translation type="unfinished"></translation>
+        <translation>채널에서 퇴장한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="184"/>
@@ -9639,7 +9639,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="202"/>
         <source>User concerns by change</source>
-        <translation>상태가 변경된 사용자</translation>
+        <translation>상태가 변경된 사용자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="184"/>
@@ -9711,7 +9711,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="196"/>
         <location filename="../utilui.cpp" line="197"/>
         <source>User&apos;s username concerns by change</source>
-        <translation type="unfinished"></translation>
+        <translation>상태가 변경된 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="198"/>
@@ -9759,7 +9759,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="203"/>
         <source>User&apos;s username who added the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 추가한 사용자 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="204"/>
@@ -9769,7 +9769,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="204"/>
         <source>User&apos;s username who removed the file</source>
-        <translation type="unfinished"></translation>
+        <translation>파일을 삭제한 사용자 이름</translation>
     </message>
 </context>
 <context>
