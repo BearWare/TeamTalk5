@@ -470,13 +470,14 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set (FFMPEG_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig)
 
     if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
-      set (FFMPEG_CFG --cross-prefix=arm-linux-androideabi- --cc=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL} --arch=arm --disable-neon)
+      set (FFMPEG_CFG --cc=armv7a-linux-androideabi${ANDROID_PLATFORM_LEVEL}-clang --arch=arm --disable-neon)
     elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
-      set (FFMPEG_CFG --cross-prefix=aarch64-linux-android- --cc=clang\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL} --arch=aarch64)
+      # neon assembly causes linker errors (disable neon is not enough)
+      set (FFMPEG_CFG --cross-prefix=llvm- --cc=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang --cxx=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang++ --arch=aarch64 --disable-asm)
     elseif ("x86" STREQUAL "${ANDROID_ABI}")
-      set (FFMPEG_CFG --cross-prefix=i686-linux-android- --cc=clang\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL} --arch=x86 --disable-asm)
+      set (FFMPEG_CFG --cross-prefix=llvm- --cc=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang --cxx=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang++ --arch=x86 --disable-asm)
     elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
-      set (FFMPEG_CFG --cross-prefix=x86_64-linux-android- --cc=clang\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL} --arch=x86_64 --disable-asm)
+      set (FFMPEG_CFG --cross-prefix=llvm- --cc=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang --cxx=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang+ --arch=x86_64 --disable-asm)
     else()
       message(WARNING "Unknown Android architecture")
     endif()
@@ -491,6 +492,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
       # External libraries:
       --disable-indev=v4l2
+      --disable-vulkan
       # Programs/docs
       --disable-doc
       --disable-programs
