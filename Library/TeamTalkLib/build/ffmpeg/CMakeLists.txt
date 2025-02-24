@@ -492,6 +492,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
       # External libraries:
       --disable-indev=v4l2
+      --disable-indev=android_camera
       --disable-vulkan
       # Programs/docs
       --disable-doc

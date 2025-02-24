@@ -74,7 +74,7 @@ Building for Android platform is supported on Ubuntu 22.
   following in TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu22`
     * `sudo` is required because `apt install` is called.
-* Download [Android NDK r21e](https://developer.android.com/ndk) and
+* Download [Android NDK r27c](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
   unzipped location.
 
