@@ -42,6 +42,21 @@
         android:layout_gravity="center_vertical" />
 
     <TextView
+        android:id="@+id/user_statusmsglabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_statusmsg" />
+
+    <TextView
+        android:id="@+id/user_statusmsg"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
         android:id="@+id/user_clientnamelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -51,6 +66,21 @@
 
     <TextView
         android:id="@+id/user_clientname"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_gravity="center_vertical" />
+
+    <TextView
+        android:id="@+id/user_ipaddresslabel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_ipaddress" />
+
+    <TextView
+        android:id="@+id/user_ipaddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="1"
