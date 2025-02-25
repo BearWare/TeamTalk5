@@ -385,15 +385,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ace ACE-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(ace PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
-  else()
-    target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(ace PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
-  endif()
+  target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_ssl PROPERTIES
@@ -494,15 +488,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(ace ACE-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(ace PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
-  else()
-    target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(ace PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
-  endif()
+  target_include_directories (ace INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ace PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libACE.a)
 
   add_library(ace_ssl STATIC IMPORTED GLOBAL)
   set_target_properties(ace_ssl PROPERTIES

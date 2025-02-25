@@ -32,6 +32,7 @@ if (MSVC)
 
     file(MAKE_DIRECTORY ${WEBRTC_FETCH_PATH})
 
+    # To list possible args for "gn gen" use: gn args --list OUTPUTDIR
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_win_debug ${WEBRTC_INSTALL_ROOT}/lib/debug/args.gn @ONLY)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_win_release ${WEBRTC_INSTALL_ROOT}/lib/release/args.gn @ONLY)
 
@@ -271,6 +272,7 @@ else()
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
+        COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec cp -r --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
         DEPENDS depot-tools
         )
@@ -344,19 +346,12 @@ else()
     add_dependencies(webrtc webrtc-src)
   endif()
 
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set (WEBRTC_INCLUDE_DIRS ${WEBRTC_INSTALL_ROOT}/include ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      INTERFACE_INCLUDE_DIRECTORIES "${WEBRTC_INCLUDE_DIRS}"
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
-  else()
-    target_include_directories (webrtc INTERFACE
-      ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
-      ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
-  endif()
+  target_include_directories (webrtc INTERFACE
+    ${WEBRTC_INSTALL_ROOT}/include
+    ${WEBRTC_INSTALL_ROOT}/include/modules/audio_processing/include
+    ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
+  set_target_properties(webrtc PROPERTIES
+    IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/obj/modules/audio_processing/libteamtalk.a)
 
   # $ find webrtc/obj/ -name *.a -exec nm -A -C {} \; | grep webrtc::rnn_vad::RnnBasedVad::RnnBasedVad
 endif()

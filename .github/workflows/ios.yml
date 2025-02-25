@@ -7,15 +7,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - name: iOS armv7
-            cmakearch: armv7
-            cmakesysroot: iphoneos
           - name: iOS arm64
             cmakearch: arm64
             cmakesysroot: iphoneos
-#         - name: iOS i386
-#           cmakearch: i386
-#           cmakesysroot: iphonesimulator
           - name: iOS x86_64
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
@@ -44,7 +38,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}

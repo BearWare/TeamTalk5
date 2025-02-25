@@ -1,4 +1,4 @@
-VERSION="v5.18.0.5151"
+VERSION="v5.18.0.5153"
 
 OUTPUT_DEST=./
 INSTALLDIR?=$(TEAMTALK_INSTALLDIR)
@@ -70,8 +70,11 @@ ubuntu18:
 ubuntu22:
 	make TT5DIST=teamtalk-$(VERSION)-ubuntu22-x86_64 linux
 
+ubuntu24:
+	make TT5DIST=teamtalk-$(VERSION)-ubuntu24-x86_64 linux
+
 rasp:
-	make TT5DIST=teamtalk-$(VERSION)-raspbian10-armhf linux
+	make TT5DIST=teamtalk-$(VERSION)-raspios12-arm64 linux
 
 linux:
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
@@ -102,8 +105,11 @@ ubuntu18pro:
 ubuntu22pro:
 	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-ubuntu22-x86_64 linuxpro
 
+ubuntu24pro:
+	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-ubuntu24-x86_64 linuxpro
+
 rasppro:
-	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-raspbian10-armhf linuxpro
+	$(MAKE) TT5DIST=teamtalkpro-$(VERSION)-raspios12-arm64 linuxpro
 
 centos5:
 	$(eval TT5DIST=teamtalk-$(VERSION)-centos5-i386)

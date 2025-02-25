@@ -1,0 +1,33 @@
+FROM ubuntu:24.04
+
+LABEL Description="TeamTalk for Ubuntu 24.04"
+
+RUN apt update --fix-missing
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt -y install keyboard-configuration tzdata
+RUN apt install -y \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		git \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		ninja-build \
+		openjdk-21-jdk \
+		p7zip-full \
+		pkg-config \
+		python3-pytest \
+		qt6-base-dev \
+		qt6-declarative-dev \
+		qt6-multimedia-dev \
+		qt6-speech-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		wget \
+		yasm
+RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 12

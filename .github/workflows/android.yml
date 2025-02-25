@@ -20,7 +20,7 @@ jobs:
             maketarget: android-x64
             arch: x86_64
 
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
     name: ${{ matrix.name }}
     steps:
     - uses: actions/checkout@v4
@@ -33,7 +33,7 @@ jobs:
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
-        ndk-version: r21e
+        ndk-version: r27c
         add-to-path: false
 
     - name: Refresh Ubuntu-repo
@@ -44,7 +44,7 @@ jobs:
 
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5
-      run: sudo make -C Build depend-ubuntu22-android
+      run: sudo make -C Build depend-ubuntu24-android
 
     - name: Build TeamTalk Library for Android
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
@@ -74,7 +74,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-${{ matrix.maketarget }}
         path: ${{runner.workspace}}/install-${{ matrix.maketarget }}

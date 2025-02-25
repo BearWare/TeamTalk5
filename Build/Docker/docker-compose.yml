@@ -28,6 +28,15 @@ services:
     user: root
     working_dir: /TeamTalk5
 
+  ubuntu24:
+    build:
+      context: .
+      dockerfile: Dockerfile_ubuntu24
+    volumes:
+      - ../..:/TeamTalk5:rw,z
+    user: root
+    working_dir: /TeamTalk5
+
   android:
     build:
       context: .
@@ -37,7 +46,7 @@ services:
     user: root
     working_dir: /TeamTalk5
     environment:
-      - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r21e
+      - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r27c
 
   centos7:
     build:

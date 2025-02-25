@@ -485,7 +485,7 @@ QString getLanguageDisplayName(const QString &languageCode)
 
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat)
 {
-    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString, inputFormat);
+    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString.simplified(), inputFormat);
 
     if (!originalDateTime.isValid()) {
         return QString("Invalid DateTime");

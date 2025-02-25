@@ -86,8 +86,8 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
     if(transfer.nFileSize)
         percent = transfer.nTransferred * 100 / transfer.nFileSize;
     ui.transferredLabel->setText(QString("%1/%2 - %3 %")
-        .arg(transfer.nTransferred).arg(transfer.nFileSize).arg(percent));
-    ui.transferredLabel->setAccessibleName(QString("%1/%2 - %3 %").arg(transfer.nTransferred).arg(transfer.nFileSize).arg(percent));
+        .arg(getFormattedSize(transfer.nTransferred)).arg(getFormattedSize(transfer.nFileSize)).arg(percent));
+    ui.transferredLabel->setAccessibleName(QString("%1/%2 - %3 %").arg(getFormattedSize(transfer.nTransferred)).arg(getFormattedSize(transfer.nFileSize)).arg(percent));
 
     ui.progressBar->setValue((int)percent);
 
@@ -101,7 +101,7 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
         throughput = transfer.nTransferred / elapsed;
         throughput /= 1024.0;
     }
-    QString lt = QString(tr("%1 KBytes/second, last second %2 bytes").arg(throughput).arg(diff));
+    QString lt = QString(tr("%1/second, last second %2").arg(getFormattedSize(throughput)).arg(getFormattedSize(diff/1024.0)));
     ui.throughputLabel->setText(lt);
     ui.throughputLabel->setAccessibleName(QString("%1 %2").arg(ui.label_3->text()).arg(lt));
 

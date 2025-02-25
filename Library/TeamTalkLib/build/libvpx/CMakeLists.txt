@@ -42,7 +42,7 @@ if (MSVC)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx
-        GIT_TAG           v1.9.0
+        GIT_TAG           v1.15.0
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
@@ -75,7 +75,7 @@ if (MSVC)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx
-        GIT_TAG           v1.9.0
+        GIT_TAG           v1.15.0
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
@@ -111,7 +111,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(libvpx-arm64-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx
-      GIT_TAG           v1.11.0
+      GIT_TAG           v1.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-arm64
@@ -127,7 +127,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(libvpx-intel-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx
-      GIT_TAG           v1.11.0
+      GIT_TAG           v1.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-intel
@@ -186,7 +186,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx
-      GIT_TAG           v1.9.0
+      GIT_TAG           v1.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
@@ -225,7 +225,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx
-      GIT_TAG           v1.9.0
+      GIT_TAG           v1.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
@@ -247,18 +247,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(libvpx PROPERTIES
-      INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
-  else()
-    target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(libvpx PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
-    endif()
+  target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(libvpx PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
   endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
@@ -266,24 +259,30 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   set (LIBVPX_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH})
 
   if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
-    list (APPEND LIBVPX_EXPORT && export CROSS=arm-linux-androideabi-)
-    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
-    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=armv7a-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CC=armv7a-linux-androideabi${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export LD=armv7a-linux-androideabi${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export CXX=armv7a-linux-androideabi${ANDROID_PLATFORM_LEVEL}-clang++)
+    list (APPEND LIBVPX_EXPORT && export AS=armv7a-linux-androideabi${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export STRIP=llvm-strip)
     set (LIBVPX_CFG --target=armv7-android-gcc)
   elseif ("arm64-v8a" STREQUAL "${ANDROID_ABI}")
-    list (APPEND LIBVPX_EXPORT && export CROSS=aarch64-linux-android-)
-    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL})
-    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=aarch64-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CC=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export LD=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export CXX=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang++)
+    list (APPEND LIBVPX_EXPORT && export AS=aarch64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export STRIP=llvm-strip)
     set (LIBVPX_CFG --target=arm64-android-gcc)
   elseif ("x86" STREQUAL "${ANDROID_ABI}")
-    list (APPEND LIBVPX_EXPORT && export CROSS=i686-linux-android-)
-    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL})
-    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=i686-linux-android${ANDROID_PLATFORM_LEVEL})
-    set (LIBVPX_CFG --target=x86-android-gcc)
+    list (APPEND LIBVPX_EXPORT && export CC=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export LD=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export CXX=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang++)
+    list (APPEND LIBVPX_EXPORT && export STRIP=llvm-strip)
+    set (LIBVPX_CFG --target=x86-android-gcc --as=yasm)
   elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
-    list (APPEND LIBVPX_EXPORT && export CROSS=x86_64-linux-android-)
-    list (APPEND LIBVPX_EXPORT && export CC=clang\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL})
-    list (APPEND LIBVPX_EXPORT && export CXX=clang++\ --target=x86_64-linux-android${ANDROID_PLATFORM_LEVEL})
+    list (APPEND LIBVPX_EXPORT && export CC=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export LD=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
+    list (APPEND LIBVPX_EXPORT && export CXX=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang++)
+    list (APPEND LIBVPX_EXPORT && export STRIP=llvm-strip)
     set (LIBVPX_CFG --target=x86_64-android-gcc)
   else()
     message(FATAL_ERROR "Unknown Android architecture")
@@ -292,7 +291,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx
-      GIT_TAG           v1.9.0
+      GIT_TAG           v1.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
@@ -314,18 +313,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     add_dependencies(libvpx libvpx-src)
   endif()
-  if (${CMAKE_VERSION} VERSION_LESS "3.11.0")
-    set_target_properties(libvpx PROPERTIES
-      INTERFACE_LINK_OPTIONS "-Wl,-Bsymbolic"
-      INTERFACE_INCLUDE_DIRECTORIES ${INSTALL_DIR}/include
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
-  else()
-    target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
-    set_target_properties(libvpx PROPERTIES
-      IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
-    if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
-    endif()
+  target_include_directories (libvpx INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(libvpx PROPERTIES
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libvpx.a)
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Linux" AND ${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    target_link_options(libvpx INTERFACE "-Wl,-Bsymbolic")
   endif()
 
 endif()
