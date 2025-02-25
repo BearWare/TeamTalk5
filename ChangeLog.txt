@@ -18,7 +18,7 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
--
+- Minimum supported Android v8.1 (Oreo)
 iOS Client
 -
 Server
