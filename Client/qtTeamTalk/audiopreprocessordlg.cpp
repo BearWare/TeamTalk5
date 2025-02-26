@@ -46,6 +46,7 @@ void AudioPreprocessorDlg::showSettings()
     switch(m_preprocess.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         ui.stackedWidget->setCurrentIndex(0);
         setWindowTitle(tr("No Audio Preprocessor"));
         break;
@@ -89,6 +90,7 @@ void AudioPreprocessorDlg::slotAccepted()
     switch(m_preprocess.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
         m_preprocess.speexdsp.bEnableAGC = ui.agcCheckBox->isChecked();

@@ -121,7 +121,7 @@ TEST_CASE("webrtc-apm")
 
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames()), apm_buff(af.channels * out_cfg.num_frames());
 
-    std::unique_ptr<webrtc::AudioProcessing> apm(webrtc::AudioProcessingBuilder().Create());
+    auto apm = webrtc::AudioProcessingBuilder().Create();
 
     // first try gain_controller1
 
@@ -176,7 +176,7 @@ TEST_CASE("webrtc-double-gain")
 
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames()), apm_buff(af.channels * out_cfg.num_frames());
 
-    std::unique_ptr<webrtc::AudioProcessing> apm(webrtc::AudioProcessingBuilder().Create());
+    auto apm = webrtc::AudioProcessingBuilder().Create();
 
     webrtc::AudioProcessing::Config apm_cfg;
     rawfile.Close();
@@ -185,39 +185,31 @@ TEST_CASE("webrtc-double-gain")
     apm_cfg = webrtc::AudioProcessing::Config();
     apm_cfg.gain_controller2.enabled = true;
     apm_cfg.gain_controller2.fixed_digital.gain_db = 10;
-    apm_cfg.level_estimation.enabled = true;
-    apm_cfg.voice_detection.enabled = true;
     apm->ApplyConfig(apm_cfg);
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 
-    int sum = 0, n = 0;
+    int n = 0;
     while (rawfile.ReadSamples(&in_buff[0], in_cfg.num_frames()))
     {
         REQUIRE(apm->ProcessStream(&in_buff[0], in_cfg, out_cfg, &apm_buff[0])
             == webrtc::AudioProcessing::kNoError);
 
-        sum += apm->GetStatistics().output_rms_dbfs.value_or(0);
         n++;
         REQUIRE(apmfile_gain1.AppendSamples(&apm_buff[0], out_cfg.num_frames()));
     }
     apmfile_gain1.Close();
     REQUIRE(apmfile_gain1.OpenFile(ACE_TEXT("apmfile_gain1.wav"), true));
     
-    std::cout << "Gain1 AVG dB FS: " << sum / n << std::endl;
-
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 
-    sum = n = 0;
+    n = 0;
     while (apmfile_gain1.ReadSamples(&in_buff[0], in_cfg.num_frames()))
     {
         REQUIRE(apm->ProcessStream(&in_buff[0], in_cfg, out_cfg, &apm_buff[0])
             == webrtc::AudioProcessing::kNoError);
 
-        sum += apm->GetStatistics().output_rms_dbfs.value_or(0);
         n++;
 
         REQUIRE(apmfile_gain2.AppendSamples(&apm_buff[0], out_cfg.num_frames()));
     }
-
-    std::cout << "Gain2 AVG dB FS: " << sum / n << std::endl;
 }
