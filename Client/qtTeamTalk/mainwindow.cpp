@@ -6232,7 +6232,7 @@ void MainWindow::slotUpdateUI()
     ui.actionEnableEchoCancel->setChecked(ttSettings->value(SETTINGS_SOUND_ECHOCANCEL, SETTINGS_SOUND_ECHOCANCEL_DEFAULT).toBool());
     ui.actionEnableAGC->setChecked(ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool());
     ui.actionEnableDenoising->setChecked(ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool());
-    ui.actionSpeakClientStats->setEnabled(tts);
+    ui.actionSpeakClientStats->setEnabled(auth && tts);
     ui.actionChangeStatus->setEnabled(auth);
 #ifdef Q_OS_WIN32
     ui.actionEnablePushToTalk->setChecked(TT_HotKey_IsActive(ttInst, HOTKEY_PUSHTOTALK) >= 0);
@@ -6280,14 +6280,15 @@ void MainWindow::slotUpdateUI()
     }
 
     ui.actionViewUserInformation->setEnabled(userid>0);
-    ui.actionSpeakUserInformation->setEnabled(tts);
+    ui.actionSpeakUserInformation->setEnabled(userid>0 && tts);
     ui.actionMessages->setEnabled(userid>0);
     ui.actionMuteVoice->setEnabled(userid>0);
     ui.actionMuteMediaFile->setEnabled(userid>0);
     ui.actionVolume->setEnabled(userid>0);
     ui.actionOp->setEnabled(userid>0);
-    ui.actionKickFromChannel->setEnabled(userid>0);
+    ui.actionKickFromChannel->setEnabled(userid>0 && (me_op || userrights & USERRIGHT_KICK_USERS));
     ui.actionKickFromServer->setEnabled(userid>0 && (userrights & USERRIGHT_KICK_USERS));
+    ui.actionKickAndBanFromChannel->setEnabled(userid>0 && (me_op || userrights & USERRIGHT_BAN_USERS));
     ui.actionKickBan->setEnabled(userid>0 && (userrights & USERRIGHT_BAN_USERS));
     ui.actionDesktopAccessAllow->setEnabled(userid>0);
 
@@ -6337,9 +6338,9 @@ void MainWindow::slotUpdateUI()
     ui.actionJoinChannel->setVisible(chanid != m_mychannel.nChannelID && userid <= 0);
     ui.actionViewChannelInfo->setEnabled(chanid>0);
     ui.actionGenerateTTURL->setEnabled(chanid > 0);
-    ui.actionSpeakChannelInfo->setEnabled(tts);
-    ui.actionSpeakChannelStat->setEnabled(tts);
-    ui.actionBannedUsersInChannel->setEnabled(chanid>0);
+    ui.actionSpeakChannelInfo->setEnabled(chanid>0 && tts);
+    ui.actionSpeakChannelStat->setEnabled(chanid>0 && tts);
+    ui.actionBannedUsersInChannel->setEnabled(chanid>0 && (me_op || userrights & USERRIGHT_BAN_USERS));
     ui.actionCreateChannel->setEnabled(chanid>0 || mychannel>0);
     ui.actionUpdateChannel->setEnabled(chanid>0);
     ui.actionDeleteChannel->setEnabled(chanid>0);
@@ -6348,7 +6349,7 @@ void MainWindow::slotUpdateUI()
     ui.actionPauseResumeStream->setEnabled(m_mfi && (m_mfi->nStatus == MFS_PLAYING || m_mfi->nStatus == MFS_PAUSED));
     ui.actionPauseResumeStream->setText((m_mfi && m_mfi->nStatus == MFS_PAUSED) ? tr("Resume Stream") : tr("&Pause Stream"));
     ui.actionUploadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
-    ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+    ui.actionDownloadFile->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES && filescount>0);
     ui.actionDeleteFile->setEnabled(filescount>0);
 
     //Users-menu items dependent on Channel
@@ -6378,12 +6379,12 @@ void MainWindow::slotUpdateUI()
 
     //Server-menu items
     ui.actionUserAccounts->setEnabled(auth);
-    ui.actionBannedUsers->setEnabled(me_op || (userrights & USERRIGHT_BAN_USERS));
+    ui.actionBannedUsers->setEnabled(userrights & USERRIGHT_BAN_USERS);
     ui.actionOnlineUsers->setEnabled(auth);
-    ui.actionBroadcastMessage->setEnabled(auth && (userrights & USERRIGHT_TEXTMESSAGE_BROADCAST));
+    ui.actionBroadcastMessage->setEnabled(userrights & USERRIGHT_TEXTMESSAGE_BROADCAST);
     ui.actionServerProperties->setEnabled(auth);
-    ui.actionSaveConfiguration->setEnabled(auth && me_admin);
-    ui.actionServerStatistics->setEnabled(auth && me_admin);
+    ui.actionSaveConfiguration->setEnabled(me_admin);
+    ui.actionServerStatistics->setEnabled(me_admin);
 
     ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
