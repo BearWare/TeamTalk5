@@ -32,12 +32,6 @@ public class WebRTCAudioPreprocessor {
 
     public Preamplifier preamplifier = new Preamplifier();
 
-    public class VoiceDetection {
-        public boolean bEnable;
-    }
-
-    public VoiceDetection voicedetection = new VoiceDetection();
-
     public class EchoCanceller {
         public boolean bEnable;
     }
@@ -55,8 +49,9 @@ public class WebRTCAudioPreprocessor {
 
         public class AdaptiveDigital {
             public boolean bEnable;
-            public float fInitialSaturationMarginDB;
-            public float fExtraSaturationMarginDB;
+            public float fHeadRoomDB;
+            public float fMaxGainDB;
+            public float fInitialGainDB;
             public float fMaxGainChangeDBPerSecond;
             public float fMaxOutputNoiseLevelDBFS;
 
@@ -76,12 +71,6 @@ public class WebRTCAudioPreprocessor {
 
     public NoiseSuppression noisesuppression = new NoiseSuppression();
 
-    public class LevelEstimation {
-        public boolean bEnable;
-    }
-
-    public LevelEstimation levelestimation = new LevelEstimation();
-
     public WebRTCAudioPreprocessor() {
     }
 
@@ -96,18 +85,15 @@ public class WebRTCAudioPreprocessor {
             noisesuppression.bEnable = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;
             noisesuppression.nLevel = WebRTCConstants.DEFAULT_WEBRTC_NOISESUPPRESS_LEVEL;
 
-            voicedetection.bEnable = WebRTCConstants.DEFAULT_WEBRTC_VAD_ENABLE;
-            
             gaincontroller2.bEnable = WebRTCConstants.DEFAULT_WEBRTC_GAINCTL_ENABLE;
             gaincontroller2.fixeddigital.fGainDB = WebRTCConstants.DEFAULT_WEBRTC_GAINDB;
 
             gaincontroller2.adaptivedigital.bEnable = WebRTCConstants.DEFAULT_WEBRTC_SAT_PROT_ENABLE;
-            gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
-            gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = WebRTCConstants.DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+            gaincontroller2.adaptivedigital.fHeadRoomDB = WebRTCConstants.DEFAULT_WEBRTC_HEADROOM_DB;
+            gaincontroller2.adaptivedigital.fMaxGainDB = WebRTCConstants.DEFAULT_WEBRTC_MAXGAIN_DB;
+            gaincontroller2.adaptivedigital.fInitialGainDB = WebRTCConstants.DEFAULT_WEBRTC_INITIAL_GAIN_DB;
             gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = WebRTCConstants.DEFAULT_WEBRTC_MAXGAIN_DBSEC;
             gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = WebRTCConstants.DEFAULT_WEBRTC_MAX_OUT_NOISE;
-
-            levelestimation.bEnable = WebRTCConstants.DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
         }
     }
 }

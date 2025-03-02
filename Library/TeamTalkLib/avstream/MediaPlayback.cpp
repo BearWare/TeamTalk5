@@ -199,12 +199,12 @@ bool MediaPlayback::SetupSpeexPreprocess(bool enableagc, const SpeexAGC& agc,
 bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc)
 {
     if (!m_apm)
-        m_apm.reset(webrtc::AudioProcessingBuilder().Create());
+        m_apm = webrtc::AudioProcessingBuilder().Create();
 
     m_apm->ApplyConfig(webrtc);
     if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
     {
-        m_apm.reset();
+        m_apm.release();
         return false;
     }
     return true;

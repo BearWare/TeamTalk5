@@ -7,8 +7,8 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 
-# WebRTC makes use of std::make_reverse_iterator which is C++14
-set (CMAKE_CXX_STANDARD 14)
+# WebRTC makes use of std::optional which is C++17
+set (CMAKE_CXX_STANDARD 17)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   option (STATICCPP "Link static C and C++ libraries" ON)

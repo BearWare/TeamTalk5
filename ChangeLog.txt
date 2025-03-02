@@ -15,14 +15,17 @@ Default Qt Client
 - Option to choose bitween text or emoji for user and channel info in channel list
 - Last login time shown in "User Accounts" dialog
 - Ability to sort by "Last Login Time" in "User Accounts" dialog
+- WebRTC updated from r4332 to r6818
+- Qt updated to 6.9.0beta3 on macOS and Windows
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
 - Minimum supported Android v8.1 (Oreo)
+- WebRTC updated from r4332 to r6818
 iOS Client
--
+- WebRTC updated from r4332 to r6818
 Server
 -
 

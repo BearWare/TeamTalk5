@@ -200,16 +200,17 @@ AudioPreprocessor initDefaultAudioPreprocessor(AudioPreprocessorType preprocesso
         preprocessor.ttpreprocessor.bMuteLeftSpeaker = DEFAULT_TEAMTALK_MUTELEFT;
         preprocessor.ttpreprocessor.bMuteRightSpeaker = DEFAULT_TEAMTALK_MUTERIGHT;
         break;
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
+        break;
     case WEBRTC_AUDIOPREPROCESSOR :
         preprocessor.webrtc.preamplifier.bEnable = DEFAULT_WEBRTC_PREAMPLIFIER_ENABLE;
         preprocessor.webrtc.preamplifier.fFixedGainFactor = DEFAULT_WEBRTC_PREAMPLIFIER_GAINFACTOR;
-        preprocessor.webrtc.levelestimation.bEnable = DEFAULT_WEBRTC_LEVELESTIMATION_ENABLE;
-        preprocessor.webrtc.voicedetection.bEnable = DEFAULT_WEBRTC_VAD_ENABLE;
         preprocessor.webrtc.gaincontroller2.bEnable = DEFAULT_WEBRTC_GAINCTL_ENABLE;
         preprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = DEFAULT_WEBRTC_GAINDB;
         preprocessor.webrtc.gaincontroller2.adaptivedigital.bEnable = DEFAULT_WEBRTC_SAT_PROT_ENABLE;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = DEFAULT_WEBRTC_INIT_SAT_MARGIN_DB;
-        preprocessor.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = DEFAULT_WEBRTC_EXTRA_SAT_MARGIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB = DEFAULT_WEBRTC_HEADROOM_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB = DEFAULT_WEBRTC_INITIAL_GAIN_DB;
+        preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB = DEFAULT_WEBRTC_MAXGAIN_DB;
         preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = DEFAULT_WEBRTC_MAXGAIN_DBSEC;
         preprocessor.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = DEFAULT_WEBRTC_MAX_OUT_NOISE;
         preprocessor.webrtc.noisesuppression.bEnable = DEFAULT_WEBRTC_NOISESUPPRESS_ENABLE;

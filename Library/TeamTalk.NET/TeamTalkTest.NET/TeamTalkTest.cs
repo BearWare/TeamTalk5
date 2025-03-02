@@ -2544,15 +2544,14 @@ namespace TeamTalkTest.NET
                 Assert.AreEqual(preprocess.webrtc.echocanceller.bEnable, preprocess2.webrtc.echocanceller.bEnable);
                 Assert.AreEqual(preprocess.webrtc.noisesuppression.bEnable, preprocess2.webrtc.noisesuppression.bEnable);
                 Assert.AreEqual(preprocess.webrtc.noisesuppression.nLevel, preprocess2.webrtc.noisesuppression.nLevel);
-                Assert.AreEqual(preprocess.webrtc.voicedetection.bEnable, preprocess2.webrtc.voicedetection.bEnable);
                 Assert.AreEqual(preprocess.webrtc.gaincontroller2.bEnable, preprocess2.webrtc.gaincontroller2.bEnable);
                 Assert.AreEqual(preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB, preprocess2.webrtc.gaincontroller2.fixeddigital.fGainDB);
-                Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
-                Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
+                Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB);
+                Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainDB);
+                Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB, preprocess2.webrtc.gaincontroller2.adaptivedigital.fInitialGainDB);
                 Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond, preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
                 Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS, preprocess2.webrtc.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
                 Assert.AreEqual(preprocess.webrtc.gaincontroller2.adaptivedigital.bEnable, preprocess2.webrtc.gaincontroller2.adaptivedigital.bEnable);
-                Assert.AreEqual(preprocess.webrtc.levelestimation.bEnable, preprocess2.webrtc.levelestimation.bEnable);
             }
         }
 

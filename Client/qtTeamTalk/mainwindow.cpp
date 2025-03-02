@@ -5522,6 +5522,7 @@ void MainWindow::changeMediaFileVolume(int pos)
         m_mfp.audioPreprocessor.speexdsp.nGainLevel = pos;
         break;
     case WEBRTC_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
     case NO_AUDIOPREPROCESSOR :
         return;
     }
@@ -6453,6 +6454,7 @@ void MainWindow::slotUpdateMediaTabUI()
         break;
     case NO_AUDIOPREPROCESSOR :
     case WEBRTC_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         ui.mediaVolumeSlider->setEnabled(false);
         ui.mediaVolumeSlider->setValue(0);
         ui.mediaVolumeLabel->setText(tr("%1 %").arg(100));
@@ -7458,6 +7460,7 @@ void MainWindow::slotMicrophoneGainChanged(int value)
     switch (preprocessor.nPreprocessor)
     {
     case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         preprocessor = initDefaultAudioPreprocessor(NO_AUDIOPREPROCESSOR);
         TT_SetSoundInputPreprocessEx(ttInst, &preprocessor);
         TT_SetSoundInputGainLevel(ttInst, refGain(value));
