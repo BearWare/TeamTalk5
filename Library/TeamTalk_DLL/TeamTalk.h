@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User-struct. */
 
-#define TEAMTALK_VERSION "5.18.0.5153"
+#define TEAMTALK_VERSION "5.18.0.5154"
 
 
 #if defined(WIN32)
@@ -1345,20 +1345,6 @@ extern "C" {
              * 2 = High, 3 = VeryHigh. Default: 1. */
             INT32 nLevel;
         } noisesuppression;
-        /** @brief Configuration of WebRTC's voice detection. */
-        struct
-        {
-            /** @brief Use WebRTC's voice detection to trigger
-             * #CLIENTEVENT_VOICE_ACTIVATION.
-             *
-             * TT_EnableVoiceActivation() must still be called to
-             * activate voice detection event
-             * #CLIENTEVENT_VOICE_ACTIVATION.
-             *
-             * Enabling WebRTC's voice detection invalidates use of
-             * TT_SetVoiceActivationLevel() */
-            TTBOOL bEnable;
-        } voicedetection;
         /** @brief Configuration of WebRTC's gain controller 2 for
          * AGC. */
         struct
@@ -1374,32 +1360,24 @@ extern "C" {
                  * 0. */
                 float fGainDB;
             } fixeddigital;
-            /** @brief Configuration for fine tuning gain level. */
+            /** @brief Configuration for fine tuning gain level after echo
+             *  cancellation and noise suppression. */
             struct
             {
-                /* @brief Enable saturation protector where saturation
-                 * margin is 2 dB. */
+                /** @brief Enable adaptive digital controller. */
                 TTBOOL bEnable;
-                /* Range: 0 <= x <= 100. Default: 20 dB */
-                float fInitialSaturationMarginDB;
-                /* Range: 0 <= x <= 100. Default: 2 dB */
-                float fExtraSaturationMarginDB;
-                /* Range: 0 < x < infinite. Default: 3 dB/sec */
+                /** @brief Range: 0 <= x < infinite. Default: 5 dB */
+                float fHeadRoomDB;
+                /** @brief Range: 0 < x < infinite. Default: 50 dB */
+                float fMaxGainDB;
+                /** @brief Range: 0 <= x < infinite. Default: 15 dB */
+                float fInitialGainDB;
+                /** @brief Range: 0 < x < infinite. Default: 6 dB/sec */
                 float fMaxGainChangeDBPerSecond;
-                /* Range: -infinite < x < 0. Default: -50 */
+                /** @brief Range: -infinite < x < 0. Default: -50 */
                 float fMaxOutputNoiseLevelDBFS;
             } adaptivedigital;
         } gaincontroller2;
-        /** @brief Configuration of WebRTC's level estimater. */
-        struct
-        {
-            /** @brief Enable level estimater. When enabled
-             * TT_GetSoundInputLevel() will return a value based on
-             * WebRTC's level estimater. A WebRTC level estimater
-             * value of 0 will result in #SOUND_VU_MAX and level
-             * estimater value of 127 will return #SOUND_VU_MIN. */
-            TTBOOL bEnable;
-        } levelestimation;
     } WebRTCAudioPreprocessor;
 
 /** @brief Max value for fGainDB in #WebRTCAudioPreprocessor's @c gaincontroller2 */
@@ -1417,9 +1395,12 @@ extern "C" {
         SPEEXDSP_AUDIOPREPROCESSOR  = 1,
         /** @brief Use TeamTalk's internal audio preprocessor #TTAudioPreprocessor. */
         TEAMTALK_AUDIOPREPROCESSOR  = 2,
+        /** @brief WebRTC audio preprocessor used prior to TeamTalk v5.18.
+         *  Based on WebRTC r4332. */
+        WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332    = 3,
         /** @brief Use WebRTC's audio preprocessor from
          * #WebRTCAudioPreprocessor. https://webrtc.org */
-        WEBRTC_AUDIOPREPROCESSOR    = 3,
+        WEBRTC_AUDIOPREPROCESSOR    = 4,
     } AudioPreprocessorType;
 
     /** @brief Configure the audio preprocessor specified by @c nPreprocessor. */
@@ -4713,9 +4694,6 @@ extern "C" {
      * client instance joins a channel, i.e. it knows what sample rate
      * to use.
      *
-     * If #WebRTCAudioPreprocessor is active with @c levelestimation enabled
-     * then the current input level is based on WebRTC's level estimater.
-     *
      * @param lpTTInstance Pointer to client instance created by 
      * #TT_InitTeamTalk.
      * @return Returns a value between #SOUND_VU_MIN and #SOUND_VU_MAX. */
@@ -5078,9 +5056,6 @@ extern "C" {
      * TT_GetSoundInputLevel(). When TT_GetSoundInputLevel() is
      * greater or equal to voice activation level then
      * #CLIENTEVENT_VOICE_ACTIVATION is triggered.
-     *
-     * If #WebRTCAudioPreprocessor is active with @c voicedetection
-     * enabled then TT_SetVoiceActivationLevel() is not applicable.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.

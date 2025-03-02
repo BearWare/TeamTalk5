@@ -957,37 +957,27 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
 
     jclass cls = env->GetObjectClass(lpPreprocessor);
     jfieldID fid_preamp = env->GetFieldID(cls, "preamplifier", "Ldk/bearware/WebRTCAudioPreprocessor$Preamplifier;");
-    jfieldID fid_vad = env->GetFieldID(cls, "voicedetection", "Ldk/bearware/WebRTCAudioPreprocessor$VoiceDetection;");
     jfieldID fid_echo = env->GetFieldID(cls, "echocanceller", "Ldk/bearware/WebRTCAudioPreprocessor$EchoCanceller;");
     jfieldID fid_gain2 = env->GetFieldID(cls, "gaincontroller2", "Ldk/bearware/WebRTCAudioPreprocessor$GainController2;");
     jfieldID fid_ns = env->GetFieldID(cls, "noisesuppression", "Ldk/bearware/WebRTCAudioPreprocessor$NoiseSuppression;");
-    jfieldID fid_lvl = env->GetFieldID(cls, "levelestimation", "Ldk/bearware/WebRTCAudioPreprocessor$LevelEstimation;");
 
     assert(fid_preamp);
-    assert(fid_vad);
     assert(fid_echo);
     assert(fid_gain2);
     assert(fid_ns);
-    assert(fid_lvl);
 
     jobject preamp = env->GetObjectField(lpPreprocessor, fid_preamp);
-    jobject vad = env->GetObjectField(lpPreprocessor, fid_vad);
     jobject echo = env->GetObjectField(lpPreprocessor, fid_echo);
     jobject gain2 = env->GetObjectField(lpPreprocessor, fid_gain2);
     jobject ns = env->GetObjectField(lpPreprocessor, fid_ns);
-    jobject lvl = env->GetObjectField(lpPreprocessor, fid_lvl);
 
     jclass cls_preamp = env->GetObjectClass(preamp);
-    jclass cls_vad = env->GetObjectClass(vad);
     jclass cls_echo = env->GetObjectClass(echo);
     jclass cls_gain2 = env->GetObjectClass(gain2);
     jclass cls_ns = env->GetObjectClass(ns);
-    jclass cls_lvl = env->GetObjectClass(lvl);
 
     jfieldID fid_preamp_enable = env->GetFieldID(cls_preamp, "bEnable", "Z");
     jfieldID fid_preamp_factor = env->GetFieldID(cls_preamp, "fFixedGainFactor", "F");
-
-    jfieldID fid_vad_enable = env->GetFieldID(cls_vad, "bEnable", "Z");
 
     jfieldID fid_echo_enable = env->GetFieldID(cls_echo, "bEnable", "Z");
     
@@ -998,18 +988,14 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
     jfieldID fid_ns_enable = env->GetFieldID(cls_ns, "bEnable", "Z");
     jfieldID fid_ns_level = env->GetFieldID(cls_ns, "nLevel", "I");
 
-    jfieldID fid_lvl_enable = env->GetFieldID(cls_lvl, "bEnable", "Z");
-
     assert(fid_preamp_enable);
     assert(fid_preamp_factor);
-    assert(fid_vad_enable);
     assert(fid_echo_enable);
     assert(fid_gain2_enable);
     assert(fid_gain2_fixed);
     assert(fid_gain2_adap);
     assert(fid_ns_enable);
     assert(fid_ns_level);
-    assert(fid_lvl_enable);
 
     jobject fixed = env->GetObjectField(gain2, fid_gain2_fixed);
     jclass cls_fixed = env->GetObjectClass(fixed);
@@ -1020,14 +1006,16 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
     jobject adap = env->GetObjectField(gain2, fid_gain2_adap);
     jclass cls_adap = env->GetObjectClass(adap);
     jfieldID fid_adap_enable = env->GetFieldID(cls_adap, "bEnable", "Z");
-    jfieldID fid_adap_initsatmarg = env->GetFieldID(cls_adap, "fInitialSaturationMarginDB", "F");
-    jfieldID fid_adap_extrasatmarg = env->GetFieldID(cls_adap, "fExtraSaturationMarginDB", "F");
+    jfieldID fid_adap_headroom = env->GetFieldID(cls_adap, "fHeadRoomDB", "F");
+    jfieldID fid_adap_maxgaindb = env->GetFieldID(cls_adap, "fMaxGainDB", "F");
+    jfieldID fid_adap_initialgain = env->GetFieldID(cls_adap, "fInitialGainDB", "F");
     jfieldID fid_adap_maxgain = env->GetFieldID(cls_adap, "fMaxGainChangeDBPerSecond", "F");
     jfieldID fid_adap_maxoutput = env->GetFieldID(cls_adap, "fMaxOutputNoiseLevelDBFS", "F");
 
     assert(fid_adap_enable);
-    assert(fid_adap_initsatmarg);
-    assert(fid_adap_extrasatmarg);
+    assert(fid_adap_headroom);
+    assert(fid_adap_maxgaindb);
+    assert(fid_adap_initialgain);
     assert(fid_adap_maxgain);
     assert(fid_adap_maxoutput);
 
@@ -1035,8 +1023,6 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
         // preamplifier
         env->SetBooleanField(preamp, fid_preamp_enable, preprocessor.preamplifier.bEnable);
         env->SetFloatField(preamp, fid_preamp_factor, preprocessor.preamplifier.fFixedGainFactor);
-        // voice detection
-        env->SetBooleanField(vad, fid_vad_enable, preprocessor.voicedetection.bEnable);
         // echo canceller
         env->SetBooleanField(echo, fid_echo_enable, preprocessor.echocanceller.bEnable);
         // fixed digital
@@ -1044,22 +1030,19 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
         env->SetFloatField(fixed, fid_gain2_gain, preprocessor.gaincontroller2.fixeddigital.fGainDB);
         // adaptive digital
         env->SetBooleanField(adap, fid_adap_enable, preprocessor.gaincontroller2.adaptivedigital.bEnable);
-        env->SetFloatField(adap, fid_adap_initsatmarg, preprocessor.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB);
-        env->SetFloatField(adap, fid_adap_extrasatmarg, preprocessor.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB);
+        env->SetFloatField(adap, fid_adap_headroom, preprocessor.gaincontroller2.adaptivedigital.fHeadRoomDB);
+        env->SetFloatField(adap, fid_adap_maxgaindb, preprocessor.gaincontroller2.adaptivedigital.fMaxGainDB);
+        env->SetFloatField(adap, fid_adap_initialgain, preprocessor.gaincontroller2.adaptivedigital.fInitialGainDB);
         env->SetFloatField(adap, fid_adap_maxgain, preprocessor.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond);
         env->SetFloatField(adap, fid_adap_maxoutput, preprocessor.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS);
         // noise suppressor
         env->SetBooleanField(ns, fid_ns_enable, preprocessor.noisesuppression.bEnable);
         env->SetIntField(ns, fid_ns_level, preprocessor.noisesuppression.nLevel);
-        // level estimation
-        env->SetBooleanField(lvl, fid_lvl_enable, preprocessor.levelestimation.bEnable);
     }
     else {
         // preamplifier
         preprocessor.preamplifier.bEnable = env->GetBooleanField(preamp, fid_preamp_enable);
         preprocessor.preamplifier.fFixedGainFactor = env->GetFloatField(preamp, fid_preamp_factor);
-        // voice detection
-        preprocessor.voicedetection.bEnable = env->GetBooleanField(vad, fid_vad_enable);
         // echo canceller
         preprocessor.echocanceller.bEnable = env->GetBooleanField(echo, fid_echo_enable);
         // fixed digital
@@ -1067,15 +1050,14 @@ void setWebRTCAudioPreprocessor(JNIEnv* env, WebRTCAudioPreprocessor& preprocess
         preprocessor.gaincontroller2.fixeddigital.fGainDB = env->GetFloatField(fixed, fid_gain2_gain);
         // adaptive digital
         preprocessor.gaincontroller2.adaptivedigital.bEnable = env->GetBooleanField(adap, fid_adap_enable);
-        preprocessor.gaincontroller2.adaptivedigital.fInitialSaturationMarginDB = env->GetFloatField(adap, fid_adap_initsatmarg);
-        preprocessor.gaincontroller2.adaptivedigital.fExtraSaturationMarginDB = env->GetFloatField(adap, fid_adap_extrasatmarg);
+        preprocessor.gaincontroller2.adaptivedigital.fHeadRoomDB = env->GetFloatField(adap, fid_adap_headroom);
+        preprocessor.gaincontroller2.adaptivedigital.fMaxGainDB = env->GetFloatField(adap, fid_adap_maxgaindb);
+        preprocessor.gaincontroller2.adaptivedigital.fInitialGainDB = env->GetFloatField(adap, fid_adap_initialgain);
         preprocessor.gaincontroller2.adaptivedigital.fMaxGainChangeDBPerSecond = env->GetFloatField(adap, fid_adap_maxgain);
         preprocessor.gaincontroller2.adaptivedigital.fMaxOutputNoiseLevelDBFS = env->GetFloatField(adap, fid_adap_maxoutput);
         // noise suppressor
         preprocessor.noisesuppression.bEnable = env->GetBooleanField(ns, fid_ns_enable);
         preprocessor.noisesuppression.nLevel = env->GetIntField(ns, fid_ns_level);
-        // level estimation
-        preprocessor.levelestimation.bEnable = env->GetBooleanField(lvl, fid_lvl_enable);
     }
 
 }
@@ -1103,6 +1085,7 @@ void setAudioPreprocessor(JNIEnv* env, AudioPreprocessor& preprocessor, jobject 
 
     switch (preprocessor.nPreprocessor) {
     case NO_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR :
         setSpeexDSP(env, preprocessor.speexdsp, spx, conv);
