@@ -1412,6 +1412,7 @@ private EditText newmsg;
             userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight | operatorRight).setVisible(banRight | operatorRight);
             userActions.getMenu().findItem(R.id.action_bansrv).setEnabled(banRight).setVisible(banRight);
             userActions.getMenu().findItem(R.id.action_makeop).setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
+            userActions.getMenu().findItem(R.id.action_select).setTitle(userIDS.contains(selectedUser.nUserID) ? R.string.action_deselect : R.string.action_select);
             userActions.getMenu().findItem(R.id.action_select).setEnabled(moveRight).setVisible(moveRight);
             userActions.show();
             return true;
@@ -1425,7 +1426,7 @@ private EditText newmsg;
             PopupMenu channelActions = new PopupMenu(this, v);
             channelActions.setOnMenuItemClickListener(this);
             channelActions.inflate(R.menu.channel_actions);
-            channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight).setVisible(moveRight);
+            channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight && !userIDS.isEmpty()).setVisible(moveRight && !userIDS.isEmpty());
             channelActions.show();
             return true;
         }
@@ -1496,8 +1497,12 @@ private EditText newmsg;
             userIDS.clear();
             break;
         case R.id.action_select:
-            userIDS.add(selectedUser.nUserID);
-            break;
+    if (userIDS.contains(selectedUser.nUserID)) {
+        userIDS.remove((Integer) selectedUser.nUserID);
+    } else {
+        userIDS.add(selectedUser.nUserID);
+    }
+    break;
         case R.id.action_remove: {
             alert.setMessage(getString(R.string.channel_remove_confirmation, selectedChannel.szName));
             alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
