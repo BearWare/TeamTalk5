@@ -146,6 +146,7 @@
     <string name="action_kicksrv">Kick from server</string>
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
+    <string name="action_deselect">Deselect For Move</string>
     <string name="action_upload">Upload File</string>
     <string name="action_stream">Stream a media file</string>
     <string name="button_select_media_file">Browse</string>
