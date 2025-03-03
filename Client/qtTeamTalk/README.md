@@ -24,15 +24,15 @@ from https://www.qt.io/
 Setup Qt Framework in environment variables so CMake can detect Qt
 Framework, e.g.:
 
-`# set QTDIR=c:\Qt\6.7.1\msvc2019_64`
+`# set QTDIR=c:\Qt\6.8.0\msvc2022_64`
 `# set PATH=%QTDIR%\bin;%PATH%`
 
 Now use CMake to generate project files:
 
-`cmake -G "Visual Studio 16 2019" -A x64 -S C:/TeamTalk5 -B builddir`
+`cmake -G "Visual Studio 17 2022" -A x64 -S C:/TeamTalk5 -B builddir`
 `cmake --build builddir
 
-To open the generated project files in Visual Studio 2019 open
+To open the generated project files in Visual Studio 2022 open
 *TeamTalk5.vcxproj*.
 
 ## Update Translation Files for Qt-based TeamTalk 5

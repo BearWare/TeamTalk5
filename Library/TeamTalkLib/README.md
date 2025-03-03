@@ -105,10 +105,10 @@ there's different ways of doing this.
 ### Build TeamTalk Binaries for Windows
 
 Building TeamTalk for Windows is supported by
-[Visual Studio 2019](https://visualstudio.microsoft.com).
+[Visual Studio 2022](https://visualstudio.microsoft.com).
 
 To build TeamTalk for Windows first start *x86 Native Tools Command
-Prompt for VS 2019*. Use Git to clone
+Prompt for VS 2022*. Use Git to clone
 [TeamTalk5](https://github.com/BearWare/TeamTalk5) repository into
 `C:\TeamTalk5`.
 
@@ -123,9 +123,9 @@ start the build process:
 `cmake --build C:/builddir --config Release --target install`
 
 To get a Visual Studio solution file for building TeamTalk from Visual
-Studio 2019 run CMake like this:
+Studio 2022 run CMake like this:
 
-`cmake -G "Visual Studio 16 2019" -S C:/TeamTalk5 -B C:/builddir -A Win32`
+`cmake -G "Visual Studio 17 2022" -S C:/TeamTalk5 -B C:/builddir -A Win32`
 
 Note that WebRTC dependency will create a folder in `C:\webrtc` where
 it downloads its repository.
