@@ -24,12 +24,12 @@ jobs:
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
-          - name: VS2019Release64
-            vmimage: windows-2019
+          - name: VS2022Release64
+            vmimage: windows-2022
             cmakeplatform: x64
             dotnetarch: x64
-            qtarch: win64_msvc2019_64
-            qtversion: '6.5.*'
+            qtarch: win64_msvc2022_64
+            qtversion: '6.8.*'
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
