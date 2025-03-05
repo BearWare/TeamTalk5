@@ -55,6 +55,7 @@ bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infrm,
                      media::AudioFrame& outfrm, webrtc::AudioProcessingStats* stats /*= nullptr*/)
 {
+    assert(infrm.inputfmt.IsValid());
     assert(!outfrm.inputfmt.IsValid() || infrm.inputfmt == outfrm.inputfmt);
 
     webrtc::StreamConfig in_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels),
@@ -62,8 +63,12 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         echo_cfg(infrm.outputfmt.samplerate, infrm.outputfmt.channels);
 
     bool echo = apm.GetConfig().echo_canceller.enabled;
+    // Check that echo cancellation is configured correctly.
+    // Output frame must be available in order to echo cancel.
+    if (echo && infrm.inputfmt != infrm.outputfmt)
+        return -1;
+
     assert(!echo || infrm.outputfmt.IsValid());
-    assert(!echo || infrm.inputfmt == infrm.outputfmt);
 
     if (echo)
     {
