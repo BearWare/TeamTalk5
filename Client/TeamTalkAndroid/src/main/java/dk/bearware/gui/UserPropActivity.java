@@ -122,7 +122,9 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     void showUser() {
         TextView nickname = findViewById(R.id.user_nickname);
         TextView username = findViewById(R.id.user_username);
+        TextView statusmsg = findViewById(R.id.user_statusmsg);
         TextView clientname = findViewById(R.id.user_clientname);
+        TextView ipaddress = findViewById(R.id.user_ipaddress);
         final SeekBar voiceVol = findViewById(R.id.user_vol_voiceSeekBar);
         final Button defVoiceBtn = findViewById(R.id.defVoiceVolBtn);
         final SwitchCompat voiceMute = findViewById(R.id.user_mutevoiceSwitch);
@@ -145,7 +147,9 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
 
         nickname.setText(user.szNickname);
         username.setText(user.szUsername);
+        statusmsg.setText(user.szStatusMsg);
         clientname.setText(String.format("%s %s %d.%d.%d",user.szClientName,getString(R.string.user_prop_clientversion) , ((user.uVersion >> 16) & 0xFF) , ((user.uVersion >> 8) & 0xFF) , (user.uVersion & 0xFF)));
+        ipaddress.setText(user.szIPAddress);
         voiceVol.setMax(100);
         voiceVol.setProgress(Utils.refVolumeToPercent(user.nVolumeVoice));
         mediaVol.setMax(100);
