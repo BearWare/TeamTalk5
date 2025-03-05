@@ -283,6 +283,9 @@ QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
 {
     QStringList result;
 
+    AudioPreprocessor preprocess = {};
+    TT_GetSoundInputPreprocessEx(ttInst, &preprocess);
+
     TT_CloseSoundInputDevice(ttInst);
     TT_CloseSoundOutputDevice(ttInst);
     TT_CloseSoundDuplexDevices(ttInst);
@@ -314,6 +317,14 @@ QStringList initSelectedSoundDevices(SoundDevice& indev, SoundDevice& outdev)
     }
 
     TT_SetSoundDeviceEffects(ttInst, &effects);
+
+    // disable WebRTC echo cancel if duplex mode is disabled
+    if (preprocess.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR)
+    {
+        preprocess.webrtc.echocanceller.bEnable &= duplex;
+    }
+
+    TT_SetSoundInputPreprocessEx(ttInst, & preprocess);
 
     if (duplex)
     {
