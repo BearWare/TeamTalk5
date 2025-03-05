@@ -20,6 +20,11 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
+<<<<<<< Updated upstream
+=======
+- IP Address and status message is now shown on user Properties dialog
+Fixed the "select for move" option selected users multiple times, it is now a toggle option between select and deselect user
+>>>>>>> Stashed changes
 - Minimum supported Android v8.1 (Oreo)
 - WebRTC updated from r4332 to r6818
 iOS Client
