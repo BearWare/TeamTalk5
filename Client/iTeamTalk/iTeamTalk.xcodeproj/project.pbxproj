@@ -715,7 +715,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.16;
+				MARKETING_VERSION = 5.18;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
@@ -745,7 +745,7 @@
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
-				MARKETING_VERSION = 5.16;
+				MARKETING_VERSION = 5.18;
 				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
