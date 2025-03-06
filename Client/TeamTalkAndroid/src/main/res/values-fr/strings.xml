@@ -141,6 +141,7 @@
     <string name="action_kicksrv">Exclure du serveur</string>
     <string name="action_move">Déplacer ici</string>
     <string name="action_select">Sélectionner pour déplacer</string>
+    <string name="action_deselect">Retirer de la sélection pour déplacement</string>
     <string name="action_upload">Téléverser un fichier</string>
     <string name="action_stream">Diffuser un fichier média</string>
     <string name="button_select_media_file">Parcourir</string>
@@ -164,7 +165,9 @@
 
 
     <string name="user_prop_title_username">Nom d\'utilisateur</string>
+    <string name="user_prop_title_statusmsg">Message de statut</string>
     <string name="user_prop_title_clientname">Nom du client</string>
+    <string name="user_prop_title_ipaddress">Adresse IP</string>
     <string name="user_prop_title_voice_volume">Volume de la voix</string>
     <string name="user_prop_title_mute_voice">Couper la voix</string>
     <string name="user_prop_title_media_volume">Volume des fichiers média</string>
