@@ -142,6 +142,7 @@
     <string name="action_kicksrv">Выгнать с сервера</string>
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
+    <string name="action_deselect">Отменить Выбор</string>
     <string name="action_upload">Выложить Файл</string>
     <string name="action_stream">Трансляция медиафайла</string>
     <string name="button_select_media_file">Просмотр</string>
@@ -164,8 +165,10 @@
     <string name="channel_prop_title_noaudiorecord">Запрет Аудиозаписи</string>
 
     <string name="user_prop_title_username">Имя Пользователя</string>
+    <string name="user_prop_title_statusmsg">Сообщение о Состоянии</string>
     <string name="user_prop_title_clientname">Имя клиента</string>
     <string name="user_prop_clientversion">версия</string>
+    <string name="user_prop_title_ipaddress">IP Адрес</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
