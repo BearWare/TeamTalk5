@@ -146,6 +146,7 @@
     <string name="action_kicksrv">بیرون کردن از سِروِر</string>
     <string name="action_move">انتقال</string>
     <string name="action_select">انتخاب</string>
+    <string name="action_deselect">لغو انتخاب برای انتقال</string>
     <string name="action_upload">آپلود</string>
     <string name="action_stream">استریم</string>
     <string name="button_select_media_file">انتخاب فایل</string>
@@ -169,7 +170,9 @@
 
 
     <string name="user_prop_title_username">نام کاربری</string>
+    <string name="user_prop_title_statusmsg">پیام وضعیت</string>
     <string name="user_prop_title_clientname">نام کلاینت</string>
+    <string name="user_prop_title_ipaddress">آدرس آیپی</string>
     <string name="user_prop_clientversion">نسخۀ</string>
     <string name="user_prop_title_voice_volume">صدا</string>
     <string name="user_prop_title_mute_voice">قطع صدا</string>
