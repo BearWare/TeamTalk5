@@ -40,6 +40,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
@@ -338,13 +340,33 @@ extends AppCompatActivity
     }
 
     @Override
-    public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
-        Intent intent = new Intent(this, ServerEntryActivity.class);
-
+    public boolean onItemLongClick(AdapterView<?> l, View v, int position, long id) {
         ServerEntry entry = servers.elementAt(position);
 
-        startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position),
-            REQUEST_EDITSERVER);
+        PopupMenu serverActions = new PopupMenu(this, v);
+        serverActions.inflate(R.menu.server_actions);
+        serverActions.setOnMenuItemClickListener(item -> {
+            switch (item.getItemId()) {
+                case R.id.action_editsrv:
+                    Intent intent = new Intent(this, ServerEntryActivity.class);
+                    startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
+                    return true;
+                case R.id.action_removesrv:
+                    AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
+                    alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
+                    alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                        servers.remove(position);
+                        adapter.notifyDataSetChanged();
+                        saveServers();
+                    });
+                    alert.setNegativeButton(android.R.string.no, null);
+                    alert.show();
+                    return true;
+                default:
+                    return false;
+            }
+        });
+        serverActions.show();
         return true;
     }
 
@@ -435,20 +457,6 @@ extends AppCompatActivity
             }
             ServerEntry entry = servers.get(position);
             summary.setText(getString(R.string.text_server_summary, entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
-            View editButton = convertView.findViewById(R.id.server_edit);
-            if (editButton != null)
-                editButton.setOnClickListener(v -> onItemLongClick(getListFragment().getListView(), v, position, v.getId()));
-            convertView.findViewById(R.id.server_remove).setOnClickListener(v -> {
-                AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
-                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    servers.remove(position);
-                    notifyDataSetChanged();
-                    saveServers();
-                });
-                alert.setNegativeButton(android.R.string.no, null);
-                alert.show();
-            });
 
             return convertView;
         }
