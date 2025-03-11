@@ -4,6 +4,8 @@
 
 Version 5.18, unreleased
 Default Qt Client
+- Fixed a security bug where channel operators could access server bans menu with out rights
+- Fixed a bug where download file option in channels menu enabled even when no files selected, allowing empty file download
 - Media tab in main window for controlling media file streaming
 - Support "{username}" variable for majority of TTS and status events related to user action
 - Indication when user is sharing desktop in channel list
