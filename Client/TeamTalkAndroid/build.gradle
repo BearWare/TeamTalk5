@@ -15,8 +15,6 @@ buildscript {
 apply plugin: 'com.android.application'
 
 android {
-    buildToolsVersion '33.0.1'
-    compileSdkVersion 34
     namespace 'dk.bearware.gui'
 
     buildFeatures {
@@ -30,6 +28,7 @@ android {
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 27
+        compileSdk 34
         targetSdkVersion 34
         versionCode 135
         versionName '5.18'
