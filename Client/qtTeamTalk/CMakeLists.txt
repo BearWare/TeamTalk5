@@ -34,6 +34,13 @@ endif()
 # TextToSpeech was introduced in Qt 6.4
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
+if (WIN32)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/WinToast)
+  set(WINTOAST_SOURCES
+    3rdparty/WinToast/wintoastlib.cpp
+  )
+endif()
+
 if (Qt5_FOUND OR Qt6_FOUND)
 
   if (MSVC)
@@ -124,6 +131,14 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
+if (WIN32)
+  list(APPEND QTTEAMTALK_SOURCES ${WINTOAST_SOURCES})
+endif()
+
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+  list(APPEND QTTEAMTALK_SOURCES utilui.mm)
+endif()
+
   if (Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
     if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -148,7 +163,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     find_library (CARBON_LIBRARY Carbon)
     find_library (IOKIT_LIBRARY IOKit)
-    list (APPEND TEAMTALK_LINK_FLAGS ${CARBON_LIBRARY} ${IOKIT_LIBRARY})
+    find_library (FOUNDATION_FRAMEWORK Foundation)
+    find_library (APPKIT_FRAMEWORK AppKit)
+    list (APPEND TEAMTALK_LINK_FLAGS ${CARBON_LIBRARY} ${IOKIT_LIBRARY} ${FOUNDATION_FRAMEWORK} ${APPKIT_FRAMEWORK})
 
     set (MACOSX_BUNDLE_ICON_FILE teamtalk.icns)
     set (TEAMTALK_ICON_FILE ${CMAKE_CURRENT_SOURCE_DIR}/images/teamtalk.icns)

@@ -32,6 +32,7 @@
 #include <QPushButton>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
+#include <QProcess>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
 #include <QDesktopWidget>
 #include <QApplication>
@@ -43,6 +44,9 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
+#if defined(Q_OS_MAC)
+extern void showNotification(const QString &title, const QString &message);
+#endif
 
 void migrateSettings()
 {
@@ -165,6 +169,16 @@ void migrateSettings()
         if (ttSettings->contains("display/show-emoji") && ttSettings->value("display/show-emoji").toBool() == false)
             ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, STYLE_NONE);
         ttSettings->remove("display/show-emoji");
+
+        // TTSENGINE_NOTIFY removed in 5.5 format
+#if defined(Q_OS_LINUX)
+        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == 2)
+        {
+            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_NONE);
+            ttSettings->setValue(SETTINGS_TTS_TOAST, true);
+            ttSettings->remove("texttospeech/tts-timestamp");
+        }
+#endif
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
@@ -663,3 +677,94 @@ QString PasswordDialog::getPassword() const
 {
     return passEdit->text();
 }
+
+#if defined(Q_OS_WIN)
+#include "3rdparty/WinToast/wintoastlib.h"
+#include <Windows.h>
+
+using namespace WinToastLib;
+
+std::wstring stringToWString(const std::string& str)
+{
+    if (str.empty())
+    {
+        return std::wstring();
+    }
+    int size_needed = MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), NULL, 0);
+    std::wstring wstrTo(size_needed, 0);
+    MultiByteToWideChar(CP_UTF8, 0, &str[0], (int)str.size(), &wstrTo[0], size_needed);
+    return wstrTo;
+}
+
+class CustomHandler : public IWinToastHandler {
+public:
+    void toastActivated() const override {
+        std::wcout << L"The user clicked in this toast" << std::endl;
+    }
+
+    void toastActivated(int actionIndex) const override {
+        std::wcout << L"The user clicked on button #" << actionIndex << L" in this toast" << std::endl;
+    }
+
+    void toastActivated(const char* arguments) const override {
+        std::wcout << L"The user clicked in this toast with arguments: " << arguments << std::endl;
+    }
+
+    void toastFailed() const override {
+        std::wcout << L"Error showing current toast" << std::endl;
+    }
+
+    void toastDismissed(WinToastDismissalReason state) const override {
+        switch (state) {
+        case UserCanceled:
+            std::wcout << L"The user dismissed this toast" << std::endl;
+            break;
+        case ApplicationHidden:
+            std::wcout << L"The application hid the toast using ToastNotifier.hide()" << std::endl;
+            break;
+        case TimedOut:
+            std::wcout << L"The toast has timed out" << std::endl;
+            break;
+        default:
+            std::wcout << L"Toast not activated" << std::endl;
+            break;
+        }
+    }
+};
+
+void showNotification(const QString &title, const QString &message)
+{
+    WinToast::instance()->setAppName(stringToWString(APPNAME_SHORT));
+    WinToast::instance()->setAppUserModelId(WinToast::configureAUMI(
+        stringToWString(COMPANYNAME),
+        stringToWString(APPNAME_SHORT),
+        stringToWString(APPNAME_SHORT),
+        stringToWString(APPVERSION_SHORT)
+    ));
+
+    if (!WinToast::instance()->initialize())
+        return;
+
+    WinToastTemplate templ = WinToastTemplate(WinToastTemplate::Text02);
+    templ.setTextField(title.toStdWString(), WinToastTemplate::FirstLine);
+    templ.setTextField(message.toStdWString(), WinToastTemplate::SecondLine);
+
+    if (WinToast::instance()->showToast(templ, new CustomHandler()) < 0) {
+        return;
+    }
+}
+#elif defined(Q_OS_LINUX)
+void showNotification(const QString &title, const QString &message)
+{
+    QString noquote = message;
+    noquote.replace('"', ' ');
+    QProcess ps;
+    ps.startDetached(QString("%1 -a \"%2\" -u low \"%3: %4\"")
+        .arg(NOTIFY_PATH)
+        .arg(APPNAME_SHORT)
+        .arg(APPNAME_SHORT)
+        .arg(noquote));
+}
+#elif defined(Q_OS_MAC)
+#include "utilui.mm"
+#endif

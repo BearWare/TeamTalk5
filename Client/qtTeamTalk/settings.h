@@ -406,10 +406,7 @@
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"
 #define SETTINGS_TTS_VOLUME_DEFAULT                 0.5
-#if defined(Q_OS_LINUX)
-#define SETTINGS_TTS_TIMESTAMP                         "texttospeech/tts-timestamp"
-#define SETTINGS_TTS_TIMESTAMP_DEFAULT                 1000
-#elif defined(Q_OS_WIN)
+#if defined(Q_OS_WIN)
 #define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
 #define SETTINGS_TTS_SAPI_DEFAULT                 false
 #define SETTINGS_TTS_TRY_SAPI                         "texttospeech/try-sapi"
@@ -421,6 +418,8 @@
 #define SETTINGS_TTS_ASSERTIVE                         "texttospeech/assertive"
 #define SETTINGS_TTS_ASSERTIVE_DEFAULT                 false
 #endif
+#define SETTINGS_TTS_TOAST                         "texttospeech/toast-notif"
+#define SETTINGS_TTS_TOAST_DEFAULT                 false
 
 #define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech/messages/user-logged-in"
 #define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")
