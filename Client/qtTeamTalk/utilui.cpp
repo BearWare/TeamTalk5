@@ -21,6 +21,7 @@
 #include "appinfo.h"
 #include "utilsound.h"
 #include "utilhotkey.h"
+#include "utiltts.h"
 
 #include <QTranslator>
 #include <QDir>
@@ -172,7 +173,7 @@ void migrateSettings()
 
         // TTSENGINE_NOTIFY removed in 5.5 format
 #if defined(Q_OS_LINUX)
-        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == 2)
+        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == 3)
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_NONE);
             ttSettings->setValue(SETTINGS_TTS_TOAST, true);
