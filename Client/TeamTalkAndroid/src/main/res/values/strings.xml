@@ -147,6 +147,8 @@
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
     <string name="action_deselect">Deselect For Move</string>
+    <string name="action_editsrv">Edit server</string>
+    <string name="action_removesrv">Remove server</string>
     <string name="action_upload">Upload File</string>
     <string name="action_stream">Stream a media file</string>
     <string name="button_select_media_file">Browse</string>
