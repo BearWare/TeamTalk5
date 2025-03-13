@@ -17,6 +17,10 @@
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_upload"/>
     <item
+        android:id="@+id/action_broadcast"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_broadcast"/>
+    <item
         android:id="@+id/action_stream"
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_stream"/>

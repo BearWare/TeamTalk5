@@ -21,6 +21,7 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
+- Added the ability to send broadcast messages
 - Redesigned server list dialog to remove the old remove server button and make it to use popup menus, results in a more clear and modern dialog, and fast navigating for screenreader users
 - IP Address and status message is now shown in User Properties dialog
 - Ability to select/deselect user for move to other channel
