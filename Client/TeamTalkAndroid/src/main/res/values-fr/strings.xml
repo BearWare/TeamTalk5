@@ -393,5 +393,7 @@
     <string name="action_make_operator">Rendre Opérateur</string>
     <string name="action_revoke_operator">Révoquer l\'opérateur</string>
     <string name="text_operator_password">Entrer le mot de passe de l\'opérateur du canal</string>
+    <string name="action_editsrv">Éditer le serveur</string>
+    <string name="action_removesrv">Supprimer le serveur</string>
 
 </resources>
