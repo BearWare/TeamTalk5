@@ -28,6 +28,9 @@
 #include <QAccessible>
 #include <QAccessibleAnnouncementEvent>
 #endif
+#if defined(Q_OS_MAC)
+#include <QProcess>
+#endif
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
