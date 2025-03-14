@@ -404,6 +404,8 @@
     <string name="action_make_operator">تعیین به‌عنوان اپراتور</string>
     <string name="action_revoke_operator">برداشتن دسترسی اپراتور</string>
     <string name="text_operator_password">رمز اپراتور</string>
+    <string name="action_editsrv">ویرایشِ سِروِر</string>
+    <string name="action_removesrv">حذفِ سِروِر</string>
 
 
 </resources>
