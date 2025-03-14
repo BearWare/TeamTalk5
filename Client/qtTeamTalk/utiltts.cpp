@@ -83,6 +83,10 @@ QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 
 void addTextToSpeechMessage(const QString& msg)
 {
+#ifndef Q_OS_DARWIN
+    if (ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool())
+        showNotification(APPNAME_SHORT, msg);
+#endif
     switch (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt())
     {
     case TTSENGINE_QT:
@@ -134,8 +138,6 @@ void addTextToSpeechMessage(const QString& msg)
 #endif
         break;
     }
-    if (ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool())
-        showNotification(APPNAME_SHORT, msg);
 }
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)

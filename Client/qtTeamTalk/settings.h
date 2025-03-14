@@ -418,8 +418,10 @@
 #define SETTINGS_TTS_ASSERTIVE                         "texttospeech/assertive"
 #define SETTINGS_TTS_ASSERTIVE_DEFAULT                 false
 #endif
+#ifndef Q_OS_DARWIN
 #define SETTINGS_TTS_TOAST                         "texttospeech/toast-notif"
 #define SETTINGS_TTS_TOAST_DEFAULT                 false
+#endif
 
 #define SETTINGS_TTSMSG_USER_LOGGEDIN                         "texttospeech/messages/user-logged-in"
 #define SETTINGS_TTSMSG_USER_LOGGEDIN_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "{user} has logged in on {server}")

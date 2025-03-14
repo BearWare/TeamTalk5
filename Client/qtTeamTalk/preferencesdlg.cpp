@@ -1491,7 +1491,11 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+#if defined(Q_OS_DARWIN)
+    ui.ttsToastChkBox->hide();
+#else
     ui.ttsToastChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool());
+#endif
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)

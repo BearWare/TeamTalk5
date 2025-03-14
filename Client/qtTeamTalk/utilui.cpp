@@ -45,9 +45,6 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 extern QTranslator* ttTranslator;
-#if defined(Q_OS_MAC)
-extern void showNotification(const QString &title, const QString &message);
-#endif
 
 void migrateSettings()
 {
@@ -766,6 +763,4 @@ void showNotification(const QString &title, const QString &message)
         .arg(APPNAME_SHORT)
         .arg(noquote));
 }
-#elif defined(Q_OS_MAC)
-#include "utilui.mm"
 #endif
