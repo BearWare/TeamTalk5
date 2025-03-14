@@ -756,11 +756,12 @@ void showNotification(const QString &title, const QString &message)
 {
     QString noquote = message;
     noquote.replace('"', ' ');
-    QProcess ps;
-    ps.startDetached(QString("%1 -a \"%2\" -u low \"%3: %4\"")
-        .arg(NOTIFY_PATH)
-        .arg(APPNAME_SHORT)
-        .arg(APPNAME_SHORT)
-        .arg(noquote));
+    QStringList arguments;
+    arguments << "-t" << "3" 
+            << "-a" << title
+            << "-u" << "low"
+            << QString("%1: %2").arg(APPNAME_SHORT, noquote);
+
+    QProcess::startDetached(NOTIFY_PATH, arguments);
 }
 #endif
