@@ -1576,7 +1576,7 @@
      </widget>
      <widget class="QWidget" name="ttsTab">
       <attribute name="title">
-       <string>Text To Speech</string>
+       <string>Notification</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_22">
        <item>
@@ -1858,6 +1858,13 @@
              <widget class="QCheckBox" name="ttsAssertiveChkBox">
               <property name="text">
                <string>Interrupt current screenreader speech on new event</string>
+              </property>
+             </widget>
+            </item>
+            <item row="10" column="0" colspan="2">
+             <widget class="QCheckBox" name="ttsToastChkBox">
+              <property name="text">
+               <string>Use toast notification</string>
               </property>
              </widget>
             </item>

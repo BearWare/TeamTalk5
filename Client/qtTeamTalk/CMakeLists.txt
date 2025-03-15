@@ -34,6 +34,13 @@ endif()
 # TextToSpeech was introduced in Qt 6.4
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
+if (WIN32)
+  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/WinToast)
+  set(WINTOAST_SOURCES
+    3rdparty/WinToast/wintoastlib.cpp 3rdparty/WinToast/wintoastlib.h
+  )
+endif()
+
 if (Qt5_FOUND OR Qt6_FOUND)
 
   if (MSVC)
@@ -123,6 +130,10 @@ if (Qt5_FOUND OR Qt6_FOUND)
     serverdlg.ui useraccountdlg.ui
     resources.qrc mainwindow.rc
     )
+
+if (WIN32)
+  list(APPEND QTTEAMTALK_SOURCES ${WINTOAST_SOURCES})
+endif()
 
   if (Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)

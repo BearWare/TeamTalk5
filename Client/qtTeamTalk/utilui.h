@@ -126,6 +126,8 @@ enum VideoText
     VIDTEXT_SHOW_STATUSTEXT          = 0x0040,
 };
 
+#define NOTIFY_PATH "/usr/bin/notify-send"
+
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
                      const QColor& fgcolor, const QString& text,
                      quint32 text_pos, int w_percent, int h_percent,
@@ -213,4 +215,6 @@ public:
 private:
     QLineEdit *passEdit;
 };
+
+    void showNotification(const QString &title, const QString &message);
 #endif
