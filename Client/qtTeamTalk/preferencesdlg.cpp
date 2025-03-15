@@ -1046,7 +1046,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
     }
-#ifndef Q_OS_DARWIN
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
 #endif
 }

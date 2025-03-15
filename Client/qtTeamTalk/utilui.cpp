@@ -170,7 +170,7 @@ void migrateSettings()
 
         // TTSENGINE_NOTIFY removed in 5.5 format
 #if defined(Q_OS_LINUX)
-        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == 3)
+        if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == TTSENGINE_NOTIFY_OBSOLETE)
         {
             ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_NONE);
             ttSettings->setValue(SETTINGS_TTS_TOAST, true);

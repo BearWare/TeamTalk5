@@ -37,7 +37,7 @@ find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 if (WIN32)
   include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/WinToast)
   set(WINTOAST_SOURCES
-    3rdparty/WinToast/wintoastlib.cpp
+    3rdparty/WinToast/wintoastlib.cpp 3rdparty/WinToast/wintoastlib.h
   )
 endif()
 

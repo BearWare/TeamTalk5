@@ -418,7 +418,7 @@
 #define SETTINGS_TTS_ASSERTIVE                         "texttospeech/assertive"
 #define SETTINGS_TTS_ASSERTIVE_DEFAULT                 false
 #endif
-#ifndef Q_OS_DARWIN
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
 #define SETTINGS_TTS_TOAST                         "texttospeech/toast-notif"
 #define SETTINGS_TTS_TOAST_DEFAULT                 false
 #endif

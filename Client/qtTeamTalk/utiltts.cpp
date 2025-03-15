@@ -137,7 +137,7 @@ void addTextToSpeechMessage(const QString& msg)
 #endif
         break;
     }
-#ifndef Q_OS_DARWIN
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
     if (ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool())
         showNotification(APPNAME_SHORT, msg);
 #endif
