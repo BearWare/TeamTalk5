@@ -1576,7 +1576,7 @@
      </widget>
      <widget class="QWidget" name="ttsTab">
       <attribute name="title">
-       <string>Notification</string>
+       <string>Text To Speech</string>
       </attribute>
       <layout class="QHBoxLayout" name="horizontalLayout_22">
        <item>
