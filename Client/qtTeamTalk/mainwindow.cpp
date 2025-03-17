@@ -899,7 +899,10 @@ void MainWindow::initialScreenReaderSetup()
 #if defined(ENABLE_TOLK)
                 ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
-                ttSettings->setValue(SETTINGS_TTS_ENGINE, QFile::exists(TTSENGINE_NOTIFY_PATH) ? TTSENGINE_NOTIFY : TTSENGINE_QT);
+                if (QFile::exists(NOTIFY_PATH))
+                    ttSettings->value(SETTINGS_TTS_TOAST, true);
+                else
+                    ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
             }
