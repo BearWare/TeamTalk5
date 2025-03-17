@@ -1065,6 +1065,10 @@ public class TeamTalkService extends Service
                 getUserTextMsgs(textmessage.nFromUserID).add(newmsg);
                 break;
             }
+            case TextMsgType.MSGTYPE_BROADCAST : {
+                getChatLogTextMsgs().add(newmsg);
+                break;
+            }
             case TextMsgType.MSGTYPE_CHANNEL : {
                 getChatLogTextMsgs().add(newmsg);
                 break;

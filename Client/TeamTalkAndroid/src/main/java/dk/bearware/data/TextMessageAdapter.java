@@ -149,6 +149,7 @@ public class TextMessageAdapter extends BaseAdapter {
         
         switch(txtmsg.nMsgType) {
             case TextMsgType.MSGTYPE_CHANNEL :
+            case TextMsgType.MSGTYPE_BROADCAST :
             case TextMsgType.MSGTYPE_USER : {
                 if(convertView == null ||
                    convertView.findViewById(R.id.item_textmsg) == null)
