@@ -2183,6 +2183,7 @@ private EditText newmsg;
                 String name = Utils.getDisplayName(getBaseContext(), sender);
                 ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
             }
+            Log.d(TAG, "Broadcast message in " + this.hashCode());
             break;
         case TextMsgType.MSGTYPE_USER :
             if (sounds.get(SOUND_USERMSG) != 0)
