@@ -345,18 +345,6 @@
            <property name="accessibleName">
             <string>History</string>
            </property>
-           <property name="tabChangesFocus">
-            <bool>true</bool>
-           </property>
-           <property name="undoRedoEnabled">
-            <bool>false</bool>
-           </property>
-           <property name="readOnly">
-            <bool>true</bool>
-           </property>
-           <property name="textInteractionFlags">
-            <set>Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextBrowserInteraction|Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
-           </property>
           </widget>
          </item>
          <item>
@@ -984,18 +972,6 @@
                 <property name="accessibleName">
                  <string>History</string>
                 </property>
-                <property name="tabChangesFocus">
-                 <bool>true</bool>
-                </property>
-                <property name="undoRedoEnabled">
-                 <bool>false</bool>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="textInteractionFlags">
-                 <set>Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextBrowserInteraction|Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
-                </property>
                </widget>
               </item>
               <item>
@@ -1269,18 +1245,6 @@
                 </property>
                 <property name="accessibleName">
                  <string>History</string>
-                </property>
-                <property name="tabChangesFocus">
-                 <bool>true</bool>
-                </property>
-                <property name="undoRedoEnabled">
-                 <bool>false</bool>
-                </property>
-                <property name="readOnly">
-                 <bool>true</bool>
-                </property>
-                <property name="textInteractionFlags">
-                 <set>Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextBrowserInteraction|Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse</set>
                 </property>
                </widget>
               </item>
@@ -2605,7 +2569,7 @@
   </customwidget>
   <customwidget>
    <class>ChatTextEdit</class>
-   <extends>QPlainTextEdit</extends>
+   <extends>QListWidget</extends>
    <header>chattextedit.h</header>
   </customwidget>
   <customwidget>

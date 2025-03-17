@@ -28,74 +28,26 @@
 #include <QTextCursor>
 #include <QUrl>
 #include <QMessageBox>
+#include <QClipboard>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-QString urlFound(const QString& text, int& index, int& length)
+ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
+: QListWidget(parent)
 {
-    QRegularExpression httpExpression("(http[s]?://\\S+)", QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatch httpMatch;
-    int i = text.indexOf(httpExpression, index, &httpMatch);
-    if (i >= 0)
-    {
-        index = i;
-        length = httpMatch.capturedLength();
-        return httpMatch.captured(1);
-    }
-
-    QRegularExpression tturlExpression(QString("(%1//\\S+)").arg(TTLINK_PREFIX), QRegularExpression::CaseInsensitiveOption);
-    QRegularExpressionMatch tturlMatch;
-    i = text.indexOf(tturlExpression, index, &tturlMatch);
-    if (i >= 0)
-    {
-        index = i;
-        length = tturlMatch.capturedLength();
-        return tturlMatch.captured(1);
-    }
-
-    return QString();
+    setMouseTracking(true);
 }
 
-class UrlSyntaxHighlighter : public QSyntaxHighlighter
+QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
 {
-public:
-    UrlSyntaxHighlighter(QTextDocument* parent)
-        : QSyntaxHighlighter(parent)
-    {
-    }
+    QString dt;
+    if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
+        dt = tm.toString(tr("yyyy-MM-dd HH:mm:ss")) + QString(" ");
+    return dt;
+}
 
-protected:
-    void highlightBlock(const QString& text)
-    {
-        int index = 0, length = 0;
-        while(urlFound(text, index, length).size())
-        {
-            QTextCharFormat myClassFormat = format(index);
-            myClassFormat.setFontUnderline(true);
-            myClassFormat.setForeground(Qt::blue);
-            setFormat(index, length, myClassFormat);
-            index += length;
-        }
-
-        //QString pattern = "(http://[^ ]+)";
-        //QRegExp expression(pattern);
-        //int index = text.indexOf(expression);
-        //while (index >= 0) {
-        //    int length = expression.matchedLength();
-        //    QTextCharFormat myClassFormat = format(index);
-        //    myClassFormat.setFontUnderline(true);
-        //    myClassFormat.setForeground(Qt::blue);
-        //    myClassFormat.setAnchor(true);
-        //    myClassFormat.setAnchorHref(expression.cap(1));
-        //    myClassFormat.setAnchorName(expression.cap(1));
-        //    setFormat(index, length, myClassFormat);
-        //    index = text.indexOf(expression, index + length);
-        //}
-    }
-};
-
-QString getTextMessagePrefix(const TextMessage& msg, const User& user)
+QString ChatTextEdit::getTextMessagePrefix(const TextMessage& msg, const User& user)
 {
     switch (msg.nMsgType)
     {
@@ -106,8 +58,7 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
         {
             TTCHAR chpath[TT_STRLEN] = {};
             TT_GetChannelPath(ttInst, msg.nChannelID, chpath);
-            return QString("<%1->%2>").arg(getDisplayName(user))
-                           .arg(_Q(chpath));
+            return QString("<%1->%2>").arg(getDisplayName(user)).arg(_Q(chpath));
         }
         else
             return QString("<%1>").arg(getDisplayName(user));
@@ -119,39 +70,17 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
     return QString();
 }
 
-ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
-: QPlainTextEdit(parent)
-{
-    new UrlSyntaxHighlighter(document());
-    viewport()->setMouseTracking(true);
-}
-   
-QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
-{
-    QString dt;
-    if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss") + QString(" ");
-    return dt;
-}
-
 void ChatTextEdit::updateServer(const ServerProperties& srvprop)
 {
-    appendPlainText("");
+    addItem("");
 
     QString dt = getTimeStamp(QDateTime::currentDateTime());
-    
-    QTextCharFormat format = textCursor().charFormat();
-    QTextCharFormat original = format;
-    QTextCursor cursor = textCursor();
-    
-    //show 'joined new channel' in bold
-    QFont font = format.font();
-    font.setBold(true);
-    format.setFont(font);
-    cursor.setCharFormat(format);
-    QString line = dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
-    setTextCursor(cursor);
-    appendPlainText(line);
+
+    QListWidgetItem* item = new QListWidgetItem();    
+    item->setText(dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+    item->setFont(QFont("Arial", -1, QFont::Bold));
+    addItem(item);
+
     if (_Q(srvprop.szMOTD).size() > 0)
     {
         if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
@@ -160,21 +89,13 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
         }
         else
         {
-            line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
-            format.setForeground(QBrush(Qt::darkCyan));
-            cursor.setCharFormat(format);
-            setTextCursor(cursor);
-            appendPlainText(line);
+            item = new QListWidgetItem();
+            item->setText(dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n");
+            item->setForeground(Qt::darkCyan);
+            addItem(item);
         }
     }
 
-    //revert bold
-    font.setBold(false);
-    format.setFont(font);
-
-    //revert to original
-    cursor.setCharFormat(original);
-    setTextCursor(cursor);
     limitText();
 }
 
@@ -187,43 +108,26 @@ void ChatTextEdit::joinedChannel(int channelid)
     if(!TT_GetChannelPath(ttInst, channelid, buff))
         return;
 
-    appendPlainText("");
+    addItem("");
 
     QString dt = getTimeStamp(QDateTime::currentDateTime());
     
-    QTextCharFormat format = textCursor().charFormat();
-    QTextCharFormat original = format;
-    QTextCursor cursor = textCursor();
-    
-    //show channel name in green
-    QFont font = format.font();
-    font.setBold(true);
-    format.setFont(font);
-    format.setForeground(QBrush(Qt::darkGreen));
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    QString line = dt + tr("Joined channel %1").arg(_Q(buff));
-    appendPlainText(line);
-    //revert bold
-    font.setBold(false);
-    format.setFont(font);
-    //show topic in blue
-    line = tr("Topic: %1").arg(_Q(chan.szTopic));
-    format.setForeground(QBrush(Qt::darkYellow));
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    appendPlainText(line);
+    QListWidgetItem* item = new QListWidgetItem();
+    item->setText(dt + tr("Joined channel %1").arg(_Q(buff)));
+    item->setFont(QFont("Arial", -1, QFont::Bold));
+    item->setForeground(Qt::darkGreen);
+    addItem(item);
 
-    //show disk quota in red
-    line = tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota));
-    format.setForeground(QBrush(Qt::darkRed));
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    appendPlainText(line);
+    item = new QListWidgetItem();
+    item->setText(tr("Topic: %1").arg(_Q(chan.szTopic)));
+    item->setForeground(Qt::darkYellow);
+    addItem(item);
 
-    //revert to original
-    cursor.setCharFormat(original);
-    setTextCursor(cursor);
+    item = new QListWidgetItem();
+    item->setText(tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
+    item->setForeground(Qt::darkRed);
+    addItem(item);
+
     limitText();
 }
 
@@ -234,26 +138,15 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
         return QString();
 
     QString dt = getTimeStamp(msg.receiveTime);
-    QString line = dt;
+    QString line = dt + QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
 
-    line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
+    QListWidgetItem* item = new QListWidgetItem();
+    item->setText(line);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
-    {
-        QTextCharFormat format = textCursor().charFormat();
-        QTextCharFormat original = format;
-        format.setForeground(QBrush(Qt::darkGray));
-        QTextCursor cursor = textCursor();
-        cursor.setCharFormat(format);
-        setTextCursor(cursor);
-        appendPlainText(line);
-        cursor.setCharFormat(original);
-        setTextCursor(cursor);
-    }
-    else
-    {
-        appendPlainText(line);
-    }
+        item->setForeground(Qt::darkGray);
+
+    addItem(item);
 
     limitText();
 
@@ -263,121 +156,139 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 void ChatTextEdit::addLogMessage(const QString& msg)
 {
     QString line = QString("%1 * %2").arg(getTimeStamp(QDateTime::currentDateTime())).arg(msg);
-    QTextCharFormat format = textCursor().charFormat();
-    QTextCharFormat original = format;
-    format.setForeground(QBrush(Qt::gray));
-    QTextCursor cursor = textCursor();
-    cursor.setCharFormat(format);
-    setTextCursor(cursor);
-    appendPlainText(line);
-    cursor.setCharFormat(original);
-    setTextCursor(cursor);
+    QListWidgetItem* item = new QListWidgetItem();
+    item->setText(line);
+    item->setForeground(Qt::gray);
+    addItem(item);
     limitText();
+}
+
+void ChatTextEdit::clearHistory()
+{
+    clear();
+}
+
+void ChatTextEdit::copyAllHistory()
+{
+    QString allText;
+    for(int i = 0; i < count(); ++i)
+    {
+        QListWidgetItem* item = this->item(i);
+        if(item)
+        {
+            allText += item->text() + "\n";
+        }
+    }
+    QApplication::clipboard()->setText(allText);
 }
 
 void ChatTextEdit::limitText()
 {
-    QTextCursor cursor = this->textCursor();
-    
-    cursor.movePosition(QTextCursor::End);
-
-    while(cursor.position() > 0x20000)
+    while(count() > 1000)
     {
-        cursor.movePosition(QTextCursor::Start);
-        cursor.select(QTextCursor::LineUnderCursor);
-        if(cursor.hasSelection())
-            cursor.removeSelectedText();
-        else
-            cursor.deleteChar();
-        cursor.movePosition(QTextCursor::End);
+        delete takeItem(0);
     }
 }
 
-QString ChatTextEdit::currentUrl(const QTextCursor& cursor) const
+QStringList ChatTextEdit::allUrls(const QString &text) const
 {
-    QTextDocument* doc = document();
-    int cursor_pos = cursor.position();
-    QTextBlock block = doc->findBlock(cursor_pos);
-    int block_pos = block.position();
-
-    QString text = block.text();
-
-    QVector<int> url_index, url_length;
     QStringList urls;
-
-    int index = 0;
-    QString url;
-    do
+    QRegularExpression urlPattern("(http[s]?://\\S+)");
+    QRegularExpressionMatchIterator it = urlPattern.globalMatch(text);
+    while (it.hasNext())
     {
-        int length = 0;
-        url = urlFound(text, index, length);
-        if(url.size())
-        {
-            url_index.push_back(index);
-            url_length.push_back(length);
-            urls.push_back(url);
-        }
-        index += length;
+        QRegularExpressionMatch match = it.next();
+        urls << match.captured(0);
     }
-    while(url.size());
+    return urls;
+}
 
-    url.clear();
-
-    for(int i=0;i<url_index.size();i++)
+QString ChatTextEdit::currentUrl(const QListWidgetItem* item) const
+{
+    QString text = item->text();
+    QRegularExpression urlPattern("(http[s]?://\\S+)");
+    QRegularExpressionMatch match = urlPattern.match(text);
+    if (match.hasMatch())
     {
-        if(cursor_pos >= block_pos+url_index[i] &&
-           cursor_pos < block_pos+url_index[i]+url_length[i])
-        {
-           url = urls[i];
-           break;
-        }
+        return match.captured(0);
     }
-
-    return url;
+    return QString();
 }
 
 void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
 {
-    QPlainTextEdit::mouseMoveEvent(e);
-    if (currentUrl(cursorForPosition(e->pos())).size())
-        viewport()->setCursor(QCursor(Qt::PointingHandCursor));
+    QListWidgetItem* item = itemAt(e->pos());
+    if (item && currentUrl(item).size())
+    {
+        setCursor(QCursor(Qt::PointingHandCursor));
+    }
     else
-        viewport()->setCursor(QCursor(Qt::IBeamCursor));
+    {
+        setCursor(QCursor(Qt::IBeamCursor));
+    }
+    QListWidget::mouseMoveEvent(e);
 }
 
 void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
 {
-    QPlainTextEdit::mouseReleaseEvent(e);
-    
     if(e->button() == Qt::RightButton)
         return;
 
-    QString url = currentUrl(cursorForPosition(e->pos()));
-    if(url.size())
-       QDesktopServices::openUrl(QUrl(url));
+    QListWidgetItem* item = itemAt(e->pos());
+    if (item)
+    {
+        QString url = currentUrl(item);
+        if (url.size())
+        {
+            QDesktopServices::openUrl(QUrl(url));
+        }
+    }
+    QListWidget::mouseReleaseEvent(e);
 }
 
 void ChatTextEdit::keyPressEvent(QKeyEvent* e)
 {
-    QPlainTextEdit::keyPressEvent(e);
-
     if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
-        QString url = currentUrl(textCursor());
-        if (url.size())
-           QDesktopServices::openUrl(QUrl(url));
+        QListWidgetItem *item = currentItem();
+        if (item)
+        {
+            QStringList urls = allUrls(item->text());
+            if (urls.size() == 1)
+            {
+                QDesktopServices::openUrl(QUrl(urls.first()));
+            }
+            else if (urls.size() > 1)
+            {
+                QMenu menu(this);
+                for (const QString &url : urls)
+                {
+                    QAction *action = menu.addAction(url);
+                    connect(action, &QAction::triggered, this, [url]()
+                    {
+                        QDesktopServices::openUrl(QUrl(url));
+                    });
+                }
+                menu.exec(QCursor::pos());
+            }
+        }
     }
+    QListWidget::keyPressEvent(e);
 }
 
 void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
-    QMenu *menu = createStandardContextMenu();
-    menu->addSeparator();
-    auto clearMenu = menu->addAction(tr("&Clear"), this, &QPlainTextEdit::clear);
-    QAction* chosen = menu->exec(event->globalPos());
-    if (clearMenu == chosen)
+    QMenu *menu = new QMenu(this);
+    menu->addAction(tr("&Copy"), [this]()
     {
-        emit(clearHistory());
-    }
+        QListWidgetItem* item = currentItem();
+        if (item)
+        {
+            QApplication::clipboard()->setText(item->text());
+        }
+    });
+    menu->addAction(tr("Copy &All"), this, &ChatTextEdit::copyAllHistory);
+    menu->addAction(tr("&Clear"), this, &ChatTextEdit::clearHistory);
+    menu->exec(event->globalPos());
     delete menu;
 }

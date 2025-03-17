@@ -20,9 +20,9 @@
 
 #include "common.h"
 
-#include <QPlainTextEdit>
+#include <QListWidget>
 
-class ChatTextEdit : public QPlainTextEdit
+class ChatTextEdit : public QListWidget
 {
     Q_OBJECT
 
@@ -30,18 +30,19 @@ public:
     ChatTextEdit(QWidget * parent = 0);
 
     void updateServer(const ServerProperties& srvprop);
-
     void joinedChannel(int channelid);
 
     QString addTextMessage(const MyTextMessage& msg);
     void addLogMessage(const QString& msg);
-
-signals:
     void clearHistory();
+    void copyAllHistory();
+
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
+    QString getTextMessagePrefix(const TextMessage& msg, const User& user);
+    QStringList allUrls(const QString &text) const;
+    QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
-    QString currentUrl(const QTextCursor& cursor) const;
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
