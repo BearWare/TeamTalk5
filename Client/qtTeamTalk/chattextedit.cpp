@@ -318,7 +318,7 @@ void ChatTextEdit::mouseDoubleClickEvent(QMouseEvent* e)
                     QDesktopServices::openUrl(QUrl(url));
                 });
             }
-            menu.exec(e->globalPosition().toPoint());
+            menu.exec(e->globalPos());
         }
     }
     QListWidget::mouseDoubleClickEvent(e);
