@@ -29,6 +29,10 @@
 #include <QUrl>
 #include <QMessageBox>
 #include <QClipboard>
+#include <QLabel>
+#include <QPlainTextEdit>
+#include <QDialogButtonBox>
+#include <QVBoxLayout>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -37,6 +41,8 @@ ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
 : QListWidget(parent)
 {
     setMouseTracking(true);
+    setWordWrap(true);
+    setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
 QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
@@ -72,28 +78,28 @@ QString ChatTextEdit::getTextMessagePrefix(const TextMessage& msg, const User& u
 
 void ChatTextEdit::updateServer(const ServerProperties& srvprop)
 {
-    addItem("");
-
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
-    QListWidgetItem* item = new QListWidgetItem();    
-    item->setText(dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+    QListWidgetItem* item = new QListWidgetItem(dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
     item->setFont(QFont("Arial", -1, QFont::Bold));
+
+    item->setData(Qt::UserRole + 1, dt);
+    item->setData(Qt::UserRole + 2, tr("Server"));
+    item->setData(Qt::UserRole + 3, tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+
+    addItem("");
     addItem(item);
 
-    if (_Q(srvprop.szMOTD).size() > 0)
+    if (_Q(srvprop.szMOTD).size() > 0 && !ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool())
     {
-        if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
-        {
-            QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
-        }
-        else
-        {
-            item = new QListWidgetItem();
-            item->setText(dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n");
-            item->setForeground(Qt::darkCyan);
-            addItem(item);
-        }
+        QListWidgetItem* motdItem = new QListWidgetItem(dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        motdItem->setForeground(Qt::darkCyan);
+
+        motdItem->setData(Qt::UserRole + 1, dt);
+        motdItem->setData(Qt::UserRole + 2, tr("Server"));
+        motdItem->setData(Qt::UserRole + 3, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+
+        addItem(motdItem);
     }
 
     limitText();
@@ -101,32 +107,34 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
 
 void ChatTextEdit::joinedChannel(int channelid)
 {
-    TTCHAR buff[TT_STRLEN];
-    Channel chan;
-    if(!TT_GetChannel(ttInst, channelid, &chan))
-        return;
-    if(!TT_GetChannelPath(ttInst, channelid, buff))
-        return;
-
-    addItem("");
+    TTCHAR buff[TT_STRLEN]; Channel chan;
+    if(!TT_GetChannel(ttInst, channelid, &chan) || !TT_GetChannelPath(ttInst, channelid, buff)) return;
 
     QString dt = getTimeStamp(QDateTime::currentDateTime());
-    
-    QListWidgetItem* item = new QListWidgetItem();
-    item->setText(dt + tr("Joined channel %1").arg(_Q(buff)));
+
+    QListWidgetItem* item = new QListWidgetItem(dt + tr("Joined channel %1").arg(_Q(buff)));
     item->setFont(QFont("Arial", -1, QFont::Bold));
     item->setForeground(Qt::darkGreen);
-    addItem(item);
 
-    item = new QListWidgetItem();
-    item->setText(tr("Topic: %1").arg(_Q(chan.szTopic)));
-    item->setForeground(Qt::darkYellow);
-    addItem(item);
+    item->setData(Qt::UserRole + 1, dt);
+    item->setData(Qt::UserRole + 2, tr("Channel"));
+    item->setData(Qt::UserRole + 3, tr("Joined channel %1").arg(_Q(buff)));
 
-    item = new QListWidgetItem();
-    item->setText(tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
-    item->setForeground(Qt::darkRed);
-    addItem(item);
+    addItem(""); addItem(item);
+
+    QListWidgetItem* topicItem = new QListWidgetItem(tr("Topic: %1").arg(_Q(chan.szTopic)));
+    topicItem->setForeground(Qt::darkYellow);
+    topicItem->setData(Qt::UserRole + 1, dt);
+    topicItem->setData(Qt::UserRole + 2, tr("Channel"));
+    topicItem->setData(Qt::UserRole + 3, tr("Topic: %1").arg(_Q(chan.szTopic)));
+    addItem(topicItem);
+
+    QListWidgetItem* quotaItem = new QListWidgetItem(tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
+    quotaItem->setForeground(Qt::darkRed);
+    quotaItem->setData(Qt::UserRole + 1, dt);
+    quotaItem->setData(Qt::UserRole + 2, tr("Channel"));
+    quotaItem->setData(Qt::UserRole + 3, tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
+    addItem(quotaItem);
 
     limitText();
 }
@@ -138,16 +146,21 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
         return QString();
 
     QString dt = getTimeStamp(msg.receiveTime);
-    QString line = dt + QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
+    QString sender = getTextMessagePrefix(msg, user);
+    QString content = msg.moreMessage;
 
-    QListWidgetItem* item = new QListWidgetItem();
-    item->setText(line);
+    QString line = dt + QString("%1\n%2").arg(sender).arg(content);
+
+    QListWidgetItem* item = new QListWidgetItem(line);
+
+    item->setData(Qt::UserRole + 1, dt);
+    item->setData(Qt::UserRole + 2, sender);
+    item->setData(Qt::UserRole + 3, content);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
         item->setForeground(Qt::darkGray);
 
     addItem(item);
-
     limitText();
 
     return line;
@@ -155,10 +168,18 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
 void ChatTextEdit::addLogMessage(const QString& msg)
 {
-    QString line = QString("%1 * %2").arg(getTimeStamp(QDateTime::currentDateTime())).arg(msg);
-    QListWidgetItem* item = new QListWidgetItem();
-    item->setText(line);
+    QString dt = getTimeStamp(QDateTime::currentDateTime());
+    QString sender = tr("System");
+    QString content = msg;
+
+    QString line = QString("%1 * %2").arg(dt).arg(msg);
+    QListWidgetItem* item = new QListWidgetItem(line);
     item->setForeground(Qt::gray);
+
+    item->setData(Qt::UserRole + 1, dt);
+    item->setData(Qt::UserRole + 2, sender);
+    item->setData(Qt::UserRole + 3, content);
+
     addItem(item);
     limitText();
 }
@@ -248,47 +269,110 @@ void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
 
 void ChatTextEdit::keyPressEvent(QKeyEvent* e)
 {
-    if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
+    if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
-        QListWidgetItem *item = currentItem();
-        if (item)
+        QListWidgetItem* item = currentItem();
+        if(item)
         {
             QStringList urls = allUrls(item->text());
-            if (urls.size() == 1)
+            if(urls.size() == 1)
             {
                 QDesktopServices::openUrl(QUrl(urls.first()));
             }
-            else if (urls.size() > 1)
+            else if(urls.size() > 1)
             {
                 QMenu menu(this);
-                for (const QString &url : urls)
+                for(const QString& url : urls)
                 {
-                    QAction *action = menu.addAction(url);
-                    connect(action, &QAction::triggered, this, [url]()
-                    {
+                    QAction* action = menu.addAction(url);
+                    connect(action, &QAction::triggered, [url]() {
                         QDesktopServices::openUrl(QUrl(url));
                     });
                 }
                 menu.exec(QCursor::pos());
             }
         }
+        return;
     }
     QListWidget::keyPressEvent(e);
 }
 
-void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
+void ChatTextEdit::mouseDoubleClickEvent(QMouseEvent* e)
 {
-    QMenu *menu = new QMenu(this);
-    menu->addAction(tr("&Copy"), [this]()
+    QListWidgetItem* item = itemAt(e->pos());
+    if(item)
     {
-        QListWidgetItem* item = currentItem();
-        if (item)
+        QStringList urls = allUrls(item->text());
+        if(urls.size() == 1)
         {
-            QApplication::clipboard()->setText(item->text());
+            QDesktopServices::openUrl(QUrl(urls.first()));
         }
-    });
-    menu->addAction(tr("Copy &All"), this, &ChatTextEdit::copyAllHistory);
-    menu->addAction(tr("&Clear"), this, &ChatTextEdit::clearHistory);
-    menu->exec(event->globalPos());
-    delete menu;
+        else if(urls.size() > 1)
+        {
+            QMenu menu(this);
+            for(const QString& url : urls)
+            {
+                QAction* action = menu.addAction(url);
+                connect(action, &QAction::triggered, [url]() {
+                    QDesktopServices::openUrl(QUrl(url));
+                });
+            }
+            menu.exec(e->globalPosition().toPoint());
+        }
+    }
+    QListWidget::mouseDoubleClickEvent(e);
+}
+
+void ChatTextEdit::contextMenuEvent(QContextMenuEvent* event)
+{
+    QListWidgetItem* item = itemAt(event->pos());
+    QMenu menu(this);
+
+    if(item)
+    {
+        menu.addAction(tr("&Copy"), [item]() {
+            QApplication::clipboard()->setText(item->text());
+        });
+
+        menu.addAction(tr("View &Details..."), [this, item]() {
+            QString datetime = item->data(Qt::UserRole + 1).toString();
+            QString sender = item->data(Qt::UserRole + 2).toString();
+            QString content = item->data(Qt::UserRole + 3).toString();
+
+            MessageDetailsDlg dlg(datetime, sender, content, this);
+            dlg.exec();
+        });
+    }
+
+    menu.addSeparator();
+    menu.addAction(tr("Copy &All"), this, &ChatTextEdit::copyAllHistory);
+    menu.addAction(tr("&Clear"), this, &ChatTextEdit::clearHistory);
+
+    menu.exec(event->globalPos());
+}
+
+MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sender, const QString& content, QWidget* parent)
+    : QDialog(parent)
+{
+    setWindowTitle(tr("Message Details"));
+
+    QVBoxLayout* layout = new QVBoxLayout(this);
+
+    QLabel* lblDateTime = new QLabel(tr("Sent: %1").arg(datetime));
+    lblDateTime->setFocusPolicy(Qt::StrongFocus);
+    QLabel* lblSender = new QLabel(tr("By: %1").arg(sender));
+    lblSender->setFocusPolicy(Qt::StrongFocus);
+    QPlainTextEdit* txtContent = new QPlainTextEdit(content);
+    txtContent->setReadOnly(true);
+    txtContent->setAccessibleName(tr("Content:"));
+
+    layout->addWidget(lblDateTime);
+    layout->addWidget(lblSender);
+    layout->addWidget(txtContent);
+
+    QDialogButtonBox* btnBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
+    connect(btnBox, &QDialogButtonBox::rejected, this, &QDialog::accept);
+    layout->addWidget(btnBox);
+
+    resize(500, 300);
 }

@@ -48,7 +48,17 @@ protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent* e) override;
+    void mouseDoubleClickEvent(QMouseEvent* e);
     void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
+
+#include <QDialog>
+
+class MessageDetailsDlg : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit MessageDetailsDlg(const QString& datetime, const QString& sender, const QString& content, QWidget* parent = nullptr);
+};
 #endif
