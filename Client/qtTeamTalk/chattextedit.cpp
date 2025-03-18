@@ -49,7 +49,7 @@ QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
 {
     QString dt;
     if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = tm.toString(tr("yyyy-MM-dd HH:mm:ss")) + QString(" ");
+        dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss") + QString(" ");
     return dt;
 }
 
