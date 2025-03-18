@@ -365,6 +365,7 @@ MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sen
     QPlainTextEdit* txtContent = new QPlainTextEdit(content);
     txtContent->setReadOnly(true);
     txtContent->setAccessibleName(tr("Content:"));
+    txtContent->setTextInteractionFlags(Qt::TextInteractionFlag::LinksAccessibleByKeyboard|Qt::TextInteractionFlag::LinksAccessibleByMouse|Qt::TextInteractionFlag::TextBrowserInteraction|Qt::TextInteractionFlag::TextSelectableByKeyboard|Qt::TextInteractionFlag::TextSelectableByMouse);
 
     layout->addWidget(lblDateTime);
     layout->addWidget(lblSender);
