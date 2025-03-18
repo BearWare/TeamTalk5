@@ -33,6 +33,7 @@
 #include <QPlainTextEdit>
 #include <QDialogButtonBox>
 #include <QVBoxLayout>
+#include <QPushButton>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -355,6 +356,7 @@ MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sen
     : QDialog(parent)
 {
     setWindowTitle(tr("Message Details"));
+    setAccessibleDescription(tr("Message Details"));
 
     QVBoxLayout* layout = new QVBoxLayout(this);
 
@@ -371,8 +373,9 @@ MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sen
     layout->addWidget(lblSender);
     layout->addWidget(txtContent);
 
-    QDialogButtonBox* btnBox = new QDialogButtonBox(QDialogButtonBox::Close, this);
-    connect(btnBox, &QDialogButtonBox::rejected, this, &QDialog::accept);
+    QDialogButtonBox* btnBox = new QDialogButtonBox(this);
+    QPushButton* closeButton = btnBox->addButton(tr("&Close"), QDialogButtonBox::RejectRole);
+    connect(closeButton, &QPushButton::clicked, this, &QDialog::accept);
     layout->addWidget(btnBox);
 
     resize(500, 300);
