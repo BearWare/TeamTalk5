@@ -13,6 +13,7 @@ Default Qt Client
 - Option to choose bitween text or emoji for user and channel info in channel list
 - Last login time shown in "User Accounts" dialog
 - Ability to sort by "Last Login Time" in "User Accounts" dialog
+- Ability to send toast notifications on Linux and Windows
 - Chat history replaced by list
 - WebRTC updated from r4332 to r6818
 - Qt updated to 6.9.0beta3 on macOS and Windows
@@ -21,6 +22,8 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
+- Broadcast messages are now shown in the chat tab
+- Added the ability to send broadcast messages
 - Redesigned server list dialog to remove the old remove server button and make it to use popup menus, results in a more clear and modern dialog, and fast navigating for screenreader users
 - IP Address and status message is now shown in User Properties dialog
 - Ability to select/deselect user for move to other channel

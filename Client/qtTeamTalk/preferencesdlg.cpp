@@ -607,8 +607,7 @@ void PreferencesDlg::initTTSEventsTab()
 #if defined(Q_OS_WIN)
     ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
-    if (QFile::exists(TTSENGINE_NOTIFY_PATH))
-        ui.ttsengineComboBox->addItem(tr("Libnotify"), TTSENGINE_NOTIFY);
+
 #elif defined(Q_OS_MAC)
         ui.ttsengineComboBox->addItem(tr("VoiceOver (via Apple Script)"), TTSENGINE_APPLESCRIPT);
 #endif
@@ -1036,9 +1035,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
         ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
-#if defined(Q_OS_LINUX)
-        ttSettings->setValue(SETTINGS_TTS_TIMESTAMP, ui.ttsNotifTimestampSpinBox->value());
-#elif defined(Q_OS_WIN)
+#if defined(Q_OS_WIN)
         ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
         ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
@@ -1049,6 +1046,9 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
     }
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
+#endif
 }
 
 void PreferencesDlg::slotCancelChanges()
@@ -1447,16 +1447,6 @@ void PreferencesDlg::slotUpdateTTSTab()
 #endif /* QT_TEXTTOSPEECH_LIB */
     }
     break;
-    case TTSENGINE_NOTIFY :
-#if defined(Q_OS_LINUX)
-    {
-        ui.label_ttsnotifTimestamp->show();
-        ui.ttsNotifTimestampSpinBox->show();
-
-        ui.ttsNotifTimestampSpinBox->setValue(ttSettings->value(SETTINGS_TTS_TIMESTAMP, SETTINGS_TTS_TIMESTAMP_DEFAULT).toUInt());
-    }
-#endif
-    break;
     case TTSENGINE_TOLK :
 #if defined(ENABLE_TOLK)
     {
@@ -1503,6 +1493,11 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
+#if defined(Q_OS_DARWIN)
+    ui.ttsToastChkBox->hide();
+#else
+    ui.ttsToastChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool());
+#endif
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)

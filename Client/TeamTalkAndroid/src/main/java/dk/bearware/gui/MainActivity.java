@@ -297,18 +297,21 @@ extends AppCompatActivity
         }
 
         boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != UserRight.USERRIGHT_NONE;
+        boolean broadcastRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
         menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
+        menu.findItem(R.id.action_broadcast).setEnabled(broadcastRight).setVisible(broadcastRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
         return super.onPrepareOptionsMenu(menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
         switch(item.getItemId()) {
             case R.id.action_join : {
                 if (curchannel != null)
@@ -323,6 +326,16 @@ extends AppCompatActivity
                 }
             }
             break;
+            case R.id.action_broadcast:
+                alert.setTitle(R.string.action_broadcast);
+                alert.setMessage(R.string.text_broadcast_message);
+                final EditText input = new EditText(this);
+                input.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_MULTI_LINE);
+                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> ttclient.doTextMessage(new TextMessage() {{ nMsgType = TextMsgType.MSGTYPE_BROADCAST; szMessage = input.getText().toString(); }}));
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.setView(input);
+                alert.show();
+                break;
             case R.id.action_stream : {
                 int flags = ttclient.getFlags();
                 if ((flags & ClientFlag.CLIENT_STREAM_AUDIO) == ClientFlag.CLIENT_STREAM_AUDIO || (flags & ClientFlag.CLIENT_STREAM_VIDEO) == ClientFlag.CLIENT_STREAM_VIDEO) {
@@ -369,7 +382,6 @@ extends AppCompatActivity
                     channelsAdapter.notifyDataSetChanged();
                 }
                 else if (filesAdapter.getActiveTransfersCount() > 0) {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
                     alert.setMessage(R.string.disconnect_alert);
                     alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
                         filesAdapter.cancelAllTransfers();
@@ -2171,6 +2183,7 @@ private EditText newmsg;
                 String name = Utils.getDisplayName(getBaseContext(), sender);
                 ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
             }
+            Log.d(TAG, "Broadcast message in " + this.hashCode());
             break;
         case TextMsgType.MSGTYPE_USER :
             if (sounds.get(SOUND_USERMSG) != 0)

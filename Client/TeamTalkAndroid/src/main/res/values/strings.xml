@@ -150,6 +150,7 @@
     <string name="action_editsrv">Edit server</string>
     <string name="action_removesrv">Remove server</string>
     <string name="action_upload">Upload File</string>
+    <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
     <string name="button_select_media_file">Browse</string>
     <string name="button_stream_media_file">Stream</string>
@@ -406,6 +407,7 @@
     <string name="action_make_operator">Grant Operator</string>
     <string name="action_revoke_operator">Revoke Operator</string>
     <string name="text_operator_password">Enter channel operator password</string>
+    <string name="text_broadcast_message">Enter broadcast message</string>
 
 
 </resources>

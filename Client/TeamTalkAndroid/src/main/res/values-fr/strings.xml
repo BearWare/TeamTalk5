@@ -395,5 +395,7 @@
     <string name="text_operator_password">Entrer le mot de passe de l\'opérateur du canal</string>
     <string name="action_editsrv">Éditer le serveur</string>
     <string name="action_removesrv">Supprimer le serveur</string>
+    <string name="action_broadcast">Message Diffusé</string>
+    <string name="text_broadcast_message">Entrer le message à diffuser</string>
 
 </resources>
