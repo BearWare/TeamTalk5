@@ -59,11 +59,8 @@
        </property>
        <item>
         <widget class="ChatTextEdit" name="historyTextEdit">
-         <property name="tabChangesFocus">
-          <bool>true</bool>
-         </property>
-         <property name="textInteractionFlags">
-          <set>Qt::LinksAccessibleByKeyboard|Qt::LinksAccessibleByMouse|Qt::TextBrowserInteraction|Qt::TextSelectableByKeyboard|Qt::TextSelectableByMouse</set>
+         <property name="accessibleName">
+          <string>History</string>
          </property>
         </widget>
        </item>
@@ -154,7 +151,7 @@
  <customwidgets>
   <customwidget>
    <class>ChatTextEdit</class>
-   <extends>QPlainTextEdit</extends>
+   <extends>QListWidget</extends>
    <header>chattextedit.h</header>
   </customwidget>
   <customwidget>
