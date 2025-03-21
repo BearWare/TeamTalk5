@@ -1577,7 +1577,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/ثانیه, آخرین ثانیه %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -5739,7 +5739,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1867"/>
         <source>Use toast notification</source>
-        <translation type="unfinished"></translation>
+        <translation>استفاده از اعلان‌های شناور</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1893"/>
@@ -6252,17 +6252,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>حالت صدای دوطرفه راه‌اندازی نشد: %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>دستگاه ورودی صدا راه‌اندازی نشد: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="338"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>دستگاه خروجی صدا راه‌اندازی نشد: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="364"/>
