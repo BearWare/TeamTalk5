@@ -347,6 +347,11 @@ extends AppCompatActivity
         serverActions.inflate(R.menu.server_actions);
         serverActions.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
+                case R.id.action_exportsrv:
+                    if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                        exportServer(entry);
+                    }
+                    return true;
                 case R.id.action_editsrv:
                     Intent intent = new Intent(this, ServerEntryActivity.class);
                     startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
@@ -782,6 +787,37 @@ extends AppCompatActivity
             else {
                 int msgId = Utils.saveServers(entries, filePath) ?
                     R.string.serverlist_export_confirmation :
+                    R.string.err_file_write;
+                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void exportServer(ServerEntry entry) {
+        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (dirPath.mkdirs() || dirPath.isDirectory()) {
+            final File ttFile = new File(dirPath, entry.servername + "_server.tt");
+            final String filePath = ttFile.getAbsolutePath();
+
+            if (ttFile.exists()) {
+                AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                alert.setMessage(getString(R.string.alert_file_override, filePath));
+                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+                    if (ttFile.delete()) {
+                        int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
+                            R.string.server_export_confirmation :
+                            R.string.err_file_write;
+                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
+                    } else {
+                        Toast.makeText(ServerListActivity.this, getString(R.string.err_file_delete, filePath), Toast.LENGTH_LONG).show();
+                    }
+                });
+
+                alert.setNegativeButton(android.R.string.no, null);
+                alert.show();
+            } else {
+                int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
+                    R.string.server_export_confirmation :
                     R.string.err_file_write;
                 Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
             }
