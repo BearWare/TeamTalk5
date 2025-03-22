@@ -146,7 +146,11 @@
     <string name="action_kicksrv">踢出服务器</string>
     <string name="action_move">移动至此</string>
     <string name="action_select">选择移动</string>
+    <string name="action_deselect">取消选择移动</string>
+    <string name="action_editsrv">编辑服务器</string>
+    <string name="action_removesrv">删除服务器</string>
     <string name="action_upload">上传文件</string>
+    <string name="action_broadcast">广播消息</string>
     <string name="action_stream">播放流媒体文件</string>
     <string name="button_select_media_file">浏览</string>
     <string name="button_stream_media_file">播放</string>
@@ -169,8 +173,10 @@
 
 
     <string name="user_prop_title_username">用户名</string>
+    <string name="user_prop_title_statusmsg">状态消息</string>
     <string name="user_prop_title_clientname">客户端名称</string>
     <string name="user_prop_clientversion">版本</string>
+    <string name="user_prop_title_ipaddress">IP地址</string>
     <string name="user_prop_title_voice_volume">语音音量</string>
     <string name="user_prop_title_mute_voice">语音静音</string>
     <string name="user_prop_title_media_volume">媒体文件音量</string>
@@ -401,6 +407,7 @@
     <string name="action_make_operator">授予频道管理员</string>
     <string name="action_revoke_operator">撤销频道管理员</string>
     <string name="text_operator_password">输入频道管理员密码</string>
+    <string name="text_broadcast_message">输入广播消息</string>
 
 
 </resources>
