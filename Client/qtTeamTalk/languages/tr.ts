@@ -1543,7 +1543,7 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/saniye, son saniye %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -5704,7 +5704,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1867"/>
         <source>Use toast notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Tost bildirimini kullan</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1893"/>
@@ -6217,17 +6217,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses Dubleks Modu Başlatılamadı: %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses giriş cihazı başlatılamadı: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="338"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses çıkış cihazı başlatılamadı: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="364"/>
