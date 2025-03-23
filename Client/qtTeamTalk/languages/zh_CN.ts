@@ -6252,7 +6252,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation>无法初始化声音双工模式： %1 - %2</source></translation>
+        <translation>无法初始化声音双工模式： %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
