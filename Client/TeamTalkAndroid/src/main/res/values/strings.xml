@@ -147,6 +147,7 @@
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
     <string name="action_deselect">Deselect For Move</string>
+    <string name="action_exportsrv">Export server</string>
     <string name="action_editsrv">Edit server</string>
     <string name="action_removesrv">Remove server</string>
     <string name="action_upload">Upload File</string>
@@ -228,6 +229,7 @@
     <string name="action_import_serverlist">Import from a .tt File</string>
     <string name="action_export_serverlist">Export server list</string>
     <string name="serverlist_export_confirmation">Server list has been exported to %1$s</string>
+    <string name="server_export_confirmation">Server has been exported to %1$s</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Server Properties</string>
     <string name="pref_title_server_info">Server Information</string>
