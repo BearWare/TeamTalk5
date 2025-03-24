@@ -143,6 +143,7 @@
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_deselect">Отменить Выбор</string>
+    <string name="action_exportsrv">Экспортировать сервер</string>
     <string name="action_editsrv">Редактировать сервер</string>
     <string name="action_removesrv">Удалить сервер</string>
     <string name="action_upload">Выложить файл</string>
@@ -222,6 +223,7 @@
     <string name="action_import_serverlist">Импортировать из Файла</string>
     <string name="action_export_serverlist">Экспортировать список серверов</string>
     <string name="serverlist_export_confirmation">Список серверов сохранен в %1$s</string>
+    <string name="server_export_confirmation">Сервер экспортирован в %1$s</string>
 
     <string name="pref_title_server_props">Свойства Сервера TeamTalk 5</string>
     <string name="pref_title_server_info">Информация о Сервере</string>
