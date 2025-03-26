@@ -24,6 +24,9 @@
 #include <QDir>
 #include <QStack>
 #include <QTemporaryFile>
+#if defined(Q_OS_LINUX) //For DBus on X11
+#include <QtDBus/QtDBus>
+#endif
 
 #define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 
@@ -507,7 +510,7 @@ QString getVersion(const User& user)
 QString limitText(const QString& text)
 {
     int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
-    if(text.size()>len+3)
+    if(text.size()>len+3 && !isScreenReaderActive())
         return text.left(len) + "...";
     return text;
 }
@@ -588,4 +591,24 @@ bool writeLogEntry(QFile& file, const QString& line)
     bool ret =  file.write(QString(line + "\r\n").toUtf8()) > 0;
     file.flush();
     return ret;
+}
+
+bool isScreenReaderActive()
+{
+    bool SRActive = false;
+#if defined(ENABLE_TOLK)
+    bool tolkLoaded = Tolk_IsLoaded();
+    if (!tolkLoaded)
+        Tolk_Load();
+    SRActive = Tolk_DetectScreenReader() != nullptr;
+    if (!tolkLoaded)
+        Tolk_Unload();
+#elif defined(Q_OS_LINUX)
+    QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
+    if (interface.isValid())
+    {
+        SRActive = interface.property("ScreenReaderEnabled").toBool();
+    }
+#endif
+    return SRActive;
 }
