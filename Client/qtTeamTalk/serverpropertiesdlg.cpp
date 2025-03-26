@@ -61,13 +61,21 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     ui.usertimeoutSpinBox->setValue(m_srvprop.nUserTimeout);
     ui.autosaveBox->setChecked(m_srvprop.bAutoSave);
     ui.maxloginattemptsSpinBox->setValue(m_srvprop.nMaxLoginAttempts);
+    ui.maxloginattemptsSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_22->text()).arg(ui.maxloginattemptsSpinBox->value()).arg(ui.label_23->text()));
     ui.maxiploginsSpinBox->setValue(m_srvprop.nMaxLoginsPerIPAddress);
+    ui.maxiploginsSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_20->text()).arg(ui.maxiploginsSpinBox->value()).arg(ui.label_21->text()));
     ui.logindelaySpinBox->setValue(m_srvprop.nLoginDelayMSec);
+    ui.logindelaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_3->text()).arg(ui.logindelaySpinBox->value()).arg(ui.label_10->text()));
     ui.audtxSpinBox->setValue(m_srvprop.nMaxVoiceTxPerSecond/1024);
+    ui.audtxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_14->text()).arg(ui.audtxSpinBox->value()).arg(ui.label_15->text()));
     ui.videotxSpinBox->setValue(m_srvprop.nMaxVideoCaptureTxPerSecond/1024);
+    ui.videotxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_16->text()).arg(ui.videotxSpinBox->value()).arg(ui.label_17->text()));
     ui.mediafiletxSpinBox->setValue(m_srvprop.nMaxMediaFileTxPerSecond/1024);
+    ui.mediafiletxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_24->text()).arg(ui.mediafiletxSpinBox->value()).arg(ui.label_25->text()));
     ui.desktoptxSpinBox->setValue(m_srvprop.nMaxDesktopTxPerSecond/1024);
+    ui.desktoptxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_18->text()).arg(ui.desktoptxSpinBox->value()).arg(ui.label_19->text()));
     ui.totaltxSpinBox->setValue(m_srvprop.nMaxTotalTxPerSecond/1024);
+    ui.totaltxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_12->text()).arg(ui.totaltxSpinBox->value()).arg(ui.label_13->text()));
     ui.serverversionLabel->setText(QString(tr("Server version") + ": " + _Q(m_srvprop.szServerVersion)));
     m_serverlogmodel = new ServerLogEventsModel(this);
     ui.serverlogTableView->setModel(m_serverlogmodel);
@@ -110,6 +118,38 @@ ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
             action->setData(it.key());
             connect(action, &QAction::triggered, this, &ServerPropertiesDlg::insertVariable);
         }
+        connect(ui.audtxSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.audtxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_14->text()).arg(ui.audtxSpinBox->value()).arg(ui.label_15->text()));
+        });
+        connect(ui.videotxSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.videotxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_16->text()).arg(ui.videotxSpinBox->value()).arg(ui.label_17->text()));
+        });
+        connect(ui.mediafiletxSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.mediafiletxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_24->text()).arg(ui.mediafiletxSpinBox->value()).arg(ui.label_25->text()));
+        });
+        connect(ui.desktoptxSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.desktoptxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_18->text()).arg(ui.desktoptxSpinBox->value()).arg(ui.label_19->text()));
+        });
+        connect(ui.totaltxSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.totaltxSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_12->text()).arg(ui.totaltxSpinBox->value()).arg(ui.label_13->text()));
+        });
+        connect(ui.maxloginattemptsSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.maxloginattemptsSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_22->text()).arg(ui.maxloginattemptsSpinBox->value()).arg(ui.label_23->text()));
+        });
+        connect(ui.maxiploginsSpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.maxiploginsSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_20->text()).arg(ui.maxiploginsSpinBox->value()).arg(ui.label_21->text()));
+        });
+        connect(ui.logindelaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+        {
+            ui.logindelaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_3->text()).arg(ui.logindelaySpinBox->value()).arg(ui.label_10->text()));
+        });
     }
 }
 

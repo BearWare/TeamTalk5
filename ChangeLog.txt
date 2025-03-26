@@ -14,6 +14,7 @@ Default Qt Client
 - Last login time shown in "User Accounts" dialog
 - Ability to sort by "Last Login Time" in "User Accounts" dialog
 - Ability to send toast notifications on Linux and Windows
+- Improve "Server Properties" dialog accessibility
 - WebRTC updated from r4332 to r6818
 - Qt updated to 6.9.0beta3 on macOS and Windows
 - OPUS updated to v1.5.2
