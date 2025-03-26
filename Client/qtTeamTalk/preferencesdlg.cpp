@@ -76,8 +76,10 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.buttonBox, &QDialogButtonBox::rejected, this, &PreferencesDlg::slotCancelChanges);
 
     //general tab
-    connect(ui.awaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged),
-            this, &PreferencesDlg::slotUpdateASBAccessibleName);
+    connect(ui.awaySpinBox, QOverload<int>::of(&QSpinBox::valueChanged), this, [&]()
+    {
+        ui.awaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_2->text()).arg(ui.awaySpinBox->value()).arg(ui.label_3->text()));
+    });
     connect(ui.setupBearWareLoginButton, &QAbstractButton::clicked,
             this, &PreferencesDlg::slotEnableBearWareID);
 
@@ -422,7 +424,7 @@ void PreferencesDlg::initGeneralTab()
                                                          SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT).toBool());
 
     ui.awaySpinBox->setValue(ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt());
-    slotUpdateASBAccessibleName();
+    ui.awaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_2->text()).arg(ui.awaySpinBox->value()).arg(ui.label_3->text()));
     ui.awayMsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
     ui.disableVoiceActCheckBox->setChecked(ttSettings->value(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT).toBool());
 
@@ -1883,11 +1885,6 @@ void PreferencesDlg::slotTTSRevert(bool /*checked*/)
 {
     TTSEvents events = ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong();
     m_ttsmodel->setTTSEvents(events);
-}
-
-void PreferencesDlg::slotUpdateASBAccessibleName()
-{
-    ui.awaySpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_2->text()).arg(ui.awaySpinBox->value()).arg(ui.label_3->text()));
 }
 
 void PreferencesDlg::slotSPackChange()
