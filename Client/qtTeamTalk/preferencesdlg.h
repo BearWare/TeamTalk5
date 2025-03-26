@@ -117,7 +117,6 @@ private:
     void slotTTSEnableAll(bool checked);
     void slotTTSClearAll(bool checked);
     void slotTTSRevert(bool checked);
-    void slotUpdateASBAccessibleName();
     void slotSPackChange();
     void updateSoundEventFileEdit();
     QMenu* m_TTSVarMenu;
