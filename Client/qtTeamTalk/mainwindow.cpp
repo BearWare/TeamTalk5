@@ -75,8 +75,7 @@
 #include <QTextToSpeech>
 #endif
 
-#if defined(Q_OS_LINUX) //For hotkeys and DBus on X11
-#include <QtDBus/QtDBus>
+#if defined(Q_OS_LINUX) //For hotkeys on X11
 #include <X11/Xlib.h>
 #include <X11/Xutil.h>
 #if QT_VERSION < QT_VERSION_CHECK(6,0,0)
@@ -866,23 +865,7 @@ void MainWindow::initialScreenReaderSetup()
 #if defined(ENABLE_TOLK) || defined(Q_OS_LINUX)
     if (ttSettings->value(SETTINGS_GENERAL_FIRSTSTART, SETTINGS_GENERAL_FIRSTSTART_DEFAULT).toBool())
     {
-        bool SRActive = false;
-#if defined(ENABLE_TOLK)
-        bool tolkLoaded = Tolk_IsLoaded();
-        if (!tolkLoaded)
-            Tolk_Load();
-
-        SRActive = Tolk_DetectScreenReader() != nullptr;
-
-        if (!tolkLoaded)
-            Tolk_Unload();
-#elif defined(Q_OS_LINUX)
-        QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
-        if (interface.isValid())
-        {
-            SRActive = interface.property("IsEnabled").toBool();
-        }
-#endif
+        bool SRActive = isScreenReaderActive();
         if (SRActive)
         {
             QMessageBox answer;
