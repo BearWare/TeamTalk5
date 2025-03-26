@@ -880,7 +880,7 @@ void MainWindow::initialScreenReaderSetup()
         QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
         if (interface.isValid())
         {
-            SRActive = interface.property("ScreenReaderEnabled").toBool();
+            SRActive = interface.property("IsEnabled").toBool();
         }
 #endif
         if (SRActive)
