@@ -151,6 +151,26 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
+bool isScreenReaderActive()
+{
+    bool SRActive = false;
+#if defined(ENABLE_TOLK)
+    bool tolkLoaded = Tolk_IsLoaded();
+    if (!tolkLoaded)
+        Tolk_Load();
+    SRActive = Tolk_DetectScreenReader() != nullptr;
+    if (!tolkLoaded)
+        Tolk_Unload();
+#elif defined(Q_OS_LINUX)
+    QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
+    if (interface.isValid())
+    {
+        SRActive = interface.property("ScreenReaderEnabled").toBool();
+    }
+#endif
+    return SRActive;
+}
+
 QString UtilTTS::getDefaultValue(const QString& paramKey)
 {
     if (paramKey == SETTINGS_TTSMSG_USER_LOGGEDIN)

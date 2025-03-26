@@ -19,15 +19,13 @@
 #define COMMON_H
 
 #include "utiltt.h"
+#include "utiltts.h"
 
 #include <QList>
 #include <QFile>
 #include <QDateTime>
 #include <QMap>
 #include <QVector>
-#if defined(ENABLE_TOLK)
-#include <Tolk.h>
-#endif
 
 //For TT_DoChangeStatus
 enum StatusMode
@@ -212,6 +210,5 @@ QString getDateTimeStamp();
 QString generateLogFileName(const QString& name);
 bool openLogFile(QFile& file, const QString& folder, const QString& name);
 bool writeLogEntry(QFile& file, const QString& line);
-bool isScreenReaderActive();
 
 #endif

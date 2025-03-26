@@ -111,6 +111,7 @@ enum TTSOutputMode
 
 void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg);
 void addTextToSpeechMessage(const QString& msg);
+bool isScreenReaderActive();
 
 class UtilTTS : public QObject
 {
