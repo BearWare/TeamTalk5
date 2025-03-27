@@ -24,9 +24,6 @@
 #include <QDir>
 #include <QStack>
 #include <QTemporaryFile>
-#if defined(Q_OS_LINUX) //For DBus on X11
-#include <QtDBus/QtDBus>
-#endif
 
 #define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 

@@ -31,6 +31,9 @@
 #if defined(Q_OS_MAC)
 #include <QProcess>
 #endif
+#if defined(Q_OS_LINUX) //For DBus on X11
+#include <QtDBus/QtDBus>
+#endif
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
