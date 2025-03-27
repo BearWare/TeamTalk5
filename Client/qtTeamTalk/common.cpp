@@ -507,7 +507,7 @@ QString getVersion(const User& user)
 QString limitText(const QString& text)
 {
     int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
-    if(text.size()>len+3)
+    if(text.size()>len+3 && !isScreenReaderActive())
         return text.left(len) + "...";
     return text;
 }
