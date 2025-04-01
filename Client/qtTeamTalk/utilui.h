@@ -141,6 +141,8 @@ void setCurrentItemData(QComboBox* cbox, const QVariant& itemdata);
 QVariant getCurrentItemData(QComboBox* cbox, const QVariant& not_found = QVariant());
 
 QString getBearWareWebLogin(QWidget* parent);
+QString limitText(const QString& text);
+QString getDisplayName(const User& user);
 
 textmessages_t sendTextMessage(const TextMessage& msg, const QString& content);
 

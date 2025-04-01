@@ -16,7 +16,7 @@
  */
 
 #include "moveusersdlg.h"
-#include "common.h"
+#include "utilui.h"
 #include "appinfo.h"
 
 extern TTInstance* ttInst;

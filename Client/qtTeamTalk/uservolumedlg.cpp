@@ -18,6 +18,7 @@
 #include "uservolumedlg.h"
 #include "appinfo.h"
 #include "utilsound.h"
+#include "utilui.h"
 #include <settings.h>
 
 #include <QMessageBox>
