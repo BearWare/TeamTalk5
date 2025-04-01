@@ -305,6 +305,31 @@ QString getBearWareWebLogin(QWidget* parent)
     return username;
 }
 
+
+QString limitText(const QString& text)
+{
+    int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
+    if(text.size()>len+3 && !isScreenReaderActive())
+        return text.left(len) + "...";
+    return text;
+}
+
+#define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
+
+QString getDisplayName(const User& user)
+{
+    if(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
+                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool())
+    {
+        return limitText(_Q(user.szUsername));
+    }
+
+    QString nickname = _Q(user.szNickname);
+    if (nickname.isEmpty())
+        nickname = QString("%1 - #%2").arg(QCoreApplication::translate("MainWindow", DEFAULT_NICKNAME)).arg(user.nUserID);
+    return limitText(nickname);
+}
+
 textmessages_t buildTextMessages(const TextMessage& msg, const QString& content)
 {
     Q_ASSERT(msg.szMessage[0] == '\0');
