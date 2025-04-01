@@ -8,7 +8,7 @@ if (MSVC)
   
   ExternalProject_Add(tolk-src
     GIT_REPOSITORY    https://github.com/bear101/tolk
-    GIT_TAG           6544167
+    GIT_TAG           1e538e2
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DTOLK_WITH_JAVAJNI=OFF -DTOLK_MULTITHREADED=ON
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Release
