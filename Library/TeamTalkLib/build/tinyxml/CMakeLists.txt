@@ -12,7 +12,7 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(tinyxml-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml
-      GIT_TAG           bdr/cmake
+      GIT_TAG           bdr_v2
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DTINYXML_MULTITHREADED=ON
@@ -46,7 +46,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
-        GIT_TAG           bdr/cmake
+        GIT_TAG           bdr_v2
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -76,7 +76,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
-        GIT_TAG           bdr/cmake
+        GIT_TAG           bdr_v2
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -105,7 +105,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml
-        GIT_TAG           bdr/cmake
+        GIT_TAG           bdr_v2
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
