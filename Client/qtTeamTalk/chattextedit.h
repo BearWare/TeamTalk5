@@ -34,6 +34,7 @@ public:
     virtual void addLogMessage(const QString& msg) = 0;
 
     virtual bool hasFocus() const = 0;
+    virtual void setFocus() = 0;
 };
 
 class ChatTextEdit : public QPlainTextEdit, public ChatTextHistory
@@ -50,7 +51,7 @@ public:
     QString addTextMessage(const MyTextMessage& msg) override;
     void addLogMessage(const QString& msg) override;
     bool hasFocus() const override { return QPlainTextEdit::hasFocus(); }
-
+    void setFocus() override { QPlainTextEdit::setFocus(); }
 signals:
     void clearHistory();
 private:

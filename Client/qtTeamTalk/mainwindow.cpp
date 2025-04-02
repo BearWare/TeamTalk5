@@ -48,6 +48,7 @@
 #include "utilmedia.h"
 #include "moveusersdlg.h"
 #include "useraccountdlg.h"
+#include "chattextlist.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -2764,11 +2765,29 @@ void MainWindow::setupChatHistory()
 {
     m_chathistory.clear();
 
-    //ui.chatTab->layout()->replaceWidget()
+    bool listview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool();
+    if (listview)
+    {
+        auto chat = new ChatTextList(ui.chatTab);
+        delete ui.chatTab->layout()->replaceWidget(ui.chatEdit, chat);
+        m_chathistory[TAB_CHAT] = chat;
 
-    m_chathistory[TAB_CHAT] = ui.chatEdit;
-    m_chathistory[TAB_VIDEO] = ui.videochatEdit;
-    m_chathistory[TAB_DESKTOP] = ui.desktopchatEdit;
+        auto video = new ChatTextList(ui.videoTab);
+        delete ui.videoTab->layout()->replaceWidget(ui.videochatEdit, video);
+        m_chathistory[TAB_VIDEO] = video;
+
+        auto desktop = new ChatTextList(ui.desktopTab);
+        delete ui.desktopTab->layout()->replaceWidget(ui.desktopchatEdit, desktop);
+        m_chathistory[TAB_DESKTOP] = desktop;
+
+        ui.chatEdit = ui.videochatEdit = ui.desktopchatEdit = nullptr;
+    }
+    else
+    {
+        m_chathistory[TAB_CHAT] = ui.chatEdit;
+        m_chathistory[TAB_VIDEO] = ui.videochatEdit;
+        m_chathistory[TAB_DESKTOP] = ui.desktopchatEdit;
+    }
 }
 
 void MainWindow::updateTabPages()
