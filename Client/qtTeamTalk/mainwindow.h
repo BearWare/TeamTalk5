@@ -69,7 +69,7 @@ enum TimerEvent
     TIMER_CHANGE_MEDIAFILE_POSITION,
 };
 
-enum
+enum MainTab
 {
     TAB_CHAT,
     TAB_FILES,
@@ -125,6 +125,7 @@ private:
     QLabel* m_pinglabel;
     QLabel* m_dtxlabel;
     QProgressBar* m_dtxprogress;
+    QMap<MainTab, ChatTextHistory*> m_chathistory;
 
     //keep track for active commands awaiting replies
     typedef QMap<int, CommandComplete> cmdreply_t;
@@ -227,6 +228,7 @@ private:
 
     QString getTitle();
     void updateWindowTitle();
+    void setupChatHistory();
     void updateTabPages();
 #if defined(Q_OS_WIN32)
     void firewallInstall();
