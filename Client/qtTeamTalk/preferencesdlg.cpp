@@ -461,6 +461,8 @@ void PreferencesDlg::initDisplayTab()
     ui.voiceActLevelChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER,
                                                          SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
     ui.msgpopupChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MESSAGEPOPUP, true).toBool());
+    ui.chatlistviewChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW,
+                                                        SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool());
     ui.videodlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VIDEOPOPUP, false).toBool());
     ui.vidtextChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VIDEOTEXT_SHOW, false).toBool());
     ui.desktopdlgChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_DESKTOPPOPUP, false).toBool());
@@ -787,6 +789,12 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_MOTD_DLG, ui.dlgMOTDChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANNEL_TOPIC, ui.chanTopicChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked());
+        bool modlistview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool() != ui.chatlistviewChkBox->isChecked();
+        ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, ui.chatlistviewChkBox->isChecked());
+        if (modlistview)
+            QMessageBox::critical(this, tr("Chat History"),
+                                  tr("Please restart application to change to chat history control"));
+
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {

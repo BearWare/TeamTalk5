@@ -428,6 +428,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="chatlistviewChkBox">
+              <property name="text">
+               <string>Show chat history as list view instead of text edit</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="ServnameChkBox">
               <property name="text">
                <string>Show both server and channel name in window title</string>
@@ -2258,15 +2265,15 @@
  </widget>
  <customwidgets>
   <customwidget>
-   <class>MyTableView</class>
-   <extends>QTableView</extends>
-   <header>mytableview.h</header>
-  </customwidget>
-  <customwidget>
    <class>MyTabWidget</class>
    <extends>QTabWidget</extends>
    <header>mytabwidget.h</header>
    <container>1</container>
+  </customwidget>
+  <customwidget>
+   <class>MyTableView</class>
+   <extends>QTableView</extends>
+   <header>mytableview.h</header>
   </customwidget>
  </customwidgets>
  <resources>

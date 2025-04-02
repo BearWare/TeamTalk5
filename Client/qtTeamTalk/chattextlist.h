@@ -36,6 +36,7 @@ public:
     QString addTextMessage(const MyTextMessage& msg) override;
     void addLogMessage(const QString& msg) override;
     bool hasFocus() const override { return QListWidget::hasFocus(); }
+    void setFocus() override { QListWidget::setFocus(); }
 
     void clearHistory();
     void copyAllHistory();
