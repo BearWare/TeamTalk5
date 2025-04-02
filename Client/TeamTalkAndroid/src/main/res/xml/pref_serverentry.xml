@@ -103,7 +103,6 @@
             android:disableDependentsState="true"
             android:persistent="false" />
         <EditTextPreference
-            android:defaultValue="/"
             android:key="channel"
             android:title="@string/pref_title_channel"
             android:selectAllOnFocus="true"

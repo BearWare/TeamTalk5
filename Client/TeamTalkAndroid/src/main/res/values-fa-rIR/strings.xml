@@ -406,6 +406,8 @@
     <string name="text_operator_password">رمز اپراتور</string>
     <string name="action_editsrv">ویرایشِ سِروِر</string>
     <string name="action_removesrv">حذفِ سِروِر</string>
+    <string name="action_broadcast">پیام همگانی</string>
+    <string name="text_broadcast_message">پیام همگانی را بنویسید</string>
 
 
 </resources>

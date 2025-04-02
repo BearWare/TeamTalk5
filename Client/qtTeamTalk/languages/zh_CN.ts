@@ -1577,7 +1577,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/秒， 前一秒 %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -5739,7 +5739,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1867"/>
         <source>Use toast notification</source>
-        <translation type="unfinished"></translation>
+        <translation>使用 Toast 通知</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1893"/>
@@ -6252,17 +6252,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>无法初始化声音双工模式： %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法初始化声音输入设备： %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="338"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>无法初始化声音输出设备： %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="364"/>

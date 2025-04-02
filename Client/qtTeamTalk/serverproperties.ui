@@ -230,6 +230,33 @@
         <string>Server Bandwidth Limitations</string>
        </property>
        <layout class="QGridLayout" name="gridLayout">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_14">
+          <property name="text">
+           <string>Voice TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>audtxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="1">
+         <widget class="QSpinBox" name="audtxSpinBox">
+          <property name="alignment">
+           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+          </property>
+          <property name="maximum">
+           <number>1000000</number>
+          </property>
+         </widget>
+        </item>
+        <item row="0" column="2">
+         <widget class="QLabel" name="label_15">
+          <property name="text">
+           <string>KBytes/sec (0 = disabled)</string>
+          </property>
+         </widget>
+        </item>
         <item row="1" column="0">
          <widget class="QLabel" name="label_16">
           <property name="text">
@@ -257,8 +284,18 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="1">
-         <widget class="QSpinBox" name="totaltxSpinBox">
+        <item row="2" column="0">
+         <widget class="QLabel" name="label_24">
+          <property name="text">
+           <string>Media File TX max</string>
+          </property>
+          <property name="buddy">
+           <cstring>mediafiletxSpinBox</cstring>
+          </property>
+         </widget>
+        </item>
+        <item row="2" column="1">
+         <widget class="QSpinBox" name="mediafiletxSpinBox">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -267,47 +304,10 @@
           </property>
          </widget>
         </item>
-        <item row="4" column="2">
-         <widget class="QLabel" name="label_13">
+        <item row="2" column="2">
+         <widget class="QLabel" name="label_25">
           <property name="text">
            <string>KBytes/sec (0 = disabled)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="0">
-         <widget class="QLabel" name="label_14">
-          <property name="text">
-           <string>Voice TX max</string>
-          </property>
-          <property name="buddy">
-           <cstring>audtxSpinBox</cstring>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="2">
-         <widget class="QLabel" name="label_15">
-          <property name="text">
-           <string>KBytes/sec (0 = disabled)</string>
-          </property>
-         </widget>
-        </item>
-        <item row="0" column="1">
-         <widget class="QSpinBox" name="audtxSpinBox">
-          <property name="alignment">
-           <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
-          </property>
-          <property name="maximum">
-           <number>1000000</number>
-          </property>
-         </widget>
-        </item>
-        <item row="4" column="0">
-         <widget class="QLabel" name="label_12">
-          <property name="text">
-           <string>Total TX max</string>
-          </property>
-          <property name="buddy">
-           <cstring>totaltxSpinBox</cstring>
           </property>
          </widget>
         </item>
@@ -338,18 +338,18 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="0">
-         <widget class="QLabel" name="label_24">
+        <item row="4" column="0">
+         <widget class="QLabel" name="label_12">
           <property name="text">
-           <string>Media File TX max</string>
+           <string>Total TX max</string>
           </property>
           <property name="buddy">
-           <cstring>mediafiletxSpinBox</cstring>
+           <cstring>totaltxSpinBox</cstring>
           </property>
          </widget>
         </item>
-        <item row="2" column="1">
-         <widget class="QSpinBox" name="mediafiletxSpinBox">
+        <item row="4" column="1">
+         <widget class="QSpinBox" name="totaltxSpinBox">
           <property name="alignment">
            <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
           </property>
@@ -358,8 +358,8 @@
           </property>
          </widget>
         </item>
-        <item row="2" column="2">
-         <widget class="QLabel" name="label_25">
+        <item row="4" column="2">
+         <widget class="QLabel" name="label_13">
           <property name="text">
            <string>KBytes/sec (0 = disabled)</string>
           </property>

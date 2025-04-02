@@ -25,8 +25,6 @@
 #include <QStack>
 #include <QTemporaryFile>
 
-#define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
-
 extern QSettings* ttSettings;
 extern TTInstance* ttInst;
 
@@ -502,28 +500,6 @@ QString getVersion(const User& user)
         .arg(user.uVersion >> 16)
         .arg((user.uVersion >> 8) & 0xFF)
         .arg(user.uVersion & 0xFF);
-}
-
-QString limitText(const QString& text)
-{
-    int len = ttSettings->value(SETTINGS_DISPLAY_MAX_STRING, SETTINGS_DISPLAY_MAX_STRING_DEFAULT).toInt();
-    if(text.size()>len+3)
-        return text.left(len) + "...";
-    return text;
-}
-
-QString getDisplayName(const User& user)
-{
-    if(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
-                         SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT).toBool())
-    {
-        return limitText(_Q(user.szUsername));
-    }
-
-    QString nickname = _Q(user.szNickname);
-    if (nickname.isEmpty())
-        nickname = QString("%1 - #%2").arg(QCoreApplication::translate("MainWindow", DEFAULT_NICKNAME)).arg(user.nUserID);
-    return limitText(nickname);
 }
 
 QString generateAudioStorageFilename(AudioFileFormat aff)

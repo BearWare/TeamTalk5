@@ -31,6 +31,9 @@
 #if defined(Q_OS_MAC)
 #include <QProcess>
 #endif
+#if defined(Q_OS_LINUX) //For DBus on X11
+#include <QtDBus/QtDBus>
+#endif
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
@@ -149,6 +152,26 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     {
         addTextToSpeechMessage(msg);
     }
+}
+
+bool isScreenReaderActive()
+{
+    bool SRActive = false;
+#if defined(ENABLE_TOLK)
+    bool tolkLoaded = Tolk_IsLoaded();
+    if (!tolkLoaded)
+        Tolk_Load();
+    SRActive = Tolk_DetectScreenReader() != nullptr;
+    if (!tolkLoaded)
+        Tolk_Unload();
+#elif defined(Q_OS_LINUX)
+    QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
+    if (interface.isValid())
+    {
+        SRActive = interface.property("IsEnabled").toBool();
+    }
+#endif
+    return SRActive;
 }
 
 QString UtilTTS::getDefaultValue(const QString& paramKey)
