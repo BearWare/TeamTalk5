@@ -38,7 +38,7 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
+ChatTextList::ChatTextList(QWidget * parent/* = 0*/)
 : QListWidget(parent)
 {
     setMouseTracking(true);
@@ -46,7 +46,7 @@ ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
     setSelectionMode(QAbstractItemView::ExtendedSelection);
 }
 
-QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
+QString ChatTextList::getTimeStamp(const QDateTime& tm, bool force_ts)
 {
     QString dt;
     if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
@@ -54,7 +54,7 @@ QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
     return dt;
 }
 
-QString ChatTextEdit::getTextMessagePrefix(const TextMessage& msg, const User& user)
+QString ChatTextList::getTextMessagePrefix(const TextMessage& msg, const User& user)
 {
     switch (msg.nMsgType)
     {
@@ -77,7 +77,7 @@ QString ChatTextEdit::getTextMessagePrefix(const TextMessage& msg, const User& u
     return QString();
 }
 
-void ChatTextEdit::updateServer(const ServerProperties& srvprop)
+void ChatTextList::updateServer(const ServerProperties& srvprop)
 {
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
@@ -106,7 +106,7 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     limitText();
 }
 
-void ChatTextEdit::joinedChannel(int channelid)
+void ChatTextList::joinedChannel(int channelid)
 {
     TTCHAR buff[TT_STRLEN]; Channel chan;
     if(!TT_GetChannel(ttInst, channelid, &chan) || !TT_GetChannelPath(ttInst, channelid, buff)) return;
@@ -140,7 +140,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     limitText();
 }
 
-QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
+QString ChatTextList::addTextMessage(const MyTextMessage& msg)
 {
     User user;
     if (!TT_GetUser(ttInst, msg.nFromUserID, &user))
@@ -167,7 +167,7 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
     return line;
 }
 
-void ChatTextEdit::addLogMessage(const QString& msg)
+void ChatTextList::addLogMessage(const QString& msg)
 {
     QString dt = getTimeStamp(QDateTime::currentDateTime());
     QString sender = tr("System");
@@ -185,12 +185,12 @@ void ChatTextEdit::addLogMessage(const QString& msg)
     limitText();
 }
 
-void ChatTextEdit::clearHistory()
+void ChatTextList::clearHistory()
 {
     clear();
 }
 
-void ChatTextEdit::copyAllHistory()
+void ChatTextList::copyAllHistory()
 {
     QString allText;
     for(int i = 0; i < count(); ++i)
@@ -204,7 +204,7 @@ void ChatTextEdit::copyAllHistory()
     QApplication::clipboard()->setText(allText);
 }
 
-void ChatTextEdit::limitText()
+void ChatTextList::limitText()
 {
     while(count() > 1000)
     {
@@ -212,7 +212,7 @@ void ChatTextEdit::limitText()
     }
 }
 
-QStringList ChatTextEdit::allUrls(const QString &text) const
+QStringList ChatTextList::allUrls(const QString &text) const
 {
     QStringList urls;
     QRegularExpression urlPattern("(http[s]?://\\S+)");
@@ -225,7 +225,7 @@ QStringList ChatTextEdit::allUrls(const QString &text) const
     return urls;
 }
 
-QString ChatTextEdit::currentUrl(const QListWidgetItem* item) const
+QString ChatTextList::currentUrl(const QListWidgetItem* item) const
 {
     QString text = item->text();
     QRegularExpression urlPattern("(http[s]?://\\S+)");
@@ -237,7 +237,7 @@ QString ChatTextEdit::currentUrl(const QListWidgetItem* item) const
     return QString();
 }
 
-void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
+void ChatTextList::mouseMoveEvent(QMouseEvent *e)
 {
     QListWidgetItem* item = itemAt(e->pos());
     if (item && currentUrl(item).size())
@@ -251,7 +251,7 @@ void ChatTextEdit::mouseMoveEvent(QMouseEvent *e)
     QListWidget::mouseMoveEvent(e);
 }
 
-void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
+void ChatTextList::mouseReleaseEvent(QMouseEvent *e)
 {
     if(e->button() == Qt::RightButton)
         return;
@@ -268,7 +268,7 @@ void ChatTextEdit::mouseReleaseEvent(QMouseEvent *e)
     QListWidget::mouseReleaseEvent(e);
 }
 
-void ChatTextEdit::keyPressEvent(QKeyEvent* e)
+void ChatTextList::keyPressEvent(QKeyEvent* e)
 {
     if(e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
     {
@@ -298,7 +298,7 @@ void ChatTextEdit::keyPressEvent(QKeyEvent* e)
     QListWidget::keyPressEvent(e);
 }
 
-void ChatTextEdit::mouseDoubleClickEvent(QMouseEvent* e)
+void ChatTextList::mouseDoubleClickEvent(QMouseEvent* e)
 {
     QListWidgetItem* item = itemAt(e->pos());
     if(item)
@@ -324,7 +324,7 @@ void ChatTextEdit::mouseDoubleClickEvent(QMouseEvent* e)
     QListWidget::mouseDoubleClickEvent(e);
 }
 
-void ChatTextEdit::contextMenuEvent(QContextMenuEvent* event)
+void ChatTextList::contextMenuEvent(QContextMenuEvent* event)
 {
     QListWidgetItem* item = itemAt(event->pos());
     QMenu menu(this);
@@ -347,7 +347,7 @@ void ChatTextEdit::contextMenuEvent(QContextMenuEvent* event)
 
     menu.addSeparator();
     menu.addAction(tr("Copy &All"), this, &ChatTextEdit::copyAllHistory);
-    menu.addAction(tr("&Clear"), this, &ChatTextEdit::clearHistory);
+    menu.addAction(tr("&Clear"), this, &ChatTextList::clearHistory);
 
     menu.exec(event->globalPos());
 }

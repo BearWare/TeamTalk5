@@ -19,47 +19,47 @@
 #define CHATTEXTEDIT_H
 
 #include "common.h"
-#include "chattextedit.h"
 
-#include <QListWidget>
+#include <QPlainTextEdit>
 
-class ChatTextList : public QListWidget, public ChatTextHistory
+class ChatTextHistory
+{
+public:
+    virtual ~ChatTextHistory() = default;
+
+    virtual void updateServer(const ServerProperties& srvprop) = 0;
+    virtual void joinedChannel(int channelid) = 0;
+
+    virtual QString addTextMessage(const MyTextMessage& msg) = 0;
+    virtual void addLogMessage(const QString& msg) = 0;
+};
+
+class ChatTextEdit : public QPlainTextEdit, public ChatTextHistory
 {
     Q_OBJECT
 
 public:
-    ChatTextList(QWidget * parent = 0);
+    ChatTextEdit(QWidget * parent = 0);
 
     void updateServer(const ServerProperties& srvprop) override;
+
     void joinedChannel(int channelid) override;
 
     QString addTextMessage(const MyTextMessage& msg) override;
     void addLogMessage(const QString& msg) override;
-    void clearHistory();
-    void copyAllHistory();
 
+signals:
+    void clearHistory();
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
-    QString getTextMessagePrefix(const TextMessage& msg, const User& user);
-    QStringList allUrls(const QString &text) const;
-    QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
+    QString currentUrl(const QTextCursor& cursor) const;
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent* e) override;
-    void mouseDoubleClickEvent(QMouseEvent* e) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
-
-#include <QDialog>
-
-class MessageDetailsDlg : public QDialog
-{
-    Q_OBJECT
-public:
-    explicit MessageDetailsDlg(const QString& datetime, const QString& sender, const QString& content, QWidget* parent = nullptr);
-};
 #endif

@@ -1711,7 +1711,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
-        ui.chatEdit->updateServer(msg.serverproperties);
+        ui.chatHistory->updateServer(msg.serverproperties);
         emit(serverUpdate(msg.serverproperties));
         m_srvprop = msg.serverproperties;
         updateWindowTitle();
@@ -2020,7 +2020,7 @@ void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
     if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool() &&
         ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == STATUSBAR_BYPASS))
     {
-        ui.chatEdit->addLogMessage(msg);
+        ui.chatHistory->addLogMessage(msg);
         ui.videochatEdit->addLogMessage(msg);
         ui.desktopchatEdit->addLogMessage(msg);
     }
@@ -2919,7 +2919,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        QString line = ui.chatEdit->addTextMessage(textmsg);
+        QString line = ui.chatHistory->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
 
@@ -2958,7 +2958,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_BROADCAST :
     {
-        ui.chatEdit->addTextMessage(textmsg);
+        ui.chatHistory->addTextMessage(textmsg);
         ui.videochatEdit->addTextMessage(textmsg);
         ui.desktopchatEdit->addTextMessage(textmsg);
 
@@ -3077,7 +3077,7 @@ void MainWindow::processMyselfJoined(int channelid)
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //show channel information in chat window
-    ui.chatEdit->joinedChannel(channelid);
+    ui.chatHistory->joinedChannel(channelid);
 
     ui.msgEdit->setVisible(true);
     ui.videomsgEdit->setVisible(true);
@@ -7807,7 +7807,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             slotChannelsDownloadFile();
         }
     }
-    if (ui.chatEdit->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
+    if (ui.chatHistory->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
     {
         QString key = e->text();
         if (!key.isEmpty() && key.size() == 1)
@@ -7815,7 +7815,7 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             QChar keyText = key.at(0);    
             if (keyText.isPrint())
             {
-                if (ui.chatEdit->hasFocus())
+                if (ui.chatHistory->hasFocus())
                 {
                     ui.msgEdit->setFocus();
                     ui.msgEdit->kPress(e);
