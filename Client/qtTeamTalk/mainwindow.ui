@@ -339,9 +339,6 @@
          </property>
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
-           <property name="mouseTracking">
-            <bool>false</bool>
-           </property>
            <property name="accessibleName">
             <string>History</string>
            </property>
@@ -434,12 +431,6 @@
            </property>
            <property name="sortingEnabled" stdset="0">
             <bool>true</bool>
-           </property>
-           <property name="selectionMode">
-            <enum>QAbstractItemView::ExtendedSelection</enum>
-           </property>
-           <property name="selectionBehavior">
-            <enum>QAbstractItemView::SelectRows</enum>
            </property>
            <property name="tabKeyNavigation" stdset="0">
             <bool>false</bool>
