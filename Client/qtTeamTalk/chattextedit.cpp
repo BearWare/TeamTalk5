@@ -122,6 +122,8 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
 : QPlainTextEdit(parent)
 {
+    setAccessibleName(tr("History"));
+
     new UrlSyntaxHighlighter(document());
     viewport()->setMouseTracking(true);
     setTabChangesFocus(true);
