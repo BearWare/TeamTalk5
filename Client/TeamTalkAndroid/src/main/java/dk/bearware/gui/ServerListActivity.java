@@ -275,7 +275,6 @@ extends AppCompatActivity
                     if (entries != null) {
                         for (ServerEntry entry : entries) {
                             entry.servertype = ServerEntry.ServerType.LOCAL;
-                            entry.rememberLastChannel = true;
                         }
                         servers.addAll(entries);
                         Collections.sort(servers, this);

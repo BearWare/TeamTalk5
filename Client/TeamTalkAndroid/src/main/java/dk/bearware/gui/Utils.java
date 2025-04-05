@@ -294,7 +294,6 @@ public class Utils {
             if (hostnode.getNodeType() == Node.ELEMENT_NODE) {
                 Element hostelement = (Element) hostnode;
                 ServerEntry entry = new ServerEntry();
-                entry.rememberLastChannel = false;
                 NodeList namenode = hostelement.getElementsByTagName("name");
                 if (namenode.getLength() > 0)
                     entry.servername = namenode.item(0).getTextContent();
@@ -369,6 +368,9 @@ public class Utils {
                     Node joinnode = joinlist.item(0);
                     if (joinnode.getNodeType() == Node.ELEMENT_NODE) {
                         Element joinelement = (Element) joinnode;
+                        NodeList rememberLastChannelnode = hostelement.getElementsByTagName("rememberLastChannel");
+                        if (rememberLastChannelnode.getLength() > 0)
+                            entry.rememberLastChannel = rememberLastChannelnode.item(0).getTextContent().equalsIgnoreCase("true");
                         NodeList channelnode = joinelement.getElementsByTagName("channel");
                         if (channelnode.getLength() > 0)
                             entry.channel = channelnode.item(0).getTextContent();
@@ -428,6 +430,7 @@ public class Utils {
                 serializer.startTag(null, "password").text(server.password).endTag(null, "password");
                 serializer.endTag(null, "auth");
                 serializer.startTag(null, "join");
+                serializer.startTag(null, "rememberLastChannel").text(String.valueOf(server.rememberLastChannel)).endTag(null, "rememberLastChannel");
                 serializer.startTag(null, "channel").text(server.channel).endTag(null, "channel");
                 serializer.startTag(null, "password").text(server.chanpasswd).endTag(null, "password");
                 serializer.endTag(null, "join");
