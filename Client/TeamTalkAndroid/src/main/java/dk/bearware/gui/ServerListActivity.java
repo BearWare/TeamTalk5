@@ -164,10 +164,6 @@ extends AppCompatActivity
     protected void onStart() {
         super.onStart();
 
-        if ((serverentry != null) && serverentry.rememberLastChannel) {
-            saveServers();
-        }
-
         Permissions.POST_NOTIFICATIONS.request(this);
         Permissions.INTERNET.request(this);
         Permissions.RECORD_AUDIO.request(this);
