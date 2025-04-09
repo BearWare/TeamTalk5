@@ -68,6 +68,9 @@ void processJoinXML(const QDomElement& hostElement, HostEntry& entry)
         tmp = join.firstChildElement("password");
         if (!tmp.isNull())
             entry.chanpasswd = tmp.text();
+        tmp = join.firstChildElement("join-last-channel");
+        if (!tmp.isNull())
+            entry.lastChan = tmp.text() == "true";
     }
 }
 
@@ -279,12 +282,15 @@ QByteArray generateTTFile(const HostEntry& entry)
 
         QDomElement channel = doc.createElement("channel");
         channel.appendChild(doc.createTextNode(entry.channel));
+        join.appendChild(channel);
 
         QDomElement password = doc.createElement("password");
         password.appendChild(doc.createTextNode(entry.chanpasswd));
-
-        join.appendChild(channel);
         join.appendChild(password);
+
+        QDomElement joinlast = doc.createElement("join-last-channel");
+        joinlast.appendChild(doc.createTextNode(entry.lastChan ? "true" : "false"));
+        join.appendChild(joinlast);
 
         host.appendChild(join);
     }
