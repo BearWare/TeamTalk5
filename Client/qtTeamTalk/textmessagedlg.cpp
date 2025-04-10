@@ -61,9 +61,12 @@ void TextMessageDlg::init(const User& user)
     bool listview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool();
     if (listview)
     {
+        ui.horizontalLayout_2->removeWidget(ui.historyTextEdit);
+
         auto chat = new ChatTextList(ui.groupBox);
-        delete ui.groupBox->layout()->replaceWidget(ui.historyTextEdit, chat);
         m_history = chat;
+        ui.horizontalLayout_2->addWidget(chat);
+        delete ui.historyTextEdit;
         ui.historyTextEdit = nullptr;
     }
     else
