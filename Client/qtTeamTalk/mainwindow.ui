@@ -340,7 +340,10 @@
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
            <property name="accessibleName">
-            <string>History</string>
+            <string notr="true">History</string>
+           </property>
+           <property name="accessibleDescription">
+            <string notr="true"/>
            </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
@@ -973,7 +976,10 @@
                  <bool>false</bool>
                 </property>
                 <property name="accessibleName">
-                 <string>History</string>
+                 <string notr="true">History</string>
+                </property>
+                <property name="accessibleDescription">
+                 <string notr="true"/>
                 </property>
                 <property name="tabChangesFocus">
                  <bool>true</bool>
@@ -1259,7 +1265,10 @@
                  <bool>false</bool>
                 </property>
                 <property name="accessibleName">
-                 <string>History</string>
+                 <string notr="true">History</string>
+                </property>
+                <property name="accessibleDescription">
+                 <string notr="true"/>
                 </property>
                 <property name="tabChangesFocus">
                  <bool>true</bool>
