@@ -52,6 +52,7 @@ private:
     void init(const User& user);
 
     Ui::TextMessageDlg ui;
+    ChatTextHistory* m_history;
     int m_userid;
     void newMsg(const MyTextMessage& msg, bool store);
     bool m_textchanged;

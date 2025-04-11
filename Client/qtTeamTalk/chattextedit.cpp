@@ -122,8 +122,18 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
 : QPlainTextEdit(parent)
 {
+    setAccessibleName(tr("History"));
+
     new UrlSyntaxHighlighter(document());
     viewport()->setMouseTracking(true);
+    setTabChangesFocus(true);
+    setUndoRedoEnabled(false);
+    setReadOnly(true);
+    setTextInteractionFlags(Qt::TextInteractionFlag::LinksAccessibleByKeyboard |
+                            Qt::TextInteractionFlag::LinksAccessibleByMouse |
+                            Qt::TextInteractionFlag::TextBrowserInteraction |
+                            Qt::TextInteractionFlag::TextSelectableByKeyboard |
+                            Qt::TextInteractionFlag::TextSelectableByMouse);
 }
    
 QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
