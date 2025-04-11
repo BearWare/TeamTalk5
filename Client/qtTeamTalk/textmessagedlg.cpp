@@ -21,6 +21,7 @@
 #include "utilsound.h"
 #include "utiltts.h"
 #include "utilui.h"
+#include "chattextlist.h"
 
 #include <QDebug>
 #include <QMessageBox>
@@ -57,6 +58,25 @@ TextMessageDlg::TextMessageDlg(const User& user, const textmessages_t& msgs,
 void TextMessageDlg::init(const User& user)
 {
     ui.setupUi(this);
+    bool listview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool();
+    if (listview)
+    {
+        ui.horizontalLayout_2->removeWidget(ui.historyTextEdit);
+
+        auto chat = new ChatTextList(ui.groupBox);
+        m_history = chat;
+        ui.horizontalLayout_2->addWidget(chat);
+        delete ui.historyTextEdit;
+        ui.historyTextEdit = nullptr;
+    }
+    else
+    {
+        m_history = ui.historyTextEdit;
+        connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
+            emit(clearUserTextMessages(m_userid));
+        });
+    }
+
     setWindowIcon(QIcon(APPICON));
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS).toByteArray());
     ui.splitter->restoreState(ttSettings->value(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER).toByteArray());
@@ -67,9 +87,6 @@ void TextMessageDlg::init(const User& user)
     connect(ui.newmsgTextEdit, &QPlainTextEdit::textChanged, this, &TextMessageDlg::slotTextChanged);
     connect(ui.newmsgTextEdit, &SendTextEdit::sendTextMessage,
             this, &TextMessageDlg::slotSendMsg);
-    connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
-        emit(clearUserTextMessages(m_userid));
-    });
     slotUpdateUser(user);
     slotTextChanged();
 
@@ -190,7 +207,7 @@ void TextMessageDlg::newMsg(const MyTextMessage& msg, bool store)
     {
     case MSGTYPE_USER :
     {
-        QString line = ui.historyTextEdit->addTextMessage(msg);
+        QString line = m_history->addTextMessage(msg);
         ui.newmsgGroupBox->setTitle(tr("New message"));
 
         QString folder = ttSettings->value(SETTINGS_MEDIASTORAGE_USERLOGFOLDER).toString();
@@ -249,11 +266,11 @@ void TextMessageDlg::keyPressEvent(QKeyEvent* e)
     if (e->key() == Qt::Key_F6)
     {
         if (ui.newmsgTextEdit->hasFocus())
-            ui.historyTextEdit->setFocus();
-        else if (ui.historyTextEdit->hasFocus())
+            m_history->setFocus();
+        else if (m_history->hasFocus())
             ui.newmsgTextEdit->setFocus();
     }
-    if (ui.historyTextEdit->hasFocus())
+    if (m_history->hasFocus())
     {
         QString key = e->text();
         if (!key.isEmpty() && key.size() == 1)

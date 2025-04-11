@@ -78,6 +78,8 @@
 #define SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT   true
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER           "display/voice-act-slider"
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT   true
+#define SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW      "display/chat-history-as-listview"
+#define SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT isScreenReaderActive()
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
 #define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
 #define SETTINGS_DISPLAY_SHOWUSERNAME               "display/showusername"

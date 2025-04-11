@@ -48,6 +48,7 @@
 #include "utilmedia.h"
 #include "moveusersdlg.h"
 #include "useraccountdlg.h"
+#include "chattextlist.h"
 
 #include <QMessageBox>
 #include <QInputDialog>
@@ -181,6 +182,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     }
 
     ui.setupUi(this);
+    setupChatHistory();
 
     setWindowIcon(QIcon(APPICON));
     updateWindowTitle();
@@ -1711,7 +1713,8 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
-        ui.chatEdit->updateServer(msg.serverproperties);
+        for (auto c : m_chathistory)
+            c->updateServer(msg.serverproperties);
         emit(serverUpdate(msg.serverproperties));
         m_srvprop = msg.serverproperties;
         updateWindowTitle();
@@ -2020,9 +2023,8 @@ void MainWindow::addStatusMsg(StatusBarEvent event, const QString& msg)
     if (ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool() &&
         ((ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() & event) || event == STATUSBAR_BYPASS))
     {
-        ui.chatEdit->addLogMessage(msg);
-        ui.videochatEdit->addLogMessage(msg);
-        ui.desktopchatEdit->addLogMessage(msg);
+        for (auto c : m_chathistory)
+            c->addLogMessage(msg);
     }
     m_statusmsg.enqueue(msg);
 
@@ -2759,6 +2761,48 @@ void MainWindow::firewallInstall()
 }
 #endif
 
+void MainWindow::setupChatHistory()
+{
+    m_chathistory.clear();
+
+    bool listview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool();
+    if (listview)
+    {
+        auto chat = new ChatTextList(ui.chatTab);
+        auto layout = ui.chatTab->layout();
+        auto index = layout->indexOf(ui.chatEdit);
+        layout->removeWidget(ui.chatEdit);
+        layout->addWidget(chat);
+        m_chathistory[TAB_CHAT] = chat;
+        delete ui.chatEdit;
+        ui.chatEdit = nullptr;
+
+        auto video = new ChatTextList(ui.videoTab);
+        layout = ui.videoTab->layout();
+        index = layout->indexOf(ui.videochatEdit);
+        layout->removeWidget(ui.videochatEdit);
+        layout->addWidget(video);
+        m_chathistory[TAB_VIDEO] = video;
+        delete ui.videochatEdit;
+        ui.videochatEdit = nullptr;
+
+        auto desktop = new ChatTextList(ui.desktopTab);
+        layout = ui.desktopTab->layout();
+        index = layout->indexOf(ui.desktopchatEdit);
+        layout->removeWidget(ui.desktopchatEdit);
+        layout->addWidget(desktop);
+        m_chathistory[TAB_DESKTOP] = desktop;
+        delete ui.desktopchatEdit;
+        ui.desktopchatEdit = nullptr;
+    }
+    else
+    {
+        m_chathistory[TAB_CHAT] = ui.chatEdit;
+        m_chathistory[TAB_VIDEO] = ui.videochatEdit;
+        m_chathistory[TAB_DESKTOP] = ui.desktopchatEdit;
+    }
+}
+
 void MainWindow::updateTabPages()
 {
     slotUpdateMediaTabUI();
@@ -2919,9 +2963,9 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     {
     case MSGTYPE_CHANNEL :
     {
-        QString line = ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        QString line;
+        for (auto c : m_chathistory)
+            line = c->addTextMessage(textmsg);
 
         //setup channel text logging
         QString chanlog = ttSettings->value(SETTINGS_MEDIASTORAGE_CHANLOGFOLDER).toString();
@@ -2958,9 +3002,8 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_BROADCAST :
     {
-        ui.chatEdit->addTextMessage(textmsg);
-        ui.videochatEdit->addTextMessage(textmsg);
-        ui.desktopchatEdit->addTextMessage(textmsg);
+        for (auto c : m_chathistory)
+            c->addTextMessage(textmsg);
 
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user) && user.nUserID != TT_GetMyUserID(ttInst))
@@ -3077,7 +3120,8 @@ void MainWindow::processMyselfJoined(int channelid)
     addTextToSpeechMessage(TTS_USER_JOINED, statusjoin);
 
     //show channel information in chat window
-    ui.chatEdit->joinedChannel(channelid);
+    for (auto c : m_chathistory)
+        c->joinedChannel(channelid);
 
     ui.msgEdit->setVisible(true);
     ui.videomsgEdit->setVisible(true);
@@ -7807,7 +7851,10 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             slotChannelsDownloadFile();
         }
     }
-    if (ui.chatEdit->hasFocus() || ui.videochatEdit->hasFocus() || ui.desktopchatEdit->hasFocus())
+
+    if (m_chathistory[TAB_CHAT]->hasFocus() ||
+        m_chathistory[TAB_VIDEO]->hasFocus() ||
+        m_chathistory[TAB_DESKTOP]->hasFocus())
     {
         QString key = e->text();
         if (!key.isEmpty() && key.size() == 1)
@@ -7815,17 +7862,17 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
             QChar keyText = key.at(0);    
             if (keyText.isPrint())
             {
-                if (ui.chatEdit->hasFocus())
+                if (m_chathistory[TAB_CHAT]->hasFocus())
                 {
                     ui.msgEdit->setFocus();
                     ui.msgEdit->kPress(e);
                 }
-                else if (ui.videochatEdit->hasFocus())
+                else if (m_chathistory[TAB_VIDEO]->hasFocus())
                 {
                     ui.videomsgEdit->setFocus();
                     ui.videomsgEdit->kPress(e);
                 }
-                else if (ui.desktopchatEdit->hasFocus())
+                else if (m_chathistory[TAB_DESKTOP]->hasFocus())
                 {
                     ui.desktopmsgEdit->setFocus();
                     ui.desktopmsgEdit->kPress(e);
