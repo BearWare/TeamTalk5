@@ -177,6 +177,10 @@ void migrateSettings()
             ttSettings->remove("texttospeech/tts-timestamp");
         }
 #endif
+
+        // Default sounds pack name changed in 5.5 format
+        if (ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toString() == QCoreApplication::translate("UtilUI", "Default"))
+            ttSettings->setValue(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT);
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
