@@ -1,6 +1,10 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android" >
 
     <item
+        android:id="@+id/action_message"
+        android:title="@string/action_message"/>
+
+    <item
         android:id="@+id/action_kickchan"
         android:title="@string/action_kickchan"/>
 
