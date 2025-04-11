@@ -56,6 +56,11 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     message(WARNING "No architecture specified. Defaulting to ${CMAKE_OSX_ARCHITECTURES}")
   endif()
 
+  # Prevent clang from including /usr/local (where Homebrew installs
+  # its header files and libraries)
+  list (APPEND COMPILE_FLAGS -Xclang -nostdsysteminc)
+  set (LINK_LIBS -Xclang -nostdsysteminc)
+
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
