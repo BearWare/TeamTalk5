@@ -679,7 +679,7 @@ void resetDefaultSoundsPack()
         ttSettings->setValue(paramKey, defaultValue);
     }
 
-    ttSettings->setValue(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT));
+    ttSettings->setValue(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT);
 }
 
 QString UtilSound::getDefaultFile(const QString& paramKey)

@@ -575,7 +575,7 @@ void PreferencesDlg::initSoundSystemTab()
 void PreferencesDlg::initSoundEventsTab()
 {
     ui.spackBox->clear();
-    ui.spackBox->addItem(tr("Default"));
+    ui.spackBox->addItem(tr("Default"), SETTINGS_SOUNDS_PACK_DEFAULT);
     QDir dir( SOUNDSPATH, "", QDir::Name, QDir::AllDirs|QDir::NoSymLinks|QDir::NoDotAndDotDot);
     QStringList aspack = dir.entryList();
     for(int i=0;i<aspack.size();i++)
@@ -583,7 +583,7 @@ void PreferencesDlg::initSoundEventsTab()
         QString packname = aspack[i].left(aspack[i].size());
         ui.spackBox->addItem(packname, packname);
     }
-    QString pack = ttSettings->value(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT)).toString();
+    QString pack = ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toString();
     int index = ui.spackBox->findData(pack);
     if(index>=0)
         ui.spackBox->setCurrentIndex(index);
@@ -1889,7 +1889,7 @@ void PreferencesDlg::slotTTSRevert(bool /*checked*/)
 
 void PreferencesDlg::slotSPackChange()
 {
-    if (ui.spackBox->currentText() != ttSettings->value(SETTINGS_SOUNDS_PACK, QCoreApplication::translate("MainWindow", SETTINGS_SOUNDS_PACK_DEFAULT)).toString())
+    if (ui.spackBox->currentText() != ttSettings->value(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT).toString())
     {
         resetDefaultSoundsPack();
 
@@ -1914,7 +1914,9 @@ void PreferencesDlg::slotSPackChange()
                 }
             }
         }
-        ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->currentText());
+        int index = ui.spackBox->currentIndex();
+        if(index >= 0)
+            ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->itemData(index).toString());
     }
     updateSoundEventFileEdit();
 }
