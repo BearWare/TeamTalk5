@@ -2769,18 +2769,31 @@ void MainWindow::setupChatHistory()
     if (listview)
     {
         auto chat = new ChatTextList(ui.chatTab);
-        delete ui.chatTab->layout()->replaceWidget(ui.chatEdit, chat);
+        auto layout = ui.chatTab->layout();
+        auto index = layout->indexOf(ui.chatEdit);
+        layout->removeWidget(ui.chatEdit);
+        layout->addWidget(chat);
         m_chathistory[TAB_CHAT] = chat;
+        delete ui.chatEdit;
+        ui.chatEdit = nullptr;
 
         auto video = new ChatTextList(ui.videoTab);
-        delete ui.videoTab->layout()->replaceWidget(ui.videochatEdit, video);
+        layout = ui.videoTab->layout();
+        index = layout->indexOf(ui.videochatEdit);
+        layout->removeWidget(ui.videochatEdit);
+        layout->addWidget(video);
         m_chathistory[TAB_VIDEO] = video;
+        delete ui.videochatEdit;
+        ui.videochatEdit = nullptr;
 
         auto desktop = new ChatTextList(ui.desktopTab);
-        delete ui.desktopTab->layout()->replaceWidget(ui.desktopchatEdit, desktop);
+        layout = ui.desktopTab->layout();
+        index = layout->indexOf(ui.desktopchatEdit);
+        layout->removeWidget(ui.desktopchatEdit);
+        layout->addWidget(desktop);
         m_chathistory[TAB_DESKTOP] = desktop;
-
-        ui.chatEdit = ui.videochatEdit = ui.desktopchatEdit = nullptr;
+        delete ui.desktopchatEdit;
+        ui.desktopchatEdit = nullptr;
     }
     else
     {
