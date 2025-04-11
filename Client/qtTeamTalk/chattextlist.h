@@ -15,55 +15,54 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef CHATTEXTEDIT_H
-#define CHATTEXTEDIT_H
+#ifndef CHATTEXTLIST_H
+#define CHATTEXTLIST_H
 
 #include "common.h"
+#include "chattextedit.h"
 
-#include <QPlainTextEdit>
+#include <QListWidget>
 
-class ChatTextHistory
-{
-public:
-    virtual ~ChatTextHistory() = default;
-
-    virtual void updateServer(const ServerProperties& srvprop) = 0;
-    virtual void joinedChannel(int channelid) = 0;
-
-    virtual QString addTextMessage(const MyTextMessage& msg) = 0;
-    virtual void addLogMessage(const QString& msg) = 0;
-
-    virtual bool hasFocus() const = 0;
-    virtual void setFocus() = 0;
-};
-
-class ChatTextEdit : public QPlainTextEdit, public ChatTextHistory
+class ChatTextList : public QListWidget, public ChatTextHistory
 {
     Q_OBJECT
 
 public:
-    ChatTextEdit(QWidget * parent = 0);
+    ChatTextList(QWidget * parent = 0);
 
     void updateServer(const ServerProperties& srvprop) override;
-
     void joinedChannel(int channelid) override;
 
     QString addTextMessage(const MyTextMessage& msg) override;
     void addLogMessage(const QString& msg) override;
-    bool hasFocus() const override { return QPlainTextEdit::hasFocus(); }
-    void setFocus() override { QPlainTextEdit::setFocus(); }
-signals:
+    bool hasFocus() const override { return QListWidget::hasFocus(); }
+    void setFocus() override { QListWidget::setFocus(); }
+
     void clearHistory();
+    void copyAllHistory();
+
 private:
     static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
+    QString getTextMessagePrefix(const TextMessage& msg, const User& user);
+    QStringList allUrls(const QString &text) const;
+    QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
-    QString currentUrl(const QTextCursor& cursor) const;
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
     void mouseReleaseEvent(QMouseEvent *e) override;
     void keyPressEvent(QKeyEvent* e) override;
+    void mouseDoubleClickEvent(QMouseEvent* e) override;
     void contextMenuEvent(QContextMenuEvent *event) override;
 };
 
+
+#include <QDialog>
+
+class MessageDetailsDlg : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit MessageDetailsDlg(const QString& datetime, const QString& sender, const QString& content, QWidget* parent = nullptr);
+};
 #endif
