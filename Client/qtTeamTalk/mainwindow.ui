@@ -339,12 +339,6 @@
          </property>
          <item>
           <widget class="ChatTextEdit" name="chatEdit">
-           <property name="accessibleName">
-            <string notr="true">History</string>
-           </property>
-           <property name="accessibleDescription">
-            <string notr="true"/>
-           </property>
            <property name="tabChangesFocus">
             <bool>true</bool>
            </property>
@@ -975,12 +969,6 @@
                 <property name="mouseTracking">
                  <bool>false</bool>
                 </property>
-                <property name="accessibleName">
-                 <string notr="true">History</string>
-                </property>
-                <property name="accessibleDescription">
-                 <string notr="true"/>
-                </property>
                 <property name="tabChangesFocus">
                  <bool>true</bool>
                 </property>
@@ -1263,12 +1251,6 @@
                <widget class="ChatTextEdit" name="desktopchatEdit">
                 <property name="mouseTracking">
                  <bool>false</bool>
-                </property>
-                <property name="accessibleName">
-                 <string notr="true">History</string>
-                </property>
-                <property name="accessibleDescription">
-                 <string notr="true"/>
                 </property>
                 <property name="tabChangesFocus">
                  <bool>true</bool>
