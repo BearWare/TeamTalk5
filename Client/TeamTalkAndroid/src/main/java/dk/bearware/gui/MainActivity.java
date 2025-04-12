@@ -1472,10 +1472,17 @@ private EditText newmsg;
         case R.id.action_edit:
             editChannelProperties(selectedChannel);
             break;
-        case R.id.action_message:
+        case R.id.action_edituser: {
+            Intent intent = new Intent(this, UserPropActivity.class);
+            startActivityForResult(intent.putExtra(UserPropActivity.EXTRA_USERID, selectedUser.nUserID),
+                                   REQUEST_EDITUSER);
+        }
+        break;
+        case R.id.action_message: {
             Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
             startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, selectedUser.nUserID));
-            break;
+        }
+        break;
         case R.id.action_kickchan:
             alert.setMessage(getString(R.string.kick_confirmation, selectedUser.szNickname));
             alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> ttclient.doKickUser(selectedUser.nUserID, selectedUser.nChannelID));
