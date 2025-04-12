@@ -25,6 +25,7 @@ Default Qt Client
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 Android Client
+- Added "Message" and "User properties" user menu actions
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
 - Broadcast messages are now shown in the chat tab
