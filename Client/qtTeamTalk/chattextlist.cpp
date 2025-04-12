@@ -131,7 +131,7 @@ void ChatTextList::joinedChannel(int channelid)
     topicItem->setData(Qt::UserRole + 3, tr("Topic: %1").arg(_Q(chan.szTopic)));
     addItem(topicItem);
 
-    QListWidgetItem* quotaItem = new QListWidgetItem(tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
+    QListWidgetItem* quotaItem = new QListWidgetItem(tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota)));
     quotaItem->setForeground(Qt::darkRed);
     quotaItem->setData(Qt::UserRole + 1, dt);
     quotaItem->setData(Qt::UserRole + 2, tr("Channel"));
