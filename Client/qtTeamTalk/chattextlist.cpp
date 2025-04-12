@@ -348,7 +348,7 @@ void ChatTextList::contextMenuEvent(QContextMenuEvent* event)
 
     menu.addSeparator();
     menu.addAction(tr("Copy &All"), this, &ChatTextList::copyAllHistory);
-    menu.addAction(tr("&Clear"), this, &ChatTextList::clearHistory);
+    menu.addAction(tr("C&lear"), this, &ChatTextList::clearHistory);
 
     menu.exec(event->globalPos());
 }
