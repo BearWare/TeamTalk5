@@ -135,7 +135,7 @@ void ChatTextList::joinedChannel(int channelid)
     quotaItem->setForeground(Qt::darkRed);
     quotaItem->setData(Qt::UserRole + 1, dt);
     quotaItem->setData(Qt::UserRole + 2, tr("Channel"));
-    quotaItem->setData(Qt::UserRole + 3, tr("Disk quota: %1 KBytes").arg(chan.nDiskQuota/1024));
+    quotaItem->setData(Qt::UserRole + 3, tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota)));
     addItem(quotaItem);
 
     limitText();
