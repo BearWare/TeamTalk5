@@ -397,5 +397,7 @@
     <string name="action_removesrv">Supprimer le serveur</string>
     <string name="action_broadcast">Message Diffusé</string>
     <string name="text_broadcast_message">Entrer le message à diffuser</string>
+    <string name="action_exportsrv">Exporter le serveur</string>
+    <string name="server_export_confirmation">Le serveur a été exporté dans %1$s</string>
 
 </resources>
