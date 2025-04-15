@@ -122,8 +122,6 @@ QString getTextMessagePrefix(const TextMessage& msg, const User& user)
 ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
 : QPlainTextEdit(parent)
 {
-    setAccessibleName(tr("History"));
-
     new UrlSyntaxHighlighter(document());
     viewport()->setMouseTracking(true);
     setTabChangesFocus(true);
@@ -283,6 +281,11 @@ void ChatTextEdit::addLogMessage(const QString& msg)
     cursor.setCharFormat(original);
     setTextCursor(cursor);
     limitText();
+}
+
+void ChatTextEdit::updateTranslation()
+{
+    setAccessibleName(tr("History"));
 }
 
 void ChatTextEdit::limitText()
