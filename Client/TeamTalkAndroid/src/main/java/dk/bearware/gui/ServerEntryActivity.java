@@ -122,12 +122,12 @@ implements OnPreferenceChangeListener,
     @Override
     protected void onStart() {
         super.onStart();
-        
-        if ((serverentry != null) && serverentry.rememberLastChannel) {
+
+        if (serverentry != null) {
             showServer(serverentry);
             serverentry = null;
         }
-        
+
         // Bind to LocalService if not already
         if (mConnection == null)
             mConnection = new TeamTalkConnection(this);
