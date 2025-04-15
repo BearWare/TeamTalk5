@@ -38,6 +38,8 @@ public:
     bool hasFocus() const override { return QListWidget::hasFocus(); }
     void setFocus() override { QListWidget::setFocus(); }
 
+    void updateTranslation() override;
+
     void clearHistory();
     void copyAllHistory();
 

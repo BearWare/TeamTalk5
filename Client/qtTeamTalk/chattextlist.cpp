@@ -41,7 +41,6 @@ extern QSettings* ttSettings;
 ChatTextList::ChatTextList(QWidget * parent/* = 0*/)
 : QListWidget(parent)
 {
-    setAccessibleName(tr("History"));
     setMouseTracking(true);
     setWordWrap(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
@@ -184,6 +183,11 @@ void ChatTextList::addLogMessage(const QString& msg)
 
     addItem(item);
     limitText();
+}
+
+void ChatTextList::updateTranslation()
+{
+    setAccessibleName(tr("History"));
 }
 
 void ChatTextList::clearHistory()

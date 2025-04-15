@@ -730,6 +730,9 @@ void MainWindow::loadSettings()
         }
     }
 
+    for (auto c : m_chathistory)
+        c->updateTranslation();
+
     initSound();
 
     //load settings
