@@ -182,6 +182,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     }
 
     ui.setupUi(this);
+    setupChatHistory();
 
     setWindowIcon(QIcon(APPICON));
     updateWindowTitle();
@@ -728,7 +729,6 @@ void MainWindow::loadSettings()
             }
         }
     }
-    setupChatHistory();
 
     initSound();
 
