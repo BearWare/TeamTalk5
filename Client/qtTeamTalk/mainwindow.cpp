@@ -2776,6 +2776,7 @@ void MainWindow::setupChatHistory()
         auto index = layout->indexOf(ui.chatEdit);
         layout->removeWidget(ui.chatEdit);
         layout->insertWidget(index, chat);
+        ui.chatTab->setTabOrder(chat, ui.msgEdit);
         m_chathistory[TAB_CHAT] = chat;
         delete ui.chatEdit;
         ui.chatEdit = nullptr;
@@ -2785,6 +2786,7 @@ void MainWindow::setupChatHistory()
         index = layout->indexOf(ui.videochatEdit);
         layout->removeWidget(ui.videochatEdit);
         layout->insertWidget(index, video);
+        ui.videoTab->setTabOrder(video, ui.videomsgEdit);
         m_chathistory[TAB_VIDEO] = video;
         delete ui.videochatEdit;
         ui.videochatEdit = nullptr;
@@ -2794,6 +2796,7 @@ void MainWindow::setupChatHistory()
         index = layout->indexOf(ui.desktopchatEdit);
         layout->removeWidget(ui.desktopchatEdit);
         layout->insertWidget(index, desktop);
+        ui.desktopTab->setTabOrder(desktop, ui.desktopmsgEdit);
         m_chathistory[TAB_DESKTOP] = desktop;
         delete ui.desktopchatEdit;
         ui.desktopchatEdit = nullptr;
