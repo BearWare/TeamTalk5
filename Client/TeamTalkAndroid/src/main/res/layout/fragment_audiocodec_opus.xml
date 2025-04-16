@@ -85,6 +85,7 @@
             android:id="@+id/opus_bitrateSeekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/opusbitrate"
             android:layout_weight="1" />
 
         <TextView
@@ -141,6 +142,7 @@
             android:id="@+id/opus_txintervalSeekBar"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:contentDescription="@string/opusinterval"
             android:layout_weight="1" />
 
         <TextView

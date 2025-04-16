@@ -175,11 +175,13 @@
     <string name="channel_prop_title_noaudiorecord">No Audio Recording</string>
 
 
-    <string name="user_prop_title_username">Username</string>
-    <string name="user_prop_title_statusmsg">Status Message</string>
-    <string name="user_prop_title_clientname">Client Name</string>
+    <string name="user_prop_title_nickname">Nickname:</string>
+    <string name="user_prop_title_username">Username:</string>
+    <string name="user_prop_title_userid">User ID:</string>
+    <string name="user_prop_title_statusmsg">Status Message:</string>
+    <string name="user_prop_title_clientname">Client Name:</string>
     <string name="user_prop_clientversion">version</string>
-    <string name="user_prop_title_ipaddress">IP Address</string>
+    <string name="user_prop_title_ipaddress">IP Address:</string>
     <string name="user_prop_title_voice_volume">Voice Volume</string>
     <string name="user_prop_title_mute_voice">Mute Voice</string>
     <string name="user_prop_title_media_volume">Media File Volume</string>
@@ -276,6 +278,14 @@
     <string name="ban_confirmation">Do you really wish to ban user %1$s?</string>
     <string name="kick_confirmation">Do you really wish to kick user %1$s?</string>
     <string name="version_update">New TeamTalk version available: %1$s?</string>
+    <string name="opusbitrate">bitrate</string>
+    <string name="opusinterval">Transmit interval</string>
+    <string name="speexquality">Quality</string>
+    <string name="speexinterval">Transmit interval</string>
+    <string name="speexvbrquality">Quality</string>
+    <string name="speexvbrinterval">Transmit interval</string>
+    <string name="voicevolume">Voice Volume</string>
+    <string name="mediavolume">Media File Volume</string>
     <string name="decvolume">Decrease volume</string>
     <string name="incvolume">Increase volume</string>
     <string name="speaker_mute">Mute speakers</string>

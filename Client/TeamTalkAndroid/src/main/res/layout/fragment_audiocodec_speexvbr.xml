@@ -44,6 +44,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:contentDescription="@string/speexvbrquality"
             android:layout_weight="1" />
 
     </LinearLayout>
@@ -107,6 +108,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:contentDescription="@string/speexvbrinterval"
             android:layout_weight="1" />
 
         <TextView
