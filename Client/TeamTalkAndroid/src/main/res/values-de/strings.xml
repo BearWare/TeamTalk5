@@ -142,15 +142,22 @@
     <string name="action_bansrv">Für den Server sperren</string>
     <string name="action_edit">Raum bearbeiten</string>
     <string name="action_join">Betreten</string>
+    <string name="action_edituser">Benutzereigenschaften</string>
+    <string name="action_message">Nachrichten</string>
     <string name="action_kickchan">Aus aktuellem Raum werfen</string>
     <string name="action_kicksrv">Vom Server werfen</string>
     <string name="action_move">Hierher verschieben</string>
     <string name="action_select">Zum Verschieben wählen</string>
+    <string name="action_deselect">Zum Verschieben abwählen</string>
+    <string name="action_exportsrv">Server exportieren</string>
+    <string name="action_editsrv">Server bearbeiten</string>
+    <string name="action_removesrv">Server entfernen</string>
     <string name="action_upload">Datei hochladen</string>
+    <string name="action_broadcast">Servernachricht senden</string>
     <string name="action_stream">Stream a media file</string>
     <string name="button_select_media_file">Durchsuchen</string>
     <string name="button_stream_media_file">Streamen</string>
-    <string name="button_msg">Msg</string>
+    <string name="button_msg">Nachricht</string>
     <string name="button_send">Senden</string>
 
     <string name="channel_prop_title_name">Name</string>
@@ -169,8 +176,10 @@
     
 
     <string name="user_prop_title_username">Benutzername</string>
+    <string name="user_prop_title_statusmsg">Statusnachricht</string>
     <string name="user_prop_title_clientname">Client-Name</string>
     <string name="user_prop_clientversion">Version</string>
+    <string name="user_prop_title_ipaddress">IP-Adresse</string>
     <string name="user_prop_title_voice_volume">Sprachlautstärke</string>
     <string name="user_prop_title_mute_voice">Sprache stummschalten</string>
     <string name="user_prop_title_media_volume">Medienlautstärke</string>
@@ -222,6 +231,7 @@
     <string name="action_import_serverlist">Aus Datei importieren</string>
     <string name="action_export_serverlist">Serverliste exportieren</string>
     <string name="serverlist_export_confirmation">Serverliste wurde als %1$s exportiert</string>
+    <string name="server_export_confirmation">Server wurde als %1$s exportiert</string>
 
     <string name="pref_title_server_props">TeamTalk 5 Servereigenschaften</string>
     <string name="pref_title_server_info">Serverinformationen</string>
@@ -401,6 +411,7 @@
     <string name="action_make_operator">Operator gewähren</string>
     <string name="action_revoke_operator">Operator entziehen</string>
     <string name="text_operator_password">Raumoperator-Passwort eingeben</string>
+    <string name="text_broadcast_message">Servernachricht eingeben</string>
 
 
 </resources>

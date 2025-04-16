@@ -41,7 +41,8 @@
    user detail */
 "Actions" = "Aktionen";
 
-/* channel list */
+/* channel list
+   Sound Devices */
 "Active" = "Aktiv";
 
 /* serverlist */
@@ -86,7 +87,8 @@
 /* Web Login Controller */
 "Authenticate" = "Anmelden";
 
-/* server entry */
+/* server entry
+   Web Login controller */
 "Authentication" = "Anmeldung";
 
 /* channel list */
@@ -234,6 +236,7 @@
 "Gender" = "Geschlecht";
 
 /* preferences
+   Sound Devices
    user detail */
 "General" = "Allgemein";
 
@@ -386,7 +389,8 @@
 /* Dialog
    Dialog message
    message dialog
-   user detail */
+   user detail
+   Web Login Controller */
 "OK" = "OK";
 
 /* codec detail */
@@ -400,7 +404,8 @@
 
 /* create channel
    Dialog message
-   server entry */
+   server entry
+   Web Login Controller */
 "Password" = "Passwort";
 
 /* channel list */
@@ -579,7 +584,8 @@
 "Status Event" = "Statusereignis";
 
 /* codec detail
-   create channel */
+   create channel
+   Sound Devices */
 "Stereo" = "Stereo";
 
 /* user detail */
@@ -610,7 +616,7 @@
 "Topic" = "Thema";
 
 /* preferences */
-"Translator" = "Übersetzer";
+"Translator" = "Übersetzung";
 
 /* channel list */
 "Transmit inactive" = "Übertragung inaktiv";
@@ -675,7 +681,8 @@
 "User Messages" = "Benutzernachrichten";
 
 /* server entry
-   user detail */
+   user detail
+   Web Login Controller */
 "Username" = "Benutzername";
 
 /* Web Login Controller */
