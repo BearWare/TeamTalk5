@@ -26,15 +26,13 @@ Default Qt Client
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 - Fixed ask to use default sounds pack at every language change (will be ask one last time)
 Android Client
-- Added missing labels for all sliders
-- The texts in main window and user properties window no longer have duplicate texts on them
 - Added "Message" and "User properties" user menu actions
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
 - Broadcast messages are now shown in the chat tab
 - Added the ability to send broadcast messages
 - Redesigned server list dialog to remove the old remove server button and make it to use popup menus, results in a more clear and modern dialog, and fast navigating for screenreader users
-- "IP Address", "User Id", and "status message" are added to the "User Properties" dialog
+- IP Address and status message is now shown in User Properties dialog
 - Ability to select/deselect user for move to other channel
 - Minimum supported Android v8.1 (Oreo)
 - WebRTC updated from r4332 to r6818
