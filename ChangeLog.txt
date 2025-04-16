@@ -24,17 +24,17 @@ Default Qt Client
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
-- Fixed ask to use default sounds pack at every language change (will be ask one last time)
+- Fixed ask to use default sounds pack at every language change (will be asked one last time)
 Android Client
-- Added "Message" and "User properties" user menu actions
+- Added popup menu actions in Server List dialog
+- Added "Message" and "User properties" user menu actions in channel list tab
+- IP Address and status message is now shown in User Properties dialog
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
 - Broadcast messages are now shown in the chat tab
 - Added the ability to send broadcast messages
-- Redesigned server list dialog to remove the old remove server button and make it to use popup menus, results in a more clear and modern dialog, and fast navigating for screenreader users
-- IP Address and status message is now shown in User Properties dialog
 - Ability to select/deselect user for move to other channel
-- Minimum supported Android v8.1 (Oreo)
+- Minimum supported is now Android v8.1 (Oreo)
 - WebRTC updated from r4332 to r6818
 - OPUS updated to v1.5.2
 iOS Client
