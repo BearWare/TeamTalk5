@@ -2776,6 +2776,11 @@ void MainWindow::setupChatHistory()
         auto index = layout->indexOf(ui.chatEdit);
         layout->removeWidget(ui.chatEdit);
         layout->insertWidget(index, chat);
+// hm, for some reason it's not possible to tab from ui.msgEdit to 'chat'
+//        for (int i = 0; i < layout->count() - 1; ++i)
+//            ui.chatTab->setTabOrder(layout->itemAt(i)->widget(), layout->itemAt(i+1)->widget());
+        ui.chatTab->setTabOrder(chat, ui.msgEdit);
+        ui.chatTab->setTabOrder(ui.msgEdit, ui.sendButton);
         m_chathistory[TAB_CHAT] = chat;
         delete ui.chatEdit;
         ui.chatEdit = nullptr;
@@ -2785,6 +2790,8 @@ void MainWindow::setupChatHistory()
         index = layout->indexOf(ui.videochatEdit);
         layout->removeWidget(ui.videochatEdit);
         layout->insertWidget(index, video);
+        ui.videoTab->setTabOrder(video, ui.videomsgEdit);
+        ui.videoTab->setTabOrder(ui.videomsgEdit, ui.videosendButton);
         m_chathistory[TAB_VIDEO] = video;
         delete ui.videochatEdit;
         ui.videochatEdit = nullptr;
@@ -2794,6 +2801,8 @@ void MainWindow::setupChatHistory()
         index = layout->indexOf(ui.desktopchatEdit);
         layout->removeWidget(ui.desktopchatEdit);
         layout->insertWidget(index, desktop);
+        ui.desktopTab->setTabOrder(desktop, ui.desktopmsgEdit);
+        ui.desktopTab->setTabOrder(ui.desktopmsgEdit, ui.desktopsendButton);
         m_chathistory[TAB_DESKTOP] = desktop;
         delete ui.desktopchatEdit;
         ui.desktopchatEdit = nullptr;
