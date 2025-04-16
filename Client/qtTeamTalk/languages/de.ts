@@ -1026,7 +1026,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="125"/>
         <source>History</source>
-        <translation type="unfinished">Verlauf</translation>
+        <translation>Verlauf</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="162"/>
@@ -1076,75 +1076,75 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../chattextlist.cpp" line="44"/>
         <source>History</source>
-        <translation type="unfinished">Verlauf</translation>
+        <translation>Verlauf</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="85"/>
         <location filename="../chattextlist.cpp" line="90"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">Servername: %1</translation>
+        <translation>Servername: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="89"/>
         <location filename="../chattextlist.cpp" line="101"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Server</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="97"/>
         <location filename="../chattextlist.cpp" line="102"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">Nachricht des Tages: %1</translation>
+        <translation>Nachricht des Tages: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="117"/>
         <location filename="../chattextlist.cpp" line="123"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">Du bist jetzt im Raum %1</translation>
+        <translation>Du bist jetzt im Raum %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="122"/>
         <location filename="../chattextlist.cpp" line="130"/>
         <location filename="../chattextlist.cpp" line="137"/>
         <source>Channel</source>
-        <translation type="unfinished">Raum</translation>
+        <translation>Raum</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="127"/>
         <location filename="../chattextlist.cpp" line="131"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">Thema: %1</translation>
+        <translation>Thema: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="134"/>
         <location filename="../chattextlist.cpp" line="138"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished">Speicherplatz: %1</translation>
+        <translation>Speicherplatz: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="174"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>System</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="335"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Kopieren</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="339"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Detailansicht...</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="350"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Alles kopieren</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="351"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Leeren</translation>
     </message>
 </context>
 <context>
@@ -1152,7 +1152,7 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../useraccountdlg.cpp" line="455"/>
         <source>Command Limit: </source>
-        <translation>Befehlsgrenze</translation>
+        <translation>Befehlsgrenze: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="456"/>
@@ -1624,7 +1624,7 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../filetransferdlg.cpp" line="104"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/Sekunde, letzte Sekunde %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="131"/>
@@ -4935,27 +4935,27 @@ Sollen diese Einstellungen übernommen werden?</translation>
         <location filename="../chattextlist.cpp" line="359"/>
         <location filename="../chattextlist.cpp" line="360"/>
         <source>Message Details</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichtendetails</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="364"/>
         <source>Sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gesendet: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="366"/>
         <source>By: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Von: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="370"/>
         <source>Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>Inhalt:</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="378"/>
         <source>&amp;Close</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Schließen</translation>
     </message>
 </context>
 <context>
@@ -5547,7 +5547,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatverlauf als Liste anstatt der Texteingabe anzeigen</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="552"/>
@@ -5855,7 +5855,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="1874"/>
         <source>Use toast notification</source>
-        <translation type="unfinished"></translation>
+        <translation>Toast-Benachrichtigung verwenden</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1912"/>
@@ -6170,12 +6170,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="795"/>
         <source>Chat History</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatverlauf</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="796"/>
         <source>Please restart application to change to chat history control</source>
-        <translation type="unfinished"></translation>
+        <translation>Bitte die Anwendung neustarten, um die Chatverlaufsanzeige zu ändern</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1037"/>
@@ -6336,17 +6336,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Initialisieren des Sound-Duplex-Modus: %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Initialisieren des Sound-Eingabegeräts: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="338"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Fehler beim Initialisieren des Sound-Ausgabegeräts: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="364"/>
@@ -6545,7 +6545,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Last Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Zuletzt besuchter Raum</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
