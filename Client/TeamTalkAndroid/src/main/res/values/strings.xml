@@ -142,6 +142,8 @@
     <string name="action_bansrv">Ban from server</string>
     <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
+    <string name="action_edituser">User properties</string>
+    <string name="action_message">Messages</string>
     <string name="action_kickchan">Kick from current channel</string>
     <string name="action_kicksrv">Kick from server</string>
     <string name="action_move">Move Here</string>
