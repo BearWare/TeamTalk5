@@ -33,11 +33,11 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
     * Follow build instructions in [Library/TeamTalkLib](Library/TeamTalkLib)
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, Android, iOS and Raspberry Pi OS (Debian) e.g.:
-      * `make -C Build depend-mac mac`
+      * `make -C Build depend-mac mac` requires [Homebrew](https://brew.sh)
       * `sudo make -C Build depend-ubuntu22` followed by `make -C Build ubuntu22`
   * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
       for quickly building for Linux distributions e.g.:
-      * `docker-compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
+      * `docker compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
