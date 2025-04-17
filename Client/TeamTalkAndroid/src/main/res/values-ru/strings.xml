@@ -138,6 +138,8 @@
     <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_edituser">Настройки пользователя</string>
+    <string name="action_message">Сообщения</string>
     <string name="action_kickchan">Выгнать с текущего канала</string>
     <string name="action_kicksrv">Выгнать с сервера</string>
     <string name="action_move">Переместить Сюда</string>
