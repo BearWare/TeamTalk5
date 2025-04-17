@@ -344,6 +344,8 @@ endif()
 
             # Build TeamTalk 5 installer for Apple AppStore, i.e. without server application
             add_custom_target(QtTeamTalk5Product ALL
+              # Copy Provisioning Profile
+              COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app/Contents/embedded.provisionprofile
               # Run code sign
               COMMAND codesign --deep -f --sign "Apple Distribution: Bjoern Rasmussen" --entitlements ${CMAKE_CURRENT_SOURCE_DIR}/Entitlements.plist ${CMAKE_CURRENT_SOURCE_DIR}/${TEAMTALK_TARGET}.app
               # Run productbuild
