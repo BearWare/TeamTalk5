@@ -47,12 +47,3 @@ services:
     working_dir: /TeamTalk5
     environment:
       - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r27c
-
-  centos7:
-    build:
-      context: .
-      dockerfile: Dockerfile_centos7
-    volumes:
-      - ../..:/TeamTalk5:rw,z
-    user: root
-    working_dir: /TeamTalk5
