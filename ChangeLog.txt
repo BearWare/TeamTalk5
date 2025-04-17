@@ -26,6 +26,7 @@ Default Qt Client
 - Fixed OPUS DTX mode sending too big packets when variable bitrate mode (VBR) was disabled
 - Fixed ask to use default sounds pack at every language change (will be asked one last time)
 Android Client
+- Fixed a long standing bug that some controles were not shown for some random users in "user properties" dialog
 - Added missing labels for all sliders
 - The texts in main window and user properties window no longer have duplicate texts on them
 - Added popup menu actions in Server List dialog
