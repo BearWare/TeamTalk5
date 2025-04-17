@@ -38,6 +38,8 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
   * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
       for quickly building for Linux distributions e.g.:
       * `docker compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
+      * `docker compose run --rm ubuntu24 make -C /TeamTalk5/Build ubuntu24`
+      * `docker compose run --rm android make -C /TeamTalk5/Build android-all`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
