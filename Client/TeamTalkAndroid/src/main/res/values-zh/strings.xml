@@ -142,11 +142,14 @@
     <string name="action_bansrv">从服务器禁止</string>
     <string name="action_edit">编辑频道</string>
     <string name="action_join">加入</string>
+    <string name="action_edituser">用户属性</string>
+    <string name="action_message">消息</string>
     <string name="action_kickchan">踢出当前频道</string>
     <string name="action_kicksrv">踢出服务器</string>
     <string name="action_move">移动至此</string>
     <string name="action_select">选择移动</string>
     <string name="action_deselect">取消选择移动</string>
+    <string name="action_exportsrv">导出服务器</string>
     <string name="action_editsrv">编辑服务器</string>
     <string name="action_removesrv">删除服务器</string>
     <string name="action_upload">上传文件</string>
@@ -228,6 +231,7 @@
     <string name="action_import_serverlist">从 .tt 文件导入</string>
     <string name="action_export_serverlist">导出服务器列表</string>
     <string name="serverlist_export_confirmation">服务器列表已导出至 %1$s</string>
+    <string name="server_export_confirmation">服务器已导出至 %1$s</string>
 
     <string name="pref_title_server_props">TeamTalk 5 服务器属性</string>
     <string name="pref_title_server_info">服务器信息</string>

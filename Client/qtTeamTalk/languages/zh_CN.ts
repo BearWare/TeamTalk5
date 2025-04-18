@@ -1060,7 +1060,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="125"/>
         <source>History</source>
-        <translation type="unfinished">历史消息</translation>
+        <translation>历史消息</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="162"/>
@@ -1110,75 +1110,75 @@ Message of the day: %2</source>
     <message>
         <location filename="../chattextlist.cpp" line="44"/>
         <source>History</source>
-        <translation type="unfinished">历史消息</translation>
+        <translation>历史消息</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="85"/>
         <location filename="../chattextlist.cpp" line="90"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">服务器名称： %1</translation>
+        <translation>服务器名称： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="89"/>
         <location filename="../chattextlist.cpp" line="101"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="97"/>
         <location filename="../chattextlist.cpp" line="102"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">每日消息： %1</translation>
+        <translation>每日消息： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="117"/>
         <location filename="../chattextlist.cpp" line="123"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">加入频道 %1</translation>
+        <translation>加入频道 %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="122"/>
         <location filename="../chattextlist.cpp" line="130"/>
         <location filename="../chattextlist.cpp" line="137"/>
         <source>Channel</source>
-        <translation type="unfinished">频道</translation>
+        <translation>频道</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="127"/>
         <location filename="../chattextlist.cpp" line="131"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">主题： %1</translation>
+        <translation>主题： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="134"/>
         <location filename="../chattextlist.cpp" line="138"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished">磁盘配额：%1</translation>
+        <translation>磁盘配额： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="174"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>系统</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="335"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>复制(&amp;C)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="339"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>查看详细信息...(&amp;D)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="350"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>复制全部(&amp;A)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="351"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>清除(&amp;l)</translation>
     </message>
 </context>
 <context>
@@ -4969,27 +4969,27 @@ Should these settings be applied?</source>
         <location filename="../chattextlist.cpp" line="359"/>
         <location filename="../chattextlist.cpp" line="360"/>
         <source>Message Details</source>
-        <translation type="unfinished"></translation>
+        <translation>消息详细信息</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="364"/>
         <source>Sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>已发送： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="366"/>
         <source>By: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>作者： %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="370"/>
         <source>Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>内容：</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="378"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">关闭(&amp;C)</translation>
+        <translation>关闭(&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -5453,7 +5453,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation type="unfinished"></translation>
+        <translation将聊天历史记录显示为列表视图而不是编辑框></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
@@ -6172,12 +6172,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="795"/>
         <source>Chat History</source>
-        <translation type="unfinished"></translation>
+        <translation>聊天历史</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="796"/>
         <source>Please restart application to change to chat history control</source>
-        <translation type="unfinished"></translation>
+        <translation>请重启程序以更改聊天历史记录控件</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1037"/>
@@ -6579,7 +6579,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Last Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>最后加入频道</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
