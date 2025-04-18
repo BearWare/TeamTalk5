@@ -2037,6 +2037,9 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        accessibilityAssistant.lockEvents();
+        textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
@@ -2047,6 +2050,9 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        accessibilityAssistant.lockEvents();
+        textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
         if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {

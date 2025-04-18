@@ -909,52 +909,54 @@ public class TeamTalkService extends Service
         users.put(kicker.nUserID, kicker);
     }
 
-    @Override
-    public void onCmdUserLoggedIn(User user) {
-        users.put(user.nUserID, user);
-        
-        SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int def_unsub = Subscription.SUBSCRIBE_NONE;
-        if(!pref.getBoolean(Preferences.PREF_SUB_TEXTMESSAGE, true))
-            def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
-        if(!pref.getBoolean(Preferences.PREF_SUB_CHANMESSAGE, true))
-            def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
-        if(!pref.getBoolean(Preferences.PREF_SUB_BCAST_MESSAGES, true))
-            def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
-        if(!pref.getBoolean(Preferences.PREF_SUB_VOICE, true))
-            def_unsub |= Subscription.SUBSCRIBE_VOICE;
-        if(!pref.getBoolean(Preferences.PREF_SUB_VIDCAP, true))
-            def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
-        if(!pref.getBoolean(Preferences.PREF_SUB_DESKTOP, true))
-            def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
-        if(!pref.getBoolean(Preferences.PREF_SUB_MEDIAFILE, true))
-            def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
+@Override
+public void onCmdUserLoggedIn(User user) {
+    users.put(user.nUserID, user);
 
-        if((user.uLocalSubscriptions & def_unsub) != 0) {
-            int cmdid = ttclient.doUnsubscribe(user.nUserID, def_unsub);
-            if(cmdid > 0)
-                activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
-        }
+    SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+    int def_unsub = Subscription.SUBSCRIBE_NONE;
+    if(!pref.getBoolean(Preferences.PREF_SUB_TEXTMESSAGE, true))
+        def_unsub |= Subscription.SUBSCRIBE_USER_MSG;
+    if(!pref.getBoolean(Preferences.PREF_SUB_CHANMESSAGE, true))
+        def_unsub |= Subscription.SUBSCRIBE_CHANNEL_MSG;
+    if(!pref.getBoolean(Preferences.PREF_SUB_BCAST_MESSAGES, true))
+        def_unsub |= Subscription.SUBSCRIBE_BROADCAST_MSG;
+    if(!pref.getBoolean(Preferences.PREF_SUB_VOICE, true))
+        def_unsub |= Subscription.SUBSCRIBE_VOICE;
+    if(!pref.getBoolean(Preferences.PREF_SUB_VIDCAP, true))
+        def_unsub |= Subscription.SUBSCRIBE_VIDEOCAPTURE;
+    if(!pref.getBoolean(Preferences.PREF_SUB_DESKTOP, true))
+        def_unsub |= Subscription.SUBSCRIBE_DESKTOP;
+    if(!pref.getBoolean(Preferences.PREF_SUB_MEDIAFILE, true))
+        def_unsub |= Subscription.SUBSCRIBE_MEDIAFILE;
+
+    if((user.uLocalSubscriptions & def_unsub) != 0) {
+        int cmdid = ttclient.doUnsubscribe(user.nUserID, def_unsub);
+        if(cmdid > 0)
+            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
+    }
+
+    String name = Utils.getDisplayName(getBaseContext(), user);
+    MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+        name + " " + getResources().getString(R.string.text_cmd_userloggedin));
+    getChatLogTextMsgs().add(msg);
 
         // sync weblogin user settings from cache
-        syncFromUserCache(user);
-    }
+    syncFromUserCache(user);
+}
 
-    @Override
-    public void onCmdUserLoggedOut(User user) {
-        users.remove(user.nUserID);
-        
-        if(usertxtmsgs.containsKey(user.nUserID)) {
-            MyTextMessage msg;
-            String name = Utils.getDisplayName(getBaseContext(), user);
-            msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                name + " " + getResources().getString(R.string.text_cmd_userleftchan));
-            getUserTextMsgs(user.nUserID).add(msg);
-        }
+@Override
+public void onCmdUserLoggedOut(User user) {
+    users.remove(user.nUserID);
+
+    String name = Utils.getDisplayName(getBaseContext(), user);
+    MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+        name + " " + getResources().getString(R.string.text_cmd_userloggedout));
+    getChatLogTextMsgs().add(msg);
 
         // sync user settings to cache
-        syncToUserCache(user);
-    }
+    syncToUserCache(user);
+}
 
     @Override
     public void onCmdUserUpdate(User user) {
