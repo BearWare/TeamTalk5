@@ -442,13 +442,6 @@
              </widget>
             </item>
             <item>
-             <widget class="QCheckBox" name="msgtimestampChkBox">
-              <property name="text">
-               <string>Timestamp text messages</string>
-              </property>
-             </widget>
-            </item>
-            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_30">
               <item>
                <widget class="QLabel" name="timestampformatLabel">

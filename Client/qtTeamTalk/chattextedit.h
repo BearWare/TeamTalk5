@@ -58,7 +58,7 @@ public:
 signals:
     void clearHistory();
 private:
-    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
+    static QString getTimeStamp(const QDateTime& tm);
     void limitText();
     QString currentUrl(const QTextCursor& cursor) const;
 

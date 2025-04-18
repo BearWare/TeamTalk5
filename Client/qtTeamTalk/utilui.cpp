@@ -177,6 +177,9 @@ void migrateSettings()
             ttSettings->remove("texttospeech/tts-timestamp");
         }
 #endif
+
+        // msgtimestamp removed in 5.5 format
+        ttSettings->remove("display/msgtimestamp");
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)

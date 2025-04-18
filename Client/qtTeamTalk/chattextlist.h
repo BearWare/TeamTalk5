@@ -44,7 +44,7 @@ public:
     void copyAllHistory();
 
 private:
-    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
+    static QString getTimeStamp(const QDateTime& tm);
     QString getTextMessagePrefix(const TextMessage& msg, const User& user);
     QStringList allUrls(const QString &text) const;
     QString currentUrl(const QListWidgetItem* item) const;
