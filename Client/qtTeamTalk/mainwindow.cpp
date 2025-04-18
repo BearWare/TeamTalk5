@@ -6430,6 +6430,9 @@ void MainWindow::slotUpdateUI()
 
     ui.uploadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_UPLOAD_FILES);
     ui.downloadButton->setEnabled(m_myuseraccount.uUserRights & USERRIGHT_DOWNLOAD_FILES);
+
+    if (m_sysicon)
+        m_sysicon->setToolTip(getTitle());
 }
 
 void MainWindow::slotUpdateMediaTabUI()
