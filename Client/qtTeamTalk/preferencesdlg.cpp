@@ -527,6 +527,7 @@ void PreferencesDlg::initDisplayTab()
     ui.chanTopicChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool());
     ui.startServerListChkBox->setVisible(!ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool());
     ui.startServerListChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool());
+    ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
 }
 
 void PreferencesDlg::initConnectionTab()
@@ -800,7 +801,13 @@ void PreferencesDlg::slotSaveChanges()
         if (modlistview)
             QMessageBox::critical(this, tr("Chat History"),
                                   tr("Please restart application to change to chat history control"));
-
+        if (!ui.chatTemplateChkBox->isChecked())
+        {
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_CHANNELMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_BROADMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_PRIVMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_LOGMSG);
+        }
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {
@@ -1959,4 +1966,5 @@ void PreferencesDlg::slotEditChatTemplates()
 {
     ChatTemplatesDlg dlg(this);
     dlg.exec();
+    ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
 }

@@ -198,6 +198,7 @@ bool switchLanguage(const QString& language);
 QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat);
 QString getTimestampFormat();
 QString getFormattedSize(qint64 size);
+bool hasEditedTextMessages();
 
 class UtilUI : public QObject
 {
