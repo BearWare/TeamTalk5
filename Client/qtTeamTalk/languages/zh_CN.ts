@@ -5453,7 +5453,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation将聊天历史记录显示为列表视图而不是编辑框></translation>
+        <translation>将聊天历史记录显示为列表视图而不是编辑框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
