@@ -228,6 +228,7 @@ QHash<ChatTemplates, ChatTemplateInfo> UtilUI::templatesToSettingMap()
         { CHATTEMPLATES_CHANNEL_MESSAGE, {SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
         { CHATTEMPLATES_BROADCAST_MESSAGE, {SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
         { CHATTEMPLATES_PRIVATE_MESSAGE, {SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_LOG_MESSAGE, {SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", tr("Message date")}, {"{content}", tr("Message content")}}, "" } },
     };
     return map;
 }
@@ -623,6 +624,8 @@ QString UtilUI::getDefaultTemplate(const QString& paramKey)
         return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT);
     if (paramKey == SETTINGS_CHATTEMPLATES_PRIVMSG)
         return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_LOGMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT);
     return QString();
 }
 

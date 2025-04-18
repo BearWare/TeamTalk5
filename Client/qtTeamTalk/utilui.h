@@ -111,8 +111,9 @@ enum ChatTemplate : qulonglong
     CHATTEMPLATES_CHANNEL_MESSAGE                               = qulonglong(1) << 0,
     CHATTEMPLATES_BROADCAST_MESSAGE                              = qulonglong(1) << 1,
     CHATTEMPLATES_PRIVATE_MESSAGE                                 = qulonglong(1) << 2,
+    CHATTEMPLATES_LOG_MESSAGE                                 = qulonglong(1) << 3,
 
-    CHATTEMPLATES_NEXT_UNUSED                                 = qulonglong(1) << 3,
+    CHATTEMPLATES_NEXT_UNUSED                                 = qulonglong(1) << 4,
 };
 
 typedef qulonglong ChatTemplates;

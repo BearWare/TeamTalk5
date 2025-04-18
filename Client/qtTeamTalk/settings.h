@@ -490,6 +490,8 @@
 #define SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}->BROADCAST>\n{content}")
 #define SETTINGS_CHATTEMPLATES_PRIVMSG                         "chat-templates/private-message"
 #define SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}>\n{content}")
+#define SETTINGS_CHATTEMPLATES_LOGMSG                         "chat-templates/log-message"
+#define SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} * {content}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

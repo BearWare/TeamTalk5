@@ -178,6 +178,7 @@ ChatTemplatesModel::ChatTemplatesModel(QObject* parent)
     m_chattemplates.push_back(CHATTEMPLATES_CHANNEL_MESSAGE);
     m_chattemplates.push_back(CHATTEMPLATES_BROADCAST_MESSAGE);
     m_chattemplates.push_back(CHATTEMPLATES_PRIVATE_MESSAGE);
+    m_chattemplates.push_back(CHATTEMPLATES_LOG_MESSAGE);
 }
 
 QVariant ChatTemplatesModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -221,6 +222,8 @@ QVariant ChatTemplatesModel::data ( const QModelIndex & index, int role /*= Qt::
                 return tr("Broadcast Message");
             case CHATTEMPLATES_PRIVATE_MESSAGE :
                 return tr("Private Message");
+            case CHATTEMPLATES_LOG_MESSAGE :
+                return tr("Log Message");
             case CHATTEMPLATES_NONE :
             case CHATTEMPLATES_NEXT_UNUSED :
                 break;

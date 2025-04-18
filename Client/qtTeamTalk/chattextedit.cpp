@@ -283,7 +283,7 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
 void ChatTextEdit::addLogMessage(const QString& msg)
 {
-    QString line = QString("%1 * %2").arg(getTimeStamp(QDateTime::currentDateTime())).arg(msg);
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", getTimeStamp(QDateTime::currentDateTime())}, {"{content}", msg}});
     QTextCharFormat format = textCursor().charFormat();
     QTextCharFormat original = format;
     format.setForeground(QBrush(Qt::gray));

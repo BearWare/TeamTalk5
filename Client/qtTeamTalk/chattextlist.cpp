@@ -185,7 +185,7 @@ void ChatTextList::addLogMessage(const QString& msg)
     QString sender = tr("System");
     QString content = msg;
 
-    QString line = QString("%1 * %2").arg(dt).arg(msg);
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", dt}, {"{content}", msg}});
     QListWidgetItem* item = new QListWidgetItem(line);
     item->setForeground(Qt::gray);
 
