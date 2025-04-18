@@ -248,10 +248,13 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
     {
     case MSGTYPE_CHANNEL :
         line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
     case MSGTYPE_BROADCAST :
         line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
     case MSGTYPE_USER :
         line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
     case MSGTYPE_CUSTOM :
     case MSGTYPE_NONE : break;
     }
