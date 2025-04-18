@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1125</width>
-    <height>706</height>
+    <height>716</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -442,11 +442,38 @@
              </widget>
             </item>
             <item>
-             <widget class="QToolButton" name="chatTemplateToolButton">
-              <property name="text">
-               <string>Edit Chat Message Templates</string>
-              </property>
-             </widget>
+             <layout class="QHBoxLayout" name="horizontalLayout_34">
+              <item>
+               <widget class="QCheckBox" name="chatTemplateChkBox">
+                <property name="text">
+                 <string>Setup text message templates</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QToolButton" name="chatTemplateToolButton">
+                <property name="accessibleDescription">
+                 <string>Edit Chat Message Templates</string>
+                </property>
+                <property name="text">
+                 <string>...</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <spacer name="horizontalSpacer_12">
+                <property name="orientation">
+                 <enum>Qt::Orientation::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+             </layout>
             </item>
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_30">
