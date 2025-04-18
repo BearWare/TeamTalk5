@@ -377,6 +377,7 @@ MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sen
     layout->addWidget(lblDateTime);
     layout->addWidget(lblSender);
     layout->addWidget(txtContent);
+    txtContent->setFocus();
 
     QDialogButtonBox* btnBox = new QDialogButtonBox(this);
     QPushButton* closeButton = btnBox->addButton(tr("&Close"), QDialogButtonBox::RejectRole);
