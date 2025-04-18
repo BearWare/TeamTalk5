@@ -49,6 +49,18 @@ private:
     QStringList allUrls(const QString &text) const;
     QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
+    QAction *copyAct    = nullptr;
+    QAction *detailsAct = nullptr;
+    QAction *copyAllAct = nullptr;
+    QAction *clearAct   = nullptr;
+    enum MenuAction
+    {
+        COPY,
+        VIEWDETAILS,
+        COPYALL,
+        CLEAR
+    };
+    void menuAction(MenuAction ma);
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;
