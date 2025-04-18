@@ -1328,18 +1328,18 @@ private EditText newmsg;
                         return;
                     filesAdapter.performPendingUpdate();
 
-                    int con = R.string.stat_offline;
+                    String con = getString(R.string.stat_offline);
                     int con_color = Color.RED;
                     int flags = ttclient.getFlags(); 
                     if((flags & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED) {
-                        con = R.string.stat_online;
+                        con = getString(R.string.stat_online);
                         con_color = Color.GREEN;
                     }
                     else if((flags & ClientFlag.CLIENT_CONNECTING) == ClientFlag.CLIENT_CONNECTING) {
-                        con = R.string.stat_connecting;
+                        con = getString(R.string.stat_connecting);
                     }
                     
-                    connection.setText(con);
+                    connection.setText(getString(R.string.label_connection) + " " + con);
                     connection.setTextColor(con_color);
 
                     ClientStatistics stats = new ClientStatistics();
@@ -1355,7 +1355,7 @@ private EditText newmsg;
                     String str;
                     if(stats.nUdpPingTimeMs >= 0) {
                         str = String.format("%1$d", stats.nUdpPingTimeMs); 
-                        ping.setText(str);
+                        ping.setText(getString(R.string.label_ping) + " " + str);
                         
                         if(stats.nUdpPingTimeMs > 250) {
                             ping.setTextColor(Color.RED);
@@ -1366,7 +1366,7 @@ private EditText newmsg;
                     }                    
                     
                     str = String.format("%1$d/%2$d KB", totalrx/ 1024, totaltx / 1024);
-                    total.setText(str);
+                    total.setText(getString(R.string.label_rxtx) + " " + str);
                     
                     prev_stats = stats;
                 }

@@ -12,79 +12,52 @@
     tools:context=".UserPropActivity" >
 
     <TextView
-        android:id="@+id/user_nicknamelabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="0"
-        android:layout_gravity="center_vertical"
-        android:text="@string/pref_title_nickname" />
-
-    <TextView
         android:id="@+id/user_nickname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center_vertical" />
-
-    <TextView
-        android:id="@+id/user_usernamelabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_gravity="center_vertical"
-        android:text="@string/user_prop_title_username" />
+        android:text=""/>
 
     <TextView
         android:id="@+id/user_username"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center_vertical" />
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:text=""/>
 
     <TextView
-        android:id="@+id/user_statusmsglabel"
+        android:id="@+id/user_userid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_gravity="center_vertical"
-        android:text="@string/user_prop_title_statusmsg" />
+        android:text=""/>
 
     <TextView
         android:id="@+id/user_statusmsg"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center_vertical" />
-
-    <TextView
-        android:id="@+id/user_clientnamelabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_gravity="center_vertical"
-        android:text="@string/user_prop_title_clientname" />
+        android:text=""/>
 
     <TextView
         android:id="@+id/user_clientname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center_vertical" />
-
-    <TextView
-        android:id="@+id/user_ipaddresslabel"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_column="0"
         android:layout_gravity="center_vertical"
-        android:text="@string/user_prop_title_ipaddress" />
+        android:text=""/>
 
     <TextView
         android:id="@+id/user_ipaddress"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="center_vertical" />
+        android:layout_column="0"
+        android:layout_gravity="center_vertical"
+        android:text=""/>
 
     <TextView
         android:id="@+id/user_vol_voicelabel"
@@ -99,7 +72,7 @@
         android:id="@+id/voicevolLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
+        android:layout_column="0"
         android:layout_gravity="fill_horizontal" >
 
         <SeekBar
@@ -108,6 +81,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.9"
+            android:contentDescription="@string/voicevolume"
             android:gravity="center" />
 
         <Button
@@ -137,12 +111,12 @@
         android:layout_column="0"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_media_volume" />
-    
+
     <LinearLayout
         android:id="@+id/mfvolumeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_column="1"
+        android:layout_column="0"
         android:layout_gravity="fill_horizontal" >
 
         <SeekBar
@@ -150,6 +124,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:contentDescription="@string/mediavolume"
             android:layout_weight="0.9" />
 
         <Button

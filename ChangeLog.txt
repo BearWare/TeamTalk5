@@ -28,12 +28,15 @@ Default Qt Client
 Android Client
 - Added popup menu actions in Server List dialog
 - Added "Message" and "User properties" user menu actions in channel list tab
-- IP Address and status message is now shown in User Properties dialog
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
 - Broadcast messages are now shown in the chat tab
 - Added the ability to send broadcast messages
 - Ability to select/deselect user for move to other channel
+- Simplified labels in User Properties dialog
+- IP address, user ID and status message are now in "User Properties" dialog
+- Added missing labels for sliders in audio codec configuration
+- The labels in Main Window and User Properties dialog no longer have duplicate texts
 - Minimum supported is now Android v8.1 (Oreo)
 - WebRTC updated from r4332 to r6818
 - OPUS updated to v1.5.2
