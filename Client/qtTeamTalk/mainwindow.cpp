@@ -1414,16 +1414,14 @@ void MainWindow::clienteventUserStateChange(const User& user)
     {
         m_talking.insert(user.nUserID);
 
-        if(m_sysicon && m_sysicon->isVisible() &&
-           m_talking.size() == 1)
+        if (m_sysicon && m_talking.size() == 1)
             m_sysicon->setIcon(QIcon(APPTRAYICON_ACTIVE));
     }
     else
     {
         m_talking.remove(user.nUserID);
 
-        if(m_sysicon && m_sysicon->isVisible() &&
-           m_talking.size() == 0)
+        if (m_sysicon && m_talking.size() == 0)
             m_sysicon->setIcon(QIcon(APPTRAYICON_CON));
     }
 
