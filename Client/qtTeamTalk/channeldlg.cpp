@@ -57,6 +57,30 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
             ui.gainlevelSlider, &QWidget::setEnabled);
     connect(ui.gainlevelSlider, &QAbstractSlider::valueChanged,
             this, &ChannelDlg::slotUpdateSliderLabels);
+    connect(ui.spx_srateBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.spx_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_36->text()).arg(ui.spx_srateBox->currentText()).arg(ui.label_37->text()));
+    });
+    connect(ui.spxvbr_srateBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.spxvbr_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_38->text()).arg(ui.spxvbr_srateBox->currentText()).arg(ui.label_39->text()));
+    });
+    connect(ui.opus_srateBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.opus_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_43->text()).arg(ui.opus_srateBox->currentText()).arg(ui.label_40->text()));
+    });
+    connect(ui.opus_framesizeComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, [&]()
+    {
+        ui.opus_framesizeComboBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_6->text()).arg(ui.opus_framesizeComboBox->currentText()).arg(ui.label_10->text()));
+    });
+    connect(ui.voiceTotDoubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&]()
+    {
+        ui.voiceTotDoubleSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.voiceTotLabel->text()).arg(ui.voiceTotDoubleSpinBox->value()).arg(ui.voiceTotDoubleSpinBox->suffix()));
+    });
+    connect(ui.mfTotDoubleSpinBox, QOverload<double>::of(&QDoubleSpinBox::valueChanged), this, [&]()
+    {
+        ui.mfTotDoubleSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.mfTotLabel->text()).arg(ui.mfTotDoubleSpinBox->value()).arg(ui.mfTotDoubleSpinBox->suffix()));
+    });
 
     ServerProperties prop = {};
     TT_GetServerProperties(ttInst, &prop);
@@ -119,16 +143,19 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
 
     //default settings for Speex
     setCurrentItemData(ui.spx_srateBox, DEFAULT_SPEEX_BANDMODE);
+    ui.spx_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_36->text()).arg(ui.spx_srateBox->currentText()).arg(ui.label_37->text()));
     ui.spx_qualitySlider->setValue(DEFAULT_SPEEX_QUALITY);
     ui.spx_txdelaySpinBox->setValue(DEFAULT_SPEEX_DELAY);
     //default settings for Speex VBR
     setCurrentItemData(ui.spxvbr_srateBox, DEFAULT_SPEEX_VBR_BANDMODE);
+    ui.spxvbr_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_38->text()).arg(ui.spxvbr_srateBox->currentText()).arg(ui.label_39->text()));
     ui.spxvbr_qualitySlider->setValue(DEFAULT_SPEEX_VBR_QUALITY);
     ui.spxvbr_maxbpsSpinBox->setValue(DEFAULT_SPEEX_VBR_MAXBITRATE);
     ui.spxvbr_dtxBox->setChecked(DEFAULT_SPEEX_VBR_DTX);
     ui.spxvbr_txdelaySpinBox->setValue(DEFAULT_SPEEX_VBR_DELAY);
     //default settings for OPUS
     setCurrentItemData(ui.opus_srateBox, DEFAULT_OPUS_SAMPLERATE);
+    ui.opus_srateBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_43->text()).arg(ui.opus_srateBox->currentText()).arg(ui.label_40->text()));
     setCurrentItemData(ui.opus_channelsBox, DEFAULT_OPUS_CHANNELS);
     setCurrentItemData(ui.opus_appBox, DEFAULT_OPUS_APPLICATION);
     ui.opus_bpsSpinBox->setValue(DEFAULT_OPUS_BITRATE / 1000);
@@ -136,6 +163,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_txdelaySpinBox->setValue(DEFAULT_OPUS_DELAY);
     ui.opus_vbrCheckBox->setChecked(DEFAULT_OPUS_VBR);
     setCurrentItemData(ui.opus_framesizeComboBox, DEFAULT_OPUS_FRAMESIZE);
+    ui.opus_framesizeComboBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_6->text()).arg(ui.opus_framesizeComboBox->currentText()).arg(ui.label_10->text()));
 
     switch(type)
     {
@@ -255,7 +283,9 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.gainlevelSlider->setValue(m_channel.audiocfg.nGainLevel / 1000);
     // Stream Timeout
     ui.voiceTotDoubleSpinBox->setValue(m_channel.nTimeOutTimerVoiceMSec / 1000.);
+    ui.voiceTotDoubleSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.voiceTotLabel->text()).arg(ui.voiceTotDoubleSpinBox->value()).arg(ui.voiceTotDoubleSpinBox->suffix()));
     ui.mfTotDoubleSpinBox->setValue(m_channel.nTimeOutTimerMediaFileMSec / 1000.);
+    ui.mfTotDoubleSpinBox->setAccessibleName(QString("%1 %2 %3").arg(ui.mfTotLabel->text()).arg(ui.mfTotDoubleSpinBox->value()).arg(ui.mfTotDoubleSpinBox->suffix()));
 
     slotUpdateSliderLabels();
     slotUpdateChannelPath(_Q(m_channel.szName));
@@ -413,8 +443,11 @@ void ChannelDlg::slotAudioCodecChanged(int index)
 void ChannelDlg::slotUpdateSliderLabels()
 {
     ui.spxQualityLabel->setText(QString("%1/10").arg(ui.spx_qualitySlider->value()));
+    ui.spx_qualitySlider->setAccessibleName(QString("%1 %2 %3").arg(ui.label_8->text()).arg(ui.spx_qualitySlider->value()).arg(ui.spxQualityLabel->text()));
     ui.spxvbr_QualityLabel->setText(QString("%1/10").arg(ui.spxvbr_qualitySlider->value()));
+    ui.spxvbr_qualitySlider->setAccessibleName(QString("%1 %2 %3").arg(ui.label_11->text()).arg(ui.spx_qualitySlider->value()).arg(ui.spxvbr_QualityLabel->text()));
     ui.gainlevelLabel->setText(QString::number(ui.gainlevelSlider->value()*1000));   
+    ui.gainlevelSlider->setAccessibleName(QString("%1 %2 %3").arg(ui.label_9->text()).arg(ui.spx_qualitySlider->value()).arg(ui.gainlevelLabel->text()));
 }
 
 void ChannelDlg::slotUpdateChannelPath(const QString& str)
