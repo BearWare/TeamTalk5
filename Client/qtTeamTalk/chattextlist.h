@@ -49,10 +49,10 @@ private:
     QStringList allUrls(const QString &text) const;
     QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
-    QAction *copyAct    = nullptr;
-    QAction *detailsAct = nullptr;
-    QAction *copyAllAct = nullptr;
-    QAction *clearAct   = nullptr;
+    QAction *m_copyAct    = nullptr;
+    QAction *m_detailsAct = nullptr;
+    QAction *m_copyAllAct = nullptr;
+    QAction *m_clearAct   = nullptr;
     enum MenuAction
     {
         COPY,

@@ -45,26 +45,26 @@ ChatTextList::ChatTextList(QWidget *parent)
     setWordWrap(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setContextMenuPolicy(Qt::DefaultContextMenu);
-    copyAct = new QAction(tr("&Copy"), this);
-    copyAct->setShortcut(QKeySequence::Copy);
-    connect(copyAct, &QAction::triggered,
+    m_copyAct = new QAction(tr("&Copy"), this);
+    m_copyAct->setShortcut(QKeySequence::Copy);
+    connect(m_copyAct, &QAction::triggered,
             this, [this]{ menuAction(COPY); });
-    addAction(copyAct);
-    detailsAct = new QAction(tr("View &Details..."), this);
-    detailsAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return));
-    connect(detailsAct, &QAction::triggered,
+    addAction(m_copyAct);
+    m_detailsAct = new QAction(tr("View &Details..."), this);
+    m_detailsAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return));
+    connect(m_detailsAct, &QAction::triggered,
             this, [this]{ menuAction(VIEWDETAILS); });
-    addAction(detailsAct);
-    copyAllAct = new QAction(tr("Copy &All"), this);
-    copyAllAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C));
-    connect(copyAllAct, &QAction::triggered,
+    addAction(m_detailsAct);
+    m_copyAllAct = new QAction(tr("Copy &All"), this);
+    m_copyAllAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C));
+    connect(m_copyAllAct, &QAction::triggered,
             this, [this]{ menuAction(COPYALL); });
-    addAction(copyAllAct);
-    clearAct = new QAction(tr("C&lear"), this);
-    clearAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete));
-    connect(clearAct, &QAction::triggered,
+    addAction(m_copyAllAct);
+    m_clearAct = new QAction(tr("C&lear"), this);
+    m_clearAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete));
+    connect(m_clearAct, &QAction::triggered,
             this, [this]{ menuAction(CLEAR); });
-    addAction(clearAct);
+    addAction(m_clearAct);
 }
 
 QString ChatTextList::getTimeStamp(const QDateTime& tm, bool force_ts)
@@ -357,20 +357,20 @@ void ChatTextList::contextMenuEvent(QContextMenuEvent *event)
 
     if (item)
     {
-        copyAct->setEnabled(true);
-        detailsAct->setEnabled(true);
-        menu.addAction(copyAct);
-        menu.addAction(detailsAct);
+        m_copyAct->setEnabled(true);
+        m_detailsAct->setEnabled(true);
+        menu.addAction(m_copyAct);
+        menu.addAction(m_detailsAct);
     }
     else
     {
-        copyAct->setEnabled(false);
-        detailsAct->setEnabled(false);
+        m_copyAct->setEnabled(false);
+        m_detailsAct->setEnabled(false);
     }
 
     menu.addSeparator();
-    menu.addAction(copyAllAct);
-    menu.addAction(clearAct);
+    menu.addAction(m_copyAllAct);
+    menu.addAction(m_clearAct);
 
     menu.exec(event->globalPos());
 }
