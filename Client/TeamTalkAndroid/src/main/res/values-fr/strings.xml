@@ -164,10 +164,12 @@
     <string name="channel_prop_title_noaudiorecord">Sans enregistrement audio</string>
 
 
-    <string name="user_prop_title_username">Nom d\'utilisateur</string>
-    <string name="user_prop_title_statusmsg">Message de statut</string>
-    <string name="user_prop_title_clientname">Nom du client</string>
-    <string name="user_prop_title_ipaddress">Adresse IP</string>
+    <string name="user_prop_title_nickname">Pseudo:</string>
+    <string name="user_prop_title_username">Nom d\'utilisateur:</string>
+    <string name="user_prop_title_userid">Identifiant:</string>
+    <string name="user_prop_title_statusmsg">Message de statut:</string>
+    <string name="user_prop_title_clientname">Nom du client:</string>
+    <string name="user_prop_title_ipaddress">Adresse IP:</string>
     <string name="user_prop_title_voice_volume">Volume de la voix</string>
     <string name="user_prop_title_mute_voice">Couper la voix</string>
     <string name="user_prop_title_media_volume">Volume des fichiers média</string>
@@ -401,5 +403,13 @@
     <string name="server_export_confirmation">Le serveur a été exporté dans %1$s</string>
     <string name="action_edituser">Propriétés de l\'utilisateur</string>
     <string name="action_message">Messages</string>
+    <string name="opusbitrate">Débit</string>
+    <string name="opusinterval">Intervalle de transmission</string>
+    <string name="speexquality">Qualité</string>
+    <string name="speexinterval">Intervalle de transmission</string>
+    <string name="speexvbrquality">Qualité</string>
+    <string name="speexvbrinterval">Intervalle de transmission</string>
+    <string name="voicevolume">Volume de la voix</string>
+    <string name="mediavolume">Volume des fichiers média</string>
 
 </resources>
