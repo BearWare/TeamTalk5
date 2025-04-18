@@ -442,6 +442,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QToolButton" name="chatTemplateToolButton">
+              <property name="text">
+               <string>Edit Chat Message Templates</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <layout class="QHBoxLayout" name="horizontalLayout_30">
               <item>
                <widget class="QLabel" name="timestampformatLabel">

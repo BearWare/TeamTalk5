@@ -244,6 +244,18 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
     line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
 
+    switch (msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+    case MSGTYPE_BROADCAST :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+    case MSGTYPE_USER :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
+    }
+
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
     {
         QTextCharFormat format = textCursor().charFormat();

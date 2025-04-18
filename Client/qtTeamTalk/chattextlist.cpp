@@ -148,7 +148,18 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     QString sender = getTextMessagePrefix(msg, user);
     QString content = msg.moreMessage;
 
-    QString line = dt + QString("%1\n%2").arg(sender).arg(content);
+    QString line;
+    switch (msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+    case MSGTYPE_BROADCAST :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+    case MSGTYPE_USER :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
+    }
 
     QListWidgetItem* item = new QListWidgetItem(line);
 

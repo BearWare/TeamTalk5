@@ -221,6 +221,17 @@ QHash<StatusBarEvents, StatusBarEventInfo> UtilUI::eventToSettingMap()
     return map;
 }
 
+QHash<ChatTemplates, ChatTemplateInfo> UtilUI::templatesToSettingMap()
+{
+    static QHash<ChatTemplates, ChatTemplateInfo> map =
+    {
+        { CHATTEMPLATES_CHANNEL_MESSAGE, {SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_BROADCAST_MESSAGE, {SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_PRIVATE_MESSAGE, {SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+    };
+    return map;
+}
+
 void setVideoTextBox(const QRect& rect, const QColor& bgcolor,
                      const QColor& fgcolor, const QString& text,
                      quint32 text_pos, int w_percent, int h_percent,
@@ -602,6 +613,34 @@ QString UtilUI::getStatusBarMessage(const QString& paramKey, const QHash<QString
 QString UtilUI::getRawStatusBarMessage(const QString& paramKey)
 {
     return ttSettings->value(paramKey, getDefaultValue(paramKey)).toString();
+}
+
+QString UtilUI::getDefaultTemplate(const QString& paramKey)
+{
+    if (paramKey == SETTINGS_CHATTEMPLATES_CHANNELMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_BROADMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_PRIVMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT);
+    return QString();
+}
+
+QString UtilUI::getChatTemplate(const QString& paramKey, const QHash<QString, QString>& variables)
+{
+    QString messageTemplate = ttSettings->value(paramKey, getDefaultTemplate(paramKey)).toString();
+
+    for (auto it = variables.constBegin(); it != variables.constEnd(); ++it)
+    {
+        messageTemplate.replace(it.key(), it.value());
+    }
+
+    return messageTemplate;
+}
+
+QString UtilUI::getRawChatTemplate(const QString& paramKey)
+{
+    return ttSettings->value(paramKey, getDefaultTemplate(paramKey)).toString();
 }
 
 LoginInfoDialog::LoginInfoDialog(const QString &title, const QString &desc, const QString &initialUsername, const QString &initialPassword, QWidget *parent)

@@ -166,6 +166,8 @@
                                                         STATUSBAR_SAVE_SERVER_CONFIG | \
                                                         STATUSBAR_START_RECORD | \
                                                         STATUSBAR_TRANSMISSION_BLOCKED)
+#define SETTINGS_DISPLAY_CHATTEMPLATES_MODEL_HEADER    "display/chat-templates-model-header"
+#define SETTINGS_DISPLAY_CHATTEMPLATESDLG_SIZE          "display/chat-templates-dialog-size"
 #define SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER    "display/serverlog-events-header"
 #define SETTINGS_DISPLAY_CHANEXP                 "display/expand-channels"
 #define SETTINGS_DISPLAY_CHANEXP_DEFAULT         false
@@ -481,6 +483,13 @@
 #define SETTINGS_STATUSBARMSG_FILE_ADDED_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "File {filename} added by {user}")
 #define SETTINGS_STATUSBARMSG_FILE_REMOVED                         "status-bar-messages/file-removed"
 #define SETTINGS_STATUSBARMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
+
+#define SETTINGS_CHATTEMPLATES_CHANNELMSG                         "chat-templates/channel-message"
+#define SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}>\n{content}")
+#define SETTINGS_CHATTEMPLATES_BROADMSG                         "chat-templates/broadcast-message"
+#define SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}->BROADCAST>\n{content}")
+#define SETTINGS_CHATTEMPLATES_PRIVMSG                         "chat-templates/private-message"
+#define SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}>\n{content}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

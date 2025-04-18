@@ -26,6 +26,7 @@
 #include "bearwarelogindlg.h"
 #include "ttseventsmodel.h"
 #include "statusbardlg.h"
+#include "chattemplatesdlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilui.h"
@@ -94,6 +95,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     connect(ui.betaUpdatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
+    connect(ui.chatTemplateToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotEditChatTemplates);
     connect(ui.TSFVarButton, &QPushButton::clicked, this, [&]()
     {
         QMenu tsfVarMenu(this);
@@ -1950,5 +1952,11 @@ void PreferencesDlg::updateSoundEventFileEdit()
 void PreferencesDlg::slotConfigureStatusBar()
 {
     StatusBarDlg dlg(this, ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong());
+    dlg.exec();
+}
+
+void PreferencesDlg::slotEditChatTemplates()
+{
+    ChatTemplatesDlg dlg(this);
     dlg.exec();
 }
