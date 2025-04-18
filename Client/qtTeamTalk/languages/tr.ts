@@ -1026,7 +1026,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="125"/>
         <source>History</source>
-        <translation type="unfinished">Geçmiş</translation>
+        <translation>Geçmiş</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="162"/>
@@ -1076,75 +1076,75 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../chattextlist.cpp" line="44"/>
         <source>History</source>
-        <translation type="unfinished">Geçmiş</translation>
+        <translation>Geçmiş</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="85"/>
         <location filename="../chattextlist.cpp" line="90"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">Sunucu Adı: %1</translation>
+        <translation>Sunucu Adı: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="89"/>
         <location filename="../chattextlist.cpp" line="101"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucu</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="97"/>
         <location filename="../chattextlist.cpp" line="102"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">Günün mesajı: %1</translation>
+        <translation>Günün mesajı: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="117"/>
         <location filename="../chattextlist.cpp" line="123"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">%1 kanalına katıldı</translation>
+        <translation>%1 kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="122"/>
         <location filename="../chattextlist.cpp" line="130"/>
         <location filename="../chattextlist.cpp" line="137"/>
         <source>Channel</source>
-        <translation type="unfinished">Kanal</translation>
+        <translation>Kanal</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="127"/>
         <location filename="../chattextlist.cpp" line="131"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">Konu: %1</translation>
+        <translation>Konu: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="134"/>
         <location filename="../chattextlist.cpp" line="138"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished">Disk kotası: %1</translation>
+        <translation>Disk kotası: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="174"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>sistem</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="335"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>ko&amp;pyala</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="339"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;airıntılar...</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="350"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>tü&amp;münü kopyala</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="351"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>temiz&amp;le</translation>
     </message>
 </context>
 <context>
@@ -4934,27 +4934,27 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../chattextlist.cpp" line="359"/>
         <location filename="../chattextlist.cpp" line="360"/>
         <source>Message Details</source>
-        <translation type="unfinished"></translation>
+        <translation>ileti ayrıntıları</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="364"/>
         <source>Sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Gönderilen: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="366"/>
         <source>By: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>tarafından</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="370"/>
         <source>Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>İçerik:</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="378"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Kapat</translation>
+        <translation>&amp;Kapat</translation>
     </message>
 </context>
 <context>
@@ -5418,7 +5418,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet geçmişini metin düzenleme yerine liste görünümü olarak göster</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
@@ -6137,12 +6137,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="795"/>
         <source>Chat History</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet geçmişi</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="796"/>
         <source>Please restart application to change to chat history control</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet geçmişi kontrolünde değiştirmek için lütfen uygulamayı yeniden başlatın</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1037"/>
@@ -6544,7 +6544,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Last Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>son katıldığı kanal</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
