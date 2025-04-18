@@ -68,6 +68,7 @@ private:
     void slotLanguageChange(int index);
     void slotSelectVideoText();
     void slotConfigureStatusBar();
+    void slotEditChatTemplates();
     void slotUpdateUpdDlgChkBox();
     void insertTSFVariable();
 

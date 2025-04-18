@@ -67,11 +67,9 @@ ChatTextList::ChatTextList(QWidget *parent)
     addAction(m_clearAct);
 }
 
-QString ChatTextList::getTimeStamp(const QDateTime& tm, bool force_ts)
+QString ChatTextList::getTimeStamp(const QDateTime& tm)
 {
-    QString dt;
-    if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss") + QString(" ");
+    QString dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
     return dt;
 }
 
@@ -171,7 +169,21 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     QString sender = getTextMessagePrefix(msg, user);
     QString content = msg.moreMessage;
 
-    QString line = dt + QString("%1\n%2").arg(sender).arg(content);
+    QString line;
+    switch (msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_BROADCAST :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_USER :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
+    }
 
     QListWidgetItem* item = new QListWidgetItem(line);
 
@@ -194,7 +206,7 @@ void ChatTextList::addLogMessage(const QString& msg)
     QString sender = tr("System");
     QString content = msg;
 
-    QString line = QString("%1 * %2").arg(dt).arg(msg);
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", dt}, {"{content}", msg}});
     QListWidgetItem* item = new QListWidgetItem(line);
     item->setForeground(Qt::gray);
 
