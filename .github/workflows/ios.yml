@@ -57,6 +57,10 @@ jobs:
     needs: build
     runs-on: macos-latest
     steps:
+    - name: print content
+      working-directory: ${{runner.workspace}}/
+      run: find . -maxdepth 2
+
     - name: Run Lipo to single output
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: >-
