@@ -55,46 +55,46 @@ OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
     m_model->resetUsers();
     updateTitle();
 
-    m_viewInfoAct = new QAction(tr("&View User Information"), this);
-    m_viewInfoAct->setShortcut(QKeySequence(tr("Ctrl+I")));
-    connect(m_viewInfoAct, &QAction::triggered,
-            this, [this]{ menuAction(VIEW_USERINFORMATION); });
-    addAction(m_viewInfoAct);
-    m_msgAct = new QAction(tr("M&essages"), this);
-    m_msgAct->setShortcut(QKeySequence(tr("Ctrl+E")));
-    connect(m_msgAct, &QAction::triggered,
-            this, [this]{ menuAction(SEND_TEXTMESSAGE); });
-    addAction(m_msgAct);
-    m_opAct = new QAction(tr("&Op"), this);
-    m_opAct->setShortcut(QKeySequence(tr("Ctrl+O")));
-    connect(m_opAct, &QAction::triggered,
-            this, [this]{ menuAction(OP); });
-    addAction(m_opAct);
-    m_kickAct = new QAction(tr("&Kick from Channel"), this);
-    m_kickAct->setShortcut(QKeySequence(tr("Ctrl+K")));
-    connect(m_kickAct, &QAction::triggered,
-            this, [this]{ menuAction(KICK_FROM_CHANNEL); });
-    addAction(m_kickAct);
-    m_kickServAct = new QAction(tr("K&ick from Server"), this);
-    m_kickServAct->setShortcut(QKeySequence(tr("Ctrl+Alt+K")));
-    connect(m_kickServAct, &QAction::triggered,
-            this, [this]{ menuAction(KICK_FROM_SERVER); });
-    addAction(m_kickServAct);
-    m_kickBanAct = new QAction(tr("Kick and &Ban from Channel"), this);
-    m_kickBanAct->setShortcut(QKeySequence(tr("Ctrl+B")));
-    connect(m_kickBanAct, &QAction::triggered,
-            this, [this]{ menuAction(BAN_FROM_CHANNEL); });
-    addAction(m_kickBanAct);
-    m_kickBanServAct = new QAction(tr("Kick and B&an from Server"), this);
-    m_kickBanServAct->setShortcut(QKeySequence(tr("Ctrl+Alt+B")));
-    connect(m_kickBanServAct, &QAction::triggered,
-            this, [this]{ menuAction(BAN_FROM_SERVER); });
-    addAction(m_kickBanServAct);
-    m_selMoveAct = new QAction(tr("&Select User(s) for Move"), this);
-    m_selMoveAct->setShortcut(QKeySequence(tr("Ctrl+Alt+X")));
-    connect(m_selMoveAct, &QAction::triggered,
-            this, [this]{ menuAction(MOVE); });
-    addAction(m_selMoveAct);
+    m_viewInfoAct = new QShortcut(QKeySequence(tr("Ctrl+I")), this);
+    connect(m_viewInfoAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(VIEW_USERINFORMATION);
+    });
+    m_msgAct = new QShortcut(QKeySequence(tr("Ctrl+E")), this);
+    connect(m_msgAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(SEND_TEXTMESSAGE);
+    });
+    m_opAct = new QShortcut(QKeySequence(tr("Ctrl+O")), this);
+    connect(m_opAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(OP);
+    });
+    m_kickAct = new QShortcut(QKeySequence(tr("Ctrl+K")), this);
+    connect(m_kickAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(KICK_FROM_CHANNEL);
+    });
+    m_kickServAct = new QShortcut(QKeySequence(tr("Ctrl+Alt+K")), this);
+    connect(m_kickServAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(KICK_FROM_SERVER);
+    });
+    m_kickBanAct = new QShortcut(QKeySequence(tr("Ctrl+B")), this);
+    connect(m_kickBanAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(BAN_FROM_CHANNEL);
+    });
+    m_kickBanServAct = new QShortcut(QKeySequence(tr("Ctrl+Alt+B")), this);
+    connect(m_kickBanServAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(BAN_FROM_SERVER);
+    });
+    m_selMoveAct = new QShortcut(QKeySequence(tr("Ctrl+Alt+X")), this);
+    connect(m_selMoveAct, &QShortcut::activated, this, [this]
+    {
+        menuAction(MOVE);
+    });
     m_proxyModel->setSortCaseSensitivity(Qt::CaseInsensitive);
     m_proxyModel->sort(COLUMN_NICKNAME, Qt::AscendingOrder);
     ui.tableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_ONLINEUSERS_HEADERSIZES).toByteArray());
@@ -157,14 +157,19 @@ void OnlineUsersDlg::slotUserLeft(int /*channelid*/, const User& user)
 void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
 {
     QMenu menu(this);
-    menu.addAction(m_viewInfoAct);
-    menu.addAction(m_msgAct);
-    menu.addAction(m_opAct);
-    menu.addAction(m_kickAct);
-    menu.addAction(m_kickServAct);
-    menu.addAction(m_kickBanAct);
-    menu.addAction(m_kickBanServAct);
-    menu.addAction(m_selMoveAct);
+    auto add = [&](const QString &txt, const QKeySequence &seq, MenuAction ma)
+    {
+        QAction *act = menu.addAction(txt, [this, ma]{ menuAction(ma); });
+        act->setShortcut(seq);
+    };
+    add(tr("&View User Information"), QKeySequence(tr("Ctrl+I")), VIEW_USERINFORMATION);
+    add(tr("M&essages"), QKeySequence(tr("Ctrl+E")), SEND_TEXTMESSAGE);
+    add(tr("&Op"), QKeySequence(tr("Ctrl+O")), OP);
+    add(tr("&Kick from Channel"), QKeySequence(tr("Ctrl+K")), KICK_FROM_CHANNEL);
+    add(tr("K&ick from Server"), QKeySequence(tr("Ctrl+Alt+K")), KICK_FROM_SERVER);
+    add(tr("Kick and &Ban from Channel"), QKeySequence(tr("Ctrl+B")), BAN_FROM_CHANNEL);
+    add(tr("Kick and B&an from Server"), QKeySequence(tr("Ctrl+Alt+B")), BAN_FROM_SERVER);
+    add(tr("&Select User(s) for Move"), QKeySequence(tr("Ctrl+Alt+X")), MOVE);
     QMenu* sortMenu = menu.addMenu(tr("Sort By..."));
     QString asc = tr("Ascending"), desc = tr("Descending");
     QAction* sortId = new QAction(sortMenu);

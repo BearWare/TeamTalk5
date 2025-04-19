@@ -22,6 +22,7 @@
 #include "chattextedit.h"
 
 #include <QListWidget>
+#include <QShortcut>
 
 class ChatTextList : public QListWidget, public ChatTextHistory
 {
@@ -49,10 +50,10 @@ private:
     QStringList allUrls(const QString &text) const;
     QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
-    QAction *m_copyAct    = nullptr;
-    QAction *m_detailsAct = nullptr;
-    QAction *m_copyAllAct = nullptr;
-    QAction *m_clearAct   = nullptr;
+    QShortcut *m_copy     = nullptr;
+    QShortcut *m_details  = nullptr;
+    QShortcut *m_copyAll  = nullptr;    
+    QShortcut *m_clear    = nullptr;
     enum MenuAction
     {
         COPY,

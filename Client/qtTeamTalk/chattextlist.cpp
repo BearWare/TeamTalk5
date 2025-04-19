@@ -45,26 +45,26 @@ ChatTextList::ChatTextList(QWidget *parent)
     setWordWrap(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setContextMenuPolicy(Qt::DefaultContextMenu);
-    m_copyAct = new QAction(tr("&Copy"), this);
-    m_copyAct->setShortcut(QKeySequence::Copy);
-    connect(m_copyAct, &QAction::triggered,
-            this, [this]{ menuAction(COPY); });
-    addAction(m_copyAct);
-    m_detailsAct = new QAction(tr("View &Details..."), this);
-    m_detailsAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return));
-    connect(m_detailsAct, &QAction::triggered,
-            this, [this]{ menuAction(VIEWDETAILS); });
-    addAction(m_detailsAct);
-    m_copyAllAct = new QAction(tr("Copy &All"), this);
-    m_copyAllAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C));
-    connect(m_copyAllAct, &QAction::triggered,
-            this, [this]{ menuAction(COPYALL); });
-    addAction(m_copyAllAct);
-    m_clearAct = new QAction(tr("C&lear"), this);
-    m_clearAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete));
-    connect(m_clearAct, &QAction::triggered,
-            this, [this]{ menuAction(CLEAR); });
-    addAction(m_clearAct);
+    m_copy = new QShortcut(QKeySequence::Copy, this);
+    connect(m_copy, &QShortcut::activated, this, [this]
+    {
+        menuAction(COPY);
+    });
+    m_details = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return), this);
+    connect(m_details, &QShortcut::activated, this, [this]
+    {
+        menuAction(VIEWDETAILS);
+    });
+    m_copyAll = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), this);
+    connect(m_copyAll, &QShortcut::activated, this, [this]
+    {
+        menuAction(COPYALL);
+    });
+    m_clear = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete), this);
+    connect(m_clear, &QShortcut::activated, this, [this]
+    {
+        menuAction(CLEAR);
+    });
 }
 
 QString ChatTextList::getTimeStamp(const QDateTime& tm)
@@ -367,22 +367,21 @@ void ChatTextList::contextMenuEvent(QContextMenuEvent *event)
     QMenu menu(this);
     QListWidgetItem *item = itemAt(event->pos());
 
+    auto add = [&](const QString &txt, const QKeySequence &seq, MenuAction ma)
+    {
+        QAction *act = menu.addAction(txt, [this, ma]{ menuAction(ma); });
+        act->setShortcut(seq);
+    };
+
     if (item)
     {
-        m_copyAct->setEnabled(true);
-        m_detailsAct->setEnabled(true);
-        menu.addAction(m_copyAct);
-        menu.addAction(m_detailsAct);
-    }
-    else
-    {
-        m_copyAct->setEnabled(false);
-        m_detailsAct->setEnabled(false);
+        add(tr("&Copy"), QKeySequence::Copy, COPY);
+        add(tr("View &Details..."), QKeySequence(Qt::CTRL | Qt::Key_Return), VIEWDETAILS);
     }
 
     menu.addSeparator();
-    menu.addAction(m_copyAllAct);
-    menu.addAction(m_clearAct);
+    add(tr("Copy &All"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), COPYALL);
+    add(tr("C&lear"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete), CLEAR);
 
     menu.exec(event->globalPos());
 }
