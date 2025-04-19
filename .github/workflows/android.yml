@@ -3,7 +3,7 @@ name: Android
 on:
   push:
     branches-ignore:
-      - debug_workflow
+      - debug_workflow*
 
 jobs:
   build:
