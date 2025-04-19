@@ -3,7 +3,7 @@ name: SmokeTest
 on:
   push:
     branches-ignore:
-      - debug_workflow
+      - debug_workflow*
 
 env:
   # TeamTalkJNI JUnit environment variables
