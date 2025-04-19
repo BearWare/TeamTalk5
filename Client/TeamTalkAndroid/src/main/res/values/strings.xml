@@ -31,6 +31,8 @@
     <string name="text_cmd_leftroot">Left root channel</string>
     <string name="text_cmd_userjoinchan">joined channel</string>
     <string name="text_cmd_userleftchan">left channel</string>
+    <string name="text_cmd_userloggedout">logged out</string>
+    <string name="text_cmd_userloggedin">logged in</string>
     <string name="text_cmd_servername">Server name: </string>
     <string name="text_cmd_servermotd">Message of the day: </string>
     <string name="pref_cat_subscriptions">Subscriptions</string>

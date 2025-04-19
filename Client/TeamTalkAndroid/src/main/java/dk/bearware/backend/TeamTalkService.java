@@ -912,7 +912,7 @@ public class TeamTalkService extends Service
     @Override
     public void onCmdUserLoggedIn(User user) {
         users.put(user.nUserID, user);
-        
+
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
         int def_unsub = Subscription.SUBSCRIBE_NONE;
         if(!pref.getBoolean(Preferences.PREF_SUB_TEXTMESSAGE, true))
@@ -936,6 +936,11 @@ public class TeamTalkService extends Service
                 activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_UNSUBSCRIBE);
         }
 
+        String name = Utils.getDisplayName(getBaseContext(), user);
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            name + " " + getResources().getString(R.string.text_cmd_userloggedin));
+        getChatLogTextMsgs().add(msg);
+
         // sync weblogin user settings from cache
         syncFromUserCache(user);
     }
@@ -943,14 +948,11 @@ public class TeamTalkService extends Service
     @Override
     public void onCmdUserLoggedOut(User user) {
         users.remove(user.nUserID);
-        
-        if(usertxtmsgs.containsKey(user.nUserID)) {
-            MyTextMessage msg;
-            String name = Utils.getDisplayName(getBaseContext(), user);
-            msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                name + " " + getResources().getString(R.string.text_cmd_userleftchan));
-            getUserTextMsgs(user.nUserID).add(msg);
-        }
+
+        String name = Utils.getDisplayName(getBaseContext(), user);
+        MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
+            name + " " + getResources().getString(R.string.text_cmd_userloggedout));
+        getChatLogTextMsgs().add(msg);
 
         // sync user settings to cache
         syncToUserCache(user);
