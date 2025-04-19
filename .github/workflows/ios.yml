@@ -74,7 +74,7 @@ jobs:
         AD_HOC_CODE_SIGNING_ALLOWED=YES
         CODE_SIGN_STYLE=Automatic
         COMPILER_INDEX_STORE_ENABLE=NO
-        -hideShellScriptEnvironment'
+        -hideShellScriptEnvironment
 
     - name: Upload TeamTalk Artifact
       uses: actions/upload-artifact@v4
