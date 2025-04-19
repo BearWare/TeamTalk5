@@ -41,6 +41,9 @@ private:
     void chatTemplatesRestoreAllDefaultTemplate();
     QMenu* m_CTVarMenu;
     QModelIndex m_currentIndex;
+
+protected:
+    void keyPressEvent ( QKeyEvent * event ) override;
 };
 
 

@@ -17,6 +17,7 @@
 
 #include <QMenu>
 #include <QMessageBox>
+#include <QKeyEvent>
 
 #include "chattemplatesdlg.h"
 #include "appinfo.h"
@@ -162,8 +163,16 @@ void ChatTemplatesDlg::slotAccept()
     saveCurrentTemplate();
 }
 
+void ChatTemplatesDlg::keyPressEvent ( QKeyEvent * event )
+{
+    if (ui.CTMsgEdit->hasFocus() && (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) &&
+        (event->modifiers() & Qt::ShiftModifier) != 0)
+    {
+        ui.CTMsgEdit->insert("\n");
+    }
+    QDialog::keyPressEvent( event );
+}
 
-#include <QKeyEvent>
 
 enum
 {
