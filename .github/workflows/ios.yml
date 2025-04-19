@@ -53,10 +53,14 @@ jobs:
         ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libcrypto.a
         ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libssl.a
 
+  lipo:
+    needs: build
+    steps:
     - name: Run Lipo to single output
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: >-
-        lipo Library/TeamTalk_DLL/libTeamTalk5-${{ matrix.cmakearch }}.a
+        lipo Library/TeamTalk_DLL/libTeamTalk5-arm64.a
+        Library/TeamTalk_DLL/libTeamTalk5-x86_64.a
         -create -output Library/TeamTalk_DLL/libTeamTalk5.a
 
     - name: Build iTeamTalk from Xcode
