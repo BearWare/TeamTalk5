@@ -21,6 +21,7 @@
 #include "ui_onlineusers.h"
 #include "onlineusersmodel.h"
 #include <QSortFilterProxyModel>
+#include <QShortcut>
 
 class OnlineUsersDlg : public QDialog
 {
@@ -55,14 +56,14 @@ protected:
 
 private:
     void slotTreeContextMenu(const QPoint&);
-    QAction *m_viewInfoAct   = nullptr;
-    QAction *m_msgAct   = nullptr;
-    QAction *m_opAct   = nullptr;
-    QAction *m_kickAct   = nullptr;
-    QAction *m_kickServAct   = nullptr;
-    QAction *m_kickBanAct   = nullptr;
-    QAction *m_kickBanServAct   = nullptr;
-    QAction *m_selMoveAct   = nullptr;
+    QShortcut *m_viewInfoAct   = nullptr;
+    QShortcut *m_msgAct   = nullptr;
+    QShortcut *m_opAct   = nullptr;
+    QShortcut *m_kickAct   = nullptr;
+    QShortcut *m_kickServAct   = nullptr;
+    QShortcut *m_kickBanAct   = nullptr;
+    QShortcut *m_kickBanServAct   = nullptr;
+    QShortcut *m_selMoveAct   = nullptr;
     enum MenuAction
     {
         VIEW_USERINFORMATION,
