@@ -44,11 +44,23 @@ public:
     void copyAllHistory();
 
 private:
-    static QString getTimeStamp(const QDateTime& tm, bool force_ts = false);
+    static QString getTimeStamp(const QDateTime& tm);
     QString getTextMessagePrefix(const TextMessage& msg, const User& user);
     QStringList allUrls(const QString &text) const;
     QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
+    QAction *m_copyAct    = nullptr;
+    QAction *m_detailsAct = nullptr;
+    QAction *m_copyAllAct = nullptr;
+    QAction *m_clearAct   = nullptr;
+    enum MenuAction
+    {
+        COPY,
+        VIEWDETAILS,
+        COPYALL,
+        CLEAR
+    };
+    void menuAction(MenuAction ma);
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;

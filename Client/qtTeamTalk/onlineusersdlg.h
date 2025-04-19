@@ -55,6 +55,14 @@ protected:
 
 private:
     void slotTreeContextMenu(const QPoint&);
+    QAction *m_viewInfoAct   = nullptr;
+    QAction *m_msgAct   = nullptr;
+    QAction *m_opAct   = nullptr;
+    QAction *m_kickAct   = nullptr;
+    QAction *m_kickServAct   = nullptr;
+    QAction *m_kickBanAct   = nullptr;
+    QAction *m_kickBanServAct   = nullptr;
+    QAction *m_selMoveAct   = nullptr;
     enum MenuAction
     {
         VIEW_USERINFORMATION,

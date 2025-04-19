@@ -26,6 +26,7 @@
 #include "bearwarelogindlg.h"
 #include "ttseventsmodel.h"
 #include "statusbardlg.h"
+#include "chattemplatesdlg.h"
 #include "utilvideo.h"
 #include "utiltts.h"
 #include "utilui.h"
@@ -94,6 +95,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.statusbarToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotConfigureStatusBar);
     connect(ui.updatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
     connect(ui.betaUpdatesChkBox, &QAbstractButton::clicked, this, &PreferencesDlg::slotUpdateUpdDlgChkBox);
+    connect(ui.chatTemplateToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotEditChatTemplates);
     connect(ui.TSFVarButton, &QPushButton::clicked, this, [&]()
     {
         QMenu tsfVarMenu(this);
@@ -470,7 +472,6 @@ void PreferencesDlg::initDisplayTab()
                                                      SETTINGS_DISPLAY_USERSCOUNT_DEFAULT).toBool());
     ui.lasttalkChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LASTTALK,
                                                     SETTINGS_DISPLAY_LASTTALK_DEFAULT).toBool());
-    ui.msgtimestampChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool());
     ui.timestampformatEdit->setText(ttSettings->value(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, getTimestampFormat()).toString());
     ui.chanexpChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
     ui.logstatusbarChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_LOGSTATUSBAR, SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT).toBool());
@@ -526,6 +527,7 @@ void PreferencesDlg::initDisplayTab()
     ui.chanTopicChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CHANNEL_TOPIC, SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT).toBool());
     ui.startServerListChkBox->setVisible(!ttSettings->value(SETTINGS_CONNECTION_AUTOCONNECT, SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT).toBool());
     ui.startServerListChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_START_SERVERLIST, SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT).toBool());
+    ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
 }
 
 void PreferencesDlg::initConnectionTab()
@@ -621,6 +623,12 @@ void PreferencesDlg::initTTSEventsTab()
 
     TextToSpeechEngine ttsEngine = TextToSpeechEngine(ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt());
     setCurrentItemData(ui.ttsengineComboBox, ttsEngine);
+
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    ui.ttsToastChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool());
+#elif defined(Q_OS_DARWIN)
+    ui.ttsToastChkBox->hide();
+#endif
 
     slotUpdateTTSTab();
 }
@@ -758,7 +766,6 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPPOPUP, ui.desktopdlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_USERSCOUNT, ui.usercountChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LASTTALK, ui.lasttalkChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_MSGTIMESTAMP, ui.msgtimestampChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, ui.timestampformatEdit->text());
         ttSettings->setValue(SETTINGS_DISPLAY_CHANEXP, ui.chanexpChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked());
@@ -794,7 +801,13 @@ void PreferencesDlg::slotSaveChanges()
         if (modlistview)
             QMessageBox::critical(this, tr("Chat History"),
                                   tr("Please restart application to change to chat history control"));
-
+        if (!ui.chatTemplateChkBox->isChecked())
+        {
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_CHANNELMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_BROADMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_PRIVMSG);
+            ttSettings->remove(SETTINGS_CHATTEMPLATES_LOGMSG);
+        }
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {
@@ -1503,11 +1516,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     case TTSENGINE_NONE :
     break;
     }
-#if defined(Q_OS_DARWIN)
-    ui.ttsToastChkBox->hide();
-#else
-    ui.ttsToastChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool());
-#endif
 }
 
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
@@ -1952,4 +1960,11 @@ void PreferencesDlg::slotConfigureStatusBar()
 {
     StatusBarDlg dlg(this, ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong());
     dlg.exec();
+}
+
+void PreferencesDlg::slotEditChatTemplates()
+{
+    ChatTemplatesDlg dlg(this);
+    dlg.exec();
+    ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
 }

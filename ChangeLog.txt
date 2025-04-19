@@ -15,11 +15,13 @@ Default Qt Client
 - Ability to sort by "Last Login Time" in "User Accounts" dialog
 - Ability to send toast notifications on Linux and Windows
 - Ability to change chat history to list view in "Preferences" dialog
-- Improve "Server Properties" dialog accessibility
+- Improve "Server Properties" and "Channel" dialog accessibility
 - Nickname and Last Joined Channel are now stored in .tt file
 - WebRTC updated from r4332 to r6818
 - Qt updated to 6.9.0beta3 on macOS and Windows
 - OPUS updated to v1.5.2
+- Ability to custom chat templates
+- Remove option "Timestamp messages", use custom templates instead
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start

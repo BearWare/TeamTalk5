@@ -177,6 +177,9 @@ void migrateSettings()
             ttSettings->remove("texttospeech/tts-timestamp");
         }
 #endif
+
+        // msgtimestamp removed in 5.5 format
+        ttSettings->remove("display/msgtimestamp");
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
@@ -214,6 +217,18 @@ QHash<StatusBarEvents, StatusBarEventInfo> UtilUI::eventToSettingMap()
         { STATUSBAR_CLASSROOM_MEDIAFILE_TX, {SETTINGS_STATUSBARMSG_CLASSROOM, {{"{type}", tr("Transmission type")}, {"{state}", tr("Transmission state")}, {"{user}", tr("User concerns by change")}}, tr("Classroom transmission authorization change") } },
         { STATUSBAR_FILE_ADD, {SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", tr("File name")}, {"{user}", tr("User's nickname who added the file")}, {"{username}", tr("User's username who added the file")}, {"{filesize}", tr("File size")}}, "" } },
         { STATUSBAR_FILE_REMOVE, {SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", tr("File name")}, {"{user}", tr("User's nickname who removed the file")}, {"{username}", tr("User's username who removed the file")}}, "" } },
+    };
+    return map;
+}
+
+QHash<ChatTemplates, ChatTemplateInfo> UtilUI::templatesToSettingMap()
+{
+    static QHash<ChatTemplates, ChatTemplateInfo> map =
+    {
+        { CHATTEMPLATES_CHANNEL_MESSAGE, {SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_BROADCAST_MESSAGE, {SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_PRIVATE_MESSAGE, {SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_LOG_MESSAGE, {SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", tr("Message date")}, {"{content}", tr("Message content")}}, "" } },
     };
     return map;
 }
@@ -559,6 +574,14 @@ QString getFormattedSize(qint64 size)
     return formattedSize;
 }
 
+bool hasEditedTextMessages()
+{
+    return ttSettings->value(SETTINGS_CHATTEMPLATES_CHANNELMSG, SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT).toString() != SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT ||
+           ttSettings->value(SETTINGS_CHATTEMPLATES_BROADMSG, SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT).toString() != SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT ||
+           ttSettings->value(SETTINGS_CHATTEMPLATES_PRIVMSG, SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT).toString() != SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT ||
+           ttSettings->value(SETTINGS_CHATTEMPLATES_LOGMSG, SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT).toString() != SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT;
+}
+
 QString UtilUI::getDefaultValue(const QString& paramKey)
 {
     if (paramKey == SETTINGS_STATUSBARMSG_USER_LOGGEDIN)
@@ -599,6 +622,36 @@ QString UtilUI::getStatusBarMessage(const QString& paramKey, const QHash<QString
 QString UtilUI::getRawStatusBarMessage(const QString& paramKey)
 {
     return ttSettings->value(paramKey, getDefaultValue(paramKey)).toString();
+}
+
+QString UtilUI::getDefaultTemplate(const QString& paramKey)
+{
+    if (paramKey == SETTINGS_CHATTEMPLATES_CHANNELMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_BROADMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_BROADMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_PRIVMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_LOGMSG)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT);
+    return QString();
+}
+
+QString UtilUI::getChatTemplate(const QString& paramKey, const QHash<QString, QString>& variables)
+{
+    QString messageTemplate = ttSettings->value(paramKey, getDefaultTemplate(paramKey)).toString();
+
+    for (auto it = variables.constBegin(); it != variables.constEnd(); ++it)
+    {
+        messageTemplate.replace(it.key(), it.value());
+    }
+
+    return messageTemplate;
+}
+
+QString UtilUI::getRawChatTemplate(const QString& paramKey)
+{
+    return ttSettings->value(paramKey, getDefaultTemplate(paramKey)).toString();
 }
 
 LoginInfoDialog::LoginInfoDialog(const QString &title, const QString &desc, const QString &initialUsername, const QString &initialPassword, QWidget *parent)

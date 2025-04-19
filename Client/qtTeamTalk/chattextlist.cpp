@@ -38,19 +38,38 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-ChatTextList::ChatTextList(QWidget * parent/* = 0*/)
+ChatTextList::ChatTextList(QWidget *parent)
 : QListWidget(parent)
 {
     setMouseTracking(true);
     setWordWrap(true);
     setSelectionMode(QAbstractItemView::ExtendedSelection);
+    setContextMenuPolicy(Qt::DefaultContextMenu);
+    m_copyAct = new QAction(tr("&Copy"), this);
+    m_copyAct->setShortcut(QKeySequence::Copy);
+    connect(m_copyAct, &QAction::triggered,
+            this, [this]{ menuAction(COPY); });
+    addAction(m_copyAct);
+    m_detailsAct = new QAction(tr("View &Details..."), this);
+    m_detailsAct->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return));
+    connect(m_detailsAct, &QAction::triggered,
+            this, [this]{ menuAction(VIEWDETAILS); });
+    addAction(m_detailsAct);
+    m_copyAllAct = new QAction(tr("Copy &All"), this);
+    m_copyAllAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C));
+    connect(m_copyAllAct, &QAction::triggered,
+            this, [this]{ menuAction(COPYALL); });
+    addAction(m_copyAllAct);
+    m_clearAct = new QAction(tr("C&lear"), this);
+    m_clearAct->setShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete));
+    connect(m_clearAct, &QAction::triggered,
+            this, [this]{ menuAction(CLEAR); });
+    addAction(m_clearAct);
 }
 
-QString ChatTextList::getTimeStamp(const QDateTime& tm, bool force_ts)
+QString ChatTextList::getTimeStamp(const QDateTime& tm)
 {
-    QString dt;
-    if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss") + QString(" ");
+    QString dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
     return dt;
 }
 
@@ -150,7 +169,21 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     QString sender = getTextMessagePrefix(msg, user);
     QString content = msg.moreMessage;
 
-    QString line = dt + QString("%1\n%2").arg(sender).arg(content);
+    QString line;
+    switch (msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_BROADCAST :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_USER :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", content}});
+        break;
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
+    }
 
     QListWidgetItem* item = new QListWidgetItem(line);
 
@@ -173,7 +206,7 @@ void ChatTextList::addLogMessage(const QString& msg)
     QString sender = tr("System");
     QString content = msg;
 
-    QString line = QString("%1 * %2").arg(dt).arg(msg);
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", dt}, {"{content}", msg}});
     QListWidgetItem* item = new QListWidgetItem(line);
     item->setForeground(Qt::gray);
 
@@ -329,32 +362,68 @@ void ChatTextList::mouseDoubleClickEvent(QMouseEvent* e)
     QListWidget::mouseDoubleClickEvent(e);
 }
 
-void ChatTextList::contextMenuEvent(QContextMenuEvent* event)
+void ChatTextList::contextMenuEvent(QContextMenuEvent *event)
 {
-    QListWidgetItem* item = itemAt(event->pos());
     QMenu menu(this);
+    QListWidgetItem *item = itemAt(event->pos());
 
-    if(item)
+    if (item)
     {
-        menu.addAction(tr("&Copy"), [item]() {
-            QApplication::clipboard()->setText(item->text());
-        });
-
-        menu.addAction(tr("View &Details..."), [this, item]() {
-            QString datetime = item->data(Qt::UserRole + 1).toString();
-            QString sender = item->data(Qt::UserRole + 2).toString();
-            QString content = item->data(Qt::UserRole + 3).toString();
-
-            MessageDetailsDlg dlg(datetime, sender, content, this);
-            dlg.exec();
-        });
+        m_copyAct->setEnabled(true);
+        m_detailsAct->setEnabled(true);
+        menu.addAction(m_copyAct);
+        menu.addAction(m_detailsAct);
+    }
+    else
+    {
+        m_copyAct->setEnabled(false);
+        m_detailsAct->setEnabled(false);
     }
 
     menu.addSeparator();
-    menu.addAction(tr("Copy &All"), this, &ChatTextList::copyAllHistory);
-    menu.addAction(tr("C&lear"), this, &ChatTextList::clearHistory);
+    menu.addAction(m_copyAllAct);
+    menu.addAction(m_clearAct);
 
     menu.exec(event->globalPos());
+}
+
+void ChatTextList::menuAction(MenuAction ma)
+{
+    QListWidgetItem *item = currentItem();
+
+    switch (ma)
+    {
+
+    case COPY :
+        if (item)
+            QApplication::clipboard()->setText(item->text());
+        break;
+
+    case VIEWDETAILS :
+    {
+        if (!item)
+            break;
+
+        QString datetime = item->data(Qt::UserRole + 1).toString();
+        QString sender   = item->data(Qt::UserRole + 2).toString();
+        QString content  = item->data(Qt::UserRole + 3).toString();
+
+        MessageDetailsDlg dlg(datetime, sender, content, this);
+        dlg.exec();
+        break;
+    }
+
+    case COPYALL :
+        copyAllHistory();
+        break;
+
+    case CLEAR :
+        clearHistory();
+        break;
+
+    default :
+        break;
+    }
 }
 
 MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sender, const QString& content, QWidget* parent)
@@ -377,6 +446,7 @@ MessageDetailsDlg::MessageDetailsDlg(const QString& datetime, const QString& sen
     layout->addWidget(lblDateTime);
     layout->addWidget(lblSender);
     layout->addWidget(txtContent);
+    txtContent->setFocus();
 
     QDialogButtonBox* btnBox = new QDialogButtonBox(this);
     QPushButton* closeButton = btnBox->addButton(tr("&Close"), QDialogButtonBox::RejectRole);

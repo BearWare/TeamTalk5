@@ -175,11 +175,13 @@
     <string name="channel_prop_title_noaudiorecord">禁止录音</string>
 
 
-    <string name="user_prop_title_username">用户名</string>
-    <string name="user_prop_title_statusmsg">状态消息</string>
-    <string name="user_prop_title_clientname">客户端名称</string>
+    <string name="user_prop_title_nickname">昵称：</string>
+    <string name="user_prop_title_username">用户名：</string>
+    <string name="user_prop_title_userid">用户ID：</string>
+    <string name="user_prop_title_statusmsg">状态消息：</string>
+    <string name="user_prop_title_clientname">客户端名称：</string>
     <string name="user_prop_clientversion">版本</string>
-    <string name="user_prop_title_ipaddress">IP地址</string>
+    <string name="user_prop_title_ipaddress">IP地址：</string>
     <string name="user_prop_title_voice_volume">语音音量</string>
     <string name="user_prop_title_mute_voice">语音静音</string>
     <string name="user_prop_title_media_volume">媒体文件音量</string>
@@ -276,6 +278,14 @@
     <string name="ban_confirmation">你真的要禁止用户 %1$s 吗？</string>
     <string name="kick_confirmation">你真的要踢出用户 %1$s 吗？</string>
     <string name="version_update">有新的 TeamTalk 版本可用： %1$s?</string>
+    <string name="opusbitrate">比特率</string>
+    <string name="opusinterval">传输间隔</string>
+    <string name="speexquality">质量</string>
+    <string name="speexinterval">传输间隔</string>
+    <string name="speexvbrquality">质量</string>
+    <string name="speexvbrinterval">传输间隔</string>
+    <string name="voicevolume">语音音量</string>
+    <string name="mediavolume">媒体文件音量</string>
     <string name="decvolume">减小音量</string>
     <string name="incvolume">增大音量</string>
     <string name="speaker_mute">扬声器静音</string>

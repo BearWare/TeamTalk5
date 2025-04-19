@@ -170,11 +170,13 @@
     <string name="channel_prop_title_novoiceact">Запрет Активации Голосом</string>
     <string name="channel_prop_title_noaudiorecord">Запрет Аудиозаписи</string>
 
-    <string name="user_prop_title_username">Имя Пользователя</string>
-    <string name="user_prop_title_statusmsg">Сообщение о Состоянии</string>
-    <string name="user_prop_title_clientname">Имя клиента</string>
+    <string name="user_prop_title_nickname">Псевдоним:</string>
+    <string name="user_prop_title_username">Имя Пользователя:</string>
+    <string name="user_prop_title_userid">Идентификатор пользователя:</string>
+    <string name="user_prop_title_statusmsg">Сообщение о Состоянии:</string>
+    <string name="user_prop_title_clientname">Имя клиента:</string>
     <string name="user_prop_clientversion">версия</string>
-    <string name="user_prop_title_ipaddress">IP Адрес</string>
+    <string name="user_prop_title_ipaddress">IP Адрес:</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
@@ -270,6 +272,14 @@
     <string name="ban_confirmation">Вы действительно намерены забанить пользователя %1$s?</string>
     <string name="kick_confirmation">Вы действительно намерены выгнать пользователя %1$s?</string>
     <string name="version_update">Доступна новая версия TeamTalk: %1$s?</string>
+    <string name="opusbitrate">битрейт</string>
+    <string name="opusinterval">Интервал передачи</string>
+    <string name="speexquality">Качество</string>
+    <string name="speexinterval">Интервал передачи</string>
+    <string name="speexvbrquality">Качество</string>
+    <string name="speexvbrinterval">Интервал передачи</string>
+    <string name="voicevolume">Громкость голоса</string>
+    <string name="mediavolume">Громкость медиафайлов</string>
     <string name="decvolume">Уменьшить громкость</string>
     <string name="incvolume">Увеличить громкость</string>
     <string name="speaker_mute">Выключить звук</string>

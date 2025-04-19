@@ -134,11 +134,9 @@ ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
                             Qt::TextInteractionFlag::TextSelectableByMouse);
 }
    
-QString ChatTextEdit::getTimeStamp(const QDateTime& tm, bool force_ts)
+QString ChatTextEdit::getTimeStamp(const QDateTime& tm)
 {
-    QString dt;
-    if(ttSettings->value(SETTINGS_DISPLAY_MSGTIMESTAMP, false).toBool() || force_ts)
-        dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss") + QString(" ");
+    QString dt = getFormattedDateTime(tm.toString("yyyy-MM-dd HH:mm:ss"), "yyyy-MM-dd HH:mm:ss");
     return dt;
 }
 
@@ -246,6 +244,21 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
     line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
 
+    switch (msg.nMsgType)
+    {
+    case MSGTYPE_CHANNEL :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANNELMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
+    case MSGTYPE_BROADCAST :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
+    case MSGTYPE_USER :
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", dt}, {"{user}", getDisplayName(user)}, {"{content}", msg.moreMessage}});
+        break;
+    case MSGTYPE_CUSTOM :
+    case MSGTYPE_NONE : break;
+    }
+
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
     {
         QTextCharFormat format = textCursor().charFormat();
@@ -270,7 +283,7 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
 void ChatTextEdit::addLogMessage(const QString& msg)
 {
-    QString line = QString("%1 * %2").arg(getTimeStamp(QDateTime::currentDateTime())).arg(msg);
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", getTimeStamp(QDateTime::currentDateTime())}, {"{content}", msg}});
     QTextCharFormat format = textCursor().charFormat();
     QTextCharFormat original = format;
     format.setForeground(QBrush(Qt::gray));
