@@ -135,7 +135,7 @@ private:
     void slotVideoCaptureDevChange(int index);
     void slotTestVideoFormat();
     void slotVideoResolutionChange(int index);
-    void slotImageFormatChange(bool checked);
+    void slotImageFormatChange(int index);
     void slotCustomImageFormat();
     void slotDefaultVideoSettings();
     QVector<VideoCaptureDevice> m_videodevices;

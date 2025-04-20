@@ -1656,7 +1656,7 @@ void PreferencesDlg::slotVideoResolutionChange(int index)
     Q_UNUSED(index);
 }
 
-void PreferencesDlg::slotImageFormatChange(bool /*checked*/)
+void PreferencesDlg::slotImageFormatChange(int /*index*/)
 {
     m_vidfmt.picFourCC = FourCC(getCurrentItemData(ui.vidImgFmtBox).toInt());
 
