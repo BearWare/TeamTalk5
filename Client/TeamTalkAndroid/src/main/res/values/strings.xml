@@ -288,22 +288,17 @@
     <string name="speexvbrinterval">Transmit interval</string>
     <string name="voicevolume">Voice Volume</string>
     <string name="mediavolume">Media File Volume</string>
-    <string name="decvolume">Decrease volume</string>
-    <string name="incvolume">Increase volume</string>
+    <string name="mastervolume">Speaker volume</string>
+    <string name="micgain">Microphone gain</string>
+    <string name="voxlevel">Voice activation level</string>
     <string name="speaker_mute">Mute speakers</string>
     <string name="speaker_unmute">Unmute speakers</string>
     <string name="mic_mute">Mute microphone</string>
     <string name="mic_unmute">Unmute microphone</string>
-    <string name="decgain">Decrease microphone gain</string>
-    <string name="incgain">Increase microphone gain</string>
-
     <string name="speaker_volume_description">Speaker volume is %1$s</string>
     <string name="mic_gain_description">Microphone gain is %1$s</string>
-
     <string name="voice_activation_on">Turn voice activation on</string>
     <string name="voice_activation_off">Turn voice activation off</string>
-    <string name="decvoxlevel">Decrease voice activation level</string>
-    <string name="incvoxlevel">Increase voice activation level</string>
     <string name="vox_level_description">Voice activation level is %1$s</string>
 
     <string name="tx_on">Transmitting</string>
