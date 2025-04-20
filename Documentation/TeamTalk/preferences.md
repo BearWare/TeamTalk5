@@ -34,6 +34,11 @@ transmit audio.
   - If non-zero this option will automatically set you as away after
     the specified number of seconds.
 
+- **Disable voice activation during inactivity**
+  - If checked *Voice activated* will be disabled when away timeout
+    has expired. *Voice activated* is selected in *Voice Transmission
+    Mode* group box.
+
 - **BearWare.dk Web Login ID**
   - A BearWare.dk web login is required if a TeamTalk server specifies
     that you must [log on with the username \"bearware\"](@ref connectdlg).
@@ -74,114 +79,137 @@ appearance.
 
 The items in the Display-tab are explained here:
 
-- **User interface language**
-  - The language to use in the application.
+- **User Interface Settings**
+  - **User interface language**
+    - The language to use in the application.
 
-- **Start minimized**
-  - If enabled TeamTalk will minimized itself once it starts.
+  - **Start minimized**
+    - If enabled TeamTalk will minimized itself once it starts.
 
-- **Minimize to tray icon**
-  - If enabled TeamTalk will go in Windows system tray when
-    minimized. The system tray is in the bottom right corner of
-    Windows.
+  - **Minimize to tray icon**
+    - If enabled TeamTalk will go in Windows system tray when
+      minimized. The system tray is in the bottom right corner of
+      Windows.
 
-- **Always on top**
-  - If enabled TeamTalk will always be in front of other running
-    programs.
+  - **Always on top**
+    - If enabled TeamTalk will always be in front of other running
+      programs.
 
-- **Enable VU-meter updates**
-  - The progress bar for voice activity can be disabled by using
-    option. This is useful for screen-readers.
+  - **Enable VU-meter updates**
+    - The progress bar for voice activity can be disabled by using
+      option. This is useful for screen-readers.
 
-- **Show number of users in channel**
-  - If enabled a parentesis will be shown on each channel with the
-    number of users in the channel.
+  - **Show voice activation level slider**
+    - Remove slider below VU-meter updates.
 
-- **Show username instead of nickname**
-  - See usernames (login names) instead of nicknames in channels tree
-    view.
+  - **Show chat history as list view instead of text edit**
+    - [Chat history tab](@ref chattab) in main window should use a
+      list view instead of text field. List view works better for
+      screen-readers.
 
-- **Show last to talk in yellow**
-  - The last person to talk in a channel should be displayed with
-    yellow background.
+  - **Show both server and channel name in window title**
+    - Window title of main window should include current server and
+      channel information.
 
-- **Show emojis and text for channel/user state**
-  - Emojis are shown in channels tree view for the channel or user's
-    current state. E.g. woman icon for female and ghost for hidden
-    channels.
+  - **Setup text message templates**
+    - Setup formatting of text messages in text chat messages like
+      e.g. to include time stamps.
 
-- **Show both server and channel name in window title**
-  - Main window's title bar should show both server's name and current
-    channel.
+  - **Timestamp format**
+    - The formatting of time stamp in text messages and dialogs.
 
-- **Popup dialog when receiving text message**
-  - If enabled a dialog window will pop up if someone writes you a
-    text message.
+  - **Show statusbar events in chat-window**
+    - If enabled all messages which are shown in the application's
+      statusbar will also be put in the channel [chat-tab window](@ref chattab).
 
-- **Start video in popup dialog**
-  - When a user starts transmitting video (from webcam) to the video
+  - **Show source in corner of video window**
+    - If enabled the name of the person who is sending video will be
+      shown in corner of the video window.
+
+
+- **Dialogs**
+  - **Popup dialog when receiving text message**
+    - If enabled a dialog window will pop up if someone writes you a
+      text message.
+      
+  - **Start video in popup dialog**
+    - When a user starts transmitting video (from webcam) to the video
     session should be displayed in a separate dialog instead of in the
     [Video-tab](@ref videotab).
 
-- **Closed video dialog should return to video-tab**
-  - By default closing a video popup dialog will return it to the
-    [Video-tab](@ref videotab). If the video should simply no longer
-    be displayed after closing a video dialog then uncheck this
-    option.
+  - **Start desktops in popup dialog**
+    - When a user shares a desktop window it should be displayed in a
+      separate dialog instead of the [Desktop-tab](@ref desktoptab).
 
-- **Start desktops in popup dialog**
-  - When a user shares a desktop window it should be displayed in a
-    separate dialog instead of the [Desktop-tab](@ref desktoptab).
+  - **Show a dialog box when excluded from channel or server**
+    - When kicked and/or banned from a server a dialog box can be
+      displayed to inform about this incident.
 
-- **Timestamp text messages**
-  - If enabled each text message will have a timestamp telling when it
-    was received.
+  - **Close dialog box when a file transfer is finished**
+    - Normally file transfer dialog stay open after transmission is
+      finished.
 
-- **Auto expand channels**
-  - By default channels, except the currently joined channel, are
-    collapsed. This option can be used to expand all channels
-    automatically.
+  - **Show dialog box with server's message of the day**
+    - When logging on to a server then show a dialog box with the
+      rules of the server (the message of the day).
 
-- **Double click on a channel**
-  - Change behavior of double clicking a channel in the channel tree
-    view.
+  - **Show dialog box with server list on startup**
+    - Open [Connect to a server](@ref connectdlg) dialog when TeamTalk
+      starts.
 
-- **Sort channels by**
-  - Choose how channels should be sorted in channel tree view.
+- Channels Tree
+  - **Show number of users in channel**
+    - If enabled a parentesis will be shown on each channel with the
+      number of users in the channel.
 
-- **Close dialog box when a file transfer is finished**
-  - Normally file transfer dialog stay open after transmission is
-    finished.
+  - **Show username instead of nickname**
+    - See usernames (login names) instead of nicknames in channels tree
+      view.
 
-- **Show a dialog box when excluded from channel or server**
-  - When kicked and/or banned from a server a dialog box can be
-    displayed to inform about this incident.
+  - **Show last to talk in yellow**
+    - The last person to talk in a channel should be displayed with
+      yellow background.
 
-- **Show statusbar events in chat-window**
-  - If enabled all messages which are shown in the application's
-    statusbar will also be put in the channel [chat-tab
-    window](@ref chattab).
+  - **Show user and channel icons**
+    - If using emojis then showing user and channel icons is redundant.
 
-- **Show source in corner of video window**
-  - If enabled the name of the person who is sending video will be
-    shown in corner of the video window.
+  - **Show channel topic in channel list**
+    - Along with the channel name also display the channel's topic.
 
-- **Maximum text length in channel list**
-  - The names of users and channels can sometimes be very long. Use
-    this option to limit the length names.
+  - **Maximum text length in channel list**
+    - The names of users and channels can sometimes be very long. Use
+      this option to limit the length names.
 
-- **Check for program updates at start up**
-  - When TeamTalk starts it should check to see if there's a new
-    version available. If a new version is available a text message
-    will be shown in the [Chat-tab](@ref chattab).
+  - **Auto expand channels**
+    - By default channels, except the currently joined channel, are
+      collapsed. This option can be used to expand all channels
+      automatically.
 
-- **Check for beta software updates on startup**
-  - Enable this option to be informed about new test versions of the
-    upcoming TeamTalk release.
+  - **Style of user and channel info**
+    - Items in channel list can include emojis, text or nothing to
+      display certain information. E.g. male/female,
+      administrator/operator, etc.
 
-- **Show new version available in dialog box**
-  - New software versions are normally shown in status messages but a
-    dialog box can show the information instead.
+  - **Sort channels by**
+    - Choose how channels should be sorted in channel tree view.
+
+  - **Double click on a channel**
+    - Change behavior of double clicking a channel in the channel tree
+      view.
+
+- Software Update
+  - **Check for program updates at start up**
+    - When TeamTalk starts it should check to see if there's a new
+      version available. If a new version is available a text message
+      will be shown in the [Chat-tab](@ref chattab).
+
+  - **Check for beta software updates on startup**
+    - Enable this option to be informed about new test versions of the
+      upcoming TeamTalk release.
+
+  - **Show new version available in dialog box**
+    - New software versions are normally shown in status messages but a
+      dialog box can show the information instead.
 
 # Connection {#connectiontab}
 
@@ -281,21 +309,22 @@ playback devices.
 
 The items in the Sound System-tab are explained here:
 
-- **Windows Audio Session**
-  - The preferred sound system on Windows.
+- Sound System
+  - **Windows Audio Session**
+    - The preferred sound system on Windows.
 
-- **DirectSound**
-  - Provides best compatibility with sound devices.
+  - **DirectSound**
+    - Provides best compatibility with sound devices.
 
-- **Windows Standard**
-  - Windows default sound system. This typically is slower than
-    DirectSound and Windows Audio Session.
+  - **Windows Standard**
+    - Windows default sound system. This typically is slower than
+      DirectSound and Windows Audio Session.
 
-- **ALSA**
-  - This sound system is only available on Linux.
+  - **ALSA**
+    - This sound system is only available on Linux.
 
-- **Core Audio**
-  - This sound system is only available on Mac OS X.
+  - **Core Audio**
+    - This sound system is only available on Mac OS X.
 
 - **Input Device**
   - The sound device to use for recording audio. It is advised to use
@@ -332,6 +361,10 @@ The items in the Sound System-tab are explained here:
 - **Enable denoising**
   - If you have a poor quality microphone it is advised to enable
     denoising.
+
+- Media file vs. voice volume
+  - Set volume level of voice compared to media files. Most people
+    would favour voice over media file volume.
 
 - **Default**
   - This button resets all sound system items to their default values.
@@ -404,96 +437,105 @@ The items in the Sound Events-tab are explained here:
         sound event, i.e. if Mute All is enabled then no sound event
         will be played.
 
-- **New user**
-  - Play this sound when a new user joins your channel.
+- **Use selected sound output devie for playback**
+  - Playback sound event on the sound device selected in
+    [Sound System-tab](@ref soundsystemtab) instead of the operating system's
+    sound device.
 
-- **User removed**
-  - Play this sound when a user leaves your channel.
+- **Enable/disable Sound Events**
+  - **New user**
+    - Play this sound when a new user joins your channel.
 
-- **Server lost**
-  - Play this sound if TeamTalk drops its connection to the server.
+  - **User removed**
+    - Play this sound when a user leaves your channel.
 
-- **New user message**
-  - Play this sound when a user to user text message is received.
+  - **Server lost**
+    - Play this sound if TeamTalk drops its connection to the server.
 
-- **Private message sent**
-  - Play this sound when a new private text message is sent.
+  - **New user message**
+    - Play this sound when a user to user text message is received.
 
-- **New channel message**
-  - Play this sound when a channel text message is received.
+  - **Private message sent**
+    - Play this sound when a new private text message is sent.
 
-- **Channel message sent**
-  - Play this sound when a channel text message is sent.
+  - **New channel message**
+    - Play this sound when a channel text message is received.
 
-- **Hotkey pressed**
-  - Play this sound when the Push to Talk key combination is pressed.
+  - **Channel message sent**
+    - Play this sound when a channel text message is sent.
 
-- **Channel silent**
-  - Play this sound when the last user has stopped talking and there's
-    no one left who is talking in the channel.
+  - **Hotkey pressed**
+    - Play this sound when the Push to Talk key combination is pressed.
 
-- **Files updated**
-  - Play this sound when a file is either added or deleted.
+  - **Channel silent**
+    - Play this sound when the last user has stopped talking and there's
+      no one left who is talking in the channel.
 
-- **File transfer complete**
-  - Play this sound when a file transfer is completed.
+  - **Files updated**
+    - Play this sound when a file is either added or deleted.
 
-- **New video session**
-  - Play this sound when a new video stream can be seen in the
-    [Video-tab](@ref videotab).
+  - **File transfer complete**
+    - Play this sound when a file transfer is completed.
 
-- **New desktop session**
-  - Play this sound when a new shared desktop can be seen in the
-    [Desktops-tab](@ref desktoptab).
+  - **New video session**
+    - Play this sound when a new video stream can be seen in the
+      [Video-tab](@ref videotab).
 
-- **User entered question-mode**
-  - Play this sound when a user changes status to question mode.
+  - **New desktop session**
+    - Play this sound when a new shared desktop can be seen in the
+      [Desktops-tab](@ref desktoptab).
 
-- **Desktop access request**
-  - Play this sound when a user requests access to your shared desktop
-    session.
+  - **User entered question-mode**
+    - Play this sound when a user changes status to question mode.
 
-- **User logged in**
-  - Play this sound when a user logs in.
+  - **Desktop access request**
+    - Play this sound when a user requests access to your shared desktop
+      session.
 
-- **User logged out**
-  - Play this sound when a user logs out.
+  - **User logged in**
+    - Play this sound when a user logs in.
 
-- **Voice activation enabled**
-  - Play this sound when voice activation is enabled from settings at startup.
+  - **User logged out**
+    - Play this sound when a user logs out.
 
-- **Voice activation disabled**
-  - Play this sound when voice activation is disabled from settings at startup.
+  - **Voice activation enabled**
+    - Play this sound when voice activation is enabled from settings at startup.
 
-- **Mute master volume**
-  - Play this sound when master volume is muted.
+  - **Voice activation disabled**
+    - Play this sound when voice activation is disabled from settings at startup.
 
-- **Unmute master volume**
-  - Play this sound when master volume is unmuted.
+  - **Mute master volume**
+    - Play this sound when master volume is muted.
 
-- **Transmit ready in "No interruption" channel**
-  - Play this sound when it's your turn to speak in a channel
-    configured with channel option "No interruption", i.e. only one
-    can transmit.
+  - **Unmute master volume**
+    - Play this sound when master volume is unmuted.
 
-- **Transmit stopped in "No interruption" channel**
-  - Play this sound when it's no longer your turn to speak in a
-    channel configured with channel option "No interruption*,
-    i.e. only one can transmit.
+  - **Transmit ready in "No interruption" channel**
+    - Play this sound when it's your turn to speak in a channel
+      configured with channel option "No interruption", i.e. only one
+      can transmit.
 
-- **Voice activation triggered**
-  - Play this sound when microphone level has activated voice
-    transmission.
+  - **Transmit stopped in "No interruption" channel**
+    - Play this sound when it's no longer your turn to speak in a
+      channel configured with channel option "No interruption*,
+      i.e. only one can transmit.
 
-- **Voice activation stopped**
-  - Play this sound when voice transmission stops due to microphone
-    level.
+  - **Voice activation triggered**
+    - Play this sound when microphone level has activated voice
+      transmission.
 
-- **Voice activation enabled via "Me" menu**
-  - Play this sound when voice activation is enabled from menu item.
+  - **Voice activation stopped**
+    - Play this sound when voice transmission stops due to microphone
+      level.
 
-- **Voice activation disabled via "Me" menu**
-  - Play this sound when voice activation is disabled from menu item.
+  - **Voice activation enabled via "Me" menu**
+    - Play this sound when voice activation is enabled from menu item.
+
+  - **Voice activation disabled via "Me" menu**
+    - Play this sound when voice activation is disabled from menu item.
+
+- **Sound Event File**
+  - Replace the sound file of a sound event.
 
 # Text to Speech {#texttospeechtab}
 
@@ -502,6 +544,14 @@ The Text to Speech tab is used to toggle text to speech events.
 ![Text to Speech-tab in Preferences](pref_tts.png "Text to Speech-tab")
 
 Text to speech events can be used as an alternative to status messages.
+
+- **Enable/disable Text to Speech Events**
+  - The possible events that can be submitted to the Text to Speech engine.
+
+- **Text to Speech Preferences**
+  - **Text to Speech Engine**
+    - The detected Text to Speech engines, e.g. Tolk or Qt's default
+      speech engine.
 
 # Shortcuts {#shortcutstab}
 
