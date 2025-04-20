@@ -31,6 +31,8 @@
     <string name="text_cmd_leftroot">离开跟频道</string>
     <string name="text_cmd_userjoinchan">加入频道</string>
     <string name="text_cmd_userleftchan">离开频道</string>
+    <string name="text_cmd_userloggedout">已登出</string>
+    <string name="text_cmd_userloggedin">已登录</string>
     <string name="text_cmd_servername">服务器名称: </string>
     <string name="text_cmd_servermotd">每日消息: </string>
     <string name="pref_cat_subscriptions">订阅</string>
