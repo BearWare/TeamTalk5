@@ -92,15 +92,3 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: >-
         xcodebuild archive -project Client/iTeamTalk/iTeamTalk.xcodeproj
-        -scheme iTeamTalk
-        -destination generic/platform=iOS
-        -archivePath ${{runner.workspace}}/build.xcarchive
-        -derivedDataPath ${{runner.workspace}}/DerivedData
-        -resultBundleVersion 3
-        -resultBundlePath ${{runner.workspace}}/resultbundle.xcresult
-        -IDEPostProgressNotifications=YES
-        CODE_SIGN_IDENTITY=-
-        AD_HOC_CODE_SIGNING_ALLOWED=YES
-        CODE_SIGN_STYLE=Automatic
-        COMPILER_INDEX_STORE_ENABLE=NO
-        -hideShellScriptEnvironment
