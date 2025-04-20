@@ -452,11 +452,11 @@
               </item>
               <item>
                <widget class="QToolButton" name="chatTemplateToolButton">
-                <property name="accessibleDescription">
+                <property name="accessibleName">
                  <string>Edit Chat Message Templates</string>
                 </property>
                 <property name="text">
-                 <string>...</string>
+                 <string notr="true">...</string>
                 </property>
                </widget>
               </item>
