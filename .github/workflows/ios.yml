@@ -91,4 +91,8 @@ jobs:
     - name: Build iTeamTalk from Xcode
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: >-
-        xcodebuild archive -project Client/iTeamTalk/iTeamTalk.xcodeproj
+        xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
+        CODE_SIGN_IDENTITY=-
+        AD_HOC_CODE_SIGNING_ALLOWED=YES
+        CODE_SIGN_STYLE=Automatic
+        COMPILER_INDEX_STORE_ENABLE=NO
