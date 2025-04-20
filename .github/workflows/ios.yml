@@ -65,6 +65,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          src:
+            - 'Library/TeamTalk_DLL/**'
+            - 'Client/iTeamTalk/**'
+
     - name: Download arch arm64
       uses: actions/download-artifact@v4
       with:
@@ -89,6 +97,7 @@ jobs:
         path: ${{runner.workspace}}/TeamTalk5
 
     - name: Build iTeamTalk from Xcode
+      if: steps.changes.outputs.src == 'true'
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: >-
         xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
