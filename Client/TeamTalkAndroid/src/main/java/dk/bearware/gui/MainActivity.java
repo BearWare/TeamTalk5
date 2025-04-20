@@ -1676,14 +1676,6 @@ private EditText newmsg;
         masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
         micSeekBar.setMax(100);
         micSeekBar.setProgress(Utils.refGainToPercent(ttclient.getSoundInputGainLevel()));
-        
-        OnButtonInteractionListener tuningButtonListener = new OnButtonInteractionListener() {
-            final Handler handler = new Handler();
-            Runnable runnable;
-
-            @Override
-            public void onClick(View v) {
-            }
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
