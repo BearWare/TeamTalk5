@@ -30,7 +30,9 @@
     <string name="text_cmd_joinroot">Подключен корневой канал</string>
     <string name="text_cmd_leftroot">Отключен корневой канал</string>
     <string name="text_cmd_userjoinchan">подключился к каналу</string>
-    <string name="text_cmd_userleftchan">Покинул канал</string>
+    <string name="text_cmd_userleftchan">покинул канал</string>
+    <string name="text_cmd_userloggedout">Ушел с сервера</string>
+    <string name="text_cmd_userloggedin">Зарегистрировался на сервере</string>
     <string name="text_cmd_servername">Имя сервера: </string>
     <string name="text_cmd_servermotd">Сообщение дня: </string>
     <string name="pref_cat_subscriptions">Подписки</string>
