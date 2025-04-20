@@ -67,6 +67,14 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          src:
+            - 'Library/TeamTalk_DLL/**'
+            - 'Client/iTeamTalk/**'
+
     - name: Download arch arm64
       uses: actions/download-artifact@v4
       with:
@@ -89,3 +97,13 @@ jobs:
       with:
         name: teamtalksdk-ios-universal
         path: ${{runner.workspace}}/TeamTalk5
+
+    - name: Build iTeamTalk from Xcode
+      if: steps.changes.outputs.src == 'true'
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: >-
+        xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
+        CODE_SIGN_IDENTITY=-
+        AD_HOC_CODE_SIGNING_ALLOWED=YES
+        CODE_SIGN_STYLE=Automatic
+        COMPILER_INDEX_STORE_ENABLE=NO
