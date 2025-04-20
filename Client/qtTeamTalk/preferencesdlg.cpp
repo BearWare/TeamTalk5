@@ -207,12 +207,7 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
     connect(ui.captureformatsBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             this, &PreferencesDlg::slotVideoResolutionChange);
     connect(ui.vidtestButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotTestVideoFormat);
-    connect(ui.vidrgb32RadioButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotImageFormatChange);
-    connect(ui.vidi420RadioButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotImageFormatChange);
-    connect(ui.vidyuy2RadioButton, &QAbstractButton::clicked,
-            this, &PreferencesDlg::slotImageFormatChange);
+    connect(ui.vidImgFmtBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &PreferencesDlg::slotImageFormatChange);
     connect(ui.vidcodecBox, QOverload<int>::of(&QComboBox::currentIndexChanged),
             ui.vidcodecStackedWidget, &QStackedWidget::setCurrentIndex);
     connect(ui.vidfmtToolButton, &QAbstractButton::clicked, this, &PreferencesDlg::slotCustomImageFormat);
@@ -638,6 +633,10 @@ void PreferencesDlg::initShortcutsTab()
 
 void PreferencesDlg::initVideoCaptureTab()
 {
+    ui.vidImgFmtBox->clear();
+    ui.vidImgFmtBox->addItem(tr("RGB32"), FOURCC_RGB32);
+    ui.vidImgFmtBox->addItem(tr("I420"), FOURCC_I420);
+    ui.vidImgFmtBox->addItem(tr("YUY2"), FOURCC_YUY2);
     int count = 0;
     TT_GetVideoCaptureDevices(nullptr, &count);
     m_videodevices.resize(count);
@@ -647,9 +646,7 @@ void PreferencesDlg::initVideoCaptureTab()
     {
         ui.vidcapdevicesBox->setEnabled(false);
         ui.captureformatsBox->setEnabled(false);
-        ui.vidyuy2RadioButton->setEnabled(false);
-        ui.vidi420RadioButton->setEnabled(false);
-        ui.vidrgb32RadioButton->setEnabled(false);
+        ui.vidImgFmtBox->setEnabled(false);
         ui.vidtestButton->setEnabled(false);
         ui.viddefaultButton->setEnabled(false);
     }
@@ -657,20 +654,8 @@ void PreferencesDlg::initVideoCaptureTab()
     initDefaultVideoFormat(m_vidfmt);
     loadVideoFormat(m_vidfmt);
 
-    switch(m_vidfmt.picFourCC)
-    {
-    case FOURCC_I420 :
-        ui.vidi420RadioButton->setChecked(true);
-        break;
-    case FOURCC_YUY2 :
-        ui.vidyuy2RadioButton->setChecked(true);
-        break;
-    case FOURCC_RGB32 :
-        ui.vidrgb32RadioButton->setChecked(true);
-        break;
-    case FOURCC_NONE :
-        break;
-    }
+    FourCC fourcc = FourCC(m_vidfmt.picFourCC);
+    setCurrentItemData(ui.vidImgFmtBox, fourcc);
 
     for(int i=0;i<count;i++)
         ui.vidcapdevicesBox->addItem(_Q(m_videodevices[i].szDeviceName),
@@ -1008,12 +993,7 @@ void PreferencesDlg::slotSaveChanges()
             
             if(fmt_itemdata == CUSTOMVIDEOFORMAT_INDEX)
             {
-                if(ui.vidi420RadioButton->isChecked())
-                    m_vidfmt.picFourCC = FOURCC_I420;
-                if(ui.vidyuy2RadioButton->isChecked())
-                    m_vidfmt.picFourCC = FOURCC_YUY2;
-                if(ui.vidrgb32RadioButton->isChecked())
-                    m_vidfmt.picFourCC = FOURCC_RGB32;
+                m_vidfmt.picFourCC = FourCC(getCurrentItemData(ui.vidImgFmtBox).toInt());
             }
             else if(fmt_itemdata >= 0 &&
                     fmt_itemdata < m_videodevices[viddev_index].nVideoFormatsCount)
@@ -1589,15 +1569,15 @@ void PreferencesDlg::slotVideoCaptureDevChange(int index)
         switch(m_videodevices[index].videoFormats[j].picFourCC)
         {
         case FOURCC_I420 :
-            if(ui.vidi420RadioButton->isChecked())
+            if(getCurrentItemData(ui.vidImgFmtBox) == FOURCC_I420)
                 break;
             else continue;
         case FOURCC_YUY2 :
-            if(ui.vidyuy2RadioButton->isChecked())
+            if(getCurrentItemData(ui.vidImgFmtBox) == FOURCC_YUY2)
                 break;
             else continue;
         case FOURCC_RGB32 :
-            if(ui.vidrgb32RadioButton->isChecked())
+            if(getCurrentItemData(ui.vidImgFmtBox) == FOURCC_RGB32)
                 break;
             else continue;
         default :
@@ -1678,12 +1658,7 @@ void PreferencesDlg::slotVideoResolutionChange(int index)
 
 void PreferencesDlg::slotImageFormatChange(bool /*checked*/)
 {
-    if(ui.vidi420RadioButton->isChecked())
-        m_vidfmt.picFourCC = FOURCC_I420;
-    if(ui.vidyuy2RadioButton->isChecked())
-        m_vidfmt.picFourCC = FOURCC_YUY2;
-    if(ui.vidrgb32RadioButton->isChecked())
-        m_vidfmt.picFourCC = FOURCC_RGB32;
+    m_vidfmt.picFourCC = FourCC(getCurrentItemData(ui.vidImgFmtBox).toInt());
 
     slotVideoCaptureDevChange(ui.vidcapdevicesBox->currentIndex());
 }
@@ -1720,20 +1695,8 @@ void PreferencesDlg::slotDefaultVideoSettings()
     }
     else
     {
-        switch(m_vidfmt.picFourCC)
-        {
-        case FOURCC_I420 :
-            ui.vidi420RadioButton->setChecked(true);
-            break;
-        case FOURCC_YUY2 :
-            ui.vidyuy2RadioButton->setChecked(true);
-            break;
-        case FOURCC_RGB32 :
-            ui.vidrgb32RadioButton->setChecked(true);
-            break;
-        case FOURCC_NONE :
-            break;
-        }
+        FourCC fourcc = FourCC(m_vidfmt.picFourCC);
+        setCurrentItemData(ui.vidImgFmtBox, fourcc);
     }
 
     slotVideoCaptureDevChange(index);

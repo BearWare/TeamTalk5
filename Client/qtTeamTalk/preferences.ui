@@ -2036,30 +2036,12 @@
                <string>Image Format</string>
               </property>
               <property name="buddy">
-               <cstring>vidrgb32RadioButton</cstring>
+               <cstring>vidImgFmtBox</cstring>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QRadioButton" name="vidrgb32RadioButton">
-              <property name="text">
-               <string>RGB32</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="vidi420RadioButton">
-              <property name="text">
-               <string>I420</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QRadioButton" name="vidyuy2RadioButton">
-              <property name="text">
-               <string>YUY2</string>
-              </property>
-             </widget>
+             <widget class="QComboBox" name="vidImgFmtBox"/>
             </item>
            </layout>
           </item>
@@ -2200,12 +2182,8 @@
                      <property name="value">
                       <number>0</number>
                      </property>
-                    </widget>
-                   </item>
-                   <item>
-                    <widget class="QLabel" name="label_43">
-                     <property name="text">
-                      <string notr="true">kbps</string>
+                     <property name="suffix">
+                      <string> kbps</string>
                      </property>
                     </widget>
                    </item>
