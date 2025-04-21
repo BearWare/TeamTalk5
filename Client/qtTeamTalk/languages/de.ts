@@ -1026,73 +1026,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="14"/>
         <source>Edit chat templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatvorlagen bearbeiten</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="20"/>
         <source>Chat Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatvorlagen</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="42"/>
         <source>Chat Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatvorlage</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="50"/>
         <location filename="../chattemplatesdlg.cpp" line="71"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorlage</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished">&amp;Variablen...</translation>
+        <translation>&amp;Variablen...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished">Auf Standardwert zurücksetzen</translation>
+        <translation>Auf Standardwert zurücksetzen</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="79"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished">Alles auf Standardwerte zurücksetzen</translation>
+        <translation>Alles auf Standardwerte zurücksetzen</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="32"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;Abbrechen</translation>
+        <translation>&amp;Abbrechen</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="71"/>
         <source>Template for &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorlage für &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="134"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Sollen wirklich alle Chatvorlagen auf Standardwerte zurückgesetzt werden?</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Ja</translation>
+        <translation>&amp;Ja</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Nein</translation>
+        <translation>&amp;Nein</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="139"/>
         <source>Restore default values</source>
-        <translation type="unfinished">Standardwerte wiederherstellen</translation>
+        <translation>Standardwerte wiederherstellen</translation>
     </message>
 </context>
 <context>
@@ -1100,32 +1100,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="193"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Typ</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="194"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Vorlage</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="220"/>
         <source>Channel Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumnachricht</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="222"/>
         <source>Broadcast Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Servernachricht</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="224"/>
         <source>Private Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Privatnachricht</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="226"/>
         <source>Log Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Log-Nachricht</translation>
     </message>
 </context>
 <context>
@@ -4478,7 +4478,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../mainwindow.ui" line="2460"/>
         <source>Kick From Server</source>
-        <translation>Vom Server verweisen</translation>
+        <translation>Vom Server werfen</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2463"/>
@@ -5149,17 +5149,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../onlineusersdlg.cpp" line="78"/>
         <source>K&amp;ick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom Server w&amp;erfen</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="88"/>
         <source>Kick and B&amp;an from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Vom Server werfen und &amp;sperren</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="93"/>
         <source>&amp;Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>Benutzer zum Verschieben wäh&amp;len</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="73"/>
@@ -5616,17 +5616,17 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="449"/>
         <source>Setup text message templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Textnachrichtenvorlagen einrichten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
         <source>Edit Chat Message Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Chatvorlagen bearbeiten</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="459"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="579"/>
@@ -9747,18 +9747,20 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../settings.h" line="492"/>
         <source>{date} &lt;{user}&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="490"/>
         <source>{date} &lt;{user}-&gt;BROADCAST&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}-&gt;BROADCAST&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="494"/>
         <source>{date} * {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} * {content}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -9981,14 +9983,14 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message date</source>
-        <translation type="unfinished"></translation>
+        <translation>Nachrichtenzeitpunkt</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
         <location filename="../utilui.cpp" line="229"/>
         <location filename="../utilui.cpp" line="230"/>
         <source>Sender&apos;s nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>Absender-Nickname</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
@@ -9996,7 +9998,7 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
-        <translation type="unfinished">Nachrichteninhalt</translation>
+        <translation>Nachrichteninhalt</translation>
     </message>
 </context>
 <context>
