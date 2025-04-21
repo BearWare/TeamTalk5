@@ -155,9 +155,9 @@ void UserAccountsDlg::keyPressEvent(QKeyEvent* e)
     if (ui.usersTableView->hasFocus())
     {
         if (e->matches(QKeySequence::Delete) || e->key() == Qt::Key_Backspace)
-            emit(slotDelUser());
+            emit slotDelUser();
         else if (e->key() == Qt::Key_Enter || e->key() == Qt::Key_Return)
-            emit(slotEditUser());
+            emit slotEditUser();
         else
             QDialog::keyPressEvent(e);
     }

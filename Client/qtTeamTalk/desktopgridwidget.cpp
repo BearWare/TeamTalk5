@@ -47,7 +47,7 @@ void DesktopGridWidget::slotAddUser(int userid)
             &UserDesktopWidget::slotUserUpdated);
     addUserWidget(userid, userdesktop);
 
-    emit(desktopCountChanged(getActiveUsersCount()));
+    emit desktopCountChanged(getActiveUsersCount());
 }
 
 void DesktopGridWidget::slotRemoveUser(int channelid, const User& user)
@@ -60,10 +60,10 @@ void DesktopGridWidget::removeUser(int userid)
 {
     removeUserWidget(userid);
 
-    emit(desktopCountChanged(getActiveUsersCount()));
+    emit desktopCountChanged(getActiveUsersCount());
 }
 
 void DesktopGridWidget::slotDesktopWidgetFocused(int /*userid*/, bool focused)
 {
-    emit(userDesktopSelected(focused));
+    emit userDesktopSelected(focused);
 }

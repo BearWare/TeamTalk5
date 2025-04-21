@@ -70,7 +70,7 @@ void ChatLineEdit::keyPressEvent ( QKeyEvent * event )
         while(m_history.size() > 50)
             m_history.erase(m_history.begin());
         m_history_pos = m_history.end();
-        emit(sendTextMessage());
+        emit sendTextMessage();
     }
     QLineEdit::keyPressEvent( event );
 }

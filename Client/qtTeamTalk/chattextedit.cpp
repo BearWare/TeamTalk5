@@ -403,7 +403,7 @@ void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
     QAction* chosen = menu->exec(event->globalPos());
     if (clearMenu == chosen)
     {
-        emit(clearHistory());
+        emit clearHistory();
     }
     delete menu;
 }
