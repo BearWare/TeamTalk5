@@ -155,7 +155,7 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     font.setBold(true);
     format.setFont(font);
     cursor.setCharFormat(format);
-    QString line = dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
+    QString line = dt + " " + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
     setTextCursor(cursor);
     appendPlainText(line);
     if (_Q(srvprop.szMOTD).size() > 0)
@@ -166,7 +166,7 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
         }
         else
         {
-            line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
+            line = dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
             format.setForeground(QBrush(Qt::darkCyan));
             cursor.setCharFormat(format);
             setTextCursor(cursor);
@@ -208,7 +208,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     format.setForeground(QBrush(Qt::darkGreen));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
-    QString line = dt + tr("Joined channel %1").arg(_Q(buff));
+    QString line = dt + " " + tr("Joined channel %1").arg(_Q(buff));
     appendPlainText(line);
     //revert bold
     font.setBold(false);
