@@ -172,7 +172,7 @@
     <string name="user_prop_title_username">نام کاربری</string>
     <string name="user_prop_title_statusmsg">پیام وضعیت</string>
     <string name="user_prop_title_clientname">کلاینت</string>
-    <string name="user_prop_title_ipaddress">آیپی</string>
+    <string name="user_prop_title_ipaddress">آیْپی</string>
     <string name="user_prop_clientversion">نسخۀ</string>
     <string name="user_prop_title_voice_volume">صدا</string>
     <string name="user_prop_title_mute_voice">قطع صدا</string>
@@ -408,6 +408,22 @@
     <string name="action_removesrv">حذفِ سِروِر</string>
     <string name="action_broadcast">پیام همگانی</string>
     <string name="text_broadcast_message">پیام همگانی را بنویسید</string>
+    <string name="action_exportsrv">ذخیرۀ سِروِر</string>
+    <string name="server_export_confirmation">سِروِر طو %1$s ذخیره شد</string>
+    <string name="action_edituser">تنظیمات کاربر</string>
+    <string name="action_message">پیامها</string>
+    <string name="opusbitrate">Bitrate</string>
+    <string name="opusinterval">فاصله زمانی صحبت کردن</string>
+    <string name="speexquality">کیفیت</string>
+    <string name="speexinterval">Intervalle de transmission</string>
+    <string name="speexvbrquality">Qualité</string>
+    <string name="speexvbrinterval">Intervalle de transmission</string>
+    <string name="voicevolume">صدا</string>
+    <string name="mediavolume">صدای استریم</string>
+    <string name="text_cmd_userloggedout">رفت</string>
+    <string name="text_cmd_userloggedin">اومد</string>
+    <string name="user_prop_title_nickname">نام مستعار</string>
+    <string name="user_prop_title_userid">شماره</string>
 
 
 </resources>
