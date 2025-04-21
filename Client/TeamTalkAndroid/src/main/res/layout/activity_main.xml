@@ -106,7 +106,7 @@
 
 	        <TextView
 	            android:id="@+id/vollevel_text"
-	            android:layout_column="3"
+	            android:layout_column="2"
 	            android:layout_row="0"
 	            android:text=""
 	            android:layout_gravity="center"
@@ -143,7 +143,7 @@
 
 	        <TextView
 	            android:id="@+id/mikelevel_text"
-	            android:layout_column="3"
+	            android:layout_column="2"
 	            android:layout_row="1"
 	            android:text=""
 	            android:layout_gravity="center"
