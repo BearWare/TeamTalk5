@@ -112,21 +112,12 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
 
     if (_Q(srvprop.szMOTD).size() > 0)
     {
-        if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
-        {
-            QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
-        }
-        else
-        {
-            QListWidgetItem* motdItem = new QListWidgetItem(dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
-            motdItem->setForeground(Qt::darkCyan);
-
-            motdItem->setData(Qt::UserRole + 1, dt);
-            motdItem->setData(Qt::UserRole + 2, tr("Server"));
-            motdItem->setData(Qt::UserRole + 3, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
-
-            addItem(motdItem);
-        }
+        QListWidgetItem* motdItem = new QListWidgetItem(dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        motdItem->setForeground(Qt::darkCyan);
+        motdItem->setData(Qt::UserRole + 1, dt);
+        motdItem->setData(Qt::UserRole + 2, tr("Server"));
+        motdItem->setData(Qt::UserRole + 3, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        addItem(motdItem);
     }
 
     limitText();

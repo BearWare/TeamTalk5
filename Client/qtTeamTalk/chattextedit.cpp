@@ -160,18 +160,11 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     appendPlainText(line);
     if (_Q(srvprop.szMOTD).size() > 0)
     {
-        if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
-        {
-            QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
-        }
-        else
-        {
-            line = dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
-            format.setForeground(QBrush(Qt::darkCyan));
-            cursor.setCharFormat(format);
-            setTextCursor(cursor);
-            appendPlainText(line);
-        }
+        line = dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
+        format.setForeground(QBrush(Qt::darkCyan));
+        cursor.setCharFormat(format);
+        setTextCursor(cursor);
+        appendPlainText(line);
     }
 
     //revert bold
