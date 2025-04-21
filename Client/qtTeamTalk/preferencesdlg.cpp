@@ -110,8 +110,6 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
             {"MMMM", tr("The long month name ('January' to 'December').")},
             {"yy", tr("The year as a two digit number (00 to 99)")},
             {"yyyy", tr("The year as a four digit number.")},
-            {"h", tr("The hour without a leading zero (0 to 23)")},
-            {"hh", tr("The hour with a leading zero (00 to 23)")},
             {"H", tr("The hour without a leading zero (0 to 23)")},
             {"HH", tr("The hour with a leading zero (00 to 23)")},
             {"m", tr("The minute without a leading zero (0 to 59)")},

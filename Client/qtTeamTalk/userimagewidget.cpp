@@ -216,14 +216,14 @@ void UserImageWidget::focusInEvent(QFocusEvent* event)
 {
     QWidget::focusInEvent(event);
     if(focusPolicy() != Qt::NoFocus)
-        emit(userWidgetFocused(m_userid, event->gotFocus()));
+        emit userWidgetFocused(m_userid, event->gotFocus());
 }
 
 void UserImageWidget::focusOutEvent(QFocusEvent* event)
 {
     QWidget::focusOutEvent(event);
     if(focusPolicy() != Qt::NoFocus)
-        emit(userWidgetFocused(m_userid, event->gotFocus()));
+        emit userWidgetFocused(m_userid, event->gotFocus());
 }
 
 #if QT_VERSION >= QT_VERSION_CHECK(6,0,0)

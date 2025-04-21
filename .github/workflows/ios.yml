@@ -31,14 +31,79 @@ jobs:
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_FFMPEG=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_FFMPEG=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Run CMake Install Target
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.cmakearch }}
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk Artifact
+    - name: Run Lipo for one Arch
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: >-
+        libtool -static -o ${{runner.workspace}}/install-${{ matrix.cmakearch }}/Library/TeamTalk_DLL/libTeamTalk5-${{ matrix.cmakearch }}.a
+        Library/TeamTalk_DLL/${{ matrix.cmakearch }}/libTeamTalk5.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/speex/lib/libspeex.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/speexdsp/lib/libspeexdsp.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/opus/lib/libopus.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/libvpx/lib/libvpx.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_SSL.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_INet.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_INet_SSL.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libcrypto.a
+        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libssl.a
+
+    - name: Upload TeamTalk Arch Artifact
       uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}
+
+  lipo:
+    needs: build
+
+    runs-on: macos-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - uses: dorny/paths-filter@v3
+      id: changes
+      with:
+        filters: |
+          src:
+            - 'Library/TeamTalk_DLL/**'
+            - 'Client/iTeamTalk/**'
+
+    - name: Download arch arm64
+      uses: actions/download-artifact@v4
+      with:
+        name: teamtalksdk-ios-arm64
+
+    - name: Download arch x86_64
+      uses: actions/download-artifact@v4
+      with:
+        name: teamtalksdk-ios-x86_64
+
+    - name: Run Lipo to create Universal binary
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: >-
+        lipo Library/TeamTalk_DLL/libTeamTalk5-arm64.a
+        Library/TeamTalk_DLL/libTeamTalk5-x86_64.a
+        -create -output ${{runner.workspace}}/TeamTalk5/Library/TeamTalk_DLL/libTeamTalk5.a
+
+    - name: Upload TeamTalk Universal Libary Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: teamtalksdk-ios-universal
+        path: ${{runner.workspace}}/TeamTalk5
+
+    - name: Build iTeamTalk from Xcode
+      if: steps.changes.outputs.src == 'true'
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: >-
+        xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
+        CODE_SIGN_IDENTITY=-
+        AD_HOC_CODE_SIGNING_ALLOWED=YES
+        CODE_SIGN_STYLE=Automatic
+        COMPILER_INDEX_STORE_ENABLE=NO

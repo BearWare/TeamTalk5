@@ -411,5 +411,7 @@
     <string name="speexvbrinterval">Intervalle de transmission</string>
     <string name="voicevolume">Volume de la voix</string>
     <string name="mediavolume">Volume des fichiers média</string>
+    <string name="text_cmd_userloggedout">Déconnecté</string>
+    <string name="text_cmd_userloggedin">Connecté</string>
 
 </resources>

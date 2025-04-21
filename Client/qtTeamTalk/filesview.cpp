@@ -16,15 +16,13 @@
  */
 
 #include "filesview.h"
-#include "common.h"
 #include "filesmodel.h"
-#include "settings.h"
-#include "utiltts.h"
 
 #include <QDragEnterEvent>
 #include <QUrl>
 #include <QFileInfo>
 #include <QMimeData>
+#include <QSettings>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
@@ -76,10 +74,10 @@ void FilesView::dropEvent(QDropEvent *event)
     QStringList files;
     foreach(QUrl url, event->mimeData()->urls())
         files.push_back(url.toLocalFile());
-    emit(uploadFiles(files));
+    emit uploadFiles(files);
 }
 
 void FilesView::slotNewSelection(const QItemSelection & selected)
 {
-    emit(filesSelected(selected.size()>0));
+    emit filesSelected(selected.size()>0);
 }

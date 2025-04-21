@@ -77,7 +77,7 @@ void UserVideoDlg::initCommon(int userid)
 
 UserVideoDlg::~UserVideoDlg()
 {
-    emit(userVideoDlgClosing(uservideoWidget->getUserID()));
+    emit userVideoDlgClosing(uservideoWidget->getUserID());
 }
 
 void UserVideoDlg::slotUserUpdate(const User& user)

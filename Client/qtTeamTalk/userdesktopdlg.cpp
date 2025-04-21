@@ -51,7 +51,7 @@ UserDesktopDlg::UserDesktopDlg(const User& user, const QSize& size,
 
 UserDesktopDlg::~UserDesktopDlg()
 {
-    emit(userDesktopDlgClosing(ui.userdesktopWidget->getUserID()));
+    emit userDesktopDlgClosing(ui.userdesktopWidget->getUserID());
 }
 
 void UserDesktopDlg::initBackground()
