@@ -432,6 +432,12 @@
            <property name="tabKeyNavigation" stdset="0">
             <bool>false</bool>
            </property>
+           <property name="selectionMode">
+            <enum>QAbstractItemView::ExtendedSelection</enum>
+           </property>
+           <property name="selectionBehavior">
+            <enum>QAbstractItemView::SelectRows</enum>
+           </property>
           </widget>
          </item>
          <item>
