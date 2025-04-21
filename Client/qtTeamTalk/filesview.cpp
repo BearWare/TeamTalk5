@@ -16,15 +16,13 @@
  */
 
 #include "filesview.h"
-#include "common.h"
 #include "filesmodel.h"
-#include "settings.h"
-#include "utiltts.h"
 
 #include <QDragEnterEvent>
 #include <QUrl>
 #include <QFileInfo>
 #include <QMimeData>
+#include <QSettings>
 
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
