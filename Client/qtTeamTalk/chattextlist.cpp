@@ -196,7 +196,7 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     QListWidgetItem* item = new QListWidgetItem(line);
 
     item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, sender);
+    item->setData(Qt::UserRole + 2, (TT_GetMyUserID(ttInst) == msg.nFromUserID)?tr("You"):getDisplayName(user));
     item->setData(Qt::UserRole + 3, content);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
