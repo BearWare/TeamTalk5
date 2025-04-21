@@ -41,7 +41,7 @@ void VideoGridWidget::removeUser(int userid)
 {
     removeUserWidget(userid);
 
-    emit(videoCountChanged(getActiveUsersCount()));
+    emit videoCountChanged(getActiveUsersCount());
 }
 
 void VideoGridWidget::slotAddUser(int userid)
@@ -61,7 +61,7 @@ void VideoGridWidget::slotAddUser(int userid)
         newvideo->setAttribute(Qt::WA_DeleteOnClose);
         addUserWidget(userid, newvideo);
 
-        emit(videoCountChanged(getActiveUsersCount()));
+        emit videoCountChanged(getActiveUsersCount());
     }
 }
 
@@ -80,5 +80,5 @@ void VideoGridWidget::slotNewVideoFrame(int userid, int stream_id)
 
 void VideoGridWidget::slotVideoWidgetFocused(int /*userid*/, bool focused)
 {
-    emit(userVideoSelected(focused));
+    emit userVideoSelected(focused);
 }

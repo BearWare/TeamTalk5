@@ -1176,12 +1176,12 @@ void MainWindow::clienteventCmdChannelUpdate(const Channel& channel)
         updateAudioConfig();
         updateWindowTitle();
     }
-    emit(updateChannel(channel));
+    emit updateChannel(channel);
 }
 
 void MainWindow::clienteventCmdUserLoggedIn(const User& user)
 {
-    emit(userLogin(user));
+    emit userLogin(user);
     QString audiofolder = ttSettings->value(SETTINGS_MEDIASTORAGE_AUDIOFOLDER).toString();
     AudioFileFormat aff = (AudioFileFormat)ttSettings->value(SETTINGS_MEDIASTORAGE_FILEFORMAT, AFF_WAVE_FORMAT).toInt();
     if(m_audiostorage_mode & AUDIOSTORAGE_SEPARATEFILES)
@@ -1203,7 +1203,7 @@ void MainWindow::clienteventCmdUserLoggedIn(const User& user)
 
 void MainWindow::clienteventCmdUserLoggedOut(const User& user)
 {
-    emit(userLogout(user));
+    emit userLogout(user);
     //remove text-message history from this user
     m_textmessages.clearUserTextMessages(user.nUserID);
     if (user.nUserID != TT_GetMyUserID(ttInst))
@@ -1224,7 +1224,7 @@ void MainWindow::clienteventCmdUserJoined(const User& user)
     if (user.nUserID == TT_GetMyUserID(ttInst))
         processMyselfJoined(user.nChannelID);
 
-    emit (userJoined(user.nChannelID, user));
+    emit userJoined(user.nChannelID, user);
 
     if (m_commands[m_current_cmdid] != CMD_COMPLETE_LOGIN &&
         user.nUserID != TT_GetMyUserID(ttInst))
@@ -1260,7 +1260,7 @@ void MainWindow::clienteventCmdUserLeft(int prevchannelid, const User& user)
     if (user.nUserID == TT_GetMyUserID(ttInst))
         processMyselfLeft(prevchannelid);
 
-    emit (userLeft(prevchannelid, user));
+    emit userLeft(prevchannelid, user);
 
     if (user.nUserID == m_relayvoice_userid || user.nUserID == m_relayvoice_userid)
         relayAudioStream(user.nUserID, STREAMTYPE_NONE, false);
@@ -1300,7 +1300,7 @@ void MainWindow::clienteventCmdUserUpdate(const User& user)
     ui.channelsWidget->getUser(user.nUserID, prev_user);
     Q_ASSERT(prev_user.nUserID);
 
-    emit(userUpdate(user));
+    emit userUpdate(user);
 
     if (user.nUserID != TT_GetMyUserID(ttInst) && user.nChannelID == m_mychannel.nChannelID)
     {
@@ -1356,7 +1356,7 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
 
 void MainWindow::clienteventFileTransfer(const FileTransfer& filetransfer)
 {
-    emit(filetransferUpdate(filetransfer));
+    emit filetransferUpdate(filetransfer);
 
     if (filetransfer.nStatus == FILETRANSFER_ACTIVE && filetransfer.nTransferred == 0)
     {
@@ -1409,7 +1409,7 @@ void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
 
 void MainWindow::clienteventUserStateChange(const User& user)
 {
-    emit(userStateChange(user));
+    emit userStateChange(user);
     if(user.uUserState & USERSTATE_VOICE)
     {
         m_talking.insert(user.nUserID);
@@ -1439,7 +1439,7 @@ void MainWindow::clienteventUserStateChange(const User& user)
 void MainWindow::clienteventVoiceActivation(bool active)
 {
     playSoundEvent(active? SOUNDEVENT_VOICEACTTRIG :  SOUNDEVENT_VOICEACTSTOP);
-    emit(updateMyself());
+    emit updateMyself();
     if (active)
     {
         transmitOn(STREAMTYPE_VOICE);
@@ -1474,10 +1474,10 @@ void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
         break;
     }
 
-    emit(mediaStreamUpdate(mediafileinfo));
+    emit mediaStreamUpdate(mediafileinfo);
 
     //update if still talking
-    emit(updateMyself());
+    emit updateMyself();
 
     // only allow updates to 'm_mfi' if a user has actively started playback
     if (m_mfi)
@@ -1516,7 +1516,7 @@ void MainWindow::clienteventUserVideoCapture(int source, int streamid)
             addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
                          .arg(getDisplayName(user)));
     }
-    emit(newVideoCaptureFrame(userid, streamid));
+    emit newVideoCaptureFrame(userid, streamid);
 }
 
 void MainWindow::clienteventUserMediaFileVideo(int source, int streamid)
@@ -1544,7 +1544,7 @@ void MainWindow::clienteventUserMediaFileVideo(int source, int streamid)
             addStatusMsg(STATUSBAR_BYPASS, tr("New video session from %1")
             .arg(getDisplayName(user)));
     }
-    emit(newMediaVideoFrame(userid, streamid));
+    emit newMediaVideoFrame(userid, streamid);
 }
 
 void MainWindow::clienteventUserDesktopWindow(int source, int streamid)
@@ -1570,7 +1570,7 @@ void MainWindow::clienteventUserDesktopWindow(int source, int streamid)
                 .arg(getDisplayName(user)));
         }
     }
-    emit(newDesktopWindow(source, streamid));
+    emit newDesktopWindow(source, streamid);
 }
 
 void MainWindow::clienteventDesktopWindowTransfer(int source, int bytesremain)
@@ -1693,13 +1693,13 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         //and error message since the login will otherwise complete).
         m_commands.remove(m_current_cmdid);
 
-        emit(cmdError(msg.clienterrormsg.nErrorNo, msg.nSource));
+        emit cmdError(msg.clienterrormsg.nErrorNo, msg.nSource);
 
         showTTErrorMessage(msg.clienterrormsg, cmd_type);
     }
     break;
     case CLIENTEVENT_CMD_SUCCESS :
-        emit(cmdSuccess(msg.nSource));
+        emit cmdSuccess(msg.nSource);
     break;
     case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
         //store user account settings
@@ -1716,17 +1716,17 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
         for (auto c : m_chathistory)
             c->updateServer(msg.serverproperties);
-        emit(serverUpdate(msg.serverproperties));
+        emit serverUpdate(msg.serverproperties);
         m_srvprop = msg.serverproperties;
         updateWindowTitle();
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
         Q_ASSERT(msg.ttType == __SERVERSTATISTICS);
-        emit(serverStatistics(msg.serverstatistics));
+        emit serverStatistics(msg.serverstatistics);
     break;
     case CLIENTEVENT_CMD_CHANNEL_NEW :
         Q_ASSERT(msg.ttType == __CHANNEL);
-        emit(newChannel(msg.channel));
+        emit newChannel(msg.channel);
         break;
     case CLIENTEVENT_CMD_CHANNEL_UPDATE :
         Q_ASSERT(msg.ttType == __CHANNEL);
@@ -1734,7 +1734,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_CHANNEL_REMOVE :
         Q_ASSERT(msg.ttType == __CHANNEL);
-        emit(removeChannel(msg.channel));
+        emit removeChannel(msg.channel);
         break;
     case CLIENTEVENT_CMD_USER_LOGGEDIN :
         Q_ASSERT(msg.ttType == __USER);
@@ -1801,7 +1801,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         clienteventStreamMediaFile(msg.mediafileinfo);
     break;
     case CLIENTEVENT_LOCAL_MEDIAFILE:
-        emit(mediaPlaybackUpdate(msg.nSource, msg.mediafileinfo));
+        emit mediaPlaybackUpdate(msg.nSource, msg.mediafileinfo);
         break;
     case CLIENTEVENT_USER_VIDEOCAPTURE :
         Q_ASSERT(msg.ttType == __INT32);
@@ -1822,7 +1822,7 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         break;
     case CLIENTEVENT_USER_DESKTOPCURSOR :
         Q_ASSERT(msg.ttType == __DESKTOPINPUT);
-        emit(userDesktopCursor(msg.nSource, msg.desktopinput));
+        emit userDesktopCursor(msg.nSource, msg.desktopinput);
         break;
     case CLIENTEVENT_USER_DESKTOPINPUT :
         Q_ASSERT(msg.ttType == __DESKTOPINPUT);
@@ -2412,7 +2412,7 @@ void MainWindow::pttHotKey(bool active)
         {
             bool tx = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != CLIENT_CLOSED;
             pttfail = !TT_EnableVoiceTransmission(ttInst, !tx);
-            emit(updateMyself());
+            emit updateMyself();
             playSoundEvent(SOUNDEVENT_HOTKEY);
             if (!tx)
                 transmitOn(STREAMTYPE_VOICE);
@@ -2421,7 +2421,7 @@ void MainWindow::pttHotKey(bool active)
     else
     {
         pttfail = !TT_EnableVoiceTransmission(ttInst, active) && active;
-        emit(updateMyself());
+        emit updateMyself();
         playSoundEvent(SOUNDEVENT_HOTKEY);
         if (active)
             transmitOn(STREAMTYPE_VOICE);
@@ -3024,7 +3024,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     case MSGTYPE_USER :
     {
         ui.channelsWidget->setUserMessaged(textmsg.nFromUserID, true);
-        emit(newTextMessage(textmsg));
+        emit newTextMessage(textmsg);
         User user;
         if (ui.channelsWidget->getUser(textmsg.nFromUserID, user))
             addTextToSpeechMessage(TTS_USER_TEXTMSG_PRIVATE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_PRIVATEMSG, {{"{user}", getDisplayName(user)}, {"{username}", _Q(user.szUsername)}, {"{message}", textmsg.moreMessage}, {"{server}", limitText(_Q(m_srvprop.szServerName))}}));
@@ -3043,7 +3043,7 @@ void MainWindow::processTextMessage(const MyTextMessage& textmsg)
     }
     case MSGTYPE_CUSTOM :
     {
-        emit(newTextMessage(textmsg));
+        emit newTextMessage(textmsg);
 
         QStringList cmd = getCustomCommand(textmsg);
         if(cmd.size() < 2)
@@ -4351,7 +4351,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     loadHotKeys();
 #endif
 
-    emit(preferencesModified());
+    emit preferencesModified();
 
     m_desktopaccess_entries.clear();
 
@@ -4609,7 +4609,7 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
         ui.voiceactLabel->setVisible(checked && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
         ui.voiceactSlider->setVisible(checked && ttSettings->value(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT).toBool());
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-            emit(updateMyself());
+            emit updateMyself();
         playSoundEvent(checked == true ? on : off);
         ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
     }

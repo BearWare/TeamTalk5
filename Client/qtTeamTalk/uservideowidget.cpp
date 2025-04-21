@@ -196,7 +196,7 @@ void UserVideoWidget::timerEvent(QTimerEvent *e)
     if(m_novideo_count++ >= VIDEOSESSION_TIMEOUT)
     {
         killTimer(e->timerId());
-        emit(userVideoEnded(m_userid));
+        emit userVideoEnded(m_userid);
     }
 }
 

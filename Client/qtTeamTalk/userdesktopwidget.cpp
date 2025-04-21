@@ -115,7 +115,7 @@ void UserDesktopWidget::refreshTimeout()
     m_desktop_window = wnd;
     if(!m_desktop_window)
     {
-        emit(userDesktopWindowEnded(m_userid));
+        emit userDesktopWindowEnded(m_userid);
         return;
     }
 
@@ -184,7 +184,7 @@ void UserDesktopWidget::runTTPaint(QPainter& painter)
     QPoint p0 = this->mapTo(nativeParentWidget(), QPoint(0,0));
 
     //if(!TT_PaintDesktopWindow(ttInst, m_userid, hdc, p0.x(), p0.y(), width(), height()))
-    //    emit(userDesktopWindowEnded(m_userid));
+    //    emit userDesktopWindowEnded(m_userid);
 
     QSize size = imageSize();
     int w = qMin(size.width(), width());
@@ -192,7 +192,7 @@ void UserDesktopWidget::runTTPaint(QPainter& painter)
 
     if(!TT_PaintDesktopWindowEx(ttInst, m_userid, hdc, p0.x(), p0.y(), width(), height(),
                                 0, 0, w, h))
-        emit(userDesktopWindowEnded(m_userid));
+        emit userDesktopWindowEnded(m_userid);
 
     painter.paintEngine()->releaseDC(hdc);
 }

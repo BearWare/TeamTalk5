@@ -73,7 +73,7 @@ void TextMessageDlg::init(const User& user)
     {
         m_history = ui.historyTextEdit;
         connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
-            emit(clearUserTextMessages(m_userid));
+            emit clearUserTextMessages(m_userid);
         });
     }
 
@@ -98,7 +98,7 @@ TextMessageDlg::~TextMessageDlg()
     ttSettings->setValue(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS, saveGeometry());
     ttSettings->setValue(SETTINGS_DISPLAY_TEXTMSGWINDOWPOS_SPLITTER, ui.splitter->saveState());
 
-    emit(closedTextMessage(m_userid));
+    emit closedTextMessage(m_userid);
 }
 
 void TextMessageDlg::slotUpdateUser(const User& user)
@@ -185,7 +185,7 @@ void TextMessageDlg::slotSendTextMessage(const QString& txt_msg)
 
         for (auto& m : sentmessages)
         {
-            emit(newMyselfTextMessage(m));
+            emit newMyselfTextMessage(m);
         }
         newMsg(msg, true);
 
