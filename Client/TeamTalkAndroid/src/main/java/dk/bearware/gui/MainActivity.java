@@ -1579,6 +1579,7 @@ private EditText newmsg;
             mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
             voxSwitch.setImageResource(R.drawable.microphone);
             voxSwitch.setContentDescription(getString(R.string.voice_activation_off));
+            ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.voxlevel));
         }
         else {
@@ -1586,6 +1587,7 @@ private EditText newmsg;
             mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
             voxSwitch.setImageResource(R.drawable.mike_green);
             voxSwitch.setContentDescription(getString(R.string.voice_activation_on));
+            ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.micgain));
         }
     }
@@ -1606,9 +1608,9 @@ private EditText newmsg;
 
         // if channel has audio configuration enabled then we should switch to AGC
 
-        boolean showIncDecButton = mychannel == null || !mychannel.audiocfg.bEnableAGC || ttservice == null || ttservice.isVoiceActivationEnabled();
+        boolean showMicSeekBar = mychannel == null || !mychannel.audiocfg.bEnableAGC || ttservice == null || ttservice.isVoiceActivationEnabled();
 
-        findViewById(R.id.mic_gainSeekBar).setVisibility(showIncDecButton ? View.VISIBLE : View.GONE);
+        findViewById(R.id.mic_gainSeekBar).setVisibility(showMicSeekBar ? View.VISIBLE : View.GONE);
     }
 
     private interface OnButtonInteractionListener extends OnTouchListener, OnClickListener {
@@ -1837,7 +1839,11 @@ private EditText newmsg;
         final SeekBar masterSeekBar = findViewById(R.id.master_volSeekBar);
         final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
         masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
-        micSeekBar.setProgress(Utils.refGainToPercent(ttclient.getSoundInputGainLevel()));
+        if (ttservice.isVoiceActivationEnabled()) {
+            micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
+        } else {
+            micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
+        }
         TextView volLevel = findViewById(R.id.vollevel_text);
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
