@@ -633,10 +633,6 @@ void PreferencesDlg::initShortcutsTab()
 
 void PreferencesDlg::initVideoCaptureTab()
 {
-    ui.vidImgFmtBox->clear();
-    ui.vidImgFmtBox->addItem(tr("RGB32"), FOURCC_RGB32);
-    ui.vidImgFmtBox->addItem(tr("I420"), FOURCC_I420);
-    ui.vidImgFmtBox->addItem(tr("YUY2"), FOURCC_YUY2);
     int count = 0;
     TT_GetVideoCaptureDevices(nullptr, &count);
     m_videodevices.resize(count);
@@ -651,15 +647,22 @@ void PreferencesDlg::initVideoCaptureTab()
         ui.viddefaultButton->setEnabled(false);
     }
 
+    for(int i=0;i<count;i++)
+    {
+        ui.vidcapdevicesBox->addItem(_Q(m_videodevices[i].szDeviceName),
+                                     _Q(m_videodevices[i].szDeviceID));
+    }
+
+    ui.vidImgFmtBox->clear();
+    ui.vidImgFmtBox->addItem(tr("RGB32"), FOURCC_RGB32);
+    ui.vidImgFmtBox->addItem(tr("I420"), FOURCC_I420);
+    ui.vidImgFmtBox->addItem(tr("YUY2"), FOURCC_YUY2);
+
     initDefaultVideoFormat(m_vidfmt);
     loadVideoFormat(m_vidfmt);
 
     FourCC fourcc = FourCC(m_vidfmt.picFourCC);
     setCurrentItemData(ui.vidImgFmtBox, fourcc);
-
-    for(int i=0;i<count;i++)
-        ui.vidcapdevicesBox->addItem(_Q(m_videodevices[i].szDeviceName),
-                                     _Q(m_videodevices[i].szDeviceID));
 
     int index = ui.vidcapdevicesBox->findData(ttSettings->value(SETTINGS_VIDCAP_DEVICEID).toString());
     if(index>=0)
