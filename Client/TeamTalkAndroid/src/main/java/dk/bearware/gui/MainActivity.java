@@ -1673,55 +1673,36 @@ private EditText newmsg;
         final TextView mikeLevel = findViewById(R.id.mikelevel_text);
         final TextView volLevel = findViewById(R.id.vollevel_text);
         masterSeekBar.setMax(100);
-        masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
         micSeekBar.setMax(100);
-        micSeekBar.setProgress(Utils.refGainToPercent(ttclient.getSoundInputGainLevel()));
 
-SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
-@Override
-public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-    SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-    if (seekBar == masterSeekBar) {
-        if (ttservice.isMute()) {
-            ttservice.setMute(false);
-            ImageButton speakerBtn = findViewById(R.id.speakerBtn);
-            adjustMuteButton(speakerBtn);
+        SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+                if (seekBar == masterSeekBar) {
+                    if (ttservice.isMute()) {
+                        ttservice.setMute(false);
+                        ImageButton speakerBtn = findViewById(R.id.speakerBtn);
+                        adjustMuteButton(speakerBtn);
+                    }
+                    ttclient.setSoundOutputVolume(Utils.refVolume(progress));
+                    volLevel.setText(progress + "%");
+                    volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
+            }     else if (seekBar == micSeekBar) {
+                    if (ttservice.isVoiceActivationEnabled()) {
+                        ttclient.setVoiceActivationLevel(Utils.refGain(progress));
+                        mikeLevel.setText(progress + "%");
+                        mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                    } else {
+                        ttclient.setSoundInputGainLevel(Utils.refGain(progress));
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, Utils.refGain(progress));
+                        editor.apply();
+                        mikeLevel.setText(progress + "%");
+                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                    }
+                }
         }
-
-        // Retrieve current value and map to percent
-        int v = ttclient.getSoundOutputVolume();
-        v = Utils.refVolumeToPercent(v);
-        if (progress != v) {
-            v = Utils.refVolume(progress);
-            ttclient.setSoundOutputVolume(v);
-            volLevel.setText(Utils.refVolumeToPercent(v) + "%");
-            volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
-        }
-
-    } else if (seekBar == micSeekBar) {
-        if (ttservice.isVoiceActivationEnabled()) {
-            int x = ttclient.getVoiceActivationLevel();
-            if (progress != x) {
-                ttclient.setVoiceActivationLevel(Utils.refGain(progress));
-                mikeLevel.setText(x + "%");
-                mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
-            }
-        } else {
-            int g = ttclient.getSoundInputGainLevel();
-            g = Utils.refGainToPercent(g);
-            if (progress != g) {
-                g = Utils.refGain(progress);
-                ttclient.setSoundInputGainLevel(g);
-                SharedPreferences.Editor editor = prefs.edit();
-                editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, g);
-                editor.apply();
-                mikeLevel.setText(Utils.refVolumeToPercent(g) + "%");
-                mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-            }
-        }
-    }
-}
 
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
@@ -1737,8 +1718,6 @@ public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
 
         if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && accessibilityAssistant.isServiceActive()) {
             tx_btn.setOnClickListener(txButtonListener);
-            masterSeekBar.setOnSeekBarChangeListener(volListener);
-            micSeekBar.setOnSeekBarChangeListener(volListener);
         }
 
         ImageButton speakerBtn = findViewById(R.id.speakerBtn);
@@ -1855,6 +1834,10 @@ public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
         adjustVoxState(voxState, voxState ? voxlevel : ttclient.getSoundInputGainLevel());
         adjustTxState(txState);
 
+        final SeekBar masterSeekBar = findViewById(R.id.master_volSeekBar);
+        final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
+        masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
+        micSeekBar.setProgress(Utils.refGainToPercent(ttclient.getSoundInputGainLevel()));
         TextView volLevel = findViewById(R.id.vollevel_text);
         volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
