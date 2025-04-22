@@ -482,7 +482,7 @@
 #define SETTINGS_STATUSBARMSG_FILE_ADDED                         "status-bar-messages/file-added"
 #define SETTINGS_STATUSBARMSG_FILE_ADDED_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "File {filename} added by {user}")
 #define SETTINGS_STATUSBARMSG_FILE_REMOVED                         "status-bar-messages/file-removed"
-#define SETTINGS_STATUSBARMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilTTS", "File {file} removed by {user}")
+#define SETTINGS_STATUSBARMSG_FILE_REMOVED_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "File {file} removed by {user}")
 
 #define SETTINGS_CHATTEMPLATES_CHANNELMSG                         "chat-templates/channel-message"
 #define SETTINGS_CHATTEMPLATES_CHANNELMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}>\n{content}")
