@@ -155,23 +155,16 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     font.setBold(true);
     format.setFont(font);
     cursor.setCharFormat(format);
-    QString line = dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
+    QString line = dt + " " + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
     setTextCursor(cursor);
     appendPlainText(line);
     if (_Q(srvprop.szMOTD).size() > 0)
     {
-        if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
-        {
-            QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
-        }
-        else
-        {
-            line = dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
-            format.setForeground(QBrush(Qt::darkCyan));
-            cursor.setCharFormat(format);
-            setTextCursor(cursor);
-            appendPlainText(line);
-        }
+        line = dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
+        format.setForeground(QBrush(Qt::darkCyan));
+        cursor.setCharFormat(format);
+        setTextCursor(cursor);
+        appendPlainText(line);
     }
 
     //revert bold
@@ -208,7 +201,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     format.setForeground(QBrush(Qt::darkGreen));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
-    QString line = dt + tr("Joined channel %1").arg(_Q(buff));
+    QString line = dt + " " + tr("Joined channel %1").arg(_Q(buff));
     appendPlainText(line);
     //revert bold
     font.setBold(false);

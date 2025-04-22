@@ -100,7 +100,7 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
 {
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
-    QListWidgetItem* item = new QListWidgetItem(dt + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+    QListWidgetItem* item = new QListWidgetItem(dt + " " + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
     item->setFont(QFont("Arial", -1, QFont::Bold));
 
     item->setData(Qt::UserRole + 1, dt);
@@ -110,15 +110,13 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
     addItem("");
     addItem(item);
 
-    if (_Q(srvprop.szMOTD).size() > 0 && !ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool())
+    if (_Q(srvprop.szMOTD).size() > 0)
     {
-        QListWidgetItem* motdItem = new QListWidgetItem(dt + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        QListWidgetItem* motdItem = new QListWidgetItem(dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
         motdItem->setForeground(Qt::darkCyan);
-
         motdItem->setData(Qt::UserRole + 1, dt);
         motdItem->setData(Qt::UserRole + 2, tr("Server"));
         motdItem->setData(Qt::UserRole + 3, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
-
         addItem(motdItem);
     }
 
@@ -132,7 +130,7 @@ void ChatTextList::joinedChannel(int channelid)
 
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
-    QListWidgetItem* item = new QListWidgetItem(dt + tr("Joined channel %1").arg(_Q(buff)));
+    QListWidgetItem* item = new QListWidgetItem(dt + " " + tr("Joined channel %1").arg(_Q(buff)));
     item->setFont(QFont("Arial", -1, QFont::Bold));
     item->setForeground(Qt::darkGreen);
 
@@ -140,7 +138,8 @@ void ChatTextList::joinedChannel(int channelid)
     item->setData(Qt::UserRole + 2, tr("Channel"));
     item->setData(Qt::UserRole + 3, tr("Joined channel %1").arg(_Q(buff)));
 
-    addItem(""); addItem(item);
+    addItem("");
+    addItem(item);
 
     QListWidgetItem* topicItem = new QListWidgetItem(tr("Topic: %1").arg(_Q(chan.szTopic)));
     topicItem->setForeground(Qt::darkYellow);
@@ -188,7 +187,7 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     QListWidgetItem* item = new QListWidgetItem(line);
 
     item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, sender);
+    item->setData(Qt::UserRole + 2, (TT_GetMyUserID(ttInst) == msg.nFromUserID)?tr("You"):getDisplayName(user));
     item->setData(Qt::UserRole + 3, content);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)

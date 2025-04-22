@@ -1129,6 +1129,17 @@ void MainWindow::clienteventMyselfKicked(const TTMessage& msg)
     }
 }
 
+void MainWindow::clienteventCmdServerUpdate(const ServerProperties& srvprop)
+{
+    for (auto c : m_chathistory)
+        c->updateServer(srvprop);
+
+    if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
+        QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
+
+    updateWindowTitle();
+}
+
 void MainWindow::clienteventCmdProcessing(int cmdid, bool complete)
 {
     //command reply starting -> store command reply ID
@@ -1714,11 +1725,9 @@ void MainWindow::processTTMessage(const TTMessage& msg)
     break;
     case CLIENTEVENT_CMD_SERVER_UPDATE :
         Q_ASSERT(msg.ttType == __SERVERPROPERTIES);
-        for (auto c : m_chathistory)
-            c->updateServer(msg.serverproperties);
         emit serverUpdate(msg.serverproperties);
         m_srvprop = msg.serverproperties;
-        updateWindowTitle();
+        clienteventCmdServerUpdate(msg.serverproperties);
     break;
     case CLIENTEVENT_CMD_SERVERSTATISTICS :
         Q_ASSERT(msg.ttType == __SERVERSTATISTICS);

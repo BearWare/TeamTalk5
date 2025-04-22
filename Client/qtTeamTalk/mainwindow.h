@@ -458,6 +458,7 @@ private:
     void clienteventConCryptError(const TTMessage& msg);
     void clienteventConLost();
     void clienteventMyselfKicked(const TTMessage& msg);
+    void clienteventCmdServerUpdate(const ServerProperties& srvprop);
     void clienteventCmdProcessing(int cmdid, bool complete);
     void clienteventCmdChannelUpdate(const Channel& channel);
     void clienteventCmdUserLoggedIn(const User& user);
