@@ -451,6 +451,14 @@ extends AppCompatActivity
             adjustVoxState(voxState, voxState ? voxlevel : gain);
             adjustTxState(txState);
 
+            final SeekBar masterSeekBar = findViewById(R.id.master_volSeekBar);
+            final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
+            masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
+            if (ttservice.isVoiceActivationEnabled()) {
+                micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
+            } else {
+                micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
+            }
             TextView volLevel = findViewById(R.id.vollevel_text);
             volLevel.setText(Utils.refVolumeToPercent(mastervol) + "%");
             volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
