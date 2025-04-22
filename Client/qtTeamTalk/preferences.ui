@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1125</width>
-    <height>716</height>
+    <height>737</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -1980,7 +1980,7 @@
          <property name="title">
           <string>Video Capture Settings</string>
          </property>
-         <layout class="QFormLayout" name="formLayout_2">
+         <layout class="QFormLayout" name="formLayout">
           <item row="0" column="0">
            <widget class="QLabel" name="label_13">
             <property name="text">
@@ -2028,24 +2028,20 @@
             </item>
            </layout>
           </item>
-          <item row="2" column="0" colspan="2">
-           <layout class="QHBoxLayout" name="horizontalLayout_11">
-            <item>
-             <widget class="QLabel" name="label_31">
-              <property name="text">
-               <string>Image Format</string>
-              </property>
-              <property name="buddy">
-               <cstring>vidImgFmtBox</cstring>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QComboBox" name="vidImgFmtBox"/>
-            </item>
-           </layout>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>Image Format</string>
+            </property>
+            <property name="buddy">
+             <cstring>vidImgFmtBox</cstring>
+            </property>
+           </widget>
           </item>
-          <item row="3" column="0" colspan="2">
+          <item row="2" column="1">
+           <widget class="QComboBox" name="vidImgFmtBox"/>
+          </item>
+          <item row="3" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_8">
             <item>
              <spacer name="horizontalSpacer_10">
@@ -2082,7 +2078,7 @@
             </item>
            </layout>
           </item>
-          <item row="4" column="0" colspan="2">
+          <item row="4" column="1">
            <widget class="QGroupBox" name="vidgroupBox">
             <property name="sizePolicy">
              <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
@@ -2173,6 +2169,9 @@
                        <verstretch>0</verstretch>
                       </sizepolicy>
                      </property>
+                     <property name="suffix">
+                      <string> kbps</string>
+                     </property>
                      <property name="minimum">
                       <number>0</number>
                      </property>
@@ -2181,9 +2180,6 @@
                      </property>
                      <property name="value">
                       <number>0</number>
-                     </property>
-                     <property name="suffix">
-                      <string> kbps</string>
                      </property>
                     </widget>
                    </item>
@@ -2222,7 +2218,7 @@
             </layout>
            </widget>
           </item>
-          <item row="5" column="0" colspan="2">
+          <item row="5" column="1">
            <layout class="QHBoxLayout" name="horizontalLayout_12">
             <item>
              <spacer name="horizontalSpacer_14">
