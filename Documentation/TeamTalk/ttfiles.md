@@ -20,14 +20,13 @@ will launch TeamTalk which will connect to the server.
 # Generate .tt File {#ttfile}
 
 To generate a .tt file bring up the Connect dialog by pressing
-F2. Fill out the fields which are required to connect to the TeamTalk
-server like in the example below:
+F2. Select the server in the *Server List* that you want to create a
+.tt file for and activate the context menu.
 
 ![Connect dialog](dlg_connect.png "Connect dialog for .tt File")
 
-When all the required information has been put in press the button
-**Generate .tt File**. The Generate .tt File dialog will then appear
-as shown below.
+Press **Generate .tt File** and the Generate .tt File dialog will then
+appear as shown below.
 
 ![Generate .tt File dialog](dlg_ttfile.png "Generate .tt File")
 
