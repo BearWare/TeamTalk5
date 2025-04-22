@@ -21,6 +21,7 @@ in this section:
 
 - [Client-Menu](@ref clientmenu)
   - [Connect to a Server Dialog](@ref connectdlg)
+    - [Create New Server Dialog](@ref newserver)
     - [Setup Encryption Dialog](@ref setupencryptiondlg)
   - [Preferences Dialog](@ref preferencesdlg)
   - [Record Conversations to Disk Dialog](@ref recorddlg)
@@ -295,13 +296,18 @@ servers are shown in the screenshot below.
 
 ![Connect to a Server dialog](dlg_connect.png "Connect to a Server Dialog")
 
-If you manually want to connect to a TeamTalk server then the person
-who is running the server must provide the information for the fields
-Host IP-address, TCP port and UDP port along with a user account
-containing both username and password.
-
 Each of the items in the dialog are explained here:
 
+- **Filter Servers**
+  - **Name**
+    - Use search pattern to find server with specific name.
+  - **Users**
+    - Exclude servers that do not have a minimum set of users.
+  - **Include official servers (blue ones)**
+      - Select to filter in/out official servers.
+  - **Include unofficial servers (orange ones)**
+      - Select to filter in/out unofficial servers.
+  
 - **Server List**
   - The available TeamTalk servers are listed here. Four types of
     servers will be listed here:
@@ -312,19 +318,86 @@ Each of the items in the dialog are explained here:
     - *Unofficial servers* show in orange
       - Public servers made available by TeamTalk users who host their
         own server.
-  - **Filter Servers**
-    - **Name**
-      - Use search pattern to find server with specific name.
-    - **Users**
-      - Exclude servers that do not have a minimum set of users.
-    - **Include official servers (blue ones)**
-      - Select to filter in/out official servers.
-    - **Include unofficial servers (orange ones)**
-      - Select to filter in/out unofficial servers.
+  - *Menu actions*
+    - **Sort By**
+      - More ways to sort servers.
+    - **Connect**
+      - Connect to the server. Press Enter or double click to perform
+        this action.
+      - **Delete**
+        - Delete the selected server from *Server List*
+      - **Edit**
+        - Change settings of the selected server in *Server List*.
+      - **Duplicate**
+        - Create a copy of the selected server in *Server List*.
+      - **Generate .tt File**
+        - If you want others to connect to the same TeamTalk server as
+          you, you can press *Generate .tt File* so you'll generate a
+          file you can email to the users who should also connect to
+          the server. More information about the
+          [Generate .tt File Dialog](@ref ttfile) is available [here](@ref ttfiles).
+      - **Publish Publicly**
+        - Publish the provided server information on BearWare.dk so others
+          can see the server as an *Unofficial server*. I.e. your server
+          will shown up publicly so others can join it from the server
+          list.
+        - After publishing your TeamTalk server you must put the following
+          text into the server name using the
+          [Server Properties Dialog](@ref serverpropertiesdlg): 
+          \verbatim #teamtalkpublish# \endverbatim
+          This will verify that you're the owner of the server.
+        - To have your server removed again either delete the user
+          account or put the following text into the server name using the
+          [Server Properties Dialog](@ref serverpropertiesdlg):
+          \verbatim #teamtalkdelete# \endverbatim
+          This will verify that you're the owner of the server.
+        - When you have a TeamTalk server published you'll see a user
+          logging in at regular intervals in order to see how many users
+          are connected. This user can be disabled by putting in the
+          followin text in the server name using the
+          [Server Properties Dialog](@ref serverpropertiesdlg):
+          \verbatim #teamtalkskip# \endverbatim 
+          This will verify that you're the owner of the server.
+
+- **Add new server**
+  - Create a new local server. See [Create New Server](@ref newserver)
+    for more information.
+
+- **Import .tt File**
+  - If you've received a .tt file from another TeamTalk user you can
+    import the server to the *Server List* by pressing this button.
+  - Other users can send you [.tt files](@ref ttfiles) that have been
+    [generated](@ref ttfile) to contain the information you need to join
+    their server.
+
+- **Export Server list to .tt File**
+  - All the servers on the server list can be stored to .tt file as
+    backup.
+  - The *Import .tt File* can then import the backup again.
+
+- **Latest hosts**
+  - A history of the last used server are listed here and can be used
+    for quick access to reconnect to a server.
+
+### Create New Server {#newserver}
+
+When creating a new server from the
+[Connect to a Server Dialog](@ref connectdlg) then the following
+dialog will open.
+
+![Create New Server Dialog](dlg_editserver.png "Create New Server Dialog")
+
+If you manually want to connect to a TeamTalk server then the person
+who is running the server must provide the information for the fields
+Host IP-address, TCP port and UDP port along with a user account
+containing both username and password.
+
+Each of the items in the dialog are explained here:
 
 - **Server Information**
-  - All the information needed to connect to a server must be
-    specified here.
+  - **Entry name**
+    - The name that should appear in the Server List in the
+      [Connect to a Server Dialog](@ref connectdlg).
   - **Host IP-address**
     - The IP-address of the server to connect to. The list of previously
     used servers are available by going through the items using
@@ -358,54 +431,26 @@ Each of the items in the dialog are explained here:
   - **Password**
     - The password that is required to log on to the server. This may be blank.
     - If username is a BearWare.dk Web Login then no password is required.
-  - **Nickname**
+  - **Nickname (optional)**
     - By default the nickname in [Preferences](@ref preferencesdlg) is
       used to log on to a server. However, a separate nickname can be
       used for a specific server.
 - **Join specific channel after authentication**
+  - **Last Joined Channel**
+    - Join the same channel again when you were last connected to the
+      server.
   - **Channel**
     - The channel to join after login.
   - **Password**
     - The password required to join the channel.
-
-Once you have filled out all the information you have been provided
-you can save the server to the Server List by filling the Entry name
-field and afterwards click **Save to Server List**.
-
-- **Store Server Information**
-  - **Entry name**
-    - The name to be used when storing the server.
-  - **Save to Server**
-    - Store the fields in *Server Information* in the *Server List* on the left.
-  - **Publish Publicly**
-    - Publish the provided server information on BearWare.dk so others
-      can see the server as an *Unofficial server*. I.e. your server
-      will shown up publicly so others can join it from the server
-      list.
-    - After publishing your TeamTalk server you must put the text
-      \#teamtalkpublish\# into the server name using the
-      [Server Properties Dialog](@ref serverpropertiesdlg). This will
-      verify that you're the owner of the server.
-    - To have your server removed again either delete the user account
-      or put the text \#teamtalkdelete\# into the server name using the
-      [Server Properties Dialog](@ref serverpropertiesdlg). This will
-      verify that you're the owner of the server.
-    - When you have a TeamTalk server published you'll see a user
-      logging in at regular intervals in order to see how many users
-      are connected. This user can be disabled by putting in the text
-      \#teamtalkskip\# in the server name.
-  - **Generate .tt File**
-    - If you want others to connect to the same TeamTalk server as
-      you, you can press *Generate .tt File* so you'll generate a
-      file you can email to the users who should also connect to the
-      server. More information about the [Generate .tt File Dialog](@ref ttfile)
-      is available [here](@ref ttfiles).
-  - **Import .tt File**
-    - If you've received a .tt file from another TeamTalk user you can
-      import the server to the *Server List* by pressing this button.
-    - Other users can send you [.tt files](@ref ttfiles) that have been
-      [generated](@ref ttfile) to contain the information you need to join
-      their server.
+  - **Show password**
+    - By default the password is not echoed.
+- **Connect to Server on exit**
+  - Connect to the server after pressing *Save and Close*.
+- **Save and Close**
+  - Save server to server list.
+- **Close without saving**
+  - Same as cancel.
 
 ### Setup Encryption Dialog {#setupencryptiondlg}
 
