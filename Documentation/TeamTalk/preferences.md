@@ -552,13 +552,23 @@ Text to speech events can be used as an alternative to status messages.
   - **Text to Speech Engine**
     - The detected Text to Speech engines, e.g. Tolk or Qt's default
       speech engine.
-      Following engines are available, depending on platform:
-        - None: To disable Text-To-Speech events
-        - Default: Use default system TTS capabilities, e.g. on Windows, this sends events to SAPI, on Linux, it sends to SpeechDispatcher
-        - Tolk: Only available on Windows, this engine sends events directly to running Screen-Reader (like NVDA or JAWS), it offers for example the ability to interrupt speech, or to receive event also in Braille if a Braille Display is connected
-        - Qt Accessibility Announcement: This engine also sends events to running Screen-Reader, but it also works when the application window has focus
-        - Apple Script: This engine available on MacOS offers the ability to sends events directly to VoiceOver, so it offers the same advantages as Tolk on Windows
-      Here are recommanded engine for each platform:
+      - Following engines are available, depending on platform:
+          - None: To disable Text-To-Speech events
+          - Default: Use default system Text-To-Speech capabilities,
+            e.g. on Windows, this sends events to SAPI, on Linux, it
+            sends to SpeechDispatcher
+          - Tolk: Only available on Windows, this engine sends events
+            directly to running Screen-Reader (like NVDA or JAWS), it
+            offers for example the ability to interrupt speech, or to
+            receive event also in Braille if a Braille Display is
+            connected
+          - Qt Accessibility Announcement: This engine also sends
+            events to running Screen-Reader, but it also works when
+            the application window has focus
+          - Apple Script: This engine available on MacOS offers the
+            ability to sends events directly to VoiceOver, so it
+            offers the same advantages as Tolk on Windows
+      - Here are recommended engine for each platform:
         - Windows: Tolk
         - MacOS: Apple Script
         - Linux: None, but check "Use Toast Notifications"
