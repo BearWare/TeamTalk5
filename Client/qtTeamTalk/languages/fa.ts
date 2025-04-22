@@ -5358,12 +5358,12 @@ Should these settings be applied?</source>
         <translation>جنسیت</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="413"/>
+        <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Male</source>
         <translation>مرد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="409"/>
         <source>Female</source>
         <translation>زن</translation>
     </message>
@@ -5383,7 +5383,7 @@ Should these settings be applied?</source>
         <translation>تغییر وضعیت به حالت &quot;دور&quot; بعد از</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="415"/>
+        <location filename="../preferencesdlg.cpp" line="410"/>
         <source>Neutral</source>
         <translation>خنثی</translation>
     </message>
@@ -5690,7 +5690,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="952"/>
+        <location filename="../preferencesdlg.cpp" line="940"/>
         <source>Sound System</source>
         <translation>صدا</translation>
     </message>
@@ -5700,12 +5700,17 @@ Should these settings be applied?</source>
         <translation>تنظیمات صدا</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferences.ui" line="2173"/>
+        <source> kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="559"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
@@ -5757,7 +5762,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1354"/>
-        <location filename="../preferences.ui" line="2265"/>
+        <location filename="../preferences.ui" line="2239"/>
         <source>&amp;Default</source>
         <translation>&amp;بازنشانی</translation>
     </message>
@@ -5829,7 +5834,7 @@ Should these settings be applied?</source>
         <translation>سفارشی‌سازی رویداد‌ها</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="567"/>
+        <location filename="../preferencesdlg.cpp" line="562"/>
         <source>PulseAudio</source>
         <translation>PulseAudio</translation>
     </message>
@@ -5967,97 +5972,97 @@ Should these settings be applied?</source>
         <translation>شخصی‌سازی فرمت ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2036"/>
+        <location filename="../preferences.ui" line="2034"/>
         <source>Image Format</source>
         <translation>فرمت عکس</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2046"/>
+        <location filename="../preferencesdlg.cpp" line="657"/>
         <source>RGB32</source>
         <translation>قالب رنگ RGB با عمق 32 بیت</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2053"/>
+        <location filename="../preferencesdlg.cpp" line="658"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2060"/>
+        <location filename="../preferencesdlg.cpp" line="659"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2084"/>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferences.ui" line="2062"/>
+        <location filename="../preferencesdlg.cpp" line="1271"/>
         <source>Test Selected</source>
         <translation>بررسی عملکرد دوربین</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferences.ui" line="2115"/>
+        <location filename="../preferences.ui" line="2090"/>
+        <location filename="../preferences.ui" line="2093"/>
         <source>Video Codec Settings</source>
         <translation>تنظیمات مبدل ویدیو</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2123"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>Codec</source>
         <translation>مبدل</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2179"/>
+        <location filename="../preferences.ui" line="2157"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="314"/>
+        <location filename="../preferencesdlg.cpp" line="309"/>
         <source>Default Input Device</source>
         <translation>دستگاه ورودی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="347"/>
+        <location filename="../preferencesdlg.cpp" line="342"/>
         <source>Default Output Device</source>
         <translation>دستگاه خروجی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="331"/>
-        <location filename="../preferencesdlg.cpp" line="360"/>
+        <location filename="../preferencesdlg.cpp" line="326"/>
+        <location filename="../preferencesdlg.cpp" line="355"/>
         <source>No Sound Device</source>
         <translation>عدم استفاده از دستگاه صوتی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="401"/>
+        <location filename="../preferencesdlg.cpp" line="396"/>
         <source>Open Wave File</source>
         <translation>باز‌کردن فایل Wave</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="402"/>
+        <location filename="../preferencesdlg.cpp" line="397"/>
         <source>Wave files (*.wav)</source>
         <translation>فایل‌های صوتی با فرمت .wav</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="825"/>
-        <location filename="../preferencesdlg.cpp" line="832"/>
+        <location filename="../preferencesdlg.cpp" line="813"/>
+        <location filename="../preferencesdlg.cpp" line="820"/>
         <source>Windows Firewall</source>
         <translation>فایروال ویندوز</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="826"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>افزودن %1 به فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="833"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>حذف %1 از فهرست استثنائات فایروال ویندوز ناموفق بود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1306"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Sound Initialization</source>
         <translation>راه‌اندازی صدا</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1047"/>
-        <location filename="../preferencesdlg.cpp" line="1081"/>
+        <location filename="../preferencesdlg.cpp" line="1030"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Video Device</source>
         <translation>دستگاه ویدیویی</translation>
     </message>
@@ -6072,20 +6077,20 @@ Should these settings be applied?</source>
         <translation>&amp;لغو</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="422"/>
+        <location filename="../preferencesdlg.cpp" line="417"/>
         <source>&amp;Reset</source>
         <translation>&amp;بازنشانی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="485"/>
-        <location filename="../preferencesdlg.cpp" line="607"/>
+        <location filename="../preferencesdlg.cpp" line="480"/>
+        <location filename="../preferencesdlg.cpp" line="602"/>
         <source>None</source>
         <translation>هیچ‌کدام</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="580"/>
-        <location filename="../preferencesdlg.cpp" line="594"/>
-        <location filename="../preferencesdlg.cpp" line="609"/>
+        <location filename="../preferencesdlg.cpp" line="575"/>
+        <location filename="../preferencesdlg.cpp" line="589"/>
+        <location filename="../preferencesdlg.cpp" line="604"/>
         <source>Default</source>
         <translation>پیشفرض</translation>
     </message>
@@ -6175,205 +6180,205 @@ Should these settings be applied?</source>
         <translation>درج ثانیه به‌صورت کامل، با صفر در ابتدای عدد، در صورت لزوم (0 تا 59)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation>WASAPI</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="562"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Windows legacy audio system</source>
         <translation>Legacy</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="566"/>
+        <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation>ALSA</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Do nothing</source>
         <translation>هیچ اتفاقی نیفتد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="486"/>
+        <location filename="../preferencesdlg.cpp" line="481"/>
         <source>Emojis</source>
         <translation>شکلک</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="487"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
         <source>Text</source>
         <translation>متن</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="512"/>
+        <location filename="../preferencesdlg.cpp" line="507"/>
         <source>Join only</source>
         <translation>فقط ورود به کانال</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="513"/>
+        <location filename="../preferencesdlg.cpp" line="508"/>
         <source>Leave only</source>
         <translation>فقط خروج از کانال</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="514"/>
+        <location filename="../preferencesdlg.cpp" line="509"/>
         <source>Join or leave</source>
         <translation>هم ورود به کانال و هم خروج از آن</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="518"/>
+        <location filename="../preferencesdlg.cpp" line="513"/>
         <source>Ascending</source>
         <translation>صعودی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="519"/>
+        <location filename="../preferencesdlg.cpp" line="514"/>
         <source>Popularity</source>
         <translation>شلوغ‌ترین</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="595"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
         <source>One by One</source>
         <translation>یک به یک</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="596"/>
+        <location filename="../preferencesdlg.cpp" line="591"/>
         <source>Overlapping</source>
         <translation>همزمان</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="612"/>
+        <location filename="../preferencesdlg.cpp" line="607"/>
         <source>Tolk</source>
         <translation>صفحه‌خوان فعلی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="616"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation>VoiceOver (از طریق اسکریپت اپل)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="614"/>
         <source>Qt Accessibility Announcement</source>
         <translation>اعلان‌های دسترس‌پذیری QT</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="788"/>
         <source>Chat History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="801"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Please restart application to change to chat history control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1048"/>
-        <location filename="../preferencesdlg.cpp" line="1082"/>
-        <location filename="../preferencesdlg.cpp" line="1666"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
+        <location filename="../preferencesdlg.cpp" line="1649"/>
         <source>Failed to initialize video device</source>
         <translation>دستگاه ویدیویی راه‌اندازی نشد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
+        <location filename="../preferencesdlg.cpp" line="1120"/>
         <source>Key Combination: %1</source>
         <translation>ترکیب کلیدها: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1192"/>
+        <location filename="../preferencesdlg.cpp" line="1175"/>
         <source>Max Input Channels %1</source>
         <translation>بیشترین تعداد کانال‌های ورودی %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1194"/>
-        <location filename="../preferencesdlg.cpp" line="1218"/>
+        <location filename="../preferencesdlg.cpp" line="1177"/>
+        <location filename="../preferencesdlg.cpp" line="1201"/>
         <source>Sample Rates:</source>
         <translation>نرخ سمپل:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1216"/>
+        <location filename="../preferencesdlg.cpp" line="1199"/>
         <source>Max Output Channels %1</source>
         <translation>بیشترین تعداد کانال‌های خروجی %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1247"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Refresh Sound Devices</source>
         <translation>تازه‌کردن دستگاه‌های صوتی</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1248"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>راه‌اندازی مجدد سیستم‌های صوتی ناموفق بود. لطفا برنامه را دوباره راه‌اندازی کنید.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>تنظیمات دستگاه صوتی برای حذف اکوی صدا بهینه نشده است. لطفا برای جزئیات بیشتر به راهنمای برنامه مراجعه کنید</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1307"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Failed to initialize new sound devices</source>
         <translation>دستگاه‌های صوتی جدید راه‌اندازی نشدند</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1489"/>
+        <location filename="../preferencesdlg.cpp" line="1472"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>استفاده از SAPI بجای صفحه‌خوانِ %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1490"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>چنانچه صفحه‌خوانِ %1 در دسترس نباشد, از SAPI برای اعلامِ هشدار‌های متن-به-گفتار استفاده شود</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech and Braille</source>
         <translation>گفتار و بریل</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1498"/>
+        <location filename="../preferencesdlg.cpp" line="1481"/>
         <source>Braille only</source>
         <translation>فقط بریل</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1500"/>
+        <location filename="../preferencesdlg.cpp" line="1483"/>
         <source>Speech only</source>
         <translation>فقط گفتار</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1625"/>
+        <location filename="../preferencesdlg.cpp" line="1608"/>
         <source>Custom video format</source>
         <translation>فرمت ویدیویی دلخواه</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1696"/>
         <source>Default Video Capture</source>
         <translation>ضبط ویدئوی پیشفرض</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1719"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>تنظیمات ضبط ویدئوی مورد نظر پیدا نشد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>پیام برای رویداد</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1864"/>
+        <location filename="../preferencesdlg.cpp" line="1830"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation>مطمئنید که میخواهید همۀ پیام‌های متن به گفتار را به تنظیمات پیشفرض برگردانید?</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1865"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>&amp;Yes</source>
         <translation>&amp;بله</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1866"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
         <source>&amp;No</source>
         <translation>&amp;خیر</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1869"/>
+        <location filename="../preferencesdlg.cpp" line="1835"/>
         <source>Restore default values</source>
         <translation>باز‌نشانی</translation>
     </message>
@@ -6434,7 +6439,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message</source>
         <translation>پیام</translation>
     </message>
@@ -9461,7 +9466,6 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../settings.h" line="464"/>
-        <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
         <translation>{user} فایلِ {file} را پاک کرد</translation>
     </message>
@@ -9781,6 +9785,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../settings.h" line="483"/>
         <source>File {filename} added by {user}</source>
         <translation>{user} فایلِ {filename} را آپلود کرد</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="485"/>
+        <source>File {file} removed by {user}</source>
+        <translation type="unfinished">{user} فایلِ {file} را پاک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>

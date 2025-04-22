@@ -5324,12 +5324,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation>성별</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="413"/>
+        <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Male</source>
         <translation>남성</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="409"/>
         <source>Female</source>
         <translation>여성</translation>
     </message>
@@ -5349,7 +5349,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>자리비움으로 상태 전환 시간</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="415"/>
+        <location filename="../preferencesdlg.cpp" line="410"/>
         <source>Neutral</source>
         <translation>중립</translation>
     </message>
@@ -5656,7 +5656,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="952"/>
+        <location filename="../preferencesdlg.cpp" line="940"/>
         <source>Sound System</source>
         <translation>사운드 정책</translation>
     </message>
@@ -5666,12 +5666,17 @@ You can download it on the page below:<byte value="xd"/>
         <translation>사운드 정책 설정</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferences.ui" line="2173"/>
+        <source> kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="559"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
@@ -5723,7 +5728,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1354"/>
-        <location filename="../preferences.ui" line="2265"/>
+        <location filename="../preferences.ui" line="2239"/>
         <source>&amp;Default</source>
         <translation>기본값 (&amp;D)</translation>
     </message>
@@ -5795,7 +5800,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>이벤트 정책</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="567"/>
+        <location filename="../preferencesdlg.cpp" line="562"/>
         <source>PulseAudio</source>
         <translation>PulseAudio</translation>
     </message>
@@ -5933,97 +5938,97 @@ You can download it on the page below:<byte value="xd"/>
         <translation>맞춤 비디오 형식</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2036"/>
+        <location filename="../preferences.ui" line="2034"/>
         <source>Image Format</source>
         <translation>이미지 형식</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2046"/>
+        <location filename="../preferencesdlg.cpp" line="657"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2053"/>
+        <location filename="../preferencesdlg.cpp" line="658"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2060"/>
+        <location filename="../preferencesdlg.cpp" line="659"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2084"/>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferences.ui" line="2062"/>
+        <location filename="../preferencesdlg.cpp" line="1271"/>
         <source>Test Selected</source>
         <translation>선택한 장치 테스트</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferences.ui" line="2115"/>
+        <location filename="../preferences.ui" line="2090"/>
+        <location filename="../preferences.ui" line="2093"/>
         <source>Video Codec Settings</source>
         <translation>비디오 코덱 설정</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2123"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>Codec</source>
         <translation>코덱</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2179"/>
+        <location filename="../preferences.ui" line="2157"/>
         <source>Bitrate</source>
         <translation>비트레이트</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="314"/>
+        <location filename="../preferencesdlg.cpp" line="309"/>
         <source>Default Input Device</source>
         <translation>기본 입력 장치</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="347"/>
+        <location filename="../preferencesdlg.cpp" line="342"/>
         <source>Default Output Device</source>
         <translation>기본 출력 장치</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="331"/>
-        <location filename="../preferencesdlg.cpp" line="360"/>
+        <location filename="../preferencesdlg.cpp" line="326"/>
+        <location filename="../preferencesdlg.cpp" line="355"/>
         <source>No Sound Device</source>
         <translation>사운드 장치 없음</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="401"/>
+        <location filename="../preferencesdlg.cpp" line="396"/>
         <source>Open Wave File</source>
         <translation>Wave 파일 열기</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="402"/>
+        <location filename="../preferencesdlg.cpp" line="397"/>
         <source>Wave files (*.wav)</source>
         <translation>Wave 파일 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="825"/>
-        <location filename="../preferencesdlg.cpp" line="832"/>
+        <location filename="../preferencesdlg.cpp" line="813"/>
+        <location filename="../preferencesdlg.cpp" line="820"/>
         <source>Windows Firewall</source>
         <translation>Windows 방화벽</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="826"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Windows 방화벽 예외 목록에 %1 앱을 추가할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="833"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Windows 방화벽 예외 목록에서 %1 앱을 제거할 수 없습니다</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1306"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Sound Initialization</source>
         <translation>사운드 초기화</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1047"/>
-        <location filename="../preferencesdlg.cpp" line="1081"/>
+        <location filename="../preferencesdlg.cpp" line="1030"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Video Device</source>
         <translation>비디오 장치</translation>
     </message>
@@ -6038,20 +6043,20 @@ You can download it on the page below:<byte value="xd"/>
         <translation>취소 (&amp;C)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="422"/>
+        <location filename="../preferencesdlg.cpp" line="417"/>
         <source>&amp;Reset</source>
         <translation>재설정 (&amp;R)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="485"/>
-        <location filename="../preferencesdlg.cpp" line="607"/>
+        <location filename="../preferencesdlg.cpp" line="480"/>
+        <location filename="../preferencesdlg.cpp" line="602"/>
         <source>None</source>
         <translation>없음</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="580"/>
-        <location filename="../preferencesdlg.cpp" line="594"/>
-        <location filename="../preferencesdlg.cpp" line="609"/>
+        <location filename="../preferencesdlg.cpp" line="575"/>
+        <location filename="../preferencesdlg.cpp" line="589"/>
+        <location filename="../preferencesdlg.cpp" line="604"/>
         <source>Default</source>
         <translation>기본값</translation>
     </message>
@@ -6141,205 +6146,205 @@ You can download it on the page below:<byte value="xd"/>
         <translation>0으로 시작하는 초 숫자 (00 ~ 59)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation>Windows Audio Session API (WASAPI)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="562"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Windows legacy audio system</source>
         <translation>Windows legacy audio system</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="566"/>
+        <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation>Advanced Linux Sound Architecture (ALSA)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Do nothing</source>
         <translation>아무것도 안 함</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="486"/>
+        <location filename="../preferencesdlg.cpp" line="481"/>
         <source>Emojis</source>
         <translation>이모지</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="487"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
         <source>Text</source>
         <translation>텍스트</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="512"/>
+        <location filename="../preferencesdlg.cpp" line="507"/>
         <source>Join only</source>
         <translation>입장만</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="513"/>
+        <location filename="../preferencesdlg.cpp" line="508"/>
         <source>Leave only</source>
         <translation>퇴장만</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="514"/>
+        <location filename="../preferencesdlg.cpp" line="509"/>
         <source>Join or leave</source>
         <translation>입장 및 퇴장</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="518"/>
+        <location filename="../preferencesdlg.cpp" line="513"/>
         <source>Ascending</source>
         <translation>오름차순</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="519"/>
+        <location filename="../preferencesdlg.cpp" line="514"/>
         <source>Popularity</source>
         <translation>인원순</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="595"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
         <source>One by One</source>
         <translation>순차적으로</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="596"/>
+        <location filename="../preferencesdlg.cpp" line="591"/>
         <source>Overlapping</source>
         <translation>격치게</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="612"/>
+        <location filename="../preferencesdlg.cpp" line="607"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="616"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation>애플 스크립트를 통한 보이스오버</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="614"/>
         <source>Qt Accessibility Announcement</source>
         <translation>QT 접근성 알림</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="788"/>
         <source>Chat History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="801"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Please restart application to change to chat history control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1048"/>
-        <location filename="../preferencesdlg.cpp" line="1082"/>
-        <location filename="../preferencesdlg.cpp" line="1666"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
+        <location filename="../preferencesdlg.cpp" line="1649"/>
         <source>Failed to initialize video device</source>
         <translation>비디오 장치 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
+        <location filename="../preferencesdlg.cpp" line="1120"/>
         <source>Key Combination: %1</source>
         <translation>키 조합: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1192"/>
+        <location filename="../preferencesdlg.cpp" line="1175"/>
         <source>Max Input Channels %1</source>
         <translation>최대 입력 채널 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1194"/>
-        <location filename="../preferencesdlg.cpp" line="1218"/>
+        <location filename="../preferencesdlg.cpp" line="1177"/>
+        <location filename="../preferencesdlg.cpp" line="1201"/>
         <source>Sample Rates:</source>
         <translation>샘플레이트:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1216"/>
+        <location filename="../preferencesdlg.cpp" line="1199"/>
         <source>Max Output Channels %1</source>
         <translation>최대 출력 채널 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1247"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Refresh Sound Devices</source>
         <translation>사운드 장치 새로고침</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1248"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>사운드 정책을 재구성하려면 앱을 재시작해야 합니다.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>선택한 사운드 장치 정책에서 차선의 반향 제거 기능이 제공됩니다.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1307"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Failed to initialize new sound devices</source>
         <translation>새 사운드 장치 초기화 실패</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1489"/>
+        <location filename="../preferencesdlg.cpp" line="1472"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>화면 낭독기 %1 대신 SAPI 사용</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1490"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>화면 낭독기(%1)를 사용할 수 없으면 SAPI로 전환</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech and Braille</source>
         <translation>말하기 및 점자</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1498"/>
+        <location filename="../preferencesdlg.cpp" line="1481"/>
         <source>Braille only</source>
         <translation>점자만</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1500"/>
+        <location filename="../preferencesdlg.cpp" line="1483"/>
         <source>Speech only</source>
         <translation>말하기만</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1625"/>
+        <location filename="../preferencesdlg.cpp" line="1608"/>
         <source>Custom video format</source>
         <translation>맞춤 비디오 형식</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1696"/>
         <source>Default Video Capture</source>
         <translation>기본 비디오 캡처</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1719"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>기본 비디오 캡처 설정이 존재하지 않습니다</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>이벤트 메시지 &quot;%1&quot;</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1864"/>
+        <location filename="../preferencesdlg.cpp" line="1830"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation>모든 TTS 메시지를 기본값으로 재설정할까요?</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1865"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>&amp;Yes</source>
         <translation>예 (&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1866"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
         <source>&amp;No</source>
         <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1869"/>
+        <location filename="../preferencesdlg.cpp" line="1835"/>
         <source>Restore default values</source>
         <translation>기본값으로 재설정</translation>
     </message>
@@ -6400,7 +6405,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message</source>
         <translation>메시지</translation>
     </message>
@@ -9427,7 +9432,6 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../settings.h" line="464"/>
-        <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
         <translation>{user}, {filename} 파일 삭제함</translation>
     </message>
@@ -9747,6 +9751,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../settings.h" line="483"/>
         <source>File {filename} added by {user}</source>
         <translation>{user}, {filename} 파일 추가함</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="485"/>
+        <source>File {file} removed by {user}</source>
+        <translation type="unfinished">{user}, {filename} 파일 삭제함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>

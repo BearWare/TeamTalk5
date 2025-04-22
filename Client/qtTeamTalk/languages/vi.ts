@@ -5319,12 +5319,12 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Giới tính</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="413"/>
+        <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Male</source>
         <translation>Nam</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="409"/>
         <source>Female</source>
         <translation>Nữ</translation>
     </message>
@@ -5344,7 +5344,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Đặt trạng thái vắng mặt sau</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="415"/>
+        <location filename="../preferencesdlg.cpp" line="410"/>
         <source>Neutral</source>
         <translation>Không muốn nói</translation>
     </message>
@@ -5651,7 +5651,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="952"/>
+        <location filename="../preferencesdlg.cpp" line="940"/>
         <source>Sound System</source>
         <translation>Hệ thống âm thanh</translation>
     </message>
@@ -5661,12 +5661,17 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Thiết lập hệ thống âm thanh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferences.ui" line="2173"/>
+        <source> kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="559"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
@@ -5718,7 +5723,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1354"/>
-        <location filename="../preferences.ui" line="2265"/>
+        <location filename="../preferences.ui" line="2239"/>
         <source>&amp;Default</source>
         <translation>Mặc định</translation>
     </message>
@@ -5790,7 +5795,7 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Định cấu hình thông báo sự kiện</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="567"/>
+        <location filename="../preferencesdlg.cpp" line="562"/>
         <source>PulseAudio</source>
         <translation type="unfinished"></translation>
     </message>
@@ -5928,97 +5933,97 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Tùy chỉnh định dạng video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2036"/>
+        <location filename="../preferences.ui" line="2034"/>
         <source>Image Format</source>
         <translation>Định dạng hình ảnh</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2046"/>
+        <location filename="../preferencesdlg.cpp" line="657"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2053"/>
+        <location filename="../preferencesdlg.cpp" line="658"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2060"/>
+        <location filename="../preferencesdlg.cpp" line="659"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2084"/>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferences.ui" line="2062"/>
+        <location filename="../preferencesdlg.cpp" line="1271"/>
         <source>Test Selected</source>
         <translation>Kiểm tra</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferences.ui" line="2115"/>
+        <location filename="../preferences.ui" line="2090"/>
+        <location filename="../preferences.ui" line="2093"/>
         <source>Video Codec Settings</source>
         <translation>Cài đặt mã hóa Video</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2123"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>Codec</source>
         <translation>Codec</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2179"/>
+        <location filename="../preferences.ui" line="2157"/>
         <source>Bitrate</source>
         <translation>Bitrate</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="314"/>
+        <location filename="../preferencesdlg.cpp" line="309"/>
         <source>Default Input Device</source>
         <translation>Thiết bị đầu vào mặc định</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="347"/>
+        <location filename="../preferencesdlg.cpp" line="342"/>
         <source>Default Output Device</source>
         <translation>Thiết bị đầu ra mặc định</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="331"/>
-        <location filename="../preferencesdlg.cpp" line="360"/>
+        <location filename="../preferencesdlg.cpp" line="326"/>
+        <location filename="../preferencesdlg.cpp" line="355"/>
         <source>No Sound Device</source>
         <translation>Không có thiết bị âm thanh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="401"/>
+        <location filename="../preferencesdlg.cpp" line="396"/>
         <source>Open Wave File</source>
         <translation>Mở tệp Wave</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="402"/>
+        <location filename="../preferencesdlg.cpp" line="397"/>
         <source>Wave files (*.wav)</source>
         <translation>Tệp Wave (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="825"/>
-        <location filename="../preferencesdlg.cpp" line="832"/>
+        <location filename="../preferencesdlg.cpp" line="813"/>
+        <location filename="../preferencesdlg.cpp" line="820"/>
         <source>Windows Firewall</source>
         <translation>tTường lửa Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="826"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Không thể thêm %1 vào danh sách ngoại lệ của Tường lửa Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="833"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Không thể xóa %1 khỏi danh sách ngoại lệ của Tường lửa Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1306"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Sound Initialization</source>
         <translation>Khởi tạo âm thanh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1047"/>
-        <location filename="../preferencesdlg.cpp" line="1081"/>
+        <location filename="../preferencesdlg.cpp" line="1030"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Video Device</source>
         <translation>Thiết bị video</translation>
     </message>
@@ -6033,20 +6038,20 @@ You can download it on the page below:<byte value="xd"/>
         <translation>Hủy</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="422"/>
+        <location filename="../preferencesdlg.cpp" line="417"/>
         <source>&amp;Reset</source>
         <translation>Đặt lại</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="485"/>
-        <location filename="../preferencesdlg.cpp" line="607"/>
+        <location filename="../preferencesdlg.cpp" line="480"/>
+        <location filename="../preferencesdlg.cpp" line="602"/>
         <source>None</source>
         <translation>Không</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="580"/>
-        <location filename="../preferencesdlg.cpp" line="594"/>
-        <location filename="../preferencesdlg.cpp" line="609"/>
+        <location filename="../preferencesdlg.cpp" line="575"/>
+        <location filename="../preferencesdlg.cpp" line="589"/>
+        <location filename="../preferencesdlg.cpp" line="604"/>
         <source>Default</source>
         <translation>Mặc định</translation>
     </message>
@@ -6136,205 +6141,205 @@ You can download it on the page below:<byte value="xd"/>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="562"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Windows legacy audio system</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="566"/>
+        <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Do nothing</source>
         <translation>Không làm gì cả</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="486"/>
+        <location filename="../preferencesdlg.cpp" line="481"/>
         <source>Emojis</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="487"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
         <source>Text</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="512"/>
+        <location filename="../preferencesdlg.cpp" line="507"/>
         <source>Join only</source>
         <translation>Chỉ tham gia</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="513"/>
+        <location filename="../preferencesdlg.cpp" line="508"/>
         <source>Leave only</source>
         <translation>Chỉ rời khỏi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="514"/>
+        <location filename="../preferencesdlg.cpp" line="509"/>
         <source>Join or leave</source>
         <translation>Tham gia hoặc rời khỏi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="518"/>
+        <location filename="../preferencesdlg.cpp" line="513"/>
         <source>Ascending</source>
         <translation>Tăng dần</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="519"/>
+        <location filename="../preferencesdlg.cpp" line="514"/>
         <source>Popularity</source>
         <translation>Phổ biến</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="595"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
         <source>One by One</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="596"/>
+        <location filename="../preferencesdlg.cpp" line="591"/>
         <source>Overlapping</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="612"/>
+        <location filename="../preferencesdlg.cpp" line="607"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="616"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="614"/>
         <source>Qt Accessibility Announcement</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="788"/>
         <source>Chat History</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="801"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Please restart application to change to chat history control</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1048"/>
-        <location filename="../preferencesdlg.cpp" line="1082"/>
-        <location filename="../preferencesdlg.cpp" line="1666"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
+        <location filename="../preferencesdlg.cpp" line="1649"/>
         <source>Failed to initialize video device</source>
         <translation>Không thể khởi chạy thiết bị video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
+        <location filename="../preferencesdlg.cpp" line="1120"/>
         <source>Key Combination: %1</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1192"/>
+        <location filename="../preferencesdlg.cpp" line="1175"/>
         <source>Max Input Channels %1</source>
         <translation>Kênh đầu vào tối đa %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1194"/>
-        <location filename="../preferencesdlg.cpp" line="1218"/>
+        <location filename="../preferencesdlg.cpp" line="1177"/>
+        <location filename="../preferencesdlg.cpp" line="1201"/>
         <source>Sample Rates:</source>
         <translation>Sample Rates:</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1216"/>
+        <location filename="../preferencesdlg.cpp" line="1199"/>
         <source>Max Output Channels %1</source>
         <translation>Kênh đầu ra tối đa %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1247"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Refresh Sound Devices</source>
         <translation>Làm mới lại thiết bị âm thanh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1248"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Không thể khởi động lại hệ thống âm thanh. Vui lòng khởi động lại ứng dụng.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Cấu hình thiết bị âm thanh này mang lại khả năng khử tiếng vang dưới mức tối ưu. Kiểm tra hướng dẫn để biết chi tiết.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1307"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Không thể khởi tạo thiết bị âm thanh mới</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1489"/>
+        <location filename="../preferencesdlg.cpp" line="1472"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>Sử dụng SAPI thay vì trình đọc màn hình %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1490"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech and Braille</source>
         <translation>Giọng nói và chữ nổi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1498"/>
+        <location filename="../preferencesdlg.cpp" line="1481"/>
         <source>Braille only</source>
         <translation>Chỉ chữ nổi</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1500"/>
+        <location filename="../preferencesdlg.cpp" line="1483"/>
         <source>Speech only</source>
         <translation>Chỉ giọng nói</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1625"/>
+        <location filename="../preferencesdlg.cpp" line="1608"/>
         <source>Custom video format</source>
         <translation>Định dạng video tùy chỉnh</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1696"/>
         <source>Default Video Capture</source>
         <translation>Mặc định video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1719"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Không thể tìm thấy cài đặt video</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1864"/>
+        <location filename="../preferencesdlg.cpp" line="1830"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1865"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>&amp;Yes</source>
         <translation type="unfinished">Có</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1866"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
         <source>&amp;No</source>
         <translation type="unfinished">Không</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1869"/>
+        <location filename="../preferencesdlg.cpp" line="1835"/>
         <source>Restore default values</source>
         <translation type="unfinished"></translation>
     </message>
@@ -6395,7 +6400,7 @@ You can download it on the page below:<byte value="xd"/>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message</source>
         <translation type="unfinished">Tin nhắn</translation>
     </message>
@@ -9423,7 +9428,6 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     </message>
     <message>
         <location filename="../settings.h" line="464"/>
-        <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
         <translation type="unfinished"></translation>
     </message>
@@ -9742,6 +9746,11 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     <message>
         <location filename="../settings.h" line="483"/>
         <source>File {filename} added by {user}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="485"/>
+        <source>File {file} removed by {user}</source>
         <translation type="unfinished"></translation>
     </message>
     <message>

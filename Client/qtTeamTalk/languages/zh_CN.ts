@@ -5358,12 +5358,12 @@ Should these settings be applied?</source>
         <translation>性别</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="413"/>
+        <location filename="../preferencesdlg.cpp" line="408"/>
         <source>Male</source>
         <translation>男</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="414"/>
+        <location filename="../preferencesdlg.cpp" line="409"/>
         <source>Female</source>
         <translation>女</translation>
     </message>
@@ -5383,7 +5383,7 @@ Should these settings be applied?</source>
         <translation>后设为离开状态</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="415"/>
+        <location filename="../preferencesdlg.cpp" line="410"/>
         <source>Neutral</source>
         <translation>中性</translation>
     </message>
@@ -5690,7 +5690,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="952"/>
+        <location filename="../preferencesdlg.cpp" line="940"/>
         <source>Sound System</source>
         <translation>声音系统</translation>
     </message>
@@ -5700,12 +5700,17 @@ Should these settings be applied?</source>
         <translation>声音系统设置</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferences.ui" line="2173"/>
+        <source> kbps</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="556"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="559"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
@@ -5757,7 +5762,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1354"/>
-        <location filename="../preferences.ui" line="2265"/>
+        <location filename="../preferences.ui" line="2239"/>
         <source>&amp;Default</source>
         <translation>默认(&amp;D)</translation>
     </message>
@@ -5829,7 +5834,7 @@ Should these settings be applied?</source>
         <translation>配置事件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="567"/>
+        <location filename="../preferencesdlg.cpp" line="562"/>
         <source>PulseAudio</source>
         <translation>PulseAudio</translation>
     </message>
@@ -5967,97 +5972,97 @@ Should these settings be applied?</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2036"/>
+        <location filename="../preferences.ui" line="2034"/>
         <source>Image Format</source>
         <translation>图像格式</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2046"/>
+        <location filename="../preferencesdlg.cpp" line="657"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2053"/>
+        <location filename="../preferencesdlg.cpp" line="658"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2060"/>
+        <location filename="../preferencesdlg.cpp" line="659"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2084"/>
-        <location filename="../preferencesdlg.cpp" line="1288"/>
+        <location filename="../preferences.ui" line="2062"/>
+        <location filename="../preferencesdlg.cpp" line="1271"/>
         <source>Test Selected</source>
         <translation>测试所选项</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2112"/>
-        <location filename="../preferences.ui" line="2115"/>
+        <location filename="../preferences.ui" line="2090"/>
+        <location filename="../preferences.ui" line="2093"/>
         <source>Video Codec Settings</source>
         <translation>视频编解码器设置</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2123"/>
+        <location filename="../preferences.ui" line="2101"/>
         <source>Codec</source>
         <translation>编解码器</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2179"/>
+        <location filename="../preferences.ui" line="2157"/>
         <source>Bitrate</source>
         <translation>比特率</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="314"/>
+        <location filename="../preferencesdlg.cpp" line="309"/>
         <source>Default Input Device</source>
         <translation>默认输入设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="347"/>
+        <location filename="../preferencesdlg.cpp" line="342"/>
         <source>Default Output Device</source>
         <translation>默认输出设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="331"/>
-        <location filename="../preferencesdlg.cpp" line="360"/>
+        <location filename="../preferencesdlg.cpp" line="326"/>
+        <location filename="../preferencesdlg.cpp" line="355"/>
         <source>No Sound Device</source>
         <translation>无声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="401"/>
+        <location filename="../preferencesdlg.cpp" line="396"/>
         <source>Open Wave File</source>
         <translation>打开波形文件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="402"/>
+        <location filename="../preferencesdlg.cpp" line="397"/>
         <source>Wave files (*.wav)</source>
         <translation>波形文件(*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="825"/>
-        <location filename="../preferencesdlg.cpp" line="832"/>
+        <location filename="../preferencesdlg.cpp" line="813"/>
+        <location filename="../preferencesdlg.cpp" line="820"/>
         <source>Windows Firewall</source>
         <translation>Windows防火墙</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="826"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>无法将 %1 添加到Windows防火墙例外列表中</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="833"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>无法从Windows防火墙例外列表中删除 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1306"/>
+        <location filename="../preferencesdlg.cpp" line="1289"/>
         <source>Sound Initialization</source>
         <translation>初始化声音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1047"/>
-        <location filename="../preferencesdlg.cpp" line="1081"/>
+        <location filename="../preferencesdlg.cpp" line="1030"/>
+        <location filename="../preferencesdlg.cpp" line="1064"/>
         <source>Video Device</source>
         <translation>视频设备</translation>
     </message>
@@ -6072,20 +6077,20 @@ Should these settings be applied?</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="422"/>
+        <location filename="../preferencesdlg.cpp" line="417"/>
         <source>&amp;Reset</source>
         <translation>重置(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="485"/>
-        <location filename="../preferencesdlg.cpp" line="607"/>
+        <location filename="../preferencesdlg.cpp" line="480"/>
+        <location filename="../preferencesdlg.cpp" line="602"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="580"/>
-        <location filename="../preferencesdlg.cpp" line="594"/>
-        <location filename="../preferencesdlg.cpp" line="609"/>
+        <location filename="../preferencesdlg.cpp" line="575"/>
+        <location filename="../preferencesdlg.cpp" line="589"/>
+        <location filename="../preferencesdlg.cpp" line="604"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
@@ -6175,205 +6180,205 @@ Should these settings be applied?</source>
         <translation>带前导0的秒（00 至 59）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="560"/>
+        <location filename="../preferencesdlg.cpp" line="555"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation>Windows 音频会话 API (WASAPI)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="562"/>
+        <location filename="../preferencesdlg.cpp" line="557"/>
         <source>Windows legacy audio system</source>
         <translation>Windows 传统音频系统</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="566"/>
+        <location filename="../preferencesdlg.cpp" line="561"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation>高级 Linux 声音架构 (ALSA)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Do nothing</source>
         <translation>什么都不做</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="486"/>
+        <location filename="../preferencesdlg.cpp" line="481"/>
         <source>Emojis</source>
         <translation>表情符号</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="487"/>
+        <location filename="../preferencesdlg.cpp" line="482"/>
         <source>Text</source>
         <translation>文本</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="512"/>
+        <location filename="../preferencesdlg.cpp" line="507"/>
         <source>Join only</source>
         <translation>仅加入</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="513"/>
+        <location filename="../preferencesdlg.cpp" line="508"/>
         <source>Leave only</source>
         <translation>仅离开</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="514"/>
+        <location filename="../preferencesdlg.cpp" line="509"/>
         <source>Join or leave</source>
         <translation>加入或离开</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="518"/>
+        <location filename="../preferencesdlg.cpp" line="513"/>
         <source>Ascending</source>
         <translation>升序</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="519"/>
+        <location filename="../preferencesdlg.cpp" line="514"/>
         <source>Popularity</source>
         <translation>受欢迎度</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="595"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
         <source>One by One</source>
         <translation>逐个</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="596"/>
+        <location filename="../preferencesdlg.cpp" line="591"/>
         <source>Overlapping</source>
         <translation>重叠</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="612"/>
+        <location filename="../preferencesdlg.cpp" line="607"/>
         <source>Tolk</source>
         <translation>Tolk</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="616"/>
+        <location filename="../preferencesdlg.cpp" line="611"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation>旁白（通过 Apple Script）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="614"/>
         <source>Qt Accessibility Announcement</source>
         <translation>Qt 辅助功能通知</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="800"/>
+        <location filename="../preferencesdlg.cpp" line="788"/>
         <source>Chat History</source>
         <translation>聊天历史</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="801"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Please restart application to change to chat history control</source>
         <translation>请重启程序以更改聊天历史记录控件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1048"/>
-        <location filename="../preferencesdlg.cpp" line="1082"/>
-        <location filename="../preferencesdlg.cpp" line="1666"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
+        <location filename="../preferencesdlg.cpp" line="1649"/>
         <source>Failed to initialize video device</source>
         <translation>无法初始化视频设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1137"/>
+        <location filename="../preferencesdlg.cpp" line="1120"/>
         <source>Key Combination: %1</source>
         <translation>组合键：%1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1192"/>
+        <location filename="../preferencesdlg.cpp" line="1175"/>
         <source>Max Input Channels %1</source>
         <translation>最大输入声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1194"/>
-        <location filename="../preferencesdlg.cpp" line="1218"/>
+        <location filename="../preferencesdlg.cpp" line="1177"/>
+        <location filename="../preferencesdlg.cpp" line="1201"/>
         <source>Sample Rates:</source>
         <translation>采样率：</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1216"/>
+        <location filename="../preferencesdlg.cpp" line="1199"/>
         <source>Max Output Channels %1</source>
         <translation>最大输出声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1247"/>
+        <location filename="../preferencesdlg.cpp" line="1230"/>
         <source>Refresh Sound Devices</source>
         <translation>刷新声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1248"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>无法重新启动声音系统。请重新启动应用程序。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>此声音设备配置提供了欠佳的回声消除。请查看手册以了解详细信息。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1307"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Failed to initialize new sound devices</source>
         <translation>无法初始化新的声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1489"/>
+        <location filename="../preferencesdlg.cpp" line="1472"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>使用 SAPI 代替 %1 屏幕阅读器</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1490"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>如果 %1 屏幕阅读器不可用，则切换到 SAPI</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1479"/>
         <source>Speech and Braille</source>
         <translation>语音和盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1498"/>
+        <location filename="../preferencesdlg.cpp" line="1481"/>
         <source>Braille only</source>
         <translation>盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1500"/>
+        <location filename="../preferencesdlg.cpp" line="1483"/>
         <source>Speech only</source>
         <translation>语音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1625"/>
+        <location filename="../preferencesdlg.cpp" line="1608"/>
         <source>Custom video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1718"/>
+        <location filename="../preferencesdlg.cpp" line="1696"/>
         <source>Default Video Capture</source>
         <translation>默认视频捕获</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1719"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>无法找到首选的视频捕获设置</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>事件“%1”的消息</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1864"/>
+        <location filename="../preferencesdlg.cpp" line="1830"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation>您确定要将所有 TTS 消息恢复为默认值吗？</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1865"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1866"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1869"/>
+        <location filename="../preferencesdlg.cpp" line="1835"/>
         <source>Restore default values</source>
         <translation>恢复默认值</translation>
     </message>
@@ -6434,7 +6439,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1794"/>
+        <location filename="../preferencesdlg.cpp" line="1760"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
@@ -9461,7 +9466,6 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../settings.h" line="464"/>
-        <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
         <translation>文件 {file} 已被 {user} 删除</translation>
     </message>
@@ -9781,6 +9785,11 @@ Delete the published user account to unregister your server.</source>
         <location filename="../settings.h" line="483"/>
         <source>File {filename} added by {user}</source>
         <translation>文件 {filename} 由 {user} 添加</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="485"/>
+        <source>File {file} removed by {user}</source>
+        <translation type="unfinished">文件 {file} 已被 {user} 删除</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
