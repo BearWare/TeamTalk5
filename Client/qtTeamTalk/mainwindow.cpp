@@ -1135,7 +1135,7 @@ void MainWindow::clienteventCmdServerUpdate(const ServerProperties& srvprop)
         c->updateServer(srvprop);
 
     if (ttSettings->value(SETTINGS_DISPLAY_MOTD_DLG, SETTINGS_DISPLAY_MOTD_DLG_DEFAULT).toBool() == true)
-        QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(m_srvprop.szServerName)).arg(_Q(m_srvprop.szMOTD)));
+        QMessageBox::information(this, tr("Welcome"), QString(tr("Welcome to %1.\r\nMessage of the day: %2")).arg(_Q(srvprop.szServerName)).arg(_Q(srvprop.szMOTD)));
 
     updateWindowTitle();
 }
