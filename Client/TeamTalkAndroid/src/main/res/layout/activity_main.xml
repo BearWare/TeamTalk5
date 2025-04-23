@@ -84,17 +84,11 @@
 	            android:layout_gravity="center"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <LinearLayout
-        android:id="@+id/mastervolLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="fill_horizontal" >
-
         <SeekBar
             android:id="@+id/master_volSeekBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:layout_weight="0.9"
             android:contentDescription="@string/mastervolume"
@@ -110,8 +104,6 @@
 	            android:contentDescription="@string/speaker_mute"
 	            android:src="@drawable/speaker_blue" />
 
-    </LinearLayout>
-
 	        <!-- Row 1 -->
 
 	        <TextView
@@ -122,17 +114,11 @@
 	            android:layout_gravity="center"
 	            android:textAppearance="?android:attr/textAppearanceSmall" />
 
-    <LinearLayout
-        android:id="@+id/ganeLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_column="1"
-        android:layout_gravity="fill_horizontal" >
-
         <SeekBar
             android:id="@+id/mic_gainSeekBar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_column="1"
             android:layout_gravity="center_vertical"
             android:contentDescription="@string/micgain"
             android:layout_weight="0.9" />
@@ -146,8 +132,6 @@
 	            android:layout_row="1"
 	            android:contentDescription="@string/voice_activation_on"
 	            android:src="@drawable/mike_green" />
-
-    </LinearLayout>
 
 	    </GridLayout>
 	    
