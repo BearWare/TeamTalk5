@@ -424,6 +424,7 @@
     <string name="text_cmd_userloggedin">اومد</string>
     <string name="user_prop_title_nickname">نام مستعار</string>
     <string name="user_prop_title_userid">شماره</string>
+    <string name="stat_unauthorized">مجاز نیست</string>
 
 
 </resources>
