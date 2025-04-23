@@ -1331,7 +1331,14 @@ private EditText newmsg;
                     String con = getString(R.string.stat_offline);
                     int con_color = Color.RED;
                     int flags = ttclient.getFlags(); 
-                    if((flags & ClientFlag.CLIENT_CONNECTED) == ClientFlag.CLIENT_CONNECTED) {
+                    if ((flags & ClientFlag.CLIENT_CONNECTING) == ClientFlag.CLIENT_CONNECTING) {
+                        con = getString(R.string.stat_connecting);
+                    }
+                    else if ((flags & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_CLOSED) {
+                        // indicate 'offline' if not authorized
+                        con = getString(R.string.stat_unauthorized);
+                    }
+                    else if ((flags & ClientFlag.CLIENT_AUTHORIZED) == ClientFlag.CLIENT_AUTHORIZED) {
                         con = getString(R.string.stat_online);
                         con_color = Color.GREEN;
                     }

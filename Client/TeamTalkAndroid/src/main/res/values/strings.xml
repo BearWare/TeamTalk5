@@ -206,6 +206,7 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Connecting</string>
+    <string name="stat_unauthorized">Unauthorized</string>
     <string name="label_voice">Voice:</string>
     <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
