@@ -413,5 +413,6 @@
     <string name="mediavolume">Volume des fichiers média</string>
     <string name="text_cmd_userloggedout">Déconnecté</string>
     <string name="text_cmd_userloggedin">Connecté</string>
+    <string name="stat_unauthorized">Non Autorisé</string>
 
 </resources>
