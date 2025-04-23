@@ -1339,7 +1339,7 @@ private EditText newmsg;
                         con = getString(R.string.stat_connecting);
                     }
                     
-                    connection.setText(getString(R.string.label_connection) + " " + con);
+                    connection.setText(getString(R.string.label_connection) + "\n" + con);
                     connection.setTextColor(con_color);
 
                     ClientStatistics stats = new ClientStatistics();
