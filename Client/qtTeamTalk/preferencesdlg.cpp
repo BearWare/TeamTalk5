@@ -1049,10 +1049,10 @@ void PreferencesDlg::slotSaveChanges()
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
-    }
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-    ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
 #endif
+    }
 }
 
 void PreferencesDlg::slotCancelChanges()
