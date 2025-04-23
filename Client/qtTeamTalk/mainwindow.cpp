@@ -888,7 +888,7 @@ void MainWindow::initialScreenReaderSetup()
                 ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_TOLK);
 #elif defined(Q_OS_LINUX)
                 if (QFile::exists(NOTIFY_PATH))
-                    ttSettings->value(SETTINGS_TTS_TOAST, true);
+                    ttSettings->setValue(SETTINGS_TTS_TOAST, true);
                 else
                     ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
