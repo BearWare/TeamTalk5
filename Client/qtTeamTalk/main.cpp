@@ -26,6 +26,14 @@
 #include <QUrl>
 #include <QtPlugin>
 
+#include <cstdio>
+#include <cstring>
+#include <vector>
+
+#ifdef Q_OS_WIN32
+#include <windows.h>
+#endif
+
 #include "mainwindow.h"
 #include "license.h"
 
@@ -255,8 +263,29 @@ OSStatus mac_callback(EventHandlerCallRef nextHandler, EventRef event, void*)
 
 #endif
 
-int main(int argc, char *argv[])
+static bool showVersionOnly(int argc, char* argv[])
 {
+    for (int i = 1; i < argc; ++i)
+        if (!std::strcmp(argv[i], "-v"))
+        {
+#ifdef Q_OS_WIN32
+            if (!GetConsoleWindow())
+            {
+                AttachConsole(ATTACH_PARENT_PROCESS);
+                freopen("CONOUT$", "w", stdout);
+                freopen("CONOUT$", "w", stderr);
+            }
+#endif
+            std::printf("TeamTalk %s\n", TEAMTALK_VERSION);
+            std::fflush(stdout);
+            return true;
+        }
+    return false;
+}
+
+int main(int argc, char* argv[])
+{
+    if (showVersionOnly(argc, argv)) return 0;
 #if defined(Q_OS_WIN32)
     // Use QWindowsIntegration plugin to distinguish Alt+Gr from Ctrl+Alt on Windows
     // https://qthub.com/static/doc/qt5/qtdoc/qpa.html
