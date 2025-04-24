@@ -205,7 +205,8 @@
     <string name="label_connection">连接：</string>
     <string name="stat_online">在线</string>
     <string name="stat_offline">离线</string>
-    <string name="stat_connecting">连接</string>
+    <string name="stat_connecting">连接中</string>
+    <string name="stat_unauthorized">未授权</string>
     <string name="label_voice">语音：</string>
     <string name="label_desktop">桌面:</string>
     <string name="label_ping">Ping:</string>
