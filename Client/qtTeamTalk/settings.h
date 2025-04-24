@@ -492,6 +492,16 @@
 #define SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} <{user}>\n{content}")
 #define SETTINGS_CHATTEMPLATES_LOGMSG                         "chat-templates/log-message"
 #define SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} * {content}")
+#define SETTINGS_CHATTEMPLATES_SRVNAME                         "chat-templates/server-name"
+#define SETTINGS_CHATTEMPLATES_SRVNAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Servername: {server}")
+#define SETTINGS_CHATTEMPLATES_MOTD                         "chat-templates/server-motd"
+#define SETTINGS_CHATTEMPLATES_MOTD_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Message of the day: {MOTD}")
+#define SETTINGS_CHATTEMPLATES_JOINCHAN                         "chat-templates/joined-channel"
+#define SETTINGS_CHATTEMPLATES_JOINCHAN_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Joined channel: {channelpath}")
+#define SETTINGS_CHATTEMPLATES_CHANTOPIC                         "chat-templates/channel-topic"
+#define SETTINGS_CHATTEMPLATES_CHANTOPIC_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "Topic: {channeltopic}")
+#define SETTINGS_CHATTEMPLATES_DISKQUOTA                         "chat-templates/disk-quota"
+#define SETTINGS_CHATTEMPLATES_DISKQUOTA_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "Disk quota: {quota}")
 
 #define SETTINGS_MEDIASTORAGE_MODE                  "media-storage/audio-storage-mode"
 #define SETTINGS_MEDIASTORAGE_AUDIOFOLDER           "media-storage/audio-storage-folder"

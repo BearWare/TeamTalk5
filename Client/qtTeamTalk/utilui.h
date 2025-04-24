@@ -112,8 +112,13 @@ enum ChatTemplate : qulonglong
     CHATTEMPLATES_BROADCAST_MESSAGE                              = qulonglong(1) << 1,
     CHATTEMPLATES_PRIVATE_MESSAGE                                 = qulonglong(1) << 2,
     CHATTEMPLATES_LOG_MESSAGE                                 = qulonglong(1) << 3,
+    CHATTEMPLATES_SERVER_NAME                                 = qulonglong(1) << 4,
+    CHATTEMPLATES_SERVER_MOTD                                 = qulonglong(1) << 5,
+    CHATTEMPLATES_JOINED_CHAN                                 = qulonglong(1) << 6,
+    CHATTEMPLATES_CHANNEL_TOPIC                                 = qulonglong(1) << 7,
+    CHATTEMPLATES_CHANNEL_QUOTA                                 = qulonglong(1) << 8,
 
-    CHATTEMPLATES_NEXT_UNUSED                                 = qulonglong(1) << 4,
+    CHATTEMPLATES_NEXT_UNUSED                                 = qulonglong(1) << 9,
 };
 
 typedef qulonglong ChatTemplates;

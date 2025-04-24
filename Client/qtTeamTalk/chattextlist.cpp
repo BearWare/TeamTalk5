@@ -100,7 +100,7 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
 {
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
-    QListWidgetItem* item = new QListWidgetItem(dt + " " + tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+    QListWidgetItem* item = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_SRVNAME, {{"{date}", dt}, {"{server}", _Q(srvprop.szServerName)}}));
     item->setFont(QFont("Arial", -1, QFont::Bold));
 
     item->setData(Qt::UserRole + 1, dt);
@@ -112,7 +112,7 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
 
     if (_Q(srvprop.szMOTD).size() > 0)
     {
-        QListWidgetItem* motdItem = new QListWidgetItem(dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        QListWidgetItem* motdItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_MOTD, {{"{date}", dt}, {"{MOTD}", _Q(srvprop.szMOTD)}}));
         motdItem->setForeground(Qt::darkCyan);
         motdItem->setData(Qt::UserRole + 1, dt);
         motdItem->setData(Qt::UserRole + 2, tr("Server"));
@@ -130,7 +130,7 @@ void ChatTextList::joinedChannel(int channelid)
 
     QString dt = getTimeStamp(QDateTime::currentDateTime());
 
-    QListWidgetItem* item = new QListWidgetItem(dt + " " + tr("Joined channel %1").arg(_Q(buff)));
+    QListWidgetItem* item = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_JOINCHAN, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     item->setFont(QFont("Arial", -1, QFont::Bold));
     item->setForeground(Qt::darkGreen);
 
@@ -141,14 +141,14 @@ void ChatTextList::joinedChannel(int channelid)
     addItem("");
     addItem(item);
 
-    QListWidgetItem* topicItem = new QListWidgetItem(tr("Topic: %1").arg(_Q(chan.szTopic)));
+    QListWidgetItem* topicItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     topicItem->setForeground(Qt::darkYellow);
     topicItem->setData(Qt::UserRole + 1, dt);
     topicItem->setData(Qt::UserRole + 2, tr("Channel"));
     topicItem->setData(Qt::UserRole + 3, tr("Topic: %1").arg(_Q(chan.szTopic)));
     addItem(topicItem);
 
-    QListWidgetItem* quotaItem = new QListWidgetItem(tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota)));
+    QListWidgetItem* quotaItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     quotaItem->setForeground(Qt::darkRed);
     quotaItem->setData(Qt::UserRole + 1, dt);
     quotaItem->setData(Qt::UserRole + 2, tr("Channel"));
