@@ -1060,73 +1060,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="14"/>
         <source>Edit chat templates</source>
-        <translation type="unfinished"></translation>
+        <translation>ویرایش قالب‌های چت</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="20"/>
         <source>Chat Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>قالب‌های چت</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="42"/>
         <source>Chat Template</source>
-        <translation type="unfinished"></translation>
+        <translation>قالب چت</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="50"/>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>قالب</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished">&amp;متغیرها...</translation>
+        <translation>&amp;متغیرها...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنشانی به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="79"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished">بازنشانی همه به تنظیمات پیشفرض</translation>
+        <translation>بازنشانی همه به تنظیمات پیشفرض</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;تأیید</translation>
+        <translation>&amp;تأیید</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="34"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">&amp;لغو</translation>
+        <translation>&amp;لغو</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template for &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>قالب برای &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>مطمئنید که میخواهید همه‌ی قالب‌های چت را به تنظیمات پیشفرض برگردانید?</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;بله</translation>
+        <translation>&amp;بله</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="137"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;خیر</translation>
+        <translation>&amp;خیر</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="140"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>بازنشانی</translation>
     </message>
 </context>
 <context>
@@ -1134,32 +1134,32 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="202"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>نوع</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="203"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>قالب</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="229"/>
         <source>Channel Message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام کانال</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="231"/>
         <source>Broadcast Message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام همگانی</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="233"/>
         <source>Private Message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام شخصی</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="235"/>
         <source>Log Message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام لاگ</translation>
     </message>
 </context>
 <context>
@@ -1167,7 +1167,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="294"/>
         <source>History</source>
-        <translation type="unfinished">تاریخچه</translation>
+        <translation>تاریخچه</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="158"/>
@@ -1205,80 +1205,80 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="222"/>
         <source>History</source>
-        <translation type="unfinished">تاریخچه</translation>
+        <translation>تاریخچه</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="103"/>
         <location filename="../chattextlist.cpp" line="108"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">نام سِروِر: %1</translation>
+        <translation>نام سِروِر: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="107"/>
         <location filename="../chattextlist.cpp" line="118"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>سِروِر</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="115"/>
         <location filename="../chattextlist.cpp" line="119"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">پیام روز: %1</translation>
+        <translation>پیام روز: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="133"/>
         <location filename="../chattextlist.cpp" line="139"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">وارد %1 شُدید</translation>
+        <translation>وارد %1 شُدید</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="138"/>
         <location filename="../chattextlist.cpp" line="147"/>
         <location filename="../chattextlist.cpp" line="154"/>
         <source>Channel</source>
-        <translation type="unfinished">کانال</translation>
+        <translation>کانال</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="144"/>
         <location filename="../chattextlist.cpp" line="148"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">موضوع: %1</translation>
+        <translation>موضوع: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="151"/>
         <location filename="../chattextlist.cpp" line="155"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished">فضای آپلود: %1</translation>
+        <translation>فضای آپلود: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="190"/>
         <source>You</source>
-        <translation type="unfinished">شما</translation>
+        <translation>شما</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="205"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>سیستم</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="377"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;کپی</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="378"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>دیدن &amp;جزئیات...</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="382"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>کپی‌کردن &amp;همه</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="383"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>پ&amp;اک‌کردن</translation>
     </message>
 </context>
 <context>
@@ -4039,13 +4039,13 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished">خوش‌آمدید</translation>
+        <translation>خوش‌آمدید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished">به %1 خوش‌آمدید.<byte value="xd"/>
+        <translation>به %1 خوش‌آمدید.<byte value="xd"/>
 پیام روز: %2</translation>
     </message>
     <message>
@@ -5075,27 +5075,27 @@ Should these settings be applied?</source>
         <location filename="../chattextlist.cpp" line="430"/>
         <location filename="../chattextlist.cpp" line="431"/>
         <source>Message Details</source>
-        <translation type="unfinished"></translation>
+        <translation>جزئیات پیام</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="435"/>
         <source>Sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>ارسال: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="437"/>
         <source>By: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>توسط: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="441"/>
         <source>Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>محتوا</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="450"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;بستن</translation>
+        <translation>&amp;بستن</translation>
     </message>
 </context>
 <context>
@@ -5190,21 +5190,6 @@ Should these settings be applied?</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../onlineusersdlg.cpp" line="169"/>
-        <source>K&amp;ick from Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../onlineusersdlg.cpp" line="171"/>
-        <source>Kick and B&amp;an from Server</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
-        <location filename="../onlineusersdlg.cpp" line="172"/>
-        <source>&amp;Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
-    </message>
-    <message>
         <location filename="../onlineusersdlg.cpp" line="168"/>
         <source>&amp;Kick from Channel</source>
         <translation>&amp;اخراج از کانال</translation>
@@ -5237,6 +5222,21 @@ Should these settings be applied?</source>
         <location filename="../onlineusersdlg.cpp" line="172"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
+    </message>
+    <message>
+        <location filename="../onlineusersdlg.cpp" line="169"/>
+        <source>K&amp;ick from Server</source>
+        <translation>ا&amp;خراج از سِروِر</translation>
+    </message>
+    <message>
+        <location filename="../onlineusersdlg.cpp" line="171"/>
+        <source>Kick and B&amp;an from Server</source>
+        <translation>اخراج و م&amp;منوعیت از سِروِر</translation>
+    </message>
+    <message>
+        <location filename="../onlineusersdlg.cpp" line="172"/>
+        <source>&amp;Select User(s) for Move</source>
+        <translation>&amp;انتخاب برای انتقال</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="173"/>
@@ -5530,17 +5530,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="433"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation type="unfinished"></translation>
+        <translation>نمایش تاریخچۀ چت‌ها به‌صورت لیست بجای ادیت باکس</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="449"/>
         <source>Setup text message templates</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیم قالب‌های چت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
         <source>Edit Chat Message Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>ویرایش قالب‌های پیام چت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="483"/>
@@ -5702,7 +5702,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2173"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> کیلوبایت بر ثانیه</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="556"/>
@@ -6262,12 +6262,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="788"/>
         <source>Chat History</source>
-        <translation type="unfinished"></translation>
+        <translation>تاریخچۀ چت</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Please restart application to change to chat history control</source>
-        <translation type="unfinished"></translation>
+        <translation>برای اِعمال تغییرات در کنترل تاریخچۀ چت‌ها, برنامه را دوباره اجرا کنید</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1031"/>
@@ -6669,7 +6669,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="238"/>
         <source>Last Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>آخرین کانالی که واردش شُدید</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="245"/>
@@ -9789,7 +9789,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished">{user} فایلِ {file} را پاک کرد</translation>
+        <translation>{user} فایلِ {file} را پاک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
@@ -10030,14 +10030,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message date</source>
-        <translation type="unfinished"></translation>
+        <translation>تاریخ پیام</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
         <location filename="../utilui.cpp" line="229"/>
         <location filename="../utilui.cpp" line="230"/>
         <source>Sender&apos;s nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>نام مستعار فرستنده</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
@@ -10045,7 +10045,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
-        <translation type="unfinished">محتوای پیام</translation>
+        <translation>محتوای پیام</translation>
     </message>
 </context>
 <context>
