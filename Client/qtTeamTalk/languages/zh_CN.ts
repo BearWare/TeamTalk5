@@ -1253,7 +1253,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="190"/>
         <source>You</source>
-        <translation type="unfinished">你</translation>
+        <translation>你</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="205"/>
@@ -4039,13 +4039,13 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished">欢迎</translation>
+        <translation>欢迎</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished">欢迎来到 %1。<byte value="xd"/>
+        <translation>欢迎来到 %1。<byte value="xd"/>
 每日消息： %2</translation>
     </message>
     <message>
@@ -5702,7 +5702,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="2173"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> kbps</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="556"/>
@@ -9789,7 +9789,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished">文件 {file} 已被 {user} 删除</translation>
+        <translation>文件 {file} 已被 {user} 删除</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
