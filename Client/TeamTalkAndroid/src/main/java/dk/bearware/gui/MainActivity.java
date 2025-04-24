@@ -1597,7 +1597,6 @@ private EditText newmsg;
             voxSwitch.setContentDescription(getString(R.string.voice_activation_on));
             ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.micgain));
-            adjustTxState(false);
         }
     }
 
