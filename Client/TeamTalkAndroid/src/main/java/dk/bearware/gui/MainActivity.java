@@ -455,7 +455,7 @@ extends AppCompatActivity
             final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
             masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
             if (ttservice.isVoiceActivationEnabled()) {
-                micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
+                micSeekBar.setProgress(ttclient.getVoiceActivationLevel());
             } else {
                 micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
             }
@@ -1587,7 +1587,7 @@ private EditText newmsg;
             mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
             voxSwitch.setImageResource(R.drawable.microphone);
             voxSwitch.setContentDescription(getString(R.string.voice_activation_off));
-            ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
+            ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(ttclient.getVoiceActivationLevel());
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.voxlevel));
         }
         else {
@@ -1700,7 +1700,7 @@ private EditText newmsg;
                     volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
             }     else if (seekBar == micSeekBar) {
                     if (ttservice.isVoiceActivationEnabled()) {
-                        ttclient.setVoiceActivationLevel(Utils.refGain(progress));
+                        ttclient.setVoiceActivationLevel(progress);
                         mikeLevel.setText(progress + "%");
                         mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
                     } else {
@@ -1848,7 +1848,7 @@ private EditText newmsg;
         final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
         masterSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundOutputVolume()));
         if (ttservice.isVoiceActivationEnabled()) {
-            micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getVoiceActivationLevel()));
+            micSeekBar.setProgress(ttclient.getVoiceActivationLevel());
         } else {
             micSeekBar.setProgress(Utils.refVolumeToPercent(ttclient.getSoundInputGainLevel()));
         }
