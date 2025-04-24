@@ -155,12 +155,12 @@ void ChatTextEdit::updateServer(const ServerProperties& srvprop)
     font.setBold(true);
     format.setFont(font);
     cursor.setCharFormat(format);
-    QString line = dt + " " + tr("Server Name: %1").arg(_Q(srvprop.szServerName));
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_SRVNAME, {{"{date}", dt}, {"{server}", _Q(srvprop.szServerName)}});
     setTextCursor(cursor);
     appendPlainText(line);
     if (_Q(srvprop.szMOTD).size() > 0)
     {
-        line = dt + " " + tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)) + "\r\n";
+        line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_MOTD, {{"{date}", dt}, {"{MOTD}", _Q(srvprop.szMOTD)}});
         format.setForeground(QBrush(Qt::darkCyan));
         cursor.setCharFormat(format);
         setTextCursor(cursor);
@@ -201,20 +201,20 @@ void ChatTextEdit::joinedChannel(int channelid)
     format.setForeground(QBrush(Qt::darkGreen));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
-    QString line = dt + " " + tr("Joined channel %1").arg(_Q(buff));
+    QString line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_JOINCHAN, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}});
     appendPlainText(line);
     //revert bold
     font.setBold(false);
     format.setFont(font);
     //show topic in blue
-    line = tr("Topic: %1").arg(_Q(chan.szTopic));
+    line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}});
     format.setForeground(QBrush(Qt::darkYellow));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
     appendPlainText(line);
 
     //show disk quota in red
-    line = tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota));
+    line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}});
     format.setForeground(QBrush(Qt::darkRed));
     cursor.setCharFormat(format);
     setTextCursor(cursor);

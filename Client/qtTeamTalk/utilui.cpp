@@ -229,6 +229,11 @@ QHash<ChatTemplates, ChatTemplateInfo> UtilUI::templatesToSettingMap()
         { CHATTEMPLATES_BROADCAST_MESSAGE, {SETTINGS_CHATTEMPLATES_BROADMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
         { CHATTEMPLATES_PRIVATE_MESSAGE, {SETTINGS_CHATTEMPLATES_PRIVMSG, {{"{date}", tr("Message date")}, {"{user}", tr("Sender's nickname")}, {"{content}", tr("Message content")}}, "" } },
         { CHATTEMPLATES_LOG_MESSAGE, {SETTINGS_CHATTEMPLATES_LOGMSG, {{"{date}", tr("Message date")}, {"{content}", tr("Message content")}}, "" } },
+        { CHATTEMPLATES_SERVER_NAME, {SETTINGS_CHATTEMPLATES_SRVNAME, {{"{date}", tr("Date")}, {"{server}", tr("Server name")}}, "" } },
+        { CHATTEMPLATES_SERVER_MOTD, {SETTINGS_CHATTEMPLATES_MOTD, {{"{date}", tr("Date")}, {"{MOTD}", tr("Server's Message of the Day")}}, "" } },
+        { CHATTEMPLATES_JOINED_CHAN, {SETTINGS_CHATTEMPLATES_JOINCHAN, {{"{date}", tr("Date")}, {"{channelpath}", tr("Channel Path")}, {"{channelname}", tr("Channel Name")}, {"{channeltopic}", tr("Channel Topic")}, {"{quota}", tr("Disk Quota")}}, "" } },
+        { CHATTEMPLATES_CHANNEL_TOPIC, {SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", tr("Date")}, {"{channelpath}", tr("Channel Path")}, {"{channelname}", tr("Channel Name")}, {"{channeltopic}", tr("Channel Topic")}, {"{quota}", tr("Disk Quota")}}, "" } },
+        { CHATTEMPLATES_CHANNEL_QUOTA, {SETTINGS_CHATTEMPLATES_DISKQUOTA, {{"{date}", tr("Date")}, {"{channelpath}", tr("Channel Path")}, {"{channelname}", tr("Channel Name")}, {"{channeltopic}", tr("Channel Topic")}, {"{quota}", tr("Disk Quota")}}, "" } },
     };
     return map;
 }
@@ -634,6 +639,16 @@ QString UtilUI::getDefaultTemplate(const QString& paramKey)
         return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_PRIVMSG_DEFAULT);
     if (paramKey == SETTINGS_CHATTEMPLATES_LOGMSG)
         return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_SRVNAME)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_SRVNAME_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_MOTD)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_MOTD_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_JOINCHAN)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_JOINCHAN_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_CHANTOPIC)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_CHANTOPIC_DEFAULT);
+    if (paramKey == SETTINGS_CHATTEMPLATES_DISKQUOTA)
+        return QCoreApplication::translate("UtilUI", SETTINGS_CHATTEMPLATES_DISKQUOTA_DEFAULT);
     return QString();
 }
 

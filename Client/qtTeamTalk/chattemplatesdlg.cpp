@@ -188,6 +188,11 @@ ChatTemplatesModel::ChatTemplatesModel(QObject* parent)
     m_chattemplates.push_back(CHATTEMPLATES_BROADCAST_MESSAGE);
     m_chattemplates.push_back(CHATTEMPLATES_PRIVATE_MESSAGE);
     m_chattemplates.push_back(CHATTEMPLATES_LOG_MESSAGE);
+    m_chattemplates.push_back(CHATTEMPLATES_SERVER_NAME);
+    m_chattemplates.push_back(CHATTEMPLATES_SERVER_MOTD);
+    m_chattemplates.push_back(CHATTEMPLATES_JOINED_CHAN);
+    m_chattemplates.push_back(CHATTEMPLATES_CHANNEL_TOPIC);
+    m_chattemplates.push_back(CHATTEMPLATES_CHANNEL_QUOTA);
 }
 
 QVariant ChatTemplatesModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -233,6 +238,16 @@ QVariant ChatTemplatesModel::data ( const QModelIndex & index, int role /*= Qt::
                 return tr("Private Message");
             case CHATTEMPLATES_LOG_MESSAGE :
                 return tr("Log Message");
+            case CHATTEMPLATES_SERVER_NAME :
+                return tr("Server Name");
+            case CHATTEMPLATES_SERVER_MOTD :
+                return tr("Server Message of the day");
+            case CHATTEMPLATES_JOINED_CHAN :
+                return tr("Joined Channel");
+            case CHATTEMPLATES_CHANNEL_TOPIC :
+                return tr("Channel topic");
+            case CHATTEMPLATES_CHANNEL_QUOTA :
+                return tr("Channel Disk Quota");
             case CHATTEMPLATES_NONE :
             case CHATTEMPLATES_NEXT_UNUSED :
                 break;
