@@ -15,6 +15,9 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
+#include "mainwindow.h"
+#include "license.h"
+#include "appinfo.h"
 
 #include <QAbstractNativeEventFilter>
 #include <QApplication>
@@ -26,16 +29,13 @@
 #include <QUrl>
 #include <QtPlugin>
 
-#include <cstdio>
-#include <cstring>
-#include <vector>
+#include <iostream>
+#include <string>
 
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
 #include <windows.h>
 #endif
 
-#include "mainwindow.h"
-#include "license.h"
 
 TTInstance* ttInst = nullptr;
 
@@ -266,9 +266,11 @@ OSStatus mac_callback(EventHandlerCallRef nextHandler, EventRef event, void*)
 static bool showVersionOnly(int argc, char* argv[])
 {
     for (int i = 1; i < argc; ++i)
-        if (!std::strcmp(argv[i], "-v"))
+    {
+        if (std::string(argv[i]) == "-v" ||
+            std::string(argv[i]) == "--version")
         {
-#ifdef Q_OS_WIN32
+#if defined(Q_OS_WIN32)
             if (!GetConsoleWindow())
             {
                 AttachConsole(ATTACH_PARENT_PROCESS);
@@ -276,10 +278,10 @@ static bool showVersionOnly(int argc, char* argv[])
                 freopen("CONOUT$", "w", stderr);
             }
 #endif
-            std::printf("TeamTalk %s\n", TEAMTALK_VERSION);
-            std::fflush(stdout);
+            std::cout << APPTITLE << std::endl;
             return true;
         }
+    }
     return false;
 }
 
