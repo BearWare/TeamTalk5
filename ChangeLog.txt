@@ -22,6 +22,7 @@ Default Qt Client
 - OPUS updated to v1.5.2
 - Ability to custom chat templates
 - Remove option "Timestamp messages", use custom templates instead
+- Ask to retranslate TTS events and status messages on language change
 - Fixed gender changed from female to male when migrating to 5.17 release
 - Fixed sound events disabled when migrating to 5.17 release
 - Fixed language not set at first start

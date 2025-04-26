@@ -771,6 +771,7 @@ void PreferencesDlg::slotSaveChanges()
             if(lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
             {
                 switchLanguage(lang);
+                retranslateStatusAndTTS();
             }
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
@@ -1931,4 +1932,44 @@ void PreferencesDlg::slotEditChatTemplates()
     ChatTemplatesDlg dlg(this);
     dlg.exec();
     ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
+}
+
+void PreferencesDlg::retranslateStatusAndTTS()
+{
+    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() != TTS_NONE || ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() != STATUSBAR_NONE)
+    {
+        QMessageBox answer;
+        answer.setText(tr("%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages be restored? This ensures all messages are retranslated, but your custom messages will be lost.").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Language configuration changed"));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+        {
+            auto eventMap = UtilUI::eventToSettingMap();
+            for (StatusBarEvents event = STATUSBAR_USER_LOGGEDIN; event < STATUSBAR_NEXT_UNUSED; event <<= 1)
+            {
+                StatusBarEvents eventId = static_cast<StatusBarEvents>(event);
+                if (eventMap.contains(eventId))
+                {
+                    const StatusBarEventInfo& eventInfo = eventMap[eventId];
+                    QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
+                    ttSettings->setValue(eventInfo.settingKey, defaultValue);
+                }
+            }
+            auto eventMapTTS = UtilTTS::eventToSettingMap();
+            for (TTSEvents eventTTS = TTS_USER_LOGGEDIN; eventTTS < TTS_NEXT_UNUSED; eventTTS <<= 1)
+            {
+                TTSEvents eventIdTTS = static_cast<TTSEvents>(eventTTS);
+                if (eventMapTTS.contains(eventIdTTS))
+                {
+                    const TTSEventInfo& eventInfoTTS = eventMapTTS[eventIdTTS];
+                    QString defaultValue = UtilTTS::getDefaultValue(eventInfoTTS.settingKey);
+                    ttSettings->setValue(eventInfoTTS.settingKey, defaultValue);
+                }
+            }
+        }
+    }
 }
