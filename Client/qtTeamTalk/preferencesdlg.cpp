@@ -771,7 +771,7 @@ void PreferencesDlg::slotSaveChanges()
             if(lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
             {
                 switchLanguage(lang);
-                retranslateStatusAndTTS();
+                retranslateCustomizableText();
             }
             ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
                         ui.languageBox->itemData(index).toString());
@@ -1934,12 +1934,15 @@ void PreferencesDlg::slotEditChatTemplates()
     ui.chatTemplateChkBox->setChecked(hasEditedTextMessages());
 }
 
-void PreferencesDlg::retranslateStatusAndTTS()
+void PreferencesDlg::retranslateCustomizableText()
 {
-    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() != TTS_NONE || ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() != STATUSBAR_NONE)
+    if (ttSettings->value(SETTINGS_TTS_ACTIVEEVENTS, SETTINGS_TTS_ACTIVEEVENTS_DEFAULT).toULongLong() != TTS_NONE
+        || ttSettings->value(SETTINGS_STATUSBAR_ACTIVEEVENTS, SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT).toULongLong() != STATUSBAR_NONE
+        || hasEditedTextMessages()
+        || ttSettings->value(SETTINGS_DISPLAY_TIMESTAMP_FORMAT).toString() != getTimestampFormat())
     {
         QMessageBox answer;
-        answer.setText(tr("%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages be restored? This ensures all messages are retranslated, but your custom messages will be lost.").arg(APPNAME_SHORT));
+        answer.setText(tr("%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.").arg(APPNAME_SHORT));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
         QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
         Q_UNUSED(NoButton);
@@ -1970,6 +1973,18 @@ void PreferencesDlg::retranslateStatusAndTTS()
                     ttSettings->setValue(eventInfoTTS.settingKey, defaultValue);
                 }
             }
+            auto templatesMap = UtilUI::templatesToSettingMap();
+            for (ChatTemplates tpl = CHATTEMPLATES_CHANNEL_MESSAGE; tpl < CHATTEMPLATES_NEXT_UNUSED; tpl <<= 1)
+            {
+                ChatTemplates templateId = static_cast<ChatTemplates>(tpl);
+                if (templatesMap.contains(templateId))
+                {
+                    const ChatTemplateInfo& templateInfo = templatesMap[templateId];
+                    QString defaultValue = UtilUI::getDefaultTemplate(templateInfo.settingKey);
+                    ttSettings->setValue(templateInfo.settingKey, defaultValue);
+                }
+            }
+            ttSettings->setValue(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, getTimestampFormat());
         }
     }
 }
