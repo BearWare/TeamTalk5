@@ -46,21 +46,25 @@ ChatTextList::ChatTextList(QWidget *parent)
     setSelectionMode(QAbstractItemView::ExtendedSelection);
     setContextMenuPolicy(Qt::DefaultContextMenu);
     m_copy = new QShortcut(QKeySequence::Copy, this);
+    m_copy->setContext(Qt::WidgetShortcut);
     connect(m_copy, &QShortcut::activated, this, [this]
     {
         menuAction(COPY);
     });
     m_details = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return), this);
+    m_details->setContext(Qt::WidgetShortcut);
     connect(m_details, &QShortcut::activated, this, [this]
     {
         menuAction(VIEWDETAILS);
     });
     m_copyAll = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), this);
+    m_copyAll->setContext(Qt::WidgetShortcut);
     connect(m_copyAll, &QShortcut::activated, this, [this]
     {
         menuAction(COPYALL);
     });
     m_clear = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete), this);
+    m_clear->setContext(Qt::WidgetShortcut);
     connect(m_clear, &QShortcut::activated, this, [this]
     {
         menuAction(CLEAR);
