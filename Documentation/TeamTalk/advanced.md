@@ -31,6 +31,9 @@ The TeamTalk 5 client supports the following command-line arguments:
 - Create new or load existing ini-file
   - Usage:\verbatim TeamTalk5.exe -cfg c:\Documents\TeamTalk5.ini \endverbatim
 
+- Print version information
+  - Usage:\verbatim TeamTalk5.exe --version \endverbatim
+
 # Load settings file (TeamTalk5.ini) {#settingsfile}
 
 By default the TeamTalk client first looks in the directory of the
