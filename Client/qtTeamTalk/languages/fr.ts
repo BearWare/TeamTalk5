@@ -1132,34 +1132,59 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTemplatesModel</name>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="202"/>
+        <location filename="../chattemplatesdlg.cpp" line="207"/>
         <source>Type</source>
         <translation>Type</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="203"/>
+        <location filename="../chattemplatesdlg.cpp" line="208"/>
         <source>Template</source>
         <translation>Modèle</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="229"/>
+        <location filename="../chattemplatesdlg.cpp" line="234"/>
         <source>Channel Message</source>
         <translation>Message de Canal</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="231"/>
+        <location filename="../chattemplatesdlg.cpp" line="236"/>
         <source>Broadcast Message</source>
         <translation>Message Général</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="233"/>
+        <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
         <translation>Message Privé</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="235"/>
+        <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
         <translation>Message Journal</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="242"/>
+        <source>Server Name</source>
+        <translation>Nom du Serveur</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="244"/>
+        <source>Server Message of the day</source>
+        <translation>Message du Jour du Serveur</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="246"/>
+        <source>Joined Channel</source>
+        <translation>Canal Rejoint</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="248"/>
+        <source>Channel topic</source>
+        <translation>Sujet du canal</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="250"/>
+        <source>Channel Disk Quota</source>
+        <translation>Quota Disque du Canal</translation>
     </message>
 </context>
 <context>
@@ -1170,31 +1195,6 @@ p, li { white-space: pre-wrap; }
         <translation>Historique</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="158"/>
-        <source>Server Name: %1</source>
-        <translation>Nom du serveur: %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="163"/>
-        <source>Message of the Day: %1</source>
-        <translation>Message du jour: %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="204"/>
-        <source>Joined channel %1</source>
-        <translation>Canal %1 rejoint</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="210"/>
-        <source>Topic: %1</source>
-        <translation>Sujet: %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="217"/>
-        <source>Disk quota: %1</source>
-        <translation>Quota disque: %1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="395"/>
         <source>&amp;Clear</source>
         <translation>&amp;Vider</translation>
@@ -1203,80 +1203,75 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextList</name>
     <message>
-        <location filename="../chattextlist.cpp" line="222"/>
+        <location filename="../chattextlist.cpp" line="226"/>
         <source>History</source>
         <translation>Historique</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="103"/>
-        <location filename="../chattextlist.cpp" line="108"/>
+        <location filename="../chattextlist.cpp" line="112"/>
         <source>Server Name: %1</source>
         <translation>Nom du serveur: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="107"/>
-        <location filename="../chattextlist.cpp" line="118"/>
+        <location filename="../chattextlist.cpp" line="111"/>
+        <location filename="../chattextlist.cpp" line="122"/>
         <source>Server</source>
         <translation>Serveur</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="115"/>
-        <location filename="../chattextlist.cpp" line="119"/>
+        <location filename="../chattextlist.cpp" line="123"/>
         <source>Message of the Day: %1</source>
         <translation>Message du jour: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="133"/>
-        <location filename="../chattextlist.cpp" line="139"/>
+        <location filename="../chattextlist.cpp" line="143"/>
         <source>Joined channel %1</source>
         <translation>Canal %1 rejoint</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="138"/>
-        <location filename="../chattextlist.cpp" line="147"/>
-        <location filename="../chattextlist.cpp" line="154"/>
+        <location filename="../chattextlist.cpp" line="142"/>
+        <location filename="../chattextlist.cpp" line="151"/>
+        <location filename="../chattextlist.cpp" line="158"/>
         <source>Channel</source>
         <translation>Canal</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="144"/>
-        <location filename="../chattextlist.cpp" line="148"/>
+        <location filename="../chattextlist.cpp" line="152"/>
         <source>Topic: %1</source>
         <translation>Sujet: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="151"/>
-        <location filename="../chattextlist.cpp" line="155"/>
+        <location filename="../chattextlist.cpp" line="159"/>
         <source>Disk quota: %1</source>
         <translation>Quota disque: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="190"/>
+        <location filename="../chattextlist.cpp" line="194"/>
         <source>You</source>
         <translation>Vous</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="205"/>
+        <location filename="../chattextlist.cpp" line="209"/>
         <source>System</source>
         <translation>Système</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="377"/>
+        <location filename="../chattextlist.cpp" line="381"/>
         <source>&amp;Copy</source>
         <translation>&amp;Copier</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="378"/>
+        <location filename="../chattextlist.cpp" line="382"/>
         <source>View &amp;Details...</source>
         <translation>Voir les &amp;détails…</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="382"/>
+        <location filename="../chattextlist.cpp" line="386"/>
         <source>Copy &amp;All</source>
         <translation>&amp;Tout copier</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="383"/>
+        <location filename="../chattextlist.cpp" line="387"/>
         <source>C&amp;lear</source>
         <translation>&amp;Vider</translation>
     </message>
@@ -2001,27 +1996,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="664"/>
+        <location filename="../utilui.cpp" line="679"/>
         <source>Username:</source>
         <translation>Nom d’utilisateur:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="669"/>
+        <location filename="../utilui.cpp" line="684"/>
         <source>Password:</source>
         <translation>Mot de passe:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="675"/>
+        <location filename="../utilui.cpp" line="690"/>
         <source>Show password</source>
         <translation>Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="680"/>
+        <location filename="../utilui.cpp" line="695"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="681"/>
+        <location filename="../utilui.cpp" line="696"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
@@ -4924,7 +4919,7 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Chargement du fichier %1</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="332"/>
+        <location filename="../utilui.cpp" line="337"/>
         <source>NoName</source>
         <translation>Sans nom</translation>
     </message>
@@ -5072,28 +5067,28 @@ Faut-il appliquer ces paramètres?</translation>
 <context>
     <name>MessageDetailsDlg</name>
     <message>
-        <location filename="../chattextlist.cpp" line="430"/>
-        <location filename="../chattextlist.cpp" line="431"/>
+        <location filename="../chattextlist.cpp" line="434"/>
+        <location filename="../chattextlist.cpp" line="435"/>
         <source>Message Details</source>
         <translation>Détails du Message</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="435"/>
+        <location filename="../chattextlist.cpp" line="439"/>
         <source>Sent: %1</source>
         <translation>Envoyé: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="437"/>
+        <location filename="../chattextlist.cpp" line="441"/>
         <source>By: %1</source>
         <translation>Par: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="441"/>
+        <location filename="../chattextlist.cpp" line="445"/>
         <source>Content:</source>
         <translation>Contenu:</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="450"/>
+        <location filename="../chattextlist.cpp" line="454"/>
         <source>&amp;Close</source>
         <translation>&amp;Fermer</translation>
     </message>
@@ -5310,22 +5305,22 @@ Faut-il appliquer ces paramètres?</translation>
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="720"/>
+        <location filename="../utilui.cpp" line="735"/>
         <source>Password</source>
         <translation>Mot de passe</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="726"/>
+        <location filename="../utilui.cpp" line="741"/>
         <source>Show password</source>
         <translation>Afficher le mot de passe</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="731"/>
+        <location filename="../utilui.cpp" line="746"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="732"/>
+        <location filename="../utilui.cpp" line="747"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Annuler</translation>
     </message>
@@ -5690,7 +5685,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="940"/>
+        <location filename="../preferencesdlg.cpp" line="941"/>
         <source>Sound System</source>
         <translation>Système audio</translation>
     </message>
@@ -5993,7 +5988,7 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2062"/>
-        <location filename="../preferencesdlg.cpp" line="1271"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>Test Selected</source>
         <translation>Tester la sélection</translation>
     </message>
@@ -6040,29 +6035,29 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Fichiers wave (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="813"/>
-        <location filename="../preferencesdlg.cpp" line="820"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Windows Firewall</source>
         <translation>Pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>Échec à l’ajout de %1 dans la liste d’exceptions du pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="821"/>
+        <location filename="../preferencesdlg.cpp" line="822"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>Échec au retrait de %1 de la liste d’exceptions du pare-feu Windows</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Sound Initialization</source>
         <translation>Initialisation audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1030"/>
-        <location filename="../preferencesdlg.cpp" line="1064"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
         <source>Video Device</source>
         <translation>Périphérique vidéo</translation>
     </message>
@@ -6260,127 +6255,139 @@ Faut-il appliquer ces paramètres?</translation>
         <translation>Annonces d’accessibilité Qt</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="788"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Chat History</source>
         <translation>Historique du chat</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="789"/>
+        <location filename="../preferencesdlg.cpp" line="790"/>
         <source>Please restart application to change to chat history control</source>
         <translation>Veuillez redémarrer l’application pour changer le type de contrôle de l’historique du chat</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1031"/>
-        <location filename="../preferencesdlg.cpp" line="1065"/>
-        <location filename="../preferencesdlg.cpp" line="1649"/>
+        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1066"/>
+        <location filename="../preferencesdlg.cpp" line="1650"/>
         <source>Failed to initialize video device</source>
         <translation>Échec à l’initialisation du périphérique vidéo</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1120"/>
+        <location filename="../preferencesdlg.cpp" line="1121"/>
         <source>Key Combination: %1</source>
         <translation>Combinaison de touches: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1175"/>
+        <location filename="../preferencesdlg.cpp" line="1176"/>
         <source>Max Input Channels %1</source>
         <translation>Maximum de canaux d’entrée: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1177"/>
-        <location filename="../preferencesdlg.cpp" line="1201"/>
+        <location filename="../preferencesdlg.cpp" line="1178"/>
+        <location filename="../preferencesdlg.cpp" line="1202"/>
         <source>Sample Rates:</source>
         <translation>Taux d’échantillonnage</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1199"/>
+        <location filename="../preferencesdlg.cpp" line="1200"/>
         <source>Max Output Channels %1</source>
         <translation>Maximum de canaux de sortie: %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1230"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Refresh Sound Devices</source>
         <translation>Actualiser les périphériques audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1231"/>
+        <location filename="../preferencesdlg.cpp" line="1232"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>Échec à la réinitialisation du système audio. Veuillez redémarrer l’application.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1272"/>
+        <location filename="../preferencesdlg.cpp" line="1273"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>Cette sélection de périphériques audio entraîne une annulation d’écho non optimale. Consultez le manuel pour les détails.</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Failed to initialize new sound devices</source>
         <translation>Échec à l’initialisation des nouveaux périphériques audio</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1472"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>Utiliser SAPI au lieu du lecteur d’écran %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1473"/>
+        <location filename="../preferencesdlg.cpp" line="1474"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>Basculer vers SAPI si le lecteur d’écran %1 n’est pas disponible</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1479"/>
+        <location filename="../preferencesdlg.cpp" line="1480"/>
         <source>Speech and Braille</source>
         <translation>Parole et Braille</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1481"/>
+        <location filename="../preferencesdlg.cpp" line="1482"/>
         <source>Braille only</source>
         <translation>Braille uniquement</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1483"/>
+        <location filename="../preferencesdlg.cpp" line="1484"/>
         <source>Speech only</source>
         <translation>Parole uniquement</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1608"/>
+        <location filename="../preferencesdlg.cpp" line="1609"/>
         <source>Custom video format</source>
         <translation>Format vidéo personnalisé</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1696"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Default Video Capture</source>
         <translation>Capture vidéo par défaut</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1697"/>
+        <location filename="../preferencesdlg.cpp" line="1698"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>Impossible de trouver les paramètres de capture vidéo préférés</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1760"/>
+        <location filename="../preferencesdlg.cpp" line="1761"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>Message pour l’évènement «%1»</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1830"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation>Êtes-vous sûr·e de vouloir restaurer tout les messages de synthèse vocale à leurs valeurs par défaut?</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1831"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
+        <location filename="../preferencesdlg.cpp" line="1946"/>
         <source>&amp;Yes</source>
         <translation>&amp;Oui</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1832"/>
+        <location filename="../preferencesdlg.cpp" line="1833"/>
+        <location filename="../preferencesdlg.cpp" line="1947"/>
         <source>&amp;No</source>
         <translation>&amp;Non</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1835"/>
+        <location filename="../preferencesdlg.cpp" line="1836"/>
         <source>Restore default values</source>
         <translation>Restaurer les valeurs par défaut</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1945"/>
+        <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
+        <translation>La langue de %1 a été changée. Les valeurs par défaut des évènements de synthèse vocale et messages de statut, les modèles de chat personnalisés et le format de date et d’heure doivent-elles -etre restaurées? Cela garantira que les messages seront retraduits, mais vos personnalisations seront perdues,</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1950"/>
+        <source>Language configuration changed</source>
+        <translation>Configuration de la langue changée</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -6439,7 +6446,7 @@ Faut-il appliquer ces paramètres?</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1760"/>
+        <location filename="../preferencesdlg.cpp" line="1761"/>
         <source>Message</source>
         <translation>Message</translation>
     </message>
@@ -9813,6 +9820,31 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <translation>{date} * {content}</translation>
     </message>
     <message>
+        <location filename="../settings.h" line="496"/>
+        <source>{date} Server Name: {server}</source>
+        <translation>{date} Nom du Serveur: {server}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="498"/>
+        <source>{date} Message of the day: {MOTD}</source>
+        <translation>{date} Message du Jour: {MOTD}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="500"/>
+        <source>{date} Joined channel: {channelpath}</source>
+        <translation>{date} Canal Rejoint: {channelpath}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="502"/>
+        <source>Topic: {channeltopic}</source>
+        <translation>Sujet: {channeltopic}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="504"/>
+        <source>Disk quota: {quota}</source>
+        <translation>Quota Disque: {quota}</translation>
+    </message>
+    <message>
         <location filename="../utilui.cpp" line="193"/>
         <source>User&apos;s nickname who logged in</source>
         <translation>Pseudo de l’utilisateur s’étant connecté</translation>
@@ -10049,6 +10081,53 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
         <translation>Contenu du message</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="232"/>
+        <location filename="../utilui.cpp" line="233"/>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Date</source>
+        <translation>Date</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="232"/>
+        <source>Server name</source>
+        <translation>Nom du serveur</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="233"/>
+        <source>Server&apos;s Message of the Day</source>
+        <translation>Message du Jour du Serveur</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Path</source>
+        <translation>Chemin du Canal</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Name</source>
+        <translation>Nom du Canal</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Topic</source>
+        <translation>Sujet du Canal</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Disk Quota</source>
+        <translation>Quota Disque</translation>
     </message>
 </context>
 <context>

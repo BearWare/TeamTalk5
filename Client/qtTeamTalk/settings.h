@@ -493,7 +493,7 @@
 #define SETTINGS_CHATTEMPLATES_LOGMSG                         "chat-templates/log-message"
 #define SETTINGS_CHATTEMPLATES_LOGMSG_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} * {content}")
 #define SETTINGS_CHATTEMPLATES_SRVNAME                         "chat-templates/server-name"
-#define SETTINGS_CHATTEMPLATES_SRVNAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Servername: {server}")
+#define SETTINGS_CHATTEMPLATES_SRVNAME_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Server Name: {server}")
 #define SETTINGS_CHATTEMPLATES_MOTD                         "chat-templates/server-motd"
 #define SETTINGS_CHATTEMPLATES_MOTD_DEFAULT                 QT_TRANSLATE_NOOP("UtilUI", "{date} Message of the day: {MOTD}")
 #define SETTINGS_CHATTEMPLATES_JOINCHAN                         "chat-templates/joined-channel"

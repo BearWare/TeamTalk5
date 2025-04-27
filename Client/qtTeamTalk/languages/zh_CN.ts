@@ -1132,34 +1132,59 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTemplatesModel</name>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="202"/>
+        <location filename="../chattemplatesdlg.cpp" line="207"/>
         <source>Type</source>
         <translation>类型</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="203"/>
+        <location filename="../chattemplatesdlg.cpp" line="208"/>
         <source>Template</source>
         <translation>模板</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="229"/>
+        <location filename="../chattemplatesdlg.cpp" line="234"/>
         <source>Channel Message</source>
         <translation>频道消息</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="231"/>
+        <location filename="../chattemplatesdlg.cpp" line="236"/>
         <source>Broadcast Message</source>
         <translation>广播消息</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="233"/>
+        <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
         <translation>私人消息</translation>
     </message>
     <message>
-        <location filename="../chattemplatesdlg.cpp" line="235"/>
+        <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
         <translation>日志消息</translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="242"/>
+        <source>Server Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="244"/>
+        <source>Server Message of the day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="246"/>
+        <source>Joined Channel</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="248"/>
+        <source>Channel topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattemplatesdlg.cpp" line="250"/>
+        <source>Channel Disk Quota</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
@@ -1170,31 +1195,6 @@ p, li { white-space: pre-wrap; }
         <translation>历史消息</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="158"/>
-        <source>Server Name: %1</source>
-        <translation>服务器名称： %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="163"/>
-        <source>Message of the Day: %1</source>
-        <translation>每日消息： %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="204"/>
-        <source>Joined channel %1</source>
-        <translation>加入频道 %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="210"/>
-        <source>Topic: %1</source>
-        <translation>主题： %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextedit.cpp" line="217"/>
-        <source>Disk quota: %1</source>
-        <translation>磁盘配额：%1</translation>
-    </message>
-    <message>
         <location filename="../chattextedit.cpp" line="395"/>
         <source>&amp;Clear</source>
         <translation>清除(&amp;C)</translation>
@@ -1203,80 +1203,75 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextList</name>
     <message>
-        <location filename="../chattextlist.cpp" line="222"/>
+        <location filename="../chattextlist.cpp" line="226"/>
         <source>History</source>
         <translation>历史消息</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="103"/>
-        <location filename="../chattextlist.cpp" line="108"/>
+        <location filename="../chattextlist.cpp" line="112"/>
         <source>Server Name: %1</source>
         <translation>服务器名称： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="107"/>
-        <location filename="../chattextlist.cpp" line="118"/>
+        <location filename="../chattextlist.cpp" line="111"/>
+        <location filename="../chattextlist.cpp" line="122"/>
         <source>Server</source>
         <translation>服务器</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="115"/>
-        <location filename="../chattextlist.cpp" line="119"/>
+        <location filename="../chattextlist.cpp" line="123"/>
         <source>Message of the Day: %1</source>
         <translation>每日消息： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="133"/>
-        <location filename="../chattextlist.cpp" line="139"/>
+        <location filename="../chattextlist.cpp" line="143"/>
         <source>Joined channel %1</source>
         <translation>加入频道 %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="138"/>
-        <location filename="../chattextlist.cpp" line="147"/>
-        <location filename="../chattextlist.cpp" line="154"/>
+        <location filename="../chattextlist.cpp" line="142"/>
+        <location filename="../chattextlist.cpp" line="151"/>
+        <location filename="../chattextlist.cpp" line="158"/>
         <source>Channel</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="144"/>
-        <location filename="../chattextlist.cpp" line="148"/>
+        <location filename="../chattextlist.cpp" line="152"/>
         <source>Topic: %1</source>
         <translation>主题： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="151"/>
-        <location filename="../chattextlist.cpp" line="155"/>
+        <location filename="../chattextlist.cpp" line="159"/>
         <source>Disk quota: %1</source>
         <translation>磁盘配额： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="190"/>
+        <location filename="../chattextlist.cpp" line="194"/>
         <source>You</source>
         <translation>你</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="205"/>
+        <location filename="../chattextlist.cpp" line="209"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="377"/>
+        <location filename="../chattextlist.cpp" line="381"/>
         <source>&amp;Copy</source>
         <translation>复制(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="378"/>
+        <location filename="../chattextlist.cpp" line="382"/>
         <source>View &amp;Details...</source>
         <translation>查看详细信息...(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="382"/>
+        <location filename="../chattextlist.cpp" line="386"/>
         <source>Copy &amp;All</source>
         <translation>复制全部(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="383"/>
+        <location filename="../chattextlist.cpp" line="387"/>
         <source>C&amp;lear</source>
         <translation>清除(&amp;l)</translation>
     </message>
@@ -2001,27 +1996,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="664"/>
+        <location filename="../utilui.cpp" line="679"/>
         <source>Username:</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="669"/>
+        <location filename="../utilui.cpp" line="684"/>
         <source>Password:</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="675"/>
+        <location filename="../utilui.cpp" line="690"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="680"/>
+        <location filename="../utilui.cpp" line="695"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="681"/>
+        <location filename="../utilui.cpp" line="696"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -4924,7 +4919,7 @@ Should these settings be applied?</source>
         <translation>加载 %1 文件</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="332"/>
+        <location filename="../utilui.cpp" line="337"/>
         <source>NoName</source>
         <translation>无名</translation>
     </message>
@@ -5072,28 +5067,28 @@ Should these settings be applied?</source>
 <context>
     <name>MessageDetailsDlg</name>
     <message>
-        <location filename="../chattextlist.cpp" line="430"/>
-        <location filename="../chattextlist.cpp" line="431"/>
+        <location filename="../chattextlist.cpp" line="434"/>
+        <location filename="../chattextlist.cpp" line="435"/>
         <source>Message Details</source>
         <translation>消息详细信息</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="435"/>
+        <location filename="../chattextlist.cpp" line="439"/>
         <source>Sent: %1</source>
         <translation>已发送： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="437"/>
+        <location filename="../chattextlist.cpp" line="441"/>
         <source>By: %1</source>
         <translation>作者： %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="441"/>
+        <location filename="../chattextlist.cpp" line="445"/>
         <source>Content:</source>
         <translation>内容：</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="450"/>
+        <location filename="../chattextlist.cpp" line="454"/>
         <source>&amp;Close</source>
         <translation>关闭(&amp;C)</translation>
     </message>
@@ -5310,22 +5305,22 @@ Should these settings be applied?</source>
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="720"/>
+        <location filename="../utilui.cpp" line="735"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="726"/>
+        <location filename="../utilui.cpp" line="741"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="731"/>
+        <location filename="../utilui.cpp" line="746"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="732"/>
+        <location filename="../utilui.cpp" line="747"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -5690,7 +5685,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1106"/>
         <location filename="../preferences.ui" line="1133"/>
-        <location filename="../preferencesdlg.cpp" line="940"/>
+        <location filename="../preferencesdlg.cpp" line="941"/>
         <source>Sound System</source>
         <translation>声音系统</translation>
     </message>
@@ -5993,7 +5988,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="2062"/>
-        <location filename="../preferencesdlg.cpp" line="1271"/>
+        <location filename="../preferencesdlg.cpp" line="1272"/>
         <source>Test Selected</source>
         <translation>测试所选项</translation>
     </message>
@@ -6040,29 +6035,29 @@ Should these settings be applied?</source>
         <translation>波形文件(*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="813"/>
-        <location filename="../preferencesdlg.cpp" line="820"/>
+        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Windows Firewall</source>
         <translation>Windows防火墙</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="814"/>
+        <location filename="../preferencesdlg.cpp" line="815"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
         <translation>无法将 %1 添加到Windows防火墙例外列表中</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="821"/>
+        <location filename="../preferencesdlg.cpp" line="822"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
         <translation>无法从Windows防火墙例外列表中删除 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1289"/>
+        <location filename="../preferencesdlg.cpp" line="1290"/>
         <source>Sound Initialization</source>
         <translation>初始化声音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1030"/>
-        <location filename="../preferencesdlg.cpp" line="1064"/>
+        <location filename="../preferencesdlg.cpp" line="1031"/>
+        <location filename="../preferencesdlg.cpp" line="1065"/>
         <source>Video Device</source>
         <translation>视频设备</translation>
     </message>
@@ -6260,127 +6255,139 @@ Should these settings be applied?</source>
         <translation>Qt 辅助功能通知</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="788"/>
+        <location filename="../preferencesdlg.cpp" line="789"/>
         <source>Chat History</source>
         <translation>聊天历史</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="789"/>
+        <location filename="../preferencesdlg.cpp" line="790"/>
         <source>Please restart application to change to chat history control</source>
         <translation>请重启程序以更改聊天历史记录控件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1031"/>
-        <location filename="../preferencesdlg.cpp" line="1065"/>
-        <location filename="../preferencesdlg.cpp" line="1649"/>
+        <location filename="../preferencesdlg.cpp" line="1032"/>
+        <location filename="../preferencesdlg.cpp" line="1066"/>
+        <location filename="../preferencesdlg.cpp" line="1650"/>
         <source>Failed to initialize video device</source>
         <translation>无法初始化视频设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1120"/>
+        <location filename="../preferencesdlg.cpp" line="1121"/>
         <source>Key Combination: %1</source>
         <translation>组合键：%1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1175"/>
+        <location filename="../preferencesdlg.cpp" line="1176"/>
         <source>Max Input Channels %1</source>
         <translation>最大输入声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1177"/>
-        <location filename="../preferencesdlg.cpp" line="1201"/>
+        <location filename="../preferencesdlg.cpp" line="1178"/>
+        <location filename="../preferencesdlg.cpp" line="1202"/>
         <source>Sample Rates:</source>
         <translation>采样率：</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1199"/>
+        <location filename="../preferencesdlg.cpp" line="1200"/>
         <source>Max Output Channels %1</source>
         <translation>最大输出声道 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1230"/>
+        <location filename="../preferencesdlg.cpp" line="1231"/>
         <source>Refresh Sound Devices</source>
         <translation>刷新声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1231"/>
+        <location filename="../preferencesdlg.cpp" line="1232"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>无法重新启动声音系统。请重新启动应用程序。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1272"/>
+        <location filename="../preferencesdlg.cpp" line="1273"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
         <translation>此声音设备配置提供了欠佳的回声消除。请查看手册以了解详细信息。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1290"/>
+        <location filename="../preferencesdlg.cpp" line="1291"/>
         <source>Failed to initialize new sound devices</source>
         <translation>无法初始化新的声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1472"/>
+        <location filename="../preferencesdlg.cpp" line="1473"/>
         <source>Use SAPI instead of %1 screenreader</source>
         <translation>使用 SAPI 代替 %1 屏幕阅读器</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1473"/>
+        <location filename="../preferencesdlg.cpp" line="1474"/>
         <source>Switch to SAPI if %1 screenreader is not available</source>
         <translation>如果 %1 屏幕阅读器不可用，则切换到 SAPI</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1479"/>
+        <location filename="../preferencesdlg.cpp" line="1480"/>
         <source>Speech and Braille</source>
         <translation>语音和盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1481"/>
+        <location filename="../preferencesdlg.cpp" line="1482"/>
         <source>Braille only</source>
         <translation>盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1483"/>
+        <location filename="../preferencesdlg.cpp" line="1484"/>
         <source>Speech only</source>
         <translation>语音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1608"/>
+        <location filename="../preferencesdlg.cpp" line="1609"/>
         <source>Custom video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1696"/>
+        <location filename="../preferencesdlg.cpp" line="1697"/>
         <source>Default Video Capture</source>
         <translation>默认视频捕获</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1697"/>
+        <location filename="../preferencesdlg.cpp" line="1698"/>
         <source>Unable to find preferred video capture settings</source>
         <translation>无法找到首选的视频捕获设置</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1760"/>
+        <location filename="../preferencesdlg.cpp" line="1761"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>事件“%1”的消息</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1830"/>
+        <location filename="../preferencesdlg.cpp" line="1831"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
         <translation>您确定要将所有 TTS 消息恢复为默认值吗？</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1831"/>
+        <location filename="../preferencesdlg.cpp" line="1832"/>
+        <location filename="../preferencesdlg.cpp" line="1946"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1832"/>
+        <location filename="../preferencesdlg.cpp" line="1833"/>
+        <location filename="../preferencesdlg.cpp" line="1947"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1835"/>
+        <location filename="../preferencesdlg.cpp" line="1836"/>
         <source>Restore default values</source>
         <translation>恢复默认值</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1945"/>
+        <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1950"/>
+        <source>Language configuration changed</source>
+        <translation type="unfinished"></translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -6439,7 +6446,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1652"/>
-        <location filename="../preferencesdlg.cpp" line="1760"/>
+        <location filename="../preferencesdlg.cpp" line="1761"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
@@ -9812,6 +9819,31 @@ Delete the published user account to unregister your server.</source>
         <translation>{date} * {content}</translation>
     </message>
     <message>
+        <location filename="../settings.h" line="496"/>
+        <source>{date} Server Name: {server}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="498"/>
+        <source>{date} Message of the day: {MOTD}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="500"/>
+        <source>{date} Joined channel: {channelpath}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="502"/>
+        <source>Topic: {channeltopic}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="504"/>
+        <source>Disk quota: {quota}</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <location filename="../utilui.cpp" line="193"/>
         <source>User&apos;s nickname who logged in</source>
         <translation>登录用户的昵称</translation>
@@ -10048,6 +10080,53 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
         <translation>消息内容</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="232"/>
+        <location filename="../utilui.cpp" line="233"/>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Date</source>
+        <translation type="unfinished">日期</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="232"/>
+        <source>Server name</source>
+        <translation type="unfinished">服务器名称</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="233"/>
+        <source>Server&apos;s Message of the Day</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Path</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Name</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Channel Topic</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="234"/>
+        <location filename="../utilui.cpp" line="235"/>
+        <location filename="../utilui.cpp" line="236"/>
+        <source>Disk Quota</source>
+        <translation type="unfinished"></translation>
     </message>
 </context>
 <context>
