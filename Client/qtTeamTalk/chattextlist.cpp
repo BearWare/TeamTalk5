@@ -152,7 +152,7 @@ void ChatTextList::joinedChannel(int channelid)
     topicItem->setData(Qt::UserRole + 3, tr("Topic: %1").arg(_Q(chan.szTopic)));
     addItem(topicItem);
 
-    QListWidgetItem* quotaItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
+    QListWidgetItem* quotaItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_DISKQUOTA, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     quotaItem->setForeground(Qt::darkRed);
     quotaItem->setData(Qt::UserRole + 1, dt);
     quotaItem->setData(Qt::UserRole + 2, tr("Channel"));

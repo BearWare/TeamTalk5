@@ -214,7 +214,7 @@ void ChatTextEdit::joinedChannel(int channelid)
     appendPlainText(line);
 
     //show disk quota in red
-    line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}});
+    line = UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_DISKQUOTA, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}});
     format.setForeground(QBrush(Qt::darkRed));
     cursor.setCharFormat(format);
     setTextCursor(cursor);
