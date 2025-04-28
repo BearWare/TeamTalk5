@@ -1164,27 +1164,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>نام سِروِر</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام روز سِروِر</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>وارد کانال شد</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>موضوع کانال</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>فضای آپلود کانال</translation>
     </message>
 </context>
 <context>
@@ -6382,12 +6382,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1945"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>زبانِ %1 تغییر کرده است. میخواهید مقادیر پیشفرض هشدارهای متن به گفتار, پیامهای وضعیت, قالبهای چت و قالب تاریخ و زمان بازیابی شوند? این کار باعث میشود همه‌ی پیامها دوباره ترجمه شوند, اما پیامهای سفارشی شما از بین خواهند رفت</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1950"/>
         <source>Language configuration changed</source>
-        <translation type="unfinished"></translation>
+        <translation>تنظیمات زبان تغییر کرد</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -9819,27 +9819,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="496"/>
         <source>{date} Server Name: {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} نام سِروِر: {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="498"/>
         <source>{date} Message of the day: {MOTD}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} پیام روز: {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="500"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} وارد کانال شد: {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
         <source>Topic: {channeltopic}</source>
-        <translation type="unfinished"></translation>
+        <translation>موضوع: {channeltopic}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
         <source>Disk quota: {quota}</source>
-        <translation type="unfinished"></translation>
+        <translation>فضای آپلود: {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -10086,45 +10086,45 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Date</source>
-        <translation type="unfinished">تاریخ</translation>
+        <translation>تاریخ</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
         <source>Server name</source>
-        <translation type="unfinished">نام سِروِر</translation>
+        <translation>نام سِروِر</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="233"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام روز سِروِر</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Path</source>
-        <translation type="unfinished"></translation>
+        <translation>مسیر کانال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>نام کانال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Topic</source>
-        <translation type="unfinished"></translation>
+        <translation>موضوع کانال</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>فضای آپلود</translation>
     </message>
 </context>
 <context>
