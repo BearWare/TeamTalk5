@@ -37,7 +37,7 @@ Android Client
 - Added the ability to send broadcast messages
 - Ability to select/deselect user for move to other channel
 - Simplified labels in User Properties dialog
-- Fixed speacker didn't enabled back when voice activation option is disabled. Note that this was working fine with transmit option, only voice activation had this problem wich is now been fixed!
+- Fixed speaker not being enabled again when voice activation option was disabled
 - IP address, user ID and status message are now in "User Properties" dialog
 - Added missing labels for sliders in audio codec configuration
 - The labels in Main Window and User Properties dialog no longer have duplicate texts
