@@ -43,6 +43,7 @@ import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.Channel;
 import dk.bearware.User;
 import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkConnection;
@@ -145,6 +146,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         final SwitchCompat subscribeInterceptvid = findViewById(R.id.user_subscribeinterceptvidSwitch);
         final SwitchCompat subscribeInterceptdesk = findViewById(R.id.user_subscribeinterceptdeskSwitch);
         final SwitchCompat subscribeInterceptmedia = findViewById(R.id.user_subscribeinterceptmediaSwitch);
+        final SwitchCompat transmitVoice = findViewById(R.id.user_transmitvoiceSwitch);
+        final SwitchCompat transmitVid = findViewById(R.id.user_transmitvidSwitch);
+        final SwitchCompat transmitDesk = findViewById(R.id.user_transmitdeskSwitch);
+        final SwitchCompat transmitMedia = findViewById(R.id.user_transmitmediaSwitch);
+        final SwitchCompat transmitChanmsg = findViewById(R.id.user_transmitchanmsgSwitch);
 
         nickname.setText(getString(R.string.user_prop_title_nickname) + " " + user.szNickname);
         username.setText(getString(R.string.user_prop_title_username) + " " + user.szUsername);
@@ -171,6 +177,54 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0);
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(user.nChannelID, chan);
+
+        boolean hasVoice = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VOICE) != 0) {
+                hasVoice = false;
+                break;
+            }
+        }
+        transmitVoice.setChecked(hasVoice);
+
+        boolean hasVideo = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VIDEOCAPTURE) != 0) {
+                hasVideo = false;
+                break;
+            }
+        }
+        transmitVid.setChecked(hasVideo);
+
+        boolean hasDesktop = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_DESKTOP) != 0) {
+                hasDesktop = false;
+                break;
+            }
+        }
+        transmitDesk.setChecked(hasDesktop);
+
+        boolean hasMedia = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_MEDIAFILE_AUDIO) != 0) {
+                hasMedia = false;
+                break;
+            }
+        }
+        transmitMedia.setChecked(hasMedia);
+
+        boolean hasChanMsg = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_CHANNELMSG) != 0) {
+                hasChanMsg = false;
+                break;
+            }
+        }
+        transmitChanmsg.setChecked(hasChanMsg);
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -298,6 +352,106 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 } else {
                     ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
                 }
+            else if(btn == transmitVoice)
+                if (checked) {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_VOICE;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                } else {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_VOICE;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                }
+            else if(btn == transmitVid)
+                if (checked) {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_VIDEOCAPTURE;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                } else {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_VIDEOCAPTURE;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                }
+            else if(btn == transmitDesk)
+                if (checked) {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_DESKTOP;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                } else {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_DESKTOP;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                }
+            else if(btn == transmitMedia)
+                if (checked) {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_MEDIAFILE_AUDIO;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                } else {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_MEDIAFILE_AUDIO;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                }
+            else if(btn == transmitChanmsg)
+                if (checked) {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_CHANNELMSG;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                } else {
+                    for (int i = 0; i < chan.transmitUsers.length; i++) {
+                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                            chan.transmitUsers[i][0] = user.nUserID;
+                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_CHANNELMSG;
+                            break;
+                        }
+                    }
+                    ttclient.doUpdateChannel(chan);
+                }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);
@@ -314,6 +468,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setOnCheckedChangeListener(muteListener);
         subscribeInterceptdesk.setOnCheckedChangeListener(muteListener);
         subscribeInterceptmedia.setOnCheckedChangeListener(muteListener);
+        transmitVoice.setOnCheckedChangeListener(muteListener);
+        transmitVid.setOnCheckedChangeListener(muteListener);
+        transmitDesk.setOnCheckedChangeListener(muteListener);
+        transmitMedia.setOnCheckedChangeListener(muteListener);
+        transmitChanmsg.setOnCheckedChangeListener(muteListener);
     }
 
     @Override

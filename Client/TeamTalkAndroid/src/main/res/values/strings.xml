@@ -204,6 +204,11 @@
     <string name="user_prop_title_subscribe_intercept_vid">Intercept video</string>
     <string name="user_prop_title_subscribe_intercept_desk">Intercept desktop</string>
     <string name="user_prop_title_subscribe_intercept_media">Intercept media</string>
+    <string name="user_prop_title_transmit_voice">Allow voice transmission</string>
+    <string name="user_prop_title_transmit_vid">Allow video transmission</string>
+    <string name="user_prop_title_transmit_desk">Allow desktop transmission</string>
+    <string name="user_prop_title_transmit_media">Allow media file transmission</string>
+    <string name="user_prop_title_transmit_chanmsg">Allow channel text messages</string>
 
     <string name="label_connection">Connection:</string>
     <string name="stat_online">Online</string>
