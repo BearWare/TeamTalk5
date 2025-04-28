@@ -9829,7 +9829,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="500"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation>{date} وارد کانال شد: {channelpath}</translation>
+        <translation>{date} وارد {channelpath} شُدید</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
