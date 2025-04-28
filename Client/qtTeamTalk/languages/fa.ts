@@ -2675,7 +2675,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1923"/>
         <source>V&amp;oice</source>
-        <translation>ق&amp;طع صدا</translation>
+        <translation>ص&amp;دا</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1926"/>

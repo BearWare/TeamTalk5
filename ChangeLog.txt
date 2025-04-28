@@ -30,6 +30,7 @@ Default Qt Client
 - Fixed ask to use default sounds pack at every language change (will be asked one last time)
 - Fixed untranslated status message on file deletion
 Android Client
+- Replaced turn up/down buttons for speaker volume, microphone gain and voice activation level with sliders
 - Added popup menu actions in Server List dialog
 - Added the ability to controle user's transmissions
 - Added "Message" and "User properties" user menu actions in channel list tab
@@ -39,6 +40,7 @@ Android Client
 - Added the ability to send broadcast messages
 - Ability to select/deselect user for move to other channel
 - Simplified labels in User Properties dialog
+- Fixed speaker not being enabled again when voice activation option was disabled
 - IP address, user ID and status message are now in "User Properties" dialog
 - Added missing labels for sliders in audio codec configuration
 - The labels in Main Window and User Properties dialog no longer have duplicate texts

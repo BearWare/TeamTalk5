@@ -593,6 +593,7 @@ public class TeamTalkService extends Service
             ttclient.enableVoiceActivation(false);
             ttclient.closeSoundInputDevice();
         }
+        adjustMuteOnTx(enable);
     }
 
     public void syncToUserCache(User user) {
