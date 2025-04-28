@@ -86,12 +86,11 @@
 
         <SeekBar
             android:id="@+id/master_volSeekBar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_column="0"
-	            android:layout_row="1"
-            android:layout_gravity="center_vertical"
-            android:layout_weight="0.9"
+			android:layout_row="1"
+            android:layout_gravity="center_horizontal"
             android:contentDescription="@string/mastervolume"
             android:gravity="center" />
 
@@ -117,13 +116,12 @@
 
         <SeekBar
             android:id="@+id/mic_gainSeekBar"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_column="0"
-	            android:layout_row="4"
-            android:layout_gravity="center_vertical"
-            android:contentDescription="@string/micgain"
-            android:layout_weight="0.9" />
+            android:layout_row="4"
+            android:layout_gravity="center_horizontal"
+            android:contentDescription="@string/micgain"/>
 
 	        <ImageButton
 	            android:id="@+id/voxSwitch"
