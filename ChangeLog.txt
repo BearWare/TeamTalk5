@@ -31,6 +31,7 @@ Default Qt Client
 - Fixed untranslated status message on file deletion
 Android Client
 - Added popup menu actions in Server List dialog
+- Added the ability to controle user's transmissions
 - Added "Message" and "User properties" user menu actions in channel list tab
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file

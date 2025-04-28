@@ -152,52 +152,97 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_txtmsg" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitvoiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_voice" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/user_subscribechanmsgSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_chanmsg" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitvidSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_vid" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/user_subscribebcastmsgSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_bcastmsg" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitdeskSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_desk" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/user_subscribevoiceSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_voice" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitmediaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_media" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/user_subscribevidSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_vid" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitchanmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="1"
+        android:layout_columnSpan="1"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_chanmsg" />
 
     <androidx.appcompat.widget.SwitchCompat
         android:id="@+id/user_subscribedeskSwitch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_desk" />
 
@@ -206,7 +251,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_media" />
 
@@ -215,7 +260,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_txtmsg" />
 
@@ -224,7 +269,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_chanmsg" />
 
@@ -233,7 +278,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_voice" />
 
@@ -242,7 +287,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_vid" />
 
@@ -251,7 +296,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_desk" />
 
@@ -260,7 +305,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
-        android:layout_columnSpan="2"
+        android:layout_columnSpan="1"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_media" />
 
