@@ -250,22 +250,16 @@
     <string name="ban_confirmation">Er du sikker på at du vil udelukke brugeren %1$s?</string>
     <string name="kick_confirmation">Er du sikker på at du vil sparke user %1$s ud?</string>
     <string name="version_update">Der er en ny TeamTalk-version tilgængelig: %1$s?</string>
-    <string name="decvolume">Skru ned for lydstyrken</string>
-    <string name="incvolume">Skru op for lydstyrken</string>
     <string name="speaker_mute">Afbryd højttalere</string>
     <string name="speaker_unmute">Tænd for højttalere</string>
     <string name="mic_mute">Afbryd mikrofonen</string>
     <string name="mic_unmute">Tænd for mikrofonen</string>
-    <string name="decgain">Skru ned for mikrofonen</string>
-    <string name="incgain">Skru op for mikrofonen</string>
 
     <string name="speaker_volume_description">Lydstyrken er %1$s</string>
     <string name="mic_gain_description">Mikrofon styrken er %1$s</string>
 
     <string name="voice_activation_on">Slå stemmeaktivering til</string>
     <string name="voice_activation_off">Slå stemmeaktivering fra</string>
-    <string name="decvoxlevel">Sænk niveauet for stemmeaktivering</string>
-    <string name="incvoxlevel">Forøg niveauet for stemmeaktivering</string>
     <string name="vox_level_description">Stemmeaktiveringsniveauet er %1$s</string>
 
     <string name="tx_on">Transmitterer</string>

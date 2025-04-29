@@ -289,22 +289,16 @@
     <string name="speexvbrinterval">传输间隔</string>
     <string name="voicevolume">语音音量</string>
     <string name="mediavolume">媒体文件音量</string>
-    <string name="decvolume">减小音量</string>
-    <string name="incvolume">增大音量</string>
     <string name="speaker_mute">扬声器静音</string>
     <string name="speaker_unmute">取消扬声器静音</string>
     <string name="mic_mute">麦克风静音</string>
     <string name="mic_unmute">取消麦克风静音</string>
-    <string name="decgain">降低麦克风增益</string>
-    <string name="incgain">增加麦克风增益</string>
 
     <string name="speaker_volume_description">扬声器音量 %1$s</string>
     <string name="mic_gain_description">麦克风音量 %1$s</string>
 
     <string name="voice_activation_on">开启语音激活</string>
     <string name="voice_activation_off">关闭语音激活</string>
-    <string name="decvoxlevel">降低语音激活级别</string>
-    <string name="incvoxlevel">增加语音激活级别</string>
     <string name="vox_level_description">语音激活级别 %1$s</string>
 
     <string name="tx_on">语音传输中</string>

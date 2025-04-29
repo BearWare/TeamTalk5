@@ -208,14 +208,10 @@
     <string name="server_remove_confirmation">هل أنت متأكد مرغبتك بالحذف %1$s من قائمة الخادم?</string>
     <string name="channel_remove_confirmation">هل أنت متأكد من رغبتك حذف القناة %1$s?</string>
     <string name="version_update">إصدار جديدي من teamtalk: %1$s?</string>
-    <string name="decvolume">خفض العلو</string>
-    <string name="incvolume">رفع العلو</string>
     <string name="speaker_mute">كتم الصوت الخارجي</string>
     <string name="speaker_unmute">رفع الكتم عند الصوت الخارجي</string>
     <string name="mic_mute">كتم صوت المايكروفون</string>
     <string name="mic_unmute">رفع كتم المايكروفون</string>
-    <string name="decgain">خفض كسد المايكروفون</string>
-    <string name="incgain">رفع كسد المايكروفون</string>
 
     <string name="speaker_volume_description">علو الصوت الخارجي هو %1$s</string>
     <string name="mic_gain_description">كسد المايك هو %1$s</string>

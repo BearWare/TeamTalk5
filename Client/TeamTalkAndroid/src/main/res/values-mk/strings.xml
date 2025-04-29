@@ -214,14 +214,10 @@
     <string name="server_remove_confirmation">Навистина ли сакате да го избришете %1$s од листата со сервери?</string>
     <string name="channel_remove_confirmation">Навистина ли сакате да го избришете каналот %1$s?</string>
     <string name="version_update">Достапна е нова Тимток 5 верзија %1$s?</string>
-    <string name="decvolume">Намали го гласот</string>
-	<string name="incvolume">Зголеми го гласот</string>
-	<string name="speaker_mute">Исклучи го гласот</string>
+    <string name="speaker_mute">Исклучи го гласот</string>
 	<string name="speaker_unmute">Вклучи го гласот</string>
 	<string name="mic_mute">Исклучи го микрофонот</string>
 	<string name="mic_unmute">Вклучи го микрофонот</string>
-	<string name="decgain">Намали го примањето на микрофонот</string>
-	<string name="incgain">Зголеми го примањето на микрофонот</string>
     <string name="speaker_volume_description">Гласноста на звукот е %1$s</string>
     <string name="mic_gain_description">Примањето на микрофонот е %1$s</string>
 

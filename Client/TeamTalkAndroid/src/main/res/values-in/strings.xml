@@ -253,22 +253,16 @@
     <string name="ban_confirmation">Apakah Anda benar-benar ingin melarang pengguna %1$s?</string>
     <string name="kick_confirmation">Apakah Anda benar-benar ingin mengeluarkan pengguna %1$s?</string>
     <string name="version_update">TeamTalk versi baru telah tersedia: %1$s?</string>
-    <string name="decvolume">Kurangi volume</string>
-    <string name="incvolume">Tingkatkan volume</string>
     <string name="speaker_mute">Diamkan pengeras suara</string>
     <string name="speaker_unmute">Bunyikan pengeras suara</string>
     <string name="mic_mute">Matikan Mikrofon</string>
     <string name="mic_unmute">Hidupkan Mikrofon</string>
-    <string name="decgain">Kurangi gain mikrofon</string>
-    <string name="incgain">Tingkatkan gain mikrofon</string>
 
     <string name="speaker_volume_description">Volume pengeras suara %1$s</string>
     <string name="mic_gain_description">Gain mikrofon %1$s</string>
 
     <string name="voice_activation_on">Hidupkan aktivasi suara</string>
     <string name="voice_activation_off">Matikan aktivasi suara</string>
-    <string name="decvoxlevel">Kurangi tingkat aktivasi suara</string>
-    <string name="incvoxlevel">Tingkatkan tingkat aktivasi suara</string>
     <string name="vox_level_description">Tingkat aktivasi suara %1$s</string>
 
     <string name="tx_on">Transmisi sedang aktif</string>

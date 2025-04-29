@@ -276,22 +276,16 @@
     <string name="ban_confirmation">Soll der Benutzer %1$s wirklich gesperrt werden?</string>
     <string name="kick_confirmation">Soll der Benutzer %1$s wirklich vom Server geworfen werden?</string>
     <string name="version_update">Neue TeamTalk-Version verfügbar: %1$s?</string>
-    <string name="decvolume">Lautstärke verringern</string>
-    <string name="incvolume">Lautstärke erhöhen</string>
     <string name="speaker_mute">Lautsprecher stumm</string>
     <string name="speaker_unmute">Lautsprecher ein</string>
     <string name="mic_mute">Mikrofon stumm</string>
     <string name="mic_unmute">Mikrofon ein</string>
-    <string name="decgain">Mikrofonpegel verringern</string>
-    <string name="incgain">Mikrofonpegel erhöhen</string>
 
     <string name="speaker_volume_description">Lautstärkepegel ist %1$s</string>
     <string name="mic_gain_description">Mikrofonpegel ist %1$s</string>
 
     <string name="voice_activation_on">Sprachaktivierung einschalten</string>
     <string name="voice_activation_off">Sprachaktivierung ausschalten</string>
-    <string name="decvoxlevel">Spracherkennungspegel verringern</string>
-    <string name="incvoxlevel">Spracherkennungspegel erhöhen</string>
     <string name="vox_level_description">Spracherkennungspegel ist %1$s</string>
 
     <string name="tx_on">Übertrage</string>
