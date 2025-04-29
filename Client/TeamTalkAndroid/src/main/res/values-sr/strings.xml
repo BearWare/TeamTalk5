@@ -247,22 +247,16 @@
     <string name="ban_confirmation">Jeste li sigurni da želite protjerati korisnika %1$s?</string>
     <string name="kick_confirmation">Jeste li sigurni da želite istjerati korisnika %1$s?</string>
     <string name="version_update">Nova inačica TeamTalka je dostupna: %1$s?</string>
-    <string name="decvolume">Smanji glasnoću</string>
-    <string name="incvolume">Povećaj glasnoću</string>
     <string name="speaker_mute">Utišaj zvučnike</string>
     <string name="speaker_unmute">Ottišaj zvučnike</string>
     <string name="mic_mute">Utišaj mikrofon</string>
     <string name="mic_unmute">Ottišaj mikrofon</string>
-    <string name="decgain">Smanji glasnoću mikrofona</string>
-    <string name="incgain">Povećaj glasnoću mikrofona</string>
 
     <string name="speaker_volume_description">Glasnoća zvučnika je %1$s</string>
     <string name="mic_gain_description">Glasnoća mikrofona je %1$s</string>
 
     <string name="voice_activation_on">Uključi aktivaciju glasom</string>
     <string name="voice_activation_off">Isključi aktivaciju glasom</string>
-    <string name="decvoxlevel">Smanji nivoo osjetljivost aktivacije glasom</string>
-    <string name="incvoxlevel">Povećaj nivoo aktivacije glasom</string>
     <string name="vox_level_description">Novoo aktivacije glasom je %1$s</string>
 
     <string name="tx_on">šaljem</string>

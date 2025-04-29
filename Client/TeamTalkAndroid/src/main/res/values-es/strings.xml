@@ -214,22 +214,16 @@
     <string name="server_remove_confirmation">¿Realmente quieres eliminar %1$s de la lista de servidores?</string>
     <string name="channel_remove_confirmation">¿Realmente quieres eliminar el canal %1$s?</string>
     <string name="version_update">Nueva versión de TeamTalk disponible: %1$s?</string>
-    <string name="decvolume">Bajar volumen</string>
-	<string name="incvolume">Subir volumen</string>
-	<string name="speaker_mute">Silenciar altavoces</string>
+    <string name="speaker_mute">Silenciar altavoces</string>
 	<string name="speaker_unmute">Activar sonido en los altavoces</string>
 	<string name="mic_mute">Silenciar micrófono</string>
 	<string name="mic_unmute">Activar sonido en el micrófono</string>
-	<string name="decgain">Disminuir ganancia del micrófono</string>
-	<string name="incgain">Aumentar ganancia del micrófono</string>
-	
+
     <string name="speaker_volume_description">El volumen del altavoz es %1$s</string>
     <string name="mic_gain_description">La ganancia del micrófono es %1$s</string>
 
     <string name="voice_activation_on">Encender activación por voz</string>
     <string name="voice_activation_off">Apagar activación por voz</string>
-    <string name="decvoxlevel">Disminuir el nivel de activación por voz</string>
-    <string name="incvoxlevel">Aumentar el nivel de activación por voz</string>
     <string name="vox_level_description">El nivel de activación por voz es %1$s</string>
 
     <string name="text_samplerate">Velocidad de muestreo</string>

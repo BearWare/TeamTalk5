@@ -202,15 +202,11 @@
     <string name="server_remove_confirmation">Weet je zeker dat je %1$s wilt verwijderen van de serverlijst?</string>
     <string name="channel_remove_confirmation">Weet je zeker dat je het kanaal %1$s wilt verwijderen??</string>
     <string name="version_update">Nieuwe versie van TeamTalk beschikbaar: %1$s?</string>
-    <string name="decvolume">Volume verlagen</string>
-	<string name="incvolume">Volume verhogen</string>
-	<string name="speaker_mute">Luidsprekers dempen</string>
+    <string name="speaker_mute">Luidsprekers dempen</string>
 	<string name="speaker_unmute">Luidsprekers dempen opheffen</string>
 	<string name="mic_mute">Microfoon dempen</string>
 	<string name="mic_unmute">Microfoon dempen opheffen</string>
-	<string name="decgain">MIcrofoonniveau verlagen</string>
-	<string name="incgain">Microfoonniveau verhogen</string>
-	
+
     <string name="speaker_volume_description">Luidsprekervolume is %1$s</string>
     <string name="mic_gain_description">Microfoonniveau is %1$s</string>
 

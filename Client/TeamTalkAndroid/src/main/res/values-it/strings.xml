@@ -249,22 +249,16 @@
     <string name="ban_confirmation">Sei sicuro di voler bandire l\'utente %1$s?</string>
     <string name="kick_confirmation">Sei sicuro di voler escludere l\'utente %1$s?</string>
     <string name="version_update">Nuova versione di TeamTalk disponibile: %1$s?</string>
-    <string name="decvolume">Abbassa il volume</string>
-    <string name="incvolume">Alza il volume</string>
     <string name="speaker_mute">Disattiva l\'altoparlante</string>
     <string name="speaker_unmute">Riattiva l\'altoparlante</string>
     <string name="mic_mute">Disattiva microfono</string>
     <string name="mic_unmute">Riattiva il microfono</string>
-    <string name="decgain">Abbassa il volume del microfono</string>
-    <string name="incgain">Alza il volume del microfono</string>
 
     <string name="speaker_volume_description">Volume altoparlante: %1$s</string>
     <string name="mic_gain_description">Volume microfono: %1$s</string>
 
     <string name="voice_activation_on">Attiva l\'attivazione vocale</string>
     <string name="voice_activation_off">Disabilita l\'attivazione vocale</string>
-    <string name="decvoxlevel">Abbassa il livello di attivazione vocale</string>
-    <string name="incvoxlevel">Alza il livello di attivazione vocale</string>
     <string name="vox_level_description">Livello di attivazione vocale: %1$s</string>
 
     <string name="tx_on">Trasmissione…</string>

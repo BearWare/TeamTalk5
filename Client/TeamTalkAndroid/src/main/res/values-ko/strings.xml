@@ -266,22 +266,16 @@
     <string name="ban_confirmation">%1$s 사용자를 차단하시겠습니까?</string>
     <string name="kick_confirmation">%1$s 사용자를 내보내시겠습니까?</string>
     <string name="version_update">새로운 팀톡 버전이 있습니다: %1$s. 업데이트하시겠습니까?</string>
-    <string name="decvolume">음량 내리기</string>
-    <string name="incvolume">음량 올리기</string>
     <string name="speaker_mute">스피커 음소거</string>
     <string name="speaker_unmute">스피커 음소거 해제</string>
     <string name="mic_mute">마이크 음소거</string>
     <string name="mic_unmute">마이크 음소거 해제</string>
-    <string name="decgain">마이크 음량 내리기</string>
-    <string name="incgain">마이크 음량 올리기</string>
 
     <string name="speaker_volume_description">스피커 음량 %1$s</string>
     <string name="mic_gain_description">마이크 음량 %1$s</string>
 
     <string name="voice_activation_on">말하기 활성화 켜기</string>
     <string name="voice_activation_off">말하기 활성화 끄기</string>
-    <string name="decvoxlevel">말하기 활성화 수준 감소</string>
-    <string name="incvoxlevel">말하기 활성화 수준 증가</string>
     <string name="vox_level_description">말하기 활성화 수준 %1$s</string>
 
     <string name="tx_on">전송 중</string>

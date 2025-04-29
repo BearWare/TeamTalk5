@@ -246,20 +246,14 @@
     <string name="ban_confirmation">Bạn có chắc chắn muốn cấm %1$s?</string>
     <string name="kick_confirmation">Bạn có thực sự muốn kick %1$s?</string>
     <string name="version_update">Phiên bản TeamTalk mới có sẵn: %1$s?</string>
-    <string name="decvolume">Giảm âm lượng</string>
-    <string name="incvolume">Tăng âm lượng</string>
     <string name="speaker_mute">Tắt âm thanh</string>
     <string name="speaker_unmute">Bật âm thanh</string>
     <string name="mic_mute">Tắt micrô</string>
     <string name="mic_unmute">Bật micrô</string>
-    <string name="decgain">Giảm âm lượng micrô</string>
-    <string name="incgain">Tăng âm lượng micro</string>
     <string name="speaker_volume_description">âm lượng là %1$s</string>
     <string name="mic_gain_description">Âm lượng của micrô là %1$s</string>
     <string name="voice_activation_on">Bật kích hoạt giọng nói</string>
     <string name="voice_activation_off">Tắt kích hoạt bằng giọng nói</string>
-    <string name="decvoxlevel">Giảm mức kích hoạt bằng giọng nói</string>
-    <string name="incvoxlevel">Tăng mức kích hoạt bằng giọng nói</string>
     <string name="vox_level_description">Mức kích hoạt bằng giọng nói là %1$s</string>
 
     <string name="tx_on">Truyền</string>
