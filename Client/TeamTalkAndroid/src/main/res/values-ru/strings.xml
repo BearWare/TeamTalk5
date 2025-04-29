@@ -201,6 +201,7 @@
     <string name="stat_online">Активно</string>
     <string name="stat_offline">Отсутствует</string>
     <string name="stat_connecting">Устанавливается</string>
+    <string name="stat_unauthorized">Не авторизован</string>
     <string name="label_voice">Голос:</string>
     <string name="label_desktop">Рабстол:</string>
     <string name="label_ping">Пинг:</string>
@@ -282,22 +283,19 @@
     <string name="speexvbrinterval">Интервал передачи</string>
     <string name="voicevolume">Громкость голоса</string>
     <string name="mediavolume">Громкость медиафайлов</string>
-    <string name="decvolume">Уменьшить громкость</string>
-    <string name="incvolume">Увеличить громкость</string>
+    <string name="mastervolume">Громкость</string>
+    <string name="micgain">Чувствительность микрофона</string>
+    <string name="voxlevel">Порог голосовой активации</string>
     <string name="speaker_mute">Выключить звук</string>
     <string name="speaker_unmute">Включить звук</string>
     <string name="mic_mute">Выключить микрофон</string>
     <string name="mic_unmute">Включить микрофон</string>
-    <string name="decgain">Уменьшить чувствительность микрофона</string>
-    <string name="incgain">Увеличить чувствительность микрофона</string>
 
     <string name="speaker_volume_description">Громкость звука %1$s</string>
     <string name="mic_gain_description">Чувствительность микрофона %1$s</string>
 
     <string name="voice_activation_on">Включить голосовую активацию</string>
     <string name="voice_activation_off">Выключить голосовую активацию</string>
-    <string name="decvoxlevel">Понизить порог голосовой активации</string>
-    <string name="incvoxlevel">Повысить порог голосовой активации</string>
     <string name="vox_level_description">Порог голосовой активации %1$s</string>
 
     <string name="tx_on">Идет передача</string>
