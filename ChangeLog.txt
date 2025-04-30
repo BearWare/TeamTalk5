@@ -47,6 +47,7 @@ Android Client
 - WebRTC updated from r4332 to r6818
 - OPUS updated to v1.5.2
 iOS Client
+- Confirmation before server deletion
 - WebRTC updated from r4332 to r6818
 - OPUS updated to v1.5.2
 Server
