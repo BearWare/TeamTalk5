@@ -1164,27 +1164,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器名称</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器每日消息</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>加入频道</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>频道主题</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>频道磁盘配额</translation>
     </message>
 </context>
 <context>
@@ -6382,12 +6382,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1945"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>语言已更改为 %1。是否要恢复文本转语音事件和状态消息、聊天模板及日期时间格式的默认值？这将确保所有消息都被重新翻译，但您的自定义消息将会丢失。</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1950"/>
         <source>Language configuration changed</source>
-        <translation type="unfinished"></translation>
+        <translation>语言配置已更改</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -9821,27 +9821,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="496"/>
         <source>{date} Server Name: {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 服务器名称： {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="498"/>
         <source>{date} Message of the day: {MOTD}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 每日消息： {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="500"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 加入频道： {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
         <source>Topic: {channeltopic}</source>
-        <translation type="unfinished"></translation>
+        <translation>主题： {channeltopic}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
         <source>Disk quota: {quota}</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘配额： {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -10088,45 +10088,45 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Date</source>
-        <translation type="unfinished">日期</translation>
+        <translation>日期</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
         <source>Server name</source>
-        <translation type="unfinished">服务器名称</translation>
+        <translation>服务器名称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="233"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation type="unfinished"></translation>
+        <translation>服务器的每日消息</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Path</source>
-        <translation type="unfinished"></translation>
+        <translation>频道路径</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>频道名称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Topic</source>
-        <translation type="unfinished"></translation>
+        <translation>频道主题</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>磁盘配额</translation>
     </message>
 </context>
 <context>
