@@ -182,14 +182,10 @@
     <string name="server_remove_confirmation">%1$s öğesini sunucu listesinden kaldırmak istediğinize emin misiniz?</string>
     <string name="channel_remove_confirmation">%1$s kanalını kaldırmak istediğinize emin misiniz?</string>
     <string name="version_update">Yeni bir TeamTalk sürümü Mevcut: %1$s?</string>
-    <string name="decvolume">Sesi Azalt</string>
-    <string name="incvolume">Sesi Artır</string>
     <string name="speaker_mute">Hoparlörü sustur</string>
     <string name="speaker_unmute">Hoparlörün sesini aç</string>
     <string name="mic_mute">Mikrofonu sustur</string>
     <string name="mic_unmute">Mikrofon sesini aç</string>
-    <string name="decgain">Mikrofon seviyesini azalt</string>
-    <string name="incgain">Mikrofon sesini arttır</string>
     <string name="speaker_volume_description">Hoparlör sesi %1$s</string>
     <string name="mic_gain_description">Mikrofon sesi %1$s</string>
     <string name="text_samplerate">Aynı oran</string>

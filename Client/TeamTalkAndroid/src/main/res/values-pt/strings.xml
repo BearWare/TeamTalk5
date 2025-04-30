@@ -224,21 +224,15 @@
     <string name="server_remove_confirmation">Deseja apagar %1$s da lista de servidores?</string>
     <string name="channel_remove_confirmation">Deseja apagar o canal %1$s?</string>
     <string name="version_update">Nova versão disponível: %1$s</string>
-    <string name="decvolume">Diminuir volume</string>
-	<string name="incvolume">Aumentar volume</string>
-	<string name="speaker_mute">Silenciar alto-falantes</string>
+    <string name="speaker_mute">Silenciar alto-falantes</string>
 	<string name="speaker_unmute">Ativar som</string>
 	<string name="mic_mute">Silenciar microfone</string>
 	<string name="mic_unmute">Ativar som do microfone</string>
-	<string name="decgain">Diminuir ganho do microfone</string>
-	<string name="incgain">Aumentar ganho do microfone</string>
     <string name="speaker_volume_description">O volume do alto-falantes é %1$s</string>
     <string name="mic_gain_description">O ganho do microfone é %1$s</string>
 
     <string name="voice_activation_on">Ligar ativação por voz</string>
     <string name="voice_activation_off">Desligar ativação por voz</string>
-    <string name="decvoxlevel">Diminuir o ganho da ativação por voz</string>
-    <string name="incvoxlevel">Aumentar o ganho da ativação por voz</string>
     <string name="vox_level_description">O nível do ganho da ativação da voz é %1$s</string>
 
     <string name="tx_on">Transmitindo</string>

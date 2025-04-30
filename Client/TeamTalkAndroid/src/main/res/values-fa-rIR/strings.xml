@@ -269,22 +269,16 @@
     <string name="ban_confirmation">%1$s محروم بشه؟</string>
     <string name="kick_confirmation">%1$s اخراج بشه؟</string>
     <string name="version_update">هشدارِ نسخۀ جدید: %1$s?</string>
-    <string name="decvolume">کم‌کردن صدا</string>
-    <string name="incvolume">زیاد‌کردن صدا</string>
     <string name="speaker_mute">بستن صدا</string>
     <string name="speaker_unmute">باز کردن صدا</string>
     <string name="mic_mute">بستن میکروفون</string>
     <string name="mic_unmute">باز‌کردن میکروفون</string>
-    <string name="decgain">کم‌کردن میکروفون</string>
-    <string name="incgain">زیاد‌کردن میکروفون</string>
 
     <string name="speaker_volume_description">اسپیکر %1$s</string>
     <string name="mic_gain_description">میکروفون %1$s</string>
 
     <string name="voice_activation_on">تشخیص صدا خاموش</string>
     <string name="voice_activation_off">تشخیص صدا روشن</string>
-    <string name="decvoxlevel">کم‌کردن حساسیت صدا</string>
-    <string name="incvoxlevel">زیاد‌کردن حساسیت صدا</string>
     <string name="vox_level_description">حساسیت صدا, %1$s</string>
 
     <string name="tx_on">میکروفون باز</string>
