@@ -51,7 +51,7 @@
         android:key="channel_leave_checkbox"
         android:summary="@string/pref_summary_channel_leave"
         android:title="@string/pref_title_channel_leave" />
-    
+
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="subscription_user_msg_checkbox"

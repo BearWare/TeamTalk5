@@ -36,6 +36,7 @@ Android Client
 - Ability to play sound when voice activation toggle
 - Ability to play sound for intercepts
 - Ability to announce subscription and intercept changes
+- Fixed the bug where media file volume in settings didn't aply on users
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
 - Broadcast messages, users logged in, and users logged out are now shown in the chat list
