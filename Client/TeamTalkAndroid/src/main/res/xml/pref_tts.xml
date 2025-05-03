@@ -51,7 +51,85 @@
         android:key="channel_leave_checkbox"
         android:summary="@string/pref_summary_channel_leave"
         android:title="@string/pref_title_channel_leave" />
-
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_user_msg_checkbox"
+        android:summary="@string/pref_summary_subscription_user_msg"
+        android:title="@string/pref_title_subscription_user_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_channel_msg_checkbox"
+        android:summary="@string/pref_summary_subscription_channel_msg"
+        android:title="@string/pref_title_subscription_channel_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_broadcast_msg_checkbox"
+        android:summary="@string/pref_summary_subscription_broadcast_msg"
+        android:title="@string/pref_title_subscription_broadcast_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_voice_checkbox"
+        android:summary="@string/pref_summary_subscription_voice"
+        android:title="@string/pref_title_subscription_voice" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_vid_checkbox"
+        android:summary="@string/pref_summary_subscription_vid"
+        android:title="@string/pref_title_subscription_vid" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_desk_checkbox"
+        android:summary="@string/pref_summary_subscription_desk"
+        android:title="@string/pref_title_subscription_desk" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_media_checkbox"
+        android:summary="@string/pref_summary_subscription_media"
+        android:title="@string/pref_title_subscription_media" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_user_msg_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_user_msg"
+        android:title="@string/pref_title_subscription_intercept_user_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_channel_msg_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_channel_msg"
+        android:title="@string/pref_title_subscription_intercept_channel_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_voice_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_voice"
+        android:title="@string/pref_title_subscription_intercept_voice" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_vid_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_vid"
+        android:title="@string/pref_title_subscription_intercept_vid" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_desk_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_desk"
+        android:title="@string/pref_title_subscription_intercept_desk" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="subscription_intercept_media_checkbox"
+        android:summary="@string/pref_summary_subscription_intercept_media"
+        android:title="@string/pref_title_subscription_intercept_media" />
+    
     <CheckBoxPreference
         android:defaultValue="false"
         android:key="private_message_checkbox"
