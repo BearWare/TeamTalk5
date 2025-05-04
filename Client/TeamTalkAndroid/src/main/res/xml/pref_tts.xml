@@ -132,6 +132,36 @@
     
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="transmit_voice_checkbox"
+        android:summary="@string/pref_summary_transmit_voice"
+        android:title="@string/pref_title_transmit_voice" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="transmit_vid_checkbox"
+        android:summary="@string/pref_summary_transmit_vid"
+        android:title="@string/pref_title_transmit_vid" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="transmit_desk_checkbox"
+        android:summary="@string/pref_summary_transmit_desk"
+        android:title="@string/pref_title_transmit_desk" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="transmit_media_checkbox"
+        android:summary="@string/pref_summary_transmit_media"
+        android:title="@string/pref_title_transmit_media" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="transmit_channel_msg_checkbox"
+        android:summary="@string/pref_summary_transmit_channel_msg"
+        android:title="@string/pref_title_transmit_channel_msg" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="private_message_checkbox"
         android:summary="@string/pref_summary_private_message"
         android:title="@string/pref_title_private_message" />

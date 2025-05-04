@@ -103,8 +103,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 import java.util.Vector;
+import java.util.Map;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
+import dk.bearware.StreamType;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
 import dk.bearware.RemoteFile;
@@ -2333,6 +2339,59 @@ ttservice.getUsers().put(user.nUserID, user);
         }
 
         if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+
+            SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
+            Set<Integer> allUserIds = new HashSet<>();
+            Map<Integer, Integer> oldTransmitUsers = Utils.convertToMap(mychannel.transmitUsers);
+            Map<Integer, Integer> newTransmitUsers = Utils.convertToMap(channel.transmitUsers);
+            allUserIds.addAll(oldTransmitUsers.keySet());
+            allUserIds.addAll(newTransmitUsers.keySet());
+
+            for (int userId : allUserIds) {
+                int oldValue = oldTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+                int newValue = newTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+                String name;
+                if (userId==0) continue;
+                if(userId == 0xFFF)
+                    name = getResources().getString(R.string.text_tts_transmit_name_everyone);
+                else {
+                    User u=ttservice.getUsers().get(userId);
+                    if(u!=null && u.nChannelID == mychannel.nChannelID)
+                        name = Utils.getDisplayName(getBaseContext(), ttservice.getUsers().get(userId));
+                    else
+                        continue;
+                }
+
+                int result = Utils.transmitToggled(channel, oldValue, newValue, StreamType.STREAMTYPE_CHANNELMSG);
+                if(result < 0 && ttsWrapper != null && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_channel_msg_transmit_off));
+                else if(result > 0 && ttsWrapper != null && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_channel_msg_transmit_on));
+
+                result = Utils.transmitToggled(channel, oldValue, newValue, StreamType.STREAMTYPE_VOICE);
+                if(result < 0 && ttsWrapper != null && prefs.getBoolean("transmit_voice_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_voice_transmit_off));
+                else if(result > 0 && ttsWrapper != null && prefs.getBoolean("transmit_voice_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_voice_transmit_on));
+
+                result = Utils.transmitToggled(channel, oldValue, newValue, StreamType.STREAMTYPE_VIDEOCAPTURE);
+                if(result < 0 && ttsWrapper != null && prefs.getBoolean("transmit_vid_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_vid_transmit_off));
+                else if(result > 0 && ttsWrapper != null && prefs.getBoolean("transmit_vid_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_vid_transmit_on));
+
+                result = Utils.transmitToggled(channel, oldValue, newValue, StreamType.STREAMTYPE_DESKTOP);
+                if(result < 0 && ttsWrapper != null && prefs.getBoolean("transmit_desk_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_desk_transmit_off));
+                else if(result > 0 && ttsWrapper != null && prefs.getBoolean("transmit_desk_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_desk_transmit_on));
+
+                result = Utils.transmitToggled(channel, oldValue, newValue, StreamType.STREAMTYPE_MEDIAFILE);
+                if(result < 0 && ttsWrapper != null && prefs.getBoolean("transmit_media_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_media_transmit_off));
+                else if(result > 0 && ttsWrapper != null && prefs.getBoolean("transmit_media_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_media_transmit_on));
+            }
 
             int myuserid = ttclient.getMyUserID();
 
