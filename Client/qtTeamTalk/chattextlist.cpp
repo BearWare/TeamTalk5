@@ -38,6 +38,10 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
+#define CHATTEXTITEM_TIMESTAMP_ROLE  (Qt::UserRole + 1)
+#define CHATTEXTITEM_SENDER_ROLE     (Qt::UserRole + 2)
+#define CHATTEXTITEM_CONTENT_ROLE    (Qt::UserRole + 3)
+
 ChatTextList::ChatTextList(QWidget *parent)
 : QListWidget(parent)
 {
@@ -107,9 +111,9 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
     QListWidgetItem* item = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_SRVNAME, {{"{date}", dt}, {"{server}", _Q(srvprop.szServerName)}}));
     item->setFont(QFont("Arial", -1, QFont::Bold));
 
-    item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, tr("Server"));
-    item->setData(Qt::UserRole + 3, tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
+    item->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    item->setData(CHATTEXTITEM_SENDER_ROLE, tr("Server"));
+    item->setData(CHATTEXTITEM_CONTENT_ROLE, tr("Server Name: %1").arg(_Q(srvprop.szServerName)));
 
     addItem("");
     addItem(item);
@@ -118,9 +122,9 @@ void ChatTextList::updateServer(const ServerProperties& srvprop)
     {
         QListWidgetItem* motdItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_MOTD, {{"{date}", dt}, {"{MOTD}", _Q(srvprop.szMOTD)}}));
         motdItem->setForeground(Qt::darkCyan);
-        motdItem->setData(Qt::UserRole + 1, dt);
-        motdItem->setData(Qt::UserRole + 2, tr("Server"));
-        motdItem->setData(Qt::UserRole + 3, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
+        motdItem->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+        motdItem->setData(CHATTEXTITEM_SENDER_ROLE, tr("Server"));
+        motdItem->setData(CHATTEXTITEM_CONTENT_ROLE, tr("Message of the Day: %1").arg(_Q(srvprop.szMOTD)));
         addItem(motdItem);
     }
 
@@ -138,25 +142,25 @@ void ChatTextList::joinedChannel(int channelid)
     item->setFont(QFont("Arial", -1, QFont::Bold));
     item->setForeground(Qt::darkGreen);
 
-    item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, tr("Channel"));
-    item->setData(Qt::UserRole + 3, tr("Joined channel %1").arg(_Q(buff)));
+    item->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    item->setData(CHATTEXTITEM_SENDER_ROLE, tr("Channel"));
+    item->setData(CHATTEXTITEM_CONTENT_ROLE, tr("Joined channel %1").arg(_Q(buff)));
 
     addItem("");
     addItem(item);
 
     QListWidgetItem* topicItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_CHANTOPIC, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     topicItem->setForeground(Qt::darkYellow);
-    topicItem->setData(Qt::UserRole + 1, dt);
-    topicItem->setData(Qt::UserRole + 2, tr("Channel"));
-    topicItem->setData(Qt::UserRole + 3, tr("Topic: %1").arg(_Q(chan.szTopic)));
+    topicItem->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    topicItem->setData(CHATTEXTITEM_SENDER_ROLE, tr("Channel"));
+    topicItem->setData(CHATTEXTITEM_CONTENT_ROLE, tr("Topic: %1").arg(_Q(chan.szTopic)));
     addItem(topicItem);
 
     QListWidgetItem* quotaItem = new QListWidgetItem(UtilUI::getChatTemplate(SETTINGS_CHATTEMPLATES_DISKQUOTA, {{"{date}", dt}, {"{channelpath}", _Q(buff)}, {"{channelname}", _Q(chan.szName)}, {"{channeltopic}", _Q(chan.szTopic)}, {"{quota}", getFormattedSize(chan.nDiskQuota)}}));
     quotaItem->setForeground(Qt::darkRed);
-    quotaItem->setData(Qt::UserRole + 1, dt);
-    quotaItem->setData(Qt::UserRole + 2, tr("Channel"));
-    quotaItem->setData(Qt::UserRole + 3, tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota)));
+    quotaItem->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    quotaItem->setData(CHATTEXTITEM_SENDER_ROLE, tr("Channel"));
+    quotaItem->setData(CHATTEXTITEM_CONTENT_ROLE, tr("Disk quota: %1").arg(getFormattedSize(chan.nDiskQuota)));
     addItem(quotaItem);
 
     limitText();
@@ -190,9 +194,9 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
 
     QListWidgetItem* item = new QListWidgetItem(line);
 
-    item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, (TT_GetMyUserID(ttInst) == msg.nFromUserID)?tr("You"):getDisplayName(user));
-    item->setData(Qt::UserRole + 3, content);
+    item->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    item->setData(CHATTEXTITEM_SENDER_ROLE, (TT_GetMyUserID(ttInst) == msg.nFromUserID)?tr("You"):getDisplayName(user));
+    item->setData(CHATTEXTITEM_CONTENT_ROLE, content);
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
         item->setForeground(Qt::darkGray);
@@ -213,9 +217,9 @@ void ChatTextList::addLogMessage(const QString& msg)
     QListWidgetItem* item = new QListWidgetItem(line);
     item->setForeground(Qt::gray);
 
-    item->setData(Qt::UserRole + 1, dt);
-    item->setData(Qt::UserRole + 2, sender);
-    item->setData(Qt::UserRole + 3, content);
+    item->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
+    item->setData(CHATTEXTITEM_SENDER_ROLE, sender);
+    item->setData(CHATTEXTITEM_CONTENT_ROLE, content);
 
     addItem(item);
     limitText();
@@ -268,7 +272,7 @@ QStringList ChatTextList::allUrls(const QString &text) const
 
 QString ChatTextList::currentUrl(const QListWidgetItem* item) const
 {
-    QString text = item->text();
+    QString text = item->data(CHATTEXTITEM_CONTENT_ROLE).toString();
     QRegularExpression urlPattern("(http[s]?://\\S+)");
     QRegularExpressionMatch match = urlPattern.match(text);
     if (match.hasMatch())
@@ -316,7 +320,7 @@ void ChatTextList::keyPressEvent(QKeyEvent* e)
         QListWidgetItem* item = currentItem();
         if(item)
         {
-            QStringList urls = allUrls(item->text());
+            QStringList urls = allUrls(item->data(CHATTEXTITEM_CONTENT_ROLE).toString());
             if(urls.size() == 1)
             {
                 QDesktopServices::openUrl(QUrl(urls.first()));
@@ -344,7 +348,7 @@ void ChatTextList::mouseDoubleClickEvent(QMouseEvent* e)
     QListWidgetItem* item = itemAt(e->pos());
     if(item)
     {
-        QStringList urls = allUrls(item->text());
+        QStringList urls = allUrls(item->data(CHATTEXTITEM_CONTENT_ROLE).toString());
         if(urls.size() == 1)
         {
             QDesktopServices::openUrl(QUrl(urls.first()));
@@ -406,9 +410,9 @@ void ChatTextList::menuAction(MenuAction ma)
         if (!item)
             break;
 
-        QString datetime = item->data(Qt::UserRole + 1).toString();
-        QString sender   = item->data(Qt::UserRole + 2).toString();
-        QString content  = item->data(Qt::UserRole + 3).toString();
+        QString datetime = item->data(CHATTEXTITEM_TIMESTAMP_ROLE).toString();
+        QString sender   = item->data(CHATTEXTITEM_SENDER_ROLE).toString();
+        QString content  = item->data(CHATTEXTITEM_CONTENT_ROLE).toString();
 
         MessageDetailsDlg dlg(datetime, sender, content, this);
         dlg.exec();
