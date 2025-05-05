@@ -256,6 +256,32 @@ namespace BearWare
  *
  * <hr>
  *
+ * @section v518arelease TeamTalk 5 SDK v. 5.18a release, May 5th 2025
+ *
+ * @subsection v518afeatures New features in v5.18a
+ *
+ * @subsubsection v518alastlogin Last login time on user account
+ *
+ * A #BearWare.UserAccount now contains a field @c szLastLoginTime which shows
+ * the last time a user logged in.
+ *
+ * @subsubsection v518awebrtc WebRTC updated to r6818
+ *
+ * WebRTC was previously based on r4332 but has now been updated to
+ * r6818. This has unfortunately caused the #BearWare.WebRTCAudioPreprocessor
+ * struct to become incompatible with the struct specified previous
+ * releases. Basically level estimation and voice detecting using
+ * WebRTC is no longer supported.
+ *
+ * @subsection v518aapi API changes in v5.18a
+ *
+ * - New field @c szLastLoginTime in #UserAccount
+ * - Removed field @c voicedetetion from #WebRTCAudioPreprocessor
+ * - Removed field @c levelestimation from #WebRTCAudioPreprocessor
+ * - Modified field @c adaptivedigital in #WebRTCAudioPreprocessor
+ *
+ * <hr>
+ *
  * @section v515arelease TeamTalk 5 SDK v. 5.15a release, December 19th 2023
  *
  * @subsection v515afeatures New features in v5.15a
