@@ -268,7 +268,7 @@ QStringList ChatTextList::allUrls(const QString &text) const
 
 QString ChatTextList::currentUrl(const QListWidgetItem* item) const
 {
-    QString text = item->text();
+    QString text = item->data(Qt::UserRole + 3).toString();
     QRegularExpression urlPattern("(http[s]?://\\S+)");
     QRegularExpressionMatch match = urlPattern.match(text);
     if (match.hasMatch())
@@ -316,7 +316,7 @@ void ChatTextList::keyPressEvent(QKeyEvent* e)
         QListWidgetItem* item = currentItem();
         if(item)
         {
-            QStringList urls = allUrls(item->text());
+            QStringList urls = allUrls(item->data(Qt::UserRole + 3).toString());
             if(urls.size() == 1)
             {
                 QDesktopServices::openUrl(QUrl(urls.first()));
@@ -344,7 +344,7 @@ void ChatTextList::mouseDoubleClickEvent(QMouseEvent* e)
     QListWidgetItem* item = itemAt(e->pos());
     if(item)
     {
-        QStringList urls = allUrls(item->text());
+        QStringList urls = allUrls(item->data(Qt::UserRole + 3).toString());
         if(urls.size() == 1)
         {
             QDesktopServices::openUrl(QUrl(urls.first()));
