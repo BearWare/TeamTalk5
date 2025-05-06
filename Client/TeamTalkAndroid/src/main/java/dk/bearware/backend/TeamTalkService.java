@@ -961,6 +961,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdUserUpdate(User user) {
+        users.put(user.nUserID, user);
     }
 
     @Override

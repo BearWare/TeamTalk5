@@ -204,6 +204,7 @@ extends AppCompatActivity
     boolean restarting;
     SensorManager mSensorManager;
     Sensor mSensor;
+    Map<Integer, User> users = new HashMap<>();
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -1893,6 +1894,7 @@ private EditText newmsg;
 
         filesAdapter.setTeamTalkService(null);
         mediaAdapter.clearTeamTalkService(service);
+        users.clear();
     }
 
     @Override
@@ -1966,6 +1968,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        users.put(user.nUserID, user);
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
@@ -1979,6 +1982,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        users.remove(user.nUserID);
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
@@ -1997,163 +2001,166 @@ private EditText newmsg;
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
-User oldUser = ttservice.getUsers().get(user.nUserID);
+        User oldUser = users.get(user.nUserID);
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG) != Subscription.SUBSCRIBE_NONE;
+        if(oldUser!=null) {
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_user_msg_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_user_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_USER_MSG) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_user_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_user_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_channel_msg_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_channel_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_CHANNEL_MSG) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_channel_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_channel_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_broadcast_msg_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_broadcast_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_BROADCAST_MSG) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_broadcast_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_broadcast_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_voice_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_voice_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VOICE) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_voice_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_voice_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_vid_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_vid_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_VIDEOCAPTURE) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_vid_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_vid_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_desk_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_desk_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_DESKTOP) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_desk_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_desk_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_media_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_media_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_MEDIAFILE) != Subscription.SUBSCRIBE_NONE;
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_media_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_media_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_USER_MSG) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_user_msg_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_user_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_user_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_user_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_channel_msg_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_channel_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_channel_msg_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_channel_msg_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VOICE) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_voice_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_voice_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_voice_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_voice_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_vid_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_vid_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_vid_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_vid_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_desk_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_desk_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
-    (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE))
-{
-    String name = Utils.getDisplayName(getBaseContext(), user);
-    boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != Subscription.SUBSCRIBE_NONE;
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_desk_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_desk_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
 
-        int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
-if(sound!=0)
-audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
+            if ((oldUser.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) !=
+                (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE))
+            {
+                String name = Utils.getDisplayName(getBaseContext(), user);
+                boolean isOn = (user.uPeerSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != Subscription.SUBSCRIBE_NONE;
 
-if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_media_checkbox", false))
-    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_media_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
-}
+                int sound = sounds.get(isOn ? SOUND_INTERCEPTON : SOUND_INTERCEPTOFF);
+                if(sound!=0)
+                    audioIcons.play(sound, 1.0f, 1.0f, 0, 0, 1.0f);
 
-ttservice.getUsers().put(user.nUserID, user);
+                if (ttsWrapper != null && prefs.getBoolean("subscription_intercept_media_checkbox", false))
+                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_subscription_intercept_media_changed) + " " + (isOn ? getResources().getString(R.string.text_tts_subscribe_on) : getResources().getString(R.string.text_tts_subscribe_off)));
+            }
+
+        }
+        users.put(user.nUserID, user);
     }
 
     @Override
