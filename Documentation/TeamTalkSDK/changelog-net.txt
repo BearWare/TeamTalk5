@@ -6,6 +6,12 @@ namespace BearWare
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v518arelease
+ * - @ref v518afeatures
+ *   - @ref v518alastlogin
+ *   - @ref v518awebrtc
+ * - @ref v518aapi
+ *
  * @ref v515arelease
  * - @ref v515afeatures
  *   - @ref v515apulse
