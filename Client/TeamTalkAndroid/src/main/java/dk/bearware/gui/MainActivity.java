@@ -2165,6 +2165,8 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
@@ -2214,6 +2216,8 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself left current channel
