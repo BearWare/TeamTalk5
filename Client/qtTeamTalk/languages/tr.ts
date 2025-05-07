@@ -1026,73 +1026,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="14"/>
         <source>Edit chat templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet şablonlarını düzenle</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="20"/>
         <source>Chat Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet şablonları</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="42"/>
         <source>Chat Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet şablonu</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="50"/>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>şablon</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished">&amp;Değişkenler...</translation>
+        <translation>&amp;Değişkenler...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished">Varsayılan Değere Sıfırla</translation>
+        <translation>Varsayılan Değere Sıfırla</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="79"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished">Tümünü Varsayılan Değere Sıfırla</translation>
+        <translation>Tümünü Varsayılan Değere Sıfırla</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="34"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template for &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; için şablon</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tüm sohbet şablonlarını varsayılan değerlere geri yüklemek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="137"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="140"/>
         <source>Restore default values</source>
-        <translation type="unfinished">Varsayılan değerleri geri yükle</translation>
+        <translation>Varsayılan değerleri geri yükle</translation>
     </message>
 </context>
 <context>
@@ -1100,57 +1100,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="207"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>tür</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="208"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>şablon</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="234"/>
         <source>Channel Message</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal iletisi</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="236"/>
         <source>Broadcast Message</source>
-        <translation type="unfinished"></translation>
+        <translation>yayın iletisi</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
-        <translation type="unfinished"></translation>
+        <translation>gizli ileti</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
-        <translation type="unfinished"></translation>
+        <translation>günlük iletisi</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucu adı</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>günün sunucu mesajı</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>kanala katıldı</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal konusu</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal disk kotası</translation>
     </message>
 </context>
 <context>
@@ -1214,7 +1214,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="194"/>
         <source>You</source>
-        <translation type="unfinished">Sen</translation>
+        <translation>Sen</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="209"/>
@@ -3987,13 +3987,13 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished">Hoş geldin</translation>
+        <translation>Hoş geldin</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished">%1&apos;e hoş geldiniz.<byte value="xd"/>
+        <translation>%1e hoş geldiniz.<byte value="xd"/>
 Günün mesajı: %2</translation>
     </message>
     <message>
@@ -5152,17 +5152,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="169"/>
         <source>K&amp;ick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucudan a&amp;t</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="171"/>
         <source>Kick and B&amp;an from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>sunucudan at ve &amp;yasakla</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="172"/>
         <source>&amp;Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>taşınacak kullanıcı(lar)ı &amp;seçin</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="168"/>
@@ -5495,12 +5495,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="449"/>
         <source>Setup text message templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Metin mesajı şablonlarını ayarlayın</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="456"/>
         <source>Edit Chat Message Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Sohbet mesajı şablonlarını düzenle</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="483"/>
@@ -5662,7 +5662,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="2173"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation>kbps</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="556"/>
@@ -6347,12 +6347,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1945"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 dil değiştirildi. Metin-konuşma olaylarının ve durum mesajlarının varsayılan değerleri, sohbet şablonları ve tarih saati biçimi geri yüklensin mi? Bu, tüm mesajların yeniden düzenlenmesini sağlar, ancak özel mesajlarınız kaybolacaktır.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1950"/>
         <source>Language configuration changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Dil yapılandırması değişti</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -9759,50 +9759,52 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished">{file} dosyası {user} tarafından kaldırıldı</translation>
+        <translation>{file} dosyası {user} tarafından kaldırıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
         <location filename="../settings.h" line="492"/>
         <source>{date} &lt;{user}&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="490"/>
         <source>{date} &lt;{user}-&gt;BROADCAST&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}-&gt;BROADCAST&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="494"/>
         <source>{date} * {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} * {content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="496"/>
         <source>{date} Server Name: {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} sunucu adı: {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="498"/>
         <source>{date} Message of the day: {MOTD}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} günün mesajı: {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="500"/>
-        <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <source>{date} Message of the day: {MOTD}</source>
+        <translation>{date} günün mesajı: {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
         <source>Topic: {channeltopic}</source>
-        <translation type="unfinished"></translation>
+        <translation>konu: {channeltopic}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
         <source>Disk quota: {quota}</source>
-        <translation type="unfinished"></translation>
+        <translation>disk kotası: {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -10025,14 +10027,14 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message date</source>
-        <translation type="unfinished"></translation>
+        <translation>ileti tarihi</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
         <location filename="../utilui.cpp" line="229"/>
         <location filename="../utilui.cpp" line="230"/>
         <source>Sender&apos;s nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>gönderenin takma adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
@@ -10040,7 +10042,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
-        <translation type="unfinished">ileti içeriği</translation>
+        <translation>ileti içeriği</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
@@ -10049,45 +10051,45 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Date</source>
-        <translation type="unfinished">Tarih</translation>
+        <translation>Tarih</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
         <source>Server name</source>
-        <translation type="unfinished">Sunucu adı</translation>
+        <translation>Sunucu adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="233"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation type="unfinished"></translation>
+        <translation>günün sunucu mesajı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal yolu</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal adı</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Topic</source>
-        <translation type="unfinished"></translation>
+        <translation>kanal konusu</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>disk kotası</translation>
     </message>
 </context>
 <context>
