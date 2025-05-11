@@ -593,7 +593,7 @@ public class TeamTalkService extends Service
             ttclient.enableVoiceActivation(false);
             ttclient.closeSoundInputDevice();
         }
-        adjustMuteOnTx(enable);
+    adjustMuteOnTx(enable);
     }
 
     public void syncToUserCache(User user) {
@@ -875,19 +875,32 @@ public class TeamTalkService extends Service
             joinchannel = new Channel();
             UserAccount myuseraccount = new UserAccount();
             ttclient.getMyUserAccount(myuseraccount);
+
             if (!myuseraccount.szInitChannel.isEmpty()) {
                 int chanid = ttclient.getChannelIDFromPath(myuseraccount.szInitChannel);
-                ttclient.getChannel(chanid, joinchannel);
+                if (ttclient.getChannel(chanid, joinchannel)) {
+                }
+                else {
+                    joinchannel = null;
+                }
             }
-            else {
-                int rootchanid = ttclient.getRootChannelID();
-                int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
+            else if (ttserver.channel != null && !ttserver.channel.isEmpty()) {
+                int chanid = ttclient.getChannelIDFromPath(ttserver.channel);
                 if (ttclient.getChannel(chanid, joinchannel)) {
                     joinchannel.szPassword = ttserver.chanpasswd;
                 }
-                else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, joinchannel)) {
+                else {
                     joinchannel = null;
                 }
+            }
+            else if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Preferences.PREF_JOIN_ROOT_CHAN, false)) {
+                int rootchanid = ttclient.getRootChannelID();
+                if (!ttclient.getChannel(rootchanid, joinchannel)) {
+                    joinchannel = null;
+                }
+            }
+            else {
+                joinchannel = null;
             }
         }
 
@@ -895,7 +908,7 @@ public class TeamTalkService extends Service
             int cmdid = ttclient.doJoinChannel(joinchannel);
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
         }
-        
+
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
             getResources().getString(R.string.text_cmd_loggedin));
         getChatLogTextMsgs().add(msg);

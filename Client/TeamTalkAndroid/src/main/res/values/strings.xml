@@ -72,6 +72,8 @@
     <string name="pref_title_userleft_icon">User left channel</string>
     <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
     <string name="pref_header_connection">Connection</string>
+    <string name="pref_title_auto_join_root">Join root channel up on connection</string>
+    <string name="pref_summary_auto_join_root">Automaticly join root channel when connected to the server</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
     <string name="pref_title_sub_chanmsg">Channel Messages</string>
