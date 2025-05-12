@@ -269,6 +269,9 @@
     <string name="ban_confirmation">%1$s محروم بشه؟</string>
     <string name="kick_confirmation">%1$s اخراج بشه؟</string>
     <string name="version_update">هشدارِ نسخۀ جدید: %1$s?</string>
+    <string name="mastervolume">اسپیکر</string>
+    <string name="micgain">میکروفون</string>
+    <string name="voxlevel">حساسیت صدا</string>
     <string name="speaker_mute">بستن صدا</string>
     <string name="speaker_unmute">باز کردن صدا</string>
     <string name="mic_mute">بستن میکروفون</string>
