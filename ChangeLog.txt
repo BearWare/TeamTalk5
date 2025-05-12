@@ -6,7 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 -
 Android Client
--
+- Added the ability to controle user's transmissions
 iOS Client
 -
 Server
@@ -42,7 +42,6 @@ Default Qt Client
 Android Client
 - Replaced turn up/down buttons for speaker volume, microphone gain and voice activation level with sliders
 - Added popup menu actions in Server List dialog
-- Added the ability to controle user's transmissions
 - Added "Message" and "User properties" user menu actions in channel list tab
 - Ability to export each server in to a .tt file separately
 - Nickname and Last Joined Channel are now stored in .tt file
