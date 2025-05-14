@@ -6,7 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 -
 Android Client
--
+- Added a new checkbox to configger whether to join root channel up on connection to server
 iOS Client
 -
 Server
