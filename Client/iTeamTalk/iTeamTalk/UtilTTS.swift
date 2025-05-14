@@ -38,7 +38,7 @@ func newUtterance(_ utterance: String) {
         UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: utterance)
         return
     }
-        if let rate = settings.value(forKey: PREF_TTSEVENT_RATE) {
+    if let rate = settings.value(forKey: PREF_TTSEVENT_RATE) {
         myUtterance.rate = (rate as AnyObject).floatValue!
     }
     if let vol = settings.value(forKey: PREF_TTSEVENT_VOL) {
