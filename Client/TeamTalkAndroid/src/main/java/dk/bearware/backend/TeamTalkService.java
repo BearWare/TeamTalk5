@@ -774,7 +774,8 @@ public class TeamTalkService extends Service
             }
 
             // otherwise join root channel
-            if (joinchannel == null) {
+            boolean joinroot = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Preferences.PREF_JOIN_ROOT_CHAN, true);
+            if (joinroot && joinchannel == null) {
                 joinchannel = getChannels().get(ttclient.getRootChannelID());
                 if (joinchannel != null) {
                     joinchannel.szPassword = ttserver.chanpasswd;
