@@ -36,6 +36,7 @@
     <string name="text_cmd_servername">Server name: </string>
     <string name="text_cmd_servermotd">Message of the day: </string>
     <string name="pref_cat_subscriptions">Subscriptions</string>
+    <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Text-To-Speech settings</string>
     <string name="pref_cat_tts_events">Configure Text-To-Speech messages</string>
     <string name="pref_cat_soundtest">Sound Test</string>
@@ -68,6 +69,8 @@
     <string name="pref_title_userleft_icon">User left channel</string>
     <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
     <string name="pref_header_connection">Connection</string>
+    <string name="pref_title_auto_join_root">Join root channel upon connection</string>
+    <string name="pref_summary_auto_join_root">Automatically join root channel after connecting to server</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
     <string name="pref_title_sub_chanmsg">Channel Messages</string>
