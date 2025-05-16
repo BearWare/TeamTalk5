@@ -67,6 +67,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
 import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
@@ -536,6 +537,27 @@ public class Utils {
     public static boolean isWebLogin(String username) {
         return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
                 username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX);
+    }
+
+    public static int transmitToggled(Channel chan, int prev, int curr, int streamType) {
+        boolean wasOn = (prev & streamType) != 0;
+        boolean isNowOn = (curr & streamType) != 0;
+
+        if (isNowOn && wasOn != isNowOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? 1 : -1;
+        else if (!isNowOn && wasOn != isNowOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? -1 : 1;
+        else
+            return 0;
+    }
+
+    public static Map<Integer, Integer> convertToMap(int[][] transmitUsers) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] entry : transmitUsers) {
+            if (entry.length >= 2)
+                map.put(entry[0], entry[1]);
+        }
+        return map;
     }
 
 }
