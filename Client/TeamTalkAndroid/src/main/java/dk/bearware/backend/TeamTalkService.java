@@ -877,16 +877,14 @@ public class TeamTalkService extends Service
             ttclient.getMyUserAccount(myuseraccount);
 
             if (!myuseraccount.szInitChannel.isEmpty()) {
-                int chanid = ttclient.getChannelIDFromPath(myuseraccount.szInitChannel);
-                if (ttclient.getChannel(chanid, joinchannel)) {
+                if (ttclient.getChannel(ttclient.getChannelIDFromPath(myuseraccount.szInitChannel), joinchannel)) {
                 }
                 else {
                     joinchannel = null;
                 }
             }
             else if (ttserver.channel != null && !ttserver.channel.isEmpty()) {
-                int chanid = ttclient.getChannelIDFromPath(ttserver.channel);
-                if (ttclient.getChannel(chanid, joinchannel)) {
+                if (ttclient.getChannel(ttclient.getChannelIDFromPath(ttserver.channel), joinchannel)) {
                     joinchannel.szPassword = ttserver.chanpasswd;
                 }
                 else {
@@ -894,8 +892,7 @@ public class TeamTalkService extends Service
                 }
             }
             else if (PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getBoolean(Preferences.PREF_JOIN_ROOT_CHAN, false)) {
-                int rootchanid = ttclient.getRootChannelID();
-                if (!ttclient.getChannel(rootchanid, joinchannel)) {
+                if (!ttclient.getChannel(ttclient.getRootChannelID(), joinchannel)) {
                     joinchannel = null;
                 }
             }
