@@ -177,11 +177,54 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0);
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
-        transmitVoice.setChecked((user.uLocalSubscriptions & StreamType.STREAMTYPE_VOICE) != 0);
-        transmitVid.setChecked((user.uLocalSubscriptions & StreamType.STREAMTYPE_VIDEOCAPTURE) != 0);
-        transmitDesk.setChecked((user.uLocalSubscriptions & StreamType.STREAMTYPE_DESKTOP) != 0);
-        transmitMedia.setChecked((user.uLocalSubscriptions & StreamType.STREAMTYPE_MEDIAFILE_AUDIO) != 0);
-        transmitChanmsg.setChecked((user.uLocalSubscriptions & StreamType.STREAMTYPE_CHANNELMSG) != 0);
+
+        Channel chan = new Channel();
+        ttclient.getChannel(user.nChannelID, chan);
+
+        boolean hasVoice = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VOICE) != 0) {
+                hasVoice = false;
+                break;
+            }
+        }
+        transmitVoice.setChecked(hasVoice);
+
+        boolean hasVideo = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VIDEOCAPTURE) != 0) {
+                hasVideo = false;
+                break;
+            }
+        }
+        transmitVid.setChecked(hasVideo);
+
+        boolean hasDesktop = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_DESKTOP) != 0) {
+                hasDesktop = false;
+                break;
+            }
+        }
+        transmitDesk.setChecked(hasDesktop);
+
+        boolean hasMedia = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_MEDIAFILE_AUDIO) != 0) {
+                hasMedia = false;
+                break;
+            }
+        }
+        transmitMedia.setChecked(hasMedia);
+
+        boolean hasChanMsg = true;
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_CHANNELMSG) != 0) {
+                hasChanMsg = false;
+                break;
+            }
+        }
+        transmitChanmsg.setChecked(hasChanMsg);
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -311,8 +354,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 }
             else if(btn == transmitVoice)
                 if (checked) {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -322,8 +363,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                     }
                     ttclient.doUpdateChannel(chan);
                 } else {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -335,8 +374,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 }
             else if(btn == transmitVid)
                 if (checked) {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -346,8 +383,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                     }
                     ttclient.doUpdateChannel(chan);
                 } else {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -359,8 +394,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 }
             else if(btn == transmitDesk)
                 if (checked) {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -370,8 +403,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                     }
                     ttclient.doUpdateChannel(chan);
                 } else {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -383,8 +414,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 }
             else if(btn == transmitMedia)
                 if (checked) {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -394,8 +423,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                     }
                     ttclient.doUpdateChannel(chan);
                 } else {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -407,8 +434,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 }
             else if(btn == transmitChanmsg)
                 if (checked) {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
@@ -418,8 +443,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                     }
                     ttclient.doUpdateChannel(chan);
                 } else {
-                    Channel chan = new Channel();
-                    ttclient.getChannel(user.nChannelID, chan);
                     for (int i = 0; i < chan.transmitUsers.length; i++) {
                         if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                             chan.transmitUsers[i][0] = user.nUserID;
