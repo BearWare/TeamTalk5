@@ -2366,9 +2366,9 @@ private EditText newmsg;
                 if(userId == 0xFFF)
                     name = getResources().getString(R.string.text_tts_transmit_name_everyone);
                 else {
-                    User u=ttservice.getUsers().get(userId);
+                    User u = users.get(userId);
                     if(u!=null && u.nChannelID == mychannel.nChannelID)
-                        name = Utils.getDisplayName(getBaseContext(), ttservice.getUsers().get(userId));
+                        name = Utils.getDisplayName(getBaseContext(), users.get(userId));
                     else
                         continue;
                 }
