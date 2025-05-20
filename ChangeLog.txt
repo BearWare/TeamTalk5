@@ -6,7 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 -
 Android Client
--
+- Fixed the bug where microphone gain value wasn't saved
 iOS Client
 -
 Server
