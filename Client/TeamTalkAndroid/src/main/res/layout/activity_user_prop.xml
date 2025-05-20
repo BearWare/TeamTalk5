@@ -104,6 +104,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_mute_voice" />
 
@@ -146,6 +147,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_mute_media" />
 
@@ -154,6 +156,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_txtmsg" />
 
@@ -162,6 +165,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_chanmsg" />
 
@@ -170,6 +174,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_bcastmsg" />
 
@@ -178,6 +183,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_voice" />
 
@@ -186,6 +192,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_vid" />
 
@@ -194,6 +201,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_desk" />
 
@@ -202,6 +210,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_media" />
 
@@ -210,6 +219,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_txtmsg" />
 
@@ -218,6 +228,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_chanmsg" />
 
@@ -226,6 +237,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_voice" />
 
@@ -234,6 +246,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_vid" />
 
@@ -242,6 +255,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_desk" />
 
@@ -250,6 +264,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_media" />
 
@@ -258,6 +273,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_transmit_voice" />
 
@@ -266,6 +282,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_transmit_vid" />
 
@@ -274,6 +291,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_transmit_desk" />
 
@@ -282,6 +300,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_transmit_media" />
 
@@ -290,6 +309,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
+        android:layout_columnSpan="2"
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_transmit_chanmsg" />
 
