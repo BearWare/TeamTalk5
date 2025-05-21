@@ -116,6 +116,7 @@ import dk.bearware.ClientStatistics;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
+import dk.bearware.Constants;
 import dk.bearware.SoundLevel;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
@@ -2363,7 +2364,7 @@ private EditText newmsg;
                 int newValue = newTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
                 String name;
                 if (userId==0) continue;
-                if(userId == 0xFFF)
+                if(userId == Constants.TT_CLASSROOM_FREEFORALL)
                     name = getResources().getString(R.string.text_tts_transmit_name_everyone);
                 else {
                     User u = users.get(userId);
