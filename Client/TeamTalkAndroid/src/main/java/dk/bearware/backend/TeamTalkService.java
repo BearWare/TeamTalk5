@@ -114,6 +114,8 @@ import dk.bearware.gui.MediaButtonEventReceiver;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
 
+import static dk.bearware.gui.CmdComplete.CMD_COMPLETE_NONE;
+
 public class TeamTalkService extends Service
         implements BluetoothHeadsetHelper.HeadsetConnectionListener,
         ClientEventListener.OnConnectSuccessListener,
@@ -751,6 +753,41 @@ public class TeamTalkService extends Service
         getChatLogTextMsgs().add(msg);
     }
 
+    private void loginComplete() {
+        if (joinchannel == null) {
+
+            // join last channel if enabled
+            if (this.ttserver.rememberLastChannel && !ttserver.channel.isEmpty()) {
+                int chanid = ttclient.getChannelIDFromPath(ttserver.channel);
+                joinchannel = getChannels().get(chanid);
+                if (joinchannel != null) {
+                    joinchannel.szPassword = ttserver.chanpasswd;
+                }
+            }
+
+            // if last channel is not set then join initial channel
+            UserAccount useraccount = new UserAccount();
+            ttclient.getMyUserAccount(useraccount);
+            if (joinchannel == null && !useraccount.szInitChannel.isEmpty()) {
+                int chanid = ttclient.getChannelIDFromPath(useraccount.szInitChannel);
+                joinchannel = getChannels().get(chanid);
+            }
+
+            // otherwise join root channel
+            if (joinchannel == null) {
+                joinchannel = getChannels().get(ttclient.getRootChannelID());
+                if (joinchannel != null) {
+                    joinchannel.szPassword = ttserver.chanpasswd;
+                }
+            }
+        }
+
+        if(joinchannel != null) {
+            int cmdid = ttclient.doJoinChannel(joinchannel);
+            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+        }
+    }
+
     private void setupAudioPreprocessor() {
         if (mychannel != null && mychannel.audiocfg.bEnableAGC) {
             AudioPreprocessor ap = new AudioPreprocessor(AudioPreprocessorType.WEBRTC_AUDIOPREPROCESSOR, true);
@@ -855,45 +892,30 @@ public class TeamTalkService extends Service
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
 
-        if(!complete && activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            //new users and channels will be posted for new login, so delete old ones
-            users.clear();
-            remoteFiles.clear();
-            fileTransfers.clear();
-            channels.clear();
+        if (!complete) {
+            switch (activecmds.get(cmdId, CMD_COMPLETE_NONE)) {
+                case CMD_COMPLETE_LOGIN:
+                    //new users and channels will be posted for new login, so delete old ones
+                    users.clear();
+                    remoteFiles.clear();
+                    fileTransfers.clear();
+                    channels.clear();
+                    break;
+            }
         }
-        
-        if(!complete)
-            return;
-
-        activecmds.delete(cmdId);
+        else {
+            switch (activecmds.get(cmdId, CMD_COMPLETE_NONE)) {
+                case CMD_COMPLETE_LOGIN : {
+                    loginComplete();
+                }
+                break;
+            }
+            activecmds.delete(cmdId);
+        }
     }
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
-        if (joinchannel == null) {
-            joinchannel = new Channel();
-            if (!useraccount.szInitChannel.isEmpty()) {
-                int chanid = ttclient.getChannelIDFromPath(useraccount.szInitChannel);
-                ttclient.getChannel(chanid, joinchannel);
-            }
-            else {
-                int rootchanid = ttclient.getRootChannelID();
-                int chanid = ((ttserver.channel == null) || ttserver.channel.isEmpty()) ? rootchanid : ttclient.getChannelIDFromPath(ttserver.channel);
-                if (ttclient.getChannel(chanid, joinchannel)) {
-                    joinchannel.szPassword = ttserver.chanpasswd;
-                }
-                else if ((chanid == rootchanid) || !ttclient.getChannel(rootchanid, joinchannel)) {
-                    joinchannel = null;
-                }
-            }
-        }
-
-        if(joinchannel != null) {
-            int cmdid = ttclient.doJoinChannel(joinchannel);
-            activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
-        }
-        
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
             getResources().getString(R.string.text_cmd_loggedin));
         getChatLogTextMsgs().add(msg);
