@@ -873,10 +873,8 @@ public class TeamTalkService extends Service
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         if (joinchannel == null) {
             joinchannel = new Channel();
-            UserAccount myuseraccount = new UserAccount();
-            ttclient.getMyUserAccount(myuseraccount);
-            if (!myuseraccount.szInitChannel.isEmpty()) {
-                int chanid = ttclient.getChannelIDFromPath(myuseraccount.szInitChannel);
+            if (!useraccount.szInitChannel.isEmpty()) {
+                int chanid = ttclient.getChannelIDFromPath(useraccount.szInitChannel);
                 ttclient.getChannel(chanid, joinchannel);
             }
             else {
