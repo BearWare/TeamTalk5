@@ -53,7 +53,6 @@ jobs:
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
         cache-key-prefix: 'install-qt-action'
-        setup-python: 'false'
 
     - uses: ssciwr/doxygen-install@v1
       with:
