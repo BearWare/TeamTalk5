@@ -45,6 +45,7 @@ public class Preferences {
             PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET = "bluetooth_headset_checkbox",
             PREF_SOUNDSYSTEM_VOICEPROCESSING = "voiceprocessing_checkbox";
     public static final String
+            PREF_JOIN_ROOT_CHAN = "auto_join_root_checkbox",
             PREF_SUB_TEXTMESSAGE = "sub_txtmsg_checkbox",
             PREF_SUB_CHANMESSAGE = "sub_chanmsg_checkbox",
             PREF_SUB_BCAST_MESSAGES = "sub_bcastmsg_checkbox",

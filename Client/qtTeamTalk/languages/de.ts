@@ -1130,27 +1130,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Servername</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>Servernachricht des Tages</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Raum betreten</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumthema</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumspeicherplatz</translation>
     </message>
 </context>
 <context>
@@ -1214,7 +1214,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="194"/>
         <source>You</source>
-        <translation type="unfinished">Du</translation>
+        <translation>Du</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="209"/>
@@ -2016,13 +2016,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished">Willkommen</translation>
+        <translation>Willkommen</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished">Welcome to %1.<byte value="xd"/>
+        <translation>Willkommen auf %1.<byte value="xd"/>
 Nachricht des Tages: %2</translation>
     </message>
     <message>
@@ -5406,7 +5406,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="405"/>
         <source>Minimize to tray icon</source>
-        <translation>In Infobereich mimimieren</translation>
+        <translation>In Infobereich minimieren</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="412"/>
@@ -5759,7 +5759,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="2173"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> kbps</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="556"/>
@@ -6375,12 +6375,12 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferencesdlg.cpp" line="1945"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 Sprache wurde geändert. Sollen die Standardwerte für Text-to-Speech-Ereignisse, Statusmeldungen, Chatvorlagen und das Datums-/Zeitformat wiederhergestellt werden? Dadurch werden alle Nachrichten erneut übersetzt, allerdings gehen die benutzerdefinierten Nachrichten dabei verloren.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1950"/>
         <source>Language configuration changed</source>
-        <translation type="unfinished"></translation>
+        <translation>Sprachkonfiguration geändert</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="333"/>
@@ -9757,12 +9757,12 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../settings.h" line="483"/>
         <source>File {filename} added by {user}</source>
-        <translation>Datei {filename} von {user} hinzugefügt</translation>
+        <translation>Datei {filename} durch {user} hinzugefügt</translation>
     </message>
     <message>
         <location filename="../settings.h" line="485"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished">Datei {file} von {user} entfernt</translation>
+        <translation>Datei {file} durch {user} entfernt</translation>
     </message>
     <message>
         <location filename="../settings.h" line="488"/>
@@ -9787,27 +9787,27 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
     <message>
         <location filename="../settings.h" line="496"/>
         <source>{date} Server Name: {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} Servername: {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="498"/>
         <source>{date} Message of the day: {MOTD}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} Nachricht des Tages: {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="500"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} Raum betreten: {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
         <source>Topic: {channeltopic}</source>
-        <translation type="unfinished"></translation>
+        <translation>Thema: {channeltopic}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
         <source>Disk quota: {quota}</source>
-        <translation type="unfinished"></translation>
+        <translation>Speicherplatz: {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -10054,45 +10054,45 @@ Lösche das Veröffentlichungs-Konto, um die Veröffentlichung rückgängig zu m
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Date</source>
-        <translation type="unfinished">Datum</translation>
+        <translation>Datum</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
         <source>Server name</source>
-        <translation type="unfinished">Servername</translation>
+        <translation>Servername</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="233"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation type="unfinished"></translation>
+        <translation>Servernachricht des Tages</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Path</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumpfad</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumname</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Topic</source>
-        <translation type="unfinished"></translation>
+        <translation>Raumthema</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>Speicherplatz</translation>
     </message>
 </context>
 <context>
