@@ -7,6 +7,10 @@ Default Qt Client
 -
 Android Client
 - Option to automatically join root root channel in preferences
+- Ability to play sound when voice activation toggle
+- Ability to play sound for intercepts
+- Ability to announce subscription and intercept changes
+- Ability to announce transmission changes
 iOS Client
 -
 Server
