@@ -178,53 +178,14 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
 
-        Channel chan = new Channel();
-        ttclient.getChannel(user.nChannelID, chan);
-
-        boolean hasVoice = true;
-        for (int i = 0; i < chan.transmitUsers.length; i++) {
-            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VOICE) != 0) {
-                hasVoice = false;
-                break;
-            }
+        Channel chan = this.ttservice.getChannels().get(user.nChannelID);
+        if (chan != null) {
+            transmitVoice.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VOICE));
+            transmitVid.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE));
+            transmitDesk.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_DESKTOP));
+            transmitMedia.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_MEDIAFILE));
+            transmitChanmsg.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_CHANNELMSG));
         }
-        transmitVoice.setChecked(hasVoice);
-
-        boolean hasVideo = true;
-        for (int i = 0; i < chan.transmitUsers.length; i++) {
-            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_VIDEOCAPTURE) != 0) {
-                hasVideo = false;
-                break;
-            }
-        }
-        transmitVid.setChecked(hasVideo);
-
-        boolean hasDesktop = true;
-        for (int i = 0; i < chan.transmitUsers.length; i++) {
-            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_DESKTOP) != 0) {
-                hasDesktop = false;
-                break;
-            }
-        }
-        transmitDesk.setChecked(hasDesktop);
-
-        boolean hasMedia = true;
-        for (int i = 0; i < chan.transmitUsers.length; i++) {
-            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_MEDIAFILE_AUDIO) != 0) {
-                hasMedia = false;
-                break;
-            }
-        }
-        transmitMedia.setChecked(hasMedia);
-
-        boolean hasChanMsg = true;
-        for (int i = 0; i < chan.transmitUsers.length; i++) {
-            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & StreamType.STREAMTYPE_CHANNELMSG) != 0) {
-                hasChanMsg = false;
-                break;
-            }
-        }
-        transmitChanmsg.setChecked(hasChanMsg);
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -352,106 +313,26 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 } else {
                     ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
                 }
-            else if(btn == transmitVoice)
-                if (checked) {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_VOICE;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                } else {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_VOICE;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                }
-            else if(btn == transmitVid)
-                if (checked) {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_VIDEOCAPTURE;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                } else {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_VIDEOCAPTURE;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                }
-            else if(btn == transmitDesk)
-                if (checked) {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_DESKTOP;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                } else {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_DESKTOP;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                }
-            else if(btn == transmitMedia)
-                if (checked) {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_MEDIAFILE_AUDIO;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                } else {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_MEDIAFILE_AUDIO;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                }
-            else if(btn == transmitChanmsg)
-                if (checked) {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] &= ~StreamType.STREAMTYPE_CHANNELMSG;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                } else {
-                    for (int i = 0; i < chan.transmitUsers.length; i++) {
-                        if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
-                            chan.transmitUsers[i][0] = user.nUserID;
-                            chan.transmitUsers[i][1] |= StreamType.STREAMTYPE_CHANNELMSG;
-                            break;
-                        }
-                    }
-                    ttclient.doUpdateChannel(chan);
-                }
+            else if(btn == transmitVoice) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitVid) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitDesk) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitMedia) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitChanmsg) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
+                ttclient.doUpdateChannel(chan);
+            }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);
