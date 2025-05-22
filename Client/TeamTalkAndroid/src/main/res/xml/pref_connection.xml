@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
-    
+
+    <PreferenceCategory
+        android:key="con_general_def"
+        android:title="@string/pref_cat_connection_general">
+
+    <CheckBoxPreference
+        android:defaultValue="true"
+        android:key="auto_join_root_checkbox"
+        android:summary="@string/pref_summary_auto_join_root"
+        android:title="@string/pref_title_auto_join_root" />
+    </PreferenceCategory>
+
     <PreferenceCategory
         android:key="subscriptions_def"
         android:title="@string/pref_cat_subscriptions">
