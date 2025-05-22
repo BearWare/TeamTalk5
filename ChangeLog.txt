@@ -6,10 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 -
 Android Client
-- Ability to play sound when voice activation toggle
-- Ability to play sound for intercepts
-- Ability to announce subscription and intercept changes
-- Ability to announce transmission changes
+-
 iOS Client
 -
 Server
