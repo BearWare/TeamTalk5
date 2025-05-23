@@ -23,6 +23,7 @@
 
 import Foundation
 import AVFoundation
+import UIKit
 
 // initialize TTS values globally
 let synth = AVSpeechSynthesizer()
@@ -33,6 +34,10 @@ let DEFAULT_TTS_VOL : Float = 0.5
 func newUtterance(_ utterance: String) {
     let settings = UserDefaults.standard
     myUtterance = AVSpeechUtterance(string: utterance)
+    if UIAccessibility.isVoiceOverRunning && UIApplication.shared.applicationState == .active{
+        UIAccessibility.post(notification: UIAccessibility.Notification.announcement, argument: utterance)
+        return
+    }
     if let rate = settings.value(forKey: PREF_TTSEVENT_RATE) {
         myUtterance.rate = (rate as AnyObject).floatValue!
     }
