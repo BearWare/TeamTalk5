@@ -67,11 +67,13 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
 import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
 import dk.bearware.User;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
@@ -244,6 +246,47 @@ public class Utils {
             result.add(integerFileTransferEntry.getValue());
         }
         return result;
+    }
+
+    public static boolean isTransmitAllowed(User user, Channel chan, int streamtype) {
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & streamtype) == streamtype) {
+                return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM;
+            }
+        }
+        return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT;
+    }
+
+    public static void toggleTransmitUsers(User user, Channel chan, int streamtype, boolean allow) {
+
+        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT)
+            allow = !allow;
+
+        if (allow) {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] &= ~streamtype;
+                    // remove user if no stream type is active
+                    if (chan.transmitUsers[i][1] == StreamType.STREAMTYPE_NONE) {
+                        chan.transmitUsers[i][0] = 0;
+                        for (int j=i;j<chan.transmitUsers.length-1;++j) {
+                            chan.transmitUsers[j][0] = chan.transmitUsers[j+1][0];
+                            chan.transmitUsers[j][1] = chan.transmitUsers[j+1][1];
+                        }
+                    }
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] |= streamtype;
+                    break;
+                }
+            }
+        }
     }
     
     public static String getURL(String urlToRead) {

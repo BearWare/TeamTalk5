@@ -43,6 +43,7 @@ import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.Channel;
 import dk.bearware.User;
 import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkConnection;
@@ -145,6 +146,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         final SwitchCompat subscribeInterceptvid = findViewById(R.id.user_subscribeinterceptvidSwitch);
         final SwitchCompat subscribeInterceptdesk = findViewById(R.id.user_subscribeinterceptdeskSwitch);
         final SwitchCompat subscribeInterceptmedia = findViewById(R.id.user_subscribeinterceptmediaSwitch);
+        final SwitchCompat transmitVoice = findViewById(R.id.user_transmitvoiceSwitch);
+        final SwitchCompat transmitVid = findViewById(R.id.user_transmitvidSwitch);
+        final SwitchCompat transmitDesk = findViewById(R.id.user_transmitdeskSwitch);
+        final SwitchCompat transmitMedia = findViewById(R.id.user_transmitmediaSwitch);
+        final SwitchCompat transmitChanmsg = findViewById(R.id.user_transmitchanmsgSwitch);
 
         nickname.setText(getString(R.string.user_prop_title_nickname) + " " + user.szNickname);
         username.setText(getString(R.string.user_prop_title_username) + " " + user.szUsername);
@@ -171,6 +177,15 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0);
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
+
+        Channel chan = this.ttservice.getChannels().get(user.nChannelID);
+        if (chan != null) {
+            transmitVoice.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VOICE));
+            transmitVid.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE));
+            transmitDesk.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_DESKTOP));
+            transmitMedia.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_MEDIAFILE));
+            transmitChanmsg.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_CHANNELMSG));
+        }
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -298,6 +313,26 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 } else {
                     ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
                 }
+            else if(btn == transmitVoice) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitVid) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitDesk) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitMedia) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
+                ttclient.doUpdateChannel(chan);
+            }
+            else if(btn == transmitChanmsg) {
+                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
+                ttclient.doUpdateChannel(chan);
+            }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);
@@ -314,6 +349,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setOnCheckedChangeListener(muteListener);
         subscribeInterceptdesk.setOnCheckedChangeListener(muteListener);
         subscribeInterceptmedia.setOnCheckedChangeListener(muteListener);
+        transmitVoice.setOnCheckedChangeListener(muteListener);
+        transmitVid.setOnCheckedChangeListener(muteListener);
+        transmitDesk.setOnCheckedChangeListener(muteListener);
+        transmitMedia.setOnCheckedChangeListener(muteListener);
+        transmitChanmsg.setOnCheckedChangeListener(muteListener);
     }
 
     @Override
