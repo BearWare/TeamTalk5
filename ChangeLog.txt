@@ -7,7 +7,6 @@ Default Qt Client
 -
 Android Client
 - Option to automatically join root root channel in preferences
-- Recoded channel properties dialog completely, resulting in a nice looking dialog, a lot of code cleanup, fixes all unexpected bugs and crashes, And adds the missing new options, fixed audio volume for all users checkbox, voice and media files max duration timeout timer, and join channel on exit checkbox. Enjoy!
 iOS Client
 -
 Server
