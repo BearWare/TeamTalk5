@@ -74,6 +74,8 @@ import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
+import dk.bearware.Subscription;
+import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
@@ -246,6 +248,14 @@ public class Utils {
             result.add(integerFileTransferEntry.getValue());
         }
         return result;
+    }
+
+    public static int toggleSubscription(TeamTalkBase ttclient, User user, int streamtype, boolean on) {
+        if (on) {
+            return ttclient.doSubscribe(user.nUserID, streamtype);
+        } else {
+            return ttclient.doUnsubscribe(user.nUserID, streamtype);
+        }
     }
 
     public static boolean isTransmitAllowed(User user, Channel chan, int streamtype) {
