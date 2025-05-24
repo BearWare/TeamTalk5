@@ -1,15 +1,19 @@
-<GridLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/GridLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:columnCount="2"
-    android:orientation="horizontal"
-    android:paddingBottom="@dimen/activity_vertical_margin"
-    android:paddingLeft="@dimen/activity_horizontal_margin"
-    android:paddingRight="@dimen/activity_horizontal_margin"
-    android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".UserPropActivity" >
+    tools:context=".UserPropActivity">
+
+    <GridLayout
+        android:id="@+id/GridLayout1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:columnCount="2"
+        android:orientation="horizontal"
+        android:paddingBottom="@dimen/activity_vertical_margin"
+        android:paddingLeft="@dimen/activity_horizontal_margin"
+        android:paddingRight="@dimen/activity_horizontal_margin"
+        android:paddingTop="@dimen/activity_vertical_margin">
 
     <TextView
         android:id="@+id/user_nickname"
@@ -264,8 +268,55 @@
         android:layout_gravity="center_vertical"
         android:text="@string/user_prop_title_subscribe_intercept_media" />
 
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitvoiceSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_voice" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitvidSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_vid" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitdeskSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_desk" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitmediaSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_media" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:id="@+id/user_transmitchanmsgSwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_column="0"
+        android:layout_columnSpan="2"
+        android:layout_gravity="center_vertical"
+        android:text="@string/user_prop_title_transmit_chanmsg" />
+
     <Space
         android:layout_height="match_parent"
         android:layout_columnSpan="2" />
 
 </GridLayout>
+
+</ScrollView>

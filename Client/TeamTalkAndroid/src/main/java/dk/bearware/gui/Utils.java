@@ -67,11 +67,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
 import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
+import dk.bearware.Subscription;
+import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
@@ -119,7 +123,7 @@ public class Utils {
     public static void setEditTextPreference(Preference preference, String text, String summary, boolean forcesummary) {
         EditTextPreference textpref = (EditTextPreference) preference;
         textpref.setText(text);
-        if (summary.length() > 0 || forcesummary)
+        if (!summary.isEmpty() || forcesummary)
             textpref.setSummary(summary);
     }
 
@@ -245,12 +249,60 @@ public class Utils {
         }
         return result;
     }
+
+    public static int toggleSubscription(TeamTalkBase ttclient, User user, int streamtype, boolean on) {
+        if (on) {
+            return ttclient.doSubscribe(user.nUserID, streamtype);
+        } else {
+            return ttclient.doUnsubscribe(user.nUserID, streamtype);
+        }
+    }
+
+    public static boolean isTransmitAllowed(User user, Channel chan, int streamtype) {
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & streamtype) == streamtype) {
+                return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM;
+            }
+        }
+        return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT;
+    }
+
+    public static void toggleTransmitUsers(User user, Channel chan, int streamtype, boolean allow) {
+
+        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT)
+            allow = !allow;
+
+        if (allow) {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] &= ~streamtype;
+                    // remove user if no stream type is active
+                    if (chan.transmitUsers[i][1] == StreamType.STREAMTYPE_NONE) {
+                        chan.transmitUsers[i][0] = 0;
+                        for (int j=i;j<chan.transmitUsers.length-1;++j) {
+                            chan.transmitUsers[j][0] = chan.transmitUsers[j+1][0];
+                            chan.transmitUsers[j][1] = chan.transmitUsers[j+1][1];
+                        }
+                    }
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] |= streamtype;
+                    break;
+                }
+            }
+        }
+    }
     
     public static String getURL(String urlToRead) {
         URL url;
         HttpURLConnection conn;
         BufferedReader rd;
-        String line;
         StringBuilder result = new StringBuilder();
         try {
             url = new URL(urlToRead);
@@ -281,8 +333,7 @@ public class Utils {
             doc = dBuilder.parse(new InputSource(new StringReader(xml)));
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.e(TAG, "Failed to parse server entries");
             return servers;
         }
         
@@ -401,7 +452,7 @@ public class Utils {
                             try {
                                 entry.stats_usercount = Integer.parseInt(usercountnode.item(0).getTextContent());
                             }
-                            catch (NumberFormatException e) {
+                            catch (NumberFormatException ignored) {
                             }
                          }
                     }
@@ -446,8 +497,7 @@ public class Utils {
             fos.close();
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.d(TAG, "Unable to save file " + path,  e);
             return false;
         }
         return true;
