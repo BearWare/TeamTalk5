@@ -236,102 +236,53 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
             else if(btn == subscribeTxtmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_USER_MSG, checked);
             else if(btn == subscribeChanmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_CHANNEL_MSG, checked);
             else if(btn == subscribeBcastmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_BROADCAST_MSG, checked);
             else if(btn == subscribeVoice)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VOICE, checked);
             else if(btn == subscribeVid)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VIDEOCAPTURE, checked);
             else if(btn == subscribeDesk)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_DESKTOP, checked);
             else if(btn == subscribeMedia)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_MEDIAFILE, checked);
             else if(btn == subscribeIntercepttxtmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG, checked);
             else if(btn == subscribeInterceptchanmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG, checked);
             else if(btn == subscribeInterceptvoice)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VOICE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VOICE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VOICE, checked);
             else if(btn == subscribeInterceptvid)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE, checked);
             else if(btn == subscribeInterceptdesk)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP, checked);
             else if(btn == subscribeInterceptmedia)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE, checked);
+
+            if (chan != null) {
+                if(btn == transmitVoice) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
+                    ttclient.doUpdateChannel(chan);
                 }
-            else if(btn == transmitVoice) {
-                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
-                ttclient.doUpdateChannel(chan);
-            }
-            else if(btn == transmitVid) {
-                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
-                ttclient.doUpdateChannel(chan);
-            }
-            else if(btn == transmitDesk) {
-                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
-                ttclient.doUpdateChannel(chan);
-            }
-            else if(btn == transmitMedia) {
-                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
-                ttclient.doUpdateChannel(chan);
-            }
-            else if(btn == transmitChanmsg) {
-                Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
-                ttclient.doUpdateChannel(chan);
+                else if(btn == transmitVid) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitDesk) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitMedia) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitChanmsg) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
             }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
