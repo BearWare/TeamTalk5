@@ -121,7 +121,7 @@ public class Utils {
     public static void setEditTextPreference(Preference preference, String text, String summary, boolean forcesummary) {
         EditTextPreference textpref = (EditTextPreference) preference;
         textpref.setText(text);
-        if (summary.length() > 0 || forcesummary)
+        if (!summary.isEmpty() || forcesummary)
             textpref.setSummary(summary);
     }
 
@@ -293,7 +293,6 @@ public class Utils {
         URL url;
         HttpURLConnection conn;
         BufferedReader rd;
-        String line;
         StringBuilder result = new StringBuilder();
         try {
             url = new URL(urlToRead);
@@ -324,8 +323,7 @@ public class Utils {
             doc = dBuilder.parse(new InputSource(new StringReader(xml)));
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.e(TAG, "Failed to parse server entries");
             return servers;
         }
         
@@ -444,7 +442,7 @@ public class Utils {
                             try {
                                 entry.stats_usercount = Integer.parseInt(usercountnode.item(0).getTextContent());
                             }
-                            catch (NumberFormatException e) {
+                            catch (NumberFormatException ignored) {
                             }
                          }
                     }
@@ -489,8 +487,7 @@ public class Utils {
             fos.close();
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.d(TAG, "Unable to save file " + path,  e);
             return false;
         }
         return true;
