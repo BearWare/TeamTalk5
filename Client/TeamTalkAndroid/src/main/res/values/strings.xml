@@ -132,12 +132,8 @@
     <string name="text_tts_channel_message">Channel message from %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Broadcast message from %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Sound System</string>
-    <string name="title_activity_audio_codec">Audio Codec</string>
     <string name="title_activity_filepicker">File Selection</string>
-    <string name="title_section_opus">OPUS</string>
-    <string name="title_section_speex">Speex</string>
-    <string name="title_section_speexvbr">Speex VBR</string>
-    <string name="title_section_noaudio">No Audio</string>
+    <string name="codec_type">Codec</string>
     <string name="opus_application">Application</string>
 
     <string name="button_tx">TX</string>
@@ -290,6 +286,9 @@
     <string name="speexinterval">Transmit interval</string>
     <string name="speexvbrquality">Quality</string>
     <string name="speexvbrinterval">Transmit interval</string>
+    <string name="voicemax">Voice stream max duration</string>
+    <string name="mediamax">Media file stream max duration</string>
+    <string name="fixvolumeslider">Volume</string>
     <string name="voicevolume">Voice Volume</string>
     <string name="mediavolume">Media File Volume</string>
     <string name="mastervolume">Speaker volume</string>
@@ -314,8 +313,12 @@
     <string name="text_bitrate">Bitrate</string>
     <string name="text_maxbitrate">Max Bitrate</string>
     <string name="text_txinterval">Transmit interval</string>
+    <string name="text_fixvolumeslider">Volume</string>
+    <string name="text_voicemediamax">Stream Timeout Timer</string>
+    <string name="text_timeseconds">Seconds</string>
     <string name="text_framesize">Frame size</string>
     <string name="text_vbr">Variable Bitrate</string>
+    <string name="text_joinchan_exit">Join channel on exit</string>
     <string name="text_quality">Quality</string>
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>
