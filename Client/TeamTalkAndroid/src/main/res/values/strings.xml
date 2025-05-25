@@ -321,6 +321,7 @@
     <string name="text_txinterval">Transmit interval</string>
     <string name="text_fixvolumeslider">Volume</string>
     <string name="text_voicemediamax">Stream Timeout Timer</string>
+    <string name="text_audio_config">Audio Configuration</string>
     <string name="text_timeseconds">Seconds</string>
     <string name="text_framesize">Frame size</string>
     <string name="text_vbr">Variable Bitrate</string>
