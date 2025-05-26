@@ -6,7 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 -
 Android Client
-- Option to automatically join root root channel in preferences
+- Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
 iOS Client
 -
