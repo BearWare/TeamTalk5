@@ -36,6 +36,7 @@
     <string name="text_cmd_servername">Имя сервера: </string>
     <string name="text_cmd_servermotd">Сообщение дня: </string>
     <string name="pref_cat_subscriptions">Подписки</string>
+    <string name="pref_cat_connection_general">Общие</string>
     <string name="pref_cat_tts">Настройка синтеза речи</string>
     <string name="pref_cat_tts_events">Настройка речевых сообщений</string>
     <string name="pref_cat_soundtest">Тест Звука</string>
@@ -68,6 +69,8 @@
     <string name="pref_title_userleft_icon">Пользователь покинул канал</string>
     <string name="pref_summary_userleft_icon">Звуковое оповещение о покидании пользователем текущего канала</string>
     <string name="pref_header_connection">Настройки Соединения</string>
+    <string name="pref_title_auto_join_root">Подключить корневой канал при соединении</string>
+    <string name="pref_summary_auto_join_root">Автоматически подключить корневой канал при соединении с сервером</string>
     <string name="pref_title_sub_txtmsg">Текстовые Сообщения</string>
     <string name="pref_summary_sub_txtmsg">Подписаться на текстовые сообщения от пользователей</string>
     <string name="pref_title_sub_chanmsg">Сообщения Каналов</string>
@@ -196,6 +199,11 @@
     <string name="user_prop_title_subscribe_intercept_vid">Перехват видео</string>
     <string name="user_prop_title_subscribe_intercept_desk">Перехват рабочего стола</string>
     <string name="user_prop_title_subscribe_intercept_media">Перехват медиатрансляции</string>
+    <string name="user_prop_title_transmit_voice">Разрешить передачу голоса</string>
+    <string name="user_prop_title_transmit_vid">Разрешить передачу видео</string>
+    <string name="user_prop_title_transmit_desk">Разрешить передачу рабочего стола</string>
+    <string name="user_prop_title_transmit_media">Разрешить передачу медиафайлов</string>
+    <string name="user_prop_title_transmit_chanmsg">Разрешить передачу сообщений каналов</string>
 
     <string name="label_connection">Соединение:</string>
     <string name="stat_online">Активно</string>
