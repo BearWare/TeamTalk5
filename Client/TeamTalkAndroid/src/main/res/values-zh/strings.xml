@@ -36,6 +36,7 @@
     <string name="text_cmd_servername">服务器名称: </string>
     <string name="text_cmd_servermotd">每日消息: </string>
     <string name="pref_cat_subscriptions">订阅</string>
+    <string name="pref_cat_connection_general">常规</string>
     <string name="pref_cat_tts">文字转语音设置</string>
     <string name="pref_cat_tts_events">配置文字转语音消息</string>
     <string name="pref_cat_soundtest">声音测试</string>
@@ -68,6 +69,8 @@
     <string name="pref_title_userleft_icon">用户离开频道</string>
     <string name="pref_summary_userleft_icon">用户离开当前频道时播放声音</string>
     <string name="pref_header_connection">连接</string>
+    <string name="pref_title_auto_join_root">连接后加入跟频道</string>
+    <string name="pref_summary_auto_join_root">连接服务器后自动加入跟频道</string>
     <string name="pref_title_sub_txtmsg">消息</string>
     <string name="pref_summary_sub_txtmsg">订阅用户消息</string>
     <string name="pref_title_sub_chanmsg">频道消息</string>
@@ -201,6 +204,11 @@
     <string name="user_prop_title_subscribe_intercept_vid">截取视频</string>
     <string name="user_prop_title_subscribe_intercept_desk">截取桌面</string>
     <string name="user_prop_title_subscribe_intercept_media">截取媒体</string>
+    <string name="user_prop_title_transmit_voice">允许语音传输</string>
+    <string name="user_prop_title_transmit_vid">允许视频传输</string>
+    <string name="user_prop_title_transmit_desk">允许桌面传输</string>
+    <string name="user_prop_title_transmit_media">允许媒体文件传输</string>
+    <string name="user_prop_title_transmit_chanmsg">允许发送频道消息</string>
 
     <string name="label_connection">连接：</string>
     <string name="stat_online">在线</string>
