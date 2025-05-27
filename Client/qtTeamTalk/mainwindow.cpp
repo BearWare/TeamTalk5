@@ -1863,16 +1863,32 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         qDebug() << "Unplugged sound device: " << _Q(msg.sounddevice.szDeviceName);
         break;
     case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT:
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
         qDebug() << "New default sound input device: " << _Q(msg.sounddevice.szDeviceName);
+        if (ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
+            initSound();
+        }
         break;
     case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT:
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
         qDebug() << "New default sound output device: " << _Q(msg.sounddevice.szDeviceName);
+        if (ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
+            initSound();
+        }
         break;
     case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
         qDebug() << "New default communication input sound device: " << _Q(msg.sounddevice.szDeviceName);
+        if (ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
+            initSound();
+        }
         break;
     case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
+        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
         qDebug() << "New default communication output sound device: " << _Q(msg.sounddevice.szDeviceName);
+        if (ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
+            initSound();
+        }
         break;
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
