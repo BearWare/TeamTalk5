@@ -46,7 +46,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
@@ -2163,6 +2162,12 @@ private EditText newmsg;
         }
 
         if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+
+            if (ttsWrapper != null) {
+                String tts = Utils.ttsTransmitUsersToggled(getBaseContext(), mychannel, channel, ttservice.getUsers());
+                if (!tts.isEmpty())
+                    ttsWrapper.speak(tts);
+            }
 
             int myuserid = ttclient.getMyUserID();
 
