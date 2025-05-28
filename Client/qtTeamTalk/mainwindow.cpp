@@ -2423,6 +2423,56 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
             else
                 showMinimized();
         }
+            case HOTKEY_SPEAK_PING:
+        if (active)
+        {
+            ClientStatistics stats = {};
+            if (TT_GetClientStatistics(ttInst, &stats))
+            {
+                int ping = stats.nUdpPingTimeMs;
+                QString pingMsg;
+                if (ping >= 0)
+                {
+                    pingMsg = QObject::tr("Current ping is %1 milliseconds.").arg(ping);
+                }
+                else
+                {
+                    pingMsg = QObject::tr("Ping status is not available.");
+                }
+                addTextToSpeechMessage(pingMsg);
+            }
+            else
+            {
+                addTextToSpeechMessage(QObject::tr("Failed to get ping status."));
+            }
+        }
+break;
+    }
+}
+
+    case HOTKEY_SPEAK_PING:
+        if (active)
+        {
+            ClientStatistics stats = {};
+            if (TT_GetClientStatistics(ttInst, &stats))
+            {
+                int ping = stats.nUdpPingTimeMs;
+                QString pingMsg;
+                if (ping >= 0)
+                {
+                    pingMsg = QObject::tr("Current ping is %1 milliseconds.").arg(ping);
+                }
+                else
+                {
+                    pingMsg = QObject::tr("Ping status is not available.");
+                }
+                addTextToSpeechMessage(pingMsg);
+            }
+            else
+            {
+                addTextToSpeechMessage(QObject::tr("Failed to get ping status."));
+            }
+        }
         break;
     }
 }

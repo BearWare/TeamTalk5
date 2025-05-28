@@ -51,6 +51,8 @@ QString getHotKeyName(HotKeyID id)
         return QObject::tr("Reinitialize sound devices");
     case HOTKEY_SHOWHIDE_WINDOW :
         return QObject::tr("Show/hide main window");
+    case HOTKEY_SPEAK_PING:
+        return QObject::tr("Speak Ping Status");
     case HOTKEY_NEXT_UNUSED :
     case HOTKEY_NONE :
         break;

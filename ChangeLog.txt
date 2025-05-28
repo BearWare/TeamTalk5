@@ -4,7 +4,7 @@
 
 Version 5.18.1, unreleased
 Default Qt Client
--
+- Added a hotkey to announce the current ping status
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions

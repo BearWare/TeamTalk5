@@ -43,6 +43,7 @@ ShortcutsModel::ShortcutsModel(QObject* parent)
     m_shortcuts.push_back(HOTKEY_VIDEOTX);
     m_shortcuts.push_back(HOTKEY_REINITSOUNDDEVS);
     m_shortcuts.push_back(HOTKEY_SHOWHIDE_WINDOW);
+    m_shortcuts.push_back(HOTKEY_SPEAK_PING);
 }
 
 QVariant ShortcutsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const

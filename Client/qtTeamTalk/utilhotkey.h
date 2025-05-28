@@ -34,6 +34,7 @@ enum HotKeyID
     HOTKEY_VIDEOTX = qulonglong(1) << 7,
     HOTKEY_REINITSOUNDDEVS = qulonglong(1) << 8,
     HOTKEY_SHOWHIDE_WINDOW = qulonglong(1) << 9,
+    HOTKEY_SPEAK_PING = qulonglong(1) << 10,
 
     HOTKEY_FIRST = HOTKEY_PUSHTOTALK,
     HOTKEY_NEXT_UNUSED = qulonglong(1) << 10,
