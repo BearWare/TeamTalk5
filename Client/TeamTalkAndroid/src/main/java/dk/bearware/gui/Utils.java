@@ -269,10 +269,12 @@ public class Utils {
 
     public static void toggleTransmitUsers(User user, Channel chan, int streamtype, boolean allow) {
 
-        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT)
-            allow = !allow;
+        boolean clear;
+        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM)
+            clear = !allow;
+        else clear = allow;
 
-        if (allow) {
+        if (clear) {
             for (int i = 0; i < chan.transmitUsers.length; i++) {
                 if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                     chan.transmitUsers[i][0] = user.nUserID;
