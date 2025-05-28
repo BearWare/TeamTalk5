@@ -46,7 +46,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
@@ -84,6 +83,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -102,6 +102,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Vector;
 
 import dk.bearware.Channel;
@@ -2163,6 +2164,10 @@ private EditText newmsg;
         }
 
         if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+
+            if (ttsWrapper != null) {
+                Utils.ttsTransmitUsersToggled(getBaseContext(), mychannel, channel, ttservice.getUsers()).ifPresent(text -> ttsWrapper.speak(text));
+            }
 
             int myuserid = ttclient.getMyUserID();
 
