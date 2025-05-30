@@ -4,7 +4,7 @@
 
 Version 5.18.1, unreleased
 Default Qt Client
--
+- Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
 Android Client
 -
 iOS Client
