@@ -4088,7 +4088,7 @@ void MainWindow::slotClientNewInstance(bool /*checked=false*/)
     // load existing profiles
     QMap<QString, QString> profiles;
     QStringList profilenames;
-    const int MAX_PROFILES = 16;
+    const int MAX_PROFILES = 1000;
     int freeno = -1;
     for (int i = 1;i <= MAX_PROFILES;i++)
     {
