@@ -127,6 +127,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_desktopsession_total(0)
 , m_desktopsession_remain(0)
 , m_desktopsend_on_completion(false)
+, m_lastPing(-1)
 #if defined(Q_OS_WIN32)
 , m_hShareWnd(nullptr)
 #elif defined(Q_OS_DARWIN)
@@ -2484,6 +2485,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
             float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
             float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
             int ping = stats.nUdpPingTimeMs;
+            if (ping >= 0) { // Only update if ping is valid
+                m_lastPing = ping;
+            }
             m_clientstats = stats;
 
             QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
@@ -7936,9 +7940,9 @@ void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
     TT_GetClientStatistics(ttInst, &stats);
     float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
     float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
-    int ping = stats.nUdpPingTimeMs;
+    // int ping = stats.nUdpPingTimeMs;
     QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
-    if (ping >= 0)
-        strstats += QString(", PING: %3").arg(ping);
+    if (m_lastPing >= 0)
+        strstats += QString(", PING: %3").arg(m_lastPing);
     addTextToSpeechMessage(strstats);
 }
