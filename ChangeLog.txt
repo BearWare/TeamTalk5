@@ -4,7 +4,8 @@
 
 Version 5.18.1, unreleased
 Default Qt Client
--
+- Ctrl+Shift+C to copy only message content in chat list
+- Ctrl+Alt+Shift+C to copy all chat list history
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
