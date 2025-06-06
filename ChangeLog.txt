@@ -11,7 +11,7 @@ Android Client
 - Ability to play sound when voice activation is toggled
 - Ability to use Text-To-Speech to announce transmission changes
 iOS Client
--
+- Use VoiceOver to announce TTS events for screen reader users
 Server
 -
 
