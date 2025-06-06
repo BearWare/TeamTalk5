@@ -1912,14 +1912,8 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
     if (m_idled_out) {
-        statusmsg = ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString();
-        if (statusmsg.isEmpty()) {
-            // Fallback to general status message if away message is empty
-            statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-        }
-    } else {
-        statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
-    }
+        statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty() ? statusmsg : ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
+    }    }
 
     m_statusmode &= ~STATUSMODE_GENDER_MASK;
     switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
