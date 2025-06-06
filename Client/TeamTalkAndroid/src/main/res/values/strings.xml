@@ -51,6 +51,8 @@
     <string name="pref_title_audio_icons">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
+    <string name="pref_title_vox_audio_icon">Voice activation toggle</string>
+    <string name="pref_summary_vox_audio_icon">Play sound when voice activation button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
     <string name="pref_title_private_message_audio_icon">Private message</string>
