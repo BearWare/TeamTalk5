@@ -8,6 +8,7 @@ Default Qt Client
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
+- Ability to play sound when voice activation is toggled
 - Ability to use Text-To-Speech to announce transmission changes
 iOS Client
 -
