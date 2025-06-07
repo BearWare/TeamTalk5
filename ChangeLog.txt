@@ -4,7 +4,7 @@
 
 Version 5.18.1, unreleased
 Default Qt Client
--
+- Now, when pressing Ctrl+T, the ping is announced correctly/updated.
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions

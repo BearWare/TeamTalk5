@@ -125,6 +125,7 @@ private:
     QLabel* m_pinglabel;
     QLabel* m_dtxlabel;
     QProgressBar* m_dtxprogress;
+    int m_lastPing;
     QMap<MainTab, ChatTextHistory*> m_chathistory;
 
     //keep track for active commands awaiting replies
