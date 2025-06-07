@@ -29,7 +29,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
@@ -584,50 +583,48 @@ extends AppCompatActivity
         loadServerListAsync();
     }
 
-    class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        String latestclient = "", versionmsg = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
+    private void checkVersionAsync() {
+        if (executorService == null) return;
+        
+        executorService.execute(() -> {
             String urlToRead = AppInfo.getUpdateURL(ServerListActivity.this);
-
             String xml = Utils.getURL(urlToRead);
-            if(!xml.isEmpty()) {
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder;
-                Document doc;
+            String latestClient = "";
+            String versionMsg = "";
+
+            if (!xml.isEmpty()) {
                 try {
-                    dBuilder = dbFactory.newDocumentBuilder();
-                    doc = dBuilder.parse(new InputSource(new StringReader(xml)));
-                }
-                catch(Exception e) {
-                    return null;
-                }
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+                    doc.getDocumentElement().normalize();
 
-                doc.getDocumentElement().normalize();
-
-                NodeList nList = doc.getElementsByTagName("teamtalk");
-                for (int i = 0; i < nList.getLength(); i++) {
-                    Node nNode = nList.item(i);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement = (Element) nNode;
-                        NodeList nName = eElement.getElementsByTagName("name");
-                        if(nName.getLength()>0)
-                            latestclient = nName.item(0).getTextContent();
+                    NodeList nList = doc.getElementsByTagName("teamtalk");
+                    for (int i = 0; i < nList.getLength(); i++) {
+                        Node nNode = nList.item(i);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            NodeList nName = eElement.getElementsByTagName("name");
+                            if (nName.getLength() > 0) {
+                                latestClient = nName.item(0).getTextContent();
+                            }
+                        }
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error parsing version XML", e);
                 }
             }
-            return null;
-        }
 
-        protected void onPostExecute(Void result) {
-            if(versionmsg.length()>0) {
-                Toast.makeText(ServerListActivity.this,
-                               getString(R.string.version_update, latestclient),
-                               Toast.LENGTH_LONG).show();
-            }
-        }
+            final String finalLatestClient = latestClient;
+            final String finalVersionMsg = versionMsg;
+            runOnUiThread(() -> {
+                if (finalVersionMsg.length() > 0) {
+                    Toast.makeText(ServerListActivity.this,
+                            getString(R.string.version_update, finalLatestClient),
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+        });
     }
 
     @Override
@@ -672,7 +669,7 @@ extends AppCompatActivity
         tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
-        new VersionCheckAsyncTask().execute();
+        checkVersionAsync();
     }
 
     @Override
