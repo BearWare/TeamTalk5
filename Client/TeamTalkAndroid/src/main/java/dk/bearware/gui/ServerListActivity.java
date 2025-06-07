@@ -743,80 +743,78 @@ extends AppCompatActivity
         startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
     }
 
+    private ListFragment getListFragment() {
+        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
+    }
+
     private void exportServers() {
-        Vector<ServerEntry> entries = new Vector<>();
-        synchronized(servers) {
-            for (ServerEntry entry : servers)
-                if (entry.servertype == ServerEntry.ServerType.LOCAL)
-                    entries.add(entry);
-        }
-        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (dirPath.mkdirs() || dirPath.isDirectory()) {
-            final File ttFile = new File(dirPath, "tt5servers.tt");
-            final String filePath = ttFile.getAbsolutePath();
-            if (ttFile.exists()) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage(getString(R.string.alert_file_override, filePath));
-                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    if (ttFile.delete()) {
-                        int msgId = Utils.saveServers(entries, filePath) ?
-                            R.string.serverlist_export_confirmation :
-                            R.string.err_file_write;
-                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(ServerListActivity.this,
-                                       getString(R.string.err_file_delete, filePath),
-                                       Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                alert.setNegativeButton(android.R.string.no, null);
-                alert.show();
-            }
-
-            else {
-                int msgId = Utils.saveServers(entries, filePath) ?
-                    R.string.serverlist_export_confirmation :
-                    R.string.err_file_write;
-                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-            }
+        Vector<ServerEntry> localServers = getLocalServers();
+        File ttFile = createExportFile("tt5servers.tt");
+        if (ttFile != null) {
+            exportToFile(localServers, ttFile, R.string.serverlist_export_confirmation);
         }
     }
 
     private void exportServer(ServerEntry entry) {
-        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (dirPath.mkdirs() || dirPath.isDirectory()) {
-            final File ttFile = new File(dirPath, entry.servername + "_server.tt");
-            final String filePath = ttFile.getAbsolutePath();
-
-            if (ttFile.exists()) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage(getString(R.string.alert_file_override, filePath));
-                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    if (ttFile.delete()) {
-                        int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
-                            R.string.server_export_confirmation :
-                            R.string.err_file_write;
-                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(ServerListActivity.this, getString(R.string.err_file_delete, filePath), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                alert.setNegativeButton(android.R.string.no, null);
-                alert.show();
-            } else {
-                int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
-                    R.string.server_export_confirmation :
-                    R.string.err_file_write;
-                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-            }
+        Vector<ServerEntry> singleServer = new Vector<>(Collections.singletonList(entry));
+        File ttFile = createExportFile(entry.servername + "_server.tt");
+        if (ttFile != null) {
+            exportToFile(singleServer, ttFile, R.string.server_export_confirmation);
         }
     }
 
-    private ListFragment getListFragment() {
-        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
+    private Vector<ServerEntry> getLocalServers() {
+        Vector<ServerEntry> localServers = new Vector<>();
+        synchronized(servers) {
+            for (ServerEntry entry : servers) {
+                if (entry.servertype == ServerEntry.ServerType.LOCAL) {
+                    localServers.add(entry);
+                }
+            }
+        }
+        return localServers;
+    }
+
+    private File createExportFile(String fileName) {
+        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (dirPath.mkdirs() || dirPath.isDirectory()) {
+            return new File(dirPath, fileName);
+        }
+        return null;
+    }
+
+    private void exportToFile(Vector<ServerEntry> entries, File ttFile, int successMsgId) {
+        final String filePath = ttFile.getAbsolutePath();
+        
+        if (ttFile.exists()) {
+            showFileOverrideDialog(entries, ttFile, filePath, successMsgId);
+        } else {
+            performExport(entries, filePath, successMsgId);
+        }
+    }
+
+    private void showFileOverrideDialog(Vector<ServerEntry> entries, File ttFile, String filePath, int successMsgId) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage(getString(R.string.alert_file_override, filePath));
+        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            if (ttFile.delete()) {
+                performExport(entries, filePath, successMsgId);
+            } else {
+                showToast(getString(R.string.err_file_delete, filePath));
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, null);
+        alert.show();
+    }
+
+    private void performExport(Vector<ServerEntry> entries, String filePath, int successMsgId) {
+        boolean success = Utils.saveServers(entries, filePath);
+        int msgId = success ? successMsgId : R.string.err_file_write;
+        showToast(getString(msgId, filePath));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
     private void showRemoveServerDialog(ServerEntry entry, int position) {
