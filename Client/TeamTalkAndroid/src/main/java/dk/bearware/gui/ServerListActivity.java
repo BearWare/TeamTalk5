@@ -39,17 +39,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.ListFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -63,8 +61,10 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -84,20 +84,19 @@ import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.events.ClientEventListener;
 
-public class ServerListActivity
-extends AppCompatActivity
-        implements AdapterView.OnItemClickListener,
-        AdapterView.OnItemLongClickListener,
-        TeamTalkConnectionListener,
+public class ServerListActivity extends AppCompatActivity
+        implements TeamTalkConnectionListener,
         Comparator<ServerEntry>,
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    ServerEntry serverentry;
+    private TeamTalkConnection mConnection;
+    private TeamTalkService ttservice;
+    private TeamTalkBase ttclient;
+    private ServerEntry serverentry;
 
     private ServerListAdapter adapter;
+    private RecyclerView recyclerView;
+    private TextView emptyView;
     private ExecutorService executorService;
 
     public static final String TAG = "bearware";
@@ -105,17 +104,30 @@ extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        adapter = new ServerListAdapter(this.getBaseContext());
-
         setContentView(R.layout.activity_server_list);
-        getListFragment().setListAdapter(adapter);
-        getListFragment().setEmptyText(getString(R.string.server_list_empty));
-        getListFragment().getListView().setOnItemClickListener(this);
-        getListFragment().getListView().setOnItemLongClickListener(this);
-
+        initializeViews();
+        setupRecyclerView();
         setTitle(R.string.title_activity_server_list);
         executorService = Executors.newFixedThreadPool(2);
+    }
+
+    private void initializeViews() {
+        recyclerView = findViewById(R.id.servers_recycler_view);
+        emptyView = findViewById(R.id.empty_view);
+    }
+
+    private void setupRecyclerView() {
+        adapter = new ServerListAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        updateEmptyView();
+    }
+
+    private void updateEmptyView() {
+        if (adapter == null) return;
+        boolean isEmpty = adapter.getItemCount() == 0;
+        emptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -128,7 +140,7 @@ extends AppCompatActivity
             loadServerFromUri(uri);
         }
 
-        if (mConnection.isBound()) {
+        if (mConnection != null && mConnection.isBound()) {
             // reset state since we're creating a new connection
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
@@ -158,10 +170,9 @@ extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if (mConnection.isBound())
+        if (mConnection != null && mConnection.isBound())
             ttservice.getEventHandler().unregisterListener(this);
     }
-
 
     @Override
     protected void onStart() {
@@ -193,7 +204,7 @@ extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        if(isFinishing() && mConnection.isBound()) {
+        if(isFinishing() && mConnection != null && mConnection.isBound()) {
             // Unbind from the service.
             ttservice.resetState();
             onServiceDisconnected(ttservice);
@@ -212,7 +223,7 @@ extends AppCompatActivity
         }
 
         // Unbind from the service
-        if(mConnection.isBound()) {
+        if(mConnection != null && mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
             onServiceDisconnected(ttservice);
             unbindService(mConnection);
@@ -238,7 +249,7 @@ extends AppCompatActivity
                     if(entry != null) {
                         servers.add(entry);
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -257,7 +268,7 @@ extends AppCompatActivity
                             servers.add(entry);
                         }
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -285,7 +296,7 @@ extends AppCompatActivity
                         }
                         servers.addAll(entries);
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -335,21 +346,20 @@ extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-
-        this.serverentry = servers.get(position);
+    private void onServerClick(ServerEntry entry) {
+        if (ttservice == null) {
+            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+            return;
+        }
+        this.serverentry = entry;
         ttservice.setServerEntry(this.serverentry);
 
         if (!ttservice.reconnect())
             Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> l, View v, int position, long id) {
-        ServerEntry entry = servers.elementAt(position);
-
-        PopupMenu serverActions = new PopupMenu(this, v);
+    private void onServerLongClick(View view, ServerEntry entry, int position) {
+        PopupMenu serverActions = new PopupMenu(this, view);
         serverActions.inflate(R.menu.server_actions);
         serverActions.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -363,14 +373,13 @@ extends AppCompatActivity
                     startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
                     return true;
                 case R.id.action_removesrv:
-                    showRemoveServerDialog(entry, position);
+                    showRemoveServerDialog(entry);
                     return true;
                 default:
                     return false;
             }
         });
         serverActions.show();
-        return true;
     }
 
     void loadServerFromUri(Uri uri) {
@@ -401,67 +410,98 @@ extends AppCompatActivity
         Log.i(TAG, "Connecting to " + entry.servername);
     }
 
-    final Vector<ServerEntry> servers = new Vector<>();
+    private final Vector<ServerEntry> servers = new Vector<>();
 
-    class ServerListAdapter extends BaseAdapter {
+    private class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
+        private List<ServerEntry> serversList = new ArrayList<>();
 
-        private final LayoutInflater inflater;
+        public ServerListAdapter() {
+            updateServers();
+        }
 
-        ServerListAdapter(Context context) {
-            inflater = LayoutInflater.from(context);
+        @NonNull
+        @Override
+        public ServerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_serverentry, parent, false);
+            return new ServerViewHolder(view);
         }
 
         @Override
-        public int getCount() {
-            return servers.size();
-        }
-
-        @Override
-        public Object getItem(int position) {
-            return servers.get(position);
-        }
-
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            if(convertView == null)
-                convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
-
-            ImageView img = convertView.findViewById(R.id.servericon);
-            TextView name = convertView.findViewById(R.id.server_name);
-            TextView summary = convertView.findViewById(R.id.server_summary);
-            name.setText(servers.get(position).servername);
-            switch (servers.get(position).servertype) {
-                case LOCAL :
-                    img.setImageResource(R.drawable.teamtalk_yellow);
-                    img.setContentDescription(getString(R.string.text_localserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-                    break;
-                case OFFICIAL :
-                    img.setImageResource(R.drawable.teamtalk_blue);
-                    img.setContentDescription(getString(R.string.text_officialserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
-                case PUBLIC :
-                    img.setImageResource(R.drawable.teamtalk_green);
-                    img.setContentDescription(getString(R.string.text_publicserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
-                case UNOFFICIAL:
-                    img.setImageResource(R.drawable.teamtalk_orange);
-                    img.setContentDescription(getString(R.string.text_unofficialserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
-            }
+        public void onBindViewHolder(@NonNull ServerViewHolder holder, int position) {
             ServerEntry entry = servers.get(position);
-            summary.setText(getString(R.string.text_server_summary, entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
+            holder.bind(entry, position);
+        }
 
-            return convertView;
+        @Override
+        public int getItemCount() {
+            return serversList.size();
+        }
+
+        public void updateServers() {
+            serversList.clear();
+            serversList.addAll(servers);
+            notifyDataSetChanged();
+            updateEmptyView();
+        }
+
+        public void removeServer(ServerEntry entry) {
+            int index = serversList.indexOf(entry);
+            if (index != -1) {
+                serversList.remove(index);
+                notifyItemRemoved(index);
+            }
+        }
+
+        private class ServerViewHolder extends RecyclerView.ViewHolder {
+            private final ImageView serverIcon;
+            private final TextView serverName;
+            private final TextView serverSummary;
+
+            public ServerViewHolder(@NonNull View itemView) {
+                super(itemView);
+                serverIcon = itemView.findViewById(R.id.servericon);
+                serverName = itemView.findViewById(R.id.server_name);
+                serverSummary = itemView.findViewById(R.id.server_summary);
+            }
+
+            public void bind(ServerEntry entry, int position) {
+                serverName.setText(entry.servername);
+                setServerIcon(entry);
+                serverSummary.setText(getString(R.string.text_server_summary, 
+                    entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
+
+                itemView.setOnClickListener(v -> onServerClick(entry));
+                itemView.setOnLongClickListener(v -> {
+                    onServerLongClick(v, entry, position);
+                    return true;
+                });
+            }
+
+            private void setServerIcon(ServerEntry entry) {
+                switch (entry.servertype) {
+                    case LOCAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_yellow);
+                        serverIcon.setContentDescription(getString(R.string.text_localserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                        break;
+                    case OFFICIAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_blue);
+                        serverIcon.setContentDescription(getString(R.string.text_officialserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                    case PUBLIC:
+                        serverIcon.setImageResource(R.drawable.teamtalk_green);
+                        serverIcon.setContentDescription(getString(R.string.text_publicserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                    case UNOFFICIAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_orange);
+                        serverIcon.setContentDescription(getString(R.string.text_unofficialserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                }
+            }
         }
     }
 
@@ -535,7 +575,7 @@ extends AppCompatActivity
         }
 
         Collections.sort(servers, this);
-        adapter.notifyDataSetChanged();
+        adapter.updateServers();
     }
 
     private void loadServerListAsync() {
@@ -565,7 +605,7 @@ extends AppCompatActivity
                     synchronized (servers) {
                         servers.addAll(finalEntries);
                     }
-                    adapter.notifyDataSetChanged();
+                    adapter.updateServers();
                 }
             });
         });
@@ -677,7 +717,6 @@ extends AppCompatActivity
         service.getEventHandler().unregisterListener(this);
     }
 
-
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         if (serverentry != null) {
@@ -746,10 +785,6 @@ extends AppCompatActivity
         intent.setType("*/*");
         Intent i = Intent.createChooser(intent, "File");
         startActivityForResult(i, REQUEST_IMPORT_SERVERLIST);
-    }
-
-    private ListFragment getListFragment() {
-        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
     }
 
     private void exportServers() {
@@ -822,13 +857,14 @@ extends AppCompatActivity
         Toast.makeText(this, message, Toast.LENGTH_LONG).show();
     }
 
-    private void showRemoveServerDialog(ServerEntry entry, int position) {
+    private void showRemoveServerDialog(ServerEntry entry) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
         alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
         alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-            servers.remove(position);
-            adapter.notifyDataSetChanged();
+            servers.remove(entry);
+            adapter.removeServer(entry);
             saveServers();
+            updateEmptyView();
         });
         alert.setNegativeButton(android.R.string.no, null);
         alert.show();
