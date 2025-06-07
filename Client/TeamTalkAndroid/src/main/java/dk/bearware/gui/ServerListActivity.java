@@ -49,6 +49,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.ViewCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -515,6 +516,36 @@ public class ServerListActivity extends AppCompatActivity
                     onServerLongClick(v, entry, position);
                     return true;
                 });
+                
+                setupAccessibilityActions(entry, position);
+            }
+
+            private void setupAccessibilityActions(ServerEntry entry, int position) {
+                ViewCompat.addAccessibilityAction(itemView, 
+                    getString(R.string.action_editsrv),
+                    (view, arguments) -> {
+                        Intent intent = new Intent(ServerListActivity.this, ServerEntryActivity.class);
+                        startActivityForResult(Utils.putServerEntry(intent, entry)
+                            .putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
+                        return true;
+                    });
+                    
+                ViewCompat.addAccessibilityAction(itemView,
+                    getString(R.string.action_exportsrv), 
+                    (view, arguments) -> {
+                        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || 
+                            Permissions.WRITE_EXTERNAL_STORAGE.request(ServerListActivity.this)) {
+                            exportServer(entry);
+                        }
+                        return true;
+                    });
+                    
+                ViewCompat.addAccessibilityAction(itemView,
+                    getString(R.string.action_removesrv),
+                    (view, arguments) -> {
+                        showRemoveServerDialog(entry);
+                        return true;
+                    });
             }
 
             private void setServerIcon(ServerEntry entry) {
