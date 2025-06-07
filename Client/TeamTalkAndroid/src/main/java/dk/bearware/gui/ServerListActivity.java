@@ -67,6 +67,8 @@ import java.io.StringReader;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -97,6 +99,7 @@ extends AppCompatActivity
     ServerEntry serverentry;
 
     private ServerListAdapter adapter;
+    private ExecutorService executorService;
 
     public static final String TAG = "bearware";
 
@@ -113,6 +116,7 @@ extends AppCompatActivity
         getListFragment().getListView().setOnItemLongClickListener(this);
 
         setTitle(R.string.title_activity_server_list);
+        executorService = Executors.newFixedThreadPool(2);
     }
 
     @Override
@@ -203,6 +207,10 @@ extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (executorService != null) {
+            executorService.shutdown();
+        }
 
         // Unbind from the service
         if(mConnection.isBound()) {
@@ -531,12 +539,10 @@ extends AppCompatActivity
         adapter.notifyDataSetChanged();
     }
 
-    class ServerListAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        Vector<ServerEntry> entries;
-
-        @Override
-        protected Void doInBackground(Void... params) {
+    private void loadServerListAsync() {
+        if (executorService == null) return;
+        
+        executorService.execute(() -> {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
             String urlToRead = AppInfo.getServerListURL(ServerListActivity.this,
@@ -544,27 +550,29 @@ extends AppCompatActivity
                     pref.getBoolean(Preferences.PREF_GENERAL_UNOFFICIALSERVERS, false));
 
             String xml = Utils.getURL(urlToRead);
-            if(!xml.isEmpty())
+            Vector<ServerEntry> entries = null;
+            if (!xml.isEmpty()) {
                 entries = Utils.getXmlServerEntries(xml);
-            return null;
-        }
-
-        protected void onPostExecute(Void result) {
-            if(entries == null)
-                Toast.makeText(ServerListActivity.this,
-                               R.string.err_retrieve_public_server_list,
-                               Toast.LENGTH_LONG).show();
-            else if(entries.size() > 0) {
-                Collections.sort(entries, ServerListActivity.this);
-                synchronized(servers) {
-                    servers.addAll(entries);
-                }
-                adapter.notifyDataSetChanged();
             }
-        }
+
+            final Vector<ServerEntry> finalEntries = entries;
+            runOnUiThread(() -> {
+                if (finalEntries == null) {
+                    Toast.makeText(ServerListActivity.this,
+                            R.string.err_retrieve_public_server_list,
+                            Toast.LENGTH_LONG).show();
+                } else if (finalEntries.size() > 0) {
+                    Collections.sort(finalEntries, ServerListActivity.this);
+                    synchronized (servers) {
+                        servers.addAll(finalEntries);
+                    }
+                    adapter.notifyDataSetChanged();
+                }
+            });
+        });
     }
 
-    void refreshServerList() {
+    private void refreshServerList() {
         synchronized(servers) {
             servers.clear();
             loadLocalServers();        
@@ -573,7 +581,7 @@ extends AppCompatActivity
         // Get public servers from http. TeamTalk DLL must be loaded by
         // service, otherwise static methods are unavailable (for getting DLL
         // version number).
-        new ServerListAsyncTask().execute();
+        loadServerListAsync();
     }
 
     class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
