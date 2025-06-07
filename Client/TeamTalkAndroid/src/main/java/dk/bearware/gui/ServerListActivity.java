@@ -356,15 +356,7 @@ extends AppCompatActivity
                     startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
                     return true;
                 case R.id.action_removesrv:
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                    alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
-                    alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                        servers.remove(position);
-                        adapter.notifyDataSetChanged();
-                        saveServers();
-                    });
-                    alert.setNegativeButton(android.R.string.no, null);
-                    alert.show();
+                    showRemoveServerDialog(entry, position);
                     return true;
                 default:
                     return false;
@@ -827,4 +819,15 @@ extends AppCompatActivity
         return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
     }
 
+    private void showRemoveServerDialog(ServerEntry entry, int position) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
+        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            servers.remove(position);
+            adapter.notifyDataSetChanged();
+            saveServers();
+        });
+        alert.setNegativeButton(android.R.string.no, null);
+        alert.show();
+    }
 }
