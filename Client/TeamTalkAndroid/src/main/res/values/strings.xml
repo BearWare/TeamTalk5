@@ -248,6 +248,7 @@
     <string name="default_">Default</string>
 
     <string name="server_list_empty">TeamTalk 5 Server List is empty</string>
+    <string name="search_servers_hint">Search servers by name</string>
     <string name="no_nickname">No Nickname</string>
     <string name="message_text">Message Text</string>
     <string name="time_date">Time Date</string>

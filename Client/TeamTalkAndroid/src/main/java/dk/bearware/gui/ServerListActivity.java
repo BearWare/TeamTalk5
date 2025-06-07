@@ -33,12 +33,15 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
 import android.widget.TextView;
@@ -96,6 +99,7 @@ public class ServerListActivity extends AppCompatActivity
 
     private ServerListAdapter adapter;
     private RecyclerView recyclerView;
+    private EditText searchEditText;
     private TextView emptyView;
     private ExecutorService executorService;
 
@@ -107,12 +111,14 @@ public class ServerListActivity extends AppCompatActivity
         setContentView(R.layout.activity_server_list);
         initializeViews();
         setupRecyclerView();
+        setupSearch();
         setTitle(R.string.title_activity_server_list);
         executorService = Executors.newFixedThreadPool(2);
     }
 
     private void initializeViews() {
         recyclerView = findViewById(R.id.servers_recycler_view);
+        searchEditText = findViewById(R.id.search_edit_text);
         emptyView = findViewById(R.id.empty_view);
     }
 
@@ -121,6 +127,21 @@ public class ServerListActivity extends AppCompatActivity
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(adapter);
         updateEmptyView();
+    }
+
+    private void setupSearch() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
     }
 
     private void updateEmptyView() {
@@ -413,10 +434,11 @@ public class ServerListActivity extends AppCompatActivity
     private final Vector<ServerEntry> servers = new Vector<>();
 
     private class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
-        private List<ServerEntry> serversList = new ArrayList<>();
+        private List<ServerEntry> filteredServers = new ArrayList<>();
+        private String currentFilter = "";
 
         public ServerListAdapter() {
-            updateServers();
+            updateFilteredList();
         }
 
         @NonNull
@@ -429,26 +451,43 @@ public class ServerListActivity extends AppCompatActivity
 
         @Override
         public void onBindViewHolder(@NonNull ServerViewHolder holder, int position) {
-            ServerEntry entry = servers.get(position);
+            ServerEntry entry = filteredServers.get(position);
             holder.bind(entry, position);
         }
 
         @Override
         public int getItemCount() {
-            return serversList.size();
+            return filteredServers.size();
         }
 
-        public void updateServers() {
-            serversList.clear();
-            serversList.addAll(servers);
+        public void filter(String query) {
+            currentFilter = query.toLowerCase().trim();
+            updateFilteredList();
+        }
+
+        private void updateFilteredList() {
+            filteredServers.clear();
+            if (currentFilter.isEmpty()) {
+                filteredServers.addAll(servers);
+            } else {
+                for (ServerEntry server : servers) {
+                    if (server.servername.toLowerCase().contains(currentFilter)) {
+                        filteredServers.add(server);
+                    }
+                }
+            }
             notifyDataSetChanged();
             updateEmptyView();
         }
 
+        public void updateServers() {
+            updateFilteredList();
+        }
+
         public void removeServer(ServerEntry entry) {
-            int index = serversList.indexOf(entry);
+            int index = filteredServers.indexOf(entry);
             if (index != -1) {
-                serversList.remove(index);
+                filteredServers.remove(index);
                 notifyItemRemoved(index);
             }
         }
