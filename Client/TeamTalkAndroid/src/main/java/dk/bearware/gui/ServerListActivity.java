@@ -103,8 +103,15 @@ public class ServerListActivity extends AppCompatActivity
     private EditText searchEditText;
     private TextView emptyView;
     private ExecutorService executorService;
+    
+    private final Vector<ServerEntry> servers = new Vector<>();
 
-    public static final String TAG = "bearware";
+    private static final String TAG = "bearware";
+    private static final String SERVERLIST_NAME = "serverlist";
+    private static final int REQUEST_EDITSERVER = 1;
+    private static final int REQUEST_NEWSERVER = 2;
+    private static final int REQUEST_IMPORT_SERVERLIST = 3;
+    private static final String POSITION_NAME = "pos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,8 +181,9 @@ public class ServerListActivity extends AppCompatActivity
             if (this.serverentry != null) {
                 ttservice.setServerEntry(this.serverentry);
 
-                if (!ttservice.reconnect())
-                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+                if (!ttservice.reconnect()) {
+                    showToast(getString(R.string.err_connection));
+                }
             }
         }
     }
@@ -255,10 +263,6 @@ public class ServerListActivity extends AppCompatActivity
         Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
-    static final int REQUEST_EDITSERVER = 1;
-    static final int REQUEST_NEWSERVER = 2;
-    static final int REQUEST_IMPORT_SERVERLIST = 3;
-    static final String POSITION_NAME = "pos";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -370,14 +374,15 @@ public class ServerListActivity extends AppCompatActivity
 
     private void onServerClick(ServerEntry entry) {
         if (ttservice == null) {
-            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+            showToast(getString(R.string.err_connection));
             return;
         }
         this.serverentry = entry;
         ttservice.setServerEntry(this.serverentry);
 
-        if (!ttservice.reconnect())
-            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+        if (!ttservice.reconnect()) {
+            showToast(getString(R.string.err_connection));
+        }
     }
 
     private void onServerLongClick(View view, ServerEntry entry, int position) {
@@ -404,35 +409,38 @@ public class ServerListActivity extends AppCompatActivity
         serverActions.show();
     }
 
-    void loadServerFromUri(Uri uri) {
+    private void loadServerFromUri(Uri uri) {
         ServerEntry entry = new ServerEntry();
         String host = uri.getHost();
-        if (host != null && !host.equals("")) {
+        
+        if (host != null && !host.isEmpty()) {
             entry.ipaddr = host;
+            entry.servername = host + ":" + getIntParameterOrDefault(uri, "tcpport", Constants.DEFAULT_TCP_PORT);
         }
-        String tcpport = uri.getQueryParameter("tcpport");
-        entry.tcpport = tcpport != null ? Integer.parseInt(tcpport) : Constants.DEFAULT_TCP_PORT;
-        String udpport = uri.getQueryParameter("udpport");
-        entry.udpport = udpport != null ? Integer.parseInt(udpport) : Constants.DEFAULT_UDP_PORT;
-        String username = uri.getQueryParameter("username");
-        entry.username = username != null ? username : "";
-        String password = uri.getQueryParameter("password");
-        entry.password = password != null ? password : "";
+        
+        entry.tcpport = getIntParameterOrDefault(uri, "tcpport", Constants.DEFAULT_TCP_PORT);
+        entry.udpport = getIntParameterOrDefault(uri, "udpport", Constants.DEFAULT_UDP_PORT);
+        entry.username = getStringParameterOrDefault(uri, "username", "");
+        entry.password = getStringParameterOrDefault(uri, "password", "");
+        entry.channel = getStringParameterOrDefault(uri, "channel", entry.channel);
+        entry.chanpasswd = getStringParameterOrDefault(uri, "chanpasswd", entry.chanpasswd);
+        
         String encrypted = uri.getQueryParameter("encrypted");
-        entry.encrypted = encrypted != null ? encrypted.equalsIgnoreCase("true") || encrypted.equals("1") : entry.encrypted;
-        String channel = uri.getQueryParameter("channel");
-        entry.channel = channel != null ? channel : entry.channel;
-        String chpasswd = uri.getQueryParameter("chanpasswd");
-        entry.chanpasswd = chpasswd != null ? chpasswd : entry.chanpasswd;
-
-        entry.servername = host + ":" + entry.tcpport;
+        entry.encrypted = encrypted != null && (encrypted.equalsIgnoreCase("true") || encrypted.equals("1"));
 
         this.serverentry = entry;
-
         Log.i(TAG, "Connecting to " + entry.servername);
     }
 
-    private final Vector<ServerEntry> servers = new Vector<>();
+    private int getIntParameterOrDefault(Uri uri, String parameter, int defaultValue) {
+        String value = uri.getQueryParameter(parameter);
+        return value != null ? Integer.parseInt(value) : defaultValue;
+    }
+
+    private String getStringParameterOrDefault(Uri uri, String parameter, String defaultValue) {
+        String value = uri.getQueryParameter(parameter);
+        return value != null ? value : defaultValue;
+    }
 
     private class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
         private List<ServerEntry> filteredServers = new ArrayList<>();
@@ -462,23 +470,34 @@ public class ServerListActivity extends AppCompatActivity
         }
 
         public void filter(String query) {
-            currentFilter = query.toLowerCase().trim();
-            updateFilteredList();
+            String newFilter = query.toLowerCase().trim();
+            if (!newFilter.equals(currentFilter)) {
+                currentFilter = newFilter;
+                updateFilteredList();
+            }
         }
 
         private void updateFilteredList() {
-            filteredServers.clear();
+            List<ServerEntry> newFilteredList = new ArrayList<>();
             if (currentFilter.isEmpty()) {
-                filteredServers.addAll(servers);
+                newFilteredList.addAll(servers);
             } else {
                 for (ServerEntry server : servers) {
-                    if (server.servername.toLowerCase().contains(currentFilter)) {
-                        filteredServers.add(server);
+                    if (matchesFilter(server, currentFilter)) {
+                        newFilteredList.add(server);
                     }
                 }
             }
+            
+            filteredServers.clear();
+            filteredServers.addAll(newFilteredList);
             notifyDataSetChanged();
             updateEmptyView();
+        }
+
+        private boolean matchesFilter(ServerEntry server, String filter) {
+            return server.servername.toLowerCase().contains(filter) ||
+                   server.ipaddr.toLowerCase().contains(filter);
         }
 
         public void updateServers() {
@@ -575,77 +594,87 @@ public class ServerListActivity extends AppCompatActivity
         }
     }
 
-    static final String SERVERLIST_NAME = "serverlist";
-
-    void saveServers() {
-
-        // SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        // SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        SharedPreferences pref = this.getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+    private void saveServers() {
+        SharedPreferences pref = getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
-        int i = 0;
-        while(!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
-            edit.remove(i + ServerEntry.KEY_SERVERNAME);
-            edit.remove(i + ServerEntry.KEY_IPADDR);
-            edit.remove(i + ServerEntry.KEY_TCPPORT);
-            edit.remove(i + ServerEntry.KEY_UDPPORT);
-            edit.remove(i + ServerEntry.KEY_ENCRYPTED);
-            edit.remove(i + ServerEntry.KEY_USERNAME);
-            edit.remove(i + ServerEntry.KEY_PASSWORD);
-            edit.remove(i + ServerEntry.KEY_NICKNAME);
-            edit.remove(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL);
-            edit.remove(i + ServerEntry.KEY_CHANNEL);
-            edit.remove(i + ServerEntry.KEY_CHANPASSWD);
-            i++;
-        }
-
-        int j=0;
-        for(i = 0;i < servers.size();i++) {
-            if(servers.get(i).servertype != ServerEntry.ServerType.LOCAL)
-                continue;
-            edit.putString(j + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
-            edit.putString(j + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
-            edit.putInt(j + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
-            edit.putInt(j + ServerEntry.KEY_UDPPORT, servers.get(i).udpport);
-            edit.putBoolean(j + ServerEntry.KEY_ENCRYPTED, servers.get(i).encrypted);
-
-            edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
-            edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);
-            edit.putString(j + ServerEntry.KEY_NICKNAME, servers.get(i).nickname);
-
-            edit.putBoolean(j + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, servers.get(i).rememberLastChannel);
-            edit.putString(j + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
-            edit.putString(j + ServerEntry.KEY_CHANPASSWD, servers.get(i).chanpasswd);
-            j++;
-        }
-
+        clearExistingServerPreferences(pref, edit);
+        saveLocalServersToPreferences(edit);
         edit.apply();
     }
 
-    void loadLocalServers() {
-        //load from file
-        SharedPreferences pref = this.getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+    private void clearExistingServerPreferences(SharedPreferences pref, SharedPreferences.Editor edit) {
         int i = 0;
-        while(!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
-            ServerEntry entry = new ServerEntry();
-            entry.servername = pref.getString(i + ServerEntry.KEY_SERVERNAME, "");
-            entry.ipaddr = pref.getString(i + ServerEntry.KEY_IPADDR, "");
-            entry.tcpport = pref.getInt(i + ServerEntry.KEY_TCPPORT, 0);
-            entry.udpport = pref.getInt(i + ServerEntry.KEY_UDPPORT, 0);
-            entry.encrypted = pref.getBoolean(i + ServerEntry.KEY_ENCRYPTED, false);
-            entry.username = pref.getString(i + ServerEntry.KEY_USERNAME, "");
-            entry.password = pref.getString(i + ServerEntry.KEY_PASSWORD, "");
-            entry.nickname = pref.getString(i + ServerEntry.KEY_NICKNAME, "");
-            entry.rememberLastChannel = pref.getBoolean(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
-            entry.channel = pref.getString(i + ServerEntry.KEY_CHANNEL, "");
-            entry.chanpasswd = pref.getString(i + ServerEntry.KEY_CHANPASSWD, "");
+        while (!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
+            removeServerPreferencesAtIndex(edit, i);
+            i++;
+        }
+    }
+
+    private void removeServerPreferencesAtIndex(SharedPreferences.Editor edit, int index) {
+        String[] keys = {
+            ServerEntry.KEY_SERVERNAME, ServerEntry.KEY_IPADDR, ServerEntry.KEY_TCPPORT,
+            ServerEntry.KEY_UDPPORT, ServerEntry.KEY_ENCRYPTED, ServerEntry.KEY_USERNAME,
+            ServerEntry.KEY_PASSWORD, ServerEntry.KEY_NICKNAME, ServerEntry.KEY_REMEMBER_LAST_CHANNEL,
+            ServerEntry.KEY_CHANNEL, ServerEntry.KEY_CHANPASSWD
+        };
+        
+        for (String key : keys) {
+            edit.remove(index + key);
+        }
+    }
+
+    private void saveLocalServersToPreferences(SharedPreferences.Editor edit) {
+        int localServerIndex = 0;
+        for (ServerEntry server : servers) {
+            if (server.servertype == ServerEntry.ServerType.LOCAL) {
+                saveServerToPreferences(edit, server, localServerIndex);
+                localServerIndex++;
+            }
+        }
+    }
+
+    private void saveServerToPreferences(SharedPreferences.Editor edit, ServerEntry server, int index) {
+        edit.putString(index + ServerEntry.KEY_SERVERNAME, server.servername);
+        edit.putString(index + ServerEntry.KEY_IPADDR, server.ipaddr);
+        edit.putInt(index + ServerEntry.KEY_TCPPORT, server.tcpport);
+        edit.putInt(index + ServerEntry.KEY_UDPPORT, server.udpport);
+        edit.putBoolean(index + ServerEntry.KEY_ENCRYPTED, server.encrypted);
+        edit.putString(index + ServerEntry.KEY_USERNAME, server.username);
+        edit.putString(index + ServerEntry.KEY_PASSWORD, server.password);
+        edit.putString(index + ServerEntry.KEY_NICKNAME, server.nickname);
+        edit.putBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, server.rememberLastChannel);
+        edit.putString(index + ServerEntry.KEY_CHANNEL, server.channel);
+        edit.putString(index + ServerEntry.KEY_CHANPASSWD, server.chanpasswd);
+    }
+
+    private void loadLocalServers() {
+        SharedPreferences pref = getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+        int i = 0;
+        while (!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
+            ServerEntry entry = loadServerFromPreferences(pref, i);
             servers.add(entry);
             i++;
         }
 
         Collections.sort(servers, this);
         adapter.updateServers();
+    }
+
+    private ServerEntry loadServerFromPreferences(SharedPreferences pref, int index) {
+        ServerEntry entry = new ServerEntry();
+        entry.servername = pref.getString(index + ServerEntry.KEY_SERVERNAME, "");
+        entry.ipaddr = pref.getString(index + ServerEntry.KEY_IPADDR, "");
+        entry.tcpport = pref.getInt(index + ServerEntry.KEY_TCPPORT, 0);
+        entry.udpport = pref.getInt(index + ServerEntry.KEY_UDPPORT, 0);
+        entry.encrypted = pref.getBoolean(index + ServerEntry.KEY_ENCRYPTED, false);
+        entry.username = pref.getString(index + ServerEntry.KEY_USERNAME, "");
+        entry.password = pref.getString(index + ServerEntry.KEY_PASSWORD, "");
+        entry.nickname = pref.getString(index + ServerEntry.KEY_NICKNAME, "");
+        entry.rememberLastChannel = pref.getBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
+        entry.channel = pref.getString(index + ServerEntry.KEY_CHANNEL, "");
+        entry.chanpasswd = pref.getString(index + ServerEntry.KEY_CHANPASSWD, "");
+        return entry;
     }
 
     private void loadServerListAsync() {
@@ -667,9 +696,7 @@ public class ServerListActivity extends AppCompatActivity
             final Vector<ServerEntry> finalEntries = entries;
             runOnUiThread(() -> {
                 if (finalEntries == null) {
-                    Toast.makeText(ServerListActivity.this,
-                            R.string.err_retrieve_public_server_list,
-                            Toast.LENGTH_LONG).show();
+                    showToast(getString(R.string.err_retrieve_public_server_list));
                 } else if (finalEntries.size() > 0) {
                     Collections.sort(finalEntries, ServerListActivity.this);
                     synchronized (servers) {
@@ -729,9 +756,7 @@ public class ServerListActivity extends AppCompatActivity
             final String finalVersionMsg = versionMsg;
             runOnUiThread(() -> {
                 if (finalVersionMsg.length() > 0) {
-                    Toast.makeText(ServerListActivity.this,
-                            getString(R.string.version_update, finalLatestClient),
-                            Toast.LENGTH_LONG).show();
+                    showToast(getString(R.string.version_update, finalLatestClient));
                 }
             });
         });
@@ -766,8 +791,9 @@ public class ServerListActivity extends AppCompatActivity
         if (serverentry != null) {
             ttservice.setServerEntry(serverentry);
 
-            if (!ttservice.reconnect())
-                Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+            if (!ttservice.reconnect()) {
+                showToast(getString(R.string.err_connection));
+            }
         }
 
         refreshServerList();
