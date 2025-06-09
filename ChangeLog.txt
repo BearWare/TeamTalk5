@@ -6,6 +6,7 @@ Version 5.18.1, unreleased
 Default Qt Client
 - Ctrl+Shift+C to copy only message content in chat list
 - Ctrl+Alt+Shift+C to copy all chat list history
+- In the channel dialog, the bitrate range for OPUS is limited to 6-510
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions

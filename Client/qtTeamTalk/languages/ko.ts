@@ -543,7 +543,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="190"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>끊김 없는 맗하기 (두 명 이상이 동시에 말할 수 없습니다.)</translation>
+        <translation>끊김 없는 말하기 (두 명 이상이 동시에 말할 수 없습니다.)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
