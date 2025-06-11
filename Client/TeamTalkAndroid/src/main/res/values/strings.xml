@@ -36,8 +36,10 @@
     <string name="text_cmd_servername">Server name: </string>
     <string name="text_cmd_servermotd">Message of the day: </string>
     <string name="pref_cat_subscriptions">Subscriptions</string>
+    <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Text-To-Speech settings</string>
-    <string name="pref_cat_tts_events">Configure Text-To-Speech messages</string>
+    <string name="pref_cat_tts_events">General Text-To-Speech messages</string>
+    <string name="pref_cat_tts_transmission">Transmit Control Text-To-Speech messages</string>
     <string name="pref_cat_soundtest">Sound Test</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Nickname</string>
@@ -49,6 +51,8 @@
     <string name="pref_title_audio_icons">Sound Events</string>
     <string name="pref_title_rx_tx_audio_icon">Voice transmission toggle</string>
     <string name="pref_summary_rx_tx_audio_icon">Play sound when TX button is pressed</string>
+    <string name="pref_title_vox_audio_icon">Voice activation toggle</string>
+    <string name="pref_summary_vox_audio_icon">Play sound when voice activation button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
     <string name="pref_title_private_message_audio_icon">Private message</string>
@@ -68,6 +72,8 @@
     <string name="pref_title_userleft_icon">User left channel</string>
     <string name="pref_summary_userleft_icon">Play sound when user leaves the current channel</string>
     <string name="pref_header_connection">Connection</string>
+    <string name="pref_title_auto_join_root">Join root channel upon connection</string>
+    <string name="pref_summary_auto_join_root">Automatically join root channel after connecting to server</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
     <string name="pref_title_sub_chanmsg">Channel Messages</string>
@@ -103,6 +109,16 @@
     <string name="pref_summary_channel_message">Announce channel messages</string>
     <string name="pref_title_broadcast_message">Broadcast messages</string>
     <string name="pref_summary_broadcast_message">Announce broadcast messages</string>
+    <string name="pref_title_transmit_voice">Voice stream transmission toggled</string>
+    <string name="pref_summary_transmit_voice">Announce transmission of voice streams</string>
+    <string name="pref_title_transmit_vid">Video stream transmission toggled</string>
+    <string name="pref_summary_transmit_vid">Announce transmission of video streams</string>
+    <string name="pref_title_transmit_desk">Desktop session transmission toggled</string>
+    <string name="pref_summary_transmit_desk">Announce transmission of desktop sessions</string>
+    <string name="pref_title_transmit_media">Media stream transmission toggled</string>
+    <string name="pref_summary_transmit_media">Announce transmission of media streams</string>
+    <string name="pref_title_transmit_channel_msg">Channel message transmission toggled</string>
+    <string name="pref_summary_transmit_channel_msg">Announce transmission of channel messages</string>
     <string name="pref_title_mute_speakers">Mute speakers when pressing TX button</string>
     <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
     <string name="pref_title_show_usernames">Show usernames</string>
@@ -128,6 +144,17 @@
     <string name="text_tts_private_message">Private message from %1$s - %2$s</string>
     <string name="text_tts_channel_message">Channel message from %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Broadcast message from %1$s - %2$s</string>
+    <string name="text_tts_channel_msg_transmit_off">can no longer transmit channel messages!</string>
+    <string name="text_tts_channel_msg_transmit_on">can now transmit channel messages!</string>
+    <string name="text_tts_voice_transmit_off">can no longer transmit voice!</string>
+    <string name="text_tts_voice_transmit_on">can now transmit voice!</string>
+    <string name="text_tts_vid_transmit_off">can no longer transmit video input!</string>
+    <string name="text_tts_vid_transmit_on">can now transmit video input!</string>
+    <string name="text_tts_desk_transmit_off">can no longer transmit shared desktops!</string>
+    <string name="text_tts_desk_transmit_on">can now transmit shared desktops!</string>
+    <string name="text_tts_media_transmit_off">can no longer transmit media files!</string>
+    <string name="text_tts_media_transmit_on">can now transmit media files!</string>
+    <string name="text_tts_transmit_name_everyone">everyone</string>
     <string name="pref_header_soundsystem">Sound System</string>
     <string name="title_activity_audio_codec">Audio Codec</string>
     <string name="title_activity_filepicker">File Selection</string>
@@ -201,6 +228,11 @@
     <string name="user_prop_title_subscribe_intercept_vid">Intercept video</string>
     <string name="user_prop_title_subscribe_intercept_desk">Intercept desktop</string>
     <string name="user_prop_title_subscribe_intercept_media">Intercept media</string>
+    <string name="user_prop_title_transmit_voice">Allow voice transmission</string>
+    <string name="user_prop_title_transmit_vid">Allow video transmission</string>
+    <string name="user_prop_title_transmit_desk">Allow desktop transmission</string>
+    <string name="user_prop_title_transmit_media">Allow media file transmission</string>
+    <string name="user_prop_title_transmit_chanmsg">Allow channel text messages</string>
 
     <string name="label_connection">Connection:</string>
     <string name="stat_online">Online</string>

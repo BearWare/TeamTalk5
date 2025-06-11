@@ -51,12 +51,14 @@ private:
     QString currentUrl(const QListWidgetItem* item) const;
     void limitText();
     QShortcut *m_copy     = nullptr;
+    QShortcut *m_copyContent     = nullptr;
     QShortcut *m_details  = nullptr;
     QShortcut *m_copyAll  = nullptr;    
     QShortcut *m_clear    = nullptr;
     enum MenuAction
     {
         COPY,
+        COPYCONTENT,
         VIEWDETAILS,
         COPYALL,
         CLEAR

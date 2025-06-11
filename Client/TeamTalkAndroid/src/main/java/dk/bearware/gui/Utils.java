@@ -58,8 +58,11 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -67,11 +70,15 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
 import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.Constants;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
+import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
@@ -119,7 +126,7 @@ public class Utils {
     public static void setEditTextPreference(Preference preference, String text, String summary, boolean forcesummary) {
         EditTextPreference textpref = (EditTextPreference) preference;
         textpref.setText(text);
-        if (summary.length() > 0 || forcesummary)
+        if (!summary.isEmpty() || forcesummary)
             textpref.setSummary(summary);
     }
 
@@ -245,12 +252,141 @@ public class Utils {
         }
         return result;
     }
-    
+
+    public static int toggleSubscription(TeamTalkBase ttclient, User user, int streamtype, boolean on) {
+        if (on) {
+            return ttclient.doSubscribe(user.nUserID, streamtype);
+        } else {
+            return ttclient.doUnsubscribe(user.nUserID, streamtype);
+        }
+    }
+
+    public static boolean isTransmitAllowed(User user, Channel chan, int streamtype) {
+        for (int i = 0; i < chan.transmitUsers.length; i++) {
+            if (chan.transmitUsers[i][0] == user.nUserID && (chan.transmitUsers[i][1] & streamtype) == streamtype) {
+                return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM;
+            }
+        }
+        return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT;
+    }
+
+    public static void toggleTransmitUsers(User user, Channel chan, int streamtype, boolean allow) {
+
+        boolean clear;
+        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM)
+            clear = !allow;
+        else clear = allow;
+
+        if (clear) {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] &= ~streamtype;
+                    // remove user if no stream type is active
+                    if (chan.transmitUsers[i][1] == StreamType.STREAMTYPE_NONE) {
+                        chan.transmitUsers[i][0] = 0;
+                        for (int j=i;j<chan.transmitUsers.length-1;++j) {
+                            chan.transmitUsers[j][0] = chan.transmitUsers[j+1][0];
+                            chan.transmitUsers[j][1] = chan.transmitUsers[j+1][1];
+                        }
+                    }
+                    break;
+                }
+            }
+        } else {
+            for (int i = 0; i < chan.transmitUsers.length; i++) {
+                if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
+                    chan.transmitUsers[i][0] = user.nUserID;
+                    chan.transmitUsers[i][1] |= streamtype;
+                    break;
+                }
+            }
+        }
+    }
+
+    public static int transmitUsersToggled(Channel chan, int prev, int curr, int streamType) {
+        boolean wasOn = (prev & streamType) != StreamType.STREAMTYPE_NONE;
+        boolean isNowOn = (curr & streamType) != StreamType.STREAMTYPE_NONE;
+
+        if (isNowOn && !wasOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? 1 : -1;
+        else if (!isNowOn && wasOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? -1 : 1;
+        else
+            return 0;
+    }
+
+    /* @return User ID -> StreamType */
+    public static Map<Integer, Integer> transmitUsersToMap(int[][] transmitUsers) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] entry : transmitUsers) {
+            if (entry.length >= 2)
+                map.put(entry[0], entry[1]);
+        }
+        return map;
+    }
+
+    public static Optional<String> ttsTransmitUsersToggled(Context context, Channel oldchan, Channel updchan, Map<Integer, User> users) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<Integer> allUserIds = new HashSet<>();
+        Map<Integer, Integer> oldTransmitUsers = Utils.transmitUsersToMap(oldchan.transmitUsers);
+        Map<Integer, Integer> newTransmitUsers = Utils.transmitUsersToMap(updchan.transmitUsers);
+        allUserIds.addAll(oldTransmitUsers.keySet());
+        allUserIds.addAll(newTransmitUsers.keySet());
+
+        for (int userId : allUserIds) {
+            int oldValue = oldTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+            int newValue = newTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+            String name;
+            if (userId==0) continue;
+            if(userId == Constants.TT_CLASSROOM_FREEFORALL)
+                name = context.getResources().getString(R.string.text_tts_transmit_name_everyone);
+            else {
+                User u = users.get(userId);
+                if(u!=null && u.nChannelID == oldchan.nChannelID)
+                    name = Utils.getDisplayName(context, users.get(userId));
+                else
+                    continue;
+            }
+
+            int result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_CHANNELMSG);
+            if (result < 0 && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VOICE);
+            if (result < 0 && prefs.getBoolean("transmit_voice_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_voice_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VIDEOCAPTURE);
+            if (result < 0 && prefs.getBoolean("transmit_vid_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_vid_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_DESKTOP);
+            if (result < 0 && prefs.getBoolean("transmit_desk_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_desk_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_MEDIAFILE);
+            if (result < 0 && prefs.getBoolean("transmit_media_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_media_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_on));
+        }
+        return Optional.empty();
+    }
+
     public static String getURL(String urlToRead) {
         URL url;
         HttpURLConnection conn;
         BufferedReader rd;
-        String line;
         StringBuilder result = new StringBuilder();
         try {
             url = new URL(urlToRead);
@@ -281,8 +417,7 @@ public class Utils {
             doc = dBuilder.parse(new InputSource(new StringReader(xml)));
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.e(TAG, "Failed to parse server entries");
             return servers;
         }
         
@@ -401,7 +536,7 @@ public class Utils {
                             try {
                                 entry.stats_usercount = Integer.parseInt(usercountnode.item(0).getTextContent());
                             }
-                            catch (NumberFormatException e) {
+                            catch (NumberFormatException ignored) {
                             }
                          }
                     }
@@ -446,8 +581,7 @@ public class Utils {
             fos.close();
         }
         catch(Exception e) {
-            e.printStackTrace();
-            System.out.println("BearWare Exception: " + e);
+            Log.d(TAG, "Unable to save file " + path,  e);
             return false;
         }
         return true;
@@ -537,5 +671,4 @@ public class Utils {
         return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
                 username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX);
     }
-
 }

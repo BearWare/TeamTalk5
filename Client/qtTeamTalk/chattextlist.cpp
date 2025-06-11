@@ -55,13 +55,19 @@ ChatTextList::ChatTextList(QWidget *parent)
     {
         menuAction(COPY);
     });
+    m_copyContent = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), this);
+    m_copyContent->setContext(Qt::WidgetShortcut);
+    connect(m_copyContent, &QShortcut::activated, this, [this]
+    {
+        menuAction(COPYCONTENT);
+    });
     m_details = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_Return), this);
     m_details->setContext(Qt::WidgetShortcut);
     connect(m_details, &QShortcut::activated, this, [this]
     {
         menuAction(VIEWDETAILS);
     });
-    m_copyAll = new QShortcut(QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), this);
+    m_copyAll = new QShortcut(QKeySequence(Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_C), this);
     m_copyAll->setContext(Qt::WidgetShortcut);
     connect(m_copyAll, &QShortcut::activated, this, [this]
     {
@@ -383,11 +389,12 @@ void ChatTextList::contextMenuEvent(QContextMenuEvent *event)
     if (item)
     {
         add(tr("&Copy"), QKeySequence::Copy, COPY);
+        add(tr("C&opy Content Only"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), COPYCONTENT);
         add(tr("View &Details..."), QKeySequence(Qt::CTRL | Qt::Key_Return), VIEWDETAILS);
     }
 
     menu.addSeparator();
-    add(tr("Copy &All"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), COPYALL);
+    add(tr("Copy &All"), QKeySequence(Qt::CTRL | Qt::ALT | Qt::SHIFT | Qt::Key_C), COPYALL);
     add(tr("C&lear"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_Delete), CLEAR);
 
     menu.exec(event->globalPos());
@@ -403,6 +410,11 @@ void ChatTextList::menuAction(MenuAction ma)
     case COPY :
         if (item)
             QApplication::clipboard()->setText(item->text());
+        break;
+
+    case COPYCONTENT :
+        if (item)
+            QApplication::clipboard()->setText(item->data(CHATTEXTITEM_CONTENT_ROLE).toString());
         break;
 
     case VIEWDETAILS :

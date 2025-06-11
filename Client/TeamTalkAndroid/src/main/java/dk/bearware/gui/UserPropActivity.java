@@ -43,6 +43,7 @@ import dk.bearware.SoundLevel;
 import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
+import dk.bearware.Channel;
 import dk.bearware.User;
 import dk.bearware.UserState;
 import dk.bearware.backend.TeamTalkConnection;
@@ -145,6 +146,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         final SwitchCompat subscribeInterceptvid = findViewById(R.id.user_subscribeinterceptvidSwitch);
         final SwitchCompat subscribeInterceptdesk = findViewById(R.id.user_subscribeinterceptdeskSwitch);
         final SwitchCompat subscribeInterceptmedia = findViewById(R.id.user_subscribeinterceptmediaSwitch);
+        final SwitchCompat transmitVoice = findViewById(R.id.user_transmitvoiceSwitch);
+        final SwitchCompat transmitVid = findViewById(R.id.user_transmitvidSwitch);
+        final SwitchCompat transmitDesk = findViewById(R.id.user_transmitdeskSwitch);
+        final SwitchCompat transmitMedia = findViewById(R.id.user_transmitmediaSwitch);
+        final SwitchCompat transmitChanmsg = findViewById(R.id.user_transmitchanmsgSwitch);
 
         nickname.setText(getString(R.string.user_prop_title_nickname) + " " + user.szNickname);
         username.setText(getString(R.string.user_prop_title_username) + " " + user.szUsername);
@@ -171,6 +177,15 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0);
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
+
+        Channel chan = this.ttservice.getChannels().get(user.nChannelID);
+        if (chan != null) {
+            transmitVoice.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VOICE));
+            transmitVid.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE));
+            transmitDesk.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_DESKTOP));
+            transmitMedia.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_MEDIAFILE));
+            transmitChanmsg.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_CHANNELMSG));
+        }
 
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
@@ -221,83 +236,54 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
                 ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
             else if(btn == subscribeTxtmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_USER_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_USER_MSG, checked);
             else if(btn == subscribeChanmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_CHANNEL_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_CHANNEL_MSG, checked);
             else if(btn == subscribeBcastmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_BROADCAST_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_BROADCAST_MSG, checked);
             else if(btn == subscribeVoice)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VOICE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VOICE, checked);
             else if(btn == subscribeVid)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_VIDEOCAPTURE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VIDEOCAPTURE, checked);
             else if(btn == subscribeDesk)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_DESKTOP);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_DESKTOP, checked);
             else if(btn == subscribeMedia)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_MEDIAFILE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_MEDIAFILE, checked);
             else if(btn == subscribeIntercepttxtmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG, checked);
             else if(btn == subscribeInterceptchanmsg)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG, checked);
             else if(btn == subscribeInterceptvoice)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VOICE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VOICE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VOICE, checked);
             else if(btn == subscribeInterceptvid)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE, checked);
             else if(btn == subscribeInterceptdesk)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP);
-                }
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP, checked);
             else if(btn == subscribeInterceptmedia)
-                if (checked) {
-                    ttclient.doSubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
-                } else {
-                    ttclient.doUnsubscribe(user.nUserID, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE);
+                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE, checked);
+
+            if (chan != null) {
+                if(btn == transmitVoice) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
+                    ttclient.doUpdateChannel(chan);
                 }
+                else if(btn == transmitVid) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitDesk) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitMedia) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+                else if(btn == transmitChanmsg) {
+                    Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
+                    ttclient.doUpdateChannel(chan);
+                }
+            }
         };
         voiceMute.setOnCheckedChangeListener(muteListener);
         mediaMute.setOnCheckedChangeListener(muteListener);
@@ -314,6 +300,11 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptvid.setOnCheckedChangeListener(muteListener);
         subscribeInterceptdesk.setOnCheckedChangeListener(muteListener);
         subscribeInterceptmedia.setOnCheckedChangeListener(muteListener);
+        transmitVoice.setOnCheckedChangeListener(muteListener);
+        transmitVid.setOnCheckedChangeListener(muteListener);
+        transmitDesk.setOnCheckedChangeListener(muteListener);
+        transmitMedia.setOnCheckedChangeListener(muteListener);
+        transmitChanmsg.setOnCheckedChangeListener(muteListener);
     }
 
     @Override
