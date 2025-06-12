@@ -39,6 +39,12 @@
         />
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="intercept_audio_icon"
+        android:title="@string/pref_title_intercept_audio_icon"
+        android:summary="@string/pref_summary_intercept_audio_icon"
+        />
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="private_message_audio_icon"
         android:title="@string/pref_title_private_message_audio_icon"
         android:summary="@string/pref_summary_private_message_audio_icon"
