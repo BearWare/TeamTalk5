@@ -1911,6 +1911,10 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    if (m_idled_out) {
+        statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty() ? statusmsg : ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
+    }    }
+
     m_statusmode &= ~STATUSMODE_GENDER_MASK;
     switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
     {
