@@ -6294,7 +6294,11 @@ void MainWindow::slotUpdateUI()
     bool auth = (statemask & CLIENT_AUTHORIZED);
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE || ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool() == true;
+#else
     bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE;
+#endif
     bool voiceactivated = (statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
     bool voicetx = (statemask & CLIENT_TX_VOICE);
 

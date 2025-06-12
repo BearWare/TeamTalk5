@@ -115,7 +115,7 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_channelsBox->addItem(tr("Stereo"), 2);
     ui.opus_appBox->addItem(tr("VoIP"), OPUS_APPLICATION_VOIP);
     ui.opus_appBox->addItem(tr("Music"), OPUS_APPLICATION_AUDIO);
-    ui.opus_bpsSpinBox->setRange(1, 512);
+    ui.opus_bpsSpinBox->setRange(OPUS_MIN_BITRATE / 1000, OPUS_MAX_BITRATE / 1000);
     ui.opus_srateBox->addItem("8000", 8000);
     ui.opus_srateBox->addItem("12000", 12000);
     ui.opus_srateBox->addItem("16000", 16000);

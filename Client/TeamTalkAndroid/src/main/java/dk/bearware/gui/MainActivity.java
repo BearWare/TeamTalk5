@@ -46,7 +46,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
@@ -84,6 +83,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -102,6 +102,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.Vector;
 
 import dk.bearware.Channel;
@@ -207,15 +208,17 @@ extends AppCompatActivity
               SOUND_BCASTMSG = 5,
               SOUND_SERVERLOST = 6,
               SOUND_FILESUPDATE = 7,
-              SOUND_VOXON = 8,
-              SOUND_VOXOFF = 9,
-              SOUND_TXREADY = 10,
-              SOUND_TXSTOP = 11,
-              SOUND_USERJOIN = 12,
-              SOUND_USERLEFT = 13,
-              SOUND_USERLOGGEDIN = 14,
-              SOUND_USERLOGGEDOFF = 15,
-              SOUND_CHANMSGSENT = 16;
+              SOUND_VOXENABLE = 8,
+              SOUND_VOXDISABLE = 9,
+              SOUND_VOXON = 10,
+              SOUND_VOXOFF = 11,
+              SOUND_TXREADY = 12,
+              SOUND_TXSTOP = 13,
+              SOUND_USERJOIN = 14,
+              SOUND_USERLEFT = 15,
+              SOUND_USERLOGGEDIN = 16,
+              SOUND_USERLOGGEDOFF = 17,
+              SOUND_CHANMSGSENT = 18;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -499,6 +502,10 @@ extends AppCompatActivity
         }
         if (prefs.getBoolean("files_updated_audio_icon", true)) {
             sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
+        }
+        if (prefs.getBoolean("voiceact_audio_icon", true)) {
+            sounds.put(SOUND_VOXENABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_enable, 1));
+            sounds.put(SOUND_VOXDISABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_disable, 1));
         }
         if (prefs.getBoolean("voiceact_triggered_icon", true)) {
             sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
@@ -2164,6 +2171,10 @@ private EditText newmsg;
 
         if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
 
+            if (ttsWrapper != null) {
+                Utils.ttsTransmitUsersToggled(getBaseContext(), mychannel, channel, ttservice.getUsers()).ifPresent(text -> ttsWrapper.speak(text));
+            }
+
             int myuserid = ttclient.getMyUserID();
 
             if(channel.transmitUsersQueue[0] == myuserid && mychannel.transmitUsersQueue[0] != myuserid) {
@@ -2263,6 +2274,15 @@ private EditText newmsg;
     @Override
     public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended) {
         adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
+        if (voiceActivationEnabled) {
+            if (sounds.get(SOUND_VOXENABLE) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXENABLE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        } else {
+            if (sounds.get(SOUND_VOXDISABLE) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXDISABLE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        }
     }
 
     @Override

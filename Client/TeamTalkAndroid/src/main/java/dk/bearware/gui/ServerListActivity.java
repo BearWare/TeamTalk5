@@ -29,28 +29,29 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.AdapterView;
-import android.widget.BaseAdapter;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.PopupMenu;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.ListFragment;
+import androidx.core.view.ViewCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
@@ -64,9 +65,13 @@ import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 import java.util.Vector;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -83,36 +88,75 @@ import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.events.ClientEventListener;
 
-public class ServerListActivity
-extends AppCompatActivity
-        implements AdapterView.OnItemClickListener,
-        AdapterView.OnItemLongClickListener,
-        TeamTalkConnectionListener,
+public class ServerListActivity extends AppCompatActivity
+        implements TeamTalkConnectionListener,
         Comparator<ServerEntry>,
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    ServerEntry serverentry;
+    private TeamTalkConnection mConnection;
+    private TeamTalkService ttservice;
+    private TeamTalkBase ttclient;
+    private ServerEntry serverentry;
 
     private ServerListAdapter adapter;
+    private RecyclerView recyclerView;
+    private EditText searchEditText;
+    private TextView emptyView;
+    private ExecutorService executorService;
+    
+    private final Vector<ServerEntry> servers = new Vector<>();
 
-    public static final String TAG = "bearware";
+    private static final String TAG = "bearware";
+    private static final String SERVERLIST_NAME = "serverlist";
+    private static final int REQUEST_EDITSERVER = 1;
+    private static final int REQUEST_NEWSERVER = 2;
+    private static final int REQUEST_IMPORT_SERVERLIST = 3;
+    private static final String POSITION_NAME = "pos";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        adapter = new ServerListAdapter(this.getBaseContext());
-
         setContentView(R.layout.activity_server_list);
-        getListFragment().setListAdapter(adapter);
-        getListFragment().setEmptyText(getString(R.string.server_list_empty));
-        getListFragment().getListView().setOnItemClickListener(this);
-        getListFragment().getListView().setOnItemLongClickListener(this);
-
+        initializeViews();
+        setupRecyclerView();
+        setupSearch();
         setTitle(R.string.title_activity_server_list);
+        executorService = Executors.newFixedThreadPool(2);
+    }
+
+    private void initializeViews() {
+        recyclerView = findViewById(R.id.servers_recycler_view);
+        searchEditText = findViewById(R.id.search_edit_text);
+        emptyView = findViewById(R.id.empty_view);
+    }
+
+    private void setupRecyclerView() {
+        adapter = new ServerListAdapter();
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(adapter);
+        updateEmptyView();
+    }
+
+    private void setupSearch() {
+        searchEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                adapter.filter(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {}
+        });
+    }
+
+    private void updateEmptyView() {
+        if (adapter == null) return;
+        boolean isEmpty = adapter.getItemCount() == 0;
+        emptyView.setVisibility(isEmpty ? View.VISIBLE : View.GONE);
+        recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 
     @Override
@@ -125,7 +169,7 @@ extends AppCompatActivity
             loadServerFromUri(uri);
         }
 
-        if (mConnection.isBound()) {
+        if (mConnection != null && mConnection.isBound()) {
             // reset state since we're creating a new connection
             ttservice.resetState();
             ttclient.closeSoundInputDevice();
@@ -137,8 +181,9 @@ extends AppCompatActivity
             if (this.serverentry != null) {
                 ttservice.setServerEntry(this.serverentry);
 
-                if (!ttservice.reconnect())
-                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+                if (!ttservice.reconnect()) {
+                    showToast(getString(R.string.err_connection));
+                }
             }
         }
     }
@@ -155,10 +200,9 @@ extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if (mConnection.isBound())
+        if (mConnection != null && mConnection.isBound())
             ttservice.getEventHandler().unregisterListener(this);
     }
-
 
     @Override
     protected void onStart() {
@@ -190,7 +234,7 @@ extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        if(isFinishing() && mConnection.isBound()) {
+        if(isFinishing() && mConnection != null && mConnection.isBound()) {
             // Unbind from the service.
             ttservice.resetState();
             onServiceDisconnected(ttservice);
@@ -204,8 +248,12 @@ extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
+        if (executorService != null) {
+            executorService.shutdown();
+        }
+
         // Unbind from the service
-        if(mConnection.isBound()) {
+        if(mConnection != null && mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
             onServiceDisconnected(ttservice);
             unbindService(mConnection);
@@ -215,10 +263,6 @@ extends AppCompatActivity
         Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
-    static final int REQUEST_EDITSERVER = 1;
-    static final int REQUEST_NEWSERVER = 2;
-    static final int REQUEST_IMPORT_SERVERLIST = 3;
-    static final String POSITION_NAME = "pos";
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -231,7 +275,7 @@ extends AppCompatActivity
                     if(entry != null) {
                         servers.add(entry);
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -250,7 +294,7 @@ extends AppCompatActivity
                             servers.add(entry);
                         }
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -278,7 +322,7 @@ extends AppCompatActivity
                         }
                         servers.addAll(entries);
                         Collections.sort(servers, this);
-                        adapter.notifyDataSetChanged();
+                        adapter.updateServers();
                         saveServers();
                     }
                 }
@@ -328,21 +372,21 @@ extends AppCompatActivity
         return true;
     }
 
-    @Override
-    public void onItemClick(AdapterView<?> l, View v, int position, long id) {
-
-        this.serverentry = servers.get(position);
+    private void onServerClick(ServerEntry entry) {
+        if (ttservice == null) {
+            showToast(getString(R.string.err_connection));
+            return;
+        }
+        this.serverentry = entry;
         ttservice.setServerEntry(this.serverentry);
 
-        if (!ttservice.reconnect())
-            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+        if (!ttservice.reconnect()) {
+            showToast(getString(R.string.err_connection));
+        }
     }
 
-    @Override
-    public boolean onItemLongClick(AdapterView<?> l, View v, int position, long id) {
-        ServerEntry entry = servers.elementAt(position);
-
-        PopupMenu serverActions = new PopupMenu(this, v);
+    private void onServerLongClick(View view, ServerEntry entry, int position) {
+        PopupMenu serverActions = new PopupMenu(this, view);
         serverActions.inflate(R.menu.server_actions);
         serverActions.setOnMenuItemClickListener(item -> {
             switch (item.getItemId()) {
@@ -356,195 +400,287 @@ extends AppCompatActivity
                     startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
                     return true;
                 case R.id.action_removesrv:
-                    AlertDialog.Builder alert = new AlertDialog.Builder(ServerListActivity.this);
-                    alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
-                    alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                        servers.remove(position);
-                        adapter.notifyDataSetChanged();
-                        saveServers();
-                    });
-                    alert.setNegativeButton(android.R.string.no, null);
-                    alert.show();
+                    showRemoveServerDialog(entry);
                     return true;
                 default:
                     return false;
             }
         });
         serverActions.show();
-        return true;
     }
 
-    void loadServerFromUri(Uri uri) {
+    private void loadServerFromUri(Uri uri) {
         ServerEntry entry = new ServerEntry();
         String host = uri.getHost();
-        if (host != null && !host.equals("")) {
+        
+        if (host != null && !host.isEmpty()) {
             entry.ipaddr = host;
+            entry.servername = host + ":" + getIntParameterOrDefault(uri, "tcpport", Constants.DEFAULT_TCP_PORT);
         }
-        String tcpport = uri.getQueryParameter("tcpport");
-        entry.tcpport = tcpport != null ? Integer.parseInt(tcpport) : Constants.DEFAULT_TCP_PORT;
-        String udpport = uri.getQueryParameter("udpport");
-        entry.udpport = udpport != null ? Integer.parseInt(udpport) : Constants.DEFAULT_UDP_PORT;
-        String username = uri.getQueryParameter("username");
-        entry.username = username != null ? username : "";
-        String password = uri.getQueryParameter("password");
-        entry.password = password != null ? password : "";
+        
+        entry.tcpport = getIntParameterOrDefault(uri, "tcpport", Constants.DEFAULT_TCP_PORT);
+        entry.udpport = getIntParameterOrDefault(uri, "udpport", Constants.DEFAULT_UDP_PORT);
+        entry.username = getStringParameterOrDefault(uri, "username", "");
+        entry.password = getStringParameterOrDefault(uri, "password", "");
+        entry.channel = getStringParameterOrDefault(uri, "channel", entry.channel);
+        entry.chanpasswd = getStringParameterOrDefault(uri, "chanpasswd", entry.chanpasswd);
+        
         String encrypted = uri.getQueryParameter("encrypted");
-        entry.encrypted = encrypted != null ? encrypted.equalsIgnoreCase("true") || encrypted.equals("1") : entry.encrypted;
-        String channel = uri.getQueryParameter("channel");
-        entry.channel = channel != null ? channel : entry.channel;
-        String chpasswd = uri.getQueryParameter("chanpasswd");
-        entry.chanpasswd = chpasswd != null ? chpasswd : entry.chanpasswd;
-
-        entry.servername = host + ":" + entry.tcpport;
+        entry.encrypted = encrypted != null && (encrypted.equalsIgnoreCase("true") || encrypted.equals("1"));
 
         this.serverentry = entry;
-
         Log.i(TAG, "Connecting to " + entry.servername);
     }
 
-    final Vector<ServerEntry> servers = new Vector<>();
+    private int getIntParameterOrDefault(Uri uri, String parameter, int defaultValue) {
+        String value = uri.getQueryParameter(parameter);
+        return value != null ? Integer.parseInt(value) : defaultValue;
+    }
 
-    class ServerListAdapter extends BaseAdapter {
+    private String getStringParameterOrDefault(Uri uri, String parameter, String defaultValue) {
+        String value = uri.getQueryParameter(parameter);
+        return value != null ? value : defaultValue;
+    }
 
-        private final LayoutInflater inflater;
+    private class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
+        private List<ServerEntry> filteredServers = new ArrayList<>();
+        private String currentFilter = "";
 
-        ServerListAdapter(Context context) {
-            inflater = LayoutInflater.from(context);
+        public ServerListAdapter() {
+            updateFilteredList();
+        }
+
+        @NonNull
+        @Override
+        public ServerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext())
+                    .inflate(R.layout.item_serverentry, parent, false);
+            return new ServerViewHolder(view);
         }
 
         @Override
-        public int getCount() {
-            return servers.size();
+        public void onBindViewHolder(@NonNull ServerViewHolder holder, int position) {
+            ServerEntry entry = filteredServers.get(position);
+            holder.bind(entry, position);
         }
 
         @Override
-        public Object getItem(int position) {
-            return servers.get(position);
+        public int getItemCount() {
+            return filteredServers.size();
         }
 
-        @Override
-        public long getItemId(int position) {
-            return position;
-        }
-
-        @Override
-        public View getView(final int position, View convertView, ViewGroup parent) {
-
-            if(convertView == null)
-                convertView = inflater.inflate(R.layout.item_serverentry, parent, false);
-
-            ImageView img = convertView.findViewById(R.id.servericon);
-            TextView name = convertView.findViewById(R.id.server_name);
-            TextView summary = convertView.findViewById(R.id.server_summary);
-            name.setText(servers.get(position).servername);
-            switch (servers.get(position).servertype) {
-                case LOCAL :
-                    img.setImageResource(R.drawable.teamtalk_yellow);
-                    img.setContentDescription(getString(R.string.text_localserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
-                    break;
-                case OFFICIAL :
-                    img.setImageResource(R.drawable.teamtalk_blue);
-                    img.setContentDescription(getString(R.string.text_officialserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
-                case PUBLIC :
-                    img.setImageResource(R.drawable.teamtalk_green);
-                    img.setContentDescription(getString(R.string.text_publicserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
-                case UNOFFICIAL:
-                    img.setImageResource(R.drawable.teamtalk_orange);
-                    img.setContentDescription(getString(R.string.text_unofficialserver));
-                    img.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
-                    break;
+        public void filter(String query) {
+            String newFilter = query.toLowerCase().trim();
+            if (!newFilter.equals(currentFilter)) {
+                currentFilter = newFilter;
+                updateFilteredList();
             }
-            ServerEntry entry = servers.get(position);
-            summary.setText(getString(R.string.text_server_summary, entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
+        }
 
-            return convertView;
+        private void updateFilteredList() {
+            List<ServerEntry> newFilteredList = new ArrayList<>();
+            if (currentFilter.isEmpty()) {
+                newFilteredList.addAll(servers);
+            } else {
+                for (ServerEntry server : servers) {
+                    if (matchesFilter(server, currentFilter)) {
+                        newFilteredList.add(server);
+                    }
+                }
+            }
+            
+            filteredServers.clear();
+            filteredServers.addAll(newFilteredList);
+            notifyDataSetChanged();
+            updateEmptyView();
+        }
+
+        private boolean matchesFilter(ServerEntry server, String filter) {
+            return server.servername.toLowerCase().contains(filter) ||
+                   server.ipaddr.toLowerCase().contains(filter);
+        }
+
+        public void updateServers() {
+            updateFilteredList();
+        }
+
+        public void removeServer(ServerEntry entry) {
+            int index = filteredServers.indexOf(entry);
+            if (index != -1) {
+                filteredServers.remove(index);
+                notifyItemRemoved(index);
+            }
+        }
+
+        private class ServerViewHolder extends RecyclerView.ViewHolder {
+            private final ImageView serverIcon;
+            private final TextView serverName;
+            private final TextView serverSummary;
+
+            public ServerViewHolder(@NonNull View itemView) {
+                super(itemView);
+                serverIcon = itemView.findViewById(R.id.servericon);
+                serverName = itemView.findViewById(R.id.server_name);
+                serverSummary = itemView.findViewById(R.id.server_summary);
+            }
+
+            public void bind(ServerEntry entry, int position) {
+                serverName.setText(entry.servername);
+                setServerIcon(entry);
+                serverSummary.setText(getString(R.string.text_server_summary, 
+                    entry.ipaddr, entry.tcpport, entry.stats_usercount, entry.stats_country));
+
+                itemView.setOnClickListener(v -> onServerClick(entry));
+                itemView.setOnLongClickListener(v -> {
+                    onServerLongClick(v, entry, position);
+                    return true;
+                });
+                
+                setupAccessibilityActions(entry, position);
+            }
+
+            private void setupAccessibilityActions(ServerEntry entry, int position) {
+                ViewCompat.addAccessibilityAction(itemView, 
+                    getString(R.string.action_editsrv),
+                    (view, arguments) -> {
+                        Intent intent = new Intent(ServerListActivity.this, ServerEntryActivity.class);
+                        startActivityForResult(Utils.putServerEntry(intent, entry)
+                            .putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
+                        return true;
+                    });
+                    
+                ViewCompat.addAccessibilityAction(itemView,
+                    getString(R.string.action_exportsrv), 
+                    (view, arguments) -> {
+                        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || 
+                            Permissions.WRITE_EXTERNAL_STORAGE.request(ServerListActivity.this)) {
+                            exportServer(entry);
+                        }
+                        return true;
+                    });
+                    
+                ViewCompat.addAccessibilityAction(itemView,
+                    getString(R.string.action_removesrv),
+                    (view, arguments) -> {
+                        showRemoveServerDialog(entry);
+                        return true;
+                    });
+            }
+
+            private void setServerIcon(ServerEntry entry) {
+                switch (entry.servertype) {
+                    case LOCAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_yellow);
+                        serverIcon.setContentDescription(getString(R.string.text_localserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
+                        break;
+                    case OFFICIAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_blue);
+                        serverIcon.setContentDescription(getString(R.string.text_officialserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                    case PUBLIC:
+                        serverIcon.setImageResource(R.drawable.teamtalk_green);
+                        serverIcon.setContentDescription(getString(R.string.text_publicserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                    case UNOFFICIAL:
+                        serverIcon.setImageResource(R.drawable.teamtalk_orange);
+                        serverIcon.setContentDescription(getString(R.string.text_unofficialserver));
+                        serverIcon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_YES);
+                        break;
+                }
+            }
         }
     }
 
-    static final String SERVERLIST_NAME = "serverlist";
-
-    void saveServers() {
-
-        // SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(this);
-        // SharedPreferences.Editor edit = PreferenceManager.getDefaultSharedPreferences(this).edit();
-        SharedPreferences pref = this.getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+    private void saveServers() {
+        SharedPreferences pref = getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
         SharedPreferences.Editor edit = pref.edit();
 
-        int i = 0;
-        while(!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
-            edit.remove(i + ServerEntry.KEY_SERVERNAME);
-            edit.remove(i + ServerEntry.KEY_IPADDR);
-            edit.remove(i + ServerEntry.KEY_TCPPORT);
-            edit.remove(i + ServerEntry.KEY_UDPPORT);
-            edit.remove(i + ServerEntry.KEY_ENCRYPTED);
-            edit.remove(i + ServerEntry.KEY_USERNAME);
-            edit.remove(i + ServerEntry.KEY_PASSWORD);
-            edit.remove(i + ServerEntry.KEY_NICKNAME);
-            edit.remove(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL);
-            edit.remove(i + ServerEntry.KEY_CHANNEL);
-            edit.remove(i + ServerEntry.KEY_CHANPASSWD);
-            i++;
-        }
-
-        int j=0;
-        for(i = 0;i < servers.size();i++) {
-            if(servers.get(i).servertype != ServerEntry.ServerType.LOCAL)
-                continue;
-            edit.putString(j + ServerEntry.KEY_SERVERNAME, servers.get(i).servername);
-            edit.putString(j + ServerEntry.KEY_IPADDR, servers.get(i).ipaddr);
-            edit.putInt(j + ServerEntry.KEY_TCPPORT, servers.get(i).tcpport);
-            edit.putInt(j + ServerEntry.KEY_UDPPORT, servers.get(i).udpport);
-            edit.putBoolean(j + ServerEntry.KEY_ENCRYPTED, servers.get(i).encrypted);
-
-            edit.putString(j + ServerEntry.KEY_USERNAME, servers.get(i).username);
-            edit.putString(j + ServerEntry.KEY_PASSWORD, servers.get(i).password);
-            edit.putString(j + ServerEntry.KEY_NICKNAME, servers.get(i).nickname);
-
-            edit.putBoolean(j + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, servers.get(i).rememberLastChannel);
-            edit.putString(j + ServerEntry.KEY_CHANNEL, servers.get(i).channel);
-            edit.putString(j + ServerEntry.KEY_CHANPASSWD, servers.get(i).chanpasswd);
-            j++;
-        }
-
+        clearExistingServerPreferences(pref, edit);
+        saveLocalServersToPreferences(edit);
         edit.apply();
     }
 
-    void loadLocalServers() {
-        //load from file
-        SharedPreferences pref = this.getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+    private void clearExistingServerPreferences(SharedPreferences pref, SharedPreferences.Editor edit) {
         int i = 0;
-        while(!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
-            ServerEntry entry = new ServerEntry();
-            entry.servername = pref.getString(i + ServerEntry.KEY_SERVERNAME, "");
-            entry.ipaddr = pref.getString(i + ServerEntry.KEY_IPADDR, "");
-            entry.tcpport = pref.getInt(i + ServerEntry.KEY_TCPPORT, 0);
-            entry.udpport = pref.getInt(i + ServerEntry.KEY_UDPPORT, 0);
-            entry.encrypted = pref.getBoolean(i + ServerEntry.KEY_ENCRYPTED, false);
-            entry.username = pref.getString(i + ServerEntry.KEY_USERNAME, "");
-            entry.password = pref.getString(i + ServerEntry.KEY_PASSWORD, "");
-            entry.nickname = pref.getString(i + ServerEntry.KEY_NICKNAME, "");
-            entry.rememberLastChannel = pref.getBoolean(i + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
-            entry.channel = pref.getString(i + ServerEntry.KEY_CHANNEL, "");
-            entry.chanpasswd = pref.getString(i + ServerEntry.KEY_CHANPASSWD, "");
+        while (!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
+            removeServerPreferencesAtIndex(edit, i);
+            i++;
+        }
+    }
+
+    private void removeServerPreferencesAtIndex(SharedPreferences.Editor edit, int index) {
+        String[] keys = {
+            ServerEntry.KEY_SERVERNAME, ServerEntry.KEY_IPADDR, ServerEntry.KEY_TCPPORT,
+            ServerEntry.KEY_UDPPORT, ServerEntry.KEY_ENCRYPTED, ServerEntry.KEY_USERNAME,
+            ServerEntry.KEY_PASSWORD, ServerEntry.KEY_NICKNAME, ServerEntry.KEY_REMEMBER_LAST_CHANNEL,
+            ServerEntry.KEY_CHANNEL, ServerEntry.KEY_CHANPASSWD
+        };
+        
+        for (String key : keys) {
+            edit.remove(index + key);
+        }
+    }
+
+    private void saveLocalServersToPreferences(SharedPreferences.Editor edit) {
+        int localServerIndex = 0;
+        for (ServerEntry server : servers) {
+            if (server.servertype == ServerEntry.ServerType.LOCAL) {
+                saveServerToPreferences(edit, server, localServerIndex);
+                localServerIndex++;
+            }
+        }
+    }
+
+    private void saveServerToPreferences(SharedPreferences.Editor edit, ServerEntry server, int index) {
+        edit.putString(index + ServerEntry.KEY_SERVERNAME, server.servername);
+        edit.putString(index + ServerEntry.KEY_IPADDR, server.ipaddr);
+        edit.putInt(index + ServerEntry.KEY_TCPPORT, server.tcpport);
+        edit.putInt(index + ServerEntry.KEY_UDPPORT, server.udpport);
+        edit.putBoolean(index + ServerEntry.KEY_ENCRYPTED, server.encrypted);
+        edit.putString(index + ServerEntry.KEY_USERNAME, server.username);
+        edit.putString(index + ServerEntry.KEY_PASSWORD, server.password);
+        edit.putString(index + ServerEntry.KEY_NICKNAME, server.nickname);
+        edit.putBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, server.rememberLastChannel);
+        edit.putString(index + ServerEntry.KEY_CHANNEL, server.channel);
+        edit.putString(index + ServerEntry.KEY_CHANPASSWD, server.chanpasswd);
+    }
+
+    private void loadLocalServers() {
+        SharedPreferences pref = getSharedPreferences(SERVERLIST_NAME, MODE_PRIVATE);
+        int i = 0;
+        while (!pref.getString(i + ServerEntry.KEY_SERVERNAME, "").isEmpty()) {
+            ServerEntry entry = loadServerFromPreferences(pref, i);
             servers.add(entry);
             i++;
         }
 
         Collections.sort(servers, this);
-        adapter.notifyDataSetChanged();
+        adapter.updateServers();
     }
 
-    class ServerListAsyncTask extends AsyncTask<Void, Void, Void> {
+    private ServerEntry loadServerFromPreferences(SharedPreferences pref, int index) {
+        ServerEntry entry = new ServerEntry();
+        entry.servername = pref.getString(index + ServerEntry.KEY_SERVERNAME, "");
+        entry.ipaddr = pref.getString(index + ServerEntry.KEY_IPADDR, "");
+        entry.tcpport = pref.getInt(index + ServerEntry.KEY_TCPPORT, 0);
+        entry.udpport = pref.getInt(index + ServerEntry.KEY_UDPPORT, 0);
+        entry.encrypted = pref.getBoolean(index + ServerEntry.KEY_ENCRYPTED, false);
+        entry.username = pref.getString(index + ServerEntry.KEY_USERNAME, "");
+        entry.password = pref.getString(index + ServerEntry.KEY_PASSWORD, "");
+        entry.nickname = pref.getString(index + ServerEntry.KEY_NICKNAME, "");
+        entry.rememberLastChannel = pref.getBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
+        entry.channel = pref.getString(index + ServerEntry.KEY_CHANNEL, "");
+        entry.chanpasswd = pref.getString(index + ServerEntry.KEY_CHANPASSWD, "");
+        return entry;
+    }
 
-        Vector<ServerEntry> entries;
-
-        @Override
-        protected Void doInBackground(Void... params) {
+    private void loadServerListAsync() {
+        if (executorService == null) return;
+        
+        executorService.execute(() -> {
             SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
 
             String urlToRead = AppInfo.getServerListURL(ServerListActivity.this,
@@ -552,27 +688,27 @@ extends AppCompatActivity
                     pref.getBoolean(Preferences.PREF_GENERAL_UNOFFICIALSERVERS, false));
 
             String xml = Utils.getURL(urlToRead);
-            if(!xml.isEmpty())
+            Vector<ServerEntry> entries = null;
+            if (!xml.isEmpty()) {
                 entries = Utils.getXmlServerEntries(xml);
-            return null;
-        }
-
-        protected void onPostExecute(Void result) {
-            if(entries == null)
-                Toast.makeText(ServerListActivity.this,
-                               R.string.err_retrieve_public_server_list,
-                               Toast.LENGTH_LONG).show();
-            else if(entries.size() > 0) {
-                Collections.sort(entries, ServerListActivity.this);
-                synchronized(servers) {
-                    servers.addAll(entries);
-                }
-                adapter.notifyDataSetChanged();
             }
-        }
+
+            final Vector<ServerEntry> finalEntries = entries;
+            runOnUiThread(() -> {
+                if (finalEntries == null) {
+                    showToast(getString(R.string.err_retrieve_public_server_list));
+                } else if (finalEntries.size() > 0) {
+                    Collections.sort(finalEntries, ServerListActivity.this);
+                    synchronized (servers) {
+                        servers.addAll(finalEntries);
+                    }
+                    adapter.updateServers();
+                }
+            });
+        });
     }
 
-    void refreshServerList() {
+    private void refreshServerList() {
         synchronized(servers) {
             servers.clear();
             loadLocalServers();        
@@ -581,53 +717,49 @@ extends AppCompatActivity
         // Get public servers from http. TeamTalk DLL must be loaded by
         // service, otherwise static methods are unavailable (for getting DLL
         // version number).
-        new ServerListAsyncTask().execute();
+        loadServerListAsync();
     }
 
-    class VersionCheckAsyncTask extends AsyncTask<Void, Void, Void> {
-
-        String latestclient = "", versionmsg = "";
-
-        @Override
-        protected Void doInBackground(Void... params) {
+    private void checkVersionAsync() {
+        if (executorService == null) return;
+        
+        executorService.execute(() -> {
             String urlToRead = AppInfo.getUpdateURL(ServerListActivity.this);
-
             String xml = Utils.getURL(urlToRead);
-            if(!xml.isEmpty()) {
-                DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-                DocumentBuilder dBuilder;
-                Document doc;
+            String latestClient = "";
+            String versionMsg = "";
+
+            if (!xml.isEmpty()) {
                 try {
-                    dBuilder = dbFactory.newDocumentBuilder();
-                    doc = dBuilder.parse(new InputSource(new StringReader(xml)));
-                }
-                catch(Exception e) {
-                    return null;
-                }
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
+                    DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+                    Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
+                    doc.getDocumentElement().normalize();
 
-                doc.getDocumentElement().normalize();
-
-                NodeList nList = doc.getElementsByTagName("teamtalk");
-                for (int i = 0; i < nList.getLength(); i++) {
-                    Node nNode = nList.item(i);
-                    if (nNode.getNodeType() == Node.ELEMENT_NODE) {
-                        Element eElement = (Element) nNode;
-                        NodeList nName = eElement.getElementsByTagName("name");
-                        if(nName.getLength()>0)
-                            latestclient = nName.item(0).getTextContent();
+                    NodeList nList = doc.getElementsByTagName("teamtalk");
+                    for (int i = 0; i < nList.getLength(); i++) {
+                        Node nNode = nList.item(i);
+                        if (nNode.getNodeType() == Node.ELEMENT_NODE) {
+                            Element eElement = (Element) nNode;
+                            NodeList nName = eElement.getElementsByTagName("name");
+                            if (nName.getLength() > 0) {
+                                latestClient = nName.item(0).getTextContent();
+                            }
+                        }
                     }
+                } catch (Exception e) {
+                    Log.e(TAG, "Error parsing version XML", e);
                 }
             }
-            return null;
-        }
 
-        protected void onPostExecute(Void result) {
-            if(versionmsg.length()>0) {
-                Toast.makeText(ServerListActivity.this,
-                               getString(R.string.version_update, latestclient),
-                               Toast.LENGTH_LONG).show();
-            }
-        }
+            final String finalLatestClient = latestClient;
+            final String finalVersionMsg = versionMsg;
+            runOnUiThread(() -> {
+                if (finalVersionMsg.length() > 0) {
+                    showToast(getString(R.string.version_update, finalLatestClient));
+                }
+            });
+        });
     }
 
     @Override
@@ -659,8 +791,9 @@ extends AppCompatActivity
         if (serverentry != null) {
             ttservice.setServerEntry(serverentry);
 
-            if (!ttservice.reconnect())
-                Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+            if (!ttservice.reconnect()) {
+                showToast(getString(R.string.err_connection));
+            }
         }
 
         refreshServerList();
@@ -672,14 +805,13 @@ extends AppCompatActivity
         tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
-        new VersionCheckAsyncTask().execute();
+        checkVersionAsync();
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
         service.getEventHandler().unregisterListener(this);
     }
-
 
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
@@ -752,79 +884,85 @@ extends AppCompatActivity
     }
 
     private void exportServers() {
-        Vector<ServerEntry> entries = new Vector<>();
-        synchronized(servers) {
-            for (ServerEntry entry : servers)
-                if (entry.servertype == ServerEntry.ServerType.LOCAL)
-                    entries.add(entry);
-        }
-        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (dirPath.mkdirs() || dirPath.isDirectory()) {
-            final File ttFile = new File(dirPath, "tt5servers.tt");
-            final String filePath = ttFile.getAbsolutePath();
-            if (ttFile.exists()) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage(getString(R.string.alert_file_override, filePath));
-                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    if (ttFile.delete()) {
-                        int msgId = Utils.saveServers(entries, filePath) ?
-                            R.string.serverlist_export_confirmation :
-                            R.string.err_file_write;
-                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-                    }
-                    else {
-                        Toast.makeText(ServerListActivity.this,
-                                       getString(R.string.err_file_delete, filePath),
-                                       Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                alert.setNegativeButton(android.R.string.no, null);
-                alert.show();
-            }
-
-            else {
-                int msgId = Utils.saveServers(entries, filePath) ?
-                    R.string.serverlist_export_confirmation :
-                    R.string.err_file_write;
-                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-            }
+        Vector<ServerEntry> localServers = getLocalServers();
+        File ttFile = createExportFile("tt5servers.tt");
+        if (ttFile != null) {
+            exportToFile(localServers, ttFile, R.string.serverlist_export_confirmation);
         }
     }
 
     private void exportServer(ServerEntry entry) {
-        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (dirPath.mkdirs() || dirPath.isDirectory()) {
-            final File ttFile = new File(dirPath, entry.servername + "_server.tt");
-            final String filePath = ttFile.getAbsolutePath();
-
-            if (ttFile.exists()) {
-                AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                alert.setMessage(getString(R.string.alert_file_override, filePath));
-                alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-                    if (ttFile.delete()) {
-                        int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
-                            R.string.server_export_confirmation :
-                            R.string.err_file_write;
-                        Toast.makeText(ServerListActivity.this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-                    } else {
-                        Toast.makeText(ServerListActivity.this, getString(R.string.err_file_delete, filePath), Toast.LENGTH_LONG).show();
-                    }
-                });
-
-                alert.setNegativeButton(android.R.string.no, null);
-                alert.show();
-            } else {
-                int msgId = Utils.saveServers(new Vector<>(Collections.singletonList(entry)), filePath) ?
-                    R.string.server_export_confirmation :
-                    R.string.err_file_write;
-                Toast.makeText(this, getString(msgId, filePath), Toast.LENGTH_LONG).show();
-            }
+        Vector<ServerEntry> singleServer = new Vector<>(Collections.singletonList(entry));
+        File ttFile = createExportFile(entry.servername + "_server.tt");
+        if (ttFile != null) {
+            exportToFile(singleServer, ttFile, R.string.server_export_confirmation);
         }
     }
 
-    private ListFragment getListFragment() {
-        return (ListFragment) getSupportFragmentManager().findFragmentById(R.id.list_fragment);
+    private Vector<ServerEntry> getLocalServers() {
+        Vector<ServerEntry> localServers = new Vector<>();
+        synchronized(servers) {
+            for (ServerEntry entry : servers) {
+                if (entry.servertype == ServerEntry.ServerType.LOCAL) {
+                    localServers.add(entry);
+                }
+            }
+        }
+        return localServers;
     }
 
+    private File createExportFile(String fileName) {
+        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+        if (dirPath.mkdirs() || dirPath.isDirectory()) {
+            return new File(dirPath, fileName);
+        }
+        return null;
+    }
+
+    private void exportToFile(Vector<ServerEntry> entries, File ttFile, int successMsgId) {
+        final String filePath = ttFile.getAbsolutePath();
+        
+        if (ttFile.exists()) {
+            showFileOverrideDialog(entries, ttFile, filePath, successMsgId);
+        } else {
+            performExport(entries, filePath, successMsgId);
+        }
+    }
+
+    private void showFileOverrideDialog(Vector<ServerEntry> entries, File ttFile, String filePath, int successMsgId) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage(getString(R.string.alert_file_override, filePath));
+        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            if (ttFile.delete()) {
+                performExport(entries, filePath, successMsgId);
+            } else {
+                showToast(getString(R.string.err_file_delete, filePath));
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, null);
+        alert.show();
+    }
+
+    private void performExport(Vector<ServerEntry> entries, String filePath, int successMsgId) {
+        boolean success = Utils.saveServers(entries, filePath);
+        int msgId = success ? successMsgId : R.string.err_file_write;
+        showToast(getString(msgId, filePath));
+    }
+
+    private void showToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).show();
+    }
+
+    private void showRemoveServerDialog(ServerEntry entry) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setMessage(getString(R.string.server_remove_confirmation, entry.servername));
+        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            servers.remove(entry);
+            adapter.removeServer(entry);
+            saveServers();
+            updateEmptyView();
+        });
+        alert.setNegativeButton(android.R.string.no, null);
+        alert.show();
+    }
 }
