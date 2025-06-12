@@ -100,8 +100,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
 
@@ -112,6 +114,7 @@ import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
@@ -198,6 +201,7 @@ extends AppCompatActivity
     boolean restarting;
     SensorManager mSensorManager;
     Sensor mSensor;
+    Map<Integer, User> users = new HashMap<>();
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -218,7 +222,9 @@ extends AppCompatActivity
               SOUND_USERLEFT = 15,
               SOUND_USERLOGGEDIN = 16,
               SOUND_USERLOGGEDOFF = 17,
-              SOUND_CHANMSGSENT = 18;
+              SOUND_INTERCEPTON = 18,
+              SOUND_INTERCEPTOFF = 19,
+              SOUND_CHANMSGSENT = 20;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -510,6 +516,14 @@ extends AppCompatActivity
         if (prefs.getBoolean("voiceact_triggered_icon", true)) {
             sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
             sounds.put(SOUND_VOXOFF, audioIcons.load(getApplicationContext(), R.raw.voiceact_off, 1));
+        }
+        if (prefs.getBoolean("voiceact_audio_icon", true)) {
+            sounds.put(SOUND_VOXENABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_enable, 1));
+            sounds.put(SOUND_VOXDISABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_disable, 1));
+        }
+        if (prefs.getBoolean("intercept_audio_icon", true)) {
+            sounds.put(SOUND_INTERCEPTON, audioIcons.load(getApplicationContext(), R.raw.intercept, 1));
+            sounds.put(SOUND_INTERCEPTOFF, audioIcons.load(getApplicationContext(), R.raw.interceptend, 1));
         }
         if (prefs.getBoolean("transmitready_icon", true)) {
             sounds.put(SOUND_TXREADY, audioIcons.load(getApplicationContext(), R.raw.txqueue_start, 1));
@@ -888,6 +902,25 @@ extends AppCompatActivity
         mychannel = channel;
 
         adjustVoiceGain();
+    }
+
+    private void subscriptionChange(User user) {
+        User olduser = this.users.get(user.nUserID);
+
+        // text-to-speech on subscription changes
+        if (olduser != null && this.ttsWrapper != null) {
+            Utils.ttsSubscriptionChanged(getBaseContext(), olduser, user).ifPresent((text -> ttsWrapper.speak(text)));
+        }
+
+        // play sound if intercept subscription is toggled
+        if (olduser != null && (this.sounds.get(SOUND_INTERCEPTON) != 0 && this.sounds.get(SOUND_INTERCEPTOFF) != 0)) {
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_VOICE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+        }
     }
 
     private boolean isVisibleChannel(int chanid) {
@@ -1775,6 +1808,8 @@ private EditText newmsg;
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
+        this.users = new HashMap<>(ttservice.getUsers());
+
         int mychanid = ttclient.getMyChannelID();
         if (mychanid > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychanid));
@@ -1954,9 +1989,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        users.put(user.nUserID, user);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
@@ -1967,9 +2005,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        users.remove(user.nUserID);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
@@ -1985,10 +2026,15 @@ private EditText newmsg;
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
+
+        subscriptionChange(user);
+
+        users.put(user.nUserID, user);
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
@@ -2038,6 +2084,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself left current channel
@@ -2232,6 +2279,7 @@ private EditText newmsg;
 
     @Override
     public void onUserStateChange(User user) {
+        users.put(user.nUserID, user);
         
         if (curchannel != null && user.nChannelID == curchannel.nChannelID) {
             accessibilityAssistant.lockEvents();
