@@ -35,7 +35,7 @@ Android Client
 iOS Client
 - Use VoiceOver to announce TTS events for screen reader users
 Server
--
+- Fixed security vulnerability where users could accidentally become channel operators if a channel ID was reused
 
 Version 5.18, 2025/05/05
 Default Qt Client
