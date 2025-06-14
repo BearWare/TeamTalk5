@@ -1493,6 +1493,44 @@ namespace teamtalk{
         AddNewUser(updateduser);
     }
 
+bool ServerXML::CleanupChannelOperators(int deletedChannelID)
+{
+    bool overallModified = false;
+    int userIndex = 0;
+    UserAccount currentUser;
+
+    std::vector<UserAccount> usersToModify;
+    std::vector<std::string> usernamesToRemove;
+
+    userIndex = 0;
+    currentUser = UserAccount();
+    while (GetNextUser(userIndex++, currentUser))
+    {
+        if (currentUser.auto_op_channels.count(deletedChannelID))
+        {
+            usernamesToRemove.push_back(UnicodeToUtf8(currentUser.username).c_str());
+            currentUser.auto_op_channels.erase(deletedChannelID);
+            usersToModify.push_back(currentUser);
+            overallModified = true;
+        }
+        currentUser = UserAccount();
+    }
+
+    if (overallModified)
+    {
+        for (const auto& username : usernamesToRemove)
+        {
+            RemoveUser(username);
+        }
+        for (const auto& userAcc : usersToModify)
+        {
+            AddNewUser(userAcc);
+        }
+    }
+
+    return overallModified;
+}
+
     /******* </users> ******/
 
     /********** files in static channels **************/

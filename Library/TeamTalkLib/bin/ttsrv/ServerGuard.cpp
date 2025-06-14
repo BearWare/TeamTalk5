@@ -475,22 +475,40 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
 void ServerGuard::OnChannelRemoved(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {
-    if(!user)
-        return;
+    // Clean up operator rights for the deleted channel.
+    bool operatorsModified = m_settings.CleanupChannelOperators(channel.GetChannelID());
 
-    tostringstream oss;
-    oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-    if(user)
+    if (operatorsModified)
     {
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" removed by ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
-        if(user->GetUsername().length())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\".");
+        // Log that operator privileges were cleaned up.
+        tostringstream oss_cleanup;
+        oss_cleanup << ACE_TEXT("Operator privileges for deleted channel #") << channel.GetChannelID() 
+                    << ACE_TEXT(" ('") << LogPrepare(channel.GetChannelPath()).c_str() 
+                    << ACE_TEXT("') cleaned from user configurations.");
+        TT_LOG(oss_cleanup.str().c_str());
     }
-    else
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" removed.");
 
-    TT_LOG(oss.str().c_str());
+    // Log the channel removal event.
+    if (user) 
+    {
+        tostringstream oss;
+        oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+        oss << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed by "); 
+        oss << ACE_TEXT("nickname: '") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("' ");
+        if(user->GetUsername().length())
+            oss << ACE_TEXT("username: '") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("'.");
+        else
+            oss << ACE_TEXT(".");
+        TT_LOG(oss.str().c_str());
+    }
+    else if (!operatorsModified) 
+    {
+         // Log server-initiated removal if not already logged by operator cleanup.
+         tostringstream oss_server_removed;
+         oss_server_removed << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+         oss_server_removed << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed (server process).");
+         TT_LOG(oss_server_removed.str().c_str());
+    }
 }
 
 void ServerGuard::OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file)
