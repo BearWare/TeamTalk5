@@ -1493,6 +1493,67 @@ namespace teamtalk{
         AddNewUser(updateduser);
     }
 
+    bool ServerXML::CleanupChannelOperators(int deletedChannelID)
+    {
+        bool modified = false; // Flag to track if any changes were made
+
+        // Get the root <users> element
+        TiXmlElement* usersElement = GetUsersElement();
+        if (!usersElement)
+        {
+            // No users element, so nothing to do
+            return false;
+        }
+
+        // Iterate through each <user> element
+        TiXmlElement* userElement = usersElement->FirstChildElement("user");
+        while (userElement)
+        {
+            // Find the <channel-operator> element for this user
+            TiXmlElement* opChanElement = userElement->FirstChildElement("channel-operator");
+            if (opChanElement)
+            {
+                // Iterate through each <channel> element within <channel-operator>.
+                // It's important to get the next sibling before potentially removing the current element
+                // to avoid issues with the iterator.
+                TiXmlElement* channelElement = opChanElement->FirstChildElement("channel");
+                while (channelElement)
+                {
+                    TiXmlElement* nextChannelElement = channelElement->NextSiblingElement("channel");
+                    
+                    string channelIdStr;
+                    GetElementText(*channelElement, channelIdStr); 
+                    
+                    if (!channelIdStr.empty())
+                    {
+                        try
+                        {
+                            int currentChannelId = std::stoi(channelIdStr); // Convert string to int
+                            if (currentChannelId == deletedChannelID)
+                            {
+                                // Found the channel ID to remove
+                                opChanElement->RemoveChild(channelElement);
+                                modified = true; // Mark that a change was made
+                            }
+                        }
+                        catch (const std::invalid_argument& ia)
+                        {
+                            // Invalid channel ID format, ignore.
+                        }
+                        catch (const std::out_of_range& oor)
+                        {
+                            // Channel ID out of range, ignore.
+                        }
+                    }
+                    channelElement = nextChannelElement; // Move to the next channel
+                }
+            }
+            userElement = userElement->NextSiblingElement("user"); // Move to the next user
+        }
+
+        return modified; // Return true if any user's operator list was changed
+    }
+
     /******* </users> ******/
 
     /********** files in static channels **************/
