@@ -4358,7 +4358,11 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     ui.channelsWidget->updateAllItems();
 
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
+    {
         ui.retranslateUi(this);
+        for (auto c : m_chathistory)
+            c->updateTranslation();
+    }
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();

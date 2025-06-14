@@ -9,6 +9,7 @@ Default Qt Client
 - In the channel dialog, the bitrate range for OPUS is limited to 6-510
 - Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
 - Fixed idle status message not being restored after network reconnection
+- Fixed chat history name not retranslated on language change
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
