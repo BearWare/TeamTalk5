@@ -5749,9 +5749,12 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
             link += QString("&chanpasswd=%1").arg(chpasswd);
         }
     }
-    cp->setText(link);
-    addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
-    addTextToSpeechMessage(tr("Link copied to clipboard"));
+    if (ok)
+    {
+        cp->setText(link);
+        addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
+        addTextToSpeechMessage(tr("Link copied to clipboard"));
+    }
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
