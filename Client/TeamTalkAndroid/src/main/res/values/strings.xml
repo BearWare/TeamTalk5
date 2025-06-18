@@ -44,6 +44,7 @@
     <string name="pref_cat_soundtest">Sound Test</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Nickname</string>
+    <string name="pref_title_statusmsg">Status message</string>
     <string name="pref_default_nickname">NoName</string>
     <string name="pref_title_proximity_sensor">Proximity sensor</string>
     <string name="pref_title_keep_screen_on">Keep screen on when connected</string>

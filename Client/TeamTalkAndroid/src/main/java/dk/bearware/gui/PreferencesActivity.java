@@ -201,9 +201,13 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
                 ttinst.doChangeNickname(nickname);
             }
             int statusmode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_FEMALE);
+            String statusmsg = ttservice.getServerEntry().statusmsg;
+            if (TextUtils.isEmpty(statusmsg)) {
+                statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
+            }
             if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
                 statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
-            ttinst.doChangeStatus(statusmode, myself.szStatusMsg);
+            ttinst.doChangeStatus(statusmode, statusmsg);
         }
         
         int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
@@ -343,6 +347,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
+            bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_STATUSMSG));
 
             Preference bearwareLogin = findPreference(Preferences.PREF_GENERAL_BEARWARE_CHECKED);
             bearwareLogin.setOnPreferenceChangeListener((preference, o) -> {

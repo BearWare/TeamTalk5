@@ -41,6 +41,7 @@ public class ServerEntry {
                                KEY_PASSWORD = "password",
                                KEY_WEBLOGIN = "bearwarelogin",
                                KEY_NICKNAME = "nickname",
+                               KEY_STATUSMSG = "statusmsg",
                                KEY_CHANNEL = "channel",
                                KEY_CHANPASSWD = "chanpasswd",
                                KEY_REMEMBER_LAST_CHANNEL = "remember_last_channel",
@@ -56,6 +57,7 @@ public class ServerEntry {
     public int tcpport = 0, udpport = 0;
     public String username = "", password = "";
     public String nickname = "";
+    public String statusmsg = "";
     public String channel = "", chanpasswd = "";
     public boolean rememberLastChannel = true;
     public boolean encrypted = false;

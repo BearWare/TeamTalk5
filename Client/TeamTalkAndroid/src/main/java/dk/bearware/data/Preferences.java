@@ -28,6 +28,7 @@ public class Preferences {
     //duplicates of pref_connection.xml (isn't there an easier way to do this??)
     public static final String 
             PREF_GENERAL_NICKNAME = "nickname_text",
+            PREF_GENERAL_STATUSMSG = "statusmsg_text",
             PREF_GENERAL_SHOWUSERNAMES = "showusernames_checkbox",
             PREF_GENERAL_OFFICIALSERVERS = "showofficialservers_checkbox",
             PREF_GENERAL_UNOFFICIALSERVERS = "showunofficialservers_checkbox",

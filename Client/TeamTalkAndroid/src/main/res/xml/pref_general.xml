@@ -7,6 +7,12 @@
 		android:selectAllOnFocus="true"
 		android:singleLine="true" />
 
+    <EditTextPreference
+		android:key="statusmsg_text"
+		android:title="@string/pref_title_statusmsg"
+		android:selectAllOnFocus="true"
+		android:singleLine="true" />
+
 	<CheckBoxPreference
 		android:defaultValue="false"
 		android:key="gender_checkbox"
