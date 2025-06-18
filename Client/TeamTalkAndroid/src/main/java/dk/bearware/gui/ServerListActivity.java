@@ -615,7 +615,7 @@ public class ServerListActivity extends AppCompatActivity
         String[] keys = {
             ServerEntry.KEY_SERVERNAME, ServerEntry.KEY_IPADDR, ServerEntry.KEY_TCPPORT,
             ServerEntry.KEY_UDPPORT, ServerEntry.KEY_ENCRYPTED, ServerEntry.KEY_USERNAME,
-            ServerEntry.KEY_PASSWORD, ServerEntry.KEY_NICKNAME, ServerEntry.KEY_REMEMBER_LAST_CHANNEL,
+            ServerEntry.KEY_PASSWORD, ServerEntry.KEY_NICKNAME, ServerEntry.KEY_STATUSMSG, ServerEntry.KEY_REMEMBER_LAST_CHANNEL,
             ServerEntry.KEY_CHANNEL, ServerEntry.KEY_CHANPASSWD
         };
         
@@ -643,6 +643,7 @@ public class ServerListActivity extends AppCompatActivity
         edit.putString(index + ServerEntry.KEY_USERNAME, server.username);
         edit.putString(index + ServerEntry.KEY_PASSWORD, server.password);
         edit.putString(index + ServerEntry.KEY_NICKNAME, server.nickname);
+        edit.putString(index + ServerEntry.KEY_STATUSMSG, server.statusmsg);
         edit.putBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, server.rememberLastChannel);
         edit.putString(index + ServerEntry.KEY_CHANNEL, server.channel);
         edit.putString(index + ServerEntry.KEY_CHANPASSWD, server.chanpasswd);
@@ -671,6 +672,7 @@ public class ServerListActivity extends AppCompatActivity
         entry.username = pref.getString(index + ServerEntry.KEY_USERNAME, "");
         entry.password = pref.getString(index + ServerEntry.KEY_PASSWORD, "");
         entry.nickname = pref.getString(index + ServerEntry.KEY_NICKNAME, "");
+        entry.statusmsg = pref.getString(index + ServerEntry.KEY_STATUSMSG, "");
         entry.rememberLastChannel = pref.getBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
         entry.channel = pref.getString(index + ServerEntry.KEY_CHANNEL, "");
         entry.chanpasswd = pref.getString(index + ServerEntry.KEY_CHANPASSWD, "");

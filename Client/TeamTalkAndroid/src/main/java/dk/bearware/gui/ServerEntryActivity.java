@@ -262,6 +262,7 @@ public class ServerEntryActivity extends AppCompatActivity
         server.username = getTextValue(binding.usernameEdit);
         server.password = getTextValue(binding.passwordEdit);
         server.nickname = getTextValue(binding.nicknameEdit);
+        server.statusmsg = getTextValue(binding.statusmsgEdit);
         server.rememberLastChannel = binding.rememberLastChannelCheckbox.isChecked();
         server.channel = getTextValue(binding.channelEdit);
         server.chanpasswd = getTextValue(binding.channelPasswordEdit);
@@ -336,6 +337,7 @@ public class ServerEntryActivity extends AppCompatActivity
         setAuthFieldsEnabled(!weblogin);
         binding.webLoginCheckbox.setChecked(weblogin);
         binding.nicknameEdit.setText(entry.nickname);
+        binding.statusmsgEdit.setText(entry.statusmsg);
     }
 
     private void populateChannelSettings(ServerEntry entry) {
