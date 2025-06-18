@@ -605,6 +605,9 @@ public class Utils {
                         NodeList nicknamenode = authelement.getElementsByTagName("nickname");
                         if (nicknamenode.getLength() > 0)
                             entry.nickname = nicknamenode.item(0).getTextContent();
+                        NodeList statusmsgnode = authelement.getElementsByTagName("statusmsg");
+                        if (statusmsgnode.getLength() > 0)
+                            entry.statusmsg = statusmsgnode.item(0).getTextContent();
                     }
                 }
                 //process <join>
@@ -674,6 +677,7 @@ public class Utils {
                 serializer.startTag(null, "username").text(server.username).endTag(null, "username");
                 serializer.startTag(null, "password").text(server.password).endTag(null, "password");
                 serializer.startTag(null, "nickname").text(server.nickname).endTag(null, "nickname");
+                serializer.startTag(null, "statusmsg").text(server.statusmsg).endTag(null, "statusmsg");
                 serializer.endTag(null, "auth");
                 serializer.startTag(null, "join");
                 serializer.startTag(null, "join-last-channel").text(String.valueOf(server.rememberLastChannel)).endTag(null, "join-last-channel");
