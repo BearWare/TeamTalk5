@@ -7,14 +7,13 @@ Default Qt Client
 - Ctrl+Shift+C to copy only message content in chat list
 - Ctrl+Alt+Shift+C to copy all chat list history
 - Ctrl+Shift+R to generate tt:// URL for current channel
-- In the channel dialog, the bitrate range for OPUS is limited to 6-510
+- Bitrate for OPUS is limited to 6-510 in Channel dialog
 - Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
 - Fixed idle status message not being restored after network reconnection
-<<<<<<< retranslate_history_name
 - Fixed chat history name not retranslated on language change
-=======
 - Fixed URL generation cancellation
->>>>>>> master
+- Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
+- macOS updated to Qt 6.10.0 beta1
 Android Client
 - Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
