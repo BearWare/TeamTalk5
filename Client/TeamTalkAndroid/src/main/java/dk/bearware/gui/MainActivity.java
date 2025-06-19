@@ -100,8 +100,10 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
 
@@ -112,6 +114,7 @@ import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
@@ -198,6 +201,7 @@ extends AppCompatActivity
     boolean restarting;
     SensorManager mSensorManager;
     Sensor mSensor;
+    Map<Integer, User> users = new HashMap<>();
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -888,6 +892,13 @@ extends AppCompatActivity
         mychannel = channel;
 
         adjustVoiceGain();
+    }
+
+    private void subscriptionChange(User user) {
+        User olduser = this.users.get(user.nUserID);
+        if (olduser != null && this.ttsWrapper != null) {
+            Utils.ttsSubscriptionChanged(getBaseContext(), olduser, user).ifPresent((text -> ttsWrapper.speak(text)));
+        }
     }
 
     private boolean isVisibleChannel(int chanid) {
@@ -1775,6 +1786,8 @@ private EditText newmsg;
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
+        this.users = new HashMap<>(ttservice.getUsers());
+
         int mychanid = ttclient.getMyChannelID();
         if (mychanid > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychanid));
@@ -1954,9 +1967,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        users.put(user.nUserID, user);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
@@ -1967,9 +1983,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        users.remove(user.nUserID);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
@@ -1985,10 +2004,15 @@ private EditText newmsg;
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
+
+        subscriptionChange(user);
+
+        users.put(user.nUserID, user);
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
@@ -2038,6 +2062,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself left current channel
@@ -2232,6 +2257,7 @@ private EditText newmsg;
 
     @Override
     public void onUserStateChange(User user) {
+        users.put(user.nUserID, user);
         
         if (curchannel != null && user.nChannelID == curchannel.nChannelID) {
             accessibilityAssistant.lockEvents();

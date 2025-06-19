@@ -2341,7 +2341,7 @@
     <string>&amp;Generate tt:// URL to Clipboard</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+C</string>
+    <string>Ctrl+Shift+R</string>
    </property>
   </action>
   <action name="actionDesktopInput">

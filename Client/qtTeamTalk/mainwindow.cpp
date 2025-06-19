@@ -4358,7 +4358,11 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     ui.channelsWidget->updateAllItems();
 
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
+    {
         ui.retranslateUi(this);
+        for (auto c : m_chathistory)
+            c->updateTranslation();
+    }
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
@@ -5749,9 +5753,12 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
             link += QString("&chanpasswd=%1").arg(chpasswd);
         }
     }
-    cp->setText(link);
-    addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
-    addTextToSpeechMessage(tr("Link copied to clipboard"));
+    if (ok)
+    {
+        cp->setText(link);
+        addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
+        addTextToSpeechMessage(tr("Link copied to clipboard"));
+    }
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
