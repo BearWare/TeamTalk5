@@ -23,7 +23,7 @@
 extern TTInstance* ttInst;
 extern QSettings* ttSettings;
 
-ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
+ChangeStatusDlg::ChangeStatusDlg(QString statusmsg, QWidget* parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
     ui.setupUi(this);
@@ -46,7 +46,7 @@ ChangeStatusDlg::ChangeStatusDlg(QWidget* parent/* = 0*/)
         int index = ui.statusBox->findData(m_user.nStatusMode & STATUSMODE_MODE);
         if(index>=0)
             ui.statusBox->setCurrentIndex(index);
-        ui.msgEdit->setText(_Q(m_user.szStatusMsg));
+        ui.msgEdit->setText(statusmsg);
         ui.streamChkBox->setChecked(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool());
     }
 }
@@ -71,8 +71,5 @@ void ChangeStatusDlg::slotAccepted()
         break;
     }
 
-    ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.msgEdit->text());
     ttSettings->setValue(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked());
-
-    TT_DoChangeStatus(ttInst, m_user.nStatusMode, _W(ui.msgEdit->text()));
 }

@@ -618,7 +618,7 @@ void ServerListDlg::serverlistReply(QNetworkReply* reply)
             entry.id = ++m_nextid;
             m_model->addServer(entry, entry.srvtype);
         }
-		element = element.nextSiblingElement();
+        element = element.nextSiblingElement();
     }
 }
 

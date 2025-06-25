@@ -83,6 +83,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->usernameEdit->setReadOnly(true);
         ui->passwordEdit->setReadOnly(true);
         ui->nicknameEdit->setReadOnly(true);
+        ui->statusmsgEdit->setReadOnly(true);
         ui->lastChanChkBox->setEnabled(false);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
@@ -102,6 +103,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->usernameEdit->setText(m_hostentry.username);
     ui->passwordEdit->setText(m_hostentry.password);
     ui->nicknameEdit->setText(m_hostentry.nickname);
+    ui->statusmsgEdit->setText(m_hostentry.statusmsg);
     ui->lastChanChkBox->setChecked(m_hostentry.lastChan);
     ui->channelEdit->setText(m_hostentry.channel);
     ui->chanpasswdEdit->setText(m_hostentry.chanpasswd);
@@ -124,6 +126,7 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.username = ui->usernameEdit->text();
     newhostentry.password = isWebLogin(ui->usernameEdit->text(), true)?"":ui->passwordEdit->text();
     newhostentry.nickname = ui->nicknameEdit->text();
+    newhostentry.statusmsg = ui->statusmsgEdit->text();
     newhostentry.lastChan = ui->lastChanChkBox->isChecked();
     newhostentry.channel = ui->channelEdit->text();
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();

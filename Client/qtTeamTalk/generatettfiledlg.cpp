@@ -41,10 +41,12 @@ GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* 
     ui.usernameEdit->setText(m_hostentry.username);
     ui.passwordEdit->setText(m_hostentry.password);
     ui.nicknameEdit->setText(m_hostentry.nickname);
+    ui.statusmsgEdit->setText(m_hostentry.statusmsg);
 
     connect(ui.saveBtn, &QAbstractButton::clicked, this, &GenerateTTFileDlg::slotSaveTTFile);
     connect(ui.closeBtn, &QAbstractButton::clicked, this, &QDialog::accept);
     connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.nicknameEdit, &QWidget::setEnabled);
+    connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.statusmsgEdit, &QWidget::setEnabled);
     connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.maleRadioButton, &QWidget::setEnabled);
     connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.femaleRadioButton, &QWidget::setEnabled);
     connect(ui.overrideChkBox, &QAbstractButton::clicked, ui.neutralRadioButton, &QWidget::setEnabled);
@@ -163,6 +165,7 @@ void GenerateTTFileDlg::slotSaveTTFile()
     if(ui.overrideChkBox->isChecked())
     {
         m_hostentry.nickname = ui.nicknameEdit->text();
+        m_hostentry.statusmsg = ui.statusmsgEdit->text();
 
         if (ui.maleRadioButton->isChecked())
             m_hostentry.gender = GENDER_MALE;

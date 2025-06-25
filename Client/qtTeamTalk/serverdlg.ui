@@ -220,6 +220,19 @@
            </property>
           </widget>
          </item>
+         <item row="4" column="1">
+          <widget class="QLineEdit" name="statusmsgEdit"/>
+         </item>
+         <item row="4" column="0">
+          <widget class="QLabel" name="label_status">
+           <property name="text">
+            <string>Status Message (optional)</string>
+           </property>
+           <property name="buddy">
+            <cstring>statusmsgEdit</cstring>
+           </property>
+          </widget>
+         </item>
         </layout>
        </widget>
       </item>
