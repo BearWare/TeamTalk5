@@ -153,6 +153,8 @@
     <string name="pref_summary_mute_speakers">Enable this to avoid echo from speakers</string>
     <string name="pref_title_show_usernames">Show usernames</string>
     <string name="pref_summary_show_usernames">Show usernames instead of nicknames</string>
+    <string name="pref_title_move_talking">Move talking users to top</string>
+    <string name="pref_summary_move_talking">Move talking users to the top of users list</string>
     <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
     <string name="pref_summary_bearwareid">Setup BearWare.dk WebLogin</string>
 
