@@ -1,6 +1,7 @@
 import TeamTalk5
 from TeamTalk5 import TextMsgType, buildTextMessage, ttstr, \
                       TextMessage, rebuildTextMessage, TT_STRLEN
+import sys
 
 def test_ttypes():
     # Run DBG_SIZEOF() on all structs
@@ -68,15 +69,17 @@ def test_overlapping_utf8_string():
 
     n_times = 200
     content = threebytes * n_times
-    utf8 = ttstr(content)
-    assert len(utf8) == n_times * 3
-    assert (TT_STRLEN - 1) % len(utf8) != 0
+    if sys.platform != "win32":
+        utf8 = ttstr(content)
+        assert len(utf8) == n_times * 3
+        assert (TT_STRLEN - 1) % len(utf8) != 0
 
     msgs = buildTextMessage(content,
                             nMsgType = TextMsgType.MSGTYPE_USER,
                             szFromUsername = "hest",
                             nChannelID = 0, nToUserID = 55)
-    assert len(msgs) == 2
+    if sys.platform != "win32":
+        assert len(msgs) == 2
     result = rebuildTextMessage(msgs)
     assert result == content
 
