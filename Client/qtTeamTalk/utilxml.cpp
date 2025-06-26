@@ -54,6 +54,10 @@ void processAuthXML(const QDomElement& hostElement, HostEntry& entry)
         tmp = auth.firstChildElement("nickname");
         if (!tmp.isNull())
             entry.nickname = tmp.text();
+
+        tmp = auth.firstChildElement("statusmsg");
+        if (!tmp.isNull())
+            entry.statusmsg = tmp.text();
     }
 }
 
@@ -269,9 +273,13 @@ QByteArray generateTTFile(const HostEntry& entry)
         QDomElement nickname = doc.createElement("nickname");
         nickname.appendChild(doc.createTextNode(entry.nickname));
 
+        QDomElement statusmsg = doc.createElement("statusmsg");
+        statusmsg.appendChild(doc.createTextNode(entry.statusmsg));
+
         auth.appendChild(username);
         auth.appendChild(password);
         auth.appendChild(nickname);
+        auth.appendChild(statusmsg);
 
         host.appendChild(auth);
     }

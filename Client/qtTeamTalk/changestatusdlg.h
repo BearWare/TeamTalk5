@@ -26,8 +26,9 @@ class ChangeStatusDlg : public QDialog
     Q_OBJECT
 
 public:
-    ChangeStatusDlg(QWidget* parent = 0);
+    ChangeStatusDlg(QString statusmsg, QWidget* parent = 0);
     User m_user;
+    QString m_statusmsg;
 
 private:
     void slotAccepted();

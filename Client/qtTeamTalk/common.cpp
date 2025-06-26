@@ -38,7 +38,7 @@ QStringList getCustomCommand(const MyTextMessage& msg)
     return msg.moreMessage.split("\r\n");
 }
 
-bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
+bool HostEntry::sameHost(const HostEntry& host, bool nickcheck, bool statusmsgcheck) const
 {
     return ipaddr == host.ipaddr &&
            tcpport == host.tcpport &&
@@ -47,13 +47,14 @@ bool HostEntry::sameHost(const HostEntry& host, bool nickcheck) const
            (username == host.username || (isWebLogin(host.username, true) && isWebLogin(username, false))) &&
            /* password == host.password && */
            (!nickcheck || nickname == host.nickname) &&
+           (!statusmsgcheck || statusmsg == host.statusmsg) &&
            channel == host.channel
            /* && hosts[i].chanpasswd == host.chanpasswd*/;
 }
 
 bool HostEntry::sameHostEntry(const HostEntry& host) const
 {
-    return sameHost(host, false) && host.name == name;
+    return sameHost(host, false, false) && host.name == name;
 }
 
 QString HostEntry::generateEntryName() const
@@ -172,6 +173,7 @@ void setServerEntry(int index, const HostEntry& host)
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_USERNAME : SETTINGS_SERVERENTRIES_USERNAME)).arg(index), host.username);
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_PASSWORD : SETTINGS_SERVERENTRIES_PASSWORD)).arg(index), host.password);
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_NICKNAME : SETTINGS_SERVERENTRIES_NICKNAME)).arg(index), host.nickname);
+    ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_STATUSMSG : SETTINGS_SERVERENTRIES_STATUSMSG)).arg(index), host.statusmsg);
     if (!host.latesthost)
         ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index), host.lastChan);
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index), host.channel);
@@ -192,6 +194,7 @@ bool getServerEntry(int index, HostEntry& host, bool latesthost)
     host.username = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_USERNAME : SETTINGS_SERVERENTRIES_USERNAME)).arg(index)).toString();
     host.password = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_PASSWORD : SETTINGS_SERVERENTRIES_PASSWORD)).arg(index)).toString();
     host.nickname = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_NICKNAME : SETTINGS_SERVERENTRIES_NICKNAME)).arg(index)).toString();
+    host.statusmsg = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_STATUSMSG : SETTINGS_SERVERENTRIES_STATUSMSG)).arg(index)).toString();
     host.channel = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index)).toString();
     host.chanpasswd = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_CHANNELPASSWD : SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index)).toString();
     if (!host.latesthost)
@@ -221,6 +224,7 @@ void deleteServerEntry(const HostEntry& host)
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_USERNAME : SETTINGS_SERVERENTRIES_USERNAME)).arg(index));
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_PASSWORD : SETTINGS_SERVERENTRIES_PASSWORD)).arg(index));
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_NICKNAME : SETTINGS_SERVERENTRIES_NICKNAME)).arg(index));
+        ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_STATUSMSG : SETTINGS_SERVERENTRIES_STATUSMSG)).arg(index));
         if (!host.latesthost)
             ttSettings->remove(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index));
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index));
