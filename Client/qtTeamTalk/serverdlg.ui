@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>506</width>
-    <height>596</height>
+    <height>627</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -226,7 +226,7 @@
          <item row="4" column="0">
           <widget class="QLabel" name="label_status">
            <property name="text">
-            <string>Status Message (optional)</string>
+            <string>Status message (optional)</string>
            </property>
            <property name="buddy">
             <cstring>statusmsgEdit</cstring>
