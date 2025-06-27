@@ -8,7 +8,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.1.2'
+        classpath 'com.android.tools.build:gradle:8.11.0'
     }
 }
 
@@ -29,7 +29,7 @@ android {
     defaultConfig {
         applicationId "dk.bearware.gui"
         minSdkVersion 27
-        compileSdk 34
+        compileSdk 36
         targetSdkVersion 34
         versionCode 138
         versionName '5.19'
@@ -37,8 +37,8 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         compileOptions {
-            sourceCompatibility JavaVersion.VERSION_1_8
-            targetCompatibility JavaVersion.VERSION_1_8
+            sourceCompatibility JavaVersion.VERSION_17
+            targetCompatibility JavaVersion.VERSION_17
         }
     }
 
@@ -70,30 +70,30 @@ android {
 }
 
 dependencies {
-    implementation 'com.google.code.gson:gson:2.10.1'
-    implementation 'androidx.annotation:annotation:1.7.0'
-    implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'androidx.core:core:1.12.0'
-    implementation 'androidx.fragment:fragment:1.6.0'
-    implementation 'androidx.media:media:1.6.0'
+    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'androidx.annotation:annotation:1.9.1'
+    implementation 'androidx.appcompat:appcompat:1.7.1'
+    implementation 'androidx.core:core:1.16.0'
+    implementation 'androidx.fragment:fragment:1.8.8'
+    implementation 'androidx.media:media:1.7.0'
     implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.viewpager:viewpager:1.0.0'
-    implementation 'com.google.android.material:material:1.9.0'
-    implementation(platform("org.jetbrains.kotlin:kotlin-bom:1.8.0"))
-    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.5.1"
+    implementation 'androidx.viewpager:viewpager:1.1.0'
+    implementation 'com.google.android.material:material:1.12.0'
+    implementation(platform("org.jetbrains.kotlin:kotlin-bom:2.2.0"))
+    api "androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1"
     implementation files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
-    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
-    testImplementation 'junit:junit:4.12'
+    implementation 'com.android.support.constraint:constraint-layout:2.2.1'
+    testImplementation 'junit:junit:4.13.2'
     testImplementation files('libs/TeamTalk5Test.jar')
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.4.0'
+    androidTestImplementation 'androidx.test:core:1.6.1'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.4.0'
-    androidTestImplementation 'androidx.test:rules:1.4.0'
+    androidTestImplementation 'androidx.test:runner:1.6.2'
+    androidTestImplementation 'androidx.test:rules:1.6.1'
 
     // Assertions
     androidTestImplementation files('libs/TeamTalk5Test.jar')
