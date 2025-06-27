@@ -4539,7 +4539,8 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(nick);
+    if (nick != ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString())
+        inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         inputDialog.setLabelText(tr("Specify new nickname for current server"));
@@ -4591,7 +4592,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
         statusmsg = m_host.statusmsg;
-    ChangeStatusDlg dlg(statusmsg, this);
+    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE)?statusmsg:""), this);
     if(dlg.exec())
     {
         m_statusmode = dlg.m_user.nStatusMode;
