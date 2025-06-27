@@ -70,6 +70,7 @@ void ChangeStatusDlg::slotAccepted()
         Q_ASSERT(false /* this status mode is not implemented*/);
         break;
     }
+    m_statusmsg = ui.msgEdit->text();
 
     ttSettings->setValue(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked());
 }
