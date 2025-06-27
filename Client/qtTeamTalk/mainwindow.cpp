@@ -4595,10 +4595,11 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
     if(dlg.exec())
     {
         m_statusmode = dlg.m_user.nStatusMode;
-        QString statusmsg = dlg.m_statusmsg;
+        statusmsg = dlg.m_statusmsg;
         if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         {
-            TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            m_host.statusmsg = statusmsg;
+            TT_DoChangeStatus(ttInst, m_statusmode, (statusmsg.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()):_W(statusmsg));
             HostEntry tmp = HostEntry();
             int serv, lasthost, index = 0;
             while (getServerEntry(index, tmp, false))
