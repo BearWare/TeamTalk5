@@ -4592,7 +4592,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
         statusmsg = m_host.statusmsg;
-    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE)?statusmsg:""), this);
+    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()?statusmsg:""), this);
     if(dlg.exec())
     {
         m_statusmode = dlg.m_user.nStatusMode;
