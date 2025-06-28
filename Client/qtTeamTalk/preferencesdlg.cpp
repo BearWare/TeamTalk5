@@ -451,6 +451,7 @@ void PreferencesDlg::initDisplayTab()
 {
     ui.startminimizedChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_STARTMINIMIZED, false).toBool());
     ui.trayChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_TRAYMINIMIZE, false).toBool());
+    ui.confirmExitChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool());
     ui.alwaysontopChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ALWAYSONTOP, false).toBool());
     ui.vumeterChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
                                                    SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool());
@@ -745,6 +746,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_DISPLAY_STARTMINIMIZED, ui.startminimizedChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_TRAYMINIMIZE,  ui.trayChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_CONFIRMEXIT,  ui.confirmExitChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_ALWAYSONTOP, ui.alwaysontopChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, ui.vumeterChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, ui.voiceActLevelChkBox->isChecked());

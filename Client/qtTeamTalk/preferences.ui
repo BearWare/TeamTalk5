@@ -437,6 +437,13 @@
              </widget>
             </item>
             <item>
+             <widget class="QCheckBox" name="confirmExitChkBox">
+              <property name="text">
+               <string>Ask confirmation before exiting</string>
+              </property>
+             </widget>
+            </item>
+            <item>
              <widget class="QCheckBox" name="alwaysontopChkBox">
               <property name="text">
                <string>&amp;Always on top</string>
