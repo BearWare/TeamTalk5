@@ -4599,6 +4599,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
         if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         {
             m_host.statusmsg = statusmsg;
+            // Change status message using host specific message if not empty or general message otherwise
             TT_DoChangeStatus(ttInst, m_statusmode, (statusmsg.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()):_W(statusmsg));
             HostEntry tmp = HostEntry();
             int serv, lasthost, index = 0;
