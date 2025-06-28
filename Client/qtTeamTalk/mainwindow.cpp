@@ -8025,6 +8025,10 @@ void MainWindow::closeEvent(QCloseEvent *event)
         slotClientExit();
 #endif
     }
+    else
+    {
+        event->ignore();
+    }
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
