@@ -28,7 +28,7 @@ android {
 
     defaultConfig {
         applicationId "dk.bearware.gui"
-        minSdkVersion 27
+        minSdkVersion 21
         compileSdk 35
         targetSdkVersion 35
         versionCode 138
