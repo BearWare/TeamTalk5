@@ -10,6 +10,7 @@ Default Qt Client
 - Bitrate for OPUS is limited to 6-510 in Channel dialog
 - Status message shown in Preferences dialog
 - Ability to define status message for each server
+- Option to ask confirmation on exit
 - Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
 - Fixed idle status message not being restored after network reconnection
 - Fixed chat history name not retranslated on language change
