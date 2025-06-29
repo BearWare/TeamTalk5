@@ -1263,7 +1263,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>仅拷贝内容(&amp;O)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
@@ -1840,7 +1840,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>状态消息</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -2480,7 +2480,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2344"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2453"/>
@@ -5520,7 +5520,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation type="unfinished">状态消息</translation>
+        <translation>状态消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="241"/>
@@ -6685,7 +6685,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>状态消息（可选）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>
