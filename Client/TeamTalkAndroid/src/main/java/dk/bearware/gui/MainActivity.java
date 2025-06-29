@@ -1118,7 +1118,7 @@ private EditText newmsg;
             Collections.sort(stickychannels, (c1, c2) -> c1.szName.compareToIgnoreCase(c2.szName));
 
             Collections.sort(currentusers, (u1, u2) -> {
-                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("movetalk_checkbox", false)) {
+                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("movetalk_checkbox", true)) {
                     if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
                         ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
                         return -1;
