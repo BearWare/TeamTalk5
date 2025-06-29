@@ -4553,6 +4553,49 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         assertEquals("time stamp match within 2 minutes", diff, 0, 120);
     }
 
+    @Test
+    public void testAutoOperatorRemoval() {
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME + " - " + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        // create permanent channel for auto-operator
+        Channel chan = buildDefaultChannel(ttadmin, "Some channel");
+        chan.uChannelType |= ChannelType.CHANNEL_PERMANENT;
+        assertTrue("Make channel", waitCmdSuccess(ttadmin, ttadmin.doMakeChannel(chan), DEF_WAIT));
+        int chanid = ttadmin.getChannelIDFromPath("/" + chan.szName);
+
+        // create user acount where permanent channel is account's auto-operator channel
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_NONE;
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserRights = USERRIGHTS;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.autoOperatorChannels[0] = chanid;
+        assertTrue("New user account ok", waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(useraccount), DEF_WAIT));
+
+        // see that auto-operator is now set
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        useraccount = new UserAccount();
+        assertTrue("get my account", ttclient.getMyUserAccount(useraccount));
+        assertEquals("auto operator channel set", chanid, useraccount.autoOperatorChannels[0]);
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doLogout(), DEF_WAIT));
+
+        // remove permanent channel
+        assertTrue(waitCmdSuccess(ttadmin, ttadmin.doRemoveChannel(chanid), DEF_WAIT));
+
+        // permanent channel should now have been removed as auto-operator channel
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        useraccount = new UserAccount();
+        assertTrue("get my account", ttclient.getMyUserAccount(useraccount));
+        assertEquals("auto operator channel removed", 0, useraccount.autoOperatorChannels[0]);
+    }
+
     /* cannot test output levels since a user is muted by sound system after decoding and callback.
 
     @Test
