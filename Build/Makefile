@@ -26,7 +26,7 @@ android-build:
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
         CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI=$(ANDROID_ABI) \
-        -DANDROID_PLATFORM=android-27 \
+        -DANDROID_PLATFORM=android-24 \
         -DBUILD_TEAMTALK_LIBRARY_LIB=ON \
         -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
         -DBUILD_TEAMTALK_LIBRARIES=ON \
