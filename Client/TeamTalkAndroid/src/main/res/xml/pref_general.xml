@@ -26,6 +26,12 @@
 		android:summary="@string/pref_summary_bearwareid" />
 
     <CheckBoxPreference
+		android:key="movetalk_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_move_talking"
+		android:summary="@string/pref_summary_move_talking" />
+
+    <CheckBoxPreference
 		android:key="showusernames_checkbox"
 		android:defaultValue="false"
 		android:title="@string/pref_title_show_usernames"
