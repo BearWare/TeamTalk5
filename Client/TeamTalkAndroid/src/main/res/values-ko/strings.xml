@@ -25,12 +25,12 @@
     <string name="text_con_cmderr">명령을 실행하지 못했습니다.</string>
     <string name="text_cmderr_login">로그인 명령을 실행하지 못했습니다.</string>
     <string name="text_cmd_loggedin">서버에 로그인됨.</string>
-    <string name="text_cmd_joinchan">채널 입장함:</string>
-    <string name="text_cmd_leftchan">채널 퇴장함:</string>
+    <string name="text_cmd_joinchan">채널 입장함 :</string>
+    <string name="text_cmd_leftchan">채널 퇴장함 :</string>
     <string name="text_cmd_joinroot">최상위 채널에 입장함</string>
     <string name="text_cmd_leftroot">최상위 채널에서 퇴장함</string>
-    <string name="text_cmd_userjoinchan">채널 입장</string>
-    <string name="text_cmd_userleftchan">채널 퇴장</string>
+    <string name="text_cmd_userjoinchan">채널에 입장함</string>
+    <string name="text_cmd_userleftchan">채널에서 퇴장함</string>
     <string name="text_cmd_userloggedin">로그인함</string>
     <string name="text_cmd_servername">"서버 이름 : "</string>
     <string name="text_cmd_servermotd">"환영사 : "</string>
@@ -50,9 +50,9 @@
     <string name="pref_title_vibrate">눌러서 말하기 시 진동</string>
     <string name="pref_show_log_messages">지난 채팅 목록에 로그 메시지 표시</string>
     <string name="pref_title_audio_icons">소리 이벤트</string>
-    <string name="pref_title_rx_tx_audio_icon">말하기 활성화 토글</string>
-    <string name="pref_summary_rx_tx_audio_icon">말하기를 활성화/비활성화하면 효과음 재생</string>
-    <string name="pref_summary_vox_audio_icon">마이크를 음소거/음소거 해제하면 효과음 재생</string>
+    <string name="pref_title_rx_tx_audio_icon">마이크 토글</string>
+    <string name="pref_summary_rx_tx_audio_icon">마이크를 음소거/음소거 해제하면 효과음 재생</string>
+    <string name="pref_summary_vox_audio_icon">말하기를 활성화/비활성화하면 효과음 재생</string>
     <string name="pref_title_vox_triggered_icon">말하기 감지됨</string>
     <string name="pref_summary_vox_triggered_icon">말하기가 감지되면 효과음 재생</string>
     <string name="pref_summary_intercept_audio_icon">가로채기가 시작 또는 중지되면 효과음 재생</string>
@@ -111,9 +111,10 @@
     <string name="pref_summary_broadcast_message">방송 메시지 알림</string>
     <string name="pref_summary_transmit_channel_msg">채널 메시지 전송 가능 여부 업데이트 알림</string>
     <string name="pref_title_mute_speakers">말하기 버튼을 누르면 스피커 음소거</string>
-    <string name="pref_summary_mute_speakers">스피커의 에코 문제를 방지하려면 활성화</string>
+    <string name="pref_summary_mute_speakers">에코 문제를 방지하려면 활성화</string>
     <string name="pref_title_show_usernames">사용자 이름 표시</string>
     <string name="pref_summary_show_usernames">대화명 대신 사용자 이름 표시</string>
+    <string name="pref_summary_move_talking">말하는 중인 사용자를 사용자 목록의 맨 위로 이동</string>
     <string name="pref_title_bearwareid">BearWare.dk 웹 로그인</string>
     <string name="pref_summary_bearwareid">BearWare.dk 웹 로그인 설정</string>
 
@@ -158,15 +159,15 @@
     <string name="action_move">이동</string>
     <string name="action_select">이동할 대상에 추가</string>
     <string name="action_deselect">이동할 대상에서 제거</string>
-    <string name="action_exportsrv">서버 내보내기</string>
-    <string name="action_editsrv">서버 편집</string>
-    <string name="action_removesrv">서버 삭제</string>
+    <string name="action_exportsrv">내보내기</string>
+    <string name="action_editsrv">편집</string>
+    <string name="action_removesrv">삭제</string>
     <string name="action_upload">파일 업로드</string>
     <string name="action_broadcast">방송</string>
     <string name="action_stream">미디어 파일 스트리밍</string>
     <string name="button_select_media_file">찾아보기</string>
     <string name="button_stream_media_file">시작</string>
-    <string name="button_msg">메시지 입력</string>
+    <string name="button_msg">메시지</string>
     <string name="button_send">보내기</string>
 
     <string name="channel_prop_title_name">채널 이름`</string>
@@ -248,9 +249,9 @@
     <string name="action_refresh">새로고침</string>
     <string name="action_import_serverlist">.tt 파일 가져오기</string>
     <string name="action_export_serverlist">서버 목록 내보내기</string>
-    <string name="serverlist_export_confirmation">서버 목록을 %1$s 파일로 내보냈습니다.</string>
+    <string name="serverlist_export_confirmation">서버 목록을 %1$s 파일로 내보냄</string>
 
-    <string name="server_export_confirmation">서버를 %1$s 파일로 내보냈습니다.</string>
+    <string name="server_export_confirmation">서버를 %1$s 파일로 내보냄</string>
     <string name="pref_title_server_props">서버 속성</string>
     <string name="pref_title_server_info">서버 정보</string>
     <string name="pref_title_server_name">서버 이름</string>
@@ -288,12 +289,12 @@
     <string name="transfer_stopped">중지됨</string>
     <string name="complete">완료</string>
     <string name="remote_file_exists">%1$s라는 이름의 파일이 이미 채널에 존재함</string>
-    <string name="remote_file_remove_confirmation">%1$s 파일을 서버에서 삭제하시겠습니까?</string>
-    <string name="server_remove_confirmation">%1$s 서버를 삭제하시겠습니까?</string>
-    <string name="channel_remove_confirmation">%1$s 채널을 삭제하시겠습니까?</string>
-    <string name="ban_confirmation">%1$s님을 차단하시겠습니까?</string>
-    <string name="kick_confirmation">%1$s님을 추방하시겠습니까?</string>
-    <string name="version_update">새로운 TeamTalk 버전(%1$s)을 사용할 수 있습니다. 업데이트하시겠습니까?</string>
+    <string name="remote_file_remove_confirmation">%1$s 파일을 서버에서 삭제할까요?</string>
+    <string name="server_remove_confirmation">%1$s 서버를 삭제할까요?</string>
+    <string name="channel_remove_confirmation">%1$s 채널을 삭제할까요?</string>
+    <string name="ban_confirmation">%1$s님을 차단할까요?</string>
+    <string name="kick_confirmation">%1$s님을 추방할까요?</string>
+    <string name="version_update">새로운 TeamTalk 버전(%1$s)을 사용할 수 있습니다. 업데이트할까요?</string>
     <string name="opusbitrate">비트레이트</string>
     <string name="opusinterval">전송 간격</string>
     <string name="speexquality">품질</string>
@@ -359,7 +360,7 @@
 
     <string name="private_message_notification">%1$s의 새로운 메시지</string>
     <string name="private_message_notification_hint">눌러서 읽고 답장하기</string>
-    <string name="user_state_now_speaking">(말하는 중) %1$s</string>
+    <string name="user_state_now_speaking">%1$s (말하는 중)</string>
     <string name="text_waitstream">동영상 스트림을 기다리는 중</string>
     <string name="text_desktop_session">화면 공유 세션</string>
     <string name="text_webcam_session">웹캠 세션</string>
@@ -389,16 +390,16 @@
     <string name="text_bearwarelogin_success">%1$s %2$s 사용자로 인증되었습니다.</string>
     <string name="text_bearwarelogin_failed">"사용자 %1$s (%2$s) 인증에 실패했습니다 "</string>
     <string name="text_weblogin_authfailure">BearWare.dk 웹 로그인 인증에 실패했습니다. BearWare.dk 웹 로그인 설정을 확인해주세요.</string>
-    <string name="editmsg">메시지 :</string>
-    <string name="filepathlab">파일 :</string>
-    <string name="channamelab">채널 이름 :</string>
-    <string name="chanpswlab">채널 암호 :</string>
-    <string name="chantopiclab">채널 주제 :</string>
-    <string name="chanoppswlab">관리자 암호 :</string>
-    <string name="maxuserslab">최대 인원 수 :</string>
-    <string name="diskquotalab">디스크 할당량 :</string>
-    <string name="bwidlab">사용자 이름 :</string>
-    <string name="bwpswlab">암호 :</string>
+    <string name="editmsg">메시지 입력</string>
+    <string name="filepathlab">파일</string>
+    <string name="channamelab">채널 이름</string>
+    <string name="chanpswlab">채널 암호</string>
+    <string name="chantopiclab">채널 주제</string>
+    <string name="chanoppswlab">관리자 암호</string>
+    <string name="maxuserslab">최대 인원 수</string>
+    <string name="diskquotalab">디스크 할당량</string>
+    <string name="bwidlab">사용자 이름</string>
+    <string name="bwpswlab">암호</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
     <string name="pref_title_bearware_summary">서버가 BearWare.dk 웹 로그인을 사용하는 경우에만 체크</string>
@@ -435,7 +436,7 @@
     <string name="action_revoke_operator">관리자에서 해제</string>
     <string name="text_operator_password">채널 관리자 암호 입력</string>
     <string name="text_cmd_userloggedout">로그아웃함</string>
-    <string name="pref_title_vox_audio_icon">마이크 토글</string>
+    <string name="pref_title_vox_audio_icon">말하기 토글</string>
     <string name="pref_title_auto_join_root">최상위 채널에 입장</string>
     <string name="pref_summary_subscription_intercept_media">미디어 파일 가로채기 수신 상태 업데이트 알림</string>
     <string name="pref_title_transmit_voice">말하기</string>
@@ -500,6 +501,7 @@
     <string name="text_tts_subscription_media_changed">: 미디어 파일 수신</string>
     <string name="text_tts_subscription_intercept_user_msg_changed">: 개인 메시지 가로채기 수신</string>
     <string name="text_tts_subscription_intercept_channel_msg_changed">: 채널 메시지 가로채기 수신</string>
+    <string name="pref_title_move_talking">말하는 중인 사용자를 위로</string>
 
 
 </resources>
