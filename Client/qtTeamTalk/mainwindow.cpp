@@ -8005,11 +8005,33 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    bool ok = true;
+    if (ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool() == true)
+    {
+        ok = false;
+        QMessageBox answer;
+        answer.setText(tr("Are you sure you want to quit %1").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Exit %1").arg(APPNAME_SHORT));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            ok = true;
+    }
+    if (ok)
+    {
 #if defined(Q_OS_DARWIN)
-    QMainWindow::closeEvent(event);
+        QMainWindow::closeEvent(event);
 #else
-    slotClientExit();
+        slotClientExit();
 #endif
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
