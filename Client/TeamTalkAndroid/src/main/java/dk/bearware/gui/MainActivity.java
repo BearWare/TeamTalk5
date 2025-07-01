@@ -1299,6 +1299,7 @@ private EditText newmsg;
                 nickname.setText(name);
                 status.setText(user.szStatusMsg);
                 
+                boolean isOperator = ttclient.isChannelOperator(user.nUserID, user.nChannelID);
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
@@ -1309,35 +1310,10 @@ private EditText newmsg;
                 if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
                     talking = ttservice.isVoiceTransmitting();
                 }
-                if(talking) {
-                    if(female) {
-                        icon_resource = R.drawable.woman_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👩");
-                    }
-                    else if(male) {
-                        icon_resource = R.drawable.man_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👨");
-                    }
-                    else {
-                        icon_resource = R.drawable.man_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name));
-                    }
-                }
-                else {
-                    if(female) {
-                        icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
-                        nickname.setContentDescription(name + " 👩");
-                    }
-                    else if(male) {
-                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
-                        nickname.setContentDescription(name + " 👨");
-                    }
-                    else {
-                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
-                        nickname.setContentDescription(name);
-                    }
-                }
-                status.setContentDescription(away ? getString(R.string.user_state_away) : null);
+nickname.setContentDescription((talking ? getString(R.string.user_state_now_speaking, name) : name) + (female ? " 👩 " : neutral ? " 🧑 " : male ? " 👨 " : "") + (isOperator ? getString(R.string.user_state_operator) : ""));
+icon_resource = talking ? (female ? R.drawable.woman_green : (male ? R.drawable.man_green : R.drawable.man_green)) : (female ? (away ? R.drawable.woman_orange : R.drawable.woman_blue) : (male ? (away ? R.drawable.man_orange : R.drawable.man_blue) : (away ? R.drawable.man_orange : R.drawable.man_blue)));
+
+                status.setContentDescription(away ? getString(R.string.user_state_away) + " " + user.szStatusMsg : null);
 
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);

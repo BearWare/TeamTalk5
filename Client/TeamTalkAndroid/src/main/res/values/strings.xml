@@ -475,6 +475,7 @@
     <string name="pref_title_gender">Gender</string>
     <string name="pref_summary_gender">Check for female icon</string>
     <string name="user_state_away">Away</string>
+    <string name="user_state_operator">Channel operator</string>
     <string name="pref_title_userloggedin_icon">User logged in</string>
     <string name="pref_summary_userloggedin_icon">Play sound when an user logs in</string>
     <string name="pref_title_userloggedoff_icon">User logged off</string>
