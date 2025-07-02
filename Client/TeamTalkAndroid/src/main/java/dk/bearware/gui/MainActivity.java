@@ -1310,8 +1310,26 @@ private EditText newmsg;
                 if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
                     talking = ttservice.isVoiceTransmitting();
                 }
-                nickname.setContentDescription((talking ? getString(R.string.user_state_now_speaking, name) : name) + (female ? " 👩 " : neutral ? " 🧑 " : male ? " 👨 " : "") + (isOperator ? getString(R.string.user_state_operator) : ""));
-                icon_resource = talking ? (female ? R.drawable.woman_green : (male ? R.drawable.man_green : R.drawable.man_green)) : (female ? (away ? R.drawable.woman_orange : R.drawable.woman_blue) : (male ? (away ? R.drawable.man_orange : R.drawable.man_blue) : (away ? R.drawable.man_orange : R.drawable.man_blue)));
+
+                String speaking = talking ? getString(R.string.user_state_now_speaking, name) : name;
+                String gender = female ? " 👩 " : neutral ? " 🧑 " : " 👨 ";
+                String op = isOperator ? getString(R.string.user_state_operator) : "";
+                nickname.setContentDescription(speaking + gender + op);
+
+                if (talking) {
+                    if (female) {
+                        icon_resource = R.drawable.woman_green;
+                    } else {
+                        icon_resource = R.drawable.man_green; // male or neutral
+                    }
+                } else {
+                    if (female) {
+                        icon_resource = away ? R.drawable.woman_orange : R.drawable.woman_blue;
+                    } else {
+                        icon_resource = away ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
+                    }
+                }
+
                 status.setContentDescription(away ? getString(R.string.user_state_away) + " " + user.szStatusMsg : null);
 
                 usericon.setImageResource(icon_resource);
