@@ -500,6 +500,7 @@
     <string name="action_revoke_operator">Revoke Operator</string>
     <string name="text_operator_password">Enter channel operator password</string>
     <string name="text_broadcast_message">Enter broadcast message</string>
+    <string name="online_users">Online Users</string>
 
 
 </resources>
