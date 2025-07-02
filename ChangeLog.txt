@@ -19,15 +19,18 @@ Default Qt Client
 - Fixed file transfer speed display
 - macOS updated to Qt 6.10.0 beta1
 Android Client
-- Added OnlineUsersActivity to display logged-in users to the server
+- Added Online Users Activity to display users logged on to the server
 - Added a new option to prevent talking users from moving to the top of users list
 - Added the ability to set status messages
-- Option to automatically join root channel in preferences
 - Added the ability to control user's transmissions
+- Option to automatically join root channel in preferences
+- Announce who is channel operator
+- Announce who is selected for moving to other channel
 - Ability to play sound when voice activation is toggled
 - Ability to play sound for intercept subscription toggled
 - Ability to use Text-To-Speech to announce transmission changes
 - Ability to use Text-To-Speech to announce subscription changes
+- Fixed bug where user's status message is not announced when away
 - Minimum supported is now Android v7.0 (Nougat)
 iOS Client
 - Use VoiceOver to announce TTS events for screen reader users
