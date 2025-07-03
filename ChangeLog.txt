@@ -18,6 +18,7 @@ Default Qt Client
 - Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
 - macOS updated to Qt 6.10.0 beta1
 Android Client
+- Added OnlineUsersActivity to display logged-in users to the server
 - Added a new option to prevent talking users from moving to the top of users list
 - Added the ability to set status messages
 - Option to automatically join root channel in preferences
