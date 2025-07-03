@@ -1,0 +1,36 @@
+version: 2
+updates:
+  - package-ecosystem: cargo
+    directory: /Client/ttserverlog_rust
+    schedule:
+      interval: weekly
+      day: monday
+      time: "00:00"
+
+  - package-ecosystem: cargo
+    directory: /Library/teamtalk_rust
+    schedule:
+      interval: weekly
+      day: monday
+      time: "00:00"
+
+  - package-ecosystem: gradle
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "00:00"
+
+  - package-ecosystem: docker
+    directory: /Build/Docker
+    schedule:
+      interval: weekly
+      day: monday
+      time: "00:00"
+
+  - package-ecosystem: github-actions
+    directory: /
+    schedule:
+      interval: weekly
+      day: monday
+      time: "00:00"
