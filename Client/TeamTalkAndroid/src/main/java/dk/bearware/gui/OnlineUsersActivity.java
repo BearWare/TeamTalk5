@@ -1,3 +1,25 @@
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ *
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
 package dk.bearware.gui;
 
 import android.content.ComponentName;
@@ -107,20 +129,13 @@ public class OnlineUsersActivity extends AppCompatActivity implements
     private void populateUserList() {
         if (ttservice != null) {
             onlineUsers.clear();
-            for (Map.Entry<Integer, User> entry : ttservice.getUsers().entrySet()) {
-                onlineUsers.add(entry.getValue());
-            }
+            onlineUsers.addAll(ttservice.getUsers().values());
             sortAndNotifyDataSetChanged();
         }
     }
 
     private void sortAndNotifyDataSetChanged() {
-        Collections.sort(onlineUsers, new Comparator<User>() {
-            @Override
-            public int compare(User u1, User u2) {
-                return u1.szNickname.compareToIgnoreCase(u2.szNickname);
-            }
-        });
+        onlineUsers.sort(Comparator.comparing(u -> u.szNickname.toLowerCase()));
         adapter.notifyDataSetChanged();
     }
 
