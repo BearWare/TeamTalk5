@@ -15,7 +15,7 @@ updates:
       time: "00:00"
 
   - package-ecosystem: gradle
-    directory: /
+    directory: /Client/TeamTalkAndroid
     schedule:
       interval: weekly
       day: monday
