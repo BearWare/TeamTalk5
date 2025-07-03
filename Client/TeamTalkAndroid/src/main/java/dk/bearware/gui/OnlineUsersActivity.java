@@ -225,25 +225,25 @@ public class OnlineUsersActivity extends AppCompatActivity implements
 
             if (user != null) {
                 StringBuilder userInfo = new StringBuilder();
-                userInfo.append("Nickname: ").append(user.szNickname);
+                userInfo.append(getString(R.string.online_user_info_nickname)).append(": ").append(user.szNickname);
 
                 if (!user.szUsername.isEmpty()) {
-                    userInfo.append(", Username: ").append(user.szUsername);
+                    userInfo.append(", ").append(getString(R.string.online_user_info_username)).append(": ").append(user.szUsername);
                 }
 
                 if (ttservice != null && ttservice.getChannels() != null) {
                     Channel userChannel = ttservice.getChannels().get(user.nChannelID);
                     if (userChannel != null) {
-                        userInfo.append(", Channel: ").append(userChannel.szName);
+                        userInfo.append(", ").append(getString(R.string.online_user_info_channel)).append(": ").append(userChannel.szName);
                     }
                 }
 
                 if (!user.szIPAddress.isEmpty()) {
-                    userInfo.append(", IP: ").append(user.szIPAddress);
+                    userInfo.append(", ").append(getString(R.string.online_user_info_ip)).append(": ").append(user.szIPAddress);
                 }
 
                                 if (!user.szClientName.isEmpty()) {
-                    userInfo.append(", Client: ").append(user.szClientName);
+                    userInfo.append(", ").append(getString(R.string.online_user_info_client)).append(": ").append(user.szClientName);
                     String clientVersion = ((user.uVersion >> 16) & 0xFF) + "." + ((user.uVersion >> 8) & 0xFF) + "." + (user.uVersion & 0xFF);
                     userInfo.append(" ").append(clientVersion);
                 }

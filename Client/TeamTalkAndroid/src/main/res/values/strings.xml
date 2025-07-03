@@ -503,4 +503,9 @@
     <string name="online_users">Online Users</string>
 
 
+    <string name="online_user_info_nickname">Nickname</string>
+    <string name="online_user_info_username">Username</string>
+    <string name="online_user_info_channel">Channel</string>
+    <string name="online_user_info_ip">IPAddress</string>
+    <string name="online_user_info_client">Client</string>
 </resources>
