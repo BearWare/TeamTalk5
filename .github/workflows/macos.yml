@@ -16,6 +16,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: true
 
     - uses: actions/setup-java@v4
       with:
@@ -25,26 +27,21 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.8.*'
+        version: '6.10.*'
         modules: 'qtmultimedia qtspeech'
         cache-key-prefix: 'install-qt-action'
 
-    - name: Install Toolchain Dependencies
+    - name: Refresh Homebrew repo
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         brew update
-        make depend-mac
 
     - name: Print env
       run: printenv | sort
 
-    - name: Init TeamTalk Library submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: |
-        git submodule update --init --recursive
-
     - name: Install TeamTalk Library Dependencies
-      run: brew install doxygen
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make depend-mac
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5

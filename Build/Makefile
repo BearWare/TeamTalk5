@@ -183,7 +183,7 @@ teamtalk-jar:
 # TeamTalk 5 dependencies for Ubuntu 18
 depend-ubuntu18:
 # Duplicate install in Docker/Dockerfile_ubuntu18
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -210,7 +210,7 @@ depend-ubuntu18:
 
 depend-ubuntu20:
 # Duplicate install in Docker/Dockerfile_ubuntu20
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -236,7 +236,7 @@ depend-ubuntu20:
 
 depend-ubuntu22:
 # Duplicate install in Docker/Dockerfile_ubuntu22
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -267,7 +267,7 @@ depend-ubuntu22:
 
 depend-ubuntu24:
 # Duplicate install in Docker/Dockerfile_ubuntu24
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -298,7 +298,7 @@ depend-ubuntu24:
 	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
 depend-ubuntu24-android:
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		curl \
@@ -314,7 +314,7 @@ depend-ubuntu24-android:
 		xz-utils
 
 depend-debian12:
-	apt install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -342,7 +342,7 @@ depend-debian12:
 		yasm
 
 depend-raspios12:
-	apt install \
+	apt-get-get install \
 		autoconf \
 		cmake \
 		doxygen \
@@ -372,6 +372,7 @@ depend-mac:
 	brew install \
 		autoconf \
 		automake \
+		doxygen \
 		libtool \
 		ninja \
 		pkg-config \
