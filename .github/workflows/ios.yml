@@ -19,14 +19,13 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install Toolchain Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+    - name: Update Homebrew repo
       run: |
         brew update
-        make depend-mac
 
     - name: Install TeamTalk Library Dependencies
-      run: brew install doxygen
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: make depend-mac
 
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build

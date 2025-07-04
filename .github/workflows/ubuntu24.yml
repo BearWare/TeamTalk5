@@ -16,36 +16,28 @@ jobs:
 
     steps:
     - uses: actions/checkout@v4
+      with:
+        submodules: true
 
-    - uses: actions/setup-java@v3
+    - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
         java-version: '21'
 
     - name: Refresh Ubuntu-repo
-      run: sudo apt update
+      run: sudo apt-get update
 
     - name: Update packages
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      # Ensure FFmpeg doesn't detect additional dependencies
       run: |
-        sudo apt remove libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
-        sudo apt autoremove
-        sudo apt install valgrind
-        sudo make -C Build depend-ubuntu24
-        dpkg -l
+        sudo apt-get dist-upgrade
+        sudo apt-get install valgrind        
 
     - name: Print env
       run: printenv | sort
 
-    - name: Init TeamTalk Library submodules
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: |
-        git submodule update --init Library/TeamTalkLib/test/testdata
-
     - name: Install TeamTalk Library Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: sudo make -C Build depend-ubuntu24
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      run: sudo make depend-ubuntu24
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5
