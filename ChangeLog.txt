@@ -26,6 +26,7 @@ Android Client
 - Ability to play sound for intercept subscription toggled
 - Ability to use Text-To-Speech to announce transmission changes
 - Ability to use Text-To-Speech to announce subscription changes
+- Minimum supported is now Android v7.0 (Nougat)
 iOS Client
 - Use VoiceOver to announce TTS events for screen reader users
 Server
