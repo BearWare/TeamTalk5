@@ -16,6 +16,7 @@ Default Qt Client
 - Fixed chat history name not retranslated on language change
 - Fixed URL generation cancellation
 - Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
+- Fixed file transfer speed display
 - macOS updated to Qt 6.10.0 beta1
 Android Client
 - Added OnlineUsersActivity to display logged-in users to the server
