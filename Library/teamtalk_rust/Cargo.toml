@@ -8,4 +8,4 @@ edition = "2021"
 [dependencies]
 
 [build-dependencies]
-bindgen = "0.69.4"
+bindgen = "0.72.0"
