@@ -28,9 +28,10 @@ android {
 
     defaultConfig {
         applicationId "dk.bearware.gui"
-        minSdkVersion 27
+        minSdkVersion 24
         compileSdk 36
-        targetSdkVersion 34
+        targetSdkVersion 36
+        buildToolsVersion "36.0.0"
         versionCode 138
         versionName '5.19'
 
@@ -84,7 +85,7 @@ dependencies {
     implementation files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
-    implementation 'com.android.support.constraint:constraint-layout:2.2.1'
+    implementation 'androidx.constraintlayout:constraintlayout:2.2.1'
     testImplementation 'junit:junit:4.13.2'
     testImplementation files('libs/TeamTalk5Test.jar')
 
