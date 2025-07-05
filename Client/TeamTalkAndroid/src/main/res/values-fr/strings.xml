@@ -409,5 +409,11 @@
     <string name="text_cmd_userloggedout">Déconnecté</string>
     <string name="text_cmd_userloggedin">Connecté</string>
     <string name="stat_unauthorized">Non Autorisé</string>
+    <string name="online_users">Utilisateurs en ligne</string>
+    <string name="online_user_info_nickname">Pseudo</string>
+    <string name="online_user_info_username">Nom d\'utilisateur</string>
+    <string name="online_user_info_channel">Canal</string>
+    <string name="online_user_info_ip">Adresse IP</string>
+    <string name="online_user_info_client">Client</string>
 
 </resources>
