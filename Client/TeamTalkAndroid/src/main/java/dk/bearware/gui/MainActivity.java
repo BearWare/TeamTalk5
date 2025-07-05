@@ -378,6 +378,11 @@ extends AppCompatActivity
                 startActivity(intent);
                 break;
             }
+            case R.id.action_online_users : {
+                Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
+                startActivity(intent);
+                break;
+            }
             case android.R.id.home : {
                 int currentPage = mViewPager.getCurrentItem();
                 Channel parentChannel = ((currentPage == SectionsPagerAdapter.CHANNELS_PAGE)

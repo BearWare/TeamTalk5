@@ -130,6 +130,15 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".OnlineUsersActivity"
+            android:label="@string/online_users"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.bearware.gui.MainActivity" />
+        </activity>
+
         <receiver android:name=".MediaButtonEventReceiver"
             android:enabled="true"
             android:exported="true">
