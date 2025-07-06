@@ -25,15 +25,15 @@
     <string name="text_con_cmderr">명령을 실행하지 못했습니다.</string>
     <string name="text_cmderr_login">로그인 명령을 실행하지 못했습니다.</string>
     <string name="text_cmd_loggedin">서버에 로그인됨.</string>
-    <string name="text_cmd_joinchan">채널 입장함 :</string>
-    <string name="text_cmd_leftchan">채널 퇴장함 :</string>
+    <string name="text_cmd_joinchan">채널 입장함:</string>
+    <string name="text_cmd_leftchan">채널 퇴장함:</string>
     <string name="text_cmd_joinroot">최상위 채널에 입장함</string>
     <string name="text_cmd_leftroot">최상위 채널에서 퇴장함</string>
     <string name="text_cmd_userjoinchan">채널에 입장함</string>
     <string name="text_cmd_userleftchan">채널에서 퇴장함</string>
     <string name="text_cmd_userloggedin">로그인함</string>
-    <string name="text_cmd_servername">"서버 이름 : "</string>
-    <string name="text_cmd_servermotd">"환영사 : "</string>
+    <string name="text_cmd_servername">"서버 이름: "</string>
+    <string name="text_cmd_servermotd">"환영사: "</string>
     <string name="pref_cat_subscriptions">수신</string>
     <string name="pref_cat_connection_general">일반</string>
     <string name="pref_cat_tts">TTS 메시지 설정</string>
@@ -90,11 +90,11 @@
     <string name="pref_summary_sub_mediafile">미디어 파일 수신</string>
     <string name="pref_header_tts">TTS</string>
     <string name="pref_title_speech_engine">TTS 엔진</string>
-    <string name="pref_summary_speech_engine">시스템 설정과 별계로 선택 가능</string>
+    <string name="pref_summary_speech_engine">시스템 설정과 별개로 선택 가능</string>
     <string name="pref_title_a11y_volume">접근성 볼륨 사용</string>
     <string name="pref_summary_a11y_volume">TTS를 접근성 볼륨으로 재생</string>
     <string name="pref_title_use_announcements">알림 이벤트 사용</string>
-    <string name="pref_summary_use_announcements">TTS 메시지를 스크린 리더로 전송</string>
+    <string name="pref_summary_use_announcements">TTS 메시지를 스크린 리더로 읽기</string>
     <string name="pref_title_server_login">서버 로그인</string>
     <string name="pref_summary_server_login">사용자가 로그인하면 알림</string>
     <string name="pref_title_server_logout">서버 로그아웃</string>
@@ -122,17 +122,17 @@
     <string name="pref_summary_mediafile_volume">미디어 파일 음량 대비 말하기 음량 설정</string>
     <string name="pref_title_speakerphone_checkbox">스피커 활성화</string>
     <string name="pref_summary_speakerphone_checkbox">수화기 대신 스피커로 수신</string>
-    <string name="pref_title_bluetooth_headset_checkbox">블루투스 해드셋 마이크 사용</string>
+    <string name="pref_title_bluetooth_headset_checkbox">블루투스 헤드셋 마이크 사용</string>
     <string name="pref_summary_bluetooth_headset_checkbox">블루투스 헤드셋이 연결되면 헤드셋 마이크 사용</string>
     <string name="pref_title_voice_processing_checkbox">음성 전처리 활성화</string>
     <string name="pref_summary_voice_processing_checkbox">에코 제거와 자동 음량 조절 사용</string>
     <string name="pref_title_public_servers">공개 서버 포함</string>
     <string name="pref_summary_public_servers">서버 목록에서 공개 서버 보기</string>
 
-    <string name="text_tts_loggedin">: 로그인함</string>
-    <string name="text_tts_loggedout">: 로그아웃함</string>
-    <string name="text_tts_joined_chan">: 채널에 입장함</string>
-    <string name="text_tts_left_chan">: 채널에서 퇴장함</string>
+    <string name="text_tts_loggedin">로그인함</string>
+    <string name="text_tts_loggedout">로그아웃함</string>
+    <string name="text_tts_joined_chan">채널에 입장함</string>
+    <string name="text_tts_left_chan">채널에서 퇴장함</string>
     <string name="text_tts_private_message">%1$s의 개인 메시지 - %2$s</string>
     <string name="text_tts_channel_message">%1$s의 채널 메시지 - %2$s</string>
     <string name="text_tts_broadcast_message">%1$s의 방송 - %2$s</string>
@@ -170,7 +170,7 @@
     <string name="button_msg">메시지</string>
     <string name="button_send">보내기</string>
 
-    <string name="channel_prop_title_name">채널 이름`</string>
+    <string name="channel_prop_title_name">채널 이름</string>
     <string name="channel_prop_title_topic">채널 주제</string>
     <string name="channel_prop_title_password">암호</string>
     <string name="channel_prop_title_op_password">관리자 암호</string>
@@ -185,13 +185,13 @@
     <string name="channel_prop_title_noaudiorecord">녹음 금지</string>
 
 
-    <string name="user_prop_title_nickname">대화명</string>
-    <string name="user_prop_title_username">사용자 이름</string>
-    <string name="user_prop_title_userid">사용자 ID</string>
-    <string name="user_prop_title_statusmsg">상태 메시지</string>
-    <string name="user_prop_title_clientname">클라이언트 이름</string>
-    <string name="user_prop_clientversion">버전</string>
-    <string name="user_prop_title_ipaddress">IP 주소</string>
+    <string name="user_prop_title_nickname">대화명:</string>
+    <string name="user_prop_title_username">사용자 이름:</string>
+    <string name="user_prop_title_userid">사용자 ID:</string>
+    <string name="user_prop_title_statusmsg">상태 메시지:</string>
+    <string name="user_prop_title_clientname">클라이언트:</string>
+    <string name="user_prop_clientversion">version</string>
+    <string name="user_prop_title_ipaddress">IP 주소:</string>
     <string name="user_prop_title_voice_volume">말하기 음량</string>
     <string name="user_prop_title_mute_voice">말하기 음소거</string>
     <string name="user_prop_title_media_volume">미디어 파일 음량</string>
@@ -215,16 +215,16 @@
     <string name="user_prop_title_transmit_desk">화면 공유 전송 허용</string>
     <string name="user_prop_title_transmit_media">미디어 파일 전송 허용</string>
     <string name="user_prop_title_transmit_chanmsg">텍스트 메시지 전송 허용</string>
-    <string name="label_connection">연결 상태 :</string>
+    <string name="label_connection">연결 상태:</string>
     <string name="stat_online">연결됨</string>
     <string name="stat_offline">연결 해제됨</string>
     <string name="stat_connecting">연결 중</string>
     <string name="stat_unauthorized">인증되지 않음</string>
-    <string name="label_voice">말하기 :</string>
-    <string name="label_desktop">화면 공유 :</string>
-    <string name="label_ping">핑 :</string>
-    <string name="label_rxtx">RX/TX :</string>
-    <string name="label_total">총 :</string>
+    <string name="label_voice">말하기:</string>
+    <string name="label_desktop">화면 공유:</string>
+    <string name="label_ping">핑:</string>
+    <string name="label_rxtx">RX/TX:</string>
+    <string name="label_total">총:</string>
     <string name="label_mediafile">미디어 파일:</string>
     <string name="default_">기본값</string>
 
@@ -269,7 +269,7 @@
     <string name="pref_title_last_channel">마지막으로 입장한 채널 기억</string>
 
     <string name="pref_summary_server_name">서버 목록에 서버가 이 이름으로 표시됩니다.</string>
-    <string name="pref_summary_server_address">서버의 도메인 이름 또는 아이피 주소</string>
+    <string name="pref_summary_server_address">서버의 도메인 이름 또는 IP 주소</string>
 
     <string name="channel_password_prompt">채널 암호 입력</string>
     <string name="button_download">다운로드</string>
@@ -321,7 +321,7 @@
     <string name="tx_on">말하기 활성화됨</string>
     <string name="tx_off">말하기 비활성화됨</string>
 
-    <string name="text_samplerate">셈플레이트</string>
+    <string name="text_samplerate">샘플레이트</string>
     <string name="text_ignore_silence">무음 무시 (DTX)</string>
     <string name="text_audchan">오디오 채널</string>
     <string name="text_bitrate">비트레이트</string>
@@ -377,7 +377,7 @@
     <string name="permission_vibrate">눌러서 말하기 중 진동을 사용할 수 없습니다.</string>
     <string name="permission_wake_lock">화면이 흐려지면 서버와의 연결이 끊어질 수 있습니다.</string>
     <string name="permission_read_phone_state">수신 전화 감지가 불가능합니다.</string>
-    <string name="permission_bluetooth">블루투스 해드셋 마이크를 사용할 수 없습니다.</string>
+    <string name="permission_bluetooth">블루투스 헤드셋 마이크를 사용할 수 없습니다.</string>
     <string name="permission_post_notifications">TeamTalk에서 알림을 보낼 수 없습니다.</string>
 
     <string name="title_activity_web_login">웹 로그인</string>
@@ -388,7 +388,7 @@
     <string name="weblogin_prop_title_create_web_login_id">ID 만들기</string>
     <string name="weblogin_prop_title_reset_web_login_id">재설정</string>
     <string name="text_bearwarelogin_success">%1$s %2$s 사용자로 인증되었습니다.</string>
-    <string name="text_bearwarelogin_failed">"사용자 %1$s (%2$s) 인증에 실패했습니다 "</string>
+    <string name="text_bearwarelogin_failed">"사용자 %1$s (%2$s) 인증에 실패했습니다"</string>
     <string name="text_weblogin_authfailure">BearWare.dk 웹 로그인 인증에 실패했습니다. BearWare.dk 웹 로그인 설정을 확인해주세요.</string>
     <string name="editmsg">메시지 입력</string>
     <string name="filepathlab">파일 경로</string>
@@ -411,6 +411,8 @@
     <string name="pref_title_gender">성별</string>
     <string name="pref_summary_gender">체크하면 여성 아이콘 사용</string>
     <string name="user_state_away">자리비움</string>
+    <string name="user_state_operator">채널 관리자</string>
+    <string name="user_state_selected">"(이동할 대상) "</string>
     <string name="pref_title_userloggedin_icon">서버 로그인</string>
     <string name="pref_summary_userloggedin_icon">사용자가 서버에 로그인하면 효과음 재생</string>
     <string name="pref_title_userloggedoff_icon">서버 로그아웃</string>
@@ -448,22 +450,22 @@
     <string name="pref_title_transmit_media">미디어 파일</string>
     <string name="pref_summary_transmit_media">미디어 파일 전송 가능 여부 업데이트 알림</string>
     <string name="pref_title_transmit_channel_msg">채널 메시지</string>
-    <string name="text_tts_subscription_intercept_voice_changed">: 말하기 가로채기 수신</string>
-    <string name="text_tts_subscription_intercept_vid_changed">: 동영상 가로채기 수신</string>
-    <string name="text_tts_subscription_intercept_desk_changed">: 화면 공유 가로채기 수신</string>
-    <string name="text_tts_subscription_intercept_media_changed">: 미디어 파일 가로채기 수신</string>
+    <string name="text_tts_subscription_intercept_voice_changed">말하기 가로채기 수신</string>
+    <string name="text_tts_subscription_intercept_vid_changed">동영상 가로채기 수신</string>
+    <string name="text_tts_subscription_intercept_desk_changed">화면 공유 가로채기 수신</string>
+    <string name="text_tts_subscription_intercept_media_changed">미디어 파일 가로채기 수신</string>
     <string name="text_tts_subscribe_on">활성화됨</string>
     <string name="text_tts_subscribe_off">비활성화됨</string>
-    <string name="text_tts_channel_msg_transmit_off">: 채널 메시지 송신 비활성화됨</string>
-    <string name="text_tts_channel_msg_transmit_on">: 채널 메시지 송신 활성화됨</string>
-    <string name="text_tts_voice_transmit_off">: 말하기 송신 비활성화됨</string>
-    <string name="text_tts_voice_transmit_on">: 말하기 송신 활성화됨</string>
-    <string name="text_tts_vid_transmit_off">: 동영상 송신 비활성화됨</string>
-    <string name="text_tts_vid_transmit_on">: 동영상 송신 활성화됨</string>
-    <string name="text_tts_desk_transmit_off">: 화면 공유 송신 비활성화됨</string>
-    <string name="text_tts_desk_transmit_on">: 화면 공유 송신 활성화됨</string>
-    <string name="text_tts_media_transmit_off">: 미디어 파일 송신 비활성화됨</string>
-    <string name="text_tts_media_transmit_on">: 미디어 파일 송신 활성화됨</string>
+    <string name="text_tts_channel_msg_transmit_off">채널 메시지 송신 비활성화됨</string>
+    <string name="text_tts_channel_msg_transmit_on">채널 메시지 송신 활성화됨</string>
+    <string name="text_tts_voice_transmit_off">말하기 송신 비활성화됨</string>
+    <string name="text_tts_voice_transmit_on">말하기 송신 활성화됨</string>
+    <string name="text_tts_vid_transmit_off">동영상 송신 비활성화됨</string>
+    <string name="text_tts_vid_transmit_on">동영상 송신 활성화됨</string>
+    <string name="text_tts_desk_transmit_off">화면 공유 송신 비활성화됨</string>
+    <string name="text_tts_desk_transmit_on">화면 공유 송신 활성화됨</string>
+    <string name="text_tts_media_transmit_off">미디어 파일 송신 비활성화됨</string>
+    <string name="text_tts_media_transmit_on">미디어 파일 송신 활성화됨</string>
     <string name="text_broadcast_message">방송할 메시지 입력</string>
     <string name="action_edituser">사용자 속성</string>
     <string name="pref_title_intercept_audio_icon">가로채기</string>
@@ -476,7 +478,7 @@
     <string name="pref_title_subscription_voice">말하기</string>
     <string name="pref_summary_subscription_voice">말하기 수신 상태 업데이트 알림</string>
     <string name="pref_title_subscription_vid">동영상</string>
-    <string name="pref_summary_subscription_vid">"동영상 수신 상태 업데이트 알림 "</string>
+    <string name="pref_summary_subscription_vid">"동영상 수신 상태 업데이트 알림"</string>
     <string name="pref_title_subscription_desk">화면 공유</string>
     <string name="pref_summary_subscription_desk">화면 공유 수신 상태 업데이트 알림</string>
     <string name="pref_title_subscription_media">미디어 파일</string>
@@ -492,15 +494,15 @@
     <string name="pref_title_subscription_intercept_desk">화면 공유 가로채기</string>
     <string name="pref_summary_subscription_intercept_desk">화면 공유 가로채기 수신 상태 업데이트 알림</string>
     <string name="pref_title_subscription_intercept_media">미디어 파일 가로채기</string>
-    <string name="text_tts_subscription_user_msg_changed">: 개인 메시지 수신</string>
-    <string name="text_tts_subscription_channel_msg_changed">: 채널 메시지 수신</string>
-    <string name="text_tts_subscription_broadcast_msg_changed">: 방송 메시지 수신</string>
-    <string name="text_tts_subscription_voice_changed">: 말하기 수신</string>
-    <string name="text_tts_subscription_vid_changed">: 동영상 수신</string>
-    <string name="text_tts_subscription_desk_changed">: 화면 공유 수신</string>
-    <string name="text_tts_subscription_media_changed">: 미디어 파일 수신</string>
-    <string name="text_tts_subscription_intercept_user_msg_changed">: 개인 메시지 가로채기 수신</string>
-    <string name="text_tts_subscription_intercept_channel_msg_changed">: 채널 메시지 가로채기 수신</string>
+    <string name="text_tts_subscription_user_msg_changed">개인 메시지 수신</string>
+    <string name="text_tts_subscription_channel_msg_changed">채널 메시지 수신</string>
+    <string name="text_tts_subscription_broadcast_msg_changed">방송 메시지 수신</string>
+    <string name="text_tts_subscription_voice_changed">말하기 수신</string>
+    <string name="text_tts_subscription_vid_changed">동영상 수신</string>
+    <string name="text_tts_subscription_desk_changed">화면 공유 수신</string>
+    <string name="text_tts_subscription_media_changed">미디어 파일 수신</string>
+    <string name="text_tts_subscription_intercept_user_msg_changed">개인 메시지 가로채기 수신</string>
+    <string name="text_tts_subscription_intercept_channel_msg_changed">채널 메시지 가로채기 수신</string>
     <string name="pref_title_move_talking">말하는 중인 사용자를 위로</string>
     <string name="online_users">접속자</string>
     <string name="online_user_info_nickname">대화명</string>
