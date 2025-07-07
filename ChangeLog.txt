@@ -17,7 +17,7 @@ Default Qt Client
 - Fixed URL generation cancellation
 - Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
 - Fixed file transfer speed display
-- macOS updated to Qt 6.10.0 beta1
+- Updated to Qt 6.10.0 beta1
 Android Client
 - Added Online Users Activity to display users logged on to the server
 - Added a new option to prevent talking users from moving to the top of users list
