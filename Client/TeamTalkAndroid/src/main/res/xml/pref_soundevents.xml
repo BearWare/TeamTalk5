@@ -33,6 +33,12 @@
         />
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="speaker_audio_icon"
+        android:title="@string/pref_title_speaker_audio_icon"
+        android:summary="@string/pref_summary_speaker_audio_icon"
+        />
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="voiceact_triggered_icon"
         android:title="@string/pref_title_vox_triggered_icon"
         android:summary="@string/pref_summary_vox_triggered_icon"

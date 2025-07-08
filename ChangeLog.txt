@@ -27,6 +27,7 @@ Android Client
 - Announce who is channel operator
 - Announce who is selected for moving to other channel
 - Ability to play sound when voice activation is toggled
+- Ability to play sound when mute speaker is toggled
 - Ability to play sound for intercept subscription toggled
 - Ability to use Text-To-Speech to announce transmission changes
 - Ability to use Text-To-Speech to announce subscription changes

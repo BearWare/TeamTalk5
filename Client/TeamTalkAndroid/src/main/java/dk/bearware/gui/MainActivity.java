@@ -224,7 +224,9 @@ extends AppCompatActivity
               SOUND_USERLOGGEDOFF = 17,
               SOUND_INTERCEPTON = 18,
               SOUND_INTERCEPTOFF = 19,
-              SOUND_CHANMSGSENT = 20;
+              SOUND_SPEAKERUNMUTE = 20,
+              SOUND_SPEAKERMUTE = 21,
+              SOUND_CHANMSGSENT = 22;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -517,6 +519,10 @@ extends AppCompatActivity
         if (prefs.getBoolean("voiceact_audio_icon", true)) {
             sounds.put(SOUND_VOXENABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_enable, 1));
             sounds.put(SOUND_VOXDISABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_disable, 1));
+        }
+        if (prefs.getBoolean("speaker_audio_icon", true)) {
+            sounds.put(SOUND_SPEAKERUNMUTE, audioIcons.load(getApplicationContext(), R.raw.unmute_all, 1));
+            sounds.put(SOUND_SPEAKERMUTE, audioIcons.load(getApplicationContext(), R.raw.mute_all, 1));
         }
         if (prefs.getBoolean("voiceact_triggered_icon", true)) {
             sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
@@ -1617,10 +1623,16 @@ private EditText newmsg;
 
     private void adjustMuteButton(ImageButton btn) {
         if (ttservice.getCurrentMuteState()) {
+            if (sounds.get(SOUND_SPEAKERMUTE) != 0) {
+                audioIcons.play(sounds.get(SOUND_SPEAKERMUTE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
             btn.setImageResource(R.drawable.mute_blue);
             btn.setContentDescription(getString(R.string.speaker_unmute));
         }
         else {
+            if (sounds.get(SOUND_SPEAKERUNMUTE) != 0) {
+                audioIcons.play(sounds.get(SOUND_SPEAKERUNMUTE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
             btn.setImageResource(R.drawable.speaker_blue);
             btn.setContentDescription(getString(R.string.speaker_mute));
         }
