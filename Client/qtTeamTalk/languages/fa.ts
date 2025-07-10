@@ -1263,7 +1263,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>فقط کپی محتوا</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
@@ -1840,7 +1840,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام وضعیت</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -4268,12 +4268,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>آیا مطمئنید که میخواهید از %1 خارج شوید?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
         <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>خروج از %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3842"/>
@@ -5532,7 +5532,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام وضعیت</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="241"/>
@@ -5547,7 +5547,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>پیش از خروج, سوال پرسیده شود</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>
@@ -6702,7 +6702,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>پیام وضعیت (اختیاری)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>
