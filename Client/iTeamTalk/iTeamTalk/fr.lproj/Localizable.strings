@@ -119,7 +119,7 @@
 "Broadcast Messages" = "Messages généraux";
 
 /* preferences */
-"Broadcast Text Message" = "Message texte général";
+"Broadcast Text Message" = "Message général";
 
 /* Dialog message */
 "Cancel" = "Annuler";
@@ -142,7 +142,7 @@
 "Channel Properties" = "Propriétés du canal";
 
 /* preferences */
-"Channel Text Message" = "Message texte de canal";
+"Channel Text Message" = "Message de canal";
 
 /* channel list */
 "Channel. %d users" = "Canal : %d utilisateurs";
@@ -419,10 +419,10 @@
 "Play sound when a user leaves the channel" = "Jouer un son lorsqu'un utilisateur quitte le canal";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Jouer un son lorsqu'un message texte général est reçu";
+"Play sound when broadcast text message is received" = "Jouer un son lorsqu'un message général est reçu";
 
 /* preferences */
-"Play sound when channel text message is received" = "Jouer un son lorsqu'un message texte de canal est reçu";
+"Play sound when channel text message is received" = "Jouer un son lorsqu'un message de canal est reçu";
 
 /* preferences */
 "Play sound when connection is dropped" = "Jouer un son lorsque la connexion est interrompue";
