@@ -3,27 +3,20 @@ updates:
   - package-ecosystem: cargo
     directory: /Client/ttserverlog_rust
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
       time: "00:00"
-
   - package-ecosystem: cargo
     directory: /Library/teamtalk_rust
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
       time: "00:00"
-
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
       time: "00:00"
-
   - package-ecosystem: gradle
     directory: /Client/TeamTalkAndroid
     schedule:
-      interval: weekly
-      day: monday
+      interval: daily
       time: "00:00"
