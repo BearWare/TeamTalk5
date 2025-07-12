@@ -53,6 +53,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: |
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_FFMPEG=OFF -DFEATURE_LIBVPX=OFF -DFEATURE_OGG=OFF -DFEATURE_OPUS=OFF -DFEATURE_OPUSTOOLS=OFF -DFEATURE_PORTAUDIO=OFF -DFEATURE_SPEEX=OFF -DFEATURE_SPEEXDSP=OFF -DFEATURE_V4L2=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" teamtalk-jar
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -62,7 +63,6 @@ jobs:
         cmake -S ${{runner.workspace}}/TeamTalk5 -B build-host -DBUILD_TEAMTALK_CORE=OFF
         cmake --build build-host --target TeamTalk5Test
         cmake --build build-host --target TeamTalk5ProTest
-        cmake --build build-host --target TeamTalk5SrvTest
 
     - name: Build TeamTalk Android Client
       working-directory: ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid
@@ -71,10 +71,6 @@ jobs:
         ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/TeamTalk5Test.jar ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/libs/TeamTalk5Test.jar
         ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/${{ matrix.arch }}/libTeamTalk5-jni.so ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/src/main/jniLibs/${{ matrix.arch }}/libTeamTalk5-jni.so
         ./gradlew build -x packageRelease
-
-    - name: Run CMake Install Target
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.maketarget }}
-      run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifact
       uses: actions/upload-artifact@v4
