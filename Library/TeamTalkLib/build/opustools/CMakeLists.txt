@@ -7,7 +7,7 @@ include(ExternalProject)
 ##################################################
 if (TOOLCHAIN_OGG)
   ExternalProject_Add(opustools-src
-    GIT_REPOSITORY    https://github.com/xiph/opus-tools
+    GIT_REPOSITORY    https://github.com/xiph/opus-tools.git
     GIT_TAG           v0.1.10
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
@@ -18,7 +18,7 @@ if (TOOLCHAIN_OGG)
     )
 else()
   ExternalProject_Add(opustools-src
-    GIT_REPOSITORY    https://github.com/xiph/opus-tools
+    GIT_REPOSITORY    https://github.com/xiph/opus-tools.git
     GIT_TAG           v0.1.10
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND ""
