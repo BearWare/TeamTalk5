@@ -1,10 +1,7 @@
 buildscript {
     repositories {
-        maven {
-            url = uri('https://dl.google.com/dl/android/maven2')
-        }
-        mavenCentral()
         google()
+        mavenCentral()
     }
 
     dependencies {
@@ -39,8 +36,8 @@ android {
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     splits {
@@ -60,9 +57,8 @@ android {
     }
 
     repositories {
+        google()
         mavenCentral()
-        maven { url = uri('https://maven.google.com/') }
-        maven { url = uri('https://jitpack.io') }
     }
 
     lint {
