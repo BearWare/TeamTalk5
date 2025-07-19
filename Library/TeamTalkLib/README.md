@@ -56,9 +56,9 @@ manually.
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
     * LibVPX requires *yasm*
 
-### Install TeamTalk Dependencies on Ubuntu 22
+### Install TeamTalk Dependencies on Ubuntu
 
-A Makefile is available for Ubuntu 22 to install all the dependencies
+A Makefile is available for Ubuntu 22 and 24 to install all the dependencies
 required to build TeamTalk binaries.
 
 * To install build dependencies for Ubuntu 22 run the following in
@@ -66,15 +66,20 @@ required to build TeamTalk binaries.
   * `sudo make -C Build depend-ubuntu22`
     * `sudo` is required because `apt install` is called.
 
-### Install TeamTalk Dependencies for Android on Ubuntu 22
-
-Building for Android platform is supported on Ubuntu 22.
-
-* To install build dependencies for Android on Ubuntu 22 run the
-  following in TEAMTALK_ROOT:
-  * `sudo make -C Build depend-ubuntu22`
+* To install build dependencies for Ubuntu 24 run the following in
+  TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu24`
     * `sudo` is required because `apt install` is called.
-* Download [Android NDK r27c](https://developer.android.com/ndk) and
+
+### Install TeamTalk Dependencies for Android on Ubuntu 24
+
+Building for Android platform is supported on Ubuntu 24.
+
+* To install build dependencies for Android on Ubuntu 24 run the
+  following in TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu24-android`
+    * `sudo` is required because `apt install` is called.
+* Download [Android NDK r28c](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
   unzipped location.
 
