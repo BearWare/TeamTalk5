@@ -81,7 +81,7 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.0')
-    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
     implementation files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
