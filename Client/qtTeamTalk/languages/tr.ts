@@ -1229,7 +1229,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>sadece i&amp;çeriği kopyala</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
@@ -1806,7 +1806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>durum iletisi</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -2446,7 +2446,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2344"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2453"/>
@@ -4216,12 +4216,12 @@ Günün mesajı: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;den çıkmak istediğinizden emin misiniz</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
         <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1&apos;den çık</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3842"/>
@@ -5497,7 +5497,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation type="unfinished">Durum iletisi</translation>
+        <translation>Durum iletisi</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="241"/>
@@ -5512,7 +5512,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Çıkmadan önce onay iste</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>
@@ -6667,7 +6667,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Durum iletisi (isteğe bağlı)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>
@@ -9831,7 +9831,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../settings.h" line="502"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} {channelpath} kanalına katıldı</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
