@@ -410,10 +410,14 @@ teamtalk::ErrorMsg ServerMonitor::JoinChannel(const teamtalk::ServerUser& user, 
     return teamtalk::TT_CMDERR_SUCCESS;
 }
 
+teamtalk::ErrorMsg ServerMonitor::RemoveChannel(const teamtalk::ServerChannel& chan, const teamtalk::ServerUser* user /*= nullptr*/)
+{
+    return teamtalk::TT_CMDERR_SUCCESS;
+}
+
 teamtalk::ErrorMsg ServerMonitor::GetUserAccount(const teamtalk::ServerUser& user,
                                                  teamtalk::UserAccount& useraccount)
 {
-
     return ErrorMsg(teamtalk::TT_CMDERR_SUCCESS);
 }
 
