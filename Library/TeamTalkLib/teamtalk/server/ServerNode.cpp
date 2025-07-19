@@ -3889,6 +3889,10 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
+    ErrorMsg err = m_srvguard->RemoveChannel(*chan, user);
+    if (!err.success())
+        return err;
+
     bStatic = (chan->GetChannelType() & CHANNEL_PERMANENT);
     //recursive remove
     std::stack<serverchannel_t> stackChannels;
@@ -3952,7 +3956,6 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         }
     }
 
-    ErrorMsg err(TT_CMDERR_SUCCESS);
     if (IsAutoSaving() && bStatic && user)
     {
         err = m_srvguard->SaveConfiguration(*user, *this);

@@ -777,6 +777,11 @@ ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& c
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
+ErrorMsg ServerGuard::RemoveChannel(const ServerChannel& chan, const ServerUser* user/* = nullptr */)
+{
+    return ErrorMsg(TT_CMDERR_SUCCESS);
+}
+
 ErrorMsg ServerGuard::GetUserAccount(const ServerUser& user,
                                      UserAccount& useraccount)
 {
