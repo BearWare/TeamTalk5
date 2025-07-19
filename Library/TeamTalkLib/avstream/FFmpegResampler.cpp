@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -29,6 +29,7 @@
 extern "C" {
 #include <libswresample/swresample.h>
 #include <libavutil/channel_layout.h>
+#include <libavutil/opt.h>
 }
 
 #if !defined(SWR_CH_MAX)
@@ -54,21 +55,34 @@ bool FFMPEGResampler::Init()
     if(m_ctx)
         return false;
 
-    m_ctx = swr_alloc_set_opts(NULL,
-                               GetOutputFormat().channels == 2?
-                               AV_CH_LAYOUT_STEREO :
-                               AV_CH_LAYOUT_MONO,
-                               AV_SAMPLE_FMT_S16,
-                               GetOutputFormat().samplerate,
-                               GetInputFormat().channels == 2?
-                               AV_CH_LAYOUT_STEREO :
-                               AV_CH_LAYOUT_MONO,
-                               AV_SAMPLE_FMT_S16,
-                               GetInputFormat().samplerate,
-                               0,
-                               0);
-    if(!m_ctx)
+    AVChannelLayout in_ch_layout;
+    AVChannelLayout out_ch_layout;
+    int ret = 0;
+
+    av_channel_layout_default(&in_ch_layout, GetInputFormat().channels);
+    av_channel_layout_default(&out_ch_layout, GetOutputFormat().channels);
+
+    // For older FFmpeg versions, swr_alloc_set_opts2 returns an int and sets the context via the first parameter.
+    ret = swr_alloc_set_opts2(&m_ctx,
+                              &out_ch_layout,
+                              AV_SAMPLE_FMT_S16,
+                              GetOutputFormat().samplerate,
+                              &in_ch_layout,
+                              AV_SAMPLE_FMT_S16,
+                              GetInputFormat().samplerate,
+                              0,
+                              NULL);
+
+    // Clean up the channel layout structs after they've been used.
+    av_channel_layout_uninit(&in_ch_layout);
+    av_channel_layout_uninit(&out_ch_layout);
+
+    if (ret < 0)
+    {
+        swr_free(&m_ctx);
+        m_ctx = NULL;
         return false;
+    }
 
     return swr_init(m_ctx) >= 0;
 }
@@ -83,8 +97,11 @@ void FFMPEGResampler::Close()
 int FFMPEGResampler::Resample(const short* input_samples, int input_samples_size,
                               short* output_samples, int output_samples_size)
 {
+    if (!m_ctx)
+        return 0;
+
     const uint8_t* in_ptr[SWR_CH_MAX] = {};
-    in_ptr[0] = (uint8_t*)input_samples;
+    in_ptr[0] = (const uint8_t*)input_samples;
     uint8_t* out_ptr[SWR_CH_MAX] = {};
     out_ptr[0] = (uint8_t*)output_samples;
 
