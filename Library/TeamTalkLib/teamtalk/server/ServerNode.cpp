@@ -3894,65 +3894,58 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
         return err;
 
     bStatic = (chan->GetChannelType() & CHANNEL_PERMANENT);
+
     //recursive remove
-    std::stack<serverchannel_t> stackChannels;
-    stackChannels.push(chan);
-
-    while(!stackChannels.empty())
+    auto subchannels = chan->GetSubChannels();
+    for (auto c : subchannels)
     {
-        chan = stackChannels.top();
-        stackChannels.pop();
-        vector<serverchannel_t> vecSubChannels = chan->GetSubChannels();
-        if(!vecSubChannels.empty())
-        {
-            //to support recursive delete
-            stackChannels.push(chan);
+        TTASSERT(c);
+        auto err = RemoveChannel(c->GetChannelID(), user);
+        if (!err.success())
+            return err;
+    }
 
-            for(size_t i=0;i<vecSubChannels.size();i++)
-                stackChannels.push(vecSubChannels[i]);
-        }
+    ServerChannel::users_t users = chan->GetUsers(); //copy because mutates during UserKick()
+    for (const auto &u : users)
+    {
+        ErrorMsg err = UserKick(0, u->GetUserID(), chan->GetChannelID(), true);
+        TTASSERT(err.success());
+    }
+    TTASSERT(chan->GetUsers().empty());
+    TTASSERT(chan->GetSubChannels().empty());
+
+    //check if channel still exists (kick may have removed it)
+    if (!GetChannel(chan->GetChannelID()))
+        return ErrorMsg(TT_CMDERR_SUCCESS);
+
+    //remove files from channel
+    files_t files;
+    chan->GetFiles(files, false);
+    for (auto file : files)
+    {
+        ErrorMsg err = RemoveFileFromChannel(file.filename, chan->GetChannelID());
+        TTASSERT(err.success());
+    }
+
+    //remove as subchannel (unless it's the root)
+    serverchannel_t parent = chan->GetParentChannel();
+    if (parent)
+    {
+        //notify users
+        ServerChannel::users_t notifyusers;
+        if (chan->GetChannelType() & CHANNEL_HIDDEN)
+            notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS);
         else
+            notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
+
+        for (auto u : notifyusers)
+            u->DoRemoveChannel(*chan);
+
+        parent->RemoveSubChannel(chan->GetName());
+        //notify listener if any
+        if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_REMOVED)
         {
-            ServerChannel::users_t users = chan->GetUsers(); //copy because mutates during UserKick()
-            for (const auto &u : users)
-            {
-                ErrorMsg err = UserKick(0, u->GetUserID(), chan->GetChannelID(), true);
-                TTASSERT(err.success());
-            }
-            TTASSERT(chan->GetUsers().empty());
-            TTASSERT(chan->GetSubChannels().empty());
-
-            //check if channel still exists (kick may have removed it)
-            if (!GetChannel(chan->GetChannelID()))
-                continue;
-
-            //remove files from channel
-            files_t files;
-            chan->GetFiles(files, false);
-            for(size_t i=0;i<files.size();i++)
-                RemoveFileFromChannel(files[i].filename, chan->GetChannelID());
-
-            //remove as subchannel (unless it's the root)
-            serverchannel_t parent = chan->GetParentChannel();
-            if (parent)
-            {
-                //notify users
-                ServerChannel::users_t notifyusers;
-                if (chan->GetChannelType() & CHANNEL_HIDDEN)
-                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS);
-                else
-                    notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
-
-                for (auto u : notifyusers)
-                    u->DoRemoveChannel(*chan);
-
-                parent->RemoveSubChannel(chan->GetName());
-                //notify listener if any
-                if (m_properties.logevents & SERVERLOGEVENT_CHANNEL_REMOVED)
-                {
-                    m_srvguard->OnChannelRemoved(*chan, user);
-                }
-            }                                  
+            m_srvguard->OnChannelRemoved(*chan, user);
         }
     }
 
