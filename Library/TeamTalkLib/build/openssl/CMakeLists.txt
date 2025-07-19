@@ -13,7 +13,7 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(openssl-src
-        GIT_REPOSITORY    https://github.com/openssl/openssl
+        GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           OpenSSL_1_1_1u
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -28,7 +28,7 @@ if (MSVC)
         )
     else()
       ExternalProject_Add(openssl-src
-        GIT_REPOSITORY    https://github.com/openssl/openssl
+        GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           OpenSSL_1_1_1u
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -73,7 +73,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-intel-src
-      GIT_REPOSITORY    https://github.com/openssl/openssl
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           OpenSSL_1_1_1u
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -89,7 +89,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     file(MAKE_DIRECTORY ${INSTALL_DIR}/lib)
 
     ExternalProject_Add(openssl-arm64-src
-      GIT_REPOSITORY    https://github.com/openssl/openssl
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           OpenSSL_1_1_1u
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -158,7 +158,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
-      GIT_REPOSITORY    https://github.com/openssl/openssl
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           OpenSSL_1_1_1u
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -196,7 +196,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
-      GIT_REPOSITORY    https://github.com/openssl/openssl
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           OpenSSL_1_1_1u
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -252,7 +252,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
-      GIT_REPOSITORY    https://github.com/openssl/openssl
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           OpenSSL_1_1_1u
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""

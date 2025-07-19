@@ -17,7 +17,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(speexdsp-src
-        GIT_REPOSITORY    https://github.com/bear101/speexdsp
+        GIT_REPOSITORY    https://github.com/bear101/speexdsp.git
         GIT_TAG           2907b00
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -41,7 +41,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(speexdsp-src
-        GIT_REPOSITORY    https://github.com/bear101/speexdsp
+        GIT_REPOSITORY    https://github.com/bear101/speexdsp.git
         GIT_TAG           2907b00
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -77,7 +77,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/xiph/speexdsp
+      GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.0
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -122,7 +122,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/xiph/speexdsp
+      GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.0
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -151,7 +151,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/xiph/speexdsp
+      GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.0
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -206,7 +206,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
-      GIT_REPOSITORY    https://github.com/xiph/speexdsp
+      GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.0
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp

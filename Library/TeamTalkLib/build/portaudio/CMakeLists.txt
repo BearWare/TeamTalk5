@@ -11,7 +11,7 @@ set (TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO ${TOOLCHAIN_INSTALL_PREFIX}/portaudio)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
-      GIT_REPOSITORY    https://github.com/bear101/portaudio
+      GIT_REPOSITORY    https://github.com/bear101/portaudio.git
       GIT_TAG           019a097
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
@@ -44,7 +44,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(portaudio-src
-      GIT_REPOSITORY    https://github.com/PortAudio/portaudio
+      GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           ba3f91f
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
@@ -77,7 +77,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
-      GIT_REPOSITORY    https://github.com/PortAudio/portaudio
+      GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           ba3f91f
       UPDATE_COMMAND    ""
       # There seems to be a bug in FindOSS.cmake on Ubuntu 18, so
