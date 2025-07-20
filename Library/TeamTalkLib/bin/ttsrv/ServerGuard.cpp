@@ -475,22 +475,27 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
 void ServerGuard::OnChannelRemoved(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {
-    if(!user)
-        return;
-
-    tostringstream oss;
-    oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-    if(user)
+    // Log the channel removal event.
+    if (user) 
     {
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" removed by ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        tostringstream oss;
+        oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+        oss << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed by "); 
+        oss << ACE_TEXT("nickname: '") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("' ");
         if(user->GetUsername().length())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\".");
+            oss << ACE_TEXT("username: '") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("'.");
+        else
+            oss << ACE_TEXT(".");
+        TT_LOG(oss.str().c_str());
     }
     else
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" removed.");
-
-    TT_LOG(oss.str().c_str());
+    {
+         // Log server-initiated removal if not already logged by operator cleanup.
+         tostringstream oss_server_removed;
+         oss_server_removed << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+         oss_server_removed << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed (server process).");
+         TT_LOG(oss_server_removed.str().c_str());
+    }
 }
 
 void ServerGuard::OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file)
@@ -779,6 +784,9 @@ ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& c
 
 ErrorMsg ServerGuard::RemoveChannel(const ServerChannel& chan, const ServerUser* user/* = nullptr */)
 {
+    // Clean up operator rights for the deleted channel.
+    m_settings.CleanupChannelOperators(chan.GetChannelID());
+
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
