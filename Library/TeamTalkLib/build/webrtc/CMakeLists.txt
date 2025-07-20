@@ -49,7 +49,8 @@ if (MSVC)
     file(TO_NATIVE_PATH ${WEBRTC_INSTALL_ROOT} WEBRTC_INSTALL_ROOT_NATIVE)
 
     ExternalProject_Add(depot-tools
-      URL               https://storage.googleapis.com/chrome-infra/depot_tools.zip
+      GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      GIT_TAG           675a3a9cc
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
@@ -212,16 +213,22 @@ else()
 
     ExternalProject_Add(depot-tools
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
-      GIT_TAG           39b2e4ef
+      GIT_TAG           675a3a9cc
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
       )
+    ExternalProject_Add_Step(depot-tools bootstrap
+      COMMAND <SOURCE_DIR>/ensure_bootstrap
+      COMMENT "Bootstrapping depot_tools"
+      DEPENDEES install
+      WORKING_DIRECTORY <SOURCE_DIR>
+    )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
-    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR} DEPOT_TOOLS_UPDATE=0)
+    set (DEPOTTOOLS_EXPORT export PATH=$ENV{PATH}:${DEPOTTOOLS_DIR})
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       set (WEBRTC_REPO_NAME webrtc_ios)
