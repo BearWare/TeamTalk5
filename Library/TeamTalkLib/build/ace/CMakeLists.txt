@@ -19,7 +19,7 @@ if (MSVC)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-7_1_3
+        GIT_TAG           ACE+TAO-8_0_4
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -27,7 +27,7 @@ if (MSVC)
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add --force https://github.com/DOCGroup/MPC ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-7_1_3
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_4
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -57,7 +57,7 @@ if (MSVC)
     else()
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-7_1_3
+        GIT_TAG           ACE+TAO-8_0_4
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -65,7 +65,7 @@ if (MSVC)
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add --force https://github.com/DOCGroup/MPC ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-7_1_3
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_4
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -133,7 +133,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -147,7 +147,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
@@ -159,7 +159,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ssl=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "c++14=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "c++17=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_macosx_mojave.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "CPPFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -arch x86_64 -arch arm64" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "LDFLAGS+=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} -arch x86_64 -arch arm64" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -167,7 +167,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_CPP14" >> <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_CPP17" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"ace/config-macosx.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
       # Setup MPC
       COMMAND           ln -sf ${MPC_DIR} <SOURCE_DIR>/ACE/MPC
@@ -233,7 +233,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -247,7 +247,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
@@ -259,7 +259,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ssl=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "c++14=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "c++17=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "IPHONE_TARGET=${ACE_TARGET}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_macosx_iOS.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "IPHONE_HARDWARE_ARCHITECTURE=${CMAKE_OSX_ARCHITECTURES}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -269,7 +269,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       # Create 'config.h'
       COMMAND           echo "#define ACE_HAS_IPV6 1" > <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_CPP14" >> <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_CPP17" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"config-macosx-iOS.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
       # Setup MPC
       COMMAND           ln -sf ${MPC_DIR} <SOURCE_DIR>/ACE/MPC
@@ -325,7 +325,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -337,18 +337,17 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-compilation-on-systems-using-musl-libc-like-alpi.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ssl=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "c++14=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "c++17=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "include <SOURCE_DIR>/ACE/include/makeinclude/platform_linux.GNU" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "CPPFLAGS+=-fPIC -DPIC" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "LDFLAGS+=-fPIC" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -356,7 +355,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_CPP14" >> <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_CPP17" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"ace/config-linux.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
       # Setup MPC
       COMMAND           ln -sf ${MPC_DIR} <SOURCE_DIR>/ACE/MPC
@@ -409,7 +408,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -435,7 +434,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-7_1_3
+      GIT_TAG           ACE+TAO-8_0_4
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
@@ -446,7 +445,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       COMMAND           echo "static_libs_only=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ssl=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "ipv6=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
-      COMMAND           echo "c++14=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
+      COMMAND           echo "c++17=1" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "CPPFLAGS+=${ACE_CC} -fPIC -DPIC -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "LDFLAGS+=-fPIC" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
       COMMAND           echo "INSTALL_PREFIX=<INSTALL_DIR>" >> <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -457,7 +456,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       # Create 'config.h'
       COMMAND           echo "#define ACE_AS_STATIC_LIBS 1" > <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_HAS_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
-      COMMAND           echo "#define ACE_HAS_CPP14" >> <SOURCE_DIR>/ACE/ace/config.h
+      COMMAND           echo "#define ACE_HAS_CPP17" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYADDR 1 /* missing in android netdb.h */" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#define ACE_LACKS_GETIPNODEBYNAME_IPV6 1" >> <SOURCE_DIR>/ACE/ace/config.h
       COMMAND           echo "#include \"ace/config-android.h\"" >> <SOURCE_DIR>/ACE/ace/config.h
