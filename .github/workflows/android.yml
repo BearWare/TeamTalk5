@@ -28,7 +28,7 @@ jobs:
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '17'
+        java-version: '21'
 
     - uses: nttld/setup-ndk@v1
       id: setup-ndk
@@ -40,7 +40,9 @@ jobs:
       run: sudo apt-get update
 
     - name: Update packages
-      run: sudo apt-get dist-upgrade
+      run: |
+        sudo apt-get dist-upgrade
+        sudo apt-get autoremove --purge
 
     - name: Print env
       run: printenv | sort
