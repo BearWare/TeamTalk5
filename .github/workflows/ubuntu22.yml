@@ -22,7 +22,7 @@ jobs:
     - uses: actions/setup-java@v4
       with:
         distribution: 'temurin'
-        java-version: '11'
+        java-version: '21'
 
     - name: Refresh Ubuntu-repo
       run: sudo apt-get update
@@ -30,8 +30,9 @@ jobs:
     - name: Update packages
       run: |
         sudo apt-get dist-upgrade
+        sudo apt-get autoremove --purge
         # Ensure FFmpeg doesn't detect additional dependencies
-        sudo apt-get autoremove libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
+        sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
                 sudo apt-get install valgrind
 
     - name: Print env
