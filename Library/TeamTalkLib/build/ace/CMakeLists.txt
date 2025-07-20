@@ -341,7 +341,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-compilation-on-systems-using-musl-libc-like-alpi.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
