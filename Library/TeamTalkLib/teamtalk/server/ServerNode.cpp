@@ -746,7 +746,7 @@ bool ServerNode::SendDesktopAckPacket(int userid)
     {
         packet_range_t::const_iterator ii=recv_range.end();
         ii--;
-        max_packet = ACE_MAX(max_packet, ii->second);
+        max_packet = std::max(max_packet, ii->second);
     }
 
 //     MYTRACE(ACE_TEXT("Ack sent %u, mac packet index %d\n"), GETTIMESTAMP(), 
