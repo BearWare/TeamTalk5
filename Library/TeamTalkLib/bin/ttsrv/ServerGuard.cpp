@@ -475,19 +475,6 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
 void ServerGuard::OnChannelRemoved(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {
-    // Clean up operator rights for the deleted channel.
-    bool operatorsModified = m_settings.CleanupChannelOperators(channel.GetChannelID());
-
-    if (operatorsModified)
-    {
-        // Log that operator privileges were cleaned up.
-        tostringstream oss_cleanup;
-        oss_cleanup << ACE_TEXT("Operator privileges for deleted channel #") << channel.GetChannelID() 
-                    << ACE_TEXT(" ('") << LogPrepare(channel.GetChannelPath()).c_str() 
-                    << ACE_TEXT("') cleaned from user configurations.");
-        TT_LOG(oss_cleanup.str().c_str());
-    }
-
     // Log the channel removal event.
     if (user) 
     {
@@ -501,7 +488,7 @@ void ServerGuard::OnChannelRemoved(const ServerChannel& channel,
             oss << ACE_TEXT(".");
         TT_LOG(oss.str().c_str());
     }
-    else if (!operatorsModified) 
+    else
     {
          // Log server-initiated removal if not already logged by operator cleanup.
          tostringstream oss_server_removed;
@@ -797,6 +784,9 @@ ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& c
 
 ErrorMsg ServerGuard::RemoveChannel(const ServerChannel& chan, const ServerUser* user/* = nullptr */)
 {
+    // Clean up operator rights for the deleted channel.
+    m_settings.CleanupChannelOperators(chan.GetChannelID());
+
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
