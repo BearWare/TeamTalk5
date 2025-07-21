@@ -43,5 +43,3 @@ services:
       - ../..:/TeamTalk5:rw,z
     user: root
     working_dir: /TeamTalk5
-    environment:
-      - ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r28c
