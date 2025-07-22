@@ -321,6 +321,12 @@ public class OnlineUsersActivity extends AppCompatActivity implements
                     userInfo.append(", ").append(getString(R.string.online_user_info_username)).append(": ").append(user.szUsername);
                 }
 
+                userInfo.append(", ").append(getString(R.string.online_user_info_userid)).append(": ").append(user.nUserID);
+
+                if (!user.szStatusMsg.isEmpty()) {
+                    userInfo.append(", ").append(getString(R.string.online_user_info_statusmsg)).append(": ").append(user.szStatusMsg);
+                }
+
                 if (ttservice != null && ttservice.getChannels() != null) {
                     Channel userChannel = ttservice.getChannels().get(user.nChannelID);
                     if (userChannel != null) {
