@@ -287,7 +287,6 @@ public class OnlineUsersActivity extends AppCompatActivity implements
     public void onCmdUserLeftChannel(int nChannelID, User user) {
         Log.d(TAG, "User " + user.szNickname + " left channel " + nChannelID);
         updateUser(user);
-        sortAndNotifyDataSetChanged();
     }
 
     @Override
