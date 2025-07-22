@@ -757,7 +757,7 @@ public class TeamTalkService extends Service
         if (joinchannel == null) {
 
             // join last channel if enabled
-            if (this.ttserver.rememberLastChannel && !ttserver.channel.isEmpty()) {
+            if (ttserver.channel != null && !ttserver.channel.isEmpty()) {
                 int chanid = ttclient.getChannelIDFromPath(ttserver.channel);
                 joinchannel = getChannels().get(chanid);
                 if (joinchannel != null) {
