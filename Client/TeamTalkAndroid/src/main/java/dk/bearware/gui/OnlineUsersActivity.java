@@ -286,10 +286,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
     @Override
     public void onCmdUserLeftChannel(int nChannelID, User user) {
         Log.d(TAG, "User " + user.szNickname + " left channel " + nChannelID);
-        int index = findUserIndex(user);
-        if (index != -1) {
-            onlineUsers.set(index, user);
-        }
+        updateUser(user);
         sortAndNotifyDataSetChanged();
     }
 
