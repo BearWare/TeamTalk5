@@ -310,9 +310,11 @@ extends AppCompatActivity
         boolean broadcastRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
+        boolean isLeaveable = (ttclient.getMyChannelID() > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
+        menu.findItem(R.id.action_leave).setEnabled(isLeaveable).setVisible(isLeaveable);
         menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_broadcast).setEnabled(broadcastRight).setVisible(broadcastRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
@@ -326,6 +328,10 @@ extends AppCompatActivity
             case R.id.action_join : {
                 if (curchannel != null)
                     joinChannel(curchannel);
+            }
+            break;
+            case R.id.action_leave : {
+                    leaveChannel();
             }
             break;
             case R.id.action_upload : {
@@ -830,6 +836,13 @@ extends AppCompatActivity
     private void editChannelProperties(Channel channel) {
         Intent intent = new Intent(this, ChannelPropActivity.class);
         startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
+    }
+
+    private void leaveChannel() {
+        ttclient.doLeaveChannel();
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     private void joinChannelUnsafe(Channel channel, String passwd) {
