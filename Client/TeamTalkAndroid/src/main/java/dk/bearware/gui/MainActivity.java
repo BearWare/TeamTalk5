@@ -1355,15 +1355,6 @@ private EditText newmsg;
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
                 
-                Button sndmsg = convertView.findViewById(R.id.msg_btn);
-                OnClickListener listener = v -> {
-                    if (v.getId() == R.id.msg_btn) {
-                        Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
-                        startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, user.nUserID));
-                    }
-                };
-                sndmsg.setOnClickListener(listener);
-                sndmsg.setAccessibilityDelegate(accessibilityAssistant);
             }
             convertView.setAccessibilityDelegate(accessibilityAssistant);
             return convertView;
@@ -1452,10 +1443,8 @@ private EditText newmsg;
         Object item = channelsAdapter.getItem(position);
         if(item instanceof User) {
             User user = (User)item;
-            Intent intent = new Intent(this, UserPropActivity.class);
-            // TODO: check 'curchannel' for null
-            startActivityForResult(intent.putExtra(UserPropActivity.EXTRA_USERID, user.nUserID),
-                                   REQUEST_EDITUSER);
+            Intent intent = new Intent(MainActivity.this, TextMessageActivity.class);
+            startActivity(intent.putExtra(TextMessageActivity.EXTRA_USERID, user.nUserID));
         }
         else if(item instanceof Channel) {
             Channel channel = (Channel) item;

@@ -32,6 +32,7 @@ Android Client
 - Ability to play sound for intercept subscription toggled
 - Ability to use Text-To-Speech to announce transmission changes
 - Ability to use Text-To-Speech to announce subscription changes
+message button for users has been removed, klick on users to open text message dialog from now on, and both user profile and text message dialogs can also be opened in popup menu
 - Fixed bug where user's status message is not announced when away
 - Minimum supported is now Android v7.0 (Nougat)
 iOS Client
