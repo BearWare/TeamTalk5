@@ -9,9 +9,21 @@
         android:title="@string/action_settings"/>
 
     <item
+        android:id="@+id/action_newchannel"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_new_channel"/>
+    <item
         android:id="@+id/action_join"
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_join"/>
+    <item
+        android:id="@+id/action_edit"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_edit"/>
+    <item
+        android:id="@+id/action_stream"
+        app:showAsAction="ifRoom|withText"
+        android:title="@string/action_stream"/>
     <item
         android:id="@+id/action_leave"
         app:showAsAction="ifRoom|withText"
@@ -28,17 +40,5 @@
         android:id="@+id/action_broadcast"
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_broadcast"/>
-    <item
-        android:id="@+id/action_stream"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/action_stream"/>
-    <item
-        android:id="@+id/action_edit"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/action_edit"/>
-    <item
-        android:id="@+id/action_newchannel"
-        app:showAsAction="ifRoom|withText"
-        android:title="@string/action_new_channel"/>
 
 </menu>
