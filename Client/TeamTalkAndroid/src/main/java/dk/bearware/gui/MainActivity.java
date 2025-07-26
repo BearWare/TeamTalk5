@@ -1569,6 +1569,9 @@ private EditText newmsg;
                 ttclient.getMyUserAccount(myuseraccount);
                 if ((myuseraccount.uUserRights & UserRight.USERRIGHT_OPERATOR_ENABLE) != UserRight.USERRIGHT_NONE) {
                     ttclient.doChannelOp(selectedUser.nUserID, selectedUser.nChannelID, ttclient.isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true);
+                    accessibilityAssistant.lockEvents();
+                    channelsAdapter.notifyDataSetChanged();
+                    accessibilityAssistant.unlockEvents();
                     break;
                 }
                 alert.setTitle(ttclient.isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
