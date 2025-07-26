@@ -147,7 +147,7 @@
     <string name="opus_application">애플리케이션</string>
 
     <string name="button_tx">말하기</string>
-    <string name="button_remove">제거</string>
+    <string name="button_remove">삭제</string>
     <string name="button_edit">편집</string>
     <string name="action_banchan">채널에서 차단</string>
     <string name="action_bansrv">서버에서 차단</string>
@@ -249,9 +249,9 @@
     <string name="action_refresh">새로고침</string>
     <string name="action_import_serverlist">.tt 파일 가져오기</string>
     <string name="action_export_serverlist">서버 목록 내보내기</string>
-    <string name="serverlist_export_confirmation">서버 목록을 %1$s 파일로 내보냄</string>
+    <string name="serverlist_export_confirmation">서버 목록을 %1$s 파일로 내보냈습니다</string>
 
-    <string name="server_export_confirmation">서버를 %1$s 파일로 내보냄</string>
+    <string name="server_export_confirmation">서버를 %1$s 파일로 내보냈습니다</string>
     <string name="pref_title_server_props">서버 속성</string>
     <string name="pref_title_server_info">서버 정보</string>
     <string name="pref_title_server_name">서버 이름</string>
@@ -335,10 +335,10 @@
     <string name="text_officialserver">공식 서버</string>
     <string name="text_unofficialserver">비공식 서버</string>
     <string name="text_passwdprot">암호로 보호됨</string>
-    <string name="text_translator">Joseph Ungjin Park와 Sihu Hwang에 의해 번역됨</string>
+    <string name="text_translator">Sihu Hwang에 의해 번역됨</string>
     <string name="desktop_image">화면 공유 이미지</string>
-    <string name="channel_change_alert">채널을 전환하면 모든 전송이 중지됩니다. 계속하시겠습니까?</string>
-    <string name="disconnect_alert">서버에서 나가면 모든 전송이 중지됩니다. 계속하시겠습니까?</string>
+    <string name="channel_change_alert">채널을 전환하면 모든 전송이 중지됩니다</string>
+    <string name="disconnect_alert">서버에서 나가면 모든 전송이 중지됩니다.</string>
 
     <string name="err_invalid_username">잘못된 이름</string>
     <string name="err_incorrect_server_password">서버 암호 불일치</string>
@@ -347,20 +347,20 @@
     <string name="err_max_server_users_exceeded">서버에 사용자가 너무 많음</string>
     <string name="err_max_channel_users_exceeded">채널에 사용자가 너무 많음</string>
     <string name="err_server_banned">서버에서 차단됨</string>
-    <string name="err_not_authorized">승인되지 않음</string>
-    <string name="err_max_diskusage_exceeded">디스크 공간 부족</string>
+    <string name="err_not_authorized">승인받지 않은 동작입니다</string>
+    <string name="err_max_diskusage_exceeded">디스크 공간이 부족합니다</string>
     <string name="err_incorrect_op_password">관리자 암호 불일치</string>
-    <string name="err_max_logins_per_ipaddress_exceeded">한 IP 주소에서 연결 요청이 너무 많음</string>
-    <string name="err_max_channels_exceeded">채널이 너무 많음</string>
-    <string name="err_channel_already_exists">같은 채널이 이미 있음</string>
-    <string name="err_user_not_found">사용자를 찾을 수 없음</string>
-    <string name="err_openfile_failed">서버가 파일을 열지 못함</string>
-    <string name="err_filesharing_disabled">서버에서 파일 전송을 허용하지 않음</string>
-    <string name="err_channel_has_users">채널이 비어 있지 않음</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">한 IP 주소에서 연결 요청이 너무 많습니다</string>
+    <string name="err_max_channels_exceeded">채널이 너무 많습니다</string>
+    <string name="err_channel_already_exists">같은 채널이 이미 있습니다</string>
+    <string name="err_user_not_found">사용자를 찾을 수 없습니다</string>
+    <string name="err_openfile_failed">서버가 파일을 열지 못했습니다</string>
+    <string name="err_filesharing_disabled">서버에서 파일 전송을 허용하지 않습니다</string>
+    <string name="err_channel_has_users">채널이 비어 있지 않습니다</string>
 
     <string name="private_message_notification">%1$s의 새로운 메시지</string>
     <string name="private_message_notification_hint">눌러서 읽고 답장하기</string>
-    <string name="user_state_now_speaking">%1$s (말하는 중)</string>
+    <string name="user_state_now_speaking">(말하는 중) %1$s</string>
     <string name="text_waitstream">동영상 스트림을 기다리는 중</string>
     <string name="text_desktop_session">화면 공유 세션</string>
     <string name="text_webcam_session">웹캠 세션</string>
@@ -467,6 +467,7 @@
     <string name="text_tts_media_transmit_off">미디어 파일 송신 비활성화됨</string>
     <string name="text_tts_media_transmit_on">미디어 파일 송신 활성화됨</string>
     <string name="text_broadcast_message">방송할 메시지 입력</string>
+    <string name="action_leave">나가기</string>
     <string name="action_edituser">사용자 속성</string>
     <string name="pref_title_intercept_audio_icon">가로채기</string>
     <string name="pref_title_subscription_user_msg">개인 메시지</string>
@@ -507,6 +508,8 @@
     <string name="online_users">접속자</string>
     <string name="online_user_info_nickname">대화명</string>
     <string name="online_user_info_username">사용자 이름</string>
+    <string name="online_user_info_userid">사용자 ID</string>
+    <string name="online_user_info_statusmsg">상태 메시지</string>
     <string name="online_user_info_channel">채널</string>
     <string name="online_user_info_ip">IP 주소</string>
     <string name="online_user_info_client">클라이언트</string>

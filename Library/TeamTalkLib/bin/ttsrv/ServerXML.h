@@ -160,6 +160,9 @@ namespace teamtalk {
         bool AuthenticateUser(UserAccount& user);
         bool GetUser(const std::string& username, UserAccount& user);
         void UpdateLastLogin(const UserAccount& user);
+
+        // Removes operator privileges for a specific channel ID from all users.
+        bool CleanupChannelOperators(int deletedChannelID);
         /****** </users> *****/
 
         /********** <serverbans>  ************/

@@ -1,14 +1,11 @@
 buildscript {
     repositories {
-        maven {
-            url = uri('https://dl.google.com/dl/android/maven2')
-        }
-        mavenCentral()
         google()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.0'
+        classpath 'com.android.tools.build:gradle:8.11.1'
     }
 }
 
@@ -18,6 +15,7 @@ android {
     namespace = 'dk.bearware.gui'
     compileSdk = 36
     buildToolsVersion = '36.0.0'
+    ndkVersion = '28.2.13676358'
 
     buildFeatures {
         buildConfig = true
@@ -32,15 +30,15 @@ android {
         applicationId = 'dk.bearware.gui'
         minSdk = 24
         targetSdk = 36
-        versionCode = 139
+        versionCode = 140
         versionName = '5.19'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
     }
 
     splits {
@@ -60,9 +58,8 @@ android {
     }
 
     repositories {
+        google()
         mavenCentral()
-        maven { url = uri('https://maven.google.com/') }
-        maven { url = uri('https://jitpack.io') }
     }
 
     lint {
@@ -81,7 +78,7 @@ dependencies {
     implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'com.google.android.material:material:1.12.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.0')
-    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
     implementation files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework

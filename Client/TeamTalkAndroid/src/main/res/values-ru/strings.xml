@@ -153,6 +153,8 @@
     <string name="pref_summary_mute_speakers">Следует разрешить для избежания эхо-эффекта</string>
     <string name="pref_title_show_usernames">Показывать имена пользователей</string>
     <string name="pref_summary_show_usernames">Показывать имена пользователей вместо псевдонимов</string>
+    <string name="pref_title_move_talking">Перемещать говорящих пользователей вверх</string>
+    <string name="pref_summary_move_talking">Перемещать говорящих пользователей в начало списка пользователей</string>
     <string name="pref_title_bearwareid">Web-регистрация через BearWare.dk</string>
     <string name="pref_summary_bearwareid">Настройка входа через учетную запись на BearWare.dk</string>
 
@@ -212,6 +214,7 @@
     <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_leave">Покинуть канал</string>
     <string name="action_edituser">Настройки пользователя</string>
     <string name="action_message">Сообщения</string>
     <string name="action_kickchan">Выгнать с текущего канала</string>
@@ -467,6 +470,8 @@
     <string name="pref_title_gender">Пол</string>
     <string name="pref_summary_gender">Отображать как женский</string>
     <string name="user_state_away">Отсутствует</string>
+    <string name="user_state_operator">Оператор канала</string>
+    <string name="user_state_selected">Выбран для перемещения </string>
     <string name="pref_title_userloggedin_icon">Вход пользователя</string>
     <string name="pref_summary_userloggedin_icon">Звуковое оповещение о входе пользователя</string>
     <string name="pref_title_userloggedoff_icon">Выход пользователя</string>
@@ -492,5 +497,13 @@
     <string name="action_revoke_operator">Отозвать права Оператора</string>
     <string name="text_operator_password">Введите пароль оператора канала</string>
     <string name="text_broadcast_message">Введите широковещательное сообщение</string>
+    <string name="online_users">Активные Пользователи</string>
 
+    <string name="online_user_info_nickname">Псевдоним</string>
+    <string name="online_user_info_username">Имя пользователя</string>
+    <string name="online_user_info_userid">Идентификатор пользователя</string>
+    <string name="online_user_info_statusmsg">Сообщение о состоянии</string>
+    <string name="online_user_info_channel">Канал</string>
+    <string name="online_user_info_ip">IP адрес</string>
+    <string name="online_user_info_client">Клиент</string>
 </resources>

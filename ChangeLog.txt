@@ -20,7 +20,9 @@ Default Qt Client
 - macOS updated to Qt 6.10.0 beta1
 Android Client
 - Added Online Users Activity to display users logged on to the server
+- Online users activity now has popup menu contaning all user actions
 - Added a new option to prevent talking users from moving to the top of users list
+- Added the ability to leave channels
 - Added the ability to set status messages
 - Added the ability to control user's transmissions
 - Option to automatically join root channel in preferences
@@ -35,7 +37,7 @@ Android Client
 iOS Client
 - Use VoiceOver to announce TTS events for screen reader users
 Server
--
+- Fixed security vulnerability where users could accidentally become channel operators if a channel ID was reused
 
 Version 5.18, 2025/05/05
 Default Qt Client
