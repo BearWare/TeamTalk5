@@ -124,6 +124,12 @@
             android:exported="false">
         </activity>
 
+        <activity
+            android:name=".AudioCodecActivity"
+            android:label="@string/title_activity_audio_codec"
+            android:exported="false">
+        </activity>
+
         <receiver android:name=".MediaButtonEventReceiver"
             android:enabled="true"
             android:exported="true">
