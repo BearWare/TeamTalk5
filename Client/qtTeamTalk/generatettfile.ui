@@ -113,6 +113,23 @@
                </property>
               </widget>
              </item>
+             <item>
+              <widget class="QLabel" name="statusmsgLabel">
+               <property name="text">
+                <string>Status Message</string>
+               </property>
+               <property name="buddy">
+                <cstring>statusmsgEdit</cstring>
+               </property>
+              </widget>
+             </item>
+             <item>
+              <widget class="QLineEdit" name="statusmsgEdit">
+               <property name="enabled">
+                <bool>false</bool>
+               </property>
+              </widget>
+             </item>
             </layout>
            </item>
            <item>

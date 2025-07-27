@@ -1261,20 +1261,61 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
                      szFromUsername: str = "") -> [TextMessage]:
     result = []
     converted_content = ttstr(content)
-    while len(converted_content) > 0:
+
+    if len(converted_content) < TT_STRLEN:
         textmsg = TextMessage()
         textmsg.nMsgType = nMsgType
         textmsg.nFromUserID = nFromUserID
         textmsg.szFromUsername = ttstr(szFromUsername)
         textmsg.nToUserID = nToUserID
         textmsg.nChannelID = nChannelID
-        textmsg.szMessage = converted_content[0:TT_STRLEN-1]
-        converted_content = converted_content[TT_STRLEN-1:]
-        textmsg.bMore = len(converted_content) > 0
+        textmsg.szMessage = converted_content
+        textmsg.bMore = False
         result.append(textmsg)
+        return result
+
+    curlen = len(content) // 2
+    while len(ttstr(content[0:curlen])) > TT_STRLEN - 1:
+        curlen = curlen // 2
+
+    half = TT_STRLEN // 2
+    while half > 0:
+        if len(ttstr(content[0:curlen+half])) < TT_STRLEN:
+            curlen = curlen + half
+        half = half // 2
+
+    textmsg = TextMessage()
+    textmsg.nMsgType = nMsgType
+    textmsg.nFromUserID = nFromUserID
+    textmsg.szFromUsername = ttstr(szFromUsername)
+    textmsg.nToUserID = nToUserID
+    textmsg.nChannelID = nChannelID
+    textmsg.szMessage = ttstr(content[0:curlen])
+    textmsg.bMore = True
+    result.append(textmsg)
+
+    result.extend(buildTextMessage(content[curlen:], nMsgType=nMsgType,
+                                   nToUserID=nToUserID, nChannelID=nChannelID,
+                                   nFromUserID=nFromUserID,
+                                   szFromUsername=szFromUsername))
 
     return result
 
+def rebuildTextMessage(msgs: [TextMessage]) -> str:
+    content = ""
+    txtmsg = TextMessage() if len(msgs) == 0 else msgs[0]
+    for m in msgs:
+        content += ttstr(m.szMessage)
+        if not m.bMore:
+            break
+        else:
+            assert(m.nMsgType == txtmsg.nMsgType)
+            assert(m.nFromUserID == txtmsg.nFromUserID)
+            assert(m.szFromUsername == txtmsg.szFromUsername)
+            assert(m.nToUserID == txtmsg.nToUserID)
+            assert(m.nChannelID == txtmsg.nChannelID)
+
+    return content
 
 class TeamTalk(object):
 

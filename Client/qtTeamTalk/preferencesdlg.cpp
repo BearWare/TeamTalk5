@@ -404,6 +404,7 @@ bool PreferencesDlg::getSoundFile(QString& filename)
 void PreferencesDlg::initGeneralTab()
 {
     ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString());
+    ui.statusmsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE).toString());
     ui.genderBox->clear();
     ui.genderBox->addItem(tr("Male"), GENDER_MALE);
     ui.genderBox->addItem(tr("Female"), GENDER_FEMALE);
@@ -450,6 +451,7 @@ void PreferencesDlg::initDisplayTab()
 {
     ui.startminimizedChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_STARTMINIMIZED, false).toBool());
     ui.trayChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_TRAYMINIMIZE, false).toBool());
+    ui.confirmExitChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool());
     ui.alwaysontopChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_ALWAYSONTOP, false).toBool());
     ui.vumeterChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_VU_METER_UPDATES,
                                                    SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT).toBool());
@@ -724,6 +726,7 @@ void PreferencesDlg::slotSaveChanges()
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
+        ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.statusmsgEdit->text());
         ttSettings->setValue(SETTINGS_GENERAL_GENDER, getCurrentItemData(ui.genderBox, GENDER_NEUTRAL));
         ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
@@ -743,6 +746,7 @@ void PreferencesDlg::slotSaveChanges()
     {
         ttSettings->setValue(SETTINGS_DISPLAY_STARTMINIMIZED, ui.startminimizedChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_TRAYMINIMIZE,  ui.trayChkBox->isChecked());
+        ttSettings->setValue(SETTINGS_DISPLAY_CONFIRMEXIT,  ui.confirmExitChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_ALWAYSONTOP, ui.alwaysontopChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, ui.vumeterChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, ui.voiceActLevelChkBox->isChecked());

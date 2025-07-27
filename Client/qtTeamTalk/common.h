@@ -93,6 +93,7 @@ struct HostEntry
     QString username;
     QString password;
     QString nickname;
+    QString statusmsg;
     bool lastChan = false;
     QString channel;
     QString chanpasswd;
@@ -104,7 +105,7 @@ struct HostEntry
     VideoCodec vidcodec = {};
 
     // doesn't include 'name'
-    bool sameHost(const HostEntry& host, bool nickcheck = true) const;
+    bool sameHost(const HostEntry& host, bool nickcheck = true, bool statusmsgcheck = true) const;
     // same as sameHost() but also host.name == name
     bool sameHostEntry(const HostEntry& host) const;
     QString generateEntryName() const;

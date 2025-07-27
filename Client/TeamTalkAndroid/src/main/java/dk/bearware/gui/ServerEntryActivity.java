@@ -26,21 +26,21 @@ package dk.bearware.gui;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.preference.CheckBoxPreference;
-import androidx.preference.EditTextPreference;
-import androidx.preference.Preference;
-import androidx.preference.Preference.OnPreferenceChangeListener;
-import androidx.preference.PreferenceCategory;
-import androidx.preference.PreferenceFragmentCompat;
-import androidx.preference.PreferenceScreen;
+
+import java.util.Locale;
+
+import com.google.android.material.textfield.TextInputEditText;
+
+import dk.bearware.gui.databinding.ActivityServerEntryBinding;
 
 import dk.bearware.TeamTalkBase;
 import dk.bearware.UserAccount;
@@ -51,26 +51,29 @@ import dk.bearware.data.AppInfo;
 import dk.bearware.data.ServerEntry;
 import dk.bearware.events.ClientEventListener;
 
-public class ServerEntryActivity
-extends AppCompatActivity
-implements OnPreferenceChangeListener,
-        TeamTalkConnectionListener,
+public class ServerEntryActivity extends AppCompatActivity
+        implements TeamTalkConnectionListener,
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
-    public static final String TAG = "bearware";
+    private static final String TAG = "bearware";
+    private static final int DEFAULT_PORT = 10333;
+    private static final int MIN_PORT = 1;
+    private static final int MAX_PORT = 65535;
 
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    ServerEntry serverentry;
+    private TeamTalkConnection mConnection;
+    private TeamTalkService ttservice;
+    private TeamTalkBase ttclient;
+    private ServerEntry serverentry;
+    private ActivityServerEntryBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getSupportFragmentManager().beginTransaction()
-            .replace(android.R.id.content, new ServerPreferencesFragment())
-            .commit();
+        binding = ActivityServerEntryBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        
+        setupListeners();
     }
 
     @Override
@@ -81,33 +84,66 @@ implements OnPreferenceChangeListener,
             showServer(entry);
         }
         else {
-            PreferenceScreen prefscreen = (PreferenceScreen)findPreference(ServerEntry.KEY_PREFSCREEN);
-            prefscreen.removePreference(findPreference(ServerEntry.KEY_SRVSTATUS));
+            binding.serverStatusSection.setVisibility(View.GONE);
+        }
+    }
+
+
+    private void setupListeners() {
+        binding.webLoginCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> onWebLoginChanged(isChecked));
+        binding.rememberLastChannelCheckbox.setOnCheckedChangeListener((buttonView, isChecked) -> setChannelViewsVisibility(!isChecked));
+        
+        binding.tcpPortEdit.addTextChangedListener(new PortTextWatcher(binding.tcpPortEdit));
+        binding.udpPortEdit.addTextChangedListener(new PortTextWatcher(binding.udpPortEdit));
+    }
+
+    private void setChannelViewsVisibility(boolean visible) {
+        int visibility = visible ? View.VISIBLE : View.GONE;
+        binding.channelLabel.setVisibility(visibility);
+        binding.channelLayout.setVisibility(visibility);
+        binding.channelPasswordLabel.setVisibility(visibility);
+        binding.channelPasswordLayout.setVisibility(visibility);
+    }
+
+    private static class PortTextWatcher implements TextWatcher {
+        private final TextInputEditText editText;
+
+        public PortTextWatcher(TextInputEditText editText) {
+            this.editText = editText;
         }
 
-        findPreference(ServerEntry.KEY_SERVERNAME).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_IPADDR).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_TCPPORT).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_UDPPORT).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_ENCRYPTED).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_USERNAME).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_PASSWORD).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_WEBLOGIN).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_NICKNAME).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_CHANNEL).setOnPreferenceChangeListener(this);
-        findPreference(ServerEntry.KEY_CHANPASSWD).setOnPreferenceChangeListener(this);
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {}
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            String text = s.toString().trim();
+            if (text.isEmpty()) {
+                editText.setError(null);
+                return;
+            }
+            
+            try {
+                int port = Integer.parseInt(text);
+                if (port < MIN_PORT || port > MAX_PORT) {
+                    editText.setError("Port must be between " + MIN_PORT + " and " + MAX_PORT);
+                } else {
+                    editText.setError(null);
+                }
+            } catch (NumberFormatException e) {
+                editText.setError("Invalid port number");
+            }
+        }
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-
-        if (mConnection.isBound()) {
-            // reset state since we're creating a new connection
-            ttservice.resetState();
-            ttclient.closeSoundInputDevice();
-            ttclient.closeSoundOutputDevice();
+        if (mConnection != null && mConnection.isBound()) {
+            resetTeamTalkService();
             ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
         }
     }
@@ -115,189 +151,224 @@ implements OnPreferenceChangeListener,
     @Override
     protected void onPause() {
         super.onPause();
-        if (mConnection.isBound())
+        if (mConnection != null && mConnection.isBound()) {
             ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, false);
+        }
+    }
+
+    private void resetTeamTalkService() {
+        ttservice.resetState();
+        ttclient.closeSoundInputDevice();
+        ttclient.closeSoundOutputDevice();
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-
         if (serverentry != null) {
             showServer(serverentry);
             serverentry = null;
         }
-
-        // Bind to LocalService if not already
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
-        if (!mConnection.isBound()) {
-            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
-                Log.e(TAG, "Failed to bind to TeamTalk service");
-        }
+        bindToTeamTalkService();
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-
-        if (isFinishing() && mConnection.isBound()) {
-            // Unbind from the service
-            ttservice.resetState();
-            onServiceDisconnected(ttservice);
-            unbindService(mConnection);
-            mConnection.setBound(false);
+        if (isFinishing()) {
+            unbindFromTeamTalkService();
         }
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        unbindFromTeamTalkService();
+        binding = null;
+        Log.d(TAG, "Activity destroyed " + this.hashCode());
+    }
 
-        // Unbind from the service
-        if(mConnection.isBound()) {
-            Log.d(TAG, "Unbinding TeamTalk service");
-            onServiceDisconnected(ttservice);
+    private void bindToTeamTalkService() {
+        if (mConnection == null) {
+            mConnection = new TeamTalkConnection(this);
+        }
+        if (!mConnection.isBound()) {
+            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            if (!bindService(intent, mConnection, Context.BIND_AUTO_CREATE)) {
+                Log.e(TAG, "Failed to bind to TeamTalk service");
+            }
+        }
+    }
+
+    private void unbindFromTeamTalkService() {
+        if (mConnection != null && mConnection.isBound()) {
+            if (ttservice != null) {
+                ttservice.resetState();
+                onServiceDisconnected(ttservice);
+            }
             unbindService(mConnection);
             mConnection.setBound(false);
         }
-
-        Log.d(TAG, "Activity destroyed " + this.hashCode());
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.server_entry, menu);
-        
         return true;
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.action_connect : {
-                serverentry = getServerEntry();
-
-                ttservice.setServerEntry(serverentry);
-                if (!ttservice.reconnect())
-                    Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
-            }
-            break;
-            case R.id.action_saveserver : {
-                Intent intent = this.getIntent();
-                ServerEntry server = getServerEntry();
-                server.servertype = ServerEntry.ServerType.LOCAL;
-                setResult(RESULT_OK, Utils.putServerEntry(intent, server)); 
-                finish();
-            }
-            break;
-            case android.R.id.home : {
+            case R.id.action_connect:
+                connectToServer();
+                break;
+            case R.id.action_saveserver:
+                saveServerAndFinish();
+                break;
+            case android.R.id.home:
                 setResult(RESULT_CANCELED);
                 finish();
-            }
-            break;
-            default :
+                break;
+            default:
                 return super.onOptionsItemSelected(item);
         }
         return true;
     }
 
-    @Deprecated
-    ServerEntry getServerEntry() {
+    private void connectToServer() {
+        serverentry = getServerEntry();
+        ttservice.setServerEntry(serverentry);
+        if (!ttservice.reconnect()) {
+            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
+        }
+    }
+
+    private void saveServerAndFinish() {
+        ServerEntry server = getServerEntry();
+        server.servertype = ServerEntry.ServerType.LOCAL;
+        Intent intent = Utils.putServerEntry(getIntent(), server);
+        setResult(RESULT_OK, intent);
+        finish();
+    }
+
+    private ServerEntry getServerEntry() {
         ServerEntry server = new ServerEntry();
-        server.servername = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), "");
-        server.ipaddr = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), "" );
-        server.tcpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), "10333"));
-        server.udpport = Integer.parseInt(Utils.getEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), "10333"));
-        CheckBoxPreference p = ((CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED));
-        server.encrypted = p.isChecked();
-        server.username = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), "");
-        server.password = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "");
-        server.nickname = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), "");
-        server.rememberLastChannel = ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).isChecked();
-        server.channel = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), "");
-        server.chanpasswd = Utils.getEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), "");
+        server.servername = getTextValue(binding.serverNameEdit);
+        server.ipaddr = getTextValue(binding.ipAddressEdit);
+        server.tcpport = parsePort(getTextValue(binding.tcpPortEdit));
+        server.udpport = parsePort(getTextValue(binding.udpPortEdit));
+        server.encrypted = binding.encryptedCheckbox.isChecked();
+        server.username = getTextValue(binding.usernameEdit);
+        server.password = getTextValue(binding.passwordEdit);
+        server.nickname = getTextValue(binding.nicknameEdit);
+        server.statusmsg = getTextValue(binding.statusmsgEdit);
+        server.rememberLastChannel = binding.rememberLastChannelCheckbox.isChecked();
+        server.channel = getTextValue(binding.channelEdit);
+        server.chanpasswd = getTextValue(binding.channelPasswordEdit);
         return server;
     }
-    
-    @SuppressWarnings("deprecation")
-    @Deprecated
-    void showServer(ServerEntry entry) {
 
-        // server info
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_SERVERNAME), entry.servername, entry.servername);
-
-        // server status
-        if (entry.servertype == ServerEntry.ServerType.LOCAL) {
-            PreferenceScreen prefscreen = (PreferenceScreen)findPreference(ServerEntry.KEY_PREFSCREEN);
-            prefscreen.removePreference(findPreference(ServerEntry.KEY_SRVSTATUS));
+    private int parsePort(String portStr) {
+        if (portStr.isEmpty()) {
+            return DEFAULT_PORT;
         }
-        else {
-            findPreference(ServerEntry.KEY_MOTD).setSummary(entry.stats_motd);
-            findPreference(ServerEntry.KEY_USERCOUNT).setSummary(String.valueOf(entry.stats_usercount));
-            findPreference(ServerEntry.KEY_COUNTRY).setSummary(entry.stats_country);
+        try {
+            int port = Integer.parseInt(portStr);
+            return (port >= MIN_PORT && port <= MAX_PORT) ? port : DEFAULT_PORT;
+        } catch (NumberFormatException e) {
+            return DEFAULT_PORT;
         }
-
-        // connection
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_IPADDR), entry.ipaddr, entry.ipaddr);
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_TCPPORT), String.valueOf(entry.tcpport), String.valueOf(entry.tcpport));        
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_UDPPORT), String.valueOf(entry.udpport), String.valueOf(entry.udpport));
-        CheckBoxPreference p = (CheckBoxPreference)findPreference(ServerEntry.KEY_ENCRYPTED); 
-        p.setChecked(entry.encrypted);
-
-        // auth
-        boolean weblogin = Utils.isWebLogin(entry.username);
-        PreferenceCategory authcat = (PreferenceCategory)findPreference("auth_info");
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), entry.username, entry.username, weblogin);
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), entry.password, entry.password, weblogin);
-
-        findPreference(ServerEntry.KEY_USERNAME).setEnabled(!weblogin);
-        findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!weblogin);
-        ((CheckBoxPreference)findPreference(ServerEntry.KEY_WEBLOGIN)).setChecked(weblogin);
-
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_NICKNAME), entry.nickname, entry.nickname);
-
-        // join channel
-        ((CheckBoxPreference)findPreference(ServerEntry.KEY_REMEMBER_LAST_CHANNEL)).setChecked(entry.rememberLastChannel);
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANNEL), entry.channel, entry.channel);
-        Utils.setEditTextPreference(findPreference(ServerEntry.KEY_CHANPASSWD), entry.chanpasswd, entry.chanpasswd);
     }
 
-    @Override
-    public boolean onPreferenceChange(@NonNull Preference preference, Object newValue) {
+
+    private String getTextValue(TextInputEditText editText) {
+        return editText.getText() != null ? editText.getText().toString().trim() : "";
+    }
+    
+    private void showServer(ServerEntry entry) {
+        populateServerInfo(entry);
+        populateServerStatus(entry);
+        populateConnectionSettings(entry);
+        populateAuthenticationSettings(entry);
+        populateChannelSettings(entry);
+    }
+
+    private void populateServerInfo(ServerEntry entry) {
+        binding.serverNameEdit.setText(entry.servername);
+    }
+
+    private void populateServerStatus(ServerEntry entry) {
+        boolean isLocal = (entry.servertype == ServerEntry.ServerType.LOCAL);
+        binding.serverStatusSection.setVisibility(isLocal ? View.GONE : View.VISIBLE);
         
-        if(preference instanceof EditTextPreference) { 
-            EditTextPreference editTextPreference =  (EditTextPreference)preference;
-            editTextPreference.setSummary(newValue.toString());
+        if (!isLocal) {
+            binding.userCountText.setText(formatServerInfo(R.string.pref_title_server_usercount, String.valueOf(entry.stats_usercount)));
+            binding.motdText.setText(formatServerInfo(R.string.pref_title_server_motd, entry.stats_motd));
+            binding.countryText.setText(formatServerInfo(R.string.pref_title_server_country, getCountryDisplayName(entry.stats_country)));
         }
+    }
 
-        if(findPreference(ServerEntry.KEY_WEBLOGIN) == preference) {
-            boolean weblogin = (Boolean)newValue;
-            CheckBoxPreference cbp = (CheckBoxPreference)preference;
-            findPreference(ServerEntry.KEY_USERNAME).setEnabled(!weblogin);
-            findPreference(ServerEntry.KEY_PASSWORD).setEnabled(!weblogin);
+    private String getCountryDisplayName(String countryCode) {
+        if (countryCode == null || countryCode.trim().isEmpty()) {
+            return countryCode;
+        }
+        
+        try {
+            Locale locale = new Locale("", countryCode.toUpperCase());
+            String displayName = locale.getDisplayCountry();
+            return displayName.isEmpty() ? countryCode : displayName;
+        } catch (Exception e) {
+            return countryCode;
+        }
+    }
 
-            ServerEntry entry = serverentry == null? Utils.getServerEntry(this.getIntent()) : serverentry;
-            if(entry != null) {
-                String username = weblogin? AppInfo.WEBLOGIN_BEARWARE_USERNAME : entry.username;
-                String password = weblogin? "" : entry.password;
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), username, username, weblogin);
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), password, password, weblogin);
-            }
-            else if(weblogin){
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_USERNAME), AppInfo.WEBLOGIN_BEARWARE_USERNAME, AppInfo.WEBLOGIN_BEARWARE_USERNAME);
-                Utils.setEditTextPreference(findPreference(ServerEntry.KEY_PASSWORD), "", "", weblogin);
+    private void populateConnectionSettings(ServerEntry entry) {
+        binding.ipAddressEdit.setText(entry.ipaddr);
+        binding.tcpPortEdit.setText(String.valueOf(entry.tcpport));
+        binding.udpPortEdit.setText(String.valueOf(entry.udpport));
+        binding.encryptedCheckbox.setChecked(entry.encrypted);
+    }
+
+    private void populateAuthenticationSettings(ServerEntry entry) {
+        boolean weblogin = Utils.isWebLogin(entry.username);
+        binding.usernameEdit.setText(entry.username);
+        binding.passwordEdit.setText(entry.password);
+        setAuthFieldsEnabled(!weblogin);
+        binding.webLoginCheckbox.setChecked(weblogin);
+        binding.nicknameEdit.setText(entry.nickname);
+        binding.statusmsgEdit.setText(entry.statusmsg);
+    }
+
+    private void populateChannelSettings(ServerEntry entry) {
+        binding.rememberLastChannelCheckbox.setChecked(entry.rememberLastChannel);
+        binding.channelEdit.setText(entry.channel);
+        binding.channelPasswordEdit.setText(entry.chanpasswd);
+        setChannelViewsVisibility(!entry.rememberLastChannel);
+    }
+
+    private String formatServerInfo(int titleResId, String value) {
+        return getString(titleResId) + ": " + value;
+    }
+
+    private void setAuthFieldsEnabled(boolean enabled) {
+        binding.usernameEdit.setEnabled(enabled);
+        binding.passwordEdit.setEnabled(enabled);
+    }
+
+    private void onWebLoginChanged(boolean weblogin) {
+        setAuthFieldsEnabled(!weblogin);
+        
+        if (weblogin) {
+            binding.usernameEdit.setText(AppInfo.WEBLOGIN_BEARWARE_USERNAME);
+            binding.passwordEdit.setText("");
+        } else {
+            ServerEntry entry = serverentry != null ? serverentry : Utils.getServerEntry(getIntent());
+            if (entry != null) {
+                binding.usernameEdit.setText(entry.username);
+                binding.passwordEdit.setText(entry.password);
             }
         }
-
-        return true;
     }
     
     @Override
@@ -317,25 +388,4 @@ implements OnPreferenceChangeListener,
         Intent intent = new Intent(getBaseContext(), MainActivity.class);
         startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
     }
-
-    private Preference findPreference(CharSequence key) {
-        return ((PreferenceFragmentCompat) getSupportFragmentManager().findFragmentById(android.R.id.content)).findPreference(key);
-    }
-
-
-    public static class ServerPreferencesFragment extends PreferenceFragmentCompat {
-
-        private final androidx.preference.EditTextPreference.OnBindEditTextListener onBindEditTextListener = editText -> editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-
-        @Override
-        public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
-            setPreferencesFromResource(R.xml.pref_serverentry, rootKey);
-            androidx.preference.EditTextPreference tcpPortPreference = getPreferenceManager().findPreference("tcpport");
-            tcpPortPreference.setOnBindEditTextListener(onBindEditTextListener);
-            androidx.preference.EditTextPreference udpPortPreference = getPreferenceManager().findPreference("udpport");
-            udpPortPreference.setOnBindEditTextListener(onBindEditTextListener);
-        }
-
-    }
-
 }

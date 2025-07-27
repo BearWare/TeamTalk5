@@ -2,16 +2,42 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.18.1, unreleased
+Version 5.19, unreleased
 Default Qt Client
--
+- Ctrl+Shift+C to copy only message content in chat list
+- Ctrl+Alt+Shift+C to copy all chat list history
+- Ctrl+Shift+R to generate tt:// URL for current channel
+- Bitrate for OPUS is limited to 6-510 in Channel dialog
+- Status message shown in Preferences dialog
+- Ability to define status message for each server
+- Option to ask confirmation on exit
+- Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
+- Fixed idle status message not being restored after network reconnection
+- Fixed chat history name not retranslated on language change
+- Fixed URL generation cancellation
+- Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
+- Fixed file transfer speed display
+- macOS updated to Qt 6.10.0 beta1
 Android Client
-- Option to automatically join root channel in preferences
+- Added Online Users Activity to display users logged on to the server
+- Online users activity now has popup menu contaning all user actions
+- Added a new option to prevent talking users from moving to the top of users list
+- Added the ability to leave channels
+- Added the ability to set status messages
 - Added the ability to control user's transmissions
+- Option to automatically join root channel in preferences
+- Announce who is channel operator
+- Announce who is selected for moving to other channel
+- Ability to play sound when voice activation is toggled
+- Ability to play sound for intercept subscription toggled
+- Ability to use Text-To-Speech to announce transmission changes
+- Ability to use Text-To-Speech to announce subscription changes
+- Fixed bug where user's status message is not announced when away
+- Minimum supported is now Android v7.0 (Nougat)
 iOS Client
--
+- Use VoiceOver to announce TTS events for screen reader users
 Server
--
+- Fixed security vulnerability where users could accidentally become channel operators if a channel ID was reused
 
 Version 5.18, 2025/05/05
 Default Qt Client

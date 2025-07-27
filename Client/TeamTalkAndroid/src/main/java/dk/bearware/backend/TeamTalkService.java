@@ -756,8 +756,8 @@ public class TeamTalkService extends Service
     private void loginComplete() {
         if (joinchannel == null) {
 
-            // join last channel if enabled
-            if (this.ttserver.rememberLastChannel && !ttserver.channel.isEmpty()) {
+            // join channel specified in ServerEntry
+            if (ttserver.channel != null && !ttserver.channel.isEmpty()) {
                 int chanid = ttclient.getChannelIDFromPath(ttserver.channel);
                 joinchannel = getChannels().get(chanid);
                 if (joinchannel != null) {
@@ -876,17 +876,21 @@ public class TeamTalkService extends Service
             //update status bar widget
             displayNotification(true);
 
-            // check whether to switch to female icon
+            // check whether to switch to female icon and put status message per server
             SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
             int statusmode = TeamTalkConstants.STATUSMODE_AVAILABLE;
-            String msg = "";
+            String statusmsg = "";
             User myself = users.get(ttclient.getMyUserID());
             if (myself != null) {
                 statusmode = myself.nStatusMode;
-                msg = myself.szStatusMsg;
+                statusmsg = ttserver.statusmsg;
+            }
+            if (TextUtils.isEmpty(statusmsg)) {
+                statusmsg = PreferenceManager.getDefaultSharedPreferences(getApplicationContext()).getString(Preferences.PREF_GENERAL_STATUSMSG, "");
             }
             if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
-                ttclient.doChangeStatus(statusmode | TeamTalkConstants.STATUSMODE_FEMALE, msg);
+                statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+            ttclient.doChangeStatus(statusmode, statusmsg);
         }
     }
 

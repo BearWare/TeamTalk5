@@ -38,6 +38,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import androidx.annotation.StringRes;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
 
@@ -58,8 +59,11 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
+import java.util.Set;
 import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -70,6 +74,7 @@ import dk.bearware.Channel;
 import dk.bearware.ChannelType;
 import dk.bearware.ClientError;
 import dk.bearware.ClientErrorMsg;
+import dk.bearware.Constants;
 import dk.bearware.FileTransfer;
 import dk.bearware.RemoteFile;
 import dk.bearware.SoundLevel;
@@ -269,10 +274,12 @@ public class Utils {
 
     public static void toggleTransmitUsers(User user, Channel chan, int streamtype, boolean allow) {
 
-        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_DEFAULT)
-            allow = !allow;
+        boolean clear;
+        if ((chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) == ChannelType.CHANNEL_CLASSROOM)
+            clear = !allow;
+        else clear = allow;
 
-        if (allow) {
+        if (clear) {
             for (int i = 0; i < chan.transmitUsers.length; i++) {
                 if (chan.transmitUsers[i][0] == user.nUserID || chan.transmitUsers[i][0] == 0) {
                     chan.transmitUsers[i][0] = user.nUserID;
@@ -298,7 +305,191 @@ public class Utils {
             }
         }
     }
-    
+
+    public static int transmitUsersToggled(Channel chan, int prev, int curr, int streamType) {
+        boolean wasOn = (prev & streamType) != StreamType.STREAMTYPE_NONE;
+        boolean isNowOn = (curr & streamType) != StreamType.STREAMTYPE_NONE;
+
+        if (isNowOn && !wasOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? 1 : -1;
+        else if (!isNowOn && wasOn)
+            return (chan.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0 ? -1 : 1;
+        else
+            return 0;
+    }
+
+    /* @return User ID -> StreamType */
+    public static Map<Integer, Integer> transmitUsersToMap(int[][] transmitUsers) {
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int[] entry : transmitUsers) {
+            if (entry.length >= 2)
+                map.put(entry[0], entry[1]);
+        }
+        return map;
+    }
+
+    public static Optional<String> ttsTransmitUsersToggled(Context context, Channel oldchan, Channel updchan, Map<Integer, User> users) {
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        Set<Integer> allUserIds = new HashSet<>();
+        Map<Integer, Integer> oldTransmitUsers = Utils.transmitUsersToMap(oldchan.transmitUsers);
+        Map<Integer, Integer> newTransmitUsers = Utils.transmitUsersToMap(updchan.transmitUsers);
+        allUserIds.addAll(oldTransmitUsers.keySet());
+        allUserIds.addAll(newTransmitUsers.keySet());
+
+        for (int userId : allUserIds) {
+            int oldValue = oldTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+            int newValue = newTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+            String name;
+            if (userId==0) continue;
+            if(userId == Constants.TT_CLASSROOM_FREEFORALL)
+                name = context.getResources().getString(R.string.text_tts_transmit_name_everyone);
+            else {
+                User u = users.get(userId);
+                if(u!=null && u.nChannelID == oldchan.nChannelID)
+                    name = Utils.getDisplayName(context, users.get(userId));
+                else
+                    continue;
+            }
+
+            int result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_CHANNELMSG);
+            if (result < 0 && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_channel_msg_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VOICE);
+            if (result < 0 && prefs.getBoolean("transmit_voice_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_voice_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VIDEOCAPTURE);
+            if (result < 0 && prefs.getBoolean("transmit_vid_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_vid_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_DESKTOP);
+            if (result < 0 && prefs.getBoolean("transmit_desk_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_desk_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_MEDIAFILE);
+            if (result < 0 && prefs.getBoolean("transmit_media_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_off));
+            else if (result > 0 && prefs.getBoolean("transmit_media_checkbox", false))
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_on));
+        }
+        return Optional.empty();
+    }
+
+    // true: subscription on, false: subscription off, unchanged: empty
+    public static Optional<Boolean> subscriptionChanged(User oldUser, User newUser, int subscription) {
+        if ((oldUser.uPeerSubscriptions & subscription) != (newUser.uPeerSubscriptions & subscription)) {
+            return Optional.of((newUser.uPeerSubscriptions & subscription) == subscription);
+        }
+        return Optional.empty();
+    }
+
+    public static boolean ttsScriptionPreferenceEnabled(Context context, int subscription) {
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        switch (subscription) {
+            case Subscription.SUBSCRIBE_USER_MSG :
+                return prefs.getBoolean("subscription_user_msg_checkbox", false);
+            case Subscription.SUBSCRIBE_CHANNEL_MSG :
+                return  prefs.getBoolean("subscription_channel_msg_checkbox", false);
+            case Subscription.SUBSCRIBE_BROADCAST_MSG :
+                return  prefs.getBoolean("subscription_broadcast_msg_checkbox", false);
+            case Subscription.SUBSCRIBE_VOICE :
+                return  prefs.getBoolean("subscription_voice_checkbox", false);
+            case Subscription.SUBSCRIBE_VIDEOCAPTURE :
+                return prefs.getBoolean("subscription_vid_checkbox", false);
+            case Subscription.SUBSCRIBE_DESKTOP :
+                return prefs.getBoolean("subscription_desk_checkbox", false);
+            case Subscription.SUBSCRIBE_MEDIAFILE :
+                return prefs.getBoolean("subscription_media_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_USER_MSG :
+                return prefs.getBoolean("subscription_intercept_user_msg_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG :
+                return prefs.getBoolean("subscription_intercept_channel_msg_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_VOICE :
+                return  prefs.getBoolean("subscription_intercept_voice_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE :
+                return  prefs.getBoolean("subscription_intercept_vid_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_DESKTOP :
+                return  prefs.getBoolean("subscription_intercept_desk_checkbox", false);
+            case Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE :
+                return prefs.getBoolean("subscription_intercept_media_checkbox", false);
+        }
+        return false;
+    }
+
+    public static String ttsGenerateSubscriptionText(Context context, @StringRes int id, User user, boolean isOn) {
+        return String.format("%s %s %s", getDisplayName(context, user),
+                context.getResources().getString(id),
+                (isOn ? context.getResources().getString(R.string.text_tts_subscribe_on) :
+                        context.getResources().getString(R.string.text_tts_subscribe_off)));
+    }
+
+    public static Optional<String> ttsSubscriptionChanged(Context context, User oldUser, User newUser) {
+        Optional<Boolean> isOn;
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_USER_MSG) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_USER_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_user_msg_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_CHANNEL_MSG) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_CHANNEL_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_channel_msg_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_BROADCAST_MSG) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_BROADCAST_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_broadcast_msg_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_VOICE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_VOICE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_voice_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_VIDEOCAPTURE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_VIDEOCAPTURE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_vid_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_DESKTOP) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_DESKTOP)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_desk_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_MEDIAFILE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_MEDIAFILE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_media_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_user_msg_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_channel_msg_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_VOICE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_VOICE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_voice_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_vid_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_desk_changed, newUser, isOn.get()));
+        }
+        if (ttsScriptionPreferenceEnabled(context, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) &&
+                (isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context, dk.bearware.gui.R.string.text_tts_subscription_intercept_media_changed, newUser, isOn.get()));
+        }
+        return Optional.empty();
+    }
+
     public static String getURL(String urlToRead) {
         URL url;
         HttpURLConnection conn;
@@ -414,6 +605,9 @@ public class Utils {
                         NodeList nicknamenode = authelement.getElementsByTagName("nickname");
                         if (nicknamenode.getLength() > 0)
                             entry.nickname = nicknamenode.item(0).getTextContent();
+                        NodeList statusmsgnode = authelement.getElementsByTagName("statusmsg");
+                        if (statusmsgnode.getLength() > 0)
+                            entry.statusmsg = statusmsgnode.item(0).getTextContent();
                     }
                 }
                 //process <join>
@@ -483,6 +677,7 @@ public class Utils {
                 serializer.startTag(null, "username").text(server.username).endTag(null, "username");
                 serializer.startTag(null, "password").text(server.password).endTag(null, "password");
                 serializer.startTag(null, "nickname").text(server.nickname).endTag(null, "nickname");
+                serializer.startTag(null, "statusmsg").text(server.statusmsg).endTag(null, "statusmsg");
                 serializer.endTag(null, "auth");
                 serializer.startTag(null, "join");
                 serializer.startTag(null, "join-last-channel").text(String.valueOf(server.rememberLastChannel)).endTag(null, "join-last-channel");
@@ -587,5 +782,4 @@ public class Utils {
         return username.equals(AppInfo.WEBLOGIN_BEARWARE_USERNAME) ||
                 username.endsWith(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX);
     }
-
 }

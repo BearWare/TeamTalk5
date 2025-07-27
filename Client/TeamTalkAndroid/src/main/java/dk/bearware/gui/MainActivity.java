@@ -46,7 +46,6 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
@@ -84,6 +83,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.OptIn;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.NotificationCompat;
@@ -100,8 +100,11 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
+import java.util.Optional;
 import java.util.Vector;
 
 import dk.bearware.Channel;
@@ -111,6 +114,7 @@ import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
+import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
@@ -197,6 +201,7 @@ extends AppCompatActivity
     boolean restarting;
     SensorManager mSensorManager;
     Sensor mSensor;
+    Map<Integer, User> users = new HashMap<>();
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
 
@@ -207,15 +212,19 @@ extends AppCompatActivity
               SOUND_BCASTMSG = 5,
               SOUND_SERVERLOST = 6,
               SOUND_FILESUPDATE = 7,
-              SOUND_VOXON = 8,
-              SOUND_VOXOFF = 9,
-              SOUND_TXREADY = 10,
-              SOUND_TXSTOP = 11,
-              SOUND_USERJOIN = 12,
-              SOUND_USERLEFT = 13,
-              SOUND_USERLOGGEDIN = 14,
-              SOUND_USERLOGGEDOFF = 15,
-              SOUND_CHANMSGSENT = 16;
+              SOUND_VOXENABLE = 8,
+              SOUND_VOXDISABLE = 9,
+              SOUND_VOXON = 10,
+              SOUND_VOXOFF = 11,
+              SOUND_TXREADY = 12,
+              SOUND_TXSTOP = 13,
+              SOUND_USERJOIN = 14,
+              SOUND_USERLEFT = 15,
+              SOUND_USERLOGGEDIN = 16,
+              SOUND_USERLOGGEDOFF = 17,
+              SOUND_INTERCEPTON = 18,
+              SOUND_INTERCEPTOFF = 19,
+              SOUND_CHANMSGSENT = 20;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -301,9 +310,11 @@ extends AppCompatActivity
         boolean broadcastRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() != curchannel.nChannelID) && (curchannel.nMaxUsers > 0);
+        boolean isLeaveable = (ttclient.getMyChannelID() > 0);
         boolean isMyChannel = (ttclient != null) && (curchannel != null) && (ttclient.getMyChannelID() == curchannel.nChannelID);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
+        menu.findItem(R.id.action_leave).setEnabled(isLeaveable).setVisible(isLeaveable);
         menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_broadcast).setEnabled(broadcastRight).setVisible(broadcastRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
@@ -317,6 +328,10 @@ extends AppCompatActivity
             case R.id.action_join : {
                 if (curchannel != null)
                     joinChannel(curchannel);
+            }
+            break;
+            case R.id.action_leave : {
+                    leaveChannel();
             }
             break;
             case R.id.action_upload : {
@@ -366,6 +381,11 @@ extends AppCompatActivity
             break;
             case R.id.action_settings : {
                 Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
+                startActivity(intent);
+                break;
+            }
+            case R.id.action_online_users : {
+                Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
                 startActivity(intent);
                 break;
             }
@@ -500,9 +520,17 @@ extends AppCompatActivity
         if (prefs.getBoolean("files_updated_audio_icon", true)) {
             sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
         }
+        if (prefs.getBoolean("voiceact_audio_icon", true)) {
+            sounds.put(SOUND_VOXENABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_enable, 1));
+            sounds.put(SOUND_VOXDISABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_disable, 1));
+        }
         if (prefs.getBoolean("voiceact_triggered_icon", true)) {
             sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
             sounds.put(SOUND_VOXOFF, audioIcons.load(getApplicationContext(), R.raw.voiceact_off, 1));
+        }
+        if (prefs.getBoolean("intercept_audio_icon", true)) {
+            sounds.put(SOUND_INTERCEPTON, audioIcons.load(getApplicationContext(), R.raw.intercept, 1));
+            sounds.put(SOUND_INTERCEPTOFF, audioIcons.load(getApplicationContext(), R.raw.interceptend, 1));
         }
         if (prefs.getBoolean("transmitready_icon", true)) {
             sounds.put(SOUND_TXREADY, audioIcons.load(getApplicationContext(), R.raw.txqueue_start, 1));
@@ -810,6 +838,13 @@ extends AppCompatActivity
         startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
     }
 
+    private void leaveChannel() {
+        ttclient.doLeaveChannel();
+        accessibilityAssistant.lockEvents();
+        channelsAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
+    }
+
     private void joinChannelUnsafe(Channel channel, String passwd) {
         int cmdid = ttclient.doJoinChannelByID(channel.nChannelID, passwd);
         if(cmdid>0) {
@@ -881,6 +916,25 @@ extends AppCompatActivity
         mychannel = channel;
 
         adjustVoiceGain();
+    }
+
+    private void subscriptionChange(User user) {
+        User olduser = this.users.get(user.nUserID);
+
+        // text-to-speech on subscription changes
+        if (olduser != null && this.ttsWrapper != null) {
+            Utils.ttsSubscriptionChanged(getBaseContext(), olduser, user).ifPresent((text -> ttsWrapper.speak(text)));
+        }
+
+        // play sound if intercept subscription is toggled
+        if (olduser != null && (this.sounds.get(SOUND_INTERCEPTON) != 0 && this.sounds.get(SOUND_INTERCEPTOFF) != 0)) {
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_VOICE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+            Utils.subscriptionChanged(olduser, user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE).ifPresent(isOn -> audioIcons.play((isOn ? sounds.get(SOUND_INTERCEPTON) : sounds.get(SOUND_INTERCEPTOFF)), 1.0f, 1.0f, 0, 0, 1.0f));
+        }
     }
 
     private boolean isVisibleChannel(int chanid) {
@@ -1082,12 +1136,14 @@ private EditText newmsg;
             Collections.sort(stickychannels, (c1, c2) -> c1.szName.compareToIgnoreCase(c2.szName));
 
             Collections.sort(currentusers, (u1, u2) -> {
-                if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
-                    ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
-                    return -1;
-                else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
-                         ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
-                    return 1;
+                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("movetalk_checkbox", true)) {
+                    if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
+                        ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
+                        return -1;
+                    else if (((u1.uUserState & UserState.USERSTATE_VOICE) == 0) &&
+                             ((u2.uUserState & UserState.USERSTATE_VOICE) != 0))
+                        return 1;
+                }
 
                 String name1 = Utils.getDisplayName(getBaseContext(), u1);
                 String name2 = Utils.getDisplayName(getBaseContext(), u2);
@@ -1261,6 +1317,8 @@ private EditText newmsg;
                 nickname.setText(name);
                 status.setText(user.szStatusMsg);
                 
+                boolean selected = userIDS.contains(user.nUserID);
+                boolean isOperator = ttclient.isChannelOperator(user.nUserID, user.nChannelID);
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
@@ -1271,35 +1329,28 @@ private EditText newmsg;
                 if(user.nUserID == ttservice.getTTInstance().getMyUserID()) {
                     talking = ttservice.isVoiceTransmitting();
                 }
-                if(talking) {
-                    if(female) {
+
+                String move = selected ? getString(R.string.user_state_selected) : "";
+                String speaking = talking ? getString(R.string.user_state_now_speaking, name) : name;
+                String gender = female ? " 👩 " : neutral ? " 🧑 " : " 👨 ";
+                String op = isOperator ? getString(R.string.user_state_operator) : "";
+                nickname.setContentDescription(move + speaking + gender + op);
+
+                if (talking) {
+                    if (female) {
                         icon_resource = R.drawable.woman_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👩");
+                    } else {
+                        icon_resource = R.drawable.man_green; // male or neutral
                     }
-                    else if(male) {
-                        icon_resource = R.drawable.man_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name) + " 👨");
-                    }
-                    else {
-                        icon_resource = R.drawable.man_green;
-                        nickname.setContentDescription(getString(R.string.user_state_now_speaking, name));
-                    }
-                }
-                else {
-                    if(female) {
-                        icon_resource = away? R.drawable.woman_orange : R.drawable.woman_blue;
-                        nickname.setContentDescription(name + " 👩");
-                    }
-                    else if(male) {
-                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
-                        nickname.setContentDescription(name + " 👨");
-                    }
-                    else {
-                        icon_resource = away? R.drawable.man_orange : R.drawable.man_blue;
-                        nickname.setContentDescription(name);
+                } else {
+                    if (female) {
+                        icon_resource = away ? R.drawable.woman_orange : R.drawable.woman_blue;
+                    } else {
+                        icon_resource = away ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
                     }
                 }
-                status.setContentDescription(away ? getString(R.string.user_state_away) : null);
+
+                status.setContentDescription(away ? getString(R.string.user_state_away) + " " + user.szStatusMsg : null);
 
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -1541,6 +1592,9 @@ private EditText newmsg;
     } else {
         userIDS.add(selectedUser.nUserID);
     }
+    accessibilityAssistant.lockEvents();
+    channelsAdapter.notifyDataSetChanged();
+    accessibilityAssistant.unlockEvents();
     break;
         case R.id.action_remove: {
             alert.setMessage(getString(R.string.channel_remove_confirmation, selectedChannel.szName));
@@ -1768,6 +1822,8 @@ private EditText newmsg;
         ttservice = service;
         ttclient = ttservice.getTTInstance();
 
+        this.users = new HashMap<>(ttservice.getUsers());
+
         int mychanid = ttclient.getMyChannelID();
         if (mychanid > 0) {
             setCurrentChannel(ttservice.getChannels().get(mychanid));
@@ -1947,9 +2003,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedIn(User user) {
+        users.put(user.nUserID, user);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
@@ -1960,9 +2019,12 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLoggedOut(User user) {
+        users.remove(user.nUserID);
+
         accessibilityAssistant.lockEvents();
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
+
         if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
@@ -1978,10 +2040,15 @@ private EditText newmsg;
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
+
+        subscriptionChange(user);
+
+        users.put(user.nUserID, user);
     }
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself joined channel
@@ -2031,6 +2098,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+        users.put(user.nUserID, user);
         
         if(user.nUserID == ttclient.getMyUserID()) {
             //myself left current channel
@@ -2164,6 +2232,10 @@ private EditText newmsg;
 
         if(mychannel != null && mychannel.nChannelID == channel.nChannelID) {
 
+            if (ttsWrapper != null) {
+                Utils.ttsTransmitUsersToggled(getBaseContext(), mychannel, channel, ttservice.getUsers()).ifPresent(text -> ttsWrapper.speak(text));
+            }
+
             int myuserid = ttclient.getMyUserID();
 
             if(channel.transmitUsersQueue[0] == myuserid && mychannel.transmitUsersQueue[0] != myuserid) {
@@ -2221,6 +2293,7 @@ private EditText newmsg;
 
     @Override
     public void onUserStateChange(User user) {
+        users.put(user.nUserID, user);
         
         if (curchannel != null && user.nChannelID == curchannel.nChannelID) {
             accessibilityAssistant.lockEvents();
@@ -2263,6 +2336,15 @@ private EditText newmsg;
     @Override
     public void onVoiceActivationToggle(boolean voiceActivationEnabled, boolean isSuspended) {
         adjustVoxState(voiceActivationEnabled, voiceActivationEnabled ? ttclient.getVoiceActivationLevel() : ttclient.getSoundInputGainLevel());
+        if (voiceActivationEnabled) {
+            if (sounds.get(SOUND_VOXENABLE) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXENABLE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        } else {
+            if (sounds.get(SOUND_VOXDISABLE) != 0) {
+                audioIcons.play(sounds.get(SOUND_VOXDISABLE), 1.0f, 1.0f, 0, 0, 1.0f);
+            }
+        }
     }
 
     @Override

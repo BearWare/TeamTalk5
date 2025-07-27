@@ -77,7 +77,7 @@
 "EHj-xt-HhD.text" = "Vide";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "Choisissez les évènements pour lesquels jouer un son";
+"eJb-Cn-ciJ.text" = "Choisissez les évènements à lire";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
 "feN-jH-qaq.text" = "Afficher les serveurs non-officiels";

@@ -1911,6 +1911,12 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+        statusmsg = m_host.statusmsg;
+    if (m_idled_out) {
+        statusmsg = (ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString().isEmpty() ? statusmsg : ttSettings->value(SETTINGS_GENERAL_AWAY_STATUSMSG).toString());
+    }
+
     m_statusmode &= ~STATUSMODE_GENDER_MASK;
     switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER_DEFAULT).toInt()))
     {
@@ -2619,6 +2625,8 @@ void MainWindow::updateIdleTimeout()
     if (idle_time != 0)
     {
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+            statusmsg = m_host.statusmsg;
         if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
         {
             m_statusmode |= STATUSMODE_AWAY;
@@ -4288,6 +4296,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
             TT_DoChangeNickname(ttInst, _W(nickname));
 
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+            statusmsg = m_host.statusmsg;
         m_statusmode &= ~STATUSMODE_GENDER_MASK;
         switch (Gender(ttSettings->value(SETTINGS_GENERAL_GENDER, SETTINGS_GENERAL_GENDER).toInt()))
         {
@@ -4354,7 +4364,11 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     ui.channelsWidget->updateAllItems();
 
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
+    {
         ui.retranslateUi(this);
+        for (auto c : m_chathistory)
+            c->updateTranslation();
+    }
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
@@ -4525,7 +4539,8 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
     inputDialog.setOkButtonText(tr("&OK"));
     inputDialog.setCancelButtonText(tr("&Cancel"));
     inputDialog.setInputMode(QInputDialog::TextInput);
-    inputDialog.setTextValue(nick);
+    if (nick != ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString())
+        inputDialog.setTextValue(nick);
     inputDialog.setWindowTitle(MENUTEXT(ui.actionChangeNickname->text()));
     if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
         inputDialog.setLabelText(tr("Specify new nickname for current server"));
@@ -4574,9 +4589,50 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 
 void MainWindow::slotMeChangeStatus(bool /*checked =false */)
 {
-    ChangeStatusDlg dlg(this);
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+        statusmsg = m_host.statusmsg;
+    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()?statusmsg:""), this);
     if(dlg.exec())
+    {
         m_statusmode = dlg.m_user.nStatusMode;
+        statusmsg = dlg.m_statusmsg;
+        if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+        {
+            m_host.statusmsg = statusmsg;
+            // Change status message using host specific message if not empty or general message otherwise
+            TT_DoChangeStatus(ttInst, m_statusmode, (statusmsg.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()):_W(statusmsg));
+            HostEntry tmp = HostEntry();
+            int serv, lasthost, index = 0;
+            while (getServerEntry(index, tmp, false))
+            {
+                if (m_host.sameHost(tmp, false, false))
+                    serv = index;
+                index++;
+                tmp = HostEntry();
+            }
+            tmp = HostEntry();
+            index = 0;
+            while(getServerEntry(index, tmp, true))
+            {
+                if (m_host.sameHostEntry(tmp))
+                    lasthost = index;
+                index++;
+            }
+            if(statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString())
+            {
+                ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_STATUSMSG).arg(serv), statusmsg);
+                ttSettings->setValue(QString(SETTINGS_LATESTHOST_STATUSMSG).arg(lasthost), statusmsg);
+            }
+            else if(statusmsg == ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString() || statusmsg.isEmpty())
+            {
+                ttSettings->remove(QString(SETTINGS_SERVERENTRIES_STATUSMSG).arg(serv));
+                ttSettings->remove(QString(SETTINGS_LATESTHOST_STATUSMSG).arg(lasthost));
+            }
+        }
+        else
+            ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, statusmsg);
+    }
 }
 
 void MainWindow::slotMeEnablePushToTalk(bool checked)
@@ -4669,10 +4725,12 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             }
 
             m_statusmode |= STATUSMODE_VIDEOTX;
+            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
             if(flags & CLIENT_AUTHORIZED)
             {
+                statusmsg = m_host.statusmsg;
                 TT_DoChangeStatus(ttInst, m_statusmode, 
-                _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
+                _W(statusmsg));
             }
             ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
             transmitOn(STREAMTYPE_VIDEOCAPTURE);
@@ -4684,10 +4742,12 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         TT_StopVideoCaptureTransmission(ttInst);
         TT_CloseVideoCaptureDevice(ttInst);
         m_statusmode &= ~STATUSMODE_VIDEOTX;
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
         if(flags & CLIENT_AUTHORIZED)
         {
+            statusmsg = m_host.statusmsg;
             TT_DoChangeStatus(ttInst, m_statusmode, 
-            _W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()));
+            _W(statusmsg));
         }
 
         //remove local from video grid
@@ -4740,7 +4800,10 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             m_statusmode |= STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+            {
+                statusmsg = m_host.statusmsg;
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            }
             transmitOn(STREAMTYPE_DESKTOP);
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing enabled"));
         }
@@ -4761,7 +4824,10 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             m_statusmode &= ~STATUSMODE_DESKTOP;
             QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+            {
+                statusmsg = m_host.statusmsg;
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+            }
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing disabled"));
     }
 }
@@ -5474,6 +5540,8 @@ void MainWindow::startStreamMediaFile()
     else
     {
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+            statusmsg = m_host.statusmsg;
         m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
         m_statusmode &= ~STATUSMODE_STREAM_MEDIAFILE_PAUSED;
         if(ttSettings->value(SETTINGS_GENERAL_STREAMING_STATUS, SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT).toBool() == true)
@@ -5504,6 +5572,8 @@ void MainWindow::stopStreamMediaFile()
     if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
     {
         QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+            statusmsg = m_host.statusmsg;
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
     }
 
@@ -5518,6 +5588,8 @@ void MainWindow::stopStreamMediaFile()
 void MainWindow::slotPauseResumeStream()
 {
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
+        statusmsg = m_host.statusmsg;
     QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
 #if defined(Q_OS_WINDOWS)
     fileName = fileName.remove('"');
@@ -5745,9 +5817,12 @@ void MainWindow::slotChannelsGenerateTTUrl(bool checked/*=false*/)
             link += QString("&chanpasswd=%1").arg(chpasswd);
         }
     }
-    cp->setText(link);
-    addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
-    addTextToSpeechMessage(tr("Link copied to clipboard"));
+    if (ok)
+    {
+        cp->setText(link);
+        addStatusMsg(STATUSBAR_BYPASS, tr("Link copied to clipboard"));
+        addTextToSpeechMessage(tr("Link copied to clipboard"));
+    }
 }
 
 void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)   
@@ -6290,7 +6365,11 @@ void MainWindow::slotUpdateUI()
     bool auth = (statemask & CLIENT_AUTHORIZED);
     bool me_admin = (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN);
     bool me_op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user_chanid);
+#if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
+    bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE || ttSettings->value(SETTINGS_TTS_TOAST, SETTINGS_TTS_TOAST_DEFAULT).toBool() == true;
+#else
     bool tts = ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() != TTSENGINE_NONE;
+#endif
     bool voiceactivated = (statemask & CLIENT_SNDINPUT_VOICEACTIVATED);
     bool voicetx = (statemask & CLIENT_TX_VOICE);
 
@@ -7494,7 +7573,10 @@ void MainWindow::slotToggleQuestionMode(bool checked)
 
     QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
     if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
+    {
+        statusmsg = m_host.statusmsg;
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
+    }
 }
 
 void MainWindow::slotUpdateVideoCount(int count)
@@ -7923,11 +8005,33 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    bool ok = true;
+    if (ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool() == true)
+    {
+        ok = false;
+        QMessageBox answer;
+        answer.setText(tr("Are you sure you want to quit %1").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Exit %1").arg(APPNAME_SHORT));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            ok = true;
+    }
+    if (ok)
+    {
 #if defined(Q_OS_DARWIN)
-    QMainWindow::closeEvent(event);
+        QMainWindow::closeEvent(event);
 #else
-    slotClientExit();
+        slotClientExit();
 #endif
+    }
+    else
+    {
+        event->ignore();
+    }
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)

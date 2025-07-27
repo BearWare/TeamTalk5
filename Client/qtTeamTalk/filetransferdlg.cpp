@@ -99,9 +99,8 @@ void FileTransferDlg::updateFileTransfer(const FileTransfer& transfer)
     if(elapsed)
     {
         throughput = transfer.nTransferred / elapsed;
-        throughput /= 1024.0;
     }
-    QString lt = QString(tr("%1/second, last second %2").arg(getFormattedSize(throughput)).arg(getFormattedSize(diff/1024.0)));
+    QString lt = QString(tr("%1/second, last second %2").arg(getFormattedSize(throughput)).arg(getFormattedSize(diff)));
     ui.throughputLabel->setText(lt);
     ui.throughputLabel->setAccessibleName(QString("%1 %2").arg(ui.label_3->text()).arg(lt));
 
