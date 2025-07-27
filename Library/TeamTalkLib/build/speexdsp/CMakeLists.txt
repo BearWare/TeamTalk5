@@ -78,7 +78,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-      GIT_TAG           SpeexDSP-1.2.0
+      GIT_TAG           SpeexDSP-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
@@ -123,7 +123,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-      GIT_TAG           SpeexDSP-1.2.0
+      GIT_TAG           SpeexDSP-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
@@ -152,7 +152,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-      GIT_TAG           SpeexDSP-1.2.0
+      GIT_TAG           SpeexDSP-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
@@ -207,7 +207,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-      GIT_TAG           SpeexDSP-1.2.0
+      GIT_TAG           SpeexDSP-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
