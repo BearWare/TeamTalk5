@@ -232,6 +232,7 @@
     <string name="action_upload">Upload File</string>
     <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
+    <string name="action_pause_stream">Pause or resume media file stream</string>
     <string name="button_select_media_file">Browse</string>
     <string name="button_stream_media_file">Stream</string>
     <string name="button_msg">Message</string>
