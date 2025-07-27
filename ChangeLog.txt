@@ -28,6 +28,7 @@ Android Client
 - Option to automatically join root channel in preferences
 - Announce who is channel operator
 - Announce who is selected for moving to other channel
+- Recoded channel properties dialog completely, resulting in a nice looking dialog, a lot of code cleanup, fixes all unexpected bugs and crashes, And adds the missing new options, fixed audio volume for all users checkbox, voice and media files max duration timeout timer, and join channel on exit checkbox. Enjoy!
 - Ability to play sound when voice activation is toggled
 - Ability to play sound for intercept subscription toggled
 - Ability to use Text-To-Speech to announce transmission changes
