@@ -107,6 +107,9 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Vector;
 
+import dk.bearware.Codec;
+import dk.bearware.VideoCodec;
+import dk.bearware.MediaFilePlayback;
 import dk.bearware.Channel;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
@@ -360,6 +363,19 @@ extends AppCompatActivity
                     Intent intent = new Intent(MainActivity.this, StreamMediaActivity.class);
                     startActivity(intent);
                 }
+            }
+            break;
+            case R.id.action_pause_stream : {
+                MediaFilePlayback mediaPlayback = new MediaFilePlayback();
+                VideoCodec videoCodec = new VideoCodec();
+                videoCodec.nCodec = Codec.NO_CODEC;
+
+                if (mediaPlayback.bPaused) {
+                    mediaPlayback.bPaused = false;
+                } else {
+                    mediaPlayback.bPaused = true;
+                }
+                ttclient.updateStreamingMediaFileToChannel(mediaPlayback, videoCodec);
             }
             break;
             case R.id.action_edit : {
