@@ -8031,7 +8031,14 @@ void MainWindow::closeEvent(QCloseEvent *event)
 #if defined(Q_OS_DARWIN)
         QMainWindow::closeEvent(event);
 #else
-        slotClientExit();
+        //close using timer, otherwise gets a Qt assertion from the 
+        //'setQuitOnLastWindowClosed' call.
+#if defined(ENABLE_TOLK)
+        if(Tolk_IsLoaded())
+            Tolk_Unload();
+#endif
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+            disconnectFromServer();
 #endif
     }
     else
