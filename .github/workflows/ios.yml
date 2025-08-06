@@ -75,12 +75,12 @@ jobs:
             - 'Client/iTeamTalk/**'
 
     - name: Download arch arm64
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: teamtalksdk-ios-arm64
 
     - name: Download arch x86_64
-      uses: actions/download-artifact@v4
+      uses: actions/download-artifact@v5
       with:
         name: teamtalksdk-ios-x86_64
 
