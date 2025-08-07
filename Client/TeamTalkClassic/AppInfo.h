@@ -24,8 +24,8 @@
 #pragma once
 
 #define COMPANYNAME             _T("BearWare.dk")
-#define APPVERSION_SHORT        _T("5.19.0")
-#define APPVERSION              _T( "5.19" ) _T("")
+#define APPVERSION_SHORT        _T("5.20.0")
+#define APPVERSION              _T( TEAMTALK_VERSION ) _T(" - Unreleased")
 
 #define APPTITLE                _T("TeamTalk 5 Classic v. ") APPVERSION
 #define APPNAME                 _T("TeamTalk 5 Classic")
