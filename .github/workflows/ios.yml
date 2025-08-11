@@ -1,6 +1,6 @@
 name: iOS
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -20,8 +20,10 @@ jobs:
     - uses: actions/checkout@v5
 
     - name: Update Homebrew repo
-      run: |
-        brew update
+      run: brew update
+
+    - name: Update packages
+      run: brew upgrade && brew autoremove && brew cleanup
 
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
@@ -29,8 +31,7 @@ jobs:
 
     - name: Build TeamTalk Library
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_FFMPEG=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DTOOLCHAIN_FFMPEG=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Run CMake Install Target
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.cmakearch }}
@@ -91,7 +92,7 @@ jobs:
         Library/TeamTalk_DLL/libTeamTalk5-x86_64.a
         -create -output ${{runner.workspace}}/TeamTalk5/Library/TeamTalk_DLL/libTeamTalk5.a
 
-    - name: Upload TeamTalk Universal Libary Artifact
+    - name: Upload TeamTalk Universal Library Artifact
       uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-ios-universal
