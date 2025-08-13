@@ -1,4 +1,4 @@
-name: Ubuntu
+name: SmokeTest
 
 on: [push, pull_request]
 
@@ -12,16 +12,7 @@ env:
 
 jobs:
   build:
-    strategy:
-      matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
-        include:
-          - os: ubuntu-22.04
-            version: "22"
-          - os: ubuntu-24.04
-            version: "24"
-    
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-22.04
 
     steps:
     - uses: actions/checkout@v5
@@ -40,23 +31,73 @@ jobs:
       run: |
         sudo apt-get dist-upgrade
         sudo apt-get autoremove --purge
-        # Ubuntu 22 specific: Ensure FFmpeg doesn't detect additional dependencies
-        ${{ matrix.version == '22' && 'sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev' || '' }}
-        sudo apt-get install valgrind
+        # Ensure FFmpeg doesn't detect additional dependencies
+        sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
 
-    - name: Print env
-      run: printenv | sort
+    - name: Install Dependencies
+      run: >-
+           sudo apt-get install
+           cmake
+           doxygen
+           junit4
+           libace-dev
+           libace-inet-dev
+           libace-inet-ssl-dev
+           libace-ssl-dev
+           libasound2-dev
+           libogg-dev
+           libopus-dev
+           libpcap-dev
+           libqt5texttospeech5-dev
+           libqt5x11extras5-dev
+           libspeex-dev
+           libspeexdsp-dev
+           libssl-dev
+           libtinyxml-dev
+           libvpx-dev
+           libxss-dev
+           ninja-build
+           portaudio19-dev
+           python3-minimal
+           python3-pytest
+           qtbase5-dev
+           qtmultimedia5-dev
+           qttools5-dev
+           qttools5-dev-tools
+           valgrind
+           yasm
+           zlib1g-dev
 
-    - name: Install TeamTalk Library Dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: sudo make depend-ubuntu${{ matrix.version }}
-
-    - name: Build TeamTalk Library and Apps
+    - name: Source environment
       working-directory: ${{runner.workspace}}/TeamTalk5
-      run: |
-        source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
-        echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
+      run: source env.sh
+
+    - name: Create Build Environment
+      run: cmake -E make_directory ${{runner.workspace}}/build
+
+    - name: Configure CMake
+      working-directory: ${{runner.workspace}}/build
+      run: >-
+           cmake $GITHUB_WORKSPACE -G Ninja
+           -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
+           -DFEATURE_PORTAUDIO=OFF
+           -DFEATURE_V4L2=OFF
+           -DFEATURE_WEBRTC=OFF
+           -DTOOLCHAIN_ACE=OFF
+           -DTOOLCHAIN_CATCH2=ON
+           -DTOOLCHAIN_FFMPEG=ON
+           -DTOOLCHAIN_LIBVPX=OFF
+           -DTOOLCHAIN_OGG=OFF
+           -DTOOLCHAIN_OPENSSL=OFF
+           -DTOOLCHAIN_OPUS=OFF
+           -DTOOLCHAIN_SPEEX=OFF
+           -DTOOLCHAIN_SPEEXDSP=OFF
+           -DTOOLCHAIN_TINYXML=OFF
+           -DTOOLCHAIN_ZLIB=OFF
+
+    - name: Build
+      working-directory: ${{runner.workspace}}/build
+      run: cmake --build .
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
@@ -101,7 +142,7 @@ jobs:
 
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
-      run: valgrind --tool=memcheck --leak-check=full --error-exitcode=1 ./catchtt --durations yes
+      run: ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
@@ -140,6 +181,7 @@ jobs:
         cp -f Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
+        cp Library/TeamTalkLib/test/ca.cer Server/
         Server/tt5prosrv -d -wd Server/
 
     - name: Java Unit-test with virtual audio device (encrypted)
@@ -151,32 +193,3 @@ jobs:
 
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
-
-    - name: Run CMake Install Target
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
-      run: cmake --build . --target install
-
-    - name: Upload TeamTalk Artifacts
-      uses: actions/upload-artifact@v4
-      with:
-        name: teamtalksdk-ubuntu${{ matrix.version }}
-        path: ${{runner.workspace}}/install
-
-    - name: Make Ubuntu ${{ matrix.version }} Portable Archive
-      working-directory: ${{runner.workspace}}/TeamTalk5
-      run: |
-        source env.sh
-        cd Setup/Portable
-        make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
-
-    - name: Upload TeamTalk Portable artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: teamtalk-ubuntu${{ matrix.version }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
-
-    - name: Upload TeamTalk Pro artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: teamtalkpro-ubuntu${{ matrix.version }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*
