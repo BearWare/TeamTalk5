@@ -152,7 +152,7 @@
     <string name="action_banchan">채널에서 차단</string>
     <string name="action_bansrv">서버에서 차단</string>
     <string name="action_edit">채널 편집</string>
-    <string name="action_join">입장</string>
+    <string name="action_join">입장하기</string>
     <string name="action_message">메시지</string>
     <string name="action_kickchan">채널에서 추방</string>
     <string name="action_kicksrv">서버에서 추방</string>

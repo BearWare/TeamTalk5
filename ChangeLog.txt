@@ -2,13 +2,23 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.19, unreleased
+Version 5.20, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.19, 2025/08/05
 Default Qt Client
 - Ctrl+Shift+C to copy only message content in chat list
 - Ctrl+Alt+Shift+C to copy all chat list history
 - Ctrl+Shift+R to generate tt:// URL for current channel
 - Bitrate for OPUS is limited to 6-510 in Channel dialog
-- Status message shown in Preferences dialog
+- Status message shown in "Preferences" dialog
 - Ability to define status message for each server
 - Option to ask confirmation on exit
 - Fixed "Speak Client Statistics", "Enable/Disable Text-To-Speech Events", "Speak User/Channel Info" and "Speak Channel Statistics" availability if TTS events are only sent using push notification
@@ -17,10 +27,9 @@ Default Qt Client
 - Fixed URL generation cancellation
 - Fixed crash issue in "Connect to a Server" dialog on macOS 15.1
 - Fixed file transfer speed display
-- macOS updated to Qt 6.10.0 beta1
+- Windows and macOS updated to Qt 6.10.0 beta2
 Android Client
-- Added Online Users Activity to display users logged on to the server
-- Online users activity now has popup menu contaning all user actions
+- Added "Online Users" activity to display users logged on to the server
 - Added a new option to prevent talking users from moving to the top of users list
 - Added the ability to pause and resume media file streams
 - Added the ability to leave channels

@@ -68,7 +68,6 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
     int encrypt_len = 0, tmpLen = 0;
     EVP_CIPHER_CTX* aesEncCtx = EVP_CIPHER_CTX_new();
     cipher_guard g(aesEncCtx);
-    EVP_CIPHER_CTX_init(aesEncCtx);
     status = EVP_EncryptInit(aesEncCtx, cf, cryptkey, NULL);
     assert(status == 1);
     //status = EVP_CIPHER_CTX_set_padding(aesEncCtx, 0);
@@ -113,8 +112,6 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
     assert(status == 1);
     encrypt_len += tmpLen;
     assert(encrypt_len <= alloc_size - FIELDVALUE_PREFIX);
-    status = EVP_CIPHER_CTX_cleanup(aesEncCtx);
-    assert(status == 1);
 
     //MYTRACE(ACE_TEXT("Encrypted %d bytes with key crc 0x%08x, crypt data crc32 0x%08x\n"),
     //        encrypt_len, ACE::crc32(cryptkey, CRYPTKEY_SIZE), 
@@ -160,7 +157,6 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     int decrypt_len = 0, tmpLen = 0;
     EVP_CIPHER_CTX* aesDecCtx = EVP_CIPHER_CTX_new();
     cipher_guard g(aesDecCtx);
-    EVP_CIPHER_CTX_init(aesDecCtx);
     status = EVP_DecryptInit(aesDecCtx, cf, decryptkey, NULL);
     assert(status == 1);
     //status = EVP_CIPHER_CTX_set_padding(aesDecCtx, 0);
@@ -176,7 +172,6 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
                               &tmpLen);
     decrypt_len += tmpLen;
     assert(decrypt_len <= alloc_size);
-    EVP_CIPHER_CTX_cleanup(aesDecCtx);
 
     //crc16 is last 2 bytes of decrypted data chunk
     const char* ptr = decrypt_buf;
