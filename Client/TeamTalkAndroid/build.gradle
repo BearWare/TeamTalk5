@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
+        classpath 'com.android.tools.build:gradle:8.12.0'
     }
 }
 
@@ -30,7 +30,7 @@ android {
         applicationId = 'dk.bearware.gui'
         minSdk = 24
         targetSdk = 36
-        versionCode = 140
+        versionCode = 142
         versionName = '5.19'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
@@ -87,11 +87,11 @@ dependencies {
     testImplementation files('libs/TeamTalk5Test.jar')
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.test:core:1.7.0'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.6.2'
-    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test:rules:1.7.0'
 
     // Assertions
     androidTestImplementation files('libs/TeamTalk5Test.jar')

@@ -166,6 +166,9 @@
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
             </property>
+            <property name="pageStep">
+             <number>5</number>
+            </property>
            </widget>
           </item>
           <item row="0" column="2">
@@ -253,6 +256,9 @@
             </property>
             <property name="orientation">
              <enum>Qt::Orientation::Horizontal</enum>
+            </property>
+            <property name="pageStep">
+             <number>5</number>
             </property>
            </widget>
           </item>

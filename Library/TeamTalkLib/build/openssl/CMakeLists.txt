@@ -14,7 +14,7 @@ if (MSVC)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(openssl-src
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
-        GIT_TAG           OpenSSL_1_1_1u
+        GIT_TAG           openssl-3.5.2
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -29,7 +29,7 @@ if (MSVC)
     else()
       ExternalProject_Add(openssl-src
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
-        GIT_TAG           OpenSSL_1_1_1u
+        GIT_TAG           openssl-3.5.2
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -74,7 +74,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-intel-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           OpenSSL_1_1_1u
+      GIT_TAG           openssl-3.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-intel
@@ -90,7 +90,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(openssl-arm64-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           OpenSSL_1_1_1u
+      GIT_TAG           openssl-3.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-arm64
@@ -149,7 +149,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
     set (OPENSSL_CFG_PREFIX export CROSS_TOP=${CMAKE_OSX_SYSROOT}/../.. && export CROSS_SDK=iPhoneOS.sdk)
     set (OPENSSL_CFG_TARGET iphoneos-cross)
-    set (OPENSSL_CFG_POSTFIX -fembed-bitcode -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (OPENSSL_CFG_POSTFIX -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
   else()
     set (OPENSSL_CFG_PREFIX export CROSS_TOP=${CMAKE_OSX_SYSROOT}/../.. && export CROSS_SDK=iPhoneSimulator.sdk)
     set (OPENSSL_CFG_TARGET iossimulator-xcrun)
@@ -159,7 +159,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           OpenSSL_1_1_1u
+      GIT_TAG           openssl-3.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -197,7 +197,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           OpenSSL_1_1_1u
+      GIT_TAG           openssl-3.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -248,12 +248,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     message(WARNING "Unknown Android architecture")
   endif()
 
-  set (OPENSSL_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export ANDROID_NDK_HOME=${CMAKE_ANDROID_NDK})
+  set (OPENSSL_EXPORT export PATH=${CMAKE_ANDROID_NDK}/toolchains/llvm/prebuilt/linux-x86_64/bin:$ENV{PATH} && export ANDROID_NDK_ROOT=${CMAKE_ANDROID_NDK})
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           OpenSSL_1_1_1u
+      GIT_TAG           openssl-3.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl

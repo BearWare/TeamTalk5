@@ -4,6 +4,9 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v519arelease
+ * - @ref v519abugfix
+ * 
  * @ref v518arelease
  * - @ref v518afeatures
  *   - @ref v518alastlogin
@@ -261,6 +264,16 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v519arelease TeamTalk 5 SDK v. 5.19a release, August 5th 2025
+ *
+ * @subsection v519abugfix Bug fixes in v5.19a
+ *
+ * TeamTalk server executable has fixed a security issue where a
+ * reused channel ID could give operator access to someone who
+ * previously had that channel ID.
  *
  * <hr>
  *

@@ -12,11 +12,11 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
-      GIT_TAG           v1.3.3
+      GIT_TAG           v1.3.6
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-switch-to-MT.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target ogg --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
@@ -46,12 +46,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
-      GIT_TAG           v1.3.3
+      GIT_TAG           v1.3.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
-      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -82,12 +82,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
-      GIT_TAG           v1.3.3
+      GIT_TAG           v1.3.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS} -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -110,12 +110,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
-      GIT_TAG           v1.3.3
+      GIT_TAG           v1.3.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -142,12 +142,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
-      GIT_TAG           v1.3.3
+      GIT_TAG           v1.3.6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS} -DCMAKE_BUILD_TYPE=release -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS} -DCMAKE_BUILD_TYPE=release
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
