@@ -1,6 +1,6 @@
 name: macOS
 
-on: [push]
+on: [push, pull_request]
 
 env:
   # TeamTalk unit test environment variables
@@ -29,12 +29,12 @@ jobs:
       with:
         version: '6.10.*'
         modules: 'qtmultimedia qtspeech'
-        cache-key-prefix: 'install-qt-action'
 
     - name: Refresh Homebrew repo
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: |
-        brew update
+      run: brew update
+
+    - name: Update packages
+      run: brew upgrade && brew autoremove && brew cleanup
 
     - name: Print env
       run: printenv | sort
@@ -46,8 +46,7 @@ jobs:
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
-      run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -68,11 +67,8 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: catchtt.app/Contents/MacOS/catchtt --durations yes
 
-    - name: Stop TeamTalk Pro Server
-      run: killall tt5prosrv
-
-    - name: Stop TeamTalk Standard Server
-      run: killall tt5srv
+    - name: Stop TeamTalk Servers
+      run: killall tt5srv tt5prosrv
 
     - name: Run CMake Install Target
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac

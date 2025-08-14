@@ -1,6 +1,6 @@
 name: Android
 
-on: [push]
+on: [push, pull_request]
 
 jobs:
   build:
@@ -40,9 +40,7 @@ jobs:
       run: sudo apt-get update
 
     - name: Update packages
-      run: |
-        sudo apt-get dist-upgrade
-        sudo apt-get autoremove --purge
+      run: sudo apt-get dist-upgrade && sudo apt-get autoremove --purge
 
     - name: Print env
       run: printenv | sort
@@ -53,8 +51,7 @@ jobs:
 
     - name: Build TeamTalk Library for Android
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: |
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
