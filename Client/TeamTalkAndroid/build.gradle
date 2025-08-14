@@ -73,7 +73,7 @@ dependencies {
     implementation 'com.google.code.gson:gson:2.13.1'
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.core:core:1.16.0'
+    implementation 'androidx.core:core:1.17.0'
     implementation 'androidx.fragment:fragment:1.8.8'
     implementation 'androidx.media:media:1.7.1'
     implementation 'androidx.preference:preference:1.2.1'
