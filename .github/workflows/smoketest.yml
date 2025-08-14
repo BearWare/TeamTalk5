@@ -1,9 +1,9 @@
 name: SmokeTest
 
-on: [push]
+on: [push, pull_request]
 
 env:
-  # TeamTalkJNI JUnit environment variables
+  # TeamTalk unit test environment variables
   INPUTDEVICEID: 1978
   OUTPUTDEVICEID: 1978
   VIDEODEVICEID: None
@@ -12,10 +12,6 @@ env:
 
 jobs:
   build:
-    # The CMake configure and build commands are platform agnostic and should work equally
-    # well on Windows or Mac.  You can convert this to a matrix build if you need
-    # cross-platform coverage.
-    # See: https://docs.github.com/en/free-pro-team@latest/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
     runs-on: ubuntu-22.04
 
     steps:
@@ -77,19 +73,10 @@ jobs:
       run: source env.sh
 
     - name: Create Build Environment
-      # Some projects don't allow in-source building, so create a separate build directory
-      # We'll use this as our working directory for all subsequent commands
-      run: |
-        cmake -E make_directory ${{runner.workspace}}/build
+      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
-      # Use a bash shell so we can use the same syntax for environment variable
-      # access regardless of the host operating system
-      shell: bash
       working-directory: ${{runner.workspace}}/build
-      # Note the current convention is to use the -S and -B options here to specify source
-      # and build directories, but this is only available with CMake 3.13 and higher.
-      # The CMake binaries on the Github Actions machines are (as of this writing) 3.12
       run: >-
            cmake $GITHUB_WORKSPACE -G Ninja
            -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
@@ -110,23 +97,21 @@ jobs:
 
     - name: Build
       working-directory: ${{runner.workspace}}/build
-      shell: bash
-      # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build .
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        make runjunitsrv
+      run: make runjunitsrv
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
 
     - name: Java Server API Test (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=1 WEBRTC=0
-        make runjunitsrv
+      run: make runjunitsrv
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -157,17 +142,17 @@ jobs:
 
     - name: Catch unit-test
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
-      run: |
-        ./catchtt --durations yes
+      run: ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
 
     - name: Java Unit-test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        make runjunit
+      run: make runjunit
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
 
     - name: Stop TeamTalk Standard Server
       run: killall tt5srv
@@ -180,11 +165,12 @@ jobs:
 
     - name: Java Unit-test with shared audio devices (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        export INPUTDEVICEID=4026
-        export OUTPUTDEVICEID=4026
-        make runjunitpro
+      run: make runjunitpro
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+        INPUTDEVICEID: 4026
+        OUTPUTDEVICEID: 4026
 
     - name: Stop TeamTalk Pro Server (non-encrypted)
       run: killall tt5prosrv
@@ -200,11 +186,10 @@ jobs:
 
     - name: Java Unit-test with virtual audio device (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=1 WEBRTC=0
-        export INPUTDEVICEID=1978
-        export OUTPUTDEVICEID=1978
-        make runjunitpro
+      run: make runjunitpro
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv

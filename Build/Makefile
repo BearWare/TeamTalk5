@@ -21,8 +21,12 @@ buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)
 
 android-build:
-	@echo "Testing if ANDROID_NDK_HOME environment variable is set: $(ANDROID_NDK_HOME)"
-	test -n "$(ANDROID_NDK_HOME)"
+	if [ -n "$(ANDROID_NDK_HOME)" ]; then \
+		echo "Using ANDROID_NDK_HOME: $(ANDROID_NDK_HOME)"; \
+	else \
+		echo "Error: ANDROID_NDK_HOME is not set"; \
+		exit 1; \
+	fi; \
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
         CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI=$(ANDROID_ABI) \
