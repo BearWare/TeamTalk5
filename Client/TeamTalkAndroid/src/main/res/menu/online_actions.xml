@@ -1,0 +1,31 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_edituser"
+        android:title="@string/action_edituser"/>
+
+    <item
+        android:id="@+id/action_message"
+        android:title="@string/action_message"/>
+
+    <item
+        android:id="@+id/action_kickchan"
+        android:title="@string/action_kickchan"/>
+
+    <item
+        android:id="@+id/action_kicksrv"
+        android:title="@string/action_kicksrv"/>
+
+    <item
+        android:id="@+id/action_banchan"
+        android:title="@string/action_banchan"/>
+
+    <item
+        android:id="@+id/action_bansrv"
+        android:title="@string/action_bansrv"/>
+
+    <item
+        android:id="@+id/action_makeop"
+        android:title="@string/action_make_operator"/>
+
+</menu>

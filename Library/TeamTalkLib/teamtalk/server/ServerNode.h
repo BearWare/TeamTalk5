@@ -463,6 +463,7 @@ namespace teamtalk {
         virtual ErrorMsg AuthenticateUser(ServerNode* servernode, ServerUser& user, 
                                           UserAccount& useraccount) = 0; //user-type is set, therefore not const
         virtual ErrorMsg JoinChannel(const ServerUser& user, const ServerChannel& chan) = 0;
+        virtual ErrorMsg RemoveChannel(const ServerChannel& chan, const ServerUser* user = nullptr) = 0;
         virtual ErrorMsg GetUserAccount(const ServerUser& user,
                                         UserAccount& useraccount) = 0;
         virtual ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users) = 0;

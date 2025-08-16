@@ -11,7 +11,7 @@ set (TOOLCHAIN_INSTALL_PREFIX_OPUS ${TOOLCHAIN_INSTALL_PREFIX}/opus)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.5.2
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-MT-option.patch
       UPDATE_COMMAND    ""
@@ -45,7 +45,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -84,7 +84,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -118,7 +118,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     endif()
 
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -158,7 +158,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(opus-src
-      GIT_REPOSITORY    https://github.com/xiph/opus
+      GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.5.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
