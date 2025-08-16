@@ -17,7 +17,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(zlib-src
-        GIT_REPOSITORY    https://github.com/bear101/zlib
+        GIT_REPOSITORY    https://github.com/bear101/zlib.git
         GIT_TAG           0f3868f
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -40,7 +40,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(zlib-src
-        GIT_REPOSITORY    https://github.com/bear101/zlib
+        GIT_REPOSITORY    https://github.com/bear101/zlib.git
         GIT_TAG           0f3868f
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -76,7 +76,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
-      GIT_REPOSITORY    https://github.com/madler/zlib
+      GIT_REPOSITORY    https://github.com/madler/zlib.git
       GIT_TAG           v1.3.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -106,7 +106,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
-      GIT_REPOSITORY    https://github.com/madler/zlib
+      GIT_REPOSITORY    https://github.com/madler/zlib.git
       GIT_TAG           v1.3.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""

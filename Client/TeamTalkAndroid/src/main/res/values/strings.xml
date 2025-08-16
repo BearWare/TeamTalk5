@@ -218,6 +218,7 @@
     <string name="action_bansrv">Ban from server</string>
     <string name="action_edit">Edit Channel</string>
     <string name="action_join">Join</string>
+    <string name="action_leave">Leave Channel</string>
     <string name="action_edituser">User properties</string>
     <string name="action_message">Messages</string>
     <string name="action_kickchan">Kick from current channel</string>
@@ -507,6 +508,8 @@
 
     <string name="online_user_info_nickname">Nickname</string>
     <string name="online_user_info_username">Username</string>
+    <string name="online_user_info_userid">User ID</string>
+    <string name="online_user_info_statusmsg">Status Message</string>
     <string name="online_user_info_channel">Channel</string>
     <string name="online_user_info_ip">IPAddress</string>
     <string name="online_user_info_client">Client</string>

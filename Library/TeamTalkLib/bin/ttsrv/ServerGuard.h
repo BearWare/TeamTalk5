@@ -80,6 +80,7 @@ namespace teamtalk {
 
         ErrorMsg AuthenticateUser(ServerNode* servernode, ServerUser& user, UserAccount& useraccount) override;
         ErrorMsg JoinChannel(const ServerUser& user, const ServerChannel& chan) override;
+        ErrorMsg RemoveChannel(const ServerChannel& chan, const ServerUser* user = nullptr) override;
 
         ErrorMsg GetUserAccount(const ServerUser& user, UserAccount& useraccount) override;
         ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users) override;

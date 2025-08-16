@@ -31,14 +31,20 @@
     <string name="text_cmd_leftroot">Hauptraum verlassen</string>
     <string name="text_cmd_userjoinchan">hat den Raum betreten</string>
     <string name="text_cmd_userleftchan">hat den Raum verlassen</string>
+    <string name="text_cmd_userloggedout">abgemeldet</string>
+    <string name="text_cmd_userloggedin">angemeldet</string>
     <string name="text_cmd_servername">Servername: </string>
     <string name="text_cmd_servermotd">Nachricht des Tages: </string>
     <string name="pref_cat_subscriptions">Empfang</string>
+    <string name="pref_cat_connection_general">Allgemein</string>
     <string name="pref_cat_tts">Text-To-Speech-Einstellungen</string>
     <string name="pref_cat_tts_events">Sprachausgabenmeldungen konfigurieren</string>
+    <string name="pref_cat_tts_transmission">Sprachausgabenmeldungen Übertragungskontrolle</string>
+    <string name="pref_cat_tts_subscription">Sprachausgabenmeldungen Empfang</string>
     <string name="pref_cat_soundtest">Klangtest</string>
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_nickname">Nickname</string>
+    <string name="pref_title_statusmsg">Statusnachricht</string>
     <string name="pref_default_nickname">Unbekannt</string>
     <string name="pref_title_proximity_sensor">Annäherungssensor</string>
     <string name="pref_title_keep_screen_on">Bildschirm während der Verbindung aktiviert lassen</string>
@@ -47,8 +53,12 @@
     <string name="pref_title_audio_icons">Klangereignisse</string>
     <string name="pref_title_rx_tx_audio_icon">Sprachübertragung umschalten</string>
     <string name="pref_summary_rx_tx_audio_icon">Klang abspielen, wenn TX-Schalter gedrückt wird</string>
+    <string name="pref_title_vox_audio_icon">Sprachaktivierung umschalten</string>
+    <string name="pref_summary_vox_audio_icon">Klang abspielen, wenn Sprachaktivierungsschaltfläche gedrückt wird</string>
     <string name="pref_title_vox_triggered_icon">Sprachaktivierung ausgelöst</string>
     <string name="pref_summary_vox_triggered_icon">Klang beim Auslösen der Sprachaktivierung abspielen</string>
+    <string name="pref_title_intercept_audio_icon">Audio abfangen</string>
+    <string name="pref_summary_intercept_audio_icon">Klang abspielen, wenn Abfangen beginnt oder endet</string>
     <string name="pref_title_private_message_audio_icon">Privatnachricht</string>
     <string name="pref_summary_private_message_audio_icon">Klang bei Empfang einer Privatnachricht abspielen</string>
     <string name="pref_title_channel_message_audio_icon">Raumnachricht</string>
@@ -66,6 +76,8 @@
     <string name="pref_title_userleft_icon">Benutzer hat Raum verlassen</string>
     <string name="pref_summary_userleft_icon">Klang abspielen, wenn Benutzer den aktuellen Raum verlässt</string>
     <string name="pref_header_connection">Verbindung</string>
+    <string name="pref_title_auto_join_root">Hauptraum bei Verbindung betreten</string>
+    <string name="pref_summary_auto_join_root">Automatisch den Hauptraum bei Verbindung zum Server betreten</string>
     <string name="pref_title_sub_txtmsg">Textnachrichten</string>
     <string name="pref_summary_sub_txtmsg">Textnachrichten von Benutzern empfangen</string>
     <string name="pref_title_sub_chanmsg">Raumnachrichten</string>
@@ -101,13 +113,51 @@
     <string name="pref_summary_channel_message">Raumnachrichten ansagen</string>
     <string name="pref_title_broadcast_message">Servernachrichten</string>
     <string name="pref_summary_broadcast_message">Servernachrichten ansagen</string>
+    <string name="pref_title_subscription_user_msg">Empfan von Benutzernachrichten</string>
+    <string name="pref_summary_subscription_user_msg">Empfang von Benutzernachrichten ansagen</string>
+    <string name="pref_title_subscription_channel_msg">Empfang von Raumnachrichten</string>
+    <string name="pref_summary_subscription_channel_msg">Empfang von Raumnachrichten ansagen</string>
+    <string name="pref_title_subscription_broadcast_msg">Empfang von Servernachrichten</string>
+    <string name="pref_summary_subscription_broadcast_msg">Empfang von Servernachrichten ansagen</string>
+    <string name="pref_title_subscription_voice">Empfang von Sprachübertragungen</string>
+    <string name="pref_summary_subscription_voice">Empfang von Sprachübertragungen ansagen</string>
+    <string name="pref_title_subscription_vid">Empfang von Videoübertragungen</string>
+    <string name="pref_summary_subscription_vid">Empfang von Videoübertragungen ansagen</string>
+    <string name="pref_title_subscription_desk">Empfang von Desktopsitzungen</string>
+    <string name="pref_summary_subscription_desk">Empfang von Desktopsitzungen ansagen</string>
+    <string name="pref_title_subscription_media">Empfang von Mediendateien</string>
+    <string name="pref_summary_subscription_media">Empfang von Mediendateien ansagen</string>
+    <string name="pref_title_subscription_intercept_user_msg">Benutzernachrichten abfangen</string>
+    <string name="pref_summary_subscription_intercept_user_msg">Abfangen von Benutzernachrichten ansagen</string>
+    <string name="pref_title_subscription_intercept_channel_msg">Raumnachrichten abfangen</string>
+    <string name="pref_summary_subscription_intercept_channel_msg">Abfangen von Raumnachrichten ansagen</string>
+    <string name="pref_title_subscription_intercept_voice">Sprachübertragungen abfangen</string>
+    <string name="pref_summary_subscription_intercept_voice">Abfangen von Sprachübertragungen ansagen</string>
+    <string name="pref_title_subscription_intercept_vid">Videoübertragungen abfangen</string>
+    <string name="pref_summary_subscription_intercept_vid">Abfangen von Videoübertragungen ansagen</string>
+    <string name="pref_title_subscription_intercept_desk">Desktopsitzungen abfangen</string>
+    <string name="pref_summary_subscription_intercept_desk">Abfangen von Desktopsitzungen ansagen</string>
+    <string name="pref_title_subscription_intercept_media">Mediendateien abfangen</string>
+    <string name="pref_summary_subscription_intercept_media">Abfangen von Mediendateien ansagen</string>
+    <string name="pref_title_transmit_voice">Sprachübertragung umgeschaltet</string>
+    <string name="pref_summary_transmit_voice">Sprachübertragungen ansagen</string>
+    <string name="pref_title_transmit_vid">Videoübertragung umgeschaltet</string>
+    <string name="pref_summary_transmit_vid">Videoübertragungen ansagen</string>
+    <string name="pref_title_transmit_desk">Desktopübertragung umgeschaltet</string>
+    <string name="pref_summary_transmit_desk">Übertragung von Desktopsitzungen ansagen</string>
+    <string name="pref_title_transmit_media">Medienübertragung umgeschaltet</string>
+    <string name="pref_summary_transmit_media">Medienübertragungen ansagen</string>
+    <string name="pref_title_transmit_channel_msg">Raumnachrichten umgeschaltet</string>
+    <string name="pref_summary_transmit_channel_msg">Raumnachrichten ansagen</string>
     <string name="pref_title_mute_speakers">Lautsprecher beim Drücken der TX-Schaltfläche stummschalten</string>
     <string name="pref_summary_mute_speakers">Dies verhindert Echos aus dem Lautsprecher</string>
     <string name="pref_title_show_usernames">Zeige Benutzernamen</string>
     <string name="pref_summary_show_usernames">Zeigt Benutzernamen anstelle des Nicknamens an</string>
+    <string name="pref_title_move_talking">Sprechende Benutzer nach oben verschieben</string>
+    <string name="pref_summary_move_talking">Sprechende Benutzer an den Anfang der Benutzerliste verschieben</string>
     <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
     <string name="pref_summary_bearwareid">BearWare.dk WebLogin einrichten</string>
-    
+
     <string name="pref_title_mediafile_volume">Medienlautstärke</string>
     <string name="pref_summary_mediafile_volume">Lautstärke der Mediendateien gegenüber Sprachübertragungen</string>
     <string name="pref_title_speakerphone_checkbox">Telefonhörer einschalten</string>
@@ -126,6 +176,32 @@
     <string name="text_tts_private_message">Privatnachricht von Benutzer %1$s - %2$s</string>
     <string name="text_tts_channel_message">Raumnachricht von %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Servernachricht von Benutzer %1$s - %2$s</string>
+    <string name="text_tts_subscription_user_msg_changed">hat den Empfang von Benutzernachrichten geändert auf:</string>
+    <string name="text_tts_subscription_channel_msg_changed">hat den Empfang von Raumnachrichten geändert auf:</string>
+    <string name="text_tts_subscription_broadcast_msg_changed">hat den Empfang von Servernachrichten geändert auf:</string>
+    <string name="text_tts_subscription_voice_changed">hat den Empfang von Sprachübertragungen geändert auf:</string>
+    <string name="text_tts_subscription_vid_changed">hat den Empfang von Videoübertragungen geändert auf:</string>
+    <string name="text_tts_subscription_desk_changed">hat den Empfang von Desktops geändert auf:</string>
+    <string name="text_tts_subscription_media_changed">hat den Empfang von Mediendateien geändert auf:</string>
+    <string name="text_tts_subscription_intercept_user_msg_changed">hat das Abfangen von Benutzernachrichten geändert auf:</string>
+    <string name="text_tts_subscription_intercept_channel_msg_changed">hat das Abfangen von Raumnachrichten geändert auf:</string>
+    <string name="text_tts_subscription_intercept_voice_changed">hat das Abfangen von Sprachübertragungen geändert auf:</string>
+    <string name="text_tts_subscription_intercept_vid_changed">hat das Abfangen von Videoübertragungen geändert auf:</string>
+    <string name="text_tts_subscription_intercept_desk_changed">hat das Abfangen von Desktops geändert auf:</string>
+    <string name="text_tts_subscription_intercept_media_changed">hat das Abfangen von Mediendateien geändert auf:</string>
+    <string name="text_tts_subscribe_on">an</string>
+    <string name="text_tts_subscribe_off">aus</string>
+    <string name="text_tts_channel_msg_transmit_off">kann keine Raumnachrichten mehr senden!</string>
+    <string name="text_tts_channel_msg_transmit_on">kann jetzt Raumnachrichten senden!</string>
+    <string name="text_tts_voice_transmit_off">kann keine Sprachübertragungen mehr senden!</string>
+    <string name="text_tts_voice_transmit_on">kann jetzt Sprachübertragungen senden!</string>
+    <string name="text_tts_vid_transmit_off">kann keine Videoübertragungen mehr senden!</string>
+    <string name="text_tts_vid_transmit_on">kann jetzt Videoübertragungen senden!</string>
+    <string name="text_tts_desk_transmit_off">kann keine Desktops mehr übertragen!</string>
+    <string name="text_tts_desk_transmit_on">kann jetzt Desktops übertragen!</string>
+    <string name="text_tts_media_transmit_off">kann keine Mediendateien mehr senden!</string>
+    <string name="text_tts_media_transmit_on">kann jetzt Mediendateien senden!</string>
+    <string name="text_tts_transmit_name_everyone">jeder</string>
     <string name="pref_header_soundsystem">Soundsystem</string>
     <string name="title_activity_audio_codec">Audio-Codec</string>
     <string name="title_activity_filepicker">Dateiauswahl</string>
@@ -134,7 +210,7 @@
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">Kein Audio</string>
     <string name="opus_application">Anwendung</string>
-    
+
     <string name="button_tx">TX</string>
     <string name="button_remove">Entfernen</string>
     <string name="button_edit">Bearbeiten</string>
@@ -142,6 +218,7 @@
     <string name="action_bansrv">Für den Server sperren</string>
     <string name="action_edit">Raum bearbeiten</string>
     <string name="action_join">Betreten</string>
+    <string name="action_leave">Raum verlassen</string>
     <string name="action_edituser">Benutzereigenschaften</string>
     <string name="action_message">Nachrichten</string>
     <string name="action_kickchan">Aus aktuellem Raum werfen</string>
@@ -166,16 +243,18 @@
     <string name="channel_prop_title_op_password">Op-Passwort</string>
     <string name="channel_prop_title_maxusers">Max. Benutzer</string>
     <string name="channel_prop_title_diskquota">Speicherplatz (KByte)</string>
-    
+
     <string name="channel_prop_title_permanent">Permanenter Raum</string>
     <string name="channel_prop_title_nointerrupt">Keine Unterbrechungen</string>
     <string name="channel_prop_title_classroom">Klassenraum</string>
     <string name="channel_prop_title_oprecvonly">Empfang nur für Operator</string>
     <string name="channel_prop_title_novoiceact">Keine Sprachaktivierung</string>
     <string name="channel_prop_title_noaudiorecord">Keine Audioaufnahmen</string>
-    
 
+
+    <string name="user_prop_title_nickname">Nickname:</string>
     <string name="user_prop_title_username">Benutzername</string>
+    <string name="user_prop_title_userid">Benutzer-ID:</string>
     <string name="user_prop_title_statusmsg">Statusnachricht</string>
     <string name="user_prop_title_clientname">Client-Name</string>
     <string name="user_prop_clientversion">Version</string>
@@ -197,11 +276,17 @@
     <string name="user_prop_title_subscribe_intercept_vid">Video abfangen</string>
     <string name="user_prop_title_subscribe_intercept_desk">Desktop abfangen</string>
     <string name="user_prop_title_subscribe_intercept_media">Medien abfangen</string>
+    <string name="user_prop_title_transmit_voice">Sprachübertragung erlauben</string>
+    <string name="user_prop_title_transmit_vid">Videoübertragung erlauben</string>
+    <string name="user_prop_title_transmit_desk">Desktopübertragung erlauben</string>
+    <string name="user_prop_title_transmit_media">Medienübertragungen erlauben</string>
+    <string name="user_prop_title_transmit_chanmsg">Raumnachrichten erlauben</string>
 
     <string name="label_connection">Verbindung:</string>
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Verbinde</string>
+    <string name="stat_unauthorized">Nicht erlaubt</string>
     <string name="label_voice">Sprache:</string>
     <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
@@ -211,6 +296,7 @@
     <string name="default_">Standard</string>
 
     <string name="server_list_empty">Serverliste ist leer</string>
+    <string name="search_servers_hint">Server nach Namen suchen</string>
     <string name="no_nickname">Kein Nickname</string>
     <string name="message_text">Nachrichtentext</string>
     <string name="time_date">Zeit/Datum</string>
@@ -276,14 +362,23 @@
     <string name="ban_confirmation">Soll der Benutzer %1$s wirklich gesperrt werden?</string>
     <string name="kick_confirmation">Soll der Benutzer %1$s wirklich vom Server geworfen werden?</string>
     <string name="version_update">Neue TeamTalk-Version verfügbar: %1$s?</string>
+    <string name="opusbitrate">Bitrate</string>
+    <string name="opusinterval">Übertragungsintervall</string>
+    <string name="speexquality">Qualität</string>
+    <string name="speexinterval">Übertragungsintervall</string>
+    <string name="speexvbrquality">Qualität</string>
+    <string name="speexvbrinterval">Übertragungsintervall</string>
+    <string name="voicevolume">Sprachlautstärke</string>
+    <string name="mediavolume">Medienlautstärke</string>
+    <string name="mastervolume">Gesamtlautstärke</string>
+    <string name="micgain">Mikrofonverstärkung</string>
+    <string name="voxlevel">Sprachaktivierungspegel</string>
     <string name="speaker_mute">Lautsprecher stumm</string>
     <string name="speaker_unmute">Lautsprecher ein</string>
     <string name="mic_mute">Mikrofon stumm</string>
     <string name="mic_unmute">Mikrofon ein</string>
-
     <string name="speaker_volume_description">Lautstärkepegel ist %1$s</string>
     <string name="mic_gain_description">Mikrofonpegel ist %1$s</string>
-
     <string name="voice_activation_on">Sprachaktivierung einschalten</string>
     <string name="voice_activation_off">Sprachaktivierung ausschalten</string>
     <string name="vox_level_description">Spracherkennungspegel ist %1$s</string>
@@ -381,6 +476,8 @@
     <string name="pref_title_gender">Geschlecht</string>
     <string name="pref_summary_gender">Aktivieren für weibliches Symbol</string>
     <string name="user_state_away">Abwesend</string>
+    <string name="user_state_operator">Raumoperator</string>
+    <string name="user_state_selected">Zum Verschieben gewählt </string>
     <string name="pref_title_userloggedin_icon">Benutzer angemeldet</string>
     <string name="pref_summary_userloggedin_icon">Klang abspielen, wenn sich ein Benutzer anmeldet</string>
     <string name="pref_title_userloggedoff_icon">Benutzer abgemeldet</string>
@@ -406,6 +503,14 @@
     <string name="action_revoke_operator">Operator entziehen</string>
     <string name="text_operator_password">Raumoperator-Passwort eingeben</string>
     <string name="text_broadcast_message">Servernachricht eingeben</string>
+    <string name="online_users">Benutzer online</string>
 
 
+    <string name="online_user_info_nickname">Nickname</string>
+    <string name="online_user_info_username">Benutzername</string>
+    <string name="online_user_info_userid">Benutzer-ID</string>
+    <string name="online_user_info_statusmsg">Statusnachricht</string>
+    <string name="online_user_info_channel">Raum</string>
+    <string name="online_user_info_ip">IP-Adresse</string>
+    <string name="online_user_info_client">Client</string>
 </resources>

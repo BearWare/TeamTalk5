@@ -218,6 +218,7 @@
     <string name="action_bansrv">ممنوعیت از سرور</string>
     <string name="action_edit">ویرایش کانال</string>
     <string name="action_join">ورود</string>
+    <string name="action_leave">خروج از کانال</string>
     <string name="action_edituser">تنظیمات کاربر</string>
     <string name="action_message">پیامها</string>
     <string name="action_kickchan">اخراج از کانال</string>
@@ -507,6 +508,8 @@
 
     <string name="online_user_info_nickname">نام مستعار</string>
     <string name="online_user_info_username">نام کاربری</string>
+    <string name="online_user_info_userid">شمارۀ کاربر</string>
+    <string name="online_user_info_statusmsg">پیام وضعیت</string>
     <string name="online_user_info_channel">کانال</string>
     <string name="online_user_info_ip">آدرس آیْپی</string>
     <string name="online_user_info_client">نام کلاینت</string>
