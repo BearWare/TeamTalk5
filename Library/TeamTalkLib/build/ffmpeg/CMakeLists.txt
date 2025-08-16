@@ -231,7 +231,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(gas-preprocessor
       GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor.git
-      GIT_TAG           7380ac2
+      GIT_TAG           a120373
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/gas-preprocessor
       INSTALL_DIR       ""
