@@ -9,7 +9,7 @@ IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 
 cd @WEBRTC_SOURCE_ROOT_NATIVE@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-git checkout branch-heads/6818
+git checkout branch-heads/7362
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 gclient sync -D
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
