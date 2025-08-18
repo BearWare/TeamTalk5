@@ -49,7 +49,8 @@ if (MSVC)
     file(TO_NATIVE_PATH ${WEBRTC_INSTALL_ROOT} WEBRTC_INSTALL_ROOT_NATIVE)
 
     ExternalProject_Add(depot-tools
-      URL               https://storage.googleapis.com/chrome-infra/depot_tools.zip
+      GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      GIT_TAG           main
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
