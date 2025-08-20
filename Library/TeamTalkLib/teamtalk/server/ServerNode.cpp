@@ -1924,6 +1924,12 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_VOICE, streamid) != streamid)
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_VOICE, streamid);
+    }
+
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet,
                                                          SUBSCRIBE_VOICE,
                                                          SUBSCRIBE_INTERCEPT_VOICE);
@@ -1975,6 +1981,12 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_MEDIAFILE_AUDIO, streamid) != streamid)
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_MEDIAFILE_AUDIO, streamid);
+    }
+
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_MEDIAFILE,
                                                          SUBSCRIBE_INTERCEPT_MEDIAFILE);
 
@@ -2015,6 +2027,13 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
 
     if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid, nullptr))
         return;
+
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_VIDEOCAPTURE, streamid) != streamid)
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_VIDEOCAPTURE, streamid);
+    }
+
 
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_VIDEOCAPTURE,
                                                          SUBSCRIBE_INTERCEPT_VIDEOCAPTURE);
@@ -2070,6 +2089,12 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_MEDIAFILE_VIDEO, streamid) != streamid)
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_MEDIAFILE_VIDEO, streamid);
+    }
+
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_MEDIAFILE,
                                                          SUBSCRIBE_INTERCEPT_MEDIAFILE);
 
@@ -2111,6 +2136,12 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
 
     if (!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
+
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_DESKTOP, packet.GetSessionID()) != packet.GetSessionID())
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOP, packet.GetSessionID());
+    }
 
     uint8_t prev_session_id = 0;
     uint32_t prev_update_id = 0;
@@ -2454,6 +2485,12 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
                 user.GetLastTimeStamp(packet, &is_set)) && is_set)
         return;
 
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_DESKTOPINPUT, packet.GetSessionID()) != packet.GetSessionID())
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOPINPUT, packet.GetSessionID());
+    }
+
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet, SUBSCRIBE_DESKTOP,
                                                          SUBSCRIBE_INTERCEPT_DESKTOP);
 
@@ -2513,6 +2550,12 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
     desktop_cache_t session = destuser->GetDesktopSession();
     if (!session || session->GetSessionID() != packet.GetSessionID())
         return;
+
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) &&
+        user.UpdateActiveStream(STREAMTYPE_DESKTOPINPUT, packet.GetSessionID()) != packet.GetSessionID())
+    {
+        m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOPINPUT, packet.GetSessionID());
+    }
 
     ServerChannel::users_t users = GetPacketDestinations(user, chan, packet,
                                                          SUBSCRIBE_DESKTOPINPUT,
