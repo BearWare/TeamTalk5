@@ -417,10 +417,10 @@ namespace teamtalk {
         ServerSettings m_properties;
     };
 
-    class ServerNodeListener
+    class ServerNodeLogger
     {
     public:
-        virtual ~ServerNodeListener() {}
+        virtual ~ServerNodeLogger() = default;
 
         /* begin logging functions */
         virtual void OnUserConnected(const ServerUser& user) = 0;
@@ -446,6 +446,8 @@ namespace teamtalk {
         virtual void OnBroadcastMessage(const ServerUser& from, const teamtalk::TextMessage& msg) = 0;
         virtual void OnCustomMessage(const ServerUser& from, const ServerUser& to, const teamtalk::TextMessage& msg) = 0;
 
+        virtual void OnUserUpdateStream(const ServerUser& user, const ServerChannel& channel, StreamType stream, int streamid) = 0;
+
         virtual void OnChannelCreated(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
         virtual void OnChannelUpdated(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
         virtual void OnChannelRemoved(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
@@ -459,7 +461,11 @@ namespace teamtalk {
 
         virtual void OnShutdown(const ServerStats& stats) = 0;
         /* end logging functions */
+    };
 
+    class ServerNodeListener : public ServerNodeLogger
+    {
+    public:
         virtual ErrorMsg AuthenticateUser(ServerNode* servernode, ServerUser& user, 
                                           UserAccount& useraccount) = 0; //user-type is set, therefore not const
         virtual ErrorMsg JoinChannel(const ServerUser& user, const ServerChannel& chan) = 0;

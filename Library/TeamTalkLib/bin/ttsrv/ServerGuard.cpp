@@ -426,6 +426,45 @@ void ServerGuard::OnCustomMessage(const ServerUser& from, const ServerUser& to, 
     //}
 }
 
+void ServerGuard::OnUserUpdateStream(const ServerUser& user, const ServerChannel& channel, StreamType stream, int streamid)
+{
+    tostringstream oss;
+    switch (stream)
+    {
+    case STREAMTYPE_VOICE :
+        oss << ACE_TEXT("New voice stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_DESKTOP :
+        oss << ACE_TEXT("New desktop stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_DESKTOPINPUT :
+        oss << ACE_TEXT("New desktop input stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_MEDIAFILE_AUDIO :
+        oss << ACE_TEXT("New audio media file stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_MEDIAFILE_VIDEO :
+        oss << ACE_TEXT("New video media file stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_VIDEOCAPTURE :
+        oss << ACE_TEXT("New video capture stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        break;
+    case STREAMTYPE_MEDIAFILE :
+    case STREAMTYPE_CHANNELMSG :
+    case STREAMTYPE_NONE :
+    case STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO :
+    case STREAMTYPE_ALL :
+        break;
+    }
+
+    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    if(user.GetUsername().length())
+        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
+    oss << ACE_TEXT("to channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\".");
+
+    TT_LOG(oss.str().c_str());
+}
+
 void ServerGuard::OnChannelCreated(const ServerChannel& channel, 
                                    const ServerUser* user/* = NULL*/)
 {

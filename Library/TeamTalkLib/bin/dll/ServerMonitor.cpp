@@ -265,6 +265,13 @@ void ServerMonitor::OnCustomMessage(const teamtalk::ServerUser& from,
         i->second(m_ttInst, i->first, &sfrom, &smsg);
 }
 
+void ServerMonitor::OnUserUpdateStream(const teamtalk::ServerUser& user,
+                                       const teamtalk::ServerChannel& channel,
+                                       teamtalk::StreamType stream, int streamid)
+{
+
+}
+
 void ServerMonitor::OnChannelCreated(const teamtalk::ServerChannel& channel,
                                      const teamtalk::ServerUser* user /*= NULL*/)
 {
