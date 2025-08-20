@@ -43,6 +43,7 @@ ServerLogEventsModel::ServerLogEventsModel(QObject* parent)
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM);
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL);
     m_serverlogevents.push_back(SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST);
+    m_serverlogevents.push_back(SERVERLOGEVENT_USER_NEW_STREAM);
     m_serverlogevents.push_back(SERVERLOGEVENT_CHANNEL_CREATED);
     m_serverlogevents.push_back(SERVERLOGEVENT_CHANNEL_UPDATED);
     m_serverlogevents.push_back(SERVERLOGEVENT_CHANNEL_REMOVED);
@@ -51,6 +52,7 @@ ServerLogEventsModel::ServerLogEventsModel(QObject* parent)
     m_serverlogevents.push_back(SERVERLOGEVENT_FILE_DELETED);
     m_serverlogevents.push_back(SERVERLOGEVENT_SERVER_UPDATED);
     m_serverlogevents.push_back(SERVERLOGEVENT_SERVER_SAVECONFIG);
+    m_serverlogevents.push_back(SERVERLOGEVENT_USER_CRYPTERROR);
 }
 
 QVariant ServerLogEventsModel::headerData (int section, Qt::Orientation orientation, int role/* = Qt::DisplayRole*/) const
@@ -119,6 +121,8 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
             return tr("User sent channel text message");
         case SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST :
             return tr("User sent broadcast text message");
+        case SERVERLOGEVENT_USER_NEW_STREAM :
+            return tr("User started new stream");
         case SERVERLOGEVENT_CHANNEL_CREATED :
             return tr("Channel created");
         case SERVERLOGEVENT_CHANNEL_UPDATED :
@@ -135,6 +139,8 @@ QVariant ServerLogEventsModel::data(const QModelIndex& index, int role /*= Qt::D
             return tr("Server updated");
         case SERVERLOGEVENT_SERVER_SAVECONFIG :
             return tr("Server configuration saved");
+        case SERVERLOGEVENT_USER_CRYPTERROR :
+            return tr("User login caused encryption error");
         case SERVERLOGEVENT_NONE :
             break;
         }

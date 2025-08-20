@@ -71,12 +71,13 @@ namespace teamtalk {
         SERVERLOGEVENT_SERVER_UPDATED              = 0x00800000,
         SERVERLOGEVENT_SERVER_SAVECONFIG           = 0x01000000,
         SERVERLOGEVENT_USER_CRYPTERROR             = 0x02000000,
+        SERVERLOGEVENT_USER_NEW_STREAM             = 0x04000000,
 
         /*
-        SERVERLOGEVENT_NEXT                        = 0x04000000,
+        SERVERLOGEVENT_NEXT                        = 0x08000000,
         */
 
-        SERVERLOGEVENT_DEFAULT                     = 0x03FFFFFF,
+        SERVERLOGEVENT_DEFAULT                     = 0x07FFFFFF,
     };
 
     typedef uint32_t ServerLogEvents;

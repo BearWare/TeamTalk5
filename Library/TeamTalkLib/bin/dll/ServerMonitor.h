@@ -76,6 +76,10 @@ public:
                          const teamtalk::ServerUser& to,
                          const teamtalk::TextMessage& msg) override;
 
+    void OnUserUpdateStream(const teamtalk::ServerUser& user,
+                            const teamtalk::ServerChannel& channel,
+                            teamtalk::StreamType stream, int streamid) override;
+
     void OnChannelCreated(const teamtalk::ServerChannel& channel,
                           const teamtalk::ServerUser* user = NULL) override;
     void OnChannelUpdated(const teamtalk::ServerChannel& channel,

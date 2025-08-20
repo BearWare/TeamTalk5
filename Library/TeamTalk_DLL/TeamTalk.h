@@ -1758,6 +1758,10 @@ extern "C" {
         SERVERLOGEVENT_SERVER_UPDATED              = 0x00800000,
         /** @brief User saved server's configuration is logged to file by the server. */
         SERVERLOGEVENT_SERVER_SAVECONFIG           = 0x01000000,
+        /** @brief User caused encryption error. */
+        SERVERLOGEVENT_USER_CRYPTERROR             = 0x02000000,
+        /** @brief User started new stream. */
+        SERVERLOGEVENT_USER_NEW_STREAM             = 0x04000000,
     } ServerLogEvent;
 
     /** @brief Bitmask of #ServerLogEvent.
