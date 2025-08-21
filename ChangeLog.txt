@@ -4,6 +4,7 @@
 
 Version 5.20, unreleased
 Default Qt Client
+- Fixed check state of server log events on macOS not being visible
 -
 Android Client
 - Minimum supported Android version is now 5.0 (Lollipop)
