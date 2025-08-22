@@ -4,6 +4,7 @@
 
 Version 5.20, unreleased
 Default Qt Client
+- Optimized file transfer performance by increasing buffer sizes and enabling TCP_NODELAY
 -
 Android Client
 - Minimum supported Android version is now 5.0 (Lollipop)

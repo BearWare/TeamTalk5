@@ -29,7 +29,7 @@
 using namespace std;
 using namespace teamtalk;
 
-#define FILEBUFFERSIZE 0x10000
+#define FILEBUFFERSIZE 0x400000
 
 FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
                    const ACE_INET_Addr& addr, const ServerProperties& srvprop,
@@ -51,14 +51,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
     if(encrypted)
     {
         ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor));
-        m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
+        m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE * 2);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
         ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor));
-        m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
+        m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE * 2);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
 }
@@ -272,6 +272,10 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
     TTASSERT(ret == 0);
     ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, (char*)&size, optlen);
     TTASSERT(ret == 0);
+
+    int nodelay = 1;
+    ret = handler.peer().set_option(IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
+    TTASSERT(ret == 0);
 }
 #endif /* ENABLE_ENCRYPTION */
 
@@ -284,6 +288,10 @@ void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
     ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, (char*)&size, optlen);
     TTASSERT(ret == 0);
     ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, (char*)&size, optlen);
+    TTASSERT(ret == 0);
+
+    int nodelay = 1;
+    ret = handler.peer().set_option(IPPROTO_TCP, TCP_NODELAY, &nodelay, sizeof(nodelay));
     TTASSERT(ret == 0);
 }
 
