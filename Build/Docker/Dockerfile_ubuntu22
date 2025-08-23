@@ -21,6 +21,7 @@ RUN apt install -y \
                    libtool \
                    libxss-dev \
                    make \
+                   nasm \
                    ninja-build \
                    openjdk-18-jdk \
                    p7zip-full \

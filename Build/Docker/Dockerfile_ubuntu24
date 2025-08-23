@@ -17,6 +17,7 @@ RUN apt install -y \
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-21-jdk \
 		p7zip-full \

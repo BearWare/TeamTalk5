@@ -258,6 +258,7 @@ depend-ubuntu22:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-18-jdk \
 		p7zip-full \
@@ -287,6 +288,7 @@ depend-ubuntu24:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-21-jdk \
 		p7zip-full \
@@ -380,6 +382,7 @@ depend-mac:
 		automake \
 		doxygen \
 		libtool \
+		nasm \
 		ninja \
 		pkg-config \
 		python-setuptools \
