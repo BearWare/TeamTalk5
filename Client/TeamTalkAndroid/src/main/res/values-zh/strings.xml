@@ -153,6 +153,8 @@
     <string name="pref_summary_mute_speakers">启用此选项可避免扬声器发出回声</string>
     <string name="pref_title_show_usernames">显示用户名</string>
     <string name="pref_summary_show_usernames">显示用户名而非昵称</string>
+    <string name="pref_title_move_talking">将发言用户移至顶部</string>
+    <string name="pref_summary_move_talking">将正在发言用户移至用户列表顶部</string>
     <string name="pref_title_bearwareid">BearWare.dk Web 登录</string>
     <string name="pref_summary_bearwareid">设置 BearWare.dk Web 登录</string>
 
@@ -216,6 +218,7 @@
     <string name="action_bansrv">从服务器禁止</string>
     <string name="action_edit">编辑频道</string>
     <string name="action_join">加入</string>
+    <string name="action_leave">离开频道</string>
     <string name="action_edituser">用户属性</string>
     <string name="action_message">消息</string>
     <string name="action_kickchan">踢出当前频道</string>
@@ -473,6 +476,8 @@
     <string name="pref_title_gender">性别</string>
     <string name="pref_summary_gender">选择女性图标</string>
     <string name="user_state_away">离开</string>
+    <string name="user_state_operator">频道管理员</string>
+    <string name="user_state_selected">选择移动 </string>
     <string name="pref_title_userloggedin_icon">用户登录</string>
     <string name="pref_summary_userloggedin_icon">用户登录时播放声音</string>
     <string name="pref_title_userloggedoff_icon">用户登出</string>
@@ -498,6 +503,14 @@
     <string name="action_revoke_operator">撤销频道管理员</string>
     <string name="text_operator_password">输入频道管理员密码</string>
     <string name="text_broadcast_message">输入广播消息</string>
+    <string name="online_users">在线用户</string>
 
 
+    <string name="online_user_info_nickname">昵称</string>
+    <string name="online_user_info_username">用户名</string>
+    <string name="online_user_info_userid">用户ID</string>
+    <string name="online_user_info_statusmsg">状态消息</string>
+    <string name="online_user_info_channel">频道</string>
+    <string name="online_user_info_ip">IP地址</string>
+    <string name="online_user_info_client">客户端</string>
 </resources>

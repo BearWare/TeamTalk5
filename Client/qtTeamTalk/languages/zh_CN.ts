@@ -4268,12 +4268,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>您确定要退出%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
         <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>退出 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3842"/>
@@ -5547,7 +5547,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>退出前询问确认</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>

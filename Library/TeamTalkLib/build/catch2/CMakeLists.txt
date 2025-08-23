@@ -6,7 +6,7 @@ include(ExternalProject)
 # Catch2
 ##################################################
 ExternalProject_Add(catch2
-  GIT_REPOSITORY    https://github.com/catchorg/Catch2
+  GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
   GIT_TAG           v2.13.10
   UPDATE_COMMAND    ""
   CONFIGURE_COMMAND ""

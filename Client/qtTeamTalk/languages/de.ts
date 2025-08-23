@@ -1229,7 +1229,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>Nur Inhalt k&amp;opieren</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
@@ -1806,7 +1806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Statusnachricht</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -2281,12 +2281,12 @@ Nachricht des Tages: %2</translation>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Soll %1 beendet werden</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
-        <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <source>%1 Beenden</source>
+        <translation></translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="674"/>
@@ -5631,7 +5631,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation type="unfinished">Statusnachricht</translation>
+        <translation>Statusnachricht</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="341"/>
@@ -5641,7 +5641,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>Bestätigung vor dem Beenden</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>
@@ -6668,7 +6668,7 @@ Sollen diese Einstellungen übernommen werden?</translation>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>Statusnachricht (optional)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>

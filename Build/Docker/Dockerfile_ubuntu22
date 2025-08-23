@@ -21,10 +21,12 @@ RUN apt install -y \
                    libtool \
                    libxss-dev \
                    make \
+                   nasm \
                    ninja-build \
                    openjdk-18-jdk \
                    p7zip-full \
                    pkg-config \
+                   python-is-python3 \
                    python2 \
                    python3-pytest \
                    qtbase5-dev \
@@ -33,4 +35,3 @@ RUN apt install -y \
                    qttools5-dev-tools \
                    wget \
                    yasm
-RUN update-alternatives --install /usr/bin/python python /usr/bin/python3 10

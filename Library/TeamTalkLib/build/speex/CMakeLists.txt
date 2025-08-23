@@ -17,7 +17,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(speex-src
-        GIT_REPOSITORY    https://github.com/bear101/speex
+        GIT_REPOSITORY    https://github.com/bear101/speex.git
         GIT_TAG           62ad6a6
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
@@ -41,7 +41,7 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(speex-src
-        GIT_REPOSITORY    https://github.com/bear101/speex
+        GIT_REPOSITORY    https://github.com/bear101/speex.git
         GIT_TAG           62ad6a6
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
@@ -77,8 +77,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/xiph/speex
-      GIT_TAG           Speex-1.2.0
+      GIT_REPOSITORY    https://github.com/xiph/speex.git
+      GIT_TAG           Speex-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
@@ -121,8 +121,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/xiph/speex
-      GIT_TAG           Speex-1.2.0
+      GIT_REPOSITORY    https://github.com/xiph/speex.git
+      GIT_TAG           Speex-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
@@ -150,8 +150,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/xiph/speex
-      GIT_TAG           Speex-1.2.0
+      GIT_REPOSITORY    https://github.com/xiph/speex.git
+      GIT_TAG           Speex-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
@@ -197,8 +197,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(speex-src
-      GIT_REPOSITORY    https://github.com/xiph/speex
-      GIT_TAG           Speex-1.2.0
+      GIT_REPOSITORY    https://github.com/xiph/speex.git
+      GIT_TAG           Speex-1.2.1
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}

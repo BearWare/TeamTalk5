@@ -18,6 +18,10 @@
         <EditTextPreference
             android:enabled="false"
             android:singleLine="true"
+            android:title="Amir Mahdi Fard" />
+        <EditTextPreference
+            android:enabled="false"
+            android:singleLine="true"
             android:title="Corentin Bacqué-Cazenave" />
         <EditTextPreference
             android:enabled="false"

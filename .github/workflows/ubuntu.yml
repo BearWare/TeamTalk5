@@ -1,6 +1,6 @@
-name: Ubuntu 24
+name: Ubuntu
 
-on: [push]
+on: [push, pull_request]
 
 env:
   # TeamTalk unit test environment variables
@@ -12,14 +12,23 @@ env:
 
 jobs:
   build:
-    runs-on: ubuntu-24.04
+    strategy:
+      matrix:
+        os: [ubuntu-22.04, ubuntu-24.04]
+        include:
+          - os: ubuntu-22.04
+            version: "22"
+          - os: ubuntu-24.04
+            version: "24"
+    
+    runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
       with:
         submodules: true
 
-    - uses: actions/setup-java@v4
+    - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
@@ -30,36 +39,38 @@ jobs:
     - name: Update packages
       run: |
         sudo apt-get dist-upgrade
-        sudo apt-get install valgrind        
+        sudo apt-get autoremove --purge
+        # Ubuntu 22 specific: Ensure FFmpeg doesn't detect additional dependencies
+        ${{ matrix.version == '22' && 'sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev' || '' }}
+        sudo apt-get install valgrind
 
     - name: Print env
       run: printenv | sort
 
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: sudo make depend-ubuntu24
+      run: sudo make depend-ubuntu${{ matrix.version }}
 
     - name: Build TeamTalk Library and Apps
       working-directory: ${{runner.workspace}}/TeamTalk5
-      shell: bash
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu24
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Java Server API Test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      # Execute tests defined by the CMake configuration.
-      # See https://cmake.org/cmake/help/latest/manual/ctest.1.html for more detail
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        make runjunitsrv
+      run: make runjunitsrv
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
 
     - name: Java Server API Test (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=1 WEBRTC=0
-        make runjunitsrv
+      run: make runjunitsrv
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -97,9 +108,10 @@ jobs:
 
     - name: Java Unit-test (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        make runjunit
+      run: make runjunit
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
 
     - name: Stop TeamTalk Standard Server
       run: killall tt5srv
@@ -112,11 +124,12 @@ jobs:
 
     - name: Java Unit-test with shared audio devices (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=0 WEBRTC=0
-        export INPUTDEVICEID=4026
-        export OUTPUTDEVICEID=4026
-        make runjunitpro
+      run: make runjunitpro
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+        INPUTDEVICEID: 4026
+        OUTPUTDEVICEID: 4026
 
     - name: Stop TeamTalk Pro Server (non-encrypted)
       run: killall tt5prosrv
@@ -131,40 +144,39 @@ jobs:
 
     - name: Java Unit-test with virtual audio device (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
-      run: |
-        export ENCRYPTED=1 WEBRTC=0
-        export INPUTDEVICEID=1978
-        export OUTPUTDEVICEID=1978
-        make runjunitpro
+      run: make runjunitpro
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
 
     - name: Run CMake Install Target
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu24
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: teamtalksdk-ubuntu24
+        name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
 
-    - name: Make Ubuntu 24 Portable Archive
+    - name: Make Ubuntu ${{ matrix.version }} Portable Archive
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
         cd Setup/Portable
-        make ubuntu24 ubuntu24pro
+        make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
 
     - name: Upload TeamTalk Portable artifact
       uses: actions/upload-artifact@v4
       with:
-        name: teamtalk-ubuntu24
+        name: teamtalk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
 
     - name: Upload TeamTalk Pro artifact
       uses: actions/upload-artifact@v4
       with:
-        name: teamtalkpro-ubuntu24
+        name: teamtalkpro-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*
