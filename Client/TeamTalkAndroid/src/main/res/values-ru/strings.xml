@@ -214,6 +214,7 @@
     <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
     <string name="action_join">Войти</string>
+    <string name="action_leave">Покинуть канал</string>
     <string name="action_edituser">Настройки пользователя</string>
     <string name="action_message">Сообщения</string>
     <string name="action_kickchan">Выгнать с текущего канала</string>
@@ -500,6 +501,8 @@
 
     <string name="online_user_info_nickname">Псевдоним</string>
     <string name="online_user_info_username">Имя пользователя</string>
+    <string name="online_user_info_userid">Идентификатор пользователя</string>
+    <string name="online_user_info_statusmsg">Сообщение о состоянии</string>
     <string name="online_user_info_channel">Канал</string>
     <string name="online_user_info_ip">IP адрес</string>
     <string name="online_user_info_client">Клиент</string>

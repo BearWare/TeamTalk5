@@ -20,8 +20,3 @@ updates:
     schedule:
       interval: daily
       time: "00:00"
-  - package-ecosystem: gradle
-    directory: /Library/TeamTalkLib/test/catchqt/TeamTalkCatchQT/android
-    schedule:
-      interval: daily
-      time: "00:00"

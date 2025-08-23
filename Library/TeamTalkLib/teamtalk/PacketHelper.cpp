@@ -25,6 +25,8 @@
 #include <teamtalk/ttassert.h>
 #include <myace/MyACE.h>
 
+#include <algorithm>
+
 using namespace std;
 
 #define MAX_PACKETS_ON_WIRE 16
@@ -1051,8 +1053,8 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             map_sent_time_t::iterator sti = m_sent_ack_times.find(ack_packetno);
             if(sti != m_sent_ack_times.end())
             {
-                m_pingtime = ACE_MAX((uint32_t)GETTIMESTAMP() - sti->second, m_pingtime);
-                m_pingtime = ACE_MAX((uint32_t)1, m_pingtime);
+                m_pingtime = std::max((uint32_t)GETTIMESTAMP() - sti->second, m_pingtime);
+                m_pingtime = std::max((uint32_t)1, m_pingtime);
                 
                 m_sent_ack_times.erase(ack_packetno);
             }
@@ -1096,9 +1098,9 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             //allow at least one packet in order to continue
             //transmission
             if(m_sent_pkts.empty())
-                m_tx_count = ACE_MAX(m_tx_count, 1);
+                m_tx_count = std::max(m_tx_count, 1);
             else
-                m_tx_count = ACE_MAX(m_tx_count, 0);
+                m_tx_count = std::max(m_tx_count, 0);
         }
         else
             ali->second++;

@@ -9,9 +9,13 @@ help:
 	@echo "    make CONFIGTYPE=debug android-armeabi-v7a"
 
 teamtalk-env:
-	@echo "Testing that TEAMTALK_ROOT is valid."
-	@echo "Source env.sh in repository root to set up environment"
-	test -d "$(TEAMTALK_ROOT)"
+	@if [ -n "$(TEAMTALK_ROOT)" ] && [ -d "$(TEAMTALK_ROOT)" ]; then \
+		echo "Using TEAMTALK_ROOT: $(TEAMTALK_ROOT)"; \
+	else \
+		echo "Error: TEAMTALK_ROOT is not set or directory does not exist"; \
+		echo "Source env.sh in repository root to set up environment"; \
+		exit 1; \
+	fi
 
 genlib:
 	mkdir -p $(BUILDDIR)
@@ -21,12 +25,16 @@ buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)
 
 android-build:
-	@echo "Testing if ANDROID_NDK_HOME environment variable is set: $(ANDROID_NDK_HOME)"
-	test -n "$(ANDROID_NDK_HOME)"
+	@if [ -n "$(ANDROID_NDK_HOME)" ] && [ -d "$(ANDROID_NDK_HOME)" ]; then \
+		echo "Using ANDROID_NDK_HOME: $(ANDROID_NDK_HOME)"; \
+	else \
+		echo "Error: ANDROID_NDK_HOME is not set or directory does not exist"; \
+		exit 1; \
+	fi; \
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
         CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake \
         -DANDROID_ABI=$(ANDROID_ABI) \
-        -DANDROID_PLATFORM=android-24 \
+        -DANDROID_PLATFORM=android-21 \
         -DBUILD_TEAMTALK_LIBRARY_LIB=ON \
         -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
         -DBUILD_TEAMTALK_LIBRARIES=ON \
@@ -254,6 +262,7 @@ depend-ubuntu22:
 		openjdk-18-jdk \
 		p7zip-full \
 		pkg-config \
+		python-is-python3 \
 		python2 \
 		python3-pytest \
 		qtbase5-dev \
@@ -262,8 +271,6 @@ depend-ubuntu22:
 		qttools5-dev-tools \
 		wget \
 		yasm
-	@echo "Ensure a default python is set up for WebRTC to compile:"
-	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 10"
 
 depend-ubuntu24:
 # Duplicate install in Docker/Dockerfile_ubuntu24
@@ -284,6 +291,7 @@ depend-ubuntu24:
 		openjdk-21-jdk \
 		p7zip-full \
 		pkg-config \
+		python-is-python3 \
 		python3-pytest \
 		qt6-base-dev \
 		qt6-declarative-dev \
@@ -294,8 +302,6 @@ depend-ubuntu24:
 		wget \
 		xz-utils \
 		yasm
-	@echo "Ensure a default python is set up for WebRTC to compile:"
-	@echo "# sudo update-alternatives --install /usr/bin/python python /usr/bin/python3 12"
 
 depend-ubuntu24-android:
 	apt-get install \

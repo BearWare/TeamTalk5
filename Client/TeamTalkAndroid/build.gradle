@@ -1,14 +1,11 @@
 buildscript {
     repositories {
-        maven {
-            url = uri('https://dl.google.com/dl/android/maven2')
-        }
-        mavenCentral()
         google()
+        mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.11.1'
+        classpath 'com.android.tools.build:gradle:8.12.1'
     }
 }
 
@@ -18,6 +15,7 @@ android {
     namespace = 'dk.bearware.gui'
     compileSdk = 36
     buildToolsVersion = '36.0.0'
+    ndkVersion = '28.2.13676358'
 
     buildFeatures {
         buildConfig = true
@@ -30,17 +28,18 @@ android {
 
     defaultConfig {
         applicationId = 'dk.bearware.gui'
-        minSdk = 24
+        minSdk = 21
         targetSdk = 36
-        versionCode = 139
+        versionCode = 142
         versionName = '5.19'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }
 
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
+        sourceCompatibility = JavaVersion.VERSION_21
+        targetCompatibility = JavaVersion.VERSION_21
+        coreLibraryDesugaringEnabled = true
     }
 
     splits {
@@ -60,9 +59,8 @@ android {
     }
 
     repositories {
+        google()
         mavenCentral()
-        maven { url = uri('https://maven.google.com/') }
-        maven { url = uri('https://jitpack.io') }
     }
 
     lint {
@@ -71,17 +69,18 @@ android {
 }
 
 dependencies {
+    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
     implementation 'com.google.code.gson:gson:2.13.1'
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.core:core:1.16.0'
-    implementation 'androidx.fragment:fragment:1.8.8'
-    implementation 'androidx.media:media:1.7.0'
+    implementation 'androidx.core:core:1.17.0'
+    implementation 'androidx.fragment:fragment:1.8.9'
+    implementation 'androidx.media:media:1.7.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'com.google.android.material:material:1.12.0'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.0')
-    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.1'
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.10')
+    api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.2'
     implementation files('libs/TeamTalk5.jar')
 
     // Required -- JUnit 4 framework
@@ -90,11 +89,11 @@ dependencies {
     testImplementation files('libs/TeamTalk5Test.jar')
 
     // Core library
-    androidTestImplementation 'androidx.test:core:1.6.1'
+    androidTestImplementation 'androidx.test:core:1.7.0'
 
     // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.6.2'
-    androidTestImplementation 'androidx.test:rules:1.6.1'
+    androidTestImplementation 'androidx.test:runner:1.7.0'
+    androidTestImplementation 'androidx.test:rules:1.7.0'
 
     // Assertions
     androidTestImplementation files('libs/TeamTalk5Test.jar')
