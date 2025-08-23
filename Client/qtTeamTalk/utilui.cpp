@@ -181,6 +181,12 @@ void migrateSettings()
         // msgtimestamp removed in 5.5 format
         ttSettings->remove("display/msgtimestamp");
     }
+    if (!versionSameOrLater(iniversion, "5.6"))
+    {
+        // Check and fix status message value
+        if (ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString() == ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE).toString())
+            ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT);
+    }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)
         ttSettings->setValue(SETTINGS_GENERAL_VERSION, SETTINGS_VERSION);

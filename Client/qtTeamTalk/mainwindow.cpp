@@ -1910,7 +1910,7 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
     addStatusMsg(STATUSBAR_BYPASS, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
     addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Connected to %1").arg(limitText(_Q(m_srvprop.szServerName))));
 
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
         statusmsg = m_host.statusmsg;
     if (m_idled_out) {
@@ -2624,7 +2624,7 @@ void MainWindow::updateIdleTimeout()
     int idle_time = ttSettings->value(SETTINGS_GENERAL_AUTOAWAY, SETTINGS_GENERAL_AUTOAWAY_DEFAULT).toInt();
     if (idle_time != 0)
     {
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
         if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
             statusmsg = m_host.statusmsg;
         if (isComputerIdle(idle_time) && (m_statusmode & STATUSMODE_MODE) == STATUSMODE_AVAILABLE)
@@ -4295,7 +4295,7 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
         if((_Q(myself.szNickname) != nickname) && m_host.nickname.isEmpty())
             TT_DoChangeNickname(ttInst, _W(nickname));
 
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
         if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
             statusmsg = m_host.statusmsg;
         m_statusmode &= ~STATUSMODE_GENDER_MASK;
@@ -4589,10 +4589,10 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
 
 void MainWindow::slotMeChangeStatus(bool /*checked =false */)
 {
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
         statusmsg = m_host.statusmsg;
-    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()?statusmsg:""), this);
+    ChangeStatusDlg dlg((statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString()?statusmsg:""), this);
     if(dlg.exec())
     {
         m_statusmode = dlg.m_user.nStatusMode;
@@ -4601,7 +4601,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
         {
             m_host.statusmsg = statusmsg;
             // Change status message using host specific message if not empty or general message otherwise
-            TT_DoChangeStatus(ttInst, m_statusmode, (statusmsg.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString()):_W(statusmsg));
+            TT_DoChangeStatus(ttInst, m_statusmode, (statusmsg.isEmpty() && !ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString().isEmpty())?_W(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString()):_W(statusmsg));
             HostEntry tmp = HostEntry();
             int serv, lasthost, index = 0;
             while (getServerEntry(index, tmp, false))
@@ -4619,12 +4619,12 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
                     lasthost = index;
                 index++;
             }
-            if(statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString())
+            if(statusmsg != ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString())
             {
                 ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_STATUSMSG).arg(serv), statusmsg);
                 ttSettings->setValue(QString(SETTINGS_LATESTHOST_STATUSMSG).arg(lasthost), statusmsg);
             }
-            else if(statusmsg == ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString() || statusmsg.isEmpty())
+            else if(statusmsg == ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString() || statusmsg.isEmpty())
             {
                 ttSettings->remove(QString(SETTINGS_SERVERENTRIES_STATUSMSG).arg(serv));
                 ttSettings->remove(QString(SETTINGS_LATESTHOST_STATUSMSG).arg(lasthost));
@@ -4725,7 +4725,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             }
 
             m_statusmode |= STATUSMODE_VIDEOTX;
-            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
             if(flags & CLIENT_AUTHORIZED)
             {
                 statusmsg = m_host.statusmsg;
@@ -4742,7 +4742,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         TT_StopVideoCaptureTransmission(ttInst);
         TT_CloseVideoCaptureDevice(ttInst);
         m_statusmode &= ~STATUSMODE_VIDEOTX;
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
         if(flags & CLIENT_AUTHORIZED)
         {
             statusmsg = m_host.statusmsg;
@@ -4798,7 +4798,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
             restartSendDesktopWindowTimer();
 
             m_statusmode |= STATUSMODE_DESKTOP;
-            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
             {
                 statusmsg = m_host.statusmsg;
@@ -4822,7 +4822,7 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
         m_display = nullptr;
 #endif
             m_statusmode &= ~STATUSMODE_DESKTOP;
-            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+            QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
             if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
             {
                 statusmsg = m_host.statusmsg;
@@ -5539,7 +5539,7 @@ void MainWindow::startStreamMediaFile()
     }
     else
     {
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
         if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
             statusmsg = m_host.statusmsg;
         m_statusmode |= STATUSMODE_STREAM_MEDIAFILE;
@@ -5571,7 +5571,7 @@ void MainWindow::stopStreamMediaFile()
 
     if (TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
     {
-        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+        QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
         if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
             statusmsg = m_host.statusmsg;
         TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
@@ -5587,7 +5587,7 @@ void MainWindow::stopStreamMediaFile()
 
 void MainWindow::slotPauseResumeStream()
 {
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
     if ((TT_GetFlags(ttInst) & CLIENT_AUTHORIZED) && m_host.statusmsg.size())
         statusmsg = m_host.statusmsg;
     QString fileName = ttSettings->value(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(0)).toString();
@@ -7571,7 +7571,7 @@ void MainWindow::slotToggleQuestionMode(bool checked)
     else
         m_statusmode &= ~STATUSMODE_QUESTION;
 
-    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString();
+    QString statusmsg = ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString();
     if(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED)
     {
         statusmsg = m_host.statusmsg;

@@ -404,7 +404,7 @@ bool PreferencesDlg::getSoundFile(QString& filename)
 void PreferencesDlg::initGeneralTab()
 {
     ui.nicknameEdit->setText(ttSettings->value(SETTINGS_GENERAL_NICKNAME, SETTINGS_GENERAL_NICKNAME_DEFAULT).toString());
-    ui.statusmsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE).toString());
+    ui.statusmsgEdit->setText(ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT).toString());
     ui.genderBox->clear();
     ui.genderBox->addItem(tr("Male"), GENDER_MALE);
     ui.genderBox->addItem(tr("Female"), GENDER_FEMALE);
