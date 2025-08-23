@@ -192,7 +192,7 @@ void FillMediaFileProp(AVFormatContext *fmt_ctx,
 {
     if (aud_dec_ctx)
     {
-        out_prop.audio = media::AudioFormat(aud_dec_ctx->sample_rate, aud_dec_ctx->channels);
+        out_prop.audio = media::AudioFormat(aud_dec_ctx->sample_rate, aud_dec_ctx->ch_layout.nb_channels);
     }
 
     if (vid_dec_ctx && video_stream_index >= 0)
@@ -626,7 +626,7 @@ int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
         frame_timestamp -= start_offset;
     }
 
-    int n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
+    int n_channels = filt_frame->ch_layout.nb_channels;
     short* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
 
     AudioFrame media_frame;
@@ -735,25 +735,39 @@ AVFilterGraph* createAudioFilterGraph(AVFormatContext *fmt_ctx,
     AVFilterInOut *outputs = avfilter_inout_alloc(); //TODO: Free??
     AVFilterInOut *inputs  = avfilter_inout_alloc(); //TODO: Free??
     const enum AVSampleFormat out_sample_fmts[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
-    int64_t out_channel_layouts[] = { -1, -1 };
+    AVChannelLayout out_ch_layouts[2];
     int out_sample_rates[] = { out_samplerate, -1 };
     const AVFilterLink *outlink;
     char args[512];
     char filter_descr[100];
     int ret;
     AVRational time_base = fmt_ctx->streams[audio_stream_index]->time_base;
-    out_channel_layouts[0] = (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO);
+    if (out_channels == 1) {
+        av_channel_layout_default(&out_ch_layouts[0], 1);
+    } else {
+        av_channel_layout_default(&out_ch_layouts[0], 2);
+    }
+    memset(&out_ch_layouts[1], 0, sizeof(AVChannelLayout));
 
     filter_graph = avfilter_graph_alloc();
 
     /* buffer audio source: the decoded frames from the decoder will be inserted here. */
-    if (!aud_dec_ctx->channel_layout)
-        aud_dec_ctx->channel_layout = av_get_default_channel_layout(aud_dec_ctx->channels);
+    if (aud_dec_ctx->ch_layout.nb_channels == 0) {
+        // If channel layout is not set, copy from codec parameters
+        AVCodecParameters *codecpar = fmt_ctx->streams[audio_stream_index]->codecpar;
+        if (codecpar->ch_layout.nb_channels > 0) {
+            av_channel_layout_copy(&aud_dec_ctx->ch_layout, &codecpar->ch_layout);
+        } else {
+            av_channel_layout_default(&aud_dec_ctx->ch_layout, codecpar->ch_layout.nb_channels);
+        }
+    }
 
+    char ch_layout_str[64];
+    av_channel_layout_describe(&aud_dec_ctx->ch_layout, ch_layout_str, sizeof(ch_layout_str));
     snprintf(args, sizeof(args),
-             "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=0x%x",
+             "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=%s",
              time_base.num, time_base.den, aud_dec_ctx->sample_rate,
-             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), (unsigned)aud_dec_ctx->channel_layout);
+             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), ch_layout_str);
 
     ret = avfilter_graph_create_filter(&aud_buffersrc_ctx, abuffersrc, "in",
                                        args, NULL, filter_graph);
@@ -777,7 +791,7 @@ AVFilterGraph* createAudioFilterGraph(AVFormatContext *fmt_ctx,
         goto error;
     }
 
-    ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts, -1,
+    ret = av_opt_set_chlayout(aud_buffersink_ctx, "ch_layouts", &out_ch_layouts[0],
                               AV_OPT_SEARCH_CHILDREN);
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output channel layout\n"));

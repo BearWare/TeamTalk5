@@ -54,20 +54,28 @@ bool FFMPEGResampler::Init()
     if(m_ctx)
         return false;
 
-    m_ctx = swr_alloc_set_opts(NULL,
-                               GetOutputFormat().channels == 2?
-                               AV_CH_LAYOUT_STEREO :
-                               AV_CH_LAYOUT_MONO,
-                               AV_SAMPLE_FMT_S16,
-                               GetOutputFormat().samplerate,
-                               GetInputFormat().channels == 2?
-                               AV_CH_LAYOUT_STEREO :
-                               AV_CH_LAYOUT_MONO,
-                               AV_SAMPLE_FMT_S16,
-                               GetInputFormat().samplerate,
-                               0,
-                               0);
-    if(!m_ctx)
+    AVChannelLayout out_ch_layout, in_ch_layout;
+    if (GetOutputFormat().channels == 2) {
+        out_ch_layout = AV_CHANNEL_LAYOUT_STEREO;
+    } else {
+        out_ch_layout = AV_CHANNEL_LAYOUT_MONO;
+    }
+    if (GetInputFormat().channels == 2) {
+        in_ch_layout = AV_CHANNEL_LAYOUT_STEREO;
+    } else {
+        in_ch_layout = AV_CHANNEL_LAYOUT_MONO;
+    }
+
+    int ret = swr_alloc_set_opts2(&m_ctx,
+                                  &out_ch_layout,
+                                  AV_SAMPLE_FMT_S16,
+                                  GetOutputFormat().samplerate,
+                                  &in_ch_layout,
+                                  AV_SAMPLE_FMT_S16,
+                                  GetInputFormat().samplerate,
+                                  0,
+                                  0);
+    if(ret < 0 || !m_ctx)
         return false;
 
     return swr_init(m_ctx) >= 0;
