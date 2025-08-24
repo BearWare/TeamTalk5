@@ -850,7 +850,7 @@ void showNotification(const QString &title, const QString &message)
     QString noquote = message;
     noquote.replace('"', ' ');
     QStringList arguments;
-    arguments << "-t" << "3" 
+    arguments << "-t" << "500" 
             << "-a" << title
             << "-u" << "low"
             << QString("%1: %2").arg(APPNAME_SHORT, noquote);
