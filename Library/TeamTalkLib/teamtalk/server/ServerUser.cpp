@@ -1181,6 +1181,13 @@ void ServerUser::ClearUserSubscription(const ServerUser& user)
     m_usersubscriptions.erase(user.GetUserID());
 }
 
+int ServerUser::UpdateActiveStream(StreamType stream, int streamid)
+{
+    auto prev_streamid = m_active_streams[stream];
+    m_active_streams[stream] = streamid;
+    return prev_streamid;
+}
+
 void ServerUser::HandleBinaryFileWrite(const char* buff, int len, bool& bContinue)
 {
     TTASSERT(m_filetransfer.get());

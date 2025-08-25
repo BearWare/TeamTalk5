@@ -128,6 +128,8 @@ namespace teamtalk {
         Subscriptions GetSubscriptions(const ServerUser& user) const;
         void ClearUserSubscription(const ServerUser& user);
 
+        int UpdateActiveStream(StreamType stream, int streamid);
+
         int GetFileTransferID() const { return m_filetransfer.get() ? m_filetransfer->transferid : 0; }
 
         ACE_Time_Value GetDuration() const;
@@ -289,6 +291,8 @@ namespace teamtalk {
         //userid -> subscription.
         typedef std::map<int, Subscriptions> usersubscriptions_t;
         usersubscriptions_t m_usersubscriptions;
+
+        std::map<StreamType, int> m_active_streams;
     };
 }
 #endif
