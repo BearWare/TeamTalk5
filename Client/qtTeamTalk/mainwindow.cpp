@@ -90,7 +90,7 @@ using namespace std::placeholders;
 
 extern TTInstance* ttInst;
 
-QSettings* ttSettings = nullptr;
+NonDefaultSettings* ttSettings = nullptr;
 QTranslator* ttTranslator = nullptr;
 PlaySoundEvent* playsoundevent = nullptr;
 
@@ -159,11 +159,11 @@ MainWindow::MainWindow(const QString& cfgfile)
     }
 
     if(QFile::exists(inipath)) //first try same dir as executable
-        ttSettings = new QSettings(inipath, QSettings::IniFormat, this);
+        ttSettings = new NonDefaultSettings(inipath, QSettings::IniFormat, this);
     else
     {
         //load from system default user settings
-        ttSettings = new QSettings(QSettings::IniFormat, 
+        ttSettings = new NonDefaultSettings(QSettings::IniFormat,
                                    QSettings::UserScope,
                                    QApplication::organizationName(),
                                    QApplication::applicationName(), this);

@@ -594,4 +594,30 @@
 #define SETTINGS_KEEP_DISCONNECTED_USERS                            "online-users/keep-disconnected-users"
 #define SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT                            false
 
+class NonDefaultSettings : public QSettings
+{
+     Q_OBJECT
+public:
+    NonDefaultSettings(const QString &fileName, QSettings::Format format, QObject *parent = nullptr)
+        : QSettings(fileName, format, parent) {}
+    NonDefaultSettings(QSettings::Format format, QSettings::Scope scope, const QString &organization,
+               const QString &application = QString(), QObject *parent = nullptr)
+        : QSettings(format, scope, organization, application, parent) {}
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+    void setValueOrClear(QAnyStringView key, const QVariant& newvalue, const QVariant& defvalue)
+#else
+    void setValueOrClear(const QString& key, const QVariant& newvalue, const QVariant& defvalue)
+#endif
+    {
+        if (value(key, newvalue) == defvalue)
+        {
+            remove(key);
+        }
+        else
+        {
+            setValue(key, newvalue);
+        }
+    }
+};
 #endif

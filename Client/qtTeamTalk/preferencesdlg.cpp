@@ -48,7 +48,7 @@
 #include "stdint.h"
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
 #endif

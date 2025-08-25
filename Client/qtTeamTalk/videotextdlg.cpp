@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QPushButton>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 VideoTextDlg::VideoTextDlg(QWidget* parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

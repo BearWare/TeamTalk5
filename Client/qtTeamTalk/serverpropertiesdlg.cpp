@@ -25,7 +25,7 @@
 #include <QMenu>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 ServerPropertiesDlg::ServerPropertiesDlg(QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

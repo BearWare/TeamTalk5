@@ -23,7 +23,7 @@
 #include "appinfo.h"
 #include "settings.h"
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 ChatTemplatesDlg::ChatTemplatesDlg(QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

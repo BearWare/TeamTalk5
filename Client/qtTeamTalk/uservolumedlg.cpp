@@ -25,7 +25,7 @@
 #include <QSettings>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 UserVolumeDlg::UserVolumeDlg(int userid, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

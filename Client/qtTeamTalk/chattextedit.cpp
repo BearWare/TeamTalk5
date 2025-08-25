@@ -30,7 +30,7 @@
 #include <QMessageBox>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 QString urlFound(const QString& text, int& index, int& length)
 {

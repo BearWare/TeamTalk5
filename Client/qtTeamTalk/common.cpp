@@ -25,7 +25,7 @@
 #include <QStack>
 #include <QTemporaryFile>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern TTInstance* ttInst;
 
 QString makeCustomCommand(const QString& cmd, const QString& value)

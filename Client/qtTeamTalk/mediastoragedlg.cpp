@@ -27,7 +27,7 @@
 #include <QPushButton>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 MediaStorageDlg::MediaStorageDlg(QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

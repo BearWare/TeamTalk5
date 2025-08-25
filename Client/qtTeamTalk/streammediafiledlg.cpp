@@ -28,7 +28,7 @@
 #include <QComboBox>
 #include <QKeyEvent>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern TTInstance* ttInst;
 
 #define MAX_MEDIAFILES 10

@@ -27,7 +27,7 @@
 #include <QMenu>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

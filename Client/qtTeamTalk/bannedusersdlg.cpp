@@ -26,7 +26,7 @@
 #include <QKeyEvent>
 #include <set>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 enum
 {

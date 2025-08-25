@@ -26,7 +26,7 @@
 #include <QMessageBox>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 enum
 {

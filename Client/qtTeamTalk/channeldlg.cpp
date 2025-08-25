@@ -24,7 +24,7 @@
 #include <QInputDialog>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

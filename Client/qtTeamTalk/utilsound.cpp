@@ -32,7 +32,7 @@
 #endif /* QT_VERSION_CHECK */
 #endif /* QT_MULTIMEDIA_LIB */
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern TTInstance* ttInst;
 extern PlaySoundEvent* playsoundevent;
 

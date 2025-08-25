@@ -18,7 +18,7 @@
 #include "utilvideo.h"
 #include "settings.h"
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern TTInstance* ttInst;
 
 bool getVideoCaptureCodec(VideoCodec& vidcodec)

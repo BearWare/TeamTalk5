@@ -42,7 +42,7 @@ extern QTextToSpeech* ttSpeech;
 extern QObject* announcerObject;
 #endif
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 QHash<TTSEvents, TTSEventInfo> UtilTTS::eventToSettingMap()
 {

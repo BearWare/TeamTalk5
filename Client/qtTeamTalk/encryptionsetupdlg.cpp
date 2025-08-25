@@ -24,7 +24,7 @@
 #include <QMessageBox>
 #include <QTextStream>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 EncryptionSetupDlg::EncryptionSetupDlg(HostEncryption& enc, QWidget *parent)
     : QDialog(parent)

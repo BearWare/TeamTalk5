@@ -26,7 +26,7 @@
 #include <QFileDialog>
 #include <QMessageBox>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 GenerateTTFileDlg::GenerateTTFileDlg(const HostEntry& entry, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

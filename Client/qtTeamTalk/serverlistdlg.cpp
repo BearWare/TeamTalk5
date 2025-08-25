@@ -34,7 +34,7 @@
 #include <QMenu>
 #include <QDebug>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 enum
 {

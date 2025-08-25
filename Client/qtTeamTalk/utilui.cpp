@@ -43,7 +43,7 @@
 #endif
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern QTranslator* ttTranslator;
 
 void migrateSettings()

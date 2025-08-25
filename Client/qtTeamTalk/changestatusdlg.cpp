@@ -21,7 +21,7 @@
 #include <QPushButton>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 ChangeStatusDlg::ChangeStatusDlg(QString statusmsg, QWidget* parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)

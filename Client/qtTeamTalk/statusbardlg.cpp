@@ -23,7 +23,7 @@
 #include "statusbareventsmodel.h"
 #include "settings.h"
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
