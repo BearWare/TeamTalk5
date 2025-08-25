@@ -203,7 +203,7 @@ void StatusBarDlg::slotStatusBarRevert(bool /*checked*/)
 
 void StatusBarDlg::slotAccept()
 {
-    ttSettings->setValue(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents());
+    ttSettings->setValueOrClear(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents(), SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT);
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER, ui.statusBarTableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBARDLG_SIZE, saveGeometry());
     saveCurrentMessage();
