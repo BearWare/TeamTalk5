@@ -28,7 +28,7 @@
 #elif defined(Q_OS_DARWIN)
 #define SOUNDSPATH                                     "/Applications/TeamTalk5.app/Contents/Resources/Sounds"
 #endif
-#define SETTINGS_VERSION                            "5.5"
+#define SETTINGS_VERSION                            "5.6"
 #define SETTINGS_GENERAL_VERSION                    "general_/version"
 #define SETTINGS_GENERAL_VERSION_DEFAULT            SETTINGS_VERSION
 #define SETTINGS_GENERAL_FIRSTSTART                 "general_/first-start"
@@ -53,6 +53,7 @@
 #define SETTINGS_GENERAL_VOICEACTIVATED             "general_/voice-activated"
 #define SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT     false
 #define SETTINGS_GENERAL_STATUSMESSAGE              "general_/statusmsg"
+#define SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT      ""
 #define SETTINGS_GENERAL_STREAMING_STATUS              "general_/streaming-status"
 #define SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT              false
 #define SETTINGS_GENERAL_PROFILENAME                "general_/profilename"
