@@ -32,6 +32,7 @@ Default Qt Client
 Android Client
 - Added "Online Users" activity to display users logged on to the server
 - Added a new option to prevent talking users from moving to the top of users list
+- Added the ability to pause and resume media file streams
 - Added the ability to leave channels
 - Added the ability to set status messages
 - Added the ability to control user's transmissions
