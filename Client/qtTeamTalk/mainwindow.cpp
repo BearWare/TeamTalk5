@@ -635,13 +635,13 @@ MainWindow::~MainWindow()
     if(m_display)
         XCloseDisplay(m_display);
 #endif
-    ttSettings->setValue(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value());
-    ttSettings->setValue(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value());
+    ttSettings->setValueOrClear(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value(), SETTINGS_SOUND_MASTERVOLUME_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value(), SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value(), SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT);
 
     auto activekeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
-    ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, (ui.actionEnablePushToTalk->isChecked() ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK));
-    ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS, (ui.actionEnablePushToTalk->isChecked() ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK), SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_GENERAL_VOICEACTIVATED, ui.actionEnableVoiceActivation->isChecked(), SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT);
 
     if(windowState() == Qt::WindowNoState)
     {
@@ -678,7 +678,7 @@ void MainWindow::loadSettings()
         answer.exec();
         if(answer.clickedButton() == YesButton)
         {
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, languageCode);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE, languageCode, SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
         }
         else if(answer.clickedButton() == NoButton)
         {
@@ -704,7 +704,7 @@ void MainWindow::loadSettings()
             if (ok)
             {
                 QString lc_code = languageMap.value(choice, "");
-                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+                ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE, lc_code, SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
             }
         }
     }
@@ -720,7 +720,7 @@ void MainWindow::loadSettings()
             if (switchLanguage(langPrefix))
             {
                 this->ui.retranslateUi(this);
-                ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, langPrefix);
+                ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE, langPrefix, SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
             }
             else
             {
@@ -4466,11 +4466,11 @@ void MainWindow::slotClientSoundDevices()
 void MainWindow::slotClientAudioEffect()
 {
     if (QObject::sender() == ui.actionEnableEchoCancel)
-        ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui.actionEnableEchoCancel->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_SOUND_ECHOCANCEL, ui.actionEnableEchoCancel->isChecked(), SETTINGS_SOUND_ECHOCANCEL_DEFAULT);
     else if (QObject::sender() == ui.actionEnableAGC)
-        ttSettings->setValue(SETTINGS_SOUND_AGC, ui.actionEnableAGC->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_SOUND_AGC, ui.actionEnableAGC->isChecked(), SETTINGS_SOUND_AGC_DEFAULT);
     else if (QObject::sender() == ui.actionEnableDenoising)
-        ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.actionEnableDenoising->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_SOUND_DENOISING, ui.actionEnableDenoising->isChecked(), SETTINGS_SOUND_DENOISING_DEFAULT);
     slotUpdateUI();
     updateAudioConfig();
 }
@@ -4583,7 +4583,7 @@ void MainWindow::slotMeChangeNickname(bool /*checked =false */)
             }
         }
         else
-            ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, s);
+            ttSettings->setValueOrClear(SETTINGS_GENERAL_NICKNAME, s, SETTINGS_GENERAL_NICKNAME_DEFAULT);
     }
 }
 
@@ -4631,7 +4631,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
             }
         }
         else
-            ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, statusmsg);
+            ttSettings->setValueOrClear(SETTINGS_GENERAL_STATUSMESSAGE, statusmsg);
     }
 }
 

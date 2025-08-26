@@ -360,22 +360,22 @@ void BannedUsersDlg::slotBannedContextMenu(const QPoint& /*point*/)
         if (action == sortUsername)
         {
             ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERNAME, m_bannedproxy->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, username);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_BANLIST_SORT, username, SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT);
         }
         else if (action == sortBanType)
         {
             ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_BANTYPE, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTYPE ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, bantype);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_BANLIST_SORT, bantype, SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT);
         }
         else if (action == sortBanTime)
         {
             ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_BANTIME, m_bannedproxy->sortColumn() == COLUMN_INDEX_BANTIME? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, bantime);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_BANLIST_SORT, bantime, SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT);
         }
         else if (action == sortIP)
         {
             ui.bannedTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_IPADDRESS, m_bannedproxy->sortColumn() == COLUMN_INDEX_IPADDRESS ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_BANLIST_SORT, IP);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_BANLIST_SORT, IP, SETTINGS_DISPLAY_BANLIST_SORT_DEFAULT);
         }
         else if (action == unbanUser)
             slotUnbanUser();

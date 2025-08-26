@@ -72,5 +72,5 @@ void ChangeStatusDlg::slotAccepted()
     }
     m_statusmsg = ui.msgEdit->text();
 
-    ttSettings->setValue(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_GENERAL_STREAMING_STATUS, ui.streamChkBox->isChecked(), SETTINGS_GENERAL_STREAMING_STATUS_DEFAULT);
 }

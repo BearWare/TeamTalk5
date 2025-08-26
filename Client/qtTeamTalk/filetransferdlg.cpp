@@ -164,5 +164,5 @@ void FileTransferDlg::slotCancelTransfer()
 
 void FileTransferDlg::slotUpdateSettings()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked(), SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT);
 }
