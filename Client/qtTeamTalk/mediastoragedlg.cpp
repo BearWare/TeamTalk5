@@ -140,7 +140,7 @@ void MediaStorageDlg::accept()
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_AUDIOFOLDER, folder);
     ttSettings->setValue(SETTINGS_MEDIASTORAGE_FILEFORMAT, aff);
 
-    ttSettings->setValue(SETTINGS_MEDIASTORAGE_STREAMTYPES, sts);
+    ttSettings->setValueOrClear(SETTINGS_MEDIASTORAGE_STREAMTYPES, sts, SETTINGS_MEDIASTORAGE_STREAMTYPES_DEFAULT);
 
     folder = ui.chanlogEdit->text();
     if ((folder.size() > 0 && folder.isEmpty()) || !QDir(folder).exists())
