@@ -610,7 +610,7 @@ public:
     void setValueOrClear(const QString& key, const QVariant& newvalue, const QVariant& defvalue)
 #endif
     {
-        if (value(key, newvalue) == defvalue)
+        if (newvalue == defvalue)
         {
             remove(key);
         }
