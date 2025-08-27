@@ -4516,17 +4516,34 @@ void MainWindow::slotClientRecordConversations(bool/* checked*/)
     slotUpdateUI();
 }
 
-void MainWindow::slotClientExit(bool /*checked =false */)
+bool MainWindow::slotClientExit(bool /*checked =false */)
 {
-    //close using timer, otherwise gets a Qt assertion from the 
-    //'setQuitOnLastWindowClosed' call.
+    bool ok = true;
+    if (ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool() == true)
+    {
+        ok = false;
+        QMessageBox answer;
+        answer.setText(tr("Are you sure you want to quit %1").arg(APPNAME_SHORT));
+        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+        Q_UNUSED(NoButton);
+        answer.setIcon(QMessageBox::Question);
+        answer.setWindowTitle(tr("Exit %1").arg(APPNAME_SHORT));
+        answer.exec();
+        if(answer.clickedButton() == YesButton)
+            ok = true;
+    }
+    if (ok)
+    {
 #if defined(ENABLE_TOLK)
-    if(Tolk_IsLoaded())
-        Tolk_Unload();
+        if(Tolk_IsLoaded())
+            Tolk_Unload();
 #endif
-    if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-        disconnectFromServer();
-    QApplication::quit();
+        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+            disconnectFromServer();
+        QApplication::quit();
+    }
+    return ok;
 }
 
 void MainWindow::slotMeChangeNickname(bool /*checked =false */)
@@ -8011,40 +8028,11 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
-    bool ok = true;
-    if (ttSettings->value(SETTINGS_DISPLAY_CONFIRMEXIT, SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT).toBool() == true)
-    {
-        ok = false;
-        QMessageBox answer;
-        answer.setText(tr("Are you sure you want to quit %1").arg(APPNAME_SHORT));
-        QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
-        QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
-        Q_UNUSED(NoButton);
-        answer.setIcon(QMessageBox::Question);
-        answer.setWindowTitle(tr("Exit %1").arg(APPNAME_SHORT));
-        answer.exec();
-        if(answer.clickedButton() == YesButton)
-            ok = true;
-    }
-    if (ok)
-    {
-#if defined(Q_OS_DARWIN)
-        QMainWindow::closeEvent(event);
-#else
-        //close using timer, otherwise gets a Qt assertion from the 
-        //'setQuitOnLastWindowClosed' call.
-#if defined(ENABLE_TOLK)
-        if(Tolk_IsLoaded())
-            Tolk_Unload();
-#endif
-        if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
-            disconnectFromServer();
-#endif
-    }
-    else
-    {
+#if !defined(Q_OS_DARWIN)
+    if (!slotClientExit(false))
         event->ignore();
-    }
+#endif
+    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
