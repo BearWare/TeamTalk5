@@ -68,7 +68,7 @@ void migrateSettings()
 #endif
         {
             Gender gender = ttSettings->value(SETTINGS_GENERAL_GENDER).toBool() ? GENDER_MALE : GENDER_FEMALE;
-            ttSettings->setValue(SETTINGS_GENERAL_GENDER, gender);
+            ttSettings->setValueOrClear(SETTINGS_GENERAL_GENDER, gender, SETTINGS_GENERAL_GENDER_DEFAULT);
         }
     }
     if (!versionSameOrLater(iniversion, "5.3"))
@@ -103,7 +103,7 @@ void migrateSettings()
                 activeEvents |= event;
         }
 
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, activeEvents, SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT);
 
         // TTS options removed in 5.4 format
         ttSettings->remove("texttospeech/announce-server-name");
@@ -142,7 +142,7 @@ void migrateSettings()
             else if (lang == "Thai") lc_code = "th";
             else if (lang == "Turkish") lc_code = "tr";
             else if (lang == "Vietnamese") lc_code = "vi";
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE, lc_code);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE, lc_code, SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
         }
 
         // Shortcuts changed in 5.4 format
@@ -158,22 +158,22 @@ void migrateSettings()
             }
         }
 
-        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, hks);
+        ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS, hks, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
         ttSettings->remove("general_/push-to-talk");
     }
     if (!versionSameOrLater(iniversion, "5.5"))
     {
         // Setting to display emoji in channel list changed in 5.5 format
         if (ttSettings->contains("display/show-emoji") && ttSettings->value("display/show-emoji").toBool() == false)
-            ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, STYLE_NONE);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_INFOSTYLE, STYLE_NONE, SETTINGS_DISPLAY_INFOSTYLE_DEFAULT);
         ttSettings->remove("display/show-emoji");
 
         // TTSENGINE_NOTIFY removed in 5.5 format
 #if defined(Q_OS_LINUX)
         if (ttSettings->value(SETTINGS_TTS_ENGINE).toUInt() == TTSENGINE_NOTIFY_OBSOLETE)
         {
-            ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_NONE);
-            ttSettings->setValue(SETTINGS_TTS_TOAST, true);
+            ttSettings->setValueOrClear(SETTINGS_TTS_ENGINE, TTSENGINE_NONE, SETTINGS_TTS_ENGINE_DEFAULT);
+            ttSettings->setValueOrClear(SETTINGS_TTS_TOAST, true, SETTINGS_TTS_TOAST_DEFAULT);
             ttSettings->remove("texttospeech/tts-timestamp");
         }
 #endif
@@ -185,7 +185,7 @@ void migrateSettings()
     {
         // Check and fix status message value
         if (ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE).toString() == ttSettings->value(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE).toString())
-            ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT);
+            ttSettings->remove(SETTINGS_GENERAL_STATUSMESSAGE);
     }
 
     if (ttSettings->value(SETTINGS_GENERAL_VERSION).toString() != SETTINGS_VERSION)

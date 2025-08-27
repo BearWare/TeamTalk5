@@ -120,9 +120,9 @@ void StreamMediaFileDlg::slotAccepted()
         ttSettings->setValue(QString(SETTINGS_STREAMMEDIA_FILENAME).arg(i), files[i]);
     }
 
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, getCurrentItemData(ui.preprocessorComboBox).toInt());
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec);
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_LOOP, ui.loopChkBox->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR, getCurrentItemData(ui.preprocessorComboBox).toInt(), SETTINGS_STREAMMEDIA_AUDIOPREPROCESSOR_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_STREAMMEDIA_LOOP, ui.loopChkBox->isChecked(), SETTINGS_STREAMMEDIA_LOOP_DEFAULT);
     ttSettings->setValue(SETTINGS_STREAMMEDIA_CODEC, getCurrentItemData(ui.vidcodecBox).toInt());
     ttSettings->setValue(SETTINGS_STREAMMEDIA_WEBMVP8_BITRATE, ui.vp8bitrateSpinBox->value());
 }

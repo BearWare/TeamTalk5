@@ -4444,7 +4444,7 @@ void MainWindow::slotClientSoundDevices()
             newaction->setCheckable(true);
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
-                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE, dev.nDeviceID);
+                ttSettings->setValueOrClear(SETTINGS_SOUND_INPUTDEVICE, dev.nDeviceID, SETTINGS_SOUND_INPUTDEVICE_DEFAULT);
                 ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, _Q(dev.szDeviceID));
                 reinitfunc();
                 });
@@ -4455,7 +4455,7 @@ void MainWindow::slotClientSoundDevices()
             newaction->setCheckable(true);
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
-                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE, dev.nDeviceID);
+                ttSettings->setValueOrClear(SETTINGS_SOUND_OUTPUTDEVICE, dev.nDeviceID, SETTINGS_SOUND_OUTPUTDEVICE_DEFAULT);
                 ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, _Q(dev.szDeviceID));
                 reinitfunc();
                 });
@@ -4631,7 +4631,7 @@ void MainWindow::slotMeChangeStatus(bool /*checked =false */)
             }
         }
         else
-            ttSettings->setValueOrClear(SETTINGS_GENERAL_STATUSMESSAGE, statusmsg);
+            ttSettings->setValueOrClear(SETTINGS_GENERAL_STATUSMESSAGE, statusmsg, SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT);
     }
 }
 
@@ -4662,7 +4662,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
     }
 
     auto activekeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
-    ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, (checked ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK));
+    ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS, (checked ? activekeys | HOTKEY_PUSHTOTALK : activekeys & ~HOTKEY_PUSHTOTALK), SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
 
     slotUpdateUI();
 }
@@ -4670,7 +4670,7 @@ void MainWindow::slotMeEnablePushToTalk(bool checked)
 void MainWindow::slotMeHearMyself(bool checked/*=false*/)
 {
     subscribeCommon(checked, SUBSCRIBE_VOICE, TT_GetMyUserID(ttInst));
-    ttSettings->setValue(SETTINGS_CONNECTION_HEAR_MYSELF, checked);
+    ttSettings->setValueOrClear(SETTINGS_CONNECTION_HEAR_MYSELF, checked, SETTINGS_CONNECTION_HEAR_MYSELF_DEFAULT);
 }
 
 void MainWindow::slotMeEnableVoiceActivation(bool checked)
@@ -4692,7 +4692,7 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
         if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
             emit updateMyself();
         playSoundEvent(checked == true ? on : off);
-        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, checked);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_VOICEACTIVATED, checked, SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT);
     }
     slotUpdateUI();
 }
@@ -4706,7 +4706,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
         {
             ui.actionEnableVideoTransmission->setChecked(false);
-            ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+            ttSettings->setValueOrClear(SETTINGS_VIDCAP_ENABLE, false, SETTINGS_VIDCAP_ENABLE_DEFAULT);
             QMessageBox::warning(this,
             MENUTEXT(ui.actionEnableVideoTransmission->text()), 
             tr("Video device hasn't been configured properly. Check settings in 'Preferences'"));
@@ -4717,7 +4717,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
             {
                 ui.actionEnableVideoTransmission->setChecked(false);
                 TT_CloseVideoCaptureDevice(ttInst);
-                ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+                ttSettings->setValueOrClear(SETTINGS_VIDCAP_ENABLE, false, SETTINGS_VIDCAP_ENABLE_DEFAULT);
                 QMessageBox::warning(this,
                                  MENUTEXT(ui.actionEnableVideoTransmission->text()), 
                              tr("Failed to configure video codec. Check settings in 'Preferences'"));
@@ -4732,7 +4732,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
                 TT_DoChangeStatus(ttInst, m_statusmode, 
                 _W(statusmsg));
             }
-            ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, true);
+            ttSettings->setValueOrClear(SETTINGS_VIDCAP_ENABLE, true, SETTINGS_VIDCAP_ENABLE_DEFAULT);
             transmitOn(STREAMTYPE_VIDEOCAPTURE);
             addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission enabled"));
         }
@@ -4754,7 +4754,7 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
         if(ui.videogridWidget->userExists(0))
             ui.videogridWidget->removeUser(0 /* local video*/);
 
-        ttSettings->setValue(SETTINGS_VIDCAP_ENABLE, false);
+        ttSettings->setValueOrClear(SETTINGS_VIDCAP_ENABLE, false, SETTINGS_VIDCAP_ENABLE_DEFAULT);
         addTextToSpeechMessage(TTS_TOGGLE_VIDEOTRANSMISSION, tr("Video transmission disabled"));
     }
 
@@ -4836,12 +4836,12 @@ void MainWindow::slotMeEnableTTS(bool checked/*=false*/)
 {
     if(checked)
     {
-        ttSettings->setValue(SETTINGS_TTS_ENABLE, true);
+        ttSettings->setValueOrClear(SETTINGS_TTS_ENABLE, true, SETTINGS_TTS_ENABLE_DEFAULT);
         addTextToSpeechMessage(tr("Text-To-Speech enabled"));
     }
     else
     {
-        ttSettings->setValue(SETTINGS_TTS_ENABLE, false);
+        ttSettings->setValueOrClear(SETTINGS_TTS_ENABLE, false, SETTINGS_TTS_ENABLE_DEFAULT);
         addTextToSpeechMessage(tr("Text-To-Speech disabled"));
     }
     slotUpdateUI();
@@ -4851,12 +4851,12 @@ void MainWindow::slotMeEnableSounds(bool checked/*=false*/)
 {
     if(checked)
     {
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, true);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_ENABLE, true, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT);
         addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events enabled"));
     }
     else
     {
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_ENABLE, false);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_ENABLE, false, SETTINGS_SOUNDEVENT_ENABLE_DEFAULT);
         addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("Sound events disabled"));
     }
     slotUpdateUI();
@@ -5687,7 +5687,7 @@ void MainWindow::setMediaFilePosition()
     {
         QMessageBox::critical(this, MENUTEXT(ui.actionPauseResumeStream->text()), tr("Failed to change playback position"));
     }
-    ttSettings->setValue(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec);
+    ttSettings->setValueOrClear(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT);
 }
 
 void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
@@ -5868,22 +5868,22 @@ void MainWindow::slotFilesContextMenu(const QPoint &/* pos*/)
         if (action == sortName)
         {
             ui.filesView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_NAME, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_NAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, name);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_FILESLIST_SORT, name, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT);
         }
         else if (action == sortSize)
         {
             ui.filesView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_SIZE, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_SIZE ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, size);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_FILESLIST_SORT, size, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT);
         }
         else if (action == sortOwner)
         {
             ui.filesView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_OWNER, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_OWNER? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, owner);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_FILESLIST_SORT, owner, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT);
         }
         else if (action == sortUpload)
         {
             ui.filesView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_UPLOADED, m_proxyFilesModel->sortColumn() == COLUMN_INDEX_UPLOADED? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_FILESLIST_SORT, uploadstr);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_FILESLIST_SORT, uploadstr, SETTINGS_DISPLAY_FILESLIST_SORT_DEFAULT);
         }
         else if (action == upload)
             slotChannelsUploadFile();
@@ -7707,11 +7707,11 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
         {
             //if no nickname specified use from .tt file
             if(m_host.nickname.size())
-                ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, m_host.nickname);
+                ttSettings->setValueOrClear(SETTINGS_GENERAL_NICKNAME, m_host.nickname, SETTINGS_GENERAL_NICKNAME_DEFAULT);
 
             //if no gender specified use from .tt file
             if (m_host.gender != GENDER_NONE)
-                ttSettings->setValue(SETTINGS_GENERAL_GENDER, m_host.gender);
+                ttSettings->setValueOrClear(SETTINGS_GENERAL_GENDER, m_host.gender, SETTINGS_GENERAL_GENDER_DEFAULT);
         
             //if no PTT-key specified use from .tt file
             hotkey_t hotkey;
@@ -7728,13 +7728,13 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             //video capture
             if(isValid(m_host.capformat))
             {
-                ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, m_host.capformat.picFourCC);
-                ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, QString("%1x%2")
+                ttSettings->setValueOrClear(SETTINGS_VIDCAP_FOURCC, m_host.capformat.picFourCC, SETTINGS_VIDCAP_FOURCC_DEFAULT);
+                ttSettings->setValueOrClear(SETTINGS_VIDCAP_RESOLUTION, QString("%1x%2")
                                  .arg(m_host.capformat.nWidth)
-                                 .arg(m_host.capformat.nHeight));
-                ttSettings->setValue(SETTINGS_VIDCAP_FPS, QString("%1/%2")
+                                 .arg(m_host.capformat.nHeight), SETTINGS_VIDCAP_RESOLUTION_DEFAULT);
+                ttSettings->setValueOrClear(SETTINGS_VIDCAP_FPS, QString("%1/%2")
                                  .arg(m_host.capformat.nFPS_Numerator)
-                                 .arg(m_host.capformat.nFPS_Denominator));
+                                 .arg(m_host.capformat.nFPS_Denominator), SETTINGS_VIDCAP_FPS_DEFAULT);
                 TT_CloseVideoCaptureDevice(ttInst);
             }
 
@@ -7742,10 +7742,10 @@ void MainWindow::slotLoadTTFile(const QString& filepath)
             switch(m_host.vidcodec.nCodec)
             {
                 case WEBM_VP8_CODEC :
-                    ttSettings->setValue(SETTINGS_VIDCAP_CODEC,
-                                     m_host.vidcodec.nCodec);
-                    ttSettings->setValue(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
-                                         m_host.vidcodec.webm_vp8.nRcTargetBitrate);
+                    ttSettings->setValueOrClear(SETTINGS_VIDCAP_CODEC,
+                                     m_host.vidcodec.nCodec, SETTINGS_VIDCAP_CODEC_DEFAULT);
+                    ttSettings->setValueOrClear(SETTINGS_VIDCAP_WEBMVP8_BITRATE,
+                                         m_host.vidcodec.webm_vp8.nRcTargetBitrate, SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT);
                     TT_CloseVideoCaptureDevice(ttInst);
                 break;
             case SPEEX_CODEC :

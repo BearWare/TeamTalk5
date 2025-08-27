@@ -109,7 +109,7 @@ void ChatTemplatesDlg::saveCurrentTemplate()
 
         if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
-            ttSettings->setValue(paramKey, text);
+            ttSettings->setValueOrClear(paramKey, text, UtilUI::getDefaultTemplate(paramKey));
         }
     }
 }
@@ -149,7 +149,7 @@ void ChatTemplatesDlg::chatTemplatesRestoreAllDefaultTemplate()
         {
             const ChatTemplateInfo& templateInfo = templatesMap[templateId];
             QString defaultValue = UtilUI::getDefaultTemplate(templateInfo.settingKey);
-            ttSettings->setValue(templateInfo.settingKey, defaultValue);
+            ttSettings->remove(templateInfo.settingKey);
             if (m_currentIndex.isValid() && m_currentIndex.internalId() == templateId)
                 ui.CTMsgEdit->setText(defaultValue);
         }

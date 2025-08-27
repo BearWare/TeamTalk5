@@ -139,7 +139,7 @@ void StatusBarDlg::saveCurrentMessage()
 
         if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
-            ttSettings->setValue(paramKey, text);
+            ttSettings->setValueOrClear(paramKey, text, UtilUI::getDefaultValue(paramKey));
         }
     }
 }
@@ -179,7 +179,7 @@ void StatusBarDlg::statusBarRestoreAllDefaultMessage()
         {
             const StatusBarEventInfo& eventInfo = eventMap[eventId];
             QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
-            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            ttSettings->remove(eventInfo.settingKey);
             if (m_currentIndex.isValid() && m_currentIndex.internalId() == eventId)
                 ui.SBMsgEdit->setText(defaultValue);
         }

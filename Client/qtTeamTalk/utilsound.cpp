@@ -676,10 +676,10 @@ void resetDefaultSoundsPack()
         const SoundEventInfo& eventInfo = it.value();
         QString paramKey = eventInfo.settingKey;
         QString defaultValue = UtilSound::getDefaultFile(paramKey);
-        ttSettings->setValue(paramKey, defaultValue);
+        ttSettings->remove(paramKey);
     }
 
-    ttSettings->setValue(SETTINGS_SOUNDS_PACK, SETTINGS_SOUNDS_PACK_DEFAULT);
+    ttSettings->remove(SETTINGS_SOUNDS_PACK);
 }
 
 QString UtilSound::getDefaultFile(const QString& paramKey)

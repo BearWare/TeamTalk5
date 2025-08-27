@@ -102,9 +102,9 @@ void saveVideoFormat(const VideoFormat& vidfmt)
     resolution = QString("%1x%2").arg(vidfmt.nWidth).arg(vidfmt.nHeight);
     fps = QString("%1/%2").arg(vidfmt.nFPS_Numerator).arg(vidfmt.nFPS_Denominator);
 
-    ttSettings->setValue(SETTINGS_VIDCAP_RESOLUTION, resolution);
-    ttSettings->setValue(SETTINGS_VIDCAP_FPS, fps);
-    ttSettings->setValue(SETTINGS_VIDCAP_FOURCC, (int)vidfmt.picFourCC);
+    ttSettings->setValueOrClear(SETTINGS_VIDCAP_RESOLUTION, resolution, SETTINGS_VIDCAP_RESOLUTION_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_VIDCAP_FPS, fps, SETTINGS_VIDCAP_FPS_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_VIDCAP_FOURCC, (int)vidfmt.picFourCC, SETTINGS_VIDCAP_FOURCC_DEFAULT);
 }
 
 bool loadVideoFormat(VideoFormat& vidfmt)
