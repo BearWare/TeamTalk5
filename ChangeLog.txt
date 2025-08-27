@@ -12,7 +12,8 @@ Android Client
 iOS Client
 -
 Server
--
+- Now logs changes to who is allowed to transmit
+- Now logs when new streams (voice, video, etc.) are started
 
 Version 5.19, 2025/08/05
 Default Qt Client
