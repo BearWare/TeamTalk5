@@ -340,8 +340,6 @@ QString limitText(const QString& text)
     return text;
 }
 
-#define DEFAULT_NICKNAME           QT_TRANSLATE_NOOP("MainWindow", "NoName")
-
 QString getDisplayName(const User& user)
 {
     if(ttSettings->value(SETTINGS_DISPLAY_SHOWUSERNAME,
@@ -352,7 +350,7 @@ QString getDisplayName(const User& user)
 
     QString nickname = _Q(user.szNickname);
     if (nickname.isEmpty())
-        nickname = QString("%1 - #%2").arg(QCoreApplication::translate("MainWindow", DEFAULT_NICKNAME)).arg(user.nUserID);
+        nickname = QString("%1 - #%2").arg(QCoreApplication::translate("MainWindow", SETTINGS_GENERAL_NICKNAME_DEFAULT)).arg(user.nUserID);
     return limitText(nickname);
 }
 

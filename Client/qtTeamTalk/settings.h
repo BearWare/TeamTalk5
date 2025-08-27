@@ -35,7 +35,7 @@
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
-#define SETTINGS_GENERAL_NICKNAME_DEFAULT           ""
+#define SETTINGS_GENERAL_NICKNAME_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
 #define SETTINGS_GENERAL_GENDER_DEFAULT             GENDER_NEUTRAL
 #define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"
