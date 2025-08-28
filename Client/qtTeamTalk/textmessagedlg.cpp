@@ -30,7 +30,7 @@
 #define REMOTE_TYPING_DELAY 10000
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 TextMessageDlg::TextMessageDlg(const User& user, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)

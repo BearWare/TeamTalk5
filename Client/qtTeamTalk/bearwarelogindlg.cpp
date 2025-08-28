@@ -30,7 +30,7 @@
 #include <QPushButton>
 #include <QFile>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 QString BearWareLoginDlg::registerUrl = APPWEBSITE;
 

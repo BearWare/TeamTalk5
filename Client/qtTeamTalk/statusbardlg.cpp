@@ -23,7 +23,7 @@
 #include "statusbareventsmodel.h"
 #include "settings.h"
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 StatusBarDlg::StatusBarDlg(QWidget* parent, StatusBarEvents events)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -139,7 +139,7 @@ void StatusBarDlg::saveCurrentMessage()
 
         if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
-            ttSettings->setValue(paramKey, text);
+            ttSettings->setValueOrClear(paramKey, text, UtilUI::getDefaultValue(paramKey));
         }
     }
 }
@@ -179,7 +179,7 @@ void StatusBarDlg::statusBarRestoreAllDefaultMessage()
         {
             const StatusBarEventInfo& eventInfo = eventMap[eventId];
             QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
-            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            ttSettings->remove(eventInfo.settingKey);
             if (m_currentIndex.isValid() && m_currentIndex.internalId() == eventId)
                 ui.SBMsgEdit->setText(defaultValue);
         }
@@ -203,7 +203,7 @@ void StatusBarDlg::slotStatusBarRevert(bool /*checked*/)
 
 void StatusBarDlg::slotAccept()
 {
-    ttSettings->setValue(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents());
+    ttSettings->setValueOrClear(SETTINGS_STATUSBAR_ACTIVEEVENTS, m_statusbarmodel->getStatusBarEvents(), SETTINGS_STATUSBAR_ACTIVEEVENTS_DEFAULT);
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBAR_EVENTS_HEADER, ui.statusBarTableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_STATUSBARDLG_SIZE, saveGeometry());
     saveCurrentMessage();

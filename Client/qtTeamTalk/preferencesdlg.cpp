@@ -48,7 +48,7 @@
 #include "stdint.h"
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 #if defined(QT_TEXTTOSPEECH_LIB)
 extern QTextToSpeech* ttSpeech;
 #endif
@@ -725,48 +725,48 @@ void PreferencesDlg::slotSaveChanges()
 {
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text());
-        ttSettings->setValue(SETTINGS_GENERAL_STATUSMESSAGE, ui.statusmsgEdit->text());
-        ttSettings->setValue(SETTINGS_GENERAL_GENDER, getCurrentItemData(ui.genderBox, GENDER_NEUTRAL));
-        ttSettings->setValue(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value());
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text(), SETTINGS_GENERAL_NICKNAME_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_STATUSMESSAGE, ui.statusmsgEdit->text(), SETTINGS_GENERAL_STATUSMESSAGE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_GENDER, getCurrentItemData(ui.genderBox, GENDER_NEUTRAL), SETTINGS_GENERAL_GENDER_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_AUTOAWAY, ui.awaySpinBox->value(), SETTINGS_GENERAL_AUTOAWAY_DEFAULT);
         ttSettings->setValue(SETTINGS_GENERAL_AWAY_STATUSMSG, ui.awayMsgEdit->text());
-        ttSettings->setValue(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT, ui.disableVoiceActCheckBox->isChecked(), SETTINGS_GENERAL_INACTIVITY_DISABLE_VOICEACT_DEFAULT);
         if (m_hotkeys.contains(HOTKEY_PUSHTOTALK))
             saveHotKeySettings(HOTKEY_PUSHTOTALK, m_hotkeys[HOTKEY_PUSHTOTALK]);
         else
             deleteHotKeySettings(HOTKEY_PUSHTOTALK);
         auto activehotkeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
-        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS,
-            (ui.pttChkBox->isChecked() ? activehotkeys | HOTKEY_PUSHTOTALK : activehotkeys & ~HOTKEY_PUSHTOTALK));
-        ttSettings->setValue(SETTINGS_GENERAL_PUSHTOTALKLOCK, ui.pttlockChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_GENERAL_RESTOREUSERSETTINGS, ui.syncWebUserCheckBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS,
+            (ui.pttChkBox->isChecked() ? activehotkeys | HOTKEY_PUSHTOTALK : activehotkeys & ~HOTKEY_PUSHTOTALK), SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_PUSHTOTALKLOCK, ui.pttlockChkBox->isChecked(), SETTINGS_GENERAL_PUSHTOTALKLOCK_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_VOICEACTIVATED, ui.voiceactChkBox->isChecked(), SETTINGS_GENERAL_VOICEACTIVATED_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_GENERAL_RESTOREUSERSETTINGS, ui.syncWebUserCheckBox->isChecked(), SETTINGS_GENERAL_RESTOREUSERSETTINGS_DEFAULT);
     }
     if(m_modtab.find(DISPLAY_TAB) != m_modtab.end())
     {
         ttSettings->setValue(SETTINGS_DISPLAY_STARTMINIMIZED, ui.startminimizedChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_TRAYMINIMIZE,  ui.trayChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_CONFIRMEXIT,  ui.confirmExitChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CONFIRMEXIT,  ui.confirmExitChkBox->isChecked(), SETTINGS_DISPLAY_CONFIRMEXIT_DEFAULT);
         ttSettings->setValue(SETTINGS_DISPLAY_ALWAYSONTOP, ui.alwaysontopChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, ui.vumeterChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, ui.voiceActLevelChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_MESSAGEPOPUP, ui.msgpopupChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_VU_METER_UPDATES, ui.vumeterChkBox->isChecked(), SETTINGS_DISPLAY_VU_METER_UPDATES_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_VOICE_ACT_SLIDER, ui.voiceActLevelChkBox->isChecked(), SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_MESSAGEPOPUP, ui.msgpopupChkBox->isChecked(), SETTINGS_DISPLAY_MESSAGEPOPUP_DEFAULT);
         ttSettings->setValue(SETTINGS_DISPLAY_VIDEOPOPUP, ui.videodlgChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT_SHOW, ui.vidtextChkBox->isChecked());
         ttSettings->setValue(SETTINGS_DISPLAY_DESKTOPPOPUP, ui.desktopdlgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_USERSCOUNT, ui.usercountChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_LASTTALK, ui.lasttalkChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERSCOUNT, ui.usercountChkBox->isChecked(), SETTINGS_DISPLAY_USERSCOUNT_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_LASTTALK, ui.lasttalkChkBox->isChecked(), SETTINGS_DISPLAY_LASTTALK_DEFAULT);
         ttSettings->setValue(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, ui.timestampformatEdit->text());
-        ttSettings->setValue(SETTINGS_DISPLAY_CHANEXP, ui.chanexpChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE, ui.updatesChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_BETA, ui.betaUpdatesChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value());
-        ttSettings->setValue(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_INFOSTYLE, getCurrentItemData(ui.infoStyleBox, STYLE_EMOJI));
-        ttSettings->setValue(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANEXP, ui.chanexpChkBox->isChecked(), SETTINGS_DISPLAY_CHANEXP_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_LOGSTATUSBAR, ui.logstatusbarChkBox->isChecked(), SETTINGS_DISPLAY_LOGSTATUSBAR_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_APPUPDATE, ui.updatesChkBox->isChecked(), SETTINGS_DISPLAY_APPUPDATE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_APPUPDATE_BETA, ui.betaUpdatesChkBox->isChecked(), SETTINGS_DISPLAY_APPUPDATE_BETA_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_APPUPDATE_DLG, ui.updatesDlgChkBox->isChecked(), SETTINGS_DISPLAY_APPUPDATE_DLG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_MAX_STRING, ui.maxtextSpinBox->value(), SETTINGS_DISPLAY_MAX_STRING_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_SHOWUSERNAME, ui.showusernameChkBox->isChecked(), SETTINGS_DISPLAY_SHOWUSERNAME_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_INFOSTYLE, getCurrentItemData(ui.infoStyleBox, STYLE_EMOJI), SETTINGS_DISPLAY_INFOSTYLE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_ANIM, ui.animChkBox->isChecked(), SETTINGS_DISPLAY_ANIM_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVNAME, ui.ServnameChkBox->isChecked(), SETTINGS_DISPLAY_SERVNAME_DEFAULT);
 
         int index = ui.languageBox->currentIndex();
         if(index >= 0)
@@ -777,18 +777,18 @@ void PreferencesDlg::slotSaveChanges()
                 switchLanguage(lang);
                 retranslateCustomizableText();
             }
-            ttSettings->setValue(SETTINGS_DISPLAY_LANGUAGE,
-                        ui.languageBox->itemData(index).toString());
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE,
+                        ui.languageBox->itemData(index).toString(), SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
         }
-        ttSettings->setValue(SETTINGS_DISPLAY_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE));
-        ttSettings->setValue(SETTINGS_DISPLAY_CHANNELSORT, getCurrentItemData(ui.channelsortComboBox, CHANNELSORT_ASCENDING));
-        ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_MOTD_DLG, ui.dlgMOTDChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_CHANNEL_TOPIC, ui.chanTopicChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANDBCLICK, getCurrentItemData(ui.chanDbClickBox, ACTION_JOINLEAVE), SETTINGS_DISPLAY_CHANDBCLICK_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANNELSORT, getCurrentItemData(ui.channelsortComboBox, CHANNELSORT_ASCENDING), SETTINGS_DISPLAY_CHANNELSORT_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeFileDlgChkBox->isChecked(), SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANEXCLUDE_DLG, ui.dlgExcludeChkBox->isChecked(), SETTINGS_DISPLAY_CHANEXCLUDE_DLG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_MOTD_DLG, ui.dlgMOTDChkBox->isChecked(), SETTINGS_DISPLAY_MOTD_DLG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANNEL_TOPIC, ui.chanTopicChkBox->isChecked(), SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked(), SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT);
         bool modlistview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool() != ui.chatlistviewChkBox->isChecked();
-        ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, ui.chatlistviewChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, ui.chatlistviewChkBox->isChecked(), SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT);
         if (modlistview)
             QMessageBox::critical(this, tr("Chat History"),
                                   tr("Please restart application to change to chat history control"));
@@ -802,10 +802,10 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(CONNECTION_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_CONNECTION_AUTOCONNECT, ui.autoconnectChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_RECONNECT, ui.reconnectChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_AUTOJOIN, ui.autojoinChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, ui.maxpayloadChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_AUTOCONNECT, ui.autoconnectChkBox->isChecked(), SETTINGS_CONNECTION_AUTOCONNECT_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_RECONNECT, ui.reconnectChkBox->isChecked(), SETTINGS_CONNECTION_RECONNECT_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_AUTOJOIN, ui.autojoinChkBox->isChecked(), SETTINGS_CONNECTION_AUTOJOIN_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_QUERYMAXPAYLOAD, ui.maxpayloadChkBox->isChecked(), SETTINGS_CONNECTION_QUERYMAXPAYLOAD_DEFAULT);
 
 #ifdef Q_OS_WIN32
         QString appPath = QApplication::applicationFilePath();
@@ -829,13 +829,13 @@ void PreferencesDlg::slotSaveChanges()
         }
 #endif
 
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, ui.subusermsgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, ui.subchanmsgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG, ui.subbcastmsgChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_VOICE, ui.subvoiceChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE, ui.subvidcapChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP, ui.subdesktopChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE, ui.submediafileChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_USERMSG, ui.subusermsgChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_USERMSG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG, ui.subchanmsgChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_CHANNELMSG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG, ui.subbcastmsgChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_BROADCASTMSG_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_VOICE, ui.subvoiceChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_VOICE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE, ui.subvidcapChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_VIDEOCAPTURE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP, ui.subdesktopChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_DESKTOP_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE, ui.submediafileChkBox->isChecked(), SETTINGS_CONNECTION_SUBSCRIBE_MEDIAFILE_DEFAULT);
 
         ttSettings->setValue(SETTINGS_CONNECTION_TCPPORT, ui.tcpportSpinBox->value());
         ttSettings->setValue(SETTINGS_CONNECTION_UDPPORT, ui.udpportSpinBox->value());
@@ -929,13 +929,13 @@ void PreferencesDlg::slotSaveChanges()
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_AGC, SETTINGS_SOUND_AGC_DEFAULT).toBool() != ui.agcBox->isChecked();
         sndsysinit |= ttSettings->value(SETTINGS_SOUND_DENOISING, SETTINGS_SOUND_DENOISING_DEFAULT).toBool() != ui.denoisingBox->isChecked();
 
-        ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE, inputid);
-        ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE, outputid);
-        ttSettings->setValue(SETTINGS_SOUND_ECHOCANCEL, ui.echocancelBox->isChecked());
-        ttSettings->setValue(SETTINGS_SOUND_AGC, ui.agcBox->isChecked());
-        ttSettings->setValue(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_SOUND_INPUTDEVICE, inputid, SETTINGS_SOUND_INPUTDEVICE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_OUTPUTDEVICE, outputid, SETTINGS_SOUND_OUTPUTDEVICE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_ECHOCANCEL, ui.echocancelBox->isChecked(), SETTINGS_SOUND_ECHOCANCEL_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_AGC, ui.agcBox->isChecked(), SETTINGS_SOUND_AGC_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUND_DENOISING, ui.denoisingBox->isChecked(), SETTINGS_SOUND_DENOISING_DEFAULT);
 
-        ttSettings->setValue(SETTINGS_SOUND_MEDIASTREAM_VOLUME, ui.mediavsvoiceSlider->value());
+        ttSettings->setValueOrClear(SETTINGS_SOUND_MEDIASTREAM_VOLUME, ui.mediavsvoiceSlider->value(), SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT);
 
         if (sndsysinit)
         {
@@ -953,10 +953,10 @@ void PreferencesDlg::slotSaveChanges()
     }
     if(m_modtab.find(SOUNDEVENTS_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_VOLUME, ui.sndVolSpinBox->value());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_PLAYBACKMODE, getCurrentItemData(ui.sndeventPlaybackComboBox));
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_TTDEVICE, ui.ttDeviceChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, m_soundmodel->getSoundEvents());
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_VOLUME, ui.sndVolSpinBox->value(), SETTINGS_SOUNDEVENT_VOLUME_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_PLAYBACKMODE, getCurrentItemData(ui.sndeventPlaybackComboBox), SETTINGS_SOUNDEVENT_PLAYBACKMODE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_TTDEVICE, ui.ttDeviceChkBox->isChecked(), SETTINGS_SOUNDEVENT_TTDEVICE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_SOUNDEVENT_ACTIVEEVENTS, m_soundmodel->getSoundEvents(), SETTINGS_SOUNDEVENT_ACTIVEEVENTS_DEFAULT);
         ttSettings->setValue(SETTINGS_DISPLAY_SOUNDEVENTSHEADER, ui.soundEventsTableView->horizontalHeader()->saveState());
         saveCurrentFile();
     }
@@ -984,7 +984,7 @@ void PreferencesDlg::slotSaveChanges()
         {
             activeHotkeys |= it.key();
         }
-        ttSettings->setValue(SETTINGS_SHORTCUTS_ACTIVEHKS, activeHotkeys);
+        ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS, activeHotkeys, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
         ttSettings->setValue(SETTINGS_DISPLAY_SHORTCUTSHEADER, ui.shortcutsTableView->horizontalHeader()->saveState());
     }
     if(m_modtab.find(VIDCAP_TAB) != m_modtab.end())
@@ -1025,8 +1025,8 @@ void PreferencesDlg::slotSaveChanges()
         modified |= ttSettings->value(SETTINGS_VIDCAP_CODEC) != ui.vidcodecBox->itemData(codec_index) ||
                     ttSettings->value(SETTINGS_VIDCAP_WEBMVP8_BITRATE) != vp8_bitrate;
 
-        ttSettings->setValue(SETTINGS_VIDCAP_CODEC, ui.vidcodecBox->itemData(codec_index).toInt());
-        ttSettings->setValue(SETTINGS_VIDCAP_WEBMVP8_BITRATE, vp8_bitrate);
+        ttSettings->setValueOrClear(SETTINGS_VIDCAP_CODEC, ui.vidcodecBox->itemData(codec_index).toInt(), SETTINGS_VIDCAP_CODEC_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_VIDCAP_WEBMVP8_BITRATE, vp8_bitrate, SETTINGS_VIDCAP_WEBMVP8_BITRATE_DEFAULT);
 
         if(modified && m_video_ready)
         {
@@ -1038,24 +1038,24 @@ void PreferencesDlg::slotSaveChanges()
     }
     if (m_modtab.find(TTSEVENTS_TAB) != m_modtab.end())
     {
-        ttSettings->setValue(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents());
-        ttSettings->setValue(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE));
+        ttSettings->setValueOrClear(SETTINGS_TTS_ACTIVEEVENTS, m_ttsmodel->getTTSEvents(), SETTINGS_TTS_ACTIVEEVENTS_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_TTS_ENGINE, getCurrentItemData(ui.ttsengineComboBox, TTSENGINE_NONE), SETTINGS_TTS_ENGINE_DEFAULT);
         ttSettings->setValue(SETTINGS_TTS_LOCALE, getCurrentItemData(ui.ttsLocaleComboBox, ""));
         ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
-        ttSettings->setValue(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value());
-        ttSettings->setValue(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value());
+        ttSettings->setValueOrClear(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value(), SETTINGS_TTS_RATE_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value(), SETTINGS_TTS_VOLUME_DEFAULT);
 #if defined(Q_OS_WIN)
-        ttSettings->setValue(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked());
-        ttSettings->setValue(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked(), SETTINGS_TTS_SAPI_DEFAULT);
+        ttSettings->setValueOrClear(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked(), SETTINGS_TTS_TRY_SAPI_DEFAULT);
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
-        ttSettings->setValue(SETTINGS_TTS_ASSERTIVE, ui.ttsAssertiveChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_TTS_ASSERTIVE, ui.ttsAssertiveChkBox->isChecked(), SETTINGS_TTS_ASSERTIVE_DEFAULT);
 #endif
-        ttSettings->setValue(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""));
+        ttSettings->setValueOrClear(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""), SETTINGS_TTS_OUTPUT_MODE_DEFAULT);
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
         saveCurrentMessage();
 #if defined(Q_OS_WIN) || defined(Q_OS_LINUX)
-        ttSettings->setValue(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked());
+        ttSettings->setValueOrClear(SETTINGS_TTS_TOAST, ui.ttsToastChkBox->isChecked(), SETTINGS_TTS_TOAST_DEFAULT);
 #endif
     }
 }
@@ -1366,7 +1366,7 @@ void PreferencesDlg::saveCurrentFile()
     QString text = !ui.soundEventFileEdit->text().isEmpty()?ui.soundEventFileEdit->text():UtilSound::getDefaultFile(paramKey);
     if (!text.isEmpty())
     {
-        ttSettings->setValue(paramKey, text == UtilTTS::getDefaultValue(paramKey) ? "" : text);
+        ttSettings->setValueOrClear(paramKey, text, UtilSound::getDefaultFile(paramKey));
     }
 }
 
@@ -1809,7 +1809,7 @@ void PreferencesDlg::saveCurrentMessage()
 
         if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
-            ttSettings->setValue(paramKey, text);
+            ttSettings->setValueOrClear(paramKey, text, UtilTTS::getDefaultValue(paramKey));
         }
     }
 }
@@ -1849,7 +1849,7 @@ void PreferencesDlg::TTSRestoreAllDefaultMessage()
         {
             const TTSEventInfo& eventInfo = eventMap[eventId];
             QString defaultValue = UtilTTS::getDefaultValue(eventInfo.settingKey);
-            ttSettings->setValue(eventInfo.settingKey, defaultValue);
+            ttSettings->remove(eventInfo.settingKey);
             if (m_currentTTSIndex.isValid() && m_currentTTSIndex.internalId() == eventId)
                 ui.TTSMsgEdit->setText(defaultValue);
         }
@@ -1894,14 +1894,14 @@ void PreferencesDlg::slotSPackChange()
                 {
                     QString paramKey = eventInfo.settingKey;
                     QString soundPath = QString("%1/%2/%3.wav").arg(SOUNDSPATH).arg(ui.spackBox->currentText()).arg(soundEventName);
-                    ttSettings->setValue(paramKey, soundPath);
+                    ttSettings->setValueOrClear(paramKey, soundPath, UtilSound::getDefaultFile(paramKey));
                     break;
                 }
             }
         }
         int index = ui.spackBox->currentIndex();
         if(index >= 0)
-            ttSettings->setValue(SETTINGS_SOUNDS_PACK, ui.spackBox->itemData(index).toString());
+            ttSettings->setValueOrClear(SETTINGS_SOUNDS_PACK, ui.spackBox->itemData(index).toString(), SETTINGS_SOUNDS_PACK_DEFAULT);
     }
     updateSoundEventFileEdit();
 }
@@ -1963,7 +1963,7 @@ void PreferencesDlg::retranslateCustomizableText()
                 {
                     const StatusBarEventInfo& eventInfo = eventMap[eventId];
                     QString defaultValue = UtilUI::getDefaultValue(eventInfo.settingKey);
-                    ttSettings->setValue(eventInfo.settingKey, defaultValue);
+                    ttSettings->remove(eventInfo.settingKey);
                 }
             }
             auto eventMapTTS = UtilTTS::eventToSettingMap();
@@ -1974,7 +1974,7 @@ void PreferencesDlg::retranslateCustomizableText()
                 {
                     const TTSEventInfo& eventInfoTTS = eventMapTTS[eventIdTTS];
                     QString defaultValue = UtilTTS::getDefaultValue(eventInfoTTS.settingKey);
-                    ttSettings->setValue(eventInfoTTS.settingKey, defaultValue);
+                    ttSettings->remove(eventInfoTTS.settingKey);
                 }
             }
             auto templatesMap = UtilUI::templatesToSettingMap();
@@ -1985,7 +1985,7 @@ void PreferencesDlg::retranslateCustomizableText()
                 {
                     const ChatTemplateInfo& templateInfo = templatesMap[templateId];
                     QString defaultValue = UtilUI::getDefaultTemplate(templateInfo.settingKey);
-                    ttSettings->setValue(templateInfo.settingKey, defaultValue);
+                    ttSettings->remove(templateInfo.settingKey);
                 }
             }
             ttSettings->setValue(SETTINGS_DISPLAY_TIMESTAMP_FORMAT, getTimestampFormat());

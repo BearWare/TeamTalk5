@@ -25,7 +25,6 @@
 #include <QSettings>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
 
 FilesView::FilesView(QWidget* parent) : MyTableView(parent)
 {

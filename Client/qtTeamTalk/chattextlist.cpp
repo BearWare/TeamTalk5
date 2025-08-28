@@ -36,7 +36,7 @@
 #include <QPushButton>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 #define CHATTEXTITEM_TIMESTAMP_ROLE  (Qt::UserRole + 1)
 #define CHATTEXTITEM_SENDER_ROLE     (Qt::UserRole + 2)

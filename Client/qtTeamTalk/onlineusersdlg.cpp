@@ -26,7 +26,7 @@
 #include <QKeyEvent>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 OnlineUsersDlg::OnlineUsersDlg(QWidget* parent/* = 0 */)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
@@ -190,12 +190,12 @@ void OnlineUsersDlg::slotTreeContextMenu(const QPoint& /*point*/)
         if (action == sortId)
         {
             ui.tableView->horizontalHeader()->setSortIndicator(COLUMN_USERID, m_proxyModel->sortColumn() == COLUMN_USERID ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, id);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_ONLINEUSERS_SORT, id, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT);
         }
         else if (action == sortNickname)
         {
             ui.tableView->horizontalHeader()->setSortIndicator(COLUMN_NICKNAME, m_proxyModel->sortColumn() == COLUMN_NICKNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_ONLINEUSERS_SORT, nickname);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_ONLINEUSERS_SORT, nickname, SETTINGS_DISPLAY_ONLINEUSERS_SORT_DEFAULT);
         }
     }
 }
@@ -296,7 +296,7 @@ void OnlineUsersDlg::keyPressEvent(QKeyEvent* e)
 void OnlineUsersDlg::slotUpdateSettings()
 {
     RestoreItemData r(ui.tableView, m_proxyModel);
-    ttSettings->setValue(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_KEEP_DISCONNECTED_USERS, ui.keepDisconnectedUsersCheckBox->isChecked(), SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT);
     if (!ui.keepDisconnectedUsersCheckBox->isChecked())
         m_model->removeDisconnected();
 }

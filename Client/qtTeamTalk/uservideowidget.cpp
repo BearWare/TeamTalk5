@@ -24,7 +24,7 @@
 #include <QTimerEvent>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 #define USE_VIDEO_SHAREDMEM_ZEROCOPY 1
 

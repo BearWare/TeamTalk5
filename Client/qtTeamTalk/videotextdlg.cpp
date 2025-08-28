@@ -25,7 +25,7 @@
 #include <QTimer>
 #include <QPushButton>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 VideoTextDlg::VideoTextDlg(QWidget* parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -108,19 +108,19 @@ VideoTextDlg::VideoTextDlg(QWidget* parent/* = 0*/)
 
 void VideoTextDlg::accept()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT_FGCOLOR,
-                         m_fgColor);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_VIDEOTEXT_FGCOLOR,
+                         m_fgColor, SETTINGS_DISPLAY_VIDEOTEXT_FGCOLOR_DEFAULT);
 
-    ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT_BGCOLOR,
-                         m_bgColor);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_VIDEOTEXT_BGCOLOR,
+                         m_bgColor, SETTINGS_DISPLAY_VIDEOTEXT_BGCOLOR_DEFAULT);
 
-    ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT,
-                         (int)getVideoTextPos());
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_VIDEOTEXT,
+                         (int)getVideoTextPos(), SETTINGS_DISPLAY_VIDEOTEXT_DEFAULT);
 
 
-    ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT_WIDTH,
-                         ui.widthSpinBox->value());
-    ttSettings->setValue(SETTINGS_DISPLAY_VIDEOTEXT_HEIGHT, ui.heightSpinBox->value());
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_VIDEOTEXT_WIDTH,
+                         ui.widthSpinBox->value(), SETTINGS_DISPLAY_VIDEOTEXT_WIDTH_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_VIDEOTEXT_HEIGHT, ui.heightSpinBox->value(), SETTINGS_DISPLAY_VIDEOTEXT_HEIGHT_DEFAULT);
     QDialog::accept();
 }
 

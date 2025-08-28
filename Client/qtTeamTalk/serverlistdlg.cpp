@@ -34,7 +34,7 @@
 #include <QMenu>
 #include <QDebug>
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 enum
 {
@@ -505,8 +505,8 @@ void ServerListDlg::applyServerListFilter()
         typefilter |= SERVERTYPE_UNOFFICIAL;
 
     m_model->setServerFilter(typefilter, QRegularExpression(ui.filternameEdit->text(), QRegularExpression::CaseInsensitiveOption), ui.filterusersSpinBox->value());
-    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, ui.filternameEdit->text());
-    ttSettings->setValue(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value());
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, ui.filternameEdit->text(), SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value(), SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT);
 }
 
 void ServerListDlg::deleteSelectedServer()
@@ -578,8 +578,8 @@ void ServerListDlg::requestServerList()
 {
     bool officialservers = ui.officialserverChkBox->isChecked();
     bool unofficialservers = ui.unofficialserverChkBox->isChecked();
-    ttSettings->setValue(SETTINGS_DISPLAY_OFFICIALSERVERS, officialservers);
-    ttSettings->setValue(SETTINGS_DISPLAY_UNOFFICIALSERVERS, unofficialservers);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_OFFICIALSERVERS, officialservers, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_UNOFFICIALSERVERS, unofficialservers, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT);
 
     if (!officialservers && !unofficialservers)
         return;
@@ -880,25 +880,25 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         {
             m_proxyModel->setSortRole(Qt::UserRole);
             ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, defaultstr);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLIST_SORT, defaultstr, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT);
         }
         else if (action == sortName)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_SERVERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_SERVERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, name);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLIST_SORT, name, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT);
         }
         else if (action == sortUserCount)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERCOUNT, m_proxyModel->sortColumn() == COLUMN_INDEX_USERCOUNT ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, usercount);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLIST_SORT, usercount, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT);
         }
         else if (action == sortCountry)
         {
             m_proxyModel->setSortRole(Qt::DisplayRole);
             ui.serverTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_COUNTRY, m_proxyModel->sortColumn() == COLUMN_INDEX_COUNTRY ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_SERVERLIST_SORT, country);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLIST_SORT, country, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT);
         }
         else if (action == connectServ)
             connectToHost();

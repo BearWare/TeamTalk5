@@ -24,7 +24,7 @@
 #include <Carbon/Carbon.h>
 #endif
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 extern TTInstance* ttInst;
 
 QString getHotKeyName(HotKeyID id)

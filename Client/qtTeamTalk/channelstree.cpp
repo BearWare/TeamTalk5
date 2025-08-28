@@ -51,7 +51,7 @@ enum
 };
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
        
 #define COLOR_TALK      QColor(133,229,141)
 #define COLOR_LASTTALK  QColor(255,232,61)

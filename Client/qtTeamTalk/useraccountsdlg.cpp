@@ -27,7 +27,7 @@
 #include <QMenu>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 UserAccountsDlg::UserAccountsDlg(const useraccounts_t& useraccounts, QWidget * parent/* = 0*/)
     : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
@@ -212,27 +212,27 @@ void UserAccountsDlg::slotTreeContextMenu(const QPoint& /*point*/)
         if (action == sortUsername)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERNAME, m_proxyModel->sortColumn() == COLUMN_INDEX_USERNAME ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, username);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERACCOUNT_SORT, username, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT);
         }
         else if (action == sortUserType)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_USERTYPE, m_proxyModel->sortColumn() == COLUMN_INDEX_USERTYPE ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, usertype);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERACCOUNT_SORT, usertype, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT);
         }
         else if (action == sortChannel)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_CHANNEL, m_proxyModel->sortColumn() == COLUMN_INDEX_CHANNEL? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, channel);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERACCOUNT_SORT, channel, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT);
         }
         else if (action == sortModified)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_MODIFIED, m_proxyModel->sortColumn() == COLUMN_INDEX_MODIFIED ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, modified);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERACCOUNT_SORT, modified, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT);
         }
         else if (action == sortLogin)
         {
             ui.usersTableView->horizontalHeader()->setSortIndicator(COLUMN_INDEX_LASTLOGIN, m_proxyModel->sortColumn() == COLUMN_INDEX_LASTLOGIN ? sortToggle : Qt::AscendingOrder);
-            ttSettings->setValue(SETTINGS_DISPLAY_USERACCOUNT_SORT, lastLogin);
+            ttSettings->setValueOrClear(SETTINGS_DISPLAY_USERACCOUNT_SORT, lastLogin, SETTINGS_DISPLAY_USERACCOUNT_SORT_DEFAULT);
         }
         else if (action == addUser)
             slotAddUser();

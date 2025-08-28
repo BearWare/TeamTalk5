@@ -27,7 +27,7 @@
 #include <QDesktopServices>
 
 extern TTInstance* ttInst;
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 FileTransferDlg::FileTransferDlg(const FileTransfer& transfer, QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS | Qt::WindowMinMaxButtonsHint | Qt::WindowSystemMenuHint)
@@ -164,5 +164,5 @@ void FileTransferDlg::slotCancelTransfer()
 
 void FileTransferDlg::slotUpdateSettings()
 {
-    ttSettings->setValue(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked());
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_CLOSE_FILEDIALOG, ui.closeChkBox->isChecked(), SETTINGS_DISPLAY_CLOSE_FILEDIALOG_DEFAULT);
 }

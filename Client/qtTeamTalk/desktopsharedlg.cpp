@@ -26,7 +26,7 @@
 #include <X11/Xlib.h>
 #endif
 
-extern QSettings* ttSettings;
+extern NonDefaultSettings* ttSettings;
 
 #if defined(Q_OS_LINUX)
 DesktopShareDlg::DesktopShareDlg(Display* display, QWidget* parent)

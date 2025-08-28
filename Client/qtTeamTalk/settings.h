@@ -35,7 +35,7 @@
 #define SETTINGS_GENERAL_FIRSTSTART_DEFAULT         true
 
 #define SETTINGS_GENERAL_NICKNAME                   "general_/nickname"
-#define SETTINGS_GENERAL_NICKNAME_DEFAULT           ""
+#define SETTINGS_GENERAL_NICKNAME_DEFAULT           QT_TRANSLATE_NOOP("MainWindow", "NoName")
 #define SETTINGS_GENERAL_GENDER                     "general_/gender"
 #define SETTINGS_GENERAL_GENDER_DEFAULT             GENDER_NEUTRAL
 #define SETTINGS_GENERAL_BEARWARE_USERNAME          "general_/bearwareid"
@@ -594,4 +594,30 @@
 #define SETTINGS_KEEP_DISCONNECTED_USERS                            "online-users/keep-disconnected-users"
 #define SETTINGS_KEEP_DISCONNECTED_USERS_DEFAULT                            false
 
+class NonDefaultSettings : public QSettings
+{
+     Q_OBJECT
+public:
+    NonDefaultSettings(const QString &fileName, QSettings::Format format, QObject *parent = nullptr)
+        : QSettings(fileName, format, parent) {}
+    NonDefaultSettings(QSettings::Format format, QSettings::Scope scope, const QString &organization,
+               const QString &application = QString(), QObject *parent = nullptr)
+        : QSettings(format, scope, organization, application, parent) {}
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,4,0)
+    void setValueOrClear(QAnyStringView key, const QVariant& newvalue, const QVariant& defvalue)
+#else
+    void setValueOrClear(const QString& key, const QVariant& newvalue, const QVariant& defvalue)
+#endif
+    {
+        if (newvalue == defvalue)
+        {
+            remove(key);
+        }
+        else
+        {
+            setValue(key, newvalue);
+        }
+    }
+};
 #endif
