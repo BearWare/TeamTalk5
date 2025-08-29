@@ -5,6 +5,7 @@
 Version 5.20, unreleased
 Default Qt Client
 - TeamTalk5.ini no longer stores values that have the same value as default
+- Reintroduce option to speak tree item using TTS on MacOS due to Qt issues
 - Fixed check state of server log events on macOS not being visible
 - Fixed global status message set to: "general_/statusmsg"
 Android Client
