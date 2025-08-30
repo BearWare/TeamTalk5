@@ -8028,11 +8028,11 @@ void MainWindow::keyPressEvent(QKeyEvent* e)
 
 void MainWindow::closeEvent(QCloseEvent *event)
 {
+    QMainWindow::closeEvent(event);
 #if !defined(Q_OS_DARWIN)
     if (!slotClientExit(false))
         event->ignore();
 #endif
-    QMainWindow::closeEvent(event);
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
