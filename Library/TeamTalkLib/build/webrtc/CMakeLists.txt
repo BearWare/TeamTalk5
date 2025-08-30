@@ -16,7 +16,7 @@ if (MSVC)
   # This can be installed from Visual Studio Installer.
 
   # Force C:\webrtc to avoid build errors due to long path names (MAX_PATH=260)
-  set (WEBRTC_FETCH_PATH C:/webrtc/${CMAKE_SYSTEM_NAME})
+  set (WEBRTC_FETCH_PATH C:/webrtc/${CMAKE_SYSTEM_NAME} CACHE STRING "Root folder for WebRTC repository")
   file(TO_NATIVE_PATH ${WEBRTC_FETCH_PATH} WEBRTC_FETCH_PATH_NATIVE)
 
   set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
@@ -155,7 +155,7 @@ else()
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
-    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
+    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME} CACHE STRING "Root folder for WebRTC repository")
 
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm)
@@ -173,7 +173,7 @@ else()
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_ios ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif(${CMAKE_SYSTEM_NAME} MATCHES "Android")
-    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
+    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME} CACHE STRING "Root folder for WebRTC repository")
 
     if ("armeabi-v7a" STREQUAL "${ANDROID_ABI}")
       set (WEBRTC_ARCH arm)
@@ -191,14 +191,14 @@ else()
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_android ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
-    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
+    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME} CACHE STRING "Root folder for WebRTC repository")
     set (WEBRTC_ARCH x64)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_mac ${WEBRTC_INSTALL_ROOT}-intel/args.gn @ONLY)
     set (WEBRTC_ARCH arm64)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_mac ${WEBRTC_INSTALL_ROOT}-arm64/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
-    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME})
+    set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME} CACHE STRING "Root folder for WebRTC repository")
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_deb ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   else()
