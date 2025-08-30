@@ -300,7 +300,7 @@ private:
     void slotClientSoundDevices();
     void slotClientAudioEffect();
     void slotClientRecordConversations(bool checked=false);
-    void slotClientExit(bool checked=false);
+    bool slotClientExit(bool checked=false);
 
     void slotMeChangeNickname(bool checked=false);
     void slotMeChangeStatus(bool checked=false);
