@@ -3,17 +3,17 @@ name: Update Gradle Wrapper
 on:
   schedule:
     - cron: "0 0 * * *"
+  workflow_dispatch:
 
 jobs:
   update-gradle-wrapper:
-    if: github.repository == 'BearWare/TeamTalk5'
+    if: ${{ github.event_name != 'schedule' || github.event.repository.fork == false }}
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v5
 
-      - name: Update Gradle Wrapper
-        uses: gradle-update/update-gradle-wrapper-action@v2
+      - uses: gradle-update/update-gradle-wrapper-action@v2
         with:
-          paths-ignore: Library/TeamTalkLib/test/catchqt/TeamTalkCatchQT/android/**
+          paths: Client/TeamTalkAndroid/**
           set-distribution-checksum: false
