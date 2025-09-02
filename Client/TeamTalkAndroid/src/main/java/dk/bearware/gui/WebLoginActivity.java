@@ -78,6 +78,8 @@ public class WebLoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_web_login);
 
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
         setupUI();
     }
 

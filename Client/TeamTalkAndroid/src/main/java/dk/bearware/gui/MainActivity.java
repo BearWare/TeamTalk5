@@ -248,6 +248,8 @@ extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
         String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
         if ((serverName != null) && !serverName.isEmpty())
             setTitle(serverName);
