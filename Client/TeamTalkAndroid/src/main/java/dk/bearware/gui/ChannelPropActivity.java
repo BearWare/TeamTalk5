@@ -83,6 +83,8 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_channel_prop);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
     }
 

@@ -80,6 +80,7 @@ public class AudioCodecActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_audiocodec);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
 
         audiocodec = Utils.getAudioCodec(this.getIntent());
 

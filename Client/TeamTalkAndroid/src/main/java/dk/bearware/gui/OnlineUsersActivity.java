@@ -84,6 +84,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_online_users);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
 
         onlineUsersList = findViewById(R.id.online_users_list);
         adapter = new OnlineUserAdapter(this, onlineUsers);

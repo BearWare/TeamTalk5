@@ -71,6 +71,8 @@ public class ServerEntryActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         binding = ActivityServerEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
         setupListeners();
