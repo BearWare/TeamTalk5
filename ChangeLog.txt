@@ -10,6 +10,7 @@ Default Qt Client
 - Fixed global status message set to: "general_/statusmsg"
 - Fixed answering "No" to quit application causing server disconnect
 Android Client
+- Fixed UI overlap on Android 15 and above
 - Minimum supported Android version is now 5.0 (Lollipop)
 iOS Client
 -
