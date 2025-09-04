@@ -420,10 +420,8 @@
 #define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
 #define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
 #elif defined(Q_OS_DARWIN)
-#if QT_VERSION < QT_VERSION_CHECK(6,4,0) || QT_VERSION > QT_VERSION_CHECK(6,9,0)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
-#define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 true
-#endif
+#define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 isScreenReaderActive()
 #endif
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
 #define SETTINGS_TTS_ASSERTIVE                         "texttospeech/assertive"
