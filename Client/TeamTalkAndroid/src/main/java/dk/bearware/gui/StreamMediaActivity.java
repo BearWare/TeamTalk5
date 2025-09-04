@@ -64,6 +64,8 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         super.onCreate(savedInstanceState);
         
         setContentView(R.layout.activity_stream_media);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         file_path = this.findViewById(R.id.file_path_txt);
         file_path.setText(PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getString(lastMedia, ""));

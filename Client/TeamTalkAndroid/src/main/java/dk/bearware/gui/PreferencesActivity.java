@@ -91,6 +91,8 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        EdgeToEdgeHelper.enableEdgeToEdge(this);
+
     }
 
     @Override
