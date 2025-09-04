@@ -181,6 +181,13 @@ extends AppCompatActivity
                      REQUEST_EDITUSER = 3,
                      REQUEST_SELECT_FILE = 4;
 
+    // TeamTalkService initialized by onServiceConnected()
+    Object waitService = new Object(); // sync object for 'ttservice'
+    TeamTalkService ttservice; // do not call directly (may be null). Use getService()
+
+    CountDownTimer stats_timer = null;
+    TeamTalkConnection mConnection;
+
     // The channel currently being displayed
     Channel curchannel;
     // The channel we're currently in
@@ -264,7 +271,7 @@ extends AppCompatActivity
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":TeamTalk5");
-         proximityWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG + ":TeamTalk5");
+        proximityWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG + ":TeamTalk5");
         wakeLock.setReferenceCounted(false);
         proximityWakeLock.setReferenceCounted(false);
 
@@ -421,12 +428,6 @@ extends AppCompatActivity
         }
         return true;
     }
-
-    CountDownTimer stats_timer = null;
-
-    Object waitService = new Object();
-    TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
 
     @Override
     protected void onStart() {
@@ -1821,13 +1822,7 @@ private EditText newmsg;
         });
     }
 
-    @Override
-    public void onServiceConnected(TeamTalkService service) {
-
-        synchronized (waitService) {
-            ttservice = service;
-            waitService.notifyAll();
-        }
+    private void initializeTeamTalkService(TeamTalkService service) {
 
         this.users = new HashMap<>(service.getUsers());
 
@@ -1857,7 +1852,7 @@ private EditText newmsg;
 
         int flags = getClient().getFlags();
         if (((flags & ClientFlag.CLIENT_SNDOUTPUT_READY) == 0) &&
-            !getClient().initSoundOutputDevice(outsndid))
+                !getClient().initSoundOutputDevice(outsndid))
             Toast.makeText(this, R.string.err_init_sound_output, Toast.LENGTH_LONG).show();
 
         if (!restarting) {
@@ -1893,7 +1888,7 @@ private EditText newmsg;
         adjustSoundSystem(prefs);
 
         if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
-            && Permissions.BLUETOOTH.request(this))
+                && Permissions.BLUETOOTH.request(this))
             service.watchBluetoothHeadset();
 
         if (Permissions.WAKE_LOCK.request(this))
@@ -1927,8 +1922,7 @@ private EditText newmsg;
         volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
     }
 
-    @Override
-    public void onServiceDisconnected(TeamTalkService service) {
+    private void closeTeamTalkService(TeamTalkService service) {
         if (wakeLock.isHeld())
             wakeLock.release();
         service.setOnVoiceTransmissionToggleListener(null);
@@ -1937,6 +1931,21 @@ private EditText newmsg;
 
         filesAdapter.setTeamTalkService(null);
         mediaAdapter.clearTeamTalkService(service);
+    }
+
+    @Override
+    public void onServiceConnected(TeamTalkService service) {
+        synchronized (waitService) {
+            ttservice = service;
+            waitService.notifyAll();
+        }
+
+        initializeTeamTalkService(service);
+    }
+
+    @Override
+    public void onServiceDisconnected(TeamTalkService service) {
+        closeTeamTalkService(service);
         synchronized (waitService) {
             ttservice = null;
         }
@@ -1944,7 +1953,7 @@ private EditText newmsg;
 
     TeamTalkService getService() {
         synchronized (waitService) {
-            if (this.ttservice == null) {
+            if (ttservice == null) {
                 try {
                     waitService.wait();
                 } catch (InterruptedException e) {
@@ -1952,7 +1961,7 @@ private EditText newmsg;
                 }
             }
         }
-        return this.ttservice;
+        return ttservice;
     }
 
     TeamTalkBase getClient() {
