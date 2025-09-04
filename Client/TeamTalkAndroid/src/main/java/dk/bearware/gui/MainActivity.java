@@ -181,10 +181,6 @@ extends AppCompatActivity
                      REQUEST_EDITUSER = 3,
                      REQUEST_SELECT_FILE = 4;
 
-    // TeamTalkService initialized by onServiceConnected()
-    Object waitService = new Object(); // sync object for 'ttservice'
-    TeamTalkService ttservice; // do not call directly (may be null). Use getService()
-
     CountDownTimer stats_timer = null;
     TeamTalkConnection mConnection;
 
@@ -254,6 +250,7 @@ extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_main);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
 
@@ -436,8 +433,6 @@ extends AppCompatActivity
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (ttsWrapper == null)
             ttsWrapper = new TTSWrapper(this, prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
 
         if (!mConnection.isBound()) {
             // Bind to LocalService
@@ -598,12 +593,11 @@ extends AppCompatActivity
             // Unbind from the service
             if (mConnection.isBound()) {
                 Log.d(TAG, "Unbinding TeamTalk service");
-                if (ttservice != null) {
-                    ttservice.disablePhoneCallReaction();
-                    ttservice.unwatchBluetoothHeadset();
-                    ttservice.resetState();
-                    onServiceDisconnected(ttservice);
-                }
+                getService().disablePhoneCallReaction();
+                getService().unwatchBluetoothHeadset();
+                getService().resetState();
+
+                onServiceDisconnected(getService());
                 unbindService(mConnection);
                 mConnection.setBound(false);
             }
@@ -621,8 +615,7 @@ extends AppCompatActivity
         if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
             // no double unregister on ttservice (see onStop())
-            if (ttservice != null)
-                onServiceDisconnected(ttservice);
+            onServiceDisconnected(getService());
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -1935,33 +1928,16 @@ private EditText newmsg;
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        synchronized (waitService) {
-            ttservice = service;
-            waitService.notifyAll();
-        }
-
         initializeTeamTalkService(service);
     }
 
     @Override
     public void onServiceDisconnected(TeamTalkService service) {
         closeTeamTalkService(service);
-        synchronized (waitService) {
-            ttservice = null;
-        }
     }
 
     TeamTalkService getService() {
-        synchronized (waitService) {
-            if (ttservice == null) {
-                try {
-                    waitService.wait();
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-            }
-        }
-        return ttservice;
+        return mConnection.getService();
     }
 
     TeamTalkBase getClient() {

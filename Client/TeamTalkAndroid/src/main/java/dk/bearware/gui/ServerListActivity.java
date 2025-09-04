@@ -94,8 +94,6 @@ public class ServerListActivity extends AppCompatActivity
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
     private TeamTalkConnection mConnection;
-    private TeamTalkService ttservice;
-    private TeamTalkBase ttclient;
     private ServerEntry serverentry;
 
     private ServerListAdapter adapter;
@@ -116,6 +114,9 @@ public class ServerListActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        mConnection = new TeamTalkConnection(this);
+
         setContentView(R.layout.activity_server_list);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
 
@@ -161,6 +162,14 @@ public class ServerListActivity extends AppCompatActivity
         recyclerView.setVisibility(isEmpty ? View.GONE : View.VISIBLE);
     }
 
+    TeamTalkService getService() {
+        return mConnection.getService();
+    }
+
+    TeamTalkBase getClient() {
+        return getService().getTTInstance();
+    }
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -171,19 +180,19 @@ public class ServerListActivity extends AppCompatActivity
             loadServerFromUri(uri);
         }
 
-        if (mConnection != null && mConnection.isBound()) {
+        if (mConnection.isBound()) {
             // reset state since we're creating a new connection
-            ttservice.resetState();
-            ttclient.closeSoundInputDevice();
-            ttclient.closeSoundOutputDevice();
-            ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
+            getService().resetState();
+            getClient().closeSoundInputDevice();
+            getClient().closeSoundOutputDevice();
+            getService().getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
 
             // Connect to server if 'serverentry' is specified.
             // Connection to server is either started here or in onServiceConnected()
             if (this.serverentry != null) {
-                ttservice.setServerEntry(this.serverentry);
+                getService().setServerEntry(this.serverentry);
 
-                if (!ttservice.reconnect()) {
+                if (!getService().reconnect()) {
                     showToast(getString(R.string.err_connection));
                 }
             }
@@ -202,8 +211,8 @@ public class ServerListActivity extends AppCompatActivity
     @Override
     protected void onPause() {
         super.onPause();
-        if (mConnection != null && mConnection.isBound())
-            ttservice.getEventHandler().unregisterListener(this);
+        if (mConnection.isBound())
+            getService().getEventHandler().unregisterListener(this);
     }
 
     @Override
@@ -220,12 +229,9 @@ public class ServerListActivity extends AppCompatActivity
         Permissions.MODIFY_AUDIO_SETTINGS.request(this);
 
         // Bind to LocalService if not already
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
-
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
-            if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
+            if (!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
             else
                 startService(intent);
@@ -236,10 +242,10 @@ public class ServerListActivity extends AppCompatActivity
     protected void onStop() {
         super.onStop();
 
-        if(isFinishing() && mConnection != null && mConnection.isBound()) {
+        if (isFinishing() && mConnection.isBound()) {
             // Unbind from the service.
-            ttservice.resetState();
-            onServiceDisconnected(ttservice);
+            getService().resetState();
+            onServiceDisconnected(getService());
             stopService(new Intent(getApplicationContext(), TeamTalkService.class));
             unbindService(mConnection);
             mConnection.setBound(false);
@@ -255,9 +261,9 @@ public class ServerListActivity extends AppCompatActivity
         }
 
         // Unbind from the service
-        if(mConnection != null && mConnection.isBound()) {
+        if (mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
-            onServiceDisconnected(ttservice);
+            onServiceDisconnected(getService());
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -375,14 +381,10 @@ public class ServerListActivity extends AppCompatActivity
     }
 
     private void onServerClick(ServerEntry entry) {
-        if (ttservice == null) {
-            showToast(getString(R.string.err_connection));
-            return;
-        }
         this.serverentry = entry;
-        ttservice.setServerEntry(this.serverentry);
+        getService().setServerEntry(this.serverentry);
 
-        if (!ttservice.reconnect()) {
+        if (!getService().reconnect()) {
             showToast(getString(R.string.err_connection));
         }
     }
@@ -785,17 +787,15 @@ public class ServerListActivity extends AppCompatActivity
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        ttservice = service;
-        ttclient = service.getTTInstance();
 
         service.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
 
         // Connect to server if 'serverentry' is specified.
         // Connection to server is either started here or in onResume()
         if (serverentry != null) {
-            ttservice.setServerEntry(serverentry);
+            service.setServerEntry(serverentry);
 
-            if (!ttservice.reconnect()) {
+            if (!service.reconnect()) {
                 showToast(getString(R.string.err_connection));
             }
         }

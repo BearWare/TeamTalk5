@@ -79,20 +79,26 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
     public static final String TAG = "bearware";
 
     TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
 
     static final int ACTIVITY_REQUEST_BEARWAREID = 2;
 
     private AppCompatDelegate appCompatDelegate = null;
 
+    TeamTalkService getService() {
+        return mConnection.getService();
+    }
+
+    TeamTalkBase getClient() {
+        return getService().getTTInstance();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         getDelegate().installViewFactory();
         getDelegate().onCreate(savedInstanceState);
         super.onCreate(savedInstanceState);
+        mConnection = new TeamTalkConnection(this);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
-
     }
 
     @Override
@@ -150,8 +156,6 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         getDelegate().onStart();
 
         // Bind to LocalService if not already
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             Log.d(TAG, "Binding TeamTalk service");
@@ -189,34 +193,30 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
-        if(ttservice == null)
-    		return;
-    				
-        TeamTalkBase ttinst = ttservice.getTTInstance();
-        User myself = ttservice.getUsers().get(ttinst.getMyUserID());
+        User myself = getService().getUsers().get(getClient().getMyUserID());
         if (myself != null) {
-            String nickname = ttservice.getServerEntry().nickname;
+            String nickname = getService().getServerEntry().nickname;
             if (TextUtils.isEmpty(nickname)) {
                 nickname = prefs.getString(Preferences.PREF_GENERAL_NICKNAME, "");
             }
             if (!nickname.equals(myself.szNickname)) {
-                ttinst.doChangeNickname(nickname);
+                getClient().doChangeNickname(nickname);
             }
             int statusmode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_FEMALE);
-            String statusmsg = ttservice.getServerEntry().statusmsg;
+            String statusmsg = getService().getServerEntry().statusmsg;
             if (TextUtils.isEmpty(statusmsg)) {
                 statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
             }
             if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
                 statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
-            ttinst.doChangeStatus(statusmode, statusmsg);
+            getClient().doChangeStatus(statusmode, statusmsg);
         }
         
         int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
         mf_volume = Utils.refVolume(mf_volume);
-        for(User u: ttservice.getUsers().values()) {
-            ttinst.setUserVolume(u.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
-            ttinst.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, u.nUserID);
+        for(User u: getService().getUsers().values()) {
+            getClient().setUserVolume(u.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
+            getClient().pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, u.nUserID);
         }
     }
 
@@ -446,7 +446,6 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
-    	this.ttservice = service;
     }
 
     @Override
