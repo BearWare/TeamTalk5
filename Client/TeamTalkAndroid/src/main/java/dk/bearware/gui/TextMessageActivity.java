@@ -58,14 +58,17 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
     public static final String EXTRA_USERID = "userid";
     
     TeamTalkConnection mConnection;
-    TeamTalkService ttservice;
     TextMessageAdapter adapter;
     AccessibilityAssistant accessibilityAssistant;
-    
+
+    TeamTalkService getService() {
+        return mConnection.getService();
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        
+        mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_text_message);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
 
@@ -106,8 +109,6 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         super.onStart();        
         
         // Bind to LocalService if not already
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -121,7 +122,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
 
         // Unbind from the service
         if(mConnection.isBound()) {
-            onServiceDisconnected(ttservice);
+            onServiceDisconnected(getService());
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -129,8 +130,6 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        ttservice = service;
-        
         final int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         final TeamTalkBase ttclient = service.getTTInstance();
         adapter = new TextMessageAdapter(this.getBaseContext(), accessibilityAssistant,
@@ -149,7 +148,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             if(newmsg.isEmpty())
                 return;
 
-            User myself = ttservice.getUsers().get(ttclient.getMyUserID());
+            User myself = service.getUsers().get(ttclient.getMyUserID());
             String name = Utils.getDisplayName(getBaseContext(), myself);
             MyTextMessage textmsg = new MyTextMessage(myself == null? "" : name);
             textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
@@ -161,7 +160,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             boolean sent = true;
             for (MyTextMessage m : textmsg.split()) {
                 sent = sent && ttclient.doTextMessage(m) > 0;
-                ttservice.getUserTextMsgs(userid).add(m);
+                service.getUserTextMsgs(userid).add(m);
             }
             if (sent) {
                 send_msg.setText("");
@@ -188,7 +187,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         String title = getResources().getString(R.string.title_activity_text_message);
         int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         
-        User user = ttservice.getUsers().get(userid);
+        User user = getService().getUsers().get(userid);
         if(user != null) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             setTitle(title + " - " + name);

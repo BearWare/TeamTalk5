@@ -35,7 +35,9 @@ public class TeamTalkConnection implements ServiceConnection {
     
     TeamTalkConnectionListener ttlistener;
     TeamTalkService ttservice;
-    
+    // TeamTalkService initialized by onServiceConnected()
+    Object waitService = new Object(); // sync object for 'ttservice'
+
     public TeamTalkConnection(TeamTalkConnectionListener listener) {
         ttlistener = listener;
     }
@@ -45,12 +47,14 @@ public class TeamTalkConnection implements ServiceConnection {
         // We've bound to LocalService, cast the IBinder and get LocalService instance
         TeamTalkService.LocalBinder binder = (TeamTalkService.LocalBinder) service;
 
-        ttservice = binder.getService();
-        TeamTalkBase ttclient = ttservice.getTTInstance();
-        
+        synchronized (waitService) {
+            ttservice = binder.getService();
+            waitService.notifyAll();
+        }
+
         String s = "TeamTalk instance 0x" +
-            Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
-            " running v. " + TeamTalkBase.getVersion() + " connected";
+                Integer.toHexString(ttservice.getTTInstance().hashCode() & 0xFFFFFFFF) +
+                " running v. " + TeamTalkBase.getVersion() + " connected";
         Log.i(TAG, s);
 
         setBound(true);
@@ -61,17 +65,34 @@ public class TeamTalkConnection implements ServiceConnection {
     public void onServiceDisconnected(ComponentName arg0) {
         ttlistener.onServiceDisconnected(ttservice);
         setBound(false);
-
-        TeamTalkBase ttclient = ttservice.getTTInstance();
         
         String s = "TeamTalk instance 0x" +
-            Integer.toHexString(ttclient.hashCode() & 0xFFFFFFFF) + 
+            Integer.toHexString(ttservice.getTTInstance().hashCode() & 0xFFFFFFFF) +
             " disconnected";
         Log.i(TAG, s);
-        
-        ttservice = null;
+
+        synchronized (waitService) {
+            ttservice = null;
+        }
     }
-    
+
+    public TeamTalkService getService() {
+        synchronized (waitService) {
+            if (ttservice == null) {
+                try {
+                    waitService.wait();
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+            }
+        }
+        return ttservice;
+    }
+
+    public TeamTalkBase getClient() {
+        return getService().getTTInstance();
+    }
+
     boolean bound = false;
     public void setBound(boolean bound) {
         this.bound = bound;

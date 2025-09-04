@@ -57,10 +57,20 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     public static final String TAG = "bearware";
     
     TeamTalkConnection mConnection;
+    User user = new User();
+
+    TeamTalkService getService() {
+        return mConnection.getService();
+    }
+
+    TeamTalkBase getClient() {
+        return getService().getTTInstance();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_user_prop);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
 
@@ -89,8 +99,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         super.onStart();
 
         // Bind to LocalService if not already
-        if (mConnection == null)
-            mConnection = new TeamTalkConnection(this);
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
@@ -98,7 +106,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         }
         else {
             int userid = getIntent().getExtras().getInt(EXTRA_USERID);
-            if(!ttclient.getUser(userid, user)) {
+            if(!getClient().getUser(userid, user)) {
                 setResult(RESULT_CANCELED);
                 finish();
             }
@@ -117,10 +125,6 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
             mConnection.setBound(false);
         }
     }
-
-    TeamTalkService ttservice;
-    TeamTalkBase ttclient;
-    User user = new User();
 
     void showUser() {
         TextView nickname = findViewById(R.id.user_nickname);
@@ -180,7 +184,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         subscribeInterceptdesk.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_DESKTOP) != 0);
         subscribeInterceptmedia.setChecked((user.uLocalSubscriptions & Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0);
 
-        Channel chan = this.ttservice.getChannels().get(user.nChannelID);
+        Channel chan = getService().getChannels().get(user.nChannelID);
         if (chan != null) {
             transmitVoice.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VOICE));
             transmitVid.setChecked(Utils.isTransmitAllowed(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE));
@@ -194,15 +198,15 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
             public void onProgressChanged(SeekBar seekBar, int progress,
                 boolean fromUser) {
                 if(seekBar == voiceVol) {
-                    ttclient.setUserVolume(user.nUserID,
+                    getClient().setUserVolume(user.nUserID,
                         StreamType.STREAMTYPE_VOICE, Utils.refVolume(progress));
                 }
                 else if(seekBar == mediaVol) {
-                    ttclient.setUserVolume(user.nUserID,
+                    getClient().setUserVolume(user.nUserID,
                         StreamType.STREAMTYPE_MEDIAFILE_AUDIO,
                         Utils.refVolume(progress));
                 }
-                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+                getClient().pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
 
             @Override
@@ -230,60 +234,60 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
 
         CompoundButton.OnCheckedChangeListener muteListener = (btn, checked) -> {
             if(btn == voiceMute) {
-                ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
-                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+                getClient().setUserMute(user.nUserID, StreamType.STREAMTYPE_VOICE, checked);
+                getClient().pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
             else if(btn == mediaMute) {
-                ttclient.setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
-                ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
+                getClient().setUserMute(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, checked);
+                getClient().pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);
             }
             else if(btn == subscribeTxtmsg)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_USER_MSG, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_USER_MSG, checked);
             else if(btn == subscribeChanmsg)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_CHANNEL_MSG, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_CHANNEL_MSG, checked);
             else if(btn == subscribeBcastmsg)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_BROADCAST_MSG, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_BROADCAST_MSG, checked);
             else if(btn == subscribeVoice)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VOICE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_VOICE, checked);
             else if(btn == subscribeVid)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_VIDEOCAPTURE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_VIDEOCAPTURE, checked);
             else if(btn == subscribeDesk)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_DESKTOP, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_DESKTOP, checked);
             else if(btn == subscribeMedia)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_MEDIAFILE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_MEDIAFILE, checked);
             else if(btn == subscribeIntercepttxtmsg)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG, checked);
             else if(btn == subscribeInterceptchanmsg)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG, checked);
             else if(btn == subscribeInterceptvoice)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VOICE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_VOICE, checked);
             else if(btn == subscribeInterceptvid)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE, checked);
             else if(btn == subscribeInterceptdesk)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP, checked);
             else if(btn == subscribeInterceptmedia)
-                Utils.toggleSubscription(ttclient, user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE, checked);
+                Utils.toggleSubscription(getClient(), user, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE, checked);
 
             if (chan != null) {
                 if(btn == transmitVoice) {
                     Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VOICE, checked);
-                    ttclient.doUpdateChannel(chan);
+                    getClient().doUpdateChannel(chan);
                 }
                 else if(btn == transmitVid) {
                     Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_VIDEOCAPTURE, checked);
-                    ttclient.doUpdateChannel(chan);
+                    getClient().doUpdateChannel(chan);
                 }
                 else if(btn == transmitDesk) {
                     Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_DESKTOP, checked);
-                    ttclient.doUpdateChannel(chan);
+                    getClient().doUpdateChannel(chan);
                 }
                 else if(btn == transmitMedia) {
                     Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_MEDIAFILE, checked);
-                    ttclient.doUpdateChannel(chan);
+                    getClient().doUpdateChannel(chan);
                 }
                 else if(btn == transmitChanmsg) {
                     Utils.toggleTransmitUsers(user, chan, StreamType.STREAMTYPE_CHANNELMSG, checked);
-                    ttclient.doUpdateChannel(chan);
+                    getClient().doUpdateChannel(chan);
                 }
             }
         };
@@ -311,11 +315,8 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
 
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        ttservice = service;
-        ttclient = ttservice.getTTInstance();
-
         int userid = getIntent().getExtras().getInt(EXTRA_USERID);
-        if(!ttclient.getUser(userid, user)) {
+        if (!service.getTTInstance().getUser(userid, user)) {
             setResult(RESULT_CANCELED);
             finish();
         }

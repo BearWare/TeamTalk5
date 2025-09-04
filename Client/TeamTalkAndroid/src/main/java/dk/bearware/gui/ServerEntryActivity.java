@@ -61,14 +61,21 @@ public class ServerEntryActivity extends AppCompatActivity
     private static final int MAX_PORT = 65535;
 
     private TeamTalkConnection mConnection;
-    private TeamTalkService ttservice;
-    private TeamTalkBase ttclient;
     private ServerEntry serverentry;
     private ActivityServerEntryBinding binding;
+
+    TeamTalkService getService() {
+        return mConnection.getService();
+    }
+
+    TeamTalkBase getClient() {
+        return getService().getTTInstance();
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        mConnection = new TeamTalkConnection(this);
         binding = ActivityServerEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         EdgeToEdgeHelper.enableEdgeToEdge(this);
@@ -144,24 +151,24 @@ public class ServerEntryActivity extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        if (mConnection != null && mConnection.isBound()) {
+        if (mConnection.isBound()) {
             resetTeamTalkService();
-            ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
+            getService().getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
         }
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        if (mConnection != null && mConnection.isBound()) {
-            ttservice.getEventHandler().registerOnCmdMyselfLoggedIn(this, false);
+        if (mConnection.isBound()) {
+            getService().getEventHandler().registerOnCmdMyselfLoggedIn(this, false);
         }
     }
 
     private void resetTeamTalkService() {
-        ttservice.resetState();
-        ttclient.closeSoundInputDevice();
-        ttclient.closeSoundOutputDevice();
+        getService().resetState();
+        getClient().closeSoundInputDevice();
+        getClient().closeSoundOutputDevice();
     }
 
     @Override
@@ -191,9 +198,6 @@ public class ServerEntryActivity extends AppCompatActivity
     }
 
     private void bindToTeamTalkService() {
-        if (mConnection == null) {
-            mConnection = new TeamTalkConnection(this);
-        }
         if (!mConnection.isBound()) {
             Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
             if (!bindService(intent, mConnection, Context.BIND_AUTO_CREATE)) {
@@ -203,11 +207,9 @@ public class ServerEntryActivity extends AppCompatActivity
     }
 
     private void unbindFromTeamTalkService() {
-        if (mConnection != null && mConnection.isBound()) {
-            if (ttservice != null) {
-                ttservice.resetState();
-                onServiceDisconnected(ttservice);
-            }
+        if (mConnection.isBound()) {
+            getService().resetState();
+            onServiceDisconnected(getService());
             unbindService(mConnection);
             mConnection.setBound(false);
         }
@@ -240,8 +242,8 @@ public class ServerEntryActivity extends AppCompatActivity
 
     private void connectToServer() {
         serverentry = getServerEntry();
-        ttservice.setServerEntry(serverentry);
-        if (!ttservice.reconnect()) {
+        getService().setServerEntry(serverentry);
+        if (!getService().reconnect()) {
             Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
         }
     }
@@ -375,8 +377,6 @@ public class ServerEntryActivity extends AppCompatActivity
     
     @Override
     public void onServiceConnected(TeamTalkService service) {
-        ttservice = service;
-        ttclient = service.getTTInstance();
         service.getEventHandler().registerOnCmdMyselfLoggedIn(this, true);
     }
 
