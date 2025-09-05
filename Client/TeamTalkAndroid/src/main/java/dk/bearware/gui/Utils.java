@@ -724,6 +724,9 @@ public class Utils {
     {
         // 50 % = SoundLevel.SOUND_GAIN_DEFAULT
         
+        if (percent == 0) {
+            return 0;
+        }
         percent = Math.max(0, percent);
         percent = Math.min(100, percent);
 
