@@ -31,7 +31,6 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -49,7 +48,6 @@ import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
 import android.os.Vibrator;
-import android.preference.PreferenceManager;
 import android.provider.OpenableColumns;
 import android.text.InputType;
 import android.util.Log;
@@ -136,6 +134,7 @@ import dk.bearware.data.ServerEntry;
 import dk.bearware.data.TTSWrapper;
 import dk.bearware.data.TextMessageAdapter;
 import dk.bearware.events.ClientEventListener;
+import dk.bearware.utils.PrefsHelper;
 
 public class MainActivity
 extends AppCompatActivity
@@ -231,6 +230,9 @@ extends AppCompatActivity
     
     SparseIntArray sounds = new SparseIntArray();
 
+    private Context ctx;
+    private PrefsHelper prefs;
+
     public ChannelListAdapter getChannelsAdapter() {
         return channelsAdapter;
     }
@@ -250,6 +252,9 @@ extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        ctx = getApplicationContext();
+        prefs = new PrefsHelper(ctx);
+
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_main);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
@@ -292,7 +297,7 @@ extends AppCompatActivity
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final MediaPlayer mMediaPlayer;
-            mMediaPlayer = MediaPlayer.create(getApplicationContext(), R.raw.silence);
+            mMediaPlayer = MediaPlayer.create(ctx, R.raw.silence);
             mMediaPlayer.setOnCompletionListener(mediaPlayer -> mMediaPlayer.release());
             mMediaPlayer.start();
         }
@@ -429,29 +434,27 @@ extends AppCompatActivity
     @Override
     protected void onStart() {
         super.onStart();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         if (ttsWrapper == null)
-            ttsWrapper = new TTSWrapper(this, prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
+            ttsWrapper = new TTSWrapper(this, prefs.get("pref_speech_engine", TTSWrapper.defaultEngineName));
 
         if (!mConnection.isBound()) {
             // Bind to LocalService
-            Intent intent = new Intent(getApplicationContext(), TeamTalkService.class);
+            Intent intent = new Intent(ctx, TeamTalkService.class);
             Log.d(TAG, "Binding TeamTalk service");
             if(!bindService(intent, mConnection, Context.BIND_AUTO_CREATE))
                 Log.e(TAG, "Failed to bind to TeamTalk service");
         }
         else {
-            adjustSoundSystem(prefs);
-            if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
+            adjustSoundSystem();
+            if (prefs.get(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
                 if (Permissions.BLUETOOTH.request(this))
                     getService().watchBluetoothHeadset();
             }
             else getService().unwatchBluetoothHeadset();
 
-            int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
-            int gain = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
-            int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+            int mastervol = prefs.get(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+            int gain = prefs.get(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+            int voxlevel = prefs.get(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
             boolean voxState = getService().isVoiceActivationEnabled();
             boolean txState = getService().isVoiceTransmitting();
 
@@ -492,67 +495,65 @@ extends AppCompatActivity
 
         audioIcons = new SoundPool(1, AudioManager.STREAM_MUSIC, 0);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        if (prefs.getBoolean("server_lost_audio_icon", true)) {
-            sounds.put(SOUND_SERVERLOST, audioIcons.load(getApplicationContext(), R.raw.serverlost, 1));
+        if (prefs.get("server_lost_audio_icon", true)) {
+            sounds.put(SOUND_SERVERLOST, audioIcons.load(ctx, R.raw.serverlost, 1));
         }
-        if (prefs.getBoolean("rx_tx_audio_icon", true)) {
-            sounds.put(SOUND_VOICETXON, audioIcons.load(getApplicationContext(), R.raw.on, 1));
-            sounds.put(SOUND_VOICETXOFF, audioIcons.load(getApplicationContext(), R.raw.off, 1));
+        if (prefs.get("rx_tx_audio_icon", true)) {
+            sounds.put(SOUND_VOICETXON, audioIcons.load(ctx, R.raw.on, 1));
+            sounds.put(SOUND_VOICETXOFF, audioIcons.load(ctx, R.raw.off, 1));
         }
-        if (prefs.getBoolean("private_message_audio_icon", true)) {
-            sounds.put(SOUND_USERMSG, audioIcons.load(getApplicationContext(), R.raw.user_message, 1));
+        if (prefs.get("private_message_audio_icon", true)) {
+            sounds.put(SOUND_USERMSG, audioIcons.load(ctx, R.raw.user_message, 1));
         }
-        if (prefs.getBoolean("channel_message_audio_icon", true)) {
-            sounds.put(SOUND_CHANMSG, audioIcons.load(getApplicationContext(), R.raw.channel_message, 1));
+        if (prefs.get("channel_message_audio_icon", true)) {
+            sounds.put(SOUND_CHANMSG, audioIcons.load(ctx, R.raw.channel_message, 1));
         }
-        if (prefs.getBoolean("channel_message_sent_audio_icon", true)) {
-            sounds.put(SOUND_CHANMSGSENT, audioIcons.load(getApplicationContext(), R.raw.channel_message_sent, 1));
+        if (prefs.get("channel_message_sent_audio_icon", true)) {
+            sounds.put(SOUND_CHANMSGSENT, audioIcons.load(ctx, R.raw.channel_message_sent, 1));
         }
-        if (prefs.getBoolean("broadcast_message_audio_icon", true)) {
-            sounds.put(SOUND_BCASTMSG, audioIcons.load(getApplicationContext(), R.raw.broadcast_message, 1));
+        if (prefs.get("broadcast_message_audio_icon", true)) {
+            sounds.put(SOUND_BCASTMSG, audioIcons.load(ctx, R.raw.broadcast_message, 1));
         }
-        if (prefs.getBoolean("files_updated_audio_icon", true)) {
-            sounds.put(SOUND_FILESUPDATE, audioIcons.load(getApplicationContext(), R.raw.fileupdate, 1));
+        if (prefs.get("files_updated_audio_icon", true)) {
+            sounds.put(SOUND_FILESUPDATE, audioIcons.load(ctx, R.raw.fileupdate, 1));
         }
-        if (prefs.getBoolean("voiceact_audio_icon", true)) {
-            sounds.put(SOUND_VOXENABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_enable, 1));
-            sounds.put(SOUND_VOXDISABLE, audioIcons.load(getApplicationContext(), R.raw.voiceact_disable, 1));
+        if (prefs.get("voiceact_audio_icon", true)) {
+            sounds.put(SOUND_VOXENABLE, audioIcons.load(ctx, R.raw.voiceact_enable, 1));
+            sounds.put(SOUND_VOXDISABLE, audioIcons.load(ctx, R.raw.voiceact_disable, 1));
         }
-        if (prefs.getBoolean("voiceact_triggered_icon", true)) {
-            sounds.put(SOUND_VOXON, audioIcons.load(getApplicationContext(), R.raw.voiceact_on, 1));
-            sounds.put(SOUND_VOXOFF, audioIcons.load(getApplicationContext(), R.raw.voiceact_off, 1));
+        if (prefs.get("voiceact_triggered_icon", true)) {
+            sounds.put(SOUND_VOXON, audioIcons.load(ctx, R.raw.voiceact_on, 1));
+            sounds.put(SOUND_VOXOFF, audioIcons.load(ctx, R.raw.voiceact_off, 1));
         }
-        if (prefs.getBoolean("intercept_audio_icon", true)) {
-            sounds.put(SOUND_INTERCEPTON, audioIcons.load(getApplicationContext(), R.raw.intercept, 1));
-            sounds.put(SOUND_INTERCEPTOFF, audioIcons.load(getApplicationContext(), R.raw.interceptend, 1));
+        if (prefs.get("intercept_audio_icon", true)) {
+            sounds.put(SOUND_INTERCEPTON, audioIcons.load(ctx, R.raw.intercept, 1));
+            sounds.put(SOUND_INTERCEPTOFF, audioIcons.load(ctx, R.raw.interceptend, 1));
         }
-        if (prefs.getBoolean("transmitready_icon", true)) {
-            sounds.put(SOUND_TXREADY, audioIcons.load(getApplicationContext(), R.raw.txqueue_start, 1));
-            sounds.put(SOUND_TXSTOP, audioIcons.load(getApplicationContext(), R.raw.txqueue_stop, 1));
+        if (prefs.get("transmitready_icon", true)) {
+            sounds.put(SOUND_TXREADY, audioIcons.load(ctx, R.raw.txqueue_start, 1));
+            sounds.put(SOUND_TXSTOP, audioIcons.load(ctx, R.raw.txqueue_stop, 1));
         }
-        if (prefs.getBoolean("userjoin_icon", true)) {
-            sounds.put(SOUND_USERJOIN, audioIcons.load(getApplicationContext(), R.raw.user_join, 1));
+        if (prefs.get("userjoin_icon", true)) {
+            sounds.put(SOUND_USERJOIN, audioIcons.load(ctx, R.raw.user_join, 1));
         }
-        if (prefs.getBoolean("userleft_icon", true)) {
-            sounds.put(SOUND_USERLEFT, audioIcons.load(getApplicationContext(), R.raw.user_left, 1));
+        if (prefs.get("userleft_icon", true)) {
+            sounds.put(SOUND_USERLEFT, audioIcons.load(ctx, R.raw.user_left, 1));
         }
-        if (prefs.getBoolean("userloggedin_icon", true)) {
-            sounds.put(SOUND_USERLOGGEDIN, audioIcons.load(getApplicationContext(), R.raw.logged_on, 1));
+        if (prefs.get("userloggedin_icon", true)) {
+            sounds.put(SOUND_USERLOGGEDIN, audioIcons.load(ctx, R.raw.logged_on, 1));
         }
-        if (prefs.getBoolean("userloggedoff_icon", true)) {
-            sounds.put(SOUND_USERLOGGEDOFF, audioIcons.load(getApplicationContext(), R.raw.logged_off, 1));
+        if (prefs.get("userloggedoff_icon", true)) {
+            sounds.put(SOUND_USERLOGGEDOFF, audioIcons.load(ctx, R.raw.logged_off, 1));
         }
 
-        getTextMessagesAdapter().showLogMessages(prefs.getBoolean("show_log_messages", true));
+        getTextMessagesAdapter().showLogMessages(prefs.get("show_log_messages", true));
 
-        getWindow().getDecorView().setKeepScreenOn(prefs.getBoolean("keep_screen_on_checkbox", false));
+        getWindow().getDecorView().setKeepScreenOn(prefs.get("keep_screen_on_checkbox", false));
 
         createStatusTimer();
-        ttsWrapper.useAnnouncements = prefs.getBoolean("pref_use_announcements", false);
-        ttsWrapper.setAccessibilityStream(prefs.getBoolean("pref_a11y_volume", false));
-        ttsWrapper.switchEngine(prefs.getString("pref_speech_engine", TTSWrapper.defaultEngineName));
+        ttsWrapper.useAnnouncements = prefs.get("pref_use_announcements", false);
+        ttsWrapper.setAccessibilityStream(prefs.get("pref_a11y_volume", false));
+        ttsWrapper.switchEngine(prefs.get("pref_speech_engine", TTSWrapper.defaultEngineName));
     }
 
     @Override
@@ -567,16 +568,6 @@ extends AppCompatActivity
     @Override
     protected void onStop() {
         super.onStop();
-
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-
-        if (mConnection.isBound()) {
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, getClient().getSoundOutputVolume());
-            editor.putInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, getClient().getVoiceActivationLevel());
-            editor.apply();
-        }
-
         // Cleanup resources
         if (isFinishing()) {
             if (audioIcons != null) {
@@ -708,8 +699,7 @@ extends AppCompatActivity
     }
 
     public void onSensorChanged(SensorEvent event) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        boolean proximity_sensor = prefs.getBoolean("proximity_sensor_checkbox", false);
+        boolean proximity_sensor = prefs.get("proximity_sensor_checkbox", false);
         if (proximity_sensor && (mConnection != null) && mConnection.isBound() && !getService().isInPhoneCall()) {
             if (event.values[0] == 0) {
                 proximityWakeLock.acquire();
@@ -718,7 +708,7 @@ extends AppCompatActivity
                 getService().enableVoiceTransmission(true);
             } else {
                 proximityWakeLock.release();
-                adjustSoundSystem(prefs);
+                adjustSoundSystem();
                 if (getService().isVoiceTransmissionEnabled())
                     getService().enableVoiceTransmission(false);
             }
@@ -1134,7 +1124,7 @@ private EditText newmsg;
             Collections.sort(stickychannels, (c1, c2) -> c1.szName.compareToIgnoreCase(c2.szName));
 
             Collections.sort(currentusers, (u1, u2) -> {
-                if (PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("movetalk_checkbox", true)) {
+                if (prefs.get("movetalk_checkbox", true)) {
                     if (((u1.uUserState & UserState.USERSTATE_VOICE) != 0) &&
                         ((u2.uUserState & UserState.USERSTATE_VOICE) == 0))
                         return -1;
@@ -1616,14 +1606,14 @@ private EditText newmsg;
     }
 
     @SuppressWarnings("deprecation")
-    private void adjustSoundSystem(SharedPreferences prefs) {
+    private void adjustSoundSystem() {
         if (audioManager.isBluetoothA2dpOn())
             return;
-        boolean voiceProcessing = prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
+        boolean voiceProcessing = prefs.get(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
         audioManager.setMode(voiceProcessing ?
                 AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
         if (voiceProcessing)
-            audioManager.setSpeakerphoneOn(prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false) && !audioManager.isWiredHeadsetOn());
+            audioManager.setSpeakerphoneOn(prefs.get(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false) && !audioManager.isWiredHeadsetOn());
     }
 
     private void adjustMuteButton(ImageButton btn) {
@@ -1639,20 +1629,20 @@ private EditText newmsg;
 
     private void adjustVoxState(boolean voiceActivationEnabled, int level) {
         ImageButton voxSwitch = findViewById(R.id.voxSwitch);
-        TextView mikeLevel = findViewById(R.id.mikelevel_text);
+        TextView micLevel = findViewById(R.id.miclevel_text);
 
         if (voiceActivationEnabled) {
-            mikeLevel.setText(level + "%");
-            mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+            micLevel.setText(level + "%");
+            micLevel.setContentDescription(getString(R.string.vox_level_description, micLevel.getText()));
             voxSwitch.setImageResource(R.drawable.microphone);
             voxSwitch.setContentDescription(getString(R.string.voice_activation_off));
             ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(getClient().getVoiceActivationLevel());
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.voxlevel));
         }
         else {
-            mikeLevel.setText(Utils.refVolumeToPercent(level) + "%");
-            mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
-            voxSwitch.setImageResource(R.drawable.mike_green);
+            micLevel.setText(Utils.refVolumeToPercent(level) + "%");
+            micLevel.setContentDescription(getString(R.string.mic_gain_description, micLevel.getText()));
+            voxSwitch.setImageResource(R.drawable.mic_green);
             voxSwitch.setContentDescription(getString(R.string.voice_activation_on));
             ((SeekBar) findViewById(R.id.mic_gainSeekBar)).setProgress(Utils.refVolumeToPercent(getClient().getSoundInputGainLevel()));
             findViewById(R.id.mic_gainSeekBar).setContentDescription(getString(R.string.micgain));
@@ -1739,7 +1729,7 @@ private EditText newmsg;
         
         final SeekBar masterSeekBar = findViewById(R.id.master_volSeekBar);
         final SeekBar micSeekBar = findViewById(R.id.mic_gainSeekBar);
-        final TextView mikeLevel = findViewById(R.id.mikelevel_text);
+        final TextView micLevel = findViewById(R.id.miclevel_text);
         final TextView volLevel = findViewById(R.id.vollevel_text);
         masterSeekBar.setMax(100);
         micSeekBar.setMax(100);
@@ -1747,28 +1737,30 @@ private EditText newmsg;
         SeekBar.OnSeekBarChangeListener volListener = new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
-                SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
                 if (seekBar == masterSeekBar) {
                     if (getService().isMute()) {
                         getService().setMute(false);
                         ImageButton speakerBtn = findViewById(R.id.speakerBtn);
                         adjustMuteButton(speakerBtn);
                     }
-                    getClient().setSoundOutputVolume(Utils.refVolume(progress));
+                    int outputVolume = Utils.refVolume(progress);
+                    getClient().setSoundOutputVolume(outputVolume);
+                    prefs.put(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, outputVolume);
                     volLevel.setText(progress + "%");
                     volLevel.setContentDescription(getString(R.string.speaker_volume_description, volLevel.getText()));
             }     else if (seekBar == micSeekBar) {
                     if (getService().isVoiceActivationEnabled()) {
-                        getClient().setVoiceActivationLevel(progress);
-                        mikeLevel.setText(progress + "%");
-                        mikeLevel.setContentDescription(getString(R.string.vox_level_description, mikeLevel.getText()));
+                        int voxLevel = progress;
+                        getClient().setVoiceActivationLevel(voxLevel);
+                        prefs.put(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, voxLevel);
+                        micLevel.setText(progress + "%");
+                        micLevel.setContentDescription(getString(R.string.vox_level_description, micLevel.getText()));
                     } else {
-                        getClient().setSoundInputGainLevel(Utils.refGain(progress));
-                        SharedPreferences.Editor editor = prefs.edit();
-                        editor.putInt(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, Utils.refGain(progress));
-                        editor.apply();
-                        mikeLevel.setText(progress + "%");
-                        mikeLevel.setContentDescription(getString(R.string.mic_gain_description, mikeLevel.getText()));
+                        int inputGain = Utils.refGain(progress);
+                        getClient().setSoundInputGainLevel(inputGain);
+                        prefs.put(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, inputGain);
+                        micLevel.setText(progress + "%");
+                        micLevel.setContentDescription(getString(R.string.mic_gain_description, micLevel.getText()));
                     }
                 }
         }
@@ -1877,24 +1869,26 @@ private EditText newmsg;
 
         service.setOnVoiceTransmissionToggleListener(this);
 
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-        adjustSoundSystem(prefs);
+        adjustSoundSystem();
 
-        if (prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
+        if (prefs.get(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)
                 && Permissions.BLUETOOTH.request(this))
             service.watchBluetoothHeadset();
 
         if (Permissions.WAKE_LOCK.request(this))
             wakeLock.acquire();
 
-        int mastervol = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
-        int voxlevel = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
+        int mastervol = prefs.get(Preferences.PREF_SOUNDSYSTEM_MASTERVOLUME, SoundLevel.SOUND_VOLUME_DEFAULT);
+        int gain = prefs.get(Preferences.PREF_SOUNDSYSTEM_MICROPHONEGAIN, SoundLevel.SOUND_GAIN_DEFAULT);
+        int voxlevel = prefs.get(Preferences.PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL, 5);
         boolean voxState = service.isVoiceActivationEnabled();
         boolean txState = service.isVoiceTransmitting();
 
         // only set volume and gain if tt-instance hasn't already been configured
         if (getClient().getSoundOutputVolume() != mastervol)
             getClient().setSoundOutputVolume(mastervol);
+        if (getClient().getSoundInputGainLevel() != gain)
+            getClient().setSoundInputGainLevel(gain);
         if (getClient().getVoiceActivationLevel() != voxlevel)
             getClient().setVoiceActivationLevel(voxlevel);
 
@@ -2023,7 +2017,7 @@ private EditText newmsg;
 
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
-        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_login_checkbox", false)) {
+        if (ttsWrapper != null && prefs.get("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
         }
@@ -2039,7 +2033,7 @@ private EditText newmsg;
 
         if (sounds.get(SOUND_USERLOGGEDOFF) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
-        if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("server_logout_checkbox", false)) {
+        if (ttsWrapper != null && prefs.get("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
         }
@@ -2089,7 +2083,7 @@ private EditText newmsg;
                 if (getClient().getMyChannelID() == user.nChannelID) {
                     if (sounds.get(SOUND_USERJOIN) != 0)
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
-                    if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_join_checkbox", false)) {
+                    if (ttsWrapper != null && prefs.get("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
                         ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
                     }
@@ -2136,7 +2130,7 @@ private EditText newmsg;
             if (getClient().getMyChannelID() == channelid) {
                     if (sounds.get(SOUND_USERLEFT) != 0)
                         audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
-                if (ttsWrapper != null && PreferenceManager.getDefaultSharedPreferences(getBaseContext()).getBoolean("channel_leave_checkbox", false)) {
+                if (ttsWrapper != null && prefs.get("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
                     ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
                 }
@@ -2152,7 +2146,6 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL :
 
@@ -2163,7 +2156,7 @@ private EditText newmsg;
             if (textmessage.nFromUserID != getService().getTTInstance().getMyUserID()) {
                 if (sounds.get(SOUND_CHANMSG) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
-                if (ttsWrapper != null && prefs.getBoolean("channel_message_checkbox", false)) {
+                if (ttsWrapper != null && prefs.get("channel_message_checkbox", false)) {
                     User sender = getService().getUsers().get(textmessage.nFromUserID);
                     String name = Utils.getDisplayName(getBaseContext(), sender);
                     ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
@@ -2172,7 +2165,7 @@ private EditText newmsg;
             else if (textmessage.nFromUserID == getService().getTTInstance().getMyUserID()) {
                 if (sounds.get(SOUND_CHANMSGSENT) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSGSENT), 1.0f, 1.0f, 0, 0, 1.0f);
-                if (ttsWrapper != null && prefs.getBoolean("channel_message_sent_checkbox", false)) {
+                if (ttsWrapper != null && prefs.get("channel_message_sent_checkbox", false)) {
                     ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, textmessage.szMessage));
                 }
             }
@@ -2185,7 +2178,7 @@ private EditText newmsg;
             
             if (sounds.get(SOUND_BCASTMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_BCASTMSG), 1.0f, 1.0f, 0, 0, 1.0f);
-            if (ttsWrapper != null && prefs.getBoolean("broadcast_message_checkbox", false)) {
+            if (ttsWrapper != null && prefs.get("broadcast_message_checkbox", false)) {
                 User sender = getService().getUsers().get(textmessage.nFromUserID);
                 String name = Utils.getDisplayName(getBaseContext(), sender);
                 ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
@@ -2199,7 +2192,7 @@ private EditText newmsg;
             User sender = getService().getUsers().get(textmessage.nFromUserID);
             String name = Utils.getDisplayName(getBaseContext(), sender);
             String senderName = (sender != null) ? name : "";
-            if (ttsWrapper != null && prefs.getBoolean("private_message_checkbox", false))
+            if (ttsWrapper != null && prefs.get("private_message_checkbox", false))
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
@@ -2320,8 +2313,7 @@ private EditText newmsg;
         adjustTxState(voiceTransmissionEnabled);
 
         if (!isSuspended) {
-            SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getBaseContext());
-            boolean ptt_vibrate = pref.getBoolean("vibrate_checkbox", true) &&
+            boolean ptt_vibrate = prefs.get("vibrate_checkbox", true) &&
                 Permissions.VIBRATE.request(this);
             if (voiceTransmissionEnabled) {
                 accessibilityAssistant.shutUp();

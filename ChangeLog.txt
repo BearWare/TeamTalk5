@@ -10,6 +10,8 @@ Default Qt Client
 - Fixed global status message set to: "general_/statusmsg"
 - Fixed answering "No" to quit application causing server disconnect
 Android Client
+- Fixed restoring of microphone gain to value from preferences at application start
+- Fixed microphone gain to not drop to 0 when slider is at 0%
 - Fixed UI overlap on Android 15 and above
 - Minimum supported Android version is now 5.0 (Lollipop)
 iOS Client
