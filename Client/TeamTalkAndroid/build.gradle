@@ -5,7 +5,7 @@ buildscript {
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:8.12.2'
+        classpath 'com.android.tools.build:gradle:8.13.0'
     }
 }
 
@@ -78,7 +78,7 @@ dependencies {
     implementation 'androidx.media:media:1.7.1'
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.viewpager:viewpager:1.1.0'
-    implementation 'com.google.android.material:material:1.12.0'
+    implementation 'com.google.android.material:material:1.13.0'
     implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.10')
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.3'
     implementation files('libs/TeamTalk5.jar')
