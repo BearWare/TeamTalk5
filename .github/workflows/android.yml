@@ -28,7 +28,7 @@ jobs:
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '17'
 
     - uses: nttld/setup-ndk@v1
       id: setup-ndk

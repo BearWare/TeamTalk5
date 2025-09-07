@@ -312,7 +312,7 @@ depend-ubuntu24-android:
 		junit4 \
 		libtool \
 		ninja-build \
-		openjdk-21-jdk \
+		openjdk-17-jdk \
 		p7zip-full \
 		pkg-config \
 		unzip \
