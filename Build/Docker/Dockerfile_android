@@ -15,7 +15,7 @@ RUN apt install -y \
                    libtool \
                    make \
                    ninja-build \
-                   openjdk-21-jdk \
+                   openjdk-17-jdk \
                    p7zip-full \
                    pkg-config \
                    python-is-python3 \
