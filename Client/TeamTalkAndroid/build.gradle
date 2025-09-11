@@ -70,7 +70,7 @@ android {
 
 dependencies {
     coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.google.code.gson:gson:2.13.1'
+    implementation 'com.google.code.gson:gson:2.13.2'
     implementation 'androidx.annotation:annotation:1.9.1'
     implementation 'androidx.appcompat:appcompat:1.7.1'
     implementation 'androidx.core:core:1.17.0'
@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'com.google.android.material:material:1.13.0'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.10')
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.20')
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.3'
     implementation files('libs/TeamTalk5.jar')
 
