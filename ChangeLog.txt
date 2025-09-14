@@ -12,6 +12,11 @@ iOS Client
 Server
 -
 
+Version 5.20.1, unreleased
+Android Client
+- Fixed restoring of microphone gain to value from preferences at application start
+- Fixed microphone gain to not drop to 0 when slider is at 0%
+
 Version 5.20, 2025/09/14
 Default Qt Client
 - TeamTalk5.ini no longer stores values that have the same value as default
@@ -22,8 +27,6 @@ Default Qt Client
 - Windows updated to Qt 6.10.0 beta4
 - macOS changed to Qt 6.9.2 (still issues with VoiceOver)
 Android Client
-- Fixed restoring of microphone gain to value from preferences at application start
-- Fixed microphone gain to not drop to 0 when slider is at 0%
 - Fixed UI overlap on Android 15 and above
 - Minimum supported Android version is now 5.0 (Lollipop)
 Server
