@@ -12,7 +12,7 @@ iOS Client
 Server
 -
 
-Version 5.20.1, unreleased
+Version 5.20.1, 2025/09/15
 Android Client
 - Fixed restoring of microphone gain to value from preferences at application start
 - Fixed microphone gain to not drop to 0 when slider is at 0%
