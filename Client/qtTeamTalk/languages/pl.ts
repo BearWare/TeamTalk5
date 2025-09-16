@@ -6301,17 +6301,17 @@ Możesz go pobrać na poniższej stronie:
     <message>
         <location filename="../preferencesdlg.cpp" line="557"></location>
         <source>Windows Audio Session API (WASAPI)</source>
-        <translation>Interfejs API sesji audio systemu Windows (WASAPI)</translation>
+        <translation>Windows Audio Session API (WASAPI)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="559"></location>
         <source>Windows legacy audio system</source>
-        <translation>Starszy system audio dla systemu Windows</translation>
+        <translation>Windows legacy audio system</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="563"></location>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
-        <translation>Zaawansowana architektura dźwięku systemu Linux (ALSA)</translation>
+        <translation>Advanced Linux Sound Architecture (ALSA)</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="616"></location>
@@ -6326,7 +6326,7 @@ Możesz go pobrać na poniższej stronie:
     <message>
         <location filename="../preferencesdlg.cpp" line="794"></location>
         <source>Please restart application to change to chat history control</source>
-        <translation>Uruchom ponownie aplikację, aby zmienić kontrolę historii czatu na</translation>
+        <translation>Uruchom ponownie aplikację, aby zmienić kontrolkę historii czatu</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1036"></location>
@@ -9260,7 +9260,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../useraccountsmodel.cpp" line="259"></location>
         <source>Download files</source>
-        <translation>Pobieranie plików</translation>
+        <translation>Pobierz pliki</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"></location>
@@ -9409,12 +9409,12 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../uservolume.ui" line="147"></location>
         <source>&amp;Default</source>
-        <translation>&amp;Domyślne</translation>
+        <translation>&amp;Domyślna</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="55"></location>
         <source>Volume for %1</source>
-        <translation>Wolumin dla %1</translation>
+        <translation>Głośność dla %1</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="81"></location>
@@ -9437,22 +9437,22 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../settings.h" line="436"></location>
         <source>{user} joined channel {channel}</source>
-        <translation>{user} dołączyłeś do kanału {channel}</translation>
+        <translation>{user} dołączył do kanału {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="438"></location>
         <source>{user} left channel {channel}</source>
-        <translation>{user} {channel} lewym kanałem</translation>
+        <translation>{user} opuścił kanał {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="440"></location>
         <source>{user} joined channel</source>
-        <translation>{user} kanał, do którego dołączyłeś</translation>
+        <translation>{user} dołączył do kanału</translation>
     </message>
     <message>
         <location filename="../settings.h" line="442"></location>
         <source>{user} left channel</source>
-        <translation>{user} lewy kanał</translation>
+        <translation>{user} opuścił kanał</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"></location>
@@ -9472,7 +9472,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../settings.h" line="450"></location>
         <source>{user} set question mode</source>
-        <translation>{user} Ustaw tryb pytań</translation>
+        <translation>{user} ustawił tryb pytań</translation>
     </message>
     <message>
         <location filename="../settings.h" line="452"></location>
@@ -9487,22 +9487,22 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../settings.h" line="456"></location>
         <source>Broadcast message from {user}: {message}</source>
-        <translation>Wiadomość rozgłoszeniowa od {user}: {message}</translation>
+        <translation>Wiadomość administracyjna od {user}: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="458"></location>
         <source>Broadcast message sent: {message}</source>
-        <translation>Wysłana wiadomość rozgłoszeniowa: {message}</translation>
+        <translation>Wysłana wiadomość administracyjna: {message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="460"></location>
         <source>Subscription "{type}" {state} for {user}</source>
-        <translation>Abonament "{type}" {state} dla {user}</translation>
+        <translation>Subskrybcja "{type}" {state} dla {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="462"></location>
         <source>Transmission "{type}" {state} for {user}</source>
-        <translation>Skrzynia biegów "{type}" {state} do {user}</translation>
+        <translation>Transmisja "{type}" {state} dla {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="464"></location>
@@ -9542,13 +9542,13 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utiltts.cpp" line="51"></location>
         <source>User's username who logged out</source>
-        <translation>Nazwa użytkownika użytkownika, który się wylogował</translation>
+        <translation>Nazwa użytkownika, który się wylogował</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="52"></location>
         <location filename="../utiltts.cpp" line="54"></location>
         <source>User's nickname who joined channel</source>
-        <translation>Pseudonim użytkownika, który dołączył do kanału</translation>
+        <translation>Ksywa użytkownika, który dołączył do kanału</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="52"></location>
@@ -9559,7 +9559,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utiltts.cpp" line="52"></location>
         <location filename="../utiltts.cpp" line="54"></location>
         <source>User's username who joined channel</source>
-        <translation>Nazwa użytkownika użytkownika, który dołączył do kanału</translation>
+        <translation>Nazwa użytkownika, który dołączył do kanału</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"></location>
@@ -9570,20 +9570,20 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utiltts.cpp" line="53"></location>
         <source>Channel's name left by user</source>
-        <translation>Nazwa kanału pozostawiona przez użytkownika</translation>
+        <translation>Nazwa kanału, opuszczonego przez użytkownika</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="53"></location>
         <location filename="../utiltts.cpp" line="55"></location>
         <source>User's username who left channel</source>
-        <translation>Nazwa użytkownika użytkownika, który opuścił kanał</translation>
+        <translation>Nazwa użytkownika, który opuścił kanał</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="56"></location>
         <location filename="../utiltts.cpp" line="61"></location>
         <location filename="../utiltts.cpp" line="63"></location>
         <source>User's nickname who sent message</source>
-        <translation>Pseudonim użytkownika, który wysłał wiadomość</translation>
+        <translation>Ksywa użytkownika, który wysłał wiadomość</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="56"></location>
@@ -9600,7 +9600,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utiltts.cpp" line="61"></location>
         <location filename="../utiltts.cpp" line="63"></location>
         <source>User's username who sent message</source>
-        <translation>Nazwa użytkownika użytkownika, który wysłał wiadomość</translation>
+        <translation>Nazwa użytkownika, który wysłał wiadomość</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="58"></location>
@@ -9628,7 +9628,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utiltts.cpp" line="60"></location>
         <source>User's username who set question mode</source>
-        <translation>Nazwa użytkownika użytkownika, który ustawił tryb pytań</translation>
+        <translation>Nazwa użytkownika, który ustawił tryb pytań</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="65"></location>
@@ -9732,7 +9732,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utiltts.cpp" line="82"></location>
         <location filename="../utiltts.cpp" line="83"></location>
         <source>Transmission type</source>
-        <translation>Typ skrzyni biegów</translation>
+        <translation>Typ transmisji</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="79"></location>
@@ -9750,7 +9750,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utiltts.cpp" line="82"></location>
         <location filename="../utiltts.cpp" line="83"></location>
         <source>Classroom transmission authorization change</source>
-        <translation>Zmiana autoryzacji transmisji w klasie</translation>
+        <translation>Zmiana autoryzacji transmisji w pokoju klasowym</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="84"></location>
@@ -9776,12 +9776,12 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utiltts.cpp" line="85"></location>
         <source>User's nickname who removed the file</source>
-        <translation>Pseudonim użytkownika, który usunął plik</translation>
+        <translation>Ksywa użytkownika, który usunął plik</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="85"></location>
         <source>User's username who removed the file</source>
-        <translation>Nazwa użytkownika użytkownika, który usunął plik</translation>
+        <translation>Nazwa użytkownika, usuwającego plik</translation>
     </message>
 </context>
 <context>
@@ -9799,32 +9799,32 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../settings.h" line="473"></location>
         <source>{user} joined channel {channel}</source>
-        <translation>{user} dołączyłeś do kanału {channel}</translation>
+        <translation>{user} dołączył do kanału {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="475"></location>
         <source>{user} left channel {channel}</source>
-        <translation>{user} {channel} lewym kanałem</translation>
+        <translation>{user} opuścił kanał {channel}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="477"></location>
         <source>{user} joined channel</source>
-        <translation>{user} kanał, do którego dołączyłeś</translation>
+        <translation>{user} dołączył do kanału</translation>
     </message>
     <message>
         <location filename="../settings.h" line="479"></location>
         <source>{user} left channel</source>
-        <translation>{user} lewy kanał</translation>
+        <translation>{user} opuścił kanał</translation>
     </message>
     <message>
         <location filename="../settings.h" line="481"></location>
         <source>Subscription "{type}" {state} for {user}</source>
-        <translation>Abonament "{type}" {state} dla {user}</translation>
+        <translation>Subskrybcja "{type}" {state} dla {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="483"></location>
         <source>Transmission "{type}" {state} for {user}</source>
-        <translation>Skrzynia biegów "{type}" {state} do {user}</translation>
+        <translation>Transmisja "{type}" {state} dla {user}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="485"></location>
@@ -9869,7 +9869,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../settings.h" line="502"></location>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation>{date} Dołączenie do kanału: {channelpath}</translation>
+        <translation>{date} dołączył do kanału: {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"></location>
@@ -9897,7 +9897,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="193"></location>
         <source>User's username who logged in</source>
-        <translation>Nazwa użytkownika użytkownika, który się zalogował</translation>
+        <translation>Nazwa użytkownika, logującego się</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="194"></location>
@@ -9907,13 +9907,13 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="194"></location>
         <source>User's username who logged out</source>
-        <translation>Nazwa użytkownika użytkownika, który się wylogował</translation>
+        <translation>Nazwa użytkownika, wylogowującego się</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"></location>
         <location filename="../utilui.cpp" line="197"></location>
         <source>User's nickname who joined channel</source>
-        <translation>Pseudonim użytkownika, który dołączył do kanału</translation>
+        <translation>Ksywa użytkownika, który dołączył do kanału</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="195"></location>
@@ -9924,7 +9924,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utilui.cpp" line="195"></location>
         <location filename="../utilui.cpp" line="197"></location>
         <source>User's username who joined channel</source>
-        <translation>Nazwa użytkownika użytkownika, który dołączył do kanału</translation>
+        <translation>Nazwa użytkownika, dołączającego do kanału</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="196"></location>
@@ -9935,13 +9935,13 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="196"></location>
         <source>Channel's name left by user</source>
-        <translation>Nazwa kanału pozostawiona przez użytkownika</translation>
+        <translation>Nazwa kanału, opuszczonego przez użytkownika</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="196"></location>
         <location filename="../utilui.cpp" line="198"></location>
         <source>User's username who left channel</source>
-        <translation>Nazwa użytkownika użytkownika, który opuścił kanał</translation>
+        <translation>Nazwa użytkownika, opuszczającego kanał</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="199"></location>
@@ -10045,7 +10045,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utilui.cpp" line="216"></location>
         <location filename="../utilui.cpp" line="217"></location>
         <source>Transmission type</source>
-        <translation>Typ skrzyni biegów</translation>
+        <translation>Typ transmisji</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="213"></location>
@@ -10063,7 +10063,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utilui.cpp" line="216"></location>
         <location filename="../utilui.cpp" line="217"></location>
         <source>Classroom transmission authorization change</source>
-        <translation>Zmiana autoryzacji transmisji w klasie</translation>
+        <translation>Zmiana autoryzacji transmisji w pokoju klasowym</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="218"></location>
@@ -10074,7 +10074,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="218"></location>
         <source>User's nickname who added the file</source>
-        <translation>Pseudonim użytkownika, który dodał plik</translation>
+        <translation>Ksywa użytkownika, który dodał plik</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="218"></location>
@@ -10084,17 +10084,17 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="218"></location>
         <source>User's username who added the file</source>
-        <translation>Nazwa użytkownika użytkownika, który dodał plik</translation>
+        <translation>Nazwa użytkownika, dodającego plik</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="219"></location>
         <source>User's nickname who removed the file</source>
-        <translation>Pseudonim użytkownika, który usunął plik</translation>
+        <translation>Ksywa użytkownika, który usunął plik</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="219"></location>
         <source>User's username who removed the file</source>
-        <translation>Nazwa użytkownika użytkownika, który usunął plik</translation>
+        <translation>Nazwa użytkownika, usuwającego plik</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"></location>
@@ -10109,7 +10109,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utilui.cpp" line="229"></location>
         <location filename="../utilui.cpp" line="230"></location>
         <source>Sender's nickname</source>
-        <translation>Pseudonim nadawcy</translation>
+        <translation>Ksywa nadawcy</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"></location>
@@ -10117,7 +10117,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
         <location filename="../utilui.cpp" line="230"></location>
         <location filename="../utilui.cpp" line="231"></location>
         <source>Message content</source>
-        <translation>Zawartość wiadomości</translation>
+        <translation>Treść wiadomości</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"></location>
@@ -10136,7 +10136,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../utilui.cpp" line="233"></location>
         <source>Server's Message of the Day</source>
-        <translation>Wiadomość dnia od serwera</translation>
+        <translation>Wiadomość dnia serwera</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"></location>
@@ -10278,7 +10278,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../videotextdlg.cpp" line="183"></location>
         <source>Nickname</source>
-        <translation>Nick</translation>
+        <translation>Ksywa</translation>
     </message>
     <message>
         <location filename="../videotextdlg.cpp" line="186"></location>
@@ -10288,7 +10288,7 @@ Usuń opublikowane konto użytkownika, aby wyrejestrować serwer.</translation>
     <message>
         <location filename="../videotextdlg.cpp" line="189"></location>
         <source>Status message</source>
-        <translation>Opis statusu</translation>
+        <translation>Opis</translation>
     </message>
 </context>
 </TS>
