@@ -1101,27 +1101,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template for &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelo para &quot;%1&quot;</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem certeza de que deseja restaurar todos os modelos de chat para os valores padrão?</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Sim</translation>
+        <translation>&amp;Sim</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="137"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Não</translation>
+        <translation>&amp;Não</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="140"/>
         <source>Restore default values</source>
-        <translation type="unfinished"></translation>
+        <translation>Restaurar valores padrão</translation>
     </message>
 </context>
 <context>
@@ -1129,57 +1129,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="207"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Tipo</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="208"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelo</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="234"/>
         <source>Channel Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem do Canal</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="236"/>
         <source>Broadcast Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem de Transmissão</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem Privada</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem de Log</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome do Servidor</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem do servidor no dia de hoje</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Canal Ingressado</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>Tópico do canal</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>Cota de Disco do Canal</translation>
     </message>
 </context>
 <context>
@@ -1187,12 +1187,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="294"/>
         <source>History</source>
-        <translation type="unfinished">Histórico</translation>
+        <translation>Histórico</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="395"/>
         <source>&amp;Clear</source>
-        <translation type="unfinished">&amp;Limpar</translation>
+        <translation>&amp;Limpar</translation>
     </message>
 </context>
 <context>
@@ -1200,80 +1200,80 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="236"/>
         <source>History</source>
-        <translation type="unfinished">Histórico</translation>
+        <translation>Histórico</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="122"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">Nome do Servidor: %1</translation>
+        <translation>Nome do Servidor: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="121"/>
         <location filename="../chattextlist.cpp" line="132"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>Servidor</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="133"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">Mensagem do Dia: %1</translation>
+        <translation>Mensagem do Dia: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="153"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">Entrou no canal %1</translation>
+        <translation>Ingressou no canal %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="152"/>
         <location filename="../chattextlist.cpp" line="161"/>
         <location filename="../chattextlist.cpp" line="168"/>
         <source>Channel</source>
-        <translation type="unfinished">Canal</translation>
+        <translation>Canal</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="162"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">Tópico: %1</translation>
+        <translation>Tópico: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="169"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Cota de disco: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="204"/>
         <source>You</source>
-        <translation type="unfinished"></translation>
+        <translation>Você</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="219"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>Sistema</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="391"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Copiar</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>C&amp;opiar Apenas Conteúdo</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver &amp;Detalhes...</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="397"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>Copiar &amp;Tudo</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="398"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Limpar</translation>
     </message>
 </context>
 <context>
@@ -1281,42 +1281,42 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../useraccountdlg.cpp" line="455"/>
         <source>Command Limit: </source>
-        <translation type="unfinished"></translation>
+        <translation>Limite de Comando: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="456"/>
         <source>Command Limit</source>
-        <translation type="unfinished"></translation>
+        <translation>Limite de Comando</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval: </source>
-        <translation type="unfinished"></translation>
+        <translation>Intervalo: </translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="463"/>
         <source>sec</source>
-        <translation type="unfinished"></translation>
+        <translation>seg</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="464"/>
         <source>Interval</source>
-        <translation type="unfinished"></translation>
+        <translation>Intervalo</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="468"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="469"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="475"/>
         <source>Set Command Limits</source>
-        <translation type="unfinished"></translation>
+        <translation>Definir Limite de Comandos</translation>
     </message>
 </context>
 <context>
@@ -1349,7 +1349,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../customvideofmt.ui" line="75"/>
         <source>FPS</source>
-        <translation></translation>
+        <translation>FPS</translation>
     </message>
     <message>
         <location filename="../customvideofmt.ui" line="85"/>
@@ -1372,12 +1372,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="14"/>
         <source>Safe List For Automatic Desktop Access</source>
-        <translation>Lista Segura para Acesso Automático</translation>
+        <translation>Lista Segura para Acesso Automático ao computador</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="22"/>
         <source>Safe List For Desktop Access</source>
-        <translation>Lista Segura para Acesso a Área de Trabalho</translation>
+        <translation>Lista Segura para Acesso ao computador</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="33"/>
@@ -1387,17 +1387,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translation>Entrada de Acesso a Área de Trabalho</translation>
+        <translation>Entrada de Acesso ao computador</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>Aqui é possível fornecer automaticamente o acesso remoto a área de trabalho a um grupo selecionado de usuários em um servidor. Desta Forma, não é necessario clicar &quot;Permitir Acesso Remoto&quot; toda vez que um usuário fizer o login.</translation>
+        <translation>Aqui é possível fornecer automaticamente o acesso remoto ao computador a um grupo selecionado de usuários em um servidor. Desta Forma, não é necessário clicar &quot;Permitir Acesso Remoto&quot; toda vez que um usuário fizer o login.</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
         <source>Host IP-address</source>
-        <translation>Endereço IP</translation>
+        <translation>Endereço IP do servidor</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="91"/>
@@ -1422,7 +1422,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>Ativar acesso remoto a usuários com o login</translation>
+        <translation>Ativar acesso remoto a usuários com nome de usuário</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
@@ -1462,7 +1462,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccessdlg.cpp" line="114"/>
         <source>Please fill the field &apos;Host IP-address&apos;</source>
-        <translation>Por Favor preencha o campo &apos;Endereço IP&apos;</translation>
+        <translation>Por Favor preencha o campo &apos;Endereço IP do servidor&apos;</translation>
     </message>
 </context>
 <context>
@@ -1470,7 +1470,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopgridwidget.cpp" line="28"/>
         <source>No active desktop sessions</source>
-        <translation>Sem sessões de áreas de trabalho ativas</translation>
+        <translation>Nenhuma sessão remota ativa</translation>
     </message>
 </context>
 <context>
@@ -1478,7 +1478,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="14"/>
         <source>Desktop Sharing</source>
-        <translation>Compartilhamento da Área de Trabalho</translation>
+        <translation>Compartilhamento do computador</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="20"/>
@@ -1488,7 +1488,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="26"/>
         <source>Share entire desktop</source>
-        <translation>Compartilhar área de trabalho completa</translation>
+        <translation>Compartilhar todo o computador</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="36"/>
@@ -1518,12 +1518,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="140"/>
         <source>msec</source>
-        <translation>mseg</translation>
+        <translation>MS</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="162"/>
         <source>Share desktop cursor</source>
-        <translation>Compartilhar cursor da área de trabalho</translation>
+        <translation>Compartilhar cursor do computador</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="48"/>
@@ -1561,17 +1561,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.ui" line="14"/>
         <source>Setup Encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Criptografia</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="20"/>
         <source>Client Encryption Settings</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurações de Criptografia do Cliente</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="26"/>
         <source>Certificate Authority (CA)</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoridade Certificadora (CA)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="48"/>
@@ -1581,120 +1581,120 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="156"/>
         <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="56"/>
         <location filename="../encryptionsetupdlg.ui" line="110"/>
         <location filename="../encryptionsetupdlg.ui" line="164"/>
         <source>Browse</source>
-        <translation type="unfinished">Procurar</translation>
+        <translation>Procurar</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="71"/>
         <location filename="../encryptionsetupdlg.ui" line="125"/>
         <location filename="../encryptionsetupdlg.ui" line="179"/>
         <source>Reset</source>
-        <translation type="unfinished"></translation>
+        <translation>Redefinir</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="80"/>
         <source>Client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Certificado do cliente</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="134"/>
         <source>Client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>Chave privada do cliente</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="188"/>
         <source>Verify server certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Verificar certificado do servidor</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="77"/>
         <location filename="../encryptionsetupdlg.cpp" line="120"/>
         <source>Issuer: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Emissor: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="78"/>
         <location filename="../encryptionsetupdlg.cpp" line="121"/>
         <source>Subject: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Assunto: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="79"/>
         <location filename="../encryptionsetupdlg.cpp" line="122"/>
         <source>Effective date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Data de vigência: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="80"/>
         <location filename="../encryptionsetupdlg.cpp" line="123"/>
         <source>Expiration date: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Data de expiração: %1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="92"/>
         <source>Certificate Authority (*.cer)</source>
-        <translation type="unfinished"></translation>
+        <translation>Autoridade Certificadora (*.cer)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="106"/>
         <source>Setup Certificate Authority</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Autoridade Certificadora</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo %1 não contém uma autoridade certificadora válida</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="135"/>
         <source>Client Certificate (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Certificado do Cliente (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="149"/>
         <source>Setup Client Certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Certificado do Cliente</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="150"/>
         <source>The file %1 does not contain a valid client certificate</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo %1 não contém um certificado de cliente válido</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="163"/>
         <source>RSA encryption</source>
-        <translation type="unfinished"></translation>
+        <translation>Criptografia RSA</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="165"/>
         <source>Private key: %1 bits</source>
-        <translation type="unfinished"></translation>
+        <translation>Chave privada: %1 bits</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="177"/>
         <source>Client Private Key (*.pem)</source>
-        <translation type="unfinished"></translation>
+        <translation>Chave Privada do Cliente (*.pem)</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="191"/>
         <source>Setup Client Private Key</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Chave Privada do Cliente</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="192"/>
         <source>The file %1 does not contain a valid client private key</source>
-        <translation type="unfinished"></translation>
+        <translation>O arquivo %1 não contém uma chave privada de cliente válida</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="201"/>
         <source>Open File</source>
-        <translation type="unfinished">Abrir arquivo</translation>
+        <translation>Abrir Arquivo</translation>
     </message>
 </context>
 <context>
@@ -1703,7 +1703,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../filetransfer.ui" line="14"/>
         <location filename="../filetransferdlg.cpp" line="67"/>
         <source>File Transfer</source>
-        <translation>Transferência de Arquivos</translation>
+        <translation>Transferência de Arquivo</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="25"/>
@@ -1728,7 +1728,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation type="unfinished"></translation>
+        <translation>Progresso da transferência</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1753,7 +1753,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="103"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/segundo, último segundo %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="130"/>
@@ -1820,7 +1820,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>Sobrepor configurações do cliente pré-definidas</translation>
+        <translation>Sobrepor configurações padrão do cliente</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -1835,7 +1835,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem de Status</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -1870,7 +1870,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="251"/>
         <source>&amp;Setup Keys</source>
-        <translation>Teclas de &amp;Configuração</translation>
+        <translation>&amp;Configurar teclas</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="258"/>
@@ -1880,7 +1880,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="281"/>
         <source>Voice activated</source>
-        <translation>Ativar voz</translation>
+        <translation>Voz ativa</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="301"/>
@@ -1936,7 +1936,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfiledlg.cpp" line="154"/>
         <source>Unable to save file %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Não é possível salvar o arquivo %1</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="202"/>
@@ -1975,17 +1975,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="69"/>
         <source>This dialog closes when you have released all keys</source>
-        <translation>Esta caixa de diálogo fechará quando liberar as teclas</translation>
+        <translation>Esta caixa de diálogo fechará quando você soltar as teclas</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="40"/>
         <source>Setup Hotkey: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Configurar Tecla de Atalho para %1</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="55"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>Modificadores (Option, Control, Command e Shift) devem ser usadas em combinação com outras teclas.</translation>
+        <translation>Modificadores (Alt, Control, Command e Shift) devem ser usadas em combinação com outras teclas.</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="237"/>
@@ -2003,27 +2003,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../utilui.cpp" line="679"/>
         <source>Username:</source>
-        <translation type="unfinished"></translation>
+        <translation>Nome de usuário:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="684"/>
         <source>Password:</source>
-        <translation type="unfinished"></translation>
+        <translation>Senha:</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="690"/>
         <source>Show password</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar senha</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="695"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="696"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cancelar</translation>
     </message>
 </context>
 <context>
@@ -2032,13 +2032,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1062"/>
         <location filename="../mainwindow.cpp" line="2109"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>Falha de conexão a %1 porta TCP %2 porta UDP %3</translation>
+        <translation>Erro ao conectar em %1 nas portas TCP %2 e UDP %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1078"/>
         <location filename="../mainwindow.cpp" line="1082"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>Conexão perdida a %1 porta TCP %2 porta UDP %3</translation>
+        <translation>Conexão perdida com %1 nas portas TCP %2 e UDP %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3144"/>
@@ -2055,13 +2055,14 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished"></translation>
+        <translation>Bem-vindo ao %1.<byte value="xd"/>
+Mensagem do dia: %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1387"/>
@@ -2082,12 +2083,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1406"/>
         <source>Audio preprocessor failed to initialize</source>
-        <translation type="unfinished"></translation>
+        <translation>Falha ao inicializar pré-processador de áudio</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1408"/>
         <source>An audio effect could not be applied on the sound device</source>
-        <translation type="unfinished"></translation>
+        <translation>Um efeito de áudio não pôde ser aplicado no dispositivo de som</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1417"/>
@@ -2097,22 +2098,22 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1465"/>
         <source>Error streaming media file to channel</source>
-        <translation>Erro enviando arquivo de mídia para o canal</translation>
+        <translation>Erro ao transmitir arquivo de mídia para o canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1469"/>
         <source>Started streaming media file to channel</source>
-        <translation>Envio de arquivo de mídia para o canal iniciado</translation>
+        <translation>Transmissão de arquivo de mídia para o canal iniciada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1472"/>
         <source>Finished streaming media file to channel</source>
-        <translation>Envio de arquivo de mídia para o canal finalizado</translation>
+        <translation>Transmissão de arquivo de mídia para o canal finalizada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1479"/>
         <source>Aborted streaming media file to channel</source>
-        <translation>Envio de arquivo de mídia para o canal cancelado</translation>
+        <translation>Transmissão de arquivo de mídia para o canal cancelada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1527"/>
@@ -2128,28 +2129,28 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="1607"/>
         <source>Your desktop session was cancelled</source>
-        <translation></translation>
+        <translation>Sua sessão de compartilhamento de tela foi cancelada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1660"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation type="unfinished"></translation>
+        <translation>Novo dispositivo de som disponível: %1. Atualize os dispositivos de som para descobrir o novo dispositivo.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1665"/>
         <source>Sound device removed: %1.</source>
-        <translation type="unfinished"></translation>
+        <translation>Dispositivo de som removido: %1.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2101"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>Conectando a %1 porta TCP %2 porta UDP %3</translation>
+        <translation>Conectando em %1 portas TCP %2 e UDP %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2117"/>
         <location filename="../mainwindow.cpp" line="2118"/>
         <source>Disconnected from server</source>
-        <translation type="unfinished"></translation>
+        <translation>Desconectado do servidor</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2214"/>
@@ -2177,7 +2178,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2273"/>
         <source>Banned from channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Banido do canal</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2275"/>
@@ -2187,7 +2188,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2278"/>
         <source>Maximum number of users on server exceeded</source>
-        <translation>Número máximo de usuários no servidor excedida</translation>
+        <translation>Número máximo de usuários no servidor excedido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2280"/>
@@ -2207,17 +2208,17 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2286"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Número máximo de logins por endereço IP excedido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2288"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Taxa de bits máxima para codec de áudio excedida</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2294"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation type="unfinished"></translation>
+        <translation>Número máximo de transferências de arquivo excedido</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2298"/>
@@ -2232,7 +2233,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2303"/>
         <source>Cannot join the same channel twice</source>
-        <translation>Não é possivel entrar no mesmo canal mais de uma vez</translation>
+        <translation>Não é possível entrar no mesmo canal mais de uma vez</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2305"/>
@@ -2257,7 +2258,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2326"/>
         <source>File transfer not found</source>
-        <translation>Transferencia de Arquivo não encontrada</translation>
+        <translation>Transferência de Arquivo não encontrada</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2328"/>
@@ -2297,12 +2298,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Tem certeza de que deseja sair de %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
         <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Sair de %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="674"/>
@@ -2364,7 +2365,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="5537"/>
         <source>Failed to stream media file %1</source>
-        <translation>Falha ao enviar o arquivo de mídia %1</translation>
+        <translation>Falha ao transmitir o arquivo de mídia %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4794"/>
