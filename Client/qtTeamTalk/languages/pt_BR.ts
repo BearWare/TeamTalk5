@@ -45,12 +45,46 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;Créditos&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Colaboradores&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, desenvolvedor&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, desenvolvedor&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Tradutores&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Chinês Simplificado&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, Francês&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Alemão&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Abolfazl Saeidifar, Persa&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Polonês&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos, JNylson e Dalison J. T: Português do Brasil&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, Turco&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Bibliotecas&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;O TeamTalk usa as seguintes bibliotecas:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation type="unfinished"></translation>
+        <translation>Compilado em %1 usando Qt %2 (Qt %3 usado por esta instância).</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -60,12 +94,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation>TeamTalk 64-bit versão da DLL %1.</translation>
+        <translation>TeamTalk 64-bit DLL versão %1.</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="36"/>
         <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation>TeamTalk 32-bit versão da DLL %1.</translation>
+        <translation>TeamTalk 32-bit DLL versão %1.</translation>
     </message>
 </context>
 <context>
@@ -114,12 +148,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
         <source>Denoising</source>
-        <translation>Remover Ruído</translation>
+        <translation>Redução de Ruído</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="154"/>
         <source>Enable Denoising</source>
-        <translation>Ativar Remover Ruído</translation>
+        <translation>Ativar Redução de Ruído</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
@@ -134,17 +168,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
         <source>Mute left channel</source>
-        <translation>Canal esquerdo mudo</translation>
+        <translation>Silenciar canal esquerdo</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="237"/>
         <source>Mute right channel</source>
-        <translation>Canal direito mudo</translation>
+        <translation>Silenciar canal direito</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="26"/>
         <source>&amp;OK</source>
-        <translation></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="27"/>
@@ -178,7 +212,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="219"/>
         <source>&amp;OK</source>
-        <translation></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="220"/>
@@ -188,7 +222,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="269"/>
         <source>Ban IP-address</source>
-        <translation>Endereço IP bloqueado</translation>
+        <translation>Banir endereço IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="270"/>
@@ -198,62 +232,62 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="328"/>
         <source>Sort By...</source>
-        <translation type="unfinished"></translation>
+        <translation>Ordenar Por...</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="329"/>
         <source>Ascending</source>
-        <translation type="unfinished">Ascendente</translation>
+        <translation>Ascendente</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="329"/>
         <source>Descending</source>
-        <translation type="unfinished"></translation>
+        <translation>Descendente</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="331"/>
         <source>&amp;Username (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Usuário (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="337"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tipo de Banimento (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="343"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Tempo de Banimento (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="349"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Endereço IP (%1)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="354"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mover Usuário Selecionado para a lista de desbanidos</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="388"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mover Usuário Selecionado para a lista de Banidos</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Filter Banned Users</source>
-        <translation type="unfinished"></translation>
+        <translation>Filtrar Usuários Banidos</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="31"/>
         <source>Search an Username or IP-Address</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesquisar um Nome de Usuário ou Endereço IP</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="44"/>
         <source>Search</source>
-        <translation type="unfinished"></translation>
+        <translation>Pesquisar</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="69"/>
@@ -293,7 +327,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="178"/>
         <source>Unbanned Users</source>
-        <translation>Usuarios não Banidos</translation>
+        <translation>Usuários não Banidos</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="189"/>
@@ -326,7 +360,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="62"/>
         <source>Creator</source>
-        <translation type="unfinished"></translation>
+        <translation>Criado por</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="63"/>
@@ -347,12 +381,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="94"/>
         <source>,IP</source>
-        <translation></translation>
-    </message>
-    <message>
-        <location filename="../bannedusersdlg.cpp" line="94"/>
-        <source>IP</source>
-        <translation></translation>
+        <translation>IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="96"/>
@@ -365,7 +394,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>Ativar Login Web do Bearware.dk</translation>
+        <translation>Ativar Login Web Bearware.dk</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -400,7 +429,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="42"/>
         <source>&amp;OK</source>
-        <translation></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="43"/>
@@ -438,12 +467,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="63"/>
         <source>Display file name in status message when streaming</source>
-        <translation type="unfinished"></translation>
+        <translation>Mostrar nome do arquivo ao transmitir mídia</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="31"/>
         <source>&amp;OK</source>
-        <translation></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="32"/>
@@ -453,29 +482,29 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatusdlg.cpp" line="33"/>
         <source>Available</source>
-        <translation type="unfinished">Disponível</translation>
+        <translation>Disponível</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="34"/>
         <source>Away</source>
-        <translation type="unfinished">Ausente</translation>
+        <translation>Ausente</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="35"/>
         <source>Question</source>
-        <translation type="unfinished">Perguntar</translation>
+        <translation>Dúvida</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="43"/>
         <source>Available</source>
         <comment>For female</comment>
-        <translation type="unfinished">Disponível</translation>
+        <translation>Disponível</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="44"/>
         <source>Away</source>
         <comment>For female</comment>
-        <translation type="unfinished">Ausente</translation>
+        <translation>Ausente</translation>
     </message>
 </context>
 <context>
@@ -533,12 +562,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="197"/>
         <source>Setup</source>
-        <translation type="unfinished"></translation>
+        <translation>Configuração</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>...</source>
-        <translation type="unfinished">...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="237"/>
@@ -553,28 +582,28 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="871"/>
         <source>Stream Timeout Timer</source>
-        <translation type="unfinished"></translation>
+        <translation>Temporizador de Timeout de Stream</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="877"/>
         <source>Voice stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duração máxima de stream de voz</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="887"/>
         <source>Media file stream max duration</source>
-        <translation type="unfinished"></translation>
+        <translation>Duração máxima de stream de arquivo de mídia</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="897"/>
         <location filename="../channel.ui" line="907"/>
         <source> seconds</source>
-        <translation type="unfinished"></translation>
+        <translation> segundos</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="952"/>
         <source>&amp;Join channel on exit</source>
-        <translation>&amp;Juntar canal ao sair</translation>
+        <translation>&amp;Juntar ao canal quando sair</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="209"/>
@@ -584,12 +613,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="146"/>
         <source>Disk quota</source>
-        <translation type="unfinished"></translation>
+        <translation>Cota de disco</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="162"/>
         <source> KBytes</source>
-        <translation type="unfinished"></translation>
+        <translation> KBytes</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="216"/>
@@ -604,7 +633,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="230"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>Gravação de áudio não permitida (salvar para o disco não permitido)</translation>
+        <translation>Nenhuma gravação de áudio permitida (salvar no disco não permitido)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="289"/>
@@ -632,17 +661,17 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="568"/>
         <location filename="../channel.ui" line="766"/>
         <source> msec</source>
-        <translation type="unfinished"></translation>
+        <translation> mseg</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="512"/>
         <source> bps</source>
-        <translation type="unfinished"></translation>
+        <translation> bps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="715"/>
         <source> Kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> Kbps</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="799"/>
@@ -658,7 +687,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="546"/>
         <location filename="../channel.ui" line="744"/>
         <source>Ignore silence (DTX)</source>
-        <translation>Ignorar silencio (DTX)</translation>
+        <translation>Ignorar silêncio (DTX)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="606"/>
@@ -673,7 +702,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="786"/>
         <source>Frame size</source>
-        <translation>Tamanho do quadro</translation>
+        <translation>Quantidade de frames</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="815"/>
@@ -725,7 +754,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channeldlg.cpp" line="38"/>
         <location filename="../channeldlg.cpp" line="476"/>
         <source>&amp;OK</source>
-        <translation></translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="39"/>
@@ -766,7 +795,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="172"/>
         <source>Add channel on %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Adicionar canal em %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="187"/>
@@ -776,12 +805,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="189"/>
         <source>Modify root channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar canal inicial</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="191"/>
         <source>Modify channel %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Modificar canal %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="202"/>
@@ -791,27 +820,27 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="204"/>
         <source>View root channel information</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver informações do canal inicial</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="206"/>
         <source>View %1 information</source>
-        <translation type="unfinished"></translation>
+        <translation>Ver informações de %1</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="231"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">&amp;Fechar</translation>
+        <translation>&amp;Fechar</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="480"/>
         <source>Transmission Queue Delay</source>
-        <translation type="unfinished"></translation>
+        <translation>Atraso da Fila de Transmissão</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="481"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation type="unfinished"></translation>
+        <translation>Atraso antes de alternar para o próximo usuário na fila (em MS)</translation>
     </message>
 </context>
 <context>
@@ -933,92 +962,92 @@ p, li { white-space: pre-wrap; }
         <location filename="../channelstree.cpp" line="1144"/>
         <location filename="../channelstree.cpp" line="1145"/>
         <source>Hidden</source>
-        <translation type="unfinished">Escondido</translation>
+        <translation>Oculto</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1157"/>
         <location filename="../channelstree.cpp" line="1158"/>
         <source>Password protected</source>
-        <translation type="unfinished">Protegido por senha</translation>
+        <translation>Protegido por senha</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1236"/>
         <source>Unread message</source>
-        <translation type="unfinished"></translation>
+        <translation>Mensagem não lida</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1240"/>
         <source>Away</source>
-        <translation type="unfinished">Ausente</translation>
+        <translation>Ausente</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1243"/>
         <source>Question</source>
-        <translation type="unfinished">Perguntar</translation>
+        <translation>Pergunta</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1247"/>
         <source>Speaking</source>
-        <translation type="unfinished"></translation>
+        <translation>Falando</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1249"/>
         <source>Streaming mediafile</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmitindo arquivo de mídia</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1252"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation type="unfinished"></translation>
+        <translation>Transmitindo arquivo de mídia (Em pausa)</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1255"/>
         <source>Video</source>
-        <translation type="unfinished">Vídeo</translation>
+        <translation>Vídeo</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1257"/>
         <source>Desktop sharing</source>
-        <translation type="unfinished"></translation>
+        <translation>Compartilhamento de tela</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1315"/>
         <source>Female</source>
-        <translation type="unfinished">Feminino</translation>
+        <translation>Feminino</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1318"/>
         <source>Male</source>
-        <translation type="unfinished">Masculino</translation>
+        <translation>Masculino</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1321"/>
         <source>Neutral</source>
-        <translation type="unfinished">Neutro</translation>
+        <translation>Neutro</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1330"/>
         <source>Administrator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Administrador</translation>
+        <translation>Administradora</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1334"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Administrador</translation>
+        <translation>Administrador</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1344"/>
         <source>Channel operator</source>
         <comment>For female</comment>
-        <translation type="unfinished">Operador do canal</translation>
+        <translation>Operadora do canal</translation>
     </message>
     <message>
         <location filename="../channelstree.cpp" line="1348"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
-        <translation type="unfinished">Operador do canal</translation>
+        <translation>Operador do canal</translation>
     </message>
 </context>
 <context>
@@ -1026,48 +1055,48 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="14"/>
         <source>Edit chat templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Editar modelos de chat</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="20"/>
         <source>Chat Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelos de Chat</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="42"/>
         <source>Chat Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelo de Chat</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="50"/>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>Modelo</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Variáveis...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltar para o valor padrão</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="79"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished"></translation>
+        <translation>Voltar tudo para os valores padrão</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;OK</translation>
+        <translation>&amp;OK</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="34"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Cancelar</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
