@@ -166,7 +166,8 @@ int HttpGetRequest(const ACE_CString& url, std::string& result)
     MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
 
-    if (!status.is_valid() || status.get_status() == ACE::HTTP::Status::HTTP_NONE)
+    if (!status.is_valid() || status.get_status() == ACE::HTTP::Status::HTTP_NONE ||
+        status.get_status() >= ACE::HTTP::Status::HTTP_INTERNAL_SERVER_ERROR)
         return -1;
 
     return status.is_ok() ? 1 : 0;

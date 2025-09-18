@@ -896,14 +896,21 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
     tostringstream os;
     os << "Authenticating " << UnicodeToLocal(bwid).c_str();
     TT_SYSLOG(os.str().c_str());
-    if (AuthBearWareAccount(bwid, token) == 0)
+    switch (AuthBearWareAccount(bwid, token))
     {
+    case 0 :
         os.str(ACE_TEXT(""));
         os << "Failed to authenticate BearWare.dk WebLogin: " << UnicodeToLocal(bwid).c_str();
         TT_SYSLOG(os.str().c_str());
         xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
         return false;
+    case -1 :
+        os.str(ACE_TEXT(""));
+        os << "BearWare.dk WebLogin is currently unavailable. Continuing... ";
+        TT_SYSLOG(os.str().c_str());
+        break;
     }
+
     return true;
 }
 #endif /* ENABLE_TEAMTALKPRO */
