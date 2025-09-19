@@ -20,8 +20,6 @@ include (ttclassic.cmake)
 
 if (MSVC)
 
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
-
   ExternalProject_Add(tinyxml-classic-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
       GIT_TAG           bdr_v2
