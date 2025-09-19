@@ -32,14 +32,14 @@ if (MSVC)
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
@@ -70,14 +70,14 @@ if (MSVC)
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Release
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
         INSTALL_COMMAND   cd <SOURCE_DIR>
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>

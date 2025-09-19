@@ -38,7 +38,7 @@ if (MSVC)
   endforeach(flag_var)
 
   # Use for building TeamTalk toolchain
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
+  set (PLATFORMTOOLSET "/property:PlatformToolset=v143")
 
 else()
   set (COMPILE_FLAGS -Wno-deprecated-declarations)
