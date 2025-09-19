@@ -246,6 +246,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       # External libraries:
       --disable-videotoolbox
       --disable-audiotoolbox
+      --disable-securetransport
       # Programs/docs
       --disable-doc
       --disable-programs
