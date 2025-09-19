@@ -37,7 +37,7 @@ if (MSVC)
       endif()
 
       file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
-      set (LIBVPX_WIN_TARGET x86_64-win64-vs16)
+      set (LIBVPX_WIN_TARGET x86_64-win64-vs17)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
@@ -70,7 +70,7 @@ if (MSVC)
       endif()
 
       file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
-      set (LIBVPX_WIN_TARGET x86-win32-vs16)
+      set (LIBVPX_WIN_TARGET x86-win32-vs17)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
