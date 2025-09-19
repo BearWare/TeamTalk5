@@ -123,7 +123,7 @@
     <string name="action_join">Entrar</string>
     <string name="action_kickchan">Expulsar do canal atual</string>
     <string name="action_kicksrv">Expulsar do servidor</string>
-    <string name="action_move">Mover pra cá</string>
+    <string name="action_move">Mover para o canal em que você está</string>
     <string name="action_select">Selecionar para mover</string>
     <string name="action_upload">Enviar arquivo</string>
     <string name="action_stream">Transmitir um arquivo de mídia</string>
@@ -167,7 +167,7 @@
     <string name="default_">Padrão</string>
 
     <string name="server_list_empty">A lista de servidores está vazia</string>
-    <string name="no_nickname">Não está definido nenhum nickname</string>
+    <string name="no_nickname">Não está definido nenhum apelido</string>
     <string name="message_text">Texto da mensagem</string>
     <string name="time_date">Data e hora</string>
     <string name="name">Nome</string>
@@ -195,7 +195,7 @@
     <string name="pref_title_authentication">Autenticação</string>
     <string name="pref_title_username">Nome de usuário</string>
     <string name="pref_title_password">Senha do usuário</string>
-    <string name="pref_title_join_channel">Entrar no canal</string>
+    <string name="pref_title_join_channel">Canal ao entrar quando fazer login</string>
     <string name="pref_title_channel">Canal</string>
     <string name="pref_title_channel_password">Senha do canal</string>
     <string name="pref_title_last_channel">Último canal que você entrou</string>
@@ -216,7 +216,7 @@
     <string name="download_progress">%1$d%% baixado</string>
     <string name="upload_progress_title">Enviando %1$s</string>
     <string name="upload_progress">%1$d%%, clique para cancelar</string>
-    <string name="upload_started">Upload de arquivo iniciado</string>
+    <string name="upload_started">Envio de arquivo iniciado</string>
     <string name="transfer_stopped">Transferência pausada</string>
     <string name="complete">Completado</string>
     <string name="remote_file_exists">O arquivo %1$s já existe no canal</string>
@@ -224,21 +224,21 @@
     <string name="server_remove_confirmation">Deseja apagar %1$s da lista de servidores?</string>
     <string name="channel_remove_confirmation">Deseja apagar o canal %1$s?</string>
     <string name="version_update">Nova versão disponível: %1$s</string>
-    <string name="speaker_mute">Silenciar alto-falantes</string>
+    <string name="speaker_mute">Desativar som</string>
 	<string name="speaker_unmute">Ativar som</string>
 	<string name="mic_mute">Silenciar microfone</string>
 	<string name="mic_unmute">Ativar som do microfone</string>
     <string name="speaker_volume_description">O volume do alto-falantes é %1$s</string>
-    <string name="mic_gain_description">O ganho do microfone é %1$s</string>
+    <string name="mic_gain_description">O volume do microfone é %1$s</string>
 
-    <string name="voice_activation_on">Ligar ativação por voz</string>
-    <string name="voice_activation_off">Desligar ativação por voz</string>
-    <string name="vox_level_description">O nível do ganho da ativação da voz é %1$s</string>
+    <string name="voice_activation_on">Ativar detexão de voz</string>
+    <string name="voice_activation_off">Desativar detexão de voz</string>
+    <string name="vox_level_description">O nível da detexão de voz é %1$s</string>
 
     <string name="tx_on">Transmitindo</string>
     <string name="tx_off">Transmitir</string>
 
-    <string name="text_samplerate">Velocidade de mostra</string>
+    <string name="text_samplerate">Velocidade de amostragem</string>
     <string name="text_ignore_silence">Ignorar silêncios (pressionar-para-falar)</string>
     <string name="text_audchan">Canais de áudio</string>
     <string name="text_bitrate">Bitrate</string>
@@ -253,17 +253,17 @@
     <string name="channel_change_alert">Todas as transferências serão canceladas ao trocar de canal</string>
     <string name="disconnect_alert">Todas as transferências serão canceladas ao desconectar do servidor</string>
 
-    <string name="err_invalid_username">Nome de usuário errado</string>
-    <string name="err_incorrect_server_password">A senha do servidor está errada</string>
-    <string name="err_incorrect_channel_password">A senha do canal está errada</string>
+    <string name="err_invalid_username">Nome de usuário inválido</string>
+    <string name="err_incorrect_server_password">A senha do servidor está incorreta</string>
+    <string name="err_incorrect_channel_password">A senha do canal está incorreta</string>
     <string name="err_invalid_account">Conta inválida</string>
     <string name="err_max_server_users_exceeded">Limite de usuários no servidor excedido</string>
     <string name="err_max_channel_users_exceeded">Limite máximo de usuários no canal excedido</string>
     <string name="err_server_banned">Você está banido</string>
     <string name="err_not_authorized">Não autorizado</string>
     <string name="err_max_diskusage_exceeded">Espaço máximo em disco excedido</string>
-    <string name="err_incorrect_op_password">A senha de operador está errada</string>
-    <string name="err_max_logins_per_ipaddress_exceeded">Muitas conexões de um mesmo IP</string>
+    <string name="err_incorrect_op_password">A senha de operador está incorreta</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">Quantidade de logins por endereço IP excedida</string>
     <string name="err_max_channels_exceeded">Muitos canais</string>
     <string name="err_channel_already_exists">O canal já existe</string>
     <string name="err_user_not_found">Usuário não encontrado</string>
@@ -296,15 +296,15 @@
     <string name="weblogin_prop_title_reset_web_login_id">Reiniciar o ID BearWare.dk</string>
     <string name="text_bearwarelogin_success">%1$s, seu usuário, %2$s foi validado.</string>
     <string name="text_bearwarelogin_failed">Falha ao autenticar o usuário %1$s (%2$s)</string>
-    <string name="text_weblogin_authfailure">Falha na web ao autenticar o ID BearWare.dk</string>
-    <string name="title_activity_stream_media">Transmitir arquivo de mídia para canal</string>
+    <string name="text_weblogin_authfailure">Falha ao autenticar com login BearWare.dk</string>
+    <string name="title_activity_stream_media">Transmitir arquivo de mídia</string>
     <string name="pref_title_proximity_sensor">Sensor de proximidade</string>
     <string name="pref_title_userjoin_icon">Usuário entrou no canal</string>
     <string name="pref_summary_userjoin_icon">Reproduzir som quando um usuário entrar no canal atual</string>
     <string name="pref_title_userleft_icon">Usuário sai do canal</string>
     <string name="pref_summary_userleft_icon">Reproduzir som quando um usuário sair do canal atual</string>
-    <string name="pref_title_speech_engine">Seleção do motor de voz</string>
-    <string name="pref_summary_speech_engine">Selecionar um motor de voz dentre os instalados, diferente da configuração do sistema</string>
+    <string name="pref_title_speech_engine">Seleção da voz sapi</string>
+    <string name="pref_summary_speech_engine">Selecionar uma voz dentre as instaladas, diferente da configuração do sistema</string>
     <string name="pref_summary_private_message">Anunciar mensagens privadas</string>
     <string name="pref_title_channel_message">Mensagens do canal</string>
     <string name="text_tts_channel_message">Mensagem no canal de %1$s - %2$s</string>
@@ -349,15 +349,15 @@
     <string name="pref_summary_channel_message_sent">Falar mensagens enviadas no canal</string>
     <string name="text_tts_channel_message_sent">Mensagem enviada para o canal: %1$s</string>
     <string name="err_text_length">%1$d caracteres excedidos na mensagem</string>
-    <string name="pref_summary_official_servers">Include official servers in Server List</string>
-    <string name="pref_title_official_servers">Show official servers</string>
-    <string name="pref_summary_unofficial_servers">Include unofficial servers in Server List</string>
-    <string name="pref_title_unofficial_servers">Show unofficial servers</string>
-    <string name="pref_header_serverlist">Server List</string>
-    <string name="text_server_summary">%1$s:%2$d, Users: %3$d, Country: %4$s</string>
-    <string name="pref_title_server_connection">Connection</string>
-    <string name="pref_title_server_motd">Message of the Day</string>
-    <string name="pref_title_server_usercount">Users Online</string>
-    <string name="pref_title_server_country">Country</string>
-    <string name="pref_title_server_status">Server Status</string>
+    <string name="pref_summary_official_servers">Mostrar servidores oficiais na lista de servidores</string>
+    <string name="pref_title_official_servers">Mostrar servidores oficiais</string>
+    <string name="pref_summary_unofficial_servers">Mostrar servidores não oficiais na lista de servidores</string>
+    <string name="pref_title_unofficial_servers">Mostrar servidores não oficiais</string>
+    <string name="pref_header_serverlist">Lista de servidores</string>
+    <string name="text_server_summary">%1$s:%2$d, Usuários: %3$d, País: %4$s</string>
+    <string name="pref_title_server_connection">Conexão</string>
+    <string name="pref_title_server_motd">Mensagem do Dia</string>
+    <string name="pref_title_server_usercount">Usuários conectados</string>
+    <string name="pref_title_server_country">País</string>
+    <string name="pref_title_server_status">Status do Servidor</string>
 </resources>
