@@ -24,7 +24,7 @@ jobs:
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
-            vcpkgarch: x86
+            vcpkgarch: x86-windows
           - name: VS2022Release64
             vmimage: windows-2022
             cmakeplatform: x64
@@ -34,7 +34,7 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
-            vcpkgarch: x64
+            vcpkgarch: x64-windows
         exlude:
           - name: VS2019Release32
 
@@ -65,7 +65,7 @@ jobs:
 
     - uses: ssciwr/doxygen-install@v1
       with:
-        version: "1.14.0"
+        version: '1.14.0'
 
     - uses: darenm/Setup-VSTest@v1
 
@@ -79,14 +79,15 @@ jobs:
     - name: Setup msbuild in PATH
       uses: microsoft/setup-msbuild@v1
 
-    - name: Install MSYS2
-      uses: msys2/setup-msys2@v2
+    - name: Install Cygwin
+      uses: cygwin/cygwin-install-action@v6
       with:
-        msystem: ${{ matrix.msystem }}
-        path-type: inherit
-        install: make
+        packages: make
+        install-dir: 'C:\cygwin64'
+        add-to-path: false
+        work-vol: 'C:'
 
-    - name: Install YASM for libvpx compilation
+    - name: Install YASM
       shell: cmd
       run: |
         vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
