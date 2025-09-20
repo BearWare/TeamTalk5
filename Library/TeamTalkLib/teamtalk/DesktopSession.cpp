@@ -22,6 +22,7 @@
  */
 
 #include "DesktopSession.h"
+#include "PacketLayout.h"
 #include "ttassert.h"
 
 using namespace std;
@@ -45,6 +46,12 @@ DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 {
     Init();
     m_padding = 0;
+}
+
+bool DesktopSession::IsValid() const
+{
+    return GetBlocksCount() > 0 && GetBlocksCount() <= DesktopPacket::BLOCKNUMS_MAX &&
+           GetWidth() <= DesktopPacket::WIDTH_MAX && GetHeight() <= DesktopPacket::HEIGHT_MAX;
 }
 
 void DesktopSession::Init()

@@ -59,6 +59,10 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
 
     //ACE_UINT32 start_tm = GETTIMESTAMP();
 
+    MYTRACE_COND(!IsValid(), ACE_TEXT("Desktop window is invalid: %dx%d format %d. Block count: %d\n"), GetWidth(), GetHeight(), GetRGBMode(), GetBlocksCount());
+    if (!IsValid())
+        return -1;
+
     //don't allow new bitmap when thread is working
     if(this->thr_count())
         return -1;

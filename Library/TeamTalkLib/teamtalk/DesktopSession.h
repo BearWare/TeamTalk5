@@ -56,6 +56,8 @@ namespace teamtalk {
         DesktopSession(const DesktopWindow& wnd);
         DesktopSession(const DesktopWindow& wnd, int bytes_per_line);
 
+        bool IsValid() const;
+
         int GetSessionID() const { return m_wnd.session_id; }
         RGBMode GetRGBMode() const;
         int GetWidth() const { return m_wnd.width; }

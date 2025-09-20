@@ -1988,8 +1988,12 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
                        false);
 
         m_desktop_cache = desktop_cache_t(dcache);
-        TTASSERT(m_desktop_cache->GetBlocksCount());
-        if(m_desktop_cache->GetBlocksCount() == 0)
+
+        MYTRACE_COND(m_desktop_cache->GetBlocksCount() == 0,
+                     ACE_TEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
+        MYTRACE_COND(!m_desktop_cache->IsValid(), ACE_TEXT("Desktop session %d from #%d is invalid. Dimensions: %dx%d mode %d, blocks: %d\n"),
+            session_id, GetUserID(), wnd.width, wnd.height, wnd.rgb_mode, m_desktop_cache->GetBlocksCount());
+        if (!m_desktop_cache->IsValid())
         {
             CloseDesktopSession();
             return false;
