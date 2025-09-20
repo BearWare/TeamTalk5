@@ -930,7 +930,8 @@ extern "C" {
      * @{ */
 
     /**
-     * @brief The bitmap format used for a #DesktopWindow. */
+     * @brief The bitmap format used for a #DesktopWindow.
+     * A desktop window for transmission must be less than 16 MBytes. */
     typedef enum BitmapFormat
     {
         /** @brief Used to denote nothing selected. */
@@ -942,7 +943,7 @@ extern "C" {
          * 8-bit bitmap is 4095 blocks of 120 by 34 pixels. */
         BMP_RGB8_PALETTE    = 1,
         /** @brief The bitmap is a 16-bit colored bitmap. The maximum
-         * pixels. */
+         * size of a 16-bit bitmap is 4095 blocks of 102 x 20 pixels. */
         BMP_RGB16_555       = 2,
         /** @brief The bitmap is a 24-bit colored bitmap. The maximum
          * size of a 24-bit bitmap is 4095 blocks of 85 by 16
@@ -973,9 +974,9 @@ extern "C" {
      * TT_SendDesktopWindow(). */
     typedef struct DesktopWindow
     {
-        /** @brief The width in pixels of the bitmap. */
+        /** @brief The width in pixels of the bitmap. See limits in #BitmapFormat. */
         INT32 nWidth;
-        /** @brief The height in pixels of the bitmap. */
+        /** @brief The height in pixels of the bitmap. See limits in #BitmapFormat. */
         INT32 nHeight;
         /** @brief The format of the bitmap. */
         BitmapFormat bmpFormat;
@@ -994,7 +995,7 @@ extern "C" {
         /** @brief A buffer pointing to the bitmap data (often refered to as Scan0). */
         VOID* frameBuffer;
         /** @brief The size in bytes of the buffer allocate in @a
-         * frameBuffer. Typically @c nBytesPerLine * @c nHeight. */
+         * frameBuffer. Typically @c nBytesPerLine * @c nHeight. See limits in #BitmapFormat. */
         INT32 nFrameBufferSize;
     } DesktopWindow;
 

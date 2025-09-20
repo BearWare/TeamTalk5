@@ -1381,6 +1381,7 @@ namespace teamtalk
             map_block_t::const_iterator ii = blocks.begin();
             while(ii != blocks.end())
             {
+                assert(ii->first < BLOCKNUMS_MAX);
                 blocknums_sizes_input.push_back(ii->first); //block no
                 blocknums_sizes_input.push_back(ii->second.block_size); //block size
 
@@ -1445,6 +1446,7 @@ namespace teamtalk
             block_frags_t::const_iterator ii = fragments.begin();
             while(ii != fragments.end())
             {
+                assert(ii->block_no < BLOCKNUMS_MAX);
                 set2_uint12_ptr(frags_info_ptr, ii->block_no, ii->frag_size, frags_info_ptr);
                 set_uint4_ptr(frags_info_ptr, ii->frag_no, ii->frag_cnt, frags_info_ptr);
 
@@ -1505,6 +1507,7 @@ namespace teamtalk
             for(;dbi!=dup_blocks.end();dbi++)
             {
                 assert(dbi->second.size());
+                assert(dbi->first < BLOCKNUMS_MAX);
 
                 set<uint16_t>::const_iterator ii = dbi->second.begin();
                 if(IsBlockRange(dbi->second))

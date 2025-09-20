@@ -767,6 +767,9 @@ namespace teamtalk {
         const char* GetBlock(uint16_t block_no, uint16_t& length) const;
         
         static const uint16_t INVALID_PACKET_INDEX = -1;
+        static const uint16_t BLOCKNO_INDEX_MAX = 0xFFF;
+        static const uint16_t BLOCKNUMS_MAX = 0x1000; // uint12 limit
+        static const uint16_t WIDTH_MAX = 0xFFFF, HEIGHT_MAX = 0xFFFF; // uint16
 
     private:
         uint16_t InitCommon(const map_block_t& blocks, 
