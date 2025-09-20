@@ -8,7 +8,7 @@ project (TeamTalk5SDK)
 #
 # Windows 32-bit
 # --------------
-# Open "x86 Native Tools Command Prompt for VS 2019" and change to
+# Open "x86 Native Tools Command Prompt for VS 2022" and change to
 # directory of TeamTalk5 checkout, e.g. C:\TeamTalk5
 #
 # Now configure an output directory, here teamtalk-win32, for
@@ -20,7 +20,7 @@ project (TeamTalk5SDK)
 #
 # $ cmake --build teamtalk-win32
 #
-# A Visual Studio 2019 solution file will also be available in output
+# A Visual Studio 2022 solution file will also be available in output
 # directory teamtalk-win32.
 #
 # Windows 64-bit
