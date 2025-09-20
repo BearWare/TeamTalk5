@@ -86,7 +86,8 @@ jobs:
       with:
         platform: ${{ matrix.cygwinarch }}
         packages: make
-        work-vol: 'C:'
+        install-dir: 'C:\cygwin64'
+        add-to-path: false
 
     - name: Install YASM
       shell: cmd
