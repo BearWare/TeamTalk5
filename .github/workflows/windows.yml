@@ -67,7 +67,7 @@ jobs:
 
     - uses: ssciwr/doxygen-install@v1
       with:
-        version: "1.14.0"
+        version: '1.14.0'
 
     - uses: darenm/Setup-VSTest@v1
 
@@ -86,7 +86,7 @@ jobs:
       with:
         platform: ${{ matrix.cygwinarch }}
         packages: make
-        work-vol: C:
+        work-vol: 'C:'
 
     - name: Install YASM
       shell: cmd
