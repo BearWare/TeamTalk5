@@ -22,49 +22,26 @@ if (MSVC)
 
   set (PLATFORMTOOLSET "/property:PlatformToolset=v142")
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-    if (NOT CMAKE_VS_PLATFORM_NAME)
-      set (CMAKE_VS_PLATFORM_NAME x64)
-    endif()
-
-    ExternalProject_Add(tinyxml-classic-src
-      GIT_REPOSITORY    https://github.com/bear101/tinyxml
-      GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
+  ExternalProject_Add(tinyxml-classic-src
+      GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
+      GIT_TAG           bdr_v2
       UPDATE_COMMAND    ""
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 tinyxml.sln -target:tinyxml /property:Configuration=Release
+      CMAKE_ARGS        -DTINYXML_MULTITHREADED=ON
+      BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
+      COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_COMMAND   ""
-      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
+      BUILD_BYPRODUCTS  ${BINARY_DIR}/Debug/tinyxmld.lib
+                        ${BINARY_DIR}/Release/tinyxml.lib
       )
-  else()
-
-      if (NOT CMAKE_VS_PLATFORM_NAME)
-        set (CMAKE_VS_PLATFORM_NAME win32)
-      endif()
-
-      ExternalProject_Add(tinyxml-classic-src
-      GIT_REPOSITORY    https://github.com/bear101/tinyxml
-      GIT_TAG           224ab4ea35ded8ee95f13c84c30592abf5292af8
-      UPDATE_COMMAND    ""
-      CONFIGURE_COMMAND ""
-      BUILD_IN_SOURCE   TRUE
-      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Debug
-      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 tinyxml.sln -target:tinyxml /property:Configuration=Release
-      INSTALL_COMMAND   ""
-      BUILD_BYPRODUCTS  <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib <SOURCE_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib
-      )
-  endif()
   ExternalProject_Get_Property(tinyxml-classic-src SOURCE_DIR)
+  ExternalProject_Get_Property(tinyxml-classic-src BINARY_DIR)
 
-  add_library(tinyxml-classic STATIC IMPORTED)
+  add_library(tinyxml-classic STATIC IMPORTED GLOBAL)
   add_dependencies(tinyxml-classic tinyxml-classic-src)
   target_include_directories (tinyxml-classic INTERFACE ${SOURCE_DIR})
   set_target_properties(tinyxml-classic PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxmld.lib
-    IMPORTED_LOCATION ${SOURCE_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/tinyxml.lib)
+    IMPORTED_LOCATION_DEBUG ${BINARY_DIR}/Debug/tinyxmld.lib
+    IMPORTED_LOCATION ${BINARY_DIR}/Release/tinyxml.lib)
 
   if ("${CMAKE_GENERATOR}" MATCHES "Visual Studio")
     set (VS_BUILD 1)
