@@ -287,6 +287,202 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testSendDesktopWindowTooBig() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                         UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        TeamTalkBase rxclient = newClientInstance();
+        connect(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(rxclient);
+
+        DesktopWindow wnd = new DesktopWindow();
+        wnd.nWidth = 5120;
+        wnd.nHeight = 2880;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        assertFalse("send desktop window", ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0);
+    }
+
+    @Test
+    public void testSendDesktopWindowLimits() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                         UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        TeamTalkBase rxclient = newClientInstance();
+        connect(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(rxclient);
+
+        Vector<DesktopWindow> wndSizes = new Vector<DesktopWindow>();
+
+        final int BLOCKS_MAX = 4095;
+        {
+            // RGB8
+            DesktopWindow wnd = new DesktopWindow();
+            wnd.nWidth = 120;
+            wnd.nHeight = 34;
+            final int PIXEL_SIZE = 1;
+            final long PIXELS_MAX = wnd.nWidth * wnd.nHeight * BLOCKS_MAX;
+            final long PIXEL_BYTES = PIXELS_MAX * PIXEL_SIZE;
+            for (int w=120; w <= 65535; w += 120) {
+                for (int h=34;h <= 65535; h += 34) {
+                    if (w * h * PIXEL_SIZE > wnd.nWidth * wnd.nHeight * PIXEL_SIZE && w * h <= PIXELS_MAX) {
+                        wnd.nWidth = w;
+                        wnd.nHeight = h;
+                    }
+                }
+            }
+            wnd.bmpFormat = BitmapFormat.BMP_RGB8_PALETTE;
+            wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+            wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * PIXEL_SIZE];
+            for (int i=0;i<wnd.frameBuffer.length;++i)
+                wnd.frameBuffer[i] = (byte)(i & 0xff);
+            wndSizes.add(wnd);
+        }
+        {
+            // RGB16_555
+            DesktopWindow wnd = new DesktopWindow();
+            wnd.nWidth = 102;
+            wnd.nHeight = 20;
+            final int PIXEL_SIZE = 2;
+            final long PIXELS_MAX = wnd.nWidth * wnd.nHeight * BLOCKS_MAX;
+            final long PIXEL_BYTES = PIXELS_MAX * PIXEL_SIZE;
+            for (int w=102; w <= 65535; w += 102) {
+                for (int h=20;h <= 65535; h += 20) {
+                    if (w * h > wnd.nWidth * wnd.nHeight && w * h <= PIXELS_MAX) {
+                        wnd.nWidth = w;
+                        wnd.nHeight = h;
+                    }
+                }
+            }
+            wnd.bmpFormat = BitmapFormat.BMP_RGB16_555;
+            wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+            wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * PIXEL_SIZE];
+            for (int i=0;i<wnd.frameBuffer.length;++i)
+                wnd.frameBuffer[i] = (byte)(i & 0xff);
+           wndSizes.add(wnd);
+        }
+        {
+            // RGB24
+            DesktopWindow wnd = new DesktopWindow();
+            wnd.nWidth = 85;
+            wnd.nHeight = 16;
+            final int PIXEL_SIZE = 3;
+            final long PIXELS_MAX = wnd.nWidth * wnd.nHeight * BLOCKS_MAX;
+            final long PIXEL_BYTES = PIXELS_MAX * PIXEL_SIZE;
+            for (int w=85; w <= 65535; w += 85) {
+                long padding = 0;
+                if ((w * PIXEL_SIZE) % 4 != 0)
+                    padding = 1;
+                
+                for (int h=16;h <= 65535; h += 16) {
+                    if (w * h > wnd.nWidth * wnd.nHeight && (w + padding) * h <= PIXELS_MAX) {
+                        wnd.nWidth = w;
+                        wnd.nHeight = h;
+                    }
+                }
+            }
+            wnd.bmpFormat = BitmapFormat.BMP_RGB24;
+            wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+            int widthBytes = wnd.nWidth * (int)PIXEL_SIZE;
+            int padding = 0;
+            if (widthBytes % 4 != 0) {
+                padding = 4 - (widthBytes % 4);
+                widthBytes += padding;
+            }
+            wnd.frameBuffer = new byte[widthBytes * wnd.nHeight];
+            for (int h=0;h<wnd.nHeight;++h) {
+                for (int i=0;i<widthBytes;++i) {
+                    if (h==0) {
+                        wnd.frameBuffer[i] = 127; // RGB24 padding
+                    }
+                    else {
+                        wnd.frameBuffer[h * widthBytes + i] = (byte)(i & 0xff);
+                    }
+                }
+            }
+            wndSizes.add(wnd);
+        }
+        {
+            // RGB32
+            DesktopWindow wnd = new DesktopWindow();
+            wnd.nWidth = 51;
+            wnd.nHeight = 20;
+            final int PIXEL_SIZE = 4;
+            final long PIXELS_MAX = wnd.nWidth * wnd.nHeight * BLOCKS_MAX;
+            final long PIXEL_BYTES = PIXELS_MAX * PIXEL_SIZE;
+            for (int w=51; w <= 65535; w += 51) {
+                for (int h=20;h <= 65535; h += 20) {
+                    if (w * h > wnd.nWidth * wnd.nHeight && w * h <= PIXELS_MAX) {
+                        wnd.nWidth = w;
+                        wnd.nHeight = h;
+                    }
+                }
+            }
+            wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+            wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+            wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * PIXEL_SIZE];
+            for (int i=0;i<wnd.frameBuffer.length;++i)
+                wnd.frameBuffer[i] = (byte)(i & 0xff);
+            wndSizes.add(wnd);
+        }
+
+        for (DesktopWindow wnd : wndSizes) {
+            assertTrue("Send desktop window for RGB " + wnd.bmpFormat, ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0);
+
+            TTMessage msg = new TTMessage();
+
+            while(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER,
+                               DEF_WAIT, msg) && msg.nBytesRemain > 0) {
+            }
+
+            assertTrue("All bytes transferred for RGB " + wnd.bmpFormat, msg.nBytesRemain == 0);
+
+            assertFalse("No tx desktop flag for RGB " + wnd.bmpFormat, hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_TX_DESKTOP));
+
+            assertTrue("Desktop active for RGB " + wnd.bmpFormat, hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_DESKTOP_ACTIVE));
+
+            boolean sameBitmap = false;
+            while (waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg)) {
+                DesktopWindow wnd2 = rxclient.acquireUserDesktopWindow(msg.nSource);
+                assertEquals("width for RGB " + wnd.bmpFormat, wnd.nWidth, wnd2.nWidth);
+                assertEquals("height for RGB " + wnd.bmpFormat, wnd.nHeight, wnd2.nHeight);
+                assertEquals("length for RGB " + wnd.bmpFormat, wnd.frameBuffer.length, wnd2.frameBuffer.length);
+
+                boolean same = true;
+                for (int i=0;i<wnd.frameBuffer.length && same;++i) {
+                    same &= wnd.frameBuffer[i] == wnd2.frameBuffer[i];
+                }
+                sameBitmap = same;
+                if (same)
+                    break;
+            }
+            assertTrue("Same bitmap for RGB " + wnd.bmpFormat, sameBitmap);
+
+            assertTrue("Close desktop", ttclient.closeDesktopWindow());
+        }
+    }
+
+    @Test
     public void testVideoCaptureDevs() {
 
         if (VIDEODEVICEID.equals(VIDEODEVICEID_DISABLED)) {
@@ -4531,7 +4727,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         SimpleDateFormat fmt = new SimpleDateFormat("yyyy/MM/dd HH:mm");
         Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("UTC"));
         calendar.set(1970, Calendar.JANUARY, 1, 0, 0, 0);
-        
+
         TeamTalkBase client = newClientInstance();
         connect(client);
         login(client, NICKNAME, USERNAME, PASSWORD);
