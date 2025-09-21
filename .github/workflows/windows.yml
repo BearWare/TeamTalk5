@@ -24,8 +24,8 @@ jobs:
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
-            javaversion: 19
             vcpkgarch: x86-windows
+            javaversion: 19
           - name: VS2022Release64
             vmimage: windows-2025
             cmakeplatform: x64
@@ -35,8 +35,8 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
-            javaversion: 21
             vcpkgarch: x64-windows
+            javaversion: 21
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
@@ -48,7 +48,7 @@ jobs:
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.dotnetarch }}
 
     - uses: actions/setup-python@v6
