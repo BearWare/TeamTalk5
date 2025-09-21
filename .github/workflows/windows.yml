@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
           - name: VS2019Release32
-            vmimage: windows-2019
+            vmimage: windows-2022
             cmakeplatform: Win32
             dotnetarch: x86
             qtarch: win32_msvc2019
@@ -33,8 +33,6 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
-        exlude:
-          - name: VS2019Release32
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
