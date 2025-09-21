@@ -24,6 +24,7 @@ jobs:
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
+            javaversion: 19
             vcpkgarch: x86-windows
           - name: VS2022Release64
             vmimage: windows-2025
@@ -34,9 +35,8 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
+            javaversion: 21
             vcpkgarch: x64-windows
-        exlude:
-          - name: VS2019Release32
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
