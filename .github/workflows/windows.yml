@@ -1,9 +1,6 @@
 name: Windows
 
-on:
-  push:
-    branches-ignore:
-      - debug_workflow*
+on: [push]
 
 env:
   # TeamTalk unit test environment variables
