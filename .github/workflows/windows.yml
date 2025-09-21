@@ -1,6 +1,6 @@
 name: Windows
 
-on: [push, pull_request]
+on: [push]
 
 env:
   # TeamTalk unit test environment variables
@@ -17,13 +17,14 @@ jobs:
       matrix:
         include:
           - name: VS2019Release32
-            vmimage: windows-2019
+            vmimage: windows-2022
             cmakeplatform: Win32
             dotnetarch: x86
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
             msystem: MINGW32
             portablearch: win32
+            javaversion: 19
           - name: VS2022Release64
             vmimage: windows-2022
             cmakeplatform: x64
@@ -33,8 +34,7 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
-        exlude:
-          - name: VS2019Release32
+            javaversion: 21
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
@@ -46,7 +46,7 @@ jobs:
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.dotnetarch }}
 
     - uses: actions/setup-python@v6
