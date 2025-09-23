@@ -10,7 +10,7 @@ Android Client
 iOS Client
 -
 Server
--
+- Fixed crash issue when sharing large desktop windows
 
 Version 5.20.1, 2025/09/15
 Android Client
