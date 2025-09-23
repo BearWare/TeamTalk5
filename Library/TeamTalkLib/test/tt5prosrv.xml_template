@@ -62,5 +62,8 @@
         </user>
     </users>
     <serverbans />
-
+    <bearware-weblogin>
+        <bearwareid>github@bearware.dk</bearwareid>
+        <bearwaretoken>0c7f9bbad78d750226579949232aa5993682f0237692dffaa16145be52957292</bearwaretoken>
+    </bearware-weblogin>
 </teamtalk>

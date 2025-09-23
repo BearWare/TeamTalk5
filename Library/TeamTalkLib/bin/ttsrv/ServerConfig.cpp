@@ -857,7 +857,11 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
 
     while (token.empty())
     {
-        cout << "To use BearWare.dk WebLogin please provide your credentials." << endl;
+        cout << TEAMTALK_NAME << " requires a BearWare.dk WebLogin" << endl;
+        cout << "that is authorized for use." << endl;
+        cout << endl;
+        cout << "Please provide your credentials for BearWare.dk WebLogin." << endl;
+        cout << endl;
         cout << "Type username: ";
         bwid = LocalToUnicode(printGetString(UnicodeToLocal(bwid).c_str()).c_str());
         cout << "Type password: ";
