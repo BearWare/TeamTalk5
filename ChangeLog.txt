@@ -4,7 +4,8 @@
 
 Version 5.21, unreleased
 Default Qt Client
-- macOS 12 (Monterey) is now minimum
+- Fixed Windows freeze issue closing Preferences dialog
+- Windows changed to Qt 6.9.2
 Android Client
 -
 iOS Client
@@ -27,6 +28,7 @@ Default Qt Client
 - Fixed answering "No" to quit application causing server disconnect
 - Windows updated to Qt 6.10.0 beta4
 - macOS changed to Qt 6.9.2 (still issues with VoiceOver)
+- macOS 12 (Monterey) is now minimum
 Android Client
 - Fixed UI overlap on Android 15 and above
 - Minimum supported Android version is now 5.0 (Lollipop)
