@@ -138,6 +138,9 @@ let DEFAULT_VOICEACT = 2
 let DEFAULT_MEDIAFILE_VOLUME : Float = 0.5
 let DEFAULT_POPUP_TEXTMESSAGE = true
 let DEFAULT_LIMIT_TEXT = 25
+// Auto-set Away on phone/FaceTime calls
+let PREF_GENERAL_AUTO_CALL_AWAY = "general.autocallaway"
+let DEFAULT_AUTO_CALL_AWAY = true
 
 func userCacheID(user: User) -> String {
     let username = getUser(user, strprop: USERNAME)

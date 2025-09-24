@@ -170,6 +170,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
         sendonentercell.detailTextLabel!.text = NSLocalizedString("Pressing Return-key sends text message", comment: "preferences")
         sendonenterswitch.addTarget(self, action: #selector(PreferencesViewController.sendonenterChanged(_:)), for: .valueChanged)
         general_items.append(sendonentercell)
+
+    // Auto Away on Call
+    let autoCall = settings.object(forKey: PREF_GENERAL_AUTO_CALL_AWAY) == nil ? DEFAULT_AUTO_CALL_AWAY : settings.bool(forKey: PREF_GENERAL_AUTO_CALL_AWAY)
+    let autoCallCell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+    let autoCallSwitch = newTableCellSwitch(autoCallCell, label: NSLocalizedString("Auto Away During Phone Call", comment: "preferences"), initial: autoCall)
+    autoCallCell.detailTextLabel!.text = NSLocalizedString("Automatically set status to Away when a phone/FaceTime call is active", comment: "preferences")
+    autoCallSwitch.addTarget(self, action: #selector(PreferencesViewController.autoCallAwayChanged(_:)), for: .valueChanged)
+    general_items.append(autoCallCell)
         
         // display items
 
@@ -415,6 +423,14 @@ class PreferencesViewController : UITableViewController, UITextFieldDelegate, Te
     @objc func sendonenterChanged(_ sender: UISwitch) {
         let defaults = UserDefaults.standard
         defaults.set(sender.isOn, forKey: PREF_GENERAL_SENDONRETURN)
+    }
+
+    @objc func autoCallAwayChanged(_ sender: UISwitch) {
+        let defaults = UserDefaults.standard
+        defaults.set(sender.isOn, forKey: PREF_GENERAL_AUTO_CALL_AWAY)
+        if !sender.isOn { // If disabling while currently auto-away, restore immediately
+            CallStatusManager.shared.recheck()
+        }
     }
     
     @objc func masterVolumeChanged(_ sender: UISlider) {
