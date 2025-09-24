@@ -42,42 +42,61 @@ class TextMessageViewController :
 
     let initial_text = NSLocalizedString("Type text here", comment: "text message")
 
-    var messages = [Int : [MyTextMessage] ]()
-    var curMessageSection = 0
+    struct MessageSection {
+        var fromuserid: INT32
+        var nickname: String
+        var msgtype: MsgType
+        var messages: [MyTextMessage]
+    }
+    // Ordered list of message sections.
+    private var sections: [MessageSection] = []
+    private var totalMessageCount = 0 // real total (across all sections)
+    private var newMessagesButton: UIButton!
     
     func generateKey(_ msg: TextMessage) -> Int {
         return (Int(msg.nMsgType.rawValue) << 16) | Int(msg.nFromUserID)
     }
     
+    // For multi-part messages (bMore). Each key accumulates fragments until final part.
     var mergemessages = [Int : [TextMessage] ]()
+    private var mergeTimestamps = [Int : Date]() // to purge stale fragment chains
+    private let mergeFragmentStaleInterval: TimeInterval = 120 // seconds
     
     func getTextMessageContent(_ msg: TextMessage) -> String? {
         var msg = msg
         let key = generateKey(msg)
+
+        // purge stale fragment chains
+        let now = Date()
+        for (k, ts) in mergeTimestamps where now.timeIntervalSince(ts) > mergeFragmentStaleInterval {
+            mergemessages.removeValue(forKey: k)
+            mergeTimestamps.removeValue(forKey: k)
+        }
+
         if msg.bMore == TRUE {
             if mergemessages[key] == nil {
-                mergemessages[key] = [TextMessage]()
+                mergemessages[key] = []
             }
             mergemessages[key]!.append(msg)
-            
-            // prevent out-of-memory
+            mergeTimestamps[key] = now
+            // safety: if a single chain grows absurdly large, discard it
             if mergemessages[key]!.count > 1000 {
                 mergemessages.removeValue(forKey: key)
+                mergeTimestamps.removeValue(forKey: key)
             }
-        }
-        else if mergemessages[key] != nil {
-            var content = ""
-            for m in mergemessages[key]! {
-                var m = m
-                content += String(cString: getTextMessageString(MESSAGE, &m))
+            return nil
+        } else if let fragments = mergemessages[key] {
+            var content = fragments.reduce(into: "") { acc, part in
+                var part = part
+                acc += String(cString: getTextMessageString(MESSAGE, &part))
             }
             mergemessages.removeValue(forKey: key)
-            return content + String(cString: getTextMessageString(MESSAGE, &msg))
-        }
-        else {
+            mergeTimestamps.removeValue(forKey: key)
+            content += String(cString: getTextMessageString(MESSAGE, &msg))
+            return content
+        } else {
             return String(cString: getTextMessageString(MESSAGE, &msg))
         }
-        return nil
     }
     
     override func viewDidLoad() {
@@ -91,6 +110,25 @@ class TextMessageViewController :
         
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.estimatedRowHeight = 60
+        tableView.rowHeight = UITableView.automaticDimension
+
+        // New messages button (appears when user is not at bottom)
+        newMessagesButton = UIButton(type: .system)
+        newMessagesButton.setTitle(NSLocalizedString("New Messages", comment: "chat"), for: .normal)
+        newMessagesButton.backgroundColor = UIColor.systemBlue.withAlphaComponent(0.85)
+        newMessagesButton.setTitleColor(.white, for: .normal)
+        newMessagesButton.titleLabel?.font = UIFont.boldSystemFont(ofSize: 14)
+        newMessagesButton.layer.cornerRadius = 14
+        newMessagesButton.contentEdgeInsets = UIEdgeInsets(top: 4, left: 12, bottom: 4, right: 12)
+        newMessagesButton.alpha = 0
+        newMessagesButton.addTarget(self, action: #selector(tapNewMessagesButton), for: .touchUpInside)
+        newMessagesButton.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(newMessagesButton)
+        NSLayoutConstraint.activate([
+            newMessagesButton.bottomAnchor.constraint(equalTo: msgTextView.topAnchor, constant: -8),
+            newMessagesButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
         
         msgTextView.delegate = self
         
@@ -105,27 +143,37 @@ class TextMessageViewController :
         }
     }
 
-    func showLogMessages() -> Bool {
-        return userid == 0
-    }
+    func showLogMessages() -> Bool { userid == 0 }
     
-    func appendEventMessage(_ m : MyTextMessage) {
-        if messages[curMessageSection] == nil ||
-            messages[curMessageSection]?.last?.fromuserid != m.fromuserid ||
-            messages[curMessageSection]?.last?.nickname != m.nickname  ||
-            messages[curMessageSection]?.last?.msgtype != m.msgtype {
-            curMessageSection += 1
-            messages[curMessageSection] = [ MyTextMessage ] ()
+    @discardableResult
+    func appendEventMessage(_ m : MyTextMessage) -> (newSection: Bool, indexPath: IndexPath?) {
+        var isNewSection = false
+        if let last = sections.last, last.fromuserid == m.fromuserid && last.nickname == m.nickname && last.msgtype == m.msgtype {
+            // append to existing
+            sections[sections.count - 1].messages.append(m)
+        } else {
+            // new section
+            let newSec = MessageSection(fromuserid: m.fromuserid, nickname: m.nickname, msgtype: m.msgtype, messages: [m])
+            sections.append(newSec)
+            isNewSection = true
         }
-        messages[curMessageSection]!.append(m)
+        totalMessageCount += 1
+        if totalMessageCount > MAX_TEXTMESSAGES { pruneOldestMessages() }
+        guard tableView != nil else { return (isNewSection, nil) }
+        let secIndex = sections.count - 1
+        let row = sections[secIndex].messages.count - 1
+        return (isNewSection, IndexPath(row: row, section: secIndex))
+    }
 
-        if messages.values.count > MAX_TEXTMESSAGES {
-            
-            let key = messages.keys.sorted().first
-            messages[key!]!.removeFirst()
-            if messages[key!]!.isEmpty {
-                messages.removeValue(forKey: key!)
+    private func pruneOldestMessages() {
+        while totalMessageCount > MAX_TEXTMESSAGES && !sections.isEmpty {
+            if sections[0].messages.isEmpty {
+                sections.removeFirst()
+                continue
             }
+            sections[0].messages.removeFirst()
+            totalMessageCount -= 1
+            if sections[0].messages.isEmpty { sections.removeFirst() }
         }
     }
     
@@ -150,16 +198,51 @@ class TextMessageViewController :
         msgTextView.textColor = UIColor.lightGray
     }
     
-    func updateTableView() {
-        
+    private func isAtBottom() -> Bool {
+        guard let visible = tableView.indexPathsForVisibleRows, !visible.isEmpty else { return true }
+        let lastSection = sections.count - 1
+        guard lastSection >= 0 else { return true }
+        let lastRow = sections[lastSection].messages.count - 1
+        if lastRow < 0 { return true }
+        return visible.contains { $0.section == lastSection && $0.row == lastRow }
+    }
+
+    private func scrollToBottom(animated: Bool) {
+        let lastSection = sections.count - 1
+        guard lastSection >= 0 else { return }
+        let lastRow = sections[lastSection].messages.count - 1
+        guard lastRow >= 0 else { return }
+        let ip = IndexPath(row: lastRow, section: lastSection)
+        tableView.scrollToRow(at: ip, at: .bottom, animated: animated)
+    }
+
+    func updateTableViewFullReload() { // fallback (should rarely be needed)
         tableView.reloadData()
-        
-        let n_messages = messages.values.count
-        if n_messages > 0 {
-            let lastsection = messages.keys.count - 1
-            let ip = IndexPath(row: tableView.numberOfRows(inSection: lastsection) - 1, section: lastsection)
-            tableView.scrollToRow(at: ip, at: .bottom, animated: true)
-        }
+        scrollToBottom(animated: true)
+    }
+
+    func updateTableViewIncremental(newSection: Bool, indexPath: IndexPath?) {
+        guard let indexPath = indexPath else { return }
+        let shouldScroll = isAtBottom()
+        tableView.performBatchUpdates({
+            if newSection {
+                tableView.insertSections(IndexSet(integer: indexPath.section), with: .none)
+            } else {
+                tableView.insertRows(at: [indexPath], with: .none)
+            }
+        }, completion: { _ in
+            if shouldScroll {
+                self.scrollToBottom(animated: true)
+                UIView.animate(withDuration: 0.2) { self.newMessagesButton.alpha = 0 }
+            } else {
+                UIView.animate(withDuration: 0.25) { self.newMessagesButton.alpha = 1 }
+            }
+        })
+    }
+
+    @objc private func tapNewMessagesButton() {
+        scrollToBottom(animated: true)
+        UIView.animate(withDuration: 0.2) { self.newMessagesButton.alpha = 0 }
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -198,7 +281,7 @@ class TextMessageViewController :
                     repositionControls()
                 }
                 
-                updateTableView()
+                updateTableViewFullReload() // keyboard shift: keep simple full reload
             }
         }
     }
@@ -226,12 +309,9 @@ class TextMessageViewController :
             let name = getDisplayName(user)
             let mymsg = MyTextMessage(fromuserid: msg.nFromUserID, nickname: name, msgtype: .PRIV_IM_MYSELF, content: msgTextView.text)
 
-            appendEventMessage(mymsg)
-
-            if delegate != nil {
-                delegate!.appendTextMessage(userid, txtmsg: mymsg)
-            }
-            updateTableView()
+            let res = appendEventMessage(mymsg)
+            delegate?.appendTextMessage(userid, txtmsg: mymsg)
+            updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath)
         }
         
         if iTeamTalk.sendTextMessage(msg: msg, content: msgTextView.text) {
@@ -308,11 +388,8 @@ class TextMessageViewController :
 
                     let name = getDisplayName(user)
                     let mymsg = MyTextMessage(fromuserid: txtmsg.nFromUserID, nickname: name, msgtype: msgtype, content: content)
-                    appendEventMessage(mymsg)
-                    
-                    if tableView != nil {
-                        updateTableView()
-                    }
+                    let res = appendEventMessage(mymsg)
+                    if tableView != nil { updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath) }
                     
                     speakTextMessage(txtmsg.nMsgType, mymsg: mymsg)
                 }
@@ -322,11 +399,8 @@ class TextMessageViewController :
             let user = getUser(&m).pointee
             if showLogMessages() && TT_GetMyUserID(ttInst) == user.nUserID {
                 let logmsg = MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry"))
-                appendEventMessage(logmsg)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+                let res = appendEventMessage(logmsg)
+                if tableView != nil { updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath) }
             }
             
         case CLIENTEVENT_CMD_USER_JOINED :
@@ -353,11 +427,8 @@ class TextMessageViewController :
                     logmsg = MyTextMessage(logmsg: txt)
                 }
                 
-                appendEventMessage(logmsg!)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+                let res = appendEventMessage(logmsg!)
+                if tableView != nil { updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath) }
             }
         case CLIENTEVENT_CMD_USER_LEFT :
             
@@ -366,58 +437,37 @@ class TextMessageViewController :
                 let name = getDisplayName(user)
                 let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
                 let logmsg = MyTextMessage(logmsg: txt)
-                appendEventMessage(logmsg)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+                let res = appendEventMessage(logmsg)
+                if tableView != nil { updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath) }
             }
         case CLIENTEVENT_CMD_ERROR :
             
             let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
             let txt = String(format: NSLocalizedString("Command failed: %@", comment: "log entry"),  errmsg)
             let logmsg = MyTextMessage(logmsg: txt)
-            appendEventMessage(logmsg)
-            
-            if tableView != nil {
-                updateTableView()
-            }
+            let res = appendEventMessage(logmsg)
+            if tableView != nil { updateTableViewIncremental(newSection: res.newSection, indexPath: res.indexPath) }
         default : break
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-
-        return messages.keys.count
-    }
+    func numberOfSections(in tableView: UITableView) -> Int { sections.count }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sortedKeys = messages.keys.sorted()
-        let key = sortedKeys[section]
-        return messages[key]!.count
+        return sections[section].messages.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
 
         let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
         getEventMessage(indexPath).drawCell(cell)
-        
         return cell
     }
     
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
-
-        cell.messageTextView.text = getEventMessage(indexPath).message
-        
-        let fixedWidth = cell.messageTextView.frame.size.width
-        let newSize = cell.messageTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        
-        return newSize.height
-    }
+    // Using automatic dimension – no manual height implementation required.
 
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let em = getEventMessage(IndexPath(row: 0, section: section))
+        let em = sections[section].messages.first!
         switch em.msgtype {
         case .PRIV_IM :
             fallthrough

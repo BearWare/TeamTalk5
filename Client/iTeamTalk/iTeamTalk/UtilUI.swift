@@ -159,12 +159,15 @@ struct MyTextMessage {
     }
 
     
+    private static let timeFormatter: DateFormatter = {
+        let df = DateFormatter()
+        df.locale = Locale.current
+        df.dateFormat = "HH:mm:ss"
+        return df
+    }()
+
     func drawCell(_ cell: TextMsgTableCell) {
-        
-        let dateFormatter = DateFormatter()
-        dateFormatter.locale = Locale.current
-        dateFormatter.dateFormat = "HH:mm:ss"
-        let time = dateFormatter.string(from: date)
+        let time = MyTextMessage.timeFormatter.string(from: date)
         
         switch msgtype {
         case .PRIV_IM :
@@ -189,7 +192,10 @@ struct MyTextMessage {
             cell.backgroundColor = UIColor(red: 0.86, green: 0.86, blue: 0.86, alpha: 1.0)
             cell.authorLabel.text = "\(time)"
         }
-        cell.messageTextView.text = message
+    cell.messageTextView.text = message
+    cell.messageTextView.isEditable = false
+    cell.messageTextView.isSelectable = true
+    cell.messageTextView.isScrollEnabled = false
         
         var hint = ""
         
@@ -208,8 +214,10 @@ struct MyTextMessage {
             hint = NSLocalizedString("Log message", comment: "text message type")
         }
         
-        cell.accessibilityLabel = message
-        cell.accessibilityHint = cell.authorLabel.text! + ". " + hint
+    // Accessibility: concise label (author + time) with message as value for less verbosity.
+    cell.accessibilityLabel = cell.authorLabel.text
+    cell.accessibilityValue = message
+    cell.accessibilityHint = hint
         
         //cell.messageTextView.textContainerInset = UIEdgeInsetsZero
         //cell.messageTextView.textContainer.lineFragmentPadding = 0.0
