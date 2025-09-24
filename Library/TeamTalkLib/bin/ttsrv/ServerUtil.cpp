@@ -171,7 +171,7 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid)
+WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid)
 {
     std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
     std::string passwdUtf8 = UnicodeToUtf8(passwd).c_str();
@@ -188,9 +188,9 @@ int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd,
     {
     default :
     case -1 :
-        return -1;
+        return WEBLOGIN_SERVER_UNAVAILABLE;
     case 0 :
-        return 0;
+        return WEBLOGIN_FAILED;
     case 1 :
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if (xmldoc.Parse(utf8))
@@ -199,13 +199,13 @@ int LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd,
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
             token = Utf8ToUnicode(xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str());
             loginid = Utf8ToUnicode(username.c_str());
-            return token.length() > 0;
+            return token.length() > 0 ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
         }
-        return 0;
+        return WEBLOGIN_FAILED;
     }
 }
 
-int AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
+WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
 {
     std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
     std::string tokenUtf8 = UnicodeToUtf8(token).c_str();
@@ -223,17 +223,17 @@ int AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
     {
     default :
     case -1 :
-        return -1;
+        return WEBLOGIN_SERVER_UNAVAILABLE;
     case 0 :
-        return 0;
+        return WEBLOGIN_FAILED;
     case 1 :
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if (xmldoc.Parse(utf8))
         {
             std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
-            return username.size() > 0;
+            return username.size() > 0 ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
         }
-        return 0;
+        return WEBLOGIN_FAILED;
     }
 }
 

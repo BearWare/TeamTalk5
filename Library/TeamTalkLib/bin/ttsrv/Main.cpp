@@ -731,10 +731,9 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
 
 #if defined(ENABLE_TEAMTALKPRO)
-    if (!LoginBearWare(xmlSettings))
+    while (!LoginBearWare(xmlSettings))
     {
-        TT_LOG(ACE_TEXT("Failed to log on using BearWare.dk WebLogin. Exiting..."));
-        return -1;
+        TT_LOG(ACE_TEXT("Failed to log on using BearWare.dk WebLogin."));
     }
 #endif
 

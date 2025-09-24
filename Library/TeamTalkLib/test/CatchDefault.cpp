@@ -1635,7 +1635,7 @@ TEST_CASE("TestWebLogin")
     }
 
     ACE_TString token, loginid;
-    REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == 0);
+    REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == WEBLOGIN_FAILED);
 }
 
 TEST_CASE("TestHTTPPost")
