@@ -73,10 +73,10 @@ namespace teamtalk {
         ACE_UINT32 GetLastTimeStamp(bool* is_set = NULL) const;
         ACE_UINT32 GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = NULL) const;
         ACE_UINT32 GetLastTimeStamp(PacketKind packet_kind, bool* is_set = NULL) const;
-
+        // MAX_PAYLOAD_DATA_SIZE
         void SetMaxDataChunkSize(int size) { m_mtu_data_size = size; }
         int GetMaxDataChunkSize() const { return m_mtu_data_size; }
-
+        // MAX_PACKET_PAYLOAD_SIZE = MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD
         void SetMaxPayloadSize(int size) { m_mtu_max_payload_size = size; }
         int GetMaxPayloadSize() const { return m_mtu_max_payload_size; }
 
@@ -91,7 +91,7 @@ namespace teamtalk {
         ACE_TString m_statusmsg;
         bool m_tm_ok = false;
         ACE_UINT32 m_timestamp = 0;
-        int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PAYLOAD_DATA_SIZE;
+        int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
         typedef std::map<PacketKind, ACE_UINT32> packet_timestamps_t;
         packet_timestamps_t m_pkt_timestamps;
     protected:
