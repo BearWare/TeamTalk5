@@ -34,6 +34,10 @@
 
 #include <ace/Recursive_Thread_Mutex.h>
 
+static constexpr auto FILEBUFFERSIZE = 0x10000;
+
+static_assert(FILEBUFFERSIZE <= MSGBUFFERSIZE, "File buffer cannot be bigger than message queue");
+
 namespace teamtalk { 
 
     class ServerNode;
@@ -57,11 +61,6 @@ namespace teamtalk {
         ServerUser(const ServerUser& user);
         const ServerUser& operator = (const ServerUser& user);
 
-#define FILEBUFFERSIZE 0x10000
-
-#if FILEBUFFERSIZE > MSGBUFFERSIZE
-#error "File buffer cannot be bigger than message queue"
-#endif
 
         struct LocalFileTransfer
         {
