@@ -45,9 +45,9 @@
 #include <string>
 #include <vector>
 
-#define SERVER_USERID 0
+constexpr auto SERVER_USERID = 0;
 
-#define SERVER_KEEPALIVE_DELAY 1  //keep alive delay (secs). Checks
+constexpr auto SERVER_KEEPALIVE_DELAY = 1;  //keep alive delay (secs). Checks;
                                   //whether some users are dead
 
 #define CHANNELFILEEXTENSION ACE_TEXT(".dat")

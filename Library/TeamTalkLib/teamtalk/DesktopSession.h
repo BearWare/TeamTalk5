@@ -27,26 +27,23 @@
 #include "Common.h"
 #include <vector>
 
-#define RGB8_BLOCK_PIXEL_W 120
-#define RGB8_BLOCK_PIXEL_H 34
+constexpr auto RGB8_BLOCK_PIXEL_W = 120;
+constexpr auto RGB8_BLOCK_PIXEL_H = 34;
 
-#define RGB16_BLOCK_PIXEL_W 102
-#define RGB16_BLOCK_PIXEL_H 20
+constexpr auto RGB16_BLOCK_PIXEL_W = 102;
+constexpr auto RGB16_BLOCK_PIXEL_H = 20;
 
-#define RGB24_BLOCK_PIXEL_W 85
-#define RGB24_BLOCK_PIXEL_H 16
+constexpr auto RGB24_BLOCK_PIXEL_W = 85;
+constexpr auto RGB24_BLOCK_PIXEL_H = 16;
 
-#define RGB32_BLOCK_PIXEL_W 51
-#define RGB32_BLOCK_PIXEL_H 20
+constexpr auto RGB32_BLOCK_PIXEL_W = 51;
+constexpr auto RGB32_BLOCK_PIXEL_H = 20;
 
-#define BLOCK_MAX_BYTESIZE 0xFFF
+constexpr auto BLOCK_MAX_BYTESIZE = 0xFFF;
 
-
-
-#define DESKTOP_RTX_MIN_TIMEOUT         ACE_Time_Value(0, 10000) //minimum RTX timeout
-
-#define DESKTOP_RTX_TIMER_INTERVAL      ACE_Time_Value(1, 0) //interval for checking whether to do RTX
-#define DESKTOP_DEFAULT_RTX_TIMEOUT     ACE_Time_Value(4, 0) //consider a packet lost after this duration
+static const auto  DESKTOP_RTX_MIN_TIMEOUT = ACE_Time_Value(0, 10000); //minimum RTX timeout
+static const auto DESKTOP_RTX_TIMER_INTERVAL = ACE_Time_Value(1, 0); //interval for checking whether to do RTX
+static const auto DESKTOP_DEFAULT_RTX_TIMEOUT = ACE_Time_Value(4, 0); //consider a packet lost after this duration
 
 namespace teamtalk {
 

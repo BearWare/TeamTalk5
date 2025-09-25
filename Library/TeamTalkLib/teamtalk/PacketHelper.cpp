@@ -29,7 +29,7 @@
 
 using namespace std;
 
-#define MAX_PACKETS_ON_WIRE 16
+constexpr auto MAX_PACKETS_ON_WIRE = 16;
 
 namespace teamtalk {
 
