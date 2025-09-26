@@ -39,17 +39,17 @@
     <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Texto a voz</string>
     <string name="pref_cat_tts_events">Eventos de texto a voz</string>
-    <string name="pref_cat_tts_transmission">Eventos de  transmición</string>
+    <string name="pref_cat_tts_transmission">Eventos de  transmisión</string>
     <string name="pref_cat_tts_subscription">Eventos de suscripción</string>
     <string name="pref_cat_soundtest">Prueba de sonido</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Apodo</string>
     <string name="pref_title_statusmsg">Mensaje de estado</string>
-    <string name="pref_default_nickname">NoName</string>
+    <string name="pref_default_nickname">Sin nombre</string>
     <string name="pref_title_proximity_sensor">Usar Sensor de proximidad</string>
-    <string name="pref_title_keep_screen_on">Keep screen on when connected</string>
+    <string name="pref_title_keep_screen_on">Mantener la pantalla encendida al conectarse</string>
     <string name="pref_title_vibrate">Vibrar al presionar para hablar</string>
-    <string name="pref_show_log_messages">Ver mensajes de conección en el historial</string>
+    <string name="pref_show_log_messages">Ver mensajes de conexión en el historial</string>
     <string name="pref_title_audio_icons">Eventos de sonido</string>
     <string name="pref_title_rx_tx_audio_icon">Activación por voz</string>
     <string name="pref_summary_rx_tx_audio_icon">Reproducir el sonido cuando se presione el botón TX</string>
@@ -57,29 +57,29 @@
     <string name="pref_summary_vox_audio_icon">Reproducir sonido cuando se presiona el botón de activación por voz</string>
     <string name="pref_title_vox_triggered_icon">Activación por voz activada</string>
     <string name="pref_summary_vox_triggered_icon">Reproducir  sonido cuando se inicia la activación por voz</string>
-    <string name="pref_title_intercept_audio_icon">Sonido de intersección</string>
-    <string name="pref_summary_intercept_audio_icon">"Reproducir sonido cuando la intercepción comienza o termina"</string>
+    <string name="pref_title_intercept_audio_icon">Sonido de intercección</string>
+    <string name="pref_summary_intercept_audio_icon">"Reproducir sonido cuando la intercección comienza o termina"</string>
     <string name="pref_title_private_message_audio_icon">Mensaje privado</string>
     <string name="pref_summary_private_message_audio_icon">Reproducir sonido cuando se reciba un mensaje privado</string>
     <string name="pref_title_channel_message_audio_icon">Mensaje en el  canal </string>
     <string name="pref_summary_channel_message_audio_icon">Reproducir el sonido cuando se reciba un mensaje en el  canal</string>
-    <string name="pref_title_broadcast_message_audio_icon">Mensaje de difución</string>
-    <string name="pref_summary_broadcast_message_audio_icon">Reproducir  sonido cuando se reciba un mensaje de difución</string>
+    <string name="pref_title_broadcast_message_audio_icon">Mensaje de difusión</string>
+    <string name="pref_summary_broadcast_message_audio_icon">Reproducir  sonido cuando se reciba un mensaje de difusión</string>
     <string name="pref_title_server_lost_audio_icon">Conexión del servidor perdida</string>
     <string name="pref_summary_server_lost_audio_icon">Reproducir sonido cuando se pierda la conexión</string>
     <string name="pref_title_files_update_audio_icon">Lista de archivos actualizada</string>
-    <string name="pref_summary_files_update_audio_icon">Reproducir sonido cuando se agregan o eliminan los archivos</string>
-    <string name="pref_title_transmitready_icon">conmutador de modo exclusivo</string>
+    <string name="pref_summary_files_update_audio_icon">Reproducir sonido cuando se agregan o eliminan archivos</string>
+    <string name="pref_title_transmitready_icon">Conmutador de modo exclusivo</string>
     <string name="pref_summary_transmitready_icon">"Reproducir sonido cuando la transmisión esté lista en el canal 'Sin interrupciones'"</string>
-    <string name="pref_title_userjoin_icon">User joined channel</string>
+    <string name="pref_title_userjoin_icon">Un usuario se une al canal</string>
     <string name="pref_summary_userjoin_icon">Reproducir sonido cuando el usuario se une al canal actual</string>
-    <string name="pref_title_userleft_icon">User left channel</string>
-    <string name="pref_summary_userleft_icon">Reproducir el sonido cuando el usuario salga del canal actual</string>
-    <string name="pref_header_connection">Connection</string>
+    <string name="pref_title_userleft_icon">Un usuario sale del canal</string>
+    <string name="pref_summary_userleft_icon">Reproducir sonido cuando el usuario sale del canal actual</string>
+    <string name="pref_header_connection">Conexión</string>
     <string name="pref_title_auto_join_root">Unirse al canal raíz al conectarse</string>
-    <string name="pref_summary_auto_join_root">Unirse al canal raíz al conectarse</string>
+    <string name="pref_summary_auto_join_root">Se unirá automáticamente al canal raíz al conectarse</string>
     <string name="pref_title_sub_txtmsg">Mensajes privados</string>
-    <string name="pref_summary_sub_txtmsg">Suscribirse a mensajes pribados</string>
+    <string name="pref_summary_sub_txtmsg">Suscribirse a mensajes privados</string>
     <string name="pref_title_sub_chanmsg">mensaje en el canal</string>
     <string name="pref_summary_sub_chanmsg">Suscríbase a los mensajes de texto del canal</string>
     <string name="pref_title_sub_bcastmsg">mensajes de difución</string>
@@ -99,20 +99,20 @@
     <string name="pref_summary_a11y_volume">Reproducir la voz desde el volumen de accesibilidad</string>
     <string name="pref_title_use_announcements">Anunciar los eventos mediante el servicio de accesibilidad en ejecución</string>
     <string name="pref_summary_use_announcements">Los mensajes se anunciarán a través del servicio de accesibilidad en ejecución</string>
-    <string name="pref_title_server_login">el usuario a entrado al servidor</string>
+    <string name="pref_title_server_login">El usuario ha entrado al servidor</string>
     <string name="pref_summary_server_login">Anuncia el nombre del usuario que entró al servidor</string>
-    <string name="pref_title_server_logout">el usuario sale del servidor</string>
-    <string name="pref_summary_server_logout">anuncia el nombre del usuario que sale del servidor</string>
+    <string name="pref_title_server_logout">El usuario sale del servidor</string>
+    <string name="pref_summary_server_logout">Anuncia el nombre del usuario que sale del servidor</string>
     <string name="pref_title_channel_join">El usuario se une al canal</string>
-    <string name="pref_summary_channel_join">anuncia el nombre del usuario que se unió al canal</string>
-    <string name="pref_title_channel_leave">el usuario sale del canal</string>
+    <string name="pref_summary_channel_join">Anuncia el nombre del usuario que se unió al canal</string>
+    <string name="pref_title_channel_leave">El usuario sale del canal</string>
     <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que sale del canal</string>
     <string name="pref_title_private_message">Mensajes privados</string>
     <string name="pref_summary_private_message">Anunciar al resivir mensajes privados</string>
-    <string name="pref_title_channel_message">Mensajes del canal resividos</string>
-    <string name="pref_summary_channel_message">anunciar al resivir un mensaje en el canal</string>
-    <string name="pref_title_broadcast_message">mensajes de difución</string>
-    <string name="pref_summary_broadcast_message">anuncia los mensajes de difución</string>
+    <string name="pref_title_channel_message">Mensajes del canal recibidos</string>
+    <string name="pref_summary_channel_message">anunciar al recibir un mensaje en el canal</string>
+    <string name="pref_title_broadcast_message">Mensajes de difusión</string>
+    <string name="pref_summary_broadcast_message">Anuncia los mensajes de difusión</string>
     <string name="pref_title_subscription_user_msg">Suscripción a mensajes  privados</string>
     <string name="pref_summary_subscription_user_msg">Anuncia el cambio de suscripción de mensajes privados</string>
     <string name="pref_title_subscription_channel_msg">Suscripción a mensajes del canal</string>
@@ -149,7 +149,7 @@
     <string name="pref_summary_transmit_media">Anuncia el cambio de transmisión de medios</string>
     <string name="pref_title_transmit_channel_msg">Transmisión de mensajes del canal activada/desactivada</string>
     <string name="pref_summary_transmit_channel_msg">Anuncia el cambio de transmisión de mensajes del canal</string>
-    <string name="pref_title_mute_speakers">Silenciar altavoces al presionar el botón Transmitir</string>
+    <string name="pref_title_mute_speakers">Silenciar altavoces al presionar el botón de micrófono</string>
     <string name="pref_summary_mute_speakers">ELIMINA el eco de los altavoces</string>
     <string name="pref_title_show_usernames">Mostrar nombres de usuarios</string>
     <string name="pref_summary_show_usernames">Mostrar nombres de usuario en lugar de apodos</string>
@@ -164,8 +164,8 @@
     <string name="pref_summary_speakerphone_checkbox">Activar el altavoz del teléfono</string>
     <string name="pref_title_bluetooth_headset_checkbox">Usar micrófono de auriculares Bluetooth</string>
     <string name="pref_summary_bluetooth_headset_checkbox">Cuando los auriculares Bluetooth estén conectados, utiliza el micrófono incorporado en ellos</string>
-    <string name="pref_title_voice_processing_checkbox">Habilitar preprosesado de voz</string>
-    <string name="pref_summary_voice_processing_checkbox">Usar cancelación de eco y control automático de ganancia</string>
+    <string name="pref_title_voice_processing_checkbox">Habilitar cancelación de eco</string>
+    <string name="pref_summary_voice_processing_checkbox">Elimina el eco de altavoces cercanos</string>
     <string name="pref_title_public_servers">Mostrar servidores públicos</string>
     <string name="pref_summary_public_servers">Incluir servidores públicos en la lista de servidores</string>
 
@@ -212,9 +212,9 @@
     <string name="opus_application">Aplicación</string>
 
     <string name="button_tx">Transmitir</string>
-    <string name="button_remove">Quitar</string>
+    <string name="button_remove">quitar</string>
     <string name="button_edit">Editar</string>
-    <string name="action_banchan">Banear del canal actual</string>
+    <string name="action_banchan">Banear del canal</string>
     <string name="action_bansrv">Banear del servidor</string>
     <string name="action_edit">Editar canal</string>
     <string name="action_join">Unirse</string>
@@ -241,15 +241,15 @@
     <string name="channel_prop_title_topic">Tema</string>
     <string name="channel_prop_title_password">Contraseña</string>
     <string name="channel_prop_title_op_password">Contraseña de operador</string>
-    <string name="channel_prop_title_maxusers">cantidad máxima de usuarios</string>
+    <string name="channel_prop_title_maxusers">Cantidad máxima de usuarios</string>
     <string name="channel_prop_title_diskquota">Cuota de disco (KBytes)</string>
 
     <string name="channel_prop_title_permanent">Canal Permanente (alojado en el servidor)</string>
     <string name="channel_prop_title_nointerrupt">Sin Interrupciones (no se permiten transmisiones simultáneas de voz)</string>
     <string name="channel_prop_title_classroom">Aula (transmisiones controladas por el operador)</string>
-    <string name="channel_prop_title_oprecvonly">Sólo recibe el operador (sólo el operador ve y oye a los usuarios)</string>
+    <string name="channel_prop_title_oprecvonly">Sólo el operador (sólo el operador ve y escucha a los usuarios)</string>
     <string name="channel_prop_title_novoiceact">Sin activación por voz (sólo se permite pulsar para hablar)</string>
-    <string name="channel_prop_title_noaudiorecord">No se permiten las grabaciones de audio (no se permite guardar en el disco)</string>
+    <string name="channel_prop_title_noaudiorecord">No permitir las grabaciones de audio (no se permite guardar en el disco)</string>
 
 
     <string name="user_prop_title_nickname">Apodo:</string>
@@ -260,14 +260,14 @@
     <string name="user_prop_clientversion">versión</string>
     <string name="user_prop_title_ipaddress">Dirección IP:</string>
     <string name="user_prop_title_voice_volume">Volumen de voz</string>
-    <string name="user_prop_title_mute_voice">Activar altavoces.</string>
+    <string name="user_prop_title_mute_voice">Silenciar voz.</string>
     <string name="user_prop_title_media_volume">Volumen de medios</string>
     <string name="user_prop_title_mute_media">Silenciar medios</string>
-    <string name="user_prop_title_subscribe_txtmsg">Suscripción a mensajes privados</string>
-    <string name="user_prop_title_subscribe_chanmsg">Suscripción a mensajes del canal</string>
-    <string name="user_prop_title_subscribe_bcastmsg">Suscripción a mensajes de difusión</string>
-    <string name="user_prop_title_subscribe_voice">Suscripción a la voz</string>
-    <string name="user_prop_title_subscribe_vid">Suscripción a video</string>
+    <string name="user_prop_title_subscribe_txtmsg">Suscripción de mensajes privados</string>
+    <string name="user_prop_title_subscribe_chanmsg">Suscripción de mensajes del canal</string>
+    <string name="user_prop_title_subscribe_bcastmsg">Suscripción de mensajes de difusión</string>
+    <string name="user_prop_title_subscribe_voice">Suscripción de voz</string>
+    <string name="user_prop_title_subscribe_vid">Suscripción de video</string>
     <string name="user_prop_title_subscribe_desk">Suscripción al escritorio</string>
     <string name="user_prop_title_subscribe_media">Suscripción a medios</string>
     <string name="user_prop_title_subscribe_intercept_txtmsg">Interceptar mensajes privados</string>
@@ -283,7 +283,7 @@
     <string name="user_prop_title_transmit_chanmsg">Permitir mensajes del canal</string>
 
     <string name="label_connection">Conexión:</string>
-    <string name="stat_online">En línea</string>
+   <string name="stat_online">En línea</string>
     <string name="stat_offline">Desconectado</string>
     <string name="stat_connecting">Conexión</string>
     <string name="stat_unauthorized">No autorizado</string>
@@ -297,14 +297,14 @@
 
     <string name="server_list_empty">La lista de servidores está vacía</string>
     <string name="search_servers_hint">Buscar servidores por nombre</string>
-    <string name="no_nickname">Sin apodo</string>
+    <string name="no_nickname">Sin nombre</string>
     <string name="message_text">Mensaje de texto</string>
     <string name="time_date">Fecha y hora</string>
     <string name="name">Nombre</string>
 
-    <string name="err_init_sound_input">No se pudo inicializar el dispositivo de entrada de sonido</string>
-    <string name="err_init_sound_output">No se pudo inicializar el dispositivo de salida de sonido</string>
-    <string name="err_retrieve_public_server_list">Fallo al obtener la lista de servidores públicos</string>
+    <string name="err_init_sound_input">No se pudo iniciar el dispositivo de entrada de sonido</string>
+    <string name="err_init_sound_output">No se pudo iniciar el dispositivo de salida de sonido</string>
+    <string name="err_retrieve_public_server_list">Error al cargar la lista de servidores públicos</string>
     <string name="err_send_text_message">Error al enviar el mensaje</string>
     <string name="err_connection">Fallo en la conexión</string>
     <string name="err_stream_media">Error al transmitir medios</string>
@@ -344,7 +344,7 @@
     <string name="download_failed">No se pudo descargar el archivo %1$s</string>
     <string name="upload_succeeded">Archivo %1$s Se ha subido correctamente</string>
     <string name="upload_failed">No se pudo subir el archivo %1$s</string>
-    <string name="alert_file_override">Archivo %1$s Ya existe. ¿Desea sobrescribirlo?</string>
+    <string name="alert_file_override">Archivo %1$s ya existe. ¿Desea sobrescribirlo?</string>
     <string name="err_file_delete">No se puede eliminar el archivo %1$s</string>
     <string name="err_file_write">No se puede guardar el archivo %1$s</string>
     <string name="err_channel_remove">No se puede eliminar el canal %1$s</string>
@@ -379,7 +379,7 @@
     <string name="mic_unmute">Micrófono activado</string>
     <string name="speaker_volume_description">El volumen del altavoz es %1$s</string>
     <string name="mic_gain_description">La ganancia del micrófono es %1$s</string>
-    <string name="voice_activation_on">ENCENDER activación por voz</string>
+    <string name="voice_activation_on">Encender activación por voz</string>
     <string name="voice_activation_off">Apagar activación por voz</string>
     <string name="vox_level_description">El nivel de activación por voz es %1$s</string>
 
@@ -399,7 +399,7 @@
     <string name="text_localserver">Servidor local</string>
     <string name="text_officialserver">Servidor oficial</string>
     <string name="text_unofficialserver">Servidor no oficial</string>
-    <string name="text_passwdprot">Privado</string>
+    <string name="text_passwdprot">Privado, </string>
     <string name="text_translator">Traducido por Damián Echevarría. Colaborador: Ulises Salguero</string>
     <string name="desktop_image">Imagen de escritorio</string>
     <string name="channel_change_alert">Todas las transferencias activas se detendrán al cambiar de canal</string>
@@ -424,8 +424,8 @@
     <string name="err_channel_has_users">El canal no está vacío</string>
 
     <string name="private_message_notification">Nuevo mensaje privado de %1$s</string>
-    <string name="private_message_notification_hint">Haz clic para leer y responder</string>
-    <string name="user_state_now_speaking">%1$s 🎤</string>
+    <string name="private_message_notification_hint">Hpulsa para leer y responder</string>
+    <string name="user_state_now_speaking">%1$s 🎤, </string>
     <string name="text_waitstream">Esperando la transmisión de video</string>
     <string name="text_desktop_session">Sesión de escritorio</string>
     <string name="text_webcam_session">Sesión de cámara web</string>
@@ -434,7 +434,7 @@
     <string name="permission_audioinput">La grabación y reproducción de audio no estarán disponibles</string>
     <string name="permission_audiomodify">La grabación y reproducción de audio no estarán disponibles</string>
     <string name="permission_filerx">La descarga de archivos no estará disponible</string>
-    <string name="permission_filetx">La carga y la importación de archivos no estarán disponibles</string>
+    <string name="permission_filetx">La carga e importación de archivos no estarán disponibles</string>
     <string name="permission_imagetx">La carga de imágenes no estará disponible</string>
     <string name="permission_videotx">Los archivos de video no estarán disponibles para cargar y transmitir</string>
     <string name="permission_audiotx">Los archivos de audio no estarán disponibles para cargar y transmitir</string>
@@ -474,10 +474,10 @@
     <string name="pref_title_libraries">Librerías de terceros</string>
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
     <string name="pref_title_gender">Género</string>
-    <string name="pref_summary_gender">Marcar para icono femenino</string>
+    <string name="pref_summary_gender">Seleccionar para género femenino</string>
     <string name="user_state_away">Ausente</string>
     <string name="user_state_operator">Operador del canal</string>
-    <string name="user_state_selected">Seleccionado para mover</string>
+    <string name="user_state_selected">Seleccionado para mover, </string>
     <string name="pref_title_userloggedin_icon">Usuario conectado</string>
     <string name="pref_summary_userloggedin_icon">Reproducir sonido cuando un usuario entra al servidor</string>
     <string name="pref_title_userloggedoff_icon">Usuario desconectado</string>
@@ -487,7 +487,7 @@
     <string name="pref_title_channel_message_sent">Mensajes enviados al canal</string>
     <string name="pref_summary_channel_message_sent">Anunciar mensajes enviados en el canal</string>
     <string name="text_tts_channel_message_sent">Mensaje enviado al canal: %1$s</string>
-    <string name="err_text_length">Mensaje excedió la longitud por %1$d caracteres</string>
+    <string name="err_text_length">El mensaje excedió la longitud por %1$d caracteres</string>
     <string name="pref_summary_official_servers">Incluir servidores oficiales en la lista de servidores</string>
     <string name="pref_title_official_servers">Mostrar servidores oficiales</string>
     <string name="pref_summary_unofficial_servers">Incluir servidores no oficiales en la lista de servidores</string>
@@ -512,5 +512,5 @@
     <string name="online_user_info_statusmsg">Mensaje de estado</string>
     <string name="online_user_info_channel">Canal</string>
     <string name="online_user_info_ip">Dirección IP</string>
-    <string name="online_user_info_client">cliente</string>
+    <string name="online_user_info_client">Cliente</string>
 </resources>
