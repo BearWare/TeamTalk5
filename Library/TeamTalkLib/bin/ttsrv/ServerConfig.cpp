@@ -883,6 +883,8 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
                 chmod(xmlSettings.GetFileName().c_str(), S_IRUSR | S_IWUSR);
                 std::cout << "Changed file permissions to 600 on " << xmlSettings.GetFileName() << std::endl;
 #endif
+                std::cout << "The token will be valid as long as you do not change the password of your" << std::endl;
+                std::cout << "BearWare.dk WebLogin account." << std::endl;
             }
             bwid = loginid;
             token = newtoken.c_str();
