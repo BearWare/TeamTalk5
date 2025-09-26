@@ -39,16 +39,16 @@ typedef unsigned char byte_t;
 
 namespace teamtalk {
 
-#define PACKETBUFFER 0x10000
+constexpr auto PACKETBUFFER = 0x10000;
 
 // https://da.wikipedia.org/wiki/Differentiated_Services
-#define IP_TOS_IGNORE           (0x00 << 2)
-#define IP_TOS_SIGNALING        (0x28 << 2)
-#define IP_TOS_VOICE            (0x2e << 2)
-#define IP_TOS_VIDEO            (0x22 << 2)
-#define IP_TOS_DESKTOP          (0x20 << 2)
-#define IP_TOS_MULTIMEDIA_AUDIO (0x1a << 2)
-#define IP_TOS_MULTIMEDIA_VIDEO (0x1e << 2)
+constexpr auto IP_TOS_IGNORE = (0x00 << 2);
+constexpr auto IP_TOS_SIGNALING = (0x28 << 2);
+constexpr auto IP_TOS_VOICE = (0x2e << 2);
+constexpr auto IP_TOS_VIDEO = (0x22 << 2);
+constexpr auto IP_TOS_DESKTOP = (0x20 << 2);
+constexpr auto IP_TOS_MULTIMEDIA_AUDIO = (0x1a << 2);
+constexpr auto IP_TOS_MULTIMEDIA_VIDEO = (0x1e << 2);
 
     class PacketListener
     {
