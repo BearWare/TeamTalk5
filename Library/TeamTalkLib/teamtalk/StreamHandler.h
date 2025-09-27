@@ -55,7 +55,7 @@ public:
     virtual bool OnSend(STREAMHANDLER& streamer){ return true; /* return false to unregister event handler */ }
 };
 
-#define MSGBUFFERSIZE 0x100000
+constexpr auto MSGBUFFERSIZE = 0x100000;
 
 template < typename ACE_SOCK_STREAM_TYPE >
 class StreamHandler : public ACE_Svc_Handler< ACE_SOCK_STREAM_TYPE, ACE_MT_SYNCH >

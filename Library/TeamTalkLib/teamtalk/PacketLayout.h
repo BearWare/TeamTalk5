@@ -31,7 +31,7 @@
 #include <map>
 #include <set>
 #include <list>
-#include <assert.h>
+#include <cassert>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/evp.h>
@@ -44,22 +44,22 @@
 *    TEAMTALK PACKET LAYOUT
 *******************************/
 
-#define TEAMTALK_PACKET_PROTOCOL 1
+constexpr auto TEAMTALK_PACKET_PROTOCOL = 1;
 
-#define TEAMTALK_DEFAULT_PACKET_PROTOCOL    1
+constexpr auto TEAMTALK_DEFAULT_PACKET_PROTOCOL = 1;
 
-#define FIELDHEADER_PAYLOAD     50
+constexpr auto FIELDHEADER_PAYLOAD = 50;
 
-#define MIN_PAYLOAD_DATA_SIZE   400    //The raw data must be split in at most this size
-#define MIN_PACKET_PAYLOAD_SIZE (MIN_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD)   //The maximum size of fields and raw data
+constexpr auto MIN_PAYLOAD_DATA_SIZE = 400;    //The raw data must be split in at most this size;
+constexpr auto MIN_PACKET_PAYLOAD_SIZE = MIN_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD;   //The maximum size of fields and raw data
 
-#define MAX_PAYLOAD_DATA_SIZE   1250   //The raw data must be split in at most this size
-#define MAX_PACKET_PAYLOAD_SIZE (MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD)   //The maximum size of fields and raw data
+constexpr auto MAX_PAYLOAD_DATA_SIZE = 1250;   //The raw data must be split in at most this size;
+constexpr auto MAX_PACKET_PAYLOAD_SIZE = MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD;   //The maximum size of fields and raw data
 
-static uint16_t MTU_QUERY_SIZES[] = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
-#define MTU_QUERY_SIZES_COUNT (sizeof(MTU_QUERY_SIZES)/sizeof(MTU_QUERY_SIZES[0]))
+static constexpr uint16_t MTU_QUERY_SIZES[] = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
+constexpr auto MTU_QUERY_SIZES_COUNT = sizeof(MTU_QUERY_SIZES) / sizeof(MTU_QUERY_SIZES[0]);
 
-#define MAX_PACKET_SIZE 1350           //The maximum size of a packet
+constexpr auto MAX_PACKET_SIZE = 1350;           //The maximum size of a packet
 
 namespace teamtalk {
 
@@ -68,38 +68,44 @@ namespace teamtalk {
 #pragma error "Big endian not supported"
 #endif
 
+template<typename T1, typename T2>
+constexpr uint8_t* set_uint4(uint8_t* buf, T1 val1, T2 val2)
+{
+    assert(val1 <= 0xF);
+    assert(val2 <= 0xF);
+    buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);
+    return ++buf;
+}
 
-#define set_uint4(buf, val1, val2)                  \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xF);                        \
-        assert(val2 <= 0xF);                        \
-        buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);\
-    } while(0)
+template<typename T1, typename T2>
+constexpr const uint8_t* get_uint4(const uint8_t* buf, T1& val1, T2& val2)
+{
+    val1 = (buf[0] & 0xF);
+    val2 = (buf[0] >> 4);
+    return ++buf;
+}
 
-#define set_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        set_uint4(buf, val1, val2); ptr++;          \
-    } while(0)
+template<typename T1>
+constexpr uint8_t* set_uint8(uint8_t* buf, T1 val)
+{
+    *buf = val;
+    return ++buf;
+}
 
-#define get_uint4(buf, val1, val2)                  \
-    do {                                            \
-        val1 = (buf[0] & 0xF);                      \
-        val2 = (buf[0] >> 4);                       \
-    } while(0)
+template<typename T1>
+constexpr const uint8_t* get_uint8_ptr(const uint8_t* buf, T1& val)
+{
+    val =  *buf;
+    return ++buf;
+}
 
-#define get_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        get_uint4(buf, val1, val2); ptr += 1;       \
-    } while(0)
+constexpr auto get_uint8(const uint8_t* buf)
+{
+    uint8_t val = 0;
+    get_uint8_ptr(buf, val);
+    return val;
+}
 
-#define set_uint8(buf, val) (*(uint8_t*)buf = val)
-#define set_uint8_ptr(buf, val, ptr)                \
-    do {                                            \
-        set_uint8(buf, val); ptr += 1;              \
-    } while(0)
-#define get_uint8(buf) *(const uint8_t*)(buf)
-#define get_uint8_ptr(val, buf, ptr) {val = get_uint8(buf); ptr += 1;}
 
 #define set_uint12(buf, val1)                       \
     do {                                            \
@@ -276,7 +282,7 @@ namespace teamtalk {
 
 /* Each field value consist of a 12 bit length and 4 bits for type
    and then DATA [LENGTH,TYPE,DATA....] */
-#define FIELDVALUE_PREFIX 2
+constexpr auto FIELDVALUE_PREFIX = 2;
 
 #define WRITEFIELD_TYPE(buf, fieldtype, fieldsize, ptr)                     \
     do {                                                                    \
@@ -413,13 +419,13 @@ namespace teamtalk {
     };
 
 //The minimum size of a packet
-#define TT_CHANNEL_HEADER_SIZE 8
-#define TT_USER_HEADER_SIZE 10
+constexpr auto TT_CHANNEL_HEADER_SIZE = 8;
+constexpr auto TT_USER_HEADER_SIZE = 10;
 
-#define TT_MAX_HEADER_SIZE 10
+constexpr auto TT_MAX_HEADER_SIZE = 10;
 
-#define MAX_FIELD_SIZE 0xFFF
-#define MAX_ENC_FRAMESIZE 0xFFF /* 12 bits */
+constexpr auto MAX_FIELD_SIZE = 0xFFF;
+constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
     class FieldPacket
     {
@@ -532,25 +538,25 @@ namespace teamtalk {
     /* The number of byes in a typical CBR AudioPacket (including FieldPacket).
      * (Used for segmentation). Update BuildAudioPackets() if changes are made
      * to the sizes. */
-#define AUDIOPACKET_TYPICAL_CBR_HEADER_SIZE                           \
-        (TT_MAX_HEADER_SIZE +                                         \
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_CHANNEL*/   \
-        FIELDVALUE_PREFIX + sizeof(uint32_t) +/*FIELDTYPE_CHANNELKEY*/\
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_STREAMID*/  \
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_PACKETNUMBER*/ \
-        FIELDVALUE_PREFIX /*FIELDTYPE_ENCDATA*/ )
+    constexpr size_t AUDIOPACKET_TYPICAL_CBR_HEADER_SIZE =
+        TT_MAX_HEADER_SIZE +
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_CHANNEL
+        FIELDVALUE_PREFIX + sizeof(uint32_t) + // FIELDTYPE_CHANNELKEY
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_STREAMID
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_PACKETNUMBER
+        FIELDVALUE_PREFIX;                     // FIELDTYPE_ENCDATA
 
     /* The number of byes in a typical VBR AudioPacket (including FieldPacket).
      * (Used for segmentation). Update BuildAudioPackets() if changes are made
      * to the sizes. */
-#define AUDIOPACKET_TYPICAL_VBR_HEADER_SIZE                           \
-        (TT_MAX_HEADER_SIZE +                                         \
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_CHANNEL*/   \
-        FIELDVALUE_PREFIX + sizeof(uint32_t) +/*FIELDTYPE_CHANNELKEY*/\
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_STREAMID*/  \
-        FIELDVALUE_PREFIX + sizeof(uint16_t) +/*FIELDTYPE_PACKETNUMBER*/ \
-        FIELDVALUE_PREFIX + /*FIELDTYPE_ENCDATA*/                     \
-        FIELDVALUE_PREFIX /*FIELDTYPE_ENCFRAMESIZES*/ )
+    constexpr size_t AUDIOPACKET_TYPICAL_VBR_HEADER_SIZE =
+        TT_MAX_HEADER_SIZE +
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_CHANNEL
+        FIELDVALUE_PREFIX + sizeof(uint32_t) + // FIELDTYPE_CHANNELKEY
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_STREAMID
+        FIELDVALUE_PREFIX + sizeof(uint16_t) + // FIELDTYPE_PACKETNUMBER
+        FIELDVALUE_PREFIX +                    // FIELDTYPE_ENCDATA
+        FIELDVALUE_PREFIX;                      // FIELDTYPE_ENCFRAMESIZES
 
     /* Creates PACKET_KIND_VOICE or PACKET_KIND_MEDIAFILE_AUDIO */
     class AudioPacket : public FieldPacket
@@ -599,7 +605,7 @@ namespace teamtalk {
             /* New fields here to be compatible */
         };
 
-        static const uint8_t INVALID_FRAGMENT_NO = 0xFF;
+        static constexpr uint8_t INVALID_FRAGMENT_NO = 0xFF;
 
         uint8_t GetStreamID() const;
         uint16_t GetPacketNumber() const;
@@ -668,7 +674,7 @@ namespace teamtalk {
 
         uint16_t GetFragmentNo() const;
         uint16_t GetFragmentCount() const;
-        static const uint16_t INVALID_FRAGMENT_NO = 0xFFFF;
+        static constexpr uint16_t INVALID_FRAGMENT_NO = 0xFFFF;
 
         bool GetVideoInfo(uint16_t& width, uint16_t& height) const;
 
@@ -766,10 +772,10 @@ namespace teamtalk {
 
         const char* GetBlock(uint16_t block_no, uint16_t& length) const;
         
-        static const uint16_t INVALID_PACKET_INDEX = -1;
-        static const uint16_t BLOCKNO_INDEX_MAX = 0xFFF;
-        static const uint16_t BLOCKNUMS_MAX = 0x1000; // uint12 limit
-        static const uint16_t WIDTH_MAX = 0xFFFF, HEIGHT_MAX = 0xFFFF; // uint16
+        static constexpr uint16_t INVALID_PACKET_INDEX = -1;
+        static constexpr uint16_t BLOCKNO_INDEX_MAX = 0xFFF;
+        static constexpr uint16_t BLOCKNUMS_MAX = 0x1000; // uint12 limit
+        static constexpr uint16_t WIDTH_MAX = 0xFFFF, HEIGHT_MAX = 0xFFFF; // uint16
 
     private:
         uint16_t InitCommon(const map_block_t& blocks, 
@@ -801,28 +807,32 @@ namespace teamtalk {
     typedef std::shared_ptr< DesktopPacket > desktoppacket_t;
 
     //Calc the size of fields used
-#define DESKTOPPACKET_SESSIONUSAGE(new_session)                                 \
-    ((new_session? (FIELDVALUE_PREFIX + 10) : (FIELDVALUE_PREFIX + 5)))
-    //FIELDTYPE_SESSIONID_NEW | FIELDTYPE_SESSIONID_UPD
+    constexpr auto DESKTOPPACKET_SESSIONUSAGE(bool new_session)
+    {
+        //FIELDTYPE_SESSIONID_NEW | FIELDTYPE_SESSIONID_UPD
+        return new_session ? (FIELDVALUE_PREFIX + 10) : (FIELDVALUE_PREFIX + 5);
+    }
 
-#define DESKTOPPACKET_DATAUSAGE(blocks_cnt, frags_cnt)             \
-    (((blocks_cnt)? (FIELDVALUE_PREFIX + (blocks_cnt) * 3) + FIELDVALUE_PREFIX : 0) + \
-    ((frags_cnt)? (FIELDVALUE_PREFIX + (frags_cnt) * 4) + FIELDVALUE_PREFIX : 0))
-    //FIELDTYPE_BLOCKNUMS_AND_SIZES & FIELDTYPE_BLOCKS_DATA
-    //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES & FIELDTYPE_BLOCKS_FRAG_DATA
+    template<typename T1, typename T2>
+    constexpr auto DESKTOPPACKET_DATAUSAGE(T1 blocks_cnt, T2  frags_cnt)
+    {
+        //FIELDTYPE_BLOCKNUMS_AND_SIZES & FIELDTYPE_BLOCKS_DATA
+        //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES & FIELDTYPE_BLOCKS_FRAG_DATA
+        return ((blocks_cnt)? (FIELDVALUE_PREFIX + (blocks_cnt) * 3) + FIELDVALUE_PREFIX : 0) + ((frags_cnt)? (FIELDVALUE_PREFIX + (frags_cnt) * 4) + FIELDVALUE_PREFIX : 0);
+    }
 
-#define DESKTOPPACKET_BLOCKUSAGE(dup_blocks_cnt, total_blocks)               \
-    ((dup_blocks_cnt)? (FIELDVALUE_PREFIX +                                    \
-    (((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) % 8)?                       \
-        ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8 + 1) :               \
-        ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8))) : 0)
-    //FIELDTYPE_BLOCK_DUP
+    template<typename T1, typename T2>
+    constexpr auto DESKTOPPACKET_BLOCKUSAGE(T1 dup_blocks_cnt, T2  total_blocks)
+    {
+        //FIELDTYPE_BLOCK_DUP
+        return ((dup_blocks_cnt)? (FIELDVALUE_PREFIX + (((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) % 8) ? ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8 + 1) : ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8))) : 0);
+    }
 
-#define DESKTOPPACKET_BLOCKRANGEUSAGE(block_range_cnt)                       \
-    ((block_range_cnt)? (FIELDVALUE_PREFIX +                                   \
-    (((((block_range_cnt) * 3 * 12) % 8)? (((block_range_cnt) * 3 * 12) / 8 + 1) : \
-    ((block_range_cnt) * 3 * 12) / 8))) : 0)
-    //FIELDTYPE_BLOCK_DUP_RANGE
+    template<typename T>
+    constexpr auto DESKTOPPACKET_BLOCKRANGEUSAGE(T block_range_cnt) {
+        //FIELDTYPE_BLOCK_DUP_RANGE
+        return ((block_range_cnt)? (FIELDVALUE_PREFIX + (((((block_range_cnt) * 3 * 12) % 8)? (((block_range_cnt) * 3 * 12) / 8 + 1) :     ((block_range_cnt) * 3 * 12) / 8))) : 0);
+    }
 
     
     //packetno -> packetno
@@ -1014,9 +1024,9 @@ namespace teamtalk {
     };
 
 
-#ifdef ENABLE_ENCRYPTION
+#if defined(ENABLE_ENCRYPTION)
 
-#define CRYPTKEY_SIZE 32
+    constexpr auto  CRYPTKEY_SIZE = 32;
 
     template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
     class CryptPacket : public FieldPacket

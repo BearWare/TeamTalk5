@@ -26,28 +26,28 @@
 
 #include <myace/MyACE.h>
 
-#define SPEEX_NB_MODE 0
-#define SPEEX_WB_MODE 1
-#define SPEEX_UWB_MODE 2
-#define SPEEX_NB_SAMPLERATE 8000
-#define SPEEX_WB_SAMPLERATE 16000
-#define SPEEX_UWB_SAMPLERATE 32000
-#define SPEEX_NB_FRAMESIZE 160
-#define SPEEX_WB_FRAMESIZE 320
-#define SPEEX_UWB_FRAMESIZE 640
-#define SPEEX_QUALITY_MIN 0
-#define SPEEX_QUALITY_MAX 10
-#define SPEEX_FRAME_MSEC_MIN 20
-#define SPEEX_FRAME_MSEC_MAX 1000
+constexpr auto SPEEX_NB_MODE = 0;
+constexpr auto SPEEX_WB_MODE = 1;
+constexpr auto SPEEX_UWB_MODE = 2;
+constexpr auto SPEEX_NB_SAMPLERATE = 8000;
+constexpr auto SPEEX_WB_SAMPLERATE = 16000;
+constexpr auto SPEEX_UWB_SAMPLERATE = 32000;
+constexpr auto SPEEX_NB_FRAMESIZE = 160;
+constexpr auto SPEEX_WB_FRAMESIZE = 320;
+constexpr auto SPEEX_UWB_FRAMESIZE = 640;
+constexpr auto SPEEX_QUALITY_MIN = 0;
+constexpr auto SPEEX_QUALITY_MAX = 10;
+constexpr auto SPEEX_FRAME_MSEC_MIN = 20;
+constexpr auto SPEEX_FRAME_MSEC_MAX = 1000;
 
-#define OPUS_FRAME_MSEC_MIN 2
-#define OPUS_FRAME_MSEC_MAX 120
-#define OPUS_SAMPLERATE_MIN 8000
-#define OPUS_SAMPLERATE_MAX 48000
-#define OPUS_BITRATE_MIN 6000     /* Remember to updated DLL header file when modifying this */
-#define OPUS_BITRATE_MAX 512000   /* Remember to updated DLL header file when modifying this */
+constexpr auto OPUS_FRAME_MSEC_MIN = 2;
+constexpr auto OPUS_FRAME_MSEC_MAX = 120;
+constexpr auto OPUS_SAMPLERATE_MIN = 8000;
+constexpr auto OPUS_SAMPLERATE_MAX = 48000;
+constexpr auto OPUS_BITRATE_MIN = 6000     /* Remember to updated DLL header file when modifying this */;
+constexpr auto OPUS_BITRATE_MAX = 512000   /* Remember to updated DLL header file when modifying this */;
 
-#define AUDIOPACKET_DURATION_MSEC_MAX 1000
+constexpr auto AUDIOPACKET_DURATION_MSEC_MAX = 1000;
 
 namespace teamtalk
 {

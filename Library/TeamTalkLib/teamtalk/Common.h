@@ -711,10 +711,10 @@ namespace teamtalk {
     std::vector<uint16_t> ConvertFrameSizes(const std::vector<int>& in);
     int SumFrameSizes(const std::vector<int>& in);
 
-#define TRANSMITUSERS_FREEFORALL 0xFFF
+constexpr auto TRANSMITUSERS_FREEFORALL = 0xFFF;
 
-#define PACKETNO_GEQ(a,b) ((int16_t)((a)-(b)) >= 0)
-#define STREAMID_GT(a,b) ((int8_t)((a)-(b)) > 0)
-#define SESSIONID_GEQ(a,b) ((int8_t)((a)-(b)) >= 0)
+constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return ((int16_t)((a)-(b)) >= 0); }
+constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) > 0); }
+constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) >= 0); }
 }
 #endif

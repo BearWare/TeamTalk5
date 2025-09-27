@@ -27,7 +27,7 @@
 #include <settings/Settings.h>
 #include <teamtalk/Common.h>
 
-#define TEAMTALK_XML_VERSION                    "5.3"
+constexpr auto TEAMTALK_XML_VERSION = "5.3";
 
 namespace teamtalk {
 
