@@ -143,7 +143,7 @@ void aceSingletons()
 #endif /* ENABLE_ENCRYPTION */
 }
 
-int HttpGetRequest(const ACE_CString& url, std::string& result)
+int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     aceSingletons();
 
@@ -158,22 +158,26 @@ int HttpGetRequest(const ACE_CString& url, std::string& result)
     oss << urlin->rdbuf();
     result = oss.str();
 
-    ACE::HTTP::Status status = http.response().get_status();
+    ACE::HTTP::Status httpCode = http.response().get_status();
 #if defined(UNICODE)
     MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
-    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
+    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
+    if (statusCode)
+        *statusCode = httpCode.get_status();
 
-    if (!status.is_valid() || status.get_status() == ACE::HTTP::Status::HTTP_NONE ||
-        status.get_status() >= ACE::HTTP::Status::HTTP_INTERNAL_SERVER_ERROR)
+    if (!httpCode.is_valid() || httpCode.get_status() == ACE::HTTP::Status::HTTP_NONE ||
+        httpCode.get_status() >= ACE::HTTP::Status::HTTP_INTERNAL_SERVER_ERROR)
         return -1;
 
-    return status.is_ok() ? 1 : 0;
+    return httpCode.is_ok() ? 1 : 0;
 }
 
-int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std::map<std::string, std::string>& headers, std::string& result)
+int HttpPostRequest(const ACE_CString& url, const char* data, int len,
+                    const std::map<std::string, std::string>& headers,
+                    std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     aceSingletons();
 
@@ -269,9 +273,11 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std
     ostringstream oss;
     oss << urlin->rdbuf();
     result = oss.str();
-    ACE::HTTP::Status status = http.response().get_status();
+    auto httpCode = http.response().get_status();
+    if (statusCode)
+        *statusCode = httpCode.get_status();
 
-    return status.is_ok() ? 1 : 0;
+    return httpCode.is_ok() ? 1 : 0;
 }
 
 

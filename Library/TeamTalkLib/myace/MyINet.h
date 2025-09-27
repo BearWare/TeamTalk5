@@ -25,6 +25,7 @@
 #define MYINET_H
 
 #include <ace/INET_Addr.h>
+#include <ace/INet/HTTP_Status.h>
 #include <ace/SString.h>
 #include <map>
 #include <string>
@@ -32,8 +33,10 @@
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
 
-int HttpGetRequest(const ACE_CString& url, std::string& result);
-int HttpPostRequest(const ACE_CString& url, const char* data, int len, const std::map<std::string,std::string>& headers, std::string& result);
+int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
+int HttpPostRequest(const ACE_CString& url, const char* data, int len,
+                    const std::map<std::string,std::string>& headers,
+                    std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
 std::string URLEncode(const std::string& utf8);
 
 ACE_TString InetAddrToString(const ACE_INET_Addr& addr);

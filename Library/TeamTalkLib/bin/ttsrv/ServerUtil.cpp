@@ -218,14 +218,22 @@ WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TStrin
     url += "&username=" + URLEncode(usernameUtf8.c_str());
     url += "&token=" + URLEncode(tokenUtf8.c_str());
     url += "&accesstoken=proserver";
+    ACE::HTTP::Status::Code httpCode = ACE::HTTP::Status::INVALID;
     std::string utf8;
-    switch (HttpGetRequest(url.c_str(), utf8))
+    switch (HttpGetRequest(url.c_str(), utf8, &httpCode))
     {
     default :
     case -1 :
         return WEBLOGIN_SERVER_UNAVAILABLE;
     case 0 :
-        return WEBLOGIN_FAILED;
+        switch (httpCode)
+        {
+        case ACE::HTTP::Status::HTTP_UNAUTHORIZED :
+        case ACE::HTTP::Status::HTTP_PAYMENT_REQUIRED :
+            return WEBLOGIN_FAILED;
+        default :
+            return WEBLOGIN_SERVER_UNAVAILABLE;
+        }
     case 1 :
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if (xmldoc.Parse(utf8))
