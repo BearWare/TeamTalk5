@@ -31,7 +31,7 @@
 #include <map>
 #include <set>
 #include <list>
-#include <assert.h>
+#include <cassert>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/evp.h>
@@ -68,37 +68,35 @@ namespace teamtalk {
 #pragma error "Big endian not supported"
 #endif
 
+template<typename T1, typename T2>
+constexpr uint8_t* set_uint4(uint8_t* buf, T1 val1, T2 val2)
+{
+    assert(val1 <= 0xF);
+    assert(val2 <= 0xF);
+    buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);
+    return ++buf;
+}
 
-#define set_uint4(buf, val1, val2)                  \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xF);                        \
-        assert(val2 <= 0xF);                        \
-        buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);\
-    } while(0)
+template<typename T1, typename T2>
+constexpr const uint8_t* get_uint4(const uint8_t* buf, T1& val1, T2& val2)
+{
+    val1 = (buf[0] & 0xF);
+    val2 = (buf[0] >> 4);
+    return ++buf;
+}
 
-#define set_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        set_uint4(buf, val1, val2); ptr++;          \
-    } while(0)
+template<typename T1>
+constexpr uint8_t* set_uint8(uint8_t* buf, T1 val)
+{
+    *buf = val;
+    return ++buf;
+}
 
-#define get_uint4(buf, val1, val2)                  \
-    do {                                            \
-        val1 = (buf[0] & 0xF);                      \
-        val2 = (buf[0] >> 4);                       \
-    } while(0)
+constexpr auto get_uint8(const uint8_t* buf)
+{
+    return *buf;
+}
 
-#define get_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        get_uint4(buf, val1, val2); ptr += 1;       \
-    } while(0)
-
-#define set_uint8(buf, val) (*(uint8_t*)buf = val)
-#define set_uint8_ptr(buf, val, ptr)                \
-    do {                                            \
-        set_uint8(buf, val); ptr += 1;              \
-    } while(0)
-#define get_uint8(buf) *(const uint8_t*)(buf)
 #define get_uint8_ptr(val, buf, ptr) {val = get_uint8(buf); ptr += 1;}
 
 #define set_uint12(buf, val1)                       \
