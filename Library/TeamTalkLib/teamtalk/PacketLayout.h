@@ -92,12 +92,20 @@ constexpr uint8_t* set_uint8(uint8_t* buf, T1 val)
     return ++buf;
 }
 
-constexpr auto get_uint8(const uint8_t* buf)
+template<typename T1>
+constexpr const uint8_t* get_uint8_ptr(const uint8_t* buf, T1& val)
 {
-    return *buf;
+    val =  *buf;
+    return ++buf;
 }
 
-#define get_uint8_ptr(val, buf, ptr) {val = get_uint8(buf); ptr += 1;}
+constexpr auto get_uint8(const uint8_t* buf)
+{
+    uint8_t val = 0;
+    get_uint8_ptr(buf, val);
+    return val;
+}
+
 
 #define set_uint12(buf, val1)                       \
     do {                                            \

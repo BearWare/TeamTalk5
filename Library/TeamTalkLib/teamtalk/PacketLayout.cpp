@@ -711,7 +711,7 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
             get_uint16_ptr(packet_no, ptr, ptr);
             frag_no = INVALID_FRAGMENT_NO;
             return true;
@@ -720,10 +720,10 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
             get_uint16_ptr(packet_no, ptr, ptr);
             if(frag_cnt)
-                get_uint8_ptr(*frag_cnt, ptr, ptr); //this is frag count
+                ptr = get_uint8_ptr(ptr, *frag_cnt); //this is frag count
             frag_no = 0;
             return true;
         }
@@ -731,9 +731,9 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
             get_uint16_ptr(packet_no, ptr, ptr);
-            get_uint8_ptr(frag_no, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, frag_no);
             return true;
         }
         return false;
@@ -1015,7 +1015,7 @@ namespace teamtalk
             if(fragno || fragcnt)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
             get_uint32_ptr(u32, ptr, ptr);
             if(packet_no)
@@ -1032,7 +1032,7 @@ namespace teamtalk
                 sizeof(uint16_t) + (12+12) / 8)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
             get_uint32_ptr(u32, ptr, ptr);
             if(packet_no)
@@ -1058,7 +1058,7 @@ namespace teamtalk
             if(fragno || fragcnt || width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
             get_uint32_ptr(u32, ptr, ptr);
             if(packet_no)
@@ -1071,7 +1071,7 @@ namespace teamtalk
             if(width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
             get_uint32_ptr(u32, ptr, ptr);
             if(packet_no)
@@ -1091,7 +1091,7 @@ namespace teamtalk
             if(fragcnt || width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
             get_uint32_ptr(u32, ptr, ptr);
             if(packet_no)
@@ -2265,10 +2265,10 @@ namespace teamtalk
             const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
 
             uint8_t session_id = 0;
-            get_uint8_ptr(session_id, field_ptr, field_ptr);
+            field_ptr = get_uint8_ptr(field_ptr, session_id);
             field_size -= 1;
             uint8_t packetno = 0;
-            get_uint8_ptr(packetno, field_ptr, field_ptr);
+            field_ptr = get_uint8_ptr(field_ptr, packetno);
             field_size -= 1;
 
             while(field_size)
