@@ -28,7 +28,7 @@ Default Qt Client
 - Fixed answering "No" to quit application causing server disconnect
 - Windows updated to Qt 6.10.0 beta4
 - macOS changed to Qt 6.9.2 (still issues with VoiceOver)
-- macOS 12 (Monterey) is now minimum
+- Minimum supported macOS version is now 12 (Monterey)
 Android Client
 - Fixed UI overlap on Android 15 and above
 - Minimum supported Android version is now 5.0 (Lollipop)
