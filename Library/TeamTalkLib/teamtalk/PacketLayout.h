@@ -31,7 +31,7 @@
 #include <map>
 #include <set>
 #include <list>
-#include <assert.h>
+#include <cassert>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/evp.h>
@@ -68,206 +68,274 @@ namespace teamtalk {
 #pragma error "Big endian not supported"
 #endif
 
+template<typename T1, typename T2>
+constexpr uint8_t* set_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
+{
+    assert(val1 <= 0xF);
+    assert(val2 <= 0xF);
+    buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);
+    return buf += 1;
+}
 
-#define set_uint4(buf, val1, val2)                  \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xF);                        \
-        assert(val2 <= 0xF);                        \
-        buf[0] = (val1 & 0xF) | ((val2 & 0xF) << 4);\
-    } while(0)
+template<typename T1, typename T2>
+constexpr void set_uint4(uint8_t* buf, T1 val1, T2 val2)
+{
+    set_uint4_ptr(buf, val1, val2);
+}
 
-#define set_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        set_uint4(buf, val1, val2); ptr++;          \
-    } while(0)
+template<typename T1, typename T2>
+constexpr const uint8_t* get_uint4_ptr(const uint8_t* buf, T1& val1, T2& val2)
+{
+    val1 = (buf[0] & 0xF);
+    val2 = (buf[0] >> 4);
+    return buf += 1;
+}
 
-#define get_uint4(buf, val1, val2)                  \
-    do {                                            \
-        val1 = (buf[0] & 0xF);                      \
-        val2 = (buf[0] >> 4);                       \
-    } while(0)
+template<typename T1>
+constexpr uint8_t* set_uint8_ptr(uint8_t* buf, T1 val)
+{
+    *buf = val;
+    return buf += 1;
+}
 
-#define get_uint4_ptr(buf, val1, val2, ptr)         \
-    do {                                            \
-        get_uint4(buf, val1, val2); ptr += 1;       \
-    } while(0)
+template<typename T1>
+constexpr void set_uint8(uint8_t* buf, T1 val)
+{
+    set_uint8_ptr(buf, val);
+}
 
-#define set_uint8(buf, val) (*(uint8_t*)buf = val)
-#define set_uint8_ptr(buf, val, ptr)                \
-    do {                                            \
-        set_uint8(buf, val); ptr += 1;              \
-    } while(0)
-#define get_uint8(buf) *(const uint8_t*)(buf)
-#define get_uint8_ptr(val, buf, ptr) {val = get_uint8(buf); ptr += 1;}
+template<typename T1>
+constexpr const uint8_t* get_uint8_ptr(const uint8_t* buf, T1& val)
+{
+    val = *buf;
+    return buf += 1;
+}
 
-#define set_uint12(buf, val1)                       \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xFFF);                      \
-        (buf)[0] = (char)(val1 & 0xFF);             \
-        (buf)[1] = (char)((val1 >> 8) & 0xF);       \
-    } while(0)
+constexpr auto get_uint8(const uint8_t* buf)
+{
+    uint8_t val = 0;
+    get_uint8_ptr(buf, val);
+    return val;
+}
 
-#define set_uint12_ptr(buf, val1, ptr)              \
-    do {                                            \
-        set_uint12(buf, val1);                      \
-        ptr += 2;                                   \
-    } while(0)
+template<typename T1>
+constexpr uint8_t* set_uint12_ptr(uint8_t* buf, T1 val1)
+{
+    assert(val1 <= 0xFFF);
+    buf[0] = static_cast<char>(val1 & 0xFF);
+    buf[1] = static_cast<char>((val1 >> 8) & 0xF);
+    return buf += 2;
+}
 
-#define set2_uint12(buf, val1, val2)                \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xFFF);                      \
-        assert(val2 <= 0xFFF);                      \
-        (buf)[0] = (char)(val1 & 0xFF);             \
-        (buf)[1] = (char)((val1 >> 8) & 0xF);       \
-        (buf)[1] |= (char)((val2 & 0xF) << 4);      \
-        (buf)[2] = (char)((val2 >> 4) & 0xFF);      \
-    } while(0)
+template<typename T1>
+constexpr void set_uint12(uint8_t* buf, T1 val1)
+{
+    set_uint12_ptr(buf, val1);
+}
 
-#define set2_uint12_ptr(buf, val1, val2, ptr)       \
-    do {                                            \
-        set2_uint12(buf, val1, val2);               \
-        ptr += 3;                                   \
-    } while(0)
+template<typename T1, typename T2>
+constexpr uint8_t* set2_uint12_ptr(uint8_t* buf, T1 val1, T2 val2)
+{
+    assert(val1 <= 0xFFF);
+    assert(val2 <= 0xFFF);
+    buf[0] = static_cast<char>(val1 & 0xFF);
+    buf[1] = static_cast<char>((val1 >> 8) & 0xF);
+    buf[1] |= static_cast<char>((val2 & 0xF) << 4);
+    buf[2] = static_cast<char>((val2 >> 4) & 0xFF);
+    return buf += 3;
+}
 
-#define get_uint12(buf, val1)                       \
-    do {                                            \
-       val1 = ((buf)[0] | ((buf[1] & 0xF) << 8));     \
-    } while(0)
+template<typename T1, typename T2>
+constexpr void set2_uint12(uint8_t* buf, T1 val1, T2 val2)
+{
+    set2_uint12_ptr(buf, val1, val2);
+}
 
-#define get_uint12_ptr(buf, val1, ptr)              \
-    do {                                            \
-        get_uint12(buf, val1);                      \
-        ptr += 2;                                   \
-    } while(0)
+template<typename T1>
+constexpr const uint8_t* get_uint12_ptr(const uint8_t* buf, T1& val1)
+{
+    val1 = buf[0] | ((buf[1] & 0xF) << 8);
+    return buf += 2;
+}
 
-#define get2_uint12(buf, val1, val2)                \
-    do {                                            \
-       val1 = (buf[0] | ((buf[1] & 0xF) << 8));     \
-       val2 = ((buf[1] >> 4) | (buf[2] << 4));      \
-    } while(0)
+template<typename T1>
+constexpr T1 get_uint12(const uint8_t* buf, T1& val1)
+{
+    get_uint12_ptr(buf, val1);
+    return val1;
+}
 
-#define get2_uint12_ptr(buf, val1, val2, ptr)       \
-    do {                                            \
-        get2_uint12(buf, val1, val2);               \
-        ptr += 3;                                   \
-    } while(0)
+template<typename T1, typename T2>
+constexpr const uint8_t* get2_uint12_ptr(const uint8_t* buf, T1& val1, T2& val2)
+{
+    val1 = (buf[0] | ((buf[1] & 0xF) << 8));
+    val2 = ((buf[1] >> 4) | (buf[2] << 4));
+    return buf += 3;
+}
 
-#define set_uint12_uint4(buf, val1, val2)           \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(val1 <= 0xFFF);                      \
-        assert(val2 <= 0xF);                        \
-        (buf)[0] = (char)(val1 & 0xFF);             \
-        (buf)[1] = (char)((val1 >> 8) & 0xF);       \
-        (buf)[1] |= (char)((val2 & 0xF) << 4);      \
-    } while(0)
+template<typename T1, typename T2>
+constexpr void get2_uint12(const uint8_t* buf, T1& val1, T2& val2)
+{
+    get2_uint12_ptr(buf, val1, val2);
+}
 
-#define set_uint12_uint4_ptr(buf, val1, val2, ptr)  \
-    do {                                            \
-        set_uint12_uint4(buf, val1, val2);          \
-        ptr += 2;                                   \
-    } while(0)
+template<typename T1, typename T2>
+constexpr uint8_t* set_uint12_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
+{
+    assert(val1 <= 0xFFF);
+    assert(val2 <= 0xF);
+    buf[0] = static_cast<char>(val1 & 0xFF);
+    buf[1] = static_cast<char>((val1 >> 8) & 0xF);
+    buf[1] |= static_cast<char>((val2 & 0xF) << 4);
+    return buf += 2;
+}
 
-#define get_uint12_uint4(buf, val1, val2)           \
-    do {                                            \
-       val1 = (buf[0] | ((buf[1] & 0xF) << 8));     \
-       val2 = (buf[1] >> 4);                        \
-    } while(0)
+template<typename T1, typename T2>
+constexpr void set_uint12_uint4(uint8_t* buf, T1 val1, T2 val2)
+{
+    set_uint12_uint4_ptr(buf, val1, val2);
+}
 
-#define get_uint12_uint4_ptr(buf, val1, val2, ptr)  \
-    do {                                            \
-        get_uint12_uint4(buf, val1, val2);          \
-        ptr += 2;                                   \
-    } while(0)
+template<typename T1, typename T2>
+constexpr const uint8_t* get_uint12_uint4_ptr(const uint8_t* buf, T1& val1, T2& val2)
+{
+    val1 = buf[0] | ((buf[1] & 0xF) << 8);
+    val2 = buf[1] >> 4;
+    return buf += 2;
+}
 
-#define set_uint16(buf, val)                        \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert((int)val <= 0xFFFF);                 \
-        (buf)[0] = (char)(val & 0xFF);              \
-        (buf)[1] = (char)(val >> 8);                \
-    } while(0)
+template<typename T1, typename T2>
+constexpr void get_uint12_uint4(const uint8_t* buf, T1& val1, T2& val2)
+{
+    get_uint12_uint4_ptr(buf, val1, val2);
+}
 
-#define set_uint16_ptr(buf, val, ptr)               \
-    do {                                            \
-        set_uint16(buf, val); ptr += 2;             \
-    } while(0)
+template<typename T1>
+constexpr uint8_t* set_uint16_ptr(uint8_t* buf, T1 val)
+{
+    assert((int)val <= 0xFFFF);
+    buf[0] = static_cast<char>(val & 0xFF);
+    buf[1] = static_cast<char>(val >> 8);
+    return buf += 2;
+}
 
-#define get_uint16(buf) (((uint16_t)((const uint8_t*)buf)[1] << 8) |    \
-                        ((uint16_t)((const uint8_t*)buf)[0]))
+template<typename T1>
+constexpr void set_uint16(uint8_t* buf, T1 val)
+{
+    set_uint16_ptr(buf, val);
+}
 
-#define get_uint16_ptr(val, buf, ptr) {val = get_uint16(buf); ptr += 2;}
+constexpr const uint8_t* get_uint16_ptr(const uint8_t* buf, uint16_t& val)
+{
+    val = (static_cast<uint16_t>(buf[1]) << 8) |
+          static_cast<uint16_t>(buf[0]);
+    return buf += 2;
+}
 
-#define get_uint16_uint8(buf, val16, val8)                              \
-    do {                                                                \
-        val16 = (((uint16_t)((const uint8_t*)buf)[1] << 8) |            \
-                (uint16_t)((const uint8_t*)buf)[0]);                    \
-        val8 = (uint8_t)((const uint8_t*)buf)[2];                       \
-    } while(0)
+constexpr uint16_t get_uint16(const uint8_t* buf)
+{
+    uint16_t val = 0;
+    get_uint16_ptr(buf, val);
+    return val;
+}
+
+template<typename T1, typename T2>
+constexpr const uint8_t* get_uint16_uint8_ptr(const uint8_t* buf, T1& val16, T2& val8)
+{
+    val16 = (static_cast<uint16_t>(buf[1]) << 8) |
+            static_cast<uint16_t>(buf[0]);
+    val8 = buf[2];
+    return buf += 3;
+}
+
+template<typename T1>
+constexpr uint8_t* set_int32_ptr(uint8_t* buf, T1 val)
+{
+    assert(sizeof(val) == 4);
+    buf[0] = static_cast<char>(val & 0xFF);
+    buf[1] = static_cast<char>((val >> 8) & 0xFF);
+    buf[2] = static_cast<char>((val >> 16) & 0xFF);
+    buf[3] = static_cast<char>(val >> 24);
+    return buf += 4;
+}
+
+constexpr const uint8_t* get_int32_ptr(const uint8_t* buf, int32_t& val)
+{
+    val = (static_cast<int32_t>(buf[3]) << 24) |
+          (static_cast<int32_t>(buf[2]) << 16) |
+          (static_cast<int32_t>(buf[1]) << 8)  |
+          (static_cast<int32_t>(buf[0]));
+    return buf += 4;
+}
+
+constexpr int32_t get_int32(const uint8_t* buf)
+{
+    int32_t val = 0;
+    get_int32_ptr(buf, val);
+    return val;
+}
+
+template<typename T1>
+constexpr uint8_t* set_uint32_ptr(uint8_t* buf, T1 val)
+{
+    assert(sizeof(val) == 4);
+    buf[0] = static_cast<char>(val & 0xFF);
+    buf[1] = static_cast<char>((val >> 8) & 0xFF);
+    buf[2] = static_cast<char>((val >> 16) & 0xFF);
+    buf[3] = static_cast<char>(val >> 24);
+    return buf += 4;
+}
+
+template<typename T1>
+constexpr void set_uint32(uint8_t* buf, T1 val)
+{
+    set_uint32_ptr(buf, val);
+}
 
 
-#define set_int32(buf, val)                         \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(sizeof(val) == 4);                   \
-        (buf)[0] = (char)(val & 0xFF);              \
-        (buf)[1] = (char)((val >> 8) & 0xFF);       \
-        (buf)[2] = (char)((val >> 16) & 0xFF);      \
-        (buf)[3] = (char)(val >> 24);               \
-    }while(0)
+template<typename T1>
+constexpr const uint8_t* get_uint32_ptr(const uint8_t* buf, T1& val)
+{
+    val = (static_cast<uint32_t>(buf[3]) << 24) |
+          (static_cast<uint32_t>(buf[2]) << 16) |
+          (static_cast<uint32_t>(buf[1]) << 8)  |
+          (static_cast<uint32_t>(buf[0]));
+    return buf += 4;
+}
 
-#define get_int32(buf) (((int32_t)((const uint8_t*)buf)[3] << 24) | \
-                        ((int32_t)((const uint8_t*)buf)[2] << 16) | \
-                        ((int32_t)((const uint8_t*)buf)[1] << 8)  | \
-                        ((int32_t)((const uint8_t*)buf)[0]))
+constexpr uint32_t get_uint32(const uint8_t* buf)
+{
+    uint32_t val = 0;
+    get_uint32_ptr(buf, val);
+    return val;
+}
 
-#define set_uint32(buf, val)                        \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(sizeof(val) == 4);                   \
-        (buf)[0] = (char)(val & 0xFF);              \
-        (buf)[1] = (char)((val >> 8) & 0xFF);       \
-        (buf)[2] = (char)((val >> 16) & 0xFF);      \
-        (buf)[3] = (char)(val >> 24);               \
-    }while(0)
+constexpr uint8_t* set_int64_ptr(uint8_t* buf, int64_t val)
+{
+    assert(sizeof(val) == 8);
+    buf[0] = static_cast<char>(val & 0xFF);
+    buf[1] = static_cast<char>((val >> 8) & 0xFF);
+    buf[2] = static_cast<char>((val >> 16) & 0xFF);
+    buf[3] = static_cast<char>((val >> 24) & 0xFF);
+    buf[4] = static_cast<char>((val >> 32) & 0xFF);
+    buf[5] = static_cast<char>((val >> 40) & 0xFF);
+    buf[6] = static_cast<char>((val >> 48) & 0xFF);
+    buf[7] = static_cast<char>(val >> 56);
+    return buf += 8;
+}
 
-#define set_uint32_ptr(buf, val, ptr)               \
-    do {                                            \
-        set_uint32(buf, val); ptr += 4;             \
-    } while(0)
-
-#define get_uint32(buf) (((uint32_t)((const uint8_t*)buf)[3] << 24) | \
-                         ((uint32_t)((const uint8_t*)buf)[2] << 16) | \
-                         ((uint32_t)((const uint8_t*)buf)[1] << 8)  | \
-                         ((uint32_t)((const uint8_t*)buf)[0]))
-
-#define get_uint32_ptr(val, buf, ptr) {val = get_uint32(buf); ptr += 4; }
-
-#define set_int64(buf, val)                         \
-    do {                                            \
-        assert(sizeof((buf)[0]) == 1);              \
-        assert(sizeof(val) == 8);                   \
-        (buf)[0] = (char)(val & 0xFF);              \
-        (buf)[1] = (char)((val >> 8) & 0xFF);       \
-        (buf)[2] = (char)((val >> 16) & 0xFF);      \
-        (buf)[3] = (char)((val >> 24) & 0xFF);      \
-        (buf)[4] = (char)((val >> 32) & 0xFF);      \
-        (buf)[5] = (char)((val >> 40) & 0xFF);      \
-        (buf)[6] = (char)((val >> 48) & 0xFF);      \
-        (buf)[7] = (char)(val >> 56);               \
-    }while(0)
-
-#define get_int64(buf) (((int64_t)((const uint8_t*)buf)[7] << 56) | \
-                        ((int64_t)((const uint8_t*)buf)[6] << 48) | \
-                        ((int64_t)((const uint8_t*)buf)[5] << 40) | \
-                        ((int64_t)((const uint8_t*)buf)[4] << 32) | \
-                        ((int64_t)((const uint8_t*)buf)[3] << 24) | \
-                        ((int64_t)((const uint8_t*)buf)[2] << 16) | \
-                        ((int64_t)((const uint8_t*)buf)[1] << 8)  | \
-                        ((int64_t)((const uint8_t*)buf)[0]))
+constexpr const uint8_t* get_int64_ptr(const uint8_t* buf, int64_t& val)
+{
+    val = (static_cast<int64_t>(buf[7]) << 56) |
+          (static_cast<int64_t>(buf[6]) << 48) |
+          (static_cast<int64_t>(buf[5]) << 40) |
+          (static_cast<int64_t>(buf[4]) << 32) |
+          (static_cast<int64_t>(buf[3]) << 24) |
+          (static_cast<int64_t>(buf[2]) << 16) |
+          (static_cast<int64_t>(buf[1]) << 8)  |
+          (static_cast<int64_t>(buf[0]));
+    return buf += 8;
+}
 
 
     /////////////////////////////////////
@@ -278,75 +346,110 @@ namespace teamtalk {
    and then DATA [LENGTH,TYPE,DATA....] */
 constexpr auto FIELDVALUE_PREFIX = 2;
 
-#define WRITEFIELD_TYPE(buf, fieldtype, fieldsize, ptr)                     \
-    do {                                                                    \
-    assert(sizeof(ptr[0]) == sizeof(uint8_t));                              \
-    assert(fieldsize >= 0 && fieldsize <= 0xFFF);                           \
-    set_uint12_uint4_ptr(buf, fieldsize, fieldtype, ptr);                   \
-    } while(0)
+template<typename FIELDTYPE, typename FIELDSIZE>
+constexpr uint8_t* WRITEFIELD_TYPE(uint8_t* buf, FIELDTYPE fieldtype, FIELDSIZE fieldsize)
+{
+    assert(fieldtype >= 0 && fieldtype <= 0xF);
+    assert(fieldsize >= 0 && fieldsize <= 0xFFF);
+    return set_uint12_uint4_ptr(buf, fieldsize, fieldtype);
+}
 
-#define WRITEFIELD_VALUE_U8(buf, fieldtype, value, ptr)                     \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint8_t), ptr);                  \
-    set_uint8(ptr, value); ptr += sizeof(uint8_t);                          \
-    } while(0)
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* WRITEFIELD_VALUE_U8(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint8_t));
+    return set_uint8_ptr(buf, value);
+}
 
-#define WRITEFIELD_VALUE_U16(buf, fieldtype, value, ptr)                    \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint16_t), ptr);                 \
-    set_uint16(ptr, value); ptr += sizeof(uint16_t);                        \
-    } while(0)
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* WRITEFIELD_VALUE_U16(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint16_t));
+    return set_uint16_ptr(buf, value);
+}
 
-#define WRITEFIELD_VALUE_U16_AND_U8(buf, fieldtype, val16, val8, ptr)           \
-    do {                                                                        \
-    WRITEFIELD_TYPE(buf, fieldtype, (sizeof(uint16_t) + sizeof(uint8_t)), ptr); \
-    set_uint16(ptr, val16); ptr += sizeof(uint16_t);                            \
-    set_uint8(ptr, val8); ptr += sizeof(uint8_t);                               \
-    } while(0)
+template<typename FIELDTYPE, typename T2, typename T3>
+constexpr uint8_t* WRITEFIELD_VALUE_U16_AND_U8(uint8_t* buf, FIELDTYPE fieldtype, T2 val16, T3 val8)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, (sizeof(uint16_t) + sizeof(uint8_t)));
+    buf = set_uint16_ptr(buf, val16);
+    buf = set_uint8_ptr(buf, val8);
+    return buf;
+}
 
-#define WRITEFIELD_VALUE_I32(buf, fieldtype, value, ptr)                    \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, sizeof(int32_t), ptr);                  \
-    set_int32(ptr, value); ptr += sizeof(int32_t);                          \
-    } while(0)
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* WRITEFIELD_VALUE_I32(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(int32_t));
+    buf = set_int32_ptr(buf, value);
+    return buf;
+}
 
-#define WRITEFIELD_VALUE_U32(buf, fieldtype, value, ptr)                    \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint32_t), ptr);                 \
-    set_uint32(ptr, value); ptr += sizeof(uint32_t);                        \
-    } while(0)
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* WRITEFIELD_VALUE_U32(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint32_t));
+    return set_uint32_ptr(buf, value);
+}
 
-#define WRITEFIELD_VALUE_I64(buf, fieldtype, value, ptr)                    \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, sizeof(int64_t), ptr);                  \
-    set_int64(ptr, value); ptr += sizeof(int64_t);                          \
-    } while(0)
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* WRITEFIELD_VALUE_I64(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(int64_t));
+    buf = set_int64_ptr(buf, value);
+    return buf;
+}
 
-#define WRITEFIELD_DATA(buf, fieldtype, data, size, ptr)                    \
-    do {                                                                    \
-    WRITEFIELD_TYPE(buf, fieldtype, size, ptr);                             \
-    memcpy(ptr, data, size); ptr += size;                                   \
-    } while(0)
+template<typename FIELDTYPE, typename T2, typename T3>
+constexpr uint8_t* WRITEFIELD_DATA(uint8_t* buf, FIELDTYPE fieldtype, T2 data, T3 size)
+{
+    buf = WRITEFIELD_TYPE(buf, fieldtype, size);
+    memcpy(buf, data, size);
+    buf += size;
+    return buf;
+}
 
-#define READFIELD_TYPE(buf) (get_uint16(buf) >> 12)
-#define READFIELD_SIZE(buf) (get_uint16(buf) & 0xFFF)
-#define READFIELD_DATAPTR(buf) (buf + FIELDVALUE_PREFIX)
+constexpr uint16_t READFIELD_TYPE(const uint8_t* buf)
+{
+    return get_uint16(buf) >> 12;
+}
 
-#define FINDFIELD_TYPE(buf, fieldtype, buf_size, ptr)                       \
-    do {                                                                    \
-    const uint8_t* buf_start = buf;                                         \
-    ptr = buf;                                                              \
-    while(ptr < buf_start + buf_size) {                                     \
-      uint8_t new_field = READFIELD_TYPE(ptr);                              \
-      if(new_field != fieldtype) {                                          \
-            ptr += FIELDVALUE_PREFIX + READFIELD_SIZE(ptr);                 \
-            continue;                                                       \
-      }                                                                     \
-      break;                                                                \
-    }                                                                       \
-    ptr = (ptr >= buf_start + buf_size ||                                   \
-        ptr + READFIELD_SIZE(ptr) >= buf_start + buf_size)? 0 : ptr;        \
-    } while(0)
+constexpr uint16_t READFIELD_SIZE(const uint8_t* buf)
+{
+    return get_uint16(buf) & 0xFFF;
+}
+
+constexpr uint8_t* READFIELD_DATAPTR(uint8_t* buf)
+{
+    return buf + FIELDVALUE_PREFIX;
+}
+
+constexpr const uint8_t* READFIELD_DATAPTR(const uint8_t* buf)
+{
+    return buf + FIELDVALUE_PREFIX;
+}
+
+template<typename FIELDTYPE, typename T2>
+constexpr const uint8_t* FINDFIELD_TYPE(const uint8_t* buf, FIELDTYPE fieldtype, T2 buf_size)
+{
+    const uint8_t* buf_start = buf;
+    while (buf < buf_start + buf_size) {
+        uint8_t new_field = READFIELD_TYPE(buf);
+        if (new_field != fieldtype) {
+            buf += FIELDVALUE_PREFIX + READFIELD_SIZE(buf);
+            continue;
+        }
+        break;
+    }
+    buf = (buf >= buf_start + buf_size || buf + READFIELD_SIZE(buf) >= buf_start + buf_size)? nullptr : buf;
+    return buf;
+}
+
+template<typename FIELDTYPE, typename T2>
+constexpr uint8_t* FINDFIELD_TYPE(uint8_t* buf, FIELDTYPE fieldtype, T2 buf_size)
+{
+    return const_cast<uint8_t*>(FINDFIELD_TYPE(static_cast<const uint8_t*>(buf), fieldtype, buf_size));
+}
 
     //packet kinds
     enum PacketKind
@@ -456,7 +559,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 #endif
 
     protected:
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with sub-classed packet */
             /* New fields here to be compatible */
@@ -488,7 +591,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint8_t GetProtocol() const;
 
     private:
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with parent class packet */
             FIELDTYPE_PROTOCOL = FIELDTYPE_LAST+1, //uint16_t
@@ -517,7 +620,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t GetPayloadSize() const;
 
     private:
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with parent class packet */
             FIELDTYPE_PAYLOAD = FIELDTYPE_LAST+1, //uint16_t
@@ -588,7 +691,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         AudioPacket(const FieldPacket& packet);
         AudioPacket(const AudioPacket& packet);
 
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with parent class packet */
             FIELDTYPE_STREAMID_PKTNUM = FIELDTYPE_LAST+1, //uint8_t, uint16_t
@@ -674,7 +777,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
         const char* GetEncodedData(uint16_t& packet_bytes) const;
 
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with parent class packet */
             FIELDTYPE_STREAMID_PKTNUM_VIDINFO = FIELDTYPE_LAST+1, //[uint8_t,uint32_t,uint12_t,uint12_t]
@@ -776,7 +879,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
                             const block_frags_t& fragments,
                             const mmap_dup_blocks_t& dup_blocks);
 
-        enum
+        enum : uint8_t
         {
             /* FIELDTYPE must NOT conflict with parent class packet */
             //(total blocks not needed since it can be calc'ed from width-height)
@@ -866,7 +969,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         void InitCommon(const std::set<uint16_t>& packets_ack,
                         const packet_range_t& packet_range_ack);
 
-        enum
+        enum : uint8_t
         {
             //[sessionid(uint8_t), userid(uint16_t), time_ack(uint32_t)]
             FIELDTYPE_SESSIONID_ACK = FIELDTYPE_LAST+1,
@@ -894,7 +997,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint8_t GetSessionID() const;
 
     private:
-       enum
+       enum : uint8_t
         {
             //[sessionid(uint8_t)]
             FIELDTYPE_SESSIONID_NAK = FIELDTYPE_LAST+1,
@@ -945,7 +1048,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t GetDestUserID() const;
 
     private:
-       enum
+       enum : uint8_t
         {
             //[sessionid(uint8_t), x(uint16_t), y(uint16_t)]
             FIELDTYPE_MY_CURSORPOS = FIELDTYPE_LAST+1,
@@ -980,7 +1083,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
     private:
 
-       enum
+       enum : uint8_t
         {
             //[sessionid(uint8_t), packetno(uint8_t), [[x(uint16_t), y(uint16_t), keycode(uint32_t), keystate(uint32_t)], ...
             FIELDTYPE_REMOTE_INPUT = FIELDTYPE_LAST+1, //send input to remote desktop
@@ -1010,7 +1113,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint8_t GetPacketNo(bool* found = NULL) const;
 
     private:
-       enum
+       enum : uint8_t
         {
             //[sessionid(uint8_t), packetno(uint8_t)]
             FIELDTYPE_DESKTOPINPUT_ACK = FIELDTYPE_LAST+1,
@@ -1032,7 +1135,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
         std::unique_ptr< PACKETTYPE > Decrypt(const uint8_t* decryptkey) const;
 
-        enum
+        enum : uint8_t
         {
             FIELDTYPE_CRYPTDATA = FIELDTYPE_LAST+1,
         };

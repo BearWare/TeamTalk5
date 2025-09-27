@@ -58,9 +58,9 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
 
     const EVP_CIPHER* cf = EVP_aes_256_cbc();
     int alloc_size = FIELDVALUE_PREFIX + data_len + 2 /*crc16*/ + EVP_CIPHER_block_size(cf);
-    char* field_buf;
-    ACE_NEW(field_buf, char[alloc_size]);
-    char* encrypt_buf = &field_buf[FIELDVALUE_PREFIX]; //make room for field-prefix
+    uint8_t* field_buf;
+    ACE_NEW(field_buf, uint8_t[alloc_size]);
+    uint8_t* encrypt_buf = &field_buf[FIELDVALUE_PREFIX]; //make room for field-prefix
 
     assert(alloc_size - FIELDVALUE_PREFIX >= data_len + 2 /*crc16*/ + EVP_CIPHER_block_size(cf));
 
@@ -117,11 +117,11 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
     //        encrypt_len, ACE::crc32(cryptkey, CRYPTKEY_SIZE), 
     //        ACE::crc32(encrypt_buf, encrypt_len));
 
-    char* ptr = field_buf;
-    WRITEFIELD_TYPE(field_buf, FIELDTYPE_CRYPTDATA, encrypt_len, ptr);
+    uint8_t* ptr = field_buf;
+    ptr = WRITEFIELD_TYPE(field_buf, FIELDTYPE_CRYPTDATA, encrypt_len);
 
     iovec v;
-    v.iov_base = field_buf;
+    v.iov_base = reinterpret_cast<char*>(field_buf);
     v.iov_len = FIELDVALUE_PREFIX + encrypt_len;
 
     m_iovec.push_back(v);
@@ -149,9 +149,9 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     //        ACE::crc32(encrypt_ptr, encrypt_len));
 
     const EVP_CIPHER* cf = EVP_aes_256_cbc();
-    char* decrypt_buf;
+    uint8_t* decrypt_buf;
     int alloc_size = encrypt_len + EVP_CIPHER_block_size(cf);
-    ACE_NEW_RETURN(decrypt_buf, char[alloc_size], NULL);
+    ACE_NEW_RETURN(decrypt_buf, uint8_t[alloc_size], NULL);
 
     int status = 0;
     int decrypt_len = 0, tmpLen = 0;
@@ -174,7 +174,7 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     assert(decrypt_len <= alloc_size);
 
     //crc16 is last 2 bytes of decrypted data chunk
-    const char* ptr = decrypt_buf;
+    const uint8_t* ptr = decrypt_buf;
     ptr += decrypt_len - 2;
     uint32_t crc32 = ACE::crc32(decrypt_buf, decrypt_len - 2);
     uint16_t crc16 = crc32 & 0xFFFF;
@@ -185,7 +185,7 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
         return decrypt_pkt_t();
     }
     iovec v;
-    v.iov_base = decrypt_buf;
+    v.iov_base = reinterpret_cast<char*>(decrypt_buf);
     v.iov_len = decrypt_len - 2;
 
     decrypt_pkt_t p(new (std::nothrow) PACKETTYPE(PACKET_KIND_DECRYPTED, *this, v));

@@ -44,12 +44,12 @@ namespace teamtalk
         {
             if(source.size()-i >= 2)
             {
-                set2_uint12_ptr(target_ptr, source[i], source[i+1], target_ptr);
+                target_ptr = set2_uint12_ptr(target_ptr, source[i], source[i+1]);
                 i += 2;
             }
             else
             {
-                set_uint12_ptr(target_ptr, source[i], target_ptr);
+                target_ptr = set_uint12_ptr(target_ptr, source[i]);
                 i += 1;
             }
         }
@@ -114,8 +114,7 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        WRITEFIELD_DATA(data_ptr, field_type, &field_data[0],
-            field_data.size(), data_ptr);
+        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, &field_data[0], field_data.size());
 
         assert(alloc_size == data_ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         out_iovec.push_back(v);
@@ -144,7 +143,7 @@ namespace teamtalk
         std::vector<uint8_t> field_data(input.size()*sizeof(uint16_t));
         uint8_t* field_ptr = &field_data[0];
         for(size_t i=0;i<input.size();i++)
-            set_uint16_ptr(field_ptr, input[i], field_ptr);
+            field_ptr = set_uint16_ptr(field_ptr, input[i]);
 
         //new field
         int alloc_size = 0;
@@ -158,8 +157,7 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        WRITEFIELD_DATA(data_ptr, field_type, &field_data[0],
-                        field_data.size(), data_ptr);
+        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, &field_data[0], field_data.size());
 
         assert(alloc_size == data_ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         out_iovec.push_back(v);
@@ -450,7 +448,7 @@ namespace teamtalk
 
     uint8_t* FieldPacket::FindField_NonConst(uint8_t fieldtype) const
     {
-        uint8_t* ptr = NULL;
+        uint8_t* ptr = nullptr;
         if(m_iovec.size())
         {
             if(GetPacketSize() == GetHdrSize(GetHdrType()))
@@ -459,13 +457,14 @@ namespace teamtalk
             int size = int(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
             size = m_iovec[0].iov_len - size;
             ptr = GetFieldsStart();
-            FINDFIELD_TYPE(ptr, fieldtype, size, ptr);
+            ptr = FINDFIELD_TYPE(ptr, fieldtype, size);
         }
         if(m_iovec.size() > 1 && !ptr)
         {
             for(size_t i=1;i<m_iovec.size() && !ptr;i++)
-                FINDFIELD_TYPE(reinterpret_cast<uint8_t*>(m_iovec[i].iov_base), 
-                    fieldtype, m_iovec[i].iov_len, ptr);
+            {
+                ptr = FINDFIELD_TYPE(reinterpret_cast<uint8_t*>(m_iovec[i].iov_base), fieldtype, m_iovec[i].iov_len);
+            }
         }
         return ptr;
     }
@@ -498,7 +497,7 @@ namespace teamtalk
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
 
-        WRITEFIELD_DATA(ptr, FIELDTYPE_PROTOCOL, &protocol[0], protocol.size(), ptr);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PROTOCOL, &protocol[0], protocol.size());
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
@@ -525,20 +524,20 @@ namespace teamtalk
                                uint16_t payload_size)
         : FieldPacket(PACKETHDR_CHANNEL_ONLY, PACKET_KIND_KEEPALIVE, src_userid, time)
     {
-        vector<char> payload(payload_size);
+        vector<uint8_t> payload(payload_size);
 
         int alloc_size = FIELDVALUE_PREFIX + payload_size; //FIELDTYPE_PAYLOAD
 
-        char* data_buf;
-        ACE_NEW(data_buf, char[alloc_size]);
+        uint8_t* data_buf;
+        ACE_NEW(data_buf, uint8_t[alloc_size]);
         
-        char* ptr = data_buf;
+        uint8_t* ptr = data_buf;
         iovec v;
-        v.iov_base = data_buf;
+        v.iov_base = reinterpret_cast<char*>(data_buf);
 
-        WRITEFIELD_DATA(ptr, FIELDTYPE_PAYLOAD, &payload[0], payload_size, ptr);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PAYLOAD, &payload[0], payload_size);
 
-        v.iov_len = (u_long)(ptr - static_cast<const char*>(v.iov_base));
+        v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
 
         assert(m_iovec.size());
@@ -635,32 +634,32 @@ namespace teamtalk
         uint8_t* ptr = data_buf;
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
-        WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_audio, enc_length, ptr);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_audio, enc_length);
 
         assert(!frag_cnt || !frag_no || frag_cnt && *frag_no == 0);
         uint8_t* field_buf_ptr = &stream_field[0];
         if(frag_cnt)
         {
-            set_uint8_ptr(field_buf_ptr, stream_id, field_buf_ptr);
-            set_uint16_ptr(field_buf_ptr, packet_no, field_buf_ptr);
-            set_uint8_ptr(field_buf_ptr, *frag_cnt, field_buf_ptr);
-            WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT, 
-                            &stream_field[0], stream_field.size(), ptr);
+            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
+            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
+            field_buf_ptr = set_uint8_ptr(field_buf_ptr, *frag_cnt);
+            ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT,
+                            &stream_field[0], stream_field.size());
         }
         else if(frag_no)
         {
-            set_uint8_ptr(field_buf_ptr, stream_id, field_buf_ptr);
-            set_uint16_ptr(field_buf_ptr, packet_no, field_buf_ptr);
-            set_uint8_ptr(field_buf_ptr, *frag_no, field_buf_ptr);
-            WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO, 
-                            &stream_field[0], stream_field.size(), ptr);
+            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
+            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
+            field_buf_ptr = set_uint8_ptr(field_buf_ptr, *frag_no);
+            ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO,
+                            &stream_field[0], stream_field.size());
         }
         else
         {
-            set_uint8_ptr(field_buf_ptr, stream_id, field_buf_ptr);
-            set_uint16_ptr(field_buf_ptr, packet_no, field_buf_ptr);
-            WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM, 
-                            &stream_field[0], stream_field.size(), ptr);
+            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
+            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
+            ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM,
+                                  &stream_field[0], stream_field.size());
         }
         
         if(enc_framesizes && enc_framesizes->size())
@@ -670,8 +669,8 @@ namespace teamtalk
             ConvertToUInt12Array(frm_sizes, enc_array);
             assert(enc_array.size() == enc_array_size);
 
-            WRITEFIELD_DATA(ptr, FIELDTYPE_ENCFRAMESIZES, 
-                            &enc_array[0], enc_array.size(), ptr);
+            ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCFRAMESIZES,
+                                  &enc_array[0], enc_array.size());
         }
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
@@ -711,8 +710,8 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
-            get_uint16_ptr(packet_no, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
+            ptr = get_uint16_ptr(ptr, packet_no);
             frag_no = INVALID_FRAGMENT_NO;
             return true;
         }
@@ -720,10 +719,10 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
-            get_uint16_ptr(packet_no, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
+            ptr = get_uint16_ptr(ptr, packet_no);
             if(frag_cnt)
-                get_uint8_ptr(*frag_cnt, ptr, ptr); //this is frag count
+                ptr = get_uint8_ptr(ptr, *frag_cnt); //this is frag count
             frag_no = 0;
             return true;
         }
@@ -731,9 +730,9 @@ namespace teamtalk
         if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            get_uint8_ptr(streamid, ptr, ptr);
-            get_uint16_ptr(packet_no, ptr, ptr);
-            get_uint8_ptr(frag_no, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, streamid);
+            ptr = get_uint16_ptr(ptr, packet_no);
+            ptr = get_uint8_ptr(ptr, frag_no);
             return true;
         }
         return false;
@@ -940,39 +939,39 @@ namespace teamtalk
         {
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO :
             assert(width && height && fragmentcnt);
-            set_uint8_ptr(field_ptr, stream_id, field_ptr);
-            set_uint32_ptr(field_ptr, packet_no, field_ptr);
-            set_uint16_ptr(field_ptr, *fragmentcnt, field_ptr);
-            set2_uint12_ptr(field_ptr, *width, *height, field_ptr);
+            field_ptr = set_uint8_ptr(field_ptr, stream_id);
+            field_ptr = set_uint32_ptr(field_ptr, packet_no);
+            field_ptr = set_uint16_ptr(field_ptr, *fragmentcnt);
+            field_ptr = set2_uint12_ptr(field_ptr, *width, *height);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_VIDINFO :
             assert(width && height);
-            set_uint8_ptr(field_ptr, stream_id, field_ptr);
-            set_uint32_ptr(field_ptr, packet_no, field_ptr);
-            set2_uint12_ptr(field_ptr, *width, *height, field_ptr);
+            field_ptr = set_uint8_ptr(field_ptr, stream_id);
+            field_ptr = set_uint32_ptr(field_ptr, packet_no);
+            field_ptr = set2_uint12_ptr(field_ptr, *width, *height);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT :
             assert(fragmentcnt);
-            set_uint8_ptr(field_ptr, stream_id, field_ptr);
-            set_uint32_ptr(field_ptr, packet_no, field_ptr);
-            set_uint16_ptr(field_ptr, *fragmentcnt, field_ptr);
+            field_ptr = set_uint8_ptr(field_ptr, stream_id);
+            field_ptr = set_uint32_ptr(field_ptr, packet_no);
+            field_ptr = set_uint16_ptr(field_ptr, *fragmentcnt);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGNO :
             assert(fragmentno);
-            set_uint8_ptr(field_ptr, stream_id, field_ptr);
-            set_uint32_ptr(field_ptr, packet_no, field_ptr);
-            set_uint16_ptr(field_ptr, *fragmentno, field_ptr);
+            field_ptr = set_uint8_ptr(field_ptr, stream_id);
+            field_ptr = set_uint32_ptr(field_ptr, packet_no);
+            field_ptr = set_uint16_ptr(field_ptr, *fragmentno);
             break;
         default :
             assert(0);
         case FIELDTYPE_STREAMID_PKTNUM :
-            set_uint8_ptr(field_ptr, stream_id, field_ptr);
-            set_uint32_ptr(field_ptr, packet_no, field_ptr);
+            field_ptr = set_uint8_ptr(field_ptr, stream_id);
+            field_ptr = set_uint32_ptr(field_ptr, packet_no);
             break;
         }
 
-        WRITEFIELD_DATA(ptr, field_type, &field[0], field_size, ptr);
-        WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_data, enc_len, ptr);
+        ptr = WRITEFIELD_DATA(ptr, field_type, &field[0], field_size);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_data, enc_len);
 
         //int x = ptr - reinterpret_cast<const uint8_t*>(v.iov_base) ;
         assert(ptr - reinterpret_cast<const uint8_t*>(v.iov_base) == alloc_size);
@@ -1015,13 +1014,13 @@ namespace teamtalk
             if(fragno || fragcnt)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
-            get_uint32_ptr(u32, ptr, ptr);
+            ptr = get_uint32_ptr(ptr, u32);
             if(packet_no)
                 *packet_no = u32;
             //width & height
-            get2_uint12_ptr(ptr, u16_1, u16_2, ptr);
+            ptr = get2_uint12_ptr(ptr, u16_1, u16_2);
             if(width)
                 *width = u16_1;
             if(height)
@@ -1032,20 +1031,20 @@ namespace teamtalk
                 sizeof(uint16_t) + (12+12) / 8)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
-            get_uint32_ptr(u32, ptr, ptr);
+            ptr = get_uint32_ptr(ptr, u32);
             if(packet_no)
                 *packet_no = u32;
             //fragment count
-            get_uint16_ptr(u16_1, ptr, ptr);
+            ptr = get_uint16_ptr(ptr, u16_1);
             if(fragcnt)
                 *fragcnt = u16_1;
             //fragment no
             if(fragno)
                 *fragno = 0;
             //width & height
-            get2_uint12_ptr(ptr, u16_1, u16_2, ptr);
+            ptr = get2_uint12_ptr(ptr, u16_1, u16_2);
             if(width)
                 *width = u16_1;
             if(height)
@@ -1058,9 +1057,9 @@ namespace teamtalk
             if(fragno || fragcnt || width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
-            get_uint32_ptr(u32, ptr, ptr);
+            ptr = get_uint32_ptr(ptr, u32);
             if(packet_no)
                 *packet_no = u32;
             break;
@@ -1071,13 +1070,13 @@ namespace teamtalk
             if(width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
-            get_uint32_ptr(u32, ptr, ptr);
+            ptr = get_uint32_ptr(ptr, u32);
             if(packet_no)
                 *packet_no = u32;
             //fragment cnt
-            get_uint16_ptr(u16_1, ptr, ptr);
+            ptr = get_uint16_ptr(ptr, u16_1);
             if(fragcnt)
                 *fragcnt = u16_1;
             //fragment no
@@ -1091,12 +1090,12 @@ namespace teamtalk
             if(fragcnt || width || height)
                 return 0;
             //stream id
-            get_uint8_ptr(stream_id, ptr, ptr);
+            ptr = get_uint8_ptr(ptr, stream_id);
             //packet no
-            get_uint32_ptr(u32, ptr, ptr);
+            ptr = get_uint32_ptr(ptr, u32);
             if(packet_no)
                 *packet_no = u32;
-            get_uint16_ptr(u16_1, ptr, ptr);
+            ptr = get_uint16_ptr(ptr, u16_1);
             //fragment no
             if(fragno)
                 *fragno = u16_1;
@@ -1185,15 +1184,15 @@ namespace teamtalk
         vector<uint8_t> streamid_field((size_t)field_size);
         uint8_t* field_ptr = &streamid_field[0];
 
-        set_uint8_ptr(field_ptr, stream_id, field_ptr);
-        set_uint16_ptr(field_ptr, width, field_ptr);
-        set_uint16_ptr(field_ptr, height, field_ptr);
-        set_uint8(field_ptr, bmp_mode); field_ptr += sizeof(uint8_t);
-        set_uint16_ptr(field_ptr, pkt_upd_index, field_ptr);
-        set_uint16_ptr(field_ptr, pkt_upd_count, field_ptr); //change UpdatePacketCount() if changed
+        field_ptr = set_uint8_ptr(field_ptr, stream_id);
+        field_ptr = set_uint16_ptr(field_ptr, width);
+        field_ptr = set_uint16_ptr(field_ptr, height);
+        field_ptr = set_uint8_ptr(field_ptr, bmp_mode);
+        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_index);
+        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
 
-        WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_NEW, &streamid_field[0], 
-                        streamid_field.size(), data_buf);
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_NEW, &streamid_field[0],
+                                   streamid_field.size());
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
         
@@ -1262,12 +1261,12 @@ namespace teamtalk
         vector<uint8_t> streamid_field((size_t)field_size);
         uint8_t* field_ptr = &streamid_field[0];
 
-        set_uint8_ptr(field_ptr, session_id, field_ptr);
-        set_uint16_ptr(field_ptr, pkt_upd_index, field_ptr);
-        set_uint16_ptr(field_ptr, pkt_upd_count, field_ptr); //change UpdatePacketCount() if changed
+        field_ptr = set_uint8_ptr(field_ptr, session_id);
+        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_index);
+        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
 
-        WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_UPD, 
-                        &streamid_field[0], streamid_field.size(), data_buf);
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_UPD,
+                                   &streamid_field[0], streamid_field.size());
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
 
@@ -1408,13 +1407,13 @@ namespace teamtalk
             v.iov_len = alloc_size;
 
             //write FIELDTYPE_BLOCKNUMS_AND_SIZES
-            WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_AND_SIZES,
+            data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_AND_SIZES,
                             &blocknums_sizes_output[0],
-                            blocknums_sizes_output.size(), data_ptr);
+                            blocknums_sizes_output.size());
 
             //write FIELDTYPE_BLOCKS_DATA
-            WRITEFIELD_TYPE(data_ptr, FIELDTYPE_BLOCKS_DATA,
-                            blocks_size, data_ptr);
+            data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_BLOCKS_DATA,
+                            blocks_size);
             
             ii = blocks.begin();
             while(ii != blocks.end())
@@ -1447,8 +1446,8 @@ namespace teamtalk
             while(ii != fragments.end())
             {
                 assert(ii->block_no < BLOCKNUMS_MAX);
-                set2_uint12_ptr(frags_info_ptr, ii->block_no, ii->frag_size, frags_info_ptr);
-                set_uint4_ptr(frags_info_ptr, ii->frag_no, ii->frag_cnt, frags_info_ptr);
+                frags_info_ptr = set2_uint12_ptr(frags_info_ptr, ii->block_no, ii->frag_size);
+                frags_info_ptr = set_uint4_ptr(frags_info_ptr, ii->frag_no, ii->frag_cnt);
 
                 frags_size += ii->frag_size;
                 ii++;
@@ -1470,13 +1469,11 @@ namespace teamtalk
             v.iov_len = alloc_size;
 
             //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES
-            WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES,
-                            &frags_info_output[0], frags_info_output.size(),
-                            data_ptr);
+            data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES,
+                            &frags_info_output[0], frags_info_output.size());
 
             //write FIELDTYPE_BLOCKS_FRAG_DATA
-            WRITEFIELD_TYPE(data_ptr, FIELDTYPE_BLOCKS_FRAG_DATA,
-                            frags_size, data_ptr);
+            data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_BLOCKS_FRAG_DATA, frags_size);
             
             ii = fragments.begin();
             while(ii != fragments.end())
@@ -1565,9 +1562,9 @@ namespace teamtalk
             if(blocknums_single_output.size())
             {
                 //write FIELDTYPE_BLOCK_DUP
-                WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP,
-                                &blocknums_single_output[0],
-                                blocknums_single_output.size(), data_ptr);
+                data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP,
+                                           &blocknums_single_output[0],
+                                           blocknums_single_output.size());
 #ifdef _DEBUG
                 size_t bytes = DESKTOPPACKET_BLOCKUSAGE(single_entries, single_blocks);
                 assert(bytes == blocknums_single_output.size() + FIELDVALUE_PREFIX);
@@ -1576,9 +1573,9 @@ namespace teamtalk
             if(blocknums_range_output.size())
             {
                 //write FIELDTYPE_BLOCK_DUP_RANGE
-                WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP_RANGE,
+                data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP_RANGE,
                                 &blocknums_range_output[0],
-                                blocknums_range_output.size(), data_ptr);
+                                blocknums_range_output.size());
 #ifdef _DEBUG
                 size_t bytes = DESKTOPPACKET_BLOCKRANGEUSAGE(block_ranges);
                 assert(bytes == blocknums_range_output.size() + FIELDVALUE_PREFIX);
@@ -1755,8 +1752,8 @@ namespace teamtalk
         for(uint16_t i=0;i<info_size;i+=4)
         {
             block_fragment bf;
-            get2_uint12_ptr(u8_info_ptr, bf.block_no, bf.frag_size, u8_info_ptr);
-            get_uint4_ptr(u8_info_ptr, bf.frag_no, bf.frag_cnt, u8_info_ptr);
+            u8_info_ptr = get2_uint12_ptr(u8_info_ptr, bf.block_no, bf.frag_size);
+            u8_info_ptr = get_uint4_ptr(u8_info_ptr, bf.frag_no, bf.frag_cnt);
             assert(byte_pos+bf.frag_size<=data_size);
             if(byte_pos+bf.frag_size>data_size) //buffer overflow check
                 return false;
@@ -1880,10 +1877,10 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        WRITEFIELD_TYPE(data_ptr, FIELDTYPE_SESSIONID_ACK, info_size, data_ptr);
-        set_uint8(data_ptr, session_id); data_ptr += 1;
-        set_uint16(data_ptr, owner_userid); data_ptr += 2;
-        set_uint32(data_ptr, time_ack); data_ptr += 4;
+        data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_SESSIONID_ACK, info_size);
+        data_ptr = set_uint8_ptr(data_ptr, session_id);
+        data_ptr = set_uint16_ptr(data_ptr, owner_userid);
+        data_ptr = set_uint32_ptr(data_ptr, time_ack);
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
@@ -2008,7 +2005,7 @@ namespace teamtalk
         uint8_t* ptr = data_buf;
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
-        WRITEFIELD_VALUE_U8(ptr, FIELDTYPE_SESSIONID_NAK, session_id, ptr);
+        ptr = WRITEFIELD_VALUE_U8(ptr, FIELDTYPE_SESSIONID_NAK, session_id);
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
@@ -2068,12 +2065,11 @@ namespace teamtalk
 
         vector<uint8_t> cursor_session(field_size);
         uint8_t* field_ptr = &cursor_session[0];
-        set_uint8_ptr(field_ptr, session_id, field_ptr);
-        set_uint16_ptr(field_ptr, x, field_ptr);
-        set_uint16_ptr(field_ptr, y, field_ptr);
+        field_ptr = set_uint8_ptr(field_ptr, session_id);
+        field_ptr = set_uint16_ptr(field_ptr, x);
+        field_ptr = set_uint16_ptr(field_ptr, y);
 
-        WRITEFIELD_DATA(data_buf, FIELDTYPE_MY_CURSORPOS, &cursor_session[0],
-                        cursor_session.size(), data_buf); 
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_MY_CURSORPOS, &cursor_session[0], cursor_session.size());
 
         m_iovec.push_back(v);
 
@@ -2179,19 +2175,18 @@ namespace teamtalk
         vector<uint8_t> buffer(field_size);
         buffer.resize(field_size);
         uint8_t* field_ptr = &buffer[0];
-        set_uint8_ptr(field_ptr, session_id, field_ptr);
-        set_uint8_ptr(field_ptr, packetno, field_ptr);
+        field_ptr = set_uint8_ptr(field_ptr, session_id);
+        field_ptr = set_uint8_ptr(field_ptr, packetno);
 
         for(size_t i=0;i<inputs.size();i++)
         {
-            set_uint16_ptr(field_ptr, inputs[i].x, field_ptr);
-            set_uint16_ptr(field_ptr, inputs[i].y, field_ptr);
-            set_uint32_ptr(field_ptr, inputs[i].keycode, field_ptr);
-            set_uint32_ptr(field_ptr, inputs[i].keystate, field_ptr);
+            field_ptr = set_uint16_ptr(field_ptr, inputs[i].x);
+            field_ptr = set_uint16_ptr(field_ptr, inputs[i].y);
+            field_ptr = set_uint32_ptr(field_ptr, inputs[i].keycode);
+            field_ptr = set_uint32_ptr(field_ptr, inputs[i].keystate);
         }
 
-        WRITEFIELD_DATA(data_buf, FIELDTYPE_REMOTE_INPUT, &buffer[0],
-                        buffer.size(), data_buf);
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_REMOTE_INPUT, &buffer[0], buffer.size());
 
         m_iovec.push_back(v);
 
@@ -2265,10 +2260,10 @@ namespace teamtalk
             const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
 
             uint8_t session_id = 0;
-            get_uint8_ptr(session_id, field_ptr, field_ptr);
+            field_ptr = get_uint8_ptr(field_ptr, session_id);
             field_size -= 1;
             uint8_t packetno = 0;
-            get_uint8_ptr(packetno, field_ptr, field_ptr);
+            field_ptr = get_uint8_ptr(field_ptr, packetno);
             field_size -= 1;
 
             while(field_size)
@@ -2278,13 +2273,13 @@ namespace teamtalk
                     return false;
 
                 DesktopInput input;
-                get_uint16_ptr(input.x, field_ptr, field_ptr);
+                field_ptr = get_uint16_ptr(field_ptr, input.x);
                 field_size -= 2;
-                get_uint16_ptr(input.y, field_ptr, field_ptr);
+                field_ptr = get_uint16_ptr(field_ptr, input.y);
                 field_size -= 2;
-                get_uint32_ptr(input.keycode, field_ptr, field_ptr);
+                field_ptr = get_uint32_ptr(field_ptr, input.keycode);
                 field_size -= 4;
-                get_uint32_ptr(input.keystate, field_ptr, field_ptr);
+                field_ptr = get_uint32_ptr(field_ptr, input.keystate);
                 field_size -= 4;
                 
                 inputs.push_back(input);
@@ -2323,9 +2318,9 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        WRITEFIELD_TYPE(data_ptr, FIELDTYPE_DESKTOPINPUT_ACK, info_size, data_ptr);
-        set_uint8_ptr(data_ptr, session_id, data_ptr);
-        set_uint8_ptr(data_ptr, packetno, data_ptr);
+        data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_DESKTOPINPUT_ACK, info_size);
+        data_ptr = set_uint8_ptr(data_ptr, session_id);
+        data_ptr = set_uint8_ptr(data_ptr, packetno);
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
