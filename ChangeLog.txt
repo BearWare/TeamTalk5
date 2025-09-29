@@ -2,14 +2,20 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.21, unreleased
+Version 5.22, unreleased
 Default Qt Client
-- Fixed Windows freeze issue closing Preferences dialog
-- Windows changed to Qt 6.9.2
+-
 Android Client
 -
 iOS Client
 -
+Server
+-
+
+Version 5.21, 2025/09/29
+Default Qt Client
+- Fixed Windows freeze issue closing Preferences dialog
+- Windows changed to Qt 6.9.2
 Server
 - TeamTalk Pro server requires BearWare.dk WebLogin to start
 - Fixed crash issue when sharing large desktop windows
