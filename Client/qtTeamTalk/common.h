@@ -90,6 +90,7 @@ struct HostEntry
     bool encrypted = false;
     HostEncryption encryption;
 
+    QString joincode;
     QString username;
     QString password;
     QString nickname;

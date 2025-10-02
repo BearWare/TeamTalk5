@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>431</width>
+    <width>476</width>
     <height>517</height>
    </rect>
   </property>
@@ -93,7 +93,7 @@
          <bool>false</bool>
         </property>
         <property name="selectionBehavior">
-         <enum>QAbstractItemView::SelectRows</enum>
+         <enum>QAbstractItemView::SelectionBehavior::SelectRows</enum>
         </property>
         <property name="sortingEnabled">
          <bool>true</bool>
@@ -104,25 +104,32 @@
     </widget>
    </item>
    <item>
-    <layout class="QHBoxLayout" name="horizontalLayout">
-     <item>
+    <layout class="QGridLayout" name="gridLayout">
+     <item row="0" column="0">
       <widget class="QPushButton" name="newsrvButton">
        <property name="text">
         <string>&amp;Add new server</string>
        </property>
       </widget>
      </item>
-     <item>
+     <item row="0" column="2">
+      <widget class="QPushButton" name="expttButton">
+       <property name="text">
+        <string>&amp;Export Server list to .tt File</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1">
       <widget class="QPushButton" name="impttButton">
        <property name="text">
         <string>&amp;Import .tt File</string>
        </property>
       </widget>
      </item>
-     <item>
-      <widget class="QPushButton" name="expttButton">
+     <item row="1" column="0">
+      <widget class="QPushButton" name="joincodeButton">
        <property name="text">
-        <string>&amp;Export Server list to .tt File</string>
+        <string>Enter Join Code</string>
        </property>
       </widget>
      </item>
@@ -144,7 +151,7 @@
       <string>Latest Hosts</string>
      </property>
      <property name="selectionMode">
-      <enum>QAbstractItemView::SingleSelection</enum>
+      <enum>QAbstractItemView::SelectionMode::SingleSelection</enum>
      </property>
     </widget>
    </item>
