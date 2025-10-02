@@ -285,6 +285,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.newsrvButton, &QPushButton::clicked, this, &ServerListDlg::slotNewServer);
     connect(ui.impttButton, &QPushButton::clicked, this, &ServerListDlg::slotImportTTFile);
     connect(ui.expttButton, &QPushButton::clicked, this, &ServerListDlg::showExportMenu);
+    connect(ui.joincodeButton, &QPushButton::clicked, this, &ServerListDlg::enterJoinCode);
 
     connect(ui.officialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
     connect(ui.unofficialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
@@ -602,6 +603,8 @@ void ServerListDlg::serverlistReply(QNetworkReply* reply)
     Q_ASSERT(m_httpsrvlist_manager);
     QByteArray data = reply->readAll();
 
+    qDebug() << data;
+
     QDomDocument doc("foo");
     if(!doc.setContent(data))
         return;
@@ -802,6 +805,114 @@ void ServerListDlg::publishServerRequest(QNetworkReply* reply)
     }
 }
 
+void ServerListDlg::enterJoinCode()
+{
+    bool ok;
+    QString joincode = QInputDialog::getText(this, tr("Enter Join Code"), tr("Join Code"),
+                                             QLineEdit::Normal, "", &ok);
+
+    if (!ok)
+        return;
+
+    if (!m_http_joincode_manager)
+        m_http_joincode_manager = new QNetworkAccessManager(this);
+    connect(m_http_joincode_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::joincodeServerRequest);
+
+    QUrl url(URL_SERVER_JOINCODE(QString::fromUtf8(QUrl::toPercentEncoding(joincode.trimmed()))));
+    QNetworkRequest request(url);
+    m_http_joincode_manager->get(request);
+}
+
+void ServerListDlg::joincodeServerRequest(QNetworkReply* reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        QMessageBox::critical(this, tr("Enter Join Code"),
+                              tr("Failed to get server information."));
+        return;
+    }
+
+    QByteArray data = reply->readAll();
+    QDomDocument doc("foo");
+    if(!doc.setContent(data))
+        return;
+
+    QDomElement rootElement(doc.documentElement());
+    QDomElement element = rootElement.firstChildElement();
+    if (!element.isNull())
+    {
+        HostEntryEx joinentry;
+        if (getServerEntry(element, joinentry))
+        {
+            connectToHost(joinentry);
+            return;
+        }
+    }
+
+    QMessageBox::critical(this, tr("Enter Join Code"),
+                          tr("Join Code incorrect"));
+}
+
+void ServerListDlg::generateJoinCode(const HostEntry& host)
+{
+    QMessageBox answer;
+    answer.setText(tr("This will publish server's login information so others can join it using a generated code. Continue?"));
+    QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
+    QAbstractButton *NoButton = answer.addButton(tr("&No"), QMessageBox::NoRole);
+    Q_UNUSED(NoButton);
+    answer.setIcon(QMessageBox::Question);
+    answer.setWindowTitle(tr("Generate Join Code"));
+    answer.exec();
+    if (answer.clickedButton() != YesButton)
+        return;
+
+    if (!m_http_genjoincode_manager)
+        m_http_genjoincode_manager = new QNetworkAccessManager(this);
+
+    connect(m_http_genjoincode_manager, &QNetworkAccessManager::finished,
+            this, &ServerListDlg::generateJoinCodeServerRequest);
+
+    QString username = getBearWareWebLogin(this);
+    username = QUrl::toPercentEncoding(username);
+    QString token = ttSettings->value(SETTINGS_GENERAL_BEARWARE_TOKEN, "").toString();
+    token = QUrl::toPercentEncoding(token);
+    QUrl url(URL_PUBLISHSERVER_JOINCODE(username, token));
+    QByteArray xml = generateTTFile(host);
+
+    QNetworkRequest request(url);
+    request.setHeader(QNetworkRequest::ContentTypeHeader, "text/xml");
+    m_http_genjoincode_manager->post(request, xml);
+}
+
+void ServerListDlg::generateJoinCodeServerRequest(QNetworkReply* reply)
+{
+    if (reply->error() != QNetworkReply::NoError)
+    {
+        QMessageBox::critical(this, tr("Generate Join Code"),
+                              tr("Failed to get server information."));
+        return;
+    }
+
+    QByteArray data = reply->readAll();
+    QDomDocument doc("foo");
+    if(!doc.setContent(data))
+        return;
+
+    QDomElement rootElement(doc.documentElement());
+    QDomElement element = rootElement.firstChildElement();
+    if (!element.isNull())
+    {
+        HostEntryEx joinentry;
+        if (getServerEntry(element, joinentry))
+        {
+            QInputDialog::getText(this, tr("Generate Join Code"),
+                                  tr("Enter the following Join Code to connect to server:"),
+                                  QLineEdit::Normal, joinentry.joincode);
+        }
+    }
+}
+
 bool ServerListDlg::getSelectedHost(HostEntryEx& host)
 {
     if (ui.hostListWidget->hasFocus())
@@ -860,19 +971,22 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     const QString country = "country";
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
+    const auto selectedHost = m_model->getServers()[srcIndex.row()];
     QAction* connectServ = menu.addAction(tr("&Connect"));
     QAction* delServ = menu.addAction(tr("&Delete"));
     QAction* editServ = menu.addAction(tr("&Edit"));
     QAction* dupServ = menu.addAction(tr("D&uplicate"));
-    QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
+    menu.addSeparator();
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
+    QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
+    QAction* publishJoinCode = menu.addAction(tr("Generate &Join Code"));
     connectServ->setEnabled(srcIndex.isValid());
-    delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    delServ->setEnabled(srcIndex.isValid() && selectedHost.srvtype == SERVERTYPE_LOCAL);
     editServ->setEnabled(srcIndex.isValid());
     dupServ->setEnabled(srcIndex.isValid());
     genTTServ->setEnabled(srcIndex.isValid());
-    publishServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
+    publishServ->setEnabled(srcIndex.isValid() && selectedHost.srvtype == SERVERTYPE_LOCAL);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
@@ -912,6 +1026,8 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
             saveTTFile();
         else if (action == publishServ)
             publishServer();
+        else if (action == publishJoinCode)
+            generateJoinCode(selectedHost);
     }
 }
 
