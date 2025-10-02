@@ -1,4 +1,4 @@
-project (TeamTalk5Lib)
+project (TeamTalk5Lib LANGUAGES CXX)
 
 include (FeatureSummary)
 
@@ -7,8 +7,10 @@ set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
 set (CMAKE_CXX_FLAGS_DEBUG "${CMAKE_CXX_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 
-# WebRTC makes use of std::optional which is C++17
-set (CMAKE_CXX_STANDARD 17)
+# WebRTC makes use of std::optional which is C++17.
+# Also ACE requires C++ 17.
+set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   option (STATICCPP "Link static C and C++ libraries" ON)
