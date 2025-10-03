@@ -160,7 +160,7 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
 
     ACE::HTTP::Status httpCode = http.response().get_status();
 #if defined(UNICODE)
-    MYTRACE_COND(!status.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
     MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
