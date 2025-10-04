@@ -1378,46 +1378,43 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     CComPtr<IMFSample> pSample;
     CComPtr<IMFMediaBuffer> pMediaBuffer;
     DWORD dwBufSize = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+#define RETURNONERROR(error)                \
+    do {                                    \
+        if (error)                          \
+        {                                   \
+            return CComPtr<IMFSample>();    \
+        }                                   \
+    } while (0)
 
     hr = MFCreateSample(&pSample);
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     LONGLONG hnsSampleDuration = (frame.input_samples * (LONGLONG)10000000 ) / frame.inputfmt.samplerate;
     hr = pSample->SetSampleDuration(hnsSampleDuration);
-    if (FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     hr = MFCreateMemoryBuffer(dwBufSize, &pMediaBuffer);
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     BYTE* pBuffer;
     DWORD dwCurLen, dwMaxSize;
     hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     assert(dwMaxSize == dwBufSize);
     memcpy_s(pBuffer, dwMaxSize, frame.input_buffer, dwBufSize);
     hr = pMediaBuffer->SetCurrentLength(dwBufSize);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     hr = pMediaBuffer->Unlock();
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     hr = pSample->AddBuffer(pMediaBuffer);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     return pSample;
-
-fail:
-    return CComPtr<IMFSample>();
 }
