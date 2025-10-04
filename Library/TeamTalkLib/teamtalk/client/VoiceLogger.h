@@ -26,31 +26,38 @@
 
 #include "ClientUser.h"
 
-#include <myace/TimerHandler.h>
-#include <codec/WaveFile.h>
-#include <teamtalk/PacketLayout.h>
+#include "codec/WaveFile.h"
+#include "myace/MyACE.h"
+#include "myace/TimerHandler.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/client/ClientChannel.h"
 
 #if defined(ENABLE_SPEEX)
-#include <codec/SpeexDecoder.h>
+#include "codec/SpeexDecoder.h"
 #endif
 
 #if defined(ENABLE_OPUS)
-#include <codec/OpusDecoder.h>
+#include "codec/OpusDecoder.h"
 #endif
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-#include <avstream/MFTransform.h>
+#include "avstream/MFTransform.h"
 #endif
 
 #if defined(ENABLE_OGG)
-#include <codec/OggFileIO.h>
+#include "codec/OggFileIO.h"
 #endif
 
+#include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Message_Queue.h>
+#include <ace/Task.h>
+#include <ace/Time_Value.h>
 
+#include <cstdint>
 #include <map>
 #include <memory>
+#include <vector>
 
 #define DEFAULT_VOICELOG_VARS ACE_TEXT("%Y%m%d-%H%M%S #%userid% %username%")
 
@@ -64,7 +71,7 @@ namespace teamtalk {
         int duration = 0;
         AudioFileFormat aff = AFF_NONE;
 
-        VoiceLogFile() { }
+        VoiceLogFile() = default;
     };
 
     // Mutex of VoiceLog is ensured by VoiceLogger
@@ -99,7 +106,7 @@ namespace teamtalk {
         int GetStreamID() const { return m_streamid; }
         void SetClosing() { m_closing = true; }
     private:
-        typedef std::map<int, audiopacket_t, w16_less_comp> mappackets_t;
+        using mappackets_t = std::map<int, audiopacket_t, W16LessComp>;
 
         int WritePackets(int pktno_cur);
         void WritePacket(int packet_no);
@@ -140,12 +147,12 @@ namespace teamtalk {
         int m_streamid = 0;
     };
 
-    typedef std::shared_ptr< VoiceLog > voicelog_t;
+    using voicelog_t = std::shared_ptr< VoiceLog >;
 
     class VoiceLogListener
     {
     public:
-        virtual ~VoiceLogListener() {}
+        virtual ~VoiceLogListener() = default;
         virtual void OnMediaFileStatus(int userid, MediaFileStatus status, 
                                        const VoiceLogFile& vlog) = 0;
     };
@@ -155,9 +162,9 @@ namespace teamtalk {
     {
     public:
         VoiceLogger(VoiceLogListener* listener);
-        virtual ~VoiceLogger();
+        ~VoiceLogger() override;
 
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
         void AddVoicePacket(ClientUser& from_user, 
                             const ClientChannel& channel, 
@@ -167,14 +174,14 @@ namespace teamtalk {
         ACE_TString GetVoiceLogFileName(int userid);
 
     private:
-        int svc (void);
+        int svc () override;
         void BeginLog(ClientUser& user, 
                       const AudioCodec& codec, 
                       int stream_id,
                       const ACE_TString& folderpath);
         bool EndLog(int userid);
         void FlushLogs();
-        typedef std::map<int, voicelog_t> mapvlogs_t;
+        using mapvlogs_t = std::map<int, voicelog_t>;
         mapvlogs_t m_mLogs;
         ACE_Recursive_Thread_Mutex m_add_mtx, m_flush_mtx;
         ACE_Reactor m_reactor;
@@ -182,6 +189,6 @@ namespace teamtalk {
         VoiceLogListener* m_listener = nullptr;
     };
 
-    typedef std::shared_ptr< VoiceLogger > voicelogger_t;
-}
+    using voicelogger_t = std::shared_ptr< VoiceLogger >;
+} // namespace teamtalk
 #endif

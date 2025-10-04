@@ -27,11 +27,12 @@
 #include "Common.h"
 
 #include <ace/ACE.h>
+#include <ace/INET_Addr.h>
 #include <ace/SString.h>
 
-#include <vector>
-#include <set>
 #include <map>
+#include <set>
+#include <vector>
 
 #define TEAMTALK_PROTOCOL_VERSION ACE_TEXT("5.14")
 
@@ -285,7 +286,7 @@ namespace teamtalk {
         TT_INTERR_SNDEFFECT_FAILURE = 10005,
     };
 
-    typedef std::map<ACE_TString, ACE_TString> mstrings_t;
+    using mstrings_t = std::map<ACE_TString, ACE_TString>;
 
     //obtain error message to error number TT_CMDERR_*
     ACE_TString GetErrorDescription(int nError);
@@ -294,14 +295,14 @@ namespace teamtalk {
     {
         int errorno = TT_CMDERR_SUCCESS;
         ACE_TString errmsg, paramname;
-        ErrorMsg() { }
+        ErrorMsg() = default;
         ErrorMsg(int cmderrno, const ACE_TString& param = ACE_TEXT(""))
             : errorno(cmderrno), paramname(param)
         {
             errmsg = GetErrorDescription(cmderrno);
         }
 
-        bool success() const
+        bool Success() const
         {
             return errorno == TT_CMDERR_SUCCESS;
         }
@@ -379,6 +380,6 @@ namespace teamtalk {
     bool GetCmdLine(const ACE_CString& input, 
                     ACE_CString& cmd, ACE_CString& remain_input);
     bool GetCmd(const ACE_CString& input, ACE_CString& cmd);
-    ACE_TString stripEOL(const ACE_TString& input);
-}
+    ACE_TString StripEol(const ACE_TString& input);
+} // namespace teamtalk
 #endif

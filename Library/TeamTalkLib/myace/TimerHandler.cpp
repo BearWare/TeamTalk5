@@ -22,13 +22,15 @@
  */
 
 #include "TimerHandler.h"
-#include <myace/MyACE.h>
+#include <ace/Basic_Types.h>
+#include <ace/Time_Value.h>
+#include <ace/Event_Handler.h>
 
 TimerHandler::TimerHandler(TimerListener& listener, ACE_UINT32 timer_event_id, long userdata)
-: m_listener(listener)
+: m_listener(listener), m_timer_event_id(timer_event_id), m_userdata(userdata)
 {
-    m_timer_event_id = timer_event_id;
-    m_userdata = userdata;
+    
+    
     //MYTRACE(ACE_TEXT("TimerHandler() %p ID %d \n"), this, m_timer_event_id);
 }
 
@@ -37,12 +39,12 @@ TimerHandler::~TimerHandler()
     //MYTRACE(ACE_TEXT("~TimerHandler() %p ID %d \n"), this, m_timer_event_id);
 }
 
-int TimerHandler::handle_timeout(const ACE_Time_Value& tv, const void* arg)
+int TimerHandler::handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/)
 {
     return m_listener.TimerEvent(m_timer_event_id, m_userdata);
 }
 
-int TimerHandler::handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask)
+int TimerHandler::handle_close(ACE_HANDLE  /*handle*/, ACE_Reactor_Mask  /*close_mask*/)
 {
     delete this;
     return -1;

@@ -21,16 +21,14 @@
  *
  */
 
-#if defined(WIN32)
-#include <ace/config.h>
-#endif
-
 #include "Convert.h"
-#include <ace/OS.h>
-#include <ace/ACE.h>
-#include <myace/MyACE.h>
 
-#include <map>
+#include "myace/MyACE.h"
+#include "teamtalk/CodecCommon.h"
+
+#if defined(ENABLE_OPUS)
+#include "codec/OpusEncoder.h"
+#endif
 
 #if defined(__APPLE__)
 
@@ -43,13 +41,8 @@
 
 #endif /** __APPLE__ **/
 
-#include <teamtalk/CodecCommon.h>
-
-#if defined(ENABLE_OPUS)
-#include <codec/OpusEncoder.h>
-#endif
-
-using namespace std;
+#include <algorithm>
+#include <map>
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html
 
@@ -186,9 +179,9 @@ enum TTKey
     TTKEY_MIDDLEMOUSEBTN        = 0x00001002,
 };
 
-typedef std::map<ACE_UINT32, ACE_UINT32> key_map_t;
+using key_map_t = std::map<ACE_UINT32, ACE_UINT32>;
 
-key_map_t tt_keymap, local_keymap;
+static key_map_t tt_keymap, local_keymap;
 
 #if defined(WIN32)
 
@@ -595,7 +588,7 @@ void FillKeys() {}
 
 //TODO: X11 key translate
 
-void FillKeys() {}
+static void FillKeys() {}
 
 /*
 #include <X11/keysym.h>
@@ -703,7 +696,7 @@ void FillKeys()
 */
 #endif
 
-ACE_Recursive_Thread_Mutex keytransMtx;
+static ACE_Recursive_Thread_Mutex keytransMtx;
 
 bool TranslateDesktopInput(TTKeyTranslate nTranslate,
                            const DesktopInput& input,
@@ -712,7 +705,7 @@ bool TranslateDesktopInput(TTKeyTranslate nTranslate,
     key_map_t::const_iterator ii;
     if(tt_keymap.empty())
     {
-        wguard_t g(keytransMtx);
+        wguard_t const g(keytransMtx);
         FillKeys();
         ii = tt_keymap.begin();
         for(;ii!=tt_keymap.end();ii++)
@@ -755,7 +748,7 @@ if(!recursive)                                                           \
     AudioCodec codec_dbg2;                                               \
     Convert(ret_val, codec_dbg2);                                        \
     Convert(codec_dbg2, codec_dbg1);                                     \
-    assert(ret_val == codec_dbg1);                                       \
+    assert((ret_val) == codec_dbg1);                                       \
     recursive = false;                                                   \
 }                                                                        \
 } while(0)
@@ -801,7 +794,7 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         result.speex.bandmode = codec.speex.nBandmode;
         result.speex.quality = codec.speex.nQuality;
         result.speex.frames_per_packet = fpp;
-        result.speex.sim_stereo = codec.speex.bStereoPlayback;
+        result.speex.sim_stereo = (codec.speex.bStereoPlayback != 0);
 
         VALID_INT_CODEC(result, result.speex);
 
@@ -822,9 +815,9 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         result.speex_vbr.vbr_quality = codec.speex_vbr.nQuality;
         result.speex_vbr.bitrate = codec.speex_vbr.nBitRate;
         result.speex_vbr.max_bitrate = codec.speex_vbr.nMaxBitRate;
-        result.speex_vbr.dtx = codec.speex_vbr.bDTX;
+        result.speex_vbr.dtx = (codec.speex_vbr.bDTX != 0);
         result.speex_vbr.frames_per_packet = fpp;
-        result.speex_vbr.sim_stereo = codec.speex_vbr.bStereoPlayback;
+        result.speex_vbr.sim_stereo = (codec.speex_vbr.bStereoPlayback != 0);
 
         VALID_INT_CODEC(result, result.speex_vbr);
 
@@ -838,31 +831,31 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         result.opus.channels = codec.opus.nChannels;
         result.opus.application = codec.opus.nApplication;
         result.opus.complexity = codec.opus.nComplexity;
-        result.opus.fec = codec.opus.bFEC;
-        result.opus.dtx = codec.opus.bDTX;
+        result.opus.fec = (codec.opus.bFEC != 0);
+        result.opus.dtx = (codec.opus.bDTX != 0);
         result.opus.bitrate = codec.opus.nBitRate;
-        result.opus.vbr = codec.opus.bVBR;
-        result.opus.vbr_constraint = codec.opus.bVBRConstraint;
+        result.opus.vbr = (codec.opus.bVBR != 0);
+        result.opus.vbr_constraint = (codec.opus.bVBRConstraint != 0);
         if (codec.opus.nFrameSizeMSec > 0)
         {
-            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate, codec.opus.nFrameSizeMSec);
+            result.opus.frame_size = OpusGetCbSize(codec.opus.nSampleRate,
+                                                   codec.opus.nFrameSizeMSec);
             if (result.opus.frame_size == 0)
                 return false;
 
-            int cbsamples = codec.opus.nSampleRate * codec.opus.nTxIntervalMSec / 1000;
+            int const cbsamples = codec.opus.nSampleRate * codec.opus.nTxIntervalMSec / 1000;
             result.opus.frames_per_packet = cbsamples / result.opus.frame_size;
         }
         else
         {
-            result.opus.frame_size = OPUS_GetCbSize(codec.opus.nSampleRate,
-                                                    codec.opus.nTxIntervalMSec);
+            result.opus.frame_size = OpusGetCbSize(codec.opus.nSampleRate,
+                                                   codec.opus.nTxIntervalMSec);
             result.opus.frames_per_packet = 1;
         }
 
         // clamp to max bitrate
-        int maxbitrate = GetAudioCodecMaxPacketBitrate(result);
-        if (result.opus.bitrate > maxbitrate)
-            result.opus.bitrate = maxbitrate;
+        int const maxbitrate = GetAudioCodecMaxPacketBitrate(result);
+        result.opus.bitrate = std::min(result.opus.bitrate, maxbitrate);
 
         VALID_INT_CODEC(result, result.opus);
 
@@ -891,7 +884,7 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.speex.nTxIntervalMSec = 
             teamtalk::GetSpeexFramesDuration(codec.speex.bandmode, 
             codec.speex.frames_per_packet);
-        result.speex.bStereoPlayback = codec.speex.sim_stereo;
+        result.speex.bStereoPlayback = static_cast<TTBOOL>(codec.speex.sim_stereo);
         return teamtalk::ValidAudioCodec(codec);
     case teamtalk::CODEC_SPEEX_VBR :
         result.nCodec = SPEEX_VBR_CODEC;
@@ -899,11 +892,11 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.speex_vbr.nQuality = codec.speex_vbr.vbr_quality;
         result.speex_vbr.nBitRate = codec.speex_vbr.bitrate;
         result.speex_vbr.nMaxBitRate = codec.speex_vbr.max_bitrate;
-        result.speex_vbr.bDTX = codec.speex_vbr.dtx;
+        result.speex_vbr.bDTX = static_cast<TTBOOL>(codec.speex_vbr.dtx);
         result.speex_vbr.nTxIntervalMSec = 
             teamtalk::GetSpeexFramesDuration(codec.speex_vbr.bandmode, 
             codec.speex_vbr.frames_per_packet);
-        result.speex_vbr.bStereoPlayback = codec.speex_vbr.sim_stereo;
+        result.speex_vbr.bStereoPlayback = static_cast<TTBOOL>(codec.speex_vbr.sim_stereo);
         return teamtalk::ValidAudioCodec(codec);
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
@@ -913,13 +906,13 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.opus.nChannels = codec.opus.channels;
         result.opus.nApplication = codec.opus.application;
         result.opus.nComplexity = codec.opus.complexity;
-        result.opus.bFEC = codec.opus.fec;
-        result.opus.bDTX = codec.opus.dtx;
+        result.opus.bFEC = static_cast<TTBOOL>(codec.opus.fec);
+        result.opus.bDTX = static_cast<TTBOOL>(codec.opus.dtx);
         result.opus.nBitRate = codec.opus.bitrate;
-        result.opus.bVBR = codec.opus.vbr;
-        result.opus.bVBRConstraint = codec.opus.vbr_constraint;
-        result.opus.nFrameSizeMSec = OPUS_GetCbMSec(codec.opus.samplerate,
-                                                    codec.opus.frame_size);
+        result.opus.bVBR = static_cast<TTBOOL>(codec.opus.vbr);
+        result.opus.bVBRConstraint = static_cast<TTBOOL>(codec.opus.vbr_constraint);
+        result.opus.nFrameSizeMSec = OpusGetCbMSec(codec.opus.samplerate,
+                                                   codec.opus.frame_size);
         result.opus.nTxIntervalMSec = teamtalk::GetAudioCodecCbMillis(codec);
 
         VALID_EXT_CODEC(result, result.opus);
@@ -935,13 +928,13 @@ void Convert(const teamtalk::AudioConfig& audcfg, AudioConfig& result)
 {
     ZERO_STRUCT(result);
 
-    result.bEnableAGC = audcfg.enable_agc;
+    result.bEnableAGC = static_cast<TTBOOL>(audcfg.enable_agc);
     result.nGainLevel = audcfg.gain_level;
 }
 
 void Convert(const AudioConfig& audcfg, teamtalk::AudioConfig& result)
 {
-    result.enable_agc = audcfg.bEnableAGC;
+    result.enable_agc = (audcfg.bEnableAGC != 0);
     result.gain_level = audcfg.nGainLevel;
 }
 
@@ -996,29 +989,29 @@ void Convert(const teamtalk::AudioPreprocessor& audpreprocess, AudioPreprocessor
 void Convert(const TTAudioPreprocessor& ttpreprocess, teamtalk::TTAudioPreprocessor& result)
 {
     result.gainlevel = ttpreprocess.nGainLevel;
-    result.muteleft = ttpreprocess.bMuteLeftSpeaker;
-    result.muteright = ttpreprocess.bMuteRightSpeaker;
+    result.muteleft = (ttpreprocess.bMuteLeftSpeaker != 0);
+    result.muteright = (ttpreprocess.bMuteRightSpeaker != 0);
 }
 
 void Convert(const teamtalk::TTAudioPreprocessor& ttpreprocess, TTAudioPreprocessor& result)
 {
     result.nGainLevel = ttpreprocess.gainlevel;
-    result.bMuteLeftSpeaker = ttpreprocess.muteleft;
-    result.bMuteRightSpeaker = ttpreprocess.muteright;
+    result.bMuteLeftSpeaker = static_cast<TTBOOL>(ttpreprocess.muteleft);
+    result.bMuteRightSpeaker = static_cast<TTBOOL>(ttpreprocess.muteright);
 }
 
 void Convert(const SpeexDSP& spxdsp, teamtalk::SpeexDSP& result)
 {
-    result.enable_agc = spxdsp.bEnableAGC;
+    result.enable_agc = (spxdsp.bEnableAGC != 0);
     result.agc_gainlevel = spxdsp.nGainLevel;
     result.agc_maxincdbsec = spxdsp.nMaxIncDBSec;
     result.agc_maxdecdbsec = spxdsp.nMaxDecDBSec;
     result.agc_maxgaindb = spxdsp.nMaxGainDB;
 
-    result.enable_denoise = spxdsp.bEnableDenoise;
+    result.enable_denoise = (spxdsp.bEnableDenoise != 0);
     result.maxnoisesuppressdb = spxdsp.nMaxNoiseSuppressDB;
 
-    result.enable_aec = spxdsp.bEnableEchoCancellation;
+    result.enable_aec = (spxdsp.bEnableEchoCancellation != 0);
     result.aec_suppress_level = spxdsp.nEchoSuppress;
     result.aec_suppress_active = spxdsp.nEchoSuppressActive;
 }
@@ -1027,16 +1020,16 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
 {
     ZERO_STRUCT(result);
 
-    result.bEnableAGC = spxdsp.enable_agc;
+    result.bEnableAGC = static_cast<TTBOOL>(spxdsp.enable_agc);
     result.nGainLevel = spxdsp.agc_gainlevel;
     result.nMaxIncDBSec = spxdsp.agc_maxincdbsec;
     result.nMaxDecDBSec = spxdsp.agc_maxdecdbsec;
     result.nMaxGainDB = spxdsp.agc_maxgaindb;
 
-    result.bEnableDenoise = spxdsp.enable_denoise;
+    result.bEnableDenoise = static_cast<TTBOOL>(spxdsp.enable_denoise);
     result.nMaxNoiseSuppressDB = spxdsp.maxnoisesuppressdb;
 
-    result.bEnableEchoCancellation = spxdsp.enable_aec;
+    result.bEnableEchoCancellation = static_cast<TTBOOL>(spxdsp.enable_aec);
     result.nEchoSuppress = spxdsp.aec_suppress_level;
     result.nEchoSuppressActive = spxdsp.aec_suppress_active;
 }
@@ -1044,12 +1037,12 @@ void Convert(const teamtalk::SpeexDSP& spxdsp, SpeexDSP& result)
 #if defined(ENABLE_WEBRTC)
 void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Config& result)
 {
-    result.pre_amplifier.enabled = webrtc.preamplifier.bEnable;
+    result.pre_amplifier.enabled = (webrtc.preamplifier.bEnable != 0);
     result.pre_amplifier.fixed_gain_factor = webrtc.preamplifier.fFixedGainFactor;
     
-    result.echo_canceller.enabled = webrtc.echocanceller.bEnable;
+    result.echo_canceller.enabled = (webrtc.echocanceller.bEnable != 0);
 
-    result.noise_suppression.enabled = webrtc.noisesuppression.bEnable;
+    result.noise_suppression.enabled = (webrtc.noisesuppression.bEnable != 0);
     switch (webrtc.noisesuppression.nLevel)
     {
     case 0 :
@@ -1069,9 +1062,9 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
         break;
     }
 
-    result.gain_controller2.enabled = webrtc.gaincontroller2.bEnable;
+    result.gain_controller2.enabled = (webrtc.gaincontroller2.bEnable != 0);
     result.gain_controller2.fixed_digital.gain_db = webrtc.gaincontroller2.fixeddigital.fGainDB;
-    result.gain_controller2.adaptive_digital.enabled = webrtc.gaincontroller2.adaptivedigital.bEnable;
+    result.gain_controller2.adaptive_digital.enabled = (webrtc.gaincontroller2.adaptivedigital.bEnable != 0);
     result.gain_controller2.adaptive_digital.headroom_db = webrtc.gaincontroller2.adaptivedigital.fHeadRoomDB;
     result.gain_controller2.adaptive_digital.initial_gain_db = webrtc.gaincontroller2.adaptivedigital.fInitialGainDB;
     result.gain_controller2.adaptive_digital.max_gain_db = webrtc.gaincontroller2.adaptivedigital.fMaxGainDB;
@@ -1081,17 +1074,17 @@ void Convert(const WebRTCAudioPreprocessor& webrtc, webrtc::AudioProcessing::Con
 
 void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor& result)
 {
-    result.preamplifier.bEnable = cfg.pre_amplifier.enabled;
+    result.preamplifier.bEnable = static_cast<TTBOOL>(cfg.pre_amplifier.enabled);
     result.preamplifier.fFixedGainFactor = cfg.pre_amplifier.fixed_gain_factor;
 
-    result.echocanceller.bEnable = cfg.echo_canceller.enabled;
+    result.echocanceller.bEnable = static_cast<TTBOOL>(cfg.echo_canceller.enabled);
 
-    result.noisesuppression.bEnable = cfg.noise_suppression.enabled;
+    result.noisesuppression.bEnable = static_cast<TTBOOL>(cfg.noise_suppression.enabled);
     result.noisesuppression.nLevel = cfg.noise_suppression.level;
 
-    result.gaincontroller2.bEnable = cfg.gain_controller2.enabled;
+    result.gaincontroller2.bEnable = static_cast<TTBOOL>(cfg.gain_controller2.enabled);
     result.gaincontroller2.fixeddigital.fGainDB = cfg.gain_controller2.fixed_digital.gain_db;
-    result.gaincontroller2.adaptivedigital.bEnable = cfg.gain_controller2.adaptive_digital.enabled;
+    result.gaincontroller2.adaptivedigital.bEnable = static_cast<TTBOOL>(cfg.gain_controller2.adaptive_digital.enabled);
     result.gaincontroller2.adaptivedigital.fHeadRoomDB = cfg.gain_controller2.adaptive_digital.headroom_db;
     result.gaincontroller2.adaptivedigital.fInitialGainDB = cfg.gain_controller2.adaptive_digital.initial_gain_db;
     result.gaincontroller2.adaptivedigital.fMaxGainDB = cfg.gain_controller2.adaptive_digital.max_gain_db;
@@ -1102,16 +1095,16 @@ void Convert(const webrtc::AudioProcessing::Config& cfg, WebRTCAudioPreprocessor
 
 void Convert(const SoundDeviceEffects& effects, teamtalk::SoundDeviceEffects& result)
 {
-    result.enable_agc = effects.bEnableAGC;
-    result.enable_aec = effects.bEnableEchoCancellation;
-    result.enable_denoise = effects.bEnableDenoise;
+    result.enable_agc = (effects.bEnableAGC != 0);
+    result.enable_aec = (effects.bEnableEchoCancellation != 0);
+    result.enable_denoise = (effects.bEnableDenoise != 0);
 }
 
 void Convert(const teamtalk::SoundDeviceEffects& effects, SoundDeviceEffects& result)
 {
-    result.bEnableAGC = effects.enable_agc;
-    result.bEnableEchoCancellation = effects.enable_aec;
-    result.bEnableDenoise = effects.enable_denoise;
+    result.bEnableAGC = static_cast<TTBOOL>(effects.enable_agc);
+    result.bEnableEchoCancellation = static_cast<TTBOOL>(effects.enable_aec);
+    result.bEnableDenoise = static_cast<TTBOOL>(effects.enable_denoise);
 }
 
 bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
@@ -1126,14 +1119,15 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     ACE_OS::strsncpy(result.szTopic, chanprop.topic.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szPassword, chanprop.passwd.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szOpPassword, chanprop.oppasswd.c_str(), TT_STRLEN);
-    result.bPassword = chanprop.bProtected;
+    result.bPassword = static_cast<TTBOOL>(chanprop.bProtected);
     result.nMaxUsers = chanprop.maxusers;
     result.uChannelType = chanprop.chantype;
     result.nUserData = chanprop.userdata;
     result.nDiskQuota = chanprop.diskquota;
     Convert(chanprop.audiocfg, result.audiocfg);
 
-    std::set<int> userids, tmp;
+    std::set<int> userids;
+    std::set<int> tmp;
     std::set<int>::iterator ii;
     tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE);
     userids.insert(tmp.begin(), tmp.end());
@@ -1151,15 +1145,15 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
         result.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] = *ii;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE).count(*ii))
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE).contains(*ii) != 0u)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VOICE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VIDEOCAPTURE).count(*ii))
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VIDEOCAPTURE).contains(*ii) != 0u)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VIDEOCAPTURE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_DESKTOP).count(*ii))
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_DESKTOP).contains(*ii) != 0u)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).count(*ii))
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).contains(*ii) != 0u)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).count(*ii))
+        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).contains(*ii) != 0u)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_CHANNELMSG;
     }
 
@@ -1195,25 +1189,25 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
     chanprop.topic = channel.szTopic;
     Convert(channel.audiocfg, chanprop.audiocfg);
 
-    for(int i=0;i<TT_TRANSMITUSERS_MAX && channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];i++)
+    for(int i=0;i<TT_TRANSMITUSERS_MAX && (channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] != 0);i++)
     {
-        int userid = channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];
-        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VOICE)
+        int const userid = channel.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX];
+        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VOICE) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_VOICE].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VIDEOCAPTURE)
+        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_VIDEOCAPTURE) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_VIDEOCAPTURE].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_DESKTOP)
+        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_DESKTOP) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
-        if(channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE))
+        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE)) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
-        if (channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_CHANNELMSG))
+        if ((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_CHANNELMSG)) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_CHANNELMSG].insert(userid);
     }
 
-    for(int i=0;i<TT_TRANSMITQUEUE_MAX;i++)
+    for(int i : channel.transmitUsersQueue)
     {
-        if(channel.transmitUsersQueue[i])
-            chanprop.transmitqueue.push_back(channel.transmitUsersQueue[i]);
+        if(i != 0)
+            chanprop.transmitqueue.push_back(i);
     }
 
     chanprop.transmitswitchdelay = channel.nTransmitUsersQueueDelayMSec;
@@ -1223,7 +1217,7 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
     return true;
 }
 
-void Convert(const teamtalk::User& srcuser, User& result)
+static void Convert(const teamtalk::User& srcuser, User& result)
 {
     result.nUserID = srcuser.GetUserID();
     ACE_OS::strsncpy(result.szNickname, srcuser.GetNickname().c_str(), TT_STRLEN);
@@ -1232,12 +1226,12 @@ void Convert(const teamtalk::User& srcuser, User& result)
     ACE_OS::strsncpy(result.szStatusMsg, srcuser.GetStatusMessage().c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szIPAddress, srcuser.GetIpAddress().c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szClientName, srcuser.GetClientName().c_str(), TT_STRLEN);
-    strings_t tokens = tokenize(srcuser.GetClientVersion(), ACE_TEXT("."));
+    strings_t tokens = Tokenize(srcuser.GetClientVersion(), ACE_TEXT("."));
     result.uVersion = 0;
     int shift = 16;
-    while(tokens.size() && shift >= 0)
+    while((!tokens.empty()) && shift >= 0)
     {
-        result.uVersion |= string2i(tokens[0]) << shift;
+        result.uVersion |= String2I(tokens[0]) << shift;
         tokens.erase(tokens.begin());
         shift -= 8;
     }
@@ -1251,7 +1245,7 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
 
     Convert(static_cast<const teamtalk::User&>(clientuser), result);
 
-    teamtalk::clientchannel_t channel = clientuser.GetChannel();
+    teamtalk::clientchannel_t const channel = clientuser.GetChannel();
     if(channel)
         result.nChannelID = channel->GetChannelID();
     else
@@ -1280,7 +1274,9 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     result.nVolumeMediaFile = clientuser.GetVolume(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
     result.nStoppedDelayVoice = clientuser.GetPlaybackStoppedDelay(teamtalk::STREAMTYPE_VOICE);
     result.nStoppedDelayMediaFile = clientuser.GetPlaybackStoppedDelay(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
-    float x,y,z;
+    float x;
+    float y;
+    float z;
     clientuser.GetPosition(teamtalk::STREAMTYPE_VOICE, x, y, z);
     result.soundPositionVoice[0] = x;
     result.soundPositionVoice[1] = y;
@@ -1289,13 +1285,14 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     result.soundPositionMediaFile[0] = x;
     result.soundPositionMediaFile[1] = y;
     result.soundPositionMediaFile[2] = z;
-    bool l,r;
+    bool l;
+    bool r;
     clientuser.GetStereo(teamtalk::STREAMTYPE_VOICE, l, r);
-    result.stereoPlaybackVoice[0] = l;
-    result.stereoPlaybackVoice[1] = r;
+    result.stereoPlaybackVoice[0] = static_cast<TTBOOL>(l);
+    result.stereoPlaybackVoice[1] = static_cast<TTBOOL>(r);
     clientuser.GetStereo(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO, l, r);
-    result.stereoPlaybackMediaFile[0] = l;
-    result.stereoPlaybackMediaFile[1] = r;
+    result.stereoPlaybackMediaFile[0] = static_cast<TTBOOL>(l);
+    result.stereoPlaybackMediaFile[1] = static_cast<TTBOOL>(r);
     result.nBufferMSecVoice = clientuser.GetAudioStreamBufferSize(teamtalk::STREAMTYPE_VOICE);
     result.nBufferMSecMediaFile = clientuser.GetAudioStreamBufferSize(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
     
@@ -1308,7 +1305,7 @@ void Convert(const teamtalk::ServerUser& serveruser, User& result)
     ZERO_STRUCT(result);
 
     Convert(static_cast<const teamtalk::User&>(serveruser), result);
-    teamtalk::serverchannel_t channel = serveruser.GetChannel();
+    teamtalk::serverchannel_t const channel = serveruser.GetChannel();
     if(channel)
         result.nChannelID = channel->GetChannelID();
     else
@@ -1381,7 +1378,7 @@ void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result
     result.nMaxMediaFileTxPerSecond = srvprop.mediafiletxlimit;
     result.nMaxDesktopTxPerSecond = srvprop.desktoptxlimit;
     result.nMaxTotalTxPerSecond = srvprop.totaltxlimit;
-    result.bAutoSave = srvprop.autosave;
+    result.bAutoSave = static_cast<TTBOOL>(srvprop.autosave);
     result.nMaxUsers = srvprop.maxusers;
     result.nUserTimeout = srvprop.usertimeout;
     result.nLoginDelayMSec = srvprop.logindelay;
@@ -1395,7 +1392,7 @@ void Convert(const teamtalk::ServerInfo& srvprop, ServerProperties& result)
     Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
     ACE_OS::strsncpy(result.szMOTDRaw, srvprop.motd_raw.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szServerProtocolVersion, srvprop.protocol.c_str(), TT_STRLEN);
-    if (srvprop.hostaddrs.size())
+    if (!srvprop.hostaddrs.empty())
     {
         result.nTcpPort = srvprop.hostaddrs[0].get_port_number();
         result.nUdpPort = srvprop.udpaddr.get_port_number();
@@ -1410,9 +1407,9 @@ void Convert(const teamtalk::ServerSettings& srvprop, ServerProperties& result)
     Convert(static_cast<const teamtalk::ServerProperties&>(srvprop), result);
     ACE_OS::strsncpy(result.szServerProtocolVersion, TEAMTALK_PROTOCOL_VERSION, TT_STRLEN);
 
-    if (srvprop.tcpaddrs.size())
+    if (!srvprop.tcpaddrs.empty())
         result.nTcpPort = srvprop.tcpaddrs[0].get_port_number();
-    if (srvprop.udpaddrs.size())
+    if (!srvprop.udpaddrs.empty())
         result.nUdpPort = srvprop.udpaddrs[0].get_port_number();
 }
 #endif
@@ -1429,7 +1426,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerProperties& result
     result.mediafiletxlimit = srvprop.nMaxMediaFileTxPerSecond;
     result.desktoptxlimit = srvprop.nMaxDesktopTxPerSecond;
     result.totaltxlimit = srvprop.nMaxTotalTxPerSecond;
-    result.autosave = srvprop.bAutoSave;
+    result.autosave = (srvprop.bAutoSave != 0);
     result.usertimeout = srvprop.nUserTimeout;
     result.logindelay = srvprop.nLoginDelayMSec;
     result.logevents = srvprop.uServerLogEvents;
@@ -1439,7 +1436,7 @@ void Convert(const ServerProperties& srvprop, teamtalk::ServerInfo& result)
 {
     Convert(srvprop, static_cast<teamtalk::ServerProperties&>(result));
 
-    if (result.hostaddrs.size())
+    if (!result.hostaddrs.empty())
     {
         result.hostaddrs[0].set_port_number(srvprop.nTcpPort);
         result.udpaddr.set_port_number(srvprop.nUdpPort);
@@ -1508,7 +1505,7 @@ void Convert(const teamtalk::FileTransfer& transfer, FileTransfer& result)
     result.nTransferID = transfer.transferid;
     result.nFileSize = transfer.filesize;
     result.nTransferred = transfer.transferred;
-    result.bInbound = transfer.inbound;
+    result.bInbound = static_cast<TTBOOL>(transfer.inbound);
     ACE_OS::strsncpy(result.szRemoteFileName, transfer.filename.c_str(), TT_STRLEN);
     result.nChannelID = transfer.channelid;
 }
@@ -1569,7 +1566,7 @@ void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
     ACE_OS::strsncpy(result.szFromUsername, txtmsg.from_username.c_str(), TT_STRLEN);
     result.nToUserID = txtmsg.to_userid;
     result.nChannelID = txtmsg.channelid;
-    result.bMore = txtmsg.more;
+    result.bMore = static_cast<TTBOOL>(txtmsg.more);
 }
 
 void Convert(const TextMessage& txtmsg, teamtalk::TextMessage& result)
@@ -1579,7 +1576,7 @@ void Convert(const TextMessage& txtmsg, teamtalk::TextMessage& result)
     result.to_userid = txtmsg.nToUserID;
     result.content = txtmsg.szMessage;
     result.channelid = txtmsg.nChannelID;
-    result.more = txtmsg.bMore;
+    result.more = (txtmsg.bMore != 0);
 }
 
 void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
@@ -1642,7 +1639,7 @@ void Convert(const media::VideoFrame& imgframe, VideoFrame& result)
     result.nWidth = imgframe.width;
     result.nHeight = imgframe.height;
     result.nStreamID = imgframe.stream_id;
-    result.bKeyFrame = imgframe.key_frame;
+    result.bKeyFrame = static_cast<TTBOOL>(imgframe.key_frame);
     result.nFrameBufferSize = imgframe.frame_length;
 }
 
@@ -1737,7 +1734,7 @@ void Convert(const DesktopInput& input, teamtalk::DesktopInput& result)
 void Convert(const JitterConfig& input, teamtalk::JitterControlConfig& result)
 {
     result.fixedDelayMSec = input.nFixedDelayMSec;
-    result.useAdativeDejitter = input.bUseAdativeDejitter;
+    result.useAdativeDejitter = (input.bUseAdativeDejitter != 0);
     result.maxAdaptiveDelayMSec = input.nMaxAdaptiveDelayMSec;
     result.activeAdaptiveDelayMSec = input.nActiveAdaptiveDelayMSec;
 }
@@ -1745,14 +1742,14 @@ void Convert(const JitterConfig& input, teamtalk::JitterControlConfig& result)
 void Convert(const teamtalk::JitterControlConfig& input, JitterConfig& result)
 {
     result.nFixedDelayMSec = input.fixedDelayMSec;
-    result.bUseAdativeDejitter = input.useAdativeDejitter;
+    result.bUseAdativeDejitter = static_cast<TTBOOL>(input.useAdativeDejitter);
     result.nMaxAdaptiveDelayMSec = input.maxAdaptiveDelayMSec;
     result.nActiveAdaptiveDelayMSec = input.activeAdaptiveDelayMSec;
 }
 
 void Convert(const std::set<int>& intset, int* int_array, int max_elements)
 {
-    std::set<int>::const_iterator ite = intset.begin();
+    auto ite = intset.begin();
     for(int i=0;i<max_elements;i++)
     {
         if(ite != intset.end())
@@ -1784,26 +1781,26 @@ bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context
     ACE_CString cafile = UnicodeToLocal(enccontext.szCAFile);
     ACE_CString cadir = UnicodeToLocal(enccontext.szCADir);
 #else
-    ACE_CString cert = enccontext.szCertificateFile;
-    ACE_CString priv = enccontext.szPrivateKeyFile;
-    ACE_CString cafile = enccontext.szCAFile;
-    ACE_CString cadir = enccontext.szCADir;
+    ACE_CString const cert = enccontext.szCertificateFile;
+    ACE_CString const priv = enccontext.szPrivateKeyFile;
+    ACE_CString const cafile = enccontext.szCAFile;
+    ACE_CString const cadir = enccontext.szCADir;
 #endif
     
-    if (cert.length() && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
+    if ((!cert.empty()) && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)
         return FALSE;
 
-    if (priv.length() && context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
+    if ((!priv.empty()) && context->private_key(priv.c_str(), SSL_FILETYPE_PEM) < 0)
         return FALSE;
 
-    if (cafile.length() || cadir.length())
+    if ((!cafile.empty()) || (!cadir.empty()))
     {
-        if (context->load_trusted_ca(cafile.length() ? cafile.c_str() : nullptr,
-                                     cadir.length() ? cadir.c_str() : nullptr, false) < 0)
+        if (context->load_trusted_ca((!cafile.empty()) ? cafile.c_str() : nullptr,
+                                     (!cadir.empty()) ? cadir.c_str() : nullptr, false) < 0)
             return FALSE;
     }
 
-    if (enccontext.bVerifyPeer || enccontext.bVerifyClientOnce || enccontext.nVerifyDepth >= 0)
+    if ((enccontext.bVerifyPeer != 0) || (enccontext.bVerifyClientOnce != 0) || enccontext.nVerifyDepth >= 0)
         context->set_verify_peer(enccontext.bVerifyPeer, enccontext.bVerifyClientOnce,
                                  enccontext.nVerifyDepth);
     

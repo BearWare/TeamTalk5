@@ -24,7 +24,39 @@
 #ifndef MEDIAUTIL_H
 #define MEDIAUTIL_H
 
-#include <myace/MyACE.h>
+#include "mystd/MyStd.h"
+
+#include <ace/Message_Block.h>
+
+#include <cstdint>
+#include <cstring>
+#include <vector>
+
+// Returns number of bytes from number of 'samples' with 'channels'
+constexpr auto PCM16_BYTES(int samples, int channels)
+{
+    return samples * channels * sizeof(short);
+}
+// Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
+constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
+{
+    return ((bytes / channels / sizeof(short)) * 1000) / samplerate;
+}
+// Returns number of msec from number of 'samples' at given 'samplerate'
+constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
+{
+    return ((samples / samplerate) * 1000) + (((samples % samplerate) * 1000) / samplerate);
+}
+// Returns number of samples from 'duration' msec at given 'samplerate'
+constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
+{
+    return (duration / 1000) * samplerate + ((duration % 1000) ? ((samplerate * (duration % 1000)) / 1000) : 0);
+}
+
+constexpr auto RGB32_BYTES(int w, int h)
+{
+    return h * w * 4;
+}
 
 namespace media
 {
@@ -43,8 +75,6 @@ namespace media
         FOURCC_MJPEG = 200,
         FOURCC_H264  = 201,
     };
-
-#define RGB32_BYTES(w, h) ((h) * (w) * 4)
 
 /* Remember to updated DLL header file when modifying this */
     struct VideoFormat
@@ -65,10 +95,10 @@ namespace media
         VideoFormat(int w, int h, FourCC cc)
             : VideoFormat(w, h, 0, 0, cc) {}
 
-        VideoFormat()
+        VideoFormat() : fourcc(FOURCC_NONE)
         {
             width = height = fps_numerator = fps_denominator = 0;
-            fourcc = FOURCC_NONE;
+            
         }
         bool operator==(const VideoFormat& fmt) const
         {
@@ -90,7 +120,7 @@ namespace media
         bool IsValid() const { return samplerate > 0 && channels > 0; }
 
         AudioFormat(int sr, int chans) : samplerate(sr), channels(chans) {}
-        AudioFormat() {}
+        AudioFormat() = default;
 
         bool operator==(const AudioFormat& fmt) const
         {
@@ -107,7 +137,7 @@ namespace media
         AudioFormat fmt;
         int samples = 0;
         AudioInputFormat(const AudioFormat& f, int s) : fmt(f), samples(s) {}
-        AudioInputFormat() {}
+        AudioInputFormat() = default;
         bool IsValid() const { return fmt.IsValid() && samples > 0; }
         int GetDurationMSec() const;
         int GetTotalSamples() const;
@@ -121,15 +151,6 @@ namespace media
             return fmt != f.fmt || samples != f.samples;
         }
     };
-
-// Returns number of bytes from number of 'samples' with 'channels'
-#define PCM16_BYTES(samples, channels) ((samples) * (channels) * sizeof(short))
-// Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
-#define PCM16_BYTES_DURATION(bytes, channels, samplerate) ((((bytes) / (channels) / sizeof(short)) * 1000) / (samplerate))
-// Returns number of msec from number of 'samples' at given 'samplerate'
-#define PCM16_SAMPLES_DURATION(samples, samplerate) ((((samples) / (samplerate)) * 1000) + ((((samples) % (samplerate)) * 1000) / (samplerate)))
-// Returns number of samples from 'duration' msec at given 'samplerate'
-#define PCM16_DURATION_SAMPLES(duration, samplerate) (((duration) / 1000) * (samplerate) + (((duration) % 1000) ? (((samplerate) * ((duration) % 1000)) / 1000) : 0))
 
     struct AudioFrame
     {
@@ -150,13 +171,13 @@ namespace media
         Rational gain; // if != 1 then apply gain
 
         AudioFrame()
-        : gain(1, 1)
+        : soundgrpid(0), userdata(0), timestamp(GETTIMESTAMP()), gain(1, 1)
         {
             input_samples = output_samples = 0;
-            soundgrpid = 0;
-            userdata = 0;
+            
+            
             force_enc = voiceact_enc = false;
-            timestamp = GETTIMESTAMP();
+            
         }
 
         AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, ACE_UINT32 sampleindex = 0)
@@ -171,7 +192,7 @@ namespace media
         AudioFrame(ACE_Message_Block* mb)
         : gain(1, 1)
         {
-            AudioFrame* frm = reinterpret_cast<AudioFrame*>(mb->base());
+            auto* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;
         }
 
@@ -203,9 +224,9 @@ namespace media
         , width(w), height(h)
         , fourcc(pic_type)
         , top_down(top_down_bmp)
-        , key_frame(true), stream_id(0)
+        , key_frame(true), stream_id(0), timestamp(GETTIMESTAMP())
         {
-            timestamp = GETTIMESTAMP();
+            
         }
 
         VideoFrame(const VideoFormat& fmt, char* buf, int len)
@@ -215,7 +236,7 @@ namespace media
 
         VideoFrame(ACE_Message_Block* mb)
         {
-            VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
+            auto* frm = reinterpret_cast<media::VideoFrame*>(mb->rd_ptr());
             frame = frm->frame;
             frame_length = frm->frame_length;
             width = frm->width;
@@ -227,15 +248,15 @@ namespace media
             timestamp = frm->timestamp;
         }
 
-        bool IsValid() const { return frame && frame_length && GetVideoFormat().IsValid(); }
+        bool IsValid() const { return (frame != nullptr) && (frame_length != 0) && GetVideoFormat().IsValid(); }
 
         VideoFormat GetVideoFormat() const 
         {
-            return VideoFormat(width, height, fourcc);
+            return {width, height, fourcc};
         }
     };
 
-}
+} // namespace media
 
 ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
                                         ACE_Message_Block::ACE_Message_Type mb_type = ACE_Message_Block::MB_DATA);
@@ -263,7 +284,7 @@ enum Stereo
     STEREO_BOTH     = STEREO_LEFT | STEREO_RIGHT
 };
 
-typedef unsigned char StereoMask;
+using StereoMask = unsigned char;
 
 StereoMask ToStereoMask(bool muteleft, bool muteright);
 
@@ -273,12 +294,12 @@ void SelectStereo(StereoMask stereo, short* buffer, int samples);
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
                  double volume = 8000, bool mute_left = false, bool mute_right = false);
 
-#define GAIN_MAX 32000
-#define GAIN_NORMAL 1000
-#define GAIN_MIN 0
+constexpr int GAIN_MAX = 32000;
+constexpr int GAIN_NORMAL = 1000;
+constexpr int GAIN_MIN = 0;
 
 #define SOFTGAIN(inputsamples, n_samples, channels, gain_numerator, gain_denominator) do { \
-    if (gain_numerator == gain_denominator)                     \
+    if ((gain_numerator) == (gain_denominator))                     \
         break;                                                  \
     float factor = float(gain_numerator) / float(gain_denominator);   \
     int samples_total = (channels) * (n_samples);               \

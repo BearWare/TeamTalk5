@@ -23,18 +23,19 @@
 
 #include "AudioResampler.h"
 
-#if defined(ENABLE_SPEEXDSP)
-#include <avstream/SpeexResampler.h>
-#endif
+#include "myace/MyACE.h"
 
+#if defined(ENABLE_SPEEXDSP)
+#include "avstream/SpeexResampler.h"
+#endif
 #if defined(ENABLE_DMORESAMPLER)
 #include "DMOResampler.h"
 #elif defined(ENABLE_FFMPEG)
 #include "FFmpegResampler.h"
 #endif
 
-#include <myace/MyACE.h>
-#include <assert.h>
+#include <cassert>
+#include <cstdint>
 #include <cstring>
 
 #define ZERO_IT 0
@@ -57,7 +58,7 @@ AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::
     MYTRACE(ACE_TEXT("Created resampler %d Hz, channels %d -> %d Hz, channels %d. Frame size: %d -> %d\n"),
             informat.samplerate, informat.channels, outformat.samplerate, outformat.channels,
             fixed_input_samples,
-            (fixed_input_samples ? CalcSamples(informat.samplerate, fixed_input_samples, outformat.samplerate) : 0));
+            ((fixed_input_samples != 0) ? CalcSamples(informat.samplerate, fixed_input_samples, outformat.samplerate) : 0));
 }
 
 void AudioResampler::FillOutput(int channels, short* output_samples,
@@ -75,7 +76,7 @@ void AudioResampler::FillOutput(int channels, short* output_samples,
 #endif
             break;
         case 2 :
-            int stereo_index = output_samples_written * 2;
+            int const stereo_index = output_samples_written * 2;
             output_samples[stereo_index] = output_samples[stereo_index-1];
             output_samples[stereo_index+1] = output_samples[stereo_index-2];
 #if ZERO_IT
@@ -94,7 +95,7 @@ void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
 {
     assert(informat.IsValid());
     assert(outformat.IsValid());
-    int output_samples_size = CalcSamples(informat.samplerate, input_samples_size, outformat.samplerate);
+    int const output_samples_size = CalcSamples(informat.samplerate, input_samples_size, outformat.samplerate);
     m_resampleoutput.resize(output_samples_size * outformat.channels);
 
     m_input_samples_size = input_samples_size;
@@ -105,15 +106,15 @@ short* AudioResampler::Resample(const short* input_samples, int* output_samples_
 {
     assert(m_resampleoutput.size());
 
-    int outsamples = Resample(input_samples, m_input_samples_size, &m_resampleoutput[0], m_output_samples_size);
-    if (output_samples_size)
+    int const outsamples = Resample(input_samples, m_input_samples_size, m_resampleoutput.data(), m_output_samples_size);
+    if (output_samples_size != nullptr)
         *output_samples_size = outsamples;
-    return &m_resampleoutput[0];
+    return m_resampleoutput.data();
 }
 
 int AudioResampler::Resample(const short* input_samples, short* output_samples)
 {
-    int outsamples = Resample(input_samples, m_input_samples_size, output_samples, m_output_samples_size);
+    int const outsamples = Resample(input_samples, m_input_samples_size, output_samples, m_output_samples_size);
     if (outsamples < m_output_samples_size)
     {
         // zero remaining on fixed size output
@@ -131,7 +132,7 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
     assert(outformat.IsValid());
 
     if(!informat.IsValid() || !outformat.IsValid())
-        return audio_resampler_t();
+        return {};
 
     audio_resampler_t resampler;
     bool ret = false;
@@ -141,7 +142,7 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
     ret = dmo->Init(SAMPLEFORMAT_INT16, SAMPLEFORMAT_INT16);
     MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
 #elif defined(ENABLE_FFMPEG)
-    auto ffmpeg = new FFMPEGResampler(informat, outformat, input_samples_size);
+    auto *ffmpeg = new FFMPEGResampler(informat, outformat, input_samples_size);
     resampler.reset(ffmpeg);
     ret = ffmpeg->Init();
     MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));

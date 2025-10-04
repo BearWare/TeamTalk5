@@ -24,12 +24,9 @@
 #ifndef WINFIREWALL_H
 #define WINFIREWALL_H
 
-#include <myace/MyACE.h>
-#include <windows.h>
-#include <netfw.h>
-#include <objbase.h>
-#include <oleauto.h>
+#include <ace/SString.h>
 
+#include <netfw.h>
 
 class WinFirewall
 {

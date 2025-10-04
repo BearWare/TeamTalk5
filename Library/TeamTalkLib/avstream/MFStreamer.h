@@ -20,13 +20,12 @@
  * TeamTalk SDK distribution.
  *
  */
- 
 #if !defined(MFSTREAMER_H)
 #define MFSTREAMER_H
 
 #include "MediaStreamer.h"
 
-#include <stdint.h>
+#include <cstdint>
 
 #include <atlbase.h>
 #include <mfapi.h>
@@ -36,11 +35,11 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
 class MFStreamer : public MediaFileStreamer
 {
 public:
-    MFStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
-    ~MFStreamer();
+    MFStreamer(const ACE_TString &filename, const MediaStreamOutput &out_prop);
+    ~MFStreamer() override;
 
 protected:
-    void Run();
+    void Run() override;
 
     int QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime);
     int QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime);

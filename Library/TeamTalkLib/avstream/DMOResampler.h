@@ -24,12 +24,14 @@
 #ifndef DMORESAMPLER_H
 #define DMORESAMPLER_H
 
+#include "AudioResampler.h"
+#include "codec/MediaUtil.h"
+
 #include <ace/OS.h>
 
 #include <wmcodecdsp.h>
 #include <dmort.h>
 
-#include "AudioResampler.h"
 
 enum SampleFormat
 {
@@ -41,16 +43,20 @@ class DMOResampler : public AudioResampler
 {
 public:
     DMOResampler(const DMOResampler&) = delete;
-    DMOResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+    DMOResampler(const media::AudioFormat &informat,
+                 const media::AudioFormat &outformat,
                  int fixed_input_samples = 0);
-    virtual ~DMOResampler();
+    ~DMOResampler() override;
 
     bool Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFmt);
     void Close();
 
     //returns no. of samples in output
-    int Resample(const short* input_samples, int input_samples_cnt,
-                 short* output_samples, int output_samples_cnt);
+    int Resample(const short *input_samples,
+                 int input_samples_cnt,
+                 short *output_samples,
+                 int output_samples_cnt) override;
+
 private:
     IMediaObject* m_pDMO = nullptr;
     DMO_MEDIA_TYPE m_mt_input, m_mt_output;
@@ -75,15 +81,15 @@ private:
     }
 
 public:
-    CMediaBuffer(DWORD cbMaxLength) :
-        m_cRef(0),
-        m_cbMaxLength(cbMaxLength),
-        m_cbLength(0),
-        m_pbData(NULL),
-        m_free_buf(true)
+    CMediaBuffer(DWORD cbMaxLength)
+        : m_cRef(0)
+        , m_cbMaxLength(cbMaxLength)
+        , m_cbLength(0)
+        , m_pbData(nullptr)
+        , m_free_buf(true)
     {
         m_pbData = new BYTE[cbMaxLength];
-        if(!m_pbData) throw std::bad_alloc();
+        if(m_pbData == nullptr) throw std::bad_alloc();
     }
 
     CMediaBuffer(BYTE* pInitBuf, DWORD cbInitLength, DWORD cbMaxLength) :
@@ -100,7 +106,7 @@ public:
     static HRESULT CreateBuffer(long cbMaxLen, void **ppUnk)
     {
         try {
-            CMediaBuffer *pBuffer = new CMediaBuffer(cbMaxLen);
+            auto *pBuffer = new CMediaBuffer(cbMaxLen);
             return pBuffer->QueryInterface(__uuidof(IMediaBuffer), ppUnk);
         }
         catch(std::bad_alloc)
@@ -112,19 +118,17 @@ public:
     static HRESULT CreateBuffer(BYTE* pInitBuf, long cbInitLen, long cbMaxLen, void **ppUnk)
     {
         try {
-            CMediaBuffer *pBuffer = new CMediaBuffer(pInitBuf, cbInitLen, cbMaxLen);
+            auto *pBuffer = new CMediaBuffer(pInitBuf, cbInitLen, cbMaxLen);
             return pBuffer->QueryInterface(__uuidof(IMediaBuffer), ppUnk);
-        }
-        catch(std::bad_alloc)
-        {
+        } catch (std::bad_alloc) {
             return E_OUTOFMEMORY;
         }
     }
 
     // IUnknown methods.
-    STDMETHODIMP QueryInterface(REFIID riid, void **ppv)
+    STDMETHODIMP QueryInterface(REFIID riid, void **ppv) override
     {
-        if(ppv == NULL) {
+        if(ppv == nullptr) {
             return E_POINTER;
         }
         if(riid == __uuidof(IMediaBuffer) || riid == IID_IUnknown) {
@@ -132,18 +136,15 @@ public:
             AddRef();
             return S_OK;
         }
-        *ppv = NULL;
+        *ppv = nullptr;
         return E_NOINTERFACE;
     }
 
-    STDMETHODIMP_(ULONG) AddRef()
-    {
-        return InterlockedIncrement(&m_cRef);
-    }
+    STDMETHODIMP_(ULONG) AddRef() override { return InterlockedIncrement(&m_cRef); }
 
-    STDMETHODIMP_(ULONG) Release()
+    STDMETHODIMP_(ULONG) Release() override
     {
-        LONG lRef = InterlockedDecrement(&m_cRef);
+        LONG const lRef = InterlockedDecrement(&m_cRef);
         if(lRef == 0) {
             delete this;
             // m_cRef is no longer valid! Return lRef.
@@ -152,29 +153,27 @@ public:
     }
 
     // IMediaBuffer methods.
-    STDMETHODIMP SetLength(DWORD cbLength)
+    STDMETHODIMP SetLength(DWORD cbLength) override
     {
         if(cbLength > m_cbMaxLength) {
             return E_INVALIDARG;
         }
-        else {
-            m_cbLength = cbLength;
-            return S_OK;
-        }
+        m_cbLength = cbLength;
+        return S_OK;
     }
 
-    STDMETHODIMP GetMaxLength(DWORD *pcbMaxLength)
+    STDMETHODIMP GetMaxLength(DWORD *pcbMaxLength) override
     {
-        if(pcbMaxLength == NULL) {
+        if (pcbMaxLength == nullptr) {
             return E_POINTER;
         }
         *pcbMaxLength = m_cbMaxLength;
         return S_OK;
     }
 
-    STDMETHODIMP GetBufferAndLength(BYTE **ppbBuffer, DWORD *pcbLength)
+    STDMETHODIMP GetBufferAndLength(BYTE **ppbBuffer, DWORD *pcbLength) override
     {
-        if(ppbBuffer == NULL || pcbLength == NULL) {
+        if (ppbBuffer == nullptr || pcbLength == nullptr) {
             return E_POINTER;
         }
         *ppbBuffer = m_pbData;

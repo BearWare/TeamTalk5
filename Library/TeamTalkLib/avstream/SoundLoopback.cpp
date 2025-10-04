@@ -22,20 +22,26 @@
  */
 
 #include "SoundLoopback.h"
-#include <codec/MediaUtil.h>
-#include <assert.h>
-#include <cstring>
 
-using namespace std;
+#include "myace/MyACE.h"
+
+#if defined(ENABLE_WEBRTC)
+#include "avstream/WebRTCPreprocess.h"
+#endif
+
+#include <cassert>
+#include <cstring>
+#include <mutex>
+#include <vector>
+
 using namespace soundsystem;
 
-#define CALLBACK_FRAMESIZE(samplerate) (int)(samplerate * 0.04)
+constexpr auto CALLBACK_FRAMESIZE(int samplerate) { return (int)((samplerate) * 0.04); }
 
 SoundLoopback::SoundLoopback()
     : m_active(false)
 {
     m_soundsystem = soundsystem::GetInstance();
-
     m_soundgrpid = m_soundsystem->OpenSoundGroup();
 }
 
@@ -68,7 +74,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         return false;
 #endif
 
-    DeviceInfo in_dev, out_dev;
+    DeviceInfo in_dev;
+    DeviceInfo out_dev;
     if(!m_soundsystem->GetDevice(inputdevid, in_dev) ||
        !m_soundsystem->GetDevice(outputdevid, out_dev) ||
        in_dev.default_samplerate == 0 ||
@@ -83,7 +90,7 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
         output_samplerate = out_dev.default_samplerate;
     }
 
-    int output_samples = CALLBACK_FRAMESIZE(output_samplerate);
+    int const output_samples = CALLBACK_FRAMESIZE(output_samplerate);
 
     //adapt capture device to playback device
     int input_channels = output_channels;
@@ -97,8 +104,8 @@ bool SoundLoopback::StartTest(int inputdevid, int outputdevid,
 
         input_samples = CalcSamples(output_samplerate, output_samples,
                                     input_samplerate);
-        media::AudioFormat infmt(input_samplerate, input_channels),
-            outfmt(output_samplerate, output_channels);
+        media::AudioFormat infmt(input_samplerate, input_channels);
+        media::AudioFormat outfmt(output_samplerate, output_channels);
         m_capture_resampler = MakeAudioResampler(infmt, outfmt, input_samples);
         if (!m_capture_resampler)
             return false;
@@ -177,7 +184,8 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     if (m_active)
         return false;
 
-    DeviceInfo in_dev, out_dev;
+    DeviceInfo in_dev;
+    DeviceInfo out_dev;
     if (!m_soundsystem->GetDevice(outputdevid, out_dev) ||
         !m_soundsystem->GetDevice(inputdevid, in_dev))
        return false;
@@ -186,13 +194,13 @@ bool SoundLoopback::StartDuplexTest(int inputdevid, int outputdevid,
     if (!out_dev.SupportsOutputFormat(channels, samplerate))
         return false;
 
-    int input_channels = in_dev.GetSupportedInputChannels(channels);
-    int samples = CALLBACK_FRAMESIZE(samplerate);
+    int const input_channels = in_dev.GetSupportedInputChannels(channels);
+    int const samples = CALLBACK_FRAMESIZE(samplerate);
 
     if (input_channels != channels)
     {
-        media::AudioFormat infmt(samplerate, input_channels),
-            outfmt(samplerate, channels);
+        media::AudioFormat infmt(samplerate, input_channels);
+        media::AudioFormat outfmt(samplerate, channels);
         m_capture_resampler = MakeAudioResampler(infmt, outfmt, samples);
         if (!m_capture_resampler)
             return false;
@@ -259,7 +267,7 @@ bool SoundLoopback::StopTest()
     m_preprocess_buffer_left.clear();
     m_preprocess_buffer_right.clear();
     m_capture_resampler.reset();
-    while(m_buf_queue.size())
+    while(!m_buf_queue.empty())
         m_buf_queue.pop();
     m_active = false;
     m_features = soundsystem::SOUNDDEVICEFEATURE_NONE;
@@ -269,8 +277,8 @@ bool SoundLoopback::StopTest()
 void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                                     const short* buffer, int samples)
 {
-    int output_samples = int(m_preprocess_buffer_left.size());
-    int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
+    int const output_samples = int(m_preprocess_buffer_left.size());
+    int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
 
     const short* input_buffer = buffer;
 #if defined(ENABLE_WEBRTC)
@@ -278,11 +286,11 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     if (m_apm)
     {
         apm_buf.resize(samples * streamer.channels);
-        input_buffer = &apm_buf[0];
+        input_buffer = apm_buf.data();
 
-        media::AudioFormat fmt(streamer.samplerate, streamer.channels);
-        media::AudioFrame infrm(fmt, const_cast<short*>(buffer), samples);
-        media::AudioFrame outfrm(fmt, &apm_buf[0], samples);
+        media::AudioFormat const fmt(streamer.samplerate, streamer.channels);
+        media::AudioFrame const infrm(fmt, const_cast<short*>(buffer), samples);
+        media::AudioFrame outfrm(fmt, apm_buf.data(), samples);
 
         if (WebRTCPreprocess(*m_apm, infrm, outfrm) != samples)
         {
@@ -331,47 +339,47 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     }
 
 #if defined(ENABLE_SPEEXDSP)
-    m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
+    m_preprocess_left.Preprocess(m_preprocess_buffer_left.data());
     if(output_channels == 2)
-        m_preprocess_right.Preprocess(&m_preprocess_buffer_right[0]);
+        m_preprocess_right.Preprocess(m_preprocess_buffer_right.data());
 #endif
 
     if(output_channels == 1)
     {
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(&m_preprocess_buffer_left[0], output_samples,
+            SOFTGAIN(m_preprocess_buffer_left.data(), output_samples,
                      output_channels, m_gainlevel, GAIN_NORMAL);
 
-        std::lock_guard<std::mutex> g(m_mutex);
+        std::lock_guard<std::mutex> const g(m_mutex);
         m_buf_queue.push(m_preprocess_buffer_left);
     }
     else if(output_channels == 2)
     {
-        vector<short> tmp_buf(m_preprocess_buffer_left.size() * output_channels);
+        std::vector<short> tmp_buf(m_preprocess_buffer_left.size() * output_channels);
         MergeStereo(m_preprocess_buffer_left, m_preprocess_buffer_right,
-                    &tmp_buf[0], output_samples);
+                    tmp_buf.data(), output_samples);
 
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(&tmp_buf[0], output_samples, output_channels,
+            SOFTGAIN(tmp_buf.data(), output_samples, output_channels,
                      m_gainlevel, GAIN_NORMAL);
-        SelectStereo(m_stereo, &tmp_buf[0], output_samples);
+        SelectStereo(m_stereo, tmp_buf.data(), output_samples);
 
-        std::lock_guard<std::mutex> g(m_mutex);
+        std::lock_guard<std::mutex> const g(m_mutex);
         m_buf_queue.push(tmp_buf);
     }
 }
 
-bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
+bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer&  /*streamer*/,
                                    short* buffer, int samples)
 {
-    std::lock_guard<std::mutex> g(m_mutex);
-    int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
-    if(m_buf_queue.size())
+    std::lock_guard<std::mutex> const g(m_mutex);
+    int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
+    if(!m_buf_queue.empty())
     {
         assert((int)m_buf_queue.front().size() / output_channels == samples);
-        std::memcpy(buffer, &m_buf_queue.front()[0], m_buf_queue.front().size()*sizeof(short));
+        std::memcpy(buffer, m_buf_queue.front().data(), m_buf_queue.front().size()*sizeof(short));
         m_buf_queue.pop();
     }
     else
@@ -392,22 +400,22 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                                    const short* input_buffer,
                                    short* output_buffer, int samples)
 {
-    int output_samples = int(m_preprocess_buffer_left.size());
-    int output_channels = m_preprocess_buffer_right.size()? 2 : 1;
+    int const output_samples = int(m_preprocess_buffer_left.size());
+    int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
 
 #if defined(ENABLE_WEBRTC)
     if (m_apm)
     {
-        size_t totalsamples = samples * streamer.output_channels;
+        size_t const totalsamples = samples * streamer.output_channels;
         if (m_prev_buffer.size() != totalsamples)
             m_prev_buffer.resize(totalsamples);
 
-        media::AudioFormat infmt(streamer.samplerate, streamer.input_channels);
-        media::AudioFormat outfmt(streamer.samplerate, streamer.output_channels);
+        media::AudioFormat const infmt(streamer.samplerate, streamer.input_channels);
+        media::AudioFormat const outfmt(streamer.samplerate, streamer.output_channels);
         media::AudioFrame infrm(infmt, const_cast<short*>(input_buffer), samples);
         media::AudioFrame outfrm(outfmt, output_buffer, samples);
         // insert echo cancel buffer
-        infrm.output_buffer = &m_prev_buffer[0];
+        infrm.output_buffer = m_prev_buffer.data();
         infrm.output_samples = samples;
         infrm.outputfmt = outfmt;
         infrm.duplex_callback_delay = streamer.last_duplex_callback_delay;;
@@ -416,7 +424,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         {
             MYTRACE(ACE_TEXT("WebRTC failed to process audio\n"));
         }
-        std::memcpy(&m_prev_buffer[0], output_buffer, PCM16_BYTES(samples, streamer.output_channels));
+        std::memcpy(m_prev_buffer.data(), output_buffer, PCM16_BYTES(samples, streamer.output_channels));
         return;
     }
 #endif
@@ -436,13 +444,13 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 
     if (output_channels == 1)
     {
-        assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
+        assert(m_preprocess_buffer_left.size() == streamer.framesize);
 
 #if defined(ENABLE_SPEEXDSP)
         if (m_preprocess_left.IsEchoCancel())
         {
             m_preprocess_left.EchoCancel(tmp_input_buffer, output_buffer,
-                                         &m_preprocess_buffer_left[0]);
+                                         m_preprocess_buffer_left.data());
         }
         else
 #endif
@@ -451,28 +459,30 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         }
 
 #if defined(ENABLE_SPEEXDSP)
-        m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
+        m_preprocess_left.Preprocess(m_preprocess_buffer_left.data());
 #endif
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(&m_preprocess_buffer_left[0], output_samples,
+            SOFTGAIN(m_preprocess_buffer_left.data(), output_samples,
                      output_channels, m_gainlevel, GAIN_NORMAL);
 
-        std::memcpy(output_buffer, &m_preprocess_buffer_left[0],
+        std::memcpy(output_buffer, m_preprocess_buffer_left.data(),
                     PCM16_BYTES(streamer.framesize, streamer.input_channels));
     }
     else if (output_channels == 2)
     {
-        assert((int)m_preprocess_buffer_left.size() == streamer.framesize);
-        assert((int)m_preprocess_buffer_right.size() == streamer.framesize);
+        assert(m_preprocess_buffer_left.size() == streamer.framesize);
+        assert(m_preprocess_buffer_right.size() == streamer.framesize);
 
 #if defined(ENABLE_SPEEXDSP)
         if (m_preprocess_left.IsEchoCancel() && m_preprocess_right.IsEchoCancel())
         {
-            vector<short> in_leftchan(output_samples), in_rightchan(output_samples);
+            std::vector<short> in_leftchan(output_samples);
+            std::vector<short> in_rightchan(output_samples);
             SplitStereo(tmp_input_buffer, output_samples, in_leftchan, in_rightchan);
 
-            vector<short> out_leftchan(output_samples), out_rightchan(output_samples);
+            std::vector<short> out_leftchan(output_samples);
+            std::vector<short> out_rightchan(output_samples);
             if(streamer.output_channels == 1)
             {
                 out_leftchan.assign(output_buffer, output_buffer+output_samples);
@@ -482,10 +492,10 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
             {
                 SplitStereo(output_buffer, streamer.framesize, out_leftchan, out_rightchan);
             }
-            m_preprocess_left.EchoCancel(&in_leftchan[0], &out_leftchan[0],
-                                         &m_preprocess_buffer_left[0]);
-            m_preprocess_right.EchoCancel(&in_rightchan[0], &out_rightchan[0],
-                                          &m_preprocess_buffer_right[0]);
+            m_preprocess_left.EchoCancel(in_leftchan.data(), out_leftchan.data(),
+                                         m_preprocess_buffer_left.data());
+            m_preprocess_right.EchoCancel(in_rightchan.data(), out_rightchan.data(),
+                                          m_preprocess_buffer_right.data());
         }
         else
 #endif
@@ -495,8 +505,8 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         }
 
 #if defined(ENABLE_SPEEXDSP)
-        m_preprocess_left.Preprocess(&m_preprocess_buffer_left[0]);
-        m_preprocess_right.Preprocess(&m_preprocess_buffer_right[0]);
+        m_preprocess_left.Preprocess(m_preprocess_buffer_left.data());
+        m_preprocess_right.Preprocess(m_preprocess_buffer_right.data());
 #endif
 
         MergeStereo(m_preprocess_buffer_left, m_preprocess_buffer_right,

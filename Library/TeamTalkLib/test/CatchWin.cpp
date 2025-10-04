@@ -4,19 +4,20 @@
 
 #include "TTUnitTest.h"
 
-#include <bin/dll/Convert.h>
+#include "bin/dll/Convert.h"
+#include "codec/WaveFile.h"
 
 #if defined(ENABLE_MEDIAFOUNDATION)
-#include <avstream/MFTransform.h>
+#include "avstream/MFTransform.h"
 #endif
 
 #if defined (ENABLE_PORTAUDIO)
-#include <avstream/PortAudioWrapper.h>
+#include "avstream/PortAudioWrapper.h"
 #include <pa_win_wasapi.h>
 #endif
 
-#include <codec/WaveFile.h>
 #include <ace/FILE_Connector.h>
+
 #include <iostream>
 #include <sstream>
 

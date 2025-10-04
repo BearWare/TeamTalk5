@@ -23,14 +23,17 @@
 
 #include "MFCapture.h"
 #include "MFTransform.h"
-#include <codec/BmpFile.h>
 
+#include "myace/MyACE.h"
+
+#include <atlbase.h>
 #include <mfapi.h>
 #include <mfidl.h>
 #include <mfreadwrite.h>
-#include <atlbase.h>
 
-#include <assert.h>
+#include <cassert>
+#include <map>
+#include <thread>
 
 using namespace vidcap;
 

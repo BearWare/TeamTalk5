@@ -22,8 +22,7 @@
  */
 
 #include "SignalEventHandler.h"
-#include <assert.h>
-#include <iostream>
+#include <cassert>
 using namespace std;
 
 SignalEventHandler::SignalEventHandler(bool& signaled)
@@ -31,7 +30,7 @@ SignalEventHandler::SignalEventHandler(bool& signaled)
 {
 }
 
-int SignalEventHandler::handle_signal(int signum, siginfo_t* info, ucontext_t* context)
+int SignalEventHandler::handle_signal(int  /*signum*/, siginfo_t*  /*info*/, ucontext_t*  /*context*/)
 {
     signaled_ = true;
     assert(reactor());

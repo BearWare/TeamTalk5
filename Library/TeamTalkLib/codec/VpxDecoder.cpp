@@ -22,16 +22,22 @@
  */
 
 #include "VpxDecoder.h"
-#include <assert.h>
-#include "vpx/vp8dx.h"
+
+#include <vpx/vp8dx.h>
+
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+
 #define dec_interface vpx_codec_vp8_dx()
 
-void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen);
+static void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen);
 
 VpxDecoder::VpxDecoder()
 : m_codec()
 , m_cfg()
-, m_iter(NULL)
+, m_iter(nullptr)
 {
 }
 
@@ -42,10 +48,10 @@ VpxDecoder::~VpxDecoder()
 
 bool VpxDecoder::Open(int width, int height)
 {
-    int flags = 0;
+    int const flags = 0;
     vpx_codec_err_t ret;
 
-    if(m_codec.iface)
+    if(m_codec.iface != nullptr)
         return false;
     
     m_cfg.threads = 0;
@@ -58,10 +64,10 @@ bool VpxDecoder::Open(int width, int height)
 
 void VpxDecoder::Close()
 {
-    if(m_codec.iface)
+    if(m_codec.iface != nullptr)
         vpx_codec_destroy(&m_codec);
     memset(&m_codec, 0, sizeof(m_codec));
-    m_iter = NULL;
+    m_iter = nullptr;
 }
 
 int VpxDecoder::PushDecoder(const char* frame_data, int frame_len)
@@ -71,32 +77,31 @@ int VpxDecoder::PushDecoder(const char* frame_data, int frame_len)
     assert(m_codec.iface);
     ret = vpx_codec_decode(&m_codec, 
                            reinterpret_cast<const uint8_t*>(frame_data),
-                           frame_len, NULL, 0);
+                           frame_len, nullptr, 0);
     //assert(ret == VPX_CODEC_OK);
     return ret;
 }
 
 vpx_image_t* VpxDecoder::GetVpxImage()
 {
-    vpx_image_t* img;
+    vpx_image_t* img = nullptr;
     assert(m_codec.iface);
-    if((img = vpx_codec_get_frame(&m_codec, &m_iter)))
+    if((img = vpx_codec_get_frame(&m_codec, &m_iter)) != nullptr)
     {
         return img;
     }
-    else
-    {
-        m_iter = NULL;
-    }
+    
+            m_iter = NULL;
+   
 
-    return NULL;
+    return nullptr;
 }
 
 bool VpxDecoder::GetRGB32Image(char* outbuf, int buflen)
 {
     assert(RGB32_BYTES(m_cfg.w, m_cfg.h) == buflen);
     vpx_image_t* img = GetVpxImage();
-    if(img)
+    if(img != nullptr)
     {
         I420toRGB32(img, reinterpret_cast<uint8_t*>(outbuf), buflen);
     }
@@ -108,7 +113,7 @@ media::VideoFrame VpxDecoder::GetImage()
 {
     vpx_image_t* img = GetVpxImage();
 
-    if (img)
+    if (img != nullptr)
     {
         /*
         vpx_image.c:
@@ -121,27 +126,27 @@ media::VideoFrame VpxDecoder::GetImage()
 
         assert(img->fmt == VPX_IMG_FMT_I420);
 
-        return media::VideoFrame(reinterpret_cast<char*>(img->img_data),
-            img->d_w * img->d_h * img->bps / 8,
-            img->d_w, img->d_h, media::FOURCC_I420, false);
+        return {reinterpret_cast<char*>(img->img_data),
+            static_cast<int>(img->d_w * img->d_h * img->bps / 8),
+            static_cast<int>(img->d_w), static_cast<int>(img->d_h), media::FOURCC_I420, false};
     }
 
-    return media::VideoFrame();
+    return {};
 }
 
 
-inline uint8_t CLAMP(short v)    
+static inline uint8_t CLAMP(short v)    
 {
     if (v > 255)
         return 255;
-    else if (v < 0)
+    if (v < 0)
         return 0;
     return (uint8_t)v;
 }
 
 void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen)
 {
-    int plane_size = img->d_w * img->d_h;
+    int const plane_size = img->d_w * img->d_h;
     uint8_t * ptry = img->planes[VPX_PLANE_Y];
     uint8_t * ptru = img->planes[VPX_PLANE_U];
     uint8_t * ptrv = img->planes[VPX_PLANE_V];
@@ -152,8 +157,13 @@ void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen)
         uint8_t* ptro2 = ptro;
         for (unsigned int j = 0; j < img->d_w; j += 2) 
         {
-            short pr, pg, pb, y;
-            short r, g, b;
+            short pr;
+            short pg;
+            short pb;
+            short y;
+            short r;
+            short g;
+            short b;
 
             pr = (-56992 + ptrv[j / 2] * 409) >> 8;
             pg = (34784 - ptru[j / 2] * 100 - ptrv[j / 2] * 208) >> 8;
@@ -181,7 +191,7 @@ void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen)
             *ptro2++ = 255;
         }
         ptry += img->stride[VPX_PLANE_Y];
-        if (i & 1) 
+        if ((i & 1) != 0u) 
         {
             ptru += img->stride[VPX_PLANE_U];
             ptrv += img->stride[VPX_PLANE_V];

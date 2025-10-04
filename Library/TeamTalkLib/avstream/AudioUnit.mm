@@ -23,14 +23,13 @@
 
 #include "AudioUnit.h"
 
-#include <codec/MediaUtil.h>
-#include <myace/MyACE.h>
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 
-#include <vector>
-#include <assert.h>
-
-#include <memory>
 #include <algorithm>
+#include <cassert>
+#include <memory>
+#include <vector>
 
 #import <AVFoundation/AVFoundation.h>
 #import <AudioUnit/AudioUnit.h>

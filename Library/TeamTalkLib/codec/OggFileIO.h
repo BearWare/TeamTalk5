@@ -24,12 +24,13 @@
 #ifndef OGGOUTPUT_H
 #define OGGOUTPUT_H
 
-#include <myace/MyACE.h>
-#include <mystd/MyStd.h>
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ogg/ogg.h>
 
 #include <ace/SString.h>
+#include <cstdint>
 
 #include <memory>
 #include <vector>
@@ -71,7 +72,7 @@ private:
 class OggFile : private NonCopyable
 {
 public:
-    OggFile();
+    OggFile() = default;
     ~OggFile();
     
     // write
@@ -131,12 +132,6 @@ private:
     unsigned int m_last_timestamp;
 };
 
-double speex_granule_time(const SpeexHeader& spx_header,
-                          spx_int32_t lookahead, ogg_int64_t granpos);
-
-int speex_packet_jump(int msec_per_packet,
-                      unsigned int last_timestamp,
-                      unsigned int cur_timestamp);
 
 class SpeexFile : private NonCopyable
 {
@@ -161,14 +156,14 @@ private:
     ogg_page m_aud_page;
 };
 
-typedef std::shared_ptr< SpeexFile > speexfile_t;
+using speexfile_t = std::shared_ptr< SpeexFile >;
 
 #include "SpeexEncoder.h"
 
 class SpeexEncFile : private NonCopyable
 {
 public:
-    SpeexEncFile();
+    SpeexEncFile() = default;
 
     bool Open(const ACE_TString& filename,
               int bandmode, int complexity, float vbr_quality,
@@ -182,7 +177,7 @@ private:
     std::vector<char> m_buffer;
 };
 
-typedef std::shared_ptr< SpeexEncFile > speexencfile_t;
+using speexencfile_t = std::shared_ptr< SpeexEncFile >;
 
 #endif /* ENABLE_SPEEX */
 
@@ -227,7 +222,7 @@ private:
     ogg_int64_t m_last_granule_pos;
 };
 
-typedef std::shared_ptr< OpusFile > opusfile_t;
+using opusfile_t = std::shared_ptr< OpusFile >;
 
 #endif /* ENABLE_OPUSTOOLS */
 
@@ -238,14 +233,14 @@ typedef std::shared_ptr< OpusFile > opusfile_t;
 class OpusEncFile : private NonCopyable
 {
 public:
-    OpusEncFile();
+    OpusEncFile() = default;
 
     bool Open(const ACE_TString& filename, int channels, 
               int samplerate, int framesize, int app);
     void Close();
     int Encode(const short* input_buffer, int input_samples, bool last);
 
-    OpusEncode& getEncoder() { return m_encoder; }
+    OpusEncode& GetEncoder() { return m_encoder; }
 
 private:
     OpusEncode m_encoder;
@@ -253,7 +248,7 @@ private:
     std::vector<char> m_buffer;
 };
 
-typedef std::shared_ptr< OpusEncFile > opusencfile_t;
+using opusencfile_t = std::shared_ptr< OpusEncFile >;
 
 #include "OpusDecoder.h"
 
@@ -268,14 +263,14 @@ public:
     int Decode(short* input_buffer, int input_samples);
     bool Seek(uint32_t offset_msec);
     uint32_t GetDurationMSec();
-    uint32_t GetElapsedMSec();
+    uint32_t GetElapsedMSec() const;
 private:
     OpusDecode m_decoder;
     OpusFile m_file;
     ogg_int64_t m_samples_decoded = 0;
 };
 
-typedef std::shared_ptr< OpusDecFile > opusdecfile_t;
+using opusdecfile_t = std::shared_ptr< OpusDecFile >;
 
 #endif
 

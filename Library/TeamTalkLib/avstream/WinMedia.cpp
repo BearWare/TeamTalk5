@@ -24,8 +24,8 @@
 #include "WinMedia.h"
 #include "AudioResampler.h"
 
-#include <codec/MediaUtil.h>
-#include <codec/WaveFile.h>
+#include "codec/MediaUtil.h"
+#include "codec/WaveFile.h"
 
 #include <atlbase.h>
 #include <DShow.h>

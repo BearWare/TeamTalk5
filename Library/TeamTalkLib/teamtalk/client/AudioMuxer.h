@@ -26,40 +26,51 @@
 
 #include "AudioContainer.h"
 
-#include <myace/MyACE.h>
-#include <myace/TimerHandler.h>
-#include <codec/WaveFile.h>
-#include <codec/MediaUtil.h>
-#if defined(ENABLE_MEDIAFOUNDATION)
-#include <avstream/MFTransform.h>
-#endif
-#include <teamtalk/CodecCommon.h>
-#include <mystd/MyStd.h>
+#include "codec/MediaUtil.h"
+#include "codec/WaveFile.h"
+#include "myace/TimerHandler.h"
+#include "mystd/MyStd.h"
+#include "teamtalk/Common.h"
 
+#if defined(ENABLE_MEDIAFOUNDATION)
+#include "avstream/MFTransform.h"
+#endif
+
+#if defined(ENABLE_OGG)
+#include "codec/OggFileIO.h"
+
+#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
+#define ENABLE_OPUSFILE
+#endif
+#if defined(ENABLE_SPEEX)
+#define ENABLE_SPEEXFILE
+#endif
+
+#endif /* ENABLE_OGG */
+
+#include <ace/Message_Block.h>
+#include <ace/Message_Queue_T.h>
+#include <ace/Reactor.h>
+#include <ace/SString.h>
+#include <ace/Time_Value.h>
+
+#include <cstdint>
+#include <functional>
 #include <map>
+#include <memory>
 #include <mutex>
 #include <thread>
+#include <vector>
 
+using audiomuxer_callback_t = std::function< void (teamtalk::StreamTypes sts, const media::AudioFrame& frm) >;
 
-#if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS) && defined(ENABLE_OGG)
-#include <codec/OggFileIO.h>
-#define ENABLE_OPUSFILE 1
-#endif
+using audiomuxer_tick_t = std::function< void (teamtalk::StreamTypes sts, uint32_t sample_no) >;
 
-#if defined(ENABLE_SPEEX) && defined(ENABLE_OGG)
-#include <codec/OggFileIO.h>
-#define ENABLE_SPEEXFILE 1
-#endif
-
-typedef std::function< void (teamtalk::StreamTypes sts, const media::AudioFrame& frm) > audiomuxer_callback_t;
-
-typedef std::function< void (teamtalk::StreamTypes sts, uint32_t sample_no) > audiomuxer_tick_t;
-
-class AudioMuxer : private TimerListener
+class AudioMuxer : private TimerListener, NonCopyable
 {
 public:
     AudioMuxer(teamtalk::StreamTypes sts);
-    virtual ~AudioMuxer();
+    ~AudioMuxer() override;
 
     bool RegisterMuxCallback(const media::AudioInputFormat& fmt,
                              audiomuxer_callback_t cb);
@@ -82,7 +93,7 @@ private:
     bool StartThread(const media::AudioInputFormat& fmt);
     void StopThread();
     void Run();
-    int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
+    int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();
@@ -91,13 +102,13 @@ private:
     void WriteAudio(int cb_samples, teamtalk::StreamTypes sts);
     bool FileActive();
 
-    typedef std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> > message_queue_t;
+    using message_queue_t = std::shared_ptr< ACE_Message_Queue<ACE_MT_SYNCH> >;
     message_queue_t GetMuxQueue(int key);
     // return number of media::AudioFrame in queue
     int SubmitMuxAudioFrame(int key, const media::AudioFrame& frm);
     // drain everything in 'm_preprocess_queue'
     void SubmitPreprocessQueue();
-    ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs);
+    ACE_Message_Block* BuildMuxAudioFrame(std::vector<ACE_Message_Block*>& mbs) const;
 
     // preprocess queue (audio that cannot yet to into 'm_usermux_queue')
     AudioContainer m_preprocess_queue;
@@ -106,10 +117,10 @@ private:
     std::map<int, ACE_Message_Block*> m_preprocess_block;
 
     // raw audio data from a user ID
-    typedef std::map<int, message_queue_t> user_audio_queue_t;
+    using user_audio_queue_t = std::map<int, message_queue_t>;
     user_audio_queue_t m_usermux_queue;
     // next sample number to expect for muxing from a user ID
-    typedef std::map<int, uint32_t> user_muxprogress_t;
+    using user_muxprogress_t = std::map<int, uint32_t>;
     user_muxprogress_t m_usermux_progress;
     std::vector<short> m_muxed_buffer;
 
@@ -136,13 +147,13 @@ private:
     opusencfile_t m_opusfile;
 #endif
 
-    audiomuxer_callback_t m_muxcallback = {};
-    audiomuxer_tick_t m_tickcallback = {};
+    audiomuxer_callback_t m_muxcallback;
+    audiomuxer_tick_t m_tickcallback;
 };
 
-typedef std::shared_ptr< AudioMuxer > audiomuxer_t;
+using audiomuxer_t = std::shared_ptr< AudioMuxer >;
 
-#define FIXED_AUDIOCODEC_CHANNELID 0
+constexpr auto FIXED_AUDIOCODEC_CHANNELID = 0;
 
 class ChannelAudioMuxer
 {

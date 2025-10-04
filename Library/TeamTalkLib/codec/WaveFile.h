@@ -25,10 +25,13 @@
 #define WAVEFILE_H
 
 #include "MediaUtil.h"
-#include <myace/MyACE.h>
 
+#include "myace/MyACE.h"
+
+#include <ace/SString.h>
+
+#include <cstdint>
 #include <memory>
-
 
 #if defined(WIN32)
 #include <Mmreg.h>
@@ -45,7 +48,7 @@ struct WAVEFORMATEX
 } __attribute__((packed));
 #endif
 
-#define SIZEOF_WAVEFORMATEX 16
+constexpr auto SIZEOF_WAVEFORMATEX = 16;
 
 bool WriteWaveFileHeader(MyFile& file, const media::AudioFormat& fmt);
 bool WriteWaveFileHeader(MyFile& file, const WAVEFORMATEX* waveformat, int len);
@@ -64,7 +67,7 @@ private:
     MyFile m_wavfile;
 };
 
-typedef std::shared_ptr< WaveFile > wavefile_t;
+using wavefile_t = std::shared_ptr< WaveFile >;
 
 class WavePCMFile
 {
@@ -79,7 +82,7 @@ public:
     void Close();
     bool AppendSamples(const short* buffer, int samples_len);
     const ACE_TString& Path() const { return m_filepath; }
-    const ACE_TString FileName() const; 
+    ACE_TString FileName() const; 
 
     bool SeekSamplesBegin();
     bool SeekSamplesEnd();
@@ -97,6 +100,6 @@ private:
     int m_channels;
 };
 
-typedef std::shared_ptr< WavePCMFile > wavepcmfile_t;
+using wavepcmfile_t = std::shared_ptr< WavePCMFile >;
 
 #endif

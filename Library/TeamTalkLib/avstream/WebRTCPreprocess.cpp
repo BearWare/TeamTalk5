@@ -23,26 +23,38 @@
 
 #include "WebRTCPreprocess.h"
 
-#include <myace/MyACE.h>
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 
-#define DEBUG_WEBRTC 0
+#include <absl/strings/string_view.h>
+#include <api/audio/audio_processing.h>
+#include <api/audio/audio_processing_statistics.h>
+#include <ace/SString.h>
+#include <ace/ace_wchar.h>
+
+#include <cassert>
+#include <cstdint>
+#include <string>
+
+constexpr auto DEBUG_WEBRTC = 0;
 
 // webrtc::GainControlImpl queries this feature. Field trials is
 // excluded by passing rtc_exclude_field_trial_default=true to GN.
-namespace webrtc { namespace field_trial {
+namespace webrtc::field_trial {
 std::string FindFullName(absl::string_view trial_)
 {
-    std::string trial(trial_);;
+    std::string const trial(trial_);;
 #if defined(UNICODE)
     ACE_TString str = LocalToUnicode(trial.c_str());
 #else
-    ACE_TString str = trial.c_str();
+    ACE_TString const str = trial.c_str();
 #endif
     MYTRACE(ACE_TEXT("Querying feature: %s\n"), str.c_str());
     return "Disabled";
     //return "Enabled";
 }
-} }
+} // namespace field_trial
+  // namespace webrtc
 
 bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 {
@@ -58,11 +70,11 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
     assert(infrm.inputfmt.IsValid());
     assert(!outfrm.inputfmt.IsValid() || infrm.inputfmt == outfrm.inputfmt);
 
-    webrtc::StreamConfig in_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels),
-        out_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels),
-        echo_cfg(infrm.outputfmt.samplerate, infrm.outputfmt.channels);
+    webrtc::StreamConfig in_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels);
+    webrtc::StreamConfig out_cfg(infrm.inputfmt.samplerate, infrm.inputfmt.channels);
+    webrtc::StreamConfig echo_cfg(infrm.outputfmt.samplerate, infrm.outputfmt.channels);
 
-    bool echo = apm.GetConfig().echo_canceller.enabled;
+    bool const echo = apm.GetConfig().echo_canceller.enabled;
     // Check that echo cancellation is configured correctly.
     // Output frame must be available in order to echo cancel.
     if (echo && infrm.inputfmt != infrm.outputfmt)
@@ -80,7 +92,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
             //delay not known (likely for loopback). Set it to minimum frame duration
             delayms = PCM16_SAMPLES_DURATION(infrm.output_samples, infrm.outputfmt.samplerate);
         }
-        int ret = apm.set_stream_delay_ms(delayms);
+        int const ret = apm.set_stream_delay_ms(delayms);
         MYTRACE_COND(ret != webrtc::AudioProcessing::kNoError,
                         ACE_TEXT("WebRTC failed to stream delay for echo cancellation. Result: %d, delay: %d\n"), ret, infrm.duplex_callback_delay);
         if (ret != webrtc::AudioProcessing::kNoError)
@@ -88,13 +100,15 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
     }
 
     // AudioProcessingStats
-    int output_rms_dbfs = 0;
+    int const output_rms_dbfs = 0;
     bool voice_detected = false;
 
-    int in_index = 0, out_index = 0, n = 0;
+    int in_index = 0;
+    int out_index = 0;
+    int n = 0;
     while (in_index + int(in_cfg.num_frames()) <= infrm.input_samples)
     {
-        int ret;
+        int ret = 0;
 
         if (echo)
         {
@@ -119,7 +133,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         if (ret != webrtc::AudioProcessing::kNoError)
             return -1;
 
-        if (stats)
+        if (stats != nullptr)
         {
             auto wstats = apm.GetStatistics();
             voice_detected |= wstats.voice_detected.value_or(false);
@@ -130,7 +144,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         n++;
     }
 
-    if (stats && n > 0)
+    if ((stats != nullptr) && n > 0)
     {
         stats->voice_detected = voice_detected;
     }

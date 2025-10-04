@@ -23,20 +23,32 @@
 
 #include "MediaPlayback.h"
 
-#include <cstring>
+#include "myace/MyACE.h"
+
+#if defined(ENABLE_WEBRTC)
+#include "avstream/WebRTCPreprocess.h"
+#endif
+
 #include <algorithm>
+#include <cassert>
+#include <cstring>
+#include <utility>
+#include <mutex>
+#include <functional>
+#include <memory>
+#include <vector>
 
 using namespace std::placeholders;
 
-#define DEBUG_MEDIAPLAYBACK 0
+constexpr auto DEBUG_MEDIAPLAYBACK = 0;;
 
 MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
                              mediaplayback_status_t statusfunc,
                              mediaplayback_audio_t audiofunc)
-    : m_statusfunc(statusfunc)
-    , m_audiofunc(audiofunc)
+    : m_statusfunc(std::move(std::move(statusfunc)))
+    , m_audiofunc(std::move(std::move(audiofunc)))
     , m_userdata(userdata)
-    , m_sndsys(sndsys)
+    , m_sndsys(std::move(std::move(sndsys)))
 {
     MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("MediaPlayback - %p. ID: %d\n"), this, userdata);
 }
@@ -45,7 +57,7 @@ MediaPlayback::~MediaPlayback()
 {
     bool wait = false;
     {
-        std::lock_guard<std::mutex> g(m_mutex);
+        std::lock_guard<std::mutex> const g(m_mutex);
         wait = (m_status == MEDIASTREAM_FINISHED);
     }
 
@@ -60,8 +72,8 @@ MediaPlayback::~MediaPlayback()
 
     m_sndsys->CloseOutputStream(this);
 
-    std::lock_guard<std::mutex> g(m_mutex);
-    while (m_audio_buffer.size())
+    std::lock_guard<std::mutex> const g(m_mutex);
+    while (!m_audio_buffer.empty())
     {
         m_audio_buffer.front()->release();
         m_audio_buffer.pop();
@@ -74,17 +86,14 @@ bool MediaPlayback::OpenFile(const ACE_TString& filename)
     if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;
 
-    MediaStreamOutput outprop(PB_FRAMEDURATION_MSEC, media::FOURCC_NONE);
+    MediaStreamOutput const outprop(PB_FRAMEDURATION_MSEC, media::FOURCC_NONE);
 
     m_streamer = MakeMediaFileStreamer(filename, outprop);
     if (m_streamer && m_streamer->Open())
     {
-        m_streamer->RegisterVideoCallback(std::bind(&MediaPlayback::MediaStreamVideoCallback,
-                                                    this, _1, _2), true);
-        m_streamer->RegisterAudioCallback(std::bind(&MediaPlayback::MediaStreamAudioCallback,
-                                                    this, _1, _2), true);
-        m_streamer->RegisterStatusCallback(std::bind(&MediaPlayback::MediaStreamStatusCallback,
-                                                     this, _1, _2), true);
+        m_streamer->RegisterVideoCallback([this](auto && PH1, auto && PH2) { return MediaStreamVideoCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, true);
+        m_streamer->RegisterAudioCallback([this](auto && PH1, auto && PH2) { return MediaStreamAudioCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, true);
+        m_streamer->RegisterStatusCallback([this](auto && PH1, auto && PH2) { MediaStreamStatusCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, true);
         return true;
     }
 
@@ -101,7 +110,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!inprop.HasAudio())
         return false;
 
-    int inframesize = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
+    int const inframesize = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
     int outframesize = inframesize;
     media::AudioFormat outformat(inprop.audio.samplerate, inprop.audio.channels);
 
@@ -113,7 +122,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
 
         outframesize = CalcSamples(inprop.audio.samplerate, inframesize,
                                    devinfo.default_samplerate);
-        int outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
+        int const outchannels = std::min(devinfo.max_output_channels, inprop.audio.channels);
         outformat = media::AudioFormat(devinfo.default_samplerate, outchannels);
 
         m_resampler = MakeAudioResampler(inprop.audio, outformat, inframesize);
@@ -122,7 +131,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
 #if defined(ENABLE_SPEEXDSP)
     if (speexdsp)
     {
-        m_preprocess_left.reset(new SpeexPreprocess());
+        m_preprocess_left = std::make_shared<SpeexPreprocess>();
         if (!m_preprocess_left->Initialize(outformat.samplerate, outframesize))
             return false;
 
@@ -130,7 +139,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
 
         if (outformat.channels == 2)
         {
-            m_preprocess_right.reset(new SpeexPreprocess());
+            m_preprocess_right = std::make_shared<SpeexPreprocess>();
             if(!m_preprocess_right->Initialize(outformat.samplerate, outframesize))
                 return false;
 
@@ -211,16 +220,16 @@ bool MediaPlayback::SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config&
 }
 #endif
 
-bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame& video_frame,
-                                             ACE_Message_Block* mb_video)
+bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/,
+                                             ACE_Message_Block*  /*mb_video*/)
 {
     return false;
 }
 
-bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame& audio_frame,
+bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
                                              ACE_Message_Block* mb_audio)
 {
-    std::lock_guard<std::mutex> g(m_mutex);
+    std::lock_guard<std::mutex> const g(m_mutex);
     if (m_audio_buffer.size() > 10)
     {
         MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
@@ -241,7 +250,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         {
             if (!m_sndsys->StartStream(this))
             {
-                std::lock_guard<std::mutex> g(m_mutex);
+                std::lock_guard<std::mutex> const g(m_mutex);
                 m_status = MEDIASTREAM_ERROR;
                 m_drained.set(true); // ensure we don't wait for 'finished'
             }
@@ -254,8 +263,8 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     }
 
-    std::lock_guard<std::mutex> g(m_mutex);
-    m_progress.push(MediaFileProgress(status, mfp));
+    std::lock_guard<std::mutex> const g(m_mutex);
+    m_progress.emplace(status, mfp);
 }
 
 MediaStreamStatus MediaPlayback::GetStatus() const
@@ -263,7 +272,7 @@ MediaStreamStatus MediaPlayback::GetStatus() const
     return m_status;
 }
 
-bool MediaPlayback::Flushed()
+bool MediaPlayback::Flushed() const
 {
     // Give audio player time to submit and play the audio.
     // Stopping at MEDIASTREAM_FINISHED may not have played everything.
@@ -277,9 +286,9 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     ACE_Message_Block* mb = nullptr;
     {
-        std::lock_guard<std::mutex> g(m_mutex);
+        std::lock_guard<std::mutex> const g(m_mutex);
 
-        if (m_audio_buffer.size())
+        if (!m_audio_buffer.empty())
         {
             mb = m_audio_buffer.front();
             m_audio_buffer.pop();
@@ -298,14 +307,14 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     MYTRACE_COND(DEBUG_MEDIAPLAYBACK && !mb, ACE_TEXT("Media playback underflow\n"));
 
-    if (mb)
+    if (mb != nullptr)
     {
-        MBGuard gmb(mb);
-        media::AudioFrame frm(mb);
+        MBGuard const gmb(mb);
+        media::AudioFrame const frm(mb);
 
         if (m_resampler)
         {
-            int n_resampled = m_resampler->Resample(frm.input_buffer, buffer);
+            int const n_resampled = m_resampler->Resample(frm.input_buffer, buffer);
             MYTRACE_COND(n_resampled != samples,
                          ACE_TEXT("Media playback. Unexpected number of samples returned from resampler. %d != %d\n"),
                          n_resampled, samples);
@@ -342,11 +351,12 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
             if(m_preprocess_left->IsDenoising() || m_preprocess_left->IsAGC())
             {
-                std::vector<short> in_leftchan(streamer.framesize), in_rightchan(streamer.framesize);
+                std::vector<short> in_leftchan(streamer.framesize);
+                std::vector<short> in_rightchan(streamer.framesize);
                 SplitStereo(buffer, streamer.framesize, in_leftchan, in_rightchan);
 
-                m_preprocess_left->Preprocess(&in_leftchan[0]); //denoise, AGC, etc
-                m_preprocess_right->Preprocess(&in_rightchan[0]); //denoise, AGC, etc
+                m_preprocess_left->Preprocess(in_leftchan.data()); //denoise, AGC, etc
+                m_preprocess_right->Preprocess(in_rightchan.data()); //denoise, AGC, etc
                 MergeStereo(in_leftchan, in_rightchan, buffer, streamer.framesize);
             }
         }
@@ -386,8 +396,8 @@ void MediaPlayback::SubmitPreProgress()
     {
         progress = MediaFileProgress();
         {
-            std::lock_guard<std::mutex> g(m_mutex);
-            if (m_progress.size())
+            std::lock_guard<std::mutex> const g(m_mutex);
+            if (!m_progress.empty())
             {
                 switch (m_progress.front().status)
                 {
@@ -440,8 +450,8 @@ void MediaPlayback::SubmitPostProgress()
     {
         progress = MediaFileProgress();
         {
-            std::lock_guard<std::mutex> g(m_mutex);
-            if (m_progress.size())
+            std::lock_guard<std::mutex> const g(m_mutex);
+            if (!m_progress.empty())
             {
                 switch (m_progress.front().status)
                 {

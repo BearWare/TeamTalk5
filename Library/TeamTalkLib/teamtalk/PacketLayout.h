@@ -24,21 +24,24 @@
 #if !defined(PACKETLAYOUT_H)
 #define PACKETLAYOUT_H
 
-#include <myace/MyACE.h>
+#include "myace/MyACE.h"
 
-#include <vector>
-#include <memory>
-#include <map>
-#include <set>
-#include <list>
-#include <cassert>
+#include <ace/ACE.h>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/evp.h>
 #include <openssl/aes.h>
 #endif
 
-#include <stdint.h>
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <list>
+#include <map>
+#include <memory>
+#include <set>
+#include <utility>
+#include <vector>
 
 /******************************
 *    TEAMTALK PACKET LAYOUT
@@ -69,7 +72,7 @@ namespace teamtalk {
 #endif
 
 template<typename T1, typename T2>
-constexpr uint8_t* set_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
+constexpr uint8_t* SET_UINT4_PTR(uint8_t* buf, T1 val1, T2 val2)
 {
     assert(val1 <= 0xF);
     assert(val2 <= 0xF);
@@ -78,13 +81,13 @@ constexpr uint8_t* set_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
 }
 
 template<typename T1, typename T2>
-constexpr void set_uint4(uint8_t* buf, T1 val1, T2 val2)
+constexpr void SET_UINT4(uint8_t* buf, T1 val1, T2 val2)
 {
     set_uint4_ptr(buf, val1, val2);
 }
 
 template<typename T1, typename T2>
-constexpr const uint8_t* get_uint4_ptr(const uint8_t* buf, T1& val1, T2& val2)
+constexpr const uint8_t* GET_UINT4_PTR(const uint8_t* buf, T1& val1, T2& val2)
 {
     val1 = (buf[0] & 0xF);
     val2 = (buf[0] >> 4);
@@ -92,34 +95,34 @@ constexpr const uint8_t* get_uint4_ptr(const uint8_t* buf, T1& val1, T2& val2)
 }
 
 template<typename T1>
-constexpr uint8_t* set_uint8_ptr(uint8_t* buf, T1 val)
+constexpr uint8_t* SET_UINT8_PTR(uint8_t* buf, T1 val)
 {
     *buf = val;
     return buf += 1;
 }
 
 template<typename T1>
-constexpr void set_uint8(uint8_t* buf, T1 val)
+constexpr void SET_UINT8(uint8_t* buf, T1 val)
 {
     set_uint8_ptr(buf, val);
 }
 
 template<typename T1>
-constexpr const uint8_t* get_uint8_ptr(const uint8_t* buf, T1& val)
+constexpr const uint8_t* GET_UINT8_PTR(const uint8_t* buf, T1& val)
 {
     val = *buf;
     return buf += 1;
 }
 
-constexpr auto get_uint8(const uint8_t* buf)
+constexpr auto GET_UINT8(const uint8_t* buf)
 {
     uint8_t val = 0;
-    get_uint8_ptr(buf, val);
+    GET_UINT8_PTR(buf, val);
     return val;
 }
 
 template<typename T1>
-constexpr uint8_t* set_uint12_ptr(uint8_t* buf, T1 val1)
+constexpr uint8_t* SET_UINT12_PTR(uint8_t* buf, T1 val1)
 {
     assert(val1 <= 0xFFF);
     buf[0] = static_cast<char>(val1 & 0xFF);
@@ -128,13 +131,13 @@ constexpr uint8_t* set_uint12_ptr(uint8_t* buf, T1 val1)
 }
 
 template<typename T1>
-constexpr void set_uint12(uint8_t* buf, T1 val1)
+constexpr void SET_UINT12(uint8_t* buf, T1 val1)
 {
-    set_uint12_ptr(buf, val1);
+    SET_UINT12_PTR(buf, val1);
 }
 
 template<typename T1, typename T2>
-constexpr uint8_t* set2_uint12_ptr(uint8_t* buf, T1 val1, T2 val2)
+constexpr uint8_t* SET2_UINT12_PTR(uint8_t* buf, T1 val1, T2 val2)
 {
     assert(val1 <= 0xFFF);
     assert(val2 <= 0xFFF);
@@ -146,27 +149,27 @@ constexpr uint8_t* set2_uint12_ptr(uint8_t* buf, T1 val1, T2 val2)
 }
 
 template<typename T1, typename T2>
-constexpr void set2_uint12(uint8_t* buf, T1 val1, T2 val2)
+constexpr void SET2_UINT12(uint8_t* buf, T1 val1, T2 val2)
 {
-    set2_uint12_ptr(buf, val1, val2);
+    SET2_UINT12_PTR(buf, val1, val2);
 }
 
 template<typename T1>
-constexpr const uint8_t* get_uint12_ptr(const uint8_t* buf, T1& val1)
+constexpr const uint8_t* GET_UINT12_PTR(const uint8_t* buf, T1& val1)
 {
     val1 = buf[0] | ((buf[1] & 0xF) << 8);
     return buf += 2;
 }
 
 template<typename T1>
-constexpr T1 get_uint12(const uint8_t* buf, T1& val1)
+constexpr T1 GET_UINT12(const uint8_t* buf, T1& val1)
 {
-    get_uint12_ptr(buf, val1);
+    GET_UINT12_PTR(buf, val1);
     return val1;
 }
 
 template<typename T1, typename T2>
-constexpr const uint8_t* get2_uint12_ptr(const uint8_t* buf, T1& val1, T2& val2)
+constexpr const uint8_t* GET2_UINT12_PTR(const uint8_t* buf, T1& val1, T2& val2)
 {
     val1 = (buf[0] | ((buf[1] & 0xF) << 8));
     val2 = ((buf[1] >> 4) | (buf[2] << 4));
@@ -174,13 +177,13 @@ constexpr const uint8_t* get2_uint12_ptr(const uint8_t* buf, T1& val1, T2& val2)
 }
 
 template<typename T1, typename T2>
-constexpr void get2_uint12(const uint8_t* buf, T1& val1, T2& val2)
+constexpr void GET2_UINT12(const uint8_t* buf, T1& val1, T2& val2)
 {
-    get2_uint12_ptr(buf, val1, val2);
+    GET2_UINT12_PTR(buf, val1, val2);
 }
 
 template<typename T1, typename T2>
-constexpr uint8_t* set_uint12_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
+constexpr uint8_t* SET_UINT12_UINT4_PTR(uint8_t* buf, T1 val1, T2 val2)
 {
     assert(val1 <= 0xFFF);
     assert(val2 <= 0xF);
@@ -191,13 +194,13 @@ constexpr uint8_t* set_uint12_uint4_ptr(uint8_t* buf, T1 val1, T2 val2)
 }
 
 template<typename T1, typename T2>
-constexpr void set_uint12_uint4(uint8_t* buf, T1 val1, T2 val2)
+constexpr void SET_UINT12_UINT4(uint8_t* buf, T1 val1, T2 val2)
 {
-    set_uint12_uint4_ptr(buf, val1, val2);
+    SET_UINT12_UINT4_PTR(buf, val1, val2);
 }
 
 template<typename T1, typename T2>
-constexpr const uint8_t* get_uint12_uint4_ptr(const uint8_t* buf, T1& val1, T2& val2)
+constexpr const uint8_t* GET_UINT12_UINT4_PTR(const uint8_t* buf, T1& val1, T2& val2)
 {
     val1 = buf[0] | ((buf[1] & 0xF) << 8);
     val2 = buf[1] >> 4;
@@ -205,13 +208,13 @@ constexpr const uint8_t* get_uint12_uint4_ptr(const uint8_t* buf, T1& val1, T2& 
 }
 
 template<typename T1, typename T2>
-constexpr void get_uint12_uint4(const uint8_t* buf, T1& val1, T2& val2)
+constexpr void GET_UINT12_UINT4(const uint8_t* buf, T1& val1, T2& val2)
 {
     get_uint12_uint4_ptr(buf, val1, val2);
 }
 
 template<typename T1>
-constexpr uint8_t* set_uint16_ptr(uint8_t* buf, T1 val)
+constexpr uint8_t* SET_UINT16_PTR(uint8_t* buf, T1 val)
 {
     assert((int)val <= 0xFFFF);
     buf[0] = static_cast<char>(val & 0xFF);
@@ -220,27 +223,27 @@ constexpr uint8_t* set_uint16_ptr(uint8_t* buf, T1 val)
 }
 
 template<typename T1>
-constexpr void set_uint16(uint8_t* buf, T1 val)
+constexpr void SET_UINT16(uint8_t* buf, T1 val)
 {
-    set_uint16_ptr(buf, val);
+    SET_UINT16_PTR(buf, val);
 }
 
-constexpr const uint8_t* get_uint16_ptr(const uint8_t* buf, uint16_t& val)
+constexpr const uint8_t* GET_UINT16_PTR(const uint8_t* buf, uint16_t& val)
 {
     val = (static_cast<uint16_t>(buf[1]) << 8) |
           static_cast<uint16_t>(buf[0]);
     return buf += 2;
 }
 
-constexpr uint16_t get_uint16(const uint8_t* buf)
+constexpr uint16_t GET_UINT16(const uint8_t* buf)
 {
     uint16_t val = 0;
-    get_uint16_ptr(buf, val);
+    GET_UINT16_PTR(buf, val);
     return val;
 }
 
 template<typename T1, typename T2>
-constexpr const uint8_t* get_uint16_uint8_ptr(const uint8_t* buf, T1& val16, T2& val8)
+constexpr const uint8_t* GET_UINT16_UINT8_PTR(const uint8_t* buf, T1& val16, T2& val8)
 {
     val16 = (static_cast<uint16_t>(buf[1]) << 8) |
             static_cast<uint16_t>(buf[0]);
@@ -249,7 +252,7 @@ constexpr const uint8_t* get_uint16_uint8_ptr(const uint8_t* buf, T1& val16, T2&
 }
 
 template<typename T1>
-constexpr uint8_t* set_int32_ptr(uint8_t* buf, T1 val)
+constexpr uint8_t* SET_INT32_PTR(uint8_t* buf, T1 val)
 {
     assert(sizeof(val) == 4);
     buf[0] = static_cast<char>(val & 0xFF);
@@ -259,7 +262,7 @@ constexpr uint8_t* set_int32_ptr(uint8_t* buf, T1 val)
     return buf += 4;
 }
 
-constexpr const uint8_t* get_int32_ptr(const uint8_t* buf, int32_t& val)
+constexpr const uint8_t* GET_INT32_PTR(const uint8_t* buf, int32_t& val)
 {
     val = (static_cast<int32_t>(buf[3]) << 24) |
           (static_cast<int32_t>(buf[2]) << 16) |
@@ -268,15 +271,15 @@ constexpr const uint8_t* get_int32_ptr(const uint8_t* buf, int32_t& val)
     return buf += 4;
 }
 
-constexpr int32_t get_int32(const uint8_t* buf)
+constexpr int32_t GET_INT32(const uint8_t* buf)
 {
     int32_t val = 0;
-    get_int32_ptr(buf, val);
+    GET_INT32_PTR(buf, val);
     return val;
 }
 
 template<typename T1>
-constexpr uint8_t* set_uint32_ptr(uint8_t* buf, T1 val)
+constexpr uint8_t* SET_UINT32_PTR(uint8_t* buf, T1 val)
 {
     assert(sizeof(val) == 4);
     buf[0] = static_cast<char>(val & 0xFF);
@@ -287,14 +290,14 @@ constexpr uint8_t* set_uint32_ptr(uint8_t* buf, T1 val)
 }
 
 template<typename T1>
-constexpr void set_uint32(uint8_t* buf, T1 val)
+constexpr void SET_UINT32(uint8_t* buf, T1 val)
 {
-    set_uint32_ptr(buf, val);
+    SET_UINT32_PTR(buf, val);
 }
 
 
 template<typename T1>
-constexpr const uint8_t* get_uint32_ptr(const uint8_t* buf, T1& val)
+constexpr const uint8_t* GET_UINT32_PTR(const uint8_t* buf, T1& val)
 {
     val = (static_cast<uint32_t>(buf[3]) << 24) |
           (static_cast<uint32_t>(buf[2]) << 16) |
@@ -303,16 +306,16 @@ constexpr const uint8_t* get_uint32_ptr(const uint8_t* buf, T1& val)
     return buf += 4;
 }
 
-constexpr uint32_t get_uint32(const uint8_t* buf)
+constexpr uint32_t GET_UINT32(const uint8_t* buf)
 {
     uint32_t val = 0;
-    get_uint32_ptr(buf, val);
+    GET_UINT32_PTR(buf, val);
     return val;
 }
 
-constexpr uint8_t* set_int64_ptr(uint8_t* buf, int64_t val)
+constexpr uint8_t* SET_INT64_PTR(uint8_t* buf, int64_t val)
 {
-    assert(sizeof(val) == 8);
+    static_assert(sizeof(val) == 8);
     buf[0] = static_cast<char>(val & 0xFF);
     buf[1] = static_cast<char>((val >> 8) & 0xFF);
     buf[2] = static_cast<char>((val >> 16) & 0xFF);
@@ -324,7 +327,7 @@ constexpr uint8_t* set_int64_ptr(uint8_t* buf, int64_t val)
     return buf += 8;
 }
 
-constexpr const uint8_t* get_int64_ptr(const uint8_t* buf, int64_t& val)
+constexpr const uint8_t* GET_INT64_PTR(const uint8_t* buf, int64_t& val)
 {
     val = (static_cast<int64_t>(buf[7]) << 56) |
           (static_cast<int64_t>(buf[6]) << 48) |
@@ -351,29 +354,29 @@ constexpr uint8_t* WRITEFIELD_TYPE(uint8_t* buf, FIELDTYPE fieldtype, FIELDSIZE 
 {
     assert(fieldtype >= 0 && fieldtype <= 0xF);
     assert(fieldsize >= 0 && fieldsize <= 0xFFF);
-    return set_uint12_uint4_ptr(buf, fieldsize, fieldtype);
+    return SET_UINT12_UINT4_PTR(buf, fieldsize, fieldtype);
 }
 
 template<typename FIELDTYPE, typename T2>
 constexpr uint8_t* WRITEFIELD_VALUE_U8(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint8_t));
-    return set_uint8_ptr(buf, value);
+    return SET_UINT8_PTR(buf, value);
 }
 
 template<typename FIELDTYPE, typename T2>
 constexpr uint8_t* WRITEFIELD_VALUE_U16(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint16_t));
-    return set_uint16_ptr(buf, value);
+    return SET_UINT16_PTR(buf, value);
 }
 
 template<typename FIELDTYPE, typename T2, typename T3>
 constexpr uint8_t* WRITEFIELD_VALUE_U16_AND_U8(uint8_t* buf, FIELDTYPE fieldtype, T2 val16, T3 val8)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, (sizeof(uint16_t) + sizeof(uint8_t)));
-    buf = set_uint16_ptr(buf, val16);
-    buf = set_uint8_ptr(buf, val8);
+    buf = SET_UINT16_PTR(buf, val16);
+    buf = SET_UINT8_PTR(buf, val8);
     return buf;
 }
 
@@ -381,7 +384,7 @@ template<typename FIELDTYPE, typename T2>
 constexpr uint8_t* WRITEFIELD_VALUE_I32(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(int32_t));
-    buf = set_int32_ptr(buf, value);
+    buf = SET_INT32_PTR(buf, value);
     return buf;
 }
 
@@ -389,14 +392,14 @@ template<typename FIELDTYPE, typename T2>
 constexpr uint8_t* WRITEFIELD_VALUE_U32(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(uint32_t));
-    return set_uint32_ptr(buf, value);
+    return SET_UINT32_PTR(buf, value);
 }
 
 template<typename FIELDTYPE, typename T2>
 constexpr uint8_t* WRITEFIELD_VALUE_I64(uint8_t* buf, FIELDTYPE fieldtype, T2 value)
 {
     buf = WRITEFIELD_TYPE(buf, fieldtype, sizeof(int64_t));
-    buf = set_int64_ptr(buf, value);
+    buf = SET_INT64_PTR(buf, value);
     return buf;
 }
 
@@ -411,12 +414,12 @@ constexpr uint8_t* WRITEFIELD_DATA(uint8_t* buf, FIELDTYPE fieldtype, T2 data, T
 
 constexpr uint16_t READFIELD_TYPE(const uint8_t* buf)
 {
-    return get_uint16(buf) >> 12;
+    return GET_UINT16(buf) >> 12;
 }
 
 constexpr uint16_t READFIELD_SIZE(const uint8_t* buf)
 {
-    return get_uint16(buf) & 0xFFF;
+    return GET_UINT16(buf) & 0xFFF;
 }
 
 constexpr uint8_t* READFIELD_DATAPTR(uint8_t* buf)
@@ -570,7 +573,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         };
         void GetSrcDest(uint16_t& src_userid, uint16_t& dest_chanid) const;
         uint8_t* GetFieldsStart() const;
-        uint8_t* FindField_NonConst(uint8_t fieldtype) const;
+        uint8_t* FindFieldNonConst(uint8_t fieldtype) const;
         const uint8_t* FindField(uint8_t fieldtype) const;
         std::vector<iovec> m_iovec;
         bool m_cleanup = false;
@@ -580,7 +583,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 #endif
     };
 
-    typedef std::unique_ptr<FieldPacket> packet_ptr_t;
+    using packet_ptr_t = std::unique_ptr<FieldPacket>;
 
     class HelloPacket : public FieldPacket
     {
@@ -615,7 +618,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
             : FieldPacket(v, buffers) { }
 
         KeepAlivePacket(const KeepAlivePacket& packet) 
-            : FieldPacket(packet) { }
+             = default;
 
         uint16_t GetPayloadSize() const;
 
@@ -629,7 +632,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         
     };
 
-    typedef std::shared_ptr< KeepAlivePacket > ka_mtu_packet_t;
+    using ka_mtu_packet_t = std::shared_ptr< KeepAlivePacket >;
 
 
     /* The number of byes in a typical CBR AudioPacket (including FieldPacket).
@@ -710,21 +713,21 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         const char* GetEncodedAudio(uint16_t& length) const;
         std::vector<uint16_t> GetEncodedFrameSizes() const;
         bool HasFragments() const;
-        bool HasFrameSizes() const { return FindField(FIELDTYPE_ENCFRAMESIZES) != NULL; }
+        bool HasFrameSizes() const { return FindField(FIELDTYPE_ENCFRAMESIZES) != nullptr; }
 
     private:
         void InitCommon(uint8_t stream_id, uint16_t packet_no, 
-                        uint8_t* frag_no, uint8_t* frag_cnt, 
+                        const uint8_t* frag_no, const uint8_t* frag_cnt, 
                         const char* enc_audio, uint16_t enc_length,
                         const std::vector<uint16_t>* enc_framesizes);
         bool GetStreamField(uint8_t& streamid, uint16_t& packet_no,
                             uint8_t& frag_no, uint8_t* frag_cnt) const;
     };
 
-    typedef std::shared_ptr< AudioPacket > audiopacket_t;
+    using audiopacket_t = std::shared_ptr< AudioPacket >;
 
-    typedef AudioPacket VoicePacket;
-    typedef AudioPacket AudioFilePacket;
+    using VoicePacket = AudioPacket;
+    using AudioFilePacket = AudioPacket;
 
     /* Creates PACKET_KIND_VIDEO */
     class VideoPacket : public FieldPacket
@@ -754,7 +757,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
                     uint8_t stream_id, uint32_t packet_no, 
                     const uint16_t* width, const uint16_t* height,
                     const char* enc_data, uint16_t enc_len, 
-                    const uint16_t fragmentcnt);
+                    uint16_t fragmentcnt);
 
         //build fragment video packet
         VideoPacket(uint8_t kind, uint16_t src_userid, uint32_t time,
@@ -762,11 +765,11 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
                     const char* enc_data, uint16_t enc_len, 
                     uint16_t fragmentno);
 
-        uint8_t GetStreamID() const { return GetStreamID(0); }
+        uint8_t GetStreamID() const { return GetStreamID(nullptr); }
 
-        uint8_t GetStreamID(uint32_t* packet_no, uint16_t* fragno = NULL,
-                            uint16_t* fragcnt = NULL, uint16_t* width = NULL,
-                            uint16_t* height = NULL) const;
+        uint8_t GetStreamID(uint32_t* packet_no, uint16_t* fragno = nullptr,
+                            uint16_t* fragcnt = nullptr, uint16_t* width = nullptr,
+                            uint16_t* height = nullptr) const;
         uint32_t GetPacketNo() const;
 
         uint16_t GetFragmentNo() const;
@@ -790,10 +793,10 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         };
     };
 
-    typedef VideoPacket VideoCapturePacket;
-    typedef VideoPacket VideoFilePacket;
+    using VideoCapturePacket = VideoPacket;
+    using VideoFilePacket = VideoPacket;
 
-    typedef std::shared_ptr< VideoPacket > videopacket_t;
+    using videopacket_t = std::shared_ptr< VideoPacket >;
     
     //desktop block with pointer to data
     struct desktop_block
@@ -802,7 +805,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t block_size = 0;
     };
     //blockno -> block
-    typedef std::map< uint16_t, desktop_block > map_block_t;
+    using map_block_t = std::map< uint16_t, desktop_block >;
     //a fragmented block
     struct block_fragment
     {
@@ -813,12 +816,12 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t frag_size = 0;
     };
     //blockno -> fragment
-    typedef std::list<block_fragment> block_frags_t;
+    using block_frags_t = std::list<block_fragment>;
     //blockno -> set(block_nums)
-    typedef std::map< uint16_t, std::set<uint16_t> > map_dup_blocks_t;
+    using map_dup_blocks_t = std::map< uint16_t, std::set<uint16_t> >;
     //blockno -> set(block_nums)
-    typedef std::multimap< uint16_t, std::set<uint16_t> > mmap_dup_blocks_t;
-    typedef std::pair< uint16_t, std::set<uint16_t> > dup_block_pair_t;
+    using mmap_dup_blocks_t = std::multimap< uint16_t, std::set<uint16_t> >;
+    using dup_block_pair_t = std::pair< uint16_t, std::set<uint16_t> >;
 
     bool IsBlockRange(const std::set<uint16_t>& blocks);
 
@@ -901,7 +904,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         };
     };
 
-    typedef std::shared_ptr< DesktopPacket > desktoppacket_t;
+    using desktoppacket_t = std::shared_ptr< DesktopPacket >;
 
     //Calc the size of fields used
     constexpr auto DESKTOPPACKET_SESSIONUSAGE(bool new_session)
@@ -933,7 +936,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
     
     //packetno -> packetno
-    typedef std::map<uint16_t, uint16_t> packet_range_t;
+    using packet_range_t = std::map<uint16_t, uint16_t>;
 
     class DesktopAckPacket : public FieldPacket
     {
@@ -958,7 +961,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint8_t GetSessionID() const
         {
             uint8_t sessionid = 0;
-            if (GetSessionInfo(0, &sessionid, 0))
+            if (GetSessionInfo(nullptr, &sessionid, nullptr))
                 return sessionid;
             return sessionid;
          }
@@ -1025,21 +1028,21 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint8_t GetSessionID() const
         {
             uint8_t streamid = 0;
-            GetSessionCursor(0, &streamid, 0, 0);
+            GetSessionCursor(nullptr, &streamid, nullptr, nullptr);
             return streamid;
         }
 
         int16_t GetX() const
         {
             int16_t v = 0;
-            GetSessionCursor(0, 0, &v, 0);
+            GetSessionCursor(nullptr, nullptr, &v, nullptr);
             return v;
         }
         
         int16_t GetY() const
         {
             int16_t v = 0;
-            GetSessionCursor(0, 0, 0, &v);
+            GetSessionCursor(nullptr, nullptr, nullptr, &v);
             return v;
         }
             
@@ -1076,7 +1079,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
         uint8_t GetSessionID() const;
-        uint8_t GetPacketNo(bool* found = NULL) const;
+        uint8_t GetPacketNo(bool* found = nullptr) const;
 
         bool GetDesktopInput(std::vector<DesktopInput>& desktopinputs) const;
         std::vector<DesktopInput> GetDesktopInput() const;
@@ -1090,7 +1093,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         };
     };
 
-    typedef std::shared_ptr< DesktopInputPacket > desktopinput_pkt_t;
+    using desktopinput_pkt_t = std::shared_ptr< DesktopInputPacket >;
 
     class DesktopInputAckPacket : public FieldPacket
     {
@@ -1110,7 +1113,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         bool GetSessionInfo(uint8_t* session_id, uint8_t* packetno) const;
 
         uint8_t GetSessionID() const;
-        uint8_t GetPacketNo(bool* found = NULL) const;
+        uint8_t GetPacketNo(bool* found = nullptr) const;
 
     private:
        enum : uint8_t
@@ -1128,7 +1131,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
     class CryptPacket : public FieldPacket
     {
-        typedef std::unique_ptr< PACKETTYPE > decrypt_pkt_t;
+        using decrypt_pkt_t = std::unique_ptr< PACKETTYPE >;
     public:
         CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
@@ -1143,24 +1146,24 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
 #include "PacketLayout.inl"
 
-    typedef CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE> CryptVoicePacket;
-    typedef CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO> CryptAudioFilePacket;
+    using CryptVoicePacket = CryptPacket<VoicePacket, PACKET_KIND_VOICE_CRYPT, PACKET_KIND_VOICE>;
+    using CryptAudioFilePacket = CryptPacket<AudioFilePacket, PACKET_KIND_MEDIAFILE_AUDIO_CRYPT, PACKET_KIND_MEDIAFILE_AUDIO>;
 
-    typedef CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO> CryptVideoCapturePacket;
-    typedef CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO> CryptVideoFilePacket;
+    using CryptVideoCapturePacket = CryptPacket<VideoCapturePacket, PACKET_KIND_VIDEO_CRYPT, PACKET_KIND_VIDEO>;
+    using CryptVideoFilePacket = CryptPacket<VideoFilePacket, PACKET_KIND_MEDIAFILE_VIDEO_CRYPT, PACKET_KIND_MEDIAFILE_VIDEO>;
 
-    typedef CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP> CryptDesktopPacket;
+    using CryptDesktopPacket = CryptPacket<DesktopPacket, PACKET_KIND_DESKTOP_CRYPT, PACKET_KIND_DESKTOP>;
 
-    typedef CryptPacket<DesktopAckPacket, PACKET_KIND_DESKTOP_ACK_CRYPT, PACKET_KIND_DESKTOP_ACK> CryptDesktopAckPacket;
+    using CryptDesktopAckPacket = CryptPacket<DesktopAckPacket, PACKET_KIND_DESKTOP_ACK_CRYPT, PACKET_KIND_DESKTOP_ACK>;
 
-    typedef CryptPacket<DesktopNakPacket, PACKET_KIND_DESKTOP_NAK_CRYPT, PACKET_KIND_DESKTOP_NAK> CryptDesktopNakPacket;
+    using CryptDesktopNakPacket = CryptPacket<DesktopNakPacket, PACKET_KIND_DESKTOP_NAK_CRYPT, PACKET_KIND_DESKTOP_NAK>;
     
-    typedef CryptPacket<DesktopCursorPacket, PACKET_KIND_DESKTOPCURSOR_CRYPT, PACKET_KIND_DESKTOPCURSOR> CryptDesktopCursorPacket;
+    using CryptDesktopCursorPacket = CryptPacket<DesktopCursorPacket, PACKET_KIND_DESKTOPCURSOR_CRYPT, PACKET_KIND_DESKTOPCURSOR>;
 
-    typedef CryptPacket<DesktopInputPacket, PACKET_KIND_DESKTOPINPUT_CRYPT, PACKET_KIND_DESKTOPINPUT> CryptDesktopInputPacket;
+    using CryptDesktopInputPacket = CryptPacket<DesktopInputPacket, PACKET_KIND_DESKTOPINPUT_CRYPT, PACKET_KIND_DESKTOPINPUT>;
 
-    typedef CryptPacket<DesktopInputAckPacket, PACKET_KIND_DESKTOPINPUT_ACK_CRYPT, PACKET_KIND_DESKTOPINPUT_ACK> CryptDesktopInputAckPacket;
+    using CryptDesktopInputAckPacket = CryptPacket<DesktopInputAckPacket, PACKET_KIND_DESKTOPINPUT_ACK_CRYPT, PACKET_KIND_DESKTOPINPUT_ACK>;
     
 #endif
-}
+} // namespace teamtalk
 #endif

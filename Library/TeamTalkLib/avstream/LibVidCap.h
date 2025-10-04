@@ -24,13 +24,14 @@
 #if !defined(LIBVIDCAP_H)
 #define LIBVIDCAP_H
 
-#include <map>
+#include "VideoCapture.h"
+
+#include "myace/MyACE.h"
+
 #include <ace/Singleton.h>
 #include <vidcap/vidcap.h>
 
-#include <myace/MyACE.h>
-
-#include "VideoCapture.h"
+#include <map>
 
 class LibVidCap : public vidcap::VideoCapture
 {

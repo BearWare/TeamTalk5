@@ -25,32 +25,34 @@
 #define TIMERHANDLER_H
 
 #include <ace/Event_Handler.h>
+#include <ace/Basic_Types.h>
+#include <ace/Time_Value.h>
 
 #include <map>
 
 class TimerListener
 {
 public:
-    virtual ~TimerListener() {}
+    virtual ~TimerListener() = default;
     virtual int TimerEvent(ACE_UINT32 timer_event_id, long userdata) = 0; //returning -1 will call 'delete this'
 };
 
-typedef std::map<ACE_UINT32, long> timers_t;
+using timers_t = std::map<ACE_UINT32, long>;
 
 class TimerHandler : public ACE_Event_Handler
 {
 public:
     TimerHandler(TimerListener& listener, ACE_UINT32 timer_event_id, long userdata = 0);
-    virtual ~TimerHandler();
+    ~TimerHandler() override;
 
-    int handle_timeout(const ACE_Time_Value& tv, const void* arg);
-    int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask);
+    int handle_timeout(const ACE_Time_Value& tv, const void* arg) override;
+    int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask) override;
 private:
     TimerListener& m_listener;
     ACE_UINT32 m_timer_event_id;
     long m_userdata;
 };
 
-typedef std::map<ACE_UINT32, TimerHandler*> timer_handlers_t;
+using timer_handlers_t = std::map<ACE_UINT32, TimerHandler*>;
 
 #endif

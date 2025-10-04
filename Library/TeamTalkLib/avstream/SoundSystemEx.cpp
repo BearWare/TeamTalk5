@@ -23,9 +23,12 @@
 
 #include "SoundSystemEx.h"
 
-#include <codec/MediaUtil.h>
+#include "codec/MediaUtil.h"
 
+#include <cassert>
 #include <cstring>
+#include <mutex>
+#include <vector>
 
 namespace soundsystem {
 
@@ -33,18 +36,18 @@ void DuplexCallback(DuplexStreamer& dpxStream,
                     const short* recorded, short* playback,
                     int mastervol, bool mastermute)
 {
-    size_t bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
+    size_t const bytes = PCM16_BYTES(dpxStream.framesize, dpxStream.output_channels);
 
     //now mix all active players
     std::memset(playback, 0, bytes);
     {
         //lock 'players' so they're not removed during callback
-        std::lock_guard<std::recursive_mutex> g(dpxStream.players_mtx);
+        std::lock_guard<std::recursive_mutex> const g(dpxStream.players_mtx);
         assert(dpxStream.tmpOutputBuffer.size());
-        MuxPlayers(dpxStream.players, &dpxStream.tmpOutputBuffer[0], playback, mastervol, mastermute);
+        MuxPlayers(dpxStream.players, dpxStream.tmpOutputBuffer.data(), playback, mastervol, mastermute);
         if (dpxStream.players.empty())
         {
-            std::memcpy(&dpxStream.tmpOutputBuffer[0], playback, bytes);
+            std::memcpy(dpxStream.tmpOutputBuffer.data(), playback, bytes);
         }
     }
     dpxStream.duplex->StreamDuplexCb(dpxStream, recorded, playback, dpxStream.framesize);
@@ -54,18 +57,18 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players,
                 short* tmp_buffer, short* playback,
                 int mastervol, bool mastermute)
 {
-    for(size_t i=0;i<players.size();i++)
+    for(auto i : players)
     {
-        StreamPlayer* player = players[i]->player;
-        if (player->StreamPlayerCb(*players[i],
+        StreamPlayer* player = i->player;
+        if (player->StreamPlayerCb(*i,
                                    tmp_buffer,
-                                   players[i]->framesize))
+                                   i->framesize))
         {
-            SoftVolume(*players[i], tmp_buffer, players[i]->framesize, mastervol, mastermute);
-            int samples = players[i]->framesize * players[i]->channels;
+            SoftVolume(*i, tmp_buffer, i->framesize, mastervol, mastermute);
+            int const samples = i->framesize * i->channels;
             for(int p=0;p<samples;p++)
             {
-                int val = tmp_buffer[p] + playback[p];
+                int const val = tmp_buffer[p] + playback[p];
                 if(val>32767)
                     playback[p] = 32767;
                 else if(val<-32768)
@@ -80,8 +83,8 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players,
 void DuplexEnded(SoundSystem* sndsys, DuplexStreamer& dpxStream)
 {
     size_t i = dpxStream.players.size();
-    StreamPlayer* player;
-    while(i--)
+    StreamPlayer* player = nullptr;
+    while((i--) != 0u)
     {
         player = dpxStream.players[i]->player;
         sndsys->RemoveDuplexOutputStream(dpxStream.duplex, player);
@@ -103,5 +106,5 @@ void SoftVolume(const OutputStreamer& streamer,
     }
 }
 
-} //namespace
+} // namespace soundsystem
 

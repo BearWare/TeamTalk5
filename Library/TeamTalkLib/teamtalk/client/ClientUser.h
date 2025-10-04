@@ -28,15 +28,27 @@
 #include "DesktopShare.h"
 #include "StreamPlayers.h"
 
-#include <teamtalk/User.h>
+#include "avstream/SoundSystem.h"
+#include "codec/MediaUtil.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketHelper.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/User.h"
 
+#include <ace/Message_Block.h>
+#include <ace/SString.h>
+
+#include <cstdint>
+#include <list>
+#include <memory>
 #include <queue>
+#include <set>
 
-#define DESKTOPINPUT_QUEUE_MAX_SIZE 100
-#define DESKTOPINPUT_MAX_RTX_PACKETS 16
+constexpr auto DESKTOPINPUT_QUEUE_MAX_SIZE = 100;
+constexpr auto DESKTOPINPUT_MAX_RTX_PACKETS = 16;
 
-#define VOICE_BUFFER_MSEC              1000
-#define MEDIAFILE_BUFFER_MSEC          20000
+constexpr auto VOICE_BUFFER_MSEC            = 1000;
+constexpr auto MEDIAFILE_BUFFER_MSEC        = 20000;
 
 namespace teamtalk {
 
@@ -55,11 +67,11 @@ namespace teamtalk {
             m_userid(userid){ };
 
         void SetConfig(const JitterControlConfig& config);
-        bool GetConfig(JitterControlConfig& config);
+        bool GetConfig(JitterControlConfig& config) const;
         int32_t GetActiveAdaptiveJitterDelay() const { return m_adaptive_delay; };
         // Takes a new packet into the calculator and returns the number of msec the packet
         // should be delayed for de-jitter
-        int PacketReceived(const int streamid, const int nominal_delay, bool& isfirststreampacket);
+        int PacketReceived(int streamid, int nominal_delay, bool& isfirststreampacket);
 
     private:
         // Dynamic stats
@@ -76,7 +88,7 @@ namespace teamtalk {
         // Config
         int                 m_userid = 0;
         int                 m_fixed_jitter_delay_ms = 0;
-        int                 m_use_adaptive_jitter_control = false;
+        int                 m_use_adaptive_jitter_control = 0;
         int                 m_max_adaptive_delay_msec = 1000;
     };
 
@@ -98,10 +110,10 @@ namespace teamtalk {
         ACE_INT64 mediafile_video_frames_lost = 0;
         ACE_INT64 mediafile_video_frames_dropped = 0;
 
-        ClientUserStats() { }
+        ClientUserStats() = default;
     };
 
-    typedef std::list<desktoppacket_t> desktop_queue_t;
+    using desktop_queue_t = std::list<desktoppacket_t>;
 
     class ClientUser : public teamtalk::User
     {
@@ -110,7 +122,7 @@ namespace teamtalk {
                    class ClientNodeBase* clientnode,
                    class ClientListener* listener,
                    soundsystem::soundsystem_t sndsys);
-        virtual ~ClientUser();
+        ~ClientUser() override;
 
         void ResetAllStreams();
         void ResetInactiveStreams();
@@ -126,13 +138,13 @@ namespace teamtalk {
         clientchannel_t GetChannel() const { return m_channel.lock(); }
 
         void SetUsername(const ACE_TString& name){ m_username = name; }
-        const ACE_TString& GetUsername() const { return m_username; }
+        const ACE_TString& GetUsername() const override { return m_username; }
 
         void SetUserType(UserTypes usertype) { m_usertype = usertype; }
-        UserTypes GetUserType() const { return m_usertype; }
+        UserTypes GetUserType() const override { return m_usertype; }
 
         void SetUserData(int userdata) { m_userdata = userdata; }
-        int GetUserData() const { return m_userdata; }
+        int GetUserData() const override { return m_userdata; }
 
         void AddVoicePacket(const VoicePacket& audpkt,
                             const struct SoundProperties& sndprop,
@@ -164,8 +176,8 @@ namespace teamtalk {
         void SetRecordingCloseExtraDelay(int msec) { m_recording_close_extra_delay = msec; }
         int GetRecordingCloseExtraDelay() const { return m_recording_close_extra_delay; }
 
-        void SetJitterControl(const StreamType stream_type, const JitterControlConfig& config);
-        bool GetJitterControl(const StreamType stream_type, JitterControlConfig& config);
+        void SetJitterControl(StreamType stream_type, const JitterControlConfig& config);
+        bool GetJitterControl(StreamType stream_type, JitterControlConfig& config);
         int32_t GetActiveAdaptiveJitterDelayVoice() const { return m_jitter_calculator.GetActiveAdaptiveJitterDelay(); }
 
         void SetVolume(StreamType stream_type, int volume);
@@ -215,7 +227,7 @@ namespace teamtalk {
         bool LocalSubscribes(const FieldPacket& packet) const;
         bool PeerSubscribes(const FieldPacket& packet) const;
         bool LocalSubscribes(Subscriptions sub_mask) const
-        { return GetLocalSubscriptions() & sub_mask; }
+        { return (GetLocalSubscriptions() & sub_mask) != 0u; }
 
         void SetAudioFolder(const ACE_TString& audfolder) { m_audiofolder = audfolder; }
         const ACE_TString& GetAudioFolder() const { return m_audiofolder; }
@@ -298,7 +310,7 @@ namespace teamtalk {
 
         //gaining audio
         float m_voice_position[3], m_audiofile_position[3];
-        int m_voice_volume = VOLUME_DEFAULT, m_audiofile_volume = VOLUME_DEFAULT;
+        int m_voice_volume = soundsystem::VOLUME_DEFAULT, m_audiofile_volume = soundsystem::VOLUME_DEFAULT;
         bool m_voice_mute = false, m_audiofile_mute = false;
         int m_voice_stopped_delay = STOPPED_TALKING_DELAY, m_audiofile_stopped_delay = STOPPED_TALKING_DELAY;
         int m_recording_close_extra_delay = 0;
@@ -312,5 +324,5 @@ namespace teamtalk {
         AudioFileFormat m_aff = AFF_NONE;
         ACE_UINT32 m_voicelog_counter = 0;
     };
-}
+} // namespace teamtalk
 #endif

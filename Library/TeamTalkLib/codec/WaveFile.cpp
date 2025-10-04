@@ -23,11 +23,13 @@
 
 #include "WaveFile.h"
 
-#include <assert.h>
+#include <cassert>
+#include <cstdint>
+#include <cstring>
+#include <cstddef>
 
-#define WAVEHEADERSIZE 44
-
-#define DEBUG_WAVEFILE 0
+constexpr auto WAVEHEADERSIZE = 44;
+constexpr auto DEBUG_WAVEFILE = 0;
 
 bool WriteWaveFileHeader(MyFile& file, const media::AudioFormat& fmt)
 {
@@ -70,7 +72,9 @@ bool UpdateWaveFileHeader(MyFile& file)
         return false;
 
     bool success = false;
-    char riff[4], wavefmt[8], data[4];
+    char riff[4];
+    char wavefmt[8];
+    char data[4];
 
     auto end = file.Tell();
     if (file.Seek(0, std::ios_base::beg) &&
@@ -105,21 +109,18 @@ bool UpdateWaveFileHeader(MyFile& file)
 }
 
 WaveFile::WaveFile()
-{
-}
+= default;
 
 WaveFile::~WaveFile()
-{
-}
+= default;
 
 bool WaveFile::NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len)
 {
     if (!m_wavfile.NewFile(filename))
         return false;
-    else
-    {
-        return WriteWaveFileHeader(m_wavfile, waveformat, len);
-    }
+    
+            return WriteWaveFileHeader(m_wavfile, waveformat, len);
+   
 }
 
 bool WaveFile::AppendData(const void* data, int len)
@@ -127,9 +128,9 @@ bool WaveFile::AppendData(const void* data, int len)
     return m_wavfile.Write(reinterpret_cast<const char*>(data), len) == len && UpdateWaveFileHeader(m_wavfile);
 }
 
-WavePCMFile::WavePCMFile()
+WavePCMFile::WavePCMFile() : m_channels(0)
 {
-    m_channels = 0;
+    
 }
 
 WavePCMFile::~WavePCMFile()
@@ -174,13 +175,12 @@ void WavePCMFile::Close()
     m_channels = 0;
 }
 
-const ACE_TString WavePCMFile::FileName() const
+ACE_TString WavePCMFile::FileName() const
 {
-    size_t pos = m_filepath.rfind('\\');
+    size_t const pos = m_filepath.rfind('\\');
     if(pos != ACE_TString::npos)
         return m_filepath.substr(pos+1, m_filepath.length()-pos);
-    else
-        return m_filepath;
+            return m_filepath;
 }
 
 bool WavePCMFile::SeekSamplesBegin()
@@ -197,8 +197,8 @@ bool WavePCMFile::SeekSamplesEnd()
 int WavePCMFile::ReadSamples(short* buffer, int buffer_len)
 {
     auto pos = m_wavfile.Tell();
-    int channels = GetChannels();
-    if(!channels)
+    int const channels = GetChannels();
+    if(channels == 0)
         return 0;
 
     std::streamsize bytes = buffer_len * sizeof(short) * channels;
@@ -269,7 +269,8 @@ int WavePCMFile::GetSamplesCount()
         return 0;
 
     auto oldPos = m_wavfile.Tell();
-    uint16_t wBitsPerSample = 0, nChannels = 0;
+    uint16_t wBitsPerSample = 0;
+    uint16_t nChannels = 0;
     uint32_t nBytesCount = 0;
     m_wavfile.Seek(22, std::ios_base::beg);
     m_wavfile.Read(reinterpret_cast<char*>(&nChannels), 2);

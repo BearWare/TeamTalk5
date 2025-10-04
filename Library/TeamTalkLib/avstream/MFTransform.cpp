@@ -23,6 +23,8 @@
 
 #include "MFTransform.h"
 
+#include "codec/WaveFile.h"
+
 #include <mfapi.h>
 #include <mfidl.h>
 #include <mfreadwrite.h>
@@ -33,9 +35,11 @@
 #include <complex>
 #include <queue>
 
-#include <codec/WaveFile.h>
 
-#define MFT_INIT_FLAGS (MFT_ENUM_FLAG_SORTANDFILTER | MFT_ENUM_FLAG_LOCALMFT | MFT_ENUM_FLAG_SYNCMFT | MFT_ENUM_FLAG_TRANSCODE_ONLY)
+constexpr auto MFT_INIT_FLAGS = (MFT_ENUM_FLAG_SORTANDFILTER |
+                                 MFT_ENUM_FLAG_LOCALMFT |
+                                 MFT_ENUM_FLAG_SYNCMFT |
+                                 MFT_ENUM_FLAG_TRANSCODE_ONLY);
 
 class MFTransformImpl : public MFTransform
 {
@@ -294,7 +298,7 @@ public:
             }
             if(FAILED(hr))
                 continue;
-            
+
             UINT uSelectedBytesPerSecond = 0;
             MYTRACE(ACE_TEXT("%u@%u Requested bitrate: %u. Available bitrates:\n"), uInputChannels, uInputSampleRate, uBitrate);
             while(SUCCEEDED(m_pMFT->GetOutputAvailableType(m_dwOutputID, dwTypeIndex, &pTmpMedia)))
@@ -404,7 +408,7 @@ public:
         assert(SUCCEEDED(hr));
         return pMediaType;
     }
-    
+
     CComPtr<IMFMediaType> GetOutputType()
     {
         HRESULT hr;
@@ -417,7 +421,7 @@ public:
     TransformState SubmitSample(CComPtr<IMFSample>& pInSample)
     {
         assert(Ready());
-        
+
         HRESULT hr;
         hr = m_pMFT->ProcessInput(m_dwInputID, pInSample, 0);
         MYTRACE_COND(hr == MF_E_NOTACCEPTING, ACE_TEXT("Now enough input to generate output\n"));
@@ -530,7 +534,7 @@ public:
         DWORD dwStatus;
 
         std::vector< CComPtr<IMFSample> > outputsamples;
-        
+
         // This check does not always yield correct result.
         //if (SUCCEEDED(m_pMFT->GetOutputStatus(&dwFlags)) && dwFlags != MFT_OUTPUT_STATUS_SAMPLE_READY)
         //    return imfsamples_t();
@@ -659,7 +663,7 @@ public:
             assert(pSample);
             if(!pSample.p)
                 continue;
-            
+
             assert(m_outputvideofmt.IsValid());
             result.push_back(ConvertVideoSample(pSample, m_outputvideofmt));
         }
@@ -874,7 +878,7 @@ mftransform_t MFTransform::Create(IMFMediaType* pInputType, const GUID& dest_vid
             hr = pMFTs[0]->ActivateObject(IID_PPV_ARGS(&pMFT));
             if (FAILED(hr))
                 continue;
-            
+
             DWORD dwInputID = 0, dwOutputID = 0;
             hr = pMFT->SetInputType(dwInputID, pInputType, 0);
             if(FAILED(hr))
@@ -922,7 +926,7 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
     hr = pInputType->SetGUID(MF_MT_SUBTYPE, subType);
     if(FAILED(hr))
         goto fail;
-    
+
     hr = MFGetStrideForBitmapInfoHeader(subType.Data1, inputfmt.width, &stride);
     if(FAILED(hr))
         goto fail;
@@ -1068,7 +1072,7 @@ mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const m
     if (!pInputType || !pOutputType)
         return result;
 
-    // 
+    //
     result.reset(new MFTransformImpl(pInputType, pOutputType, int(inputfmt.samplerate * .02), szOutputFilename));
 
     if (!result->Ready())
@@ -1184,7 +1188,7 @@ media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType)
         return media::VideoFormat();
 
     hr = MFGetAttributeRatio(pInputType, MF_MT_FRAME_RATE, &numerator, &denominator);
-    
+
     return media::VideoFormat(w, h, numerator, denominator, ConvertSubType(subtype));
 }
 

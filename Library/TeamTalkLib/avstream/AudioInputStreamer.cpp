@@ -22,7 +22,13 @@
  */
 
 #include "AudioInputStreamer.h"
-#include <assert.h>
+#include "mystd/MyStd.h"
+
+#include <ace/Time_Value.h>
+
+#include <cassert>
+#include <cstdint>
+#include <utility>
 
 AudioInputStreamer::AudioInputStreamer(int streamid, const MediaStreamOutput& out_prop)
 : MediaStreamer(out_prop), m_streamid(streamid)
@@ -40,7 +46,7 @@ AudioInputStreamer::~AudioInputStreamer()
 void AudioInputStreamer::RegisterAudioInputStatusCallback(audioinput_statuscallback_t cb, bool enable)
 {
     if (enable)
-        m_statuscb = cb;
+        m_statuscb = std::move(cb);
     else
         m_statuscb = {};
 }
@@ -102,7 +108,7 @@ void AudioInputStreamer::AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec
 
 void AudioInputStreamer::Run()
 {
-    bool ready = GetMediaOutput().audio.IsValid();
+    bool const ready = GetMediaOutput().audio.IsValid();
     m_open.set(ready);
 
     if (!ready)
@@ -116,7 +122,7 @@ void AudioInputStreamer::Run()
 
     InitBuffers();
 
-    ACE_UINT32 starttime = GETTIMESTAMP();
+    ACE_UINT32 const starttime = GETTIMESTAMP();
 
     bool flush = false;
     while (!m_stop)
@@ -139,10 +145,10 @@ bool AudioInputStreamer::ProcessResample()
 {
     ACE_Message_Block* mb = nullptr;
     int ret = m_resample_frames.dequeue(mb, nullptr);
-    if (!mb)
+    if (mb == nullptr)
         return false;
 
-    media::AudioFrame frame(mb);
+    media::AudioFrame const frame(mb);
 
     if (frame.input_samples == 0)
     {
@@ -152,15 +158,15 @@ bool AudioInputStreamer::ProcessResample()
 
     if (frame.inputfmt != GetMediaOutput().audio)
     {
-        MBGuard g(mb);
+        MBGuard const g(mb);
         assert(frame.inputfmt == m_inputfmt);
         assert(m_resampler);
-        int osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
+        int const osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
         if (m_resamplebuffer.size() != osamples * GetMediaOutput().audio.channels)
             m_resamplebuffer.resize(osamples * GetMediaOutput().audio.channels);
-        ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, &m_resamplebuffer[0], osamples);
+        ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, m_resamplebuffer.data(), osamples);
         assert(ret > 0);
-        media::AudioFrame resam_frame(GetMediaOutput().audio, &m_resamplebuffer[0], osamples);
+        media::AudioFrame const resam_frame(GetMediaOutput().audio, m_resamplebuffer.data(), osamples);
         Submit(resam_frame);
     }
     else

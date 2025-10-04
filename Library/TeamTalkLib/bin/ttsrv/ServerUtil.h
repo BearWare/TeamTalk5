@@ -23,15 +23,15 @@
 
 #include <ace/SString.h>
 
-#include <string>
-#include <stdint.h>
+#include <cstdint>
 #include <fstream>
+#include <string>
 
-std::string printGetString(const std::string& input);
-std::string printGetPassword(const std::string& input);
-bool printGetBool(bool value);
-int printGetInt(int value);
-int64_t printGetInt64(int64_t value);
+std::string PrintGetString(const std::string& input);
+std::string PrintGetPassword(const std::string& input);
+bool PrintGetBool(bool value);
+int PrintGetInt(int value);
+int64_t PrintGetInt64(int64_t value);
 
 void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
 

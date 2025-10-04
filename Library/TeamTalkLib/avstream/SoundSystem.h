@@ -24,18 +24,23 @@
 #ifndef SOUNDSYSTEM_H
 #define SOUNDSYSTEM_H
 
-#include <myace/MyACE.h>
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#include <map>
+#include <ace/SString.h>
+
+#include <cassert>
+#include <cstdint>
 #include <memory>
 #include <mutex>
-#include <assert.h>
+#include <set>
+#include <vector>
 
 namespace soundsystem {
 
-#define VOLUME_MAX 32000
-#define VOLUME_DEFAULT 1000
-#define VOLUME_MIN 0
+constexpr auto VOLUME_MAX = 32000;
+constexpr auto VOLUME_DEFAULT = 1000;
+constexpr auto VOLUME_MIN = 0;
 
     enum SoundAPI
     {
@@ -76,7 +81,7 @@ namespace soundsystem {
         SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE     = 0x0020,
     };
 
-    typedef uint32_t SoundDeviceFeatures;
+    using SoundDeviceFeatures = uint32_t;
 
     class StreamCapture;
     class StreamPlayer;
@@ -100,14 +105,14 @@ namespace soundsystem {
 
         bool SupportsInputFormat(int channels, int samplerate) const
         {
-            return input_channels.find(channels) != input_channels.end() &&
-               input_samplerates.find(samplerate) != input_samplerates.end();
+            return input_channels.contains(channels) &&
+               input_samplerates.contains(samplerate);
         }
 
         bool SupportsOutputFormat(int channels, int samplerate) const
         {
-            return output_channels.find(channels) != output_channels.end() &&
-               output_samplerates.find(samplerate) != output_samplerates.end();
+            return output_channels.contains(channels) &&
+               output_samplerates.contains(samplerate);
         }
 
         int MaxInputSampleRate() const
@@ -115,7 +120,7 @@ namespace soundsystem {
             if(input_samplerates.empty())
                 return 0;
 
-            std::set<int>::const_iterator israte = input_samplerates.end();
+            auto israte = input_samplerates.end();
             return *(--israte);
         }
 
@@ -124,7 +129,7 @@ namespace soundsystem {
             if(output_samplerates.empty())
                 return 0;
 
-            std::set<int>::const_iterator osrate = output_samplerates.end();
+            auto osrate = output_samplerates.end();
             return *(--osrate);
         }
 
@@ -132,9 +137,9 @@ namespace soundsystem {
         {
             if(input_channels.empty())
                 return 0;
-            if(input_channels.find(preffered_channels) != input_channels.end())
+            if(input_channels.contains(preffered_channels))
                 return preffered_channels;
-            std::set<int>::const_iterator ii = input_channels.end();
+            auto ii = input_channels.end();
             return *(--ii);
         }
 
@@ -142,36 +147,32 @@ namespace soundsystem {
         {
             if(output_channels.empty())
                 return 0;
-            if(output_channels.find(preffered_channels) != output_channels.end())
+            if(output_channels.contains(preffered_channels))
                 return preffered_channels;
-            std::set<int>::const_iterator ii = output_channels.end();
+            auto ii = output_channels.end();
             return *(--ii);
         }
 
-        DeviceInfo()
+        DeviceInfo() : id(SOUND_DEVICEID_INVALID), default_samplerate(0), soundsystem(SOUND_API_NOSOUND), wavedeviceid(0)
         {
-            id = SOUND_DEVICEID_INVALID;
+            
             max_input_channels = max_output_channels = 0;
-            default_samplerate = 0;
-            soundsystem = SOUND_API_NOSOUND;
+            
+            
 #if defined(WIN32)
             wavedeviceid = -1;
-#else
-            wavedeviceid = 0;
 #endif
         }
     };
 
-    typedef std::vector< DeviceInfo > devices_t;
+    using devices_t = std::vector< DeviceInfo >;
 
     struct SoundGroup
     {
         int mastervolume;
         bool muteall;
-        SoundGroup()
+        SoundGroup() : mastervolume(VOLUME_DEFAULT), muteall(false)
         {
-            mastervolume = VOLUME_DEFAULT;
-            muteall = false;
         }
     };
 
@@ -194,7 +195,7 @@ namespace soundsystem {
         int inputdeviceid;
         int channels;
 #if defined(DEBUG)
-        bool duplex;
+        bool duplex{false};
 #endif
         InputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : SoundStreamer(sg, fs, sr)
@@ -202,9 +203,6 @@ namespace soundsystem {
             , soundsystem(sndsys)
             , inputdeviceid(devid)
             , channels(chs)
-#if defined(DEBUG)
-            , duplex(false)
-#endif
             { }
 
         virtual ~InputStreamer()
@@ -221,11 +219,11 @@ namespace soundsystem {
         SoundAPI soundsystem;
         int outputdeviceid;
         int channels;
-        int volume;
-        bool mute;
-        bool autoposition;
+        int volume{VOLUME_DEFAULT};
+        bool mute{false};
+        bool autoposition{true};
 #if defined(DEBUG)
-        bool duplex;
+        bool duplex{false};
 #endif
         OutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : SoundStreamer(sg, fs, sr)
@@ -233,12 +231,6 @@ namespace soundsystem {
             , soundsystem(sndsys)
             , outputdeviceid(devid)
             , channels(chs)
-            , volume(VOLUME_DEFAULT)
-            , mute(false)
-            , autoposition(true)
-#if defined(DEBUG)
-            , duplex(false)
-#endif
             { }
         virtual ~OutputStreamer()
         {
@@ -288,7 +280,7 @@ namespace soundsystem {
     class StreamCapture
     {
     public:
-        virtual ~StreamCapture() {}
+        virtual ~StreamCapture() = default;
         virtual void StreamCaptureCb(const InputStreamer& streamer,
                                      const short* buffer, int samples) = 0;
         virtual SoundDeviceFeatures GetCaptureFeatures() = 0;
@@ -297,7 +289,7 @@ namespace soundsystem {
     class StreamPlayer
     {
     public:
-        virtual ~StreamPlayer() {}
+        virtual ~StreamPlayer() = default;
         virtual bool StreamPlayerCb(const OutputStreamer& streamer,
                                     short* buffer, int samples) = 0;
     };
@@ -305,8 +297,7 @@ namespace soundsystem {
     class StreamDuplex
     {
     public:
-        virtual ~StreamDuplex() {}
-
+        virtual ~StreamDuplex() = default;
         virtual void StreamDuplexCb(const DuplexStreamer& streamer,
                                     const short* input_buffer,
                                     short* output_buffer, int samples) = 0;
@@ -316,7 +307,8 @@ namespace soundsystem {
     class SoundSystem
     {
     public:
-        virtual ~SoundSystem() {}
+        virtual ~SoundSystem() = default;
+
 
         virtual bool GetDefaultDevices(int& inputdeviceid,
                                        int& outputdeviceid) = 0;
@@ -390,9 +382,9 @@ namespace soundsystem {
 
     };
 
-    typedef std::shared_ptr< SoundSystem > soundsystem_t;
+    using soundsystem_t = std::shared_ptr< SoundSystem >;
     soundsystem_t GetInstance();
 
-}
+} // namespace soundsystem
 
 #endif

@@ -22,10 +22,12 @@
  */
 
 #include "SpeexEncoder.h"
-#include <assert.h>
+
+#include <cassert>
+#include <cstddef>
 
 SpeexEncoder::SpeexEncoder()
-: m_encstate(NULL)
+: m_encstate(nullptr)
 {
 }
 
@@ -37,7 +39,7 @@ SpeexEncoder::~SpeexEncoder()
 bool SpeexEncoder::InitCommon(int bandmode, int complexity)
 {
     assert(!m_encstate);
-    if(m_encstate)
+    if(m_encstate != nullptr)
         return false;
 
     bool success = true;
@@ -90,10 +92,10 @@ bool SpeexEncoder::Initialize(int bandmode, int complexity, float vbr_quality,
     if(!InitCommon(bandmode, complexity))
         return false;
 
-    if(vbr_maxbitrate && speex_encoder_ctl(m_encstate, SPEEX_SET_VBR_MAX_BITRATE, &vbr_maxbitrate) != 0)
+    if((vbr_maxbitrate != 0) && speex_encoder_ctl(m_encstate, SPEEX_SET_VBR_MAX_BITRATE, &vbr_maxbitrate) != 0)
         goto error;
 
-    if(bitrate)
+    if(bitrate != 0)
     {
         if(speex_encoder_ctl(m_encstate, SPEEX_SET_BITRATE, &bitrate) != 0)
             goto error;
@@ -117,20 +119,20 @@ error:
 
 void SpeexEncoder::Close()
 {
-    if(m_encstate)
+    if(m_encstate != nullptr)
     {
         speex_bits_destroy(&m_EncBits);
         speex_encoder_destroy(m_encstate);
-        m_encstate = NULL;
+        m_encstate = nullptr;
     }
 }
 
 void SpeexEncoder::Reset()
 {
-    if(m_encstate)
+    if(m_encstate != nullptr)
     {
         int v = 1;
-        int ret = speex_encoder_ctl(m_encstate, SPEEX_RESET_STATE, &v);
+        int const ret = speex_encoder_ctl(m_encstate, SPEEX_RESET_STATE, &v);
         assert(ret == 0);
     }
 }

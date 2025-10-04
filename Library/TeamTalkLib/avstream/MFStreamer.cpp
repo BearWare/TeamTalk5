@@ -31,7 +31,7 @@
 #include <propvarutil.h>
 #include <VersionHelpers.h>
 
-bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
+bool GetMFMediaFileProp(const ACE_TString &filename, MediaFileProp &fileprop)
 {
     MFStreamer s(filename, MediaStreamOutput());
     if (s.Open())
@@ -42,7 +42,7 @@ bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-MFStreamer::MFStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+MFStreamer::MFStreamer(const ACE_TString &filename, const MediaStreamOutput &out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
 }
@@ -52,25 +52,29 @@ MFStreamer::~MFStreamer()
     Close();
 }
 
-
-LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamIndex, 
-                      LONGLONG llOffset, const MediaFileProp& prop)
+static LONGLONG SeekInStream(CComPtr<IMFSourceReader> &pSourceReader,
+                             DWORD dwStreamIndex,
+                             LONGLONG llOffset,
+                             const MediaFileProp &prop)
 {
-    LONGLONG llInitialTimestamp = -1, llTimestamp = 0;
+    LONGLONG llInitialTimestamp = -1;
+    LONGLONG llTimestamp = 0;
 
     // advance to the new offset (apparently we have to do this manually)
     while(true)
     {
         CComPtr<IMFSample> pSample;
         DWORD dwStreamFlags = 0;
-        HRESULT hr = pSourceReader->ReadSample(dwStreamIndex, 0, NULL, &dwStreamFlags, &llTimestamp, &pSample);
+        HRESULT const hr = pSourceReader->ReadSample(dwStreamIndex, 0, nullptr, &dwStreamFlags, &llTimestamp, &pSample);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s\n"),
+                    UINT32(llOffset / 10000),
+                    prop.filename.c_str());
             llTimestamp = -1;
             break;
         }
-        if (dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR))
+        if ((dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR)) != 0u)
         {
             MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s due to EOF or error\n"), UINT32(llOffset / 10000), prop.filename.c_str());
             llTimestamp = -1;
@@ -94,17 +98,21 @@ LONGLONG SeekInStream(CComPtr<IMFSourceReader>& pSourceReader, DWORD dwStreamInd
 
 void MFStreamer::Run()
 {
-    HRESULT hr;
+    HRESULT hr = 0;
     CComPtr<IMFSourceResolver> pSourceResolver;
     MF_OBJECT_TYPE objectType = MF_OBJECT_INVALID;
     CComPtr<IUnknown> pSource;
     CComPtr<IMFMediaSource> pMediaSource;
     CComPtr<IMFSourceReader> pSourceReader;
     CComPtr<IMFAttributes> pAttributes;
-    CComPtr<IMFMediaType> pInputAudioType, pVideoType;
-    DWORD dwAudioTypeIndex = 0, dwVideoTypeIndex = 0;
-    DWORD dwVideoStreamIndex, dwAudioStreamIndex;
-    LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
+    CComPtr<IMFMediaType> pInputAudioType;
+    CComPtr<IMFMediaType> pVideoType;
+    DWORD dwAudioTypeIndex = 0;
+    DWORD dwVideoTypeIndex = 0;
+    DWORD dwVideoStreamIndex;
+    DWORD dwAudioStreamIndex;
+    LONGLONG llAudioTimestamp = 0;
+    LONGLONG llVideoTimestamp = 0;
     bool start = false;
     mftransform_t transform;
 #define RETURNONERROR(error)                \
@@ -119,12 +127,11 @@ void MFStreamer::Run()
     hr = MFCreateSourceResolver(&pSourceResolver);
     RETURNONERROR(FAILED(hr));
 
-    hr = pSourceResolver->CreateObjectFromURL(
-        m_media_in.filename.c_str(), // URL of the source.
-        MF_RESOLUTION_MEDIASOURCE,  // Create a source object.
-        NULL,                       // Optional property store.
-        &objectType,        // Receives the created object type. 
-        &pSource            // Receives a pointer to the media source.
+    hr = pSourceResolver->CreateObjectFromURL(m_media_in.filename.c_str(), // URL of the source.
+                                              MF_RESOLUTION_MEDIASOURCE, // Create a source object.
+                                              nullptr,                   // Optional property store.
+                                              &objectType, // Receives the created object type.
+                                              &pSource // Receives a pointer to the media source.
     );
     RETURNONERROR(FAILED(hr));
 
@@ -153,11 +160,11 @@ void MFStreamer::Run()
         hr = pInputAudioType->GetGUID(MF_MT_SUBTYPE, &mtInputSubType);
         if (SUCCEEDED(hr) && mtInputSubType == MFAudioFormat_PCM)
         {
-            UINT32 uPCM16;
+            UINT32 uPCM16 = 0;
             hr = pInputAudioType->GetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, &uPCM16);
             bWavePCM16 = SUCCEEDED(hr) && uPCM16 == 16;
             hr = pInputAudioType->GetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, &uPCM16);
-            bWavePCM16 &= SUCCEEDED(hr) && uPCM16;
+            bWavePCM16 &= SUCCEEDED(hr) && (uPCM16 != 0u);
         }
     }
     else
@@ -165,10 +172,11 @@ void MFStreamer::Run()
         m_media_out.audio = media::AudioFormat();
     }
 
-    if (m_media_in.HasAudio() && !m_media_out.HasAudio() && m_media_out.audio_duration_ms)
+    if (m_media_in.HasAudio() && !m_media_out.HasAudio() && (m_media_out.audio_duration_ms != 0u))
     {
-        int audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, m_media_in.audio.samplerate);
-        MediaStreamOutput newoutput(m_media_in.audio, audio_samples, m_media_out.video);
+        int const audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms,
+                                                         m_media_in.audio.samplerate);
+        MediaStreamOutput const newoutput(m_media_in.audio, audio_samples, m_media_out.video);
         m_media_out = newoutput;
     }
 
@@ -208,30 +216,28 @@ void MFStreamer::Run()
         // Resampling is not supported prior to Windows 8.
         // In order to at least support PCM16 wave-files on Windows 7 we select 'pAudioInputType'
         // as the destination format.
-        if (m_media_in.audio == m_media_out.audio && bWavePCM16)
-        {
-            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pInputAudioType);
-        }
-        else
-        {
+        if (m_media_in.audio == m_media_out.audio && (bWavePCM16 != 0)) {
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pInputAudioType);
+        } else {
             // setup resampler (this is very slow ~250 msec)
-            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, nullptr, pAudioOutputType);
         }
         RETURNONERROR(FAILED(hr));
     }
 
-    if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
-                                                   dwVideoTypeIndex, &pVideoType)))
-    {
-        UINT32 w = 0, h = 0;
+    if (SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
+                                                    dwVideoTypeIndex,
+                                                    &pVideoType))) {
+        UINT32 w = 0;
+        UINT32 h = 0;
         hr = MFGetAttributeSize(pVideoType, MF_MT_FRAME_SIZE, &w, &h);
-        if(SUCCEEDED(hr))
-        {
+        if (SUCCEEDED(hr)) {
             m_media_in.video.width = w;
             m_media_in.video.height = h;
         }
 
-        UINT32 numerator = 0, denominator = 0;
+        UINT32 numerator = 0;
+        UINT32 denominator = 0;
         hr = MFGetAttributeRatio(pVideoType, MF_MT_FRAME_RATE, &numerator, &denominator);
         if(SUCCEEDED(hr))
         {
@@ -262,7 +268,7 @@ void MFStreamer::Run()
             hr = pVideoType->SetGUID(MF_MT_SUBTYPE, ConvertFourCC(m_media_out.video.fourcc));
             RETURNONERROR(FAILED(hr));
 
-            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
+            hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, nullptr, pVideoType);
             if(FAILED(hr))
             {
                 hr = pVideoType->SetGUID(MF_MT_SUBTYPE, oldSubType);
@@ -278,9 +284,7 @@ void MFStreamer::Run()
             m_media_out.video.fps_denominator = int(denominator);
             break;
         }
-    }
-    else
-    {
+    } else {
         m_media_out.video = media::VideoFormat();
     }
 
@@ -330,8 +334,10 @@ void MFStreamer::Run()
     // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause/seek)
     MediaStreamStatus status = MEDIASTREAM_STARTED;
 
-    ACE_UINT32 totalpausetime = 0, offset = 0;
-    bool error = false, initialread = true;
+    ACE_UINT32 totalpausetime = 0;
+    ACE_UINT32 offset = 0;
+    bool error = false;
+    bool initialread = true;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE_COND(DEBUG_MEDIASTREAMER, 
@@ -363,7 +369,7 @@ void MFStreamer::Run()
             totalpausetime += pausetime;
         }
 
-        ACE_UINT32 newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
+        ACE_UINT32 const newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
 
         // check if we should forward/rewind
         if (newoffset == 0 && initialread)
@@ -375,7 +381,7 @@ void MFStreamer::Run()
         else if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
             PROPVARIANT var;
-            HRESULT hrprop = InitPropVariantFromInt64(newoffset * 10000, &var);
+            HRESULT const hrprop = InitPropVariantFromInt64(newoffset * 10000, &var);
             assert(SUCCEEDED(hrprop));
             hr = pSourceReader->SetCurrentPosition(GUID_NULL, var);
             assert(SUCCEEDED(hr));
@@ -415,7 +421,8 @@ void MFStreamer::Run()
         if (llVideoTimestamp < 0 || (llAudioTimestamp >= 0 && llAudioTimestamp <= llVideoTimestamp))
         {
             CComPtr<IMFSample> pSample;
-            DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
+            DWORD dwStreamFlags = 0;
+            DWORD dwActualStreamIndex = 0;
             hr = pSourceReader->ReadSample(dwAudioStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llAudioTimestamp, &pSample);
             error = FAILED(hr);
             initialread = false;
@@ -423,8 +430,7 @@ void MFStreamer::Run()
             //if(dwStreamFlags & MF_SOURCE_READERF_NEWSTREAM)
             //{
             //}
-            if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
-            {
+            if ((dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM) != 0u) {
                 llAudioTimestamp = -1;
             }
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
@@ -441,12 +447,16 @@ void MFStreamer::Run()
             imfsamples_t samples;
             CComPtr<IMFSample> pSample;
             DWORD dwStreamFlags = 0;
-            hr = pSourceReader->ReadSample(dwVideoStreamIndex, 0, NULL, &dwStreamFlags, &llVideoTimestamp, &pSample);
+            hr = pSourceReader->ReadSample(dwVideoStreamIndex,
+                                           0,
+                                           nullptr,
+                                           &dwStreamFlags,
+                                           &llVideoTimestamp,
+                                           &pSample);
             error = FAILED(hr);
             initialread = false;
 
-            if (dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM)
-            {
+            if ((dwStreamFlags & MF_SOURCE_READERF_ENDOFSTREAM) != 0u) {
                 llVideoTimestamp = -1;
             }
 
@@ -456,11 +466,11 @@ void MFStreamer::Run()
             if(error || llVideoTimestamp < 0)
                 continue;
 
-            static int chunks = 0, vframes = 0;
+            static int chunks = 0;
+            static int vframes = 0;
             MYTRACE(ACE_TEXT("Video chunks %d, extracted: %d\n"), ++chunks, vframes);
-            
-            if(pSample)
-            {
+
+            if (pSample != nullptr) {
                 if (transform)
                 {
                     samples = transform->ProcessSample(pSample);
@@ -501,11 +511,10 @@ void MFStreamer::Run()
 
 int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime)
 {
-    HRESULT hr;
+    HRESULT hr = 0;
     DWORD dwBufCount = 0;
     int aframes = 0;
-    if(pSample)
-    {
+    if (pSample != nullptr) {
         hr = pSample->GetBufferCount(&dwBufCount);
         assert(SUCCEEDED(hr));
     }
@@ -515,8 +524,9 @@ int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime
         CComPtr<IMFMediaBuffer> pMediaBuffer;
         hr = pSample->GetBufferByIndex(i, &pMediaBuffer);
         assert(SUCCEEDED(hr));
-        BYTE* pBuffer = NULL;
-        DWORD dwCurLen, dwMaxSize;
+        BYTE *pBuffer = nullptr;
+        DWORD dwCurLen;
+        DWORD dwMaxSize;
         hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
         assert(SUCCEEDED(hr));
         if(SUCCEEDED(hr))
@@ -539,11 +549,10 @@ int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime
 
 int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime)
 {
-    HRESULT hr;
+    HRESULT hr = 0;
     DWORD dwBufCount = 0;
     int vframes = 0;
-    if(pSample)
-    {
+    if (pSample != nullptr) {
         hr = pSample->GetBufferCount(&dwBufCount);
         assert(SUCCEEDED(hr));
     }
@@ -556,8 +565,9 @@ int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime
         LONGLONG llSampleTimeStamp = sampletime;
         hr = pSample->GetSampleTime(&llSampleTimeStamp);
 
-        BYTE* pBuffer = NULL;
-        DWORD dwCurLen, dwMaxSize;
+        BYTE *pBuffer = nullptr;
+        DWORD dwCurLen;
+        DWORD dwMaxSize;
         hr = pMediaBuffer->Lock(&pBuffer, &dwMaxSize, &dwCurLen);
         assert(SUCCEEDED(hr));
         if(SUCCEEDED(hr))

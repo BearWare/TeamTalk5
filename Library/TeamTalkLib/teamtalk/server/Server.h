@@ -24,7 +24,13 @@
 #if !defined(SERVER_H)
 #define SERVER_H
 
-#include <teamtalk/Common.h>
+#include "teamtalk/Common.h"
+#include "TeamTalkDefs.h"
+
+#include <ace/INET_Addr.h>
+#include <ace/SString.h>
+
+#include <vector>
 
 namespace teamtalk {
 

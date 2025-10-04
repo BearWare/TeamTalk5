@@ -22,14 +22,22 @@
  */
 
 #include "PacketHandler.h"
+
+#include "PacketLayout.h"
 #include "ttassert.h"
-#include "Commands.h"
-#include <myace/MyINet.h>
+#include "myace/MyACE.h"
+#include "myace/MyINet.h"
+
+#include <ace/Message_Block.h>
+#include <ace/Reactor.h>
+#include <ace/Event_Handler.h>
+#include <ace/Addr.h>
+
+#include <cstring>
+#include <cstddef>
 #include <vector>
 #include <queue>
 
-#include <ace/OS_NS_sys_socket.h>
-using namespace std;
 using namespace teamtalk;
 
 PacketQueue::PacketQueue()
@@ -41,10 +49,10 @@ PacketQueue::PacketQueue()
 void PacketQueue::Reset()
 {
     ACE_Time_Value tv;
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
     while(dequeue(mb, &tv)>=0)
     {
-        FieldPacket* p;
+        FieldPacket* p = nullptr;
         memcpy(&p, mb->rd_ptr(), sizeof(p));
         mb->release();
         delete p;
@@ -69,7 +77,7 @@ void PacketQueue::RemoveChannelPackets()
         }
     }
 
-    while(packets.size())
+    while(!packets.empty())
     {
         QueuePacket(packets.front());
         packets.pop();
@@ -78,8 +86,8 @@ void PacketQueue::RemoveChannelPackets()
 
 packet_ptr_t PacketQueue::GetNextPacket()
 {
-    FieldPacket* p = NULL;
-    ACE_Message_Block* mb;
+    FieldPacket* p = nullptr;
+    ACE_Message_Block* mb = nullptr;
     ACE_Time_Value tv;
     if(this->dequeue(mb, &tv)>=0)
     {
@@ -92,7 +100,7 @@ packet_ptr_t PacketQueue::GetNextPacket()
 
 int PacketQueue::QueuePacket(FieldPacket* packet)
 {
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
     ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(packet)), -1);
     mb->copy((const char*)&packet, sizeof(packet));
     ACE_Time_Value tv;
@@ -117,16 +125,16 @@ PacketHandler::PacketHandler(ACE_Reactor* r)
 PacketHandler::~PacketHandler()
 {
     MYTRACE(ACE_TEXT("~PacketHandler()\n"));
-    close();
+    Close();
 }
 
-bool PacketHandler::open(const ACE_Addr &addr, int recv_buf, int send_buf)
+bool PacketHandler::Open(const ACE_Addr &addr, int recv_buf, int send_buf)
 {
-    int ret = sock_.open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
+    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
 
     TTASSERT(reactor());
 
-    if(ret == 0 && reactor())
+    if(ret == 0 && (reactor() != nullptr))
     {
         //Register the reactor to call back when incoming client connects
         ret = reactor()->register_handler(this, PacketHandler::READ_MASK);
@@ -135,33 +143,32 @@ bool PacketHandler::open(const ACE_Addr &addr, int recv_buf, int send_buf)
         TTASSERT(ret != -1);
         //MYTRACE("PacketHandler %d opened successfully\n", get_handle());
         int ret = 0;
-        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_RCVBUF,
+        ret = ACE_OS::setsockopt(Socket().get_handle(), SOL_SOCKET, SO_RCVBUF,
             reinterpret_cast<const char*>(&recv_buf), sizeof(recv_buf));
         TTASSERT(ret == 0);
-        ret = ACE_OS::setsockopt(sock_.get_handle(), SOL_SOCKET, SO_SNDBUF,
+        ret = ACE_OS::setsockopt(Socket().get_handle(), SOL_SOCKET, SO_SNDBUF,
             reinterpret_cast<const char*>(&send_buf), sizeof(send_buf));
         TTASSERT(ret == 0);
 
-        ret = sock_.get_local_addr(m_localaddr);
+        ret = Socket().get_local_addr(m_localaddr);
         TTASSERT(ret >= 0);
     }
 
     return ret == 0;
 }
 
-bool PacketHandler::close()
+bool PacketHandler::Close()
 {
-    if(reactor())
+    if(reactor() != nullptr)
     {
         reactor()->remove_handler(this, PacketHandler::ALL_EVENTS_MASK | PacketHandler::DONT_CALL);
         //MYTRACE("PacketHandler %d closed\n", get_handle());
 
         m_localaddr = ACE_INET_Addr();
-        int ret = sock_.close();
+        int const ret = Socket().close();
         return ret == 0;
     }
-    else
-        return false;
+            return false;
 }
 
 void PacketHandler::AddListener(teamtalk::PacketListener* pListener)
@@ -175,29 +182,29 @@ void PacketHandler::RemoveListener(teamtalk::PacketListener* pListener)
 }
 
 //Called back to handle any input received
-int PacketHandler::handle_input(ACE_HANDLE)
+int PacketHandler::handle_input(ACE_HANDLE /*fd*/)
 {
     //TRACE(LM_DEBUG,"Reading input\r\n");
     //receive the data
     ACE_INET_Addr addr;
 
-    ssize_t ret = sock_i().recv(&m_buffer[0], m_buffer.size(), addr);
+    ssize_t const ret = Socket().recv(m_buffer.data(), m_buffer.size(), addr);
     if(ret > 0)
     {
         packetlisteners_t::iterator ite;
         for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
-            (*ite)->ReceivedPacket(this, &m_buffer[0], (int)ret, addr);
+            (*ite)->ReceivedPacket(this, m_buffer.data(), (int)ret, addr);
     }
     else
     {
-        int err = ACE_OS::last_error();
+        int const err = ACE_OS::last_error();
         MYTRACE(ACE_TEXT("UDP receive failed from %s, errno: %d\n"), InetAddrToString(addr).c_str(), err);
     }
 
     return 0;
 }
 
-int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
+int PacketHandler::handle_output (ACE_HANDLE  /*fd*//* = ACE_INVALID_HANDLE*/)
 {
     packetlisteners_t::iterator ite;
     for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
@@ -208,13 +215,13 @@ int PacketHandler::handle_output (ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 //Used by the reactor to determine the underlying handle
 ACE_HANDLE PacketHandler::get_handle() const
 {
-    return this->sock_.get_handle();
+    return m_sock.get_handle();
 }
 
 //Returns a reference to the underlying socket.
-ACE_SOCK_Dgram& PacketHandler::sock_i()
+ACE_SOCK_Dgram& PacketHandler::Socket()
 {
-    return this->sock_;
+    return this->m_sock;
 }
 
 namespace teamtalk {
@@ -266,7 +273,7 @@ int ToIPTOSValue(const FieldPacket& p)
     return IP_TOS_IGNORE;
 }
 
-}
+} // namespace teamtalk
 
 SocketOptGuard::SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int value)
 : m_dgram(dgram)
@@ -283,7 +290,7 @@ SocketOptGuard::SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int
         }
         else
         {
-            int ret = m_dgram.set_option(m_level, m_option, &value, sizeof(value));
+            int const ret = m_dgram.set_option(m_level, m_option, &value, sizeof(value));
             MYTRACE_COND(ret, ACE_TEXT("Failed to set socket level %d option %d\n"), level, option);
         }
     }
@@ -295,9 +302,9 @@ SocketOptGuard::SocketOptGuard(ACE_SOCK_Dgram& dgram, int level, int option, int
 
 SocketOptGuard::~SocketOptGuard()
 {
-    if (m_level)
+    if (m_level != 0)
     {
-        int ret = m_dgram.set_option(m_level, m_option, &m_value, sizeof(m_value));
+        int const ret = m_dgram.set_option(m_level, m_option, &m_value, sizeof(m_value));
         MYTRACE_COND(ret, ACE_TEXT("Failed to revert socket level %d option %d\n"), m_level, m_option);
     }
 }

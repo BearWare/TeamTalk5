@@ -23,7 +23,6 @@
 
 #include "ClientChannel.h"
 
-using namespace std;
 using namespace teamtalk;
 
 ClientChannel::ClientChannel(int channelid)
@@ -32,10 +31,6 @@ ClientChannel::ClientChannel(int channelid)
 }
 
 ClientChannel::ClientChannel(channel_t& parent, int channelid, const ACE_TString& name)
-: PARENT( parent, channelid, name)
-{
-}
-
-ClientChannel::~ClientChannel()
+: PARENT(parent, channelid, name)
 {
 }

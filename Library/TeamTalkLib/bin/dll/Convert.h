@@ -21,20 +21,36 @@
  *
  */
 
+#if defined(WIN32)
+#include <ace/OS.h> 
+#endif
 
 #include "TeamTalk.h"
 
-#include <teamtalk/Common.h>
-#include <teamtalk/client/ClientUser.h>
-#include <teamtalk/client/ClientNode.h>
-#include <codec/MediaUtil.h>
+#include "avstream/AudioInputStreamer.h"
+#include "avstream/MediaStreamer.h"
+#include "codec/MediaUtil.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/client/ClientNode.h"
+#include "teamtalk/client/ClientUser.h"
+#include "teamtalk/client/Client.h"
+#include "teamtalk/client/VoiceLogger.h"
 
 #if defined(ENABLE_TEAMTALKPRO)
-#include <teamtalk/server/ServerUser.h>
-#include <teamtalk/server/ServerChannel.h>
+#include "teamtalk/server/ServerUser.h"
+#include "teamtalk/server/ServerChannel.h"
 #endif
 
-#define ZERO_STRUCT(x) ACE_OS::memset(&x, 0, sizeof(x))
+#if defined(ENABLE_WEBRTC)
+#include <api/audio/audio_processing.h>
+#endif
+
+#include <ace/SSL/SSL_Context.h>
+
+#include <set>
+
+#define ZERO_STRUCT(x) ACE_OS::memset(&(x), 0, sizeof(x))
 
 bool TranslateDesktopInput(TTKeyTranslate nTranslate,
                            const DesktopInput& input,

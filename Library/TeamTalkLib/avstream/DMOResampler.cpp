@@ -22,10 +22,12 @@
  */
 
 #include "DMOResampler.h"
-#include <uuids.h>
+#include "myace/MyACE.h"
+
 #include <Mmreg.h>
-#include <assert.h>
-#include <new>
+#include <uuids.h>
+
+#include <cassert>
 
 bool SetWaveMediaType(SampleFormat sampleFmt, int channels,
                       int samplerate, DMO_MEDIA_TYPE& mt)
@@ -41,7 +43,7 @@ bool SetWaveMediaType(SampleFormat sampleFmt, int channels,
     mt.formattype = FORMAT_WaveFormatEx;
     //CLSIDFromString(OLESTR("{05589f81-c356-11ce-bf01-00aa0055595a}"), &mt.formattype);
 
-    WAVEFORMATEX *pwav = reinterpret_cast<WAVEFORMATEX*>(mt.pbFormat);
+    auto *pwav = reinterpret_cast<WAVEFORMATEX*>(mt.pbFormat);
     pwav->wFormatTag = WAVE_FORMAT_PCM;
     pwav->nChannels = channels;
     pwav->nSamplesPerSec = samplerate;
@@ -65,11 +67,12 @@ bool SetWaveMediaType(SampleFormat sampleFmt, int channels,
     return true;
 }
 
-DMOResampler::DMOResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
+DMOResampler::DMOResampler(const media::AudioFormat &informat,
+                           const media::AudioFormat &outformat,
                            int fixed_input_samples)
-: AudioResampler(informat, outformat, fixed_input_samples)
-, m_mt_input()
-, m_mt_output()
+    : AudioResampler(informat, outformat, fixed_input_samples)
+    , m_mt_input()
+    , m_mt_output()
 {
 }
 
@@ -80,20 +83,19 @@ DMOResampler::~DMOResampler()
 
 bool DMOResampler::Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFmt)
 {
-    if(m_pDMO)
+    if(m_pDMO != nullptr)
         return false;
 
-    HRESULT hr;
-    GUID gResampler = __uuidof(CResamplerMediaObject);
-    GUID gMO = __uuidof(IMediaObject);
+    HRESULT hr = 0;
+    GUID const gResampler = __uuidof(CResamplerMediaObject);
+    GUID const gMO = __uuidof(IMediaObject);
     static bool init = false;
-    if(!init)
-    {
-        hr = CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
+    if (!init) {
+        hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
         init = true;
     }
 
-    hr = CoCreateInstance(gResampler, NULL, CLSCTX_INPROC_SERVER, gMO, 
+    hr = CoCreateInstance(gResampler, nullptr, CLSCTX_INPROC_SERVER, gMO, 
                           (void**)&m_pDMO);
     if(FAILED(hr))
         return false;
@@ -127,55 +129,56 @@ fail:
 
 void DMOResampler::Close()
 {
-    if(m_mt_input.pbFormat)
+    if(m_mt_input.pbFormat != nullptr)
     {
         MoFreeMediaType(&m_mt_input);
         ZeroMemory(&m_mt_input, sizeof(m_mt_input));
     }
-    if(m_mt_output.pbFormat)
+    if(m_mt_output.pbFormat != nullptr)
     {
         MoFreeMediaType(&m_mt_output);
         ZeroMemory(&m_mt_output, sizeof(m_mt_output));
     }
 
-    if(m_pDMO)
+    if (m_pDMO != nullptr)
         m_pDMO->Release();
-    m_pDMO = NULL;
+    m_pDMO = nullptr;
 }
 
 int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
                            short* output_samples, int output_samples_cnt)
 {
-#define RETURNONERROR(error)            \
-    do {                                \
-        if (error) {                    \
-            if(input_mb)                \
-                input_mb->Release();    \
-            if (output_mb)              \
-                output_mb->Release();   \
-            return ret;                 \
-        }                               \
-    } while(0)
+#define RETURNONERROR(error) \
+    do { \
+        if (error) { \
+            if (input_mb) \
+                input_mb->Release(); \
+            if (output_mb) \
+                output_mb->Release(); \
+            return ret; \
+        } \
+    } while (0)
 
     assert(m_pDMO);
-    if(!m_pDMO)
+    if (m_pDMO == nullptr)
         return 0;
 
-    HRESULT hr;
-    BYTE* pBuffer = NULL;
+    HRESULT hr = 0;
+    BYTE* pBuffer = nullptr;
     DWORD dwLen = 0;
     DMO_OUTPUT_DATA_BUFFER dodb = {};
-    WAVEFORMATEX *pInputWav = reinterpret_cast<WAVEFORMATEX*>(m_mt_input.pbFormat);
-    WAVEFORMATEX *pOutputWav = reinterpret_cast<WAVEFORMATEX*>(m_mt_output.pbFormat);
-    IMediaBuffer* input_mb = NULL, *output_mb = NULL;
+    auto *pInputWav = reinterpret_cast<WAVEFORMATEX *>(m_mt_input.pbFormat);
+    auto *pOutputWav = reinterpret_cast<WAVEFORMATEX *>(m_mt_output.pbFormat);
+    IMediaBuffer *input_mb = NULL;
+    IMediaBuffer *output_mb = NULL;
     int ret = 0;
 
-    long inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
+    long const inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
     hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples, inbufsize, inbufsize, (LPVOID*)&input_mb);
     assert(SUCCEEDED(hr));
     RETURNONERROR(FAILED(hr));
 
-    long outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
+    long const outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
     hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, outbufsize, (LPVOID*)&output_mb);
     assert(SUCCEEDED(hr));
     RETURNONERROR(FAILED(hr));

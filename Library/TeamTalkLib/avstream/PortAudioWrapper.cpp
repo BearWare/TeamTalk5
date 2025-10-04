@@ -22,15 +22,21 @@
  */
 
 #include "PortAudioWrapper.h"
-#include <myace/MyACE.h>
-#include <iostream>
-#include <math.h>
-#include <assert.h>
+
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
 #include <cstring>
+#include <memory>
+#include <numbers>
+#include <portaudio.h>
+#include <vector>
 
 #if defined(ACE_WIN32)
 
-#include <avstream/DMOResampler.h> // need SetWaveMediaType()
+#include "avstream/DMOResampler.h" // need SetWaveMediaType()
 #include <pa_win_wasapi.h>
 #include <px_win_ds.h>    //the directx mixer
 
@@ -40,12 +46,12 @@
 #include <atlbase.h>
 #include <MMDeviceApi.h>
 
-const int WINAEC_SAMPLERATE = 22050;
-const int WINAEC_CHANNELS = 1;
+constexpr int WINAEC_SAMPLERATE = 22050;
+constexpr int WINAEC_CHANNELS = 1;
 
 #endif
 
-#define DEBUG_PORTAUDIO 0
+constexpr auto DEBUG_PORTAUDIO = 0;
 
 using namespace std;
 namespace soundsystem {
@@ -74,7 +80,7 @@ PortAudio::~PortAudio()
 
 bool PortAudio::Init()
 {
-    PaError err = Pa_Initialize();
+    PaError const err = Pa_Initialize();
     MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio failed to initialize. Error: %d\n"), err);
     RefreshDevices();
     return err == paNoError;
@@ -82,13 +88,13 @@ bool PortAudio::Init()
 
 void PortAudio::Close()
 {
-    PaError err = Pa_Terminate();
+    PaError const err = Pa_Terminate();
     MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio closed incorrectly. Error: %d\n"), err);
 }
 
-std::shared_ptr<PortAudio> PortAudio::getInstance()
+std::shared_ptr<PortAudio> PortAudio::GetInstance()
 {
-    static std::shared_ptr<PortAudio> p(new PortAudio());
+    static std::shared_ptr<PortAudio> const p(new PortAudio());
 
 #if defined(ACE_WIN32) //COM must be initialize for all threads which uses this class
     static std::mutex mtx;
@@ -107,7 +113,7 @@ std::shared_ptr<PortAudio> PortAudio::getInstance()
 
 soundgroup_t PortAudio::NewSoundGroup()
 {
-    return soundgroup_t(new PaSoundGroup());
+    return std::make_shared<PaSoundGroup>();
 }
 
 void PortAudio::RemoveSoundGroup(soundgroup_t sndgrp)
@@ -116,7 +122,7 @@ void PortAudio::RemoveSoundGroup(soundgroup_t sndgrp)
 
 bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 {
-    soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
+    soundgroup_t const sndgrp = GetSoundGroup(sndgrpid);
     if (sndgrp)
     {
         sndgrp->autoposition = enable;
@@ -127,7 +133,7 @@ bool PortAudio::SetAutoPositioning(int sndgrpid, bool enable)
 
 bool PortAudio::IsAutoPositioning(int sndgrpid)
 {
-    soundgroup_t sndgrp = GetSoundGroup(sndgrpid);
+    soundgroup_t const sndgrp = GetSoundGroup(sndgrpid);
     if(sndgrp)
         return sndgrp->autoposition;
     return false;
@@ -141,19 +147,19 @@ bool PortAudio::AutoPositionPlayers(int sndgrpid, bool all_players)
         std::vector<StreamPlayer*> players = GetPlayers(sndgrpid);
         for(size_t i=0;i<players.size();)
         {
-            outputstreamer_t streamer = GetStream(players[i]);
+            outputstreamer_t const streamer = GetStream(players[i]);
             if(!streamer || (!streamer->autoposition && !all_players))
                 players.erase(players.begin()+i);
             else ++i;
         }
 
-        int count = (int)players.size()+1;
+        int const count = (int)players.size()+1;
 
         for(int i=0; i<count-1; i++)
         {
-            float x = cos( (float(i+1))/(float)count * 3.1415f);
-            float y = sin((float(i+1))/(float)count * 3.1415f);
-            SetPosition(players[i], x, y, 0.0f);
+            float const x = cos( (float(i+1))/(float)count * std::numbers::pi_v<float>);
+            float const y = sin((float(i+1))/(float)count * std::numbers::pi_v<float>);
+            SetPosition(players[i], x, y, 0.0F);
         }
         return true;
     }
@@ -183,7 +189,7 @@ bool PortAudio::GetDefaultDevices(int& inputdeviceid, int& outputdeviceid)
 bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
                                   int& outputdeviceid)
 {
-    const PaHostApiInfo* hostapi = NULL;
+    const PaHostApiInfo* hostapi = nullptr;
     PaHostApiIndex hostapiIndex = paHostApiNotFound;
     switch(sndsys)
     {
@@ -219,7 +225,7 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
         return false;
 
     hostapi = Pa_GetHostApiInfo(hostapiIndex);
-    if(hostapi)
+    if(hostapi != nullptr)
     {
         inputdeviceid = hostapi->defaultInputDevice;
         outputdeviceid = hostapi->defaultOutputDevice;
@@ -230,12 +236,12 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
 
 void PortAudio::FillDevices(sounddevices_t& sounddevs)
 {
-    PaDeviceIndex n_devices = Pa_GetDeviceCount();
+    PaDeviceIndex const n_devices = Pa_GetDeviceCount();
     for(PaDeviceIndex i=0;i<n_devices; i++)
     {
         const PaDeviceInfo* devinfo = Pa_GetDeviceInfo(i);
         assert(devinfo);
-        if(!devinfo)
+        if(devinfo == nullptr)
             continue;
 
         DeviceInfo device;
@@ -255,7 +261,7 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
     SetupDefaultCommunicationDevice(sounddevs);
 }
 
-void PortAudio::SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device)
+void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::DeviceInfo& device)
 {
     device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
 
@@ -306,16 +312,16 @@ void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::Devi
     }
     else
     {
-        for (int samplerate : standardSampleRates)
+        for (int const samplerate : standardSampleRates)
         {
             //check input sample rates
             streamParameters.channelCount = devinfo->maxInputChannels;
-            if (Pa_IsFormatSupported(&streamParameters, NULL, samplerate) == paFormatIsSupported)
+            if (Pa_IsFormatSupported(&streamParameters, nullptr, samplerate) == paFormatIsSupported)
                 device.input_samplerates.insert(samplerate);
 
             //check output sample rates
             streamParameters.channelCount = devinfo->maxOutputChannels;
-            if (Pa_IsFormatSupported(NULL, &streamParameters, samplerate) == paFormatIsSupported)
+            if (Pa_IsFormatSupported(nullptr, &streamParameters, samplerate) == paFormatIsSupported)
                 device.output_samplerates.insert(samplerate);
         }
 
@@ -323,7 +329,7 @@ void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::Devi
         {
             //check input channels
             streamParameters.channelCount = c;
-            if (Pa_IsFormatSupported(&streamParameters, NULL, device.default_samplerate) == paFormatIsSupported)
+            if (Pa_IsFormatSupported(&streamParameters, nullptr, device.default_samplerate) == paFormatIsSupported)
                 device.input_channels.insert(c);
         }
 
@@ -331,7 +337,7 @@ void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::Devi
         {
             //check output channels
             streamParameters.channelCount = c;
-            if (Pa_IsFormatSupported(NULL, &streamParameters, device.default_samplerate) == paFormatIsSupported)
+            if (Pa_IsFormatSupported(nullptr, &streamParameters, device.default_samplerate) == paFormatIsSupported)
                 device.output_channels.insert(c);
         }
     }
@@ -375,7 +381,8 @@ SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
 {
     if(devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paDirectSound))
         return SOUND_API_DSOUND;
-    else if(devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paMME))
+
+    if(devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paMME))
         return SOUND_API_WINMM;
     else if(devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paALSA))
         return SOUND_API_ALSA;
@@ -391,18 +398,18 @@ SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
     return SOUND_API_NOSOUND;
 }
 
-int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
+static int InputStreamCallback(const void *inputBuffer, void * /*outputBuffer*/,
                         unsigned long framesPerBuffer,
-                        const PaStreamCallbackTimeInfo* timeInfo,
+                        const PaStreamCallbackTimeInfo*  /*timeInfo*/,
                         PaStreamCallbackFlags statusFlags,
                         void *userData)
 {
-    const short* recorded = static_cast<const short*> (inputBuffer);
+    const auto* recorded = static_cast<const short*> (inputBuffer);
 
     MYTRACE_COND(statusFlags & paInputUnderflow, ACE_TEXT("PORTAUDIO: paInputUnderFlow\n"));
     MYTRACE_COND(statusFlags & paInputOverflow, ACE_TEXT("PORTAUDIO: paInputOverflow\n"));
 
-    PaInputStreamer* inputStreamer = static_cast<PaInputStreamer*> (userData);
+    auto* inputStreamer = static_cast<PaInputStreamer*> (userData);
     assert(inputStreamer);
     inputStreamer->recorder->StreamCaptureCb(*inputStreamer,
                                              recorded, framesPerBuffer);
@@ -410,11 +417,11 @@ int InputStreamCallback(const void *inputBuffer, void *outputBuffer,
     inputStreamer->Tick(framesPerBuffer);
 
     // check if callback is over or underflowing
-    uint32_t durationMSec = inputStreamer->DurationMSec();
-    uint32_t samplesMSec = inputStreamer->DurationSamplesMSec(inputStreamer->samplerate);
-    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
+    uint32_t const durationMSec = inputStreamer->DurationMSec();
+    uint32_t const samplesMSec = inputStreamer->DurationSamplesMSec(inputStreamer->samplerate);
+    uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
 
-    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    int const skewMSec = std::abs(int(durationMSec - samplesMSec));
     MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
 
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
@@ -427,8 +434,8 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
                                      int framesize)
 {
     const PaDeviceInfo* indev = Pa_GetDeviceInfo(inputdeviceid);
-    if(!indev)
-        return inputstreamer_t();
+    if(indev == nullptr)
+        return {};
 
     inputstreamer_t streamer(new PaInputStreamer(capture, sndgrpid, framesize,
                                                  samplerate, channels,
@@ -450,14 +457,14 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
         inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
 #endif
 
-    PaError err = Pa_OpenStream(&streamer->stream, &inputParameters, NULL,
+    PaError const err = Pa_OpenStream(&streamer->stream, &inputParameters, nullptr,
                                 (double)samplerate, framesize, paClipOff,
                                 InputStreamCallback,
                                 static_cast<void*> (streamer.get()) );
     MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize input device %d\n"), inputdeviceid);
     if(err != paNoError)
     {
-        return inputstreamer_t();
+        return {};
     }
 
     return streamer;
@@ -466,7 +473,7 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
 bool PortAudio::StartStream(inputstreamer_t streamer)
 {
     assert(streamer->stream);
-    PaError err = Pa_StartStream(streamer->stream);
+    PaError const err = Pa_StartStream(streamer->stream);
     assert(err == paNoError);
     return err == paNoError;
 }
@@ -495,24 +502,24 @@ bool PortAudio::IsStreamStopped(inputstreamer_t streamer)
     return Pa_IsStreamStopped(streamer->stream) > 0;
 }
 
-int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
+static int OutputStreamCallback(const void * /*inputBuffer*/, void *outputBuffer,
                          unsigned long framesPerBuffer,
-                         const PaStreamCallbackTimeInfo* timeInfo,
+                         const PaStreamCallbackTimeInfo*  /*timeInfo*/,
                          PaStreamCallbackFlags statusFlags,
                          void *userData )
 {
     assert(userData);
-    PaOutputStreamer* streamer = static_cast<PaOutputStreamer*> (userData);
+    auto* streamer = static_cast<PaOutputStreamer*> (userData);
 
     MYTRACE_COND(statusFlags & paOutputUnderflow, ACE_TEXT("PORTAUDIO: paOutputUnderflow\n"));
     MYTRACE_COND(statusFlags & paOutputOverflow, ACE_TEXT("PORTAUDIO: paOutputOverflow\n"));
 
     bool bContinue = false;
-    short* playback = static_cast<short*>(outputBuffer);
+    auto* playback = static_cast<short*>(outputBuffer);
 
     bContinue = streamer->player->StreamPlayerCb(*streamer, playback, framesPerBuffer);
-    int mastervol = PortAudio::getInstance()->GetMasterVolume(streamer->sndgrpid);
-    bool mastermute = PortAudio::getInstance()->IsAllMute(streamer->sndgrpid);
+    int const mastervol = PortAudio::GetInstance()->GetMasterVolume(streamer->sndgrpid);
+    bool const mastermute = PortAudio::GetInstance()->IsAllMute(streamer->sndgrpid);
     SoftVolume(*streamer, playback, framesPerBuffer, mastervol, mastermute);
 
     MYTRACE_COND(streamer->soundsystem == SOUND_API_NOSOUND,
@@ -521,16 +528,15 @@ int OutputStreamCallback(const void *inputBuffer, void *outputBuffer,
     streamer->Tick(framesPerBuffer);
 
     // check if callback is over or underflowing
-    uint32_t durationMSec = streamer->DurationMSec();
-    uint32_t samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
-    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
-    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    uint32_t const durationMSec = streamer->DurationMSec();
+    uint32_t const samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
+    uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
+    int const skewMSec = std::abs(int(durationMSec - samplesMSec));
     MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
-    else
-        return paComplete;
+    return paComplete;
 }
 
 outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
@@ -540,11 +546,11 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     PaStreamParameters outputParameters = {};
     outputParameters.device = outputdeviceid;
     outputParameters.channelCount = channels;
-    outputParameters.hostApiSpecificStreamInfo = NULL;
+    outputParameters.hostApiSpecificStreamInfo = nullptr;
     outputParameters.sampleFormat = paInt16;
     const PaDeviceInfo* outdev = Pa_GetDeviceInfo( outputParameters.device );
-    if(!outdev)
-        return outputstreamer_t();
+    if(outdev == nullptr)
+        return {};
 
     outputParameters.suggestedLatency = outdev->defaultLowOutputLatency;
 
@@ -559,8 +565,8 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
                                                    channels, GetSoundSystem(outdev),
                                                    outputdeviceid));
 
-    PaError err = Pa_OpenStream(&streamer->stream,
-                                NULL,
+    PaError const err = Pa_OpenStream(&streamer->stream,
+                                nullptr,
                                 &outputParameters,
                                 (double)samplerate,
                                 framesize,
@@ -571,7 +577,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize output device %d\n"), outputdeviceid);
     if(err != paNoError)
     {
-        return outputstreamer_t();
+        return {};
     }
 
     //set master volume so it's relative to master volume
@@ -608,7 +614,7 @@ void PortAudio::CloseStream(outputstreamer_t streamer)
 bool PortAudio::StartStream(outputstreamer_t streamer)
 {
     assert(streamer->stream);
-    PaError err = Pa_StartStream(streamer->stream);
+    PaError const err = Pa_StartStream(streamer->stream);
     assert(err == paNoError);
     return err == paNoError;
 }
@@ -618,7 +624,7 @@ bool PortAudio::StopStream(outputstreamer_t streamer)
     PaStream* paStream = streamer->stream;
     assert(paStream);
 
-    PaError err = Pa_StopStream(paStream);
+    PaError const err = Pa_StopStream(paStream);
     MYTRACE_COND(err != paNoError, ACE_TEXT("PORTAUDIO: Error stopping stream: %d\n"), err);
     return err == paNoError;
 }
@@ -628,9 +634,9 @@ bool PortAudio::IsStreamStopped(outputstreamer_t streamer)
     return Pa_IsStreamStopped(streamer->stream)>0;
 }
 
-void PortAudio::SetSampleRate(StreamPlayer* player, int samplerate)
+void PortAudio::SetSampleRate(StreamPlayer* player, int  samplerate)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return;
 
@@ -642,7 +648,7 @@ void PortAudio::SetSampleRate(StreamPlayer* player, int samplerate)
 
 int PortAudio::GetSampleRate(StreamPlayer* player)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return 0;
 
@@ -654,7 +660,7 @@ int PortAudio::GetSampleRate(StreamPlayer* player)
 }
 void PortAudio::SetAutoPositioning(StreamPlayer* player, bool enable)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return;
     streamer->autoposition = enable;
@@ -662,16 +668,16 @@ void PortAudio::SetAutoPositioning(StreamPlayer* player, bool enable)
 
 bool PortAudio::IsAutoPositioning(StreamPlayer* player)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return false;
 
     return streamer->autoposition;
 }
 
-bool PortAudio::SetPosition(StreamPlayer* player, float x, float y, float z)
+bool PortAudio::SetPosition(StreamPlayer* player, float  x, float  y, float  z)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return false;
 
@@ -688,9 +694,9 @@ bool PortAudio::SetPosition(StreamPlayer* player, float x, float y, float z)
     return false;
 }
 
-bool PortAudio::GetPosition(StreamPlayer* player, float& x, float& y, float& z)
+bool PortAudio::GetPosition(StreamPlayer* player, float&  x, float&  y, float&  z)
 {
-    outputstreamer_t streamer = GetStream(player);
+    outputstreamer_t const streamer = GetStream(player);
     if (!streamer)
         return false;
 
@@ -706,7 +712,7 @@ bool PortAudio::GetPosition(StreamPlayer* player, float& x, float& y, float& z)
     return false;
 }
 
-int DuplexStreamCallback(const void *inputBuffer,
+static int DuplexStreamCallback(const void *inputBuffer,
                          void *outputBuffer, unsigned long framesPerBuffer,
                          const PaStreamCallbackTimeInfo* timeInfo,
                          PaStreamCallbackFlags statusFlags, void *userData)
@@ -716,14 +722,14 @@ int DuplexStreamCallback(const void *inputBuffer,
 
     MYTRACE_COND(statusFlags & paInputUnderflow, ACE_TEXT("PORTAUDIO: paInputUnderFlow\n"));
     MYTRACE_COND(statusFlags & paInputOverflow, ACE_TEXT("PORTAUDIO: paInputOverflow\n"));
-    PaDuplexStreamer* dpxStream = static_cast<PaDuplexStreamer*>(userData);
-    const short* recorded = reinterpret_cast<const short*>(inputBuffer);
-    short* playback = reinterpret_cast<short*>(outputBuffer);
+    auto* dpxStream = static_cast<PaDuplexStreamer*>(userData);
+    const auto* recorded = reinterpret_cast<const short*>(inputBuffer);
+    auto* playback = reinterpret_cast<short*>(outputBuffer);
 
     // Store the delay between the reported capture time and the expected output time in the streamer
     // (outputBufferDacTime is a time in the future)
     // It will be copied to the Audioblock and eventually used to dynamically set the delay for the WebRTC Echo Canceller
-    int delayms = (int)((timeInfo->outputBufferDacTime - timeInfo->inputBufferAdcTime) * 1000);
+    int const delayms = (int)((timeInfo->outputBufferDacTime - timeInfo->inputBufferAdcTime) * 1000);
     dpxStream->last_duplex_callback_delay = delayms;
 
     assert(framesPerBuffer == dpxStream->framesize);
@@ -734,14 +740,14 @@ int DuplexStreamCallback(const void *inputBuffer,
 
     // check if duplex callback is over or underflowing
     dpxStream->Tick(framesPerBuffer);
-    uint32_t durationMSec = dpxStream->DurationMSec();
-    uint32_t samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
-    uint32_t cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
-    int skewMSec = std::abs(int(durationMSec - samplesMSec));
+    uint32_t const durationMSec = dpxStream->DurationMSec();
+    uint32_t const samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
+    uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
+    int const skewMSec = std::abs(int(durationMSec - samplesMSec));
     MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
-    int mastervol = PortAudio::getInstance()->GetMasterVolume(dpxStream->sndgrpid);
-    bool mastermute = PortAudio::getInstance()->IsAllMute(dpxStream->sndgrpid);
+    int const mastervol = PortAudio::GetInstance()->GetMasterVolume(dpxStream->sndgrpid);
+    bool const mastermute = PortAudio::GetInstance()->IsAllMute(dpxStream->sndgrpid);
 #if defined(WIN32)
     if (dpxStream->winaec)
     {
@@ -776,11 +782,11 @@ int DuplexStreamCallback(const void *inputBuffer,
     return paContinue;
 }
 
-void DuplexStreamCallbackEnded(void* userData)
+static void DuplexStreamCallbackEnded(void* userData)
 {
-    PaDuplexStreamer* dpxStream = static_cast<PaDuplexStreamer*>(userData);
+    auto* dpxStream = static_cast<PaDuplexStreamer*>(userData);
     MYTRACE(ACE_TEXT("PORTAUDIO: Duplex stream %p ended\n"), dpxStream);
-    DuplexEnded(PortAudio::getInstance().get(), *dpxStream);
+    DuplexEnded(PortAudio::GetInstance().get(), *dpxStream);
 }
 
 duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
@@ -790,8 +796,8 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 {
     const PaDeviceInfo* indev = Pa_GetDeviceInfo(inputdeviceid);
     const PaDeviceInfo* outdev = Pa_GetDeviceInfo(outputdeviceid);
-    if (!indev || !outdev)
-        return duplexstreamer_t();
+    if ((indev == nullptr) || (outdev == nullptr))
+        return {};
 
     //input device init
     PaStreamParameters inputParameters = {};
@@ -840,7 +846,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 #endif
 
     //open stream
-    PaError err = Pa_OpenStream(&streamer->stream, (tmpInputParameters ? tmpInputParameters : NULL),
+    PaError err = Pa_OpenStream(&streamer->stream, ((tmpInputParameters != nullptr) ? tmpInputParameters : nullptr),
                                 &outputParameters, (double)samplerate,
                                 framesize, paClipOff,
                                 DuplexStreamCallback,
@@ -850,7 +856,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                  inputdeviceid, outputdeviceid);
     if(err != paNoError)
     {
-        return duplexstreamer_t();
+        return {};
     }
 
     err = Pa_SetStreamFinishedCallback(streamer->stream, DuplexStreamCallbackEnded);
@@ -861,7 +867,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
 bool PortAudio::StartStream(duplexstreamer_t streamer)
 {
     assert(streamer->stream);
-    PaError err = Pa_StartStream(streamer->stream);
+    PaError const err = Pa_StartStream(streamer->stream);
     assert(err == paNoError);
     return err == paNoError;
 }
@@ -870,7 +876,7 @@ void PortAudio::CloseStream(duplexstreamer_t streamer)
 {
     assert(streamer->players.empty());
 
-    PaError err = Pa_CloseStream(streamer->stream);
+    PaError const err = Pa_CloseStream(streamer->stream);
     assert(err == paNoError);
 
     streamer->stream = nullptr;
@@ -885,7 +891,7 @@ bool PortAudio::IsStreamStopped(duplexstreamer_t streamer)
 bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
 {
     assert(streamer);
-    SoundDeviceFeatures newfeatures = streamer->duplex->GetDuplexFeatures();
+    SoundDeviceFeatures const newfeatures = streamer->duplex->GetDuplexFeatures();
 
 #if defined(WIN32)
     if (streamer->winaec)
@@ -896,7 +902,7 @@ bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
 
 #if defined(WIN32)
 
-#define DEBUG_WINAEC 0
+constexpr auto DEBUG_WINAEC = 0;
 
 CWMAudioAECCapture::CWMAudioAECCapture(PaDuplexStreamer* duplex, SoundDeviceFeatures features)
 : m_streamer(duplex)
@@ -1324,4 +1330,4 @@ bool CWMAudioAECCapture::FindDevs(LONG& indevindex, LONG& outdevindex)
 
 #endif
 
-} //namespace
+} // namespace soundsystem
