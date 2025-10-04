@@ -184,10 +184,10 @@ do {                                                            \
 #define WM_TEAMTALK_HOTKEYEVENT     (WM_APP + 2)
 #endif
 
-typedef QVector<int> userids_t;
-typedef QMap<int, Channel> channels_t;
-typedef QMap<int, User> users_t;
-typedef QVector<UserAccount> useraccounts_t;
+using userids_t = QVector<int>;
+using channels_t = QMap<int, Channel>;
+using users_t = QMap<int, User>;
+using useraccounts_t = QVector<UserAccount>;
 
 bool userCanChanMessage(int userid, const Channel& chan, bool includeFreeForAll = false);
 bool userCanVoiceTx(int userid, const Channel& chan, bool includeFreeForAll = false);
