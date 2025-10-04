@@ -19,7 +19,7 @@ teamtalk-env:
 
 genlib:
 	mkdir -p $(BUILDDIR)
-	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G "$(CMAKE_GENERATOR)" ../../
+	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G "$(CMAKE_GENERATOR)" ../../
 
 buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)

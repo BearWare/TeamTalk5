@@ -54,7 +54,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   if (NOT CMAKE_OSX_ARCHITECTURES)
-    set (CMAKE_OSX_ARCHITECTURES arm64;x86_64)
     message(WARNING "No architecture specified. Defaulting to ${CMAKE_OSX_ARCHITECTURES}")
   endif()
 
