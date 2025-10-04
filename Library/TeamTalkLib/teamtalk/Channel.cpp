@@ -22,6 +22,11 @@
  */
 
 #include "Channel.h"
+#include "myace/MyACE.h"
+
+#include <ace/SString.h>
+#include <cstddef>
+#include <vector>
 
 using namespace std;
 
@@ -62,10 +67,10 @@ namespace teamtalk {
 
     bool ChannelsEquals(const ACE_TString& szChanPath1, const ACE_TString& szChanPath2)
     {
-        strings_t tok1 = TokenizeChannelPath(stringtolower(szChanPath1));
-        strings_t tok2 = TokenizeChannelPath(stringtolower(szChanPath2));
+        strings_t const tok1 = TokenizeChannelPath(stringtolower(szChanPath1));
+        strings_t const tok2 = TokenizeChannelPath(stringtolower(szChanPath2));
         return tok1 == tok2;
     }
 
-}
+} // namespace teamtalk
 
