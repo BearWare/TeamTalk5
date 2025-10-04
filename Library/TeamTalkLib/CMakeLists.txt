@@ -9,7 +9,7 @@ set (CMAKE_C_FLAGS_DEBUG "${CMAKE_C_FLAGS_DEBUG} -DDEBUG -D_DEBUG")
 
 # WebRTC makes use of std::optional which is C++17.
 # Also ACE requires C++ 17.
-set (CMAKE_CXX_STANDARD 20)
+set (CMAKE_CXX_STANDARD 23)
 set (CMAKE_CXX_STANDARD_REQUIRED ON)
 
 if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
