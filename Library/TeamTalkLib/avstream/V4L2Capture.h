@@ -26,22 +26,25 @@
 
 #include "FFmpegCapture.h"
 
+#include "avstream/VideoCapture.h"
+#include "codec/MediaUtil.h"
+
 namespace vidcap {
 
     class V4L2Capture : public FFmpegCapture
     {
 
     protected:
-        ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
-                                          const media::VideoFormat& fmt);
+        ffmpegvideoinput_t CreateStreamer(const VidCapDevice& viddevice,
+                                          const media::VideoFormat& fmt) override;
     public:
-        V4L2Capture();
-        virtual ~V4L2Capture();
+        V4L2Capture() = default;
+        ~V4L2Capture() override = default;
 
         // VideoCapture interface
-        vidcap_devices_t GetDevices();
+        vidcap_devices_t GetDevices() override;
     };
 
-}
+} // namespace vidcap
 
 #endif

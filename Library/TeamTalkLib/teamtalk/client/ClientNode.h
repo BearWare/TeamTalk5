@@ -25,43 +25,64 @@
 #define CLIENTNODE_H
 
 #include "ClientNodeBase.h"
-#include "ClientNodeEvent.h"
-#include "ClientChannel.h"
-#include "ClientUser.h"
+
+#include "AudioContainer.h"
+#include "AudioMuxer.h"
 #include "AudioThread.h"
+#include "Client.h"
+#include "ClientChannel.h"
+#include "ClientNodeEvent.h"
+#include "ClientUser.h"
+#include "DesktopShare.h"
 #include "FileNode.h"
 #include "VideoThread.h"
-#include "AudioMuxer.h"
-#include "AudioContainer.h"
-#include "DesktopShare.h"
 
-#include <myace/MyACE.h>
-#include <teamtalk/StreamHandler.h>
-#include <teamtalk/Common.h>
-#include <teamtalk/PacketHandler.h>
-#include <avstream/VideoCapture.h>
-#include <avstream/MediaPlayback.h>
+#include "avstream/AudioInputStreamer.h"
+#include "avstream/AudioResampler.h"
+#include "avstream/MediaPlayback.h"
+#include "avstream/MediaStreamer.h"
+#include "avstream/SoundSystem.h"
+#include "avstream/VideoCapture.h"
+#include "codec/MediaUtil.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketHandler.h"
+#include "teamtalk/PacketHelper.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/StreamHandler.h"
+
+#include <ace/INET_Addr.h>
+#include <ace/Message_Block.h>
+#include <ace/Message_Queue.h>
+#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Time_Value.h>
+#if defined(ENABLE_ENCRYPTION)
+#include <ace/SSL/SSL_Context.h>
+#endif
 
 #include <atomic>
+#include <cstdint>
+#include <map>
+#include <memory>
+#include <set>
+#include <vector>
 
-#define CLIENT_DESKTOPNAK_TIMEOUT           ACE_Time_Value(4) //close a desktop session
-#define CLIENT_QUERY_MTU_INTERVAL           ACE_Time_Value(0, 500000) //time between MTU query packets
-#define CLIENT_DESKTOPINPUT_RTX_TIMEOUT     ACE_Time_Value(1)
-#define CLIENT_DESKTOPINPUT_ACK_DELAY       ACE_Time_Value(0, 10000)
+static const auto CLIENT_DESKTOPNAK_TIMEOUT          = ACE_Time_Value(4); //close a desktop session
+static const auto CLIENT_QUERY_MTU_INTERVAL          = ACE_Time_Value(0, 500000); //time between MTU query packets
+static const auto CLIENT_DESKTOPINPUT_RTX_TIMEOUT    = ACE_Time_Value(1);
+static const auto CLIENT_DESKTOPINPUT_ACK_DELAY      = ACE_Time_Value(0, 10000);
 
-#define MTU_QUERY_RETRY_COUNT 20 //20 * 500ms = 10 seconds for MTU query (CLIENT_QUERY_MTU_INTERVAL)
+constexpr auto MTU_QUERY_RETRY_COUNT = 20; //20 * 500ms = 10 seconds for MTU query (CLIENT_QUERY_MTU_INTERVAL)
 
 #if defined(_DEBUG)
-#define ASSERT_REACTOR_LOCKED(this_obj)                         \
-    TTASSERT(this_obj->m_reactorlock_thr_id == ACE_Thread::self())
+
 #define GUARD_REACTOR(this_obj)                         \
-    guard_t g( this_obj->reactor_lock() );              \
+    guard_t g( this_obj->ReactorLock() );               \
     /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
     this_obj->m_reactorlock_thr_id = ACE_Thread::self()
 #else
-#define ASSERT_REACTOR_LOCKED(...)     (void)0
-#define GUARD_REACTOR(this_obj)                 \
-    guard_t g(this_obj->reactor_lock())
+#define GUARD_REACTOR(this_obj)                         \
+    guard_t g(this_obj->ReactorLock())
 #endif
 
 namespace teamtalk {
@@ -98,7 +119,7 @@ namespace teamtalk {
         CLIENT_STREAM_VIDEOFILE          = 0x00020000
     };
 
-    typedef ACE_UINT32 ClientFlags;
+    using ClientFlags = ACE_UINT32;
 
     struct ClientStats
     {
@@ -123,7 +144,7 @@ namespace teamtalk {
         bool udp_ping_dirty = true;
         bool tcp_ping_dirty = true;
         int streamcapture_delay_msec = 0;
-        ClientStats() { }
+        ClientStats() = default;
     };
 
     struct ClientKeepAlive
@@ -144,7 +165,7 @@ namespace teamtalk {
 
     soundsystem::SoundDeviceFeatures GetSoundDeviceFeatures(const SoundDeviceEffects& effects);
 
-    typedef std::shared_ptr< class FileNode > filenode_t;
+    using filenode_t = std::shared_ptr< class FileNode >;
 
     class ClientNode
         : public ClientNodeBase
@@ -158,16 +179,15 @@ namespace teamtalk {
     {
     public:
         ClientNode(const ACE_TString& version, ClientListener* listener);
-        virtual ~ClientNode();
+        ~ClientNode() override;
 
 #if defined(_DEBUG)
-        ACE_thread_t m_reactorlock_thr_id = 0;
         uint32_t m_active_timerid = 0;
 #endif
         
-        ACE_Recursive_Thread_Mutex& lock_sndprop() { return m_sndgrp_lock; }
-        VoiceLogger& voicelogger() override;
-        AudioContainer& audiocontainer();
+        ACE_Recursive_Thread_Mutex& LockSndprop() { return m_sndgrp_lock; }
+        VoiceLogger& GetVoiceLogger() override;
+        AudioContainer& GetAudioContainer();
 
         //server properties
         bool GetServerInfo(ServerInfo& info);
@@ -205,10 +225,10 @@ namespace teamtalk {
         bool EnableVoiceTransmission(bool enable);
         int GetCurrentVoiceLevel();
         void SetVoiceActivationLevel(int voicelevel);
-        int GetVoiceActivationLevel();
+        int GetVoiceActivationLevel() const;
         bool EnableVoiceActivation(bool enable);
         void SetVoiceActivationStoppedDelay(int msec);
-        int GetVoiceActivationStoppedDelay();
+        int GetVoiceActivationStoppedDelay() const;
 
         bool EnableAutoPositioning(bool enable);
         bool AutoPositionUsers();    //position users in 3D
@@ -468,12 +488,12 @@ namespace teamtalk {
 
         void RecreateUdpSocket();
 
-        int Timer_OneSecond();
-        int Timer_UdpKeepAlive();
-        int Timer_BuildDesktopPackets();
-        int Timer_DesktopPacketRTX();
-        int Timer_DesktopNAKPacket();
-        int Timer_QueryMTU(int mtu_index);
+        int TimerOneSecond();
+        int TimerUdpKeepAlive();
+        int TimerBuildDesktopPackets();
+        int TimerDesktopPacketRtx();
+        int TimerDesktopNakPacket();
+        int TimerQueryMtu(int mtu_index);
 
         //audio start/stop/update
         void OpenAudioCapture(const AudioCodec& codec);
@@ -533,7 +553,7 @@ namespace teamtalk {
         ClientKeepAlive m_keepalive;
 
         //channels and users
-        typedef std::map<int, clientuser_t> musers_t;
+        using musers_t = std::map<int, clientuser_t>;
         musers_t m_users;
 
         clientchannel_t m_rootchannel;
@@ -543,11 +563,11 @@ namespace teamtalk {
         clientuser_t m_local_voicelog;
 
         //cmdid -> filetransfer
-        typedef std::map<int, FileTransfer> filetransfer_q_t;
+        using filetransfer_q_t = std::map<int, FileTransfer>;
         //file transfer queue
         filetransfer_q_t m_waitingTransfers;
         //active file transfers
-        typedef std::map<int, filenode_t> filenodes_t;
+        using filenodes_t = std::map<int, filenode_t>;
         filenodes_t m_filetransfers;
 
         //audio resampler for capture
@@ -604,7 +624,7 @@ namespace teamtalk {
         ACE_INET_Addr m_localTcpAddr, m_localUdpAddr;
 
         //query MTU (timestamp -> MTU packet)
-        typedef std::map<uint32_t, ka_mtu_packet_t> mtu_packets_t;
+        using mtu_packets_t = std::map<uint32_t, ka_mtu_packet_t>;
         mtu_packets_t m_mtu_packets;
         uint16_t m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
 
@@ -614,6 +634,6 @@ namespace teamtalk {
         //The listener of the ClientNode instance
         ClientListener* m_listener = nullptr;
     };
-}
+} // namespace teamtalk
 
 #endif

@@ -22,8 +22,7 @@
  */
 
 #include "VideoCapture.h"
-#include <assert.h>
-#include <algorithm>
+
 using namespace vidcap;
 
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -36,13 +35,25 @@ typedef LibVidCap videocapturedevice_t;
 
 #elif defined(ENABLE_AVF)
 #include "AVFCapture.h"
-typedef AVFCapture videocapturedevice_t;
+using videocapturedevice_t = vidcap::AVFCapture;
 
 #elif defined(ENABLE_V4L2)
 #include "V4L2Capture.h"
 typedef V4L2Capture videocapturedevice_t;
 
 #else
+
+#include "codec/MediaUtil.h"
+
+#include "myace/MyACE.h"
+
+#include <ace/Reactor.h>
+#include <ace/Task.h>
+
+#include <algorithm>
+#include <cassert>
+#include <cstdint>
+#include <vector>
 
 #define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE ACE_TEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
@@ -56,16 +67,16 @@ public:
         m_dev.api = ACE_TEXT("TeamTalk Virtual Video Capture");
         m_dev.deviceid = TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE;
         m_dev.devicename = ACE_TEXT("TeamTalk Virtual Video Capture Device #0");
-        m_dev.vidcapformats.push_back(media::VideoFormat(320, 240, 30, 1, media::FOURCC_RGB32));
-        m_dev.vidcapformats.push_back(media::VideoFormat(640, 480, 15, 1, media::FOURCC_RGB32));
+        m_dev.vidcapformats.emplace_back(320, 240, 30, 1, media::FOURCC_RGB32);
+        m_dev.vidcapformats.emplace_back(640, 480, 15, 1, media::FOURCC_RGB32);
     }
 
-    ~NullVideoCapture()
+    ~NullVideoCapture() override
     {
         StopVideoCapture();
     }
 
-    vidcap_devices_t GetDevices()
+    vidcap_devices_t GetDevices() override
     {
         vidcap_devices_t devs;
         devs.push_back(m_dev);
@@ -73,12 +84,12 @@ public:
     }
 
     bool InitVideoCapture(const ACE_TString& deviceid,
-                          const media::VideoFormat& vidfmt)
+                          const media::VideoFormat& vidfmt) override
     {
         if (deviceid != m_dev.deviceid)
             return false;
 
-        auto i = std::find(m_dev.vidcapformats.begin(), m_dev.vidcapformats.end(), vidfmt);
+        auto i = std::ranges::find(m_dev.vidcapformats, vidfmt);
         if (i == m_dev.vidcapformats.end())
             return false;
 
@@ -92,7 +103,7 @@ public:
         return true;
     }
     
-    bool StartVideoCapture()
+    bool StartVideoCapture() override
     {
         if (!m_curfmt.IsValid())
             return false;
@@ -100,10 +111,10 @@ public:
         assert(m_curfmt.fps_denominator);
         auto msec = 1000. * (1 / (m_curfmt.fps_numerator / double(m_curfmt.fps_denominator)));
         auto tv = ToTimeValue(uint32_t(msec));
-        return m_reactor.schedule_timer(this, 0, ACE_Time_Value(), tv) >= 0;
+        return m_reactor.schedule_timer(this, nullptr, ACE_Time_Value(), tv) >= 0;
     }
 
-    void StopVideoCapture()
+    void StopVideoCapture() override
     {
         m_reactor.cancel_timer(this);
         m_reactor.end_reactor_event_loop();
@@ -113,12 +124,12 @@ public:
         UnregisterVideoFormat(media::FOURCC_NONE);
     }
 
-    media::VideoFormat GetVideoCaptureFormat()
+    media::VideoFormat GetVideoCaptureFormat() override
     {
         return m_curfmt;
     }
 
-    bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)
+    bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) override
     {
         if (fcc != m_curfmt.fourcc)
             return false;
@@ -127,28 +138,28 @@ public:
         return true;
     }
 
-    void UnregisterVideoFormat(media::FourCC fcc)
+    void UnregisterVideoFormat(media::FourCC  /*fcc*/) override
     {
         m_callback = {};
     }
 
-    int handle_timeout(const ACE_Time_Value& tv, const void* arg)
+    int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
     {
-        uint32_t c = (0xff << ((ACE_OS::gettimeofday().sec() % 4) * 8));
+        uint32_t const c = (0xff << ((ACE_OS::gettimeofday().sec() % 4) * 8));
 
-        int rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
+        int const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
         std::vector<uint32_t> img(rgbsize / 4, c);
 
         if (m_curfmt.IsValid() && m_callback)
         {
-            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(&img[0]), rgbsize);
+            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(img.data()), rgbsize);
             m_callback(frm, nullptr);
         }
 
         return 0;
     }
 
-    int svc()
+    int svc() override
     {
         m_reactor.owner (ACE_OS::thr_self ());
         m_reactor.run_reactor_event_loop();
@@ -161,7 +172,7 @@ private:
     ACE_Reactor m_reactor;
     VideoCaptureCallback m_callback;
 };
-typedef NullVideoCapture videocapturedevice_t;
+using videocapturedevice_t = NullVideoCapture;
 #endif
 
 videocapture_t VideoCapture::Create()

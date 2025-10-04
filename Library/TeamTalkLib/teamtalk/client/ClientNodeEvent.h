@@ -30,8 +30,8 @@
 #include "ClientUser.h"
 #include "VoiceLogger.h"
 
-#include <avstream/MediaStreamer.h>
-#include <avstream/AudioInputStreamer.h>
+#include "avstream/AudioInputStreamer.h"
+#include "avstream/MediaStreamer.h"
 
 namespace teamtalk {
 

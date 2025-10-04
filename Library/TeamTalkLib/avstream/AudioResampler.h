@@ -24,8 +24,11 @@
 #ifndef AUDIORESAMPLER_H
 #define AUDIORESAMPLER_H
 
+#include "codec/MediaUtil.h"
+
+#include <cstdint>
 #include <memory>
-#include <codec/MediaUtil.h>
+#include <vector>
 
 //with a callback of 'src_samples' and sample rate of
 //'src_samplerate', how many samples should be provided given a
@@ -37,7 +40,7 @@ class AudioResampler
 public:
     AudioResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
                    int fixed_input_samples = 0);
-    virtual ~AudioResampler() {}
+    virtual ~AudioResampler() = default;
 
     // resample with varying 'input_sample_size'
     virtual int Resample(const short* input_samples, int input_samples_size,
@@ -56,7 +59,7 @@ protected:
                              const media::AudioFormat& outformat,
                              int input_samples_size);
 
-    void FillOutput(int channels, short* output_samples,
+    static void FillOutput(int channels, short* output_samples,
                     int output_samples_written,
                     int output_samples_total);
 private:
@@ -65,10 +68,11 @@ private:
     int m_input_samples_size = 0, m_output_samples_size = 0;
 };
 
-typedef std::shared_ptr< AudioResampler > audio_resampler_t;
+using audio_resampler_t = std::shared_ptr< AudioResampler >;
 
 audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
                                      const media::AudioFormat& outformat,
                                      int input_samples_size = 0);
 
 #endif
+

@@ -24,14 +24,13 @@
 #if !defined(SPEEXJITTER_H)
 #define SPEEXJITTER_H
 
-#include <speex/speex.h>
 #include <speex/speex_jitter.h>
 
-class Speex_Jitter
+class SpeexJitter
 {
 public:
-    Speex_Jitter(int step_size);
-    ~Speex_Jitter();
+    SpeexJitter(int step_size);
+    ~SpeexJitter();
 
     void PutPacket(const JitterBufferPacket& packet);
     bool GetPacket(JitterBufferPacket& packet, 
@@ -39,7 +38,7 @@ public:
     void Tick();
     int BufferSize() const;
     void Reset();
-    int GetFramesLost() const;
+    static int GetFramesLost() ;
 
 private:
     JitterBuffer* m_jitter;

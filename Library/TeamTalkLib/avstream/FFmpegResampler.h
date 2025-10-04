@@ -26,21 +26,21 @@
 
 #include "AudioResampler.h"
 
-#include <vector>
+#include "codec/MediaUtil.h"
 
 class FFMPEGResampler : public AudioResampler
 {
 public:
     FFMPEGResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
                     int fixed_input_samples = 0);
-    virtual ~FFMPEGResampler();
+    ~FFMPEGResampler() override;
     
     bool Init();
     void Close();
 
     //return number of samples written to 'output_samples'
     int Resample(const short* input_samples, int input_samples_size,
-                 short* output_samples, int output_samples_size);
+                 short* output_samples, int output_samples_size) override;
 
 private:
     struct SwrContext* m_ctx;

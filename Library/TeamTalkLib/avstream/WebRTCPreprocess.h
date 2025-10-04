@@ -24,9 +24,7 @@
 #if !defined(WEBRTCPREPROCESS_H)
 #define WEBRTCPREPROCESS_H
 
-#include <mystd/MyStd.h>
-#include <codec/MediaUtil.h>
-
+#include "codec/MediaUtil.h"
 #include <api/audio/audio_processing.h>
 
 

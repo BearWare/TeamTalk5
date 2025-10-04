@@ -30,12 +30,12 @@
 #include <SLES/OpenSLES.h>
 
 #include <map>
-#include <vector>
-#include <set>
 #include <mutex>
+#include <set>
+#include <vector>
 
-#define ANDROID_INPUT_BUFFERS 3
-#define ANDROID_OUTPUT_BUFFERS 3
+constexpr auto ANDROID_INPUT_BUFFERS = 3;
+constexpr auto ANDROID_OUTPUT_BUFFERS = 3;
 
 namespace soundsystem {
 

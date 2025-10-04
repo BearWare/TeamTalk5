@@ -24,18 +24,20 @@
 #ifndef MEDIASTREAMER_H
 #define MEDIASTREAMER_H
 
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+
 #include <ace/ACE.h>
-#include <ace/SString.h>
 #include <ace/Future.h>
+#include <ace/SString.h>
 
-#include <myace/MyACE.h>
-#include <codec/MediaUtil.h>
-
+#include <cstdint>
+#include <functional>
 #include <memory>
-#include <thread>
 #include <mutex>
+#include <thread>
 
-#define DEBUG_MEDIASTREAMER 0
+constexpr auto DEBUG_MEDIASTREAMER = 0;
 
 struct MediaStream
 {
@@ -53,7 +55,7 @@ struct MediaFileProp : public MediaStream
     ACE_UINT32 duration_ms = 0, elapsed_ms = 0;
     ACE_TString filename;
 
-    MediaFileProp() { }
+    MediaFileProp() = default;
     MediaFileProp(const ACE_TString& fname) : filename(fname) { }
 };
 
@@ -63,7 +65,7 @@ struct MediaStreamOutput : public MediaStream
     // and therefore set as const
     int audio_samples = 0;
     uint32_t audio_duration_ms = 0;
-    MediaStreamOutput() {}
+    MediaStreamOutput() = default;
 
     MediaStreamOutput(const media::AudioFormat& afmt, int audio_samples) : audio_samples(audio_samples) { audio = afmt; }
     MediaStreamOutput(const media::VideoFormat& vfmt) { video = vfmt; }
@@ -99,16 +101,16 @@ enum MediaStreamStatus
     MEDIASTREAM_PLAYING     = 5,
 };
 
-typedef std::function< bool (media::VideoFrame& video_frame,
-                             ACE_Message_Block* mb_video) > mediastream_videocallback_t;
+using mediastream_videocallback_t = std::function< bool (media::VideoFrame& video_frame,
+                             ACE_Message_Block* mb_video) >;
 
 //'audio_frame' is a reference to mb_audio->rd_ptr()
 //@return if false 'mb_audio' will be deleted
-typedef std::function< bool (media::AudioFrame& audio_frame,
-                             ACE_Message_Block* mb_audio) > mediastream_audiocallback_t;
+using mediastream_audiocallback_t = std::function< bool (media::AudioFrame& audio_frame,
+                             ACE_Message_Block* mb_audio) >;
 
-typedef std::function< void (const MediaFileProp& mfp,
-                             MediaStreamStatus status) > mediastream_statuscallback_t;
+using mediastream_statuscallback_t = std::function< void (const MediaFileProp& mfp,
+                             MediaStreamStatus status) >;
 
 
 static const uint32_t MEDIASTREAMER_OFFSET_IGNORE = 0xFFFFFFFF;
@@ -197,7 +199,7 @@ protected:
     bool m_completed = false;
 };
 
-typedef std::shared_ptr< MediaFileStreamer > mediafile_streamer_t;
+using mediafile_streamer_t = std::shared_ptr< MediaFileStreamer >;
 
 mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
 

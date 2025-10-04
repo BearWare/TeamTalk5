@@ -21,34 +21,37 @@
  *
  */
 
-#include <tchar.h>
 #include "mixer.h"
+
+#include <tchar.h>
 #include <windows.h>
 #include <mmsystem.h>
 
+#include <cstring>
+#include <utility>
 
-bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
+bool MixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
 {
     bool result = false;
-    HMIXER hTmpMixer = 0;
+    HMIXER hTmpMixer = nullptr;
     DWORD mask = 0;
 
 	MMRESULT res = mixerOpen(&hTmpMixer, nWaveDeviceID, 0, 0, MIXER_OBJECTF_WAVEOUT);
 
-    if(res != MMSYSERR_NOERROR)
+    if (res != MMSYSERR_NOERROR)
         return false;
 
-    HMIXEROBJ hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = (HMIXEROBJ)hTmpMixer;
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);
     ml.dwComponentType = MIXERLINE_COMPONENTTYPE_DST_SPEAKERS;
 
-    if (mixerGetLineInfo(hMixer, &ml, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE) == MMSYSERR_NOERROR) 
-    {
-        int num_devices = ml.cConnections;
-        bool skip = (mixerMask & MIXER_WAVEOUT_MASTER) == MIXER_WAVEOUT_MASTER;
-        int index;
+    if (mixerGetLineInfo(hMixer, &ml, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE)
+        == MMSYSERR_NOERROR) {
+        int const num_devices = ml.cConnections;
+        bool const skip = (mixerMask & MIXER_WAVEOUT_MASTER) == MIXER_WAVEOUT_MASTER;
+        int index = 0;
         for (index = 0; index < num_devices && !skip; index++) 
         { 
             ml.dwSource = index;
@@ -63,12 +66,12 @@ bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
 
         MIXERCONTROL mc = {}; 
 
-        MIXERLINECONTROLS mlc = {}; 
-        mlc.cbStruct = sizeof(MIXERLINECONTROLS); 
+        MIXERLINECONTROLS mlc = {};
+        mlc.cbStruct = sizeof(MIXERLINECONTROLS);
         mlc.dwLineID = ml.dwLineID;
-        if(mixerMask & MIXER_WAVEOUT_MUTE)
+        if((mixerMask & MIXER_WAVEOUT_MUTE) != 0)
             mlc.dwControlType = MIXERCONTROL_CONTROLTYPE_MUTE;
-        if(mixerMask & MIXER_WAVEOUT_VOLUME)
+        if((mixerMask & MIXER_WAVEOUT_VOLUME) != 0)
             mlc.dwControlType = MIXERCONTROL_CONTROLTYPE_VOLUME;
 
         mlc.cControls = 1; 
@@ -81,10 +84,9 @@ bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
             mask |= MIXER_OBJECTF_HMIXER;
 
         MMRESULT res = mixerGetLineControls(hMixer, &mlc, mask);
-        if(res == MMSYSERR_NOERROR) 
-        { 
-            UINT xxx = MIXERCONTROL_CONTROLTYPE_MUX;
-            if(    (mixerMask & MIXER_WAVEOUT_MUTE) )
+        if (res == MMSYSERR_NOERROR) {
+            UINT const xxx = MIXERCONTROL_CONTROLTYPE_MUX;
+            if(    (mixerMask & MIXER_WAVEOUT_MUTE) != 0 )
             {
                 MIXERCONTROLDETAILS_BOOLEAN mcdBool; 
 
@@ -92,24 +94,22 @@ bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
                 mcd.dwControlID = mc.dwControlID; 
                 mcd.cChannels = 1; 
-                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN); 
-                mcd.paDetails = &mcdBool; 
+                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN);
+                mcd.paDetails = &mcdBool;
 
-                if(mixerMask & MIXER_WAVEOUT_GET)
+                if((mixerMask & MIXER_WAVEOUT_GET) != 0)
                 {
                     res = mixerGetControlDetails(hMixer, &mcd, MIXER_GETCONTROLDETAILSF_VALUE);
                     inoutValue.value = mcdBool.fValue;
                     result = true;
-                }
-                else if (mixerMask & MIXER_WAVEOUT_SET)
-                {
+                } else if ((mixerMask & MIXER_WAVEOUT_SET) != 0) {
                     mcdBool.fValue = inoutValue.value;
                     res = mixerSetControlDetails(hMixer, &mcd, MIXER_SETCONTROLDETAILSF_VALUE);
                     result = true;
                 }
             }
 
-            if(mixerMask & MIXER_WAVEOUT_VOLUME)
+            if((mixerMask & MIXER_WAVEOUT_VOLUME) != 0)
             {
                 MIXERCONTROLDETAILS_UNSIGNED mcdUnsigned;
 
@@ -117,17 +117,15 @@ bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
                 mcd.dwControlID = mc.dwControlID; 
                 mcd.cChannels = 1; 
-                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED); 
-                mcd.paDetails = &mcdUnsigned; 
+                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
+                mcd.paDetails = &mcdUnsigned;
 
-                if(mixerMask & MIXER_WAVEOUT_GET)
+                if((mixerMask & MIXER_WAVEOUT_GET) != 0)
                 {
                     res = mixerGetControlDetails(hMixer, &mcd, MIXER_GETCONTROLDETAILSF_VALUE); 
-                    inoutValue.value = mcdUnsigned.dwValue; 
+                    inoutValue.value = mcdUnsigned.dwValue;
                     result = true;
-                }
-                else if(mixerMask & MIXER_WAVEOUT_SET)
-                {
+                } else if ((mixerMask & MIXER_WAVEOUT_SET) != 0) {
                     mcdUnsigned.dwValue = inoutValue.value;
                     res = mixerSetControlDetails(hMixer, &mcd, MIXER_SETCONTROLDETAILSF_VALUE); 
                     result = true;
@@ -143,29 +141,28 @@ end:
     return result;
 }
 
-bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
+bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
 {
     bool result = false;
-    HMIXER hTmpMixer = 0;
-    DWORD mask = 0;
+    HMIXER hTmpMixer = nullptr;
+    DWORD const mask = 0;
 
 	MMRESULT res = mixerOpen(&hTmpMixer, nWaveDeviceID, 0, 0, MIXER_OBJECTF_WAVEIN);
 
-    if(res != MMSYSERR_NOERROR)
+    if (res != MMSYSERR_NOERROR)
         return false;
 
-    HMIXEROBJ hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = (HMIXEROBJ)hTmpMixer;
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);
     ml.dwComponentType = MIXERLINE_COMPONENTTYPE_DST_WAVEIN;
 
-    if (mixerGetLineInfo(hMixer, &ml, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE) == MMSYSERR_NOERROR) 
-    {
-        if( mixerMask & (MIXER_WAVEIN_VOLUME | MIXER_WAVEIN_BOOST | MIXER_WAVEIN_MUTE))
-        {
-            DWORD num_devices = ml.cConnections;
-            DWORD dwCompIndex;
+    if (mixerGetLineInfo(hMixer, &ml, MIXER_OBJECTF_HMIXER | MIXER_GETLINEINFOF_COMPONENTTYPE)
+        == MMSYSERR_NOERROR) {
+        if ((mixerMask & (MIXER_WAVEIN_VOLUME | MIXER_WAVEIN_BOOST | MIXER_WAVEIN_MUTE)) != 0) {
+            DWORD const num_devices = ml.cConnections;
+            DWORD dwCompIndex = 0;
             DWORD dwComponentTypeID = 0;
             for (dwCompIndex = 0; dwCompIndex < num_devices; dwCompIndex++) 
             { 
@@ -190,7 +187,8 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 }
 
                 //user is search by index
-                if( (mixerMask & MIXER_WAVEIN_BYINDEX) == MIXER_WAVEIN_BYINDEX && dwCompIndex == inoutValue.value)
+                if ((mixerMask & MIXER_WAVEIN_BYINDEX) == MIXER_WAVEIN_BYINDEX
+                    && std::cmp_equal(dwCompIndex, inoutValue.value))
                     dwComponentTypeID = ml.dwComponentType;
 
                 if(dwComponentTypeID != 0)
@@ -230,25 +228,21 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
             else
                 goto end;
 
-            if(mixerMask & (MIXER_WAVEIN_BOOST | MIXER_WAVEIN_MUTE))
-            {
+            if ((mixerMask & (MIXER_WAVEIN_BOOST | MIXER_WAVEIN_MUTE)) != 0) {
                 MIXERCONTROLDETAILS_BOOLEAN mcdBool = {}; 
 
                 MIXERCONTROLDETAILS mcd = {}; 
                 mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
                 mcd.dwControlID = mc.dwControlID; 
                 mcd.cChannels = 1; 
-                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN); 
-                mcd.paDetails = &mcdBool; 
+                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_BOOLEAN);
+                mcd.paDetails = &mcdBool;
 
-                if(mixerMask & MIXER_WAVEIN_GET)
-                {
+                if ((mixerMask & MIXER_WAVEIN_GET) != 0) {
                     res = mixerGetControlDetails(hMixer, &mcd, MIXER_GETCONTROLDETAILSF_VALUE);
                     inoutValue.value = mcdBool.fValue;
                     result = true;
-                }
-                else if (mixerMask & MIXER_WAVEIN_SET)
-                {
+                } else if ((mixerMask & MIXER_WAVEIN_SET) != 0) {
                     mcdBool.fValue = inoutValue.value;
                     res = mixerSetControlDetails(hMixer, &mcd, MIXER_SETCONTROLDETAILSF_VALUE);
                     result = true;
@@ -262,25 +256,20 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 mcd.cbStruct = sizeof(MIXERCONTROLDETAILS); 
                 mcd.dwControlID = mc.dwControlID; 
                 mcd.cChannels = 1; 
-                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED); 
-                mcd.paDetails = &mcdUnsigned; 
+                mcd.cbDetails = sizeof(MIXERCONTROLDETAILS_UNSIGNED);
+                mcd.paDetails = &mcdUnsigned;
 
-                if(mixerMask & MIXER_WAVEIN_GET)
-                {
+                if ((mixerMask & MIXER_WAVEIN_GET) != 0) {
                     res = mixerGetControlDetails(hMixer, &mcd, MIXER_GETCONTROLDETAILSF_VALUE); 
                     inoutValue.value = mcdUnsigned.dwValue; 
                     result = true;
-                }
-                else if(mixerMask & MIXER_WAVEIN_SET)
-                {
+                } else if ((mixerMask & MIXER_WAVEIN_SET) != 0) {
                     mcdUnsigned.dwValue = inoutValue.value;
                     res = mixerSetControlDetails(hMixer, &mcd, MIXER_SETCONTROLDETAILSF_VALUE); 
                     result = true;
                 }
             }
-        }
-        else
-        {
+        } else {
             MIXERCONTROL mc = {}; 
 
             MIXERLINECONTROLS mlc = {}; 
@@ -323,7 +312,7 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 goto end;
 
             DWORD dwComponentTypeID = 0;
-            DWORD dwCompIndex;
+            DWORD dwCompIndex = 0;
             for(dwCompIndex=0;dwCompIndex<mcd.cMultipleItems;dwCompIndex++)
             {
                 // get the line information
@@ -350,8 +339,8 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
                 }
 
                 //user is search by index
-                if( (mixerMask & MIXER_WAVEIN_BYINDEX) == MIXER_WAVEIN_BYINDEX && dwCompIndex == inoutValue.value)
-                {
+                if ((mixerMask & MIXER_WAVEIN_BYINDEX) == MIXER_WAVEIN_BYINDEX
+                    && std::cmp_equal(dwCompIndex, inoutValue.value)) {
                     dwComponentTypeID = mxl.dwComponentType;
                     if( (mixerMask & MIXER_WAVEIN_NAME) == MIXER_WAVEIN_NAME)
                     {
@@ -378,14 +367,12 @@ bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue)
             if(mixerGetControlDetails(hMixer, &mcd, MIXER_OBJECTF_HMIXER | MIXER_GETCONTROLDETAILSF_VALUE) != MMSYSERR_NOERROR)
                 goto end;
 
-            if( mixerMask & MIXER_WAVEIN_GET )
-            {
+            if ((mixerMask & MIXER_WAVEIN_GET) != 0) {
                 inoutValue.value = mcdBool[dwCompIndex].fValue;
                 result = true;
             }
 
-            if( mixerMask & MIXER_WAVEIN_SET )
-            {
+            if ((mixerMask & MIXER_WAVEIN_SET) != 0) {
                 if(mlc.dwControlType == MIXERCONTROL_CONTROLTYPE_MUX)
                     memset(mcdBool, 0, sizeof(mcdBool));
 
@@ -403,12 +390,12 @@ end:
     return result;
 }
 
-int mixerGetCount()
+int MixerGetCount()
 {
     return mixerGetNumDevs();
 }
 
-bool mixerGetName(int nMixerIndex, TCHAR name[MIXER_STR_LEN])
+bool MixerGetName(int nMixerIndex, TCHAR name[MIXER_STR_LEN])
 {
     MIXERCAPS caps = {};
 	if(mixerGetDevCaps(nMixerIndex, &caps, sizeof(caps)) == MMSYSERR_NOERROR)
@@ -419,11 +406,11 @@ bool mixerGetName(int nMixerIndex, TCHAR name[MIXER_STR_LEN])
 	return false;
 }
 
-bool mixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
+bool MixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
 {
-    bool result = false;
-    HMIXER hMixer = 0;
-    DWORD mask = 0;
+    bool const result = false;
+    HMIXER hMixer = nullptr;
+    DWORD const mask = 0;
     MIXERCAPS caps = {};
 
     MMRESULT res = mixerOpen(&hMixer, nWaveDeviceID, 0, 0, MIXER_OBJECTF_WAVEIN);
@@ -443,9 +430,9 @@ bool mixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
     return true;
 }
 
-bool mixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
+bool MixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
 {
-	HMIXER hMixer = 0;
+    HMIXER hMixer = nullptr;
     MIXERCAPS caps = {};
 
 	MMRESULT res = mixerOpen(&hMixer, nWaveDeviceID, 0, 0, MIXER_OBJECTF_WAVEOUT);

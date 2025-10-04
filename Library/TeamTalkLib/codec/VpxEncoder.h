@@ -28,9 +28,9 @@
 #define VPX_CODEC_DISABLE_COMPAT 1
 #endif
 
-#include <vpx/vpx_encoder.h>
+#include "mystd/MyStd.h"
 
-#include <mystd/MyStd.h>
+#include <vpx/vpx_encoder.h>
 
 class VpxEncoder : private NonCopyable
 {

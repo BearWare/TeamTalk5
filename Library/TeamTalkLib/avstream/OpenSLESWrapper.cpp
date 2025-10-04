@@ -23,8 +23,9 @@
 
 #include "OpenSLESWrapper.h"
 
-#include <myace/MyACE.h>
-#include <assert.h>
+#include "myace/MyACE.h"
+
+#include <cassert>
 
 namespace soundsystem {
 
@@ -40,7 +41,7 @@ enum AndroidSoundDevice
     VOICECOM_DEVICE_ID          = (1 & SOUND_DEVICEID_MASK),
 };
 
-#define DEFAULT_SAMPLERATE 16000
+constexpr auto DEFAULT_SAMPLERATE = 16000;
 
 OpenSLESWrapper::OpenSLESWrapper()
     : m_engineObject(NULL)

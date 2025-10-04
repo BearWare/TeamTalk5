@@ -24,28 +24,28 @@
 #include "MyINet.h"
 #include "MyACE.h"
 
+#include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
 #include <ace/INet/HTTP_URL.h>
-#include <ace/OS.h>
-#include <ace/ace_wchar.h>
+#include <ace/INet/URLBase.h>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/INet/HTTPS_SessionFactory.h>
-#include <ace/INet/HTTPS_URL.h>
 #endif
 
-#if !defined(WIN32)
+#include <ace/OS.h>
+#if defined(WIN32)
+#else
 #include <arpa/inet.h>
 #endif
-#include <assert.h>
 
 #include <algorithm>
-#include <cmath>
+#include <cassert>
+#include <cctype>
+#include <cerrno>
 #include <iomanip>
-#include <sstream>
 #include <memory>
-
-using namespace std;
+#include <sstream>
 
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
 {
@@ -63,7 +63,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     }
 
 #else
-    bool encode = true;
+    bool const encode = true;
     addrinfo hints;
     ACE_OS::memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -86,18 +86,18 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     // searching this->inet_addrs_ which would slow things down.
     hints.ai_socktype = SOCK_STREAM;
 
-    addrinfo* res = 0;
+    addrinfo* res = nullptr;
 
-    const int error = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), 0, &hints, &res);
+    const int ADDRINFOERROR = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
 
-    if (error)
+    if (ADDRINFOERROR != 0)
     {
-        errno = error;
-        return std::vector<ACE_INET_Addr>();
+        errno = ADDRINFOERROR;
+        return {};
     }
 
 
-    for (addrinfo* curr = res; curr; curr = curr->ai_next)
+    for (addrinfo* curr = res; curr != nullptr; curr = curr->ai_next)
     {
         union ip46
         {
@@ -113,13 +113,13 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
         if (curr->ai_family == AF_INET6)
         {
             addr.in6_.sin6_port = encode ? ACE_NTOHS(port) : port;
-            result.push_back(ACE_INET_Addr(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_)));
+            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_));
         }
         else
 #endif
         {
             addr.in4_.sin_port = encode ? ACE_NTOHS(port) : port;
-            result.push_back(ACE_INET_Addr(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_)));
+            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_));
         }
     }
 
@@ -130,7 +130,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     return result;
 }
 
-void aceSingletons()
+static void AceSingletons()
 {
 #if defined(ENABLE_ENCRYPTION)
 #if defined(ENABLE_TEAMTALKACE)
@@ -145,7 +145,7 @@ void aceSingletons()
 
 int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
-    aceSingletons();
+    AceSingletons();
 
     std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
     if (!url_safe)
@@ -154,18 +154,18 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
     ACE::HTTP::ClientRequestHandler http;
     ACE::INet::URLStream urlin = url_safe->open(http);
 
-    ostringstream oss;
+    std::ostringstream oss;
     oss << urlin->rdbuf();
     result = oss.str();
 
-    ACE::HTTP::Status httpCode = http.response().get_status();
+    ACE::HTTP::Status const httpCode = http.response().get_status();
 #if defined(UNICODE)
     MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
     MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
-    if (statusCode)
+    if (statusCode != nullptr)
         *statusCode = httpCode.get_status();
 
     if (!httpCode.is_valid() || httpCode.get_status() == ACE::HTTP::Status::HTTP_NONE ||
@@ -179,7 +179,7 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
                     const std::map<std::string, std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
-    aceSingletons();
+    AceSingletons();
 
     std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
     if (!url_safe)
@@ -199,13 +199,13 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
     protected:
 
         // 10% copy-paste from ClientRequestHandler::handle_open_request()
-        std::istream& handle_open_request(const ACE::INet::URL_Base& url)
+        std::istream& handle_open_request(const ACE::INet::URL_Base& url) override
         {
             if (request().get_method() == ACE::HTTP::Request::HTTP_GET)
             {
                 return ACE::HTTP::ClientRequestHandler::handle_open_request(url);
             }
-            else if (request().get_method() == ACE::HTTP::Request::HTTP_POST)
+            if (request().get_method() == ACE::HTTP::Request::HTTP_POST)
             {
                 const ACE::HTTP::URL& http_url = dynamic_cast<const ACE::HTTP::URL&> (url);
                 return handle_post_request(http_url);
@@ -238,7 +238,7 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
 
                 this->initialize_request(http_url, this->request());
 
-                for (auto v : m_headers)
+                for (const auto& v : m_headers)
                 {
                     request().set(v.first.c_str(), v.second.c_str());
                 }
@@ -270,11 +270,11 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
     } http(data, len, headers);
 
     ACE::INet::URLStream urlin = url_safe->open(http);
-    ostringstream oss;
+    std::ostringstream oss;
     oss << urlin->rdbuf();
     result = oss.str();
     auto httpCode = http.response().get_status();
-    if (statusCode)
+    if (statusCode != nullptr)
         *statusCode = httpCode.get_status();
 
     return httpCode.is_ok() ? 1 : 0;
@@ -287,21 +287,19 @@ std::string URLEncode(const std::string& utf8)
     escaped.fill('0');
     escaped << std::hex;
 
-    for (std::string::const_iterator i = utf8.begin(), n = utf8.end(); i != n; ++i)
+    for (char c : utf8)
     {
-        std::string::value_type c = (*i);
-
         // Keep alphanumeric and other accepted characters intact
-        if (isalnum(c) || c == '-' || c == '_' || c == '.' || c == '~')
+        if ((isalnum(c) != 0) || c == '-' || c == '_' || c == '.' || c == '~')
         {
             escaped << c;
             continue;
         }
 
         // Any other characters are percent-encoded
-        escaped << uppercase;
-        escaped << '%' << setw(2) << int((unsigned char)c);
-        escaped << nouppercase;
+        escaped << std::uppercase;
+        escaped << '%' << std::setw(2) << int((unsigned char)c);
+        escaped << std::nouppercase;
     }
 
     return escaped.str();
@@ -326,42 +324,42 @@ int InetAddrFamily(const ACE_TString& addr_str)
 
 ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
 {
-    int af = InetAddrFamily(ipaddr);
+    int const af = InetAddrFamily(ipaddr);
     switch (af)
     {
     case AF_INET :
     {
         struct sockaddr_in ipv4addr;
         if (inet_pton(AF_INET, UnicodeToUtf8(ipaddr).c_str(), &(ipv4addr.sin_addr)) <= 0)
-            return ACE_TString();
+            return {};
         prefix = std::min(prefix, uint32_t(32));
-        uint32_t shift = 32-prefix;
+        uint32_t const shift = 32-prefix;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
         ipv4addr.sin_addr.s_addr >>= shift;
         ipv4addr.sin_addr.s_addr <<= shift;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
         char strnet[INET_ADDRSTRLEN];
-        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN))
+        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN) != nullptr)
             return Utf8ToUnicode(strnet);
     }
     case AF_INET6 :
     {
         struct sockaddr_in6 ipv6addr;
         if (inet_pton(AF_INET6, UnicodeToUtf8(ipaddr).c_str(), &(ipv6addr.sin6_addr)) <= 0)
-            return ACE_TString();
+            return {};
         prefix = std::min(prefix, uint32_t(128));
         for (int i = 0; i < 16; ++i)
         {
-            uint32_t bits = std::min(uint32_t(8), prefix);
+            uint32_t const bits = std::min(uint32_t(8), prefix);
             ipv6addr.sin6_addr.s6_addr[i] >>= 8 - bits;
             ipv6addr.sin6_addr.s6_addr[i] <<= 8 - bits;
             prefix -= bits;
         }
 
         char strnet[INET6_ADDRSTRLEN];
-        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN))
+        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN) != nullptr)
             return Utf8ToUnicode(strnet);
     }
     }
-    return ACE_TString();
+    return {};
 }

@@ -29,7 +29,7 @@
 #include <ace/SString.h>
 #include <vector>
 
-bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
+bool WriteBitmap(const ACE_TString& filename, media::VideoFormat fmt,
                  const char* data, int size);
 
 std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt);

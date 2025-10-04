@@ -1,16 +1,41 @@
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ *
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
+
 #include "AudioDeviceNotify.h"
 
-#include <myace/MyACE.h>
-#include <assert.h>
-#include <mmdeviceapi.h>
+#include "myace/MyACE.h"
+
 #include <atlbase.h>
+#include <mmdeviceapi.h>
 #include <Functiondiscoverykeys_devpkey.h>
-#include <mutex>
+
+#include <cassert>
 #include <map>
+#include <mutex>
 
 using namespace std::placeholders;
 
-void AudioChangeCallback(audio_device_change_callback_t cb, AudioDevEvent event, LPCWSTR pwstrDeviceId)
+static void AudioChangeCallback(const audio_device_change_callback_t& cb, AudioDevEvent event, LPCWSTR pwstrDeviceId)
 {
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     CComPtr<IMMDevice> pDevice;
@@ -18,7 +43,7 @@ void AudioChangeCallback(audio_device_change_callback_t cb, AudioDevEvent event,
     HRESULT hr = S_OK;
 
     // Get enumerator for audio endpoint devices.
-    hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER,
+    hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER,
         __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
 
     if (SUCCEEDED(hr))
@@ -43,24 +68,22 @@ void AudioChangeCallback(audio_device_change_callback_t cb, AudioDevEvent event,
 
 class CMMNotificationClient : public IMMNotificationClient
 {
-    LONG m_nRefs;
+    LONG m_nRefs{0};
 
     audio_device_change_callback_t m_callback;
 
 public:
     CMMNotificationClient(audio_device_change_callback_t cb)
-        : m_nRefs(0), m_callback(cb) { }
+        : m_callback(std::move(cb))
+    {}
 
-    ~CMMNotificationClient() { }
+    ~CMMNotificationClient() = default;
 
-    ULONG STDMETHODCALLTYPE AddRef()
+    ULONG STDMETHODCALLTYPE AddRef() override { return InterlockedIncrement(&m_nRefs); }
+
+    ULONG STDMETHODCALLTYPE Release() override
     {
-        return InterlockedIncrement(&m_nRefs);
-    }
-
-    ULONG STDMETHODCALLTYPE Release()
-    {
-        ULONG ulRef = InterlockedDecrement(&m_nRefs);
+        ULONG const ulRef = InterlockedDecrement(&m_nRefs);
         if (0 == ulRef)
         {
             delete this;
@@ -68,7 +91,7 @@ public:
         return ulRef;
     }
 
-    HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, VOID** ppvInterface)
+    HRESULT STDMETHODCALLTYPE QueryInterface(REFIID riid, VOID** ppvInterface) override
     {
         if (IID_IUnknown == riid)
         {
@@ -78,11 +101,11 @@ public:
         else if (__uuidof(IMMNotificationClient) == riid)
         {
             AddRef();
-            *ppvInterface = (IMMNotificationClient*)this;
+            *ppvInterface = (IMMNotificationClient *) this;
         }
         else
         {
-            *ppvInterface = NULL;
+            *ppvInterface = nullptr;
             return E_NOINTERFACE;
         }
         return S_OK;
@@ -90,7 +113,9 @@ public:
 
     // Callback methods for device-event notifications.
 
-    HRESULT STDMETHODCALLTYPE OnDefaultDeviceChanged(EDataFlow flow, ERole role, LPCWSTR pwstrDeviceId)
+    HRESULT STDMETHODCALLTYPE OnDefaultDeviceChanged(EDataFlow flow,
+                                                     ERole role,
+                                                     LPCWSTR pwstrDeviceId) override
     {
         switch (flow)
         {
@@ -121,19 +146,19 @@ public:
         return S_OK;
     }
 
-    HRESULT STDMETHODCALLTYPE OnDeviceAdded(LPCWSTR pwstrDeviceId)
+    HRESULT STDMETHODCALLTYPE OnDeviceAdded(LPCWSTR pwstrDeviceId) override
     {
         MYTRACE(ACE_TEXT("IMMNotificationClient::OnDeviceAdded(%s)\n"), pwstrDeviceId);
         return S_OK;
     };
 
-    HRESULT STDMETHODCALLTYPE OnDeviceRemoved(LPCWSTR pwstrDeviceId)
+    HRESULT STDMETHODCALLTYPE OnDeviceRemoved(LPCWSTR pwstrDeviceId) override
     {
         MYTRACE(ACE_TEXT("IMMNotificationClient::OnDeviceRemoved(%s)\n"), pwstrDeviceId);
         return S_OK;
     }
 
-    HRESULT STDMETHODCALLTYPE OnDeviceStateChanged(LPCWSTR pwstrDeviceId, DWORD dwNewState)
+    HRESULT STDMETHODCALLTYPE OnDeviceStateChanged(LPCWSTR pwstrDeviceId, DWORD dwNewState) override
     {
         /*
         Constant/value	Description
@@ -191,7 +216,8 @@ public:
         return S_OK;
     }
 
-    HRESULT STDMETHODCALLTYPE OnPropertyValueChanged(LPCWSTR pwstrDeviceId, const PROPERTYKEY key)
+    HRESULT STDMETHODCALLTYPE OnPropertyValueChanged(LPCWSTR /*pwstrDeviceId*/,
+                                                     const PROPERTYKEY /*key*/) override
     {
         return S_OK;
     }
@@ -208,12 +234,19 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
         std::mutex m_mutex;
 
     public:
-        AudioDeviceNotifyInit() :
-            m_audnotify(std::bind(&AudioDeviceNotifyInit::AudioDeviceChange, this, _1, _2, _3))
+        AudioDeviceNotifyInit()
+            : m_audnotify([this](auto &&PH1, auto &&PH2, auto &&PH3) {
+                AudioDeviceChange(std::forward<decltype(PH1)>(PH1),
+                                  std::forward<decltype(PH2)>(PH2),
+                                  std::forward<decltype(PH3)>(PH3));
+            })
         {
             HRESULT hr = S_OK;
-            hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), NULL, CLSCTX_INPROC_SERVER,
-                __uuidof(IMMDeviceEnumerator), (void**)&m_pEnumerator);
+            hr = CoCreateInstance(__uuidof(MMDeviceEnumerator),
+                                  nullptr,
+                                  CLSCTX_INPROC_SERVER,
+                                  __uuidof(IMMDeviceEnumerator),
+                                  (void **) &m_pEnumerator);
             if (SUCCEEDED(hr))
             {
                 hr = m_pEnumerator->RegisterEndpointNotificationCallback(&m_audnotify);
@@ -223,30 +256,30 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
 
         ~AudioDeviceNotifyInit()
         {
-            if (m_pEnumerator)
-            {
-                HRESULT hr = m_pEnumerator->UnregisterEndpointNotificationCallback(&m_audnotify);
+            if (m_pEnumerator != nullptr) {
+                HRESULT const hr = m_pEnumerator->UnregisterEndpointNotificationCallback(
+                    &m_audnotify);
                 MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to unregister audio device notification callback\n"));
             }
         }
 
         void SetupCallback(void* owner, audio_device_change_callback_t cb, bool enable)
         {
-            std::lock_guard<std::mutex> g(m_mutex);
+            std::lock_guard<std::mutex> const g(m_mutex);
             if (enable)
-                m_callbacks[owner] = cb;
+                m_callbacks[owner] = std::move(cb);
             else
                 m_callbacks.erase(owner);
         }
 
         void AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, const LPCWSTR& id)
         {
-            std::lock_guard<std::mutex> g(m_mutex);
+            std::lock_guard<std::mutex> const g(m_mutex);
             for (auto& cb : m_callbacks)
                 cb.second(event, name, id);
         }
 
     } adninit;
 
-    adninit.SetupCallback(owner, cb, enable);
+    adninit.SetupCallback(owner, std::move(cb), enable);
 }

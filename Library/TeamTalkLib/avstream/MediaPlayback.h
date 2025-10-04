@@ -25,25 +25,33 @@
 #define MEDIAPLAYBACK_H
 
 #include "MediaStreamer.h"
-#include "SoundSystem.h"
 #include "AudioResampler.h"
-#include <codec/MediaUtil.h>
+#include "SoundSystem.h"
+#include "codec/MediaUtil.h"
+
 #if defined(ENABLE_SPEEXDSP)
 #include "SpeexPreprocess.h"
 #endif
 #if defined(ENABLE_WEBRTC)
-#include <avstream/WebRTCPreprocess.h>
+#include "avstream/WebRTCPreprocess.h"
 #endif
 
-#include <queue>
-#include <mutex>
+#include <ace/SString.h>
+#include <ace/Message_Block.h>
+#include <ace/Future.h>
+
+#include <cstdint>
+#include <functional>
 #include <memory>
+#include <mutex>
+#include <queue>
+#include <utility>
 
-#define PB_FRAMEDURATION_MSEC 40
+constexpr auto PB_FRAMEDURATION_MSEC = 40;
 
-typedef std::function< void(int userdata, const MediaFileProp& mfp,
-                            MediaStreamStatus status) > mediaplayback_status_t;
-typedef std::function< void(int userdata, const media::AudioFrame& frm) > mediaplayback_audio_t;
+using mediaplayback_status_t = std::function< void(int userdata, const MediaFileProp& mfp,
+                            MediaStreamStatus status) >;
+using mediaplayback_audio_t = std::function< void(int userdata, const media::AudioFrame& frm) >;
 
 class MediaPlayback : public soundsystem::StreamPlayer
 {
@@ -51,7 +59,7 @@ public:
     MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
                   mediaplayback_status_t statusfunc,
                   mediaplayback_audio_t audiofunc);
-    ~MediaPlayback();
+    ~MediaPlayback() override;
     
     bool OpenFile(const ACE_TString& filename);
 
@@ -75,7 +83,7 @@ public:
     bool SetupWebRTCPreprocess(const webrtc::AudioProcessing::Config& webrtc);
 #endif
     // MediaStreamListener
-    bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
+    static bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
                                   ACE_Message_Block* mb_video);
 
     bool MediaStreamAudioCallback(media::AudioFrame& audio_frame,
@@ -85,11 +93,11 @@ public:
                                    MediaStreamStatus status);
 
     MediaStreamStatus GetStatus() const;
-    bool Flushed();
+    bool Flushed() const;
 
     // StreamPlayer
     bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer, 
-                        short* buffer, int samples);
+                        short* buffer, int samples) override;
 
 private:
     soundsystem::soundsystem_t m_sndsys;
@@ -103,9 +111,9 @@ private:
     {
         MediaStreamStatus status = MEDIASTREAM_NONE;
         MediaFileProp mfp;
-        MediaFileProgress() {}
+        MediaFileProgress() = default;
         MediaFileProgress(MediaStreamStatus s,
-                          const MediaFileProp& m) : status(s), mfp(m) {}
+                          MediaFileProp  m) : status(s), mfp(std::move(m)) {}
     };
 
     /*
@@ -140,6 +148,6 @@ private:
     ACE_Future<bool> m_drained;
 };
 
-typedef std::shared_ptr<MediaPlayback> mediaplayback_t;
+using mediaplayback_t = std::shared_ptr<MediaPlayback>;
 
 #endif

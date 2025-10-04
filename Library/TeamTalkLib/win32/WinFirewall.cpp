@@ -22,18 +22,21 @@
  */
 
 #include "WinFirewall.h"
-#include <assert.h>
+#include "myace/MyACE.h"
+
 #include <Strsafe.h>
 #include <VersionHelpers.h>
 
-HRESULT CoCreateInstanceAsAdmin(HWND hwnd, REFCLSID rclsid, REFIID riid, __out void ** ppv)
+#include <cassert>
+
+static HRESULT CoCreateInstanceAsAdmin(HWND hwnd, REFCLSID rclsid, REFIID riid, __out void ** ppv)
 {
     BIND_OPTS3 bo;
     WCHAR  wszCLSID[50];
     WCHAR  wszMonikerName[300];
 
     StringFromGUID2(rclsid, wszCLSID, sizeof(wszCLSID)/sizeof(wszCLSID[0])); 
-    HRESULT hr = StringCchPrintf(wszMonikerName, sizeof(wszMonikerName)/sizeof(wszMonikerName[0]), L"Elevation:Administrator!new:%s", wszCLSID);
+    HRESULT const hr = StringCchPrintf(wszMonikerName, sizeof(wszMonikerName)/sizeof(wszMonikerName[0]), L"Elevation:Administrator!new:%s", wszCLSID);
     if (FAILED(hr))
         return hr;
     memset(&bo, 0, sizeof(bo));
@@ -45,25 +48,27 @@ HRESULT CoCreateInstanceAsAdmin(HWND hwnd, REFCLSID rclsid, REFIID riid, __out v
 
 /* Code from: http://msdn.microsoft.com/en-us/library/aa364726(VS.85).aspx */
 
-HRESULT WindowsFirewallInitialize(OUT INetFwProfile** fwProfile, BOOL bInvokeUAE)
+static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bInvokeUAE)
 {
     HRESULT hr = S_OK;
-    INetFwMgr* fwMgr = NULL;
-    INetFwPolicy* fwPolicy = NULL;
+    INetFwMgr* fwMgr = nullptr;
+    INetFwPolicy *fwPolicy = nullptr;
 
-    assert(fwProfile != NULL);
+    assert(fwProfile != nullptr);
 
-    *fwProfile = NULL;
+    *fwProfile = nullptr;
 
-    if(bInvokeUAE)
-        hr = CoCreateInstanceAsAdmin(NULL, __uuidof(NetFwMgr), 
-        __uuidof(INetFwMgr), (void**)&fwMgr);
+    if(bInvokeUAE != 0)
+        hr = CoCreateInstanceAsAdmin(nullptr,
+                                     __uuidof(NetFwMgr),
+                                     __uuidof(INetFwMgr),
+                                     (void **) &fwMgr);
     else
     {
         // Create an instance of the firewall settings manager.
         hr = CoCreateInstance(
             __uuidof(NetFwMgr),
-            NULL,
+            nullptr,
             CLSCTX_INPROC_SERVER,
             __uuidof(INetFwMgr),
             (void**)&fwMgr
@@ -94,13 +99,12 @@ HRESULT WindowsFirewallInitialize(OUT INetFwProfile** fwProfile, BOOL bInvokeUAE
 error:
 
     // Release the local firewall policy.
-    if (fwPolicy != NULL)
-    {
+    if (fwPolicy != nullptr) {
         fwPolicy->Release();
     }
 
     // Release the firewall settings manager.
-    if (fwMgr != NULL)
+    if (fwMgr != nullptr)
     {
         fwMgr->Release();
     }
@@ -108,24 +112,22 @@ error:
     return hr;
 }
 
-
-void WindowsFirewallCleanup(IN INetFwProfile* fwProfile)
+static void WindowsFirewallCleanup(IN INetFwProfile *fwProfile)
 {
     // Release the firewall profile.
-    if (fwProfile != NULL)
+    if (fwProfile != nullptr)
     {
         fwProfile->Release();
     }
 }
 
-
-HRESULT WindowsFirewallIsOn(IN INetFwProfile* fwProfile, OUT BOOL* fwOn)
+static HRESULT WindowsFirewallIsOn(IN INetFwProfile *fwProfile, OUT BOOL *fwOn)
 {
     HRESULT hr = S_OK;
-    VARIANT_BOOL fwEnabled;
+    VARIANT_BOOL fwEnabled = 0;
 
-    assert(fwProfile != NULL);
-    assert(fwOn != NULL);
+    assert(fwProfile != nullptr);
+    assert(fwOn != nullptr);
 
     *fwOn = FALSE;
 
@@ -142,9 +144,7 @@ HRESULT WindowsFirewallIsOn(IN INetFwProfile* fwProfile, OUT BOOL* fwOn)
     {
         *fwOn = TRUE;
         MYTRACE(ACE_TEXT("The firewall is on.\n"));
-    }
-    else
-    {
+    } else {
         MYTRACE(ACE_TEXT("The firewall is off.\n"));
     }
 
@@ -153,13 +153,12 @@ error:
     return hr;
 }
 
-
-HRESULT WindowsFirewallTurnOn(IN INetFwProfile* fwProfile)
+static HRESULT WindowsFirewallTurnOn(IN INetFwProfile *fwProfile)
 {
     HRESULT hr = S_OK;
-    BOOL fwOn;
+    BOOL fwOn = 0;
 
-    assert(fwProfile != NULL);
+    assert(fwProfile != nullptr);
 
     // Check to see if the firewall is off.
     hr = WindowsFirewallIsOn(fwProfile, &fwOn);
@@ -170,7 +169,7 @@ HRESULT WindowsFirewallTurnOn(IN INetFwProfile* fwProfile)
     }
 
     // If it is, turn it on.
-    if (!fwOn)
+    if (fwOn == 0)
     {
         // Turn the firewall on.
         hr = fwProfile->put_FirewallEnabled(VARIANT_TRUE);
@@ -188,13 +187,12 @@ error:
     return hr;
 }
 
-
-HRESULT WindowsFirewallTurnOff(IN INetFwProfile* fwProfile)
+static HRESULT WindowsFirewallTurnOff(IN INetFwProfile *fwProfile)
 {
     HRESULT hr = S_OK;
-    BOOL fwOn;
+    BOOL fwOn = 0;
 
-    assert(fwProfile != NULL);
+    assert(fwProfile != nullptr);
 
     // Check to see if the firewall is on.
     hr = WindowsFirewallIsOn(fwProfile, &fwOn);
@@ -205,7 +203,7 @@ HRESULT WindowsFirewallTurnOff(IN INetFwProfile* fwProfile)
     }
 
     // If it is, turn it off.
-    if (fwOn)
+    if (fwOn != 0)
     {
         // Turn the firewall off.
         hr = fwProfile->put_FirewallEnabled(VARIANT_FALSE);
@@ -223,22 +221,19 @@ error:
     return hr;
 }
 
-
-HRESULT WindowsFirewallAppIsEnabled(
-    IN INetFwProfile* fwProfile,
-    IN const wchar_t* fwProcessImageFileName,
-    OUT BOOL* fwAppEnabled
-    )
+static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
+                                           IN const wchar_t *fwProcessImageFileName,
+                                           OUT BOOL *fwAppEnabled)
 {
     HRESULT hr = S_OK;
-    BSTR fwBstrProcessImageFileName = NULL;
-    VARIANT_BOOL fwEnabled;
-    INetFwAuthorizedApplication* fwApp = NULL;
-    INetFwAuthorizedApplications* fwApps = NULL;
+    BSTR fwBstrProcessImageFileName = nullptr;
+    VARIANT_BOOL fwEnabled = 0;
+    INetFwAuthorizedApplication *fwApp = nullptr;
+    INetFwAuthorizedApplications *fwApps = nullptr;
 
-    assert(fwProfile != NULL);
-    assert(fwProcessImageFileName != NULL);
-    assert(fwAppEnabled != NULL);
+    assert(fwProfile != nullptr);
+    assert(fwProcessImageFileName != nullptr);
+    assert(fwAppEnabled != nullptr);
 
     *fwAppEnabled = FALSE;
 
@@ -252,7 +247,7 @@ HRESULT WindowsFirewallAppIsEnabled(
 
     // Allocate a BSTR for the process image file name.
     fwBstrProcessImageFileName = SysAllocString(fwProcessImageFileName);
-    if (fwBstrProcessImageFileName == NULL)
+    if (fwBstrProcessImageFileName == nullptr)
     {
         hr = E_OUTOFMEMORY;
         MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
@@ -306,13 +301,13 @@ error:
     SysFreeString(fwBstrProcessImageFileName);
 
     // Release the authorized application instance.
-    if (fwApp != NULL)
+    if (fwApp != nullptr)
     {
         fwApp->Release();
     }
 
     // Release the authorized application collection.
-    if (fwApps != NULL)
+    if (fwApps != nullptr)
     {
         fwApps->Release();
     }
@@ -320,23 +315,20 @@ error:
     return hr;
 }
 
-
-HRESULT WindowsFirewallAddApp(
-    IN INetFwProfile* fwProfile,
-    IN const wchar_t* fwProcessImageFileName,
-    IN const wchar_t* fwName
-    )
+static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
+                                     IN const wchar_t *fwProcessImageFileName,
+                                     IN const wchar_t *fwName)
 {
     HRESULT hr = S_OK;
-    BOOL fwAppEnabled;
-    BSTR fwBstrName = NULL;
-    BSTR fwBstrProcessImageFileName = NULL;
-    INetFwAuthorizedApplication* fwApp = NULL;
-    INetFwAuthorizedApplications* fwApps = NULL;
+    BOOL fwAppEnabled = 0;
+    BSTR fwBstrName = nullptr;
+    BSTR fwBstrProcessImageFileName = nullptr;
+    INetFwAuthorizedApplication *fwApp = nullptr;
+    INetFwAuthorizedApplications *fwApps = nullptr;
 
-    assert(fwProfile != NULL);
-    assert(fwProcessImageFileName != NULL);
-    assert(fwName != NULL);
+    assert(fwProfile != nullptr);
+    assert(fwProcessImageFileName != nullptr);
+    assert(fwName != nullptr);
 
     // First check to see if the application is already authorized.
     hr = WindowsFirewallAppIsEnabled(
@@ -351,7 +343,7 @@ HRESULT WindowsFirewallAddApp(
     }
 
     // Only add the application if it isn't already authorized.
-    if (!fwAppEnabled)
+    if (fwAppEnabled == 0)
     {
         // Retrieve the authorized application collection.
         hr = fwProfile->get_AuthorizedApplications(&fwApps);
@@ -362,13 +354,11 @@ HRESULT WindowsFirewallAddApp(
         }
 
         // Create an instance of an authorized application.
-        hr = CoCreateInstance(
-            __uuidof(NetFwAuthorizedApplication),
-            NULL,
-            CLSCTX_INPROC_SERVER,
-            __uuidof(INetFwAuthorizedApplication),
-            (void**)&fwApp
-            );
+        hr = CoCreateInstance(__uuidof(NetFwAuthorizedApplication),
+                              nullptr,
+                              CLSCTX_INPROC_SERVER,
+                              __uuidof(INetFwAuthorizedApplication),
+                              (void **) &fwApp);
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
@@ -377,7 +367,7 @@ HRESULT WindowsFirewallAddApp(
 
         // Allocate a BSTR for the process image file name.
         fwBstrProcessImageFileName = SysAllocString(fwProcessImageFileName);
-        if (fwBstrProcessImageFileName == NULL)
+        if (fwBstrProcessImageFileName == nullptr)
         {
             hr = E_OUTOFMEMORY;
             MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
@@ -447,13 +437,13 @@ error:
     SysFreeString(fwBstrProcessImageFileName);
 
     // Release the authorized application instance.
-    if (fwApp != NULL)
+    if (fwApp != nullptr)
     {
         fwApp->Release();
     }
 
     // Release the authorized application collection.
-    if (fwApps != NULL)
+    if (fwApps != nullptr)
     {
         fwApps->Release();
     }
@@ -461,20 +451,18 @@ error:
     return hr;
 }
 
-HRESULT WindowsFirewallRemoveApp(
-    IN INetFwProfile* fwProfile,
-    IN const wchar_t* fwProcessImageFileName
-    )
+static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
+                                        IN const wchar_t *fwProcessImageFileName)
 {
     HRESULT hr = S_OK;
-    BOOL fwAppEnabled;
-    BSTR fwBstrName = NULL;
-    BSTR fwBstrProcessImageFileName = NULL;
-    INetFwAuthorizedApplication* fwApp = NULL;
-    INetFwAuthorizedApplications* fwApps = NULL;
+    BOOL fwAppEnabled = 0;
+    BSTR fwBstrName = nullptr;
+    BSTR fwBstrProcessImageFileName = nullptr;
+    INetFwAuthorizedApplication *fwApp = nullptr;
+    INetFwAuthorizedApplications *fwApps = nullptr;
 
-    assert(fwProfile != NULL);
-    assert(fwProcessImageFileName != NULL);
+    assert(fwProfile != nullptr);
+    assert(fwProcessImageFileName != nullptr);
 
     // First check to see if the application is already authorized.
     hr = WindowsFirewallAppIsEnabled(
@@ -489,7 +477,7 @@ HRESULT WindowsFirewallRemoveApp(
     }
 
     // Only remove the application if it is already authorized.
-    if (fwAppEnabled)
+    if (fwAppEnabled != 0)
     {
         // Retrieve the authorized application collection.
         hr = fwProfile->get_AuthorizedApplications(&fwApps);
@@ -500,13 +488,11 @@ HRESULT WindowsFirewallRemoveApp(
         }
 
         // Create an instance of an authorized application.
-        hr = CoCreateInstance(
-            __uuidof(NetFwAuthorizedApplication),
-            NULL,
-            CLSCTX_INPROC_SERVER,
-            __uuidof(INetFwAuthorizedApplication),
-            (void**)&fwApp
-            );
+        hr = CoCreateInstance(__uuidof(NetFwAuthorizedApplication),
+                              nullptr,
+                              CLSCTX_INPROC_SERVER,
+                              __uuidof(INetFwAuthorizedApplication),
+                              (void **) &fwApp);
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
@@ -515,7 +501,7 @@ HRESULT WindowsFirewallRemoveApp(
 
         // Allocate a BSTR for the process image file name.
         fwBstrProcessImageFileName = SysAllocString(fwProcessImageFileName);
-        if (fwBstrProcessImageFileName == NULL)
+        if (fwBstrProcessImageFileName == nullptr)
         {
             hr = E_OUTOFMEMORY;
             MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
@@ -543,13 +529,13 @@ error:
     SysFreeString(fwBstrProcessImageFileName);
 
     // Release the authorized application instance.
-    if (fwApp != NULL)
+    if (fwApp != nullptr)
     {
         fwApp->Release();
     }
 
     // Release the authorized application collection.
-    if (fwApps != NULL)
+    if (fwApps != nullptr)
     {
         fwApps->Release();
     }
@@ -557,7 +543,7 @@ error:
     return hr;
 }
 
-HRESULT WindowsFirewallPortIsEnabled(
+static HRESULT WindowsFirewallPortIsEnabled(
     IN INetFwProfile* fwProfile,
     IN LONG portNumber,
     IN NET_FW_IP_PROTOCOL ipProtocol,
@@ -565,12 +551,12 @@ HRESULT WindowsFirewallPortIsEnabled(
     )
 {
     HRESULT hr = S_OK;
-    VARIANT_BOOL fwEnabled;
-    INetFwOpenPort* fwOpenPort = NULL;
-    INetFwOpenPorts* fwOpenPorts = NULL;
+    VARIANT_BOOL fwEnabled = 0;
+    INetFwOpenPort *fwOpenPort = nullptr;
+    INetFwOpenPorts *fwOpenPorts = nullptr;
 
-    assert(fwProfile != NULL);
-    assert(fwPortEnabled != NULL);
+    assert(fwProfile != nullptr);
+    assert(fwPortEnabled != nullptr);
 
     *fwPortEnabled = FALSE;
 
@@ -617,14 +603,12 @@ HRESULT WindowsFirewallPortIsEnabled(
 error:
 
     // Release the globally open port.
-    if (fwOpenPort != NULL)
-    {
+    if (fwOpenPort != nullptr) {
         fwOpenPort->Release();
     }
 
     // Release the globally open ports collection.
-    if (fwOpenPorts != NULL)
-    {
+    if (fwOpenPorts != nullptr) {
         fwOpenPorts->Release();
     }
 
@@ -632,7 +616,7 @@ error:
 }
 
 
-HRESULT WindowsFirewallPortAdd(
+static HRESULT WindowsFirewallPortAdd(
     IN INetFwProfile* fwProfile,
     IN LONG portNumber,
     IN NET_FW_IP_PROTOCOL ipProtocol,
@@ -640,13 +624,13 @@ HRESULT WindowsFirewallPortAdd(
     )
 {
     HRESULT hr = S_OK;
-    BOOL fwPortEnabled;
-    BSTR fwBstrName = NULL;
-    INetFwOpenPort* fwOpenPort = NULL;
-    INetFwOpenPorts* fwOpenPorts = NULL;
+    BOOL fwPortEnabled = 0;
+    BSTR fwBstrName = nullptr;
+    INetFwOpenPort *fwOpenPort = nullptr;
+    INetFwOpenPorts *fwOpenPorts = nullptr;
 
-    assert(fwProfile != NULL);
-    assert(name != NULL);
+    assert(fwProfile != nullptr);
+    assert(name != nullptr);
 
     // First check to see if the port is already added.
     hr = WindowsFirewallPortIsEnabled(
@@ -662,7 +646,7 @@ HRESULT WindowsFirewallPortAdd(
     }
 
     // Only add the port if it isn't already added.
-    if (!fwPortEnabled)
+    if (fwPortEnabled == 0)
     {
         // Retrieve the collection of globally open ports.
         hr = fwProfile->get_GloballyOpenPorts(&fwOpenPorts);
@@ -673,13 +657,11 @@ HRESULT WindowsFirewallPortAdd(
         }
 
         // Create an instance of an open port.
-        hr = CoCreateInstance(
-            __uuidof(NetFwOpenPort),
-            NULL,
-            CLSCTX_INPROC_SERVER,
-            __uuidof(INetFwOpenPort),
-            (void**)&fwOpenPort
-            );
+        hr = CoCreateInstance(__uuidof(NetFwOpenPort),
+                              nullptr,
+                              CLSCTX_INPROC_SERVER,
+                              __uuidof(INetFwOpenPort),
+                              (void **) &fwOpenPort);
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
@@ -736,14 +718,12 @@ error:
     SysFreeString(fwBstrName);
 
     // Release the open port instance.
-    if (fwOpenPort != NULL)
-    {
+    if (fwOpenPort != nullptr) {
         fwOpenPort->Release();
     }
 
     // Release the globally open ports collection.
-    if (fwOpenPorts != NULL)
-    {
+    if (fwOpenPorts != nullptr) {
         fwOpenPorts->Release();
     }
 
@@ -835,17 +815,17 @@ error:
 //}
 
 WinFirewall::WinFirewall(bool acquire_admin)
-: m_fw(NULL)
+    : m_fw(nullptr)
 {
-    HRESULT hr = WindowsFirewallInitialize(&m_fw, acquire_admin);
+    HRESULT const hr = WindowsFirewallInitialize(&m_fw, static_cast<BOOL>(acquire_admin));
 }
 
 WinFirewall::~WinFirewall()
 {
-    if(m_fw)
+    if(m_fw != nullptr)
     {
         WindowsFirewallCleanup(m_fw);
-        m_fw = NULL;
+        m_fw = nullptr;
     }
 }
 
@@ -857,47 +837,47 @@ bool WinFirewall::HasUAE()
 
 bool WinFirewall::IsFirewallOn()
 {
-    if(!m_fw)
+    if(m_fw == nullptr)
         return false;
 
     BOOL bOn = FALSE;
-    HRESULT hr = WindowsFirewallIsOn(m_fw, &bOn);
-    return bOn;
+    HRESULT const hr = WindowsFirewallIsOn(m_fw, &bOn);
+    return bOn != 0;
 }
 
 bool WinFirewall::EnableFirewall(bool enable)
 {
-    if(!m_fw)
+    if(m_fw == nullptr)
         return false;
 
-    HRESULT hr = enable? WindowsFirewallTurnOn(m_fw) : WindowsFirewallTurnOff(m_fw);
+    HRESULT const hr = enable? WindowsFirewallTurnOn(m_fw) : WindowsFirewallTurnOff(m_fw);
     return SUCCEEDED(hr);
 }
 
 bool WinFirewall::IsApplicationFirewalled(const ACE_TString& exefile)
 {
-    if(!m_fw)
+    if (m_fw == nullptr)
         return false;
 
     BOOL bEnabled = FALSE;
-    HRESULT hr = WindowsFirewallAppIsEnabled(m_fw, exefile.c_str(), &bEnabled);
-    return bEnabled;
+    HRESULT const hr = WindowsFirewallAppIsEnabled(m_fw, exefile.c_str(), &bEnabled);
+    return bEnabled != 0;
 }
 
 bool WinFirewall::AddException(const ACE_TString& exefile,
                                const ACE_TString& name)
 {
-    if(!m_fw)
+    if (m_fw == nullptr)
         return false;
 
-    HRESULT hr = WindowsFirewallAddApp(m_fw, exefile.c_str(), name.c_str());
+    HRESULT const hr = WindowsFirewallAddApp(m_fw, exefile.c_str(), name.c_str());
     return SUCCEEDED(hr);
 }
 
 bool WinFirewall::RemoveException(const ACE_TString& exefile)
 {
-    if(!m_fw)
+    if (m_fw == nullptr)
         return false;
-    HRESULT hr = WindowsFirewallRemoveApp(m_fw, exefile.c_str());
+    HRESULT const hr = WindowsFirewallRemoveApp(m_fw, exefile.c_str());
     return SUCCEEDED(hr);
 }

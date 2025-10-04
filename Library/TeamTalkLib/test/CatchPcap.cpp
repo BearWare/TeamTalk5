@@ -25,33 +25,32 @@
 
 #include "TTUnitTest.h"
 
-#include <iostream>
-#include <map>
-#include <vector>
+#include "avstream/SoundSystem.h"
+#include "bin/dll/TTClientMsg.h"
+#include "codec/WaveFile.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/client/AudioMuxer.h"
+#include "teamtalk/client/ClientNodeBase.h"
+#include "teamtalk/client/StreamPlayers.h"
 
-#include <pcap/pcap.h>
-#include <net/ethernet.h>
-#include <netinet/ip.h>
-#include <netinet/udp.h>
-#include <sys/socket.h>
-#include <arpa/inet.h>
+#if defined(ENABLE_OPUS)
+#include "codec/OpusDecoder.h"
+#endif
 
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
 
-#include <TeamTalk.h>
+#include <arpa/inet.h>
+#include <net/ethernet.h>
+#include <netinet/ip.h>
+#include <netinet/udp.h>
+#include <pcap/pcap.h>
+#include <sys/socket.h>
 
-#include <teamtalk/PacketLayout.h>
-#include <teamtalk/client/AudioMuxer.h>
-#include <teamtalk/client/StreamPlayers.h>
-#include <teamtalk/client/ClientNodeBase.h>
-#include <codec/WaveFile.h>
-#include <avstream/SoundSystem.h>
-#include <bin/dll/TTClientMsg.h>
+#include <iostream>
+#include <map>
+#include <vector>
 
-#if defined(ENABLE_OPUS)
-#include <codec/OpusDecoder.h>
-#endif
 
 typedef std::map< ACE_Time_Value, std::vector<char> > ttpackets_t;
 
@@ -377,7 +376,7 @@ TEST_CASE("PlaybackJitter")
         // Queue packet for transmission
         bool QueuePacket(teamtalk::FieldPacket* packet) override { return true; }
         // Get logger for writing audio streams to disk (wav, ogg, etc)
-        teamtalk::VoiceLogger& voicelogger() override { return m_vl; }
+        teamtalk::VoiceLogger& GetVoiceLogger() override { return m_vl; }
         // Callback function for teamtalk::AudioPlayer-class
         void AudioUserCallback(int userid, teamtalk::StreamType st, const media::AudioFrame& audio_frame) override { }
     } myclientnode(57, mychan, &events, ttpackets);

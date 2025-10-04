@@ -23,6 +23,8 @@
 
 #pragma once
 
+#include <ace/OS.h>
+
 #include <vector>
 #include <set>
 

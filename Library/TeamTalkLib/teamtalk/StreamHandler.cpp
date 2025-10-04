@@ -23,12 +23,14 @@
 
 #include "StreamHandler.h"
 
+#include <ace/Time_Value.h>
+
 #include <mutex>
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
                     const char* data, int len, ACE_Time_Value* tm/* = 0*/)
 {
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
     ACE_NEW_RETURN(mb, ACE_Message_Block(len), -1);
     int ret = mb->copy(data, len);
     TTASSERT(ret>=0);
@@ -44,27 +46,27 @@ static std::mutex ctxmtx;
 
 ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> g(ctxmtx);
+    std::lock_guard<std::mutex> const g(ctxmtx);
 
     TTASSERT(m_contexts.find(r) == m_contexts.end());
     
-    m_contexts[r].reset(new ACE_SSL_Context());
+    m_contexts[r] = std::make_shared<ACE_SSL_Context>();
     return m_contexts[r].get();
 }
 
 void CryptStreamHandler::RemoveSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> g(ctxmtx);
+    std::lock_guard<std::mutex> const g(ctxmtx);
 
     m_contexts.erase(r);
 }
 
-ACE_SSL_Context* CryptStreamHandler::ssl_context(ACE_Reactor* r)
+ACE_SSL_Context* CryptStreamHandler::SSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> g(ctxmtx);
+    std::lock_guard<std::mutex> const g(ctxmtx);
 
     ACE_SSL_Context* c = ACE_SSL_Context::instance();
-    if (m_contexts.find(r) != m_contexts.end())
+    if (m_contexts.contains(r))
         c = m_contexts[r].get();
     return c;
 }
@@ -97,8 +99,8 @@ CryptStreamHandler::CryptStreamHandler(ACE_Thread_Manager *thr_mgr,
                                        ACE_Reactor *reactor)
     : super(thr_mgr, mq, reactor)
 {
-    if (reactor)
-        ssl_reset(reactor);
+    if (reactor != nullptr)
+        SSLReset(reactor);
 }
 
 CryptStreamHandler::CryptStreamHandler(ACE_Reactor *reactor)
@@ -110,57 +112,55 @@ CryptStreamHandler::CryptStreamHandler(ACE_Reactor *reactor)
 void CryptStreamHandler::reactor(ACE_Reactor *reactor)
 {
     // ensure we don't double create SSL context
-    auto r = super::reactor();
+    auto *r = super::reactor();
 
     super::reactor(reactor);
 
     if (r == nullptr)
-        ssl_reset(reactor);
+        SSLReset(reactor);
 }
 
-void CryptStreamHandler::ssl_reset(ACE_Reactor *reactor)
+void CryptStreamHandler::SSLReset(ACE_Reactor *reactor)
 {
-    ACE_SSL_Context* ctx = ssl_context(reactor);
+    ACE_SSL_Context* ctx = SSLContext(reactor);
     peer_.ReinitSSL(ctx);
 
     SSL_CTX* sslctx = ctx->context();
 
     SSL* ssl = peer().ssl();
-    long opt = SSL_get_options(ssl);
+    long const opt = SSL_get_options(ssl);
     SSL_clear(ssl);
 }
 
 int CryptStreamHandler::handle_input(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 {
     SSL *ssl = peer().ssl();
-    if (SSL_is_init_finished(ssl))
+    if (SSL_is_init_finished(ssl) != 0)
     {
         int ret = super::handle_input(fd);
-        if (ret == 0 && ::SSL_pending(ssl))
+        if (ret == 0 && (::SSL_pending(ssl) != 0))
             ret = 1;
         return ret;
     }
-    else
-        return process_ssl(ssl);
+    return ProcessSSL(ssl);
 }
 
 int CryptStreamHandler::handle_output(ACE_HANDLE fd/* = ACE_INVALID_HANDLE*/)
 {
     SSL *ssl = peer().ssl();
-    if (SSL_is_init_finished(ssl))
+    if (SSL_is_init_finished(ssl) != 0)
     {
         int ret = super::handle_output(fd);
-        if(ret == 0 && ::SSL_pending(ssl))
+        if(ret == 0 && (::SSL_pending(ssl) != 0))
             ret = 1;
         return ret;
     }
-    else
-        return process_ssl(ssl);
+    return ProcessSSL(ssl);
 }
 
-int CryptStreamHandler::process_ssl(SSL* ssl)
+int CryptStreamHandler::ProcessSSL(SSL* ssl)
 {
-    int status;
+    int status = 0;
     switch (m_socketstate)
     {
     case CRYPTSTREAMHANDLER_ACCEPT :
@@ -209,7 +209,7 @@ int CryptStreamHandler::process_ssl(SSL* ssl)
                 super::reactor()->mask_ops(this, ACE_Event_Handler::WRITE_MASK, ACE_Reactor::ADD_MASK);
                 return 0;
             }
-            else if(SSL_want_read (ssl))
+            if(SSL_want_read (ssl))
             {
                 return 0;
             }

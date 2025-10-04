@@ -29,15 +29,14 @@
 
 #include <string>
 
-#include <ace/SString.h> // get ACE_TEXT
 
 #include <functional>
 #include <memory>
 
-#define DEFWAIT 5000
+constexpr auto DEFWAIT = 5000;
 
-#define SOUNDDEVICEID_DEFAULT -1
-#define SOUNDDEVICEID_IGNORE  -2
+constexpr auto SOUNDDEVICEID_DEFAULT = -1;
+constexpr auto SOUNDDEVICEID_IGNORE = -2;
 
 extern std::string g_server_ipaddr;
 extern const bool GITHUBSKIP;
@@ -75,26 +74,26 @@ struct TTInst
     ~TTInst() { TT_CloseTeamTalk(ttInst); }
 };
 
-class ttinst : public std::shared_ptr<TTInst>
+class TTInstPtr : public std::shared_ptr<TTInst>
 {
 public:
-    ttinst() {}
-    ttinst(TTInstance* ttClient) { reset(new TTInst(ttClient)); }
+    TTInstPtr() = default;
+    TTInstPtr(TTInstance* ttClient) { reset(new TTInst(ttClient)); }
     operator TTInstance*() { return get()->ttInst; }
 };
 
-ttinst InitTeamTalk();
+TTInstPtr InitTeamTalk();
 
-class abptr
+class ABPtr
 {
 private:
     TTInstance* m_inst = nullptr;
     AudioBlock* m_ab = nullptr;
-    abptr(const abptr&) = delete;
-    void operator=(const abptr&) = delete;
+    ABPtr(const ABPtr&) = delete;
+    void operator=(const ABPtr&) = delete;
 public:
-    abptr(TTInstance* inst, AudioBlock* ab) : m_inst(inst), m_ab(ab) {}
-    ~abptr() { if (m_inst && m_ab) TT_ReleaseUserAudioBlock(m_inst, m_ab); }
+    ABPtr(TTInstance* inst, AudioBlock* ab) : m_inst(inst), m_ab(ab) {}
+    ~ABPtr() { if ((m_inst != nullptr) && (m_ab != nullptr)) TT_ReleaseUserAudioBlock(m_inst, m_ab); }
     operator AudioBlock*() { return m_ab; }
     AudioBlock* operator->() const { return m_ab; }
     operator bool() const { return m_ab != nullptr; }

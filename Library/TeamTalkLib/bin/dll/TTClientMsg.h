@@ -24,13 +24,29 @@
 #if !defined(TEAMTALK_MESSAGES)
 #define TEAMTALK_MESSAGES
 
-#include <teamtalk/client/ClientNode.h>
+#include <ace/OS.h>
 #include <TeamTalk.h>
 
+#include "avstream/AudioInputStreamer.h"
+#include "avstream/MediaStreamer.h"
+#include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/client/Client.h"
+#include "teamtalk/client/ClientChannel.h"
+#include "teamtalk/client/ClientNodeBase.h"
+#include "teamtalk/client/ClientNodeEvent.h"
+#include "teamtalk/client/ClientUser.h"
+#include "teamtalk/client/VoiceLogger.h"
+
 #if defined(WIN32)
-#include <win32/HotKey.h>
-#include <win32/AudioDeviceNotify.h>
+#include "win32/HotKey.h"
+#include "win32/AudioDeviceNotify.h"
 #endif
+
+#include <ace/Message_Block.h>
+#include <ace/Time_Value.h>
+
+#include <mutex>
 
 class TTMsgQueue
     : public teamtalk::ClientListener
@@ -58,11 +74,11 @@ public:
 
     void SetHWND(HWND hWnd) { m_hWnd = hWnd; }
 #endif
-    virtual ~TTMsgQueue();
+    ~TTMsgQueue() override;
 
     TTBOOL GetMessage(TTMessage& msg, ACE_Time_Value* tv);
 
-    TTBOOL IsSuspended() const { return m_suspended; }
+    TTBOOL IsSuspended() const { return static_cast<TTBOOL>(m_suspended); }
 
     void RegisterEventSuspender(teamtalk::EventSuspender* suspender) override;
 

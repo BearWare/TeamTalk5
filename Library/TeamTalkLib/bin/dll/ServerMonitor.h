@@ -24,7 +24,7 @@
 #if !defined(SERVERMONITOR_H)
 #define SERVERMONITOR_H
 
-#include <teamtalk/server/ServerNode.h>
+#include "teamtalk/server/ServerNode.h"
 
 #include "TeamTalkSrv.h"
 

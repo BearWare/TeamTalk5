@@ -105,7 +105,7 @@ namespace soundsystem {
     soundsystem_t GetInstance()
     {
 #if defined(ENABLE_PORTAUDIO)
-        return PortAudio::getInstance();
+        return PortAudio::GetInstance();
 #elif defined(ENABLE_OPENSLES)
         return OpenSLESWrapper::getInstance();
 #elif defined(ENABLE_AUDIOTOOLKIT)
@@ -122,14 +122,14 @@ namespace soundsystem {
     {
         if (mastervolume == 0 || volume == 0 || mute || mastermute)
         {
-            return Rational(0, 1);
+            return {0, 1};
         }
-        else if (volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
+        if (volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
         {
             int volfac = volume * mastervolume;
             int powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
             return Rational(volfac, powdef);
         }
-        return Rational(1, 1);
+        return {1, 1};
     }
-}
+} // namespace soundsystem

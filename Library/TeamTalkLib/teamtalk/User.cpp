@@ -22,7 +22,10 @@
  */
 
 #include "User.h"
-#include "Common.h"
+
+#include "PacketLayout.h"
+#include "myace/MyACE.h"
+
 
 namespace teamtalk {
 
@@ -48,7 +51,7 @@ namespace teamtalk {
     void User::UpdateLastTimeStamp(PacketKind packet_kind, ACE_UINT32 tm)
     {
         UpdateLastTimeStamp(tm);
-        packet_timestamps_t::const_iterator ii = m_pkt_timestamps.find(packet_kind);
+        auto const ii = m_pkt_timestamps.find(packet_kind);
         if(ii == m_pkt_timestamps.end() || W32_GEQ(tm, ii->second))
             m_pkt_timestamps[packet_kind] = tm;
     }
@@ -60,7 +63,7 @@ namespace teamtalk {
 
     ACE_UINT32 User::GetLastTimeStamp(bool* is_set/* = NULL*/) const
     {
-        if(is_set)
+        if(is_set != nullptr)
             *is_set = m_tm_ok;
         return m_timestamp;
     }
@@ -72,18 +75,18 @@ namespace teamtalk {
 
     ACE_UINT32 User::GetLastTimeStamp(PacketKind packet_kind, bool* is_set/* = NULL*/) const
     {
-        packet_timestamps_t::const_iterator ii = m_pkt_timestamps.find(packet_kind);
+        auto const ii = m_pkt_timestamps.find(packet_kind);
         if(ii != m_pkt_timestamps.end())
         {
-            if(is_set)
+            if(is_set != nullptr)
                 *is_set = true;
             return ii->second;
         }
 
-        if(is_set)
+        if(is_set != nullptr)
             *is_set = false;
         return 0;
         //return GetLastTimeStamp(is_set);
     }
 
-}
+} // namespace teamtalk

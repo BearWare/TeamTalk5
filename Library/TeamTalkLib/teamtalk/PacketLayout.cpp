@@ -22,13 +22,20 @@
  */
 
 #include "PacketLayout.h"
+
 #include "Common.h"
 
-using namespace std;
+#include <utility>
+#include <vector>
+#include <cstdint>
+#include <cstddef>
+#include <cassert>
+#include <cstring>
+#include <set>
 
 namespace teamtalk
 {
-    void ConvertToUInt12Array(const std::vector<uint16_t>& source,
+    static void ConvertToUInt12Array(const std::vector<uint16_t>& source,
                               std::vector<uint8_t>& target)
     {
         std::vector<uint8_t>::size_type target_size = 0;
@@ -39,25 +46,25 @@ namespace teamtalk
 
         target.resize(target_size);
 
-        uint8_t* target_ptr = &target[0];
+        uint8_t* target_ptr = target.data();
         for(size_t i=0;i<source.size();)
         {
             if(source.size()-i >= 2)
             {
-                target_ptr = set2_uint12_ptr(target_ptr, source[i], source[i+1]);
+                target_ptr = SET2_UINT12_PTR(target_ptr, source[i], source[i+1]);
                 i += 2;
             }
             else
             {
-                target_ptr = set_uint12_ptr(target_ptr, source[i]);
+                target_ptr = SET_UINT12_PTR(target_ptr, source[i]);
                 i += 1;
             }
         }
-        assert(target_ptr == (&target[0])+target_size);
+        assert(target_ptr == (target.data())+target_size);
     }
 
 
-    void ConvertFromUInt12Array(const uint8_t* source,
+    static void ConvertFromUInt12Array(const uint8_t* source,
                                 uint16_t source_size,
                                 std::vector<uint16_t>& target)
     {
@@ -65,18 +72,19 @@ namespace teamtalk
 
         for(uint16_t i=0;i<source_size;)
         {
-            uint16_t v1, v2;
+            uint16_t v1;
+            uint16_t v2;
             const uint8_t* ptr = &source[i];
             if(source_size - i >= 3)
             {
-                get2_uint12(ptr, v1, v2);
+                GET2_UINT12(ptr, v1, v2);
                 target.push_back(v1);
                 target.push_back(v2);
                 i += 3;
             }
             else if(source_size - i == 2)
             {
-                get_uint12(ptr, v1);
+                GET_UINT12(ptr, v1);
                 target.push_back(v1);
                 i += 2;
             }
@@ -84,18 +92,18 @@ namespace teamtalk
         }
     }
 
-    bool ReadUInt12Array(const uint8_t* ptr, uint8_t field_type, 
+    static bool ReadUInt12Array(const uint8_t* ptr, uint8_t  /*field_type*/, 
                          std::vector<uint16_t>& output)
     {
-        uint16_t field_size = READFIELD_SIZE(ptr);
-        if(!field_size)
+        uint16_t const field_size = READFIELD_SIZE(ptr);
+        if(field_size == 0u)
             return false;
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
         ConvertFromUInt12Array(field_ptr, field_size, output);
         return true;
     }
 
-    void WriteUInt12ArrayToIOVec(const std::vector<uint16_t>& input,
+    static void WriteUInt12ArrayToIOVec(const std::vector<uint16_t>& input,
                                  uint8_t field_type,
                                  std::vector<iovec>& out_iovec)
     {
@@ -106,7 +114,7 @@ namespace teamtalk
         int alloc_size = 0;
         alloc_size += FIELDVALUE_PREFIX + int(field_data.size());
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         uint8_t* data_ptr = data_buf;
@@ -114,42 +122,42 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, &field_data[0], field_data.size());
+        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, field_data.data(), field_data.size());
 
         assert(alloc_size == data_ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         out_iovec.push_back(v);
     }
 
-    bool ReadUInt16Array(const uint8_t* ptr, uint8_t field_type, 
+    static bool ReadUInt16Array(const uint8_t* ptr, uint8_t  /*field_type*/, 
                          std::vector<uint16_t>& output)
     {
-        uint16_t field_size = READFIELD_SIZE(ptr);
-        if(!field_size || (field_size % 2))
+        uint16_t const field_size = READFIELD_SIZE(ptr);
+        if((field_size == 0u) || ((field_size % 2) != 0))
             return false;
 
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
         for(uint16_t i=0;i<field_size;i+=2)
         {
-            output.push_back(get_uint16(field_ptr));
+            output.push_back(GET_UINT16(field_ptr));
             field_ptr += 2;
         }
         return true;
     }
 
-    void WriteUInt16ArrayToIOVec(const std::vector<uint16_t>& input,
+    static void WriteUInt16ArrayToIOVec(const std::vector<uint16_t>& input,
                                  uint8_t field_type,
                                  std::vector<iovec>& out_iovec)
     {
         std::vector<uint8_t> field_data(input.size()*sizeof(uint16_t));
-        uint8_t* field_ptr = &field_data[0];
-        for(size_t i=0;i<input.size();i++)
-            field_ptr = set_uint16_ptr(field_ptr, input[i]);
+        uint8_t* field_ptr = field_data.data();
+        for(unsigned short i : input)
+            field_ptr = SET_UINT16_PTR(field_ptr, i);
 
         //new field
         int alloc_size = 0;
         alloc_size += FIELDVALUE_PREFIX + int(field_data.size());
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         uint8_t* data_ptr = data_buf;
@@ -157,13 +165,13 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, &field_data[0], field_data.size());
+        data_ptr = WRITEFIELD_DATA(data_ptr, field_type, field_data.data(), field_data.size());
 
         assert(alloc_size == data_ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         out_iovec.push_back(v);
     }
 
-    uint16_t GetHdrSize(PacketHdrType hdr_type)
+    static uint16_t GetHdrSize(PacketHdrType hdr_type)
     {
         switch(hdr_type)
         {
@@ -177,22 +185,22 @@ namespace teamtalk
 
     uint8_t FieldPacket::GetKind() const
     {
-        int cnt;
+        int cnt = 0;
         const iovec* buf = GetPacket(cnt);
         assert(buf);
         assert(buf[0].iov_len >= TT_CHANNEL_HEADER_SIZE);
-        const uint8_t* ptr = reinterpret_cast<const uint8_t*>(buf[0].iov_base);
+        const auto* ptr = reinterpret_cast<const uint8_t*>(buf[0].iov_base);
         return ptr[PACKET_INDEX_KIND] & PACKET_MASK_KIND;
     }
 
     void FieldPacket::GetSrcDest(uint16_t& src_userid, uint16_t& dest_chanid) const
     {
-        int cnt;
+        int cnt = 0;
         const iovec* buf = GetPacket(cnt);
         assert(buf);
         assert(buf[0].iov_len >= TT_CHANNEL_HEADER_SIZE);
         const uint8_t* ptr = &reinterpret_cast<const uint8_t*>(buf[0].iov_base)[PACKET_INDEX_SRC_DEST];
-        get2_uint12(ptr, src_userid, dest_chanid);
+        GET2_UINT12(ptr, src_userid, dest_chanid);
     }
 
     uint8_t* FieldPacket::GetFieldsStart() const
@@ -205,47 +213,49 @@ namespace teamtalk
             return &reinterpret_cast<uint8_t*>(m_iovec[0].iov_base)[PACKET_INDEX_FIELDS_DEST_USER_SET];
         default :
             assert(0);
-            return NULL;
+            return nullptr;
         }
     }
     
     uint16_t FieldPacket::GetSrcUserID() const
     {
-        uint16_t src = 0, dest = 0;
+        uint16_t src = 0;
+        uint16_t dest = 0;
         GetSrcDest(src, dest);
         return src;
     }
 
     uint16_t FieldPacket::GetDestUserID() const
     {
-        int cnt;
+        int cnt = 0;
         const iovec* buf = GetPacket(cnt);
         assert(buf);
 
-        const uint8_t* ptr = reinterpret_cast<const uint8_t*>(buf[0].iov_base);
-        uint8_t kind = ptr[PACKET_INDEX_DEST_USER_SET];
+        const auto* ptr = reinterpret_cast<const uint8_t*>(buf[0].iov_base);
+        uint8_t const kind = ptr[PACKET_INDEX_DEST_USER_SET];
         if((kind & PACKET_MASK_DEST_USER_SET) == 0)
             return 0;
         uint16_t dest_userid = 0;
         ptr = &ptr[PACKET_INDEX_DEST_USER];
-        get_uint12(ptr, dest_userid);
+        GET_UINT12(ptr, dest_userid);
         return dest_userid;
     }
     
     uint16_t FieldPacket::GetChannel() const
     {
-        uint16_t src = 0, dest = 0;
+        uint16_t src = 0;
+        uint16_t dest = 0;
         GetSrcDest(src, dest);
         return dest;
     }
 
     uint32_t FieldPacket::GetTime() const
     {
-        int cnt;
+        int cnt = 0;
         const iovec* buf = GetPacket(cnt);
         assert(buf);
         const uint8_t* ptr = &reinterpret_cast<const uint8_t*>(buf[0].iov_base)[PACKET_INDEX_TIME];
-        return get_uint32(ptr);
+        return GET_UINT32(ptr);
     }
 
     void FieldPacket::SetDestUser(uint16_t userid)
@@ -254,7 +264,7 @@ namespace teamtalk
         assert(m_iovec.size());
         assert(GetHdrType() == PACKETHDR_DEST_USER);
         uint8_t* ptr = &reinterpret_cast<uint8_t*>(m_iovec[0].iov_base)[PACKET_INDEX_DEST_USER];
-        set_uint12(ptr, userid);
+        SET_UINT12(ptr, userid);
         assert(GetDestUserID() == userid);
     }
 
@@ -264,15 +274,16 @@ namespace teamtalk
         assert(m_iovec.size());
         uint8_t* ptr = &reinterpret_cast<uint8_t*>(m_iovec[0].iov_base)[PACKET_INDEX_KIND];
 
-        uint16_t src_userid, tmp;
+        uint16_t src_userid;
+        uint16_t tmp;
         GetSrcDest(src_userid, tmp);
         ptr = &ptr[PACKET_INDEX_SRC_DEST];
-        set2_uint12(ptr, src_userid, channelid);
+        SET2_UINT12(ptr, src_userid, channelid);
     }
 
     uint16_t FieldPacket::GetPacketSize() const
     {
-        int buffers;
+        int buffers = 0;
         int size = 0;
         const iovec* vv = GetPacket(buffers);
         for(int i=0;i<buffers;i++)
@@ -283,20 +294,20 @@ namespace teamtalk
     bool FieldPacket::ValidatePacket() const
     {
         int buffers = 0;
-        int size = GetPacketSize();
+        int const size = GetPacketSize();
         const iovec* vv = GetPacket(buffers);
         //assert(vv);
         //assert(size >= MINIMUM_PACKET_SIZE);
-        if(!vv || size < GetHdrSize(GetHdrType()))
+        if((vv == nullptr) || std::cmp_less(size , GetHdrSize(GetHdrType())))
             return false;
 
-        if(size == GetHdrSize(GetHdrType()))
+        if(std::cmp_equal(size , GetHdrSize(GetHdrType())))
             return true;
 
         if(GetHdrSize(GetHdrType()) + FIELDVALUE_PREFIX >= size)
             return false;
 
-        int pos_buf;
+        int pos_buf = 0;
         if(GetHdrType() == PACKETHDR_DEST_USER)
             pos_buf = PACKET_INDEX_FIELDS_DEST_USER_SET;
         else
@@ -305,13 +316,13 @@ namespace teamtalk
         int pos = 0;
         for(int i=0;i<buffers;i++)
         {
-            while(pos_buf < (int)vv[i].iov_len)
+            while(std::cmp_less(pos_buf ,vv[i].iov_len))
             {
-                uint16_t field_size = READFIELD_SIZE(&reinterpret_cast<const uint8_t*>(vv[i].iov_base)[pos_buf]);
+                uint16_t const field_size = READFIELD_SIZE(&reinterpret_cast<const uint8_t*>(vv[i].iov_base)[pos_buf]);
                 pos_buf += field_size + FIELDVALUE_PREFIX;
             }
             //assert(pos_buf == vv[i].iov_len);
-            if(pos_buf != vv[i].iov_len)
+            if(std::cmp_not_equal(pos_buf , vv[i].iov_len))
                 return false;
             pos += pos_buf;
             //assert(pos <= size);
@@ -327,9 +338,9 @@ namespace teamtalk
     {
         m_iovec.reserve(16);
 
-        int HDR_SIZE = GetHdrSize(hdr_type);
+        int const HDR_SIZE = GetHdrSize(hdr_type);
 
-        uint8_t* packet_hdr;
+        uint8_t* packet_hdr = nullptr;
         ACE_NEW(packet_hdr, uint8_t[HDR_SIZE]);
         m_cleanup = true;
 
@@ -338,13 +349,13 @@ namespace teamtalk
             packet_hdr[PACKET_INDEX_KIND] = kind | PACKET_MASK_DEST_USER_SET;
             //init to zero
             uint8_t* ptr = &packet_hdr[PACKET_INDEX_DEST_USER];
-            set_uint12(ptr, 0);
+            SET_UINT12(ptr, 0);
         }
         else
             packet_hdr[PACKET_INDEX_KIND] = kind;
 
-        set2_uint12(&packet_hdr[PACKET_INDEX_SRC_DEST], src_userid, (uint16_t)0);
-        set_uint32(&packet_hdr[PACKET_INDEX_TIME], time);
+        SET2_UINT12(&packet_hdr[PACKET_INDEX_SRC_DEST], src_userid, (uint16_t)0);
+        SET_UINT32(&packet_hdr[PACKET_INDEX_TIME], time);
 
         iovec v;
         v.iov_base = reinterpret_cast<char*>(packet_hdr);
@@ -357,20 +368,20 @@ namespace teamtalk
 
     bool FieldPacket::Finalized() const
     {
-        uint16_t src_userid = 0, chanid = 0;
+        uint16_t src_userid = 0;
+        uint16_t chanid = 0;
         GetSrcDest(src_userid, chanid);
         return chanid>0;
     }
 
     PacketHdrType FieldPacket::GetHdrType() const
     {
-        int buffers = 0;
+        int const buffers = 0;
 
-        const uint8_t* ptr = reinterpret_cast<const uint8_t*>(m_iovec[0].iov_base);
-        if(ptr[PACKET_INDEX_DEST_USER_SET] & PACKET_MASK_DEST_USER_SET)
+        const auto* ptr = reinterpret_cast<const uint8_t*>(m_iovec[0].iov_base);
+        if((ptr[PACKET_INDEX_DEST_USER_SET] & PACKET_MASK_DEST_USER_SET) != 0u)
             return PACKETHDR_DEST_USER;
-        else
-            return PACKETHDR_CHANNEL_ONLY;
+                    return PACKETHDR_CHANNEL_ONLY;
     }
 
     FieldPacket::FieldPacket(PacketHdrType hdr_type, uint8_t kind, uint16_t src_userid, uint32_t time)
@@ -379,9 +390,9 @@ namespace teamtalk
     }
 
     FieldPacket::FieldPacket(const char* packet, uint16_t packet_size)
-        : m_iovec(1)
+        : m_iovec(1), m_cleanup(false)
     {
-        m_cleanup = false;
+        
         m_iovec[0].iov_base = const_cast<char*>(packet);
         m_iovec[0].iov_len = packet_size;
 
@@ -425,9 +436,9 @@ namespace teamtalk
              crypt_pkt.GetTime());
 
         //transfer FieldPacket settings
-        if(crypt_pkt.GetDestUserID())
+        if(crypt_pkt.GetDestUserID() != 0u)
             SetDestUser(crypt_pkt.GetDestUserID());
-        if(crypt_pkt.GetChannel())
+        if(crypt_pkt.GetChannel() != 0u)
             SetChannel(crypt_pkt.GetChannel());
 
         assert(m_iovec.size() == 1);
@@ -441,27 +452,27 @@ namespace teamtalk
     {
         if(m_cleanup)
         {
-            for(size_t i=0;i<m_iovec.size();i++)
-                delete [] reinterpret_cast<uint8_t*>(m_iovec[i].iov_base);
+            for(auto & i : m_iovec)
+                delete [] reinterpret_cast<uint8_t*>(i.iov_base);
         }
     }
 
-    uint8_t* FieldPacket::FindField_NonConst(uint8_t fieldtype) const
+    uint8_t* FieldPacket::FindFieldNonConst(uint8_t fieldtype) const
     {
         uint8_t* ptr = nullptr;
-        if(m_iovec.size())
+        if(!m_iovec.empty())
         {
             if(GetPacketSize() == GetHdrSize(GetHdrType()))
-                return NULL;
+                return nullptr;
 
             int size = int(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
             size = m_iovec[0].iov_len - size;
             ptr = GetFieldsStart();
             ptr = FINDFIELD_TYPE(ptr, fieldtype, size);
         }
-        if(m_iovec.size() > 1 && !ptr)
+        if(m_iovec.size() > 1 && (ptr == nullptr))
         {
-            for(size_t i=1;i<m_iovec.size() && !ptr;i++)
+            for(size_t i=1;i<m_iovec.size() && (ptr == nullptr);i++)
             {
                 ptr = FINDFIELD_TYPE(reinterpret_cast<uint8_t*>(m_iovec[i].iov_base), fieldtype, m_iovec[i].iov_len);
             }
@@ -471,33 +482,33 @@ namespace teamtalk
 
     const uint8_t* FieldPacket::FindField(uint8_t fieldtype) const
     {
-        return FindField_NonConst(fieldtype);
+        return FindFieldNonConst(fieldtype);
     }
 
     const iovec* FieldPacket::GetPacket(int& buffers) const
     {
         buffers = (int)m_iovec.size();
-        if(buffers)
-            return &m_iovec[0];
-        return NULL;
+        if(buffers != 0)
+            return m_iovec.data();
+        return nullptr;
     }
 
     HelloPacket::HelloPacket(uint16_t src_userid, uint32_t time) 
         : FieldPacket(PACKETHDR_CHANNEL_ONLY, PACKET_KIND_HELLO, src_userid, time)
     {
-        vector<uint8_t> protocol(1);
+        std::vector<uint8_t> protocol(1);
         protocol[0] = TEAMTALK_PACKET_PROTOCOL;
 
-        int alloc_size = int(FIELDVALUE_PREFIX + protocol.size()); //FIELDTYPE_PAYLOAD
+        int const alloc_size = int(FIELDVALUE_PREFIX + protocol.size()); //FIELDTYPE_PAYLOAD
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
         
         uint8_t* ptr = data_buf;
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
 
-        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PROTOCOL, &protocol[0], protocol.size());
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PROTOCOL, protocol.data(), protocol.size());
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
@@ -510,10 +521,10 @@ namespace teamtalk
     uint8_t HelloPacket::GetProtocol() const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_PROTOCOL);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            return get_uint8(ptr);
+            return GET_UINT8(ptr);
         }
         return 0;
     }
@@ -524,18 +535,18 @@ namespace teamtalk
                                uint16_t payload_size)
         : FieldPacket(PACKETHDR_CHANNEL_ONLY, PACKET_KIND_KEEPALIVE, src_userid, time)
     {
-        vector<uint8_t> payload(payload_size);
+        std::vector<uint8_t> payload(payload_size);
 
-        int alloc_size = FIELDVALUE_PREFIX + payload_size; //FIELDTYPE_PAYLOAD
+        int const alloc_size = FIELDVALUE_PREFIX + payload_size; //FIELDTYPE_PAYLOAD
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
         
         uint8_t* ptr = data_buf;
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
 
-        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PAYLOAD, &payload[0], payload_size);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PAYLOAD, payload.data(), payload_size);
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
@@ -548,7 +559,7 @@ namespace teamtalk
     uint16_t KeepAlivePacket::GetPayloadSize() const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_PAYLOAD);
-        if(ptr)
+        if(ptr != nullptr)
             return READFIELD_SIZE(ptr);
         return 0;
     }
@@ -560,7 +571,7 @@ namespace teamtalk
                              const char* enc_audio, uint16_t enc_length)
             : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
     {
-        InitCommon(stream_id, packet_no, NULL, NULL, enc_audio, enc_length, NULL);
+        InitCommon(stream_id, packet_no, nullptr, nullptr, enc_audio, enc_length, nullptr);
     }
 
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
@@ -570,7 +581,7 @@ namespace teamtalk
             : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
     {
         InitCommon(stream_id, packet_no, &frag_no, frag_cnt,
-                   enc_audio, enc_length, NULL);
+                   enc_audio, enc_length, nullptr);
     }
 
 
@@ -580,7 +591,7 @@ namespace teamtalk
                              const std::vector<uint16_t>& enc_framesizes)
             : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
     {
-        InitCommon(stream_id, packet_no, NULL, NULL, enc_audio, enc_length, &enc_framesizes);
+        InitCommon(stream_id, packet_no, nullptr, nullptr, enc_audio, enc_length, &enc_framesizes);
     }
 
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, uint8_t stream_id, 
@@ -593,23 +604,23 @@ namespace teamtalk
     }
 
     void AudioPacket::InitCommon(uint8_t stream_id, uint16_t packet_no, 
-                                 uint8_t* frag_no, uint8_t* frag_cnt, 
+                                 const uint8_t* frag_no, const uint8_t* frag_cnt, 
                                  const char* enc_audio, uint16_t enc_length,
                                  const std::vector<uint16_t>* enc_framesizes)
     {
         int alloc_size = 0;
 
         std::vector<uint8_t> stream_field;
-        if(frag_no)
+        if(frag_no != nullptr)
         {
             //FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT || FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO
-            uint16_t field_size =  sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t);
+            uint16_t const field_size =  sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t);
             alloc_size += field_size + FIELDVALUE_PREFIX;
             stream_field.resize(field_size);
         }
         else
         {
-            uint16_t field_size = sizeof(uint8_t) + sizeof(uint16_t); //FIELDTYPE_STREAMID_PKTNUM
+            uint16_t const field_size = sizeof(uint8_t) + sizeof(uint16_t); //FIELDTYPE_STREAMID_PKTNUM
             alloc_size += field_size + FIELDVALUE_PREFIX;
             stream_field.resize(field_size);
         }
@@ -618,8 +629,8 @@ namespace teamtalk
 
         //encoded frame sizes are stored in a 12-bit array
         std::vector<char>::size_type enc_array_size = 0;
-        assert(!enc_framesizes || (enc_framesizes && enc_framesizes->size()));
-        if(enc_framesizes && enc_framesizes->size())
+        assert(!enc_framesizes || (enc_framesizes && !enc_framesizes->empty()));
+        if((enc_framesizes != nullptr) && (!enc_framesizes->empty()))
         {
             if(enc_framesizes->size() % 2 == 1)
                 enc_array_size = (enc_framesizes->size() * 12 / 8) + 1;
@@ -628,7 +639,7 @@ namespace teamtalk
             alloc_size += int(FIELDVALUE_PREFIX + enc_array_size);
         }
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
         //store data indexes
         uint8_t* ptr = data_buf;
@@ -637,32 +648,32 @@ namespace teamtalk
         ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_audio, enc_length);
 
         assert(!frag_cnt || !frag_no || frag_cnt && *frag_no == 0);
-        uint8_t* field_buf_ptr = &stream_field[0];
-        if(frag_cnt)
+        uint8_t* field_buf_ptr = stream_field.data();
+        if(frag_cnt != nullptr)
         {
-            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
-            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
-            field_buf_ptr = set_uint8_ptr(field_buf_ptr, *frag_cnt);
+            field_buf_ptr = SET_UINT8_PTR(field_buf_ptr, stream_id);
+            field_buf_ptr = SET_UINT16_PTR(field_buf_ptr, packet_no);
+            field_buf_ptr = SET_UINT8_PTR(field_buf_ptr, *frag_cnt);
             ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT,
-                            &stream_field[0], stream_field.size());
+                            stream_field.data(), stream_field.size());
         }
-        else if(frag_no)
+        else if(frag_no != nullptr)
         {
-            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
-            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
-            field_buf_ptr = set_uint8_ptr(field_buf_ptr, *frag_no);
+            field_buf_ptr = SET_UINT8_PTR(field_buf_ptr, stream_id);
+            field_buf_ptr = SET_UINT16_PTR(field_buf_ptr, packet_no);
+            field_buf_ptr = SET_UINT8_PTR(field_buf_ptr, *frag_no);
             ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO,
-                            &stream_field[0], stream_field.size());
+                            stream_field.data(), stream_field.size());
         }
         else
         {
-            field_buf_ptr = set_uint8_ptr(field_buf_ptr, stream_id);
-            field_buf_ptr = set_uint16_ptr(field_buf_ptr, packet_no);
+            field_buf_ptr = SET_UINT8_PTR(field_buf_ptr, stream_id);
+            field_buf_ptr = SET_UINT16_PTR(field_buf_ptr, packet_no);
             ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_STREAMID_PKTNUM,
-                                  &stream_field[0], stream_field.size());
+                                  stream_field.data(), stream_field.size());
         }
         
-        if(enc_framesizes && enc_framesizes->size())
+        if((enc_framesizes != nullptr) && (!enc_framesizes->empty()))
         {
             const std::vector<uint16_t>& frm_sizes = *enc_framesizes;
             std::vector<uint8_t> enc_array;
@@ -670,7 +681,7 @@ namespace teamtalk
             assert(enc_array.size() == enc_array_size);
 
             ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCFRAMESIZES,
-                                  &enc_array[0], enc_array.size());
+                                  enc_array.data(), enc_array.size());
         }
 
         v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
@@ -699,40 +710,39 @@ namespace teamtalk
     }
 
     AudioPacket::AudioPacket(const AudioPacket& packet)
-        : FieldPacket(packet)
-    {
-    }
+         
+    = default;
 
     bool AudioPacket::GetStreamField(uint8_t& streamid, uint16_t& packet_no,
                                      uint8_t& frag_no, uint8_t* frag_cnt) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_STREAMID_PKTNUM);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            ptr = get_uint8_ptr(ptr, streamid);
-            ptr = get_uint16_ptr(ptr, packet_no);
+            ptr = GET_UINT8_PTR(ptr, streamid);
+            ptr = GET_UINT16_PTR(ptr, packet_no);
             frag_no = INVALID_FRAGMENT_NO;
             return true;
         }
         ptr =  FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            ptr = get_uint8_ptr(ptr, streamid);
-            ptr = get_uint16_ptr(ptr, packet_no);
-            if(frag_cnt)
-                ptr = get_uint8_ptr(ptr, *frag_cnt); //this is frag count
+            ptr = GET_UINT8_PTR(ptr, streamid);
+            ptr = GET_UINT16_PTR(ptr, packet_no);
+            if(frag_cnt != nullptr)
+                ptr = GET_UINT8_PTR(ptr, *frag_cnt); //this is frag count
             frag_no = 0;
             return true;
         }
         ptr =  FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            ptr = get_uint8_ptr(ptr, streamid);
-            ptr = get_uint16_ptr(ptr, packet_no);
-            ptr = get_uint8_ptr(ptr, frag_no);
+            ptr = GET_UINT8_PTR(ptr, streamid);
+            ptr = GET_UINT16_PTR(ptr, packet_no);
+            ptr = GET_UINT8_PTR(ptr, frag_no);
             return true;
         }
         return false;
@@ -742,7 +752,7 @@ namespace teamtalk
     {
         uint8_t streamid = 0; uint16_t packet_no = 0;
         uint8_t frag_no = INVALID_FRAGMENT_NO;
-        if(GetStreamField(streamid, packet_no, frag_no, NULL))
+        if(GetStreamField(streamid, packet_no, frag_no, nullptr))
             return streamid;
         return 0;
     }
@@ -750,12 +760,12 @@ namespace teamtalk
     uint16_t AudioPacket::GetPacketNumber() const
     {
         //only applies to FIELDTYPE_STREAMID_PKTNUM (to distinguish fragments)
-        if(FindField(FIELDTYPE_STREAMID_PKTNUM) == NULL)
+        if(FindField(FIELDTYPE_STREAMID_PKTNUM) == nullptr)
             return 0;
 
         uint8_t streamid = 0; uint16_t packet_no = 0;
         uint8_t frag_no = INVALID_FRAGMENT_NO;
-        if(GetStreamField(streamid, packet_no, frag_no, NULL))
+        if(GetStreamField(streamid, packet_no, frag_no, nullptr))
             return packet_no;
         return 0;
     }
@@ -763,8 +773,8 @@ namespace teamtalk
     uint16_t AudioPacket::GetPacketNumberAndFragNo(uint8_t& frag_no,
                                                    uint8_t* frag_cnt) const
     {
-        if(FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO) == NULL &&
-           FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT) == NULL)
+        if(FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO) == nullptr &&
+           FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT) == nullptr)
             return 0;
 
         uint8_t streamid = 0; uint16_t packet_no = 0;
@@ -777,7 +787,7 @@ namespace teamtalk
     const char* AudioPacket::GetEncodedAudio(uint16_t& length) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_ENCDATA);
-        if(ptr)
+        if(ptr != nullptr)
         {
             length = READFIELD_SIZE(ptr);
             ptr = READFIELD_DATAPTR(ptr);
@@ -791,13 +801,13 @@ namespace teamtalk
         std::vector<uint16_t> v_frm_sizes;
 
         const uint8_t* ptr = FindField(FIELDTYPE_ENCFRAMESIZES);
-        if(!ptr)
+        if(ptr == nullptr)
             return v_frm_sizes;
 
-        uint16_t length = READFIELD_SIZE(ptr);
+        uint16_t const length = READFIELD_SIZE(ptr);
         ptr = READFIELD_DATAPTR(ptr);
 
-        const uint8_t* frm_sizes = reinterpret_cast<const uint8_t*>(ptr);
+        const auto* frm_sizes = ptr;
 
         ConvertFromUInt12Array(frm_sizes, length, v_frm_sizes);
 
@@ -806,14 +816,13 @@ namespace teamtalk
 
     bool AudioPacket::HasFragments() const
     {
-        return FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO) != NULL ||
-            FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT) != NULL;
+        return FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGNO) != nullptr ||
+            FindField(FIELDTYPE_STREAMID_PKTNUM_AND_FRAGCNT) != nullptr;
     }
 
     VideoPacket::VideoPacket(const VideoPacket& p)
-        : FieldPacket(p)
-    {
-    }
+         
+    = default;
 
     VideoPacket::VideoPacket(const FieldPacket& p)
         : FieldPacket(p)
@@ -836,7 +845,7 @@ namespace teamtalk
         //the part which needs to be encrypted
         assert(m_iovec.size() == 1);
 
-        Init(kind, stream_id, packet_no, width, height, enc_data, enc_len, NULL, NULL);
+        Init(kind, stream_id, packet_no, width, height, enc_data, enc_len, nullptr, nullptr);
 
         assert(m_iovec.size() == 2); //CryptPacket compatibility
     }
@@ -853,7 +862,7 @@ namespace teamtalk
         assert(m_iovec.size() == 1);
 
         Init(kind, stream_id, packet_no, width, height, enc_data, enc_len, 
-             NULL, &fragmentcnt);
+             nullptr, &fragmentcnt);
 
         assert(m_iovec.size() == 2); //CryptPacket compatibility
     }
@@ -868,47 +877,47 @@ namespace teamtalk
         //the part which needs to be encrypted
         assert(m_iovec.size() == 1);
 
-        Init(kind, stream_id, packet_no, NULL, NULL, enc_data, enc_len, &fragmentno, NULL);
+        Init(kind, stream_id, packet_no, nullptr, nullptr, enc_data, enc_len, &fragmentno, nullptr);
 
         assert(m_iovec.size() == 2); //CryptPacket compatibility
     }
 
-    uint8_t* VideoPacket::Init(uint8_t kind, uint8_t stream_id, uint32_t packet_no,
+    uint8_t* VideoPacket::Init(uint8_t  /*kind*/, uint8_t stream_id, uint32_t packet_no,
                                const uint16_t* width, const uint16_t* height,
                                const char* enc_data, uint16_t enc_len, 
                                const uint16_t* fragmentno, const uint16_t* fragmentcnt)
     {
-        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_VIDINFO) == NULL);
-        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO) == NULL);
-        assert(FindField(FIELDTYPE_STREAMID_PKTNUM) == NULL);
-        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT) == NULL);
-        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGNO) == NULL);
-        assert(FindField(FIELDTYPE_ENCDATA) == NULL);
+        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_VIDINFO) == nullptr);
+        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO) == nullptr);
+        assert(FindField(FIELDTYPE_STREAMID_PKTNUM) == nullptr);
+        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT) == nullptr);
+        assert(FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGNO) == nullptr);
+        assert(FindField(FIELDTYPE_ENCDATA) == nullptr);
 
         assert(stream_id);
         assert(width && height || !width && !height);
 
         int field_size = 0;
         int field_type = 0;
-        if(width && height && fragmentcnt) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO
+        if((width != nullptr) && (height != nullptr) && (fragmentcnt != nullptr)) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO;
             field_size = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t) + (12+12) / 8;
             assert(!fragmentno || *fragmentno == 0);
         }
-        else if(width && height) //FIELDTYPE_STREAMID_PKTNUM_VIDINFO
+        else if((width != nullptr) && (height != nullptr)) //FIELDTYPE_STREAMID_PKTNUM_VIDINFO
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_VIDINFO;
             field_size = sizeof(uint8_t) + sizeof(uint32_t) + (12 + 12) / 8;
             assert(!fragmentno && !fragmentcnt);
         }
-        else if(fragmentcnt) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT
+        else if(fragmentcnt != nullptr) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_FRAGCNT;
             field_size = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t);
             assert(!fragmentno || *fragmentno == 0);
         }
-        else if(fragmentno) //FIELDTYPE_STREAMID_PKTNUM_FRAGNO
+        else if(fragmentno != nullptr) //FIELDTYPE_STREAMID_PKTNUM_FRAGNO
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_FRAGNO;
             field_size = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t);
@@ -922,10 +931,10 @@ namespace teamtalk
             assert(!width && !height);
         }
 
-        int alloc_size = FIELDVALUE_PREFIX + field_size + FIELDVALUE_PREFIX + enc_len;
+        int const alloc_size = FIELDVALUE_PREFIX + field_size + FIELDVALUE_PREFIX + enc_len;
 
-        uint8_t* data_buf;
-        ACE_NEW_RETURN(data_buf, uint8_t[alloc_size], NULL);
+        uint8_t* data_buf = nullptr;
+        ACE_NEW_RETURN(data_buf, uint8_t[alloc_size], nullptr);
 
         //store data indexes
         uint8_t* ptr = data_buf;
@@ -934,43 +943,43 @@ namespace teamtalk
         v.iov_len = alloc_size;
 
         std::vector<uint8_t> field(field_size);
-        uint8_t* field_ptr = &field[0];
+        uint8_t* field_ptr = field.data();
         switch(field_type)
         {
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO :
             assert(width && height && fragmentcnt);
-            field_ptr = set_uint8_ptr(field_ptr, stream_id);
-            field_ptr = set_uint32_ptr(field_ptr, packet_no);
-            field_ptr = set_uint16_ptr(field_ptr, *fragmentcnt);
-            field_ptr = set2_uint12_ptr(field_ptr, *width, *height);
+            field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+            field_ptr = SET_UINT32_PTR(field_ptr, packet_no);
+            field_ptr = SET_UINT16_PTR(field_ptr, *fragmentcnt);
+            field_ptr = SET2_UINT12_PTR(field_ptr, *width, *height);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_VIDINFO :
             assert(width && height);
-            field_ptr = set_uint8_ptr(field_ptr, stream_id);
-            field_ptr = set_uint32_ptr(field_ptr, packet_no);
-            field_ptr = set2_uint12_ptr(field_ptr, *width, *height);
+            field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+            field_ptr = SET_UINT32_PTR(field_ptr, packet_no);
+            field_ptr = SET2_UINT12_PTR(field_ptr, *width, *height);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT :
             assert(fragmentcnt);
-            field_ptr = set_uint8_ptr(field_ptr, stream_id);
-            field_ptr = set_uint32_ptr(field_ptr, packet_no);
-            field_ptr = set_uint16_ptr(field_ptr, *fragmentcnt);
+            field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+            field_ptr = SET_UINT32_PTR(field_ptr, packet_no);
+            field_ptr = SET_UINT16_PTR(field_ptr, *fragmentcnt);
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGNO :
             assert(fragmentno);
-            field_ptr = set_uint8_ptr(field_ptr, stream_id);
-            field_ptr = set_uint32_ptr(field_ptr, packet_no);
-            field_ptr = set_uint16_ptr(field_ptr, *fragmentno);
+            field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+            field_ptr = SET_UINT32_PTR(field_ptr, packet_no);
+            field_ptr = SET_UINT16_PTR(field_ptr, *fragmentno);
             break;
         default :
             assert(0);
         case FIELDTYPE_STREAMID_PKTNUM :
-            field_ptr = set_uint8_ptr(field_ptr, stream_id);
-            field_ptr = set_uint32_ptr(field_ptr, packet_no);
+            field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+            field_ptr = SET_UINT32_PTR(field_ptr, packet_no);
             break;
         }
 
-        ptr = WRITEFIELD_DATA(ptr, field_type, &field[0], field_size);
+        ptr = WRITEFIELD_DATA(ptr, field_type, field.data(), field_size);
         ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_data, enc_len);
 
         //int x = ptr - reinterpret_cast<const uint8_t*>(v.iov_base) ;
@@ -992,18 +1001,19 @@ namespace teamtalk
                                      uint16_t* height) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_VIDINFO);
-        if(!ptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO);
-        if(!ptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM);
-        if(!ptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT);
-        if(!ptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGNO);
-        if(!ptr) return 0;
+        if(ptr == nullptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO);
+        if(ptr == nullptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM);
+        if(ptr == nullptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGCNT);
+        if(ptr == nullptr) ptr = FindField(FIELDTYPE_STREAMID_PKTNUM_FRAGNO);
+        if(ptr == nullptr) return 0;
 
         uint8_t stream_id = 0;
-        uint16_t u16_1, u16_2;
-        uint32_t u32;
+        uint16_t u16_1;
+        uint16_t u16_2;
+        uint32_t u32 = 0;
 
-        uint16_t field_size = READFIELD_SIZE(ptr);
-        uint8_t field_type = READFIELD_TYPE(ptr);
+        uint16_t const field_size = READFIELD_SIZE(ptr);
+        uint8_t const field_type = READFIELD_TYPE(ptr);
         ptr = READFIELD_DATAPTR(ptr);
         switch(field_type)
         {
@@ -1011,19 +1021,19 @@ namespace teamtalk
             if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + (12+12) / 8)
                 return 0;
             //invalid parameters for this field
-            if(fragno || fragcnt)
+            if((fragno != nullptr) || (fragcnt != nullptr))
                 return 0;
             //stream id
-            ptr = get_uint8_ptr(ptr, stream_id);
+            ptr = GET_UINT8_PTR(ptr, stream_id);
             //packet no
-            ptr = get_uint32_ptr(ptr, u32);
-            if(packet_no)
+            ptr = GET_UINT32_PTR(ptr, u32);
+            if(packet_no != nullptr)
                 *packet_no = u32;
             //width & height
-            ptr = get2_uint12_ptr(ptr, u16_1, u16_2);
-            if(width)
+            ptr = GET2_UINT12_PTR(ptr, u16_1, u16_2);
+            if(width != nullptr)
                 *width = u16_1;
-            if(height)
+            if(height != nullptr)
                 *height = u16_2;
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO :
@@ -1031,73 +1041,73 @@ namespace teamtalk
                 sizeof(uint16_t) + (12+12) / 8)
                 return 0;
             //stream id
-            ptr = get_uint8_ptr(ptr, stream_id);
+            ptr = GET_UINT8_PTR(ptr, stream_id);
             //packet no
-            ptr = get_uint32_ptr(ptr, u32);
-            if(packet_no)
+            ptr = GET_UINT32_PTR(ptr, u32);
+            if(packet_no != nullptr)
                 *packet_no = u32;
             //fragment count
-            ptr = get_uint16_ptr(ptr, u16_1);
-            if(fragcnt)
+            ptr = GET_UINT16_PTR(ptr, u16_1);
+            if(fragcnt != nullptr)
                 *fragcnt = u16_1;
             //fragment no
-            if(fragno)
+            if(fragno != nullptr)
                 *fragno = 0;
             //width & height
-            ptr = get2_uint12_ptr(ptr, u16_1, u16_2);
-            if(width)
+            ptr = GET2_UINT12_PTR(ptr, u16_1, u16_2);
+            if(width != nullptr)
                 *width = u16_1;
-            if(height)
+            if(height != nullptr)
                 *height = u16_2;
             break;
         case FIELDTYPE_STREAMID_PKTNUM :
             if(field_size < sizeof(uint8_t) + sizeof(uint32_t))
                 return 0;
             //invalid parameters for this field
-            if(fragno || fragcnt || width || height)
+            if((fragno != nullptr) || (fragcnt != nullptr) || (width != nullptr) || (height != nullptr))
                 return 0;
             //stream id
-            ptr = get_uint8_ptr(ptr, stream_id);
+            ptr = GET_UINT8_PTR(ptr, stream_id);
             //packet no
-            ptr = get_uint32_ptr(ptr, u32);
-            if(packet_no)
+            ptr = GET_UINT32_PTR(ptr, u32);
+            if(packet_no != nullptr)
                 *packet_no = u32;
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT :
             if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t))
                 return 0;
             //invalid parameters for this field
-            if(width || height)
+            if((width != nullptr) || (height != nullptr))
                 return 0;
             //stream id
-            ptr = get_uint8_ptr(ptr, stream_id);
+            ptr = GET_UINT8_PTR(ptr, stream_id);
             //packet no
-            ptr = get_uint32_ptr(ptr, u32);
-            if(packet_no)
+            ptr = GET_UINT32_PTR(ptr, u32);
+            if(packet_no != nullptr)
                 *packet_no = u32;
             //fragment cnt
-            ptr = get_uint16_ptr(ptr, u16_1);
-            if(fragcnt)
+            ptr = GET_UINT16_PTR(ptr, u16_1);
+            if(fragcnt != nullptr)
                 *fragcnt = u16_1;
             //fragment no
-            if(fragno)
+            if(fragno != nullptr)
                 *fragno = 0;
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGNO :
             if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t))
                 return 0;
             //invalid parameters for this field
-            if(fragcnt || width || height)
+            if((fragcnt != nullptr) || (width != nullptr) || (height != nullptr))
                 return 0;
             //stream id
-            ptr = get_uint8_ptr(ptr, stream_id);
+            ptr = GET_UINT8_PTR(ptr, stream_id);
             //packet no
-            ptr = get_uint32_ptr(ptr, u32);
-            if(packet_no)
+            ptr = GET_UINT32_PTR(ptr, u32);
+            if(packet_no != nullptr)
                 *packet_no = u32;
-            ptr = get_uint16_ptr(ptr, u16_1);
+            ptr = GET_UINT16_PTR(ptr, u16_1);
             //fragment no
-            if(fragno)
+            if(fragno != nullptr)
                 *fragno = u16_1;
             break;
         }
@@ -1107,38 +1117,36 @@ namespace teamtalk
     uint32_t VideoPacket::GetPacketNo() const
     {
         uint32_t packet_no = 0;
-        uint8_t streamid = GetStreamID(&packet_no);
+        uint8_t const streamid = GetStreamID(&packet_no);
         return packet_no;
     }
 
     uint16_t VideoPacket::GetFragmentNo() const
     {
-        uint16_t fragno;
-        if(!GetStreamID(0, &fragno))
+        uint16_t fragno = 0;
+        if(GetStreamID(nullptr, &fragno) == 0u)
             return INVALID_FRAGMENT_NO;
         return fragno;
     }
 
     uint16_t VideoPacket::GetFragmentCount() const
     {
-        uint16_t fragcnt;
-        if(GetStreamID(0, 0, &fragcnt))
+        uint16_t fragcnt = 0;
+        if(GetStreamID(nullptr, nullptr, &fragcnt) != 0u)
             return fragcnt;
         return 0;
     }
 
     bool VideoPacket::GetVideoInfo(uint16_t& width, uint16_t& height) const
     {
-        if(GetStreamID(0, 0, 0, &width, &height))
-            return true;
-        return false;
+        return GetStreamID(0, 0, 0, &width, &height) != 0;
     }
 
     const char* VideoPacket::GetEncodedData(uint16_t& packet_bytes) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_ENCDATA);
-        if(!ptr)
-            return NULL;
+        if(ptr == nullptr)
+            return nullptr;
         packet_bytes = READFIELD_SIZE(ptr);
         assert(packet_bytes>0);
         return reinterpret_cast<const char*>(READFIELD_DATAPTR(ptr));
@@ -1148,7 +1156,7 @@ namespace teamtalk
     {
         if(blocks.size()>1)
         {
-            set<uint16_t>::const_iterator ii = blocks.end();
+            auto ii = blocks.end();
             ii--;
             return (*blocks.begin() + blocks.size() - 1 == *ii);
         }
@@ -1169,29 +1177,29 @@ namespace teamtalk
         
         //FIELDTYPE_SESSIONID_NEW
         //[stream_id, width, height, bmp_mode, pkt_upd_index, pkt_upd_count]
-        int field_size = sizeof(uint8_t) + sizeof(uint16_t) +
+        int const field_size = sizeof(uint8_t) + sizeof(uint16_t) +
             sizeof(uint16_t) + sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t);
 
         alloc_size += FIELDVALUE_PREFIX + field_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        vector<uint8_t> streamid_field((size_t)field_size);
-        uint8_t* field_ptr = &streamid_field[0];
+        std::vector<uint8_t> streamid_field((size_t)field_size);
+        uint8_t* field_ptr = streamid_field.data();
 
-        field_ptr = set_uint8_ptr(field_ptr, stream_id);
-        field_ptr = set_uint16_ptr(field_ptr, width);
-        field_ptr = set_uint16_ptr(field_ptr, height);
-        field_ptr = set_uint8_ptr(field_ptr, bmp_mode);
-        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_index);
-        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
+        field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
+        field_ptr = SET_UINT16_PTR(field_ptr, width);
+        field_ptr = SET_UINT16_PTR(field_ptr, height);
+        field_ptr = SET_UINT8_PTR(field_ptr, bmp_mode);
+        field_ptr = SET_UINT16_PTR(field_ptr, pkt_upd_index);
+        field_ptr = SET_UINT16_PTR(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
 
-        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_NEW, &streamid_field[0],
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_NEW, streamid_field.data(),
                                    streamid_field.size());
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
@@ -1203,7 +1211,7 @@ namespace teamtalk
 #ifdef ENABLE_ENCRYPTION
         m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
 #endif
-        uint16_t fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
+        uint16_t const fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
 
 #ifdef _DEBUG
         size_t data_size = 0;
@@ -1213,7 +1221,9 @@ namespace teamtalk
         block_frags_t::const_iterator fi;
         for(fi=fragments.begin();fi!=fragments.end();fi++)
             data_size += fi->frag_size;
-        size_t range_blocks = 0, single_blocks = 0, single_entries = 0;
+        size_t range_blocks = 0;
+        size_t single_blocks = 0;
+        size_t single_entries = 0;
         mmap_dup_blocks_t::const_iterator dbi;
         for(dbi=dup_blocks.begin();dbi!=dup_blocks.end();dbi++)
         {
@@ -1248,25 +1258,25 @@ namespace teamtalk
         
         //FIELDTYPE_SESSIONID_UPD
         //[streamid, pkt_upd_index, pkt_upd_count]
-        int field_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t);
+        int const field_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t);
         alloc_size += FIELDVALUE_PREFIX + field_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        vector<uint8_t> streamid_field((size_t)field_size);
-        uint8_t* field_ptr = &streamid_field[0];
+        std::vector<uint8_t> streamid_field((size_t)field_size);
+        uint8_t* field_ptr = streamid_field.data();
 
-        field_ptr = set_uint8_ptr(field_ptr, session_id);
-        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_index);
-        field_ptr = set_uint16_ptr(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
+        field_ptr = SET_UINT8_PTR(field_ptr, session_id);
+        field_ptr = SET_UINT16_PTR(field_ptr, pkt_upd_index);
+        field_ptr = SET_UINT16_PTR(field_ptr, pkt_upd_count); //change UpdatePacketCount() if changed
 
         data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_SESSIONID_UPD,
-                                   &streamid_field[0], streamid_field.size());
+                                   streamid_field.data(), streamid_field.size());
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
 
@@ -1277,7 +1287,7 @@ namespace teamtalk
 #ifdef ENABLE_ENCRYPTION
         m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
 #endif
-        uint16_t fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
+        uint16_t const fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
 
 #ifdef _DEBUG
         int data_size = 0;
@@ -1287,7 +1297,9 @@ namespace teamtalk
         block_frags_t::const_iterator fi;
         for(fi=fragments.begin();fi!=fragments.end();fi++)
             data_size += fi->frag_size;
-        int range_blocks = 0, single_blocks = 0, single_entries = 0;
+        int range_blocks = 0;
+        int single_blocks = 0;
+        int single_entries = 0;
         mmap_dup_blocks_t::const_iterator dbi;
         for(dbi=dup_blocks.begin();dbi!=dup_blocks.end();dbi++)
         {
@@ -1315,14 +1327,13 @@ namespace teamtalk
     }
 
     DesktopPacket::DesktopPacket(const DesktopPacket& packet)
-        : FieldPacket(packet)
-    {
-    }
+         
+    = default;
 
     bool DesktopPacket::UpdatePacketCount(uint16_t pkt_upd_count)
     {
-        uint8_t* ptr = FindField_NonConst(FIELDTYPE_SESSIONID_NEW);
-        if(ptr)
+        uint8_t* ptr = FindFieldNonConst(FIELDTYPE_SESSIONID_NEW);
+        if(ptr != nullptr)
         {
             if(READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) +
                 sizeof(uint16_t) + sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t))
@@ -1333,11 +1344,12 @@ namespace teamtalk
                 ptr += 2; //height
                 ptr += 1; //bmp_mode
                 ptr += 2; //pkt_upd_index
-                set_uint16(ptr, pkt_upd_count);
+                SET_UINT16(ptr, pkt_upd_count);
 #ifdef _DEBUG
-                uint8_t session_id;
-                uint16_t pkt_index, pkt_count;
-                if(GetSessionProperties(&session_id, NULL, NULL, NULL,
+                uint8_t session_id = 0;
+                uint16_t pkt_index;
+                uint16_t pkt_count;
+                if(GetSessionProperties(&session_id, nullptr, nullptr, nullptr,
                                         &pkt_index, &pkt_count))
                     assert(pkt_count == pkt_upd_count);
                 if(GetUpdateProperties(&session_id, &pkt_index, &pkt_count))
@@ -1348,8 +1360,8 @@ namespace teamtalk
             return false;
         }
 
-        ptr = FindField_NonConst(FIELDTYPE_SESSIONID_UPD);
-        if(!ptr)
+        ptr = FindFieldNonConst(FIELDTYPE_SESSIONID_UPD);
+        if(ptr == nullptr)
             return false;
 
         if(READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) +
@@ -1358,7 +1370,7 @@ namespace teamtalk
             ptr = READFIELD_DATAPTR(ptr);
             ptr += 1; //session_id
             ptr += 2; //pkt_upd_index
-            set_uint16(ptr, pkt_upd_count);
+            SET_UINT16(ptr, pkt_upd_count);
             return true;
         }
         return false;
@@ -1370,14 +1382,14 @@ namespace teamtalk
                                        const mmap_dup_blocks_t& dup_blocks)
     {
         uint16_t alloced = 0;
-        if(blocks.size())
+        if(!blocks.empty())
         {
             int alloc_size = 0;
             int blocks_size = 0;
 
             std::vector<uint16_t> blocknums_sizes_input;
 
-            map_block_t::const_iterator ii = blocks.begin();
+            auto ii = blocks.begin();
             while(ii != blocks.end())
             {
                 assert(ii->first < BLOCKNUMS_MAX);
@@ -1398,7 +1410,7 @@ namespace teamtalk
             //FIELDTYPE_BLOCKS_DATA
             alloc_size += FIELDVALUE_PREFIX + blocks_size;
 
-            uint8_t* data_buf;
+            uint8_t* data_buf = nullptr;
             ACE_NEW_RETURN(data_buf, uint8_t[alloc_size], alloced);
             
             uint8_t* data_ptr = data_buf;
@@ -1408,7 +1420,7 @@ namespace teamtalk
 
             //write FIELDTYPE_BLOCKNUMS_AND_SIZES
             data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_AND_SIZES,
-                            &blocknums_sizes_output[0],
+                            blocknums_sizes_output.data(),
                             blocknums_sizes_output.size());
 
             //write FIELDTYPE_BLOCKS_DATA
@@ -1432,7 +1444,7 @@ namespace teamtalk
             alloced += (uint16_t)v.iov_len;
         }
 
-        if(fragments.size())
+        if(!fragments.empty())
         {
             int alloc_size = 0;
             int frags_size = 0;
@@ -1440,14 +1452,14 @@ namespace teamtalk
             //Build array for FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES
             //[[blockno(uint12_t), fragsize(uint12_t), fragno(uint4_t), frag_cnt(uint4_t)], ...] = 4 bytes
             std::vector<uint8_t> frags_info_output(4*fragments.size());
-            uint8_t* frags_info_ptr = &frags_info_output[0];
+            uint8_t* frags_info_ptr = frags_info_output.data();
 
-            block_frags_t::const_iterator ii = fragments.begin();
+            auto ii = fragments.begin();
             while(ii != fragments.end())
             {
                 assert(ii->block_no < BLOCKNUMS_MAX);
-                frags_info_ptr = set2_uint12_ptr(frags_info_ptr, ii->block_no, ii->frag_size);
-                frags_info_ptr = set_uint4_ptr(frags_info_ptr, ii->frag_no, ii->frag_cnt);
+                frags_info_ptr = SET2_UINT12_PTR(frags_info_ptr, ii->block_no, ii->frag_size);
+                frags_info_ptr = SET_UINT4_PTR(frags_info_ptr, ii->frag_no, ii->frag_cnt);
 
                 frags_size += ii->frag_size;
                 ii++;
@@ -1460,7 +1472,7 @@ namespace teamtalk
             //FIELDTYPE_BLOCKS_FRAG_DATA
             alloc_size += FIELDVALUE_PREFIX + frags_size;
 
-            uint8_t* data_buf;
+            uint8_t* data_buf = nullptr;
             ACE_NEW_RETURN(data_buf, uint8_t[alloc_size], alloced);
             
             uint8_t* data_ptr = data_buf;
@@ -1470,7 +1482,7 @@ namespace teamtalk
 
             //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES
             data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES,
-                            &frags_info_output[0], frags_info_output.size());
+                            frags_info_output.data(), frags_info_output.size());
 
             //write FIELDTYPE_BLOCKS_FRAG_DATA
             data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_BLOCKS_FRAG_DATA, frags_size);
@@ -1492,21 +1504,21 @@ namespace teamtalk
             alloced += (uint16_t)v.iov_len;
         }
 
-        if(dup_blocks.size())
+        if(!dup_blocks.empty())
         {
             int alloc_size = 0;
 
-            vector<uint16_t> blocknums_single_input, blocknums_range_input;
+            std::vector<uint16_t> blocknums_single_input, blocknums_range_input;
 #ifdef _DEBUG
             size_t block_ranges = 0, single_entries = 0, single_blocks = 0;
 #endif
-            mmap_dup_blocks_t::const_iterator dbi = dup_blocks.begin();
+            auto dbi = dup_blocks.begin();
             for(;dbi!=dup_blocks.end();dbi++)
             {
                 assert(dbi->second.size());
                 assert(dbi->first < BLOCKNUMS_MAX);
 
-                set<uint16_t>::const_iterator ii = dbi->second.begin();
+                auto ii = dbi->second.begin();
                 if(IsBlockRange(dbi->second))
                 {
                     blocknums_range_input.push_back(dbi->first);
@@ -1532,8 +1544,9 @@ namespace teamtalk
                 }
             }
 
-            std::vector<uint8_t> blocknums_single_output, blocknums_range_output;
-            if(blocknums_single_input.size())
+            std::vector<uint8_t> blocknums_single_output;
+            std::vector<uint8_t> blocknums_range_output;
+            if(!blocknums_single_input.empty())
             {
                 ConvertToUInt12Array(blocknums_single_input,
                                      blocknums_single_output);
@@ -1542,7 +1555,7 @@ namespace teamtalk
                 alloc_size += int(FIELDVALUE_PREFIX + blocknums_single_output.size());
 
             }
-            if(blocknums_range_input.size())
+            if(!blocknums_range_input.empty())
             {
                 ConvertToUInt12Array(blocknums_range_input,
                                      blocknums_range_output);
@@ -1551,7 +1564,7 @@ namespace teamtalk
                 alloc_size += int(FIELDVALUE_PREFIX + blocknums_range_output.size());
             }
 
-            uint8_t* data_buf;
+            uint8_t* data_buf = nullptr;
             ACE_NEW_RETURN(data_buf, uint8_t[alloc_size], alloced);
             
             uint8_t* data_ptr = data_buf;
@@ -1559,25 +1572,25 @@ namespace teamtalk
             v.iov_base = reinterpret_cast<char*>(data_buf);
             v.iov_len = alloc_size;
 
-            if(blocknums_single_output.size())
+            if(!blocknums_single_output.empty())
             {
                 //write FIELDTYPE_BLOCK_DUP
                 data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP,
-                                           &blocknums_single_output[0],
+                                           blocknums_single_output.data(),
                                            blocknums_single_output.size());
 #ifdef _DEBUG
-                size_t bytes = DESKTOPPACKET_BLOCKUSAGE(single_entries, single_blocks);
+                size_t const bytes = DESKTOPPACKET_BLOCKUSAGE(single_entries, single_blocks);
                 assert(bytes == blocknums_single_output.size() + FIELDVALUE_PREFIX);
 #endif
             }
-            if(blocknums_range_output.size())
+            if(!blocknums_range_output.empty())
             {
                 //write FIELDTYPE_BLOCK_DUP_RANGE
                 data_ptr = WRITEFIELD_DATA(data_ptr, FIELDTYPE_BLOCK_DUP_RANGE,
-                                &blocknums_range_output[0],
+                                blocknums_range_output.data(),
                                 blocknums_range_output.size());
 #ifdef _DEBUG
-                size_t bytes = DESKTOPPACKET_BLOCKRANGEUSAGE(block_ranges);
+                size_t const bytes = DESKTOPPACKET_BLOCKRANGEUSAGE(block_ranges);
                 assert(bytes == blocknums_range_output.size() + FIELDVALUE_PREFIX);
 #endif
             }
@@ -1594,13 +1607,13 @@ namespace teamtalk
     uint8_t DesktopPacket::GetSessionID() const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_NEW);
-        if(!ptr)
+        if(ptr == nullptr)
             ptr = FindField(FIELDTYPE_SESSIONID_UPD);
 
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            return get_uint8(ptr);
+            return GET_UINT8(ptr);
         }
 
         return 0; //invalid ID
@@ -1608,13 +1621,13 @@ namespace teamtalk
 
     uint16_t DesktopPacket::GetPacketIndex() const
     {
-        uint16_t pkt_upd_index;
+        uint16_t pkt_upd_index = 0;
 
-        if(GetUpdateProperties(NULL, &pkt_upd_index, NULL))
+        if(GetUpdateProperties(nullptr, &pkt_upd_index, nullptr))
             return pkt_upd_index;
         
-        if(GetSessionProperties(NULL, NULL, NULL, NULL,
-                                &pkt_upd_index, NULL))
+        if(GetSessionProperties(nullptr, nullptr, nullptr, nullptr,
+                                &pkt_upd_index, nullptr))
             return pkt_upd_index;
 
         return INVALID_PACKET_INDEX;
@@ -1628,33 +1641,33 @@ namespace teamtalk
                                              uint16_t* pkt_upd_count) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_NEW);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) +
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t) + sizeof(uint16_t) +
            sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
 
-            if(session_id)
-                *session_id = get_uint8(ptr);
+            if(session_id != nullptr)
+                *session_id = GET_UINT8(ptr);
             ptr += sizeof(uint8_t);
 
-            if(width)
-                *width = get_uint16(ptr);
+            if(width != nullptr)
+                *width = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
-            if(height)
-                *height = get_uint16(ptr);
+            if(height != nullptr)
+                *height = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
-            if(bmp_mode)
-                *bmp_mode = get_uint8(ptr);
+            if(bmp_mode != nullptr)
+                *bmp_mode = GET_UINT8(ptr);
             ptr += sizeof(uint8_t);
 
-            if(pkt_upd_index)
-                *pkt_upd_index = get_uint16(ptr);
+            if(pkt_upd_index != nullptr)
+                *pkt_upd_index = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
-            if(pkt_upd_count)
-                *pkt_upd_count = get_uint16(ptr);
+            if(pkt_upd_count != nullptr)
+                *pkt_upd_count = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
             return true;
@@ -1667,21 +1680,21 @@ namespace teamtalk
                                             uint16_t* pkt_upd_count) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_UPD);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t) 
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t) 
             + sizeof(uint16_t) + sizeof(uint16_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
 
-            if(session_id)
-                *session_id = get_uint8(ptr);
+            if(session_id != nullptr)
+                *session_id = GET_UINT8(ptr);
             ptr += sizeof(uint8_t);
 
-            if(pkt_upd_index)
-                *pkt_upd_index = get_uint16(ptr);
+            if(pkt_upd_index != nullptr)
+                *pkt_upd_index = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
-            if(pkt_upd_count)
-                *pkt_upd_count = get_uint16(ptr);
+            if(pkt_upd_count != nullptr)
+                *pkt_upd_count = GET_UINT16(ptr);
             ptr += sizeof(uint16_t);
 
             return true;
@@ -1692,27 +1705,27 @@ namespace teamtalk
     bool DesktopPacket::GetBlocks(map_block_t& blocks) const
     {
         const uint8_t* blocknums_ptr = FindField(FIELDTYPE_BLOCKNUMS_AND_SIZES);
-        if(!blocknums_ptr)
+        if(blocknums_ptr == nullptr)
             return false;
 
-        uint16_t blocknums_len = READFIELD_SIZE(blocknums_ptr);
+        uint16_t const blocknums_len = READFIELD_SIZE(blocknums_ptr);
         blocknums_ptr = READFIELD_DATAPTR(blocknums_ptr);
 
         const uint8_t* blockdata_ptr = FindField(FIELDTYPE_BLOCKS_DATA);
-        if(!blockdata_ptr)
+        if(blockdata_ptr == nullptr)
             return false;
 
-        uint16_t blockdata_len = READFIELD_SIZE(blockdata_ptr);
+        uint16_t const blockdata_len = READFIELD_SIZE(blockdata_ptr);
         blockdata_ptr = READFIELD_DATAPTR(blockdata_ptr);
 
         
-        vector<uint16_t> blocks_n_sizes;
-        const uint8_t* blocks_array = reinterpret_cast<const uint8_t*>(blocknums_ptr);
+        std::vector<uint16_t> blocks_n_sizes;
+        const auto* blocks_array = blocknums_ptr;
 
         ConvertFromUInt12Array(blocks_array, blocknums_len, blocks_n_sizes);
 
         assert(blocks_n_sizes.size() % 2 == 0);
-        if(blocks_n_sizes.size() % 2)
+        if((blocks_n_sizes.size() % 2) != 0u)
             return false;
 
         uint16_t byte_pos = 0;
@@ -1733,27 +1746,27 @@ namespace teamtalk
     bool DesktopPacket::GetBlockFragments(block_frags_t& fragments) const
     {
         const uint8_t* info_ptr = FindField(FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES);
-        if(!info_ptr)
+        if(info_ptr == nullptr)
             return false;
 
         const uint8_t* data_ptr = FindField(FIELDTYPE_BLOCKS_FRAG_DATA);
-        if(!data_ptr)
+        if(data_ptr == nullptr)
             return false;
 
-        uint16_t info_size = READFIELD_SIZE(info_ptr);
+        uint16_t const info_size = READFIELD_SIZE(info_ptr);
         info_ptr = READFIELD_DATAPTR(info_ptr);
 
-        const uint8_t* u8_info_ptr = reinterpret_cast<const uint8_t*>(info_ptr);
+        const auto* u8_info_ptr = info_ptr;
 
-        uint16_t data_size = READFIELD_SIZE(data_ptr);
+        uint16_t const data_size = READFIELD_SIZE(data_ptr);
         data_ptr = READFIELD_DATAPTR(data_ptr);
 
         uint16_t byte_pos = 0;
         for(uint16_t i=0;i<info_size;i+=4)
         {
             block_fragment bf;
-            u8_info_ptr = get2_uint12_ptr(u8_info_ptr, bf.block_no, bf.frag_size);
-            u8_info_ptr = get_uint4_ptr(u8_info_ptr, bf.frag_no, bf.frag_cnt);
+            u8_info_ptr = GET2_UINT12_PTR(u8_info_ptr, bf.block_no, bf.frag_size);
+            u8_info_ptr = GET_UINT4_PTR(u8_info_ptr, bf.frag_no, bf.frag_cnt);
             assert(byte_pos+bf.frag_size<=data_size);
             if(byte_pos+bf.frag_size>data_size) //buffer overflow check
                 return false;
@@ -1770,26 +1783,26 @@ namespace teamtalk
     {
         bool ok = false;
         const uint8_t* info_ptr = FindField(FIELDTYPE_BLOCK_DUP);
-        if(info_ptr)
+        if(info_ptr != nullptr)
         {
-            uint16_t info_size = READFIELD_SIZE(info_ptr);
+            uint16_t const info_size = READFIELD_SIZE(info_ptr);
             info_ptr = READFIELD_DATAPTR(info_ptr);
 
-            const uint8_t* u8_info_ptr = reinterpret_cast<const uint8_t*>(info_ptr);
-            vector<uint16_t> blocknums_single;
+            const auto* u8_info_ptr = info_ptr;
+            std::vector<uint16_t> blocknums_single;
             ConvertFromUInt12Array(u8_info_ptr, info_size, blocknums_single);
 
             uint16_t block_no = 0xFFF;
-            set<uint16_t> blocknums;
-            for(size_t i=0;i<blocknums_single.size();i++)
+            std::set<uint16_t> blocknums;
+            for(unsigned short i : blocknums_single)
             {
                 if(block_no == 0xFFF)
-                    block_no = blocknums_single[i];
-                else if(blocknums_single[i] == 0xFFF)
+                    block_no = i;
+                else if(i == 0xFFF)
                 {
                     assert(block_no != 0xFFF);
                     assert(blocknums.size());
-                    map_dup_blocks_t::iterator ii = dup_blocks.find(block_no);
+                    auto const ii = dup_blocks.find(block_no);
                     if(ii != dup_blocks.end())
                         ii->second.insert(blocknums.begin(), blocknums.end());
                     else
@@ -1798,28 +1811,28 @@ namespace teamtalk
                     blocknums.clear();
                 }
                 else
-                    blocknums.insert(blocknums_single[i]);
+                    blocknums.insert(i);
             }
             ok = true;
         }
         info_ptr = FindField(FIELDTYPE_BLOCK_DUP_RANGE);
-        if(info_ptr)
+        if(info_ptr != nullptr)
         {
-            uint16_t info_size = READFIELD_SIZE(info_ptr);
+            uint16_t const info_size = READFIELD_SIZE(info_ptr);
             info_ptr = READFIELD_DATAPTR(info_ptr);
 
-            const uint8_t* u8_info_ptr = reinterpret_cast<const uint8_t*>(info_ptr);
-            vector<uint16_t> blocknums_range;
+            const auto* u8_info_ptr = info_ptr;
+            std::vector<uint16_t> blocknums_range;
             ConvertFromUInt12Array(u8_info_ptr, info_size, blocknums_range);
 
             for(size_t i=0;i<blocknums_range.size();i+=3)
             {
-                set<uint16_t> blocknums;
+                std::set<uint16_t> blocknums;
                 for(uint16_t block_no=blocknums_range[i+1];
                     block_no<=blocknums_range[i+2];block_no++)
                     blocknums.insert(block_no);
 
-                map_dup_blocks_t::iterator ii = dup_blocks.find(blocknums_range[i]);
+                auto const ii = dup_blocks.find(blocknums_range[i]);
                 if(ii != dup_blocks.end())
                     ii->second.insert(blocknums.begin(), blocknums.end());
                 else
@@ -1834,22 +1847,22 @@ namespace teamtalk
                                         uint16_t& length) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_BLOCKS_DATA);
-        if(!ptr)
-            return NULL;
+        if(ptr == nullptr)
+            return nullptr;
 
-        uint16_t total_size = READFIELD_SIZE(ptr);
+        uint16_t const total_size = READFIELD_SIZE(ptr);
         ptr = READFIELD_DATAPTR(ptr);
 
         map_block_t blocks;
         GetBlocks(blocks);
 
-        map_block_t::const_iterator ii = blocks.find(block_no);
+        auto const ii = blocks.find(block_no);
         if(ii != blocks.end())
         {
             length = ii->second.block_size;
             return ii->second.block_data;
         }
-        return NULL;
+        return nullptr;
     }
 
 
@@ -1866,10 +1879,10 @@ namespace teamtalk
 
         //FIELDTYPE_SESSIONID_ACK
         //[sessionid(uint8_t), userid(uint16_t), time_ack(uint32_t)]
-        int info_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint32_t);
+        int const info_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint32_t);
         alloc_size += FIELDVALUE_PREFIX + info_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
         
         uint8_t* data_ptr = data_buf;
@@ -1878,9 +1891,9 @@ namespace teamtalk
         v.iov_len = alloc_size;
 
         data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_SESSIONID_ACK, info_size);
-        data_ptr = set_uint8_ptr(data_ptr, session_id);
-        data_ptr = set_uint16_ptr(data_ptr, owner_userid);
-        data_ptr = set_uint32_ptr(data_ptr, time_ack);
+        data_ptr = SET_UINT8_PTR(data_ptr, session_id);
+        data_ptr = SET_UINT16_PTR(data_ptr, owner_userid);
+        data_ptr = SET_UINT32_PTR(data_ptr, time_ack);
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
@@ -1893,29 +1906,29 @@ namespace teamtalk
         : FieldPacket(packet, packet_size) {}
 
     DesktopAckPacket::DesktopAckPacket(const DesktopAckPacket& packet)
-        : FieldPacket(packet) {}
+         = default;
 
     bool DesktopAckPacket::GetSessionInfo(uint16_t* owner_userid,
                                           uint8_t* session_id, 
                                           uint32_t* upd_time) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_ACK);
-        if(!ptr)
+        if(ptr == nullptr)
             return false;
 
-        uint16_t field_size = READFIELD_SIZE(ptr);
+        uint16_t const field_size = READFIELD_SIZE(ptr);
         if(field_size < sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint32_t))
             return false;
 
-        const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-        if (session_id)
-            *session_id = get_uint8(field_ptr);
+        const auto* field_ptr = READFIELD_DATAPTR(ptr);
+        if (session_id != nullptr)
+            *session_id = GET_UINT8(field_ptr);
         field_ptr += 1;
-        if (owner_userid)
-            *owner_userid = get_uint16(field_ptr);
+        if (owner_userid != nullptr)
+            *owner_userid = GET_UINT16(field_ptr);
         field_ptr += 2;
-        if (upd_time)
-            *upd_time = get_uint32(field_ptr);
+        if (upd_time != nullptr)
+            *upd_time = GET_UINT32(field_ptr);
         field_ptr += 4;
         return true;
     }
@@ -1924,9 +1937,9 @@ namespace teamtalk
                                       const packet_range_t& packet_range_ack)
     {
         //TODO: Ensure ACK packet doesn't become too big
-        if(packets_ack.size())
+        if(!packets_ack.empty())
         {
-            std::vector<uint16_t> packetnums_input(packets_ack.begin(), 
+            std::vector<uint16_t> const packetnums_input(packets_ack.begin(), 
                                                    packets_ack.end());
 
             //FIELDTYPE_PACKETS_ACK
@@ -1938,11 +1951,11 @@ namespace teamtalk
 #endif
         }
 
-        if(packet_range_ack.size())
+        if(!packet_range_ack.empty())
         {
             std::vector<uint16_t> packetnums_input;
 
-            packet_range_t::const_iterator ii = packet_range_ack.begin();
+            auto ii = packet_range_ack.begin();
             while(ii != packet_range_ack.end())
             {
                 assert(ii->first < ii->second);
@@ -1964,7 +1977,7 @@ namespace teamtalk
     {
         std::vector<uint16_t> packetnums;
         const uint8_t* ptr = FindField(FIELDTYPE_PACKETS_ACK);
-        if(ptr)
+        if(ptr != nullptr)
         {
 
             //FIELDTYPE_PACKETS_ACK
@@ -1974,7 +1987,7 @@ namespace teamtalk
 
         //FIELDTYPE_PACKETRANGE_ACK
         ptr = FindField(FIELDTYPE_PACKETRANGE_ACK);
-        if(!ptr)
+        if(ptr == nullptr)
             return true;
         packetnums.clear();
 
@@ -1996,9 +2009,9 @@ namespace teamtalk
                                                      PACKET_KIND_DESKTOP_NAK, 
                                                      src_userid, time)
     {
-        int alloc_size = FIELDVALUE_PREFIX + sizeof(uint8_t); //FIELDTYPE_SESSIONID_NAK
+        int const alloc_size = FIELDVALUE_PREFIX + sizeof(uint8_t); //FIELDTYPE_SESSIONID_NAK
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         //store data indexes
@@ -2025,17 +2038,16 @@ namespace teamtalk
     }
 
     DesktopNakPacket::DesktopNakPacket(const DesktopNakPacket& packet)
-        : FieldPacket(packet)
-    {
-    }
+         
+    = default;
 
     uint8_t DesktopNakPacket::GetSessionID() const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_SESSIONID_NAK);
-        if(ptr && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
+        if((ptr != nullptr) && READFIELD_SIZE(ptr) >= sizeof(uint8_t))
         {
             ptr = READFIELD_DATAPTR(ptr);
-            return get_uint8(ptr);
+            return GET_UINT8(ptr);
         }
 
         return 0; //invalid ID
@@ -2052,24 +2064,24 @@ namespace teamtalk
         //FIELDTYPE_MY_CURSORPOS
         //[sessionid(uint8_t), x(uint16_t), y(uint16_t)]
 
-        int field_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t);
+        int const field_size = sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t);
 
         alloc_size += FIELDVALUE_PREFIX + field_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        vector<uint8_t> cursor_session(field_size);
-        uint8_t* field_ptr = &cursor_session[0];
-        field_ptr = set_uint8_ptr(field_ptr, session_id);
-        field_ptr = set_uint16_ptr(field_ptr, x);
-        field_ptr = set_uint16_ptr(field_ptr, y);
+        std::vector<uint8_t> cursor_session(field_size);
+        uint8_t* field_ptr = cursor_session.data();
+        field_ptr = SET_UINT8_PTR(field_ptr, session_id);
+        field_ptr = SET_UINT16_PTR(field_ptr, x);
+        field_ptr = SET_UINT16_PTR(field_ptr, y);
 
-        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_MY_CURSORPOS, &cursor_session[0], cursor_session.size());
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_MY_CURSORPOS, cursor_session.data(), cursor_session.size());
 
         m_iovec.push_back(v);
 
@@ -2095,46 +2107,46 @@ namespace teamtalk
                                                int16_t* y) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_MY_CURSORPOS);
-        if(ptr)
+        if(ptr != nullptr)
         {
-            uint16_t field_size = READFIELD_SIZE(ptr);
+            uint16_t const field_size = READFIELD_SIZE(ptr);
             if(field_size < sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t))
                 return false;
 
-            if (dest_userid)
+            if (dest_userid != nullptr)
                 *dest_userid = 0;
 
-            const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-            if (session_id)
-                *session_id = get_uint8(field_ptr);
+            const auto* field_ptr = READFIELD_DATAPTR(ptr);
+            if (session_id != nullptr)
+                *session_id = GET_UINT8(field_ptr);
             field_ptr += 1;
-            if (x)
-                *x = get_uint16(field_ptr);
+            if (x != nullptr)
+                *x = GET_UINT16(field_ptr);
             field_ptr += 2;
-            if (y)
-                *y = get_uint16(field_ptr);
+            if (y != nullptr)
+                *y = GET_UINT16(field_ptr);
             field_ptr += 2;
             return true;
         }
         ptr = FindField(FIELDTYPE_REMOTE_CURSORPOS);
-        if(ptr)
+        if(ptr != nullptr)
         {
-            uint16_t field_size = READFIELD_SIZE(ptr);
+            uint16_t const field_size = READFIELD_SIZE(ptr);
             if(field_size < sizeof(uint16_t) + sizeof(uint8_t) + sizeof(uint16_t) + sizeof(uint16_t))
                 return false;
 
-            const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
-            if (dest_userid)
-                *dest_userid = get_uint16(field_ptr);
+            const auto* field_ptr = READFIELD_DATAPTR(ptr);
+            if (dest_userid != nullptr)
+                *dest_userid = GET_UINT16(field_ptr);
             field_ptr += 2;
-            if (session_id)
-                *session_id = get_uint8(field_ptr);
+            if (session_id != nullptr)
+                *session_id = GET_UINT8(field_ptr);
             field_ptr += 1;
-            if (x)
-                *x = get_uint16(field_ptr);
+            if (x != nullptr)
+                *x = GET_UINT16(field_ptr);
             field_ptr += 2;
-            if (y)
-                *y = get_uint16(field_ptr);
+            if (y != nullptr)
+                *y = GET_UINT16(field_ptr);
             field_ptr += 2;
             return true;
         }
@@ -2143,8 +2155,8 @@ namespace teamtalk
 
     uint16_t DesktopCursorPacket::GetDestUserID() const
     {
-        uint16_t dest_userid;
-        if(GetSessionCursor(&dest_userid, 0, 0, 0))
+        uint16_t dest_userid = 0;
+        if(GetSessionCursor(&dest_userid, nullptr, nullptr, nullptr))
             return dest_userid;
         return INVALID_DEST_USERID;
     }
@@ -2159,34 +2171,34 @@ namespace teamtalk
         //FIELDTYPE_REMOTE_INPUT
         //[sessionid(uint8_t), packetno(uint8_t), [[x(uint16_t), y(uint16_t), keycode(uint32_t), keystate(uint32_t)], ...
 
-        int field_size = sizeof(uint8_t) + sizeof(uint8_t) + 
-                            (sizeof(uint16_t) + sizeof(uint16_t) +
-                            sizeof(uint32_t) + sizeof(uint32_t)) * int(inputs.size());
+        int const field_size = sizeof(uint8_t) + sizeof(uint8_t) + 
+                            ((sizeof(uint16_t) + sizeof(uint16_t) +
+                            sizeof(uint32_t) + sizeof(uint32_t)) * int(inputs.size()));
 
-        int alloc_size = FIELDVALUE_PREFIX + field_size;
+        int const alloc_size = FIELDVALUE_PREFIX + field_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
 
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        vector<uint8_t> buffer(field_size);
+        std::vector<uint8_t> buffer(field_size);
         buffer.resize(field_size);
-        uint8_t* field_ptr = &buffer[0];
-        field_ptr = set_uint8_ptr(field_ptr, session_id);
-        field_ptr = set_uint8_ptr(field_ptr, packetno);
+        uint8_t* field_ptr = buffer.data();
+        field_ptr = SET_UINT8_PTR(field_ptr, session_id);
+        field_ptr = SET_UINT8_PTR(field_ptr, packetno);
 
-        for(size_t i=0;i<inputs.size();i++)
+        for(auto input : inputs)
         {
-            field_ptr = set_uint16_ptr(field_ptr, inputs[i].x);
-            field_ptr = set_uint16_ptr(field_ptr, inputs[i].y);
-            field_ptr = set_uint32_ptr(field_ptr, inputs[i].keycode);
-            field_ptr = set_uint32_ptr(field_ptr, inputs[i].keystate);
+            field_ptr = SET_UINT16_PTR(field_ptr, input.x);
+            field_ptr = SET_UINT16_PTR(field_ptr, input.y);
+            field_ptr = SET_UINT32_PTR(field_ptr, input.keycode);
+            field_ptr = SET_UINT32_PTR(field_ptr, input.keystate);
         }
 
-        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_REMOTE_INPUT, &buffer[0], buffer.size());
+        data_buf = WRITEFIELD_DATA(data_buf, FIELDTYPE_REMOTE_INPUT, buffer.data(), buffer.size());
 
         m_iovec.push_back(v);
 
@@ -2212,19 +2224,19 @@ namespace teamtalk
                                             uint8_t* packetno) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_REMOTE_INPUT);
-        if(ptr)
+        if(ptr != nullptr)
         {
-            uint16_t field_size = READFIELD_SIZE(ptr);
+            uint16_t const field_size = READFIELD_SIZE(ptr);
             if(field_size < sizeof(uint8_t) + sizeof(uint8_t))
                 return false;
 
             const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
 
-            if (session_id)
-                *session_id = get_uint8(field_ptr);
+            if (session_id != nullptr)
+                *session_id = GET_UINT8(field_ptr);
             field_ptr += 1;
-            if (packetno)
-                *packetno = get_uint8(field_ptr);
+            if (packetno != nullptr)
+                *packetno = GET_UINT8(field_ptr);
             field_ptr += 1;
             return true;
         }
@@ -2234,22 +2246,22 @@ namespace teamtalk
     uint8_t DesktopInputPacket::GetSessionID() const
     {
         uint8_t session_id = 0;
-        GetSessionInfo(&session_id, 0);
+        GetSessionInfo(&session_id, nullptr);
         return session_id;
     }
 
     uint8_t DesktopInputPacket::GetPacketNo(bool* found/* = NULL*/) const
     {
         uint8_t packetno = 0;
-        found? *found = GetSessionInfo(0, &packetno) 
-             : GetSessionInfo(0, &packetno);
+        (found != nullptr)? *found = GetSessionInfo(nullptr, &packetno) 
+             : GetSessionInfo(nullptr, &packetno);
         return packetno;
     }
 
     bool DesktopInputPacket::GetDesktopInput(std::vector<DesktopInput>& inputs) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_REMOTE_INPUT);
-        if(ptr)
+        if(ptr != nullptr)
         {
             uint16_t field_size = READFIELD_SIZE(ptr);
             if(field_size < sizeof(uint8_t) + sizeof(uint8_t) + 
@@ -2257,29 +2269,29 @@ namespace teamtalk
                             sizeof(uint32_t) + sizeof(uint32_t))
                 return false;
 
-            const uint8_t* field_ptr = reinterpret_cast<const uint8_t*>(READFIELD_DATAPTR(ptr));
+            const auto* field_ptr = READFIELD_DATAPTR(ptr);
 
             uint8_t session_id = 0;
-            field_ptr = get_uint8_ptr(field_ptr, session_id);
+            field_ptr = GET_UINT8_PTR(field_ptr, session_id);
             field_size -= 1;
             uint8_t packetno = 0;
-            field_ptr = get_uint8_ptr(field_ptr, packetno);
+            field_ptr = GET_UINT8_PTR(field_ptr, packetno);
             field_size -= 1;
 
-            while(field_size)
+            while(field_size != 0u)
             {
                 assert(field_size % 12 == 0);
-                if(field_size % 12)
+                if((field_size % 12) != 0)
                     return false;
 
                 DesktopInput input;
-                field_ptr = get_uint16_ptr(field_ptr, input.x);
+                field_ptr = GET_UINT16_PTR(field_ptr, input.x);
                 field_size -= 2;
-                field_ptr = get_uint16_ptr(field_ptr, input.y);
+                field_ptr = GET_UINT16_PTR(field_ptr, input.y);
                 field_size -= 2;
-                field_ptr = get_uint32_ptr(field_ptr, input.keycode);
+                field_ptr = GET_UINT32_PTR(field_ptr, input.keycode);
                 field_size -= 4;
-                field_ptr = get_uint32_ptr(field_ptr, input.keystate);
+                field_ptr = GET_UINT32_PTR(field_ptr, input.keystate);
                 field_size -= 4;
                 
                 inputs.push_back(input);
@@ -2307,10 +2319,10 @@ namespace teamtalk
 
         //FIELDTYPE_DESKTOPINPUT_ACK
         //[sessionid(uint8_t), packetno(uint8_t)]
-        int info_size = sizeof(uint8_t) + sizeof(uint8_t);
+        int const info_size = sizeof(uint8_t) + sizeof(uint8_t);
         alloc_size += FIELDVALUE_PREFIX + info_size;
 
-        uint8_t* data_buf;
+        uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
         
         uint8_t* data_ptr = data_buf;
@@ -2319,8 +2331,8 @@ namespace teamtalk
         v.iov_len = alloc_size;
 
         data_ptr = WRITEFIELD_TYPE(data_ptr, FIELDTYPE_DESKTOPINPUT_ACK, info_size);
-        data_ptr = set_uint8_ptr(data_ptr, session_id);
-        data_ptr = set_uint8_ptr(data_ptr, packetno);
+        data_ptr = SET_UINT8_PTR(data_ptr, session_id);
+        data_ptr = SET_UINT8_PTR(data_ptr, packetno);
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
@@ -2340,19 +2352,19 @@ namespace teamtalk
                                                uint8_t* packetno) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_DESKTOPINPUT_ACK);
-        if(!ptr)
+        if(ptr == nullptr)
             return false;
 
-        uint16_t field_size = READFIELD_SIZE(ptr);
+        uint16_t const field_size = READFIELD_SIZE(ptr);
         if(field_size < sizeof(uint8_t) + sizeof(uint8_t))
             return false;
 
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
-        if (session_id)
-            *session_id = get_uint8(field_ptr);
+        if (session_id != nullptr)
+            *session_id = GET_UINT8(field_ptr);
         field_ptr += 1;
-        if (packetno)
-            *packetno = get_uint8(field_ptr);
+        if (packetno != nullptr)
+            *packetno = GET_UINT8(field_ptr);
         field_ptr += 1;
         return true;
     }
@@ -2360,16 +2372,17 @@ namespace teamtalk
     uint8_t DesktopInputAckPacket::GetSessionID() const
     {
         uint8_t session_id = 0;
-        GetSessionInfo(&session_id, 0);
+        GetSessionInfo(&session_id, nullptr);
         return session_id;
     }
 
     uint8_t DesktopInputAckPacket::GetPacketNo(bool* found/* = NULL*/) const
     {
         uint8_t packetno = 0;
-        found? *found = GetSessionInfo(0, &packetno) :
-               GetSessionInfo(0, &packetno);
+        (found != nullptr)? *found = GetSessionInfo(nullptr, &packetno) :
+               GetSessionInfo(nullptr, &packetno);
         return packetno;
     }
 
-} /* namespace */
+} // namespace teamtalk
+

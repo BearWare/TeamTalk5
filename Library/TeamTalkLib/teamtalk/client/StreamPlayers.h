@@ -24,29 +24,35 @@
 #ifndef STREAMPLAYERS_H
 #define STREAMPLAYERS_H
 
-#include <myace/MyACE.h>
-
-#include <avstream/SoundSystem.h>
-#include <avstream/AudioResampler.h>
-
-#include <teamtalk/Common.h>
-#include <teamtalk/PacketLayout.h>
-#include <teamtalk/PacketHelper.h>
+#include "avstream/AudioResampler.h"
+#include "avstream/SoundSystem.h"
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketHelper.h"
+#include "teamtalk/PacketLayout.h"
 
 #if defined(ENABLE_SPEEX)
-#include <codec/SpeexDecoder.h>
-#include <codec/SpeexEncoder.h>
+#include "codec/SpeexDecoder.h"
 #endif
 #if defined(ENABLE_OPUS)
-#include <codec/OpusDecoder.h>
+#include "codec/OpusDecoder.h"
 #endif
 #if defined(ENABLE_VPX)
-#include <codec/VpxDecoder.h>
+#include "codec/VpxDecoder.h"
 #endif
 
-#include <memory>
+#include <ace/Message_Block.h>
+#include <ace/Recursive_Thread_Mutex.h>
 
-#define STOPPED_TALKING_DELAY 500 //msec
+#include <cstddef>
+#include <cstdint>
+#include <functional>
+#include <map>
+#include <memory>
+#include <vector>
+
+constexpr auto STOPPED_TALKING_DELAY = 500; //msec
 
 namespace teamtalk {
 
@@ -57,8 +63,8 @@ namespace teamtalk {
         uint32_t timestamp = 0;
         int stream_id = 0;
 
-        encframe() { }
-        void reset()
+        encframe() = default;
+        void Reset()
         {
             timestamp = 0;
             enc_frames.clear();
@@ -67,7 +73,7 @@ namespace teamtalk {
         }
     };
 
-    typedef std::function< void (int userid, StreamType stream_type, const media::AudioFrame& frm) > useraudio_callback_t;
+    using useraudio_callback_t = std::function< void (int userid, StreamType stream_type, const media::AudioFrame& frm) >;
 
     class AudioPlayer
         : public soundsystem::StreamPlayer
@@ -76,13 +82,13 @@ namespace teamtalk {
         AudioPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t& resampler);
-        virtual ~AudioPlayer();
+        ~AudioPlayer() override;
 
         //returns reassembled AudioPacket if 'new_audpkt' has fragments
         audiopacket_t QueuePacket(const AudioPacket& new_audpkt);
 
-        virtual bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
-                                    short* output_buffer, int n_samples);
+        bool StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
+                                    short* output_buffer, int n_samples) override;
 
         bool PlayBuffer(short* output_buffer, int n_samples);
         virtual bool DecodeFrame(const encframe& enc_frame,
@@ -138,7 +144,7 @@ namespace teamtalk {
         int m_audiopacket_lost = 0;
 
         //received frames
-        typedef std::map<uint16_t, encframe, w16_less_comp> enc_frames_t;
+        using enc_frames_t = std::map<uint16_t, encframe, W16LessComp>;
         enc_frames_t m_buffer;
         int m_buffer_msec = 0;
         //current packet number being played
@@ -146,12 +152,12 @@ namespace teamtalk {
 
         //container for fragmented packets
         //packet no -> fragments
-        typedef std::map<uint16_t, audiofragments_t> fragments_queue_t;
+        using fragments_queue_t = std::map<uint16_t, audiofragments_t>;
         fragments_queue_t m_audfragments;
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef std::shared_ptr< AudioPlayer > audio_player_t;
+    using audio_player_t = std::shared_ptr< AudioPlayer >;
 
 #if defined(ENABLE_SPEEX)
     class SpeexPlayer : public AudioPlayer
@@ -160,13 +166,13 @@ namespace teamtalk {
         SpeexPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                     useraudio_callback_t audio_cb, const AudioCodec& codec,
                     audio_resampler_t resampler);
-        virtual ~SpeexPlayer();
+        ~SpeexPlayer() override;
 
         bool DecodeFrame(const encframe& enc_frame,
-                         short* output_buffer, int n_samples);
+                         short* output_buffer, int n_samples) override;
 
     protected:
-        void Reset();
+        void Reset() override;
         SpeexDecoder m_decoder;
     };
 #endif
@@ -178,18 +184,18 @@ namespace teamtalk {
         OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
                    useraudio_callback_t audio_cb, const AudioCodec& codec,
                    audio_resampler_t resampler);
-        virtual ~OpusPlayer();
+        ~OpusPlayer() override;
 
         bool DecodeFrame(const encframe& enc_frame,
-                         short* output_buffer, int n_samples);
+                         short* output_buffer, int n_samples) override;
 
     protected:
-        void Reset();
+        void Reset() override;
         OpusDecode m_decoder;
     };
 #endif
 
-    typedef std::vector<uint16_t> fragmentnums_t;
+    using fragmentnums_t = std::vector<uint16_t>;
 
 #if defined(ENABLE_VPX)
 
@@ -199,11 +205,11 @@ namespace teamtalk {
         WebMPlayer(int userid, int stream_id);
         ~WebMPlayer();
 
-        bool AddPacket(const VideoPacket& packet, size_t* n_packets = NULL);
-        ACE_Message_Block* GetNextFrame(uint32_t* timestamp = NULL);
+        bool AddPacket(const VideoPacket& packet, size_t* n_packets = nullptr);
+        ACE_Message_Block* GetNextFrame(const uint32_t* timestamp = nullptr);
         bool GetNextFrameTime(uint32_t* tm);
 
-        VideoCodec GetVideoCodec() const;
+        static VideoCodec GetVideoCodec() ;
         media::VideoFormat GetVideoFormat() const;
 
         int GetVideoPacketRecv(bool reset);
@@ -219,7 +225,7 @@ namespace teamtalk {
         void ProcessVideoPacket(const VideoPacket& packet);
         void RemoveObsoletePackets();
 
-        void dumpFragments();
+        void DumpFragments();
 
         int m_userid = 0;
         int m_video_pkts_recv = 0;
@@ -236,15 +242,15 @@ namespace teamtalk {
         {
             std::vector<char> enc_data;
             uint32_t packet_no = 0;
-            enc_frame() { }
+            enc_frame() = default;
         };
 
         //packetno -> video fragments (sorted by UINT32 wrap)
-        typedef std::map<uint32_t, video_fragments_t, w32_less_comp> reassm_queue_t;
+        using reassm_queue_t = std::map<uint32_t, video_fragments_t, W32LessComp>;
         reassm_queue_t m_video_fragments;
 
         //timestamp -> enc video frame (sorted by UINT32 wrap)
-        typedef std::map<uint32_t, enc_frame, w32_less_comp > video_frames_t;
+        using video_frames_t = std::map<uint32_t, enc_frame, W32LessComp >;
         video_frames_t m_video_frames;
 
         VpxDecoder m_decoder;
@@ -253,9 +259,9 @@ namespace teamtalk {
         ACE_Recursive_Thread_Mutex m_mutex;
     };
 
-    typedef std::shared_ptr< WebMPlayer > webm_player_t;
+    using webm_player_t = std::shared_ptr< WebMPlayer >;
 
 #endif /* ENABLE_VPX */
-}
+} // namespace teamtalk
 
 #endif

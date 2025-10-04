@@ -65,14 +65,14 @@ union InOutValue
     int value;
 };
 
-bool mixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue);
+bool MixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue);
 
-bool mixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue& inoutValue);
+bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue);
 
-int mixerGetCount();
-bool mixerGetName(int nMixerIndex, TCHAR name[MIXER_STR_LEN]);
+int MixerGetCount();
+bool MixerGetName(int nMixerIndex, TCHAR name[MIXER_STR_LEN]);
 
-bool mixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN]);
-bool mixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN]);
+bool MixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN]);
+bool MixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN]);
 
 #endif

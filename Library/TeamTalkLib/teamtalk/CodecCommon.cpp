@@ -23,8 +23,9 @@
 
 #include "CodecCommon.h"
 #include "PacketLayout.h"
+#include "myace/MyACE.h"
 
-#include <myace/MyACE.h>
+#include <cassert>
 
 constexpr auto SPEEX_NB_MODE = 0;
 constexpr auto SPEEX_WB_MODE = 1;
@@ -130,11 +131,11 @@ namespace teamtalk
 
     int GetAudioCodecCbMillis(const AudioCodec& codec)
     {
-        int samplerate = GetAudioCodecSampleRate(codec);
+        int const samplerate = GetAudioCodecSampleRate(codec);
         if(samplerate == 0)
             return 0;
 
-        int cb_samples = GetAudioCodecCbSamples(codec);
+        int const cb_samples = GetAudioCodecCbSamples(codec);
         return cb_samples == 0? 0 : PCM16_SAMPLES_DURATION(cb_samples, samplerate);
     }
 
@@ -347,11 +348,11 @@ namespace teamtalk
     // AudioPacket can contain a maximum of 0xfff bytes
     int GetAudioCodecMaxPacketBitrate(const AudioCodec& codec)
     {
-        int txinterval_msec = GetAudioCodecCbMillis(codec);
-        if (!txinterval_msec)
+        int const txinterval_msec = GetAudioCodecCbMillis(codec);
+        if (txinterval_msec == 0)
             return 0;
 
-        int maxbitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
+        int const maxbitrate = 8 * ((MAX_ENC_FRAMESIZE * 1000) / txinterval_msec);
         MYTRACE_COND(GetAudioCodecBitRate(codec) > maxbitrate,
                      ACE_TEXT("Max packet bitrate exceeded: %d > %d\n"),
                      GetAudioCodecBitRate(codec), maxbitrate);
@@ -363,7 +364,7 @@ namespace teamtalk
         int channels = GetAudioCodecChannels(codec);
         if (GetAudioCodecSimulateStereo(codec))
             channels = 2;
-        return media::AudioFormat(GetAudioCodecSampleRate(codec), channels);
+        return {GetAudioCodecSampleRate(codec), channels};
     }
 
     media::AudioInputFormat GetAudioCodecAudioInputFormat(const AudioCodec& codec)
@@ -436,12 +437,11 @@ namespace teamtalk
 
     int GetSpeexFramesDuration(int bandmode, int framecount)
     {
-        int nSamples = GetSpeexBandModeFrameSize(bandmode) * framecount;
-        int nSampleRate = GetSpeexBandModeSampleRate(bandmode);
+        int const nSamples = GetSpeexBandModeFrameSize(bandmode) * framecount;
+        int const nSampleRate = GetSpeexBandModeSampleRate(bandmode);
         if(nSampleRate>0)
             return (nSamples * 1000) / nSampleRate;
-        else
-            return 0;
+        return 0;
     }
 
     int GetSpeexSamplesCount(int bandmode, int framecount)
@@ -486,5 +486,5 @@ namespace teamtalk
         return false;
     }
 
-}
+} // namespace teamtalk
 

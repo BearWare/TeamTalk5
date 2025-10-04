@@ -178,7 +178,7 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     ptr += decrypt_len - 2;
     uint32_t crc32 = ACE::crc32(decrypt_buf, decrypt_len - 2);
     uint16_t crc16 = crc32 & 0xFFFF;
-    if(get_uint16(ptr) != crc16)
+    if(GET_UINT16(ptr) != crc16)
     {
         MYTRACE(ACE_TEXT("Invalid CRC for packet %d from #%d\n"), PACKET_KIND_CRYPT, GetSrcUserID()); 
         delete [] decrypt_buf;

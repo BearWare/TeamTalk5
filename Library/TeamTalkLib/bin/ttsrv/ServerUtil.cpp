@@ -22,20 +22,24 @@
  */
 
 #include "ServerUtil.h"
+
 #include "AppInfo.h"
-
-#include <TeamTalkDefs.h>
-#include <teamtalk/ttassert.h>
-#include <settings/Settings.h>
-
-#include <myace/MyACE.h>
-#include <myace/MyINet.h>
-#include <mystd/MyStd.h>
+#include "TeamTalkDefs.h"
+#include "myace/MyACE.h"
+#include "myace/MyINet.h"
+#include "mystd/MyStd.h"
+#include "settings/Settings.h"
+#include "teamtalk/ttassert.h"
 
 #include <ace/Dirent_Selector.h>
+#include <ace/INet/HTTP_Status.h>
 
+#include <algorithm>
+#include <cstdint>
+#include <fstream>
 #include <iostream>
 #include <sstream>
+#include <string>
 
 #if defined(WIN32)
 #include <windows.h>
@@ -45,29 +49,29 @@
 #endif
 
 #if defined(UNICODE)
-typedef std::wostringstream tostringstream;
+using tostringstream = std::wostringstream;
 #else
-typedef std::ostringstream tostringstream;
+using tostringstream = std::ostringstream;
 #endif
 
 using namespace std;
 using namespace teamtalk;
 
-bool inputTrue(const std::string& input)
+static bool InputTrue(const std::string& input)
 {
-    std::string tmp = str2lower(input);
+    std::string const tmp = String2Lower(input);
     return tmp == "y" || tmp == "yes";
 }
 
-std::string printGetString(const std::string& input)
+std::string PrintGetString(const std::string& input)
 {
     cout << "(\"" << input << "\") ";
     std::string tmp;
     std::getline(cin, tmp);
-    return tmp.empty()? input : tmp.c_str();
+    return tmp.empty()? input : tmp;
 }
 
-std::string printGetPassword(const std::string& input)
+std::string PrintGetPassword(const std::string& input)
 {
     cout << "(\"" << input << "\") ";
 
@@ -90,7 +94,7 @@ std::string printGetPassword(const std::string& input)
 
     std::string tmp;
     std::getline(cin, tmp);
-    tmp =  tmp.empty()? input : tmp.c_str();
+    tmp =  tmp.empty()? input : tmp;
 
 #if defined(WIN32)
     dwMode |= ENABLE_ECHO_INPUT;
@@ -104,28 +108,28 @@ std::string printGetPassword(const std::string& input)
     return tmp;
 }
 
-bool printGetBool(bool value)
+bool PrintGetBool(bool value)
 {
     cout << "[Y/N] ";
-    std::string input = printGetString(value?"Y":"N");
-    return inputTrue(input);
+    std::string const input = PrintGetString(value?"Y":"N");
+    return InputTrue(input);
 }
 
-int printGetInt(int value)
+int PrintGetInt(int value)
 {
     ostringstream os;
     os << value;
-    std::string sval = printGetString(os.str().c_str());
+    std::string const sval = PrintGetString(os.str());
     istringstream is(sval.c_str());
     is >> value;
     return value;
 }
 
-int64_t printGetInt64(int64_t value)
+int64_t PrintGetInt64(int64_t value)
 {
     ostringstream os;
     os << value;
-    std::string sval = printGetString(os.str().c_str());
+    std::string const sval = PrintGetString(os.str());
     istringstream is(sval.c_str());
     is >> value;
     return value;
@@ -143,25 +147,24 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
     int max = 0;
     for(int i=0;i<ds.length();i++)
     {
-        ACE_TString curfile = ds[i]->d_name;
+        ACE_TString const curfile = ds[i]->d_name;
         if(curfile.length()>logname.length() &&
            curfile.substr(0, logname.length()) == logname)
         {
-            strings_t tokens = tokenize(curfile, ACE_TEXT("."));
+            strings_t tokens = Tokenize(curfile, ACE_TEXT("."));
             if(tokens.empty())
                 continue;
-            int val = int(string2i(tokens[tokens.size()-1]));
-            if(val > max)
-                max = val;
+            int const val = String2I(tokens[tokens.size()-1]);
+            max = std::max(val, max);
         }
     }
 
     max++;
 
-    ACE_TString tmp_logname = logname + ACE_TEXT(".") + i2string(max);
+    ACE_TString const tmp_logname = logname + ACE_TEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
-    int ren = ACE_OS::rename(logname.c_str(), tmp_logname.c_str());
+    int const ren = ACE_OS::rename(logname.c_str(), tmp_logname.c_str());
     TTASSERT(ren>=0);
 
     logfile.open(logname.c_str());
@@ -173,8 +176,8 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
 WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid)
 {
-    std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
-    std::string passwdUtf8 = UnicodeToUtf8(passwd).c_str();
+    std::string const usernameUtf8 = UnicodeToUtf8(username).c_str();
+    std::string const passwdUtf8 = UnicodeToUtf8(passwd).c_str();
 
     std::string url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
@@ -195,11 +198,11 @@ WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TStri
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if (xmldoc.Parse(utf8))
         {
-            std::string nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
-            std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
+            std::string const nickname = xmldoc.GetValue(false, "teamtalk/bearware/nickname", "");
+            std::string const username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
             token = Utf8ToUnicode(xmldoc.GetValue(false, "teamtalk/bearware/token", "").c_str());
             loginid = Utf8ToUnicode(username.c_str());
-            return token.length() > 0 ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
+            return !token.empty() ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
         }
         return WEBLOGIN_FAILED;
     }
@@ -207,16 +210,16 @@ WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TStri
 
 WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token)
 {
-    std::string usernameUtf8 = UnicodeToUtf8(username).c_str();
-    std::string tokenUtf8 = UnicodeToUtf8(token).c_str();
+    std::string const usernameUtf8 = UnicodeToUtf8(username).c_str();
+    std::string const tokenUtf8 = UnicodeToUtf8(token).c_str();
 
     std::string url = WEBLOGIN_URL;
     url += "client=" TEAMTALK_LIB_NAME;
     url += "&version=" TEAMTALK_VERSION;
     url += "&service=bearware";
     url += "&action=clientauth";
-    url += "&username=" + URLEncode(usernameUtf8.c_str());
-    url += "&token=" + URLEncode(tokenUtf8.c_str());
+    url += "&username=" + URLEncode(usernameUtf8);
+    url += "&token=" + URLEncode(tokenUtf8);
     url += "&accesstoken=proserver";
     ACE::HTTP::Status::Code httpCode = ACE::HTTP::Status::INVALID;
     std::string utf8;
@@ -238,8 +241,8 @@ WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TStrin
         teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
         if (xmldoc.Parse(utf8))
         {
-            std::string username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
-            return username.size() > 0 ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
+            std::string const username = xmldoc.GetValue(false, "teamtalk/bearware/username", "");
+            return !username.empty() ? WEBLOGIN_SUCCESS : WEBLOGIN_SERVER_INCOMPATIBLE;
         }
         return WEBLOGIN_FAILED;
     }

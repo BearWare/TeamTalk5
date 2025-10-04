@@ -26,12 +26,12 @@
 
 #include <catch2/catch.hpp>
 
-#include <ace/OS.h>
 #include "TTUnitTest.h"
-#include <codec/WaveFile.h>
-#include <avstream/MediaPlayback.h>
 
-#include <myace/MyACE.h>
+#include "avstream/MediaPlayback.h"
+#include "codec/WaveFile.h"
+#include "myace/MyACE.h"
+
 #include <cstring>
 
 TEST_CASE("AudioMuxerStreamRestart")
@@ -355,14 +355,14 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
     int oneSecPlayback = mfi.audioFmt.nSampleRate;
     while (oneSecPlayback > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
     {
-        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
         wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
         if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
             oneSecPlayback -= ab->nSamples;
     }
 
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-    abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+    ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
     wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
     REQUIRE(ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO);
 
@@ -372,7 +372,7 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
     int oneSecSilence = mfi.audioFmt.nSampleRate;
     while (oneSecSilence > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
     {
-        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
         wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
         if (ab->uStreamTypes == STREAMTYPE_NONE)
             oneSecSilence -= ab->nSamples;
@@ -384,7 +384,7 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
     oneSecPlayback = mfi.audioFmt.nSampleRate;
     while (oneSecPlayback > 0 && WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg))
     {
-        abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
+        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
         wavfile.AppendSamples(reinterpret_cast<const short*>(ab->lpRawAudio), ab->nSamples);
         if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
             oneSecPlayback -= ab->nSamples;
@@ -466,7 +466,7 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
             {
             case CLIENTEVENT_USER_AUDIOBLOCK :
             {
-                abptr ab(rxclient, TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID));
+                ABPtr ab(rxclient, TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID));
                 REQUIRE(ab->nSamples == int(ab->nSampleRate * .02));
                 REQUIRE(ab->nChannels == af.nChannels);
                 REQUIRE(ab->nSampleRate == af.nSampleRate);
@@ -531,7 +531,7 @@ TEST_CASE("LocalPlaybackLatency")
         abs_shared.resize(abs_shared.size() + 1);
         while (true)
         {
-            abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
+            ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
             if (!ab)
                 break;
 
@@ -585,7 +585,7 @@ TEST_CASE("LocalPlaybackLatency")
         size_t index = 0;
         while (true)
         {
-            abptr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
+            ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, onid));
             if (!ab)
                 break;
 
@@ -609,7 +609,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
         auto txclient = InitTeamTalk();
 
         REQUIRE(Connect(txclient));
-        ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
+        ACE_TString name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
         REQUIRE(Login(txclient, name.c_str()));
         int n_users;
         REQUIRE(TT_GetServerUsers(txclient, nullptr, &n_users));
@@ -633,7 +633,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
     //    auto txclient = InitTeamTalk();
 
     //    REQUIRE(Connect(txclient));
-    //    ACE_TString name = ACE_TEXT("Client - #") + i2string(TT_GetMyUserID(txclient));
+    //    ACE_TString name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
     //    REQUIRE(Login(txclient, name.c_str()));
 
 }
@@ -657,7 +657,7 @@ TEST_CASE("MaxChannels")
     {
         AudioCodec codec;
         codec.nCodec = NO_CODEC;
-        ACE_TString name = ACE_TEXT("TestChannel - #") + i2string(i);
+        ACE_TString name = ACE_TEXT("TestChannel - #") + I2String(i);
         Channel chan = MakeChannel(txclient, name.c_str(), TT_GetRootChannelID(txclient), codec);
         REQUIRE(WaitForCmdSuccess(txclient, TT_DoMakeChannel(txclient, &chan)));
     }
@@ -669,7 +669,7 @@ TEST_CASE("MaxChannels")
 
     for (int i = 0; i < n_create; ++i)
     {
-        ACE_TString name = ACE_TEXT("TestChannel - #") + i2string(i);
+        ACE_TString name = ACE_TEXT("TestChannel - #") + I2String(i);
         int chanid = TT_GetChannelIDFromPath(txclient, name.c_str());
         REQUIRE(WaitForCmdSuccess(txclient, TT_DoRemoveChannel(txclient, chanid)));
     }

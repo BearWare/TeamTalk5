@@ -26,10 +26,6 @@
 
 #include "VideoCapture.h"
 
-#include <thread>
-#include <mutex>
-#include <map>
-
 #include <ace/Future.h>
 
 namespace vidcap {

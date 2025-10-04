@@ -23,9 +23,11 @@
 
 #include "BmpFile.h"
 
-#include <ace/ACE.h>
-#include <assert.h>
+#include "myace/MyACE.h"
 
+#include <cassert>
+#include <cstdint>
+#include <vector>
 
 #if defined(ACE_WIN32)
 typedef BITMAPFILEHEADER BitmapFileHeader;
@@ -103,7 +105,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
     bmpfile.Write(reinterpret_cast<const char*>(&bmphdr), BMPHDR_SIZE);
     bmpfile.Write(reinterpret_cast<const char*>(&bmiHeader), BMIHEADER_SIZE);
 
-    ssize_t written = bmpfile.Write(data, size);
+    ssize_t const written = bmpfile.Write(data, size);
     return written == size;
 }
 
@@ -155,7 +157,7 @@ std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat&
     bmpfile.Seek(startpos, std::ios_base::beg);
 
     buff.resize(bmiHeader.biSizeImage);
-    bmpfile.Read(&buff[0], bmiHeader.biSizeImage);
+    bmpfile.Read(buff.data(), bmiHeader.biSizeImage);
 
     return buff;
 }

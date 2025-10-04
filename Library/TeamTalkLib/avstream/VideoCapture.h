@@ -24,12 +24,14 @@
 #if !defined(VIDEOCAPTURE_H)
 #define VIDEOCAPTURE_H
 
+#include "codec/MediaUtil.h"
+
+#include <ace/Message_Block.h>
 #include <ace/SString.h>
 
-#include <vector>
 #include <functional>
-
-#include <codec/MediaUtil.h>
+#include <memory>
+#include <vector>
 
 namespace vidcap {
 
@@ -42,17 +44,17 @@ namespace vidcap {
         std::vector<media::VideoFormat> vidcapformats;
     };
 
-    typedef std::vector<VidCapDevice> vidcap_devices_t;
+    using vidcap_devices_t = std::vector<VidCapDevice>;
 
-    typedef std::unique_ptr<class VideoCapture> videocapture_t;
+    using videocapture_t = std::unique_ptr<class VideoCapture>;
 
     class VideoCapture
     {
     public:
         // return true to take overship of 'mb_video'. 'mb_video' may be NULL
-        typedef std::function<bool(media::VideoFrame& video_frame, ACE_Message_Block* mb_video)> VideoCaptureCallback;
+        using VideoCaptureCallback = std::function<bool(media::VideoFrame& video_frame, ACE_Message_Block* mb_video)>;
 
-        virtual ~VideoCapture() {}
+        virtual ~VideoCapture() = default;
 
         static videocapture_t Create();
 
@@ -70,6 +72,6 @@ namespace vidcap {
         virtual bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) = 0;
         virtual void UnregisterVideoFormat(media::FourCC fcc) = 0;
     };
-}
+} // namespace vidcap
 
 #endif /* VIDEOCAPTURE_H */

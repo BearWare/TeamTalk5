@@ -24,12 +24,16 @@
 #if !defined(MFTRANSFORM_H)
 #define MFTRANSFORM_H
 
-#include <codec/MediaUtil.h>
+#include "codec/MediaUtil.h"
 
 #include <mfapi.h>
 #include <atlbase.h>
 
+#include <ace/Message_Queue_T.h>
+#include <ace/SString.h>
+
 #include <memory>
+#include <vector>
 
 media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);

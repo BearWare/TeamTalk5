@@ -22,20 +22,27 @@
  */
 
 #include "Common.h"
-#include "Commands.h"
-#include "Channel.h"
-#include <myace/MyINet.h>
 
-#include <time.h>
+#include "Channel.h"
+#include "Commands.h"
+#include "myace/MyACE.h"
+#include "myace/MyINet.h"
+#include "mystd/MyStd.h"
+
 #include <ace/Date_Time.h>
+
+#include <cstdint>
 #include <regex>
+#include <string>
+#include <time.h>
+#include <vector>
 
 namespace teamtalk
 {
 
-    ServerProperties::ServerProperties()
+    ServerProperties::ServerProperties() : systemid(SERVER_WELCOME)
     {
-        systemid = SERVER_WELCOME;
+        
     }
 
     RemoteFile::RemoteFile()
@@ -51,8 +58,8 @@ namespace teamtalk
     bool UserAccount::IsWebLogin() const
     {
 #if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-        return std::regex_search(username.c_str(), buildregex(bwregex.c_str()));
+        ACE_TString const bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
+        return std::regex_search(username.c_str(), BuildRegex(bwregex.c_str()));
 #else
         return false;
 #endif
@@ -61,11 +68,11 @@ namespace teamtalk
     bool BannedUser::Same(const BannedUser& user) const
     {
         bool same = user.bantype == this->bantype;
-        if (bantype & BANTYPE_IPADDR)
+        if ((bantype & BANTYPE_IPADDR) != 0u)
             same &= user.ipaddr == this->ipaddr;
-        if (bantype & BANTYPE_CHANNEL)
+        if ((bantype & BANTYPE_CHANNEL) != 0u)
             same &= user.chanpath == this->chanpath;
-        if (bantype & BANTYPE_USERNAME)
+        if ((bantype & BANTYPE_USERNAME) != 0u)
             same &= user.username == this->username;
         return same;
     }
@@ -74,7 +81,7 @@ namespace teamtalk
     {
         bool match = bantype != BANTYPE_NONE;
 
-        if ((bantype & BANTYPE_IPADDR) && ipaddr.length())
+        if (((bantype & BANTYPE_IPADDR) != 0u) && (!ipaddr.empty()))
         {
             const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
@@ -82,30 +89,30 @@ namespace teamtalk
             std::wstring bannedip = ipaddr.c_str();
 #else
             std::smatch sm;
-            std::string bannedip = ipaddr.c_str();
+            std::string const bannedip = ipaddr.c_str();
 #endif
             if (user.ipaddr.is_empty())
                 match = false; // do not report banned if user has no IP-address
-            else if (std::regex_search(bannedip, sm, buildregex(rgxsubnet.c_str())) && sm.size() == 3)
+            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
             {
                 // check if network ban
-                ACE_TString net = sm[1].str().c_str();
-                uint32_t prefix = string2i(sm[2].str().c_str());
+                ACE_TString const net = sm[1].str().c_str();
+                uint32_t const prefix = String2I(sm[2].str().c_str());
                 // match &= INetAddrNetwork(user.ipaddr, prefix) == net;
                 // to prevent invalid network (192.168.1.0/23 = 192.168.0.0/23) ?
                 match &= INetAddrNetwork(user.ipaddr, prefix) == INetAddrNetwork(net, prefix);
             }
             else
             {
-                ACE_TString rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-                match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
+                ACE_TString const rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
+                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx.c_str()));
             }
         }
 
-        if ((bantype & BANTYPE_USERNAME))
+        if ((bantype & BANTYPE_USERNAME) != 0u)
             match &= username == user.username;
 
-        if ((bantype & BANTYPE_CHANNEL))
+        if ((bantype & BANTYPE_CHANNEL) != 0u)
             match &= ChannelsEquals(chanpath, user.chanpath);
 
         return match;
@@ -114,7 +121,7 @@ namespace teamtalk
 
     ACE_TString DateToString(const ACE_Time_Value& tv)
     {
-        ACE_Date_Time date(tv);
+        ACE_Date_Time const date(tv);
         ACE_TCHAR buf[200];
         ACE_OS::sprintf(buf, ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"), 
                         (int)date.year(), (int)date.month(), (int)date.day(), 
@@ -133,8 +140,8 @@ namespace teamtalk
     int SumFrameSizes(const std::vector<uint16_t>& in)
     {
         int result = 0;
-        for(size_t i=0;i<in.size();i++)
-            result += in[i];
+        for(unsigned short i : in)
+            result += i;
         return result;
     }
     std::vector<uint16_t> ConvertFrameSizes(const std::vector<int>& in)
@@ -147,8 +154,8 @@ namespace teamtalk
     int SumFrameSizes(const std::vector<int>& in)
     {
         int result = 0;
-        for(size_t i=0;i<in.size();i++)
-            result += in[i];
+        for(int i : in)
+            result += i;
         return result;
     }
 
@@ -165,4 +172,4 @@ namespace teamtalk
         default: return 0;
         }
     }
-}
+} // namespace teamtalk

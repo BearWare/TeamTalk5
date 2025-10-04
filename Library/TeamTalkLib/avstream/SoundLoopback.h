@@ -26,22 +26,19 @@
 
 #include "SoundSystem.h"
 
+#include "avstream/AudioResampler.h"
+#include "codec/MediaUtil.h"
+
 #if defined(ENABLE_SPEEXDSP)
-#include <avstream/SpeexPreprocess.h>
+#include "avstream/SpeexPreprocess.h"
 #endif
-
 #if defined(ENABLE_WEBRTC)
-#include <avstream/WebRTCPreprocess.h>
+#include "avstream/WebRTCPreprocess.h"
 #endif
 
-#include <avstream/AudioResampler.h>
-#include <codec/MediaUtil.h>
-
-#include <myace/MyACE.h>
-
-#include <vector>
-#include <queue>
 #include <mutex>
+#include <queue>
+#include <vector>
 
 class SoundLoopback
     : public soundsystem::StreamDuplex
@@ -50,7 +47,7 @@ class SoundLoopback
 {
 public:
     SoundLoopback();
-    virtual ~SoundLoopback();
+    ~SoundLoopback() override;
 
     bool StartTest(int inputdevid, int outputdevid,
                    int samplerate, int channels

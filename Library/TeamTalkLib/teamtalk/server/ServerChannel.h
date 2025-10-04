@@ -24,7 +24,14 @@
 #ifndef SERVERCHANNEL_H
 #define SERVERCHANNEL_H
 
-#include <teamtalk/Channel.h>
+#include "teamtalk/Channel.h"
+#include "teamtalk/Common.h"
+
+#include <ace/SString.h>
+#include <ace/Time_Value.h>
+
+#include <map>
+#include <vector>
 
 namespace teamtalk { 
 
@@ -33,10 +40,10 @@ namespace teamtalk {
     class ServerChannel : public Channel<ServerChannel, ServerUser>
     {
     public:
-        typedef Channel<ServerChannel, ServerUser> PARENT;
-        ServerChannel(int channelid);
+        using PARENT = Channel<ServerChannel, ServerUser>;
+        explicit ServerChannel(int channelid);
         ServerChannel(channel_t& parent, int channelid, const ACE_TString& name);
-        ~ServerChannel();
+        ~ServerChannel() override;
         // Used for channels with CHANNEL_SOLO_TRANSMIT. 'modified' is only set if 'true'
         bool CanTransmit(int userid, StreamType txtype, int streamid, bool* modified);
         void RemoveUser(int userid);
@@ -45,7 +52,7 @@ namespace teamtalk {
         void UpdateChannelBans();
         void SetOwner(const ServerUser& user);
         bool IsOwner(const ServerUser& user) const;
-        bool IsAutoOperator(const ServerUser& user) const;
+        static bool IsAutoOperator(const ServerUser& user) ;
 
         void AddUserBan(const BannedUser& ban);
         bool IsBanned(const BannedUser& testban) const;
@@ -63,6 +70,6 @@ namespace teamtalk {
         ACE_TString m_usernameOwner;
         void BlockAudioStream(int userid);
     };
-}
+} // namespace teamtalk
 
 #endif /* SERVERCHANNEL_H */

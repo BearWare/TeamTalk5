@@ -25,24 +25,35 @@
 #define SERVERNODE_H
 
 #include "AcceptHandler.h"
+#include "Server.h"
 #include "ServerChannel.h"
 #include "ServerUser.h"
-#include "Server.h"
 
-#include <teamtalk/Commands.h>
-#include <teamtalk/PacketHandler.h>
+#include "myace/MyACE.h"
+#include "myace/TimerHandler.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketHandler.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/StreamHandler.h"
+#include "teamtalk/ttassert.h"
 
-#include <myace/TimerHandler.h>
-#include <myace/MyACE.h>
-
-// ACE
+#include <ace/Event_Handler.h>
+#include <ace/INET_Addr.h>
+#include <ace/Lock.h>
+#include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Guard_T.h>
-#include <ace/Acceptor.h>
+#include <ace/SString.h>
+#include <ace/Thread.h>
+#include <ace/Time_Value.h>
+#if defined(ENABLE_ENCRYPTION)
+#include <ace/SSL/SSL_Context.h>
+#endif
 
-// STL
+#include <cstddef>
 #include <map>
-#include <string>
+#include <memory>
+#include <set>
 #include <vector>
 
 constexpr auto SERVER_USERID = 0;
@@ -52,29 +63,8 @@ constexpr auto SERVER_KEEPALIVE_DELAY = 1;  //keep alive delay (secs). Checks;
 
 #define CHANNELFILEEXTENSION ACE_TEXT(".dat")
 
-#define GUARD_OBJ_NAME(name, this_obj, lock)            \
-    guard_t name(lock);                                 \
-    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
-
-#define GUARD_OBJ_REACQUIRE(name, this_obj)             \
-    (name).acquire();                                   \
-    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
-
-#define GUARD_OBJ_RELEASE(name, this_obj)               \
-    (this_obj)->m_reactorlock_thr_id = ACE_thread_t();      \
-    (name).release()
-
-#define GUARD_OBJ(this_obj, lock)    GUARD_OBJ_NAME(g, this_obj, lock)
-
-#ifdef _DEBUG
-#define ASSERT_REACTOR_LOCKED(this_obj)                         \
-    TTASSERT(this_obj->m_reactorlock_thr_id == ACE_Thread::self())
-#else
-#define ASSERT_REACTOR_LOCKED(...)     (void)0
-#endif
-
-typedef std::map<ACE_TString, std::vector<ACE_TString> > mapipchan_t; //ip-address -> channelpaths
-typedef std::map<ACE_TString, std::vector<ACE_Time_Value> > mapiptime_t; //map ip to login time (used for checking login attempts)
+using mapipchan_t = std::map<ACE_TString, std::vector<ACE_TString> >; //ip-address -> channelpaths
+using mapiptime_t = std::map<ACE_TString, std::vector<ACE_Time_Value> >; //map ip to login time (used for checking login attempts)
 
 namespace teamtalk {
 
@@ -120,12 +110,12 @@ namespace teamtalk {
                    ACE_Reactor* timerReactor,
                    ACE_Reactor* tcpReactor, 
                    ACE_Reactor* udpReactor, 
-                   ServerNodeListener* listener = NULL);
+                   ServerNodeListener* listener = nullptr);
 
-        virtual ~ServerNode();
+        ~ServerNode() override;
 
-        ACE_Lock& lock();
-        ACE_thread_t m_reactorlock_thr_id;
+        ACE_Lock& Lock();
+        ACE_thread_t m_reactorlock_thr_id = ACE_thread_t();
 
         int GetNewUserID();
         serveruser_t GetUser(int userid, const ServerUser* caller, bool authenticated = true);
@@ -145,7 +135,7 @@ namespace teamtalk {
         //UDP packet handling functions
         void ReceivedPacket(PacketHandler* ph,
                             const char* packet_data, int packet_size, 
-                            const ACE_INET_Addr& remoteaddr);
+                            const ACE_INET_Addr& remoteaddr) override;
         void ReceivedHelloPacket(ServerUser& user, const HelloPacket& packet, 
                                  const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
         void ReceivedKeepAlivePacket(ServerUser& user, const KeepAlivePacket& packet, 
@@ -233,15 +223,15 @@ namespace teamtalk {
 
 #if defined(ENABLE_ENCRYPTION)
         ACE_SSL_Context* SetupEncryptionContext();
-        void OnOpened(CryptStreamHandler::StreamHandler_t& streamer);
-        void OnClosed(CryptStreamHandler::StreamHandler_t& streamer);
-        bool OnReceive(CryptStreamHandler::StreamHandler_t& streamer, const char* buff, int len);
-        bool OnSend(CryptStreamHandler::StreamHandler_t& streamer);
+        void OnOpened(CryptStreamHandler::StreamHandler_t& streamer) override;
+        void OnClosed(CryptStreamHandler::StreamHandler_t& streamer) override;
+        bool OnReceive(CryptStreamHandler::StreamHandler_t& streamer, const char* buff, int len) override;
+        bool OnSend(CryptStreamHandler::StreamHandler_t& streamer) override;
 #endif
-        void OnOpened(DefaultStreamHandler::StreamHandler_t& streamer);
-        void OnClosed(DefaultStreamHandler::StreamHandler_t& streamer);
-        bool OnReceive(DefaultStreamHandler::StreamHandler_t& streamer, const char* buff, int len);
-        bool OnSend(DefaultStreamHandler::StreamHandler_t& streamer);
+        void OnOpened(DefaultStreamHandler::StreamHandler_t& streamer) override;
+        void OnClosed(DefaultStreamHandler::StreamHandler_t& streamer) override;
+        bool OnReceive(DefaultStreamHandler::StreamHandler_t& streamer, const char* buff, int len) override;
+        bool OnSend(DefaultStreamHandler::StreamHandler_t& streamer) override;
 
         //launch server
         bool StartServer(bool encrypted, const ACE_TString& sysid);
@@ -252,7 +242,7 @@ namespace teamtalk {
                        const ACE_Time_Value& interval = ACE_Time_Value::zero);
 
         //timer callback
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata);
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
 
         //get currently connected admins
         const ServerChannel::users_t& GetAdministrators();
@@ -305,9 +295,9 @@ namespace teamtalk {
 
         ErrorMsg UpdateServer(const ServerSettings& properties, const ServerUser* user = nullptr);
 
-        ErrorMsg MakeChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
-        ErrorMsg UpdateChannel(const ChannelProp& chanprop, const ServerUser* user = NULL);
-        ErrorMsg RemoveChannel(int channelid, const ServerUser* user = NULL);
+        ErrorMsg MakeChannel(const ChannelProp& chanprop, const ServerUser* user = nullptr);
+        ErrorMsg UpdateChannel(const ChannelProp& chanprop, const ServerUser* user = nullptr);
+        ErrorMsg RemoveChannel(int channelid, const ServerUser* user = nullptr);
 
         //add a file to a channel's folder
         ErrorMsg AddFileToChannel(const RemoteFile& remotefile);
@@ -357,7 +347,7 @@ namespace teamtalk {
         int CountFileTransfers(int userid);
 
         //all connected users
-        typedef std::map<int, serveruser_t> mapusers_t;
+        using mapusers_t = std::map<int, serveruser_t>;
         mapusers_t m_mUsers; //all users
         ServerChannel::users_t m_admins; //only admins (admin cache for speed up)
 
@@ -370,16 +360,16 @@ namespace teamtalk {
         int m_userid_counter = 0;
         //acceptor for listening for clients
 #if defined(ENABLE_ENCRYPTION)
-        typedef std::shared_ptr<CryptAcceptor> cryptacceptor_t;
+        using cryptacceptor_t = std::shared_ptr<CryptAcceptor>;
         std::vector<cryptacceptor_t> m_crypt_acceptors;
 #endif
-        typedef std::shared_ptr<DefaultAcceptor> defaultacceptor_t;
+        using defaultacceptor_t = std::shared_ptr<DefaultAcceptor>;
         std::vector<defaultacceptor_t> m_def_acceptors;
 
         std::map<ACE_HANDLE, serveruser_t> m_streamhandles;
 
         //socket for udp traffic
-        typedef std::shared_ptr<PacketHandler> packethandler_t;
+        using packethandler_t = std::shared_ptr<PacketHandler>;
         std::vector<packethandler_t> m_packethandlers;
         
         //mutex for clients
@@ -388,16 +378,16 @@ namespace teamtalk {
         serverchannel_t m_rootchannel;
 
         //registered file transfers
-        typedef std::map<int, FileTransfer> filetransfers_t;
+        using filetransfers_t = std::map<int, FileTransfer>;
         filetransfers_t m_filetransfers;
 
         //one second timer id
         long m_onesec_timerid = -1;
         //ack desktop data received (user id -> timer id)
-        typedef std::map<int, long> user_desktopack_timers_t;
+        using user_desktopack_timers_t = std::map<int, long>;
         user_desktopack_timers_t m_desktop_ack_timers;
         //RTX timer for desktop transmitters (dest/src user id -> timer id)
-        typedef std::map<long, long> user_desktoppacket_rtx_t;
+        using user_desktoppacket_rtx_t = std::map<long, long>;
         user_desktoppacket_rtx_t m_desktop_rtx_timers;
 
         //set of user's who must be updated
@@ -416,6 +406,32 @@ namespace teamtalk {
         //server's properties
         ServerSettings m_properties;
     };
+
+#define GUARD_OBJ_NAME(name, this_obj, lock)                    \
+    guard_t name(lock);                                         \
+        (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
+
+#define GUARD_OBJ_REACQUIRE(name, this_obj)                     \
+          (name).acquire();                                     \
+        (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
+
+#define GUARD_OBJ_RELEASE(name, this_obj)                       \
+          (this_obj)->m_reactorlock_thr_id = ACE_thread_t();    \
+        (name).release()
+
+#define GUARD_OBJ(this_obj, lock)    GUARD_OBJ_NAME(g, this_obj, lock)
+
+#if defined(_DEBUG)
+
+#define ASSERT_SERVERNODE_LOCKED(servernode)        do {        \
+    TTASSERT((servernode)->m_reactorlock_thr_id == ACE_Thread::self()); \
+    } while (0)
+
+#else
+
+#define ASSERT_SERVERNODE_LOCKED(servernode)        (void)0
+
+#endif /* _DEBUG */
 
     class ServerNodeLogger
     {
@@ -448,9 +464,9 @@ namespace teamtalk {
 
         virtual void OnUserUpdateStream(const ServerUser& user, const ServerChannel& channel, StreamType stream, int streamid) = 0;
 
-        virtual void OnChannelCreated(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
-        virtual void OnChannelUpdated(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
-        virtual void OnChannelRemoved(const ServerChannel& channel, const ServerUser* user = NULL) = 0;
+        virtual void OnChannelCreated(const ServerChannel& channel, const ServerUser* user = nullptr) = 0;
+        virtual void OnChannelUpdated(const ServerChannel& channel, const ServerUser* user = nullptr) = 0;
+        virtual void OnChannelRemoved(const ServerChannel& channel, const ServerUser* user = nullptr) = 0;
 
         virtual void OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
         virtual void OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file) = 0;
@@ -486,5 +502,5 @@ namespace teamtalk {
 
         virtual ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) = 0;
     };
-}
+} // namespace teamtalk
 #endif

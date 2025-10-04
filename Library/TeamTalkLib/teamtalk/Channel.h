@@ -26,16 +26,19 @@
 
 #include "Common.h"
 #include "PacketLayout.h"
+#include "TeamTalkDefs.h"
+#include "myace/MyACE.h"
 #include "ttassert.h"
 
-#include <myace/MyACE.h>
-
 #include <ace/SString.h>
+#include <ace/Time_Value.h>
 
+#include <cstddef>
+#include <cstdint>
 #include <map>
-#include <vector>
-#include <set>
 #include <memory>
+#include <set>
+#include <vector>
 
 #define CHANNEL_SEPARATOR ACE_TEXT("/")
 
@@ -45,15 +48,15 @@ namespace teamtalk {
     class Channel
     {
     public:
-        typedef std::shared_ptr< CHANNEL > channel_t;
-        typedef std::shared_ptr< USER > user_t;
-        typedef std::vector< channel_t > channels_t;
-        typedef std::vector< user_t > users_t;
+        using channel_t = std::shared_ptr< CHANNEL >;
+        using user_t = std::shared_ptr< USER >;
+        using channels_t = std::vector< channel_t >;
+        using users_t = std::vector< user_t >;
 
     private:
         // prevent copying
-        Channel(const Channel& ch);
-        const Channel& operator = (const Channel& ch);
+        Channel(const Channel& ch) = delete;
+        const Channel& operator = (const Channel& ch) = delete;
 
         Channel(channel_t parent, int channelid, ChannelTypes chantype, const ACE_TString& name)
             : m_channelid(channelid)
@@ -61,8 +64,6 @@ namespace teamtalk {
             , m_parent(parent)
             , m_name(name)
         {
-            m_audiocodec.codec = CODEC_NO_CODEC;
-
             // ensure we can use std::map<>.at()
             m_transmitusers[STREAMTYPE_VOICE] = std::set<int>();
             m_transmitusers[STREAMTYPE_VIDEOCAPTURE] = std::set<int>();
@@ -72,7 +73,7 @@ namespace teamtalk {
         }
 
     public:
-        Channel(int channelid)    //create a root
+        explicit Channel(int channelid)    //create a root
             : Channel(channel_t(), channelid, CHANNEL_DEFAULT | CHANNEL_PERMANENT, ACE_TString())
         {
             //MYTRACE("New channel: %s\n", m_name.c_str());
@@ -97,7 +98,7 @@ namespace teamtalk {
         void SetOpPassword(const ACE_TString& oppasswd) { m_oppasswd = oppasswd; }
         const ACE_TString& GetOpPassword() const { return m_oppasswd; }
         void SetPasswordProtected(bool protect){m_protected = protect;}
-        bool IsPasswordProtected() const{return m_protected || m_password.length();}
+        bool IsPasswordProtected() const{return m_protected || !m_password.empty();}
         void SetTopic(const ACE_TString& topic){m_topic = topic;}
         const ACE_TString& GetTopic() const{return m_topic;}
         void SetMaxDiskUsage(ACE_INT64 maxSize) { m_maxdiskusage = maxSize; }
@@ -180,13 +181,13 @@ namespace teamtalk {
         }
         bool IsOperator(int userid) const
         {
-            return m_setOps.find(userid) != m_setOps.end();
+            return m_setOps.contains(userid);
         }
         std::set<int> RemoveOperator(int userid, bool recursive = false)
         {
             std::set<int> chanids;
 
-            if(m_setOps.find(userid) != m_setOps.end())
+            if(m_setOps.contains(userid))
             {
                 m_setOps.erase(m_setOps.find(userid));
                 chanids.insert(GetChannelID());
@@ -209,13 +210,13 @@ namespace teamtalk {
         std::set<int> ClearTransmitUser(int userid, bool recursive = false)
         {
             std::set<int> chanids;
-            if(m_transmitusers[STREAMTYPE_VOICE].find(userid) != m_transmitusers[STREAMTYPE_VOICE].end())
+            if(m_transmitusers[STREAMTYPE_VOICE].contains(userid))
                 chanids.insert(GetChannelID());
-            else if(m_transmitusers[STREAMTYPE_VIDEOCAPTURE].find(userid) != m_transmitusers[STREAMTYPE_VIDEOCAPTURE].end())
+            else if(m_transmitusers[STREAMTYPE_VIDEOCAPTURE].contains(userid))
                 chanids.insert(GetChannelID());
-            else if(m_transmitusers[STREAMTYPE_DESKTOP].find(userid) != m_transmitusers[STREAMTYPE_DESKTOP].end())
+            else if(m_transmitusers[STREAMTYPE_DESKTOP].contains(userid))
                 chanids.insert(GetChannelID());
-            else if(m_transmitusers[STREAMTYPE_MEDIAFILE].find(userid) != m_transmitusers[STREAMTYPE_MEDIAFILE].end())
+            else if(m_transmitusers[STREAMTYPE_MEDIAFILE].contains(userid))
                 chanids.insert(GetChannelID());
 
             m_transmitusers[STREAMTYPE_VOICE].erase(userid);
@@ -263,8 +264,7 @@ namespace teamtalk {
         {
             if (!channel)
                 return false;
-            else
-                return stringcmpnocase(channel->GetChannelPath(), GetChannelPath());
+            return StringCmpNoCase(channel->GetChannelPath(), GetChannelPath());
         }
         void AddSubChannel(channel_t& new_channel)
         {
@@ -277,7 +277,7 @@ namespace teamtalk {
         {
             for(size_t i=0;i<m_subChannels.size();i++)
             {
-                if(stringcmpnocase(m_subChannels[i]->GetName(), name))
+                if(StringCmpNoCase(m_subChannels[i]->GetName(), name))
                 {
                     m_subChannels.erase(m_subChannels.begin()+i);
                     break;
@@ -299,7 +299,7 @@ namespace teamtalk {
             channel_t sub;
             for(size_t i=0;i<m_subChannels.size();i++)
             {
-                if(stringcmpnocase(m_subChannels[i]->GetName(), name))
+                if(StringCmpNoCase(m_subChannels[i]->GetName(), name))
                 {
                     sub = m_subChannels[i];
                     break;
@@ -321,7 +321,7 @@ namespace teamtalk {
                     channel = m_subChannels[i];
                     break;
                 }
-                else if(recursive)
+                if(recursive)
                 {
                     channel = m_subChannels[i]->GetSubChannel(nChannelID, recursive);
                     if(channel)
@@ -334,7 +334,7 @@ namespace teamtalk {
         ACE_INT64 GetDiskUsage() const
         {
             ACE_INT64 total = 0;
-            mfiles_t::const_iterator ite=m_files.begin();
+            auto ite=m_files.begin();
             while(ite != m_files.end())
             {
                 total += ite->second.filesize;
@@ -357,7 +357,7 @@ namespace teamtalk {
         }
         bool FileExists(const ACE_TString& filename) const
         {
-            return m_files.find(filename) != m_files.end();
+            return m_files.contains(filename);
         }
         bool FileExists(int fileid, bool recursive = false) const
         {
@@ -366,7 +366,7 @@ namespace teamtalk {
         }
         bool GetFile(const ACE_TString& filename, RemoteFile& remotefile) const
         {
-            mfiles_t::const_iterator ite = m_files.find(filename);
+            auto ite = m_files.find(filename);
             if(ite != m_files.end())
             {
                 remotefile = ite->second;
@@ -376,7 +376,7 @@ namespace teamtalk {
         }
         bool GetFile(int fileid, RemoteFile& remotefile, bool recursive = false) const
         {
-            mfiles_t::const_iterator ite=m_files.begin();
+            auto ite=m_files.begin();
             while(ite != m_files.end())
             {
                 if(ite->second.fileid == fileid)
@@ -395,7 +395,7 @@ namespace teamtalk {
         }
         void GetFiles(files_t& files, bool recursive = false) const
         {
-            mfiles_t::const_iterator ite=m_files.begin();
+            auto ite=m_files.begin();
             while(ite != m_files.end())
             {
                 files.push_back(ite->second);
@@ -434,13 +434,13 @@ namespace teamtalk {
         {
             const std::set<int>& txusers = m_transmitusers[txtype];
 
-            if ((m_chantype & CHANNEL_CLASSROOM) &&
-                txusers.find(userid) == txusers.end() &&
-                txusers.find(TRANSMITUSERS_FREEFORALL) == txusers.end())
+            if (((m_chantype & CHANNEL_CLASSROOM) != 0U) &&
+                !txusers.contains(userid) &&
+                !txusers.contains(TRANSMITUSERS_FREEFORALL))
                 return false;
 
             if ((m_chantype & CHANNEL_CLASSROOM) == CHANNEL_DEFAULT &&
-                txusers.find(userid) != txusers.end())
+                txusers.contains(userid))
                 return false;
 
             return true;
@@ -509,7 +509,7 @@ namespace teamtalk {
 
     private:
         //pair element for m_mUsers
-        typedef std::map<int, user_t > mapuser_t;
+        using mapuser_t = std::map<int, user_t >;
         //users in channel
         mapuser_t m_mUsers;
         users_t m_vecUsers; //cached users for fast access (same as in 'm_mUsers')
@@ -523,7 +523,7 @@ namespace teamtalk {
         std::weak_ptr< CHANNEL > m_parent;
         bool m_protected = false;
         ACE_INT64 m_maxdiskusage = 0;
-        typedef std::map<ACE_TString, RemoteFile> mfiles_t;
+        using mfiles_t = std::map<ACE_TString, RemoteFile>;
         mfiles_t m_files;
         int m_maxusers = MAX_USERS_IN_CHANNEL;
         int m_channelid = 0;
@@ -571,9 +571,9 @@ namespace teamtalk {
     {
         std::set<int> result;
         std::shared_ptr< CHANNEL > tmp;
-        for(size_t i=0;i<channelpaths.size();i++)
+        for(const auto & channelpath : channelpaths)
         {
-            tmp = ChangeChannel(channel, channelpaths[i]);
+            tmp = ChangeChannel(channel, channelpath);
             if (tmp)
                 result.insert(tmp->GetChannelID());
         }
@@ -587,7 +587,7 @@ namespace teamtalk {
         strings_t result;
 
         std::shared_ptr< CHANNEL > tmp;
-        std::set<int>::const_iterator ii = channelids.begin();
+        auto ii = channelids.begin();
         for(;ii!=channelids.end();ii++)
         {
             if(channel->GetChannelID() == *ii)
@@ -600,5 +600,5 @@ namespace teamtalk {
         }
         return result;
     }
-}
+} // namespace teamtalk
 #endif

@@ -22,47 +22,46 @@
  */
 
 #include "AudioContainer.h"
-#include <assert.h>
+#include "avstream/AudioResampler.h"
+
+#include <ace/Time_Value.h>
+#include <cassert>
 #include <cstring>
 
-uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
+static uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
 {
     assert(userid < 0x10000);
     assert(sts < 0x10000);
     return (userid << 16) | sts;
 }
 
-AudioContainer::AudioContainer()
-{
-}
-
 void AudioContainer::Reset()
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
     m_container.clear();
 }
 
 void AudioContainer::AddAudioSource(int userid, teamtalk::StreamTypes sts,
                                     const media::AudioFormat& af)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
     auto key = GenKey(userid, sts);
-    audioentry_t entry(new AudioEntry(af));
+    audioentry_t const entry(new AudioEntry(af));
     m_container[key] = entry;
 }
 
 void AudioContainer::RemoveAudioSource(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
     m_container.erase(GenKey(userid, sts));
 }
 
 bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
                               const media::AudioFrame& frame)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
 
-    audiostore_t::iterator ii = m_container.find(GenKey(userid, sts));
+    auto const ii = m_container.find(GenKey(userid, sts));
 
     if (ii == m_container.end())
         return false;
@@ -85,14 +84,14 @@ bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
 
 bool AudioContainer::Exists(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
 
-    return m_container.find(GenKey(userid, sts)) != m_container.end();
+    return m_container.contains(GenKey(userid, sts));
 }
 
 bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
     auto ii = m_container.find(GenKey(userid, sts));
     if (ii == m_container.end())
         return true;
@@ -102,16 +101,16 @@ bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
 
 ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
 
-    audiostore_t::iterator ii = m_container.find(GenKey(userid, sts));
+    auto const ii = m_container.find(GenKey(userid, sts));
     if (ii == m_container.end())
         return nullptr;
 
     auto& entry = ii->second;
 
     ACE_Time_Value tm;
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
     if (entry->mq.dequeue_head(mb, &tm) >= 0)
     {
         media::AudioFrame frm(mb);
@@ -131,21 +130,21 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             }
 
             // setup ACE_Message_Block for resampled output
-            int samples = CalcSamples(frm.inputfmt.samplerate, frm.input_samples,
+            int const samples = CalcSamples(frm.inputfmt.samplerate, frm.input_samples,
                                       entry->outfmt.samplerate);
 
-            size_t audiobytes = PCM16_BYTES(samples, entry->outfmt.channels);
-            size_t totalbytes = audiobytes + sizeof(media::AudioFrame);
+            size_t const audiobytes = PCM16_BYTES(samples, entry->outfmt.channels);
+            size_t const totalbytes = audiobytes + sizeof(media::AudioFrame);
 
-            ACE_Message_Block* mb_resam;
+            ACE_Message_Block* mb_resam = nullptr;
             ACE_NEW_NORETURN(mb_resam, ACE_Message_Block(totalbytes));
-            if (!mb_resam)
+            if (mb_resam == nullptr)
             {
                 mb->release();
                 return nullptr;
             }
 
-            short* outputptr = reinterpret_cast<short*>(mb_resam->wr_ptr() + sizeof(media::AudioFrame));
+            auto* outputptr = reinterpret_cast<short*>(mb_resam->wr_ptr() + sizeof(media::AudioFrame));
             media::AudioFrame frm_resam = frm;
             frm_resam.inputfmt = entry->outfmt;
             frm_resam.input_buffer = outputptr;
@@ -155,7 +154,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
 
             mb_resam->copy(reinterpret_cast<const char*>(&frm_resam), sizeof(frm_resam));
             assert(entry->resampler);
-            int outputsamples = entry->resampler->Resample(frm.input_buffer, frm.input_samples, outputptr, samples);
+            int const outputsamples = entry->resampler->Resample(frm.input_buffer, frm.input_samples, outputptr, samples);
             assert(outputsamples <= samples);
             MYTRACE_COND(outputsamples != samples, ACE_TEXT("Resampled audio output doesn't match expected: %d != %d. Zeroing remaining\n"),
                          outputsamples, samples);
@@ -176,13 +175,13 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
 
 void AudioContainer::ReleaseAllAudio()
 {
-    std::lock_guard<std::recursive_mutex> g(m_store_mtx);
+    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
 
-    audiostore_t::iterator ii = m_container.begin();
+    auto ii = m_container.begin();
     while(ii != m_container.end())
     {
         ACE_Time_Value tm;
-        ACE_Message_Block* mb;
+        ACE_Message_Block* mb = nullptr;
 
         while(ii->second->mq.dequeue(mb, &tm) >= 0)
         {

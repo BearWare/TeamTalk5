@@ -27,14 +27,14 @@
 #include "Common.h"
 #include "PacketLayout.h"
 
+#include <ace/Basic_Types.h>
 #include <ace/SString.h>
-#include <ace/INET_Addr.h>
-
+#include <cstddef>
 #include <map>
 
 namespace teamtalk {
 
-    typedef std::map< int, TextMessage > messages_t;
+    using messages_t = std::map< int, TextMessage >;
 
     class User
     {
@@ -70,9 +70,9 @@ namespace teamtalk {
         void UpdateLastTimeStamp(PacketKind packet_kind, ACE_UINT32 tm);
         void UpdateLastTimeStamp(const FieldPacket& pkt);
 
-        ACE_UINT32 GetLastTimeStamp(bool* is_set = NULL) const;
-        ACE_UINT32 GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = NULL) const;
-        ACE_UINT32 GetLastTimeStamp(PacketKind packet_kind, bool* is_set = NULL) const;
+        ACE_UINT32 GetLastTimeStamp(bool* is_set = nullptr) const;
+        ACE_UINT32 GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = nullptr) const;
+        ACE_UINT32 GetLastTimeStamp(PacketKind packet_kind, bool* is_set = nullptr) const;
         // MAX_PAYLOAD_DATA_SIZE
         void SetMaxDataChunkSize(int size) { m_mtu_data_size = size; }
         int GetMaxDataChunkSize() const { return m_mtu_data_size; }
@@ -92,12 +92,12 @@ namespace teamtalk {
         bool m_tm_ok = false;
         ACE_UINT32 m_timestamp = 0;
         int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
-        typedef std::map<PacketKind, ACE_UINT32> packet_timestamps_t;
+        using packet_timestamps_t = std::map<PacketKind, ACE_UINT32>;
         packet_timestamps_t m_pkt_timestamps;
     protected:
         ACE_TString m_nickname;
         ACE_TString m_version;
         ACE_TString m_clientname;
     };
-}
+} // namespace teamtalk
 #endif

@@ -22,25 +22,26 @@
  */
 
 #include "SpeexDecoder.h"
-#include <assert.h>
+
+#include <cassert>
 #include <cstddef>
 
 SpeexDecoder::SpeexDecoder()
-: m_decstate(NULL)
+: m_decstate(nullptr)
 , m_framesize(0)
 {
 }
 
 SpeexDecoder::~SpeexDecoder()
 {
-    if(m_decstate)
+    if(m_decstate != nullptr)
         Close();
 }
 
 bool SpeexDecoder::Initialize(int bandmode)
 {
-    assert(m_decstate == NULL);
-    if(m_decstate)
+    assert(m_decstate == nullptr);
+    if(m_decstate != nullptr)
         return false;
 
     //initialize speex decoder
@@ -70,21 +71,21 @@ bool SpeexDecoder::Initialize(int bandmode)
 void SpeexDecoder::Close()
 {
     //shutdown decoder
-    if(m_decstate)
+    if(m_decstate != nullptr)
     {
         speex_bits_destroy(&m_DecBits);
         speex_decoder_destroy(m_decstate);
-        m_decstate = NULL;
+        m_decstate = nullptr;
         m_framesize = 0;
     }
 }
 
 void SpeexDecoder::Reset()
 {
-    if(m_decstate)
+    if(m_decstate != nullptr)
     {
         int v = 1;
-        int ret = speex_decoder_ctl(m_decstate, SPEEX_RESET_STATE, &v);
+        int const ret = speex_decoder_ctl(m_decstate, SPEEX_RESET_STATE, &v);
         assert(ret == 0);
     }
 }
@@ -104,17 +105,17 @@ int SpeexDecoder::GetOption(int opt, float& v)
 int SpeexDecoder::Decode(const char* enc_data, int enc_len, 
                          short* samples_out)
 {
-    if(!m_decstate)
+    if(m_decstate == nullptr)
         return -1;
 
-    if(enc_data)
+    if(enc_data != nullptr)
     {
         speex_bits_read_from(&m_DecBits, const_cast<char*> (enc_data), enc_len);
         return speex_decode_int(m_decstate, &m_DecBits, samples_out);
     }
 
     //decode lost
-    return speex_decode_int(m_decstate, NULL, samples_out);
+    return speex_decode_int(m_decstate, nullptr, samples_out);
 }
 
 void SpeexDecoder::DecodeMultiple(const char* enc_data, 
@@ -124,10 +125,10 @@ void SpeexDecoder::DecodeMultiple(const char* enc_data,
     int pos = 0;
     for(size_t i=0;i<encframe_sizes.size();i++)
     {
-        if(enc_data)
+        if(enc_data != nullptr)
             Decode(&enc_data[pos], encframe_sizes[i], &samples_out[i*m_framesize]);
         else
-            Decode(NULL, encframe_sizes[i], &samples_out[i*m_framesize]);
+            Decode(nullptr, encframe_sizes[i], &samples_out[i*m_framesize]);
         pos += encframe_sizes[i];
     }
 }

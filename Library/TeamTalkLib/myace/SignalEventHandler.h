@@ -24,16 +24,15 @@
 #if !defined(SIGNALEVENTHANDLER_H)
 #define SIGNALEVENTHANDLER_H
 
-#include <ace/Reactor.h>
 #include <ace/Event_Handler.h>
 
 class SignalEventHandler : public ACE_Event_Handler
 {
  public:
   SignalEventHandler(bool& signaled);
-  int handle_signal(int signum, siginfo_t*,ucontext_t*);
+  int handle_signal(int signum, siginfo_t* /*unused*/,ucontext_t* /*unused*/) override;
 
  private:
-  bool& signaled_;
+  bool& m_signaled;
 };
 #endif

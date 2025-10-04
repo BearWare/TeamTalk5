@@ -21,19 +21,16 @@
 *
 */
 
-#include <ace/ACE.h>
-
 #include "TTUnitTest.h"
 
-#include <myace/MyACE.h>
-
+#include "mystd/MyStd.h"
 
 std::string g_server_ipaddr = "127.0.0.1";
 const bool GITHUBSKIP = ACE_OS::getenv(ACE_TEXT("GITHUBSKIP")) ? ACE_OS::atoi(ACE_OS::getenv(ACE_TEXT("GITHUBSKIP"))) == 1 : false;
 
-ttinst InitTeamTalk()
+TTInstPtr InitTeamTalk()
 {
-    ttinst inst(TT_InitTeamTalkPoll());
+    TTInstPtr inst(TT_InitTeamTalkPoll());
     return inst;
 }
 

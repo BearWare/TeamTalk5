@@ -22,11 +22,11 @@
  */
 
 #include "OpusDecoder.h"
-#include <string.h>
-#include <assert.h>
+
+#include <cassert>
 
 OpusDecode::OpusDecode()
-    : m_decoder(NULL)
+    : m_decoder(nullptr)
 {
 }
 
@@ -37,27 +37,27 @@ OpusDecode::~OpusDecode()
 
 bool OpusDecode::Open(int sample_rate, int channels)
 {
-    if(m_decoder)
+    if(m_decoder != nullptr)
         return false;
 
     int err = 0;
     m_decoder = opus_decoder_create(sample_rate, channels, &err);
     assert(err == 0);
-    return m_decoder != NULL;
+    return m_decoder != nullptr;
 }
 
 void OpusDecode::Close()
 {
-    if(m_decoder)
+    if(m_decoder != nullptr)
         opus_decoder_destroy(m_decoder);
-    m_decoder = NULL;
+    m_decoder = nullptr;
 }
 
 void OpusDecode::Reset()
 {
-    if (m_decoder)
+    if (m_decoder != nullptr)
     {
-        int ret = opus_decoder_ctl(m_decoder, OPUS_RESET_STATE);
+        int const ret = opus_decoder_ctl(m_decoder, OPUS_RESET_STATE);
         assert(ret == OPUS_OK);
     }
 }
@@ -68,7 +68,7 @@ int OpusDecode::Decode(const char* input_buffer, int input_bufsize,
     assert(m_decoder);
     assert(output_buffer);
     return opus_decode(m_decoder, 
-                       reinterpret_cast<const unsigned char*>(input_buffer?input_buffer:NULL),
-                       input_buffer?input_bufsize:0, output_buffer, 
-                       output_samples, input_buffer?0:1);
+                       reinterpret_cast<const unsigned char*>((input_buffer != nullptr)?input_buffer:nullptr),
+                       (input_buffer != nullptr)?input_bufsize:0, output_buffer, 
+                       output_samples, (input_buffer != nullptr)?0:1);
 }

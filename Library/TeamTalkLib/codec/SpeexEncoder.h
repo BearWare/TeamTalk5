@@ -24,20 +24,18 @@
 #if !defined(SPEEXENCODER_H)
 #define SPEEXENCODER_H
 
+#include "mystd/MyStd.h"
+
 #include <speex/speex.h>
-
-#include <cstddef>
-
-#include <mystd/MyStd.h>
 
 /****************************/
 /******* Win32/Linux ********/
 /****************************/
 
-#define DEFAULT_SPEEX_COMPLEXITY 2
+constexpr auto DEFAULT_SPEEX_COMPLEXITY = 2;
 
-#define SPEEX_COMPLEXITY_MIN 0
-#define SPEEX_COMPLEXITY_MAX 10
+constexpr auto SPEEX_COMPLEXITY_MIN = 0;
+constexpr auto SPEEX_COMPLEXITY_MAX = 10;
 
 class SpeexEncoder : private NonCopyable
 {
