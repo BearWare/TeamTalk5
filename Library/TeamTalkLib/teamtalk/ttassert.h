@@ -21,10 +21,10 @@
  *
  */
 
-#ifndef _TTASSERT_H
-#define _TTASSERT_H
+#ifndef TTASSERT_H
+#define TTASSERT_H
 
-#include <assert.h>
+#include <cassert>
 
 void tt_assert(const char* assertion, const char* file, int line);
 
@@ -34,7 +34,7 @@ void tt_assert(const char* assertion, const char* file, int line);
 
 #else  // !NDEBUG
 
-#define TTASSERT(_EX) do { (_EX)? (void)0 : tt_assert(#_EX, __FILE__, __LINE__);  assert(_EX); } while(0)
+#define TTASSERT(_EX) do { (_EX)? (void)0 : tt_assert(#_EX, __FILE__, __LINE__);  assert(_EX); } while(0) /* NOLINT(cppcoreguidelines-avoid-do-while) */
 
 #endif
 

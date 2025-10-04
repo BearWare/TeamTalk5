@@ -22,30 +22,36 @@
  */
 
 #include "DesktopSession.h"
+
+#include "Common.h"
 #include "PacketLayout.h"
 #include "ttassert.h"
 
-using namespace std;
+#include <cassert>
+#include <cstddef>
+#include <cstring>
+#include <utility>
+#include <vector>
+
 using namespace teamtalk;
 
 DesktopSession::DesktopSession(const DesktopWindow& wnd)
 : m_wnd(wnd)
-, m_padding(0)
-, m_bytes_per_line(0)
+ 
 {
     Init();
 
-    if(GetBitmapSize())
+    if(GetBitmapSize() != 0)
         m_padding = ((GetWidth() * m_pixel_size + 3) & ~3) - GetWidth() * m_pixel_size;
     TTASSERT((GetWidth() * m_pixel_size + m_padding) % 4 == 0);
 }
 
 DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 : m_wnd(wnd)
-, m_bytes_per_line(bytes_per_line)
+, m_padding(0), m_bytes_per_line(bytes_per_line)
 {
     Init();
-    m_padding = 0;
+    
 }
 
 bool DesktopSession::IsValid() const
@@ -92,14 +98,14 @@ void DesktopSession::Init()
     }
     assert(m_block_width * m_block_height * m_pixel_size <= BLOCK_MAX_BYTESIZE);
 
-    if(m_block_width && m_block_height)
+    if((m_block_width != 0) && (m_block_height != 0))
     {
         m_w_blocks = m_wnd.width / m_block_width;
         m_h_blocks = m_wnd.height / m_block_height;
 
-        if(m_wnd.width % m_block_width)
+        if((m_wnd.width % m_block_width) != 0)
             m_w_blocks++;
-        if(m_wnd.height % m_block_height)
+        if((m_wnd.height % m_block_height) != 0)
             m_h_blocks++;
     }
 }
@@ -123,23 +129,23 @@ RGBMode DesktopSession::GetRGBMode() const
 
 int DesktopSession::GetBitmapSize() const
 {
-    if(m_bytes_per_line)
+    if(m_bytes_per_line != 0)
         return m_bytes_per_line * GetHeight();
-    return GetHeight() * GetWidth() * m_pixel_size + (GetHeight() * m_padding);
+    return (GetHeight() * GetWidth() * m_pixel_size) + (GetHeight() * m_padding);
 }
 
 int DesktopSession::GetBytesPerLine() const
 {
-    if(m_bytes_per_line)
+    if(m_bytes_per_line != 0)
         return m_bytes_per_line;
-    return GetWidth() * m_pixel_size + m_padding;
+    return (GetWidth() * m_pixel_size) + m_padding;
 }
 
 DesktopSession teamtalk::MakeDesktopSession(int width, int height, 
                                             RGBMode rgb_mode,
                                             int bytes_per_line/* = 0*/)
 {
-    if(bytes_per_line)
+    if(bytes_per_line != 0)
         return DesktopSession(DesktopWindow(0, width, height, rgb_mode,
                               DESKTOPPROTOCOL_NONE), bytes_per_line);
     return DesktopSession(DesktopWindow(0, width, height, rgb_mode, 
@@ -151,15 +157,16 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
                                std::vector<char>& dst_bitmap, 
                                const DesktopSession& dst_ses)
 {
-    size_t rgbsrc_pos = 0, rgbdest_pos = 0;
-    size_t rgbsrc_bytes_per_line = src_ses.GetBytesPerLine();
-    size_t rgbdest_bytes_per_line = dst_ses.GetBytesPerLine();
-    for(size_t h=0;h<(size_t)src_ses.GetHeight();h++)
+    size_t rgbsrc_pos = 0;
+    size_t rgbdest_pos = 0;
+    size_t const rgbsrc_bytes_per_line = src_ses.GetBytesPerLine();
+    size_t const rgbdest_bytes_per_line = dst_ses.GetBytesPerLine();
+    for(size_t h=0;std::cmp_less(h,src_ses.GetHeight());h++)
     {
         rgbsrc_pos = rgbsrc_bytes_per_line * h;
-        size_t rgbsrc_end = rgbsrc_pos + src_ses.GetWidthSize();
+        size_t const rgbsrc_end = rgbsrc_pos + src_ses.GetWidthSize();
         rgbdest_pos = rgbdest_bytes_per_line * h;
-        size_t rgbdest_end = rgbdest_pos + rgbdest_bytes_per_line;
+        size_t const rgbdest_end = rgbdest_pos + rgbdest_bytes_per_line;
         TTASSERT(rgbdest_end <= dst_bitmap.size());
         switch(src_ses.GetRGBMode())
         {
@@ -173,12 +180,12 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB16_555 : //BMP_RGB8_PALETTE -> BMP_RGB16_555
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 rgb8 = src_bitmap[i];
-                    unsigned char r = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
-                    unsigned char g = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
-                    unsigned char b = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
+                    ACE_UINT8 const rgb8 = src_bitmap[i];
+                    unsigned char const r = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
+                    unsigned char const g = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
+                    unsigned char const b = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
 
-                    unsigned short rgb16;
+                    unsigned short rgb16 = 0;
                     rgb16  = (r / 8);
                     rgb16 |= (g / 8) << 5;
                     rgb16 |= (b / 8) << 10;
@@ -190,7 +197,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB24 : //BMP_RGB8_PALETTE -> BMP_RGB24
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 rgb8 = src_bitmap[i];
+                    ACE_UINT8 const rgb8 = src_bitmap[i];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
@@ -199,7 +206,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB32 : //BMP_RGB8_PALETTE -> BMP_RGB32
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 rgb8 = src_bitmap[i];
+                    ACE_UINT8 const rgb8 = src_bitmap[i];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
@@ -217,7 +224,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB8_PALETTE : //RGB16 -> BMP_RGB8_PALETTE
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=2)
                 {
-                    unsigned short rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
+                    unsigned short const rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
                     dst_bitmap[rgbdest_pos++] = RGB8Palette((rgb & 0x1F) * 8,
                                                             ((rgb >> 5) & 0x1F) * 8,
                                                             ((rgb >> 10) & 0x1F) * 8);
@@ -233,7 +240,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB24 : //RGB16 -> RGB24
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=2)
                 {
-                    unsigned short rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
+                    unsigned short const rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
                     dst_bitmap[rgbdest_pos++] = (rgb & 0x1F) * 8;
                     dst_bitmap[rgbdest_pos++] = ((rgb >> 5) & 0x1F) * 8;
                     dst_bitmap[rgbdest_pos++] = ((rgb >> 10) & 0x1F) * 8;
@@ -242,7 +249,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB32 : //RGB16 -> RGB32
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=2)
                 {
-                    unsigned short rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
+                    unsigned short const rgb = *reinterpret_cast<const unsigned short*>(&src_bitmap[i]);
                     dst_bitmap[rgbdest_pos++] = (rgb & 0x1F) * 8;
                     dst_bitmap[rgbdest_pos++] = ((rgb >> 5) & 0x1F) * 8;
                     dst_bitmap[rgbdest_pos++] = ((rgb >> 10) & 0x1F) * 8;
@@ -268,11 +275,11 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB16_555 : //RGB24 -> RGB16
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=3)
                 {
-                    unsigned char r = src_bitmap[i];
-                    unsigned char g = src_bitmap[i+1];
-                    unsigned char b = src_bitmap[i+2];
+                    unsigned char const r = src_bitmap[i];
+                    unsigned char const g = src_bitmap[i+1];
+                    unsigned char const b = src_bitmap[i+2];
 
-                    unsigned short rgb16;
+                    unsigned short rgb16 = 0;
                     rgb16  = (r / 8);
                     rgb16 |= (g / 8) << 5;
                     rgb16 |= (b / 8) << 10;
@@ -317,11 +324,11 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB16_555 : //RGB32 -> RGB16
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=4)
                 {
-                    unsigned char r = src_bitmap[i];
-                    unsigned char g = src_bitmap[i+1];
-                    unsigned char b = src_bitmap[i+2];
+                    unsigned char const r = src_bitmap[i];
+                    unsigned char const g = src_bitmap[i+1];
+                    unsigned char const b = src_bitmap[i+2];
 
-                    unsigned short rgb16;
+                    unsigned short rgb16 = 0;
                     rgb16  = (r / 8);
                     rgb16 |= (g / 8) << 5;
                     rgb16 |= (b / 8) << 10;
@@ -417,9 +424,14 @@ static unsigned char COLOR_MATRIX[6] = {0x00, 0x33, 0x66, 0x99, 0xcc, 0xff};
 
 void BMPPalette::InitPalette()
 {
-  unsigned int palette_idx, r_idx, g_idx, b_idx;
+  unsigned int palette_idx;
+  unsigned int r_idx;
+  unsigned int g_idx;
+  unsigned int b_idx;
 
-  unsigned char r,g,b;
+  unsigned char r;
+  unsigned char g;
+  unsigned char b;
 
   r = 0;
   g = 0;
@@ -470,18 +482,18 @@ void BMPPalette::InitPalette()
 }
 
 
-inline unsigned char cube_idx(unsigned char color);
+static inline unsigned char CubeIdx(unsigned char color);
 
 inline int teamtalk::RGB8Palette(unsigned char r, unsigned char g, unsigned char b)
 {
-  return cube_idx(r)*36+cube_idx(g)*6+cube_idx(b);
+  return (CubeIdx(r)*36)+(CubeIdx(g)*6)+CubeIdx(b);
 }
 
-inline unsigned char cube_idx(unsigned char color)
+inline unsigned char CubeIdx(unsigned char color)
 {
     int i = 0;
     unsigned char j = 0;
-    int result;
+    int result = 0;
     while(i<6){
 
         result=color-COLOR_MATRIX[i];

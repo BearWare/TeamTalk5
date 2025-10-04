@@ -24,19 +24,20 @@
 #ifndef AUDIOCONTAINER_H
 #define AUDIOCONTAINER_H
 
-#include <codec/MediaUtil.h>
-#include <avstream/AudioResampler.h>
-#include <mystd/MyStd.h>
-#include <teamtalk/Common.h>
+#include "avstream/AudioResampler.h"
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
+#include "teamtalk/Common.h"
 
-#include <ace/Message_Queue.h>
+#include <ace/Message_Block.h>
 
-#include <set>
+#include <cstdint>
 #include <map>
 #include <memory>
 #include <mutex>
 
-#define AUDIOCONTAINER_MAXSIZE (PCM16_BYTES(48000, 2) * 3) // 3 seconds at 48KHz stereo
+constexpr auto AUDIOCONTAINER_MAXSIZE = PCM16_BYTES(48000, 2) * 3; // 3 seconds at 48KHz stereo
 
 struct AudioEntry
 {
@@ -52,12 +53,12 @@ struct AudioEntry
     }
 };
 
-typedef std::shared_ptr<AudioEntry> audioentry_t;
+using audioentry_t = std::shared_ptr<AudioEntry>;
 
 class AudioContainer : public NonCopyable
 {
 public:
-    AudioContainer();
+    AudioContainer() = default;
     void Reset();
 
     void AddAudioSource(int userid, teamtalk::StreamTypes sts, const media::AudioFormat& af);
@@ -71,7 +72,7 @@ public:
     void ReleaseAllAudio();
 
 private:
-    typedef std::map< uint32_t, audioentry_t > audiostore_t;
+    using audiostore_t = std::map< uint32_t, audioentry_t >;
     audiostore_t m_container;
     std::recursive_mutex m_store_mtx;
 };

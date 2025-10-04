@@ -22,10 +22,10 @@
  */
 
 #include "OpusEncoder.h"
-#include <string.h>
-#include <assert.h>
 
-int OPUS_GetCbSize(int samplerate, int msec)
+#include <cassert>
+
+int OpusGetCbSize(int samplerate, int msec)
 {
     if (msec < 5)
         return samplerate * 25 / 10000;
@@ -48,21 +48,21 @@ int OPUS_GetCbSize(int samplerate, int msec)
     return 0;
 }
 
-int OPUS_GetCbMSec(int samplerate, int cb_samples)
+int OpusGetCbMSec(int samplerate, int cb_samples)
 {
-    if(!samplerate)
+    if(samplerate == 0)
         return 0;
 
-    int msec = cb_samples * 1000 / samplerate;
-    int samples = OPUS_GetCbSize(samplerate, msec);
-    if(!samples)
+    int const msec = cb_samples * 1000 / samplerate;
+    int const samples = OpusGetCbSize(samplerate, msec);
+    if(samples == 0)
         return 0;
     
     return samples * 1000 / samplerate;
 }
 
 OpusEncode::OpusEncode()
-    : m_encoder(NULL)
+    : m_encoder(nullptr)
 {
 }
 
@@ -73,36 +73,36 @@ OpusEncode::~OpusEncode()
 
 bool OpusEncode::Open(int sample_rate, int channels, int app)
 {
-    if(m_encoder)
+    if(m_encoder != nullptr)
         return false;
 
     int err = 0;
     m_encoder = opus_encoder_create(sample_rate, channels, app, &err);
     assert(err == 0);
 
-    return m_encoder != NULL;
+    return m_encoder != nullptr;
 }
 
 void OpusEncode::Close()
 {
-    if(m_encoder)
+    if(m_encoder != nullptr)
         opus_encoder_destroy(m_encoder);
-    m_encoder = NULL;
+    m_encoder = nullptr;
 }
 
 void OpusEncode::Reset()
 {
-   int err = opus_encoder_ctl(m_encoder, OPUS_RESET_STATE);
+   int const err = opus_encoder_ctl(m_encoder, OPUS_RESET_STATE);
     assert(err == OPUS_OK);
  }
 
 bool OpusEncode::SetComplexity(int complex)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
     
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_COMPLEXITY(complex));
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_COMPLEXITY(complex));
     assert(err == 0);
     return err == 0;
 }
@@ -110,11 +110,11 @@ bool OpusEncode::SetComplexity(int complex)
 bool OpusEncode::SetFEC(bool enable)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
 
-    int value = enable;
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_INBAND_FEC(value));
+    int const value = static_cast<int>(enable);
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_INBAND_FEC(value));
     assert(err == 0);
     return err == 0;
 }
@@ -122,10 +122,10 @@ bool OpusEncode::SetFEC(bool enable)
 bool OpusEncode::SetBitrate(int bitrate)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
 
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_BITRATE(bitrate));
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_BITRATE(bitrate));
     assert(err == 0);    
     return err == 0;
 }
@@ -133,11 +133,11 @@ bool OpusEncode::SetBitrate(int bitrate)
 bool OpusEncode::SetVBR(bool enable)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
 
-    int value = enable;
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_VBR(value));
+    int const value = static_cast<int>(enable);
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_VBR(value));
     assert(err == 0);
     return err == 0;
 }
@@ -145,11 +145,11 @@ bool OpusEncode::SetVBR(bool enable)
 bool OpusEncode::SetVBRConstraint(bool enable)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
 
-    int value = enable;
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_VBR_CONSTRAINT(value));
+    int const value = static_cast<int>(enable);
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_VBR_CONSTRAINT(value));
     assert(err == 0);
     return err == 0;
 }
@@ -157,11 +157,11 @@ bool OpusEncode::SetVBRConstraint(bool enable)
 bool OpusEncode::SetDTX(bool enable)
 {
     assert(m_encoder);
-    if(!m_encoder)
+    if(m_encoder == nullptr)
         return false;
 
-    int value = enable;
-    int err = opus_encoder_ctl(m_encoder, OPUS_SET_DTX(value));
+    int const value = static_cast<int>(enable);
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_DTX(value));
     assert(err == 0);
     return err == 0;
 }

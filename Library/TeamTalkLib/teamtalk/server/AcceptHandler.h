@@ -24,22 +24,25 @@
 #if !defined(ACCEPTHANDLER_H)
 #define ACCEPTHANDLER_H
 
-#include <teamtalk/StreamHandler.h>
+#include "myace/MyACE.h"
+#include "teamtalk/StreamHandler.h"
 
 #include <ace/Acceptor.h>
-#include <ace/SOCK_Stream.h>
+#include <ace/Addr.h>
+#include <ace/INET_Addr.h>
+#include <ace/Reactor.h>
 #include <ace/SOCK_Acceptor.h>
 
 #if defined(ENABLE_ENCRYPTION)
-#include <ace/SSL/SSL_SOCK_Stream.h>
 #include <ace/SSL/SSL_SOCK_Acceptor.h>
+#include <ace/SSL/SSL_SOCK_Stream.h>
 #endif
 
 
 template < typename STREAMHANDLER, typename MYACCEPTOR >
 class Acceptor : public ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >
 {
-    typedef ACE_Acceptor< STREAMHANDLER, MYACCEPTOR > super;
+    using super = ACE_Acceptor< STREAMHANDLER, MYACCEPTOR >;
 
 public:
     Acceptor(const ACE_INET_Addr& addr, ACE_Reactor* r, int flags,
@@ -67,20 +70,20 @@ private:
     typename STREAMHANDLER::StreamListener_t * m_listener;
 };
 
-typedef Acceptor< DefaultStreamHandler, ACE_SOCK_ACCEPTOR > DefaultAcceptor;
+using DefaultAcceptor = Acceptor< DefaultStreamHandler, ACE_SOCK_ACCEPTOR >;
 
 #if defined(ENABLE_ENCRYPTION)
 class My_SSL_SOCK_Acceptor : public ACE_SOCK_Acceptor
 {
 public:
   int accept (ACE_SSL_SOCK_Stream &new_stream,
-              ACE_Addr *remote_addr = 0,
-              ACE_Time_Value *timeout = 0,
+              ACE_Addr *remote_addr = nullptr,
+              ACE_Time_Value *timeout = nullptr,
               int restart = 1,
               int reset_new_handle = 0) const;
 };
 
-typedef Acceptor< CryptStreamHandler, My_SSL_SOCK_Acceptor > CryptAcceptor;
+using CryptAcceptor = Acceptor< CryptStreamHandler, My_SSL_SOCK_Acceptor >;
 #endif
 
 #endif

@@ -22,14 +22,21 @@
  */
 
 #include "VideoThread.h"
-#include <teamtalk/ttassert.h>
-#include <codec/MediaUtil.h>
+
+#include "myace/MyACE.h"
+#include "teamtalk/ttassert.h"
+
+#include <ace/Message_Block.h>
+#include <ace/Time_Value.h>
+
+#include <cassert>
+#include <cstddef>
+#include <utility>
 
 using namespace media;
 using namespace teamtalk;
 
-VideoThread::VideoThread()
-: m_codec()
+VideoThread::VideoThread() 
 {
     m_codec.codec = CODEC_NO_CODEC;
 }
@@ -56,7 +63,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
     
     assert(cap_format.IsValid());
 
-    m_callback = callback;
+    m_callback = std::move(callback);
     m_cap_format = cap_format;
     m_codec = codec;
 
@@ -75,7 +82,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
     case CODEC_WEBM_VP8 :
     {
         int fps = 1;
-        if(cap_format.fps_denominator)
+        if(cap_format.fps_denominator != 0)
             fps = cap_format.fps_numerator / cap_format.fps_denominator;
 
         MYTRACE(ACE_TEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
@@ -103,7 +110,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
 
 void VideoThread::StopEncoder()
 {
-    int ret;
+    int ret = 0;
     ret = this->msg_queue()->close();
     TTASSERT(ret>=0);
     wait();
@@ -142,19 +149,19 @@ bool VideoThread::UpdateEncoder(const teamtalk::VideoCodec& codec)
     return false;
 }
 
-int VideoThread::close(u_long)
+int VideoThread::close(u_long /*flags*/)
 {
     MYTRACE( ACE_TEXT("Video Encoder thread closed\n") );
     return 0;
 }
 
-int VideoThread::svc(void)
+int VideoThread::svc()
 {
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
 
     while(getq(mb) >= 0)
     {
-        VideoFrame vid(mb);
+        VideoFrame const vid(mb);
         bool new_ownership = false;
         assert(m_callback);
         
@@ -183,13 +190,13 @@ int VideoThread::svc(void)
                 break;
             }
 
-            int enc_len;
+            int enc_len = 0;
             const char* enc_data = m_vpx_encoder.GetEncodedData(enc_len);
             new_ownership = m_callback(mb, enc_data, enc_len,
                                        m_packet_counter++, vid.timestamp);
 
-            while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)))
-                m_callback(NULL, enc_data, enc_len,
+            while((enc_data = m_vpx_encoder.GetEncodedData(enc_len)) != nullptr)
+                m_callback(nullptr, enc_data, enc_len,
                            m_packet_counter++, vid.timestamp);
         }
         break;
@@ -206,7 +213,7 @@ int VideoThread::svc(void)
 void VideoThread::QueueFrame(const media::VideoFrame& video_frame)
 {
     ACE_Message_Block* mb = VideoFrameToMsgBlock(video_frame);
-    if(mb)
+    if(mb != nullptr)
         QueueFrame(mb);
 }
 

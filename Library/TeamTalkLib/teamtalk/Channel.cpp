@@ -23,13 +23,11 @@
 
 #include "Channel.h"
 
-using namespace std;
-
 namespace teamtalk {
 
     strings_t TokenizeChannelPath(const ACE_TString& str)
     {
-        vector<ACE_TString> tokNames;
+        std::vector<ACE_TString> tokNames;
         size_t i=0;
         size_t last=0;
         while(i<str.length())
@@ -62,10 +60,10 @@ namespace teamtalk {
 
     bool ChannelsEquals(const ACE_TString& szChanPath1, const ACE_TString& szChanPath2)
     {
-        strings_t tok1 = TokenizeChannelPath(stringtolower(szChanPath1));
-        strings_t tok2 = TokenizeChannelPath(stringtolower(szChanPath2));
+        strings_t const tok1 = TokenizeChannelPath(StringToLower(szChanPath1));
+        strings_t const tok2 = TokenizeChannelPath(StringToLower(szChanPath2));
         return tok1 == tok2;
     }
 
-}
+} // namespace teamtalk
 

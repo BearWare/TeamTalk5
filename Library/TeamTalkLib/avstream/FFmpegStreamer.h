@@ -24,13 +24,11 @@
 #ifndef AVCONVWRAPPER_H
 #define AVCONVWRAPPER_H
 
-#include <ace/Task.h>
-#include <ace/Future.h>
-#include <ace/Semaphore.h>
-
 #include "MediaStreamer.h"
 
-#include <stdint.h>
+#include <ace/SString.h>
+
+#include <cstdint>
 
 // compatible with ffmpeg tag n1.1.13
 
@@ -42,7 +40,7 @@ class FFmpegStreamer : public MediaFileStreamer
 {
 public:
     FFmpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
-    virtual ~FFmpegStreamer();
+    ~FFmpegStreamer() override;
 
     virtual bool IsSystemTime() const { return false; }
 
@@ -56,7 +54,7 @@ protected:
                             int& video_stream_index);
 
 private:
-    void Run();
+    void Run() override;
 
     int64_t ProcessAudioBuffer(struct AVFilterContext* aud_buffersink_ctx,
                                struct AVFrame* filt_frame,
@@ -79,7 +77,7 @@ bool OpenInput(const ACE_TString& filename,
                int& audio_stream_index,
                int& video_stream_index);
 
-struct AVFilterGraph* createAudioFilterGraph(AVFormatContext *fmt_ctx,
+struct AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
                                              AVCodecContext* aud_dec_ctx,
                                              AVFilterContext*& aud_buffersink_ctx,
                                              AVFilterContext*& aud_buffersrc_ctx,

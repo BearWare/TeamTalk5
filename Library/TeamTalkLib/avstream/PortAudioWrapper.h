@@ -26,14 +26,19 @@
 
 #include "SoundSystemBase.h"
 
+#include "SoundSystem.h"
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
+
 #include <portaudio.h>
 
-#include <myace/MyACE.h>
-
-#include <vector>
-#include <map>
+#include <cassert>
+#include <cstdint>
+#include <memory>
+#if defined(WIN32)
 #include <future>
-#include <assert.h>
+#endif
 
 namespace soundsystem
 {
@@ -41,37 +46,37 @@ namespace soundsystem
     struct PaStreamer
     {
         PaStream* stream;
-        PaStreamer()
+        PaStreamer() : stream(nullptr)
         {
-            stream = nullptr;
+            
         }
         virtual ~PaStreamer()
         {
             MYTRACE(ACE_TEXT("~PaStreamer()\n"));
         }
 
-        uint32_t DurationMSec()
+        uint32_t DurationMSec() const
         {
-            assert(!initialcallback);
-            return GETTIMESTAMP() - starttime;
+            assert(!m_initialcallback);
+            return GETTIMESTAMP() - m_starttime;
         }
-        uint32_t DurationSamplesMSec(int samplerate)
+        uint32_t DurationSamplesMSec(int samplerate) const
         {
-            return uint32_t(PCM16_SAMPLES_DURATION(processedsamples, samplerate));
+            return uint32_t(PCM16_SAMPLES_DURATION(m_processedsamples, samplerate));
         }
         bool Tick(int samples)
         {
-            bool b = initialcallback;
-            if (initialcallback)
-                starttime = GETTIMESTAMP();
-            initialcallback = false;
-            processedsamples += samples;
+            bool const b = m_initialcallback;
+            if (m_initialcallback)
+                m_starttime = GETTIMESTAMP();
+            m_initialcallback = false;
+            m_processedsamples += samples;
             return b;
         }
     private:
-        uint64_t processedsamples = 0;
-        uint32_t starttime = 0;
-        bool initialcallback = true;
+        uint64_t m_processedsamples = 0;
+        uint32_t m_starttime = 0;
+        bool m_initialcallback = true;
     };
 
     struct PaInputStreamer : InputStreamer, PaStreamer
@@ -95,7 +100,7 @@ namespace soundsystem
                          SoundAPI out_sndsys, int inputdeviceid, int outputdeviceid)
             : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
         { }
-        ~PaDuplexStreamer()
+        ~PaDuplexStreamer() override
         {
         }
 #if defined(WIN32)
@@ -117,10 +122,10 @@ namespace soundsystem
     struct PaSoundGroup : SoundGroup
     {
         bool autoposition = false;;
-        PaSoundGroup() { }
+        PaSoundGroup() = default;
     };
 
-    typedef SoundSystemBase < PaSoundGroup, PaInputStreamer, PaOutputStreamer, PaDuplexStreamer > SSB;
+    using SSB = SoundSystemBase < PaSoundGroup, PaInputStreamer, PaOutputStreamer, PaDuplexStreamer >;
     class PortAudio : public SSB
     {
     private:
@@ -129,78 +134,78 @@ namespace soundsystem
         const PortAudio& operator = (const PortAudio& aud);
 
     protected:
-        bool Init();
-        void Close();
+        bool Init() override;
+        void Close() override;
 
         //sound group members
-        soundgroup_t NewSoundGroup();
-        void RemoveSoundGroup(soundgroup_t sndgrp);
+        soundgroup_t NewSoundGroup() override;
+        void RemoveSoundGroup(soundgroup_t sndgrp) override;
 
         //input members
         inputstreamer_t NewStream(StreamCapture* capture, int inputdeviceid, 
                                   int sndgrpid, int samplerate, int channels,
-                                  int framesize);
-        bool StartStream(inputstreamer_t streamer);
-        void CloseStream(inputstreamer_t streamer);
-        bool IsStreamStopped(inputstreamer_t streamer);
+                                  int framesize) override;
+        bool StartStream(inputstreamer_t streamer) override;
+        void CloseStream(inputstreamer_t streamer) override;
+        bool IsStreamStopped(inputstreamer_t streamer) override;
 
         //output members
         outputstreamer_t NewStream(StreamPlayer* player, int outputdeviceid,
                                    int sndgrpid, int samplerate, int channels, 
-                                   int framesize);
-        void CloseStream(outputstreamer_t streamer);
+                                   int framesize) override;
+        void CloseStream(outputstreamer_t streamer) override;
 
-        bool StartStream(outputstreamer_t streamer);
-        bool StopStream(outputstreamer_t streamer);
-        bool IsStreamStopped(outputstreamer_t streamer);
+        bool StartStream(outputstreamer_t streamer) override;
+        bool StopStream(outputstreamer_t streamer) override;
+        bool IsStreamStopped(outputstreamer_t streamer) override;
 
         //duplex members
         duplexstreamer_t NewStream(StreamDuplex* duplex, int inputdeviceid,
                                    int outputdeviceid, int sndgrpid,
                                    int samplerate, int input_channels, 
-                                   int output_channels, int framesize);
-        bool StartStream(duplexstreamer_t streamer);
-        void CloseStream(duplexstreamer_t streamer);
-        bool IsStreamStopped(duplexstreamer_t streamer);
-        bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer);
+                                   int output_channels, int framesize) override;
+        bool StartStream(duplexstreamer_t streamer) override;
+        void CloseStream(duplexstreamer_t streamer) override;
+        bool IsStreamStopped(duplexstreamer_t streamer) override;
+        bool UpdateStreamDuplexFeatures(duplexstreamer_t streamer) override;
 
     public:
-        virtual ~PortAudio();
-        static std::shared_ptr<PortAudio> getInstance();
+        ~PortAudio() override;
+        static std::shared_ptr<PortAudio> GetInstance();
 
-        bool SetAutoPositioning(int sndgrpid, bool enable);
-        bool IsAutoPositioning(int sndgrpid);
-        bool AutoPositionPlayers(int sndgrpid, bool all_players);//bAll = true => Also those with autoposition disabled
+        bool SetAutoPositioning(int sndgrpid, bool enable) override;
+        bool IsAutoPositioning(int sndgrpid) override;
+        bool AutoPositionPlayers(int sndgrpid, bool all_players) override;//bAll = true => Also those with autoposition disabled
 
         //input and output devices
         bool GetDefaultDevices(int& inputdeviceid,
-                               int& outputdeviceid);
+                               int& outputdeviceid) override;
         bool GetDefaultDevices(SoundAPI sndsys,
                                int& inputdeviceid,
-                               int& outputdeviceid);
+                               int& outputdeviceid) override;
 
         void SetSampleRate(StreamPlayer* player, int samplerate);
         int GetSampleRate(StreamPlayer* player);
 
-        void SetAutoPositioning(StreamPlayer* player, bool enable);
-        bool IsAutoPositioning(StreamPlayer* player);
+        void SetAutoPositioning(StreamPlayer* player, bool enable) override;
+        bool IsAutoPositioning(StreamPlayer* player) override;
 
-        bool SetPosition(StreamPlayer* player, float x, float y, float z);
-        bool GetPosition(StreamPlayer* player, float& x, float& y, float& z);
+        bool SetPosition(StreamPlayer* player, float x, float y, float z) override;
+        bool GetPosition(StreamPlayer* player, float& x, float& y, float& z) override;
 
     private:
 
-        void FillDevices(sounddevices_t& sounddevs);
-        void SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
-        void FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
+        void FillDevices(sounddevices_t& sounddevs) override;
+        static void SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
+        static void FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device);
         void SetupDefaultCommunicationDevice(sounddevices_t& sounddevs);
-        SoundAPI GetSoundSystem(const PaDeviceInfo* devinfo);    //see if device is DSound, Alsa, etc.
+        static SoundAPI GetSoundSystem(const PaDeviceInfo* devinfo);    //see if device is DSound, Alsa, etc.
     };
 
-    typedef SSB::soundgroup_t soundgroup_t;
-    typedef SSB::inputstreamer_t inputstreamer_t;
-    typedef SSB::outputstreamer_t outputstreamer_t;
-    typedef SSB::duplexstreamer_t duplexstreamer_t;
+    using soundgroup_t = SSB::soundgroup_t;
+    using inputstreamer_t = SSB::inputstreamer_t;
+    using outputstreamer_t = SSB::outputstreamer_t;
+    using duplexstreamer_t = SSB::duplexstreamer_t;
 
 
 #if defined(WIN32)
@@ -238,6 +243,6 @@ namespace soundsystem
         SoundDeviceFeatures GetFeatures() const { return m_features; }
     };
 #endif
-}
+} // namespace soundsystem
 
 #endif

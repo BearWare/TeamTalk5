@@ -23,9 +23,12 @@
 
 #include "AVFVideoInput.h"
 
+#include <algorithm>
+#include <cstdlib>
+
 extern "C" {
 #include <libavformat/avformat.h>
-#include <libavutil/opt.h>
+#include <libavutil/dict.h>
 }
 
 #include <sstream>
@@ -45,7 +48,7 @@ bool AVFVideoInput::SetupInput(const AVInputFormat *iformat,
 
     iformat = av_find_input_format(m_dev.api.c_str());
     int fps = 1;
-    if (vidfmt.fps_denominator)
+    if (vidfmt.fps_denominator != 0)
     {
         fps = vidfmt.fps_numerator / vidfmt.fps_denominator;
         fps = std::max(1, fps);

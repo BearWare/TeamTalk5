@@ -28,10 +28,10 @@
 #define VPX_CODEC_DISABLE_COMPAT 1
 #endif
 
-#include <vpx/vpx_decoder.h>
+#include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
 
-#include <codec/MediaUtil.h>
-#include <mystd/MyStd.h>
+#include <vpx/vpx_decoder.h>
 
 class VpxDecoder : private NonCopyable
 {

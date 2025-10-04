@@ -24,11 +24,15 @@
 #if !defined(FFMPEG3CAPTURE_H)
 #define FFMPEG3CAPTURE_H
 
-#include "VideoCapture.h"
 #include "FFmpegStreamer.h"
-#include <myace/MyACE.h>
+#include "MediaStreamer.h"
+#include "VideoCapture.h"
+#include "codec/MediaUtil.h"
 
-#include <map>
+#include <ace/SString.h>
+#include <ace/Message_Block.h>
+
+#include <memory>
 
 namespace vidcap {
 
@@ -46,32 +50,32 @@ namespace vidcap {
         bool IsSystemTime() const override { return true; }
     };
 
-    typedef std::unique_ptr<FFmpegVideoInput> ffmpegvideoinput_t;
+    using ffmpegvideoinput_t = std::unique_ptr<FFmpegVideoInput>;
     
     class FFmpegCapture : public VideoCapture
     {
     protected:
-        virtual ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
+        virtual ffmpegvideoinput_t CreateStreamer(const VidCapDevice& viddevice,
                                                   const media::VideoFormat& fmt) = 0;
         ffmpegvideoinput_t m_videoinput;
         VideoCaptureCallback m_callback;
 
     public:
         FFmpegCapture();
-        virtual ~FFmpegCapture();
+        ~FFmpegCapture() override;
 
         // VideoCapture interface
         bool InitVideoCapture(const ACE_TString& deviceid,
-                              const media::VideoFormat& vidfmt);
+                              const media::VideoFormat& vidfmt) override;
 
-        bool StartVideoCapture();
+        bool StartVideoCapture() override;
 
-        void StopVideoCapture();
+        void StopVideoCapture() override;
 
-        media::VideoFormat GetVideoCaptureFormat();
+        media::VideoFormat GetVideoCaptureFormat() override;
 
-        bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc);
-        void UnregisterVideoFormat(media::FourCC fcc);
+        bool RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc) override;
+        void UnregisterVideoFormat(media::FourCC fcc) override;
 
         // MediaStreamListener interface
         bool MediaStreamVideoCallback(media::VideoFrame& video_frame,
@@ -81,6 +85,6 @@ namespace vidcap {
                                        MediaStreamStatus status);
     };
 
-}
+} // namespace vidcap
 
 #endif

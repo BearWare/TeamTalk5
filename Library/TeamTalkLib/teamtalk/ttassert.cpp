@@ -23,12 +23,11 @@
 
 #include "ttassert.h"
 
-#include <string>
-#include <sstream>
 #include "Log.h"
-#include <myace/MyACE.h>
+#include "myace/MyACE.h"
 
-using namespace std;
+#include <ostream>
+#include <sstream>
 
 #if defined(UNICODE)
 #define ostinrgstream wostringstream
@@ -36,13 +35,13 @@ using namespace std;
 
 void tt_assert(const char* assertion, const char* file, int line)
 {
-    ostringstream os;
+    std::ostringstream os;
     os << "Failed assertion ";
     os << assertion;
     os << " in file ";
     os << file;
     os << " at line ";
-    os << line << endl;
+    os << line << std::endl;
 
     TT_ERROR(LocalToUnicode(os.str().c_str()));
 

@@ -22,8 +22,11 @@
  */
 
 #include "ServerXML.h"
+#include "teamtalk/server/Server.h"
+#include "teamtalk/server/ServerUser.h"
+#include "teamtalk/server/ServerNode.h"
 
-#include <teamtalk/server/ServerNode.h>
+#include <ace/SString.h>
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile);
 void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings);

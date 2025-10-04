@@ -23,8 +23,12 @@
 
 #include "FFmpegCapture.h"
 
+#include <ace/Message_Block.h>
+#include <ace/SString.h>
+
+#include <cstddef>
+#include <functional>
 #include <memory>
-#include <sstream>
 #include <assert.h>
 
 using namespace std::placeholders;
@@ -42,9 +46,7 @@ FFmpegCapture::FFmpegCapture()
     InitAVConv();
 }
 
-FFmpegCapture::~FFmpegCapture()
-{
-}
+FFmpegCapture::~FFmpegCapture() = default;
 
 bool FFmpegCapture::InitVideoCapture(const ACE_TString& deviceid,
                                       const media::VideoFormat& vidfmt)
@@ -52,18 +54,16 @@ bool FFmpegCapture::InitVideoCapture(const ACE_TString& deviceid,
     vidcap_devices_t devs = GetDevices();
     
     VidCapDevice dev;
-    for(size_t i=0;i<devs.size();i++)
+    for(auto & i : devs)
     {
-        if(devs[i].deviceid == deviceid)
-            dev = devs[i];
+        if(i.deviceid == deviceid)
+            dev = i;
     }
 
-    ffmpegvideoinput_t streamer = createStreamer(dev, vidfmt);
+    ffmpegvideoinput_t streamer = CreateStreamer(dev, vidfmt);
     assert(streamer.get());
-    streamer->RegisterVideoCallback(std::bind(&FFmpegCapture::MediaStreamVideoCallback,
-                                              this, _1, _2), true);
-    streamer->RegisterStatusCallback(std::bind(&FFmpegCapture::MediaStreamStatusCallback,
-                                               this, _1, _2), true);
+    streamer->RegisterVideoCallback([this](auto && PH1, auto && PH2) { return MediaStreamVideoCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, true);
+    streamer->RegisterStatusCallback([this](auto && PH1, auto && PH2) { MediaStreamStatusCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, true);
     if (!streamer->Open())
         return false;
 
@@ -96,7 +96,7 @@ media::VideoFormat FFmpegCapture::GetVideoCaptureFormat()
 {
     if (m_videoinput)
         return m_videoinput->GetVideoFormat();
-    return media::VideoFormat();
+    return {};
 }
 
 bool FFmpegCapture::RegisterVideoFormat(VideoCaptureCallback callback, media::FourCC fcc)

@@ -25,28 +25,34 @@
 #define CLIENTNODEBASE_H
 
 #include "VoiceLogger.h"
+#include "avstream/SoundSystem.h"
+#include "codec/MediaUtil.h"
+#include "myace/TimerHandler.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/ttassert.h"
 
-#include <myace/TimerHandler.h>
-#include <avstream/SoundSystem.h>
-#include <codec/MediaUtil.h>
-#include <teamtalk/PacketLayout.h>
-
-#include <ace/High_Res_Timer.h>
+#include <ace/Lock.h>
 #include <ace/Reactor.h>
+#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/Task_T.h>
+#include <ace/Thread.h>
+#include <ace/Time_Value.h>
 #include <ace/Timer_Heap.h>
 
 #include <condition_variable>
+#include <cstdint>
 #include <mutex>
 
-#define TIMERID_MASK            0x0000FFFF
-#define USER_TIMER_START        0x00008000
-#define USER_TIMER_USERID_MASK  0xFFFF0000 // ((userid << 16) | USER_TIMER_START) + TIMERID
-#define USER_TIMER_USERID_SHIFT 16
+constexpr auto TIMERID_MASK             = 0x0000FFFF;
+constexpr auto USER_TIMER_START         = 0x00008000;
+constexpr auto USER_TIMER_USERID_MASK   = 0xFFFF0000; // ((userid << 16) | USER_TIMER_START) + TIMERID
+constexpr auto USER_TIMER_USERID_SHIFT  = 16;
 
-#define USER_TIMERID(timerid, userid) ((userid << USER_TIMER_USERID_SHIFT) | timerid)
-#define TIMER_USERID(timerid) ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF)
+constexpr auto USER_TIMERID(int timerid, int userid) { return (((userid) << USER_TIMER_USERID_SHIFT) | (timerid)); }
+constexpr auto TIMER_USERID(int timerid) { return (((timerid) >> USER_TIMER_USERID_SHIFT) & 0xFFFF); }
 
-#define SOUNDDEVICE_IGNORE_ID -1
+constexpr auto SOUNDDEVICE_IGNORE_ID    = (-1);
 
 namespace teamtalk {
 
@@ -108,6 +114,7 @@ namespace teamtalk {
     class EventSuspender
     {
     public:
+        virtual ~EventSuspender() = default;
         virtual bool CanSuspend() = 0;
         virtual void SuspendEventHandling(bool quit) = 0;
         virtual void ResumeEventHandling() = 0;
@@ -120,13 +127,13 @@ namespace teamtalk {
                          , public EventSuspender
     {
         // Thread func running ClientNode's main event-loop
-        int svc(void) override;
+        int svc() override;
 
         //timer queue we can change to high-resolution timer (monotomic)
         ACE_Timer_Heap m_timer_queue;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
-        ACE_thread_t m_reactor_thread;
+        ACE_thread_t m_reactor_thread = ACE_thread_t();
 
         // sync reactor thread start/stop
         std::condition_variable m_reactor_wait_cv;
@@ -137,7 +144,7 @@ namespace teamtalk {
         //set of timers currently in use. Protected by lock_timers().
         timer_handlers_t m_timers;
 
-        ACE_Recursive_Thread_Mutex& lock_timers() { return m_timers_lock; }
+        ACE_Recursive_Thread_Mutex& LockTimers() { return m_timers_lock; }
 
     protected:
         //Start/stop timers handled by ClientNode
@@ -151,14 +158,18 @@ namespace teamtalk {
         void ResetTimers();
 
     public:
+
         ClientNodeBase();
-        virtual ~ClientNodeBase();
+        ~ClientNodeBase() override;
 
         bool CanSuspend() override;
         void SuspendEventHandling(bool quit) override;
         void ResumeEventHandling() override;
 
-        ACE_Lock& reactor_lock();
+        ACE_Lock& ReactorLock();
+#if defined(_DEBUG)
+        ACE_thread_t m_reactorlock_thr_id = ACE_Thread::self();
+#endif
 
         // Get reactor running timers
         ACE_Reactor* GetEventLoop() { return reactor(); }
@@ -182,13 +193,34 @@ namespace teamtalk {
         // Queue packet for transmission
         virtual bool QueuePacket(FieldPacket* packet) = 0;
         // Get logger for writing audio streams to disk (wav, ogg, etc)
-        virtual class VoiceLogger& voicelogger() = 0;
+        virtual class VoiceLogger& GetVoiceLogger() = 0;
 
         // Callback function for teamtalk::AudioPlayer-class
         virtual void AudioUserCallback(int userid, StreamType st,
                                        const media::AudioFrame& audio_frame) = 0;
 
     };
-}
+
+
+#if defined(_DEBUG)
+
+#define ASSERT_CLIENTNODE_LOCKED(clientnode) do {                       \
+    TTASSERT(clientnode->m_reactorlock_thr_id == ACE_Thread::self());   \
+    } while(0)
+
+#define GUARD_REACTOR(this_obj)                         \
+    guard_t g( this_obj->ReactorLock() );               \
+    /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
+    this_obj->m_reactorlock_thr_id = ACE_Thread::self()
+#else
+
+#define ASSERT_CLIENTNODE_LOCKED(...)    (void)0
+
+#define GUARD_REACTOR(this_obj)                 \
+    guard_t g(this_obj->ReactorLock())
+
+#endif /* _DEBUG */
+
+} // namespace teamtalk
 
 #endif

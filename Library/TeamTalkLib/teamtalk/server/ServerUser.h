@@ -27,14 +27,27 @@
 #include "DesktopCache.h"
 #include "Server.h"
 #include "ServerChannel.h"
+#include "myace/MyACE.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/PacketHelper.h"
+#include "teamtalk/PacketLayout.h"
+#include "teamtalk/StreamHandler.h"
+#include "teamtalk/User.h"
 
-#include <teamtalk/Commands.h>
-#include <teamtalk/StreamHandler.h>
-#include <teamtalk/User.h>
+#include <ace/INET_Addr.h>
+#include <ace/Message_Queue.h>
+#include <ace/SString.h>
+#include <ace/Time_Value.h>
 
-#include <ace/Recursive_Thread_Mutex.h>
+#include <cstdint>
+#include <map>
+#include <memory>
+#include <set>
+#include <vector>
 
-static constexpr auto FILEBUFFERSIZE = 0x10000;
+
+constexpr auto FILEBUFFERSIZE = 0x10000;
 
 static_assert(FILEBUFFERSIZE <= MSGBUFFERSIZE, "File buffer cannot be bigger than message queue");
 
@@ -50,8 +63,8 @@ namespace teamtalk {
         uint32_t update_id = 0;
     };
         
-    typedef std::shared_ptr< ServerChannel > serverchannel_t;
-    typedef std::shared_ptr< ServerUser > serveruser_t;
+    using serverchannel_t = std::shared_ptr< ServerChannel >;
+    using serveruser_t = std::shared_ptr< ServerUser >;
 
     class ServerUser : public User
     {
@@ -77,17 +90,16 @@ namespace teamtalk {
             }
 
             ~LocalFileTransfer()
-            {
-            }
+            = default;
         };
 
     public:
         ServerUser(int userid, ServerNode& servernode, ACE_HANDLE h);
-        virtual ~ServerUser();
+        ~ServerUser() override;
 
         ACE_HANDLE GetStreamHandle() const { return m_stream_handle; }
         ACE_HANDLE ResetStreamHandle() { 
-            ACE_HANDLE h = m_stream_handle;
+            ACE_HANDLE const h = m_stream_handle;
             m_stream_handle = ACE_INVALID_HANDLE;
             return h;
         }
@@ -97,13 +109,13 @@ namespace teamtalk {
 #if defined(ENABLE_TEAMTALKPRO)
         ACE_TString GetAccessToken() const { return KeyToHexString(m_accesstoken, sizeof(m_accesstoken)); }
 #endif
-        bool IsAuthorized() const { return m_account.usertype & (USERTYPE_ADMIN | USERTYPE_DEFAULT); }
+        bool IsAuthorized() const { return (m_account.usertype & (USERTYPE_ADMIN | USERTYPE_DEFAULT)) != 0u; }
         void SetUserAccount(const UserAccount& account) { m_account = account; }
         const UserAccount& GetUserAccount() const { return m_account; }
-        const ACE_TString& GetUsername() const { return m_account.username; }
+        const ACE_TString& GetUsername() const override { return m_account.username; }
         UserRights GetUserRights() const { return m_account.userrights; }
-        UserTypes GetUserType() const { return m_account.usertype; }
-        int GetUserData() const { return m_account.userdata; }
+        UserTypes GetUserType() const override { return m_account.usertype; }
+        int GetUserData() const override { return m_account.userdata; }
         const ACE_TString& GetInitialChannel() const { return m_account.init_channel; }
 
         void SetUdpAddress(const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr){ m_udpaddr = remoteaddr; m_localudpaddr = localaddr; }
@@ -129,7 +141,7 @@ namespace teamtalk {
 
         int UpdateActiveStream(StreamType stream, int streamid);
 
-        int GetFileTransferID() const { return m_filetransfer.get() ? m_filetransfer->transferid : 0; }
+        int GetFileTransferID() const { return (m_filetransfer != nullptr) ? m_filetransfer->transferid : 0; }
 
         ACE_Time_Value GetDuration() const;
 
@@ -160,7 +172,7 @@ namespace teamtalk {
         void DoTextMessage(const ServerUser& fromuser, const TextMessage& msg);
         void DoTextMessage(const TextMessage& msg);
         void DoKicked(int kicker_userid, bool channel_kick);
-        void DoError(ErrorMsg cmderr);
+        void DoError(const ErrorMsg& cmderr);
         void DoPingReply();
         void DoShowBan(const BannedUser& ban);
         void DoShowUserAccount(const UserAccount& user);
@@ -275,23 +287,23 @@ namespace teamtalk {
         //file transfer variables
         std::unique_ptr<LocalFileTransfer> m_filetransfer;
 
-        std::set<ACE_UINT32, w32_less_comp> m_floodcmd;
+        std::set<ACE_UINT32, W32LessComp> m_floodcmd;
 
         //desktop session, from this user
         desktop_cache_t m_desktop_cache;
         desktoppackets_t m_desktop_queue;
         //desktop session, to this user, src-user -> desktop transmitter
-        typedef std::map<int, desktop_transmitter_t> user_desktoptx_t;
+        using user_desktoptx_t = std::map<int, desktop_transmitter_t>;
         user_desktoptx_t m_user_desktop_tx;
         //closed desktop session which are being NAK'ed as ended sessions
-        typedef std::map<int, ClosedDesktopSession> closed_desktops_t;
+        using closed_desktops_t = std::map<int, ClosedDesktopSession>;
         closed_desktops_t m_closed_desktops;
 
         //userid -> subscription.
-        typedef std::map<int, Subscriptions> usersubscriptions_t;
+        using usersubscriptions_t = std::map<int, Subscriptions>;
         usersubscriptions_t m_usersubscriptions;
 
         std::map<StreamType, int> m_active_streams;
     };
-}
+} // namespace teamtalk
 #endif

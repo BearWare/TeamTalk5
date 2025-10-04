@@ -24,21 +24,22 @@
 #ifndef COMMON_H
 #define COMMON_H
 
-#include <TeamTalkDefs.h>
-#include <codec/MediaUtil.h>
-
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 #if defined(ENABLE_WEBRTC)
-#include <avstream/WebRTCPreprocess.h>
+#include "avstream/WebRTCPreprocess.h"
 #endif
 
-#include <myace/MyACE.h>
+#include "TeamTalkDefs.h"
 
-#include <ace/INET_Addr.h>
+#include <ace/SString.h>
 #include <ace/Time_Value.h>
 
+#include <cstdint>
+#include <cstring>
 #include <map>
-#include <vector>
 #include <set>
+#include <vector>
 
 namespace teamtalk {
 
@@ -80,7 +81,7 @@ namespace teamtalk {
         SERVERLOGEVENT_DEFAULT                     = 0x07FFFFFF,
     };
 
-    typedef uint32_t ServerLogEvents;
+    using ServerLogEvents = uint32_t;
 
     struct ServerProperties
     {
@@ -135,7 +136,7 @@ namespace teamtalk {
         
         ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
 
-        ServerStats() { }
+        ServerStats() = default;
     };
 
     /* Remember to updated DLL header file when modifying this */
@@ -168,7 +169,7 @@ namespace teamtalk {
         USERTYPE_ADMIN        = 0x02,
     };
 
-    typedef ACE_UINT32 UserTypes;
+    using UserTypes = ACE_UINT32;
 
     /* Remember to updated DLL header file when modifying this */
     enum UserRight
@@ -218,22 +219,22 @@ namespace teamtalk {
         USERRIGHT_KNOWN_MASK                = ~0xFF000000
     };
 
-    typedef ACE_UINT32 UserRights;
+    using UserRights = ACE_UINT32;
 
     struct Abuse
     {
         int n_cmds = 0;
         int cmd_msec = 0;
-        Abuse() { }
+        Abuse() = default;
 
-        std::vector<int> toParam() const
+        std::vector<int> ToParam() const
         {
             std::vector<int> flood;
             flood.push_back(n_cmds);
             flood.push_back(cmd_msec);
             return flood;
         }
-        void fromParam(const std::vector<int>& flood)
+        void FromParam(const std::vector<int>& flood)
         {
             if(flood.size()>=2)
             {
@@ -262,7 +263,7 @@ namespace teamtalk {
         UserAccount();
         bool IsWebLogin() const;
     };
-    typedef std::vector<UserAccount> useraccounts_t;
+    using useraccounts_t = std::vector<UserAccount>;
 
     enum BanType
     {
@@ -272,23 +273,23 @@ namespace teamtalk {
         BANTYPE_USERNAME        = 0x04,
         BANTYPE_DEFAULT = BANTYPE_IPADDR,
     };
-    typedef ACE_UINT32 BanTypes;
+    using BanTypes = ACE_UINT32;
 
     struct BannedUser
     {
-        BanTypes bantype;
+        BanTypes bantype{BANTYPE_NONE};
         ACE_TString ipaddr;
         ACE_TString chanpath;
         ACE_Time_Value bantime;
         ACE_TString nickname;
         ACE_TString username; // banned username
         ACE_TString owner; // who made the ban
-        BannedUser() : bantype(BANTYPE_NONE) { bantime = ACE_OS::gettimeofday(); }
+        BannedUser()  { bantime = ACE_OS::gettimeofday(); }
         bool Same(const BannedUser& user) const;
         bool Match(const BannedUser& user) const;
     };
 
-    typedef std::vector<BannedUser> bannedusers_t;
+    using bannedusers_t = std::vector<BannedUser>;
 
     ACE_TString DateToString(const ACE_Time_Value& tv);
 
@@ -310,7 +311,7 @@ namespace teamtalk {
         STREAMTYPE_ALL                      = 0x0000ffff,
     };
 
-    typedef ACE_UINT32 StreamTypes;
+    using StreamTypes = ACE_UINT32;
 
 
     enum FileTransferStatus
@@ -321,7 +322,7 @@ namespace teamtalk {
         FILETRANSFER_FINISHED   = 3,
     };
 
-#define TRANSFERKEY_SIZE 16
+    constexpr auto TRANSFERKEY_SIZE = 16;
 
     struct FileTransfer
     {
@@ -335,7 +336,7 @@ namespace teamtalk {
         int transferid = 0;
         bool inbound = true;
         ACE_TString transferkey;
-        FileTransfer() { }
+        FileTransfer() = default;
     };
 
     /* Remember to updated DLL header file when modifying this */
@@ -391,13 +392,13 @@ namespace teamtalk {
             SpeexVBRCodec speex_vbr;
             OpusCodec opus;
         };
-        AudioCodec()
+        AudioCodec() : codec(CODEC_NO_CODEC)
         {
             //ensure that codecs can be compared using memcmp
             memset(this, 0, sizeof(AudioCodec));
-            codec = CODEC_NO_CODEC;
+            
         }
-        inline bool operator==(const AudioCodec& ch) const
+        bool operator==(const AudioCodec& ch) const
         {
             switch (codec)
             {
@@ -414,19 +415,18 @@ namespace teamtalk {
             }
             return false;
         }
-        inline bool operator!=(const AudioCodec& ch) const
+        bool operator!=(const AudioCodec& ch) const
         {
-            return (ch == *this) == false;//memcmp(this, &ch, sizeof(ch));
+            return (ch == *this) == false;
         }
     };
 
     struct AudioConfig
     {
-        bool enable_agc;
-        int gain_level;
+        bool enable_agc{false};
+        int gain_level{0};
         AudioConfig()
-            : enable_agc(false)
-            , gain_level(0) { }
+             { }
     };
 
     struct SpeexDSP
@@ -442,7 +442,7 @@ namespace teamtalk {
         int aec_suppress_level = 0;
         int aec_suppress_active = 0;
 
-        SpeexDSP() { }
+        SpeexDSP() = default;
     };
 
     struct TTAudioPreprocessor
@@ -451,7 +451,7 @@ namespace teamtalk {
         bool muteleft = false;
         bool muteright = false;
 
-        TTAudioPreprocessor() { }
+        TTAudioPreprocessor() = default;
     };
 
     enum AudioPreprocessorType
@@ -497,9 +497,9 @@ namespace teamtalk {
         {
             WebMVP8Codec webm_vp8;
         };
-        VideoCodec() : webm_vp8()
+        VideoCodec() : webm_vp8(), codec(CODEC_NO_CODEC)
         {
-            codec = CODEC_NO_CODEC;
+            
         }
     };
 
@@ -515,7 +515,7 @@ namespace teamtalk {
         RemoteFile();
     };
 
-    typedef std::vector< RemoteFile > files_t;
+    using files_t = std::vector< RemoteFile >;
 
     enum RGBMode
     {
@@ -570,9 +570,9 @@ namespace teamtalk {
         CHANNEL_HIDDEN              = 0x0040,
     };
 
-    typedef ACE_UINT32 ChannelTypes;
+    using ChannelTypes = ACE_UINT32;
 
-    typedef std::map< StreamType, std::set<int> > transmitusers_t;
+    using transmitusers_t = std::map< StreamType, std::set<int> >;
 
     struct ChannelProp
     {
@@ -599,9 +599,9 @@ namespace teamtalk {
         bannedusers_t bans;
         std::set<int> GetTransmitUsers(StreamType st) const
         {
-            if(transmitusers.find(st) != transmitusers.end())
+            if(transmitusers.contains(st))
                 return transmitusers.at(st);
-            return std::set<int>();
+            return {};
         }
 
         ChannelProp()
@@ -625,7 +625,7 @@ namespace teamtalk {
         KEYSTATE_UP         = 0x00000002,
     };
 
-    typedef ACE_UINT32 KeyStateMask;
+    using KeyStateMask = ACE_UINT32;
 
     struct DesktopInput
     {
@@ -633,7 +633,7 @@ namespace teamtalk {
         ACE_UINT16 y = -1;
         ACE_UINT32 keycode = -1;
         KeyStateMask keystate = KEYSTATE_NONE;
-        DesktopInput() { }
+        DesktopInput() = default;
     };
 
     /* Remember to updated DLL header file when modifying this */
@@ -704,7 +704,7 @@ namespace teamtalk {
         SUBSCRIBE_INTERCEPT_ALL                         = 0x017B0000,
     };
 
-    typedef ACE_UINT32 Subscriptions;
+    using Subscriptions = ACE_UINT32;
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in);
     int SumFrameSizes(const std::vector<uint16_t>& in);
@@ -716,5 +716,5 @@ constexpr auto TRANSMITUSERS_FREEFORALL = 0xFFF;
 constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return ((int16_t)((a)-(b)) >= 0); }
 constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) > 0); }
 constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) >= 0); }
-}
+} // namespace teamtalk
 #endif

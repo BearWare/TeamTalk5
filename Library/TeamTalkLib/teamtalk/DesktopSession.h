@@ -25,6 +25,8 @@
 #define DESKTOPSESSION_H
 
 #include "Common.h"
+
+#include <cstddef>
 #include <vector>
 
 constexpr auto RGB8_BLOCK_PIXEL_W = 120;
@@ -41,7 +43,7 @@ constexpr auto RGB32_BLOCK_PIXEL_H = 20;
 
 constexpr auto BLOCK_MAX_BYTESIZE = 0xFFF;
 
-static const auto  DESKTOP_RTX_MIN_TIMEOUT = ACE_Time_Value(0, 10000); //minimum RTX timeout
+static const auto DESKTOP_RTX_MIN_TIMEOUT = ACE_Time_Value(0, 10000); //minimum RTX timeout
 static const auto DESKTOP_RTX_TIMER_INTERVAL = ACE_Time_Value(1, 0); //interval for checking whether to do RTX
 static const auto DESKTOP_DEFAULT_RTX_TIMEOUT = ACE_Time_Value(4, 0); //consider a packet lost after this duration
 
@@ -100,6 +102,6 @@ namespace teamtalk {
                          std::vector<char>& dst_bitmap, 
                          const DesktopSession& dst_ses);
     
-}
+} // namespace teamtalk
 
 #endif

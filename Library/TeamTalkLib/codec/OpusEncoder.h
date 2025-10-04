@@ -24,11 +24,11 @@
 #ifndef OPUSENCODER_H
 #define OPUSENCODER_H
 
+#include "mystd/MyStd.h"
 #include <opus/opus.h>
-#include <mystd/MyStd.h>
 
-int OPUS_GetCbSize(int samplerate, int msec);
-int OPUS_GetCbMSec(int samplerate, int cb_samples);
+int OpusGetCbSize(int samplerate, int msec);
+int OpusGetCbMSec(int samplerate, int cb_samples);
 
 class OpusEncode : private NonCopyable
 {

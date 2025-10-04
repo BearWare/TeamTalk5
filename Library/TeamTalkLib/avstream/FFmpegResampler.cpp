@@ -22,14 +22,19 @@
  */
 
 #include "FFmpegResampler.h"
-#include <assert.h>
 
 #include "FFmpegStreamer.h" // need InitAVConv()
+#include "avstream/AudioResampler.h"
 
 extern "C" {
-#include <libswresample/swresample.h>
 #include <libavutil/channel_layout.h>
+#include <libavutil/samplefmt.h>
+#include <libswresample/swresample.h>
 }
+
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
 
 #if !defined(SWR_CH_MAX)
 #define SWR_CH_MAX 32
@@ -39,7 +44,7 @@ FFMPEGResampler::FFMPEGResampler(const media::AudioFormat& informat,
                                  const media::AudioFormat& outformat,
                                  int fixed_input_samples)
 : AudioResampler(informat, outformat, fixed_input_samples)
-, m_ctx(NULL)
+, m_ctx(nullptr)
 {
     InitAVConv();
 }
@@ -51,10 +56,10 @@ FFMPEGResampler::~FFMPEGResampler()
 
 bool FFMPEGResampler::Init()
 {
-    if(m_ctx)
+    if(m_ctx != nullptr)
         return false;
 
-    m_ctx = swr_alloc_set_opts(NULL,
+    m_ctx = swr_alloc_set_opts(nullptr,
                                GetOutputFormat().channels == 2?
                                AV_CH_LAYOUT_STEREO :
                                AV_CH_LAYOUT_MONO,
@@ -66,8 +71,8 @@ bool FFMPEGResampler::Init()
                                AV_SAMPLE_FMT_S16,
                                GetInputFormat().samplerate,
                                0,
-                               0);
-    if(!m_ctx)
+                               nullptr);
+    if(m_ctx == nullptr)
         return false;
 
     return swr_init(m_ctx) >= 0;
@@ -75,9 +80,9 @@ bool FFMPEGResampler::Init()
 
 void FFMPEGResampler::Close()
 {
-    if(m_ctx)
+    if(m_ctx != nullptr)
         swr_free(&m_ctx);
-    m_ctx = NULL;
+    m_ctx = nullptr;
 }
 
 int FFMPEGResampler::Resample(const short* input_samples, int input_samples_size,
@@ -88,7 +93,7 @@ int FFMPEGResampler::Resample(const short* input_samples, int input_samples_size
     uint8_t* out_ptr[SWR_CH_MAX] = {};
     out_ptr[0] = (uint8_t*)output_samples;
 
-    int ret = swr_convert(m_ctx,
+    int const ret = swr_convert(m_ctx,
                           out_ptr,
                           output_samples_size,
                           in_ptr,
@@ -97,3 +102,4 @@ int FFMPEGResampler::Resample(const short* input_samples, int input_samples_size
     assert(ret <= output_samples_size);
     return ret;
 }
+

@@ -26,6 +26,15 @@
 
 #include "MediaStreamer.h"
 #include "AudioResampler.h"
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+
+#include <ace/Message_Block.h>
+
+#include <cstdint>
+#include <functional>
+#include <memory>
+#include <vector>
 
 struct AudioInputStatus
 {
@@ -36,13 +45,13 @@ struct AudioInputStatus
     int streamid = 0;
 };
 
-typedef std::function< void(const AudioInputStatus& ais) > audioinput_statuscallback_t;
+using audioinput_statuscallback_t = std::function< void(const AudioInputStatus& ais) >;
 
 class AudioInputStreamer : public MediaStreamer
 {
 public:
     AudioInputStreamer(int streamid, const MediaStreamOutput& out_prop);
-    ~AudioInputStreamer();
+    ~AudioInputStreamer() override;
 
     void RegisterAudioInputStatusCallback(audioinput_statuscallback_t cb, bool enable);
 
@@ -53,8 +62,8 @@ public:
     int GetStreamID() const { return m_streamid; }
 
 protected:
-    virtual void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec);
-    void Run();
+    void AudioProgress(uint32_t queuedmsec, uint32_t elapsedmsec) override;
+    void Run() override;
 
 private:
     audioinput_statuscallback_t m_statuscb;
@@ -73,7 +82,7 @@ private:
     int m_streamid;
 };
 
-typedef std::shared_ptr< AudioInputStreamer > audioinput_streamer_t;
+using audioinput_streamer_t = std::shared_ptr< AudioInputStreamer >;
 
 #endif
 
