@@ -20,7 +20,7 @@
 
 #include "ui_audiopreprocessor.h"
 
-#include "common.h"
+#include "utiltt.h"
 
 class AudioPreprocessorDlg : public QDialog {
 
