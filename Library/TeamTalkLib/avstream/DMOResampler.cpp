@@ -146,6 +146,17 @@ void DMOResampler::Close()
 int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
                            short* output_samples, int output_samples_cnt)
 {
+#define RETURNONERROR(error)            \
+    do {                                \
+        if (error) {                    \
+            if(input_mb)                \
+                input_mb->Release();    \
+            if (output_mb)              \
+                output_mb->Release();   \
+            return ret;                 \
+        }                               \
+    } while(0)
+
     assert(m_pDMO);
     if(!m_pDMO)
         return 0;
@@ -162,14 +173,12 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     long inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
     hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples, inbufsize, inbufsize, (LPVOID*)&input_mb);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     long outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
     hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, outbufsize, (LPVOID*)&output_mb);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     dodb.pBuffer = output_mb;
 
@@ -184,18 +193,15 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
 
     hr = m_pDMO->ProcessInput(0, input_mb, 0, 0, 0);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     hr = m_pDMO->ProcessOutput(0, 1, &dodb, &dwLen);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     hr = output_mb->GetBufferAndLength(&pBuffer, &dwLen);
     assert(SUCCEEDED(hr));
-    if(FAILED(hr))
-        goto fail;
+    RETURNONERROR(FAILED(hr));
 
     ret = (dwLen / sizeof(short)) / pOutputWav->nChannels;
     assert(ret <= output_samples_cnt);
@@ -205,10 +211,5 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
         FillOutput(pOutputWav->nChannels, output_samples, ret, output_samples_cnt);
     }
 
-fail:
-    if(input_mb)
-        input_mb->Release();
-    if(output_mb)
-        output_mb->Release();
-    return ret;
+    RETURNONERROR(true);
 }

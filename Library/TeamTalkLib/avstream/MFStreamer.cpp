@@ -107,10 +107,17 @@ void MFStreamer::Run()
     LONGLONG llAudioTimestamp = 0, llVideoTimestamp = 0;
     bool start = false;
     mftransform_t transform;
+#define RETURNONERROR(error)                \
+    do {                                    \
+        if (error)                          \
+        {                                   \
+            m_open.set(false);              \
+            return;                         \
+        }                                   \
+    } while (0)
 
     hr = MFCreateSourceResolver(&pSourceResolver);
-    if(FAILED(hr))
-        goto fail_open;
+    RETURNONERROR(FAILED(hr));
 
     hr = pSourceResolver->CreateObjectFromURL(
         m_media_in.filename.c_str(), // URL of the source.
@@ -119,22 +126,17 @@ void MFStreamer::Run()
         &objectType,        // Receives the created object type. 
         &pSource            // Receives a pointer to the media source.
     );
-
-    if(FAILED(hr))
-        goto fail_open;
+    RETURNONERROR(FAILED(hr));
 
     // Get the IMFMediaSource interface from the media source.
     hr = pSource->QueryInterface(IID_PPV_ARGS(&pMediaSource));
-    if(FAILED(hr))
-        goto fail_open;
+    RETURNONERROR(FAILED(hr));
 
     hr = MFCreateAttributes(&pAttributes, 2);
-    if(FAILED(hr))
-        goto fail_open;
+    RETURNONERROR(FAILED(hr));
 
     hr = MFCreateSourceReaderFromMediaSource(pMediaSource, pAttributes, &pSourceReader);
-    if(FAILED(hr))
-        goto fail_open;
+    RETURNONERROR(FAILED(hr));
 
     // Get native media type of device
     BOOL bWavePCM16 = FALSE;
@@ -174,44 +176,34 @@ void MFStreamer::Run()
     {
         CComPtr<IMFMediaType> pAudioOutputType;
         hr = MFCreateMediaType(&pAudioOutputType);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Audio);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetGUID(MF_MT_SUBTYPE, MFAudioFormat_PCM);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_NUM_CHANNELS, m_media_out.audio.channels);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_SECOND, m_media_out.audio.samplerate);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, PCM16_BYTES(1, m_media_out.audio.channels));
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, PCM16_BYTES(m_media_out.audio.samplerate, m_media_out.audio.channels));
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_BITS_PER_SAMPLE, 16);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_ALL_SAMPLES_INDEPENDENT, TRUE);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         hr = pAudioOutputType->SetUINT32(MF_MT_AUDIO_SAMPLES_PER_BLOCK, m_media_out.audio_samples);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         // Resampling is not supported prior to Windows 8.
         // In order to at least support PCM16 wave-files on Windows 7 we select 'pAudioInputType'
@@ -225,9 +217,7 @@ void MFStreamer::Run()
             // setup resampler (this is very slow ~250 msec)
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_AUDIO_STREAM, 0, pAudioOutputType);
         }
-
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
     }
 
     if(SUCCEEDED(pSourceReader->GetNativeMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM,
@@ -257,8 +247,7 @@ void MFStreamer::Run()
 
         GUID native_subtype = {};
         hr = pVideoType->GetGUID(MF_MT_SUBTYPE, &native_subtype);
-        if(FAILED(hr))
-            goto fail_open;
+        RETURNONERROR(FAILED(hr));
 
         // check whether user wants to transform video stream
         switch (m_media_out.video.fourcc)
@@ -271,8 +260,7 @@ void MFStreamer::Run()
             assert(SUCCEEDED(hr));
 
             hr = pVideoType->SetGUID(MF_MT_SUBTYPE, ConvertFourCC(m_media_out.video.fourcc));
-            if(FAILED(hr))
-                goto fail_open;
+            RETURNONERROR(FAILED(hr));
 
             hr = pSourceReader->SetCurrentMediaType(MF_SOURCE_READER_FIRST_VIDEO_STREAM, 0, pVideoType);
             if(FAILED(hr))
@@ -281,8 +269,7 @@ void MFStreamer::Run()
                 assert(SUCCEEDED(hr));
 
                 transform = MFTransform::Create(pVideoType, ConvertFourCC(m_media_out.video.fourcc));
-                if (!transform.get())
-                    goto fail_open;
+                RETURNONERROR(!transform.get());
             }
 
             m_media_out.video.width = int(w);
@@ -308,14 +295,9 @@ void MFStreamer::Run()
         m_media_in.duration_ms = ACE_UINT32(nsDuration / 10000);
     }
 
-    if (m_media_in.IsValid())
-    {
-        m_open.set(m_media_in.IsValid());
-    }
-    else
-    {
-        goto fail_open;
-    }
+    RETURNONERROR(!m_media_in.IsValid());
+
+    m_open.set(m_media_in.IsValid());
 
     // wait for semaphore to be notified from ::StartStream()
     m_run.get(start);
@@ -515,11 +497,6 @@ void MFStreamer::Run()
 
     if (m_statuscallback && !m_stop)
         m_statuscallback(m_media_in, error? MEDIASTREAM_ERROR : MEDIASTREAM_FINISHED);
-
-    return;
-
-fail_open:
-    m_open.set(false);
 }
 
 int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime)
