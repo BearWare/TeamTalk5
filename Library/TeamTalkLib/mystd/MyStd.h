@@ -24,33 +24,33 @@
 #if !defined(MYSTD_H)
 #define MYSTD_H
 
-#include <string>
 #include <regex>
+#include <string>
 #include <vector>
 
 #if !defined(_MSC_VER)
-#include <stdint.h>
+#include <cstdint>
 #endif
 
-typedef std::vector<std::string> stdstrings_t;
+using stdstrings_t = std::vector<std::string>;
 
 #if defined(_MSC_VER)
 std::string i2str(__int64 i);
 __int64 str2i(const std::string& str);
 #else
-std::string i2str(int64_t i);
-int64_t str2i(const std::string& str);
+std::string I2str(int64_t i);
+int64_t Str2i(const std::string& str);
 #endif
 
-std::string str2lower(const std::string& str);
+std::string Str2lower(const std::string& str);
 
-bool strcmpnocase(const std::string& str1, const std::string& str2);
-stdstrings_t stdtokenize(const std::string& source, const std::string& delimeters);
+bool Strcmpnocase(const std::string& str1, const std::string& str2);
+stdstrings_t Stdtokenize(const std::string& source, const std::string& delimeters);
 
 #if defined(UNICODE)
 std::wregex buildregex(const std::wstring& regexstr);
 #else
-std::regex buildregex(const std::string& regexstr);
+std::regex Buildregex(const std::string& regexstr);
 #endif
 
 uint32_t GETTIMESTAMP();
@@ -58,18 +58,18 @@ uint32_t GETTIMESTAMP();
 class NonCopyable
 {
 protected:
-    NonCopyable() {}
-    ~NonCopyable() {}
+    NonCopyable() = default;
+    ~NonCopyable() = default;
 private: 
-    NonCopyable(const NonCopyable &);
-    NonCopyable& operator=(const NonCopyable &);
+    NonCopyable(const NonCopyable &) = delete;
+    NonCopyable& operator=(const NonCopyable &) = delete;
 };
 
 struct Rational
 {
     int numerator;
     int denominator;
-    Rational(int n, int d) { numerator = n; denominator = d; }
+    Rational(int n, int d) : numerator(n), denominator(d) { }
     bool IsOne() const { return numerator == denominator; }
 };
 

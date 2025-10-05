@@ -22,23 +22,29 @@
  */
 
 #include "MyStd.h"
-#include <stdio.h>
+
 #include <algorithm>
-#include <assert.h>
-#include <sstream>
+#include <cassert>
 #include <chrono>
+#include <cstdint>
+#include <cctype>
+#include <regex>
+#include <sstream>
+#include <stdio.h>
+#include <string>
+#include <vector>
 using namespace std;
 
 /*******************************************************************/
 /************************* Helper functions ************************/
 /*******************************************************************/
 
-void replace_all(string& target, const string& to_find, const string& replacement )
+static void ReplaceAll(string& target, const string& to_find, const string& replacement )
 {
     if (to_find.empty())
         return;
 
-    size_t replace_inc = replacement.length();
+    size_t const replace_inc = replacement.length();
     for (size_t loc = target.find( to_find );
         loc != string::npos;
         loc = target.find( to_find, loc+replace_inc ) )
@@ -82,7 +88,7 @@ int64_t str2i(const std::string& str)
 std::string str2lower(const std::string& str)
 {
   string sstr = str;
-    std::transform(sstr.begin(), sstr.end(), sstr.begin(), (int (*)(int))tolower);
+    std::ranges::transform(sstr, sstr.begin(), (int (*)(int))tolower);
   return sstr;
 }
 
@@ -90,8 +96,8 @@ bool strcmpnocase(const string& str1, const string& str2)
 {
     string tmp1 = str1;
     string tmp2 = str2;
-    std::transform(tmp1.begin(), tmp1.end(), tmp1.begin(), (int (*)(int))tolower);
-    std::transform(tmp2.begin(), tmp2.end(), tmp2.begin(), (int (*)(int))tolower);
+    std::ranges::transform(tmp1, tmp1.begin(), (int (*)(int))tolower);
+    std::ranges::transform(tmp2, tmp2.begin(), (int (*)(int))tolower);
     return tmp1 == tmp2;
 }
 
@@ -132,7 +138,7 @@ std::regex buildregex(const std::string& regexstr)
     }
     catch (const std::regex_error& )
     {
-        return std::regex();
+        return {};
     }
 }
 #endif
@@ -141,7 +147,7 @@ std::regex buildregex(const std::string& regexstr)
 uint32_t GETTIMESTAMP()
 {
     using namespace std::chrono;
-    steady_clock::time_point now = steady_clock::now();
+    steady_clock::time_point const now = steady_clock::now();
     auto now_ms = time_point_cast<milliseconds>(now);
     auto duration = now_ms.time_since_epoch();
     return uint32_t(duration.count());
