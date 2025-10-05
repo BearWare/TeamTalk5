@@ -231,12 +231,15 @@ func setupSoundDevices() {
         }
         else {
             if #available(iOS 10.0, *) {
-                catoptions = [ .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP ]
+                catoptions = [ .allowBluetoothHFP, .allowAirPlay, .allowBluetoothA2DP]
+                if #available(iOS 26.0, *) {
+                    catoptions.update(with: .bluetoothHighQualityRecording)
+                }
                 if a2dp {
-                    catoptions.remove(.allowBluetooth)
+                    catoptions.remove(.allowBluetoothHFP)
                 }
             } else {
-                catoptions = [ .allowBluetooth ]
+                catoptions = [ .allowBluetoothHFP ]
             }
         }
         // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),
