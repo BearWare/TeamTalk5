@@ -22,13 +22,11 @@
  */
 
 #include "ttconvert-jni.h"
-#include <assert.h>
-#include <string.h>
-#include <iostream>
-#include <string>
-using namespace std;
+#include <cassert>
+#include <cstddef>
+#include <cstring>
 
-#define TRANSMITUSER_ARRAY_SIZE 2
+constexpr auto TRANSMITUSER_ARRAY_SIZE = 2;
 
 #if defined(WIN32)
 const jint* TO_JINT_ARRAY(const INT32* ttints, jint* jints, INT32 N)
@@ -48,7 +46,7 @@ jint hashCode(JNIEnv* env, jobject thiz)
 {
     jclass cls = env->GetObjectClass(thiz);
     jmethodID hashCodeMethod = env->GetMethodID(cls, "hashCode", "()I");
-    jint hash = env->CallIntMethod(thiz, hashCodeMethod);
+    jint const hash = env->CallIntMethod(thiz, hashCodeMethod);
     return hash;
 }
 
@@ -133,7 +131,7 @@ jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev)
     env->SetObjectField(newObj, fid_name, NEW_JSTRING(env, dev.szDeviceName));
     env->SetObjectField(newObj, fid_api, NEW_JSTRING(env, dev.szCaptureAPI));
     jclass cls_vidfmt = env->FindClass("dk/bearware/VideoFormat");
-    jobjectArray buf = env->NewObjectArray(dev.nVideoFormatsCount, cls_vidfmt, NULL);
+    jobjectArray buf = env->NewObjectArray(dev.nVideoFormatsCount, cls_vidfmt, nullptr);
     env->SetObjectField(newObj, fid_fmts, buf);
 
     for(int i=0;i<dev.nVideoFormatsCount;i++)
@@ -148,8 +146,8 @@ jobject newVideoDevice(JNIEnv* env, VideoCaptureDevice& dev)
 jobject newChannel(JNIEnv* env, const Channel* lpChannel) {
     jclass cls = env->FindClass("dk/bearware/Channel");
     assert(cls);
-    jobject channel_obj = NULL;
-    if(lpChannel) {
+    jobject channel_obj = nullptr;
+    if(lpChannel != nullptr) {
         channel_obj = newObject(env, cls);
         assert(channel_obj);
         setChannel(env, const_cast<Channel&>(*lpChannel), channel_obj, N2J);
@@ -160,8 +158,8 @@ jobject newChannel(JNIEnv* env, const Channel* lpChannel) {
 jobject newUser(JNIEnv* env, const User* lpUser) {
     jclass cls = env->FindClass("dk/bearware/User");
     assert(cls);
-    jobject user_obj = NULL;
-    if(lpUser) {
+    jobject user_obj = nullptr;
+    if(lpUser != nullptr) {
         user_obj = newObject(env, cls);
         assert(user_obj);
         setUser(env, const_cast<User&>(*lpUser), user_obj);
@@ -172,9 +170,9 @@ jobject newUser(JNIEnv* env, const User* lpUser) {
 jobject newClientErrorMsg(JNIEnv* env, const ClientErrorMsg* lpClientErrorMsg) {
 
     jclass cls = env->FindClass("dk/bearware/ClientErrorMsg");
-    jobject errmsg_obj = NULL;
+    jobject errmsg_obj = nullptr;
 
-    if(lpClientErrorMsg) {
+    if(lpClientErrorMsg != nullptr) {
         errmsg_obj = newObject(env, cls);
         assert(errmsg_obj);
         setClientErrorMsg(env, const_cast<ClientErrorMsg&>(*lpClientErrorMsg), errmsg_obj, N2J);
@@ -184,9 +182,9 @@ jobject newClientErrorMsg(JNIEnv* env, const ClientErrorMsg* lpClientErrorMsg) {
 
 jobject newUserAccount(JNIEnv* env, const UserAccount* lpUserAccount) {
     jclass cls = env->FindClass("dk/bearware/UserAccount");
-    jobject ua_obj = NULL;
+    jobject ua_obj = nullptr;
 
-    if(lpUserAccount) {
+    if(lpUserAccount != nullptr) {
         ua_obj = newObject(env, cls);
         assert(ua_obj);
         setUserAccount(env, const_cast<UserAccount&>(*lpUserAccount), ua_obj, N2J);
@@ -196,9 +194,9 @@ jobject newUserAccount(JNIEnv* env, const UserAccount* lpUserAccount) {
 
 jobject newTextMessage(JNIEnv* env, const TextMessage* lpTextMessage) {
     jclass cls = env->FindClass("dk/bearware/TextMessage");
-    jobject tm_obj = NULL;
+    jobject tm_obj = nullptr;
 
-    if(lpTextMessage) {
+    if(lpTextMessage != nullptr) {
         tm_obj = newObject(env, cls);
         assert(tm_obj);
         setTextMessage(env, const_cast<TextMessage&>(*lpTextMessage), tm_obj, N2J);
@@ -208,9 +206,9 @@ jobject newTextMessage(JNIEnv* env, const TextMessage* lpTextMessage) {
 
 jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile) {
     jclass cls = env->FindClass("dk/bearware/RemoteFile");
-    jobject rf_obj = NULL;
+    jobject rf_obj = nullptr;
 
-    if(lpRemoteFile) {
+    if(lpRemoteFile != nullptr) {
         rf_obj = newObject(env, cls);
         assert(rf_obj);
         setRemoteFile(env, const_cast<RemoteFile&>(*lpRemoteFile), rf_obj, N2J);
@@ -221,9 +219,9 @@ jobject newRemoteFile(JNIEnv* env, const RemoteFile* lpRemoteFile) {
 
 jobject newServerProperties(JNIEnv* env, const ServerProperties* lpServerProperties) {
     jclass cls = env->FindClass("dk/bearware/ServerProperties");
-    jobject sp_obj = NULL;
+    jobject sp_obj = nullptr;
 
-    if(lpServerProperties) {
+    if(lpServerProperties != nullptr) {
         sp_obj = newObject(env, cls);
         assert(sp_obj);
         setServerProperties(env, const_cast<ServerProperties&>(*lpServerProperties), sp_obj, N2J);
@@ -233,8 +231,8 @@ jobject newServerProperties(JNIEnv* env, const ServerProperties* lpServerPropert
 
 jobject newAbusePrevention(JNIEnv* env, const AbusePrevention* lpAbusePrevent) {
     jclass cls = env->FindClass("dk/bearware/AbusePrevention");
-    jobject ap_obj = NULL;
-    if(lpAbusePrevent) {
+    jobject ap_obj = nullptr;
+    if(lpAbusePrevent != nullptr) {
         ap_obj = newObject(env, cls);
         assert(ap_obj);
         setAbusePrevention(env, const_cast<AbusePrevention&>(*lpAbusePrevent), ap_obj, N2J);
@@ -336,15 +334,15 @@ void setChannel(JNIEnv* env, Channel& chan, jobject lpChannel, JConvert conv) {
         TT_STRCPY(chan.szOpPassword, ttstr(env, (jstring)env->GetObjectField(lpChannel, fid_oppasswd)));
         chan.nMaxUsers = env->GetIntField(lpChannel, fid_maxusers);
         memset(chan.transmitUsers, 0, sizeof(chan.transmitUsers));
-        jobjectArray outer = jobjectArray(env->GetObjectField(lpChannel, fid_txusers));
+        auto outer = jobjectArray(env->GetObjectField(lpChannel, fid_txusers));
         for (int i=0;i<TT_TRANSMITQUEUE_MAX;++i) {
-            jintArray intArr = jintArray(env->GetObjectArrayElement(outer, i));
+            auto intArr = jintArray(env->GetObjectArrayElement(outer, i));
             jint tmp[TRANSMITUSER_ARRAY_SIZE];
             env->GetIntArrayRegion(intArr, 0, TRANSMITUSER_ARRAY_SIZE, tmp);
             TO_INT32_ARRAY(tmp, chan.transmitUsers[i], TRANSMITUSER_ARRAY_SIZE);
             env->DeleteLocalRef(intArr);
         }
-        jintArray intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
+        auto intArr = (jintArray)env->GetObjectField(lpChannel, fid_queueusers);
         jint tmp[TT_TRANSMITQUEUE_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_TRANSMITQUEUE_MAX, tmp);
         TO_INT32_ARRAY(tmp, chan.transmitUsersQueue, TT_TRANSMITQUEUE_MAX);
@@ -429,13 +427,13 @@ void setUser(JNIEnv* env, const User& user, jobject lpUser) {
     env->SetIntField(lpUser, fid_stopmf, user.nStoppedDelayMediaFile);
     jbooleanArray boolArray = env->NewBooleanArray(2);
     jboolean tmp[2];
-    tmp[0] = user.stereoPlaybackVoice[0] != 0;
-    tmp[1] = user.stereoPlaybackVoice[1] != 0;
+    tmp[0] = static_cast<jboolean>(user.stereoPlaybackVoice[0] != 0);
+    tmp[1] = static_cast<jboolean>(user.stereoPlaybackVoice[1] != 0);
     env->SetBooleanArrayRegion(boolArray, 0, 2, tmp);
     env->SetObjectField(lpUser, fid_pbvoice, boolArray);
     boolArray = env->NewBooleanArray(2);
-    tmp[0] = user.stereoPlaybackMediaFile[0] != 0;
-    tmp[1] = user.stereoPlaybackMediaFile[1] != 0;
+    tmp[0] = static_cast<jboolean>(user.stereoPlaybackMediaFile[0] != 0);
+    tmp[1] = static_cast<jboolean>(user.stereoPlaybackMediaFile[1] != 0);
     env->SetBooleanArrayRegion(boolArray, 0, 2, tmp);
     env->SetObjectField(lpUser, fid_pbmf, boolArray);
     env->SetIntField(lpUser, fid_mfbuf, user.nBufferMSecMediaFile);
@@ -624,7 +622,7 @@ void setTTMessage(JNIEnv* env, TTMessage& msg, jobject pMsg)
 
 void setIntPtr(JNIEnv* env, jobject intptr, jint value)
 {
-    if(!intptr)
+    if(intptr == nullptr)
         return;
 
     jclass cls_intptr = env->GetObjectClass(intptr); //dk.bearware.IntPtr-class
@@ -635,7 +633,7 @@ void setIntPtr(JNIEnv* env, jobject intptr, jint value)
 
 jint getIntPtr(JNIEnv* env, jobject intptr)
 {
-    if(!intptr)
+    if(intptr == nullptr)
         return 0;
 
     jclass cls_intptr = env->GetObjectClass(intptr); //dk.bearware.IntPtr-class
@@ -650,7 +648,7 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
     jfieldID fid_codec = env->GetFieldID(cls_codec, "nCodec", "I");
     assert(fid_codec);
 
-    int conv_codec;
+    int conv_codec = 0;
     if(conv == N2J)
     {
         conv_codec = codec.nCodec;
@@ -658,7 +656,7 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
     }
     else
     {
-        ZERO_STRUCT(codec);
+        codec = {};
         conv_codec = env->GetIntField(lpAudioCodec, fid_codec);
         codec.nCodec = (Codec)env->GetIntField(lpAudioCodec, fid_codec);
     }
@@ -845,7 +843,7 @@ void setAudioConfig(JNIEnv* env, AudioConfig& audcfg, jobject lpAudioConfig, JCo
     }
     else
     {
-        ZERO_STRUCT(audcfg);
+        audcfg = {};
         audcfg.bEnableAGC = env->GetBooleanField(lpAudioConfig, fid_agc);
         audcfg.nGainLevel = env->GetIntField(lpAudioConfig, fid_gainlevel);
     }
@@ -915,7 +913,7 @@ void setSpeexDSP(JNIEnv* env, SpeexDSP& spxdsp, jobject lpSpeexDSP, JConvert con
     }
     else
     {
-        ZERO_STRUCT(spxdsp);
+        spxdsp = {};
         spxdsp.bEnableAGC = env->GetBooleanField(lpSpeexDSP, fid_agc);
         spxdsp.nGainLevel = env->GetIntField(lpSpeexDSP, fid_gainlevel);
         spxdsp.nMaxIncDBSec = env->GetIntField(lpSpeexDSP, fid_maxinc);
@@ -1170,7 +1168,7 @@ void setServerProperties(JNIEnv* env, ServerProperties& srvprop, jobject lpServe
     }
     else
     {
-        ZERO_STRUCT(srvprop);
+        srvprop = {};
         TT_STRCPY(srvprop.szServerName, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_name)));
         TT_STRCPY(srvprop.szMOTD, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_motd)));
         TT_STRCPY(srvprop.szMOTDRaw, ttstr(env, (jstring)env->GetObjectField(lpServerProperties, fid_motdraw)));
@@ -1354,7 +1352,7 @@ void setTextMessage(JNIEnv* env, TextMessage& msg, jobject lpTextMessage, JConve
     }
     else
     {
-        ZERO_STRUCT(msg);
+        msg = {};
         msg.nMsgType = (TextMsgType)env->GetIntField(lpTextMessage, fid_type);
         msg.nFromUserID = env->GetIntField(lpTextMessage, fid_fromid);
         TT_STRCPY(msg.szFromUsername, ttstr(env, (jstring)env->GetObjectField(lpTextMessage, fid_username)));
@@ -1419,7 +1417,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
     }
     else
     {
-        ZERO_STRUCT(account);
+        account = {};
         TT_STRCPY(account.szUsername, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_user)));
         TT_STRCPY(account.szPassword, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_passwd)));
         account.uUserType = env->GetIntField(lpAccount, fid_type);
@@ -1427,7 +1425,7 @@ void setUserAccount(JNIEnv* env, UserAccount& account, jobject lpAccount, JConve
         account.nUserData = env->GetIntField(lpAccount, fid_data);
         TT_STRCPY(account.szNote, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_note)));
         TT_STRCPY(account.szInitChannel, ttstr(env, (jstring)env->GetObjectField(lpAccount, fid_initchan)));
-        jintArray intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
+        auto intArr = (jintArray)env->GetObjectField(lpAccount, fid_op);
         jint tmp[TT_CHANNELS_OPERATOR_MAX] = {};
         env->GetIntArrayRegion(intArr, 0, TT_CHANNELS_OPERATOR_MAX, tmp);
         TO_INT32_ARRAY(tmp, account.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX);
@@ -1484,7 +1482,7 @@ void setServerStatistics(JNIEnv* env, ServerStatistics& stats, jobject lpServerS
     }
     else
     {
-        ZERO_STRUCT(stats);
+        stats = {};
         stats.nTotalBytesTX = env->GetLongField(lpServerStatistics, fid_totaltx);
         stats.nTotalBytesRX = env->GetLongField(lpServerStatistics, fid_totalrx);
         stats.nVoiceBytesTX = env->GetLongField(lpServerStatistics, fid_voicetx);
@@ -1526,7 +1524,7 @@ void setRemoteFile(JNIEnv* env, RemoteFile& fileinfo, jobject lpRemoteFile, JCon
         env->SetObjectField(lpRemoteFile, fid_mod, NEW_JSTRING(env, fileinfo.szUploadTime));
     }
     else {
-        ZERO_STRUCT(fileinfo);
+        fileinfo = {};
         fileinfo.nFileID = env->GetIntField(lpRemoteFile, fid_id);
         fileinfo.nChannelID = env->GetIntField(lpRemoteFile, fid_cid);
         TT_STRCPY(fileinfo.szFileName, ttstr(env, (jstring)env->GetObjectField(lpRemoteFile, fid_name)));
@@ -1645,7 +1643,7 @@ void setBannedUser(JNIEnv* env, BannedUser& banned, jobject lpBannedUser, JConve
    }
    else
    {
-       ZERO_STRUCT(banned);
+       banned = {};
        TT_STRCPY(banned.szIPAddress, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_ipaddr)));
        TT_STRCPY(banned.szChannelPath, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_chan)));
        TT_STRCPY(banned.szBanTime, ttstr(env, (jstring)env->GetObjectField(lpBannedUser, fid_time)));
@@ -1673,7 +1671,7 @@ void setClientErrorMsg(JNIEnv* env, ClientErrorMsg& cemsg, jobject lpClientError
    }
    else
    {
-       ZERO_STRUCT(cemsg);
+       cemsg = {};
        cemsg.nErrorNo = env->GetIntField(lpClientErrorMsg, fid_err);
        TT_STRCPY(cemsg.szErrorMsg, ttstr(env, (jstring)env->GetObjectField(lpClientErrorMsg, fid_msg)));
    }
@@ -1702,7 +1700,7 @@ void setDesktopInput(JNIEnv* env, DesktopInput& input, jobject lpDesktopInput, J
    }
    else
    {
-       ZERO_STRUCT(input);
+       input = {};
        input.uMousePosX = (UINT16)env->GetIntField(lpDesktopInput, fid_x);
        input.uMousePosY = (UINT16)env->GetIntField(lpDesktopInput, fid_y);
        input.uKeyCode = env->GetIntField(lpDesktopInput, fid_keycode);
@@ -1732,8 +1730,8 @@ void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWind
    {
 
        jbyteArray buf = env->NewByteArray(deskwnd.nFrameBufferSize);
-       jbyte* bufptr = env->GetByteArrayElements(buf, 0);
-       if(!bufptr)
+       jbyte* bufptr = env->GetByteArrayElements(buf, nullptr);
+       if(bufptr == nullptr)
            return;
 
        memcpy(bufptr, deskwnd.frameBuffer, deskwnd.nFrameBufferSize);
@@ -1748,7 +1746,7 @@ void setDesktopWindow(JNIEnv* env, DesktopWindow& deskwnd, jobject lpDesktopWind
    }
    else
    {
-       ZERO_STRUCT(deskwnd);
+       deskwnd = {};
        deskwnd.nWidth = env->GetIntField(lpDesktopWindow, fid_w);
        deskwnd.nHeight = env->GetIntField(lpDesktopWindow, fid_h);
        deskwnd.bmpFormat = (BitmapFormat)env->GetIntField(lpDesktopWindow, fid_bmpfmt);
@@ -1774,8 +1772,8 @@ void setVideoFrame(JNIEnv* env, VideoFrame& vidframe, jobject lpVideoFrame)
    assert(fid_frmbuf);
 
    jbyteArray buf = env->NewByteArray(vidframe.nFrameBufferSize);
-   jbyte* bufptr = env->GetByteArrayElements(buf, 0);
-   if(!bufptr)
+   jbyte* bufptr = env->GetByteArrayElements(buf, nullptr);
+   if(bufptr == nullptr)
        return;
 
    memcpy(bufptr, vidframe.frameBuffer, vidframe.nFrameBufferSize);
@@ -1810,12 +1808,12 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
 
     if (conv == N2J)
     {
-        int size = audblock.nSamples * sizeof(short) * audblock.nChannels;
+        int const size = audblock.nSamples * sizeof(short) * audblock.nChannels;
         jbyteArray buf = env->NewByteArray(size);
         if (size > 0)
         {
-            jbyte* bufptr = env->GetByteArrayElements(buf, 0);
-            if(!bufptr)
+            jbyte* bufptr = env->GetByteArrayElements(buf, nullptr);
+            if(bufptr == nullptr)
                 return nullptr;
             memcpy(bufptr, audblock.lpRawAudio, size);
             env->ReleaseByteArrayElements(buf, bufptr, 0);
@@ -1837,8 +1835,8 @@ jbyteArray setAudioBlock(JNIEnv* env, AudioBlock& audblock, jobject lpAudioBlock
         audblock.nSamples = env->GetIntField(lpAudioBlock, fid_sn);
         audblock.uSampleIndex = env->GetIntField(lpAudioBlock, fid_si);
         audblock.uStreamTypes = env->GetIntField(lpAudioBlock, fid_st);
-        jbyteArray byteArr = jbyteArray(env->GetObjectField(lpAudioBlock, fid_audbuf));
-        if (byteArr)
+        auto byteArr = jbyteArray(env->GetObjectField(lpAudioBlock, fid_audbuf));
+        if (byteArr != nullptr)
             audblock.lpRawAudio = env->GetByteArrayElements(byteArr, nullptr);
         return byteArr;
     }
