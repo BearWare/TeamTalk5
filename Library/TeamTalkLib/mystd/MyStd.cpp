@@ -25,11 +25,11 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cctype>
 #include <chrono>
 #include <cstdint>
-#include <cctype>
-#include <regex>
 #include <cstdio>
+#include <regex>
 #include <string>
 #include <vector>
 
@@ -42,10 +42,10 @@ static void ReplaceAll(std::string& target, const std::string& to_find, const st
     if (to_find.empty())
         return;
 
-    std::size_t const replace_inc = replacement.length();
+    std::size_t const REPLACE_INC = replacement.length();
     for (std::size_t loc = target.find( to_find );
         loc != std::string::npos;
-        loc = target.find( to_find, loc+replace_inc ) )
+        loc = target.find( to_find, loc+REPLACE_INC ) )
     {
         target.replace( loc, to_find.length(), replacement );
     }
@@ -113,8 +113,8 @@ std::regex BuildRegex(const std::string& regexstr)
 uint32_t GETTIMESTAMP()
 {
     using namespace std::chrono;
-    steady_clock::time_point const now = steady_clock::now();
-    auto now_ms = time_point_cast<milliseconds>(now);
+    steady_clock::time_point const NOW = steady_clock::now();
+    auto now_ms = time_point_cast<milliseconds>(NOW);
     auto duration = now_ms.time_since_epoch();
     return uint32_t(duration.count());
 }

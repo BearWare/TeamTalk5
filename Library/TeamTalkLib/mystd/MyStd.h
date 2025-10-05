@@ -24,6 +24,7 @@
 #if !defined(MYSTD_H)
 #define MYSTD_H
 
+#include <cstdint>
 #include <regex>
 #include <string>
 #include <vector>
