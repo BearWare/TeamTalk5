@@ -1,0 +1,31 @@
+---
+Checks: >
+    bugprone-*,
+    clang-analyzer-*,
+    concurrency-*,
+    cppcoreguidelines-*,
+    -cppcoreguidelines-pro-type-member-init,
+    llvm-*,
+    -llvm-header-guard,
+    misc-*,
+    -misc-header-guard,
+    -misc-non-private-member-variables-in-classes,
+    modernize-*,
+    -modernize-use-trailing-return-type,
+    -modernize-use-nodiscard,
+    performance-*,
+    -performance-avoid-endl,
+    -performance-enum-size,
+    readability-*,
+    -readability-identifier-length,
+    -readability-braces-around-statements,
+
+WarningsAsErrors: true
+HeaderFilterRegex: ''
+CheckOptions:
+  - key:             readability-identifier-naming.ConstexprFunctionCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.ConstexprMethodCase
+    value:           UPPER_CASE
+  - key:             readability-identifier-naming.ConstexprVariableCase
+    value:           UPPER_CASE
