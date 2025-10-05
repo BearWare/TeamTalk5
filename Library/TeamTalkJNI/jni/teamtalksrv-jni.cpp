@@ -23,42 +23,42 @@
 
 #include "ttconvert-jni.h"
 
-#include <assert.h>
+#include <cassert>
 #include <map>
 #include <mutex>
 
 #include <TeamTalkSrv.h>
 
-typedef std::map<TTSInstance*, JNIEnv*> jenv_t;
-typedef std::map<TTSInstance*, jobject> refs_t;
-jenv_t envs;
-refs_t command_refs, logger_refs;
+using jenv_t = std::map<TTSInstance*, JNIEnv*>;
+using refs_t = std::map<TTSInstance*, jobject>;
+static jenv_t envs;
+static refs_t command_refs, logger_refs;
 
-std::mutex ttsinstmutex;
-std::map<jint, TTSInstance*> ttsinstances;
+static std::mutex ttsinstmutex;
+static std::map<jint, TTSInstance*> ttsinstances;
 
-void AddTTSInstance(JNIEnv* env, jobject thiz, TTSInstance* ttsinst)
+static void AddTTSInstance(JNIEnv* env, jobject thiz, TTSInstance* ttsinst)
 {
     auto hash = hashCode(env, thiz);
 
-    std::lock_guard<std::mutex> g(ttsinstmutex);
+    std::lock_guard<std::mutex> const g(ttsinstmutex);
     ttsinstances[hash] = ttsinst;
 }
 
-TTSInstance* RemoveTTSInstance(JNIEnv* env, jobject thiz)
+static TTSInstance* RemoveTTSInstance(JNIEnv* env, jobject thiz)
 {
     auto hash = hashCode(env, thiz);
 
-    std::lock_guard<std::mutex> g(ttsinstmutex);
+    std::lock_guard<std::mutex> const g(ttsinstmutex);
     TTSInstance* ttsinst = ttsinstances[hash];
     ttsinstances.erase(hash);
     return ttsinst;
 }
 
-TTSInstance* GetTTSInstance(JNIEnv* env, jobject thiz)
+static TTSInstance* GetTTSInstance(JNIEnv* env, jobject thiz)
 {
     auto hash = hashCode(env, thiz);
-    std::lock_guard<std::mutex> g(ttsinstmutex);
+    std::lock_guard<std::mutex> const g(ttsinstmutex);
     return ttsinstances[hash];
 }
 
@@ -377,10 +377,10 @@ extern "C" {
 
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject kicker_obj = lpKicker? newUser(env, lpKicker) : 0;
+        jobject kicker_obj = (lpKicker != nullptr)? newUser(env, lpKicker) : nullptr;
         assert(lpKickee);
         jobject kickee_obj = newUser(env, lpKickee);
-        jobject channel_obj = lpChannel? newChannel(env, lpChannel) : 0;
+        jobject channel_obj = (lpChannel != nullptr)? newChannel(env, lpChannel) : nullptr;
         jclass cls = env->FindClass("dk/bearware/ServerLogger");
         assert(cls);
         jmethodID method = env->GetMethodID(cls, "userKicked",
@@ -534,7 +534,7 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        jobject user_obj = (lpUser != nullptr) ? newUser(env, lpUser) : nullptr;
         assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
@@ -554,7 +554,7 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        jobject user_obj = (lpUser != nullptr) ? newUser(env, lpUser) : nullptr;
         assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
@@ -574,7 +574,7 @@ extern "C" {
                                    IN const User* lpUser) {
         JNIEnv* env = envs[lpTTSInstance];
 
-        jobject user_obj = lpUser ? newUser(env, lpUser) : 0;
+        jobject user_obj = (lpUser != nullptr) ? newUser(env, lpUser) : nullptr;
         assert(lpChannel);
         jobject chan_obj = newChannel(env, lpChannel);
         assert(chan_obj);
@@ -694,14 +694,14 @@ extern "C" {
     }
 
     JNIEXPORT jstring JNICALL Java_dk_bearware_TeamTalkSrv_getVersion(JNIEnv* env,
-                                                                      jclass)
+                                                                      jclass /*unused*/)
     {
         const TTCHAR* ttv = TT_GetVersion();
         return NEW_JSTRING(env, ttv);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_setLicenseInformation(JNIEnv* env,
-                                                                                   jclass,
+                                                                                   jclass /*unused*/,
                                                                                    jstring szRegName,
                                                                                    jstring szRegKey)
     {
@@ -726,9 +726,9 @@ extern "C" {
 
         TTS_CloseTeamTalk(inst);
 
-        if(command_refs[inst])
+        if(command_refs[inst] != nullptr)
             env->DeleteGlobalRef(command_refs[inst]);
-        if(logger_refs[inst])
+        if(logger_refs[inst] != nullptr)
             env->DeleteGlobalRef(logger_refs[inst]);
 
         command_refs.erase(inst);
@@ -744,21 +744,21 @@ extern "C" {
         command_refs[inst] = env->NewGlobalRef(servercallback);
 
         TTS_RegisterUserLoginCallback(inst, userLoginCallback,
-                                      servercallback, true);
+                                      servercallback, 1);
         TTS_RegisterUserChangeNicknameCallback(inst, userChangeNicknameCallback,
-                                               servercallback, true);
+                                               servercallback, 1);
         TTS_RegisterUserChangeStatusCallback(inst, userChangeStatusCallback,
-                                             servercallback, true);
+                                             servercallback, 1);
         TTS_RegisterUserCreateUserAccountCallback(inst, userCreateUserAccountCallback,
-                                                  servercallback, true);
+                                                  servercallback, 1);
         TTS_RegisterUserDeleteUserAccountCallback(inst, userDeleteUserAccountCallback,
-                                                  servercallback, true);
+                                                  servercallback, 1);
         TTS_RegisterUserAddServerBanCallback(inst, userAddServerBanCallback,
-                                             servercallback, true);
+                                             servercallback, 1);
         TTS_RegisterUserAddServerBanIPAddressCallback(inst, userAddServerBanIPAddressCallback,
-                                                      servercallback, true);
+                                                      servercallback, 1);
         TTS_RegisterUserDeleteServerBanCallback(inst, userDeleteServerBanCallback,
-                                                servercallback, true);
+                                                servercallback, 1);
     }
 
     JNIEXPORT void JNICALL Java_dk_bearware_TeamTalkSrv_registerServerLogger
@@ -768,27 +768,27 @@ extern "C" {
 
         logger_refs[inst] = env->NewGlobalRef(serverlogger);
 
-        TTS_RegisterUserConnectedCallback(inst, logUserConnectedCallback, 0, true);
-        TTS_RegisterUserLoggedInCallback(inst, logUserLoggedInCallback, 0, true);
-        TTS_RegisterUserLoggedOutCallback(inst, logUserLoggedOutCallback, 0, true);
-        TTS_RegisterUserDisconnectedCallback(inst, logUserDisconnectedCallback, 0, true);
-        TTS_RegisterUserTimedoutCallback(inst, logUserTimedoutCallback, 0, true);
-        TTS_RegisterUserKickedCallback(inst, logUserKickedCallback, 0, true);
-        TTS_RegisterUserBannedCallback(inst, logUserBannedCallback, 0, true);
-        TTS_RegisterUserUnbannedCallback(inst, logUserUnbannedCallback, 0, true);
-        TTS_RegisterUserUpdatedCallback(inst, logUserUpdatedCallback, 0, true);
-        TTS_RegisterUserJoinedChannelCallback(inst, logUserJoinedChannelCallback, 0, true);
-        TTS_RegisterUserLeftChannelCallback(inst, logUserLeftChannelCallback, 0, true);
-        TTS_RegisterUserMovedCallback(inst, logUserMovedCallback, 0, true);
-        TTS_RegisterUserTextMessageCallback(inst, logUserTextMessageCallback, 0, true);
-        TTS_RegisterChannelCreatedCallback(inst, logChannelCreatedCallback, 0, true);
-        TTS_RegisterChannelUpdatedCallback(inst, logChannelUpdatedCallback, 0, true);
-        TTS_RegisterChannelRemovedCallback(inst, logChannelRemovedCallback, 0, true);
-        TTS_RegisterFileUploadedCallback(inst, logFileUploadedCallback, 0, true);
-        TTS_RegisterFileDownloadedCallback(inst, logFileDownloadedCallback, 0, true);
-        TTS_RegisterFileDeletedCallback(inst, logFileDeletedCallback, 0, true);
-        TTS_RegisterServerUpdatedCallback(inst, logServerUpdatedCallback, 0, true);
-        TTS_RegisterSaveServerConfigCallback(inst, logSaveServerConfigCallback, 0, true);
+        TTS_RegisterUserConnectedCallback(inst, logUserConnectedCallback, nullptr, 1);
+        TTS_RegisterUserLoggedInCallback(inst, logUserLoggedInCallback, nullptr, 1);
+        TTS_RegisterUserLoggedOutCallback(inst, logUserLoggedOutCallback, nullptr, 1);
+        TTS_RegisterUserDisconnectedCallback(inst, logUserDisconnectedCallback, nullptr, 1);
+        TTS_RegisterUserTimedoutCallback(inst, logUserTimedoutCallback, nullptr, 1);
+        TTS_RegisterUserKickedCallback(inst, logUserKickedCallback, nullptr, 1);
+        TTS_RegisterUserBannedCallback(inst, logUserBannedCallback, nullptr, 1);
+        TTS_RegisterUserUnbannedCallback(inst, logUserUnbannedCallback, nullptr, 1);
+        TTS_RegisterUserUpdatedCallback(inst, logUserUpdatedCallback, nullptr, 1);
+        TTS_RegisterUserJoinedChannelCallback(inst, logUserJoinedChannelCallback, nullptr, 1);
+        TTS_RegisterUserLeftChannelCallback(inst, logUserLeftChannelCallback, nullptr, 1);
+        TTS_RegisterUserMovedCallback(inst, logUserMovedCallback, nullptr, 1);
+        TTS_RegisterUserTextMessageCallback(inst, logUserTextMessageCallback, nullptr, 1);
+        TTS_RegisterChannelCreatedCallback(inst, logChannelCreatedCallback, nullptr, 1);
+        TTS_RegisterChannelUpdatedCallback(inst, logChannelUpdatedCallback, nullptr, 1);
+        TTS_RegisterChannelRemovedCallback(inst, logChannelRemovedCallback, nullptr, 1);
+        TTS_RegisterFileUploadedCallback(inst, logFileUploadedCallback, nullptr, 1);
+        TTS_RegisterFileDownloadedCallback(inst, logFileDownloadedCallback, nullptr, 1);
+        TTS_RegisterFileDeletedCallback(inst, logFileDeletedCallback, nullptr, 1);
+        TTS_RegisterServerUpdatedCallback(inst, logServerUpdatedCallback, nullptr, 1);
+        TTS_RegisterSaveServerConfigCallback(inst, logSaveServerConfigCallback, nullptr, 1);
     }
 
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkSrv_setEncryptionContext
