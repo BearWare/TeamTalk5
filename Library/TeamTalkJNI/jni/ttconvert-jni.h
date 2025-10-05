@@ -30,9 +30,8 @@
 #endif
 
 #include <jni.h>
+#include <string.h>
 #include <TeamTalk.h>
-
-#define ZERO_STRUCT(s) memset(&s, 0, sizeof(s))
 
 #if defined(WIN32)
 #define NEW_JSTRING(env, str) (env->NewString(reinterpret_cast<const jchar*>(str), jsize(wcslen(str))))

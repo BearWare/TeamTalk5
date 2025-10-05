@@ -23,14 +23,11 @@
 
 #include "ttconvert-jni.h"
 
-#include <string.h>
-#include <assert.h>
-#include <vector>
 #include <algorithm>
-#include <mutex>
+#include <cassert>
 #include <map>
-
-#include <jni.h>
+#include <mutex>
+#include <vector>
 
 std::mutex ttinstmutex;
 std::map<jint, TTInstance*> ttinstances;

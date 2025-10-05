@@ -22,11 +22,7 @@
  */
 
 #include "ttconvert-jni.h"
-#include <assert.h>
-#include <string.h>
-#include <iostream>
-#include <string>
-using namespace std;
+#include <cassert>
 
 #define TRANSMITUSER_ARRAY_SIZE 2
 
