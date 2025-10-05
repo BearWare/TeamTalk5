@@ -55,7 +55,7 @@ using namespace teamtalk;
 
 bool inputTrue(const std::string& input)
 {
-    std::string tmp = str2lower(input);
+    std::string tmp = String2Lower(input);
     return tmp == "y" || tmp == "yes";
 }
 

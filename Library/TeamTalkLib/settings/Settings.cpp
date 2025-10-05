@@ -98,7 +98,7 @@ namespace teamtalk {
     void XMLDocument::SetValue(const std::string& path, const std::string& value)
     {
         TiXmlElement* item = GetRootElement();
-        stdstrings_t tokens = stdtokenize(path, "/");
+        stdstrings_t tokens = StringTokenize(path, "/");
         assert(tokens.size());
         if (tokens.empty() || !item)
             return;
@@ -126,7 +126,7 @@ namespace teamtalk {
         if (!item)
             return defaultvalue;
 
-        stdstrings_t tokens = stdtokenize(path, "/");
+        stdstrings_t tokens = StringTokenize(path, "/");
         if (prefixRoot)
             tokens.insert(tokens.begin(), m_rootname);
 
@@ -156,12 +156,12 @@ namespace teamtalk {
 
     void XMLDocument::SetValue(const std::string& path, int value)
     {
-        SetValue(path, i2str(value));
+        SetValue(path, std::to_string(value));
     }
     
     int XMLDocument::GetValue(bool prefixRoot, const std::string& path, int defaultvalue)
     {
-        return str2i(GetValue(prefixRoot, path, i2str(defaultvalue)));
+        return std::stoi(GetValue(prefixRoot, path, std::to_string(defaultvalue)));
     }
 
     void XMLDocument::SetValueBool(const std::string& path, bool value)
@@ -245,7 +245,7 @@ namespace teamtalk {
     void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, int nValue)
     {
         TiXmlElement newelement(szName.c_str());
-        string s = i2str(nValue);
+        string s = std::to_string(nValue);
 
         TiXmlText text(s.c_str());
         newelement.InsertEndChild(text);
@@ -260,7 +260,7 @@ namespace teamtalk {
     void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, int64_t nValue)
     {
         TiXmlElement newelement(szName.c_str());
-        string s = i2str(nValue);
+        string s = std::to_string(nValue);
 
         TiXmlText text(s.c_str());
         newelement.InsertEndChild(text);
@@ -286,17 +286,16 @@ namespace teamtalk {
             string s;
             GetElementText(*item, s);
 
-            if(strcmpnocase(s, "true"))
+            if (StringCmpNoCase(s, "true"))
             {
                 bValue = true;
                 return true;
             }
-            else
-                if(strcmpnocase(s,"false"))
-                {
-                    bValue = false;
-                    return true;
-                }
+            else if(StringCmpNoCase(s, "false"))
+            {
+                bValue = false;
+                return true;
+            }
         }
 
         return false;
@@ -322,7 +321,7 @@ namespace teamtalk {
         {
             string s;
             GetElementText(*item, s);
-            nValue = int(str2i(s));
+            nValue = std::stoi(s);
             return true;
         }
         return false;
@@ -336,7 +335,7 @@ namespace teamtalk {
         {
             string s;
             GetElementText(*item, s);
-            nValue = str2i(s);
+            nValue = stoll(s);
             return true;
         }
         return false;

@@ -1188,7 +1188,7 @@ namespace teamtalk{
     {
         string tmp;
         if(banElement.Attribute("type"))
-            ban.bantype = BanType(str2i(banElement.Attribute("type")));
+            ban.bantype = BanType(std::stoi(banElement.Attribute("type")));
         else
             ban.bantype = BANTYPE_DEFAULT;
 
@@ -1216,7 +1216,7 @@ namespace teamtalk{
     
     void ServerXML::NewUserBan(TiXmlElement& banElement, const BannedUser& ban)
     {
-        banElement.SetAttribute("type", i2str(ban.bantype).c_str());
+        banElement.SetAttribute("type", std::to_string(ban.bantype).c_str());
 
         PutString(banElement, "bantime", DateToString(ban.bantime.sec()).c_str());
         PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr).c_str());
@@ -1324,7 +1324,7 @@ namespace teamtalk{
             i!=user.auto_op_channels.end();i++)
         {
             TiXmlElement chanElement("channel");
-            PutElementText(chanElement, i2str(*i));
+            PutElementText(chanElement, std::to_string(*i));
             AppendElement(opchanElement, chanElement);
         }
         PutInteger(userElement, "audiocodec-bps-limit", user.audiobpslimit);
@@ -1412,7 +1412,7 @@ namespace teamtalk{
             {
                 string channel;
                 GetElementText(*opchanElement, channel);
-                user.auto_op_channels.insert(int(str2i(channel)));
+                user.auto_op_channels.insert(stoi(channel));
                 opchanElement = opchanElement->NextSiblingElement("channel");
             }
         }
@@ -1524,13 +1524,13 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     TiXmlElement* ServerXML::GetChannelElement(const std::string& chpath)
     {
         TiXmlElement* pElement = GetRootElement();
-        if(!pElement)
+        if (!pElement)
             return NULL;
         pElement = pElement->FirstChildElement("permanent-channels");
-        if(!pElement)
+        if (!pElement)
             return NULL;
-        stdstrings_t tokens = stdtokenize(chpath, "/");
-        while(pElement && tokens.size())
+        stdstrings_t tokens = StringTokenize(chpath, "/");
+        while (pElement && tokens.size())
         {
             pElement = pElement->FirstChildElement("channel");
             string val;
@@ -1602,15 +1602,15 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     time_t StringToDate(std::string date)
     {
         tm t = {};
-        stdstrings_t tokens = stdtokenize(date, "/ :");
+        stdstrings_t tokens = StringTokenize(date, "/ :");
         if(tokens.size() == 5)
         {
             t.tm_isdst = -1;
-            t.tm_year = int(str2i(tokens[0])-1900);
-            t.tm_mon = int(str2i(tokens[1])-1);
-            t.tm_mday = int(str2i(tokens[2]));
-            t.tm_hour = int(str2i(tokens[3]));
-            t.tm_min = int(str2i(tokens[4]));
+            t.tm_year = std::stoi(tokens[0])-1900;
+            t.tm_mon = std::stoi(tokens[1])-1;
+            t.tm_mday = std::stoi(tokens[2]);
+            t.tm_hour = std::stoi(tokens[3]);
+            t.tm_min = std::stoi(tokens[4]);
             return std::mktime(&t);
         }
         return 0;

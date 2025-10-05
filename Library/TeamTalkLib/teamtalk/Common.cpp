@@ -24,7 +24,7 @@
 #include "Common.h"
 #include "Commands.h"
 #include "Channel.h"
-#include <myace/MyINet.h>
+#include "myace/MyINet.h"
 
 #include <time.h>
 #include <ace/Date_Time.h>
@@ -52,7 +52,7 @@ namespace teamtalk
     {
 #if defined(ENABLE_TEAMTALKPRO)
         ACE_TString bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-        return std::regex_search(username.c_str(), buildregex(bwregex.c_str()));
+        return std::regex_search(username.c_str(), BuildRegex(bwregex.c_str()));
 #else
         return false;
 #endif
@@ -86,7 +86,7 @@ namespace teamtalk
 #endif
             if (user.ipaddr.is_empty())
                 match = false; // do not report banned if user has no IP-address
-            else if (std::regex_search(bannedip, sm, buildregex(rgxsubnet.c_str())) && sm.size() == 3)
+            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
             {
                 // check if network ban
                 ACE_TString net = sm[1].str().c_str();
@@ -98,7 +98,7 @@ namespace teamtalk
             else
             {
                 ACE_TString rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-                match &= std::regex_search(user.ipaddr.c_str(), buildregex(rgx.c_str()));
+                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx.c_str()));
             }
         }
 
