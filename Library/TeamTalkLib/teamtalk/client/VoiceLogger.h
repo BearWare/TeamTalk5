@@ -99,7 +99,7 @@ namespace teamtalk {
         int GetStreamID() const { return m_streamid; }
         void SetClosing() { m_closing = true; }
     private:
-        typedef std::map<int, audiopacket_t, w16_less_comp> mappackets_t;
+        typedef std::map<int, audiopacket_t, W16LessComp> mappackets_t;
 
         int WritePackets(int pktno_cur);
         void WritePacket(int packet_no);

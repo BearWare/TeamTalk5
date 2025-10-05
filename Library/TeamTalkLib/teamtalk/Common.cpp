@@ -90,7 +90,7 @@ namespace teamtalk
             {
                 // check if network ban
                 ACE_TString net = sm[1].str().c_str();
-                uint32_t prefix = string2i(sm[2].str().c_str());
+                uint32_t prefix = String2I(sm[2].str().c_str());
                 // match &= INetAddrNetwork(user.ipaddr, prefix) == net;
                 // to prevent invalid network (192.168.1.0/23 = 192.168.0.0/23) ?
                 match &= INetAddrNetwork(user.ipaddr, prefix) == INetAddrNetwork(net, prefix);

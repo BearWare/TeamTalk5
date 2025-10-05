@@ -185,7 +185,7 @@ namespace teamtalk {
         if( ite != properties.end())
         {
             INT_OR_RET((*ite).second);
-            value = int(string2i((*ite).second));
+            value = String2I((*ite).second);
             return true;
         }
         return false;
@@ -198,7 +198,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = ACE_UINT32(string2i(tmp));
+            value = ACE_UINT32(String2I(tmp));
             return true;
         }
         return false;
@@ -221,7 +221,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
-            value = string2i(tmp);
+            value = String2I(tmp);
             return true;
         }
         return false;
@@ -243,7 +243,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
-                vec.push_back(int(string2i(token)));
+                vec.push_back(int(String2I(token)));
                 i = value.find(',', offset);
 
             }
@@ -251,7 +251,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, value.length()-offset);
                 offset = i+1;
-                vec.push_back(int(string2i(token)));
+                vec.push_back(int(String2I(token)));
             }
             return true;
         }
@@ -411,10 +411,10 @@ namespace teamtalk {
         newstr = LimitUtf8(str, MAX_STRING_LENGTH);
 #endif /* UNICODE */
 
-        replace_all(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
-        replace_all(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
-        replace_all(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
-        replace_all(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
+        ReplaceAll(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
+        ReplaceAll(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
+        ReplaceAll(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
+        ReplaceAll(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
 
         return newstr;
     }
@@ -446,7 +446,7 @@ namespace teamtalk {
             resultstr += tmpstr.substr(oldpos, tmpstr.length() - oldpos);
         }
 
-        replace_all(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
+        ReplaceAll(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
         return resultstr;
     }
 
@@ -455,12 +455,12 @@ namespace teamtalk {
         ACE_TString s;
         for(int i=0;i<(int)array.size()-1;i++)
         {
-            s = s + i2string(array[i]) + ACE_TEXT(",");
+            s = s + I2String(array[i]) + ACE_TEXT(",");
         }
         ACE_TString res;
         if(array.size()>0)
         {
-            res = ACE_TEXT("[") + s + i2string(array[array.size()-1]) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
         }
         else
             res = ACE_TEXT("[]");
@@ -475,14 +475,14 @@ namespace teamtalk {
         std::set<int>::const_iterator ite;
         for(ite=myset.begin();index++<(int)myset.size()-1;ite++)
         {
-            s = s + i2string(*ite) + ACE_TEXT(",");
+            s = s + I2String(*ite) + ACE_TEXT(",");
         }
 
         ACE_TString res;
         if(myset.size()==1)
-            res = ACE_TEXT("[") + i2string(*ite) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + I2String(*ite) + ACE_TEXT("]");
         else if(myset.size()>1)
-            res = ACE_TEXT("[") + s + i2string(*ite) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + s + I2String(*ite) + ACE_TEXT("]");
         else
             res = ACE_TEXT("[]");
 
@@ -651,7 +651,7 @@ namespace teamtalk {
 
     void AppendProperty(const ACE_TString& prop, ACE_INT64 value, ACE_TString& dest_str)
     {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + i2string(value);
+        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + I2String(value);
         dest_str += newprop;
     }
 

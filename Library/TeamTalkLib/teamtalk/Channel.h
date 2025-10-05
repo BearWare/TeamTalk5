@@ -268,7 +268,7 @@ namespace teamtalk {
         {
             if (!channel)
                 return false;
-            return stringcmpnocase(channel->GetChannelPath(), GetChannelPath());
+            return StringCmpNoCase(channel->GetChannelPath(), GetChannelPath());
         }
         void AddSubChannel(channel_t& new_channel)
         {
@@ -281,7 +281,7 @@ namespace teamtalk {
         {
             for(size_t i=0;i<m_subChannels.size();i++)
             {
-                if(stringcmpnocase(m_subChannels[i]->GetName(), name))
+                if(StringCmpNoCase(m_subChannels[i]->GetName(), name))
                 {
                     m_subChannels.erase(m_subChannels.begin()+i);
                     break;
@@ -303,7 +303,7 @@ namespace teamtalk {
             channel_t sub;
             for(size_t i=0;i<m_subChannels.size();i++)
             {
-                if(stringcmpnocase(m_subChannels[i]->GetName(), name))
+                if(StringCmpNoCase(m_subChannels[i]->GetName(), name))
                 {
                     sub = m_subChannels[i];
                     break;

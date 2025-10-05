@@ -147,10 +147,10 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
         if(curfile.length()>logname.length() &&
            curfile.substr(0, logname.length()) == logname)
         {
-            strings_t tokens = tokenize(curfile, ACE_TEXT("."));
+            strings_t tokens = Tokenize(curfile, ACE_TEXT("."));
             if(tokens.empty())
                 continue;
-            int val = int(string2i(tokens[tokens.size()-1]));
+            int val = String2I(tokens[tokens.size()-1]);
             if(val > max)
                 max = val;
         }
@@ -158,7 +158,7 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
 
     max++;
 
-    ACE_TString tmp_logname = logname + ACE_TEXT(".") + i2string(max);
+    ACE_TString tmp_logname = logname + ACE_TEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
     int ren = ACE_OS::rename(logname.c_str(), tmp_logname.c_str());

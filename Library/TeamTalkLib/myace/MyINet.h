@@ -27,6 +27,8 @@
 #include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_Status.h>
 #include <ace/SString.h>
+
+#include <cstdint>
 #include <map>
 #include <string>
 #include <vector>

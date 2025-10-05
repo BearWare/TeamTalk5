@@ -22,40 +22,53 @@
  */
 
 #include "MyACE.h"
+#include "mystd/MyStd.h"
+
 #include <ace/ACE.h>
-#include <ace/UTF16_Encoding_Converter.h>
+#include <ace/Reactor.h>
+#include <ace/OS_NS_Thread.h>
+#include <ace/OS_NS_unistd.h>
+#include <ace/SString.h>
+#include <ace/Default_Constants.h>
+#include <ace/Basic_Types.h>
+#include <ace/OS_NS_string.h>
+#include <ace/OS_NS_stdio.h>
+#include <ace/OS_NS_stdlib.h>
+#include <ace/SStringfwd.h>
+#include <ace/OS_NS_sys_time.h>
 #include <ace/OS_NS_ctype.h>
 #include <ace/Version.h>
 
+#include <cstdint>
+#include <cstddef>
+#include <cstdarg>
+#include <ctime>
+#include <cstring>
 #include <string>
-#include <sstream>
-#include <iomanip>
-#include <algorithm>
 #include <iostream>
 #include <assert.h>
+#include <vector>
 
 #if defined(__APPLE__)
 #include <os/log.h>
 #endif
 
-using namespace std;
-
 /*******************************************************************/
 /************************* Helper functions ************************/
 /*******************************************************************/
-ACE_THR_FUNC_RETURN event_loop (void *arg)
+ACE_THR_FUNC_RETURN EventLoop (void *arg)
 {
-    ACE_Reactor *reactor = static_cast<ACE_Reactor *> (arg);
+    auto *reactor = static_cast<ACE_Reactor *> (arg);
     assert(reactor);
 
     reactor->owner (ACE_OS::thr_self ());
     reactor->run_reactor_event_loop ();
-    return 0;
+    return nullptr;
 }
 
 void SyncReactor(ACE_Reactor& reactor)
 {
-    ACE_thread_t tid;
+    ACE_thread_t tid = nullptr;
     while(reactor.owner(&tid) < 0 || tid == ACE_OS::thr_self())
     {
         ACE_OS::sleep(0);
@@ -154,7 +167,7 @@ bool MyFile::Seek(int64_t size, std::ios_base::seekdir way)
 
     // seekg and seekp are interchangeable for file streams. Weird!
 
-    return !m_file == false;
+    return !!m_file;
 }
 
 int64_t MyFile::Tell()
@@ -171,11 +184,11 @@ bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename)
 {
     bool bResult = false;
 
-    if(filepath.length())
+    if (!filepath.empty())
     {
         if(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR) != ACE_TString::npos)
         {
-            if(filepath.substr(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR), filepath.length()+1).length())
+            if(!filepath.substr(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR), filepath.length()+1).empty())
             {
                 filename = filepath.substr(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR)+1, filepath.length());
                 bResult = true;
@@ -195,19 +208,21 @@ ACE_TString FixFilePath(const ACE_TString& filepath)
     ACE_TString tmp = filepath;
     ACE_TString tofind = ACE_DIRECTORY_SEPARATOR_STR;
     tofind += tofind;
-    while(tmp.find(tofind) != ACE_TString::npos)
-        replace_all(tmp, tofind, ACE_DIRECTORY_SEPARATOR_STR);
-    if(tmp.length() && tmp[tmp.length()-1] == ACE_DIRECTORY_SEPARATOR_CHAR)
+    while (tmp.find(tofind) != ACE_TString::npos)
+        ReplaceAll(tmp, tofind, ACE_DIRECTORY_SEPARATOR_STR);
+
+    if (!tmp.empty() && tmp[tmp.length()-1] == ACE_DIRECTORY_SEPARATOR_CHAR)
         tmp = tmp.substr(0, tmp.length()-1);
     return tmp;
 }
 
-void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement )
+void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement )
 {
-    if (to_find.length() == 0)
+    if (to_find.empty())
         return;
 
-    size_t pos1 = 0, pos2 = target.find(to_find);
+    size_t pos1 = 0;
+    size_t pos2 = target.find(to_find);
     if(pos2 == ACE_TString::npos)
         return;
 
@@ -224,7 +239,7 @@ void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TStr
     target = tmp;
 }
 
-ACE_TString i2string(ACE_INT64 i)
+ACE_TString I2String(ACE_INT64 i)
 {
 #if defined(__ANDROID_API__)
     std::ostringstream os ;
@@ -241,7 +256,7 @@ ACE_TString i2string(ACE_INT64 i)
 #endif
 }
 
-ACE_INT64 string2i(const ACE_TString& int_str, int base)
+ACE_INT64 String2I(const ACE_TString& int_str, int base)
 {
 #if defined(__ANDROID_API__)
     ACE_INT64 ret = 0;
@@ -252,7 +267,7 @@ ACE_INT64 string2i(const ACE_TString& int_str, int base)
 #else
     try
     {
-        return std::stoll(int_str.c_str(), 0, base);
+        return std::stoll(int_str.c_str(), nullptr, base);
     }
     catch(...)
     {
@@ -261,7 +276,7 @@ ACE_INT64 string2i(const ACE_TString& int_str, int base)
 #endif
 }
 
-bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2)
+bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2)
 {
     if(str1.length() != str2.length())
         return false;
@@ -273,7 +288,7 @@ bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2)
     return true;
 }
 
-ACE_TString stringtolower(const ACE_TString& str)
+ACE_TString StringToLower(const ACE_TString& str)
 {
     ACE_TString sstr = str;
     for(size_t i=0;i<sstr.length();i++)
@@ -303,15 +318,16 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
     const int MAX_TRACESTRLEN = 0x10000;
 #endif
     std::vector<ACE_TCHAR> str_buf(MAX_TRACESTRLEN);
-    ACE_OS::strncpy(&str_buf[0], ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
+    ACE_OS::strncpy(str_buf.data(), ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
     ACE_TCHAR tmp_str[MAX_TRACESTRLEN] = ACE_TEXT("");
-    static ACE_UINT32 begin = GETTIMESTAMP(), next;
+    static ACE_UINT32 begin = GETTIMESTAMP();
+    static ACE_UINT32 next;
     next = GETTIMESTAMP();
     int out_len = 0;
 
 #if (MYTRACE_TIMESTAMP)
     ACE_OS::snprintf(tmp_str, MAX_TRACESTRLEN, ACE_TEXT("%08u: %s"), next - begin, trace_str);
-    out_len = ACE_OS::vsnprintf(&str_buf[0], MAX_TRACESTRLEN, tmp_str, args);
+    out_len = ACE_OS::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, tmp_str, args);
 #else
     out_len = ACE_OS::vsnprintf(&str_buf[0], MAX_TRACESTRLEN, trace_str, args);
 #endif
@@ -323,7 +339,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...)
 #elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
     os_log_info(OS_LOG_DEFAULT, "%{public}s", &str_buf[0]);
 #else
-    std::cout << &str_buf[0];
+    std::cout << str_buf.data();
     if (out_len >= MAX_TRACESTRLEN)
         std::cout << "[MYTRACE buffer overflow]" << std::endl << std::flush;
 #endif
@@ -336,16 +352,17 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)
 {
     if(check == against) return true;
 
-    strings_t chk_tokens = tokenize(check, ACE_TEXT("."));
-    strings_t against_tokens = tokenize(against, ACE_TEXT("."));
+    strings_t chk_tokens = Tokenize(check, ACE_TEXT("."));
+    strings_t against_tokens = Tokenize(against, ACE_TEXT("."));
 
-    vector<int> vec_chk, vec_against;
-    for(size_t i=0;i<chk_tokens.size();i++)
-        vec_chk.push_back(ACE_OS::atoi(chk_tokens[i].c_str()));
-    for(size_t i=0;i<against_tokens.size();i++)
-        vec_against.push_back(ACE_OS::atoi(against_tokens[i].c_str()));
+    std::vector<int> vec_chk;
+    std::vector<int> vec_against;
+    for(const auto & chk_token : chk_tokens)
+        vec_chk.push_back(ACE_OS::atoi(chk_token.c_str()));
+    for(const auto & against_token : against_tokens)
+        vec_against.push_back(ACE_OS::atoi(against_token.c_str()));
 
-    size_t less = vec_chk.size() < vec_against.size()?vec_chk.size():vec_against.size();
+    std::size_t const less = vec_chk.size() < vec_against.size()?vec_chk.size():vec_against.size();
     
     for(size_t i=0;i<less;i++)
         if(vec_chk[i] < vec_against[i])
@@ -359,39 +376,39 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)
 ACE_TString KeyToHexString(const unsigned char* key, int length)
 {
     ACE_TCHAR buf[3];
-    int LEN = 2*length+1;
-    ACE_TCHAR* str = new ACE_TCHAR[LEN];
+    int const LEN = (2*length)+1;
+    auto* str = new ACE_TCHAR[LEN];
     str[LEN-1] = '\0';
     for(int i=0;i<length;i++)
     {
-        unsigned int x = key[i];
+        unsigned int const x = key[i];
         ACE_OS::sprintf(buf, ACE_TEXT("%.2x"), x);
-        ACE_OS::sprintf(str+i*2, ACE_TEXT("%s"), buf);
+        ACE_OS::sprintf(str+(i*2), ACE_TEXT("%s"), buf);
     }
-    ACE_TString s = str;
+    ACE_TString const s = str;
     delete [] str;
     return s;
 }
 
 void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key)
 {
-    assert(crypt_key.length() && crypt_key.length() % 2 == 0);
+    assert(!crypt_key.empty() && crypt_key.length() % 2 == 0);
 
     int pos = 0;
     ACE_TString str;
     for(size_t i=0;i<crypt_key.length();i+=2)
     {
         str = crypt_key.substr(i, 2);
-        key[pos] = (unsigned char)ACE_OS::strtol(str.c_str(), (ACE_TCHAR **)NULL, 16);
+        key[pos] = (unsigned char)ACE_OS::strtol(str.c_str(), (ACE_TCHAR **)nullptr, 16);
         pos++;
     }
 }
 
 ACE_TString UptimeHours(const ACE_Time_Value& value)
 {
-    time_t nHour = value.sec()/3600;
-    time_t nMinutes = (value.sec()%3600) / 60;
-    time_t nSec = (value.sec()%60);
+    time_t const nHour = value.sec()/3600;
+    time_t const nMinutes = (value.sec()%3600) / 60;
+    time_t const nSec = (value.sec()%60);
     ACE_TCHAR buf[512];
     ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), (int)nHour, (int)nMinutes, (int)nSec);
     return buf;
@@ -402,11 +419,12 @@ ACE_Time_Value ToTimeValue(int msec)
     return ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
 }
 
-strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters) 
+strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters)
 { 
-    vector<ACE_TString> tokens; 
+    std::vector<ACE_TString> tokens;
 
-    size_t i = 0, tokenstart = 0;
+    size_t i = 0;
+    size_t tokenstart = 0;
     while(i<source.length())
     {
         for(size_t j=0;j<delimeters.length();j++)
@@ -508,7 +526,7 @@ bool ValidUtf8(const ACE_CString& utf8_str)
     ACE_UTF16_Encoding_Converter::Result result;
     if(utf8_str.length() == 0)
         return true;
-    //ensure there's no \0 in the string
+    //ensure there's no \0 in the std::string
     if(strlen(utf8_str.c_str()) != utf8_str.length())
         return false;
 
@@ -528,8 +546,8 @@ bool ValidUtf8(const ACE_CString& utf8_str)
         return false;
 
     //http://stackoverflow.com/questions/1031645/how-to-detect-utf-8-in-plain-c
-    const unsigned char * bytes = reinterpret_cast<const unsigned char*>(utf8_str.c_str());
-    while(*bytes)
+    const auto * bytes = reinterpret_cast<const unsigned char*>(utf8_str.c_str());
+    while (*bytes != 0u)
     {
         if(     (// ASCII
             bytes[0] == 0x09 ||
@@ -607,12 +625,12 @@ ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen)
     if (utf8_str.length() <= maxlen)
         return utf8_str;
 
-    ACE_CString trimmed = utf8_str;
+    const ACE_CString& trimmed = utf8_str;
     auto length = utf8_str.length();
     while (length > maxlen && length > 0)
     {
-        auto cp = trimmed.fast_rep() + length;
-        while (--cp >= trimmed.fast_rep() && ((*cp & 0b10000000) && !(*cp & 0b01000000)));
+        const auto *cp = trimmed.fast_rep() + length;
+        while (--cp >= trimmed.fast_rep() && (((*cp & 0b10000000) != 0) && ((*cp & 0b01000000) == 0)));
         length = cp - trimmed.fast_rep();
     }
 
@@ -629,15 +647,15 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 , m_line(line)
 {
     m_start = ACE_OS::gettimeofday();
-    ACE_UINT64 h = (ACE_UINT64)ACE_OS::thr_self();
+    auto const h = (ACE_UINT64)ACE_OS::thr_self();
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
                  m_name, (ACE_UINT32)0, m_filename, m_line, (unsigned)h);
 }
 
 Profiler::~Profiler()
 {
-    ACE_Time_Value tm = ACE_OS::gettimeofday() - m_start;
-    ACE_UINT64 h = (ACE_UINT64)ACE_OS::thr_self();
+    ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
+    auto const h = (ACE_UINT64)ACE_OS::thr_self();
     MYTRACE(ACE_TEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%X\n"),
             m_name, (ACE_UINT32)tm.msec(), m_filename, m_line, (unsigned)h);
 }

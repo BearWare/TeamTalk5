@@ -123,12 +123,12 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
             lastuser = u->GetNickname();
     }
     ACE_TString motd = m_properties.motd;
-    replace_all(motd, ACE_TEXT("%users%"), i2string((int)users));
-    replace_all(motd, ACE_TEXT("%admins%"), i2string((int)admins));
-    replace_all(motd, ACE_TEXT("%uptime%"), uptime);
-    replace_all(motd, ACE_TEXT("%voicetx%"), i2string((ACE_INT64)(m_stats.total_bytessent / 1024)));
-    replace_all(motd, ACE_TEXT("%voicerx%"), i2string((ACE_INT64)(m_stats.total_bytesreceived / 1024)));
-    replace_all(motd, ACE_TEXT("%lastuser%"), lastuser);
+    ReplaceAll(motd, ACE_TEXT("%users%"), I2String((int)users));
+    ReplaceAll(motd, ACE_TEXT("%admins%"), I2String((int)admins));
+    ReplaceAll(motd, ACE_TEXT("%uptime%"), uptime);
+    ReplaceAll(motd, ACE_TEXT("%voicetx%"), I2String((ACE_INT64)(m_stats.total_bytessent / 1024)));
+    ReplaceAll(motd, ACE_TEXT("%voicerx%"), I2String((ACE_INT64)(m_stats.total_bytesreceived / 1024)));
+    ReplaceAll(motd, ACE_TEXT("%lastuser%"), lastuser);
 
     return motd;
 }
@@ -4238,7 +4238,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(m_filetransfers.find(id) != m_filetransfers.end()) //no IDs left
             return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-        ACE_TString tmpfilename = ACE_TEXT("tmp_") + i2string(id) + CHANNELFILEEXTENSION;
+        ACE_TString tmpfilename = ACE_TEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
         ACE_TString filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
         if(chan->FileExists(transfer.filename))
             return ErrorMsg(TT_CMDERR_FILE_ALREADY_EXISTS);

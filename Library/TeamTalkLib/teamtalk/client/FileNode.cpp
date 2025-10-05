@@ -459,15 +459,15 @@ void FileNode::ProcessCommand(const ACE_CString& cmdline)
     if(ExtractProperties(command, properties)<0)
         return;
 
-    if(stringcmpnocase(cmd, SERVER_ERROR))
+    if(StringCmpNoCase(cmd, SERVER_ERROR))
         HandleError(properties);
-    else if(stringcmpnocase(cmd, m_srvprop.systemid))
+    else if(StringCmpNoCase(cmd, m_srvprop.systemid))
         HandleWelcome(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_DELIVER))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_DELIVER))
         HandleFileDeliver(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_READY))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_READY))
         HandleFileReady(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_COMPLETED))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_COMPLETED))
         HandleFileCompleted(properties);
 }
 

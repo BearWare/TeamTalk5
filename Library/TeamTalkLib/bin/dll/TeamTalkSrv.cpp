@@ -60,11 +60,11 @@ struct ServerInstance
             monitor.reset(m);
             server.reset(s);
 
-            udp_thread = ACE_Thread_Manager::instance()->spawn(event_loop, &udpReactor);
+            udp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &udpReactor);
             SyncReactor(udpReactor);
             if(spawn_thread)
             {
-                tcp_thread = ACE_Thread_Manager::instance()->spawn(event_loop, &tcpReactor);
+                tcp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &tcpReactor);
                 SyncReactor(tcpReactor);
             }
         }

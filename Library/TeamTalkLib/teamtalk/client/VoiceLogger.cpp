@@ -568,14 +568,14 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     if(var.is_empty())
         var = DEFAULT_VOICELOG_VARS;
 
-    replace_all(var, ACE_TEXT("%starttick%"), i2string(GETTIMESTAMP()));
-    replace_all(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
-    replace_all(var, ACE_TEXT("%username%"), from_user.GetUsername());
-    replace_all(var, ACE_TEXT("%userid%"), i2string(from_user.GetUserID()));
+    ReplaceAll(var, ACE_TEXT("%starttick%"), I2String(GETTIMESTAMP()));
+    ReplaceAll(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
+    ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
+    ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
     ACE_UINT32 counter = from_user.IncVoiceLogCounter();
     ACE_TCHAR str_count[100];
     ACE_OS::snprintf(str_count, 100, ACE_TEXT("%09u"), counter);
-    replace_all(var, ACE_TEXT("%counter%"), str_count);    
+    ReplaceAll(var, ACE_TEXT("%counter%"), str_count);
 
     time_t now = time(NULL);
     struct tm* ttt = localtime(&now);

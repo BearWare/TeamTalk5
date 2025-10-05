@@ -242,7 +242,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor, 
                   const ACE_TString& workdir)
 {
-    int ret = ACE_Thread_Manager::instance ()->spawn(event_loop, udpReactor);
+    int ret = ACE_Thread_Manager::instance ()->spawn(EventLoop, udpReactor);
     if(ret < 0)
         TT_LOG(ACE_TEXT("Failed to spawn UDP reactor."));
 
@@ -566,11 +566,11 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-tcpport"))) != args.end())
     {
-        tcpport = int(string2i((*ite).second.c_str()));
+        tcpport = int(String2I((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-udpport"))) != args.end())
     {
-        udpport = int(string2i((*ite).second.c_str()));
+        udpport = int(String2I((*ite).second.c_str()));
     }
     if( (ite = args.find(ACE_TEXT("-ip"))) != args.end())
     {

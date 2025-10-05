@@ -138,7 +138,7 @@ namespace teamtalk {
         int m_audiopacket_lost = 0;
 
         //received frames
-        typedef std::map<uint16_t, encframe, w16_less_comp> enc_frames_t;
+        typedef std::map<uint16_t, encframe, W16LessComp> enc_frames_t;
         enc_frames_t m_buffer;
         int m_buffer_msec = 0;
         //current packet number being played
@@ -240,11 +240,11 @@ namespace teamtalk {
         };
 
         //packetno -> video fragments (sorted by UINT32 wrap)
-        typedef std::map<uint32_t, video_fragments_t, w32_less_comp> reassm_queue_t;
+        typedef std::map<uint32_t, video_fragments_t, W32LessComp> reassm_queue_t;
         reassm_queue_t m_video_fragments;
 
         //timestamp -> enc video frame (sorted by UINT32 wrap)
-        typedef std::map<uint32_t, enc_frame, w32_less_comp > video_frames_t;
+        typedef std::map<uint32_t, enc_frame, W32LessComp > video_frames_t;
         video_frames_t m_video_frames;
 
         VpxDecoder m_decoder;

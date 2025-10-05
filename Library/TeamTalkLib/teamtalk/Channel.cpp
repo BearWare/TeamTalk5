@@ -67,8 +67,8 @@ namespace teamtalk {
 
     bool ChannelsEquals(const ACE_TString& szChanPath1, const ACE_TString& szChanPath2)
     {
-        strings_t const tok1 = TokenizeChannelPath(stringtolower(szChanPath1));
-        strings_t const tok2 = TokenizeChannelPath(stringtolower(szChanPath2));
+        strings_t const tok1 = TokenizeChannelPath(StringToLower(szChanPath1));
+        strings_t const tok2 = TokenizeChannelPath(StringToLower(szChanPath2));
         return tok1 == tok2;
     }
 
