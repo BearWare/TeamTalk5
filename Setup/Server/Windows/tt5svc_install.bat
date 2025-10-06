@@ -8,5 +8,15 @@ echo.
 echo.
 tt5svc.exe -wizard
 tt5svc.exe -i
-tt5svc.exe -s
+
+:ask
+set /p choice=Do you want to start the service now? (y/n): 
+if /i "%choice%"=="y" (
+    tt5svc.exe -s
+    goto end
+) else if /i "%choice%"=="n" (
+    goto end
+) else goto ask
+
+:end
 pause
