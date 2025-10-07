@@ -17,22 +17,19 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(zlib-src
-        GIT_REPOSITORY    https://github.com/bear101/zlib.git
-        GIT_TAG           0f3868f
+        GIT_REPOSITORY    https://github.com/madler/zlib.git
+        GIT_TAG           v1.3.1
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib
-        )
+        SOURCE_SUBDIR     .
+        CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+                          -DCMAKE_BUILD_TYPE=Release
+                          -DBUILD_SHARED_LIBS=OFF
+        BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
+        INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
+      )
     else()
 
       if (NOT CMAKE_VS_PLATFORM_NAME)
@@ -40,21 +37,18 @@ if (MSVC)
       endif()
 
       ExternalProject_Add(zlib-src
-        GIT_REPOSITORY    https://github.com/bear101/zlib.git
-        GIT_TAG           0f3868f
+        GIT_REPOSITORY    https://github.com/madler/zlib.git
+        GIT_TAG           v1.3.1
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 contrib\\vstudio\\vc14\\zlibvc.sln -target:zlibstat /property:Configuration=ReleaseWithoutASM
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib
+        SOURCE_SUBDIR     .
+        CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+                          -DCMAKE_BUILD_TYPE=Release
+                          -DBUILD_SHARED_LIBS=OFF
+        BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
+        INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
         )
     endif()
     ExternalProject_Get_Property(zlib-src INSTALL_DIR)
@@ -69,8 +63,8 @@ if (MSVC)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(zlib PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/zlibd.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/${CMAKE_VS_PLATFORM_NAME}/zlib.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/zlibstatic.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/zlibstatic.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
