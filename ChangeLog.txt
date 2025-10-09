@@ -4,7 +4,7 @@
 
 Version 5.22, unreleased
 Default Qt Client
-- Updated Qt to 6.9.3 on Windows and macOS
+- Updated Qt to 6.10.0 on Windows and macOS
 Android Client
 -
 iOS Client
