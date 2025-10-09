@@ -79,7 +79,7 @@ Building for Android platform is supported on Ubuntu 24.
   following in TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu24-android`
     * `sudo` is required because `apt install` is called.
-* Download [Android NDK r28c](https://developer.android.com/ndk) and
+* Download [Android NDK r29](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
   unzipped location.
 
