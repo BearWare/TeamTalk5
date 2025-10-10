@@ -68,22 +68,13 @@ if (MSVC)
       set (WEBRTC_FETCH_CMD1 ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
       set (WEBRTC_FETCH_CMD2 echo "Skip WebRTC CMD")
       set (WEBRTC_FETCH_CMD3 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD4 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD5 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD6 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD7 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD8 echo "Skip WebRTC CMD")
       set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT})
       set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r6818.patch)
     else()
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
       set (WEBRTC_FETCH_CMD1 echo "Skipping WebRTC fetching")
       set (WEBRTC_FETCH_CMD2 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD4 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD5 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD6 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD7 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD8 echo "Skipping WebRTC fetching")
+      set (WEBRTC_FETCH_CMD3 echo "Skipping WebRTC fetching")
       set (WEBRTC_PATCH_CMD1 echo "Skipping WebRTC patching")
       set (WEBRTC_PATCH_CMD2 echo "Skipping WebRTC patching")
     endif()
@@ -95,11 +86,6 @@ if (MSVC)
       DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
       COMMAND           ${WEBRTC_FETCH_CMD2}
       COMMAND           ${WEBRTC_FETCH_CMD3}
-      COMMAND           ${WEBRTC_FETCH_CMD4}
-      COMMAND           ${WEBRTC_FETCH_CMD5}
-      COMMAND           ${WEBRTC_FETCH_CMD6}
-      COMMAND           ${WEBRTC_FETCH_CMD7}
-      COMMAND           ${WEBRTC_FETCH_CMD8}
       PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
       COMMAND           ${WEBRTC_PATCH_CMD2}
       UPDATE_COMMAND    ""
