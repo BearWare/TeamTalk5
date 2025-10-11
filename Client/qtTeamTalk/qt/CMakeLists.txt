@@ -14,8 +14,8 @@ if (MSVC)
 
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
-      GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           OpenSSL_1_1_1m
+      GIT_REPOSITORY    https://github.com/OpenSSL/OpenSSL.git
+      GIT_TAG           OpenSSL_1_1_1w
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
@@ -34,8 +34,8 @@ if (MSVC)
 
     ExternalProject_Add(Qt-openssl-src
       PREFIX            ${QT_BUILD_PREFIX}
-      GIT_REPOSITORY    https://github.com/bear101/openssl
-      GIT_TAG           OpenSSL_1_1_1m
+      GIT_REPOSITORY    https://github.com/bear101/OpenSSL.git
+      GIT_TAG           OpenSSL_1_1_1w
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
@@ -67,13 +67,13 @@ if (MSVC)
 
   ExternalProject_Add(Qt-src
     PREFIX            ${QT_BUILD_PREFIX}
-    GIT_REPOSITORY    https://github.com/qt/qt5
-    GIT_TAG           v5.15.1
+    GIT_REPOSITORY    https://github.com/qt/qt5.git
+    GIT_TAG           v5.15.2
     GIT_SUBMODULES    qtbase qttools qtmultimedia qtactiveqt qtspeech
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
     PATCH_COMMAND     cd qtbase
-    COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}\\qt_v5.15.1_win.patch
+    COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}\\qt_v5.15.2_win.patch
     COMMAND           cd ..
     CONFIGURE_COMMAND CALL <SOURCE_DIR>\\configure.bat -opensource -confirm-license -static -nomake examples -openssl-linked -I${OPENSSL_DIR_NATIVE}\\include "OPENSSL_LIBS= -L${OPENSSL_DIR_NATIVE}\\lib -lUser32 -lAdvapi32 -lGdi32 -lCrypt32 -lws2_32 -llibssl -llibcrypto" -prefix ${QT_INSTALL_PREFIX_NATIVE}
     BUILD_COMMAND     set CL=/MP
@@ -89,15 +89,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(Qt-src
     PREFIX            ${QT_BUILD_PREFIX}
-    GIT_REPOSITORY    https://github.com/qt/qt5
-    GIT_TAG           v5.15.0
+    GIT_REPOSITORY    https://github.com/qt/qt5.git
+    GIT_TAG           v5.15.2
     GIT_SUBMODULES    qtbase qttools qtmultimedia qtspeech
     GIT_SHALLOW       TRUE
     UPDATE_COMMAND    ""
     CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> -appstore-compliant -confirm-license -opensource -nomake examples -nomake tests
-    BUILD_COMMAND     make -j4
+    BUILD_COMMAND     make -j$(nproc)
     INSTALL_DIR       ${QT_INSTALL_PREFIX}
-    INSTALL_COMMAND   make -j4 install
+    INSTALL_COMMAND   make -j$(nproc) install
     )
   ExternalProject_Get_Property(Qt-src SOURCE_DIR)
   
