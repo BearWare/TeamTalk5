@@ -51,9 +51,7 @@ constexpr int WINAEC_CHANNELS = 1;
 
 #endif
 
-enum {
-DEBUG_PORTAUDIO = 0
-};
+constexpr auto DEBUG_PORTAUDIO = 0;
 
 using namespace std;
 namespace soundsystem {
@@ -538,7 +536,7 @@ static int OutputStreamCallback(const void * /*inputBuffer*/, void *outputBuffer
 
     if(bContinue)
         return paContinue;
-            return paComplete;
+    return paComplete;
 }
 
 outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,

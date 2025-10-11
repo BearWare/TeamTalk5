@@ -26,6 +26,7 @@
 
 #include "SoundSystem.h"
 
+#include "codec/MediaUtil.h"
 #include "mystd/MyStd.h"
 #include "myace/MyACE.h"
 
@@ -65,15 +66,12 @@ namespace soundsystem {
             assert(ret >= 0);
         }
     public:
-        StreamCaller(const SoundStreamer& streamer, int channels) : m_interval(streamer.framesize * 1000 / streamer.samplerate), m_start(GETTIMESTAMP())
+        StreamCaller(const SoundStreamer& streamer, int channels) : m_interval(PCM16_SAMPLES_DURATION(streamer.framesize, streamer.samplerate)), m_start(GETTIMESTAMP())
         {
-            m_buffer.resize(channels * streamer.framesize, 0);
-            
-            
+            m_buffer.resize(channels * streamer.framesize, 0);            
         }
 
-        ~StreamCaller() override
-        = default;
+        ~StreamCaller() override = default;
 
         int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
         {

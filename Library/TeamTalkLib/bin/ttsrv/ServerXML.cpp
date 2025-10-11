@@ -453,9 +453,9 @@ namespace teamtalk{
         SetValue("general/trusted-certificate/verify-depth", depth);
     }
 
-    bool ServerXML::GetCertificateVerifyDepth(int defvalue)
+    int ServerXML::GetCertificateVerifyDepth(int defvalue)
     {
-        return GetValue(true, "general/trusted-certificate/verify-depth", defvalue) != 0;
+        return GetValue(true, "general/trusted-certificate/verify-depth", defvalue);
     }
 
     bool ServerXML::SetAutoSave(bool enable)

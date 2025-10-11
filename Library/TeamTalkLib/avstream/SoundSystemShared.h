@@ -244,11 +244,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
-#if DEBUG_RESAMPLER
-            MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
+            MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Original for %p samplerate %d, framesize %d, channels %d\n"),
                     streamer.recorder, streamer.samplerate,
                     streamer.framesize, streamer.channels);
-#endif
 
             bool resample = false;
             for (auto stream : m_activestreams)
@@ -256,11 +254,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-#if DEBUG_RESAMPLER
-                    MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
-                            stream->recorder, stream->samplerate,
-                            stream->framesize, stream->channels);
-#endif
+                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Shared for %p samplerate %d, framesize %d, channels %d\n"),
+                                 stream->recorder, stream->samplerate,
+                                 stream->framesize, stream->channels);
                 }
                 else
                 {
@@ -312,11 +308,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
-#if DEBUG_RESAMPLER
-                    MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
+                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Resampled for samplerate %d, framesize %d, channels %d\n"),
                             cbsr, cbframesize, cbch);
-#endif
-
                     MYTRACE_COND(samples != rsframesize,
                                  ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
                                  cbsr, cbch, rsframesize, samples);
@@ -341,10 +334,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         std::size_t const n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-#if DEBUG_RESAMPLER
-                        MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                        MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n"),
                                 int(cbpos), rspos, cbsr, cbframesize, cbch);
-#endif
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
 
@@ -361,10 +352,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
                                 if (MakeKey(*streamer) == key)
                                 {
                                     streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
-#if DEBUG_RESAMPLER
-                                    MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
+                                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Callback for %p samplerate %d, framesize %d, channels %d\n"),
                                             streamer->recorder, cbsr, cbframesize, cbch);
-#endif
                                 }
                             }
                             cbpos = 0;
@@ -398,8 +387,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
         std::recursive_mutex m_mutex;
     };
 
-#define DEBUG_SHAREDPLAYER 0
-#define DEBUG_SHAREDPLAYER_RESAMPLER 0
+    constexpr auto DEBUG_SHAREDPLAYER = 0;
+    constexpr auto DEBUG_SHAREDPLAYER_RESAMPLER = 0;
 
     template < typename OUTPUTSTREAMER >
     class SharedStreamPlayer : public StreamPlayer

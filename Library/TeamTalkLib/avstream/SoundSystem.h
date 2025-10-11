@@ -38,9 +38,9 @@
 
 namespace soundsystem {
 
-#define VOLUME_MAX 32000
-#define VOLUME_DEFAULT 1000
-#define VOLUME_MIN 0
+constexpr auto VOLUME_MAX = 32000;
+constexpr auto VOLUME_DEFAULT = 1000;
+constexpr auto VOLUME_MIN = 0;
 
     enum SoundAPI
     {

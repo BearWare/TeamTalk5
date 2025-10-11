@@ -310,7 +310,7 @@ namespace teamtalk {
 
         //gaining audio
         float m_voice_position[3], m_audiofile_position[3];
-        int m_voice_volume = VOLUME_DEFAULT, m_audiofile_volume = VOLUME_DEFAULT;
+        int m_voice_volume = soundsystem::VOLUME_DEFAULT, m_audiofile_volume = soundsystem::VOLUME_DEFAULT;
         bool m_voice_mute = false, m_audiofile_mute = false;
         int m_voice_stopped_delay = STOPPED_TALKING_DELAY, m_audiofile_stopped_delay = STOPPED_TALKING_DELAY;
         int m_recording_close_extra_delay = 0;

@@ -54,7 +54,7 @@ extern "C" {
 #include <cstdio>
 
 
-#define DEBUG_FFMPEG 0
+constexpr auto DEBUG_FFMPEG = 0;
 
 using namespace media;
 
@@ -69,11 +69,7 @@ void InitAVConv()
 
         if (!ready)
         {
-#if DEBUG_FFMPEG
-            av_log_set_level(AV_LOG_MAX_OFFSET);
-#else
-            av_log_set_level(AV_LOG_QUIET);
-#endif
+            av_log_set_level(DEBUG_FFMPEG ? AV_LOG_MAX_OFFSET : AV_LOG_QUIET);
             avdevice_register_all();
             ready = true;
         }

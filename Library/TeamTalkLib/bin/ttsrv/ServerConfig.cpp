@@ -176,7 +176,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     bool autosave = true;
     bool certverifypeer;
     bool certverifyonce;
-    bool certdepth;
+    int certdepth = 0;
     int64_t diskquota = 0;
     int64_t maxdiskusage = 0;
     int64_t log_maxsize = 0;
@@ -860,7 +860,7 @@ bool SetupEncryption(teamtalk::ServerNode& servernode, teamtalk::ServerXML& xmlS
 
     context->set_verify_peer(static_cast<int>(xmlSettings.GetCertificateVerify(false)),
                              static_cast<int>(xmlSettings.GetCertificateVerifyOnce(true)),
-                             static_cast<int>(xmlSettings.GetCertificateVerifyDepth(0)));
+                             xmlSettings.GetCertificateVerifyDepth(0));
     return true;
 }
 

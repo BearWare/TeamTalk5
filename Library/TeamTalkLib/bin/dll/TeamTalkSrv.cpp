@@ -22,15 +22,15 @@
  */
 
 #include "Convert.h"
+
 #include "ServerMonitor.h"
-#include "TeamTalkSrv.h"
-#include "teamtalk/server/ServerNode.h"
 #include "TeamTalkDefs.h"
+#include <TeamTalkSrv.h>
 #include "myace/MyACE.h"
-#include "TeamTalk.h"
-#include "teamtalk/server/Server.h"
-#include "teamtalk/Common.h"
 #include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/server/Server.h"
+#include "teamtalk/server/ServerNode.h"
 
 #include <ace/ACE.h>
 #include <ace/OS_Memory.h>

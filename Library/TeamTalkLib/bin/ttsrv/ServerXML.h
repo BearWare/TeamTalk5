@@ -96,7 +96,7 @@ namespace teamtalk {
         bool GetCertificateVerifyOnce(bool defvalue);
 
         void SetCertificateVerifyDepth(int depth);
-        bool GetCertificateVerifyDepth(int defvalue);
+        int GetCertificateVerifyDepth(int defvalue);
         
         bool SetAutoSave(bool enable);
         bool GetAutoSave();
