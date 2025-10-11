@@ -20,10 +20,10 @@
 
 #include "utiltt.h"
 
-#include <QString>
-#include <QIcon>
 #include <QApplication>
 #include <QDialog>
+#include <QIcon>
+#include <QString>
 
 #define COMPANYNAME         "BearWare.dk"
 #define APPVERSION_SHORT    "5.21.0"

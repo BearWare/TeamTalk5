@@ -19,8 +19,8 @@
 #define UTILTTS_H
 
 #include <QHash>
-#include <QString>
 #include <QObject>
+#include <QString>
 
 #if defined(ENABLE_TOLK)
 #include <Tolk.h>

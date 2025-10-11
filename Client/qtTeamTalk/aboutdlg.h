@@ -28,7 +28,7 @@ public:
     AboutDlg(QWidget* parent);
 
 private:
-    Ui::AboutDlg ui;
+    Ui::AboutDlg m_ui;
 };
 
 #endif

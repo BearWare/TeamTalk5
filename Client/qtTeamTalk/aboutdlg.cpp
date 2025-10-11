@@ -25,18 +25,18 @@
 AboutDlg::AboutDlg(QWidget* parent)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
-    ui.setupUi(this);
+    m_ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
-    QString dateTimeString = QString("%1 %2").arg(__DATE__).arg(__TIME__);
-    QString compile = QString(tr("Compiled on %1 using Qt %2 (Qt %3 used by this instance).")).arg(getFormattedDateTime(dateTimeString, "MMM d yyyy HH:mm:ss")).arg(QT_VERSION_STR).arg(qVersion()) + "\r\n" +
+    QString const DATE_TIME_STRING = QString("%1 %2").arg(__DATE__, __TIME__);
+    QString compile = QString(tr("Compiled on %1 using Qt %2 (Qt %3 used by this instance).")).arg(getFormattedDateTime(DATE_TIME_STRING, "MMM d yyyy HH:mm:ss")).arg(QT_VERSION_STR).arg(qVersion()) + "\r\n" +
         tr("Version ") + (TEAMTALK_VERSION ".\r\n");
-    if(sizeof(void*) == 8)
+    if (sizeof(void*) == sizeof(qint64))
         compile += QString(tr("TeamTalk 64-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
     else
         compile += QString(tr("TeamTalk 32-bit DLL version %1.")).arg(_Q(TT_GetVersion()));
-    ui.compileLabel->setText(compile);
-    ui.compileLabel->setAccessibleName(compile);
-    ui.versionLabel->setText(APPVERSION);
-    ui.versionLabel->setAccessibleName(APPVERSION);
-    ui.iconLabel->setPixmap(QPixmap(APPICON));
+    m_ui.compileLabel->setText(compile);
+    m_ui.compileLabel->setAccessibleName(compile);
+    m_ui.versionLabel->setText(APPVERSION);
+    m_ui.versionLabel->setAccessibleName(APPVERSION);
+    m_ui.iconLabel->setPixmap(QPixmap(APPICON));
 }
