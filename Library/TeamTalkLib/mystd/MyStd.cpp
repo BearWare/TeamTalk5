@@ -22,97 +22,69 @@
  */
 
 #include "MyStd.h"
-#include <stdio.h>
+
 #include <algorithm>
-#include <assert.h>
-#include <sstream>
+#include <cassert>
+#include <cctype>
 #include <chrono>
-using namespace std;
+#include <cstdint>
+#include <cstdio>
+#include <regex>
+#include <string>
+#include <vector>
 
 /*******************************************************************/
 /************************* Helper functions ************************/
 /*******************************************************************/
 
-void replace_all(string& target, const string& to_find, const string& replacement )
+static void ReplaceAll(std::string& target, const std::string& to_find, const std::string& replacement )
 {
     if (to_find.empty())
         return;
 
-    size_t replace_inc = replacement.length();
-    for (size_t loc = target.find( to_find );
-        loc != string::npos;
-        loc = target.find( to_find, loc+replace_inc ) )
+    std::size_t const REPLACE_INC = replacement.length();
+    for (std::size_t loc = target.find( to_find );
+        loc != std::string::npos;
+        loc = target.find( to_find, loc+REPLACE_INC ) )
     {
         target.replace( loc, to_find.length(), replacement );
     }
 }
 
-#if defined(_MSC_VER)
-std::string i2str(__int64 i)
+std::string String2Lower(const std::string& str)
 {
-    ostringstream is;
-    is << i;
-    return is.str();
-}
-
-__int64 str2i(const std::string& str)
-{
-    __int64 ret = 0;
-    istringstream is(str);
-    is >> ret;
-    return ret;
-}
-#else
-std::string i2str(int64_t i)
-{
-    ostringstream is;
-    is << i;
-    return is.str();
-}
-
-int64_t str2i(const std::string& str)
-{
-    int64_t ret = 0;
-    istringstream is(str);
-    is >> ret;
-    return ret;
-}
-#endif
-
-std::string str2lower(const std::string& str)
-{
-  string sstr = str;
-    std::transform(sstr.begin(), sstr.end(), sstr.begin(), (int (*)(int))tolower);
+    std::string sstr = str;
+    std::ranges::transform(sstr, sstr.begin(), (int (*)(int))tolower);
   return sstr;
 }
 
-bool strcmpnocase(const string& str1, const string& str2)
+bool StringCmpNoCase(const std::string& str1, const std::string& str2)
 {
-    string tmp1 = str1;
-    string tmp2 = str2;
-    std::transform(tmp1.begin(), tmp1.end(), tmp1.begin(), (int (*)(int))tolower);
-    std::transform(tmp2.begin(), tmp2.end(), tmp2.begin(), (int (*)(int))tolower);
+    std::string tmp1 = str1;
+    std::string tmp2 = str2;
+    std::ranges::transform(tmp1, tmp1.begin(), (int (*)(int))tolower);
+    std::ranges::transform(tmp2, tmp2.begin(), (int (*)(int))tolower);
     return tmp1 == tmp2;
 }
 
-stdstrings_t stdtokenize(const string& source, const string& delimeters) 
+stdstrings_t StringTokenize(const std::string& source, const std::string& delimeters)
 { 
-    vector<string> tokens; 
-    string::size_type start = 0; 
-    string::size_type end = 0; 
+    std::vector<std::string> tokens;
+    std::string::size_type start = 0;
+    std::string::size_type end = 0;
 
-    while ((start = source.find_first_not_of(delimeters, start)) != string::npos)
+    while ((start = source.find_first_not_of(delimeters, start)) != std::string::npos)
     { 
         end = source.find_first_of(delimeters, start); 
         tokens.push_back(source.substr(start, end - start)); 
-        start = end; 
-    } 
+        start = end;
+    }
 
     return tokens; 
 }
 
 #if defined(UNICODE)
-std::wregex buildregex(const std::wstring& regexstr)
+std::wregex BuildRegex(const std::wstring& regexstr)
 {
     try
     {
@@ -124,7 +96,7 @@ std::wregex buildregex(const std::wstring& regexstr)
     }
 }
 #else
-std::regex buildregex(const std::string& regexstr)
+std::regex BuildRegex(const std::string& regexstr)
 {
     try
     {
@@ -132,7 +104,7 @@ std::regex buildregex(const std::string& regexstr)
     }
     catch (const std::regex_error& )
     {
-        return std::regex();
+        return {};
     }
 }
 #endif
@@ -141,8 +113,8 @@ std::regex buildregex(const std::string& regexstr)
 uint32_t GETTIMESTAMP()
 {
     using namespace std::chrono;
-    steady_clock::time_point now = steady_clock::now();
-    auto now_ms = time_point_cast<milliseconds>(now);
+    steady_clock::time_point const NOW = steady_clock::now();
+    auto now_ms = time_point_cast<milliseconds>(NOW);
     auto duration = now_ms.time_since_epoch();
     return uint32_t(duration.count());
 }

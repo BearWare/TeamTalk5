@@ -21,18 +21,32 @@
  *
  */
 
-#include <ace/ACE.h>
-#include <ace/Reactor.h>
-#include <ace/Select_Reactor.h>
-
-#include "TeamTalkSrv.h"
-#include "ServerMonitor.h"
 #include "Convert.h"
 
-#include <teamtalk/ttassert.h>
+#include "ServerMonitor.h"
+#include "TeamTalkDefs.h"
+#include <TeamTalkSrv.h>
+#include "myace/MyACE.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/server/Server.h"
+#include "teamtalk/server/ServerNode.h"
 
-#include <memory>
+#include <ace/ACE.h>
+#include <ace/OS_Memory.h>
+#include <ace/OS_NS_Thread.h>
+#include <ace/OS_NS_string.h>
+#include <ace/Reactor.h>
+#include <ace/Recursive_Thread_Mutex.h>
+#include <ace/SSL/SSL_Context.h>
+#include <ace/Select_Reactor.h>
+
+#include <csignal>
+#include <cstddef>
 #include <iostream>
+#include <set>
+#include <map>
+#include <memory>
 
 using teamtalk::ServerNode;
 
@@ -46,25 +60,25 @@ struct ServerInstance
     std::unique_ptr<ServerNode> server;
 
     int udp_thread, timer_thread;
-    int tcp_thread;
+    int tcp_thread{-1};
 
     ServerInstance(bool spawn_thread)
         : tcpReactor(&selectReactor)
-        , tcp_thread(-1)
+         
         {
-            ServerMonitor* m;
-            ServerNode* s;
+            ServerMonitor* m = nullptr;
+            ServerNode* s = nullptr;
             ACE_NEW(m, ServerMonitor());
             m->m_ttInst = this;
             ACE_NEW(s, ServerNode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, m));
             monitor.reset(m);
             server.reset(s);
 
-            udp_thread = ACE_Thread_Manager::instance()->spawn(event_loop, &udpReactor);
+            udp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &udpReactor);
             SyncReactor(udpReactor);
             if(spawn_thread)
             {
-                tcp_thread = ACE_Thread_Manager::instance()->spawn(event_loop, &tcpReactor);
+                tcp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &tcpReactor);
                 SyncReactor(tcpReactor);
             }
         }
@@ -79,18 +93,18 @@ struct ServerInstance
         }
 };
 
-typedef std::set<ServerInstance*> servers_t;
-typedef std::map<TTSInstance*, ACE_thread_t> thread_owners_t;
+using servers_t = std::set<ServerInstance*>;
+using thread_owners_t = std::map<TTSInstance*, ACE_thread_t>;
 
-servers_t servers;
-thread_owners_t threads;
-ACE_Recursive_Thread_Mutex servers_mutex;
+static servers_t servers;
+static thread_owners_t threads;
+static ACE_Recursive_Thread_Mutex servers_mutex;
 
-ServerInstance* GET_SERVERINST(TTSInstance* pInstance)
+static ServerInstance* GetServerinst(TTSInstance* pInstance)
 {
-    wguard_t g(servers_mutex);
+    wguard_t const g(servers_mutex);
 
-    thread_owners_t::iterator i = threads.find(pInstance);
+    auto const i = threads.find(pInstance);
     if(i != threads.end())
     {
         if(i->second != ACE_OS::thr_self())
@@ -106,32 +120,32 @@ ServerInstance* GET_SERVERINST(TTSInstance* pInstance)
     }
     threads[pInstance] = ACE_OS::thr_self();
 
-    ServerInstance* pServer = static_cast<ServerInstance*>(pInstance);
-    servers_t::iterator ite = servers.find(pServer);
+    auto* pServer = static_cast<ServerInstance*>(pInstance);
+    auto const ite = servers.find(pServer);
     if(ite != servers.end())
         return (*ite);
 
-    return NULL;
+    return nullptr;
 }
 
-ServerNode* GET_SERVERNODE(TTSInstance* pInstance)
+static ServerNode* GET_SERVERNODE(TTSInstance* pInstance)
 {
-    wguard_t g(servers_mutex);
+    wguard_t const g(servers_mutex);
 
-    ServerInstance* pServer = GET_SERVERINST(pInstance);
-    if(pServer)
+    ServerInstance* pServer = GetServerinst(pInstance);
+    if(pServer != nullptr)
         return pServer->server.get();
 
-    return NULL;
+    return nullptr;
 }
 
 //get ServerNode instance, lock mutex, return if not found
 #define GET_SERVERNODE_RET(s, p, ret)           \
     s = GET_SERVERNODE(p);                      \
-    if(!s)return ret;                           \
-    GUARD_OBJ(s, s->lock())
+    if(!(s))return ret;                         \
+    GUARD_OBJ(s, (s)->Lock())
 
-void InitContext()
+static void InitContext()
 {
 #if !defined(WIN32)
     //avoid SIGPIPE
@@ -139,7 +153,7 @@ void InitContext()
     static ACE_Sig_Action original_action;
     no_sigpipe.register_action (SIGPIPE, &original_action);
 #endif
-    int ret = ACE::set_handle_limit(-1);//client handler (must be BIG)
+    int const ret = ACE::set_handle_limit(-1);//client handler (must be BIG)
 }
 
 #if defined(ENABLE_ENCRYPTION)
@@ -147,11 +161,11 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
                                                 IN const TTCHAR* szCertificateFile,
                                                 IN const TTCHAR* szPrivateKeyFile)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
     EncryptionContext context = {};
-    context.bVerifyClientOnce = true;
+    context.bVerifyClientOnce = 1;
     ACE_OS::strsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
     ACE_OS::strsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
 
@@ -161,27 +175,27 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
                                                   const EncryptionContext* lpEncryptionContext)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
     ACE_SSL_Context* context = pServerNode->SetupEncryptionContext();
-    if (!context)
+    if (context == nullptr)
         return FALSE;
 
-    return SetupEncryptionContext(*lpEncryptionContext, context);
+    return static_cast<TTBOOL>(SetupEncryptionContext(*lpEncryptionContext, context));
 }
 
 #endif
 
 TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
 {
-    static bool b = false;
+    static bool const b = false;
     if(!b)InitContext();
 
-    ServerInstance* ttInst;
-    ACE_NEW_RETURN(ttInst, ServerInstance(false), NULL);
+    ServerInstance* ttInst = nullptr;
+    ACE_NEW_RETURN(ttInst, ServerInstance(false), nullptr);
 
-    wguard_t g(servers_mutex);
+    wguard_t const g(servers_mutex);
 
     servers.insert(ttInst);
 
@@ -190,38 +204,37 @@ TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
 
 TEAMTALKDLL_API TTBOOL TTS_CloseTeamTalk(IN TTSInstance* lpTTSInstance)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
 
-    wguard_t g(servers_mutex);
+    wguard_t const g(servers_mutex);
 
     servers.erase(ttInst);
     threads.erase(ttInst);
 
     delete ttInst;
 
-    return ttInst != NULL;
+    return static_cast<TTBOOL>(ttInst != nullptr);
 }
 
 TEAMTALKDLL_API TTBOOL TTS_RunEventLoop(IN TTSInstance* lpTTSInstance,
                                         IN INT32* pnWaitMs)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
     ACE_thread_t thrid = ACE_OS::NULL_thread;;
     if(ttInst->tcpReactor.owner(&thrid)>=0 && thrid != ACE_OS::thr_self())
         ttInst->tcpReactor.owner(ACE_OS::thr_self());
 
-    if(pnWaitMs && *pnWaitMs != -1)
+    if((pnWaitMs != nullptr) && *pnWaitMs != -1)
     {
         ACE_Time_Value tv(*pnWaitMs/1000, (*pnWaitMs % 1000) * 1000);
-        return ttInst->tcpReactor.handle_events(&tv) > 0;
+        return static_cast<TTBOOL>(ttInst->tcpReactor.handle_events(&tv) > 0);
     }
-    else
-    {
-        return ttInst->tcpReactor.handle_events() > 0;
-    }
+    
+            return ttInst->tcpReactor.handle_events() > 0;
+   
 }
 
 TEAMTALKDLL_API INT32 TTS_SetChannelFilesRoot(IN TTSInstance* lpTTSInstance,
@@ -229,10 +242,10 @@ TEAMTALKDLL_API INT32 TTS_SetChannelFilesRoot(IN TTSInstance* lpTTSInstance,
                                               IN INT64 nMaxDiskUsage,
                                               IN INT64 nDefaultChannelQuota)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
-    INT32 ret = pServerNode->SetFileSharing(szFilesRoot) ? CMDERR_SUCCESS : CMDERR_FILE_NOT_FOUND;
+    INT32 const ret = pServerNode->SetFileSharing(szFilesRoot) ? CMDERR_SUCCESS : CMDERR_FILE_NOT_FOUND;
     if(ret == CMDERR_SUCCESS)
     {
         teamtalk::ServerSettings sprop = pServerNode->GetServerProperties();
@@ -246,7 +259,7 @@ TEAMTALKDLL_API INT32 TTS_SetChannelFilesRoot(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_UpdateServer(IN TTSInstance* lpTTSInstance,
                                        IN const ServerProperties* lpServerProperties)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::ServerSettings sprop = pServerNode->GetServerProperties();
@@ -258,7 +271,7 @@ TEAMTALKDLL_API INT32 TTS_UpdateServer(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_MakeChannel(IN TTSInstance* lpTTSInstance,
                                       IN const Channel* lpChannel)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::ChannelProp schan;
@@ -270,7 +283,7 @@ TEAMTALKDLL_API INT32 TTS_MakeChannel(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_UpdateChannel(IN TTSInstance* lpTTSInstance,
                                         IN const Channel* lpChannel)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::ChannelProp schan;
@@ -282,7 +295,7 @@ TEAMTALKDLL_API INT32 TTS_UpdateChannel(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_RemoveChannel(IN TTSInstance* lpTTSInstance,
                                         IN INT32 nChannelID)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     return pServerNode->RemoveChannel(nChannelID).errorno;
@@ -292,7 +305,7 @@ TEAMTALKDLL_API INT32 TTS_AddFileToChannel(IN TTSInstance* lpTTSInstance,
                                            IN const TTCHAR* szLocalFilePath,
                                            IN const RemoteFile* lpRemoteFile)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::RemoteFile rmfile;
@@ -304,7 +317,7 @@ TEAMTALKDLL_API INT32 TTS_AddFileToChannel(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_RemoveFileFromChannel(IN TTSInstance* lpTTSInstance,
                                                 IN const RemoteFile* lpRemoteFile)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     return pServerNode->RemoveFileFromChannel(lpRemoteFile->szFileName, lpRemoteFile->nChannelID).errorno;
@@ -313,21 +326,20 @@ TEAMTALKDLL_API INT32 TTS_RemoveFileFromChannel(IN TTSInstance* lpTTSInstance,
 TEAMTALKDLL_API INT32 TTS_MoveUser(IN TTSInstance* lpTTSInstance,
                                    IN INT32 nUserID, IN const Channel* lpChannel)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::ChannelProp prop;
     Convert(*lpChannel, prop);
     if(prop.channelid != 0)
         return pServerNode->UserJoinChannel(nUserID, prop).errorno;
-    else
-        return pServerNode->UserLeaveChannel(nUserID).errorno;
+            return pServerNode->UserLeaveChannel(nUserID).errorno;
 }
 
 TEAMTALKDLL_API INT32 TTS_SendTextMessage(IN TTSInstance* lpTTSInstance,
                                           const TextMessage* lpTextMessage)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, -1);
 
     teamtalk::TextMessage msg;
@@ -351,7 +363,7 @@ TEAMTALKDLL_API TTBOOL TTS_StartServerSysID(IN TTSInstance* lpTTSInstance,
                                             IN TTBOOL bEncrypted, 
                                             IN const TTCHAR* szSystemID)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
     teamtalk::ServerSettings p = pServerNode->GetServerProperties();
@@ -359,25 +371,25 @@ TEAMTALKDLL_API TTBOOL TTS_StartServerSysID(IN TTSInstance* lpTTSInstance,
     p.tcpaddrs.clear();
     p.udpaddrs.clear();
     
-    if(szBindIPAddr && ACE_OS::strlen(szBindIPAddr))
+    if((szBindIPAddr != nullptr) && (ACE_OS::strlen(szBindIPAddr) != 0u))
     {
-        p.tcpaddrs.push_back(ACE_INET_Addr(nTcpPort, szBindIPAddr));
-        p.udpaddrs.push_back(ACE_INET_Addr(nUdpPort, szBindIPAddr));
+        p.tcpaddrs.emplace_back(nTcpPort, szBindIPAddr);
+        p.udpaddrs.emplace_back(nUdpPort, szBindIPAddr);
     }
     else
     {
-        p.tcpaddrs.push_back(ACE_INET_Addr(nTcpPort));
-        p.udpaddrs.push_back(ACE_INET_Addr(nUdpPort));
+        p.tcpaddrs.emplace_back(nTcpPort);
+        p.udpaddrs.emplace_back(nUdpPort);
     }
 
     pServerNode->SetServerProperties(p);
 
-    return pServerNode->StartServer(bEncrypted, szSystemID);
+    return static_cast<TTBOOL>(pServerNode->StartServer(bEncrypted != 0, szSystemID));
 }
 
 TEAMTALKDLL_API TTBOOL TTS_StopServer(IN TTSInstance* lpTTSInstance)
 {
-    ServerNode* pServerNode;
+    ServerNode* pServerNode = nullptr;
     GET_SERVERNODE_RET(pServerNode, lpTTSInstance, FALSE);
 
     pServerNode->StopServer();
@@ -388,11 +400,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserLoginCallback(IN TTSInstance* lpTTSInstan
                                                      IN UserLoginCallback* lpCallback,
                                                      IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_login_callbacks[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_login_callbacks.erase(lpUserData);
@@ -404,11 +416,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserChangeNicknameCallback(IN TTSInstance* lp
                                                               IN UserChangeNicknameCallback* lpCallback,
                                                               IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_changenickname_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_changenickname_callback.erase(lpUserData);
@@ -420,11 +432,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserChangeStatusCallback(IN TTSInstance* lpTT
                                                             IN UserChangeStatusCallback* lpCallback,
                                                             IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_changestatus_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_changestatus_callback.erase(lpUserData);
@@ -436,11 +448,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserCreateUserAccountCallback(IN TTSInstance*
                                                                IN UserCreateUserAccountCallback* lpCallback,
                                                                IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_createuseraccount_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_createuseraccount_callback.erase(lpUserData);
@@ -452,11 +464,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserDeleteUserAccountCallback(IN TTSInstance*
                                                                IN UserDeleteUserAccountCallback* lpCallback,
                                                                IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_deleteuseraccount_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_deleteuseraccount_callback.erase(lpUserData);
@@ -468,11 +480,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserAddServerBanCallback(IN TTSInstance* lpTT
                                                           IN UserAddServerBanCallback* lpCallback,
                                                           IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_addserverban_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_addserverban_callback.erase(lpUserData);
@@ -484,11 +496,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserAddServerBanIPAddressCallback(IN TTSInsta
                                                                    IN UserAddServerBanIPAddressCallback* lpCallback,
                                                                    IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_addserverbanip_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_addserverbanip_callback.erase(lpUserData);
@@ -500,11 +512,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserDeleteServerBanCallback(IN TTSInstance* l
                                                              IN UserDeleteServerBanCallback* lpCallback,
                                                              IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_deleteserverban_callback[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_deleteserverban_callback.erase(lpUserData);
@@ -516,11 +528,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserConnectedCallback(IN TTSInstance* lpTTSIn
                                                        IN UserConnectedCallback* lpCallback,
                                                        IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userconnected[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userconnected.erase(lpUserData);
@@ -532,11 +544,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserLoggedInCallback(IN TTSInstance* lpTTSIns
                                                       IN UserLoggedInCallback* lpCallback,
                                                       IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userloggedin[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userloggedin.erase(lpUserData);
@@ -548,11 +560,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserLoggedOutCallback(IN TTSInstance* lpTTSIn
                                                        IN UserLoggedOutCallback* lpCallback,
                                                        IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userloggedout[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userloggedout.erase(lpUserData);
@@ -564,11 +576,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserDisconnectedCallback(IN TTSInstance* lpTT
                                                           IN UserDisconnectedCallback* lpCallback,
                                                           IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userdisconnected[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userdisconnected.erase(lpUserData);
@@ -580,11 +592,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserTimedoutCallback(IN TTSInstance* lpTTSIns
                                                       IN UserTimedoutCallback* lpCallback,
                                                       IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_usertimedout[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_usertimedout.erase(lpUserData);
@@ -596,11 +608,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserKickedCallback(IN TTSInstance* lpTTSInsta
                                                     IN UserKickedCallback* lpCallback,
                                                     IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userkicked[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userkicked.erase(lpUserData);
@@ -612,11 +624,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserBannedCallback(IN TTSInstance* lpTTSInsta
                                                     IN UserBannedCallback* lpCallback,
                                                     IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userbanned[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userbanned.erase(lpUserData);
@@ -628,11 +640,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserUnbannedCallback(IN TTSInstance* lpTTSIns
                                                       IN UserUnbannedCallback* lpCallback,
                                                       IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userunbanned[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userunbanned.erase(lpUserData);
@@ -644,11 +656,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserUpdatedCallback(IN TTSInstance* lpTTSInst
                                                      IN UserUpdatedCallback* lpCallback,
                                                      IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userupdate[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userupdate.erase(lpUserData);
@@ -660,11 +672,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserJoinedChannelCallback(IN TTSInstance* lpT
                                                            IN UserJoinedChannelCallback* lpCallback,
                                                            IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userjoined[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userjoined.erase(lpUserData);
@@ -676,11 +688,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserLeftChannelCallback(IN TTSInstance* lpTTS
                                                          IN UserLeftChannelCallback* lpCallback,
                                                          IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_userleft[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_userleft.erase(lpUserData);
@@ -692,11 +704,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserMovedCallback(IN TTSInstance* lpTTSInstan
                                                    IN UserMovedCallback* lpCallback,
                                                    IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_usermoved[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_usermoved.erase(lpUserData);
@@ -708,11 +720,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterUserTextMessageCallback(IN TTSInstance* lpTTS
                                                          IN UserTextMessageCallback* lpCallback,
                                                          IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_usertextmsg[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_usertextmsg.erase(lpUserData);
@@ -724,11 +736,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterChannelCreatedCallback(IN TTSInstance* lpTTSI
                                                         IN ChannelCreatedCallback* lpCallback,
                                                         IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_chancreated[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_chancreated.erase(lpUserData);
@@ -740,11 +752,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterChannelUpdatedCallback(IN TTSInstance* lpTTSI
                                                         IN ChannelUpdatedCallback* lpCallback,
                                                         IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_chanupdated[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_chanupdated.erase(lpUserData);
@@ -756,11 +768,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterChannelRemovedCallback(IN TTSInstance* lpTTSI
                                                         IN ChannelRemovedCallback* lpCallback,
                                                         IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_chanremoved[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_chanremoved.erase(lpUserData);
@@ -772,11 +784,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterFileUploadedCallback(IN TTSInstance* lpTTSIns
                                                       IN FileUploadedCallback* lpCallback,
                                                       IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_fileupload[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_fileupload.erase(lpUserData);
@@ -788,11 +800,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterFileDownloadedCallback(IN TTSInstance* lpTTSI
                                                         IN FileDownloadedCallback* lpCallback,
                                                         IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_filedownload[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_filedownload.erase(lpUserData);
@@ -804,11 +816,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterFileDeletedCallback(IN TTSInstance* lpTTSInst
                                                      IN FileDeletedCallback* lpCallback,
                                                      IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_filedelete[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_filedelete.erase(lpUserData);
@@ -820,11 +832,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterServerUpdatedCallback(IN TTSInstance* lpTTSIn
                                                        IN ServerUpdatedCallback* lpCallback,
                                                        IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_serverupdated[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_serverupdated.erase(lpUserData);
@@ -836,11 +848,11 @@ TEAMTALKDLL_API TTBOOL TTS_RegisterSaveServerConfigCallback(IN TTSInstance* lpTT
                                                           IN SaveServerConfigCallback* lpCallback,
                                                           IN VOID* lpUserData, IN TTBOOL bEnable)
 {
-    ServerInstance* ttInst = GET_SERVERINST(lpTTSInstance);
-    if(!ttInst)
+    ServerInstance* ttInst = GetServerinst(lpTTSInstance);
+    if(ttInst == nullptr)
         return FALSE;
 
-    if(bEnable)
+    if(bEnable != 0)
         ttInst->monitor->m_saveservercfg[lpUserData] = lpCallback;
     else
         ttInst->monitor->m_saveservercfg.erase(lpUserData);

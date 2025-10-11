@@ -22,12 +22,11 @@
  */
 
 #include "SpeexJitterBuf.h"
-#include <assert.h>
-#include <cstddef>
+#include <cassert>
 
-Speex_Jitter::Speex_Jitter(int step_size)
+Speex_Jitter::Speex_Jitter(int step_size) : m_jitter(jitter_buffer_init(step_size))
 {
-    m_jitter = jitter_buffer_init(step_size);
+    
 }
 
 Speex_Jitter::~Speex_Jitter()
@@ -43,7 +42,7 @@ void Speex_Jitter::PutPacket(const JitterBufferPacket& packet)
 bool Speex_Jitter::GetPacket(JitterBufferPacket& packet, 
                              spx_int32_t timespan, spx_int32_t* start_offset)
 {
-    int ret = jitter_buffer_get(m_jitter, &packet, timespan, start_offset);
+    int const ret = jitter_buffer_get(m_jitter, &packet, timespan, start_offset);
     switch(ret)
     {
     case JITTER_BUFFER_OK :
@@ -64,7 +63,7 @@ void Speex_Jitter::Tick()
 int Speex_Jitter::BufferSize() const
 {
     int size = 0;
-    int ret = jitter_buffer_ctl(m_jitter, JITTER_BUFFER_GET_AVAILABLE_COUNT, &size);
+    int const ret = jitter_buffer_ctl(m_jitter, JITTER_BUFFER_GET_AVAILABLE_COUNT, &size);
     assert(ret == 0);
     return size;
 }
@@ -74,7 +73,7 @@ void Speex_Jitter::Reset()
     jitter_buffer_reset(m_jitter);
 }
 
-int Speex_Jitter::GetFramesLost() const
+int Speex_Jitter::GetFramesLost() 
 {
     //return m_jitter.lost_count;
     return 0;    //TODO: need new way to check this

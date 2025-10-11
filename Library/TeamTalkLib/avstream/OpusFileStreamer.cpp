@@ -22,7 +22,14 @@
  */
 
 #include "OpusFileStreamer.h"
-#include <assert.h>
+
+#include "codec/OggFileIO.h"
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
+
+#include <cassert>
+#include <cstdint>
+#include <vector>
 
 bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
 {
@@ -55,12 +62,12 @@ void OpusFileStreamer::Run()
         return;
     }
 
-    media::AudioFormat infmt = media::AudioFormat(m_decoder.GetSampleRate(), m_decoder.GetChannels());
+    media::AudioFormat const infmt = media::AudioFormat(m_decoder.GetSampleRate(), m_decoder.GetChannels());
 
-    if (infmt.IsValid() && !m_media_out.HasAudio() && m_media_out.audio_duration_ms)
+    if (infmt.IsValid() && !m_media_out.HasAudio() && (m_media_out.audio_duration_ms != 0u))
     {
-        int audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, infmt.samplerate);
-        MediaStreamOutput newoutput(infmt, audio_samples, m_media_out.video);
+        int const audio_samples = PCM16_DURATION_SAMPLES(m_media_out.audio_duration_ms, infmt.samplerate);
+        MediaStreamOutput const newoutput(infmt, audio_samples, m_media_out.video);
         m_media_out = newoutput;
     }
 
@@ -98,7 +105,9 @@ void OpusFileStreamer::Run()
 
     MediaStreamStatus status = MEDIASTREAM_STARTED;
     uint32_t sampleindex = 0;
-    uint32_t starttime = GETTIMESTAMP(), totalpausetime = 0, startoffset = 0;
+    uint32_t starttime = GETTIMESTAMP();
+    uint32_t totalpausetime = 0;
+    uint32_t startoffset = 0;
 
     while (!m_stop)
     {
@@ -155,27 +164,27 @@ void OpusFileStreamer::Run()
             status = MEDIASTREAM_NONE;
         }
 
-        int framesize = m_decoder.Decode(&framebuf[0], m_decoder.GetSampleRate());
+        int const framesize = m_decoder.Decode(framebuf.data(), m_decoder.GetSampleRate());
         if (framesize <= 0)
         {
             break; // eof
         }
 
         // submit raw decoded audio
-        bool submitted;
+        bool submitted = false;
         if (m_resampler)
         {
             assert(resample_framebuf.size());
-            int outsamples = m_resampler->Resample(&framebuf[0], framesize, &resample_framebuf[0], m_media_out.audio.samplerate);
+            int const outsamples = m_resampler->Resample(framebuf.data(), framesize, resample_framebuf.data(), m_media_out.audio.samplerate);
             assert(outsamples > 0);
             auto resampleindex = CalcSamples(infmt.samplerate, sampleindex, m_media_out.audio.samplerate);
-            media::AudioFrame frm(m_media_out.audio, &resample_framebuf[0], outsamples, resampleindex);
+            media::AudioFrame frm(m_media_out.audio, resample_framebuf.data(), outsamples, resampleindex);
             frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }
         else
         {
-            media::AudioFrame frm(infmt, &framebuf[0], framesize, sampleindex);
+            media::AudioFrame frm(infmt, framebuf.data(), framesize, sampleindex);
             frm.timestamp = m_media_in.elapsed_ms - startoffset;
             submitted = QueueAudio(frm);
         }

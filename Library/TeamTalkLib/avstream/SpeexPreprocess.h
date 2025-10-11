@@ -24,12 +24,12 @@
 #if !defined(SPEEXPREPROCESS_H)
 #define SPEEXPREPROCESS_H
 
-#include <speex/speex_preprocess.h>
+#include "mystd/MyStd.h"
+
 #include <speex/speex_echo.h>
+#include <speex/speex_preprocess.h>
 
-#include <mystd/MyStd.h>
-
-#define SPEEX_DENOISE_LEVEL_DEFAULT -15
+constexpr auto SPEEX_DENOISE_LEVEL_DEFAULT = -15;
 
 struct SpeexAGC
 {
@@ -38,12 +38,8 @@ struct SpeexAGC
     int max_decrement;
     int max_gain;
     //int agc_target;
-    SpeexAGC()
+    SpeexAGC() : gain_level(8000.0), max_increment(12), max_decrement(-40), max_gain(30)
     {
-        gain_level = 8000.0;
-        max_increment = 12;
-        max_decrement = -40;
-        max_gain = 30;
         //agc_target = 8000;
     }
     SpeexAGC(float gainlevel, int maxinc, int maxdec, int maxgain)
@@ -55,10 +51,8 @@ struct SpeexAEC
 {
     int suppress_level;
     int suppress_active;
-    SpeexAEC()
+    SpeexAEC() : suppress_level(-40), suppress_active(-15)
     {
-        suppress_level = -40;
-        suppress_active = -15;
     }
 };
 

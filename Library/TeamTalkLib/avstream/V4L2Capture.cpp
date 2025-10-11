@@ -23,21 +23,26 @@
 
 #include "V4L2Capture.h"
 
-#include <sys/ioctl.h>
-#include <linux/videodev2.h>
+#include "avstream/FFmpegCapture.h"
+#include "avstream/FFmpegStreamer.h"
+#include "avstream/VideoCapture.h"
+#include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 
 extern "C" {
 #include <libavdevice/avdevice.h>
 #include <libavformat/avformat.h>
 #include <libavutil/avstring.h>
-#include <libavutil/opt.h>
+#include <libavutil/dict.h>
 }
 
-#include <memory>
+#include <algorithm>
+#include <cstddef>
+#include <fcntl.h>
+#include <linux/videodev2.h>
 #include <sstream>
-#include <iostream>
-
-#include <codec/MediaUtil.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 using namespace std;
 using namespace vidcap;
@@ -57,13 +62,13 @@ public:
                     AVCodecContext*& aud_dec_ctx,
                     AVCodecContext*& vid_dec_ctx,
                     int& audio_stream_index,
-                    int& video_stream_index)
+                    int& video_stream_index) override
     {
         auto vidfmt = GetMediaOutput().video;
 
         iformat = av_find_input_format(m_dev.api.c_str());
         int fps = 1;
-        if (vidfmt.fps_denominator)
+        if (vidfmt.fps_denominator != 0)
         {
             fps = vidfmt.fps_numerator / vidfmt.fps_denominator;
             fps = std::max(1, fps);
@@ -85,7 +90,7 @@ public:
                                             video_stream_index);
     }
 
-    media::VideoFormat GetVideoFormat()
+    media::VideoFormat GetVideoFormat() override
     {
         media::VideoFormat fmt = m_vidfmt;
         // fmt.fourcc = FOURCC_RGB32;
@@ -93,41 +98,34 @@ public:
     }
 };
 
-V4L2Capture::V4L2Capture()
-{
-}
-
-V4L2Capture::~V4L2Capture()
-{
-}
-
-ffmpegvideoinput_t V4L2Capture::createStreamer(const VidCapDevice& viddevice,
+ffmpegvideoinput_t V4L2Capture::CreateStreamer(const VidCapDevice& viddevice,
                                                const media::VideoFormat& fmt)
 {
     return ffmpegvideoinput_t(new V4L2Input(viddevice, fmt));
 }
 
-void FillVidCapDevice(int fd, VidCapDevice& dev);
+static void FillVidCapDevice(int fd, VidCapDevice& dev);
 
 vidcap_devices_t V4L2Capture::GetDevices()
 {
     vidcap_devices_t devs;
 
-    const AVInputFormat* in_fmt = av_input_video_device_next(NULL), *indev_fmt = NULL;
-    while(in_fmt) {
-        if (av_match_name("v4l2", in_fmt->name)) {
+    const AVInputFormat * in_fmt = av_input_video_device_next(NULL);
+    const AVInputFormat *indev_fmt = NULL;
+    while(in_fmt != nullptr) {
+        if (av_match_name("v4l2", in_fmt->name) != 0) {
             indev_fmt = in_fmt;
         }
         in_fmt = av_input_video_device_next(in_fmt);
     }
 
-    if(!indev_fmt)
+    if(indev_fmt == nullptr)
         return devs;
 
-    AVDeviceInfoList* device_list = NULL;
-    AVDictionary *device_options = NULL;
+    AVDeviceInfoList* device_list = nullptr;
+    AVDictionary *device_options = nullptr;
 
-    int ndevs = avdevice_list_input_sources(indev_fmt, NULL, device_options,
+    int const ndevs = avdevice_list_input_sources(indev_fmt, nullptr, device_options,
                                             &device_list);
     for(int i=0;i<device_list->nb_devices;i++) {
         AVDeviceInfo* dev = device_list->devices[i];
@@ -136,7 +134,7 @@ vidcap_devices_t V4L2Capture::GetDevices()
         newdev.devicename = dev->device_description;
         newdev.deviceid = dev->device_name;
 
-        int fd = open(newdev.deviceid.c_str(), O_RDONLY);
+        int const fd = open(newdev.deviceid.c_str(), O_RDONLY);
         if(fd >= 0)
         {
             FillVidCapDevice(fd, newdev);
@@ -145,7 +143,7 @@ vidcap_devices_t V4L2Capture::GetDevices()
 
         devs.push_back(newdev);
     }
-    if (device_list)
+    if (device_list != nullptr)
         avdevice_free_list_devices(&device_list);
     return devs;
 }
@@ -200,7 +198,7 @@ void FillVidCapDevice(int fd, VidCapDevice& dev)
             frame_interval.pixel_format = pixel_format.pixelformat;
             frame_interval.width = frame_size.discrete.width;
             frame_interval.height = frame_size.discrete.height;
-            while (fmt.width && fmt.height &&
+            while ((fmt.width != 0) && (fmt.height != 0) &&
                    ioctl(fd, VIDIOC_ENUM_FRAMEINTERVALS, &frame_interval) == 0)
             {
                 switch(frame_interval.type)

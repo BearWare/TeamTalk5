@@ -25,22 +25,37 @@
 #define SOUNDSYSTEMSHARED_H
 
 #include "SoundSystem.h"
-
 #include "AudioResampler.h"
 
+#include "myace/MyACE.h"
+#include "codec/MediaUtil.h"
+
+#include <ace/ace_wchar.h>
+#include <ace/Message_Block.h>
+#include <ace/OS_Memory.h>
+#include <ace/Time_Value.h>
+#include <ace/Message_Queue_T.h>
+#include <ace/Synch_Traits.h>
+
+#include <algorithm>
+#include <cassert>
+#include <cstdint>
 #include <cstring>
+#include <map>
 #include <memory>
-#include <thread>
 #include <mutex>
+#include <set>
+#include <thread>
+#include <vector>
 
 namespace soundsystem {
 
 /* SharedStreamCapture::MakeKey() has limited space */
-#define SHAREDSTREAM_MAX_SAMPLERATES       16
-#define SHAREDSTREAM_MAX_CHANNELS          2
-#define SHAREDSTREAM_MAX_FRAMESIZE         ((1 << 27) - 1)
+constexpr auto SHAREDSTREAM_MAX_SAMPLERATES = 16;
+constexpr auto SHAREDSTREAM_MAX_CHANNELS    = 2;
+constexpr auto SHAREDSTREAM_MAX_FRAMESIZE   = (1 << 27) - 1;
 
-#define DEBUG_RESAMPLER 0
+constexpr auto DEBUG_RESAMPLER = 0;
 
     template < typename INPUTSTREAMER >
     class SharedStreamCapture : public StreamCapture
@@ -51,7 +66,7 @@ namespace soundsystem {
         {
             assert(m_keysamplerates.size());
             assert(streamer.channels <= 2);
-            auto i = std::find(m_keysamplerates.begin(), m_keysamplerates.end(), streamer.samplerate);
+            auto i = std::ranges::find(m_keysamplerates, streamer.samplerate);
             assert(i != m_keysamplerates.end());
             auto srindex = i - m_keysamplerates.begin();
 
@@ -87,10 +102,10 @@ namespace soundsystem {
         SoundDeviceFeatures m_features;
 
     public:
-        typedef std::shared_ptr < INPUTSTREAMER > inputstreamer_t;
+        using inputstreamer_t = std::shared_ptr < INPUTSTREAMER >;
 
-        SharedStreamCapture(SoundDeviceFeatures features) { m_features = features; }
-        ~SharedStreamCapture()
+        SharedStreamCapture(SoundDeviceFeatures features) : m_features(features) { }
+        ~SharedStreamCapture() override
         {
             assert(m_sndgrpid == 0);
             assert(m_inputstreams.empty());
@@ -105,7 +120,7 @@ namespace soundsystem {
             MYTRACE(ACE_TEXT("~SharedCaptureStream()\n"));
         }
 
-        SoundDeviceFeatures GetCaptureFeatures()
+        SoundDeviceFeatures GetCaptureFeatures() override
         {
             return m_features;
         }
@@ -155,8 +170,8 @@ namespace soundsystem {
             auto key = MakeKey(*streamer);
             if (m_resamplers.find(key) == m_resamplers.end())
             {
-                media::AudioFormat infmt(m_originalstream->samplerate, m_originalstream->channels),
-                    outfmt(streamer->samplerate, streamer->channels);
+                media::AudioFormat infmt(m_originalstream->samplerate, m_originalstream->channels);
+                media::AudioFormat outfmt(streamer->samplerate, streamer->channels);
                 auto resampler = MakeAudioResampler(infmt, outfmt);
                 if (!resampler)
                     return false;
@@ -170,7 +185,7 @@ namespace soundsystem {
 
                 if (!m_resample_thread)
                 {
-                    m_resample_thread.reset(new std::thread(&SharedStreamCapture<INPUTSTREAMER>::ResampleFunc, this));
+                    m_resample_thread = std::make_shared<std::thread>(&SharedStreamCapture<INPUTSTREAMER>::ResampleFunc, this);
                 }
             }
 
@@ -223,17 +238,15 @@ namespace soundsystem {
         }
 
         void StreamCaptureCb(const InputStreamer& streamer,
-                             const short* buffer, int samples)
+                             const short* buffer, int samples) override
         {
             assert((streamer.inputdeviceid & SOUND_DEVICE_SHARED_FLAG) == 0);
 
             std::lock_guard<std::recursive_mutex> g(m_mutex);
 
-#if DEBUG_RESAMPLER
-            MYTRACE("Original for %p samplerate %d, framesize %d, channels %d\n",
+            MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Original for %p samplerate %d, framesize %d, channels %d\n"),
                     streamer.recorder, streamer.samplerate,
                     streamer.framesize, streamer.channels);
-#endif
 
             bool resample = false;
             for (auto stream : m_activestreams)
@@ -241,11 +254,9 @@ namespace soundsystem {
                 if (SameStreamProperties(*stream, streamer))
                 {
                     stream->recorder->StreamCaptureCb(*stream, buffer, samples);
-#if DEBUG_RESAMPLER
-                    MYTRACE("Shared for %p samplerate %d, framesize %d, channels %d\n",
-                            stream->recorder, stream->samplerate,
-                            stream->framesize, stream->channels);
-#endif
+                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Shared for %p samplerate %d, framesize %d, channels %d\n"),
+                                 stream->recorder, stream->samplerate,
+                                 stream->framesize, stream->channels);
                 }
                 else
                 {
@@ -255,8 +266,8 @@ namespace soundsystem {
 
             if (resample)
             {
-                ACE_Message_Block* mb;
-                int size = PCM16_BYTES(samples, streamer.channels);
+                ACE_Message_Block* mb = nullptr;
+                int const size = PCM16_BYTES(samples, streamer.channels);
                 ACE_NEW(mb, ACE_Message_Block(size));
                 if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
                     mb->release();
@@ -273,10 +284,10 @@ namespace soundsystem {
 
         void ResampleFunc()
         {
-            ACE_Message_Block* mb;
+            ACE_Message_Block* mb = nullptr;
             while (m_samples_queue.dequeue(mb) >= 0)
             {
-                MBGuard gmb(mb);
+                MBGuard const gmb(mb);
                 std::lock_guard<std::recursive_mutex> g(m_mutex);
 
                 assert(mb->length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
@@ -286,22 +297,19 @@ namespace soundsystem {
                     int cbsr = GetSampleRateFromKey(key);
                     int cbch = GetChannelsFromKey(key);
                     int cbframesize = GetFrameSizeFromKey(key);
-                    short* cbbufptr = &m_callback_buffers[key][0];
+                    short* cbbufptr = m_callback_buffers[key].data();
 
                     auto rsbuf = m_resample_buffers.find(key);
                     assert(rsbuf != m_resample_buffers.end());
-                    short* rsbufptr = &rsbuf->second[0];
+                    short* rsbufptr = rsbuf->second.data();
                     assert(cbch);
                     int rsframesize = int(rsbuf->second.size()) / cbch;
                     assert(i.second);
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
                                                      rsbufptr, rsframesize);
-#if DEBUG_RESAMPLER
-                    MYTRACE("Resampled for samplerate %d, framesize %d, channels %d\n",
+                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Resampled for samplerate %d, framesize %d, channels %d\n"),
                             cbsr, cbframesize, cbch);
-#endif
-
                     MYTRACE_COND(samples != rsframesize,
                                  ACE_TEXT("Resampled output frame for samplerate %d, channels %d doesn't match framesize %d. Was %d\n"),
                                  cbsr, cbch, rsframesize, samples);
@@ -312,7 +320,7 @@ namespace soundsystem {
                     //
                     // Here we want to use "total" samples where
                     // channel information (mono/stereo) is omitted.
-                    int totalsamples = rsframesize * cbch;
+                    int const totalsamples = rsframesize * cbch;
                     int rspos = 0;
                     while (rspos < totalsamples)
                     {
@@ -322,18 +330,16 @@ namespace soundsystem {
                         assert(int(cbpos) >= 0 && cbpos < m_callback_buffers[key].size());
 
                         // calc samples to copy
-                        std::size_t rsremain = totalsamples - rspos;
-                        std::size_t n_samples = std::min(cbbufspace, rsremain);
+                        std::size_t const rsremain = totalsamples - rspos;
+                        std::size_t const n_samples = std::min(cbbufspace, rsremain);
 
                         //where to copy from
-#if DEBUG_RESAMPLER
-                        MYTRACE("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n",
+                        MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Copying at cbpos %d, rspos %u for samplerate %d, framesize %d, channels %d\n"),
                                 int(cbpos), rspos, cbsr, cbframesize, cbch);
-#endif
                         assert(rspos + n_samples <= m_resample_buffers[key].size());
                         assert(cbpos + n_samples <= m_callback_buffers[key].size());
 
-                        std::size_t bytes = n_samples * sizeof(cbbufptr[0]);
+                        std::size_t const bytes = n_samples * sizeof(cbbufptr[0]);
                         std::memcpy(&cbbufptr[cbpos], &rsbufptr[rspos], bytes);
 
                         cbpos += n_samples;
@@ -346,10 +352,8 @@ namespace soundsystem {
                                 if (MakeKey(*streamer) == key)
                                 {
                                     streamer->recorder->StreamCaptureCb(*streamer, cbbufptr, cbframesize);
-#if DEBUG_RESAMPLER
-                                    MYTRACE("Callback for %p samplerate %d, framesize %d, channels %d\n",
+                                    MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Callback for %p samplerate %d, framesize %d, channels %d\n"),
                                             streamer->recorder, cbsr, cbframesize, cbch);
-#endif
                                 }
                             }
                             cbpos = 0;
@@ -383,8 +387,8 @@ namespace soundsystem {
         std::recursive_mutex m_mutex;
     };
 
-#define DEBUG_SHAREDPLAYER 0
-#define DEBUG_SHAREDPLAYER_RESAMPLER 0
+    constexpr auto DEBUG_SHAREDPLAYER = 0;
+    constexpr auto DEBUG_SHAREDPLAYER_RESAMPLER = 0;
 
     template < typename OUTPUTSTREAMER >
     class SharedStreamPlayer : public StreamPlayer
@@ -396,7 +400,7 @@ namespace soundsystem {
         }
 
     public:
-        typedef std::shared_ptr < OUTPUTSTREAMER > outputstreamer_t;
+        using outputstreamer_t = std::shared_ptr < OUTPUTSTREAMER >;
 
         SharedStreamPlayer(SoundSystem* sndsys)
         : m_sndsys(sndsys)
@@ -404,14 +408,14 @@ namespace soundsystem {
             MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("SharedStreamPlayer() - %p\n"), this);
         }
 
-        ~SharedStreamPlayer()
+        ~SharedStreamPlayer() override
         {
             MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("~SharedStreamPlayer() - %p\n"), this);
             assert(m_outputs.empty());
         }
 
         bool StreamPlayerCb(const OutputStreamer& streamer,
-                            short* buffer, int samples)
+                            short* buffer, int samples) override
         {
             assert(SameStreamProperties(*m_orgstream, streamer));
 
@@ -439,10 +443,10 @@ namespace soundsystem {
                 if (SameStreamProperties(*i.second, *m_orgstream))
                 {
                     assert(i.second->framesize == samples);
-                    i.first->StreamPlayerCb(*i.second, &m_tmpbuffer[0], samples);
+                    i.first->StreamPlayerCb(*i.second, m_tmpbuffer.data(), samples);
                     int mastervol = m_sndsys->GetMasterVolume(i.second->sndgrpid);
                     bool mastermute = m_sndsys->IsAllMute(i.second->sndgrpid);
-                    SoftVolume(*i.second, &m_tmpbuffer[0], samples, mastervol, mastermute);
+                    SoftVolume(*i.second, m_tmpbuffer.data(), samples, mastervol, mastermute);
                     MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER, ACE_TEXT("Same stream properties. Destination: %p\n"), i.first);
                 }
                 else
@@ -468,7 +472,7 @@ namespace soundsystem {
                         SoftVolume(*streamer_resam, input, streamer_resam->framesize, mastervol, mastermute);
                         short* output = resampler->Resample(input);
 
-                        ACE_Message_Block* mb;
+                        ACE_Message_Block* mb = nullptr;
                         ACE_NEW_NORETURN(mb, ACE_Message_Block(outputbytes));
                         if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) < 0)
                             mb->release();
@@ -491,7 +495,7 @@ namespace soundsystem {
 
 
                     // copy buffer to callback
-                    char* bytebuffer = reinterpret_cast<char*>(&m_tmpbuffer[0]);
+                    char* bytebuffer = reinterpret_cast<char*>(m_tmpbuffer.data());
                     size_t copied = 0;
                     while (copied < reqbytes)
                     {
@@ -505,14 +509,14 @@ namespace soundsystem {
                             break;
                         }
 
-                        size_t copylimit = std::min(mb->length(), reqbytes - copied);
+                        size_t const copylimit = std::min(mb->length(), reqbytes - copied);
                         std::memcpy(bytebuffer + copied, mb->rd_ptr(), copylimit);
-                        auto was = mb->rd_ptr();
+                        auto *was = mb->rd_ptr();
                         mb->rd_ptr(copylimit);
                         assert(mb->rd_ptr() == was + copylimit);
                         copied += copylimit;
 
-                        if (mb->length())
+                        if (mb->length() != 0u)
                         {
                             assert(copied == reqbytes);
                             int ret = msgq->enqueue_head(mb, &tv);
@@ -584,8 +588,8 @@ namespace soundsystem {
             if (SameStreamProperties(*m_orgstream, *streamer))
                 return true;
 
-            media::AudioFormat infmt(streamer->samplerate, streamer->channels),
-                outfmt(m_orgstream->samplerate, m_orgstream->channels);
+            media::AudioFormat infmt(streamer->samplerate, streamer->channels);
+            media::AudioFormat outfmt(m_orgstream->samplerate, m_orgstream->channels);
             auto resampler = MakeAudioResampler(infmt, outfmt, streamer->framesize);
             if (!resampler)
             {
@@ -595,7 +599,7 @@ namespace soundsystem {
 
             m_resamplers[player] = resampler;
             m_callbackbuffers[player].resize(streamer->channels * streamer->framesize);
-            m_resambuffers[player].reset(new ACE_Message_Queue< ACE_NULL_SYNCH >());
+            m_resambuffers[player] = std::make_shared<ACE_Message_Queue< ACE_NULL_SYNCH >>();
             m_resambuffers[player]->high_water_mark(1024*1024);
             m_resambuffers[player]->low_water_mark(1024*1024);
             return true;
@@ -639,11 +643,11 @@ namespace soundsystem {
         bool IsActive(StreamPlayer* player)
         {
             std::lock_guard<std::recursive_mutex> g(m_mutex);
-            return m_active_outputs.find(player) != m_active_outputs.end();
+            return m_active_outputs.contains(player);
         }
 
     private:
-        typedef std::shared_ptr< ACE_Message_Queue< ACE_NULL_SYNCH > > msg_queue_t;
+        using msg_queue_t = std::shared_ptr< ACE_Message_Queue< ACE_NULL_SYNCH > >;
 
         SoundSystem* m_sndsys;
         outputstreamer_t m_orgstream;
@@ -656,5 +660,5 @@ namespace soundsystem {
         std::recursive_mutex m_mutex;
     };
 
-}
+} // namespace soundsystem
 #endif

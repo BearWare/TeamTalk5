@@ -24,17 +24,23 @@
 #ifndef DESKTOPCACHE_H
 #define DESKTOPCACHE_H
 
-#include <teamtalk/DesktopSession.h>
-#include <teamtalk/PacketHelper.h>
+#include "teamtalk/Common.h"
+#include "teamtalk/DesktopSession.h"
+#include "teamtalk/PacketHelper.h"
+#include "teamtalk/PacketLayout.h"
 
+#include <cstdint>
+#include <map>
 #include <memory>
+#include <set>
+#include <vector>
 
 namespace teamtalk {
 
     //updateid (time) -> packets
-    typedef std::map<uint32_t, desktoppackets_t> map_desktop_updates_t;
+    using map_desktop_updates_t = std::map<uint32_t, desktoppackets_t>;
     //updateid (time) -> block nums
-    typedef std::map<uint32_t, std::set<uint16_t> > map_updated_blocks_t;
+    using map_updated_blocks_t = std::map<uint32_t, std::set<uint16_t> >;
 
     class DesktopCache : public DesktopSession
     {
@@ -86,10 +92,10 @@ namespace teamtalk {
         int m_userid = 0;
     };
 
-    typedef std::shared_ptr< DesktopCache > desktop_cache_t;
+    using desktop_cache_t = std::shared_ptr< DesktopCache >;
 
     //blockno -> frags
-    typedef std::map<uint16_t, std::set<uint8_t> > map_missing_frags_t;
+    using map_missing_frags_t = std::map<uint16_t, std::set<uint8_t> >;
 
     bool HasFragments(uint16_t blockno, const desktoppackets_t& packets);
     bool InsertFragment(uint16_t blockno, uint8_t fragno,
@@ -98,6 +104,6 @@ namespace teamtalk {
     bool BlockComplete(uint16_t blockno, const desktoppackets_t& packets);
     bool GetMissingFragments(uint16_t blockno, const desktoppackets_t& packets,
                              std::set<uint8_t>& missing_fragnums);
-}
+} // namespace teamtalk
 
 #endif

@@ -22,23 +22,23 @@
  */
 
 #include "ClientNodeBase.h"
-#include <myace/MyACE.h>
 
+#include "myace/MyACE.h"
+#include "teamtalk/ttassert.h"
+
+#include <ace/High_Res_Timer.h>
+#include <ace/Lock.h>
 #include <ace/Select_Reactor.h>
+#include <ace/Time_Value.h>
+
+#include <cassert>
+#include <mutex>
+#include <cstdint>
 
 using namespace teamtalk;
 
-#if defined(ACE_WIN32)
-#define INVALID_THREAD_ID 0
-#elif defined(__APPLE__)
-#define INVALID_THREAD_ID nullptr
-#else
-#define INVALID_THREAD_ID ACE_INVALID_HANDLE
-#endif
-
 ClientNodeBase::ClientNodeBase()
     : m_reactor(new ACE_Select_Reactor(nullptr, &m_timer_queue), true) //Ensure we don't use ACE_WFMO_Reactor!!!
-    , m_reactor_thread(INVALID_THREAD_ID)
 {
     m_timer_queue.set_time_policy(&ACE_High_Res_Timer::gettimeofday_hr);
     this->reactor(&m_reactor);
@@ -49,22 +49,22 @@ ClientNodeBase::~ClientNodeBase()
     assert(thr_count() == 0);
 }
 
-int ClientNodeBase::svc(void)
+int ClientNodeBase::svc()
 {
     {
         // ensure .wait() is called prior to .notify_all()
-        std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
+        std::unique_lock<std::mutex> const lck(m_reactor_wait_mtx);
     }
 
     m_reactor_thread = ACE_OS::thr_self();
-    int ret = m_reactor.owner (ACE_OS::thr_self());
+    int const ret = m_reactor.owner (ACE_OS::thr_self());
     assert(ret >= 0);
 
     m_reactor_wait_cv.notify_all();
 
     m_reactor.run_reactor_event_loop ();
 
-    m_reactor_thread = INVALID_THREAD_ID;
+    m_reactor_thread = ACE_thread_t();
 
     MYTRACE(ACE_TEXT("ClientNodeBase reactor thread exited.\n"));
 
@@ -94,19 +94,19 @@ void ClientNodeBase::ResumeEventHandling()
 {
     MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activating.\n")) );
 
-    ACE_thread_t thr_id = 0;
+    ACE_thread_t thr_id = ACE_thread_t();
     m_reactor.owner(&thr_id);
     if(thr_id != ACE_OS::thr_self())
     {
         MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread waiting.\n")) );
         this->wait();
     }
-    assert(m_reactor_thread == INVALID_THREAD_ID);
+    assert(m_reactor_thread == ACE_thread_t());
 
     m_reactor.reset_reactor_event_loop();
 
     std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
-    int ret = this->activate();
+    int const ret = this->activate();
     assert(ret >= 0);
 
     if (ret >= 0)
@@ -115,7 +115,7 @@ void ClientNodeBase::ResumeEventHandling()
     MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activated.\n")) );
 }
 
-ACE_Lock& ClientNodeBase::reactor_lock()
+ACE_Lock& ClientNodeBase::ReactorLock()
 {
     // char name[100] = "";
     // if(ACE_OS::thr_id(name, sizeof(name))>0)
@@ -133,27 +133,27 @@ long ClientNodeBase::StartTimer(uint32_t timer_id, long userdata,
                                 const ACE_Time_Value& delay,
                                 const ACE_Time_Value& interval)
 {
-    TimerHandler* th;
+    TimerHandler* th = nullptr;
     ACE_NEW_RETURN(th, TimerHandler(*this, timer_id, userdata), -1);
 
     //ensure we don't have duplicate timers
-    bool stoptimer = StopTimer(timer_id);
+    bool const stoptimer = StopTimer(timer_id);
     MYTRACE_COND(stoptimer, ACE_TEXT("Starting timer which was already active: %u\n"), timer_id);
 
     //make sure we don't hold reactor lock when scheduling timer
     {
         //lock timer set
-        wguard_t g(lock_timers());
+        wguard_t const g(LockTimers());
         TTASSERT(m_timers.find(timer_id) == m_timers.end());
         m_timers[timer_id] = th; //put in before schedule because timeout might be 0
     }
 
-    long reactor_timerid = m_reactor.schedule_timer(th, 0, delay, interval);
+    long const reactor_timerid = m_reactor.schedule_timer(th, nullptr, delay, interval);
     TTASSERT(reactor_timerid>=0);
     if(reactor_timerid<0)
     {
         //lock timer set
-        wguard_t g(lock_timers());
+        wguard_t const g(LockTimers());
         m_timers.erase(timer_id);
         delete th;
     }
@@ -163,9 +163,9 @@ long ClientNodeBase::StartTimer(uint32_t timer_id, long userdata,
 
 bool ClientNodeBase::StopTimer(uint32_t timer_id)
 {
-    wguard_t g(lock_timers());
+    wguard_t g(LockTimers());
 
-    timer_handlers_t::iterator ii = m_timers.find(timer_id);
+    auto const ii = m_timers.find(timer_id);
     if(ii != m_timers.end())
     {
         TimerHandler* th = ii->second;
@@ -181,14 +181,14 @@ bool ClientNodeBase::StopTimer(uint32_t timer_id)
 void ClientNodeBase::ClearTimer(uint32_t timer_id)
 {
     //lock timer set
-    wguard_t g(lock_timers());
+    wguard_t const g(LockTimers());
 
     m_timers.erase(timer_id);
 }
 
 void ClientNodeBase::ResetTimers()
 {
-    while (m_timers.size())
+    while (!m_timers.empty())
     {
         m_reactor.cancel_timer(m_timers.begin()->second, 0);
         m_timers.erase(m_timers.begin());
@@ -217,16 +217,16 @@ bool ClientNodeBase::TimerExists(uint32_t timer_id)
     TTASSERT((timer_id & USER_TIMER_START) == 0);
 
     //lock timer set
-    rguard_t g(lock_timers());
+    rguard_t const g(LockTimers());
 
-    return m_timers.find(timer_id) != m_timers.end();
+    return m_timers.contains(timer_id);
 }
 
 bool ClientNodeBase::TimerExists(uint32_t timer_id, int userid)
 {
-    uint32_t tm_id = USER_TIMERID(timer_id, userid);
+    uint32_t const tm_id = USER_TIMERID(timer_id, userid);
     //lock timer set
-    rguard_t g(lock_timers());
+    rguard_t const g(LockTimers());
 
-    return m_timers.find(tm_id) != m_timers.end();
+    return m_timers.contains(tm_id);
 }

@@ -24,30 +24,38 @@
 #if !defined(MYACE_H)
 #define MYACE_H
 
-#include <mystd/MyStd.h>
+#include "mystd/MyStd.h"
 
+#include <ace/Guard_T.h>
+#include <ace/Lock.h>
+#include <ace/Message_Block.h>
+#include <ace/Message_Queue_T.h>
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
-#include <ace/Lock.h>
-#include <ace/Guard_T.h>
-#include <ace/Timer_Queue_Adapters.h>
-#include <ace/Timer_Heap.h>
 #include <ace/SString.h>
-#include <vector>
-#include <set>
+#include <ace/SStringfwd.h>
+#include <ace/Synch_Traits.h>
+#include <ace/Time_Value.h>
+#include <ace/Timer_Heap.h>
+#include <ace/Timer_Queue_Adapters.h>
+
+#include <cstddef>
+#include <cstdint>
 #include <fstream>
+#include <set>
+#include <vector>
 
 //reactor event task
-ACE_THR_FUNC_RETURN event_loop (void *arg);
+ACE_THR_FUNC_RETURN EventLoop (void *arg);
 void SyncReactor(ACE_Reactor& reactor);
 
-typedef ACE_Write_Guard<ACE_Recursive_Thread_Mutex> wguard_t;
-typedef ACE_Read_Guard<ACE_Recursive_Thread_Mutex> rguard_t;
-typedef ACE_Guard<ACE_Lock> guard_t;
+using wguard_t = ACE_Write_Guard<ACE_Recursive_Thread_Mutex>;
+using rguard_t = ACE_Read_Guard<ACE_Recursive_Thread_Mutex>;
+using guard_t = ACE_Guard<ACE_Lock>;
 
-typedef ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap> ActiveTimer;
+using ActiveTimer = ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap>;
 
-typedef ACE_Message_Queue<ACE_MT_SYNCH> msg_queue_t;
+using msg_queue_t = ACE_Message_Queue<ACE_MT_SYNCH>;
 
 class MBGuard : NonCopyable
 {
@@ -74,22 +82,21 @@ private:
     bool m_readonly = true;
 };
 
-typedef std::vector< ACE_TString > strings_t;
-typedef std::set<int> intset_t;
-typedef std::vector<int> intvec_t;
+using strings_t = std::vector< ACE_TString >;
+using intset_t = std::set<int>;
+using intvec_t = std::vector<int>;
 
 bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename);
 ACE_TString FixFilePath(const ACE_TString& filepath);
 
-ACE_TString stringtolower(const ACE_TString& str);
+void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
 
-void replace_all(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
+ACE_TString I2String(ACE_INT64 i);
+ACE_INT64 String2I(const ACE_TString& int_str, int base = 10);
 
-ACE_TString i2string(ACE_INT64 i);
-ACE_INT64 string2i(const ACE_TString& int_str, int base = 10);
-
-bool stringcmpnocase(const ACE_TString& str1, const ACE_TString& str2);
-strings_t tokenize(const ACE_TString& source, const ACE_TString& delimeters);
+bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2);
+ACE_TString StringToLower(const ACE_TString& str);
+strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 
 ACE_TString KeyToHexString(const unsigned char* key, int length);
 void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key);
@@ -123,9 +130,9 @@ ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen);
 
 #if defined(_DEBUG)
 
-void MYTRACE(const ACE_TCHAR* trace_str, ...);
+void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-type-vararg) */
 
-#define MYTRACE_COND(check, trace_str, ...)         \
+#define MYTRACE_COND(check, trace_str, ...)  /* NOLINT(cppcoreguidelines-avoid-do-while,cppcoreguidelines-pro-type-vararg) */ \
     do {                                            \
         if(check) MYTRACE(trace_str, ##__VA_ARGS__);  \
     } while(0)
@@ -177,13 +184,13 @@ constexpr auto W8_GT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) > 0
 constexpr auto W8_LEQ(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) <= 0); }
 constexpr auto W8_LT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) < 0); }
 
-struct w32_less_comp
+struct W32LessComp
 {
     bool operator() (const ACE_UINT32& a, const ACE_UINT32& b) const
         { return W32_LT(a,b); }
 };
 
-struct w16_less_comp
+struct W16LessComp
 {
     bool operator() (const ACE_UINT16& a, const ACE_UINT16& b) const
         { return W16_LT(a,b); }

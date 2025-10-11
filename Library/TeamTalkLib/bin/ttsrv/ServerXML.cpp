@@ -21,14 +21,21 @@
  *
  */
 
-#include <ace/OS_NS_sys_socket.h>
 #include "ServerXML.h"
 
-#include <mystd/MyStd.h>
-#include <TeamTalkDefs.h>
-#include <stack>
-#include <vector>
+#include "TeamTalkDefs.h"
+#include "settings/Settings.h"
+#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
+
+#include <algorithm>
+#include <cassert>
+#include <cstdio>
+#include <cstdint>
 #include <ctime>
+#include <stack>
+#include <string>
+#include <vector>
 
 using namespace std;
 namespace teamtalk{
@@ -55,7 +62,7 @@ namespace teamtalk{
             int c = 0;
             UserAccount ua;
             while (GetNextUser(c, ua)) c++;
-            while (c--)
+            while ((c--) != 0)
             {
                 UserAccount ua;
                 GetNextUser(0, ua);
@@ -72,7 +79,7 @@ namespace teamtalk{
     TiXmlElement* ServerXML::GetRootElement()
     {
         TiXmlElement* root = m_xmlDocument.RootElement();
-        if(!root)
+        if(root == nullptr)
         {
             TiXmlElement newroot(m_rootname.c_str());
             newroot.SetAttribute("version", TEAMTALK_XML_VERSION);
@@ -85,104 +92,98 @@ namespace teamtalk{
     TiXmlElement* ServerXML::GetGeneralElement()
     {
         TiXmlElement* root = GetRootElement();
-        if(root)
+        if(root != nullptr)
         {
             TiXmlElement* child = root->FirstChildElement("general");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("general");
+                TiXmlElement const newchild("general");
                 return ReplaceElement(*root, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
     TiXmlElement* ServerXML::GetFileStorageElement()
     {
         TiXmlElement* general = GetRootElement();
-        if(general)
+        if(general != nullptr)
         {
             TiXmlElement* child = general->FirstChildElement("file-storage");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("file-storage");
+                TiXmlElement const newchild("file-storage");
                 return ReplaceElement(*general, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
     TiXmlElement* ServerXML::GetLoggingElement()
     {
         TiXmlElement* general = GetRootElement();
-        if(general)
+        if(general != nullptr)
         {
             TiXmlElement* child = general->FirstChildElement("logging");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("logging");
+                TiXmlElement const newchild("logging");
                 return ReplaceElement(*general, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
     TiXmlElement* ServerXML::GetBandwidthLimitElement()
     {
         TiXmlElement* general = GetGeneralElement();
-        if(general)
+        if(general != nullptr)
         {
             TiXmlElement* child = general->FirstChildElement("bandwidth-limits");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("bandwidth-limits");
+                TiXmlElement const newchild("bandwidth-limits");
                 return ReplaceElement(*general, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
     TiXmlElement* ServerXML::GetUsersElement()
     {
         TiXmlElement* root = GetRootElement();
-        if(root)
+        if(root != nullptr)
         {
             TiXmlElement* child = root->FirstChildElement("users");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("users");
+                TiXmlElement const newchild("users");
                 return ReplaceElement(*root, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
 
     TiXmlElement* ServerXML::GetServerBansElement()
     {
         TiXmlElement* root = GetRootElement();
-        if(root)
+        if(root != nullptr)
         {
             TiXmlElement* child = root->FirstChildElement("serverbans");
-            if(!child)
+            if(child == nullptr)
             {
-                TiXmlElement newchild("serverbans");
+                TiXmlElement const newchild("serverbans");
                 return ReplaceElement(*root, newchild);
             }
-            else
-                return child;
+                            return child;
         }
-        return NULL;
+        return nullptr;
     }
 
     /*************************************************/
@@ -194,22 +195,21 @@ namespace teamtalk{
         return GetValue(true, "general/systemid", defwelcome);
     }
     
-    bool ServerXML::SetServerName(string szServerName)
+    bool ServerXML::SetServerName(const string& szServerName)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutString(*parent, "server-name", szServerName);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     string ServerXML::GetServerName()
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             string s;
             GetString(*parent, "server-name", s);
@@ -218,22 +218,21 @@ namespace teamtalk{
         return "";
     }
 
-    bool ServerXML::SetMessageOfTheDay(string szMsg)
+    bool ServerXML::SetMessageOfTheDay(const string& szMsg)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutString(*parent, "motd", szMsg);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     string ServerXML::GetMessageOfTheDay()
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             string s;
             GetString(*parent, "motd", s);
@@ -242,13 +241,13 @@ namespace teamtalk{
         return "";
     }
 
-    bool ServerXML::SetBindIPs(std::vector<std::string> ips)
+    bool ServerXML::SetBindIPs(const std::vector<std::string>& ips)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
-            for (auto child = parent->FirstChildElement("bind-ip");
-                 child; child = parent->FirstChildElement("bind-ip"))
+            for (auto *child = parent->FirstChildElement("bind-ip");
+                 child != nullptr; child = parent->FirstChildElement("bind-ip"))
             {
                 parent->RemoveChild(child);
             }
@@ -261,8 +260,7 @@ namespace teamtalk{
             }
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     std::vector<std::string> ServerXML::GetBindIPs()
@@ -271,13 +269,13 @@ namespace teamtalk{
         std::vector<std::string> ips;
         
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
-            for (auto child = parent->FirstChildElement("bind-ip");
-                 child; child = child->NextSiblingElement("bind-ip"))
+            for (auto *child = parent->FirstChildElement("bind-ip");
+                 child != nullptr; child = child->NextSiblingElement("bind-ip"))
             {
                 GetElementText(*child, ip);
-                if (std::find(ips.begin(), ips.end(), ip) == ips.end())
+                if (std::ranges::find(ips, ip) == ips.end())
                     ips.push_back(ip);
             }
         }
@@ -287,68 +285,65 @@ namespace teamtalk{
     bool ServerXML::SetHostTcpPort(int nHostTcpPort)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "tcpport", nHostTcpPort);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
-    int ServerXML::GetHostTcpPort()
+    int ServerXML::GetHostTcpPort(int defaultValue)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
-            int nValue = UNDEFINED;
+            int nValue = defaultValue;
             GetInteger(*parent, "tcpport", nValue);
             return nValue;
         }
-        return UNDEFINED;
+        return defaultValue;
     }
 
     bool ServerXML::SetHostUdpPort(int nUdpPort)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "udpport", nUdpPort);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
-    int ServerXML::GetHostUdpPort()
+    int ServerXML::GetHostUdpPort(int defaultValue)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
-            int nValue = UNDEFINED;
+            int nValue = defaultValue;
             GetInteger(*parent, "udpport", nValue);
             return nValue;
         }
-        return UNDEFINED;
+        return defaultValue;
     }
 
     bool ServerXML::SetMaxUsers(int nMax)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "max-users", nMax);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
-    int ServerXML::GetMaxUsers()
+    int ServerXML::GetMaxUsers(int defaultValue)
     {
-        int nValue = UNDEFINED;
+        int nValue = defaultValue;
         TiXmlElement* hosting = GetGeneralElement();
-        if(hosting)
+        if(hosting != nullptr)
             GetInteger(*hosting, "max-users", nValue);
         return nValue;
     }
@@ -356,20 +351,19 @@ namespace teamtalk{
     bool ServerXML::SetVoiceLogging(bool enable)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutBoolean(*parent, "voice-logging", enable);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     bool ServerXML::GetVoiceLogging()
     {
         bool enabled = false;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetBoolean(*parent, "voice-logging", enabled);
         return enabled;
     }
@@ -377,20 +371,19 @@ namespace teamtalk{
     bool ServerXML::SetCertificateFile(const std::string& certfile)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutString(*parent, "certificate-file", certfile);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     std::string ServerXML::GetCertificateFile()
     {
         string s;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetString(*parent, "certificate-file", s);
         return s;
     }
@@ -398,20 +391,19 @@ namespace teamtalk{
     bool ServerXML::SetPrivateKeyFile(const std::string& keyfile)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutString(*parent, "privatekey-file", keyfile);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     std::string ServerXML::GetPrivateKeyFile()
     {
         string s;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetString(*parent, "privatekey-file", s);
         return s;
     }
@@ -461,7 +453,7 @@ namespace teamtalk{
         SetValue("general/trusted-certificate/verify-depth", depth);
     }
 
-    bool ServerXML::GetCertificateVerifyDepth(int defvalue)
+    int ServerXML::GetCertificateVerifyDepth(int defvalue)
     {
         return GetValue(true, "general/trusted-certificate/verify-depth", defvalue);
     }
@@ -469,20 +461,19 @@ namespace teamtalk{
     bool ServerXML::SetAutoSave(bool enable)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutBoolean(*parent, "auto-save", enable);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     bool ServerXML::GetAutoSave()
     {
         bool enabled = true;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetBoolean(*parent, "auto-save", enabled);
         return enabled;
     }
@@ -490,20 +481,19 @@ namespace teamtalk{
     bool ServerXML::SetMaxLoginAttempts(int nMax)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "login-attempts", nMax);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetMaxLoginAttempts()
     {
         int nValue = 0;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "login-attempts", nValue);
         return nValue;
     }
@@ -511,20 +501,19 @@ namespace teamtalk{
     bool ServerXML::SetMaxLoginsPerIP(int max_ip_logins)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "max-logins-per-ipaddr", max_ip_logins);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetMaxLoginsPerIP()
     {
         int nValue = 0;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "max-logins-per-ipaddr", nValue);
         return nValue;
     }
@@ -532,20 +521,19 @@ namespace teamtalk{
     bool ServerXML::SetLoginDelay(int delaymsec)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "login-delay-msec", delaymsec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetLoginDelay()
     {
         int nValue = 0;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "login-delay-msec", nValue);
         return nValue;
     }
@@ -553,20 +541,19 @@ namespace teamtalk{
     bool ServerXML::SetUserTimeout(int nTimeoutSec)
     {
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "user-timeout", nTimeoutSec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetUserTimeout()
     {
         int val = USER_TIMEOUT;
         TiXmlElement* parent = GetGeneralElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "user-timeout", val);
         return val;
     }
@@ -574,20 +561,19 @@ namespace teamtalk{
     bool ServerXML::SetVoiceTxLimit(int tx_bytes_per_sec)
     {
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "voicetx-limit", tx_bytes_per_sec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetVoiceTxLimit()
     {
         int val = 0;
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "voicetx-limit", val);
         return val;
     }
@@ -595,20 +581,19 @@ namespace teamtalk{
     bool ServerXML::SetVideoCaptureTxLimit(int tx_bytes_per_sec)
     {
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "vidcaptx-limit", tx_bytes_per_sec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetVideoCaptureTxLimit()
     {
         int val = 0;
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "vidcaptx-limit", val);
         return val;
     }
@@ -616,20 +601,19 @@ namespace teamtalk{
     bool ServerXML::SetMediaFileTxLimit(int tx_bytes_per_sec)
     {
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "mediafiletx-limit", tx_bytes_per_sec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetMediaFileTxLimit()
     {
         int val = 0;
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "mediafiletx-limit", val);
         return val;
     }
@@ -637,20 +621,19 @@ namespace teamtalk{
     bool ServerXML::SetDesktopTxLimit(int tx_bytes_per_sec)
     {
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "desktoptx-limit", tx_bytes_per_sec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetDesktopTxLimit()
     {
         int val = 0;
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "desktoptx-limit", val);
         return val;
     }
@@ -658,20 +641,19 @@ namespace teamtalk{
     bool ServerXML::SetTotalTxLimit(int tx_bytes_per_sec)
     {
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
         {
             PutInteger(*parent, "totaltx-limit", tx_bytes_per_sec);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int ServerXML::GetTotalTxLimit()
     {
         int val = 0;
         TiXmlElement* parent = GetBandwidthLimitElement();
-        if(parent)
+        if(parent != nullptr)
             GetInteger(*parent, "totaltx-limit", val);
         return val;
     }
@@ -683,20 +665,19 @@ namespace teamtalk{
     bool ServerXML::SetServerLogMaxSize(int64_t maxsize)
     {
         TiXmlElement* pParent = GetLoggingElement();
-        if(pParent)
+        if(pParent != nullptr)
         {
             PutInteger(*pParent, "server-log-maxsize", maxsize);
             return true;
         }
-        else
-            return false;
+        return false;
     }
 
     int64_t ServerXML::GetServerLogMaxSize()
     {
         int64_t nValue = 0;
         TiXmlElement* hosting = GetLoggingElement();
-        if(hosting)
+        if(hosting != nullptr)
             GetInteger(*hosting, "server-log-maxsize", nValue);
         return nValue;
     }
@@ -715,7 +696,7 @@ namespace teamtalk{
     bool ServerXML::SetMaxDiskUsage(int64_t diskquota)
     {
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
         {
             PutInteger(*child, "max-diskusage", diskquota);
             return true;
@@ -727,7 +708,7 @@ namespace teamtalk{
     {
         int64_t ret = 0;
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
             GetInteger(*child, "max-diskusage", ret);
         return ret;
     }
@@ -735,7 +716,7 @@ namespace teamtalk{
     bool ServerXML::SetDefaultDiskQuota(int64_t diskquota)
     {
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
         {
             PutInteger(*child, "channel-diskquota", diskquota);
             return true;
@@ -747,7 +728,7 @@ namespace teamtalk{
     {
         int64_t ret = 0;
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
             GetInteger(*child, "channel-diskquota", ret);
         return ret;
     }
@@ -755,7 +736,7 @@ namespace teamtalk{
     bool ServerXML::SetFilesRoot(const std::string& filesroot)
     {
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
         {
             PutString(*child, "files-root", filesroot);
             return true;
@@ -767,7 +748,7 @@ namespace teamtalk{
     {
         string ret;
         TiXmlElement* child = GetFileStorageElement();
-        if(child)
+        if(child != nullptr)
             GetString(*child, "files-root", ret);
         return ret;
     }
@@ -777,20 +758,20 @@ namespace teamtalk{
 
     bool ServerXML::SetStaticChannels(const statchannels_t& channels)
     {
-        int nChannelID = GetRootChannelID(channels);
+        int const nChannelID = GetRootChannelID(channels);
         if(nChannelID > 0)
         {
             TiXmlElement set("permanent-channels");
             std::stack< ChannelProp > chanStack;
             std::stack< TiXmlElement* > xmlStack;
 
-            statchannels_t::const_iterator ite = channels.find(nChannelID);
+            auto ite = channels.find(nChannelID);
             assert(ite != channels.end());
             ChannelProp chan = ite->second;
             chanStack.push(chan);
             xmlStack.push(&set);
 
-            while(chanStack.size()>0)
+            while(!chanStack.empty())
             {
                 chan = chanStack.top();
                 chanStack.pop();
@@ -801,7 +782,7 @@ namespace teamtalk{
 
                 //put comment with channel path
                 TiXmlComment comment;
-                string chpath = " Channel path: " + GetChannelPath(chan.channelid, channels) + " ";
+                string const chpath = " Channel path: " + GetChannelPath(chan.channelid, channels) + " ";
                 comment.SetValue(chpath.c_str());
                 xmlChan.InsertEndChild(comment);
 
@@ -867,41 +848,41 @@ namespace teamtalk{
 
                 TiXmlElement txusersElement("transmit-users");
                 PutBoolean(txusersElement, "channelmsg-tx-all",
-                           chan.transmitusers[STREAMTYPE_CHANNELMSG].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_CHANNELMSG].end());
+                           chan.transmitusers[STREAMTYPE_CHANNELMSG].contains(TRANSMITUSERS_FREEFORALL));
                 PutBoolean(txusersElement, "voice-tx-all",
-                           chan.transmitusers[STREAMTYPE_VOICE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_VOICE].end());
+                           chan.transmitusers[STREAMTYPE_VOICE].contains(TRANSMITUSERS_FREEFORALL));
                 PutBoolean(txusersElement, "videocapture-tx-all",
-                           chan.transmitusers[STREAMTYPE_VIDEOCAPTURE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_VIDEOCAPTURE].end());
+                           chan.transmitusers[STREAMTYPE_VIDEOCAPTURE].contains(TRANSMITUSERS_FREEFORALL));
                 PutBoolean(txusersElement, "mediafile-tx-all",
-                           chan.transmitusers[STREAMTYPE_MEDIAFILE].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_MEDIAFILE].end());
+                           chan.transmitusers[STREAMTYPE_MEDIAFILE].contains(TRANSMITUSERS_FREEFORALL));
                 PutBoolean(txusersElement, "desktopshare-tx-all",
-                           chan.transmitusers[STREAMTYPE_DESKTOP].find(TRANSMITUSERS_FREEFORALL) != chan.transmitusers[STREAMTYPE_DESKTOP].end());
+                           chan.transmitusers[STREAMTYPE_DESKTOP].contains(TRANSMITUSERS_FREEFORALL));
                 ReplaceElement(xmlChan, txusersElement);
 
                 //save channel files
                 TiXmlElement filesElement("files");
-                if(chan.files.size())
+                if(!chan.files.empty())
                 {
-                    for(size_t i=0;i<chan.files.size();i++)
+                    for(auto & file : chan.files)
                     {
                         TiXmlElement fileElement("file");
-                        fileElement.SetAttribute("name", UnicodeToUtf8(chan.files[i].filename).c_str());
-                        PutString(fileElement, "internalname", UnicodeToUtf8(chan.files[i].internalname).c_str());
-                        PutInteger(fileElement, "filesize", (int64_t)chan.files[i].filesize);
-                        PutString(fileElement, "username", UnicodeToUtf8(chan.files[i].username).c_str());
-                        PutString(fileElement, "uploadtime", DateToString(chan.files[i].uploadtime.sec()));
+                        fileElement.SetAttribute("name", UnicodeToUtf8(file.filename).c_str());
+                        PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname).c_str());
+                        PutInteger(fileElement, "filesize", (int64_t)file.filesize);
+                        PutString(fileElement, "username", UnicodeToUtf8(file.username).c_str());
+                        PutString(fileElement, "uploadtime", DateToString(file.uploadtime.sec()));
                         ReplaceElement(filesElement, fileElement);
                     }
                 }
                 ReplaceElement(xmlChan, filesElement);
 
                 TiXmlElement bansElement("channelbans");
-                if(chan.bans.size())
+                if(!chan.bans.empty())
                 {
-                    for(size_t i=0;i<chan.bans.size();i++)
+                    for(const auto & ban : chan.bans)
                     {
                         TiXmlElement banElement("channelban");
-                        NewUserBan(banElement, chan.bans[i]);
+                        NewUserBan(banElement, ban);
                         AppendElement(bansElement, banElement);
                     }
                 }
@@ -928,7 +909,7 @@ namespace teamtalk{
     bool ServerXML::GetStaticChannels(statchannels_t& channels)
     {
         TiXmlElement* root = GetRootElement();
-        if(!root)
+        if(root == nullptr)
             return false;
 
         //create void channel
@@ -937,7 +918,7 @@ namespace teamtalk{
         parent.channelid = 0;
 
         TiXmlElement* pStatic = root->FirstChildElement("permanent-channels");
-        if(!pStatic)
+        if(pStatic == nullptr)
             return false;
 
         std::stack<TiXmlElement*> xmlStack;
@@ -945,16 +926,16 @@ namespace teamtalk{
         std::stack< ChannelProp > chanStack;
         chanStack.push(parent);
 
-        while(xmlStack.size()>0)
+        while(!xmlStack.empty())
         {
             TiXmlElement* item = xmlStack.top();
             xmlStack.pop();
             parent = chanStack.top();
             chanStack.pop();
 
-            TiXmlElement* child = NULL;
+            TiXmlElement* child = nullptr;
             for(child = item->FirstChildElement("channel");
-                child;
+                child != nullptr;
                 child = child->NextSiblingElement("channel"))
             {
                 string value;
@@ -962,7 +943,7 @@ namespace teamtalk{
                 ChannelProp newchan;
                 GetInteger(*child, "channel-id", newchan.channelid);
                 //if channel id is already in use we need to generate a new one
-                while(channels.find(newchan.channelid) != channels.end())newchan.channelid++;
+                while(channels.contains(newchan.channelid))newchan.channelid++;
                 if(child->Parent() != pStatic)
                     GetString(*child, "name", value); //make sure we don't give the root a name
                 newchan.name = Utf8ToUnicode(value.c_str());
@@ -985,7 +966,7 @@ namespace teamtalk{
                 //get codec
 
                 TiXmlElement* codecElement = child->FirstChildElement("audio-codec");
-                if(codecElement)
+                if(codecElement != nullptr)
                 {
                     int codec = CODEC_NO_CODEC;
                     GetInteger(*codecElement, "codec-type", codec);
@@ -1032,7 +1013,7 @@ namespace teamtalk{
                 }
 
                 TiXmlElement* audcfgElement = child->FirstChildElement("audio-config");
-                if(audcfgElement)
+                if(audcfgElement != nullptr)
                 {
                     GetBoolean(*audcfgElement, "enable-agc", newchan.audiocfg.enable_agc);
                     GetInteger(*audcfgElement, "gain-level", newchan.audiocfg.gain_level);
@@ -1041,7 +1022,7 @@ namespace teamtalk{
                 //get class-room free-for-all
                 bool b = false;
                 TiXmlElement* txusersElement = child->FirstChildElement("transmit-users");
-                if(txusersElement)
+                if(txusersElement != nullptr)
                 {
                     if (GetBoolean(*txusersElement, "channelmsg-tx-all", b) && b)
                         newchan.transmitusers[STREAMTYPE_CHANNELMSG].insert(TRANSMITUSERS_FREEFORALL);
@@ -1057,11 +1038,11 @@ namespace teamtalk{
 
                 //get files
                 TiXmlElement* files = child->FirstChildElement("files");
-                if(files)
+                if(files != nullptr)
                 {
-                    TiXmlElement* nextfile = NULL;
+                    TiXmlElement* nextfile = nullptr;
                     for(nextfile=files->FirstChildElement("file");
-                        nextfile && files;
+                        (nextfile != nullptr) && (files != nullptr);
                         nextfile=nextfile->NextSiblingElement("file"))
                     {
                         RemoteFile entry;
@@ -1080,11 +1061,11 @@ namespace teamtalk{
                 }
 
                 TiXmlElement* bans = child->FirstChildElement("channelbans");
-                if(bans)
+                if(bans != nullptr)
                 {
-                    TiXmlElement* nextban = NULL;
+                    TiXmlElement* nextban = nullptr;
                     for(nextban=bans->FirstChildElement("channelban");
-                        nextban;
+                        nextban != nullptr;
                         nextban=nextban->NextSiblingElement("channelban"))
                     {
                         BannedUser ban;
@@ -1109,13 +1090,13 @@ namespace teamtalk{
     {
         vector<std::string> ips;
         TiXmlElement* parent = GetRootElement();
-        if(parent)
+        if(parent != nullptr)
         {
             TiXmlElement* admins = parent->FirstChildElement("admin-access");
-            if(admins)
+            if(admins != nullptr)
             {
                 for(TiXmlElement* ip=admins->FirstChildElement("ip");
-                    ip; ip = ip->NextSiblingElement("ip"))
+                    ip != nullptr; ip = ip->NextSiblingElement("ip"))
                 {
                     string ipStr;
                     GetElementText(*ip, ipStr);
@@ -1137,22 +1118,23 @@ namespace teamtalk{
 
         TiXmlElement element("serverban");
         NewUserBan(element, ban);
-        if(parent)
+        if(parent != nullptr)
             AppendElement(*parent, element);
     }
 
     bool ServerXML::RemoveUserBan(const BannedUser& ban)
     {
-        int i = 0, c = GetUserBanCount();
+        int i = 0;
+        int c = GetUserBanCount();
         BannedUser tmp;
         while(GetUserBan(i, tmp) && !tmp.Same(ban)) i++;
 
         TiXmlElement* item = GetServerBansElement();
-        if(i < c && item)
+        if(i < c && (item != nullptr))
         {
             int e = 0;
             for(TiXmlElement* child = item->FirstChildElement("serverban");
-                child; child = child->NextSiblingElement("serverban"))
+                child != nullptr; child = child->NextSiblingElement("serverban"))
             {
                 if (i == e++)
                 {
@@ -1167,11 +1149,11 @@ namespace teamtalk{
     bool ServerXML::GetUserBan(int index, BannedUser& ban)
     {
         TiXmlElement* item = GetServerBansElement();
-        if(item)
+        if(item != nullptr)
         {
             int i = 0;
             for(TiXmlElement* child = item->FirstChildElement("serverban");
-                child;
+                child != nullptr;
                 child = child->NextSiblingElement("serverban"))
             {
                 if(i == index)
@@ -1187,8 +1169,8 @@ namespace teamtalk{
     bool ServerXML::GetUserBan(const TiXmlElement& banElement, BannedUser& ban)
     {
         string tmp;
-        if(banElement.Attribute("type"))
-            ban.bantype = BanType(str2i(banElement.Attribute("type")));
+        if(banElement.Attribute("type") != nullptr)
+            ban.bantype = BanType(std::stoi(banElement.Attribute("type")));
         else
             ban.bantype = BANTYPE_DEFAULT;
 
@@ -1205,7 +1187,7 @@ namespace teamtalk{
         ban.chanpath = Utf8ToUnicode(tmp.c_str());
         tmp.clear();
         if(!GetString(banElement, "ip-address", tmp) &&
-           banElement.Attribute("address"))
+           (banElement.Attribute("address") != nullptr))
             tmp = banElement.Attribute("address"); // pre XML v5.1
         ban.ipaddr = Utf8ToUnicode(tmp.c_str());
         tmp.clear();
@@ -1216,9 +1198,9 @@ namespace teamtalk{
     
     void ServerXML::NewUserBan(TiXmlElement& banElement, const BannedUser& ban)
     {
-        banElement.SetAttribute("type", i2str(ban.bantype).c_str());
+        banElement.SetAttribute("type", std::to_string(ban.bantype).c_str());
 
-        PutString(banElement, "bantime", DateToString(ban.bantime.sec()).c_str());
+        PutString(banElement, "bantime", DateToString(ban.bantime.sec()));
         PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr).c_str());
         PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname).c_str());
         PutString(banElement, "username", UnicodeToUtf8(ban.username).c_str());
@@ -1230,10 +1212,10 @@ namespace teamtalk{
     {
         int c = 0;
         TiXmlElement* item = GetServerBansElement();
-        if(item)
+        if(item != nullptr)
         {
             for(TiXmlElement* child = item->FirstChildElement("serverban");
-                child;
+                child != nullptr;
                 child = child->NextSiblingElement("serverban"))
             {
                 c++;
@@ -1245,10 +1227,10 @@ namespace teamtalk{
     bool ServerXML::IsUserBanned(const BannedUser& ban)
     {
         TiXmlElement* item = GetServerBansElement();
-        if (item)
+        if (item != nullptr)
         {
             for(TiXmlElement* child = item->FirstChildElement("serverban");
-                 child;
+                 child != nullptr;
                  child = child->NextSiblingElement("serverban"))
             {
                 BannedUser tmp;
@@ -1262,7 +1244,7 @@ namespace teamtalk{
     void ServerXML::ClearUserBans()
     {
         TiXmlElement* item = GetServerBansElement();
-        if(item)
+        if(item != nullptr)
             item->Clear();
     }
 
@@ -1270,10 +1252,10 @@ namespace teamtalk{
     {
         std::vector<BannedUser> result;
         TiXmlElement* item = GetServerBansElement();
-        if (item)
+        if (item != nullptr)
         {
             for(TiXmlElement* child = item->FirstChildElement("serverban");
-                 child;
+                 child != nullptr;
                  child = child->NextSiblingElement("serverban"))
             {
                 BannedUser tmp;
@@ -1298,7 +1280,7 @@ namespace teamtalk{
     {
         username = GetValue(true, "bearware-weblogin/bearwareid", "");
         token = GetValue(true, "bearware-weblogin/bearwaretoken", "");
-        return username.size() && token.size();
+        return (!username.empty()) && (!token.empty());
     }
     /******** </bearware-weblogin> *********/
 
@@ -1306,7 +1288,7 @@ namespace teamtalk{
     void ServerXML::AddNewUser(const UserAccount& user)
     {
         TiXmlElement* users = GetUsersElement();
-        if(!users)
+        if(users == nullptr)
             return;
 
         TiXmlElement userElement("user");
@@ -1317,14 +1299,13 @@ namespace teamtalk{
         PutString(userElement, "note", UnicodeToUtf8(user.note).c_str());
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel).c_str());
-        PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()).c_str());
-        PutString(userElement, "last-login-time", DateToString(user.lastlogin.sec()).c_str());
+        PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()));
+        PutString(userElement, "last-login-time", DateToString(user.lastlogin.sec()));
         TiXmlElement opchanElement("channel-operator");
-        for(intset_t::const_iterator i=user.auto_op_channels.begin();
-            i!=user.auto_op_channels.end();i++)
+        for(int auto_op_channel : user.auto_op_channels)
         {
             TiXmlElement chanElement("channel");
-            PutElementText(chanElement, i2str(*i));
+            PutElementText(chanElement, std::to_string(auto_op_channel));
             AppendElement(opchanElement, chanElement);
         }
         PutInteger(userElement, "audiocodec-bps-limit", user.audiobpslimit);
@@ -1342,10 +1323,10 @@ namespace teamtalk{
     bool ServerXML::RemoveUser(const std::string& username)
     {
         TiXmlElement* users = GetUsersElement();
-        if(!users)
+        if(users == nullptr)
             return false;
         TiXmlElement* userElement = users->FirstChildElement("user");
-        while(userElement)
+        while(userElement != nullptr)
         {
             string tmp;
             GetString(*userElement, "username", tmp);
@@ -1362,12 +1343,12 @@ namespace teamtalk{
     bool ServerXML::GetNextUser(int index, UserAccount& user)
     {
         TiXmlElement* users = GetUsersElement();
-        if(!users)
+        if(users == nullptr)
             return false;
         TiXmlElement* userElement = users->FirstChildElement("user");
-        while(userElement && index-- > 0)
+        while((userElement != nullptr) && index-- > 0)
             userElement = userElement->NextSiblingElement("user");
-        if(userElement)
+        if(userElement != nullptr)
             return GetUser(*userElement, user);
         return false;
     }
@@ -1375,8 +1356,15 @@ namespace teamtalk{
     bool ServerXML::GetUser(const TiXmlElement& userElement, UserAccount& user) const
     {
         bool b = true;
-        string s1,s2, s3, s4, tmp;
-        int user_type = 0, userdata = 0, userrights = USERRIGHT_NONE, bpslimit = 0;
+        string s1;
+        string s2;
+        string s3;
+        string s4;
+        string tmp;
+        int user_type = 0;
+        int userdata = 0;
+        int userrights = USERRIGHT_NONE;
+        int bpslimit = 0;
         b &= GetString(userElement, "username", s1);
         b &= GetString(userElement, "password", s2);
         b &= GetInteger(userElement, "user-type", user_type);
@@ -1405,20 +1393,20 @@ namespace teamtalk{
 
         //enumerate auto-op channels
         const TiXmlElement* opchanElement = userElement.FirstChildElement("channel-operator");
-        if(opchanElement)
+        if(opchanElement != nullptr)
         {
             opchanElement = opchanElement->FirstChildElement("channel");
-            while(opchanElement)
+            while(opchanElement != nullptr)
             {
                 string channel;
                 GetElementText(*opchanElement, channel);
-                user.auto_op_channels.insert(int(str2i(channel)));
+                user.auto_op_channels.insert(stoi(channel));
                 opchanElement = opchanElement->NextSiblingElement("channel");
             }
         }
 
         const TiXmlElement* abuseElement = userElement.FirstChildElement("abuse-prevention");
-        if(abuseElement)
+        if(abuseElement != nullptr)
         {
             GetInteger(*abuseElement, "commands-limit", user.abuse.n_cmds);
             GetInteger(*abuseElement, "commands-interval-msec", user.abuse.cmd_msec);
@@ -1430,10 +1418,10 @@ namespace teamtalk{
 
     bool ServerXML::AuthenticateUser(UserAccount& user)
     {
-        int i = 0;
+        int const i = 0;
         UserAccount int_user;
         TiXmlElement* userElement = GetUser(UnicodeToUtf8(user.username).c_str());
-        if(!userElement)
+        if(userElement == nullptr)
             return false;
         if(!GetUser(*userElement, int_user))
             return false;
@@ -1454,11 +1442,11 @@ namespace teamtalk{
     TiXmlElement* ServerXML::GetUser(const std::string& username)
     {
         TiXmlElement* users = GetUsersElement();
-        if(!users)
-            return NULL;
+        if(users == nullptr)
+            return nullptr;
 
         TiXmlElement* userElement = users->FirstChildElement("user");
-        while(userElement)
+        while(userElement != nullptr)
         {
             string tmp;
             GetString(*userElement, "username", tmp);
@@ -1466,7 +1454,7 @@ namespace teamtalk{
                 return userElement;
             userElement = userElement->NextSiblingElement("user");
         }
-        return NULL;
+        return nullptr;
     }
 
     bool ServerXML::GetUser(const std::string& username, UserAccount& user)
@@ -1501,7 +1489,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     UserAccount currentUser;
     while (GetNextUser(userIndex++, currentUser))
     {
-        if (currentUser.auto_op_channels.count(deletedChannelID))
+        if (currentUser.auto_op_channels.contains(deletedChannelID) != 0u)
         {
             currentUser.auto_op_channels.erase(deletedChannelID);
             usersToModify.push_back(currentUser);
@@ -1515,7 +1503,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         AddNewUser(userAcc);
     }
 
-    return usersToModify.size();
+    return !usersToModify.empty();
 }
 
     /******* </users> ******/
@@ -1524,13 +1512,13 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     TiXmlElement* ServerXML::GetChannelElement(const std::string& chpath)
     {
         TiXmlElement* pElement = GetRootElement();
-        if(!pElement)
-            return NULL;
+        if (pElement == nullptr)
+            return nullptr;
         pElement = pElement->FirstChildElement("permanent-channels");
-        if(!pElement)
-            return NULL;
-        stdstrings_t tokens = stdtokenize(chpath, "/");
-        while(pElement && tokens.size())
+        if (pElement == nullptr)
+            return nullptr;
+        stdstrings_t tokens = StringTokenize(chpath, "/");
+        while ((pElement != nullptr) && (!tokens.empty()))
         {
             pElement = pElement->FirstChildElement("channel");
             string val;
@@ -1574,7 +1562,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         std::vector<string> names;
         while(nCurChanID != 0)
         {
-            statchannels_t::const_iterator ite = channels.find(nCurChanID);
+            auto const ite = channels.find(nCurChanID);
             if(ite == channels.end())
             {
                 assert(0);
@@ -1585,8 +1573,8 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
             nCurChanID = ite->second.parentid;
         }
 
-        for(size_t i=0;i<names.size();i++)
-            szPath += names[i] + "/";
+        for(const auto & name : names)
+            szPath += name + "/";
 
         return szPath;
     }
@@ -1599,21 +1587,21 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         return buff;
     }
 
-    time_t StringToDate(std::string date)
+    time_t StringToDate(const std::string& date)
     {
         tm t = {};
-        stdstrings_t tokens = stdtokenize(date, "/ :");
+        stdstrings_t tokens = StringTokenize(date, "/ :");
         if(tokens.size() == 5)
         {
             t.tm_isdst = -1;
-            t.tm_year = int(str2i(tokens[0])-1900);
-            t.tm_mon = int(str2i(tokens[1])-1);
-            t.tm_mday = int(str2i(tokens[2]));
-            t.tm_hour = int(str2i(tokens[3]));
-            t.tm_min = int(str2i(tokens[4]));
+            t.tm_year = std::stoi(tokens[0])-1900;
+            t.tm_mon = std::stoi(tokens[1])-1;
+            t.tm_mday = std::stoi(tokens[2]);
+            t.tm_hour = std::stoi(tokens[3]);
+            t.tm_min = std::stoi(tokens[4]);
             return std::mktime(&t);
         }
         return 0;
     }
 
-}
+} // namespace teamtalk

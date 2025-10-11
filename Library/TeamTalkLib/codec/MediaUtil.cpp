@@ -22,12 +22,14 @@
  */
 
 #include "MediaUtil.h"
-#include <assert.h>
 
-#define _USE_MATH_DEFINES
-#include <math.h>
+#include <ace/Message_Block.h>
+#include <ace/OS_Memory.h>
 
-#include <cstring>
+#include <algorithm>
+#include <cassert>
+#include <cmath>
+#include <numbers>
 
 namespace media {
 
@@ -56,7 +58,7 @@ namespace media {
                  gain.numerator, gain.denominator);
         gain = Rational(1, 1);
     }    
-}
+} // namespace media
 
 void SplitStereo(const short* input_buffer, int input_samples,
                  std::vector<short>& left_chan, std::vector<short>& right_chan)
@@ -67,7 +69,7 @@ void SplitStereo(const short* input_buffer, int input_samples,
     for(int i=0;i<input_samples;i++)
         left_chan[i] = input_buffer[i*2];
     for(int i=0;i<input_samples;i++)
-        right_chan[i] = input_buffer[i*2+1];
+        right_chan[i] = input_buffer[(i*2)+1];
 }
 
 void MergeStereo(const std::vector<short>& left_chan, 
@@ -77,7 +79,7 @@ void MergeStereo(const std::vector<short>& left_chan,
     for(int i=0;i<output_samples;i++)
         output_buffer[i*2] = left_chan[i];
     for(int i=0;i<output_samples;i++)
-        output_buffer[i*2+1] = right_chan[i];
+        output_buffer[(i*2)+1] = right_chan[i];
 }
 
 void SelectStereo(StereoMask stereo, short* buffer, int samples)
@@ -87,15 +89,15 @@ void SelectStereo(StereoMask stereo, short* buffer, int samples)
     case STEREO_BOTH:
         break;
     case STEREO_LEFT:
-        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+        for(int i = (2 * samples) - 2; i >= 0; i -= 2)
             buffer[i + 1] = 0;
         break;
     case STEREO_RIGHT:
-        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+        for(int i = (2 * samples) - 2; i >= 0; i -= 2)
             buffer[i] = 0;
         break;
     case STEREO_NONE:
-        for(int i = 2 * samples - 2; i >= 0; i -= 2)
+        for(int i = (2 * samples) - 2; i >= 0; i -= 2)
         {
             buffer[i] = 0;
             buffer[i + 1] = 0;
@@ -119,10 +121,10 @@ ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
 {
     assert(frm.frame_length);
     
-    ACE_Message_Block* mb;
+    ACE_Message_Block* mb = nullptr;
     ACE_NEW_RETURN(mb, 
                    ACE_Message_Block(frm.frame_length+sizeof(frm), mb_type), 
-                   NULL);
+                   nullptr);
     frm.frame = &mb->rd_ptr()[sizeof(frm)];
     mb->copy(reinterpret_cast<const char*> (&frm), sizeof(frm));
     return mb;
@@ -134,8 +136,8 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
     assert(frm.frame);
     assert(frm.frame_length);
     media::VideoFrame tmp = frm;
-    ACE_Message_Block* mb;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(tmp)+frm.frame_length, mb_type), NULL);
+    ACE_Message_Block* mb = nullptr;
+    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(tmp)+frm.frame_length, mb_type), nullptr);
     tmp.frame = &mb->rd_ptr()[sizeof(tmp)];
 
     int ret = mb->copy(reinterpret_cast<const char*>(&tmp), sizeof(tmp));
@@ -147,16 +149,16 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
 
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 {
-    media::VideoFrame* frm = reinterpret_cast<media::VideoFrame*>(mb->base());
+    auto* frm = reinterpret_cast<media::VideoFrame*>(mb->base());
     return frm;
 }
 
 ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
 {
-    ACE_Message_Block* mb;
-    int frame_bytes = sizeof(frame);
-    int input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
-    int output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
+    ACE_Message_Block* mb = nullptr;
+    int const frame_bytes = sizeof(frame);
+    int const input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+    int const output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
 
     //assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
     //assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
@@ -165,12 +167,12 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool ski
 
     //assign pointers to inside ACE_Message_Block
     media::AudioFrame copy_frame = frame;
-    if (input_bytes)
+    if (input_bytes != 0)
         copy_frame.input_buffer = reinterpret_cast<short*>(mb->rd_ptr() + frame_bytes);
-    if (output_bytes)
+    if (output_bytes != 0)
         copy_frame.output_buffer = reinterpret_cast<short*>(mb->rd_ptr() + (frame_bytes + input_bytes));
 
-    int ret;
+    int ret = 0;
 
     ret = mb->copy(reinterpret_cast<const char*>(&copy_frame), frame_bytes);
     assert(ret >= 0);
@@ -193,21 +195,22 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool ski
 
 media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)
 {
-    media::AudioFrame* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
+    auto* frm = reinterpret_cast<media::AudioFrame*>(mb->base());
     return frm;
 }
 
 ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
 {
-    assert(mbs.size());
+    assert(!mbs.empty());
 
     const int IN_CHANNELS = media::AudioFrame(mbs[0]).inputfmt.channels;
     // const int OUT_CHANNELS = media::AudioFrame(mbs[0]).outputfmt.channels;
 
-    int64_t in_samples = 0, out_samples = 0;
-    for (auto mb : mbs)
+    int64_t in_samples = 0;
+    int64_t out_samples = 0;
+    for (auto *mb : mbs)
     {
-        media::AudioFrame frm(mb);
+        media::AudioFrame const frm(mb);
         assert(frm.inputfmt == media::AudioFrame(mbs[0]).inputfmt);
         assert(frm.outputfmt == media::AudioFrame(mbs[0]).outputfmt);
         in_samples += frm.input_samples;
@@ -226,10 +229,10 @@ ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
     frm = media::AudioFrame(mb);
 
     int in_copied = 0;
-    for (auto m : mbs)
+    for (auto *m : mbs)
     {
-        media::AudioFrame newfrm(m);
-        size_t bytes = PCM16_BYTES(newfrm.input_samples, IN_CHANNELS);
+        media::AudioFrame const newfrm(m);
+        size_t const bytes = PCM16_BYTES(newfrm.input_samples, IN_CHANNELS);
         std::memcpy(&frm.input_buffer[in_copied * IN_CHANNELS], newfrm.input_buffer, bytes);
         in_copied += newfrm.input_samples;
         mb->wr_ptr(bytes);
@@ -252,9 +255,9 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
 
     // check that there's enough samples to build an AudioFrame
     int samples = 0;
-    for (auto mb : mbs)
+    for (auto *mb : mbs)
     {
-        media::AudioFrame frm(mb);
+        media::AudioFrame const frm(mb);
         assert(frm.input_samples == 0 || frm.inputfmt == fmt);
         samples += frm.input_samples;
         if (frm.input_samples == 0 || samples >= samples_out)
@@ -271,12 +274,12 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
     media::AudioFrame muxfrm(mbs[0]);
     muxfrm.input_samples = 0;
     std::vector<short> buffer(TOTALSAMPLES, 0);
-    muxfrm.input_buffer = &buffer[0];
+    muxfrm.input_buffer = buffer.data();
 
     while (muxfrm.input_samples < samples_out)
     {
-        assert(mbs.size());
-        media::AudioFrame frm(mbs[0]);
+        assert(!mbs.empty());
+        media::AudioFrame const frm(mbs[0]);
         // exit if terminator
         if (frm.input_samples == 0)
         {
@@ -286,8 +289,8 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
             break;
         }
 
-        int copied = std::min(samples_out - muxfrm.input_samples, frm.input_samples);
-        size_t bytes = PCM16_BYTES(copied, fmt.channels);
+        int const copied = std::min(samples_out - muxfrm.input_samples, frm.input_samples);
+        size_t const bytes = PCM16_BYTES(copied, fmt.channels);
         std::memcpy(&muxfrm.input_buffer[muxfrm.input_samples * fmt.channels], frm.input_buffer, bytes);
         muxfrm.input_samples += copied;
 
@@ -318,8 +321,8 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
 {
     for(int i = 0; i<audblock.input_samples; i++)
     {
-        double t = (double)sample_index++ / audblock.inputfmt.samplerate;
-        int v = (int)(volume*sin((double)tone_freq * t * 2.0 * M_PI));
+        double const t = (double)sample_index++ / audblock.inputfmt.samplerate;
+        int v = (int)(volume * std::sin((double)tone_freq * t * 2.0 * std::numbers::pi));
         if(v>32767)
             v = 32767;
         else if(v < -32768)
@@ -330,7 +333,7 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
         else
         {
             audblock.input_buffer[2 * i] = mute_left ? 0 : v;
-            audblock.input_buffer[2 * i + 1] = mute_right ? 0 : v;
+            audblock.input_buffer[(2 * i) + 1] = mute_right ? 0 : v;
         }
     }
     return sample_index;

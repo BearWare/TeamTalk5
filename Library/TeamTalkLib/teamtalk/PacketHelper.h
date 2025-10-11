@@ -24,23 +24,25 @@
 #ifndef CODECHELPER_H
 #define CODECHELPER_H
 
-#include <vector>
+#include "PacketLayout.h"
+#include "Common.h"
+
+#include <ace/Time_Value.h>
+
+#include <cstdint>
+#include <set>
+#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
-
-#include <teamtalk/PacketLayout.h>
-#include <teamtalk/CodecCommon.h>
-#include <teamtalk/Common.h>
-
-#include "DesktopSession.h"
+#include <vector>
 
 namespace teamtalk {
 
     /** Audio packets **/
-    typedef std::vector<audiopacket_t> audiopackets_t;
+    using audiopackets_t = std::vector<audiopacket_t>;
     //fragno -> AudioPacket
-    typedef std::map<uint8_t, audiopacket_t> audiofragments_t;
+    using audiofragments_t = std::map<uint8_t, audiopacket_t>;
 
     audiopackets_t BuildAudioPackets(uint16_t src_userid,
                                      uint32_t time,
@@ -59,7 +61,7 @@ namespace teamtalk {
                                                    const AudioCodec& codec);
 
     /* Video packets */
-    typedef std::vector<VideoPacket*> videopackets_t;
+    using videopackets_t = std::vector<VideoPacket*>;
     videopackets_t BuildVideoPackets(uint8_t kind,
                                      uint16_t src_userid,
                                      uint32_t time,
@@ -72,19 +74,19 @@ namespace teamtalk {
                                      uint32_t enc_len);
 
     //fragno -> VideoPacket
-    typedef std::map<uint16_t, videopacket_t> video_fragments_t;
+    using video_fragments_t = std::map<uint16_t, videopacket_t>;
     bool ReassembleVideoPackets(const video_fragments_t& fragments,
                                 const VideoPacket& packet,
                                 std::vector<char>& enc_frame);
 
     /** Desktop packets **/
-    typedef std::map< uint16_t, std::vector<char> > map_blocks_t;
-    typedef std::list< desktoppacket_t > desktoppackets_t;
+    using map_blocks_t = std::map< uint16_t, std::vector<char> >;
+    using desktoppackets_t = std::list< desktoppacket_t >;
 
     //blockno -> crc32
-    typedef std::map< uint16_t, uint32_t > map_block_crc_t;
+    using map_block_crc_t = std::map< uint16_t, uint32_t >;
     //crc32 -> set(block_nums)
-    typedef std::map< uint32_t, std::set<uint16_t> > map_crc_blocks_t;
+    using map_crc_blocks_t = std::map< uint32_t, std::set<uint16_t> >;
 
     void UpdateBlocksCRC(const map_blocks_t& blocks,
                          const std::set<uint16_t>& dirty_blocks,
@@ -113,8 +115,8 @@ namespace teamtalk {
                                          const DesktopWindow& dwnd,
                                          const map_blocks_t& blocks,
                                          const map_dup_blocks_t& dup_blocks,
-                                         const std::set<uint16_t>* inc_blocks = NULL,
-                                         const std::set<uint16_t>* ignore_blocks = NULL);
+                                         const std::set<uint16_t>* inc_blocks = nullptr,
+                                         const std::set<uint16_t>* ignore_blocks = nullptr);
 
     //select desktop packets for next transmission
     int SelectDesktopBlocks(bool initial_desktoppacket, 
@@ -127,9 +129,9 @@ namespace teamtalk {
                             uint16_t max_payload_size);
 
     //fragno -> desktoppacket_t
-    typedef std::map<uint8_t, desktoppacket_t> map_frag_desktoppacket_t;
+    using map_frag_desktoppacket_t = std::map<uint8_t, desktoppacket_t>;
     //blockno -> fragments
-    typedef std::map<uint16_t, map_frag_desktoppacket_t> map_desktoppacket_t;
+    using map_desktoppacket_t = std::map<uint16_t, map_frag_desktoppacket_t>;
     //reassemble blocks from fragments
     void ReassembleDesktopBlocks(map_desktoppacket_t& frag_packets,
                                  map_blocks_t& blocks);
@@ -180,23 +182,23 @@ namespace teamtalk {
         uint32_t m_update_timeid = 0;
 
         //packet id -> packet
-        typedef std::map<uint16_t, desktoppacket_t> map_desktop_packets_t;
+        using map_desktop_packets_t = std::map<uint16_t, desktoppacket_t>;
         //packets 'on the wire'
         map_desktop_packets_t m_sent_pkts;
         //packets queued for transmission (not yet sent)
         map_desktop_packets_t m_queued_pkts;
         //packet id -> acked lost count
-        typedef std::map<uint16_t, int> map_acked_missing_t;
+        using map_acked_missing_t = std::map<uint16_t, int>;
         map_acked_missing_t m_acked_missing;
         //packet id -> sent time
-        typedef std::map<uint16_t, uint32_t> map_sent_time_t;
+        using map_sent_time_t = std::map<uint16_t, uint32_t>;
         map_sent_time_t m_sent_times, m_sent_ack_times;
         int m_tx_count = 4;
         //round trip time (sent -> ack time)
         uint32_t m_pingtime = 0;
     };
 
-    typedef std::shared_ptr< DesktopTransmitter > desktop_transmitter_t;
+    using desktop_transmitter_t = std::shared_ptr< DesktopTransmitter >;
 
     class DesktopNakTransmitter
     {
@@ -211,7 +213,7 @@ namespace teamtalk {
         uint32_t m_update_timeid = 0;
     };
 
-    typedef std::shared_ptr< DesktopNakTransmitter > desktop_nak_tx_t;
+    using desktop_nak_tx_t = std::shared_ptr< DesktopNakTransmitter >;
 
     void GetPacketRanges(const std::set<uint16_t>& packet_indexes,
                          packet_range_t& pkt_index_ranges, 
@@ -219,5 +221,5 @@ namespace teamtalk {
 
     ACE_Time_Value GetDesktopPacketRTxTimeout(int udp_pingtime);
 
-}
+} // namespace teamtalk
 #endif

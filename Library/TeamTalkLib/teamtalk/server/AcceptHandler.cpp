@@ -22,7 +22,6 @@
  */
 
 #include "AcceptHandler.h"
-#include <ace/OS.h>
 
 #if defined(ENABLE_ENCRYPTION)
 int My_SSL_SOCK_Acceptor::accept (ACE_SSL_SOCK_Stream &new_stream,
@@ -32,7 +31,7 @@ int My_SSL_SOCK_Acceptor::accept (ACE_SSL_SOCK_Stream &new_stream,
               int reset_new_handle/* = 0*/) const
 {
     ACE_SOCK_Stream temp_stream;
-    if(ACE_SOCK_Acceptor::accept(temp_stream, remote_addr, timeout, restart, reset_new_handle) == -1)
+    if(ACE_SOCK_Acceptor::accept(temp_stream, remote_addr, timeout, restart != 0, reset_new_handle != 0) == -1)
         return -1;
 
     new_stream.set_handle (temp_stream.get_handle ());

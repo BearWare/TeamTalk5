@@ -23,6 +23,10 @@
 
 #include "FFmpegCapture.h"
 
+#include "avstream/FFmpegStreamer.h"
+#include "avstream/VideoCapture.h"
+#include "codec/MediaUtil.h"
+
 namespace vidcap {
 
     class AVFVideoInput : public FFmpegVideoInput
@@ -40,8 +44,8 @@ namespace vidcap {
                         struct AVCodecContext*& aud_dec_ctx,
                         struct AVCodecContext*& vid_dec_ctx,
                         int& audio_stream_index,
-                        int& video_stream_index);
-        media::VideoFormat GetVideoFormat()
+                        int& video_stream_index) override;
+        media::VideoFormat GetVideoFormat() override
         {
             media::VideoFormat fmt = m_vidfmt;
             fmt.fourcc = media::FOURCC_RGB32;
@@ -49,4 +53,5 @@ namespace vidcap {
         }
     };
 
-}
+} // namespace vidcap
+

@@ -24,18 +24,17 @@
 #ifndef DESKTOPSHARE_H
 #define DESKTOPSHARE_H
 
-#include <teamtalk/PacketLayout.h>
-#include <teamtalk/PacketHelper.h>
-#include <teamtalk/DesktopSession.h>
+#include "teamtalk/Common.h"
+#include "teamtalk/DesktopSession.h"
+#include "teamtalk/PacketHelper.h"
 
+#include <ace/SString.h>
 #include <ace/Task.h>
-#include <ace/Reactor.h>
-#include <ace/Semaphore.h>
 
-#include <map>
-#include <vector>
-#include <set>
+#include <cstdint>
 #include <memory>
+#include <set>
+#include <vector>
 
 namespace teamtalk {
 
@@ -46,7 +45,7 @@ namespace teamtalk {
     public:
         DesktopInitiator(int userid, const DesktopWindow& wnd,
                          uint16_t max_chunk_size, uint16_t max_payload_size);
-        virtual ~DesktopInitiator();
+        ~DesktopInitiator() override;
         int NewBitmap(const char* bmp_bits, int size, uint32_t tm);
 
         void Abort();
@@ -54,7 +53,7 @@ namespace teamtalk {
         void GetDesktopPackets(desktoppackets_t& packets);
         bool HasDesktopPackets() const { return !m_desktop_packets.empty(); }
 
-        int svc(void);
+        int svc() override;
 
     private:
         void CompressDirtyBlocks(map_blocks_t& blocks);
@@ -84,7 +83,7 @@ namespace teamtalk {
         uint16_t m_max_chunk_size = 0, m_max_payload_size = 0;
     };
 
-    typedef std::shared_ptr< DesktopInitiator > desktop_initiator_t;
+    using desktop_initiator_t = std::shared_ptr< DesktopInitiator >;
 
     class DesktopViewer : public DesktopSession
     {
@@ -94,18 +93,18 @@ namespace teamtalk {
         void AddCompressedBlock(int block_no, const char* inbuf, int in_size);
         void AddDuplicateBlock(int src_block_no, int dest_block_no);
 
-        void ResetBitmap(const std::vector<char>* bmp = 0);
+        void ResetBitmap(const std::vector<char>* bmp = nullptr);
 
         void WriteBitmapToFile(const ACE_TString& filename);
 
-        const char* GetBitmap(int* size = 0) const;
+        const char* GetBitmap(int* size = nullptr) const;
 
     private:
-        bool DecompressBlock(const char* inbuf, int in_size, 
+        static bool DecompressBlock(const char* inbuf, int in_size, 
                              std::vector<char>& outbuf);
         std::vector<char> m_bitmap;
     };
 
-    typedef std::shared_ptr< DesktopViewer > desktop_viewer_t;
-}
+    using desktop_viewer_t = std::shared_ptr< DesktopViewer >;
+} // namespace teamtalk
 #endif

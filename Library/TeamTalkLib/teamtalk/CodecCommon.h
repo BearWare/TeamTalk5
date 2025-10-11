@@ -25,8 +25,9 @@
 #define CODECCOMMON_H
 
 #include "Common.h"
+#include "codec/MediaUtil.h"
 
-#include <codec/MediaUtil.h>
+#include <ace/SString.h>
 
 namespace teamtalk
 {
@@ -57,6 +58,6 @@ namespace teamtalk
     int GetSpeexSamplesCount(int bandmode, int framecount);
 
     bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec);
-}
+} // namespace teamtalk
 
 #endif

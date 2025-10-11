@@ -24,18 +24,26 @@
 #if !defined(CLIENT_H)
 #define CLIENT_H
 
-#include <teamtalk/Common.h>
+#include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/StreamHandler.h"
 
-#include <ace/Connector.h> 
+#include <ace/Addr.h>
+#include <ace/Connector.h>
+#include <ace/Event_Handler.h>
 #include <ace/INET_Addr.h>
+#include <ace/OS_NS_errno.h>
+#include <ace/Reactor.h>
+#include <ace/SOCK_Connector.h>
+#include <ace/SOCK_Stream.h>
+#include <ace/Svc_Handler.h>
+#include <ace/Time_Value.h>
 
 #if defined(ENABLE_ENCRYPTION)
-#include <ace/SSL/SSL_SOCK_Connector.h>
-#else
-#include <ace/SOCK_Connector.h>
+#include <ace/SSL/SSL_SOCK_Stream.h>
 #endif
 
-#include <teamtalk/StreamHandler.h>
+#include <vector>
 
 namespace teamtalk {
 
@@ -47,16 +55,16 @@ namespace teamtalk {
         std::vector<ACE_INET_Addr> hostaddrs;
         ACE_INET_Addr udpaddr; // same as hostaddrs[0] but port number may be different
         ACE_TString accesstoken;
-        ServerInfo() { }
+        ServerInfo() = default;
     };
 
-    typedef ACE_Connector<DefaultStreamHandler::StreamHandler_t, ACE_SOCK_CONNECTOR> connector_t;
+    using connector_t = ACE_Connector<DefaultStreamHandler::StreamHandler_t, ACE_SOCK_CONNECTOR>;
 
 #if defined(ENABLE_ENCRYPTION)
     template < typename STREAMHANDLER, typename PEER_CONNECTOR>
     class SSL_Connector : public ACE_Connector< STREAMHANDLER, PEER_CONNECTOR >
     {
-        typedef ACE_Connector< STREAMHANDLER, PEER_CONNECTOR > super;
+        using super = ACE_Connector< STREAMHANDLER, PEER_CONNECTOR >;
 
     public:
         SSL_Connector(ACE_Reactor* r, int flags = 0)
@@ -120,7 +128,7 @@ namespace teamtalk {
     public:
         int connect(ACE_SSL_SOCK_Stream& new_stream,
             const ACE_Addr& remote_sap,
-            const ACE_Time_Value* timeout = 0,
+            const ACE_Time_Value* timeout = nullptr,
             const ACE_Addr& local_sap = ACE_Addr::sap_any,
             int reuse_addr = 0,
             int flags = 0,
@@ -128,11 +136,11 @@ namespace teamtalk {
             int protocol = 0)
         {
             ACE_SOCK_Stream temp_stream;
-            int ret = ACE_SOCK_Connector::connect(temp_stream, remote_sap, timeout, local_sap, reuse_addr, flags, perms, protocol);
+            int const ret = ACE_SOCK_Connector::connect(temp_stream, remote_sap, timeout, local_sap, reuse_addr, flags, perms, protocol);
 
             /* SSL_set_fd() causes ENOENT on Ubuntu 22 so we need to store previous errno.
              * Windows and macOS does not have this issue. */
-            int lasterrno = ACE_OS::last_error();
+            int const lasterrno = ACE_OS::last_error();
             new_stream.set_handle(temp_stream.get_handle());
             temp_stream.set_handle(ACE_INVALID_HANDLE);
             ACE_OS::last_error(lasterrno);
@@ -141,8 +149,8 @@ namespace teamtalk {
         }
     };
 
-    typedef SSL_Connector<CryptStreamHandler::StreamHandler_t, My_SSL_SOCK_Connector> crypt_connector_t;
+    using crypt_connector_t = SSL_Connector<CryptStreamHandler::StreamHandler_t, My_SSL_SOCK_Connector>;
 #endif
 
-}
+} // namespace teamtalk
 #endif

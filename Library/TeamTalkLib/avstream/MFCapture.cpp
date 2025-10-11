@@ -23,7 +23,9 @@
 
 #include "MFCapture.h"
 #include "MFTransform.h"
-#include <codec/BmpFile.h>
+
+#include "codec/BmpFile.h"
+#include "myace/MyACE.h"
 
 #include <mfapi.h>
 #include <mfidl.h>

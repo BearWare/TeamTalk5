@@ -54,7 +54,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   endif()
 
   if (NOT CMAKE_OSX_ARCHITECTURES)
-    set (CMAKE_OSX_ARCHITECTURES arm64;x86_64)
     message(WARNING "No architecture specified. Defaulting to ${CMAKE_OSX_ARCHITECTURES}")
   endif()
 
@@ -113,8 +112,6 @@ if (MSVC)
   option (FEATURE_MEDIAFOUNDATION "Build TeamTalk DLL with Media Foundation Streaming support" ON)
   option (FEATURE_MSDMO "Build TeamTalk DLL with Microsoft DirectX Media Objects (DMO) Resampler support" ON)
   option (FEATURE_VIDCAP "Build TeamTalk DLL with DirectShow Video Capture support (obsolete)" OFF)
-  option (FEATURE_LAMEMP3 "Build TeamTalk DLL with MP3 Lame support (obsolete)" OFF)
-
   add_feature_info (FEATURE_MEDIAFOUNDATION FEATURE_MEDIAFOUNDATION "Microsoft Media Foundation for A/V processing")
   add_feature_info (FEATURE_MSDMO FEATURE_MSDMO "Microsoft DirectX for audio resampling")
 else()

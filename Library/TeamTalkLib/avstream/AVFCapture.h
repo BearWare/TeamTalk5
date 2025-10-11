@@ -31,18 +31,18 @@ namespace vidcap {
     class AVFCapture : public FFmpegCapture
     {
     protected:
-        ffmpegvideoinput_t createStreamer(const VidCapDevice& viddevice,
-                                          const media::VideoFormat& fmt);
+        ffmpegvideoinput_t CreateStreamer(const VidCapDevice& viddevice,
+                                          const media::VideoFormat& fmt) override;
 
     public:
         AVFCapture();
-        virtual ~AVFCapture();
+        ~AVFCapture() override;
 
         // VideoCapture interface
-        vidcap_devices_t GetDevices();
+        vidcap_devices_t GetDevices() override;
     };
 
-}
+} // namespace vidcap
 
 #endif
 

@@ -25,19 +25,10 @@
 #define SETTINGS_H
 
 #include <tinyxml.h>
+#include <cstdint>
 #include <string>
-#include <vector>
-#include <map>
 
-#include <time.h>
-
-#include <stdint.h>
-
-#ifndef UNDEFINED
-#define UNDEFINED -1
-#endif
-
-#if defined(CreateFile)
+#if defined(WIN32) && defined(CreateFile)
 #undef CreateFile
 #endif
 
@@ -58,7 +49,7 @@ namespace teamtalk {
     class XMLDocument  
     {
     public:
-        XMLDocument(const std::string& rootname, const std::string& version);
+        XMLDocument(std::string  rootname, std::string  version);
         virtual ~XMLDocument();
 
         virtual bool CreateFile(const std::string& filename);
@@ -85,26 +76,26 @@ namespace teamtalk {
     protected:
         virtual bool UpdateFile();
         TiXmlDocument m_xmlDocument;
-        void PutElementText(TiXmlElement& element, const std::string& value);
-        void GetElementText(const TiXmlElement& element, std::string& value) const;
+        static void PutElementText(TiXmlElement& element, const std::string& value);
+        static void GetElementText(const TiXmlElement& element, std::string& value) ;
 
-        void PutBoolean(TiXmlElement& parent, const std::string& szName, bool bValue);
-        void PutString(TiXmlElement& parent, const std::string& szName, const std::string& szValue);
-        void PutInteger(TiXmlElement& parent, const std::string& szName, int nValue);
-        void PutInteger(TiXmlElement& parent, const std::string& szName, int64_t nValue);
+        static void PutBoolean(TiXmlElement& parent, const std::string& szName, bool bValue);
+        static void PutString(TiXmlElement& parent, const std::string& szName, const std::string& szValue);
+        static void PutInteger(TiXmlElement& parent, const std::string& szName, int nValue);
+        static void PutInteger(TiXmlElement& parent, const std::string& szName, int64_t nValue);
 
         bool GetBoolean(const TiXmlElement& parent, const std::string& szName, bool& bValue) const;
         bool GetString(const TiXmlElement& parent, const std::string& szName, std::string& szValue) const;
         bool GetInteger(const TiXmlElement& parent, const std::string& szName, int& nValue) const;
         bool GetInteger(const TiXmlElement& parent, const std::string& szName, int64_t& nValue) const;
 
-        TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
-        TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);
+        static TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
+        static TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);
         virtual TiXmlElement* GetRootElement();
         virtual const TiXmlElement* GetRootElement() const;
         std::string m_rootname, m_filename, m_xmlversion;
     };
 
-}
+} // namespace teamtalk
 
 #endif // !defined(SETTINGS_H)

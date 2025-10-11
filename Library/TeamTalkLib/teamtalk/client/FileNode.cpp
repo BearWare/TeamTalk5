@@ -22,24 +22,28 @@
  */
 
 #include "FileNode.h"
-#include <myace/MyACE.h>
-#include <teamtalk/ttassert.h>
-#include <ace/FILE_Connector.h>
 
-using namespace std;
+#include "teamtalk/Commands.h"
+#include "teamtalk/ttassert.h"
+
+#include <cerrno>
+#include <cstddef>
+#include <cstdint>
+#include <utility>
+
 using namespace teamtalk;
 
-#define FILEBUFFERSIZE 0x10000
+constexpr auto FILEBUFFERSIZE = 0x10000;
 
 FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
-                   const ACE_INET_Addr& addr, const ServerProperties& srvprop,
-                   const teamtalk::FileTransfer& transfer, 
+                   const ACE_INET_Addr& addr, ServerProperties  srvprop,
+                   teamtalk::FileTransfer  transfer, 
                    FileTransferListener* listener)
 : m_reactor(reactor)
 , m_listener(listener)
 , m_remoteAddr(addr)
-, m_srvprop(srvprop)
-, m_transfer(transfer)
+, m_srvprop(std::move(srvprop))
+, m_transfer(std::move(transfer))
 #if defined(ENABLE_ENCRYPTION)
 , m_crypt_connector(&reactor, ACE_NONBLOCK)
 #endif
@@ -68,27 +72,27 @@ FileNode::~FileNode()
     CancelTransfer();
 
 #if defined(ENABLE_ENCRYPTION)
-    if(m_crypt_stream)
-        m_crypt_stream->SetListener(NULL);
+    if(m_crypt_stream != nullptr)
+        m_crypt_stream->SetListener(nullptr);
 #endif
-    if(m_def_stream)
-        m_def_stream->SetListener(NULL);
+    if(m_def_stream != nullptr)
+        m_def_stream->SetListener(nullptr);
     MYTRACE(ACE_TEXT("~FileNode()\n"));
 }
 
 void FileNode::BeginTransfer()
 {
-    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), 0, ACE_Time_Value(0,1));
+    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1));
     TTASSERT(m_timerid>=0);
 }
 
 void FileNode::CancelTransfer()
 {
-    int ret = 0;
+    int const ret = 0;
     Disconnect();
 
     if(m_timerid>=0)
-        m_reactor.cancel_timer(m_timerid, 0, 0);
+        m_reactor.cancel_timer(m_timerid, nullptr, 0);
     m_timerid = -1;
 
     m_file.Close();
@@ -100,7 +104,7 @@ void FileNode::InitTransfer()
     {
         if (!m_file.NewFile(m_transfer.localfile))
         {
-            if(m_listener)
+            if(m_listener != nullptr)
             {
                 m_transfer.status = FILETRANSFER_ERROR;
                 m_listener->OnFileTransferStatus(m_transfer);
@@ -116,7 +120,7 @@ void FileNode::InitTransfer()
     {
         if (!m_file.Open(m_transfer.localfile, true))
         {
-            if (m_listener)
+            if (m_listener != nullptr)
             {
                 m_transfer.status = FILETRANSFER_ERROR;
                 m_listener->OnFileTransferStatus(m_transfer);
@@ -139,14 +143,14 @@ void FileNode::UpdateBytesTransferred()
         else
         {
 #if defined(ENABLE_ENCRYPTION)
-            if(m_crypt_stream)
+            if(m_crypt_stream != nullptr)
             {
                 m_transfer.transferred = m_crypt_stream->sent_;
             }
             else
 #endif
             {
-                if(m_def_stream)
+                if(m_def_stream != nullptr)
                 {
                     m_transfer.transferred = m_def_stream->sent_;
                 }
@@ -162,14 +166,14 @@ void FileNode::UpdateBytesTransferred()
 
 void FileNode::Connect()
 {
-    int ret;
+    int ret = 0;
 #if defined(ENABLE_ENCRYPTION)
-    if(m_crypt_stream)
+    if(m_crypt_stream != nullptr)
     {
         m_crypt_stream->SetListener(this);
 
         //ACE only supports OpenSSL on blocking sockets
-        ACE_Synch_Options options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
+        ACE_Synch_Options const options(ACE_Synch_Options::USE_TIMEOUT, ACE_Time_Value(10));
         ret = m_crypt_connector.connect(m_crypt_stream, m_remoteAddr, options);
     }
     else
@@ -178,16 +182,16 @@ void FileNode::Connect()
         TTASSERT(m_def_stream);
         m_def_stream->SetListener(this);
 
-        ACE_Synch_Options options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(30,0));
+        ACE_Synch_Options const options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(30,0));
         ret = m_connector.connect(m_def_stream, m_remoteAddr, options);
     }
     if(ret == -1 && ACE_OS::last_error() != EWOULDBLOCK)
     {
-        if(m_listener)
+        if(m_listener != nullptr)
         {
             m_transfer.status = FILETRANSFER_ERROR;
             m_listener->OnFileTransferStatus(m_transfer);
-            m_listener = NULL;
+            m_listener = nullptr;
         }
     }
 }
@@ -196,25 +200,25 @@ void FileNode::Disconnect()
 {
     ACE_HANDLE h = ACE_INVALID_HANDLE;
 #if defined(ENABLE_ENCRYPTION)
-    if(m_crypt_stream)
+    if(m_crypt_stream != nullptr)
     {
         //NOTE: same in ClientNode::Disconnect()
 
-        m_crypt_stream->SetListener(NULL);
+        m_crypt_stream->SetListener(nullptr);
         h = m_crypt_stream->get_handle();
 
         m_crypt_connector.cancel(m_crypt_stream);
         m_crypt_stream->close();
 
-        m_crypt_stream = NULL;
+        m_crypt_stream = nullptr;
     }
 #endif
 
-    if(m_def_stream)
+    if(m_def_stream != nullptr)
     {
         //NOTE: same in ClientNode::Disconnect()
 
-        m_def_stream->SetListener(NULL);
+        m_def_stream->SetListener(nullptr);
         h = m_def_stream->get_handle();
         //if we're in the process of connecting, then cancel() which
         //doesn't destroy the handler. We destroy it by calling close 
@@ -222,39 +226,39 @@ void FileNode::Disconnect()
         m_connector.cancel(m_def_stream);
         m_def_stream->close();
 
-        m_def_stream = NULL;
+        m_def_stream = nullptr;
     }
-    TTASSERT(m_reactor.find_handler(h) == NULL);
+    TTASSERT(m_reactor.find_handler(h) == nullptr);
 }
 
 void FileNode::TransmitCommand(const ACE_TString& command)
 {
     MYTRACE(ACE_TEXT("FILENODE: %s"), command.c_str());
     int ret = -1;
-    ACE_Time_Value tm = ACE_Time_Value::zero;
+    ACE_Time_Value const tm = ACE_Time_Value::zero;
 #if defined(UNICODE)
     ACE_CString data = UnicodeToUtf8(command.c_str());
 #else
     const ACE_CString& data = command;
 #endif
 
-    bool empty = m_sendbuffer.empty();
+    bool const empty = m_sendbuffer.empty();
     m_sendbuffer += data;
 #if defined(ENABLE_ENCRYPTION)
-    if (m_crypt_stream && empty)
+    if ((m_crypt_stream != nullptr) && empty)
     {
         ret = m_reactor.register_handler(m_crypt_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 #endif
-    if (m_def_stream && empty)
+    if ((m_def_stream != nullptr) && empty)
     {
         ret = m_reactor.register_handler(m_def_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 }
 
-int FileNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int FileNode::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
 {
     m_timerid = -1;
     InitTransfer();
@@ -265,8 +269,9 @@ int FileNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
 void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 {
     MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
-    int size = FILEBUFFERSIZE, optlen = sizeof(size);
-    int ret;
+    int size = FILEBUFFERSIZE;
+    int optlen = sizeof(size);
+    int ret = 0;
 
     ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, (char*)&size, optlen);
     TTASSERT(ret == 0);
@@ -278,8 +283,9 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 {
     MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
-    int size = FILEBUFFERSIZE, optlen = sizeof(size);
-    int ret;
+    int size = FILEBUFFERSIZE;
+    int optlen = sizeof(size);
+    int ret = 0;
 
     ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, (char*)&size, optlen);
     TTASSERT(ret == 0);
@@ -290,11 +296,11 @@ void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 void FileNode::OnClosed()
 {
 #if defined(ENABLE_ENCRYPTION)
-    m_crypt_stream = NULL;
+    m_crypt_stream = nullptr;
 #endif
-    m_def_stream = NULL;
+    m_def_stream = nullptr;
 
-    if(m_listener && !m_pending_complete)
+    if((m_listener != nullptr) && !m_pending_complete)
     {
         m_transfer.status = FILETRANSFER_ERROR;
         m_listener->OnFileTransferStatus(m_transfer);
@@ -303,17 +309,17 @@ void FileNode::OnClosed()
 }
 
 #if defined(ENABLE_ENCRYPTION)
-void FileNode::OnClosed(CryptStreamHandler::StreamHandler_t& handler)
+void FileNode::OnClosed(CryptStreamHandler::StreamHandler_t&  /*handler*/)
 {
     //reactor deletes stream instance
-    m_crypt_stream = NULL;
+    m_crypt_stream = nullptr;
     OnClosed();
 }
 #endif
 
-void FileNode::OnClosed(DefaultStreamHandler::StreamHandler_t& handler)
+void FileNode::OnClosed(DefaultStreamHandler::StreamHandler_t&  /*handler*/)
 {
-    m_def_stream = NULL;
+    m_def_stream = nullptr;
     OnClosed();
 }
 
@@ -333,7 +339,7 @@ bool FileNode::OnReceive(const char* buff, int len)
         if (m_file.Tell() == m_transfer.filesize)
         {
             CloseTransfer();
-            if(m_listener)
+            if(m_listener != nullptr)
             {
                 m_transfer.status = FILETRANSFER_FINISHED;
                 m_listener->OnFileTransferStatus(m_transfer);
@@ -357,20 +363,20 @@ bool FileNode::OnReceive(const char* buff, int len)
 }
 
 #if defined(ENABLE_ENCRYPTION)
-bool FileNode::OnReceive(CryptStreamHandler::StreamHandler_t& handler, const char* buff, int len)
+bool FileNode::OnReceive(CryptStreamHandler::StreamHandler_t&  /*handler*/, const char* buff, int len)
 {
     return OnReceive(buff, len);
 }
 #endif
 
-bool FileNode::OnReceive(DefaultStreamHandler::StreamHandler_t& handler, const char* buff, int len)
+bool FileNode::OnReceive(DefaultStreamHandler::StreamHandler_t&  /*handler*/, const char* buff, int len)
 {
     return OnReceive(buff, len);
 }
 
 bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
 {
-    if(m_binarymode && m_transfer.inbound == false)
+    if(m_binarymode && !m_transfer.inbound)
     {
         if (m_file.Tell() < m_transfer.filesize)
         {
@@ -381,7 +387,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_binarymode = false;
     }
 
-    if (m_sendbuffer.length())
+    if (!m_sendbuffer.empty())
     {
         ACE_Time_Value tm = ACE_Time_Value::zero;
         if (QueueStreamData(msg_queue, m_sendbuffer.c_str(), 
@@ -393,7 +399,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
         m_sendbuffer.clear();
     }
 
-    return m_sendbuffer.length() > 0;
+    return !m_sendbuffer.empty();
 }
 
 #if defined(ENABLE_ENCRYPTION)
@@ -449,7 +455,7 @@ void FileNode::ProcessCommand(const ACE_CString& cmdline)
     ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), (int)tmp_cmd.length());
     ACE_TString command = Utf8ToUnicode(cmdline.c_str(), (int)cmdline.length());
 #else
-    ACE_TString cmd = tmp_cmd;
+    ACE_TString const cmd = tmp_cmd;
     const ACE_TString& command = cmdline;
 #endif
 
@@ -459,19 +465,19 @@ void FileNode::ProcessCommand(const ACE_CString& cmdline)
     if(ExtractProperties(command, properties)<0)
         return;
 
-    if(stringcmpnocase(cmd, SERVER_ERROR))
+    if(StringCmpNoCase(cmd, SERVER_ERROR))
         HandleError(properties);
-    else if(stringcmpnocase(cmd, m_srvprop.systemid))
+    else if(StringCmpNoCase(cmd, m_srvprop.systemid))
         HandleWelcome(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_DELIVER))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_DELIVER))
         HandleFileDeliver(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_READY))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_READY))
         HandleFileReady(properties);
-    else if(stringcmpnocase(cmd, SERVER_FILE_COMPLETED))
+    else if(StringCmpNoCase(cmd, SERVER_FILE_COMPLETED))
         HandleFileCompleted(properties);
 }
 
-void FileNode::HandleWelcome(const mstrings_t& properties)
+void FileNode::HandleWelcome(const mstrings_t&  /*properties*/)
 {
     if(m_transfer.inbound)
         DoRecvFile();
@@ -484,46 +490,46 @@ void FileNode::HandleError(const mstrings_t& properties)
     int nErrorNum = 0;
     GetProperty(properties, TT_ERRORNUM, nErrorNum);
 
-    if(m_listener)
+    if(m_listener != nullptr)
     {
         m_transfer.status = FILETRANSFER_ERROR;
         m_listener->OnFileTransferStatus(m_transfer);
-        m_listener = NULL;
+        m_listener = nullptr;
     }
 }
 
 void FileNode::HandleFileDeliver(const mstrings_t& properties)
 {
     ACE_INT64 filesize = 0;
-    int transid = 0;
+    int const transid = 0;
     GetProperty(properties, TT_FILESIZE, filesize);
     TTASSERT(filesize == m_transfer.filesize);
 
     m_binarymode = true;
     
 #if defined(ENABLE_ENCRYPTION)
-    if(m_crypt_stream)
+    if(m_crypt_stream != nullptr)
         m_crypt_stream->sent_ = 0;
 #endif
-    if(m_def_stream)
+    if(m_def_stream != nullptr)
         m_def_stream->sent_ = 0;
 
-    if(m_listener)
+    if(m_listener != nullptr)
     {
         m_transfer.status = FILETRANSFER_ACTIVE;
         m_listener->OnFileTransferStatus(m_transfer);
     }
 
 #if defined(ENABLE_ENCRYPTION)
-    if(m_crypt_stream)
+    if(m_crypt_stream != nullptr)
     {
-        int ret = m_reactor.register_handler(m_crypt_stream, ACE_Event_Handler::WRITE_MASK);
+        int const ret = m_reactor.register_handler(m_crypt_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 #endif
-    if(m_def_stream)
+    if(m_def_stream != nullptr)
     {
-        int ret = m_reactor.register_handler(m_def_stream, ACE_Event_Handler::WRITE_MASK);
+        int const ret = m_reactor.register_handler(m_def_stream, ACE_Event_Handler::WRITE_MASK);
         TTASSERT(ret >= 0);
     }
 }
@@ -535,7 +541,7 @@ void FileNode::HandleFileReady(const mstrings_t& properties) //response when fil
     TTASSERT(m_transfer.transferid == transferid);
     GetProperty(properties, TT_FILESIZE, m_transfer.filesize);
 
-    if(m_listener)
+    if(m_listener != nullptr)
     {
         m_transfer.status = FILETRANSFER_ACTIVE;
         m_listener->OnFileTransferStatus(m_transfer);
@@ -544,16 +550,16 @@ void FileNode::HandleFileReady(const mstrings_t& properties) //response when fil
     m_binarymode = true;
 }
 
-void FileNode::HandleFileCompleted(const mstrings_t& properties)
+void FileNode::HandleFileCompleted(const mstrings_t&  /*properties*/)
 {
     TTASSERT(m_binarymode == false);
     CloseTransfer();
     m_completed = true;
-    if(m_listener)
+    if(m_listener != nullptr)
     {
         m_transfer.status = FILETRANSFER_FINISHED;
         m_listener->OnFileTransferStatus(m_transfer);
-        m_listener = NULL;
+        m_listener = nullptr;
     }
 }
 
@@ -565,19 +571,19 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
 
     while(true/*streamhandler_.msg_queue()->message_count()<10*/)
     {
-        bytes = m_file.Read(&m_filebuffer[0], m_filebuffer.size());
+        bytes = m_file.Read(m_filebuffer.data(), m_filebuffer.size());
         TTASSERT(ret>=0);
 
         if (bytes > 0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
-            ret = QueueStreamData(msg_queue, &m_filebuffer[0], int(bytes), &tm);
+            ret = QueueStreamData(msg_queue, m_filebuffer.data(), int(bytes), &tm);
             if(ret<0)
             {
                 m_file.Seek(m_file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
                 break;
             }
-            else if (m_file.Tell() >= m_transfer.filesize)
+            if (m_file.Tell() >= m_transfer.filesize)
             {
                 //we have sent everything now wait for HandleFileCompleted()
                 m_pending_complete = true;

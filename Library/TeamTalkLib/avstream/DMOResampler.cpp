@@ -22,6 +22,8 @@
  */
 
 #include "DMOResampler.h"
+#include "myace/MyACE.h"
+
 #include <uuids.h>
 #include <Mmreg.h>
 #include <assert.h>

@@ -22,14 +22,14 @@
  */
 
 #include "Commands.h"
+
+#include "TeamTalkDefs.h"
+#include "myace/MyACE.h"
+#include "myace/MyINet.h"
 #include "ttassert.h"
-#include <myace/MyACE.h>
-#include <myace/MyINet.h>
 
-#include <ctime>
 #include <ace/OS.h>
-
-using namespace std;
+#include <ctime>
 
 namespace teamtalk {
 
@@ -141,14 +141,14 @@ namespace teamtalk {
     bool HasProperty(const mstrings_t& properties, 
                      const ACE_TString& prop)
     {
-        return properties.find(prop) != properties.end();
+        return properties.contains(prop);
     }
 
     bool GetProperty(const mstrings_t& properties, 
         const ACE_TString& prop, 
         ACE_TString& value)
     {
-        mstrings_t::const_iterator ite = properties.find(prop);
+        auto const ite = properties.find(prop);
         if( ite != properties.end() )
         {
             if (value.length() > MAX_STRING_LENGTH)
@@ -157,35 +157,34 @@ namespace teamtalk {
                 value = (*ite).second;
             return true;
         }
-        else
-            return false;
+                    return false;
     }
 
 #define INT_OR_RET(val)                                        \
     do {                                                       \
         size_t i = 0;                                          \
-        if(val.length() == 0) return false;                    \
-        if(val[0] == '-') i++;                                 \
-        for(;i<val.length();i++)                               \
-            if(ACE_OS::ace_isdigit(val[i]) == 0) return false; \
+        if((val).length() == 0) return false;                    \
+        if((val)[0] == '-') i++;                                 \
+        for(;i<(val).length();i++)                               \
+            if(ACE_OS::ace_isdigit((val)[i]) == 0) return false; \
     } while(0)
 
 #define UINT_OR_RET(val)                                       \
     do {                                                       \
         size_t i = 0;                                          \
-        if(val.length() == 0) return false;                    \
-        for(;i<val.length();i++)                               \
-            if(ACE_OS::ace_isdigit(val[i]) == 0) return false; \
+        if((val).length() == 0) return false;                    \
+        for(;i<(val).length();i++)                               \
+            if(ACE_OS::ace_isdigit((val)[i]) == 0) return false; \
     } while(0)
 
     bool GetProperty(const mstrings_t& properties, 
         const ACE_TString& prop, int& value)
     {
-        mstrings_t::const_iterator ite = properties.find(prop);
+        auto const ite = properties.find(prop);
         if( ite != properties.end())
         {
             INT_OR_RET((*ite).second);
-            value = int(string2i((*ite).second));
+            value = String2I((*ite).second);
             return true;
         }
         return false;
@@ -198,7 +197,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = ACE_UINT32(string2i(tmp));
+            value = ACE_UINT32(String2I(tmp));
             return true;
         }
         return false;
@@ -208,9 +207,9 @@ namespace teamtalk {
         const ACE_TString& prop, bool& value)
     {
         int i = 0;
-        bool b = GetProperty(properties, prop, i);
+        bool const b = GetProperty(properties, prop, i);
         if(b)
-            value = i == 0? false : true;
+            value = i != 0;
         return b;
     }
 
@@ -221,7 +220,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
-            value = string2i(tmp);
+            value = String2I(tmp);
             return true;
         }
         return false;
@@ -232,7 +231,7 @@ namespace teamtalk {
         const ACE_TString& prop, std::vector<int>& vec)
     {
         ACE_TString value;
-        mstrings_t::const_iterator ite = properties.find(prop);
+        auto const ite = properties.find(prop);
         if( ite != properties.end() )
         {
             value = (*ite).second;
@@ -243,15 +242,15 @@ namespace teamtalk {
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
-                vec.push_back(int(string2i(token)));
+                vec.push_back(int(String2I(token)));
                 i = value.find(',', offset);
 
             }
-            if( value.length() && (value.length() - 1) >= offset )
+            if( (!value.empty()) && (value.length() - 1) >= offset )
             {
                 token = value.substr(offset, value.length()-offset);
                 offset = i+1;
-                vec.push_back(int(string2i(token)));
+                vec.push_back(int(String2I(token)));
             }
             return true;
         }
@@ -263,9 +262,9 @@ namespace teamtalk {
         std::set<int>& myset)
     {
         std::vector<int> vec;
-        bool b = GetProperty(properties, prop, vec);
-        for(size_t i=0;i<vec.size();i++)
-            myset.insert(vec[i]);
+        bool const b = GetProperty(properties, prop, vec);
+        for(int i : vec)
+            myset.insert(i);
         return b;
     }
 
@@ -289,7 +288,7 @@ namespace teamtalk {
             codec.speex.bandmode = codec_type[1];
             codec.speex.quality = codec_type[2];
             codec.speex.frames_per_packet = codec_type[3];
-            codec.speex.sim_stereo = codec_type[4];
+            codec.speex.sim_stereo = (codec_type[4] != 0);
             return true;
         case CODEC_SPEEX_VBR :
             if(codec_type.size() < 8)
@@ -300,9 +299,9 @@ namespace teamtalk {
             codec.speex_vbr.vbr_quality = codec_type[2];
             codec.speex_vbr.bitrate = codec_type[3];
             codec.speex_vbr.max_bitrate = codec_type[4];
-            codec.speex_vbr.dtx = codec_type[5];
+            codec.speex_vbr.dtx = (codec_type[5] != 0);
             codec.speex_vbr.frames_per_packet = codec_type[6];
-            codec.speex_vbr.sim_stereo = codec_type[7];
+            codec.speex_vbr.sim_stereo = (codec_type[7] != 0);
             return true;
         case CODEC_OPUS :
             if(codec_type.size() < 11)
@@ -311,11 +310,11 @@ namespace teamtalk {
             codec.opus.channels = codec_type[2];
             codec.opus.application = codec_type[3];
             codec.opus.complexity = codec_type[4];
-            codec.opus.fec = codec_type[5];
-            codec.opus.dtx = codec_type[6];
+            codec.opus.fec = (codec_type[5] != 0);
+            codec.opus.dtx = (codec_type[6] != 0);
             codec.opus.bitrate = codec_type[7];
-            codec.opus.vbr = codec_type[8];
-            codec.opus.vbr_constraint = codec_type[9];
+            codec.opus.vbr = (codec_type[8] != 0);
+            codec.opus.vbr_constraint = (codec_type[9] != 0);
             codec.opus.frame_size = codec_type[10];
             if (codec_type.size() > 11)
                 codec.opus.frames_per_packet = codec_type[11];
@@ -339,7 +338,7 @@ namespace teamtalk {
 
         /* do not change the order since it will break compatibility 
         * with older clients */
-        audcfg.enable_agc = audcfg_prop[0];
+        audcfg.enable_agc = (audcfg_prop[0] != 0);
         audcfg.gain_level = audcfg_prop[1];
 
         return true;
@@ -363,9 +362,9 @@ namespace teamtalk {
         ACE_INT64 gmttime = 0;
         if (GetProperty(properties, prop, gmttime))
         {
-            time_t gmt_tm = time_t(gmttime);
+            auto const gmt_tm = time_t(gmttime);
             struct tm* local = std::localtime(&gmt_tm);
-            if (local)
+            if (local != nullptr)
             {
                 time_t local_tm = std::mktime(local);
                 local_tm -= ACE_OS::timezone();
@@ -390,9 +389,9 @@ namespace teamtalk {
         GetProperty(properties, TT_MODIFIEDTIME, useraccount.lastupdated);
         GetProperty(properties, TT_LASTLOGINTIME, useraccount.lastlogin);
 
-        vector<int> flood;
+        std::vector<int> flood;
         if(GetProperty(properties, TT_CMDFLOOD, flood))
-            useraccount.abuse.fromParam(flood);
+            useraccount.abuse.FromParam(flood);
     }
 
     ACE_TString PrepareString(const ACE_TString& str)
@@ -411,23 +410,25 @@ namespace teamtalk {
         newstr = LimitUtf8(str, MAX_STRING_LENGTH);
 #endif /* UNICODE */
 
-        replace_all(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
-        replace_all(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
-        replace_all(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
-        replace_all(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
+        ReplaceAll(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
+        ReplaceAll(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
+        ReplaceAll(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
+        ReplaceAll(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
 
         return newstr;
     }
 
     ACE_TString RebuildString(const ACE_TString& str)
     {
-        ACE_TString resultstr = str, tmpstr;
+        ACE_TString resultstr = str;
+        ACE_TString tmpstr;
         ACE_TCHAR search[3][3] = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
         ACE_TCHAR replace[3][2] = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
 
         for(size_t j = 0; j < 3; j++)
         {
-            size_t pos1 = 0, oldpos = 0;
+            size_t pos1 = 0;
+            size_t oldpos = 0;
             tmpstr = resultstr;
             resultstr.clear();
             while( (pos1 = tmpstr.find(search[j], pos1)) != ACE_TString::npos)
@@ -446,7 +447,7 @@ namespace teamtalk {
             resultstr += tmpstr.substr(oldpos, tmpstr.length() - oldpos);
         }
 
-        replace_all(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
+        ReplaceAll(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
         return resultstr;
     }
 
@@ -455,12 +456,12 @@ namespace teamtalk {
         ACE_TString s;
         for(int i=0;i<(int)array.size()-1;i++)
         {
-            s = s + i2string(array[i]) + ACE_TEXT(",");
+            s = s + I2String(array[i]) + ACE_TEXT(",");
         }
         ACE_TString res;
-        if(array.size()>0)
+        if(!array.empty())
         {
-            res = ACE_TEXT("[") + s + i2string(array[array.size()-1]) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
         }
         else
             res = ACE_TEXT("[]");
@@ -475,21 +476,21 @@ namespace teamtalk {
         std::set<int>::const_iterator ite;
         for(ite=myset.begin();index++<(int)myset.size()-1;ite++)
         {
-            s = s + i2string(*ite) + ACE_TEXT(",");
+            s = s + I2String(*ite) + ACE_TEXT(",");
         }
 
         ACE_TString res;
         if(myset.size()==1)
-            res = ACE_TEXT("[") + i2string(*ite) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + I2String(*ite) + ACE_TEXT("]");
         else if(myset.size()>1)
-            res = ACE_TEXT("[") + s + i2string(*ite) + ACE_TEXT("]");
+            res = ACE_TEXT("[") + s + I2String(*ite) + ACE_TEXT("]");
         else
             res = ACE_TEXT("[]");
 
         return res;
     }
 
-    size_t pastBlanks(size_t offset, const ACE_TString& input)
+    static size_t PastBlanks(size_t offset, const ACE_TString& input)
     {
         while(offset<input.length() && 
             (input[offset] == ' ' ||
@@ -503,7 +504,7 @@ namespace teamtalk {
         TTASSERT(input.find('\n') == input.rfind('\n'));
 
         bool bSyntaxError = false;
-        if( input.length() == 0 )
+        if( input.empty() )
             bSyntaxError = true;
 
         size_t offset = input.find(' ');//past command
@@ -513,13 +514,13 @@ namespace teamtalk {
         while(offset < input.length() && !bSyntaxError)
         {
             //past any spaces
-            offset = pastBlanks(offset, input);
+            offset = PastBlanks(offset, input);
             if(offset == input.length())
             {
                 break;
             }
 
-            size_t propBegin = offset;
+            size_t const propBegin = offset;
             ACE_TString prop;
             ACE_TString value;
             while(offset < input.length()) //extract property name
@@ -535,7 +536,7 @@ namespace teamtalk {
 
             prop = input.substr(propBegin, offset-propBegin); //set propertyname
             TTASSERT(properties.find(prop) == properties.end());
-            offset = pastBlanks(offset, input); //past spaces
+            offset = PastBlanks(offset, input); //past spaces
             if(offset == input.length())
             {
                 bSyntaxError = true;
@@ -546,9 +547,9 @@ namespace teamtalk {
                 bSyntaxError = true;
                 break;
             }
-            else offset ++; //past =
+            offset ++; //past =
 
-            offset = pastBlanks(offset, input); //past spaces
+            offset = PastBlanks(offset, input); //past spaces
             if(offset == input.length())
             {
                 bSyntaxError = true;
@@ -559,7 +560,7 @@ namespace teamtalk {
             if(input[offset] == '"') //a ACE_TString
             {
                 bool found = false;
-                size_t strBegin = ++offset; //past "
+                size_t const strBegin = ++offset; //past "
                 while(!found && offset<input.length())
                 {
                     /*
@@ -592,7 +593,7 @@ namespace teamtalk {
             else if(input[offset] == '[') // an int list
             {
                 bool found = false;
-                size_t listBegin = ++offset; //past "
+                size_t const listBegin = ++offset; //past "
                 while(!found && offset<input.length())
                 {
                     if(input[offset] == ']') found = true;
@@ -613,7 +614,7 @@ namespace teamtalk {
             }
             else //eat what's left until space
             {
-                size_t intBegin = offset;
+                size_t const intBegin = offset;
                 while(offset<input.length() && 
                     input[offset] != ' ' && 
                     input[offset] != '\r' &&
@@ -631,27 +632,27 @@ namespace teamtalk {
     void AppendProperty(const ACE_TString& prop, 
         const ACE_TString& value, ACE_TString& dest_str)
     {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=\"")) + PrepareString(value) + ACE_TString(ACE_TEXT("\""));
+        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=\"")) + PrepareString(value) + ACE_TString(ACE_TEXT("\""));
         dest_str += newprop;
     }
 
     void AppendProperty(const ACE_TString& prop, 
-        const vector<int>& vecValues, ACE_TString& dest_str)
+        const std::vector<int>& vecValues, ACE_TString& dest_str)
     {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
+        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
         dest_str += newprop;
     }
 
     void AppendProperty(const ACE_TString& prop, 
-        const set<int>& setValues, ACE_TString& dest_str)
+        const std::set<int>& setValues, ACE_TString& dest_str)
     {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
+        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
         dest_str += newprop;
     }
 
     void AppendProperty(const ACE_TString& prop, ACE_INT64 value, ACE_TString& dest_str)
     {
-        ACE_TString newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + i2string(value);
+        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + I2String(value);
         dest_str += newprop;
     }
 
@@ -671,7 +672,7 @@ namespace teamtalk {
             codec_prop.push_back(codec.speex.bandmode);
             codec_prop.push_back(codec.speex.quality);
             codec_prop.push_back(codec.speex.frames_per_packet);
-            codec_prop.push_back(codec.speex.sim_stereo);
+            codec_prop.push_back(static_cast<int>(codec.speex.sim_stereo));
             break;
         case CODEC_SPEEX_VBR :
             /* do not change the order since it will break compatibility 
@@ -681,9 +682,9 @@ namespace teamtalk {
             codec_prop.push_back(codec.speex_vbr.vbr_quality);
             codec_prop.push_back(codec.speex_vbr.bitrate);
             codec_prop.push_back(codec.speex_vbr.max_bitrate);
-            codec_prop.push_back(codec.speex_vbr.dtx);
+            codec_prop.push_back(static_cast<int>(codec.speex_vbr.dtx));
             codec_prop.push_back(codec.speex_vbr.frames_per_packet);
-            codec_prop.push_back(codec.speex_vbr.sim_stereo);
+            codec_prop.push_back(static_cast<int>(codec.speex_vbr.sim_stereo));
             break;
         case CODEC_OPUS :
             codec_prop.push_back(codec.codec);
@@ -691,11 +692,11 @@ namespace teamtalk {
             codec_prop.push_back(codec.opus.channels);
             codec_prop.push_back(codec.opus.application);
             codec_prop.push_back(codec.opus.complexity);
-            codec_prop.push_back(codec.opus.fec);
-            codec_prop.push_back(codec.opus.dtx);
+            codec_prop.push_back(static_cast<int>(codec.opus.fec));
+            codec_prop.push_back(static_cast<int>(codec.opus.dtx));
             codec_prop.push_back(codec.opus.bitrate);
-            codec_prop.push_back(codec.opus.vbr);
-            codec_prop.push_back(codec.opus.vbr_constraint);
+            codec_prop.push_back(static_cast<int>(codec.opus.vbr));
+            codec_prop.push_back(static_cast<int>(codec.opus.vbr_constraint));
             codec_prop.push_back(codec.opus.frame_size);
             codec_prop.push_back(codec.opus.frames_per_packet);
             break;
@@ -712,7 +713,7 @@ namespace teamtalk {
         intvec_t audcfg_prop;
         /* do not change the order since it will break compatibility 
         * with older clients */
-        audcfg_prop.push_back(audcfg.enable_agc);
+        audcfg_prop.push_back(static_cast<int>(audcfg.enable_agc));
         audcfg_prop.push_back(audcfg.gain_level);
 
         AppendProperty(prop, audcfg_prop, dest_str);
@@ -727,9 +728,9 @@ namespace teamtalk {
     void AppendProperty(const ACE_TString& prop,
                         const ACE_Time_Value& tv, ACE_TString& dest_str)
     {
-        time_t local_tm = tv.sec();
+        time_t const local_tm = tv.sec();
         struct tm* gmt = std::gmtime(&local_tm);
-        ACE_INT64 utc_tm = gmt ? std::mktime(gmt) : tv.sec();
+        ACE_INT64 const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : tv.sec();
         AppendProperty(prop, utc_tm, dest_str);
     }
 
@@ -738,9 +739,9 @@ namespace teamtalk {
     {
         if(input.find('\n') != ACE_TString::npos)
         {
-            size_t pos = input.find('\n');
+            size_t const pos = input.find('\n');
             cmd = input.substr(0, pos+1);
-            size_t len = input.length();
+            size_t const len = input.length();
             remain_input = input.substr(pos+1, len-pos+1);
 
             return true;
@@ -757,20 +758,20 @@ namespace teamtalk {
             && input[nEndCommand] != '\r' && 
             input[nEndCommand] != '\n')nEndCommand++;
 
-        if(nEndCommand)
+        if(nEndCommand != 0u)
             cmd = input.substr(0,nEndCommand);
         return nEndCommand>0;
     }
 
     ACE_TString stripEOL(const ACE_TString& input)
     {
-        size_t len = ACE_OS::strlen(EOL);
+        size_t const len = ACE_OS::strlen(EOL);
         if(input.length()<len)
             return input;
         if(input.substr(input.length()-len,len) == EOL)
             return input.substr(0,input.length()-len);
-        else if(input.substr(input.length()-1,1) == ACE_TEXT("\n"))
+        if(input.substr(input.length()-1,1) == ACE_TEXT("\n"))
             return input.substr(0,input.length()-1);
         return input;
     }
-}
+} // namespace teamtalk

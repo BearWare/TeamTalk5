@@ -24,23 +24,22 @@
 #if !defined(CLIENTCHANNEL_H)
 #define CLIENTCHANNEL_H
 
-#include <teamtalk/Channel.h>
+#include "teamtalk/Channel.h"
 
 namespace teamtalk {
 
     class ClientUser;
-    typedef std::shared_ptr< ClientUser > clientuser_t;
+    using clientuser_t = std::shared_ptr< ClientUser >;
     class ClientChannel;
-    typedef std::shared_ptr< ClientChannel > clientchannel_t;
+    using clientchannel_t = std::shared_ptr< ClientChannel >;
 
     class ClientChannel : public teamtalk::Channel< ClientChannel, ClientUser >
     {
-        typedef teamtalk::Channel< ClientChannel, ClientUser > PARENT;
+        using PARENT = teamtalk::Channel< ClientChannel, ClientUser >;
     public:
-        ClientChannel(int channelid);//create a root
+        explicit ClientChannel(int channelid); //create a root
         ClientChannel(channel_t& parent, int channelid, 
                       const ACE_TString& name);//create a subchannel
-        ~ClientChannel();
     };
-}
+} // namespace teamtalk
 #endif

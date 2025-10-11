@@ -25,8 +25,10 @@
 #define SPEEXRESAMPLER_H
 
 #include "AudioResampler.h"
+#include "codec/MediaUtil.h"
 
 #include <speex/speex_resampler.h>
+
 #include <vector>
 
 class SpeexResampler : public AudioResampler
@@ -35,14 +37,14 @@ public:
     SpeexResampler(const SpeexResampler&) = delete;
     SpeexResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
                    int fixed_input_samples = 0);
-    virtual ~SpeexResampler();
+    ~SpeexResampler() override;
     
     bool Init(int quality);
     void Close();
 
     //return number of samples written to 'output_samples'
     int Resample(const short* input_samples, int input_samples_size,
-                 short* output_samples, int output_samples_size);
+                 short* output_samples, int output_samples_size) override;
 
 
 private:

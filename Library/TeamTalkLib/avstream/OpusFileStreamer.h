@@ -27,7 +27,9 @@
 #include "MediaStreamer.h"
 #include "AudioResampler.h"
 
-#include <codec/OggFileIO.h>
+#include "codec/OggFileIO.h"
+
+#include <ace/SString.h>
 
 bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp);
 
@@ -35,10 +37,10 @@ class OpusFileStreamer : public MediaFileStreamer
 {
 public:
     OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
-    ~OpusFileStreamer();
+    ~OpusFileStreamer() override;
 
 protected:
-    void Run();
+    void Run() override;
 
 private:
     OpusDecFile m_decoder;

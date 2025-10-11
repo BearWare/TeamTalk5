@@ -23,7 +23,14 @@
 
 #include "DesktopCache.h"
 
-#include <teamtalk/ttassert.h>
+#include "myace/MyACE.h"
+#include "teamtalk/ttassert.h"
+
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <set>
+#include <vector>
 
 using namespace std;
 using namespace teamtalk;
@@ -41,7 +48,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
 {
     TTASSERT(packet.GetSessionID() == GetSessionID());
     TTASSERT(packet.GetPacketIndex() != DesktopPacket::INVALID_PACKET_INDEX);
-    uint32_t packet_time = packet.GetTime();
+    uint32_t const packet_time = packet.GetTime();
 
 //     MYTRACE(ACE_TEXT("Desktop packet index %d, upd %u\n"), 
 //             packet.GetPacketIndex(), packet.GetTime());
@@ -49,10 +56,11 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
        !W32_GEQ(packet_time, m_pending_update_time))
         return false;
 
-    uint8_t session_id;
-    uint16_t pkt_index, pkt_count;
+    uint8_t session_id = 0;
+    uint16_t pkt_index;
+    uint16_t pkt_count;
     if(!packet.GetUpdateProperties(&session_id, &pkt_index, &pkt_count) &&
-       !packet.GetSessionProperties(&session_id, NULL, NULL, NULL, &pkt_index, 
+       !packet.GetSessionProperties(&session_id, nullptr, nullptr, nullptr, &pkt_index, 
                                     &pkt_count))
        return false;
 
@@ -98,14 +106,14 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
         return false;
 
     //store packet in list of updates
-    map_desktop_updates_t::iterator dui = m_block_updates.find(packet_time);
+    auto dui = m_block_updates.find(packet_time);
     if(dui == m_block_updates.end())
     {
         m_block_updates[packet_time] = desktoppackets_t();
         dui = m_block_updates.find(packet_time);
     }
     desktoppackets_t& update_packets = dui->second;
-    DesktopPacket* p;
+    DesktopPacket* p = nullptr;
     ACE_NEW_RETURN(p, DesktopPacket(packet), false);
     update_packets.push_back(desktoppacket_t(p));
 
@@ -134,9 +142,9 @@ int DesktopCache::GetMissingPacketsCount(uint32_t upd_time) const
         return -1;
 
     int count = 0;
-    for(size_t i=0;i<m_expected_packets.size();i++)
+    for(auto m_expected_packet : m_expected_packets)
     {
-        if(!m_expected_packets[i])
+        if(!m_expected_packet)
             count++;
     }
     return count;
@@ -175,12 +183,12 @@ bool DesktopCache::GetDesktopPackets(uint32_t last_upd_time,
                                      uint16_t max_payload_size,
                                      desktoppackets_t& packets) const
 {
-    map_updated_blocks_t::const_iterator ubi = m_updated_blocks.find(GetCurrentDesktopTime());
+    auto ubi = m_updated_blocks.find(GetCurrentDesktopTime());
     TTASSERT(ubi != m_updated_blocks.end());
     if(ubi == m_updated_blocks.end())
         return false;
 
-    map_updated_blocks_t::const_iterator ubi_last = m_updated_blocks.find(last_upd_time);
+    auto const ubi_last = m_updated_blocks.find(last_upd_time);
 
     desktoppackets_t new_packets;
 
@@ -235,7 +243,7 @@ bool DesktopCache::GetDesktopPackets(uint32_t last_upd_time,
     else //build update containing all blocks
     {
         set<uint16_t> blocks_updated;
-        map_blocks_t::const_iterator ii=m_blocks.begin();
+        auto ii=m_blocks.begin();
         for(;ii!=m_blocks.end();ii++)
             blocks_updated.insert(ii->first);
 
@@ -249,11 +257,11 @@ bool DesktopCache::GetDesktopPackets(uint32_t last_upd_time,
                                           GetCurrentDesktopTime(), 
                                           max_chunk_size, max_payload_size,
                                           this->GetDesktopWindow(), 
-                                          m_blocks, dups, NULL,
+                                          m_blocks, dups, nullptr,
                                           &ignore_blocks);
     }
 
-    desktoppackets_t::const_iterator ldi = new_packets.begin();
+    auto ldi = new_packets.begin();
     for(;ldi != new_packets.end();ldi++)
     {
         (*ldi)->UpdatePacketCount((uint16_t)new_packets.size());
@@ -272,12 +280,12 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
 
     map_desktoppacket_t block_fragments;
 
-    desktoppackets_t::const_iterator dpi = update_packets.begin();
+    auto dpi = update_packets.begin();
     while(dpi != update_packets.end())
     {
         //process blocks in packet
         (*dpi)->GetBlocks(blocks);
-        map_block_t::iterator bi = blocks.begin();
+        auto bi = blocks.begin();
         while(bi != blocks.end())
         {
             m_blocks[bi->first] = vector<char>(bi->second.block_data, 
@@ -288,10 +296,10 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
         blocks.clear();
         //process fragments in packet
         (*dpi)->GetBlockFragments(frags);
-        block_frags_t::iterator fi = frags.begin();
+        auto fi = frags.begin();
         while(fi != frags.end())
         {
-            map_desktoppacket_t::iterator bfi=block_fragments.find(fi->block_no);
+            auto const bfi=block_fragments.find(fi->block_no);
             if(bfi != block_fragments.end())
             {
                 bfi->second[fi->frag_no] = *dpi;
@@ -336,7 +344,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
 
 void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)
 {
-    map_updated_blocks_t::iterator ii = m_updated_blocks.find(update_ref_time);
+    auto ii = m_updated_blocks.find(update_ref_time);
     TTASSERT(ii != m_updated_blocks.end());
     if(ii == m_updated_blocks.end() || m_updated_blocks.size() <= (size_t)count)
         return;
@@ -357,8 +365,7 @@ void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)
                 m_updated_blocks.erase(ii);
                 break;
             }
-            else
-                m_updated_blocks.erase(ii--);
+                            m_updated_blocks.erase(ii--);
         }
     }
     while(m_updated_blocks.size()>(size_t)count);
@@ -386,13 +393,13 @@ bool HasFragments(uint16_t blockno, const desktoppackets_t& packets)
         return false;
 
     map_block_t blocks;
-    desktoppackets_t::const_iterator ii = packets.begin();
-    if((*ii)->GetBlocks(blocks) && blocks.find(blockno) != blocks.end())
+    auto const ii = packets.begin();
+    if((*ii)->GetBlocks(blocks) && blocks.contains(blockno))
         return false;
 
     block_frags_t frags;
     (*ii)->GetBlockFragments(frags);
-    block_frags_t::const_iterator bfi = frags.begin();
+    auto bfi = frags.begin();
     while(bfi != frags.end())
     {
         if(bfi->block_no == blockno)
@@ -407,23 +414,23 @@ bool HasFragments(uint16_t blockno, const desktoppackets_t& packets)
 bool InsertFragment(uint16_t blockno, uint8_t fragno,
                     const DesktopPacket& packet, desktoppackets_t& packets)
 {
-    desktoppackets_t::iterator ii = packets.begin();
+    auto ii = packets.begin();
     while(ii != packets.end())
     {
         assert(packet.GetTime() == (*ii)->GetTime());
         block_frags_t frags;
         (*ii)->GetBlockFragments(frags);
         assert(frags.size());
-        block_frags_t::iterator bfi = frags.begin();
+        auto bfi = frags.begin();
         while(bfi != frags.end())
         {
             if(bfi->block_no == blockno)
             {
                 if(fragno < bfi->frag_no)
                 {
-                    DesktopPacket* p;
+                    DesktopPacket* p = nullptr;
                     ACE_NEW_NORETURN(p, DesktopPacket(packet));
-                    if(p)
+                    if(p != nullptr)
                     {
                         packets.insert(ii, desktoppacket_t(p));
                         assert(packets.size() <= bfi->frag_cnt);
@@ -447,7 +454,7 @@ bool BlockComplete(uint16_t blockno, const desktoppackets_t& packets)
     block_frags_t frags;
     (*packets.begin())->GetBlockFragments(frags);
     assert(frags.size());
-    block_frags_t::const_iterator ii=frags.begin();
+    auto ii=frags.begin();
     while(ii != frags.end())
     {
         if(ii->block_no == blockno && packets.size() == ii->frag_cnt)
@@ -460,19 +467,19 @@ bool BlockComplete(uint16_t blockno, const desktoppackets_t& packets)
 bool GetMissingFragments(uint16_t blockno, const desktoppackets_t& packets,
                          std::set<uint8_t>& missing_fragnums)
 {
-    TTASSERT(packets.size());
+    TTASSERT(!packets.empty());
     if(packets.empty())
         return false;
 
     std::set<uint8_t> recv_fragnums;
     uint8_t frag_count = 0;
-    desktoppackets_t::const_iterator dpi = packets.begin();
+    auto dpi = packets.begin();
     while(dpi != packets.end())
     {
         block_frags_t frags;
         (*dpi)->GetBlockFragments(frags);
-        TTASSERT(frags.size());
-        block_frags_t::const_iterator ii=frags.begin();
+        TTASSERT(!frags.empty());
+        auto ii=frags.begin();
         while(ii != frags.end())
         {
             if(ii->block_no == blockno)
@@ -486,10 +493,10 @@ bool GetMissingFragments(uint16_t blockno, const desktoppackets_t& packets,
     }
     for(uint8_t i=0;i<frag_count;i++)
     {
-        if(recv_fragnums.find(i) == recv_fragnums.end())
+        if(!recv_fragnums.contains(i))
             missing_fragnums.insert(i);
     }
-    return missing_fragnums.size();
+    return !missing_fragnums.empty();
 }
 
-}
+} // namespace teamtalk

@@ -26,6 +26,18 @@
 
 #include "SoundSystem.h"
 
+#include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
+#include "myace/MyACE.h"
+
+#include <ace/Reactor.h>
+#include <ace/Task.h>
+#include <ace/Time_Value.h>
+
+#include <cassert>
+#include <cstdint>
+#include <vector>
+
 namespace soundsystem {
 
     void SoftVolume(const OutputStreamer& streamer, short* buffer, int samples, int mastervol, bool mastermute);
@@ -54,33 +66,29 @@ namespace soundsystem {
             assert(ret >= 0);
         }
     public:
-        StreamCaller(const SoundStreamer& streamer, int channels)
+        StreamCaller(const SoundStreamer& streamer, int channels) : m_interval(PCM16_SAMPLES_DURATION(streamer.framesize, streamer.samplerate)), m_start(GETTIMESTAMP())
         {
-            m_buffer.resize(channels * streamer.framesize, 0);
-            m_interval = streamer.framesize * 1000 / streamer.samplerate;
-            m_start = GETTIMESTAMP();
+            m_buffer.resize(channels * streamer.framesize, 0);            
         }
 
-        virtual ~StreamCaller()
-        {
-        }
+        ~StreamCaller() override = default;
 
-        int handle_timeout(const ACE_Time_Value& tv, const void* arg)
+        int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
         {
             while (m_interval != 0 && W32_LEQ(m_start + m_interval, GETTIMESTAMP()))
             {
-                StreamCallback(&m_buffer[0]);
+                StreamCallback(m_buffer.data());
                 m_start += m_interval;
             }
 
             return 0;
         }
-        int svc()
+        int svc() override
         {
             m_reactor.owner (ACE_OS::thr_self ());
-            ACE_Time_Value zero;
+            ACE_Time_Value const zero;
             auto tv = ToTimeValue(m_interval);
-            int ret = m_reactor.schedule_timer(this, 0, zero, tv);
+            int const ret = m_reactor.schedule_timer(this, nullptr, zero, tv);
             MYTRACE_COND(ret < 0, ACE_TEXT("Failed to schedule timer in StreamCaller\n"));
             m_reactor.run_reactor_event_loop();
             return 0;
@@ -99,12 +107,12 @@ namespace soundsystem {
         {
         }
 
-        virtual ~StreamCaptureCallback()
+        ~StreamCaptureCallback() override
         {
             Stop();
         }
 
-        bool StreamCallback(short* buffer)
+        bool StreamCallback(short* buffer) override
         {
             m_streamer->recorder->StreamCaptureCb(*m_streamer,
                                                   buffer,
@@ -124,12 +132,12 @@ namespace soundsystem {
         {
         }
 
-        virtual ~StreamPlayerCallback()
+        ~StreamPlayerCallback() override
         {
             Stop();
         }
 
-        bool StreamCallback(short* buffer)
+        bool StreamCallback(short* buffer) override
         {
             m_streamer->player->StreamPlayerCb(*m_streamer, buffer, m_streamer->framesize);
             return true;
@@ -152,19 +160,19 @@ namespace soundsystem {
             m_inputbuffer.resize(streamer->input_channels * streamer->framesize, 0);
         }
 
-        virtual ~StreamDuplexCallback()
+        ~StreamDuplexCallback() override
         {
             Stop();
         }
 
-        bool StreamCallback(short* buffer)
+        bool StreamCallback(short* buffer) override
         {
-            int mastervol = m_sndsys->GetMasterVolume(m_streamer->sndgrpid);
-            bool mastermute = m_sndsys->IsAllMute(m_streamer->sndgrpid);
-            DuplexCallback(*m_streamer, &m_inputbuffer[0], buffer, mastervol, mastermute);
+            int const mastervol = m_sndsys->GetMasterVolume(m_streamer->sndgrpid);
+            bool const mastermute = m_sndsys->IsAllMute(m_streamer->sndgrpid);
+            DuplexCallback(*m_streamer, m_inputbuffer.data(), buffer, mastervol, mastermute);
             return true;
         }
     };
-}
+} // namespace soundsystem
 
 #endif

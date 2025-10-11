@@ -22,28 +22,36 @@
  */
 
 #include "PacketHelper.h"
-#include <teamtalk/ttassert.h>
-#include <myace/MyACE.h>
 
-#include <algorithm>
+#include "CodecCommon.h"
+#include "DesktopSession.h"
+#include "myace/MyACE.h"
+#include "ttassert.h"
 
-using namespace std;
+#include <ace/Time_Value.h>
+
+#include <cassert>
+#include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <set>
+#include <vector>
 
 constexpr auto MAX_PACKETS_ON_WIRE = 16;
 
 namespace teamtalk {
 
-audiopackets_t BuildAudioPackets(uint16_t src_userid,
-                                 uint32_t time,
-                                 uint8_t streamid,
+audiopackets_t BuildAudioPackets(uint16_t  /*src_userid*/,
+                                 uint32_t  /*time*/,
+                                 uint8_t  /*streamid*/,
                                  uint16_t packet_no,
-                                 const char* enc_data,
+                                 const char*  /*enc_data*/,
                                  uint16_t enc_length,
                                  const std::vector<int>* enc_frame_sizes)
 {
-    if(enc_frame_sizes)
+    if(enc_frame_sizes != nullptr)
     {
-        int h_len = AUDIOPACKET_TYPICAL_VBR_HEADER_SIZE;
+        int const h_len = AUDIOPACKET_TYPICAL_VBR_HEADER_SIZE;
         int p_len = h_len + enc_length;
         if(enc_frame_sizes->size() % 2 == 1)
             p_len += int((enc_frame_sizes->size()*12 / 8) + 1);
@@ -55,12 +63,12 @@ audiopackets_t BuildAudioPackets(uint16_t src_userid,
     }
     else
     {
-        int h_len = AUDIOPACKET_TYPICAL_CBR_HEADER_SIZE;
-        int p_len = h_len + enc_length;
+        int const h_len = AUDIOPACKET_TYPICAL_CBR_HEADER_SIZE;
+        int const p_len = h_len + enc_length;
         MYTRACE(ACE_TEXT("Packet prediction for %d is %d bytes\n"), 
             packet_no, p_len);
     }
-    return audiopackets_t();
+    return {};
 }
 
 audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
@@ -80,19 +88,19 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
     if(fragments >= 0xFF)
         return result;
 
-    AudioPacket* p;
-    uint8_t stream_id = in_packet.GetStreamID();
+    AudioPacket* p = nullptr;
+    uint8_t const stream_id = in_packet.GetStreamID();
 
     //WARNING: if FieldPacket is changed these additional fields must be 
     //added here.
-    uint16_t dest_userid = in_packet.GetDestUserID();
-    uint16_t chanid = in_packet.GetChannel();
+    uint16_t const dest_userid = in_packet.GetDestUserID();
+    uint16_t const chanid = in_packet.GetChannel();
 
     uint8_t u8_fragments = fragments;
     if(in_packet.HasFrameSizes())
     {
         //only fragment 0 has framesize info
-        std::vector<uint16_t> frame_sizes = in_packet.GetEncodedFrameSizes();
+        std::vector<uint16_t> const frame_sizes = in_packet.GetEncodedFrameSizes();
         ACE_NEW_RETURN(p, AudioPacket(in_packet.GetKind(),
                                       in_packet.GetSrcUserID(), 
                                       in_packet.GetTime(),
@@ -116,7 +124,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
     }
     result.push_back(audiopacket_t(p));
 
-    if(dest_userid)
+    if(dest_userid != 0u)
         p->SetDestUser(dest_userid);
     p->SetChannel(chanid);
 
@@ -124,7 +132,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
 
     for(uint8_t i=1;i<(uint8_t)fragments;i++)
     {
-        uint16_t copy_size = (copied + max_chunk_size > enc_size)?
+        uint16_t const copy_size = (copied + max_chunk_size > enc_size)?
             enc_size-copied : max_chunk_size;
 
         ACE_NEW_RETURN(p, AudioPacket(in_packet.GetKind(),
@@ -132,13 +140,13 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                       in_packet.GetTime(),
                                       stream_id,
                                       in_packet.GetPacketNumber(),
-                                      i, NULL,
+                                      i, nullptr,
                                       &ptr[copied], copy_size), 
                                       result);
         copied += copy_size;
         result.push_back(audiopacket_t(p));
 
-        if(dest_userid)
+        if(dest_userid != 0u)
             p->SetDestUser(dest_userid);
         p->SetChannel(chanid);
     }
@@ -148,23 +156,24 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
 }
 
 audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
-                                    const AudioCodec& codec)
+                                    const AudioCodec&  /*codec*/)
 {
-    audiofragments_t::const_iterator ii = fragments.find(0);
+    auto ii = fragments.find(0);
     if(ii == fragments.end())
-        return audiopacket_t();
+        return {};
     
     TTASSERT(ii->second->HasFragments());
     TTASSERT(ii->second->GetPacketNumber() == 0);
 
-    uint8_t frag_no = 0, frag_cnt = 0;
-    uint16_t packet_no = ii->second->GetPacketNumberAndFragNo(frag_no, &frag_cnt);
+    uint8_t frag_no = 0;
+    uint8_t frag_cnt = 0;
+    uint16_t const packet_no = ii->second->GetPacketNumberAndFragNo(frag_no, &frag_cnt);
 
     //MYTRACE_COND(fragments.size() != frag_cnt,
     //             ACE_TEXT("Ejected packet %d due to missing fragments. Had %d needed %d\n"),
     //             packet_no, fragments.size(), frag_cnt);
     if(fragments.size() != frag_cnt)
-        return audiopacket_t();
+        return {};
 
     uint16_t available = 0;
     ii = fragments.begin();
@@ -177,44 +186,45 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
     }
 
     uint16_t enc_size = 0;
-    vector<uint16_t> frame_sizes;
+    std::vector<uint16_t> frame_sizes;
     ii = fragments.find(0);
     if(ii->second->HasFrameSizes())
     {
         frame_sizes = ii->second->GetEncodedFrameSizes();
         enc_size = SumFrameSizes(frame_sizes);
         if(available != enc_size)
-            return audiopacket_t();
+            return {};
     }
     else
         enc_size = available;
 
-    uint16_t copied = 0, pktenc_len = 0;
+    uint16_t copied = 0;
+    uint16_t pktenc_len = 0;
     frag_no = 0;
     std::vector<char> buf((size_t)enc_size);
     ii = fragments.find(0);
     while(ii != fragments.end())
     {
         const char* ptr = ii->second->GetEncodedAudio(pktenc_len);
-        if(!ptr || !pktenc_len || (size_t)copied+(size_t)pktenc_len>buf.size())
+        if((ptr == nullptr) || (pktenc_len == 0u) || (size_t)copied+(size_t)pktenc_len>buf.size())
             break;
         memcpy(&buf[copied], ptr, pktenc_len);
         copied += pktenc_len;
         ii = fragments.find(++frag_no);
     }
     if(copied != enc_size)
-        return audiopacket_t();
+        return {};
 
     ii = fragments.find(0);
     const AudioPacket& frag0 = *ii->second;
-    AudioPacket* audpkt;
-    if(frame_sizes.size())
+    AudioPacket* audpkt = nullptr;
+    if(!frame_sizes.empty())
         ACE_NEW_RETURN(audpkt, AudioPacket(frag0.GetKind(),
                                            frag0.GetSrcUserID(), //VBR
                                            frag0.GetTime(), 
                                            frag0.GetStreamID(), 
                                            packet_no, 
-                                           &buf[0], uint16_t(buf.size()),
+                                           buf.data(), uint16_t(buf.size()),
                                            frame_sizes), 
                                            audiopacket_t());
     else
@@ -223,15 +233,15 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
                                            frag0.GetTime(), 
                                            frag0.GetStreamID(), 
                                            packet_no, 
-                                           &buf[0], uint16_t(buf.size())),
+                                           buf.data(), uint16_t(buf.size())),
                                            audiopacket_t());
     //WARNING: if FieldPacket is changed these additional fields must be 
     //added here.
-    uint16_t dest_userid = frag0.GetDestUserID();
-    uint16_t chanid = frag0.GetChannel();
-    if(dest_userid)
+    uint16_t const dest_userid = frag0.GetDestUserID();
+    uint16_t const chanid = frag0.GetChannel();
+    if(dest_userid != 0u)
         audpkt->SetDestUser(dest_userid);
-    if(chanid)
+    if(chanid != 0u)
         audpkt->SetChannel(chanid);
 
     return audiopacket_t(audpkt);
@@ -249,13 +259,13 @@ std::vector<uint16_t> GetAudioPacketFrameSizes(const AudioPacket& packet,
         if (packet.GetEncodedAudio(len) == nullptr || len == 0)
             return frame_sizes;
 
-        int enc_framesize = len / GetAudioCodecFramesPerPacket(codec);
+        int const enc_framesize = len / GetAudioCodecFramesPerPacket(codec);
         frame_sizes.assign(GetAudioCodecFramesPerPacket(codec), enc_framesize);
     }
     else
     {
-        uint16_t enc_len;
-        if(packet.GetEncodedAudio(enc_len))
+        uint16_t enc_len = 0;
+        if(packet.GetEncodedAudio(enc_len) != nullptr)
             frame_sizes.push_back(enc_len);
     }
     return frame_sizes;
@@ -275,8 +285,8 @@ videopackets_t BuildVideoPackets(uint8_t kind,
 {
     videopackets_t result;
     uint16_t fragno = 0;
-    uint16_t fragcnt = (uint16_t)(enc_len / max_chunk_size);
-    if(enc_len % max_chunk_size)
+    auto fragcnt = (uint16_t)(enc_len / max_chunk_size);
+    if((enc_len % max_chunk_size) != 0u)
         fragcnt++;
 
     TTASSERT(enc_len / max_chunk_size < 0xFFFF);
@@ -286,12 +296,12 @@ videopackets_t BuildVideoPackets(uint8_t kind,
     if(fragcnt > 1)
     {
         const char* payload_ptr = enc_data;
-        VideoPacket* vp;
+        VideoPacket* vp = nullptr;
         ACE_NEW_RETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
                                        packet_no, width, height, payload_ptr,
                                        max_chunk_size, fragcnt),
                        result);
-        if(vp)
+        if(vp != nullptr)
             result.push_back(vp);
 
         for(fragno=1;fragno<fragcnt-1;fragno++)
@@ -300,38 +310,38 @@ videopackets_t BuildVideoPackets(uint8_t kind,
             ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
                                              packet_no, payload_ptr,
                                              max_chunk_size, fragno));
-            if(vp)
+            if(vp != nullptr)
                 result.push_back(vp);
             else
             {
-                for(size_t i=0;i<result.size();i++)
-                    delete result[i];
+                for(auto & i : result)
+                    delete i;
                 result.clear();
                 return result;
             }
         }
         payload_ptr += max_chunk_size;
-        uint16_t remaining = (uint16_t)(enc_len - (fragcnt - 1) * max_chunk_size);
+        auto const remaining = (uint16_t)(enc_len - ((fragcnt - 1) * max_chunk_size));
         ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
                                          packet_no, payload_ptr, 
                                          remaining, fragno));
-        if(vp)
+        if(vp != nullptr)
             result.push_back(vp);
         else
         {
-            for(size_t i=0;i<result.size();i++)
-                delete result[i];
+            for(auto & i : result)
+                delete i;
             result.clear();
             return result;
         }
     }
     else
     {
-        VideoPacket* vp;
+        VideoPacket* vp = nullptr;
         ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
                                          packet_no, width, height, enc_data,
                                          enc_len));
-        if(vp)
+        if(vp != nullptr)
             result.push_back(vp);
     }
     return result;
@@ -342,14 +352,14 @@ bool ReassembleVideoPackets(const video_fragments_t& fragments,
                             const VideoPacket& packet,
                             std::vector<char>& enc_frame)
 {
-    uint16_t fragno = packet.GetFragmentNo();
+    uint16_t const fragno = packet.GetFragmentNo();
     //find out if we can reassemble the packet
-    if(fragments.find(fragno) != fragments.end())
+    if(fragments.contains(fragno))
         return false; //retransmission, so return
 
     //find out if we have all the fragments
     uint16_t fragcnt = 0;
-    video_fragments_t::const_iterator frag_ite = fragments.find(0);
+    auto frag_ite = fragments.find(0);
     if(frag_ite != fragments.end())
         fragcnt = frag_ite->second->GetFragmentCount();
     else if(packet.GetFragmentNo() == 0)
@@ -365,13 +375,13 @@ bool ReassembleVideoPackets(const video_fragments_t& fragments,
         frag_ite = fragments.find(i);
         if(frag_ite != fragments.end())
         {
-            if(!frag_ite->second->GetEncodedData(frag_size))
+            if(frag_ite->second->GetEncodedData(frag_size) == nullptr)
                 return false;
             frame_size += frag_size;
         }
         else if(i == packet.GetFragmentNo())
         {
-            if(!packet.GetEncodedData(frag_size))
+            if(packet.GetEncodedData(frag_size) == nullptr)
                 return false;
             frame_size += frag_size;
         }
@@ -383,7 +393,7 @@ bool ReassembleVideoPackets(const video_fragments_t& fragments,
     for(uint16_t i=0;i<fragcnt;i++)
     {
         frag_ite = fragments.find(i);
-        const char* data;
+        const char* data = nullptr;
         if(frag_ite != fragments.end())
         {
             data = frag_ite->second->GetEncodedData(frag_size);
@@ -408,15 +418,15 @@ void UpdateBlocksCRC(const map_blocks_t& blocks,
                      map_block_crc_t& block_crcs,
                      map_crc_blocks_t& crc_blocks)
 {
-    set<uint16_t>::const_iterator si=dirty_blocks.begin();
+    auto si=dirty_blocks.begin();
     for(;si!=dirty_blocks.end();si++)
     {
-        uint32_t crc32;
-        map_block_crc_t::iterator bci = block_crcs.find(*si);
+        uint32_t crc32 = 0;
+        auto const bci = block_crcs.find(*si);
         if(bci != block_crcs.end())
         {
             //remove old CRC32 from 'crc_blocks'
-            map_crc_blocks_t::iterator cbi = crc_blocks.find(bci->second);
+            auto const cbi = crc_blocks.find(bci->second);
             if(cbi != crc_blocks.end())
             {
                 cbi->second.erase(*si);
@@ -424,37 +434,37 @@ void UpdateBlocksCRC(const map_blocks_t& blocks,
                     crc_blocks.erase(cbi);
             }
             //store new CRC32 value in 'crc_blocks'
-            map_blocks_t::const_iterator bi = blocks.find(*si);
+            auto const bi = blocks.find(*si);
             TTASSERT(bi!=blocks.end());
-            crc32 = ACE::crc32(&bi->second[0], bi->second.size());
+            crc32 = ACE::crc32(bi->second.data(), bi->second.size());
             block_crcs[*si] = crc32;
         }
         else
         {
             //store block's CRC32 in 'block_crcs' and 'crc_blocks'
-            map_blocks_t::const_iterator bi = blocks.find(*si);
+            auto const bi = blocks.find(*si);
             TTASSERT(bi!=blocks.end()); //this should never happen since a block is reported dirty which is not in the list of blocks
             if(bi!=blocks.end())
             {
-                crc32 = ACE::crc32(&bi->second[0], bi->second.size());
+                crc32 = ACE::crc32(bi->second.data(), bi->second.size());
                 block_crcs[*si] = crc32;
             }
             else continue;
         }
 
         //search for duplicate block
-        map_crc_blocks_t::iterator cbi = crc_blocks.find(crc32);
+        auto const cbi = crc_blocks.find(crc32);
         if(cbi != crc_blocks.end())
         {
             //it's a duplicate
-            TTASSERT(cbi->second.size());
-            uint16_t dup_blockno = *cbi->second.begin();
+            TTASSERT(!cbi->second.empty());
+            uint16_t const dup_blockno = *cbi->second.begin();
             TTASSERT(dup_blockno != *si);
             cbi->second.insert(*si);
         }
         else
         {
-            set<uint16_t> blocknums;
+            std::set<uint16_t> blocknums;
             blocknums.insert(*si);
             crc_blocks[crc32] = blocknums;
         }
@@ -469,11 +479,11 @@ void DuplicateBlocks(const std::set<uint16_t>& dirty_blocks,
                      map_dup_blocks_t& dup_blocks,
                      std::set<uint16_t>& ignore_blocks)
 {
-    set<uint16_t>::const_iterator si=dirty_blocks.begin();
+    auto si=dirty_blocks.begin();
     for(;si!=dirty_blocks.end();si++)
     {
-        ACE_UINT32 crc32;
-        map_block_crc_t::const_iterator bci = block_crcs.find(*si);
+        ACE_UINT32 crc32 = 0;
+        auto const bci = block_crcs.find(*si);
         TTASSERT(bci != block_crcs.end());
         if(bci != block_crcs.end())
             crc32 = bci->second;
@@ -481,17 +491,17 @@ void DuplicateBlocks(const std::set<uint16_t>& dirty_blocks,
             continue;
 
         //search for duplicate block
-        map_crc_blocks_t::const_iterator cbi = crc_blocks.find(crc32);
+        auto const cbi = crc_blocks.find(crc32);
         if(cbi != crc_blocks.end())
         {
-            TTASSERT(cbi->second.size());
+            TTASSERT(!cbi->second.empty());
             if(cbi->second.empty())
                 continue;
 
             //ensure it's not ourself or a dirty block
             uint16_t dup_blockno = 0xFFFF;
             if(*si != *cbi->second.begin() &&
-               dup_blocks.find(*si) == dup_blocks.end())
+               !dup_blocks.contains(*si))
                 dup_blockno = *cbi->second.begin();
             else
                 continue;
@@ -499,12 +509,12 @@ void DuplicateBlocks(const std::set<uint16_t>& dirty_blocks,
             //it's a duplicate
             TTASSERT(dup_blockno != *si);
             TTASSERT(dup_blockno != 0xFFFF);
-            map_dup_blocks_t::iterator dbi = dup_blocks.find(dup_blockno);
+            auto const dbi = dup_blocks.find(dup_blockno);
             if(dbi != dup_blocks.end())
                 dbi->second.insert(*si);
             else
             {
-                set<uint16_t> dups;
+                std::set<uint16_t> dups;
                 dups.insert(*si);
                 dup_blocks[dup_blockno] = dups;
             }
@@ -518,15 +528,15 @@ void InsertDuplicateBlocks(const map_dup_blocks_t& dup_blocks,
                            map_blocks_t& blocks, 
                            std::set<uint16_t>& updated_blocks)
 {
-    map_dup_blocks_t::const_iterator dbi = dup_blocks.begin();
+    auto dbi = dup_blocks.begin();
     for(;dbi!=dup_blocks.end();dbi++)
     {
-        map_blocks_t::iterator bi = blocks.find(dbi->first);
+        auto const bi = blocks.find(dbi->first);
         //MYTRACE(ACE_TEXT("%d => "), dbi->first);
         TTASSERT(bi != blocks.end());
         if(bi != blocks.end())
         {
-            set<uint16_t>::const_iterator ii = dbi->second.begin();
+            auto ii = dbi->second.begin();
             for(;ii!=dbi->second.end();ii++)
             {
                 //MYTRACE(ACE_TEXT("%d, "), *ii);
@@ -544,7 +554,7 @@ bool ExtractBlockRange(const std::set<uint16_t>& blocknums,
     if(blocknums.size() < 2)
         return false;
 
-    std::set<uint16_t>::const_iterator bi = blocknums.begin();
+    auto bi = blocknums.begin();
     uint16_t start_no = *bi;
     uint16_t count = 1;
     bi++;
@@ -565,7 +575,7 @@ bool ExtractBlockRange(const std::set<uint16_t>& blocknums,
         }
     }
 
-    while(count--)
+    while((count--) != 0u)
         result_range.insert(start_no++);
 
     return !result_range.empty();
@@ -590,28 +600,28 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     block_frags_t send_frags;
     map_dup_blocks_t send_dup_blocks(dup_blocks); //TODO: fragment if too many dup single-blocks
 
-    map_blocks_t::const_iterator ii = blocks.begin();
+    auto ii = blocks.begin();
     for(;ii != blocks.end();ii++)
     {
-        if(inc_blocks && inc_blocks->find(ii->first) == inc_blocks->end())
+        if((inc_blocks != nullptr) && !inc_blocks->contains(ii->first))
             continue;
-        if(ignore_blocks && ignore_blocks->find(ii->first) != ignore_blocks->end())
+        if((ignore_blocks != nullptr) && ignore_blocks->contains(ii->first))
             continue;
 
         if(ii->second.size() <= max_chunk_size) //block is small enough
         {
             desktop_block db;
-            db.block_data = &ii->second[0];
+            db.block_data = ii->second.data();
             db.block_size = uint16_t(ii->second.size());
 
             send_blocks[ii->first] = db;
         }
         else //fragment the block
         {
-            size_t n_frags = (ii->second.size() / max_chunk_size) +
-                ((ii->second.size() % max_chunk_size) ? 1 : 0);
+            size_t const n_frags = (ii->second.size() / max_chunk_size) +
+                (((ii->second.size() % max_chunk_size) != 0u) ? 1 : 0);
             assert(n_frags <= 0xFF);
-            uint8_t frag_cnt = uint8_t(n_frags);
+            auto const frag_cnt = uint8_t(n_frags);
 
             for(uint8_t i=0;i<frag_cnt;i++)
             {
@@ -623,7 +633,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
                 if(i<frag_cnt-1)
                     bf.frag_size = max_chunk_size;
                 else
-                    bf.frag_size = (ii->second.size() % max_chunk_size)?
+                    bf.frag_size = ((ii->second.size() % max_chunk_size) != 0u)?
                     ii->second.size() % max_chunk_size : max_chunk_size;
                 assert(bf.frag_size);
 
@@ -633,7 +643,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
         }
     }
 
-    assert(send_blocks.size() || send_frags.size() || send_dup_blocks.size());
+    assert(!send_blocks.empty() || !send_frags.empty() || !send_dup_blocks.empty());
 
     map_block_t packet_blocks;
     block_frags_t packet_frags;
@@ -649,7 +659,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     //MYTRACE(ACE_TEXT("\nTotal: %d\n"), send_queue_bytes);
     if(new_session)
     {
-        DesktopPacket* p;
+        DesktopPacket* p = nullptr;
         ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
                                           dwnd.session_id,
                                           dwnd.width, dwnd.height, 
@@ -664,7 +674,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     }
     else
     {
-        DesktopPacket* p;
+        DesktopPacket* p = nullptr;
         ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
                                           dwnd.session_id,
                                           packet_index++,
@@ -681,7 +691,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     packet_frags.clear();
     packet_dup_blocks.clear();
 
-    while(send_blocks.size() || send_frags.size() || send_dup_blocks.size())
+    while((!send_blocks.empty()) || (!send_frags.empty()) || (!send_dup_blocks.empty()))
     {
         //MYTRACE(ACE_TEXT("Update %u:%d: "), time, packet_index);
         send_queue_bytes = SelectDesktopBlocks(false, send_blocks, send_frags,
@@ -692,7 +702,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
         TTASSERT(send_queue_bytes>0);
         TTASSERT(send_queue_bytes <= max_chunk_size + FIELDHEADER_PAYLOAD);
 
-        DesktopPacket* p;
+        DesktopPacket* p = nullptr;
         ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
                                           dwnd.session_id,
                                           packet_index++,
@@ -710,7 +720,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     }
 
     //now specify packet count for update
-    desktoppackets_t::const_iterator dpi = result.begin();
+    auto dpi = result.begin();
     while(dpi != result.end())
     {
         (*dpi)->UpdatePacketCount(packet_index);
@@ -734,19 +744,26 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
     assert(packet_frags.empty());
     assert(packet_dup_blocks.empty());
 
-    int send_queue_bytes = 0, old_fields_usage = 0, new_fields_usage, data_usage = 0, fields_usage = 0;
-    int blocks_cnt = 0, frags_cnt = 0, range_cnt = 0, single_blocks_cnt = 0;
+    int send_queue_bytes = 0;
+    int old_fields_usage = 0;
+    int new_fields_usage;
+    int data_usage = 0;
+    int fields_usage = 0;
+    int blocks_cnt = 0;
+    int frags_cnt = 0;
+    int range_cnt = 0;
+    int single_blocks_cnt = 0;
 
     send_queue_bytes += DESKTOPPACKET_SESSIONUSAGE(initial_desktoppacket);
     fields_usage += DESKTOPPACKET_SESSIONUSAGE(initial_desktoppacket);
 
     //select the blocks which can fit in a packet
-    map_block_t::iterator blocks_ite = send_blocks.begin();
+    auto blocks_ite = send_blocks.begin();
     while(blocks_ite != send_blocks.end())
     {
         old_fields_usage = DESKTOPPACKET_DATAUSAGE(blocks_cnt, frags_cnt);
         new_fields_usage = DESKTOPPACKET_DATAUSAGE(blocks_cnt+1, frags_cnt);
-        int diff_usage = new_fields_usage - old_fields_usage;
+        int const diff_usage = new_fields_usage - old_fields_usage;
         TTASSERT(diff_usage>0);
         if(send_queue_bytes + blocks_ite->second.block_size + diff_usage 
            <= max_payload_size)
@@ -764,12 +781,12 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
     }
 
     //select the fragments which can fit in a packet
-    block_frags_t::iterator frags_ite = send_frags.begin();
+    auto frags_ite = send_frags.begin();
     while(frags_ite != send_frags.end())
     {
         old_fields_usage = DESKTOPPACKET_DATAUSAGE(blocks_cnt, frags_cnt);
         new_fields_usage = DESKTOPPACKET_DATAUSAGE(blocks_cnt, frags_cnt+1);
-        int diff_usage = new_fields_usage - old_fields_usage;
+        int const diff_usage = new_fields_usage - old_fields_usage;
         TTASSERT(diff_usage>0);
         if(send_queue_bytes + frags_ite->frag_size + diff_usage
            <= max_payload_size)
@@ -789,16 +806,16 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
     int single_blocks = 0;
 
     //select the duplicate block ranges or single blocks which can fit in packet
-    map_dup_blocks_t::iterator dub_ite = send_dup_blocks.begin();
+    auto dub_ite = send_dup_blocks.begin();
     while(dub_ite != send_dup_blocks.end())
     {
-        TTASSERT(dub_ite->second.size());
+        TTASSERT(!dub_ite->second.empty());
         std::set<uint16_t> result_range;
         if(ExtractBlockRange(dub_ite->second, result_range))
         {
             old_fields_usage = DESKTOPPACKET_BLOCKRANGEUSAGE(range_cnt);
             new_fields_usage = DESKTOPPACKET_BLOCKRANGEUSAGE(range_cnt+1);
-            int diff_usage = new_fields_usage - old_fields_usage;
+            int const diff_usage = new_fields_usage - old_fields_usage;
             TTASSERT(diff_usage>0);
             if(send_queue_bytes + diff_usage <= max_payload_size)
             {
@@ -806,7 +823,7 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
                 fields_usage += diff_usage;
                 packet_dup_blocks.insert(dup_block_pair_t(dub_ite->first, result_range));
                 range_cnt++;
-                std::set<uint16_t>::iterator ii = result_range.begin();
+                auto ii = result_range.begin();
                 for(;ii!=result_range.end();ii++)
                     dub_ite->second.erase(*ii);
 
@@ -821,7 +838,7 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
                                                         single_blocks);
             new_fields_usage = DESKTOPPACKET_BLOCKUSAGE(single_blocks_cnt+1, 
                                         single_blocks + int(dub_ite->second.size()));
-            int diff_usage = new_fields_usage - old_fields_usage;
+            int const diff_usage = new_fields_usage - old_fields_usage;
             TTASSERT(diff_usage>0);
             if(send_queue_bytes + diff_usage <= max_payload_size)
             {
@@ -862,23 +879,23 @@ void ReassembleDesktopBlocks(map_desktoppacket_t& frag_packets,
 #ifdef _DEBUG
     uint16_t session_id = 0;
 #endif
-    map_desktoppacket_t::iterator ii = frag_packets.begin();
+    auto ii = frag_packets.begin();
     while(ii != frag_packets.end()) //iterate blocks
     {
         block_frags_t reassem_frags;
         const map_frag_desktoppacket_t& fragments = ii->second;
-        map_frag_desktoppacket_t::const_iterator fi = fragments.begin();
+        auto fi = fragments.begin();
         while(fi != fragments.end()) //iterate fragments
         {
             //look at the fragments of a packet
             block_frags_t tmp_frags;
             fi->second->GetBlockFragments(tmp_frags);
 #ifdef _DEBUG
-            if(!session_id)
+            if(session_id == 0u)
                 session_id = fi->second->GetSessionID();
             assert(fi->second->GetSessionID() == session_id);
 #endif
-            block_frags_t::const_iterator ff = tmp_frags.begin();
+            auto ff = tmp_frags.begin();
 
             while(ff != tmp_frags.end()) //iterate fragments in a packet
             {
@@ -890,17 +907,18 @@ void ReassembleDesktopBlocks(map_desktoppacket_t& frag_packets,
         }
 
         //see if we have all the fragments of the current block
-        block_frags_t::iterator ri = reassem_frags.begin();
-        if(reassem_frags.size() && ri->frag_cnt == reassem_frags.size())
+        auto ri = reassem_frags.begin();
+        if((!reassem_frags.empty()) && ri->frag_cnt == reassem_frags.size())
         {
             //we can reassemble
-            uint16_t block_size = 0, byte_pos = 0;
+            uint16_t block_size = 0;
+            uint16_t byte_pos = 0;
             while(ri != reassem_frags.end())
             {
                 block_size += ri->frag_size;
                 ri++;
             }
-            vector<char> buf(block_size);
+            std::vector<char> buf(block_size);
             ri = reassem_frags.begin();
             while(ri != reassem_frags.end())
             {
@@ -922,7 +940,7 @@ bool GetAckedDesktopPackets(uint8_t session_id, uint32_t update_time,
                             const desktoppackets_t& packets, 
                             std::set<uint16_t>& recv_packets)
 {
-    desktoppackets_t::const_iterator ii = packets.begin();
+    auto ii = packets.begin();
     while(ii != packets.end())
     {
         TTASSERT((*ii)->GetTime() == update_time);
@@ -941,7 +959,7 @@ int RemoveObsoleteDesktopPackets(const DesktopPacket& packet,
                                  desktoppackets_t& packets)
 {
     int count = 0;
-    desktoppackets_t::iterator ii = packets.begin();
+    auto ii = packets.begin();
     while(ii != packets.end())
     {
         if(!W32_GEQ(packet.GetTime(), (*ii)->GetTime()))
@@ -971,7 +989,7 @@ void DesktopTransmitter::AddDesktopPacketToQueue(desktoppacket_t& packet)
 
 void DesktopTransmitter::AddSentDesktopPacket(const DesktopPacket& packet)
 {
-    uint16_t packet_no = packet.GetPacketIndex();
+    uint16_t const packet_no = packet.GetPacketIndex();
 
     //MYTRACE_COND(m_sent_pkts.find(packet_no) == m_sent_pkts.end(),
     //    ACE_TEXT("Desktop tx %d:%u - pkt index %d, %u\n"),
@@ -983,7 +1001,7 @@ void DesktopTransmitter::AddSentDesktopPacket(const DesktopPacket& packet)
     TTASSERT(packet.GetTime() == GetUpdateID());
 
     //store time of first transmission of packet
-    if(m_sent_times.find(packet_no) == m_sent_times.end())
+    if(!m_sent_times.contains(packet_no))
         m_sent_ack_times[packet_no] = GETTIMESTAMP();
     else
         m_sent_ack_times.erase(packet_no);
@@ -997,21 +1015,21 @@ void DesktopTransmitter::AddSentDesktopPacket(const DesktopPacket& packet)
 
 bool DesktopTransmitter::IsDesktopPacketAcked(uint16_t packet_no) const
 {
-    return m_queued_pkts.find(packet_no) == m_queued_pkts.end() &&
-        m_sent_pkts.find(packet_no) == m_sent_pkts.end();
+    return !m_queued_pkts.contains(packet_no) &&
+        !m_sent_pkts.contains(packet_no);
 }
 
 bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_packet)
 {
-    uint32_t tm = GETTIMESTAMP();
+    uint32_t const tm = GETTIMESTAMP();
     //static int ack_size = ack_packet.GetPacketSize();
     //MYTRACE(ACE_TEXT("Ack Packet is %d bytes\n"), ack_size);
     //if(ack_packet.GetPacketSize()> ack_size)
     //    ack_size = ack_packet.GetPacketSize();
 
-    uint8_t session_id;
-    uint32_t time_ack;
-    if(!ack_packet.GetSessionInfo(0, &session_id, &time_ack))
+    uint8_t session_id = 0;
+    uint32_t time_ack = 0;
+    if(!ack_packet.GetSessionInfo(nullptr, &session_id, &time_ack))
         return false;
 
     TTASSERT(m_session_id == session_id);
@@ -1032,28 +1050,28 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
     //}
     //MYTRACE(ACE_TEXT("\n"));
     //}
-    TTASSERT(packet_nums.size());
+    TTASSERT(!packet_nums.empty());
     if(packet_nums.empty())
         return true;
 
     //remove packets which have been reported ack'ed
     //MYTRACE(ACE_TEXT("Ack'ed "));
-    map_desktop_packets_t::iterator dpi = m_sent_pkts.begin();
+    auto dpi = m_sent_pkts.begin();
     while(dpi != m_sent_pkts.end())
     {
-        uint16_t ack_packetno = dpi->second->GetPacketIndex();
+        uint16_t const ack_packetno = dpi->second->GetPacketIndex();
 
-        if(packet_nums.find(ack_packetno) != packet_nums.end())
+        if(packet_nums.contains(ack_packetno))
         {
             //MYTRACE(ACE_TEXT("%d,"), (int)packetno);
             m_sent_times.erase(ack_packetno);
             m_acked_missing.erase(ack_packetno);
 
             //calc round-trip
-            map_sent_time_t::iterator sti = m_sent_ack_times.find(ack_packetno);
+            auto const sti = m_sent_ack_times.find(ack_packetno);
             if(sti != m_sent_ack_times.end())
             {
-                m_pingtime = std::max((uint32_t)GETTIMESTAMP() - sti->second, m_pingtime);
+                m_pingtime = std::max(GETTIMESTAMP() - sti->second, m_pingtime);
                 m_pingtime = std::max((uint32_t)1, m_pingtime);
                 
                 m_sent_ack_times.erase(ack_packetno);
@@ -1064,7 +1082,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             //an ACK releases two more packets for sending
             m_tx_count += 2;
             
-            TTASSERT(m_sent_pkts.size() || m_tx_count>0);
+            TTASSERT(!m_sent_pkts.empty() || m_tx_count>0);
             //never allow more than MAX_PACKETS_ON_WIRE packets on the wire
             if((int)m_sent_pkts.size() >= MAX_PACKETS_ON_WIRE)
                 m_tx_count = 0;
@@ -1074,22 +1092,22 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             TTASSERT(m_tx_count>=0);
             TTASSERT(m_tx_count<=MAX_PACKETS_ON_WIRE);
             //MYTRACE(ACE_TEXT("Ack'ed desktop packet %d, tx_count is now %d\n"), ack_packetno, m_tx_count);
-            TTASSERT(m_sent_pkts.size() || m_tx_count>0);
+            TTASSERT(!m_sent_pkts.empty() || m_tx_count>0);
         }
         else dpi++;
     }
     //MYTRACE(ACE_TEXT("\n"));
 
     //store max packet
-    uint16_t max_packet_no = *(--packet_nums.end());
+    uint16_t const max_packet_no = *(--packet_nums.end());
 
     //store which packets have been reported missing (holes in packet order)
     for(uint16_t packet_no=0;packet_no<=max_packet_no;packet_no++)
     {
-        if(packet_nums.find(packet_no) != packet_nums.end())
+        if(packet_nums.contains(packet_no))
             continue;
 
-        map_acked_missing_t::iterator ali = m_acked_missing.find(packet_no);
+        auto const ali = m_acked_missing.find(packet_no);
         if(ali == m_acked_missing.end())
         {
             m_acked_missing[packet_no] = 1;
@@ -1107,7 +1125,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
     }
 //     MYTRACE(ACE_TEXT("Ack took %u, max packet index %d\n"), GETTIMESTAMP() - tm, max_packet_no);
 
-    TTASSERT(m_sent_pkts.size() || m_tx_count>0);
+    TTASSERT(!m_sent_pkts.empty() || m_tx_count>0);
 
     return true;
 }
@@ -1115,7 +1133,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
 int DesktopTransmitter::GetRemainingBytes() const
 {
     int size = 0;
-    map_desktop_packets_t::const_iterator ii = m_sent_pkts.begin();
+    auto ii = m_sent_pkts.begin();
     for(;ii != m_sent_pkts.end();ii++)
         size += (*ii->second).GetPacketSize();
     ii = m_queued_pkts.begin();
@@ -1140,7 +1158,7 @@ void DesktopTransmitter::GetNextDesktopPackets(desktoppackets_t& packets)
 
 void DesktopTransmitter::GetSentDesktopPackets(desktoppackets_t& packets) const
 {
-    map_desktop_packets_t::const_iterator ii = m_sent_pkts.begin();
+    auto ii = m_sent_pkts.begin();
     for(;ii!=m_sent_pkts.end();ii++)
     {
         packets.push_back(ii->second);
@@ -1150,15 +1168,15 @@ void DesktopTransmitter::GetSentDesktopPackets(desktoppackets_t& packets) const
 void DesktopTransmitter::GetDupAckLostDesktopPackets(desktoppackets_t& packets)
 {
     //rtx dup-acks
-    map_acked_missing_t::const_iterator ali = m_acked_missing.begin();
+    auto ali = m_acked_missing.begin();
     while(ali != m_acked_missing.end() && m_tx_count>0)
     {
-        map_sent_time_t::const_iterator sti = m_sent_times.find(ali->first);
-        if(m_pingtime && sti != m_sent_times.end())
+        auto const sti = m_sent_times.find(ali->first);
+        if((m_pingtime != 0u) && sti != m_sent_times.end())
         {
             if(W32_GEQ(GETTIMESTAMP() - sti->second, m_pingtime * 2))
             {
-                map_desktop_packets_t::const_iterator dpi = m_sent_pkts.find(ali->first);
+                auto const dpi = m_sent_pkts.find(ali->first);
                 if(dpi != m_sent_pkts.end())
                 {
                     packets.push_back(dpi->second);
@@ -1177,8 +1195,8 @@ void DesktopTransmitter::GetDupAckLostDesktopPackets(desktoppackets_t& packets)
 void DesktopTransmitter::GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout,
                                                desktoppackets_t& packets, int count)
 {
-    uint32_t rtx_ms = rtx_timeout.msec();
-    uint32_t cur_time = GETTIMESTAMP();
+    uint32_t const rtx_ms = rtx_timeout.msec();
+    uint32_t const cur_time = GETTIMESTAMP();
     map_sent_time_t::const_iterator ii;
     for(ii=m_sent_times.begin();ii != m_sent_times.end() && count-->0;ii++)
     {
@@ -1187,7 +1205,7 @@ void DesktopTransmitter::GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout
             MYTRACE(ACE_TEXT("Desktop packet %d in session %d:%u lost by %d, tx_count is %d\n"),
                     ii->first, GetSessionID(), GetUpdateID(),
                     cur_time - ii->second, m_tx_count);
-            map_desktop_packets_t::const_iterator dpi = m_sent_pkts.find(ii->first);
+            auto const dpi = m_sent_pkts.find(ii->first);
             TTASSERT(dpi != m_sent_pkts.end());
             if(dpi != m_sent_pkts.end())
             {
@@ -1214,10 +1232,10 @@ void GetPacketRanges(const std::set<uint16_t>& packet_indexes,
                      packet_range_t& pkt_index_ranges, 
                      std::set<uint16_t>& pkt_single_indexes)
 {
-    set<uint16_t>::const_iterator ri = packet_indexes.begin();
+    auto ri = packet_indexes.begin();
     while(ri != packet_indexes.end())
     {
-        set<uint16_t>::const_iterator r_end = ri;
+        auto r_end = ri;
         uint16_t pkt_index = *r_end;
         r_end++;
         while(r_end != packet_indexes.end() && pkt_index+1 == *r_end)

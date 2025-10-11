@@ -377,7 +377,7 @@ TEST_CASE("PlaybackJitter")
         // Queue packet for transmission
         bool QueuePacket(teamtalk::FieldPacket* packet) override { return true; }
         // Get logger for writing audio streams to disk (wav, ogg, etc)
-        teamtalk::VoiceLogger& voicelogger() override { return m_vl; }
+        teamtalk::VoiceLogger& GetVoiceLogger() override { return m_vl; }
         // Callback function for teamtalk::AudioPlayer-class
         void AudioUserCallback(int userid, teamtalk::StreamType st, const media::AudioFrame& audio_frame) override { }
     } myclientnode(57, mychan, &events, ttpackets);

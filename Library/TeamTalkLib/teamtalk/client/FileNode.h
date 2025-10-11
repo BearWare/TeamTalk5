@@ -25,19 +25,27 @@
 #define FILENODE_H
 
 #include "Client.h"
-#include <mystd/MyStd.h>
+#include "myace/MyACE.h"
+#include "myace/TimerHandler.h"
+#include "mystd/MyStd.h"
+#include "teamtalk/Commands.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/StreamHandler.h"
 
-#include <teamtalk/Commands.h>
-#include <myace/TimerHandler.h>
+#include <ace/Basic_Types.h>
+#include <ace/INET_Addr.h>
+#include <ace/Message_Queue.h>
+#include <ace/Reactor.h>
 
-#include <ace/SString.h>
+#include <vector>
+
 
 namespace teamtalk {
 
     class FileTransferListener
     {
     public:
-        virtual ~FileTransferListener() {}
+        virtual ~FileTransferListener() = default;
         virtual void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) = 0;
     };
 
@@ -51,10 +59,10 @@ namespace teamtalk {
     {
     public:
         FileNode(ACE_Reactor& reactor, bool encrypted,
-                 const ACE_INET_Addr& addr, const ServerProperties& srvprop,
-                 const teamtalk::FileTransfer& transfer, 
+                 const ACE_INET_Addr& addr, ServerProperties  srvprop,
+                 teamtalk::FileTransfer  transfer, 
                  FileTransferListener* listener);
-        virtual ~FileNode();
+        ~FileNode() override;
 
         void BeginTransfer();
         void CancelTransfer();
@@ -129,6 +137,6 @@ namespace teamtalk {
         teamtalk::FileTransfer m_transfer;
         MyFile m_file;
     };
-}
+} // namespace teamtalk
 
 #endif

@@ -24,35 +24,35 @@
 #ifndef VIDEOTHREAD_H
 #define VIDEOTHREAD_H
 
+#include "codec/MediaUtil.h"
+#include "teamtalk/Common.h"
 #if defined(ENABLE_VPX)
-#include <codec/VpxEncoder.h>
+#include "codec/VpxEncoder.h"
 #endif
 
-#include <teamtalk/Common.h>
-#include <codec/MediaUtil.h>
-
-#include <ace/Task.h>
 #include <ace/Message_Block.h>
+#include <ace/Task_T.h>
 
+#include <functional>
 #include <memory>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \
-    memcpy(&video_frame, msg_block->rd_ptr(), sizeof(video_frame))
+    memcpy(&(video_frame), (msg_block)->rd_ptr(), sizeof(video_frame))
 
 #define GET_OGGPACKET_FROM_MB(ogg_pkt, msg_block) \
-    memcpy(&ogg_pkt, msg_block->rd_ptr(), sizeof(ogg_pkt))
+    memcpy(&(ogg_pkt), (msg_block)->rd_ptr(), sizeof(ogg_pkt))
 
-typedef std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
+using videoencodercallback_t = std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
                              const char* enc_data, int enc_len,
                              ACE_UINT32 packet_no,
-                             ACE_UINT32 timestamp) > videoencodercallback_t;
+                             ACE_UINT32 timestamp) >;
 
 class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
 {
 public:
     VideoThread();
-    virtual ~VideoThread();
+    ~VideoThread() override;
 
     bool StartEncoder(videoencodercallback_t m_callback,
                       const media::VideoFormat& cap_format,
@@ -69,8 +69,8 @@ public:
     const media::VideoFormat& GetVideoFormat() const { return m_cap_format; }
 
 private:
-    int close(u_long);
-    int svc(void);
+    int close(u_long /*flags*/) override;
+    int svc() override;
 
     videoencodercallback_t m_callback;
     
@@ -84,13 +84,13 @@ private:
     int m_frames_passed = 0, m_frames_dropped = 0;
 };
 
-typedef std::shared_ptr< VideoThread > video_thread_t;
+using video_thread_t = std::shared_ptr< VideoThread >;
 
 
 class VideoEncListener
 {
 public:
-    virtual ~VideoEncListener() {}
+    virtual ~VideoEncListener() = default;
     //@return true if callee took ownership of 'org_frame'
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
                                    ACE_Message_Block* org_frame, /* can be NULL */

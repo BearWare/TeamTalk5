@@ -39,7 +39,7 @@ AVFCapture::~AVFCapture()
 {
 }
 
-ffmpegvideoinput_t AVFCapture::createStreamer(const VidCapDevice& viddevice,
+ffmpegvideoinput_t AVFCapture::CreateStreamer(const VidCapDevice& viddevice,
                                               const media::VideoFormat& fmt)
 {
     return ffmpegvideoinput_t(new AVFVideoInput(viddevice, fmt));
@@ -56,7 +56,7 @@ vidcap_devices_t AVFCapture::GetDevices()
         VidCapDevice dev;
         dev.api = ACE_TEXT("avfoundation");
         dev.devicename = [[device localizedName] UTF8String];
-        dev.deviceid = i2string(int([devices indexOfObject:device]));
+        dev.deviceid = I2String(int([devices indexOfObject:device]));
 
         for(AVCaptureDeviceFormat* devfmt in [device formats])
         {
