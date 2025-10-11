@@ -1026,73 +1026,73 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="14"/>
         <source>Edit chat templates</source>
-        <translation type="unfinished"></translation>
+        <translation>채팅 탬플릿 설정</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="20"/>
         <source>Chat Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>채팅 탬플릿</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="42"/>
         <source>Chat Template</source>
-        <translation type="unfinished"></translation>
+        <translation>채팅 탬플릿</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="50"/>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>탬플릿</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation type="unfinished">변수... (&amp;V)</translation>
+        <translation>변수... (&amp;V)</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
         <source>Reset to Default Value</source>
-        <translation type="unfinished">기본값으로 재설정</translation>
+        <translation>기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="79"/>
         <source>Reset All to Default Value</source>
-        <translation type="unfinished">모두 기본값으로 재설정</translation>
+        <translation>모두 기본값으로 재설정</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="33"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">확인 (&amp;O)</translation>
+        <translation>확인 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="34"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">취소 (&amp;C)</translation>
+        <translation>취소 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="72"/>
         <source>Template for &quot;%1&quot;</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot;에 대한 탬플릿</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation type="unfinished"></translation>
+        <translation>모든 채팅 템플릿을 기본값으로 복원할까요?</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">예 (&amp;Y)</translation>
+        <translation>예 (&amp;Y)</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="137"/>
         <source>&amp;No</source>
-        <translation type="unfinished">아니요 (&amp;N)</translation>
+        <translation>아니요 (&amp;N)</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="140"/>
         <source>Restore default values</source>
-        <translation type="unfinished">기본값으로 재설정</translation>
+        <translation>기본값으로 재설정</translation>
     </message>
 </context>
 <context>
@@ -1100,57 +1100,57 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="207"/>
         <source>Type</source>
-        <translation type="unfinished"></translation>
+        <translation>유형</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="208"/>
         <source>Template</source>
-        <translation type="unfinished"></translation>
+        <translation>탬플릿</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="234"/>
         <source>Channel Message</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 메시지</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="236"/>
         <source>Broadcast Message</source>
-        <translation type="unfinished"></translation>
+        <translation>방송</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
-        <translation type="unfinished"></translation>
+        <translation>개인 메시지</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="240"/>
         <source>Log Message</source>
-        <translation type="unfinished"></translation>
+        <translation>로그</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="242"/>
         <source>Server Name</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 이름</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 환영사</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>입장한 채널</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
         <source>Channel topic</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 주제</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="250"/>
         <source>Channel Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 디스크 할당량</translation>
     </message>
 </context>
 <context>
@@ -1158,7 +1158,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="294"/>
         <source>History</source>
-        <translation type="unfinished">지난 메시지</translation>
+        <translation>지난 메시지</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="395"/>
@@ -1171,80 +1171,80 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="236"/>
         <source>History</source>
-        <translation type="unfinished">지난 메시지</translation>
+        <translation>지난 메시지</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="122"/>
         <source>Server Name: %1</source>
-        <translation type="unfinished">서버 이름: %1</translation>
+        <translation>서버 이름: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="121"/>
         <location filename="../chattextlist.cpp" line="132"/>
         <source>Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="133"/>
         <source>Message of the Day: %1</source>
-        <translation type="unfinished">환영사: %1</translation>
+        <translation>환영사: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="153"/>
         <source>Joined channel %1</source>
-        <translation type="unfinished">%1 채널에 입장</translation>
+        <translation>%1 채널에 입장</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="152"/>
         <location filename="../chattextlist.cpp" line="161"/>
         <location filename="../chattextlist.cpp" line="168"/>
         <source>Channel</source>
-        <translation type="unfinished">채널 </translation>
+        <translation>채널 </translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="162"/>
         <source>Topic: %1</source>
-        <translation type="unfinished">주제: %1</translation>
+        <translation>주제: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="169"/>
         <source>Disk quota: %1</source>
-        <translation type="unfinished">디스크 할당량: %1</translation>
+        <translation>디스크 할당량: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="204"/>
         <source>You</source>
-        <translation type="unfinished">귀하</translation>
+        <translation>귀하</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="219"/>
         <source>System</source>
-        <translation type="unfinished"></translation>
+        <translation>시스템</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="391"/>
         <source>&amp;Copy</source>
-        <translation type="unfinished"></translation>
+        <translation>복사 (&amp;C)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="392"/>
         <source>C&amp;opy Content Only</source>
-        <translation type="unfinished"></translation>
+        <translation>내용만 복사 (&amp;O)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="393"/>
         <source>View &amp;Details...</source>
-        <translation type="unfinished"></translation>
+        <translation>자세히 보기 (&amp;D)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="397"/>
         <source>Copy &amp;All</source>
-        <translation type="unfinished"></translation>
+        <translation>모두 복사 (&amp;A)</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="398"/>
         <source>C&amp;lear</source>
-        <translation type="unfinished"></translation>
+        <translation>초기화 (&amp;L)</translation>
     </message>
 </context>
 <context>
@@ -1724,7 +1724,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="103"/>
         <source>%1/second, last second %2</source>
-        <translation type="unfinished"></translation>
+        <translation>%1/초, 마지막 시간 %2초</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="130"/>
@@ -1806,7 +1806,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="119"/>
         <source>Status Message</source>
-        <translation type="unfinished"></translation>
+        <translation>상태 메시지</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="143"/>
@@ -2446,7 +2446,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2344"/>
         <source>Ctrl+Shift+R</source>
-        <translation type="unfinished"></translation>
+        <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2453"/>
@@ -3994,13 +3994,13 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome</source>
-        <translation type="unfinished">환영</translation>
+        <translation>환영</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1138"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
-        <translation type="unfinished">%1님, 환영합니다.
+        <translation>%1에 오신 것을 환영합니다.
 환영사: %2</translation>
     </message>
     <message>
@@ -4216,12 +4216,12 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="8013"/>
         <source>Are you sure you want to quit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1을(를) 종료할까요?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8018"/>
         <source>Exit %1</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 종료</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3842"/>
@@ -5058,27 +5058,27 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../chattextlist.cpp" line="450"/>
         <location filename="../chattextlist.cpp" line="451"/>
         <source>Message Details</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 상세</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="455"/>
         <source>Sent: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>전송됨: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="457"/>
         <source>By: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>작성자: %1</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="461"/>
         <source>Content:</source>
-        <translation type="unfinished"></translation>
+        <translation>내용:</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="470"/>
         <source>&amp;Close</source>
-        <translation type="unfinished">닫기 (&amp;C)</translation>
+        <translation>닫기 (&amp;C)</translation>
     </message>
 </context>
 <context>
@@ -5175,17 +5175,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../onlineusersdlg.cpp" line="169"/>
         <source>K&amp;ick from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 추방 (&amp;I)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="171"/>
         <source>Kick and B&amp;an from Server</source>
-        <translation type="unfinished"></translation>
+        <translation>서버에서 추방 및 차단 (&amp;A)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="172"/>
         <source>&amp;Select User(s) for Move</source>
-        <translation type="unfinished"></translation>
+        <translation>이동할 사용자 선택 (&amp;S)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="168"/>
@@ -5498,7 +5498,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="211"/>
         <source>Status message</source>
-        <translation type="unfinished">상태 메시지</translation>
+        <translation>상태 메시지</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="241"/>
@@ -5513,7 +5513,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation type="unfinished"></translation>
+        <translation>나가기 전에 확인 질문하기</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>
@@ -5523,17 +5523,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="470"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation type="unfinished"></translation>
+        <translation>텍스트 편집란 대신 목록 보기로 지난 메시지 표시</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Setup text message templates</source>
-        <translation type="unfinished"></translation>
+        <translation>텍스트 메시지 탬플릿 설정</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
         <source>Edit Chat Message Templates</source>
-        <translation type="unfinished"></translation>
+        <translation>채팅 메시지 탬플릿 편집</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="520"/>
@@ -5695,7 +5695,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="2210"/>
         <source> kbps</source>
-        <translation type="unfinished"></translation>
+        <translation> kbps</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="558"/>
@@ -5932,7 +5932,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1938"/>
         <source>Use toast notification</source>
-        <translation type="unfinished"></translation>
+        <translation>토스트 알림 사용</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1964"/>
@@ -6255,12 +6255,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="793"/>
         <source>Chat History</source>
-        <translation type="unfinished"></translation>
+        <translation>지난 메시지</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="794"/>
         <source>Please restart application to change to chat history control</source>
-        <translation type="unfinished"></translation>
+        <translation>지난 메시지 콘트롤을 변경하려면 앱을 다시 실행하세요</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1036"/>
@@ -6380,12 +6380,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="1949"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation type="unfinished"></translation>
+        <translation>%1 언어가 변경되었습니다. TTS 이벤트, 상태 메시지, 채팅 템플릿 및 날짜/시간 형식의 기본값을 복원하시겠습니까? 복원하면 모든 메시지가 다시 번역되지만, 사용자 지정 메시지는 손실됩니다.</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1954"/>
         <source>Language configuration changed</source>
-        <translation type="unfinished"></translation>
+        <translation>언어 구성이 변경되었습니다</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="363"/>
@@ -6465,17 +6465,17 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../utilsound.cpp" line="326"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation type="unfinished"></translation>
+        <translation>사운드 듀플렉스 모드 초기화 실패: %1 - %2</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="334"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>사운드 입력 장치 초기화 실패: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="338"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation type="unfinished"></translation>
+        <translation>사운드 출력 장치 초기화 실패: %1</translation>
     </message>
     <message>
         <location filename="../utilsound.cpp" line="364"/>
@@ -6668,7 +6668,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="229"/>
         <source>Status message (optional)</source>
-        <translation type="unfinished"></translation>
+        <translation>상태 메시지 (선택 사항)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="242"/>
@@ -6679,7 +6679,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Last Joined Channel</source>
-        <translation type="unfinished"></translation>
+        <translation>마지막으로 참여한 채널</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="258"/>
@@ -9799,50 +9799,52 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="487"/>
         <source>File {file} removed by {user}</source>
-        <translation type="unfinished">{user}, {filename} 파일 삭제함</translation>
+        <translation>{user}, {filename} 파일 삭제함</translation>
     </message>
     <message>
         <location filename="../settings.h" line="490"/>
         <location filename="../settings.h" line="494"/>
         <source>{date} &lt;{user}&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="492"/>
         <source>{date} &lt;{user}-&gt;BROADCAST&gt;
 {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} &lt;{user}-&gt;BROADCAST&gt;
+{content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="496"/>
         <source>{date} * {content}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} * {content}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="498"/>
         <source>{date} Server Name: {server}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 서버 이름: {server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="500"/>
         <source>{date} Message of the day: {MOTD}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 환영사: {MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="502"/>
         <source>{date} Joined channel: {channelpath}</source>
-        <translation type="unfinished"></translation>
+        <translation>{date} 입장한 채널: {channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="504"/>
         <source>Topic: {channeltopic}</source>
-        <translation type="unfinished"></translation>
+        <translation>주제: {channeltopic}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="506"/>
         <source>Disk quota: {quota}</source>
-        <translation type="unfinished"></translation>
+        <translation>디스크 할당량: {quota}</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="193"/>
@@ -10065,14 +10067,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message date</source>
-        <translation type="unfinished"></translation>
+        <translation>메시지 전송 일시</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
         <location filename="../utilui.cpp" line="229"/>
         <location filename="../utilui.cpp" line="230"/>
         <source>Sender&apos;s nickname</source>
-        <translation type="unfinished"></translation>
+        <translation>발신자 대화명</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="228"/>
@@ -10080,7 +10082,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="230"/>
         <location filename="../utilui.cpp" line="231"/>
         <source>Message content</source>
-        <translation type="unfinished">메시지 내용</translation>
+        <translation>메시지 내용</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
@@ -10089,45 +10091,45 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Date</source>
-        <translation type="unfinished">등록일시</translation>
+        <translation>등록일시</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="232"/>
         <source>Server name</source>
-        <translation type="unfinished">서버 이름</translation>
+        <translation>서버 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="233"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 환영사</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Path</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 경로</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Name</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 이름</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Channel Topic</source>
-        <translation type="unfinished"></translation>
+        <translation>채널 주제</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="234"/>
         <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <source>Disk Quota</source>
-        <translation type="unfinished"></translation>
+        <translation>디스크 할당량</translation>
     </message>
 </context>
 <context>
