@@ -9,12 +9,17 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_ZLIB ${TOOLCHAIN_INSTALL_PREFIX}/zlib)
 
 if (MSVC)
+
+  if (NOT CMAKE_VS_PLATFORM_NAME)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      set (CMAKE_VS_PLATFORM_NAME x64)
+    else()
+      set (CMAKE_VS_PLATFORM_NAME win32)
+    endif()
+  endif()
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-      if (NOT CMAKE_VS_PLATFORM_NAME)
-        set (CMAKE_VS_PLATFORM_NAME x64)
-      endif()
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
@@ -31,10 +36,6 @@ if (MSVC)
         BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
       )
     else()
-
-      if (NOT CMAKE_VS_PLATFORM_NAME)
-        set (CMAKE_VS_PLATFORM_NAME win32)
-      endif()
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git

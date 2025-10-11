@@ -10,6 +10,14 @@ set (TOOLCHAIN_INSTALL_PREFIX_LIBVPX ${TOOLCHAIN_INSTALL_PREFIX}/libvpx)
 
 if (MSVC)
 
+  if (NOT CMAKE_VS_PLATFORM_NAME)
+    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+      set (CMAKE_VS_PLATFORM_NAME x64)
+    else()
+      set (CMAKE_VS_PLATFORM_NAME win32)
+    endif()
+  endif()
+
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     # Favor Cygwin or MSYS2 since CMake may otherwise find a
     # non-working bash.exe file. GitHub e.g. finds C:/Program
@@ -24,10 +32,6 @@ if (MSVC)
     file(TO_NATIVE_PATH ${BASH_EXE_PATH} BASH_EXE_PATH_NATIVE)
 
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-      if (NOT CMAKE_VS_PLATFORM_NAME)
-        set (CMAKE_VS_PLATFORM_NAME x64)
-      endif()
 
       find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
       if (YASM_EXE_DIRECTORY-NOTFOUND)
@@ -57,10 +61,6 @@ if (MSVC)
                           <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
         )
     else()
-
-      if (NOT CMAKE_VS_PLATFORM_NAME)
-        set (CMAKE_VS_PLATFORM_NAME win32)
-      endif()
 
       find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/win32)
       if (YASM_EXE_DIRECTORY-NOTFOUND)
