@@ -1,6 +1,5 @@
 ./*.sln
 ./*.bat
-./.gitattributes
 CMakeFiles
 CMakeLists.txt.user
 TAGS
