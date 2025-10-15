@@ -186,6 +186,10 @@ bool getServerEntry(const QDomElement& hostElement, HostEntry& entry)
         entry.ipaddr = tmp.text();
     else ok = false;
 
+    tmp = hostElement.firstChildElement("joincode");
+    if (!tmp.isNull())
+        entry.joincode = tmp.text();
+
     tmp = hostElement.firstChildElement("tcpport");
     if(!tmp.isNull())
         entry.tcpport = tmp.text().toInt();
