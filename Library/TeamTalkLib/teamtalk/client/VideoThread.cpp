@@ -24,7 +24,7 @@
 #include "VideoThread.h"
 
 #include "myace/MyACE.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
 #include <ace/Time_Value.h>

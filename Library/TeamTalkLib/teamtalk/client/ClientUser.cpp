@@ -34,7 +34,7 @@
 #include "teamtalk/client/DesktopShare.h"
 #include "teamtalk/client/StreamPlayers.h"
 #include "teamtalk/client/VoiceLogger.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
 #include <ace/Time_Value.h>

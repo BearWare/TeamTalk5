@@ -30,7 +30,7 @@
 #include "myace/TimerHandler.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketLayout.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Lock.h>
 #include <ace/Reactor.h>

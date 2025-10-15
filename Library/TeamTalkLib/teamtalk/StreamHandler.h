@@ -25,7 +25,7 @@
 #define STREAMHANDLER_H
 
 #include "myace/MyACE.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Event_Handler.h>
 #include <ace/Message_Block.h>

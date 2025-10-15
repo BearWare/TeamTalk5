@@ -26,7 +26,7 @@
 #include "TeamTalkDefs.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
-#include "ttassert.h"
+#include "TTAssert.h"
 
 #include <ace/OS.h>
 #include <ctime>

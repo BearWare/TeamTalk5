@@ -46,7 +46,7 @@
 #include "teamtalk/client/DesktopShare.h"
 #include "teamtalk/client/ClientNodeBase.h"
 #include "teamtalk/client/ClientUser.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #if defined(WIN32)
 #include <ace/Init_ACE.h>

@@ -25,7 +25,7 @@
 
 #include "Convert.h"
 #include "TeamTalkDefs.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/OS_Memory.h>
 

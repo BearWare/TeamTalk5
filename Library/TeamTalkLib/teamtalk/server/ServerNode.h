@@ -36,7 +36,7 @@
 #include "teamtalk/PacketHandler.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Event_Handler.h>
 #include <ace/INET_Addr.h>

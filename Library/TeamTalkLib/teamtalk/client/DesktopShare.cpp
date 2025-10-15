@@ -26,7 +26,7 @@
 #include "codec/BmpFile.h"
 #include "myace/MyACE.h"
 #include "teamtalk/PacketLayout.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <zconf.h>
 #include <zlib.h>

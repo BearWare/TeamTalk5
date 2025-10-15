@@ -49,7 +49,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/teamtalk/PacketHelper.h
   ${TEAMTALKLIB_ROOT}/teamtalk/PacketLayout.h
   ${TEAMTALKLIB_ROOT}/teamtalk/StreamHandler.h
-  ${TEAMTALKLIB_ROOT}/teamtalk/ttassert.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/TTAssert.h
   ${TEAMTALKLIB_ROOT}/teamtalk/User.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioContainer.h
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioThread.h
@@ -84,7 +84,7 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/teamtalk/PacketHelper.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/PacketLayout.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/StreamHandler.cpp
-  ${TEAMTALKLIB_ROOT}/teamtalk/ttassert.cpp
+  ${TEAMTALKLIB_ROOT}/teamtalk/TTAssert.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/User.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioContainer.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/client/AudioThread.cpp

@@ -21,7 +21,7 @@
  *
  */
 
-#include "ttassert.h"
+#include "TTAssert.h"
 
 #include "Log.h"
 #include "myace/MyACE.h"

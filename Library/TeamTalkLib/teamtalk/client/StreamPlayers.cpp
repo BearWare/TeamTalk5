@@ -25,7 +25,7 @@
 
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
 

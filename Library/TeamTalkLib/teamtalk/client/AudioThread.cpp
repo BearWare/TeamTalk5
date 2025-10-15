@@ -26,7 +26,7 @@
 #include "myace/MyACE.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #if defined(ENABLE_WEBRTC)
 #include "avstream/WebRTCPreprocess.h"

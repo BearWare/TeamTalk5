@@ -26,7 +26,7 @@
 #include "CodecCommon.h"
 #include "DesktopSession.h"
 #include "myace/MyACE.h"
-#include "ttassert.h"
+#include "TTAssert.h"
 
 #include <ace/Time_Value.h>
 

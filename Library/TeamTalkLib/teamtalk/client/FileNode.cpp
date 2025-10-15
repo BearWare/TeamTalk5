@@ -24,7 +24,7 @@
 #include "FileNode.h"
 
 #include "teamtalk/Commands.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <cerrno>
 #include <cstddef>
