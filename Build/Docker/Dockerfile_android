@@ -23,6 +23,6 @@ RUN apt install -y \
                    wget \
                    xz-utils
 RUN mkdir /root/tt5dist
-RUN curl https://dl.google.com/android/repository/android-ndk-r28c-linux.zip -o /root/tt5dist/android-ndk.zip
+RUN curl https://dl.google.com/android/repository/android-ndk-r29-linux.zip -o /root/tt5dist/android-ndk.zip
 RUN cd /root/tt5dist && unzip android-ndk.zip
-ENV ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r28c
+ENV ANDROID_NDK_HOME=/root/tt5dist/android-ndk-r29
