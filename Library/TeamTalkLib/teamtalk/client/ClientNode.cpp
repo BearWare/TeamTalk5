@@ -28,7 +28,7 @@
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/DesktopSession.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <algorithm>
 #include <cassert>

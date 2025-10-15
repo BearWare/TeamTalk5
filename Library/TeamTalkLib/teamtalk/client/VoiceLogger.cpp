@@ -25,7 +25,7 @@
 
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Log.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Date_Time.h>
 #include <ace/FILE_IO.h>

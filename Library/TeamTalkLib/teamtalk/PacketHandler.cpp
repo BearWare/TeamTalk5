@@ -24,7 +24,7 @@
 #include "PacketHandler.h"
 
 #include "PacketLayout.h"
-#include "ttassert.h"
+#include "TTAssert.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
 

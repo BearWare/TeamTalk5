@@ -26,7 +26,7 @@
 #include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <algorithm>
 #include <cstring>

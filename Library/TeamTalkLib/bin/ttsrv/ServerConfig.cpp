@@ -34,7 +34,7 @@
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/Log.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 #include "teamtalk/server/ServerChannel.h"
 
 #include <ace/INET_Addr.h>

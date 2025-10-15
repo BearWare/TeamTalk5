@@ -33,7 +33,7 @@
 #include "teamtalk/Log.h"
 #include "teamtalk/server/ServerChannel.h"
 #include "teamtalk/server/ServerUser.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <cassert>
 #include <set>

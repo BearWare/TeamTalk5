@@ -29,7 +29,7 @@
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 #include "settings/Settings.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/Dirent_Selector.h>
 #include <ace/INet/HTTP_Status.h>

@@ -24,7 +24,7 @@
 #include "DesktopCache.h"
 
 #include "myace/MyACE.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <cassert>
 #include <cstddef>

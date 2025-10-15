@@ -25,7 +25,7 @@
 
 #include "Common.h"
 #include "PacketLayout.h"
-#include "ttassert.h"
+#include "TTAssert.h"
 
 #include <cassert>
 #include <cstddef>

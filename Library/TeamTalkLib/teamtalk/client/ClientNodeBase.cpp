@@ -24,7 +24,7 @@
 #include "ClientNodeBase.h"
 
 #include "myace/MyACE.h"
-#include "teamtalk/ttassert.h"
+#include "teamtalk/TTAssert.h"
 
 #include <ace/High_Res_Timer.h>
 #include <ace/Lock.h>
