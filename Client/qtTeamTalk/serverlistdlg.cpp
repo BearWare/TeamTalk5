@@ -602,6 +602,8 @@ void ServerListDlg::serverlistReply(QNetworkReply* reply)
     Q_ASSERT(m_httpsrvlist_manager);
     QByteArray data = reply->readAll();
 
+    qDebug() << data;
+
     QDomDocument doc("foo");
     if(!doc.setContent(data))
         return;
