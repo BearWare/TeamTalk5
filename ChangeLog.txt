@@ -18,6 +18,7 @@ Android Client
 - Fixed bug where the initial volume of media files did not match the settings screen
 iOS Client
 - Ukranian translation
+- Easy log on to server using Join Code
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Server
 - Ability to open TCP/UDP ports using UPnP
