@@ -22,7 +22,6 @@ jobs:
             dotnetarch: x86
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            msystem: MINGW32
             portablearch: win32
             vcpkgarch: x86-windows
           - name: VS2022Release64
@@ -32,7 +31,6 @@ jobs:
             qtarch: win64_msvc2022_64
             qtversion: '6.9.*'
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
-            msystem: MINGW64
             portablearch: win64
             vcpkgarch: x64-windows
         exlude:
@@ -210,28 +208,14 @@ jobs:
       shell: cmd
       run: tt5prosvc.exe -u
 
-    # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
-    - uses: msys2/setup-msys2@v2
-      with:
-        msystem: ${{ matrix.msystem }}
-        path-type: inherit
-        install: make
-
     - name: Compile TeamTalk5.chm
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
       shell: cmd
       run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp & exit /b 0'
 
     - name: Make Portable Setup Targets
-      working-directory: ${{runner.workspace}}
-      shell: msys2 {0}
-      run: |
-        cd install-teamtalk
-        export TEAMTALK_INSTALLDIR=$PWD
-        cd ../TeamTalk5
-        source env.sh
-        cd Setup/Portable
-        make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
+      shell: cmd
+      run: C:\cygwin64\bin\bash.exe -l -c "RUNNER_WS_UNIX=$(cygpath -u '${{runner.workspace}}') && cd \"$RUNNER_WS_UNIX/install-teamtalk\" && export TEAMTALK_INSTALLDIR=$PWD && cd ../TeamTalk5 && source env.sh && cd Setup/Portable && make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro"
 
     - name: Archive TeamTalk SDK Binaries
       uses: actions/upload-artifact@v4
