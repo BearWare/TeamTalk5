@@ -5513,7 +5513,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="442"/>
         <source>Ask confirmation before exiting</source>
-        <translation>나가기 전에 확인 질문하기</translation>
+        <translation>종료 전 확인하기</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="463"/>
