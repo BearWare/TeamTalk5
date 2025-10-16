@@ -26,7 +26,7 @@ jobs:
             portablearch: win32
             vcpkgarch: x86-windows
           - name: VS2022Release64
-            vmimage: windows-2022
+            vmimage: windows-2025
             cmakeplatform: x64
             dotnetarch: x64
             qtarch: win64_msvc2022_64
