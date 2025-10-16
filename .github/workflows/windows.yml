@@ -80,7 +80,7 @@ jobs:
     - name: Install Cygwin
       uses: cygwin/cygwin-install-action@v6
       with:
-        packages: make
+        packages: make dos2unix
         install-dir: 'C:\cygwin64'
         add-to-path: false
         work-vol: 'C:'
@@ -215,7 +215,7 @@ jobs:
 
     - name: Make Portable Setup Targets
       shell: cmd
-      run: C:\cygwin64\bin\bash.exe -l -c "RUNNER_WS_UNIX=$(cygpath -u '${{runner.workspace}}') && cd \"$RUNNER_WS_UNIX/install-teamtalk\" && export TEAMTALK_INSTALLDIR=$PWD && cd ../TeamTalk5 && source env.sh && cd Setup/Portable && make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro"
+      run: C:\cygwin64\bin\bash.exe -l -c "RUNNER_WS_UNIX=$(cygpath -u '${{runner.workspace}}') && cd \"$RUNNER_WS_UNIX/install-teamtalk\" && export TEAMTALK_INSTALLDIR=$PWD && cd ../TeamTalk5 && dos2unix env.sh && source env.sh && cd Setup/Portable && make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro"
 
     - name: Archive TeamTalk SDK Binaries
       uses: actions/upload-artifact@v4
