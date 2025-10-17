@@ -41,6 +41,7 @@
 #include <ace/OS.h>
 
 #include <algorithm>
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -67,11 +68,11 @@ using namespace teamtalk;
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
 {
     ACE_TString settings_path;
-    ACE_TCHAR buf[1024] = {};
+    std::array<ACE_TCHAR, 1024> buf;
 
     if(cfgfile.empty())
     {
-        ACE_TString workdir = ACE_OS::getcwd(buf, 1024);
+        ACE_TString workdir = ACE_OS::getcwd(buf.data(), buf.size());
         workdir += ACE_DIRECTORY_SEPARATOR_STR;
         settings_path = workdir + ACE_TEXT(TEAMTALK_SETTINGSFILE);
     }
@@ -283,6 +284,71 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
     xmlSettings.AddNewUser(user);
 }
 
+#if defined(ENABLE_TEAMTALKPRO)
+void ConfigureEncryption(bool& certverifyonce, int& certdepth,
+                         ACE_TString& cadir, ACE_TString& keyfile,
+                         ACE_TString& certfile, ACE_TString& cafile,
+                         bool& certverifypeer)
+{
+    cout << "Should server run in encrypted mode? ";
+    if(PrintGetBool((!certfile.empty()) && (!keyfile.empty())))
+    {
+        while (true)
+        {
+            cout << "Server certificate file (in PEM format) for encryption: ";
+            certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile).c_str()).c_str());
+            if (ACE_OS::filesize(certfile.c_str()) <= 0)
+                cerr << "File " << certfile << " not found!" << endl;
+            else break;
+        }
+
+        while (true)
+        {
+            cout << "Server private key file (in PEM format) for encryption: ";
+            keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile).c_str()).c_str());
+            if (ACE_OS::filesize(keyfile.c_str()) <= 0)
+                cerr << "File " << keyfile << " not found!" << endl;
+            else break;
+        }
+
+        cout << "Should server verify client's certificate with provided Certificate Authority (CA) certificate? ";
+        if ((certverifypeer = PrintGetBool(certverifypeer)))
+        {
+            cout << "File containing Certificate Authority (CA) certificate (in PEM format): ";
+            cafile = LocalToUnicode(PrintGetString(UnicodeToLocal(cafile).c_str()).c_str());
+
+            cout << "Directory containing Certificate Authority (CA) certificates (leave blank to only use single CA file): ";
+            cadir = LocalToUnicode(PrintGetString(UnicodeToLocal(cadir).c_str()).c_str());
+
+            cout << "Should client's certificate only be verified initially? ";
+            certverifyonce = PrintGetBool(certverifyonce);
+
+            cout << "Max depth in certificate chain during the verification process? ";
+            certdepth = (PrintGetInt(static_cast<int>(certdepth)) != 0);
+        }
+        else
+        {
+            cafile.clear();
+            cadir.clear();
+            certverifypeer = false;
+            certverifyonce = true;
+            certdepth = 0;
+        }
+    }
+    else
+    {
+        certfile.clear();
+        keyfile.clear();
+        cafile.clear();
+        cadir.clear();
+        certverifypeer = false;
+        certverifyonce = true;
+        certdepth = 0;
+    }
+}
+#endif /* ENABLE_TEAMTALKPRO */
+
+
 void RunWizard(teamtalk::ServerXML& xmlSettings)
 {
     cout << TEAMTALK_NAME << " " << TEAMTALK_VERSION_FRIENDLY << " configurator" << endl;
@@ -299,16 +365,18 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     ACE_TString motd;
     ACE_TString filesroot;
     std::vector<std::string> bindips;
+#if defined(ENABLE_TEAMTALKPRO)
     ACE_TString certfile;
     ACE_TString keyfile;
     ACE_TString cafile;
     ACE_TString cadir;
-    int maxusers;
+    bool certverifypeer = false;
+    bool certverifyonce = false;
+    int certdepth = 0;
+#endif
+    int maxusers = 0;
     int max_logins_per_ip = 0;
     bool autosave = true;
-    bool certverifypeer;
-    bool certverifyonce;
-    int certdepth = 0;
     int64_t diskquota = 0;
     int64_t maxdiskusage = 0;
     int64_t log_maxsize = 0;
@@ -378,8 +446,8 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(PrintGetBool(!filesroot.empty()))
     {
-        ACE_TCHAR buff[1024] = {};
-        ACE_OS::getcwd(buff, 1024);
+        std::array<ACE_TCHAR, 1024> buff;
+        ACE_OS::getcwd(buff.data(), buff.size());
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
 #else
@@ -399,7 +467,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             filesroot.clear();
             diskquota = 0;
         }
-        ACE_OS::chdir(buff);
+        ACE_OS::chdir(buff.data());
     }
     else
     {
@@ -443,63 +511,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     }
 
 #if defined(ENABLE_TEAMTALKPRO)
-    cout << "Should server run in encrypted mode? ";
-    if(PrintGetBool((!certfile.empty()) && (!keyfile.empty())))
-    {
-        while (true)
-        {
-            cout << "Server certificate file (in PEM format) for encryption: ";
-            certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile).c_str()).c_str());
-            if (ACE_OS::filesize(certfile.c_str()) <= 0)
-                cerr << "File " << certfile << " not found!" << endl;
-            else break;
-        }
-
-        while (true)
-        {
-            cout << "Server private key file (in PEM format) for encryption: ";
-            keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile).c_str()).c_str());
-            if (ACE_OS::filesize(keyfile.c_str()) <= 0)
-                cerr << "File " << keyfile << " not found!" << endl;
-            else break;
-        }
-
-        cout << "Should server verify client's certificate with provided Certificate Authority (CA) certificate? ";
-        if ((certverifypeer = PrintGetBool(certverifypeer)))
-        {
-            cout << "File containing Certificate Authority (CA) certificate (in PEM format): ";
-            cafile = LocalToUnicode(PrintGetString(UnicodeToLocal(cafile).c_str()).c_str());
-
-            cout << "Directory containing Certificate Authority (CA) certificates (leave blank to only use single CA file): ";
-            cadir = LocalToUnicode(PrintGetString(UnicodeToLocal(cadir).c_str()).c_str());
-
-            cout << "Should client's certificate only be verified initially? ";
-            certverifyonce = PrintGetBool(certverifyonce);
-
-            cout << "Max depth in certificate chain during the verification process? ";
-            certdepth = (PrintGetInt(static_cast<int>(certdepth)) != 0);
-        }
-        else
-        {
-            cafile.clear();
-            cadir.clear();
-            certverifypeer = false;
-            certverifyonce = true;
-            certdepth = 0;
-        }
-    }
-    else
-    {
-        certfile.clear();
-        keyfile.clear();
-        cafile.clear();
-        cadir.clear();
-        certverifypeer = false;
-        certverifyonce = true;
-        certdepth = 0;
-    }
-
-    bool const encrypted = (!certfile.empty()) && (!keyfile.empty());
+    ConfigureEncryption(certverifyonce, certdepth, cadir, keyfile, certfile, cafile, certverifypeer);
 #endif
 
     cout << endl << "User authentication." << endl;
@@ -517,10 +529,11 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         DELETE_USERACCOUNT,
         QUIT_USERACCOUNTS
     };
+
 #if defined(ENABLE_TEAMTALKPRO)
     ACE_CString url;
-#endif
     std::string xml;
+#endif
 
     while(input != QUIT_USERACCOUNTS)
     {
