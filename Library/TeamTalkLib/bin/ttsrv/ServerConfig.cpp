@@ -507,11 +507,16 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << endl;
     cout << "User account administration." << endl;
     int input = 0;
-    enum UserAccountOptions {LIST_USERACCOUNTS = 1, CREATE_USERACCOUNT,
-                     #if defined(ENABLE_TEAMTALKPRO)
-                             CREATE_USERACCOUNT_BEARWARE,
-                     #endif
-                             DELETE_USERACCOUNT, QUIT_USERACCOUNTS};
+    enum UserAccountOptions
+    {
+        LIST_USERACCOUNTS = 1,
+        CREATE_USERACCOUNT,
+#if defined(ENABLE_TEAMTALKPRO)
+        CREATE_USERACCOUNT_BEARWARE,
+#endif
+        DELETE_USERACCOUNT,
+        QUIT_USERACCOUNTS
+    };
 #if defined(ENABLE_TEAMTALKPRO)
     ACE_CString url;
 #endif
@@ -580,7 +585,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             switch(HttpGetRequest(url, xml))
             {
             case -1 :
-                cout << "Failed to query " << WEBLOGIN_URL;
+                cout << "Failed to query " << WEBLOGIN_URL << endl;
                 break;
             case 0 :
                 cout << "Invalid response from BearWare.dk login service" << endl;
@@ -590,8 +595,12 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
                 break;
             }
 
-            if (!LoginBearWare(xmlSettings))
-                break;
+            while (!LoginBearWare(xmlSettings))
+            {
+                cout << "Try again? ";
+                if (!PrintGetBool(true))
+                    break;
+            }
 
             cout << "Creating BearWare.dk web-login account." << endl;
             user.username = ACE_TEXT( WEBLOGIN_BEARWARE_USERNAME );
@@ -614,7 +623,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             if(count == 0)
             {
                 cout << "There's no active user account. No user will be able to log in!" << endl;
-                cout << "Are you sure you want to exit user account";
+                cout << "Are you sure you want to exit user account? ";
                 if(!PrintGetBool(false))
                     input = 0;
             }
@@ -711,7 +720,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         xmlSettings.SetCertificateAuthDir(UnicodeToUtf8(cadir).c_str());
         xmlSettings.SetCertificateVerify(certverifypeer);
         xmlSettings.SetCertificateVerifyOnce(certverifyonce);
-        xmlSettings.SetCertificateVerifyDepth(static_cast<int>(certdepth));
+        xmlSettings.SetCertificateVerifyDepth(certdepth);
 #endif
         xmlSettings.SetServerLogMaxSize(log_maxsize);
         xmlSettings.SetMaxLoginAttempts(max_login_attempts);
