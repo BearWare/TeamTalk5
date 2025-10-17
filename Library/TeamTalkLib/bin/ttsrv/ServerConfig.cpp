@@ -151,6 +151,138 @@ void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings)
     }
 }
 
+void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
+{
+    if (user.username.empty())
+    {
+        cout << "User account has no username. Create anonymous account? ";
+        if (!PrintGetBool(false))
+            return;
+    }
+
+    cout << "Available user types:" << endl;
+    cout << "\t1. Default user." << endl;
+    cout << "\t2. Administrator." << endl;
+    cout << "Select user type:";
+    switch(PrintGetInt(1))
+    {
+    case 2 :
+        user.usertype = USERTYPE_ADMIN;
+        break;
+    case 1 :
+    default :
+    {
+        user.usertype = USERTYPE_DEFAULT;
+        int userrights = USERRIGHT_NONE;
+        cout << "Should multiple users be allowed to log in with this user account? ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MULTI_LOGIN) != 0)?
+                         userrights | USERRIGHT_MULTI_LOGIN : userrights & ~USERRIGHT_MULTI_LOGIN;
+
+        cout << "User can change nickname: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_LOCKED_NICKNAME) == 0)?
+                         (userrights & ~USERRIGHT_LOCKED_NICKNAME) : (userrights | USERRIGHT_LOCKED_NICKNAME);
+
+        cout << "User can see all other users on server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_VIEW_ALL_USERS) != 0)?
+                         (userrights | USERRIGHT_VIEW_ALL_USERS) : (userrights & ~USERRIGHT_VIEW_ALL_USERS);
+
+        cout << "User can create temporary channels: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_CREATE_TEMPORARY_CHANNEL) != 0)?
+                         (userrights | USERRIGHT_CREATE_TEMPORARY_CHANNEL) : (userrights & ~USERRIGHT_CREATE_TEMPORARY_CHANNEL);
+
+        cout << "User can create/modify all channels: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MODIFY_CHANNELS) != 0)?
+                         (userrights | USERRIGHT_MODIFY_CHANNELS) : (userrights & ~USERRIGHT_MODIFY_CHANNELS);
+
+        cout << "User can sent private text messages: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_USER) != 0)?
+                         (userrights | USERRIGHT_TEXTMESSAGE_USER) : (userrights & ~USERRIGHT_TEXTMESSAGE_USER);
+
+        cout << "User can sent channel text messages: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_CHANNEL) != 0)?
+                         (userrights | USERRIGHT_TEXTMESSAGE_CHANNEL) : (userrights & ~USERRIGHT_TEXTMESSAGE_CHANNEL);
+
+        cout << "User can broadcast text message to all users: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_BROADCAST) != 0)?
+                         (userrights | USERRIGHT_TEXTMESSAGE_BROADCAST) : (userrights & ~USERRIGHT_TEXTMESSAGE_BROADCAST);
+
+        cout << "User can kick users off the server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_KICK_USERS) != 0)?
+                         (userrights | USERRIGHT_KICK_USERS) : (userrights & ~USERRIGHT_KICK_USERS);
+
+        cout << "User can ban users from the server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_BAN_USERS) != 0)?
+                         (userrights | USERRIGHT_BAN_USERS) : (userrights & ~USERRIGHT_BAN_USERS);
+
+        cout << "User can move users between channels: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MOVE_USERS) != 0)?
+                         (userrights | USERRIGHT_MOVE_USERS) : (userrights & ~USERRIGHT_MOVE_USERS);
+
+        cout << "User can make other users channel operator: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_OPERATOR_ENABLE) != 0)?
+                         (userrights | USERRIGHT_OPERATOR_ENABLE) : (userrights & ~USERRIGHT_OPERATOR_ENABLE);
+
+        cout << "User can upload files to channels: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPLOAD_FILES) != 0)?
+                         (userrights | USERRIGHT_UPLOAD_FILES) : (userrights & ~USERRIGHT_UPLOAD_FILES);
+
+        cout << "User can download files from channels: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_DOWNLOAD_FILES) != 0)?
+                         (userrights | USERRIGHT_DOWNLOAD_FILES) : (userrights & ~USERRIGHT_DOWNLOAD_FILES);
+
+        cout << "User can record conversations in channels that don't allow it: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_RECORD_VOICE) != 0)?
+                         (userrights | USERRIGHT_RECORD_VOICE) : (userrights & ~USERRIGHT_RECORD_VOICE);
+
+        cout << "User can update server properties: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0)?
+                         (userrights | USERRIGHT_UPDATE_SERVERPROPERTIES) : (userrights & ~USERRIGHT_UPDATE_SERVERPROPERTIES);
+
+        cout << "User can transmit voice (microphone input) packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VOICE) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_VOICE) : (userrights & ~USERRIGHT_TRANSMIT_VOICE);
+
+        cout << "User can transmit video (webcam) packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_VIDEOCAPTURE) : (userrights & ~USERRIGHT_TRANSMIT_VIDEOCAPTURE);
+
+        cout << "User can transmit desktop sharing packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOP) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_DESKTOP) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOP);
+
+        cout << "User can transmit remote desktop access packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_DESKTOPINPUT) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOPINPUT);
+
+        cout << "User can transmit audio file (wav, mp3 files) packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
+
+        cout << "User can transmit video file (avi, wmv files) packets through server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0)?
+                         (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
+
+        user.userrights = userrights;
+
+        cout << "Limit user's audio codec to a specific bit rate (in kbps), 0 = no limit: ";
+        user.audiobpslimit = PrintGetInt(0)*1000;
+
+        cout << "Limit number of commands user can issue (to prevent flooding)?";
+        if(PrintGetBool((user.abuse.n_cmds != 0) && (user.abuse.cmd_msec != 0)))
+        {
+            cout << "Number of commands to allow within specified time frame: ";
+            user.abuse.n_cmds = PrintGetInt(user.abuse.n_cmds);
+            cout << "User can enter " << user.abuse.n_cmds << " commands within this number of msec: ";
+            user.abuse.cmd_msec = PrintGetInt(user.abuse.cmd_msec);
+        }
+    }
+    break;
+    }
+
+    xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
+    xmlSettings.AddNewUser(user);
+}
+
 void RunWizard(teamtalk::ServerXML& xmlSettings)
 {
     cout << TEAMTALK_NAME << " " << TEAMTALK_VERSION_FRIENDLY << " configurator" << endl;
@@ -434,7 +566,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             user.username = LocalToUnicode(PrintGetString("").c_str());
             cout << "Type password: ";
             user.passwd = LocalToUnicode(PrintGetString("").c_str());
-            goto useraccountcfg;
+
+            ConfigureUserAccount(user, xmlSettings);
+            break;
 #if defined(ENABLE_TEAMTALKPRO)
         case CREATE_USERACCOUNT_BEARWARE :
             cout << "Testing BearWare.dk web-login service..." << endl;
@@ -462,138 +596,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             cout << "Creating BearWare.dk web-login account." << endl;
             user.username = ACE_TEXT( WEBLOGIN_BEARWARE_USERNAME );
             user.passwd = ACE_TEXT("");
-            goto useraccountcfg;
-#endif /* ENABLE_TEAMTALKPRO */
-useraccountcfg:
-            cout << "Available user types:" << endl;
-            cout << "\t1. Default user." << endl;
-            cout << "\t2. Administrator." << endl;
-            cout << "Select user type:";
-            switch(PrintGetInt(1))
-            {
-            case 2 :
-                user.usertype = USERTYPE_ADMIN;
-                break;
-            case 1 :
-            default :
-            {
-                user.usertype = USERTYPE_DEFAULT;
-                int userrights = USERRIGHT_NONE;
-                cout << "Should multiple users be allowed to log in with this user account? ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MULTI_LOGIN) != 0)?
-                            userrights | USERRIGHT_MULTI_LOGIN : userrights & ~USERRIGHT_MULTI_LOGIN;
-
-                cout << "User can change nickname: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_LOCKED_NICKNAME) == 0)?
-                            (userrights & ~USERRIGHT_LOCKED_NICKNAME) : (userrights | USERRIGHT_LOCKED_NICKNAME);
-
-                cout << "User can see all other users on server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_VIEW_ALL_USERS) != 0)?
-                            (userrights | USERRIGHT_VIEW_ALL_USERS) : (userrights & ~USERRIGHT_VIEW_ALL_USERS);
-
-                cout << "User can create temporary channels: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_CREATE_TEMPORARY_CHANNEL) != 0)?
-                            (userrights | USERRIGHT_CREATE_TEMPORARY_CHANNEL) : (userrights & ~USERRIGHT_CREATE_TEMPORARY_CHANNEL);
-
-                cout << "User can create/modify all channels: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MODIFY_CHANNELS) != 0)?
-                            (userrights | USERRIGHT_MODIFY_CHANNELS) : (userrights & ~USERRIGHT_MODIFY_CHANNELS);
-
-                cout << "User can sent private text messages: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_USER) != 0)?
-                                 (userrights | USERRIGHT_TEXTMESSAGE_USER) : (userrights & ~USERRIGHT_TEXTMESSAGE_USER);
-
-                cout << "User can sent channel text messages: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_CHANNEL) != 0)?
-                                 (userrights | USERRIGHT_TEXTMESSAGE_CHANNEL) : (userrights & ~USERRIGHT_TEXTMESSAGE_CHANNEL);
-
-                cout << "User can broadcast text message to all users: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_BROADCAST) != 0)?
-                            (userrights | USERRIGHT_TEXTMESSAGE_BROADCAST) : (userrights & ~USERRIGHT_TEXTMESSAGE_BROADCAST);
-
-                cout << "User can kick users off the server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_KICK_USERS) != 0)?
-                            (userrights | USERRIGHT_KICK_USERS) : (userrights & ~USERRIGHT_KICK_USERS);
-
-                cout << "User can ban users from the server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_BAN_USERS) != 0)?
-                            (userrights | USERRIGHT_BAN_USERS) : (userrights & ~USERRIGHT_BAN_USERS);
-
-                cout << "User can move users between channels: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MOVE_USERS) != 0)?
-                            (userrights | USERRIGHT_MOVE_USERS) : (userrights & ~USERRIGHT_MOVE_USERS);
-
-                cout << "User can make other users channel operator: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_OPERATOR_ENABLE) != 0)?
-                            (userrights | USERRIGHT_OPERATOR_ENABLE) : (userrights & ~USERRIGHT_OPERATOR_ENABLE);
-
-                cout << "User can upload files to channels: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPLOAD_FILES) != 0)?
-                            (userrights | USERRIGHT_UPLOAD_FILES) : (userrights & ~USERRIGHT_UPLOAD_FILES);
-
-                cout << "User can download files from channels: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_DOWNLOAD_FILES) != 0)?
-                            (userrights | USERRIGHT_DOWNLOAD_FILES) : (userrights & ~USERRIGHT_DOWNLOAD_FILES);
-
-                cout << "User can record conversations in channels that don't allow it: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_RECORD_VOICE) != 0)?
-                            (userrights | USERRIGHT_RECORD_VOICE) : (userrights & ~USERRIGHT_RECORD_VOICE);
-
-                cout << "User can update server properties: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0)?
-                            (userrights | USERRIGHT_UPDATE_SERVERPROPERTIES) : (userrights & ~USERRIGHT_UPDATE_SERVERPROPERTIES);
-
-                cout << "User can transmit voice (microphone input) packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VOICE) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_VOICE) : (userrights & ~USERRIGHT_TRANSMIT_VOICE);
-
-                cout << "User can transmit video (webcam) packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_VIDEOCAPTURE) : (userrights & ~USERRIGHT_TRANSMIT_VIDEOCAPTURE);
-
-                cout << "User can transmit desktop sharing packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOP) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_DESKTOP) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOP);
-
-                cout << "User can transmit remote desktop access packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_DESKTOPINPUT) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOPINPUT);
-
-                cout << "User can transmit audio file (wav, mp3 files) packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
-
-                cout << "User can transmit video file (avi, wmv files) packets through server: ";
-                userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0)?
-                            (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
-
-                user.userrights = userrights;
-
-                cout << "Limit user's audio codec to a specific bit rate (in kbps), 0 = no limit: ";
-                user.audiobpslimit = PrintGetInt(0)*1000;
-
-                cout << "Limit number of commands user can issue (to prevent flooding)?";
-                if(PrintGetBool((user.abuse.n_cmds != 0) && (user.abuse.cmd_msec != 0)))
-                {
-                    cout << "Number of commands to allow within specified time frame: ";
-                    user.abuse.n_cmds = PrintGetInt(user.abuse.n_cmds);
-                    cout << "User can enter " << user.abuse.n_cmds << " commands within this number of msec: ";
-                    user.abuse.cmd_msec = PrintGetInt(user.abuse.cmd_msec);
-                }
-            }
-                break;
-            }
-
-            if(user.username.empty())
-            {
-                cout << "User account has no username. Create anonymous account? ";
-                if(!PrintGetBool(false))
-                    break;
-            }
-
-            xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
-            xmlSettings.AddNewUser(user);
+            ConfigureUserAccount(user, xmlSettings);
             break;
+#endif /* ENABLE_TEAMTALKPRO */
         case DELETE_USERACCOUNT :
         {
             cout << "Type the username of the account to delete: ";
