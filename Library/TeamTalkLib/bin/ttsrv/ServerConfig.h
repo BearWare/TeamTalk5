@@ -23,8 +23,8 @@
 
 #include "ServerXML.h"
 #include "teamtalk/server/Server.h"
-#include "teamtalk/server/ServerUser.h"
 #include "teamtalk/server/ServerNode.h"
+#include "teamtalk/server/ServerUser.h"
 
 #include <ace/SString.h>
 
