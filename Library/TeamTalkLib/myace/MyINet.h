@@ -39,6 +39,8 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
 int HttpPostRequest(const ACE_CString& url, const char* data, int len,
                     const std::map<std::string,std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
+int HttpPostRequest(const ACE_CString& url, const std::map<std::string,std::string>& unencodedformdata,
+                    std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
 std::string URLEncode(const std::string& utf8);
 
 ACE_TString InetAddrToString(const ACE_INET_Addr& addr);
