@@ -280,6 +280,21 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
     return httpCode.is_ok() ? 1 : 0;
 }
 
+int HttpPostRequest(const ACE_CString& url, const std::map<std::string,std::string>& unencodedformdata,
+                    std::string& result, ACE::HTTP::Status::Code* statusCode/* = nullptr*/)
+{
+    std::string content;
+    auto count = unencodedformdata.size();
+    for (const auto& vp : unencodedformdata)
+    {
+        content += URLEncode(vp.first) + "=" + URLEncode(vp.second);
+        if (--count > 0)
+            content += "&";
+    }
+    std::map<std::string, std::string> headers;
+    headers["Content-Type"] = "application/x-www-form-urlencoded";
+    return HttpPostRequest(url, content.c_str(), content.size(), headers, result, statusCode);
+}
 
 std::string URLEncode(const std::string& utf8)
 {

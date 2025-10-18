@@ -33,6 +33,7 @@
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
+#include "settings/Settings.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/StreamHandler.h"
@@ -52,7 +53,7 @@
 #include "avstream/FFmpegStreamer.h"
 #endif
 
-#if defined (ENABLE_PORTAUDIO)
+#if defined(ENABLE_PORTAUDIO)
 #include "avstream/PortAudioWrapper.h"
 #endif
 
@@ -1662,6 +1663,24 @@ TEST_CASE("TestHTTPPost")
     std::string const content = "client=TeamTalk5&version=5.0.0.0";
     std::string result;
     REQUIRE(HttpPostRequest("http://www.bearware.dk/teamtalk/tt5update.php", content.c_str(), int(content.length()), headers, result) == 1);
+}
+
+TEST_CASE("TestHTTPPostData")
+{
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPPost\"... No Internet" << std::endl;
+        return;
+    }
+    std::map<std::string, std::string> formdata;
+    formdata["client"] = "TeamTalk5";
+    formdata["version"] = "5.0.0.0";
+    std::string result;
+    REQUIRE(HttpPostRequest("http://www.bearware.dk/teamtalk/tt5update.php", formdata, result) == 1);
+    teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+    REQUIRE(xmldoc.Parse(result));
+    std::string const version = xmldoc.GetValue(false, "teamtalk/name", "");
+    REQUIRE(version.size() > 0);
 }
 #endif
 
