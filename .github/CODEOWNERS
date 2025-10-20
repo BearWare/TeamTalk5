@@ -1,0 +1,16 @@
+/.github/CODEOWNERS @Maintainers
+/.github/workflows/ @Maintainers @hwangsihu
+/Build/ @Maintainers
+/Client/ @CoBC @bear101
+/Client/TeamTalkAndroid/ @bear101 @beqabeqa473
+/Client/iTeamTalk/ @bear101
+/Client/jSpamBot/ @bear101
+/Client/qtTeamTalk/ @CoBC @bear101
+/Documentation/TeamTalkSDK/ @bear101
+/Library/ @bear101
+/Server/ @bear101
+/Setup/ @bear101
+
+/CMakeLists.txt @Maintainers
+/ChangeLog.txt @Maintainers
+/LICENSE.txt @bear101
