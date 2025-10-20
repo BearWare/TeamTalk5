@@ -276,6 +276,12 @@ int RunServer(
 #endif
               )
 {
+#if defined(WIN32)
+    // Set console output code page to UTF-8 for proper Unicode display
+    SetConsoleOutputCP(CP_UTF8);
+    SetConsoleCP(CP_UTF8);
+#endif
+
     //avoid SIGPIPE
     ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
     ACE_Sig_Action original_action;

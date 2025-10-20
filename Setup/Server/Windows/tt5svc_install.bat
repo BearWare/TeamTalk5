@@ -1,5 +1,4 @@
 @echo off
-chcp 65001 >nul
 echo --------------------------------------------------
 echo        Installing TeamTalk 5 NT Service
 echo --------------------------------------------------
