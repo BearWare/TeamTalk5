@@ -186,7 +186,7 @@ BOOL CTeamTalkApp::InitInstance()
         {
             szArg = info.m_args.GetNext(pos);
             _tcsncat(msg.szPath, szArg.GetBuffer(), MAX_PATH);
-            _tcsncat(msg.szPath, _T("¤"), MAX_PATH);
+            _tcsncat(msg.szPath, _T(" "), MAX_PATH);
             bTTUrl |= StartsWith(szArg, TTURL, FALSE);
             bTTUrl |= EndsWith(szArg, _T( TTFILE_EXT ), FALSE);
         }
