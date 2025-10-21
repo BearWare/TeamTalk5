@@ -1,6 +1,6 @@
-/.github/CODEOWNERS @Maintainers
-/.github/workflows/ @Maintainers @hwangsihu
-/Build/ @Maintainers
+/.github/CODEOWNERS @BearWare/Maintainers
+/.github/workflows/ @BearWare/Maintainers @hwangsihu
+/Build/ @BearWare/Maintainers
 /Client/ @CoBC @bear101
 /Client/TeamTalkAndroid/ @bear101 @beqabeqa473
 /Client/iTeamTalk/ @bear101
@@ -11,6 +11,6 @@
 /Server/ @bear101
 /Setup/ @bear101
 
-/CMakeLists.txt @Maintainers
-/ChangeLog.txt @Maintainers
+/CMakeLists.txt @BearWare/Maintainers
+/ChangeLog.txt @BearWare/Maintainers
 /LICENSE.txt @bear101
