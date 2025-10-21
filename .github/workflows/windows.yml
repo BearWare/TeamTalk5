@@ -233,19 +233,19 @@ jobs:
         cd Setup/Portable
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
 
-    - name: Archive TeamTalk SDK Binaries
+    - name: Upload TeamTalk SDK archive
       uses: actions/upload-artifact@v4
       with:
         name: teamtalksdk-windows-${{ matrix.dotnetarch }}
         path: ${{runner.workspace}}/install-teamtalk
 
-    - name: Build Portable Archive
+    - name: Upload Portable Archive
       uses: actions/upload-artifact@v4
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
-    - name: Build TeamTalk Pro Server Archive
+    - name: Upload TeamTalk Pro Server Archive
       uses: actions/upload-artifact@v4
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
