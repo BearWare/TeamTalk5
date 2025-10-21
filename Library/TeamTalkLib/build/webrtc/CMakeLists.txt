@@ -49,7 +49,8 @@ if (MSVC)
     file(TO_NATIVE_PATH ${WEBRTC_INSTALL_ROOT} WEBRTC_INSTALL_ROOT_NATIVE)
 
     ExternalProject_Add(depot-tools
-      URL               https://storage.googleapis.com/chrome-infra/depot_tools.zip
+      GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      GIT_TAG           16dfe4717
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
@@ -65,42 +66,22 @@ if (MSVC)
 
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
-      set (WEBRTC_FETCH_CMD1 ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
-      set (WEBRTC_FETCH_CMD2 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD3 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD4 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD5 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD6 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD7 echo "Skip WebRTC CMD")
-      set (WEBRTC_FETCH_CMD8 echo "Skip WebRTC CMD")
-      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT})
+      set (WEBRTC_DOWNLOAD_CMD ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
+      set (WEBRTC_PATCH_CMD cd ${WEBRTC_SOURCE_ROOT})
       set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r6818.patch)
     else()
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
-      set (WEBRTC_FETCH_CMD1 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD2 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD4 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD5 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD6 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD7 echo "Skipping WebRTC fetching")
-      set (WEBRTC_FETCH_CMD8 echo "Skipping WebRTC fetching")
-      set (WEBRTC_PATCH_CMD1 echo "Skipping WebRTC patching")
-      set (WEBRTC_PATCH_CMD2 echo "Skipping WebRTC patching")
+      set (WEBRTC_DOWNLOAD_CMD "")
+      set (WEBRTC_PATCH_CMD "")
+      set (WEBRTC_PATCH_CMD2 "")
     endif()
 
     configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_copy_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_copy_win.bat)
 
     ExternalProject_Add(webrtc-src
-      DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-      COMMAND           ${WEBRTC_FETCH_CMD2}
-      COMMAND           ${WEBRTC_FETCH_CMD3}
-      COMMAND           ${WEBRTC_FETCH_CMD4}
-      COMMAND           ${WEBRTC_FETCH_CMD5}
-      COMMAND           ${WEBRTC_FETCH_CMD6}
-      COMMAND           ${WEBRTC_FETCH_CMD7}
-      COMMAND           ${WEBRTC_FETCH_CMD8}
-      PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+      DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD}
+      PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
       COMMAND           ${WEBRTC_PATCH_CMD2}
       UPDATE_COMMAND    ""
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
@@ -212,10 +193,10 @@ else()
 
     ExternalProject_Add(depot-tools
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
-      GIT_TAG           39b2e4ef
+      GIT_TAG           16dfe4717
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
-      CONFIGURE_COMMAND ""
+      CONFIGURE_COMMAND "<SOURCE_DIR>/ensure_bootstrap"
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
       )
@@ -243,24 +224,24 @@ else()
     # is executed.
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
-      set (WEBRTC_FETCH_CMD1 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && fetch --nohooks ${WEBRTC_REPO_NAME} && gclient sync --with_branch_heads --with_tags)
-      set (WEBRTC_FETCH_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/6818)
-      set (WEBRTC_FETCH_CMD3 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && gclient sync -D)
-      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/libteamtalk-r6818.patch)
+      set (WEBRTC_DOWNLOAD_CMD1 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && fetch ${WEBRTC_REPO_NAME} && gclient sync --with_branch_heads --with_tags)
+      set (WEBRTC_DOWNLOAD_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/6818)
+      set (WEBRTC_DOWNLOAD_CMD3 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && gclient sync -D)
+      set (WEBRTC_PATCH_CMD cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/libteamtalk-r6818.patch)
     else()
-      set (WEBRTC_FETCH_CMD1 true)
-      set (WEBRTC_FETCH_CMD2 true)
-      set (WEBRTC_FETCH_CMD3 true)
-      set (WEBRTC_PATCH_CMD1 true)
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
+      set (WEBRTC_DOWNLOAD_CMD1 "")
+      set (WEBRTC_DOWNLOAD_CMD2 "")
+      set (WEBRTC_DOWNLOAD_CMD3 "")
+      set (WEBRTC_PATCH_CMD "")
     endif()
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       ExternalProject_Add(webrtc-src
-        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-        COMMAND           ${WEBRTC_FETCH_CMD2}
-        COMMAND           ${WEBRTC_FETCH_CMD3}
-        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD1}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD2}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD3}
+        PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
@@ -273,10 +254,10 @@ else()
         )
     elseif(${CMAKE_SYSTEM_NAME} MATCHES "Android")
       ExternalProject_Add(webrtc-src
-        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-        COMMAND           ${WEBRTC_FETCH_CMD2}
-        COMMAND           ${WEBRTC_FETCH_CMD3}
-        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD1}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD2}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD3}
+        PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
@@ -289,10 +270,10 @@ else()
         )
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       ExternalProject_Add(webrtc-arm64-src
-        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-        COMMAND           ${WEBRTC_FETCH_CMD2}
-        COMMAND           ${WEBRTC_FETCH_CMD3}
-        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD1}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD2}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD3}
+        PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
@@ -304,10 +285,8 @@ else()
         DEPENDS depot-tools
         )
       ExternalProject_Add(webrtc-intel-src
-        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-        COMMAND           ${WEBRTC_FETCH_CMD2}
-        COMMAND           ${WEBRTC_FETCH_CMD3}
-        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        DOWNLOAD_COMMAND  ""
+        PATCH_COMMAND     ""
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
@@ -334,10 +313,10 @@ else()
 
     elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       ExternalProject_Add(webrtc-src
-        DOWNLOAD_COMMAND  ${WEBRTC_FETCH_CMD1}
-        COMMAND           ${WEBRTC_FETCH_CMD2}
-        COMMAND           ${WEBRTC_FETCH_CMD3}
-        PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
+        DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD1}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD2}
+        COMMAND           ${WEBRTC_DOWNLOAD_CMD3}
+        PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
