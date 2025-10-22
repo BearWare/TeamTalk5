@@ -28,8 +28,8 @@
 #include <cstdint>
 #include <string>
 
-#if defined(WIN32) && defined(CreateFile)
-#undef CreateFile
+#if defined(CreateFile)
+#pragma push_macro("CreateFile")
 #endif
 
 /* 
@@ -97,5 +97,10 @@ namespace teamtalk {
     };
 
 } // namespace teamtalk
+
+#if defined(CreateFile)
+#pragma pop_macro("CreateFile")
+#endif
+
 
 #endif // !defined(SETTINGS_H)
