@@ -79,7 +79,7 @@ dependencies {
     implementation 'androidx.preference:preference:1.2.1'
     implementation 'androidx.viewpager:viewpager:1.1.0'
     implementation 'com.google.android.material:material:1.13.0'
-    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.20')
+    implementation platform('org.jetbrains.kotlin:kotlin-bom:2.2.21')
     api 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.9.4'
     implementation files('libs/TeamTalk5.jar')
 
