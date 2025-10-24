@@ -15,16 +15,18 @@ jobs:
     runs-on: ubuntu-22.04
 
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v5
       with:
         submodules: true
 
-    - uses: actions/setup-java@v5
+    - name: Set up Java
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
 
-    - name: Refresh Ubuntu-repo
+    - name: Update Ubuntu repository
       run: sudo apt-get update
 
     - name: Remove unnecessary packages
@@ -33,7 +35,7 @@ jobs:
         # Ensure FFmpeg doesn't detect additional dependencies
         sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
 
-    - name: Install Dependencies
+    - name: Install dependencies
       run: >-
            sudo apt-get install
            cmake
@@ -67,7 +69,7 @@ jobs:
            yasm
            zlib1g-dev
 
-    - name: Create Build Environment
+    - name: Create build directory
       run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
@@ -94,14 +96,14 @@ jobs:
       working-directory: ${{runner.workspace}}/build
       run: cmake --build .
 
-    - name: Java Server API Test (non-encrypted)
+    - name: Run Java Server API tests (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
         ENCRYPTED: 0
         WEBRTC: 0
 
-    - name: Java Server API Test (encrypted)
+    - name: Run Java Server API tests (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -135,14 +137,14 @@ jobs:
         source env.sh
         make -C Client/ttserverlogpy
 
-    - name: Catch unit-test
+    - name: Run Catch unit tests
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
 
-    - name: Java Unit-test (non-encrypted)
+    - name: Run Java unit tests (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunit
       env:
@@ -158,7 +160,7 @@ jobs:
         cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5prosrv -d -c Server/tt5srv.xml
 
-    - name: Java Unit-test with shared audio devices (non-encrypted)
+    - name: Run Java unit tests with shared audio devices (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -179,7 +181,7 @@ jobs:
         cp Library/TeamTalkLib/test/ca.cer Server/
         Server/tt5prosrv -d -wd Server/
 
-    - name: Java Unit-test with virtual audio device (encrypted)
+    - name: Run Java unit tests with virtual audio device (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
