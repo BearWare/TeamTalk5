@@ -1,6 +1,6 @@
 name: Windows
 
-on: [push, pull_request]
+on: [push]
 
 env:
   # TeamTalk unit test environment variables
@@ -25,6 +25,7 @@ jobs:
             msystem: MINGW32
             portablearch: win32
             vcpkgarch: x86-windows
+            javaversion: 19
           - name: VS2022Release64
             vmimage: windows-2025
             cmakeplatform: x64
@@ -35,8 +36,7 @@ jobs:
             msystem: MINGW64
             portablearch: win64
             vcpkgarch: x64-windows
-        exlude:
-          - name: VS2019Release32
+            javaversion: 21
 
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
@@ -48,7 +48,7 @@ jobs:
     - uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.dotnetarch }}
 
     - uses: actions/setup-python@v6
@@ -57,6 +57,7 @@ jobs:
         architecture: ${{ matrix.dotnetarch }}
 
     - uses: jurplel/install-qt-action@v4
+      if: matrix.name != 'VS2019Release32'
       with:
         arch: '${{ matrix.qtarch }}'
         version: '${{ matrix.qtversion }}'
