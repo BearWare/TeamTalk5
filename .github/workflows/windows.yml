@@ -57,6 +57,7 @@ jobs:
         architecture: ${{ matrix.dotnetarch }}
 
     - uses: jurplel/install-qt-action@v4
+      if: matrix.name != 'VS2019Release32'
       with:
         arch: '${{ matrix.qtarch }}'
         version: '${{ matrix.qtversion }}'
