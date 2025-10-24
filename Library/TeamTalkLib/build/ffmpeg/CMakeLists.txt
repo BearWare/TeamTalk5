@@ -21,31 +21,22 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
       --prefix=<INSTALL_DIR>
-      # External libraries:
-      --disable-iconv
-      --disable-libxcb
-      --disable-libxcb-shape
-      --disable-libxcb-shm
-      --disable-libxcb-xfixes
-      --disable-lzma
-      --disable-schannel
-      --disable-sdl2
-      --disable-securetransport
-      --disable-xlib
-      --enable-openssl
       # Programs/docs
       --disable-doc
       --disable-programs
+      # Minimal build
+      --disable-autodetect
+      --enable-openssl
+      --enable-zlib
       # Compile options (yasm does not work for arm64)
       --disable-asm
-      --disable-optimizations
-      --disable-stripping
-      --enable-debug=3
+      --disable-debug
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --pkg-config-flags=--static
-      --enable-cross-compile --target-os=darwin --arch=arm64
+      --enable-cross-compile
+      --target-os=darwin --arch=arm64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -68,30 +59,21 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
       --prefix=<INSTALL_DIR>
-      # External libraries:
-      --disable-iconv
-      --disable-libxcb
-      --disable-libxcb-shape
-      --disable-libxcb-shm
-      --disable-libxcb-xfixes
-      --disable-lzma
-      --disable-schannel
-      --disable-sdl2
-      --disable-securetransport
-      --disable-xlib
-      --enable-openssl
       # Programs/docs
       --disable-doc
       --disable-programs
+      # Minimal build
+      --disable-autodetect
+      --enable-openssl
+      --enable-zlib
       # Compile options
-      --disable-optimizations
-      --disable-stripping
-      --enable-debug=3
+      --disable-debug
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
       --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
       --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
       --pkg-config-flags=--static
-      --enable-cross-compile --target-os=darwin --arch=x86_64
+      --enable-cross-compile
+      --target-os=darwin --arch=x86_64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -243,14 +225,14 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     set (GAS_DIR ${SOURCE_DIR})
 
     set (FFMPEG_CFG_FLAGS --target-os=darwin --sysroot=${CMAKE_OSX_SYSROOT}
-      # External libraries:
-      --disable-videotoolbox
-      --disable-audiotoolbox
-      --disable-securetransport
       # Programs/docs
       --disable-doc
       --disable-programs
+      # Minimal build
+      --disable-autodetect
+      --enable-zlib
       # Compile options
+      --disable-debug
       --enable-pic
       --enable-cross-compile)
 
@@ -377,13 +359,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
-      # External libraries:
-      --disable-libxcb
-      --enable-openssl
       # Programs/docs
       --disable-doc
       --disable-programs
+      # Minimal build
+      --disable-autodetect
+      --enable-openssl
+      --enable-zlib
       # Compile options
+      --disable-debug
       --enable-pic
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
@@ -491,14 +475,14 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>
-      # External libraries:
-      --disable-indev=v4l2
-      --disable-indev=android_camera
-      --disable-vulkan
       # Programs/docs
       --disable-doc
       --disable-programs
+      # Minimal build
+      --disable-autodetect
+      --enable-zlib
       # Compile options
+      --disable-debug
       --enable-pic
       --enable-cross-compile --sysroot=${CMAKE_SYSROOT} --target-os=android
       BUILD_COMMAND     ${FFMPEG_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
