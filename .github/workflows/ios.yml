@@ -19,12 +19,6 @@ jobs:
     steps:
     - uses: actions/checkout@v5
 
-    - name: Update Homebrew repo
-      run: brew update
-
-    - name: Update packages
-      run: brew upgrade && brew autoremove && brew cleanup
-
     - name: Install TeamTalk Library Dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make depend-mac

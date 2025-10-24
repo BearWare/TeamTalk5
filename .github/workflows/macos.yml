@@ -30,12 +30,6 @@ jobs:
         version: '6.9.*'
         modules: 'qtmultimedia qtspeech'
 
-    - name: Refresh Homebrew repo
-      run: brew update
-
-    - name: Update packages
-      run: brew upgrade && brew autoremove && brew cleanup
-
     - name: Print env
       run: printenv | sort
 
