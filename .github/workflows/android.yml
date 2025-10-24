@@ -23,36 +23,39 @@ jobs:
     runs-on: ubuntu-24.04
     name: ${{ matrix.name }}
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v5
 
-    - uses: actions/setup-java@v5
+    - name: Set up Java
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '17'
 
-    - uses: nttld/setup-ndk@v1
+    - name: Set up Android NDK
+      uses: nttld/setup-ndk@v1
       id: setup-ndk
       with:
         ndk-version: r29
         add-to-path: false
 
-    - name: Refresh Ubuntu-repo
+    - name: Update Ubuntu repository
       run: sudo apt-get update
 
     - name: Print env
       run: printenv | sort
 
-    - name: Install TeamTalk Library Dependencies
+    - name: Install dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: sudo make depend-ubuntu24-android
 
-    - name: Build TeamTalk Library for Android
+    - name: Build TeamTalk library for Android
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Build TeamTalk 5 Java Tests
+    - name: Build Java test targets
       working-directory: ${{runner.workspace}}
       run: |
         cmake -S ${{runner.workspace}}/TeamTalk5 -B build-host -DBUILD_TEAMTALK_CORE=OFF
@@ -60,7 +63,7 @@ jobs:
         cmake --build build-host --target TeamTalk5ProTest
         cmake --build build-host --target TeamTalk5SrvTest
 
-    - name: Build TeamTalk Android Client
+    - name: Build TeamTalk Android client
       working-directory: ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid
       run: |
         ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/TeamTalk5.jar ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/libs/TeamTalk5.jar
@@ -68,11 +71,11 @@ jobs:
         ln -s ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI/libs/${{ matrix.arch }}/libTeamTalk5-jni.so ${{runner.workspace}}/TeamTalk5/Client/TeamTalkAndroid/src/main/jniLibs/${{ matrix.arch }}/libTeamTalk5-jni.so
         ./gradlew build -x packageRelease
 
-    - name: Run CMake Install Target
+    - name: Install TeamTalk SDK
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.maketarget }}
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk Artifact
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-${{ matrix.maketarget }}
