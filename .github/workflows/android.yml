@@ -39,9 +39,6 @@ jobs:
     - name: Refresh Ubuntu-repo
       run: sudo apt-get update
 
-    - name: Update packages
-      run: sudo apt-get dist-upgrade && sudo apt-get autoremove --purge
-
     - name: Print env
       run: printenv | sort
 

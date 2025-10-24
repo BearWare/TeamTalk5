@@ -27,9 +27,8 @@ jobs:
     - name: Refresh Ubuntu-repo
       run: sudo apt-get update
 
-    - name: Update packages
+    - name: Remove unnecessary packages
       run: |
-        sudo apt-get dist-upgrade
         sudo apt-get autoremove --purge
         # Ensure FFmpeg doesn't detect additional dependencies
         sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
