@@ -27,7 +27,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       # Minimal build
       --disable-autodetect
       --enable-openssl
-      --enable-zlib
       # Compile options (yasm does not work for arm64)
       --disable-asm
       --disable-debug
@@ -35,7 +34,8 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       --extra-cxxflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --extra-ldexeflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
       --pkg-config-flags=--static
-      --enable-cross-compile --target-os=darwin --arch=arm64
+      --enable-cross-compile
+      --target-os=darwin --arch=arm64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
@@ -64,7 +64,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       # Minimal build
       --disable-autodetect
       --enable-openssl
-      --enable-zlib
       # Compile options
       --disable-debug
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ x86_64
