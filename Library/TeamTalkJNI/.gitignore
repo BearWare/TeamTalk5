@@ -1,7 +1,48 @@
-.classpath
+# Compiled class file
+*.class
+
+# BlueJ files
+*.ctxt
+
+# Mobile Tools for Java (J2ME)
+.mtj.tmp/
+
+# Package Files #
+*.jar
+*.war
+*.nar
+*.ear
+*.zip
+*.tar.gz
+*.rar
+
+# virtual machine crash logs
+hs_err_pid*
+replay_pid*
+
+# Gradle files
+.gradle/
+build/
+!**/src/**/build/
+
+# Gradle GUI config
+gradle-app.setting
+
+# Avoid ignoring Gradle wrapper jar file
+!gradle-wrapper.jar
+
+# Avoid ignore Gradle wrappper properties
+!gradle-wrapper.properties
+
+# Cache of project
+.gradletasknamecache
+
+# Eclipse Gradle plugin generated files
 .project
+.classpath
+
+# TeamTalk Files
 .settings
-bin
 gen
 libs/armeabi-v7a/libTeamTalk5-jni*
 libs/armeabi-v7a/libTeamTalk5Pro-jni*
@@ -10,8 +51,3 @@ libs/libTeamTalk5Pro-jni*
 libs/*.jar
 src/build
 jni/*.mk
-obj
-*.class
-*.jar
-Debug
-Release

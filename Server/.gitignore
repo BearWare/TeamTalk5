@@ -1,15 +1,9 @@
-/*.ilk
-/*.pdb
 /ca.cer
 /tt5prosrv
-/tt5prosrv.exe
-/tt5prosrv.log
 /tt5prosrv.xml
-/tt5prosvc.exe
+/tt5prosvc
 /tt5srv
-/tt5srv.exe
-/tt5srv.log
 /tt5srv.xml
-/tt5svc.exe
+/tt5svc
 /ttservercert.pem
 /ttserverkey.pem

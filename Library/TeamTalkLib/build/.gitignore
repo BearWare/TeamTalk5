@@ -1,4 +1,3 @@
-*.vcxproj*
 .depend*
 /*Makefile*
 InstallDir
