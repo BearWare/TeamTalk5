@@ -1,26 +1,45 @@
-/*.vcxproj*
-/*_plugin_import.cpp
+# Qt-es
+object_script.*.Release
+object_script.*.Debug
+*_plugin_import.cpp
+/.qmake.cache
 /.qmake.stash
-/Makefile
-/SAAPI32.dll
-/SAAPI64.dll
-/TeamTalk.app
-/TeamTalk5.app
-/TeamTalk5.exe
-/TeamTalk5Pro.app
-/TeamTalk5Pro.exe
-/TeamTalkPro.app
-/Tolk.dll
+*.pro.user
+*.pro.user.*
+*.qbs.user
+*.qbs.user.*
+*.moc
+moc_*.cpp
+moc_*.h
+qrc_*.cpp
+ui_*.h
+*.qmlc
+*.jsc
+*build-*
+*.qm
+*.prl
+
+# Qt unit tests
+target_wrapper.*
+
+# QtCreator
+*.autosave
+
+# QtCreator Qml
+*.qmlproject.user
+*.qmlproject.user.*
+
+# QtCreator local machine specific files for imported projects
+*creator.user*
+
+*_qmlcache.qrc
+
+# TeamTalk Files
 /build
 /debug
-/dolapi32.dll
 /license.h
-/nvdaControllerClient32.dll
-/nvdaControllerClient64.dll
 /release
 /teamtalk5
-/teamtalk5.pro.user
 /teamtalk5pro
-/teamtalk5pro.pro.user
 /uic_wrapper.bat
 /windeployqt
