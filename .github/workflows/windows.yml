@@ -31,7 +31,7 @@ jobs:
             cmakeplatform: x64
             dotnetarch: x64
             qtarch: win64_msvc2022_64
-            qtversion: '6.9.*'
+            qtversion: '6.10.*'
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             msystem: MINGW64
             portablearch: win64
