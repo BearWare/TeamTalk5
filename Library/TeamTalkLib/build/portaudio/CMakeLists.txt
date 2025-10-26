@@ -45,11 +45,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
-      GIT_TAG           ba3f91f
+      GIT_TAG           7786be7
       UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
@@ -78,19 +78,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
-      GIT_TAG           ba3f91f
+      GIT_TAG           7786be7
       UPDATE_DISCONNECTED ON
-      # There seems to be a bug in FindOSS.cmake on Ubuntu 18, so
-      # although PA_USE_OSS=OFF then PortAudio's CMake configuration
-      # still generates an error:
-      #    CMake Error at cmake/modules/FindOSS.cmake:54 (target_include_directories):
-      #    Cannot specify include directories for imported target "OSS::oss".
-      # This portaudio_oss.patch disables OSS altogether
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/portaudio_oss.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-pulseaudioHostApi-use-after-free-in-PaPulseAudio.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_PULSEAUDIO=ON -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DPA_BUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_PULSEAUDIO=ON -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DPA_BUILD_SHARED_LIBS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
