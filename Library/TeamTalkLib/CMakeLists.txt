@@ -170,6 +170,10 @@ if (BUILD_TEAMTALK_LIBRARY_DLL)
   target_link_libraries (TeamTalk5DLL PRIVATE ${TTCLIENTDLL_LINK_FLAGS} ${LINK_LIBS})
   set_target_properties (TeamTalk5DLL PROPERTIES OUTPUT_NAME TeamTalk5)
 
+  if (MSVC AND ${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+    target_link_options (TeamTalk5DLL PRIVATE /NODEFAULTLIB:MSVCRT /NODEFAULTLIB:vcruntime.lib)
+  endif()
+
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5DLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
@@ -245,6 +249,10 @@ if (BUILD_TEAMTALK_LIBRARY_DLLPRO)
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
   target_link_libraries (TeamTalk5ProDLL PRIVATE ${TTCLIENTPRODLL_LINK_FLAGS} ${LINK_LIBS})
+
+  if (MSVC AND ${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+    target_link_options (TeamTalk5ProDLL PRIVATE /NODEFAULTLIB:MSVCRT /NODEFAULTLIB:vcruntime.lib)
+  endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     set_output_dir(TeamTalk5ProDLL ${TEAMTALK_ROOT}/Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
@@ -456,6 +464,10 @@ if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
 
   target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
     ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML_LINK_FLAGS})
+
+  if (MSVC AND ${CMAKE_SIZEOF_VOID_P} EQUAL 4)
+    target_link_options (catchtt PRIVATE /NODEFAULTLIB:MSVCRT /NODEFAULTLIB:vcruntime.lib)
+  endif()
 
   set_output_dir(catchtt ${TEAMTALK_ROOT}/Library/TeamTalkLib/test)
 
