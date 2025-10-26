@@ -203,6 +203,7 @@ extends AppCompatActivity
     boolean restarting;
     SensorManager mSensorManager;
     Sensor mSensor;
+    boolean isProximitySensorRegistered = false;
     Map<Integer, User> users = new HashMap<>();
 
     static final String MESSAGE_NOTIFICATION_TAG = "incoming_message";
@@ -487,7 +488,11 @@ extends AppCompatActivity
     @Override
     protected void onResume() {
         super.onResume();
-        mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+        boolean proximitySensor = prefs.get("proximity_sensor_checkbox", false);
+        if (proximitySensor) {
+            mSensorManager.registerListener(this, mSensor, SensorManager.SENSOR_DELAY_NORMAL);
+            isProximitySensorRegistered = true;
+        }
 
         if (audioIcons != null)
             audioIcons.release();
@@ -601,7 +606,10 @@ extends AppCompatActivity
     protected void onDestroy() {
         super.onDestroy();
 
-        mSensorManager.unregisterListener(this);
+        if (isProximitySensorRegistered) {
+            mSensorManager.unregisterListener(this);
+            isProximitySensorRegistered = false;
+        }
         // Unbind from the service
         if(mConnection.isBound()) {
             Log.d(TAG, "Unbinding TeamTalk service");
@@ -699,8 +707,8 @@ extends AppCompatActivity
     }
 
     public void onSensorChanged(SensorEvent event) {
-        boolean proximity_sensor = prefs.get("proximity_sensor_checkbox", false);
-        if (proximity_sensor && (mConnection != null) && mConnection.isBound() && !getService().isInPhoneCall()) {
+        boolean proximitySensor = prefs.get("proximity_sensor_checkbox", false);
+        if (proximitySensor && (mConnection != null) && mConnection.isBound() && !getService().isInPhoneCall()) {
             if (event.values[0] == 0) {
                 proximityWakeLock.acquire();
                 audioManager.setMode(AudioManager.MODE_IN_COMMUNICATION);
