@@ -1,0 +1,1890 @@
+From e7d4cf85222ab81f5dbb1db9d0a7e0580f19bd34 Mon Sep 17 00:00:00 2001
+From: "Bjoern D. Rasmussen" <contact@bearware.dk>
+Date: Fri, 12 Jan 2018 13:08:03 +0100
+Subject: [PATCH 1/2] VS2015 proj
+
+---
+ win32/VS2015/libspeexdsp.sln                  | 271 ++++++++++++
+ win32/VS2015/libspeexdsp/Makefile.am          |   8 +
+ win32/VS2015/libspeexdsp/libspeexdsp.vcxproj  | 390 ++++++++++++++++++
+ .../libspeexdsp/libspeexdsp.vcxproj.filters   | 125 ++++++
+ win32/VS2015/tests/Makefile.am                |   8 +
+ win32/VS2015/tests/testdenoise.vcxproj        | 305 ++++++++++++++
+ .../VS2015/tests/testdenoise.vcxproj.filters  |  22 +
+ win32/VS2015/tests/testecho.vcxproj           | 305 ++++++++++++++
+ win32/VS2015/tests/testecho.vcxproj.filters   |  22 +
+ win32/VS2015/tests/testresample.vcxproj       | 305 ++++++++++++++
+ .../VS2015/tests/testresample.vcxproj.filters |  22 +
+ 11 files changed, 1783 insertions(+)
+ create mode 100644 win32/VS2015/libspeexdsp.sln
+ create mode 100644 win32/VS2015/libspeexdsp/Makefile.am
+ create mode 100644 win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
+ create mode 100644 win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
+ create mode 100644 win32/VS2015/tests/Makefile.am
+ create mode 100644 win32/VS2015/tests/testdenoise.vcxproj
+ create mode 100644 win32/VS2015/tests/testdenoise.vcxproj.filters
+ create mode 100644 win32/VS2015/tests/testecho.vcxproj
+ create mode 100644 win32/VS2015/tests/testecho.vcxproj.filters
+ create mode 100644 win32/VS2015/tests/testresample.vcxproj
+ create mode 100644 win32/VS2015/tests/testresample.vcxproj.filters
+
+diff --git a/win32/VS2015/libspeexdsp.sln b/win32/VS2015/libspeexdsp.sln
+new file mode 100644
+index 0000000..d7eb7ad
+--- /dev/null
++++ b/win32/VS2015/libspeexdsp.sln
+@@ -0,0 +1,271 @@
++Microsoft Visual Studio Solution File, Format Version 12.00
++# Visual Studio 14
++VisualStudioVersion = 14.0.25420.1
++MinimumVisualStudioVersion = 10.0.40219.1
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testdenoise", "tests\testdenoise.vcxproj", "{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}"
++EndProject
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testecho", "tests\testecho.vcxproj", "{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}"
++EndProject
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testresample", "tests\testresample.vcxproj", "{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}"
++EndProject
++Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "libspeexdsp", "libspeexdsp\libspeexdsp.vcxproj", "{03207781-0D1C-4DB3-A71D-45C608F28DBD}"
++EndProject
++Global
++	GlobalSection(SolutionConfigurationPlatforms) = preSolution
++		Debug_RTL_dll|Win32 = Debug_RTL_dll|Win32
++		Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Debug_RTL_dll|x64 = Debug_RTL_dll|x64
++		Debug_WM5_PPC_ARM|Win32 = Debug_WM5_PPC_ARM|Win32
++		Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Debug_WM5_PPC_ARM|x64 = Debug_WM5_PPC_ARM|x64
++		Debug|Win32 = Debug|Win32
++		Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Debug|x64 = Debug|x64
++		Release_Dynamic_SSE|Win32 = Release_Dynamic_SSE|Win32
++		Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_Dynamic_SSE|x64 = Release_Dynamic_SSE|x64
++		Release_Dynamic|Win32 = Release_Dynamic|Win32
++		Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_Dynamic|x64 = Release_Dynamic|x64
++		Release_RTL_dll|Win32 = Release_RTL_dll|Win32
++		Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_RTL_dll|x64 = Release_RTL_dll|x64
++		Release_SSE|Win32 = Release_SSE|Win32
++		Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_SSE|x64 = Release_SSE|x64
++		Release_SSE2|Win32 = Release_SSE2|Win32
++		Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_SSE2|x64 = Release_SSE2|x64
++		Release_Static_SSE|Win32 = Release_Static_SSE|Win32
++		Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_Static_SSE|x64 = Release_Static_SSE|x64
++		Release_WM5_PPC_ARM|Win32 = Release_WM5_PPC_ARM|Win32
++		Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release_WM5_PPC_ARM|x64 = Release_WM5_PPC_ARM|x64
++		Release|Win32 = Release|Win32
++		Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I) = Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I)
++		Release|x64 = Release|x64
++	EndGlobalSection
++	GlobalSection(ProjectConfigurationPlatforms) = postSolution
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_RTL_dll|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_RTL_dll|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_RTL_dll|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_RTL_dll|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_WM5_PPC_ARM|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_WM5_PPC_ARM|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_WM5_PPC_ARM|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug_WM5_PPC_ARM|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Debug|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Dynamic|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_RTL_dll|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_RTL_dll|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_RTL_dll|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_RTL_dll|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE2|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE2|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE2|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_SSE2|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_Static_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_WM5_PPC_ARM|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_WM5_PPC_ARM|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_WM5_PPC_ARM|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release_WM5_PPC_ARM|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|Win32.ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|Win32.Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|x64.ActiveCfg = Release|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}.Release|x64.Build.0 = Release|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_RTL_dll|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_RTL_dll|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_RTL_dll|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_RTL_dll|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_WM5_PPC_ARM|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_WM5_PPC_ARM|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_WM5_PPC_ARM|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug_WM5_PPC_ARM|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Debug|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Dynamic|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_RTL_dll|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_RTL_dll|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_RTL_dll|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_RTL_dll|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE2|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE2|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE2|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_SSE2|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_Static_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_WM5_PPC_ARM|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_WM5_PPC_ARM|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_WM5_PPC_ARM|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release_WM5_PPC_ARM|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|Win32.ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|Win32.Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|x64.ActiveCfg = Release|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}.Release|x64.Build.0 = Release|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_RTL_dll|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_RTL_dll|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_RTL_dll|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_RTL_dll|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_WM5_PPC_ARM|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_WM5_PPC_ARM|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_WM5_PPC_ARM|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug_WM5_PPC_ARM|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|Win32.ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|Win32.Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Debug|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|x64.ActiveCfg = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Debug|x64.Build.0 = Debug|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Dynamic|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_RTL_dll|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_RTL_dll|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_RTL_dll|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_RTL_dll|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE2|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE2|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE2|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_SSE2|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_Static_SSE|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_WM5_PPC_ARM|Win32.ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_WM5_PPC_ARM|Win32.Build.0 = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_SSE|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_WM5_PPC_ARM|x64.ActiveCfg = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release_WM5_PPC_ARM|x64.Build.0 = Release_SSE|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|Win32.ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|Win32.Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).Build.0 = Release|Win32
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|x64.ActiveCfg = Release|x64
++		{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}.Release|x64.Build.0 = Release|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_RTL_dll|Win32.ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_RTL_dll|x64.ActiveCfg = Debug|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_RTL_dll|x64.Build.0 = Debug|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_WM5_PPC_ARM|Win32.ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_WM5_PPC_ARM|x64.ActiveCfg = Debug|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug_WM5_PPC_ARM|x64.Build.0 = Debug|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug|Win32.ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Debug|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Debug|x64.ActiveCfg = Debug|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic_SSE|Win32.ActiveCfg = Release_Dynamic_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Dynamic_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic_SSE|x64.ActiveCfg = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic|Win32.ActiveCfg = Release_Dynamic_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Dynamic_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic|x64.ActiveCfg = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Dynamic|x64.Build.0 = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_RTL_dll|Win32.ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_RTL_dll|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_RTL_dll|x64.ActiveCfg = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_RTL_dll|x64.Build.0 = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE|Win32.ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE|x64.ActiveCfg = Release_Static_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE|x64.Build.0 = Release_Static_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE2|Win32.ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE2|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE2|x64.ActiveCfg = Release_Static_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_SSE2|x64.Build.0 = Release_Static_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Static_SSE|Win32.ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Static_SSE|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_Static_SSE|x64.ActiveCfg = Release_Static_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_WM5_PPC_ARM|Win32.ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_WM5_PPC_ARM|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release_Static_SSE|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_WM5_PPC_ARM|x64.ActiveCfg = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release_WM5_PPC_ARM|x64.Build.0 = Release_Dynamic_SSE|x64
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release|Win32.ActiveCfg = Release|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release|Windows Mobile 5.0 Pocket PC SDK (ARMV4I).ActiveCfg = Release|Win32
++		{03207781-0D1C-4DB3-A71D-45C608F28DBD}.Release|x64.ActiveCfg = Release|x64
++	EndGlobalSection
++	GlobalSection(SolutionProperties) = preSolution
++		HideSolutionNode = FALSE
++	EndGlobalSection
++EndGlobal
+diff --git a/win32/VS2015/libspeexdsp/Makefile.am b/win32/VS2015/libspeexdsp/Makefile.am
+new file mode 100644
+index 0000000..796fefc
+--- /dev/null
++++ b/win32/VS2015/libspeexdsp/Makefile.am
+@@ -0,0 +1,8 @@
++## Process this file with automake to produce Makefile.in. -*-Makefile-*-
++
++# Disable automatic dependency tracking if using other tools than gcc and gmake
++#AUTOMAKE_OPTIONS = no-dependencies
++
++EXTRA_DIST = libspeexdsp.vcproj
++
++
+diff --git a/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
+new file mode 100644
+index 0000000..1b1e797
+--- /dev/null
++++ b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
+@@ -0,0 +1,390 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Dynamic_SSE|Win32">
++      <Configuration>Release_Dynamic_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Dynamic_SSE|x64">
++      <Configuration>Release_Dynamic_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Static_SSE|Win32">
++      <Configuration>Release_Static_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Static_SSE|x64">
++      <Configuration>Release_Static_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{03207781-0D1C-4DB3-A71D-45C608F28DBD}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'" Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup>
++    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>Debug\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(Outdir)libspeexdspd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(Outdir)libspeexdspd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>../../../lib/libspeexdsp.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>../../../lib/libspeexdsp.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>_USE_SSE;WIN32;NDEBUG;_WINDOWS;_USRDLL;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Link>
++      <OutputFile>../../../bin/libspeexdsp.dll</OutputFile>
++      <ModuleDefinitionFile>..\..\libspeexdsp.def</ModuleDefinitionFile>
++      <SubSystem>Windows</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <ImportLibrary>../../../lib/libspeexdsp.lib</ImportLibrary>
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>_USE_SSE;WIN32;NDEBUG;_WINDOWS;_USRDLL;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Link>
++      <OutputFile>../../../bin/libspeexdsp.dll</OutputFile>
++      <ModuleDefinitionFile>..\..\libspeexdsp.def</ModuleDefinitionFile>
++      <SubSystem>Windows</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++      <ImportLibrary>../../../lib/libspeexdsp.lib</ImportLibrary>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>_USE_SSE;WIN32;NDEBUG;_WINDOWS;_USRDLL;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(Outdir)libspeexdsp_sse.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>_USE_SSE;WIN32;NDEBUG;_WINDOWS;_USRDLL;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(Outdir)libspeexdsp_sse.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeexdsp\buffer.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\fftwrap.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\filterbank.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\jitter.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\kiss_fft.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\kiss_fftr.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\mdf.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\preprocess.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\resample.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\scal.c" />
++    <ClCompile Include="..\..\..\libspeexdsp\smallft.c" />
++  </ItemGroup>
++  <ItemGroup>
++    <ClInclude Include="..\..\..\include\speex\speex.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_bits.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_buffer.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_echo.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_jitter.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_preprocess.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_resampler.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_types.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\arch.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\fftwrap.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\filterbank.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\fixed_debug.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\fixed_generic.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\kiss_fft.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\kiss_fftr.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\math_approx.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\os_support.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\pseudofloat.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\smallft.h" />
++    <ClInclude Include="..\..\..\libspeexdsp\_kiss_fft_guts.h" />
++    <ClInclude Include="..\..\config.h" />
++  </ItemGroup>
++  <ItemGroup>
++    <None Include="..\..\libspeexdsp.def" />
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
+new file mode 100644
+index 0000000..a0b38f6
+--- /dev/null
++++ b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
+@@ -0,0 +1,125 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="Source Files">
++      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
++      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
++    </Filter>
++    <Filter Include="Header Files">
++      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
++      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
++    </Filter>
++    <Filter Include="Resource Files">
++      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
++      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
++    </Filter>
++    <Filter Include="Public Header Files">
++      <UniqueIdentifier>{ebdb9f0e-14f3-46b4-bad8-d9f2853a9fff}</UniqueIdentifier>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeexdsp\buffer.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\fftwrap.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\filterbank.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\jitter.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\kiss_fft.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\kiss_fftr.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\mdf.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\preprocess.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\resample.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\scal.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeexdsp\smallft.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++  </ItemGroup>
++  <ItemGroup>
++    <ClInclude Include="..\..\..\include\speex\speex.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_bits.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_buffer.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_echo.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_jitter.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_preprocess.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_resampler.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_types.h">
++      <Filter>Public Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\config.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\arch.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\fftwrap.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\filterbank.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\fixed_debug.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\fixed_generic.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\kiss_fft.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\kiss_fftr.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\math_approx.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\os_support.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\pseudofloat.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\smallft.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeexdsp\_kiss_fft_guts.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++  </ItemGroup>
++  <ItemGroup>
++    <None Include="..\..\libspeexdsp.def">
++      <Filter>Source Files</Filter>
++    </None>
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/Makefile.am b/win32/VS2015/tests/Makefile.am
+new file mode 100644
+index 0000000..7fe63e6
+--- /dev/null
++++ b/win32/VS2015/tests/Makefile.am
+@@ -0,0 +1,8 @@
++## Process this file with automake to produce Makefile.in. -*-Makefile-*-
++
++# Disable automatic dependency tracking if using other tools than gcc and gmake
++#AUTOMAKE_OPTIONS = no-dependencies
++
++EXTRA_DIST = testdenoise.vcproj testecho.vcproj testresample.vcproj
++
++
+diff --git a/win32/VS2015/tests/testdenoise.vcxproj b/win32/VS2015/tests/testdenoise.vcxproj
+new file mode 100644
+index 0000000..be94877
+--- /dev/null
++++ b/win32/VS2015/tests/testdenoise.vcxproj
+@@ -0,0 +1,305 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|Win32">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|x64">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup>
++    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <OutDir>Debug\</OutDir>
++    <IntDir>Debug\</IntDir>
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <OutDir>Release\</OutDir>
++    <IntDir>Release\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <OutDir>$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testdenoise.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testdenoise.c" />
++  </ItemGroup>
++  <ItemGroup>
++    <ProjectReference Include="..\libspeexdsp\libspeexdsp.vcxproj">
++      <Project>{03207781-0d1c-4db3-a71d-45c608f28dbd}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/testdenoise.vcxproj.filters b/win32/VS2015/tests/testdenoise.vcxproj.filters
+new file mode 100644
+index 0000000..eb7aa87
+--- /dev/null
++++ b/win32/VS2015/tests/testdenoise.vcxproj.filters
+@@ -0,0 +1,22 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="Source Files">
++      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
++      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
++    </Filter>
++    <Filter Include="Header Files">
++      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
++      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
++    </Filter>
++    <Filter Include="Resource Files">
++      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
++      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testdenoise.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/testecho.vcxproj b/win32/VS2015/tests/testecho.vcxproj
+new file mode 100644
+index 0000000..1df91db
+--- /dev/null
++++ b/win32/VS2015/tests/testecho.vcxproj
+@@ -0,0 +1,305 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|Win32">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|x64">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup>
++    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <OutDir>Debug\</OutDir>
++    <IntDir>Debug\</IntDir>
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <OutDir>Release\</OutDir>
++    <IntDir>Release\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <OutDir>$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testecho.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testecho.c" />
++  </ItemGroup>
++  <ItemGroup>
++    <ProjectReference Include="..\libspeexdsp\libspeexdsp.vcxproj">
++      <Project>{03207781-0d1c-4db3-a71d-45c608f28dbd}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/testecho.vcxproj.filters b/win32/VS2015/tests/testecho.vcxproj.filters
+new file mode 100644
+index 0000000..7dc6dcb
+--- /dev/null
++++ b/win32/VS2015/tests/testecho.vcxproj.filters
+@@ -0,0 +1,22 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="Source Files">
++      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
++      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
++    </Filter>
++    <Filter Include="Header Files">
++      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
++      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
++    </Filter>
++    <Filter Include="Resource Files">
++      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
++      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testecho.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/testresample.vcxproj b/win32/VS2015/tests/testresample.vcxproj
+new file mode 100644
+index 0000000..0d75d90
+--- /dev/null
++++ b/win32/VS2015/tests/testresample.vcxproj
+@@ -0,0 +1,305 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|Win32">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|x64">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}</ProjectGuid>
++    <Keyword>Win32Proj</Keyword>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>Application</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup>
++    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <OutDir>Debug\</OutDir>
++    <IntDir>Debug\</IntDir>
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <LinkIncremental>true</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <OutDir>Release\</OutDir>
++    <IntDir>Release\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <OutDir>$(Configuration)\</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <LinkIncremental>false</LinkIncremental>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <ProgramDatabaseFile>$(OutDir)speexenc.pdb</ProgramDatabaseFile>
++      <SubSystem>Console</SubSystem>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++      <TargetMachine>MachineX86</TargetMachine>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level3</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Link>
++      <AdditionalDependencies>winmm.lib;%(AdditionalDependencies)</AdditionalDependencies>
++      <OutputFile>../../../bin/testresample.exe</OutputFile>
++      <GenerateDebugInformation>true</GenerateDebugInformation>
++      <SubSystem>Console</SubSystem>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testresample.c" />
++  </ItemGroup>
++  <ItemGroup>
++    <ProjectReference Include="..\libspeexdsp\libspeexdsp.vcxproj">
++      <Project>{03207781-0d1c-4db3-a71d-45c608f28dbd}</Project>
++      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
++    </ProjectReference>
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/tests/testresample.vcxproj.filters b/win32/VS2015/tests/testresample.vcxproj.filters
+new file mode 100644
+index 0000000..5f5b4d9
+--- /dev/null
++++ b/win32/VS2015/tests/testresample.vcxproj.filters
+@@ -0,0 +1,22 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="Source Files">
++      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
++      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
++    </Filter>
++    <Filter Include="Header Files">
++      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
++      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
++    </Filter>
++    <Filter Include="Resource Files">
++      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
++      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\testresample.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+-- 
+2.51.0.windows.2
+

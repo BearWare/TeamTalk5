@@ -1,0 +1,1038 @@
+From 9113a53c10fd2c40c36f06eef6dc08f16c036a1e Mon Sep 17 00:00:00 2001
+From: "Bjoern D. Rasmussen" <contact@bearware.dk>
+Date: Fri, 12 Jan 2018 13:01:03 +0100
+Subject: [PATCH 1/3] VS2015 proj
+
+---
+ win32/VS2015/libspeex/libspeex.vcxproj        | 794 ++++++++++++++++++
+ .../VS2015/libspeex/libspeex.vcxproj.filters  | 215 +++++
+ 2 files changed, 1009 insertions(+)
+ create mode 100644 win32/VS2015/libspeex/libspeex.vcxproj
+ create mode 100644 win32/VS2015/libspeex/libspeex.vcxproj.filters
+
+diff --git a/win32/VS2015/libspeex/libspeex.vcxproj b/win32/VS2015/libspeex/libspeex.vcxproj
+new file mode 100644
+index 0000000..a5c461e
+--- /dev/null
++++ b/win32/VS2015/libspeex/libspeex.vcxproj
+@@ -0,0 +1,794 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup Label="ProjectConfigurations">
++    <ProjectConfiguration Include="Debug_RTL_dll|Win32">
++      <Configuration>Debug_RTL_dll</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug_RTL_dll|x64">
++      <Configuration>Debug_RTL_dll</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug_WM5_PPC_ARM|Win32">
++      <Configuration>Debug_WM5_PPC_ARM</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug_WM5_PPC_ARM|x64">
++      <Configuration>Debug_WM5_PPC_ARM</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|Win32">
++      <Configuration>Debug</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Debug|x64">
++      <Configuration>Debug</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Dynamic|Win32">
++      <Configuration>Release_Dynamic</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_Dynamic|x64">
++      <Configuration>Release_Dynamic</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_RTL_dll|Win32">
++      <Configuration>Release_RTL_dll</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_RTL_dll|x64">
++      <Configuration>Release_RTL_dll</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE2|Win32">
++      <Configuration>Release_SSE2</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE2|x64">
++      <Configuration>Release_SSE2</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|Win32">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_SSE|x64">
++      <Configuration>Release_SSE</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_WM5_PPC_ARM|Win32">
++      <Configuration>Release_WM5_PPC_ARM</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release_WM5_PPC_ARM|x64">
++      <Configuration>Release_WM5_PPC_ARM</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|Win32">
++      <Configuration>Release</Configuration>
++      <Platform>Win32</Platform>
++    </ProjectConfiguration>
++    <ProjectConfiguration Include="Release|x64">
++      <Configuration>Release</Configuration>
++      <Platform>x64</Platform>
++    </ProjectConfiguration>
++  </ItemGroup>
++  <PropertyGroup Label="Globals">
++    <ProjectGuid>{E972C52F-9E85-4D65-B19C-031E511E9DB4}</ProjectGuid>
++    <RootNamespace>libspeex</RootNamespace>
++    <Keyword>Win32Proj</Keyword>
++    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|Win32'" Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|x64'" Label="Configuration">
++    <ConfigurationType>DynamicLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++    <WholeProgramOptimization>true</WholeProgramOptimization>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
++    <ConfigurationType>StaticLibrary</ConfigurationType>
++    <PlatformToolset>v140</PlatformToolset>
++    <CharacterSet>MultiByte</CharacterSet>
++  </PropertyGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
++  <ImportGroup Label="ExtensionSettings">
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <ImportGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="PropertySheets">
++    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
++    <Import Project="$(VCTargetsPath)Microsoft.CPP.UpgradeFromVC71.props" />
++  </ImportGroup>
++  <PropertyGroup Label="UserMacros" />
++  <PropertyGroup>
++    <_ProjectFileVersion>14.0.25431.1</_ProjectFileVersion>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>Debug\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>Release\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|Win32'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++    <IntDir>$(Configuration)\</IntDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|x64'">
++    <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
++  </PropertyGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeexd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeexd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex_sse.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex_sse.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex_sse2.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE2|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <EnableEnhancedInstructionSet>StreamingSIMDExtensions2</EnableEnhancedInstructionSet>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex_sse2.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Link>
++      <ModuleDefinitionFile>libspeex.def</ModuleDefinitionFile>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention />
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Link>
++      <ModuleDefinitionFile>libspeex.def</ModuleDefinitionFile>
++      <OptimizeReferences>true</OptimizeReferences>
++      <EnableCOMDATFolding>true</EnableCOMDATFolding>
++      <RandomizedBaseAddress>false</RandomizedBaseAddress>
++      <DataExecutionPrevention>
++      </DataExecutionPrevention>
++    </Link>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_RTL_dll|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_RTL_dll|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|Win32'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <MinimalRebuild>true</MinimalRebuild>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|x64'">
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|Win32'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling />
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader />
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_WM5_PPC_ARM|x64'">
++    <ClCompile>
++      <Optimization>Full</Optimization>
++      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
++      <IntrinsicFunctions>true</IntrinsicFunctions>
++      <FavorSizeOrSpeed>Speed</FavorSizeOrSpeed>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;NDEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <StringPooling>true</StringPooling>
++      <ExceptionHandling>
++      </ExceptionHandling>
++      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
++      <BufferSecurityCheck>false</BufferSecurityCheck>
++      <PrecompiledHeader>
++      </PrecompiledHeader>
++      <WarningLevel>Level4</WarningLevel>
++      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
++      <CompileAs>CompileAsC</CompileAs>
++      <DisableSpecificWarnings>4244;4305;4311;4100;4127;%(DisableSpecificWarnings)</DisableSpecificWarnings>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeex.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\bits.c" />
++    <ClCompile Include="..\..\..\libspeex\cb_search.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_10_16_table.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_10_32_table.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_20_32_table.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_5_256_table.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_5_64_table.c" />
++    <ClCompile Include="..\..\..\libspeex\exc_8_128_table.c" />
++    <ClCompile Include="..\..\..\libspeex\fftwrap.c" />
++    <ClCompile Include="..\..\..\libspeex\filters.c" />
++    <ClCompile Include="..\..\..\libspeex\gain_table.c" />
++    <ClCompile Include="..\..\..\libspeex\gain_table_lbr.c" />
++    <ClCompile Include="..\..\..\libspeex\hexc_10_32_table.c" />
++    <ClCompile Include="..\..\..\libspeex\hexc_table.c" />
++    <ClCompile Include="..\..\..\libspeex\high_lsp_tables.c" />
++    <ClCompile Include="..\..\..\libspeex\kiss_fft.c" />
++    <ClCompile Include="..\..\..\libspeex\kiss_fftr.c" />
++    <ClCompile Include="..\..\..\libspeex\lpc.c" />
++    <ClCompile Include="..\..\..\libspeex\lsp.c" />
++    <ClCompile Include="..\..\..\libspeex\lsp_tables_nb.c" />
++    <ClCompile Include="..\..\..\libspeex\ltp.c" />
++    <ClCompile Include="..\..\..\libspeex\modes.c" />
++    <ClCompile Include="..\..\..\libspeex\modes_wb.c" />
++    <ClCompile Include="..\..\..\libspeex\nb_celp.c" />
++    <ClCompile Include="..\..\..\libspeex\quant_lsp.c" />
++    <ClCompile Include="..\..\..\libspeex\sb_celp.c" />
++    <ClCompile Include="..\..\..\libspeex\smallft.c" />
++    <ClCompile Include="..\..\..\libspeex\speex.c" />
++    <ClCompile Include="..\..\..\libspeex\speex_callbacks.c" />
++    <ClCompile Include="..\..\..\libspeex\speex_header.c" />
++    <ClCompile Include="..\..\..\libspeex\stereo.c" />
++    <ClCompile Include="..\..\..\libspeex\vbr.c" />
++    <ClCompile Include="..\..\..\libspeex\vq.c" />
++    <ClCompile Include="..\..\..\libspeex\window.c" />
++  </ItemGroup>
++  <ItemGroup>
++    <None Include="libspeex.def" />
++  </ItemGroup>
++  <ItemGroup>
++    <ClInclude Include="..\..\..\include\speex\speex.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_bits.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_callbacks.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_header.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_noglobals.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_stereo.h" />
++    <ClInclude Include="..\..\..\include\speex\speex_types.h" />
++    <ClInclude Include="..\..\..\libspeex\cb_search.h" />
++    <ClInclude Include="..\..\..\libspeex\fftwrap.h" />
++    <ClInclude Include="..\..\..\libspeex\filters.h" />
++    <ClInclude Include="..\..\..\libspeex\filters_sse.h" />
++    <ClInclude Include="..\..\..\libspeex\kiss_fft.h" />
++    <ClInclude Include="..\..\..\libspeex\kiss_fftr.h" />
++    <ClInclude Include="..\..\..\libspeex\lpc.h" />
++    <ClInclude Include="..\..\..\libspeex\lsp.h" />
++    <ClInclude Include="..\..\..\libspeex\ltp.h" />
++    <ClInclude Include="..\..\..\libspeex\ltp_sse.h" />
++    <ClInclude Include="..\..\..\libspeex\math_approx.h" />
++    <ClInclude Include="..\..\..\libspeex\misc.h" />
++    <ClInclude Include="..\..\..\libspeex\modes.h" />
++    <ClInclude Include="..\..\..\libspeex\nb_celp.h" />
++    <ClInclude Include="..\..\..\libspeex\pseudofloat.h" />
++    <ClInclude Include="..\..\..\libspeex\quant_lsp.h" />
++    <ClInclude Include="..\..\..\libspeex\sb_celp.h" />
++    <ClInclude Include="..\..\..\libspeex\stack_alloc.h" />
++    <ClInclude Include="..\..\..\libspeex\vbr.h" />
++    <ClInclude Include="..\..\..\libspeex\vq.h" />
++    <ClInclude Include="..\..\config.h" />
++  </ItemGroup>
++  <ItemGroup>
++    <Text Include="ReadMe.txt" />
++  </ItemGroup>
++  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
++  <ImportGroup Label="ExtensionTargets">
++  </ImportGroup>
++</Project>
+\ No newline at end of file
+diff --git a/win32/VS2015/libspeex/libspeex.vcxproj.filters b/win32/VS2015/libspeex/libspeex.vcxproj.filters
+new file mode 100644
+index 0000000..ff1d12d
+--- /dev/null
++++ b/win32/VS2015/libspeex/libspeex.vcxproj.filters
+@@ -0,0 +1,215 @@
++﻿<?xml version="1.0" encoding="utf-8"?>
++<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
++  <ItemGroup>
++    <Filter Include="Source Files">
++      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
++      <Extensions>cpp;c;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
++    </Filter>
++    <Filter Include="Header Files">
++      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
++      <Extensions>h;hpp;hxx;hm;inl;inc;xsd</Extensions>
++    </Filter>
++    <Filter Include="Resource Files">
++      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
++      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx</Extensions>
++    </Filter>
++  </ItemGroup>
++  <ItemGroup>
++    <ClCompile Include="..\..\..\libspeex\bits.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\cb_search.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_10_16_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_10_32_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_20_32_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_5_256_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_5_64_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\exc_8_128_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\fftwrap.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\filters.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\gain_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\gain_table_lbr.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\hexc_10_32_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\hexc_table.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\high_lsp_tables.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\kiss_fft.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\kiss_fftr.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\lpc.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\lsp.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\lsp_tables_nb.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\ltp.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\modes.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\modes_wb.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\nb_celp.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\quant_lsp.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\sb_celp.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\smallft.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\speex.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\speex_callbacks.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\speex_header.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\stereo.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\vbr.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\vq.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++    <ClCompile Include="..\..\..\libspeex\window.c">
++      <Filter>Source Files</Filter>
++    </ClCompile>
++  </ItemGroup>
++  <ItemGroup>
++    <None Include="libspeex.def">
++      <Filter>Source Files</Filter>
++    </None>
++  </ItemGroup>
++  <ItemGroup>
++    <ClInclude Include="..\..\..\libspeex\cb_search.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\config.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\fftwrap.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\filters.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\filters_sse.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\kiss_fft.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\kiss_fftr.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\lpc.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\lsp.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\ltp.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\ltp_sse.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\math_approx.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\misc.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\modes.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\nb_celp.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\pseudofloat.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\quant_lsp.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\sb_celp.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_bits.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_callbacks.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_header.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_noglobals.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_stereo.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\include\speex\speex_types.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\stack_alloc.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\vbr.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++    <ClInclude Include="..\..\..\libspeex\vq.h">
++      <Filter>Header Files</Filter>
++    </ClInclude>
++  </ItemGroup>
++  <ItemGroup>
++    <Text Include="ReadMe.txt" />
++  </ItemGroup>
++</Project>
+\ No newline at end of file
+-- 
+2.51.0.windows.2
+
