@@ -24,21 +24,22 @@ jobs:
     runs-on: ${{ matrix.os }}
 
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v5
       with:
         submodules: true
 
-    - uses: actions/setup-java@v5
+    - name: Set up Java
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
 
-    - name: Refresh Ubuntu-repo
+    - name: Update Ubuntu repository
       run: sudo apt-get update
 
-    - name: Update packages
+    - name: Remove unnecessary packages and install valgrind
       run: |
-        sudo apt-get dist-upgrade
         sudo apt-get autoremove --purge
         # Ubuntu 22 specific: Ensure FFmpeg doesn't detect additional dependencies
         ${{ matrix.version == '22' && 'sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev' || '' }}
@@ -47,25 +48,25 @@ jobs:
     - name: Print env
       run: printenv | sort
 
-    - name: Install TeamTalk Library Dependencies
+    - name: Install dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: sudo make depend-ubuntu${{ matrix.version }}
 
-    - name: Build TeamTalk Library and Apps
+    - name: Build TeamTalk library and apps
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
-    - name: Java Server API Test (non-encrypted)
+    - name: Run Java Server API tests (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
         ENCRYPTED: 0
         WEBRTC: 0
 
-    - name: Java Server API Test (encrypted)
+    - name: Run Java Server API tests (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -99,14 +100,14 @@ jobs:
         source env.sh
         make -C Client/ttserverlogpy
 
-    - name: Catch unit-test
+    - name: Run Catch unit tests
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: valgrind --tool=memcheck --leak-check=full --error-exitcode=1 ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
 
-    - name: Java Unit-test (non-encrypted)
+    - name: Run Java unit tests (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunit
       env:
@@ -122,7 +123,7 @@ jobs:
         cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5prosrv -d -c Server/tt5srv.xml
 
-    - name: Java Unit-test with shared audio devices (non-encrypted)
+    - name: Run Java unit tests with shared audio devices (non-encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -142,7 +143,7 @@ jobs:
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
         Server/tt5prosrv -d -wd Server/
 
-    - name: Java Unit-test with virtual audio device (encrypted)
+    - name: Run Java unit tests with virtual audio device (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -152,24 +153,24 @@ jobs:
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
 
-    - name: Run CMake Install Target
+    - name: Install TeamTalk SDK
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk Artifacts
+    - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
 
-    - name: Make Ubuntu ${{ matrix.version }} Portable Archive
+    - name: Create Ubuntu ${{ matrix.version }} portable archives
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
         cd Setup/Portable
         make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
 
-    - name: Upload TeamTalk Portable artifact
+    - name: Upload TeamTalk portable artifact
       uses: actions/upload-artifact@v5
       with:
         name: teamtalk-ubuntu${{ matrix.version }}

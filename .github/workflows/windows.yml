@@ -41,33 +41,39 @@ jobs:
     runs-on: ${{ matrix.vmimage }}
     name: ${{ matrix.name }}
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v5
       with:
         submodules: true
 
-    - uses: actions/setup-java@v5
+    - name: Set up Java
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.dotnetarch }}
 
-    - uses: actions/setup-python@v6
+    - name: Set up Python
+      uses: actions/setup-python@v6
       with:
         python-version: '3.10'
         architecture: ${{ matrix.dotnetarch }}
 
-    - uses: jurplel/install-qt-action@v4
+    - name: Install Qt
+      uses: jurplel/install-qt-action@v4
       with:
         arch: '${{ matrix.qtarch }}'
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
         setup-python: false
 
-    - uses: ssciwr/doxygen-install@v1
+    - name: Install Doxygen
+      uses: ssciwr/doxygen-install@v1
       with:
         version: '1.15.0'
 
-    - uses: darenm/Setup-VSTest@v1
+    - name: Set up VSTest
+      uses: darenm/Setup-VSTest@v1
 
     - name: Install dependencies
       run: python -m pip install -U pip pytest pytest-cov
@@ -76,7 +82,7 @@ jobs:
       shell: cmd
       run: set
 
-    - name: Setup msbuild in PATH
+    - name: Set up MSBuild
       uses: microsoft/setup-msbuild@v2
 
     - name: Install Cygwin
@@ -93,7 +99,7 @@ jobs:
         vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
         echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
 
-    - name: Generate CMake Projects
+    - name: Configure CMake
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: >-
@@ -104,7 +110,7 @@ jobs:
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
-    - name: Build and Install CMake Projects
+    - name: Build and install TeamTalk
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -113,7 +119,7 @@ jobs:
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
 
-    - name: Copy Server Configuration
+    - name: Copy server configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         copy Library\TeamTalkLib\test\tt5srv.xml_template Server\tt5srv.xml
@@ -122,40 +128,40 @@ jobs:
         copy Library\TeamTalkLib\test\ttservercert.pem Server\
         copy Library\TeamTalkLib\test\ca.cer Server\
 
-    - name: Start TeamTalk Standard Service
+    - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5svc.exe -i
         tt5svc.exe -s
 
-    - name: Start TeamTalk Professional Service
+    - name: Start TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
         tt5prosvc.exe -s
 
-    - name: Catch unit-test
+    - name: Run Catch unit tests
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       shell: cmd
       run: catchtt.exe --durations yes
 
-    - name: Restart TeamTalk Standard Service
+    - name: Restart TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5svc.exe -e
         tt5svc.exe -s
 
-    - name: Stop and Remove TeamTalk Professional Service
+    - name: Stop and remove TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5prosvc.exe -e
         tt5prosvc.exe -u
 
-    - name: Run .NET unit tests non-encrypted
+    - name: Run .NET unit tests (non-encrypted)
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -171,12 +177,12 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy
       run: python main.py
 
-    - name: Stop TeamTalk Standard Service
+    - name: Stop TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: tt5svc.exe -e
 
-    - name: Uninstall TeamTalk Standard Service
+    - name: Uninstall TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: tt5svc.exe -u
@@ -185,14 +191,14 @@ jobs:
       shell: cmd
       run: echo ENCRYPTED=true>> %GITHUB_ENV%
 
-    - name: Start TeamTalk Professional Service
+    - name: Start TeamTalk Pro Server (encrypted)
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
         tt5prosvc.exe -s
 
-    - name: Run .NET unit tests encrypted
+    - name: Run .NET unit tests (encrypted)
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -200,18 +206,19 @@ jobs:
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
 
-    - name: Stop TeamTalk Professional Service
+    - name: Stop TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: tt5prosvc.exe -e
 
-    - name: Uninstall TeamTalk Services
+    - name: Uninstall TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: tt5prosvc.exe -u
 
     # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
-    - uses: msys2/setup-msys2@v2
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.msystem }}
         path-type: inherit
@@ -222,7 +229,7 @@ jobs:
       shell: cmd
       run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp & exit /b 0'
 
-    - name: Make Portable Setup Targets
+    - name: Create portable archives
       working-directory: ${{runner.workspace}}
       shell: msys2 {0}
       run: |
@@ -233,19 +240,19 @@ jobs:
         cd Setup/Portable
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
 
-    - name: Archive TeamTalk SDK Binaries
+    - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-windows-${{ matrix.dotnetarch }}
         path: ${{runner.workspace}}/install-teamtalk
 
-    - name: Build Portable Archive
+    - name: Upload TeamTalk portable artifact
       uses: actions/upload-artifact@v5
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
-    - name: Build TeamTalk Pro Server Archive
+    - name: Upload TeamTalk Pro Server artifact
       uses: actions/upload-artifact@v5
       with:
         name: teamtalkpro-${{ matrix.portablearch }}

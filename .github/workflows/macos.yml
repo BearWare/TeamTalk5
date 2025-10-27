@@ -15,11 +15,13 @@ jobs:
     runs-on: macos-latest
 
     steps:
-    - uses: actions/checkout@v5
+    - name: Checkout
+      uses: actions/checkout@v5
       with:
         submodules: true
 
-    - uses: actions/setup-java@v5
+    - name: Set up Java
+      uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
         java-version: '21'
@@ -30,20 +32,14 @@ jobs:
         version: '6.9.*'
         modules: 'qtmultimedia qtspeech'
 
-    - name: Refresh Homebrew repo
-      run: brew update
-
-    - name: Update packages
-      run: brew upgrade && brew autoremove && brew cleanup
-
     - name: Print env
       run: printenv | sort
 
-    - name: Install TeamTalk Library Dependencies
+    - name: Install dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make depend-mac
 
-    - name: Build TeamTalk Library and Apps
+    - name: Build TeamTalk library and apps
       working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
       run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
@@ -63,18 +59,18 @@ jobs:
         cp Library/TeamTalkLib/test/ca.cer Server/
         Server/tt5prosrv -d -wd Server/
 
-    - name: Catch unit-test
+    - name: Run Catch unit tests
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       run: catchtt.app/Contents/MacOS/catchtt --durations yes
 
-    - name: Stop TeamTalk Servers
+    - name: Stop TeamTalk servers
       run: killall tt5srv tt5prosrv
 
-    - name: Run CMake Install Target
+    - name: Install TeamTalk SDK
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk Artifacts
+    - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-macos
