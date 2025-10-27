@@ -54,7 +54,7 @@ jobs:
         ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libssl.a
 
     - name: Upload TeamTalk Arch Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}
@@ -76,12 +76,12 @@ jobs:
             - 'Client/iTeamTalk/**'
 
     - name: Download arch arm64
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: teamtalksdk-ios-arm64
 
     - name: Download arch x86_64
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: teamtalksdk-ios-x86_64
 
@@ -93,7 +93,7 @@ jobs:
         -create -output ${{runner.workspace}}/TeamTalk5/Library/TeamTalk_DLL/libTeamTalk5.a
 
     - name: Upload TeamTalk Universal Library Artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-ios-universal
         path: ${{runner.workspace}}/TeamTalk5

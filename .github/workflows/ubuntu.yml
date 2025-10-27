@@ -157,7 +157,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk Artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
@@ -170,13 +170,13 @@ jobs:
         make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
 
     - name: Upload TeamTalk Portable artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: teamtalk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
 
     - name: Upload TeamTalk Pro artifact
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: teamtalkpro-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*
