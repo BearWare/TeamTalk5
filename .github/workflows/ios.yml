@@ -78,7 +78,7 @@ jobs:
         name: teamtalksdk-ios-arm64
 
     - name: Download x86_64 artifact
-      uses: actions/download-artifact@v5
+      uses: actions/download-artifact@v6
       with:
         name: teamtalksdk-ios-x86_64
 
