@@ -673,6 +673,101 @@ int SpeexEncFile::Encode(const short* samples, bool last/*=false*/)
 
 #if defined(ENABLE_OPUSTOOLS)
 
+namespace {
+    typedef struct {
+        unsigned char *data;
+        int maxlen;
+        int pos;
+    } Packet;
+
+    static int write_uint32(Packet *p, ogg_uint32_t val)
+    {
+        if (p->pos>p->maxlen-4)
+            return 0;
+        p->data[p->pos  ] = (val    ) & 0xFF;
+        p->data[p->pos+1] = (val>> 8) & 0xFF;
+        p->data[p->pos+2] = (val>>16) & 0xFF;
+        p->data[p->pos+3] = (val>>24) & 0xFF;
+        p->pos += 4;
+        return 1;
+    }
+
+    static int write_uint16(Packet *p, ogg_uint16_t val)
+    {
+        if (p->pos>p->maxlen-2)
+            return 0;
+        p->data[p->pos  ] = (val    ) & 0xFF;
+        p->data[p->pos+1] = (val>> 8) & 0xFF;
+        p->pos += 2;
+        return 1;
+    }
+
+    static int write_chars(Packet *p, const unsigned char *str, int nb_chars)
+    {
+        int i;
+        if (p->pos>p->maxlen-nb_chars)
+            return 0;
+        for (i=0;i<nb_chars;i++)
+            p->data[p->pos++] = str[i];
+        return 1;
+    }
+
+    static int opus_header_to_packet(const OpusHeader *h, unsigned char *packet, int len)
+    {
+        int i;
+        Packet p;
+        unsigned char ch;
+
+        p.data = packet;
+        p.maxlen = len;
+        p.pos = 0;
+        if (len<19)return 0;
+        if (!write_chars(&p, (const unsigned char*)"OpusHead", 8))
+            return 0;
+        /* Version is 1 */
+        ch = 1;
+        if (!write_chars(&p, &ch, 1))
+            return 0;
+
+        ch = h->channels;
+        if (!write_chars(&p, &ch, 1))
+            return 0;
+
+        if (!write_uint16(&p, h->preskip))
+            return 0;
+
+        if (!write_uint32(&p, h->input_sample_rate))
+            return 0;
+
+        if (!write_uint16(&p, h->gain))
+            return 0;
+
+        ch = h->channel_mapping;
+        if (!write_chars(&p, &ch, 1))
+            return 0;
+
+        if (h->channel_mapping != 0)
+        {
+            ch = h->nb_streams;
+            if (!write_chars(&p, &ch, 1))
+                return 0;
+
+            ch = h->nb_coupled;
+            if (!write_chars(&p, &ch, 1))
+                return 0;
+
+            /* Multi-stream support */
+            for (i=0;i<h->channels;i++)
+            {
+                if (!write_chars(&p, &h->stream_map[i], 1))
+                    return 0;
+            }
+        }
+
+        return p.pos;
+    }
+}
+
 OpusFile::OpusFile()
 {
     Close();
