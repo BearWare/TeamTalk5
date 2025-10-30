@@ -147,7 +147,12 @@ ACE_NT_SERVICE_DEFINE (TeamTalk,
 #endif
 
 // overwritable options
-static ACE_TString bindip, settingsfile, logfile = ACE_TEXT(TEAMTALK_LOGFILE), pidfile;
+static ACE_TString bindip;
+static ACE_TString settingsfile;
+static ACE_TString logfile = ACE_TEXT(TEAMTALK_LOGFILE);
+static ACE_TString pidfile;
+static ACE_TString weblogin;
+static ACE_TString tokenlogin;
 static int tcpport = 0;
 static int udpport = 0;
 static bool verbose = false;
@@ -518,7 +523,9 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
             str == ACE_TEXT("-l") ||
             str == ACE_TEXT("-pid-file") ||
             str == ACE_TEXT("-rxloss") ||
-            str == ACE_TEXT("-txloss")))
+            str == ACE_TEXT("-txloss") ||
+            str == ACE_TEXT("-weblogin") ||
+            str == ACE_TEXT("-tokenlogin")))
         {
             if(i+1 >= argc)
             {
@@ -611,6 +618,14 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     if( (ite = args.find(ACE_TEXT("-c"))) != args.end())
     {
         settingsfile = ite->second;
+    }
+    if ((ite = args.find(ACE_TEXT("-weblogin"))) != args.end())
+    {
+        weblogin = ite->second;
+    }
+    if ((ite = args.find(ACE_TEXT("-tokenlogin"))) != args.end())
+    {
+        tokenlogin = ite->second;
     }
     if( (ite = args.find(ACE_TEXT("-l"))) != args.end())
     {
@@ -714,6 +729,73 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
     RemoveFacebookLogins(xmlSettings);
 
+#if defined(ENABLE_TEAMTALKPRO)
+    // -tokenlogin foo@bearware.dk:fedeabe0912345
+    if (!tokenlogin.empty())
+    {
+        const ACE_TString rgxtokenlogin = ACE_TEXT("^(.*):(.*)$");
+#if defined(UNICODE)
+        std::wsmatch sm;
+        std::wstring const tokenstr = tokenlogin.c_str();
+#else
+        std::smatch sm;
+        std::string const tokenstr = tokenlogin.c_str();
+#endif
+        if (std::regex_search(tokenstr, sm, BuildRegex(rgxtokenlogin.c_str())) && sm.size() == 3)
+        {
+            ACE_TString const loginid = sm[1].str().c_str();
+            ACE_TString const newtoken = sm[2].str().c_str();
+            if (AuthBearWareAccount(loginid, newtoken) != WEBLOGIN_SUCCESS)
+            {
+                TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));
+                return 0;
+            }
+
+            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
+            xmlSettings.SaveFile();
+            TT_SYSLOG(ACE_TEXT("BearWare.dk WebLogin succedded. Token stored."));
+        }
+        else
+        {
+            TT_SYSLOG(ACE_TEXT("Invalid format for TOKEN. Should be \"bear_dk@bearware.dk:aefd43fea\""));
+            return 0;
+        }
+    }
+
+    // -weblogin foo@bearware.dk:mysecretpassword
+    if (!weblogin.empty())
+    {
+        const ACE_TString rgxweblogin = ACE_TEXT("^(.*):(.*)$");
+#if defined(UNICODE)
+        std::wsmatch sm;
+        std::wstring webloginstr = weblogin.c_str();
+#else
+        std::smatch sm;
+        std::string const webloginstr = weblogin.c_str();
+#endif
+        if (std::regex_search(webloginstr, sm, BuildRegex(rgxweblogin.c_str())) && sm.size() == 3)
+        {
+            ACE_TString const loginid = sm[1].str().c_str();
+            ACE_TString const passwd = sm[2].str().c_str();
+            ACE_TString bearwareid, token;
+            if (LoginBearWareAccount(loginid, passwd, token, bearwareid) != WEBLOGIN_SUCCESS)
+            {
+                TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));
+                return 0;
+            }
+
+            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bearwareid).c_str(), UnicodeToUtf8(token).c_str());
+            xmlSettings.SaveFile();
+            TT_SYSLOG(ACE_TEXT("BearWare.dk WebLogin succedded. Token stored."));
+        }
+        else
+        {
+            TT_SYSLOG(ACE_TEXT("Invalid format for AUTH. Should be \"bear_dk:mysecretpassword\""));
+            return 0;
+        }
+    }
+#endif /*TEAMTALK_PRO */
+
     bool skipstart_output = false;
 
     if( (ite = args.find(ACE_TEXT("-wizard"))) != args.end())
@@ -776,6 +858,17 @@ void PrintCommandArgs()
     cout << "  -nd              Start " << TEAMTALK_NAME << " as non-daemon." << endl;
 #endif
     cout << "  -wizard          Run the setup-wizard to configure the server." << endl;
+#if defined(ENABLE_TEAMTALKPRO)
+    cout << "  -weblogin [AUTH] Setup BearWare.dk WebLogin using credentials" << endl;
+    cout << "                   specified in AUTH." << endl;
+    cout << "                   AUTH format is \"username:mysecretpassword\"" << endl;
+    cout << "                   where colon is separator." << endl;
+    cout << "  -tokenlogin [TOKEN]" << endl;
+    cout << "                   Setup BearWare.dk WebLogin using token" << endl;
+    cout << "                   specified in TOKEN." << endl;
+    cout << "                   TOKEN format is \"username:03abc6dfe\"" << endl;
+    cout << "                   where colon is separator." << endl;
+#endif
     cout << "  -c [FILE]        Instead of loading " << TEAMTALK_SETTINGSFILE << " from current directory" << endl;
     cout << "                   use this specified file." << endl;
     cout << "  -l [FILE]        If logging is enabled save to the specified filename instead" << endl;
