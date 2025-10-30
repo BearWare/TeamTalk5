@@ -289,6 +289,23 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
 
 #if defined(ENABLE_TEAMTALKPRO)
 
+static std::string GetMyIPAddress()
+{
+    std::string xml;
+    switch (HttpGetRequest(WEBLOGIN_PING_URL, xml))
+    {
+    case 1 :
+    {
+        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+        if (xmldoc.Parse(xml))
+        {
+            return xmldoc.GetValue(false, "teamtalk/ipaddress", "");
+        }
+    }
+    }
+    return {};
+}
+
 static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
 {
     cout << "Do you wish to submit your TeamTalk Pro server for SpamBot monitoring? ";
@@ -302,7 +319,15 @@ static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
             break;
     }
 
-    // TODO: Get remote IP-address
+    auto myipaddr = GetMyIPAddress();
+    std::cout << "What is the public IP-address of your server? ";
+    myipaddr = PrintGetString(myipaddr);
+    std::cout << "What is the TCP port of your server? ";
+    int const tcpport = PrintGetInt(xmlSettings.GetHostTcpPort(DEFAULT_TCPPORT));
+    std::cout << "What is the UDP port of your server? ";
+    int const udpport = PrintGetInt(xmlSettings.GetHostUdpPort(DEFAULT_UDPPORT));
+    std::cout << "Is the server encrypted? ";
+    bool const encrypted = PrintGetBool(!xmlSettings.GetCertificateFile().empty());
 
     std::string bearwareid;
     std::string token;
@@ -314,9 +339,10 @@ static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
     formdata["username"] = bearwareid;
     formdata["token"] = token;
     // TODO: query user for input
-    // formdata["ipaddress"] = ipaddr;
-    // formdata["tcpport"] = tcpport;
-    // formdata["udpport"] = udpport;
+    formdata["ipaddress"] = myipaddr;
+    formdata["tcpport"] = std::to_string(tcpport);
+    formdata["udpport"] = std::to_string(udpport);
+    formdata["encrypted"] = encrypted ? "true" : "false";
 
     std::string xml;
     switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
@@ -339,18 +365,24 @@ static void RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
         if (!PrintGetBool(true))
             break;
     }
+
+    auto myipaddr = GetMyIPAddress();
+    std::cout << "What is the registered IP-address of your server? ";
+    myipaddr = PrintGetString(myipaddr);
+    std::cout << "What is the TCP port of your server? ";
+    int const tcpport = PrintGetInt(xmlSettings.GetHostTcpPort(DEFAULT_TCPPORT));
+
     std::string bearwareid;
     std::string token;
     xmlSettings.GetBearWareWebLogin(bearwareid, token);
     std::map<std::string, std::string> formdata;
     formdata["client"] = TEAMTALK_LIB_NAME;
     formdata["version"] = TEAMTALK_VERSION;
-    formdata["action"] = "spambotsubmit"; // TODO: make endpoint
+    formdata["action"] = "spambotremove"; // TODO: make endpoint
     formdata["username"] = bearwareid;
     formdata["token"] = token;
-    // TODO: query user for input
-    // formdata["ipaddress"] = ipaddr;
-    // formdata["tcpport"] = tcpport;
+    formdata["ipaddress"] = myipaddr;
+    formdata["tcpport"] = std::to_string(tcpport);
 
     std::string xml;
     switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
@@ -359,7 +391,6 @@ static void RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
     case 0 :
     case 1 :
     }
-
 }
 
 static void ConfigureSpamBotUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
