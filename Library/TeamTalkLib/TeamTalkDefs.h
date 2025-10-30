@@ -37,6 +37,7 @@
 #define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
 constexpr auto WEBLOGIN_SPAMBOT_USERNAME    = "spambot" WEBLOGIN_BEARWARE_POSTFIX;
 constexpr auto SPAMBOT_SUBMIT_URL           = "https://www.bearware.dk/teamtalk/tt5servers.php";
+constexpr auto WEBLOGIN_PING_URL            = "https://login.bearware.dk/teamtalk/weblogin.php?ping=1";
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
