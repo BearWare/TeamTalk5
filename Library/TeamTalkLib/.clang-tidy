@@ -18,8 +18,9 @@ Checks: >
     -performance-avoid-endl,
     -performance-enum-size,
     readability-*,
-    -readability-identifier-length,
     -readability-braces-around-statements,
+    -readability-identifier-length,
+    -readability-use-concise-preprocessor-directives,
 
 WarningsAsErrors: true
 HeaderFilterRegex: ''
