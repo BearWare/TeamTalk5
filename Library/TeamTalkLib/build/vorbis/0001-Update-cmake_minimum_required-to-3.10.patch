@@ -1,0 +1,50 @@
+From f888ef9d1b7c86531dbab6e1c945f79643aacb24 Mon Sep 17 00:00:00 2001
+From: hwangsihu <129564966+hwangsihu@users.noreply.github.com>
+Date: Fri, 31 Oct 2025 21:15:56 +0900
+Subject: [PATCH] Update cmake_minimum_required to 3.10 and add MT option
+
+---
+ CMakeLists.txt     |  2 +-
+ lib/CMakeLists.txt | 16 ++++++++++++++++
+ 2 files changed, 17 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index f377c428..5519edbb 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 2.8.12)
++cmake_minimum_required(VERSION 3.10)
+ project(vorbis)
+ 
+ list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_SOURCE_DIR}/cmake")
+diff --git a/lib/CMakeLists.txt b/lib/CMakeLists.txt
+index 7cd68e50..2085c7c1 100644
+--- a/lib/CMakeLists.txt
++++ b/lib/CMakeLists.txt
+@@ -79,6 +79,22 @@ if (NOT BUILD_FRAMEWORK)
+     add_library(vorbisfile ${VORBISFILE_SOURCES})
+ 
+     get_version_info(VORBIS_VERSION_INFO "V_LIB_CURRENT" "V_LIB_AGE" "V_LIB_REVISION")
++
++    if (MSVC)
++        set_property(TARGET vorbis PROPERTY OUTPUT_NAME_DEBUG vorbisd)
++        set_property(TARGET vorbisenc PROPERTY OUTPUT_NAME_DEBUG vorbisencd)
++        set_property(TARGET vorbisfile PROPERTY OUTPUT_NAME_DEBUG vorbisfiled)
++        foreach (flag_var
++          CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
++          CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
++          CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
++          CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
++        if (${flag_var} MATCHES "/MD")
++          STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
++        endif()
++        endforeach(flag_var)
++    endif()
++
+     set_target_properties(vorbis PROPERTIES SOVERSION ${VORBIS_VERSION_INFO})
+     get_version_info(VORBISENC_VERSION_INFO "VE_LIB_CURRENT" "VE_LIB_AGE" "VE_LIB_REVISION")
+     set_target_properties(vorbisenc PROPERTIES SOVERSION ${VORBISENC_VERSION_INFO})
+-- 
+2.51.1.windows.1
+

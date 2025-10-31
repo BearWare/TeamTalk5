@@ -41,6 +41,10 @@
 #include "OpusFileStreamer.h"
 #endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
 
+#if defined(WIN32) && defined(ENABLE_VORBISTOOLS) && defined(ENABLE_VORBIS)
+#include "VorbisFileStreamer.h"
+#endif /* ENABLE_VORBISTOOLS && ENABLE_VORBIS */
+
 #include <ace/Message_Block.h>
 #include <ace/Time_Value.h>
 
@@ -62,6 +66,11 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
         return true;
 #endif
 
+#if defined(WIN32) && defined(ENABLE_VORBISTOOLS) && defined(ENABLE_VORBIS)
+    if (GetVorbisFileMediaFileProp(filename, fileprop))
+        return true;
+#endif
+
 #if defined(ENABLE_MEDIAFOUNDATION)
     return GetMFMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_DSHOW)
@@ -75,11 +84,16 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
 mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
 {
     mediafile_streamer_t streamer;
+    MediaFileProp fileprop;
 
 #if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
-    MediaFileProp fileprop;
     if (GetOpusFileMediaFileProp(filename, fileprop))
         return mediafile_streamer_t(new OpusFileStreamer(filename, out_prop));
+#endif
+
+#if defined(WIN32) && defined(ENABLE_VORBISTOOLS) && defined(ENABLE_VORBIS)
+    if (GetVorbisFileMediaFileProp(filename, fileprop))
+        return mediafile_streamer_t(new VorbisFileStreamer(filename, out_prop));
 #endif
 
 #if defined(ENABLE_MEDIAFOUNDATION)

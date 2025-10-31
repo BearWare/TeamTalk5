@@ -1051,3 +1051,158 @@ uint32_t OpusDecFile::GetElapsedMSec() const
 }
 
 #endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
+
+#if defined(ENABLE_VORBIS)
+
+VorbisFile::VorbisFile()
+{
+}
+
+VorbisFile::~VorbisFile()
+{
+    Close();
+}
+
+bool VorbisFile::OpenFile(const ACE_TString& filename)
+{
+    Close();
+
+#ifdef UNICODE
+    FILE* fp = _wfopen(filename.c_str(), L"rb");
+#else
+    FILE* fp = fopen(filename.c_str(), "rb");
+#endif
+
+    if (!fp)
+        return false;
+
+    if (ov_open(fp, &m_vf, NULL, 0) < 0)
+    {
+        fclose(fp);
+        return false;
+    }
+
+    vorbis_info* vi = ov_info(&m_vf, -1);
+    if (!vi)
+    {
+        Close();
+        return false;
+    }
+
+    m_samplerate = vi->rate;
+    m_channels = vi->channels;
+    m_opened = true;
+
+    return true;
+}
+
+void VorbisFile::Close()
+{
+    if (m_opened)
+    {
+        ov_clear(&m_vf);
+        m_opened = false;
+    }
+    m_samplerate = 0;
+    m_channels = 0;
+}
+
+uint32_t VorbisFile::GetDurationMSec() const
+{
+    if (!m_opened)
+        return 0;
+
+    double duration = ov_time_total(const_cast<OggVorbis_File*>(&m_vf), -1);
+    if (duration < 0)
+        return 0;
+
+    return uint32_t(duration * 1000.0);
+}
+
+bool VorbisDecFile::Open(const ACE_TString& filename)
+{
+    if (!m_file.OpenFile(filename))
+    {
+        Close();
+        return false;
+    }
+
+    m_samples_decoded = 0;
+    return true;
+}
+
+void VorbisDecFile::Close()
+{
+    m_file.Close();
+    m_samples_decoded = 0;
+}
+
+int VorbisDecFile::GetSampleRate() const
+{
+    return m_file.GetSampleRate();
+}
+
+int VorbisDecFile::GetChannels() const
+{
+    return m_file.GetChannels();
+}
+
+int VorbisDecFile::Decode(short* output_buffer, int output_samples)
+{
+    if (!m_file.IsOpen())
+        return 0;
+
+    int total_samples = 0;
+    int bytes_to_read = output_samples * GetChannels() * sizeof(short);
+
+    while (bytes_to_read > 0)
+    {
+        int bitstream;
+        long bytes_read = ov_read(&m_file.GetVorbisFile(),
+                                  reinterpret_cast<char*>(output_buffer) + total_samples * GetChannels() * sizeof(short),
+                                  bytes_to_read,
+                                  0,  // little endian
+                                  2,  // 16-bit samples
+                                  1,  // signed
+                                  &bitstream);
+
+        if (bytes_read <= 0)
+            break;  // End of file or error
+
+        int samples_read = bytes_read / (GetChannels() * sizeof(short));
+        total_samples += samples_read;
+        bytes_to_read -= bytes_read;
+        m_samples_decoded += samples_read;
+    }
+
+    return total_samples;
+}
+
+bool VorbisDecFile::Seek(uint32_t offset_msec)
+{
+    if (!m_file.IsOpen())
+        return false;
+
+    double offset_sec = offset_msec / 1000.0;
+    if (ov_time_seek(&m_file.GetVorbisFile(), offset_sec) == 0)
+    {
+        m_samples_decoded = static_cast<ogg_int64_t>(offset_sec * GetSampleRate());
+        return true;
+    }
+
+    return false;
+}
+
+uint32_t VorbisDecFile::GetDurationMSec()
+{
+    return m_file.GetDurationMSec();
+}
+
+uint32_t VorbisDecFile::GetElapsedMSec() const
+{
+    if (GetSampleRate() == 0)
+        return 0;
+    return uint32_t((m_samples_decoded * 1000) / GetSampleRate());
+}
+
+#endif /* ENABLE_VORBIS */
