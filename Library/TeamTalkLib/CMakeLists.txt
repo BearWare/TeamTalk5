@@ -108,6 +108,8 @@ add_feature_info (FEATURE_SPEEXDSP FEATURE_SPEEXDSP "SpeexDSP for audio processi
 add_feature_info (FEATURE_WEBRTC FEATURE_WEBRTC "WebRTC for audio processing (AGC, echo cancellation, voice detection, etc.)")
 
 if (MSVC)
+  option (FEATURE_VORBIS "Build TeamTalk DLL with Vorbis codec support" ON)
+  add_feature_info (FEATURE_VORBIS FEATURE_VORBIS "Vorbis codec")
   option (FEATURE_DSHOW "Build TeamTalk DLL with Microsoft DirectShow Streaming support (obsolete)" OFF)
   option (FEATURE_MEDIAFOUNDATION "Build TeamTalk DLL with Media Foundation Streaming support" ON)
   option (FEATURE_MSDMO "Build TeamTalk DLL with Microsoft DirectX Media Objects (DMO) Resampler support" ON)

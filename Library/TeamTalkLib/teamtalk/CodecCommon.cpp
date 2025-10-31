@@ -82,6 +82,13 @@ namespace teamtalk
                 GetAudioCodecChannels(codec) > 2)
                 return false;
             return true;
+        case CODEC_VORBIS :
+            if (GetAudioCodecSampleRate(codec) == 0 ||
+                GetAudioCodecChannels(codec) < 1 ||
+                GetAudioCodecChannels(codec) > 2 ||
+                GetAudioCodecBitRate(codec) > GetAudioCodecMaxPacketBitrate(codec))
+                return false;
+            return true;
         case CODEC_WEBM_VP8 :
             break;
         }
@@ -98,6 +105,8 @@ namespace teamtalk
             return GetSpeexBandModeSampleRate(codec.speex_vbr.bandmode);
         case CODEC_OPUS :
             return codec.opus.samplerate;
+        case CODEC_VORBIS :
+            return codec.vorbis.samplerate;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -156,6 +165,8 @@ namespace teamtalk
             return 1; //speex doesn't allow stereo
         case CODEC_OPUS :
             return codec.opus.channels;
+        case CODEC_VORBIS :
+            return codec.vorbis.channels;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -338,6 +349,8 @@ namespace teamtalk
                 codec.speex_vbr.bitrate : codec.speex_vbr.max_bitrate;
         case CODEC_OPUS :
             return codec.opus.bitrate;
+        case CODEC_VORBIS :
+            return codec.vorbis.bitrate;
         case CODEC_WEBM_VP8 :
         case CODEC_NO_CODEC :
             break;

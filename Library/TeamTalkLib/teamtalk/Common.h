@@ -346,6 +346,7 @@ namespace teamtalk {
         CODEC_SPEEX                     = 1,
         CODEC_SPEEX_VBR                 = 2,
         CODEC_OPUS                      = 3,
+        CODEC_VORBIS                    = 4,
         CODEC_WEBM_VP8                  = 128,
     };
 
@@ -383,6 +384,14 @@ namespace teamtalk {
         int frames_per_packet;
     };
 
+    struct VorbisCodec
+    {
+        int samplerate;
+        int channels;
+        int bitrate;
+        int frames_per_packet;
+    };
+
     struct AudioCodec
     {
         Codec codec;
@@ -391,6 +400,7 @@ namespace teamtalk {
             SpeexCodec speex;
             SpeexVBRCodec speex_vbr;
             OpusCodec opus;
+            VorbisCodec vorbis;
         };
         AudioCodec() : codec(CODEC_NO_CODEC)
         {
@@ -408,6 +418,8 @@ namespace teamtalk {
                 return memcmp(&speex_vbr, &ch.speex_vbr, sizeof(speex_vbr)) == 0;
             case CODEC_OPUS :
                 return memcmp(&opus, &ch.opus, sizeof(opus)) == 0;
+            case CODEC_VORBIS :
+                return memcmp(&vorbis, &ch.vorbis, sizeof(vorbis)) == 0;
             case CODEC_NO_CODEC :
                 return codec == ch.codec;
             case CODEC_WEBM_VP8 :

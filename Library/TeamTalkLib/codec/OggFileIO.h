@@ -274,5 +274,57 @@ using opusdecfile_t = std::shared_ptr< OpusDecFile >;
 
 #endif
 
+#if defined(ENABLE_VORBIS)
+
+#include "VorbisDecoder.h"
+#include <vorbis/vorbisfile.h>
+
+class VorbisFile : private NonCopyable
+{
+public:
+    VorbisFile();
+    ~VorbisFile();
+
+    bool OpenFile(const ACE_TString& filename);
+    void Close();
+
+    int GetSampleRate() const { return m_samplerate; }
+    int GetChannels() const { return m_channels; }
+    uint32_t GetDurationMSec() const;
+
+    bool IsOpen() const { return m_opened; }
+    OggVorbis_File& GetVorbisFile() { return m_vf; }
+
+private:
+    OggVorbis_File m_vf{};
+    bool m_opened = false;
+    int m_samplerate = 0;
+    int m_channels = 0;
+};
+
+using vorbisfile_t = std::shared_ptr< VorbisFile >;
+
+class VorbisDecFile : private NonCopyable
+{
+public:
+    bool Open(const ACE_TString& filename);
+    void Close();
+
+    int GetSampleRate() const;
+    int GetChannels() const;
+    int Decode(short* output_buffer, int output_samples);
+    bool Seek(uint32_t offset_msec);
+    uint32_t GetDurationMSec();
+    uint32_t GetElapsedMSec() const;
+
+private:
+    VorbisFile m_file;
+    ogg_int64_t m_samples_decoded = 0;
+};
+
+using vorbisdecfile_t = std::shared_ptr< VorbisDecFile >;
+
+#endif
+
 
 #endif
