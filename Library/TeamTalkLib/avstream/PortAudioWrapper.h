@@ -38,7 +38,7 @@
 #include <memory>
 #if defined(WIN32)
 #include <future>
-#endif
+#endif /* WIN32 */
 
 namespace soundsystem
 {
@@ -116,7 +116,7 @@ namespace soundsystem
         }
     private:
         uint64_t echosamples22050 = 0;
-#endif
+#endif /* WIN32 */
     };
 
     struct PaSoundGroup : SoundGroup
@@ -184,9 +184,6 @@ namespace soundsystem
                                int& inputdeviceid,
                                int& outputdeviceid) override;
 
-        void SetSampleRate(StreamPlayer* player, int samplerate);
-        int GetSampleRate(StreamPlayer* player);
-
         void SetAutoPositioning(StreamPlayer* player, bool enable) override;
         bool IsAutoPositioning(StreamPlayer* player) override;
 
@@ -242,7 +239,8 @@ namespace soundsystem
         void ReleaseBuffer();
         SoundDeviceFeatures GetFeatures() const { return m_features; }
     };
-#endif
+#endif /* WIN32 */
+
 } // namespace soundsystem
 
 #endif
