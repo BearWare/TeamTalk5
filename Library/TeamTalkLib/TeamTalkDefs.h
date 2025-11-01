@@ -39,18 +39,17 @@
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
 
-#define TT_MAX_ID 0xFFE
-#define USER_TIMEOUT 60 //secs before disconnecting users without keepalive (60 seconds)
-#define MAX_STRING_LENGTH 511
-#define MAX_USERS 1000
-#define MAX_USERS_IN_CHANNEL MAX_USERS
-#define MAX_CHANNELS TT_MAX_ID
+constexpr auto TT_MAX_ID = 0xFFE;
+constexpr auto USER_TIMEOUT = 60; //secs before disconnecting users without keepalive (60 seconds)
+constexpr auto MAX_STRING_LENGTH = 511;
+constexpr auto MAX_USERS = 1000;
+constexpr auto MAX_USERS_IN_CHANNEL = MAX_USERS;
+constexpr auto MAX_CHANNELS = TT_MAX_ID;
 
-#define DEFAULT_ENCRYPTED_TCPPORT 10443
-#define DEFAULT_ENCRYPTED_UDPPORT 10443
-
-#define DEFAULT_TCPPORT 10333
-#define DEFAULT_UDPPORT 10333
+constexpr auto DEFAULT_ENCRYPTED_TCPPORT = 10443;
+constexpr auto DEFAULT_ENCRYPTED_UDPPORT = 10443;
+constexpr auto DEFAULT_TCPPORT = 10333;
+constexpr auto DEFAULT_UDPPORT = 10333;
 
 // sanity check
 #if defined(ENABLE_TEAMTALKPRO)
