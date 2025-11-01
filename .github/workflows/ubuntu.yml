@@ -41,8 +41,6 @@ jobs:
     - name: Remove unnecessary packages and install valgrind
       run: |
         sudo apt-get autoremove --purge
-        # Ubuntu 22 specific: Ensure FFmpeg doesn't detect additional dependencies
-        ${{ matrix.version == '22' && 'sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev' || '' }}
         sudo apt-get install valgrind
 
     - name: Print env
