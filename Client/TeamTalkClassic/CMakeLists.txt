@@ -23,11 +23,9 @@ if (MSVC)
   ExternalProject_Add(tinyxml-classic-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
       GIT_TAG           bdr_v2
-      UPDATE_COMMAND    ""
       CMAKE_ARGS        -DTINYXML_MULTITHREADED=ON
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
-      INSTALL_COMMAND   ""
       BUILD_BYPRODUCTS  ${BINARY_DIR}/Debug/tinyxmld.lib
                         ${BINARY_DIR}/Release/tinyxml.lib
       )

@@ -13,7 +13,6 @@ if (MSVC)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/bear101/portaudio.git
       GIT_TAG           019a097
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_BUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
@@ -46,7 +45,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           ba3f91f
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
@@ -79,7 +77,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           ba3f91f
-      UPDATE_COMMAND    ""
       # There seems to be a bug in FindOSS.cmake on Ubuntu 18, so
       # although PA_USE_OSS=OFF then PortAudio's CMake configuration
       # still generates an error:
