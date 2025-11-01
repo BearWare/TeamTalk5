@@ -34,11 +34,10 @@
 #include <portaudio.h>
 #include <vector>
 
-#if defined(ACE_WIN32)
+#if defined(WIN32)
 
 #include "avstream/DMOResampler.h" // need SetWaveMediaType()
 #include <pa_win_wasapi.h>
-#include <px_win_ds.h>    //the directx mixer
 
 #include <Objbase.h>
 #include <Mmsystem.h>
@@ -49,7 +48,7 @@
 constexpr int WINAEC_SAMPLERATE = 22050;
 constexpr int WINAEC_CHANNELS = 1;
 
-#endif
+#endif /* WIN32 */
 
 constexpr auto DEBUG_PORTAUDIO = 0;
 
@@ -58,7 +57,7 @@ namespace soundsystem {
 
 #if defined(WIN32)
 PaWasapiStreamInfo WASAPICONVERT = {};
-#endif
+#endif /* WIN32 */
 
 PortAudio::PortAudio()
 {
@@ -67,7 +66,7 @@ PortAudio::PortAudio()
     WASAPICONVERT.hostApiType = paWASAPI;
     WASAPICONVERT.version = 1;
     WASAPICONVERT.flags = paWinWasapiAutoConvert;
-#endif
+#endif /* WIN32 */
 
     Init();
 }
@@ -96,7 +95,7 @@ std::shared_ptr<PortAudio> PortAudio::GetInstance()
 {
     static std::shared_ptr<PortAudio> const p(new PortAudio());
 
-#if defined(ACE_WIN32) //COM must be initialize for all threads which uses this class
+#if defined(WIN32) //COM must be initialize for all threads which uses this class
     static std::mutex mtx;
     std::lock_guard<std::mutex> g(mtx);
 
@@ -106,7 +105,7 @@ std::shared_ptr<PortAudio> PortAudio::GetInstance()
         CoInitializeEx(NULL, COINIT_APARTMENTTHREADED);
         com_threads.insert(ACE_Thread::self());
     }
-#endif
+#endif /* WIN32 */
 
     return p;
 }
@@ -182,7 +181,7 @@ bool PortAudio::GetDefaultDevices(int& inputdeviceid, int& outputdeviceid)
             outputdeviceid = hostapi->defaultOutputDevice;
         }
     }
-#endif
+#endif /* WIN32 */
     return inputdeviceid != paNoDevice || outputdeviceid != paNoDevice;
 }
 
@@ -269,8 +268,6 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::D
     if (devinfo->uniqueID)
         device.deviceid = devinfo->uniqueID;
     device.wavedeviceid = devinfo->wavedeviceid;
-    if (devinfo->max3dBuffers > 0)
-        device.features |= SOUNDDEVICEFEATURE_3DPOSITION;
 
     // CWMAudioAECCapture
     if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
@@ -279,7 +276,7 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::D
         device.features |= SOUNDDEVICEFEATURE_AGC;
         device.features |= SOUNDDEVICEFEATURE_DENOISE;
     }
-#endif
+#endif /* WIN32 */
 }
 
 void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device)
@@ -293,7 +290,7 @@ void PortAudio::FillSampleFormats(const PaDeviceInfo* devinfo, soundsystem::Devi
     const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
     if (HOST_WASAPI == devinfo->hostApi)
         streamParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
-#endif
+#endif /* WIN32 */
 
     if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paALSA))
     {
@@ -374,7 +371,7 @@ void PortAudio::SetupDefaultCommunicationDevice(sounddevices_t& sounddevs)
             }
         }
     }
-#endif
+#endif /* WIN32 */
 }
 
 SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
@@ -455,7 +452,7 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
     const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
     if (HOST_WASAPI == indev->hostApi)
         inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
-#endif
+#endif /* WIN32 */
 
     PaError const err = Pa_OpenStream(&streamer->stream, &inputParameters, nullptr,
                                 (double)samplerate, framesize, paClipOff,
@@ -558,7 +555,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     const auto HOST_WASAPI = Pa_HostApiTypeIdToHostApiIndex(paWASAPI);
     if (HOST_WASAPI == outdev->hostApi)
         outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
-#endif
+#endif /* WIN32 */
 
     //create stream holder
     outputstreamer_t streamer(new PaOutputStreamer(player, sndgrpid, framesize, samplerate,
@@ -634,30 +631,6 @@ bool PortAudio::IsStreamStopped(outputstreamer_t streamer)
     return Pa_IsStreamStopped(streamer->stream)>0;
 }
 
-void PortAudio::SetSampleRate(StreamPlayer* player, int  samplerate)
-{
-    outputstreamer_t const streamer = GetStream(player);
-    if (!streamer)
-        return;
-
-#if defined(WIN32)
-    if(streamer->soundsystem == SOUND_API_DSOUND && streamer->stream)
-        Px_DsSetFrequency(streamer->stream, (PxFrequency)samplerate);
-#endif
-}
-
-int PortAudio::GetSampleRate(StreamPlayer* player)
-{
-    outputstreamer_t const streamer = GetStream(player);
-    if (!streamer)
-        return 0;
-
-#if defined(WIN32)
-    if(streamer->soundsystem == SOUND_API_DSOUND && streamer->stream)
-        return (int)Px_DsGetFrequency(streamer->stream);
-#endif
-    return 0;
-}
 void PortAudio::SetAutoPositioning(StreamPlayer* player, bool enable)
 {
     outputstreamer_t const streamer = GetStream(player);
@@ -677,38 +650,11 @@ bool PortAudio::IsAutoPositioning(StreamPlayer* player)
 
 bool PortAudio::SetPosition(StreamPlayer* player, float  x, float  y, float  z)
 {
-    outputstreamer_t const streamer = GetStream(player);
-    if (!streamer)
-        return false;
-
-#if defined(WIN32)
-    if(streamer->soundsystem == SOUND_API_DSOUND &&
-       streamer->channels == 1 &&
-       streamer->stream)//only supported in mono
-    {
-        Px_DsSetPosition(streamer->stream, x, y, z);
-        return true;
-    }
-#endif
-
     return false;
 }
 
 bool PortAudio::GetPosition(StreamPlayer* player, float&  x, float&  y, float&  z)
 {
-    outputstreamer_t const streamer = GetStream(player);
-    if (!streamer)
-        return false;
-
-#if defined(WIN32)
-    if(streamer->soundsystem == SOUND_API_DSOUND &&
-       streamer->channels == 1 &&
-       streamer->stream)//only supported in mono
-    {
-        Px_DsGetPosition(streamer->stream, &x, &y, &z);
-        return true;
-    }
-#endif
     return false;
 }
 
@@ -778,7 +724,7 @@ static int DuplexStreamCallback(const void *inputBuffer,
     }
 #else
     DuplexCallback(*dpxStream, recorded, playback, mastervol, mastermute);
-#endif
+#endif /* WIN32 */
     return paContinue;
 }
 
@@ -822,7 +768,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
         inputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
     if (HOST_WASAPI == outdev->hostApi)
         outputParameters.hostApiSpecificStreamInfo = &WASAPICONVERT;
-#endif
+#endif /* WIN32 */
 
     duplexstreamer_t streamer(new PaDuplexStreamer(duplex, sndgrpid, framesize,
                                                    samplerate, input_channels,
@@ -843,7 +789,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
             return duplexstreamer_t();
         tmpInputParameters = nullptr;
     }
-#endif
+#endif /* WIN32 */
 
     //open stream
     PaError err = Pa_OpenStream(&streamer->stream, ((tmpInputParameters != nullptr) ? tmpInputParameters : nullptr),
@@ -896,7 +842,7 @@ bool PortAudio::UpdateStreamDuplexFeatures(duplexstreamer_t streamer)
 #if defined(WIN32)
     if (streamer->winaec)
         return streamer->winaec->GetFeatures() == newfeatures;
-#endif
+#endif /* WIN32 */
     return newfeatures == SOUNDDEVICEFEATURE_NONE;
 }
 
@@ -1328,6 +1274,6 @@ bool CWMAudioAECCapture::FindDevs(LONG& indevindex, LONG& outdevindex)
     return true;
 }
 
-#endif
+#endif /* WIN32 */
 
 } // namespace soundsystem
