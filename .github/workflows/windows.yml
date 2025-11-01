@@ -99,6 +99,29 @@ jobs:
         vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
         echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
 
+    - name: Install NASM
+      if: matrix.name == 'VS2019Release32'
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/${{ matrix.portablearch }}/nasm-3.01-${{ matrix.portablearch }}.zip
+        7z x nasm.zip
+        echo %CD%\nasm-3.01>> %GITHUB_PATH%
+
+    - name: Download and install OpenSSL
+      if: matrix.name == 'VS2019Release32'
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
+        tar -xzf openssl-3.6.0.tar.gz
+        cd openssl-3.6.0
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
+        perl Configure VC-WIN32 --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
+        nmake /s
+        nmake /s install
+        echo %CD%\openssl-install\bin>> %GITHUB_PATH%
+
     - name: Configure CMake
       working-directory: ${{runner.workspace}}
       shell: cmd
