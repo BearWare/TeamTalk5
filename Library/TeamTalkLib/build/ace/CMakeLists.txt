@@ -25,7 +25,7 @@ if (MSVC)
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git submodule add --force https://github.com/DOCGroup/MPC ACE/MPC
+        COMMAND           git submodule add --force https://github.com/DOCGroup/MPC.git ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
         COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -63,7 +63,7 @@ if (MSVC)
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git submodule add --force https://github.com/DOCGroup/MPC ACE/MPC
+        COMMAND           git submodule add --force https://github.com/DOCGroup/MPC.git ACE/MPC
         COMMAND           git submodule update --init ACE/MPC
         COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
