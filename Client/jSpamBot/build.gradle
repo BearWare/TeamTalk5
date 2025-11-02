@@ -8,7 +8,7 @@ compileJava {
 }
 
 application {
-    mainClassName = 'Main'
+    mainClass = 'Main'
 }
 
 sourceSets {
