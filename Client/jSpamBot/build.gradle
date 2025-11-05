@@ -2,6 +2,10 @@ plugins {
     id 'application'
 }
 
+repositories {
+    mavenCentral()
+}
+
 compileJava {
     sourceCompatibility = '11'
     targetCompatibility = '11'
@@ -21,4 +25,5 @@ sourceSets {
 
 dependencies {
     implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
+    implementation 'org.json:json:20250517'
 }
