@@ -267,7 +267,6 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::D
 #if defined(WIN32)
     if (devinfo->uniqueID)
         device.deviceid = devinfo->uniqueID;
-    device.wavedeviceid = devinfo->wavedeviceid;
 
     // CWMAudioAECCapture
     if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())

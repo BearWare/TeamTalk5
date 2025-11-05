@@ -153,15 +153,9 @@ constexpr auto VOLUME_MIN = 0;
             return *(--ii);
         }
 
-        DeviceInfo() : id(SOUND_DEVICEID_INVALID), default_samplerate(0), soundsystem(SOUND_API_NOSOUND), wavedeviceid(0)
+        DeviceInfo() : id(SOUND_DEVICEID_INVALID), default_samplerate(0), soundsystem(SOUND_API_NOSOUND), wavedeviceid(-1)
         {
-            
             max_input_channels = max_output_channels = 0;
-            
-            
-#if defined(WIN32)
-            wavedeviceid = -1;
-#endif
         }
     };
 
