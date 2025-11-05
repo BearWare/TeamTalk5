@@ -151,6 +151,10 @@ jobs:
     - name: Stop TeamTalk Pro Server (encrypted)
       run: killall tt5prosrv
 
+    - name: Build jSpamBot using Gradle
+      working-directory: ${{runner.workspace}}/TeamTalk5/Client/jSpamBot
+      run: gradle build
+
     - name: Install TeamTalk SDK
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
