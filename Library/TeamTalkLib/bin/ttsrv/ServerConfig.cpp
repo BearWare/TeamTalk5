@@ -27,10 +27,10 @@
 
 #include "AppInfo.h"
 #include "ServerXML.h"
-#include "mystd/MyStd.h"
+#include "TeamTalkDefs.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
-#include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/Log.h"
@@ -306,11 +306,11 @@ static std::string GetMyIPAddress()
     return {};
 }
 
-static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
+static bool SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
 {
     cout << "Do you wish to submit your TeamTalk Pro server for SpamBot monitoring? ";
     if (!PrintGetBool(true))
-        return;
+        return true;
 
     while (!LoginBearWare(xmlSettings))
     {
@@ -347,17 +347,20 @@ static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
     std::string xml;
     switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
     {
+    default :
     case -1 :
     case 0 :
+        return false;
     case 1 :
+        return true;
     }
 }
 
-static void RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
+static bool RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
 {
     cout << "Do you wish to remove your TeamTalk Pro server from SpamBot monitoring? ";
     if (!PrintGetBool(true))
-        return;
+        return true;
 
     while (!LoginBearWare(xmlSettings))
     {
@@ -387,9 +390,12 @@ static void RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
     std::string xml;
     switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
     {
+    default :
     case -1 :
     case 0 :
+        return false;
     case 1 :
+        return true;
     }
 }
 
@@ -434,7 +440,10 @@ static void ConfigureSpamBotUserAccount(UserAccount user, teamtalk::ServerXML& x
     xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
     xmlSettings.AddNewUser(user);
 
-    SubmitSpamBotServer(xmlSettings);
+    if (!SubmitSpamBotServer(xmlSettings))
+    {
+        cout << "Failed to submit SpamBot." << endl;
+    }
 }
 
 void ConfigureEncryption(bool& certverifyonce, int& certdepth,
