@@ -1,0 +1,34 @@
+From f634e19eeb6b88027b4076cbc79fe7400f298d38 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Wed, 5 Nov 2025 21:06:56 +0100
+Subject: [PATCH 2/2] Allow /MT option for static library and append 'd' to
+ debug build output name
+
+---
+ CMakeLists.txt | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index abf221b..bab6221 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -99,7 +99,7 @@ else()
+   target_compile_definitions(portaudio PRIVATE PA_LITTLE_ENDIAN)
+ endif()
+ 
+-if(WIN32 AND MSVC AND PA_BUILD_SHARED_LIBS
++if(WIN32 AND MSVC
+   # Check if the user is building PortAudio stand-alone or as part of a larger
+   # project. If this is part of a larger project (i.e. the CMakeLists.txt has
+   # been imported by some other CMakeLists.txt), we don't want to override
+@@ -118,6 +118,7 @@ if(WIN32 AND MSVC AND PA_BUILD_SHARED_LIBS
+       endif()
+     endforeach()
+   endif()
++  set_target_properties(portaudio PROPERTIES OUTPUT_NAME_DEBUG portaudiod)
+ endif()
+ 
+ #
+-- 
+2.45.1
+

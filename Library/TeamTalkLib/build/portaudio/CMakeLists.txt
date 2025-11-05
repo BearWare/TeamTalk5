@@ -11,11 +11,13 @@ set (TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO ${TOOLCHAIN_INSTALL_PREFIX}/portaudio)
 if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
-      GIT_REPOSITORY    https://github.com/bear101/portaudio.git
-      GIT_TAG           019a097
+      GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
+      GIT_TAG           7786be7
       UPDATE_DISCONNECTED ON
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-uniqueID-to-PaDeviceInfo-that-identifies-sound-d.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Allow-MT-option-for-static-library-and-append-d-to-d.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
-      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_BUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF -DCMAKE_POLICY_VERSION_MINIMUM=3.5
+      CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_BUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO}

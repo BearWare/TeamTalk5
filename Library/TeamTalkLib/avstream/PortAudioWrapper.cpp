@@ -244,7 +244,7 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
             continue;
 
         DeviceInfo device;
-        device.devicename = devinfo->name;
+        device.devicename = Utf8ToUnicode(devinfo->name);
         device.soundsystem = GetSoundSystem(devinfo);
         device.id = i;
         device.max_input_channels = devinfo->maxInputChannels;
@@ -266,7 +266,7 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::D
 
 #if defined(WIN32)
     if (devinfo->uniqueID)
-        device.deviceid = devinfo->uniqueID;
+        device.deviceid = Utf8ToUnicode(devinfo->uniqueID);
 
     // CWMAudioAECCapture
     if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
