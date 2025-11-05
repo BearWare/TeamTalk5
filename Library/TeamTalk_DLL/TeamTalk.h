@@ -374,6 +374,14 @@ extern "C" {
          * @see TT_SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_DENOISE          = 0x0004,
         /** @brief The #SoundDevice can position user in 3D.
+         *
+         * Note that 3D sound requires an #AudioCodec that is configured in
+         * mono and #SoundDevice is not running in duplex mode,
+         * @see SOUNDDEVICEFEATURE_DUPLEXMODE.
+         *
+         * @deprecated This feature was previously supported
+         * by #SOUNDSYSTEM_DSOUND but is no longer available.
+         *
          * @see TT_SetUserPosition()  */
         SOUNDDEVICEFEATURE_3DPOSITION       = 0x0008,
         /** @brief The #SoundDevice can run in duplex mode.
@@ -1072,8 +1080,7 @@ extern "C" {
          * this interval. In most cases this makes less than 40 msec
          * transmission interval unfeasible. */
         INT32 nTxIntervalMSec;
-        /** @brief Playback should be done in stereo. Doing so will
-         * disable 3d-positioning.
+        /** @brief Playback should be done in stereo.
          *
          * @see TT_SetUserPosition()
          * @see TT_SetUserStereo() */
@@ -1118,8 +1125,7 @@ extern "C" {
          * this interval. In most cases this makes less than 40 msec
          * transmission interval unfeasible. */
         INT32 nTxIntervalMSec;
-        /** @brief Playback should be done in stereo. Doing so will
-         * disable 3d-positioning.
+        /** @brief Playback should be done in stereo.
          *
          * @see TT_SetUserPosition()
          * @see TT_SetUserStereo() */
@@ -2285,14 +2291,16 @@ extern "C" {
          * considered playing audio of a media file.
          * @see TT_SetUserStoppedTalkingDelay */
         INT32 nStoppedDelayMediaFile;
-        /** @brief User's position when using 3D-sound (DirectSound option).
+        /** @brief User's position when using 3D-sound.
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
          * @see TT_SetUserPosition()
+         * @see SOUNDDEVICEFEATURE_3DPOSITION.
          * @see SoundDevice */
         float soundPositionVoice[3];
-        /** @brief User's position when using 3D-sound (DirectSound option).
+        /** @brief User's position when using 3D-sound.
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
          * @see TT_SetUserPosition()
+         * @see SOUNDDEVICEFEATURE_3DPOSITION.
          * @see SoundDevice */
         float soundPositionMediaFile[3];
         /** @brief Check what speaker a user is outputting to. 
@@ -4098,7 +4106,8 @@ extern "C" {
         CLIENT_SNDOUTPUT_MUTE           = 0x00000020,
         /** @brief If set the client instance will auto position users
         * in a 180 degree circle using 3D-sound. This option is only
-        * available with #SOUNDSYSTEM_DSOUND.
+        * available with a #SoundDevice that supports
+        * #SOUNDDEVICEFEATURE_3DPOSITION.
         * @see TT_SetUserPosition()
         * @see TT_Enable3DSoundPositioning */
         CLIENT_SNDOUTPUT_AUTO3DPOSITION = 0x00000040,
@@ -4838,9 +4847,6 @@ extern "C" {
      *
      * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
      *
-     * Note that 3d-sound does not work if sound is running in duplex
-     * mode (#CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
-     *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
      * @param bEnable TRUE to enable, otherwise FALSE.
@@ -4852,9 +4858,6 @@ extern "C" {
      * @brief Automatically position users using 3D-sound.
      *
      * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
-     *
-     * Note that 3d-sound does not work if sound is running in duplex
-     * mode (#CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.
@@ -7471,10 +7474,6 @@ extern "C" {
      * @brief Set the position of a user.
      *
      * 3D sound position requires #SOUNDDEVICEFEATURE_3DPOSITION.
-     *
-     * This can only be done using DirectSound (#SOUNDSYSTEM_DSOUND),
-     * a mono channel and with sound duplex mode 
-     * (#CLIENT_SNDINOUTPUT_DUPLEX) disabled.
      *
      * @param lpTTInstance Pointer to client instance created by
      * #TT_InitTeamTalk.

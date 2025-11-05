@@ -183,6 +183,14 @@ namespace BearWare
          * @see TeamTalkBase.SetSoundDeviceEffects() */
         SOUNDDEVICEFEATURE_DENOISE = 0x0004,
         /** @brief The #BearWare.SoundDevice can position user in 3D.
+         *
+         * Note that 3D sound requires an #AudioCodec that is configured in
+         * mono and #BearWare.SoundDevice is not running in duplex mode,
+         * @see SOUNDDEVICEFEATURE_DUPLEXMODE.
+         *
+         * @deprecated This feature was previously supported
+         * by #BearWare.SoundSystem.SOUNDSYSTEM_DSOUND but is no longer available.
+         *
          * @see TeamTalkBase.SetUserPosition()  */
         SOUNDDEVICEFEATURE_3DPOSITION = 0x0008,
         /** @brief The #BearWare.SoundDevice can run in duplex mode.
@@ -927,8 +935,7 @@ namespace BearWare
          * transmission interval unfeasible. */
         [FieldOffset(8)]
         public int nTxIntervalMSec;
-        /** @brief Playback should be done in stereo. Doing so will
-         * disable 3d-positioning.
+        /** @brief Playback should be done in stereo.
          *
          * @see TeamTalkBase.SetUserPosition
          * @see TeamTalkBase.SetUserStereo */
@@ -974,8 +981,7 @@ namespace BearWare
          * this interval. In most cases this makes less than 40 msec
          * transmission interval unfeasible. */        
         public int nTxIntervalMSec;
-        /** @brief Playback should be done in stereo. Doing so will
-         * disable 3d-positioning.
+        /** @brief Playback should be done in stereo.
          *
          * @see TeamTalkBase.SetUserPosition
          * @see TeamTalkBase.SetUserStereo */
@@ -2365,15 +2371,17 @@ namespace BearWare
          * considered playing audio of a media file.
          * @see TeamTalkBase.SetUserStoppedTalkingDelay */
         public int nStoppedDelayMediaFile;
-        /** @brief User's position when using 3D-sound (DirectSound option).
+        /** @brief User's position when using 3D-sound.
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
          * @see TeamTalkBase.SetUserPosition
+         * @see SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION
          * @see SoundDevice */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] soundPositionVoice;
-        /** @brief User's position when using 3D-sound (DirectSound option).
+        /** @brief User's position when using 3D-sound.
          * Index 0 is x-axis, index 1 is y-axis and index 2 is Z-axis.
          * @see TeamTalkBase.SetUserPosition
+         * @see SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION
          * @see SoundDevice */
         [MarshalAs(UnmanagedType.ByValArray, SizeConst = 3)]
         public float[] soundPositionMediaFile;
@@ -4105,7 +4113,8 @@ namespace BearWare
         CLIENT_SNDOUTPUT_MUTE = 0x00000020,
         /** @brief If set the client instance will auto position users
         * in a 180 degree circle using 3D-sound. This option is only
-        * available with #BearWare.SoundSystem.SOUNDSYSTEM_DSOUND.
+        * available with a #SoundDevice that supports
+        * #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
         * @see TeamTalkBase.SetUserPosition()
         * @see TeamTalkBase.Enable3DSoundPositioning() */
         CLIENT_SNDOUTPUT_AUTO3DPOSITION = 0x00000040,
@@ -5227,9 +5236,6 @@ namespace BearWare
          * 
          * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
          *
-         * Note that 3d-sound does not work if sound is running in duplex
-         * mode (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
-         *
          * @param bEnable TRUE to enable, otherwise FALSE.
          * @see TeamTalkBase.SetUserPosition */
         public bool Enable3DSoundPositioning(bool bEnable)
@@ -5240,9 +5246,6 @@ namespace BearWare
          * @brief Automatically position users using 3D-sound.
          *
          * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
-         *
-         * Note that 3d-sound does not work if sound is running in duplex
-         * mode (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) or in stereo.
          *
          * @see TeamTalkBase.SetUserPosition */
         public bool AutoPositionUsers()
@@ -7878,10 +7881,6 @@ namespace BearWare
          * @brief Set the position of a user.
          *
          * 3D sound position requires #BearWare.SoundDeviceFeature.SOUNDDEVICEFEATURE_3DPOSITION.
-         *
-         * This can only be done using DirectSound (#BearWare.SoundSystem.SOUNDSYSTEM_DSOUND),
-         * a mono channel and with sound duplex mode 
-         * (#BearWare.ClientFlag.CLIENT_SNDINOUTPUT_DUPLEX) disabled.
          *
          * @param nUserID ID of user.
          * @param nStreamType The type of stream to change, either 
