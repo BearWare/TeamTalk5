@@ -16,7 +16,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.3
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-arm64
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
@@ -54,7 +54,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.3
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}-intel
       CONFIGURE_COMMAND export PKG_CONFIG_PATH=${OPENSSL_DIR}/lib/pkgconfig && <SOURCE_DIR>/configure
@@ -214,7 +214,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     ExternalProject_Add(gas-preprocessor
       GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor.git
       GIT_TAG           a120373
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/gas-preprocessor
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
@@ -269,7 +269,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.3
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND  <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> ${FFMPEG_CFG_FLAGS}
@@ -355,7 +355,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.3
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --prefix=<INSTALL_DIR>
@@ -471,7 +471,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.3
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
+      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND ${FFMPEG_EXPORT} && <SOURCE_DIR>/configure ${FFMPEG_CFG} --prefix=<INSTALL_DIR>

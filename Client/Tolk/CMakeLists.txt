@@ -9,7 +9,7 @@ include(ExternalProject)
 ExternalProject_Add(tolk-src
   GIT_REPOSITORY    https://github.com/dkager/tolk.git
   GIT_TAG           e5149f0
-  UPDATE_COMMAND    ""
+  UPDATE_DISCONNECTED ON
   PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-CMake-script-for-building-tolk.patch
   CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DTOLK_WITH_JAVAJNI=OFF -DTOLK_MULTITHREADED=ON
   BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Release
