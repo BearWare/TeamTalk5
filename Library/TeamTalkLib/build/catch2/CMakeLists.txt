@@ -8,7 +8,7 @@ include(ExternalProject)
 ExternalProject_Add(catch2
   GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
   GIT_TAG           v2.13.10
-  UPDATE_COMMAND    ""
+  UPDATE_DISCONNECTED ON
   CONFIGURE_COMMAND ""
   BUILD_COMMAND     ""
   INSTALL_COMMAND   ""

@@ -24,7 +24,7 @@ if (MSVC)
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/xiph/speex.git
         GIT_TAG           Speex-1.2.1
-        UPDATE_COMMAND    ""
+        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
@@ -47,7 +47,7 @@ if (MSVC)
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/xiph/speex.git
         GIT_TAG           Speex-1.2.1
-        UPDATE_COMMAND    ""
+        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
