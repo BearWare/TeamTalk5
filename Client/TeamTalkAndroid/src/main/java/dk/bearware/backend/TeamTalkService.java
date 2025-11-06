@@ -1057,6 +1057,7 @@ public class TeamTalkService extends Service
                     msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
                         getResources().getString(R.string.text_cmd_leftchan) + " " + chan.szName);
                 }
+                getChatLogTextMsgs().add(msg);
             }
             else {
                 // other user left current channel
