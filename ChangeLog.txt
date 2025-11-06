@@ -6,7 +6,7 @@ Version 5.22, unreleased
 Default Qt Client
 - Updated Qt to 6.9.3 on Windows and macOS
 Android Client
--
+- join last channel checkbox is now unchecked by default in server properties dialog
 iOS Client
 -
 Server
