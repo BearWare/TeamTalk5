@@ -21,9 +21,9 @@ if (MSVC)
         CONFIGURE_COMMAND ""
         CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
         BUILD_COMMAND     set CL=/MP
-        COMMAND           nmake
+        COMMAND           nmake /s
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-        INSTALL_COMMAND   nmake install
+        INSTALL_COMMAND   nmake /s install
         BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
         )
     else()
