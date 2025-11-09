@@ -9,7 +9,6 @@ if (TOOLCHAIN_OGG)
   ExternalProject_Add(opustools-src
     GIT_REPOSITORY    https://github.com/xiph/opus-tools.git
     GIT_TAG           v0.1.10
-    UPDATE_DISCONNECTED ON
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
     INSTALL_COMMAND   ""
@@ -20,7 +19,6 @@ else()
   ExternalProject_Add(opustools-src
     GIT_REPOSITORY    https://github.com/xiph/opus-tools.git
     GIT_TAG           v0.1.10
-    UPDATE_DISCONNECTED ON
     CONFIGURE_COMMAND ""
     BUILD_COMMAND     ""
     INSTALL_COMMAND   ""

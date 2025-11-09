@@ -22,7 +22,6 @@ if (MSVC)
     ExternalProject_Add(tinyxml-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
       GIT_TAG           bdr_v2
-      UPDATE_DISCONNECTED ON
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DTINYXML_MULTITHREADED=ON
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
@@ -56,7 +55,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
         GIT_TAG           bdr_v2
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                           -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -86,7 +84,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
         GIT_TAG           bdr_v2
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                           -DCMAKE_BUILD_TYPE=release
@@ -115,7 +112,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       ExternalProject_Add(tinyxml-src
         GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
         GIT_TAG           bdr_v2
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                           -DCMAKE_BUILD_TYPE=release

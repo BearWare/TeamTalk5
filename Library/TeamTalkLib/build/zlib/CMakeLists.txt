@@ -24,7 +24,6 @@ if (MSVC)
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
@@ -40,7 +39,6 @@ if (MSVC)
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
@@ -74,7 +72,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/madler/zlib.git
       GIT_TAG           v1.3.1
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
       CONFIGURE_COMMAND CFLAGS=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -104,7 +101,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_REPOSITORY    https://github.com/madler/zlib.git
       GIT_TAG           v1.3.1
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/zlib
       CONFIGURE_COMMAND CFLAGS=-fPIC <SOURCE_DIR>/configure --prefix=<INSTALL_DIR> --static

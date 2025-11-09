@@ -22,7 +22,6 @@ if (MSVC)
         GIT_TAG           ACE+TAO-8_0_5
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
@@ -59,7 +58,6 @@ if (MSVC)
         GIT_TAG           ACE+TAO-8_0_5
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
@@ -134,7 +132,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_TAG           ACE+TAO-8_0_5
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -149,7 +146,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-      UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
@@ -234,7 +230,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_TAG           ACE+TAO-8_0_5
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -250,7 +245,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_SHALLOW       TRUE
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -324,7 +318,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
       GIT_TAG           ACE+TAO-8_0_5
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -337,7 +330,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-      UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
@@ -407,7 +399,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
       GIT_TAG           ACE+TAO-8_0_5
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -434,7 +425,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-      UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace

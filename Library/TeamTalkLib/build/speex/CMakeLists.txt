@@ -24,7 +24,6 @@ if (MSVC)
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/xiph/speex.git
         GIT_TAG           Speex-1.2.1
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
@@ -47,7 +46,6 @@ if (MSVC)
       ExternalProject_Add(speex-src
         GIT_REPOSITORY    https://github.com/xiph/speex.git
         GIT_TAG           Speex-1.2.1
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
@@ -86,7 +84,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/xiph/speex.git
       GIT_TAG           Speex-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
       CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
@@ -130,7 +127,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/xiph/speex.git
       GIT_TAG           Speex-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
       CONFIGURE_COMMAND export CFLAGS=${SPEEX_CFLAGS} CPPFLAGS=${SPEEX_CFLAGS} LDFLAGS=${SPEEX_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}
@@ -159,7 +155,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/xiph/speex.git
       GIT_TAG           Speex-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
       CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
@@ -206,7 +201,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     ExternalProject_Add(speex-src
       GIT_REPOSITORY    https://github.com/xiph/speex.git
       GIT_TAG           Speex-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
       CONFIGURE_COMMAND ${SPEEX_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEX_GEN_FLAGS}

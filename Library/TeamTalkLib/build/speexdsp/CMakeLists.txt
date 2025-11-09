@@ -24,7 +24,6 @@ if (MSVC)
       ExternalProject_Add(speexdsp-src
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -46,7 +45,6 @@ if (MSVC)
       ExternalProject_Add(speexdsp-src
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
-        UPDATE_DISCONNECTED ON
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
@@ -84,7 +82,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
       CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
@@ -129,7 +126,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
       CONFIGURE_COMMAND export CFLAGS=${SPEEXDSP_CFLAGS} LDFLAGS=${SPEEXDSP_CFLAGS} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}
@@ -158,7 +154,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
       CONFIGURE_COMMAND <SOURCE_DIR>/autogen.sh
@@ -213,7 +208,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     ExternalProject_Add(speexdsp-src
       GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
       GIT_TAG           SpeexDSP-1.2.1
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
       CONFIGURE_COMMAND ${SPEEXDSP_EXPORT} && <SOURCE_DIR>/autogen.sh ${SPEEXDSP_GEN_FLAGS}

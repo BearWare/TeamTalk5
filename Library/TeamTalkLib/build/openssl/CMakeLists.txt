@@ -16,7 +16,6 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           openssl-3.6.0
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND ""
         CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
@@ -31,7 +30,6 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           openssl-3.6.0
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
         BUILD_COMMAND     set CL=/MP
@@ -76,7 +74,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           openssl-3.6.0
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel
       CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -92,7 +89,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           openssl-3.6.0
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-arm64
       CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-arm64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -161,7 +157,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           openssl-3.6.0
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
       CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
@@ -199,7 +194,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           openssl-3.6.0
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
       CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
@@ -255,7 +249,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
       GIT_TAG           openssl-3.6.0
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
       CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared

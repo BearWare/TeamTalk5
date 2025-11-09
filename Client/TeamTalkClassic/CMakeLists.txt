@@ -23,7 +23,6 @@ if (MSVC)
   ExternalProject_Add(tinyxml-classic-src
       GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
       GIT_TAG           bdr_v2
-      UPDATE_DISCONNECTED ON
       CMAKE_ARGS        -DTINYXML_MULTITHREADED=ON
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release

@@ -47,7 +47,6 @@ if (MSVC)
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
         GIT_TAG           v1.15.2
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat
@@ -76,7 +75,6 @@ if (MSVC)
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
         GIT_TAG           v1.15.2
-        UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat
@@ -113,7 +111,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
       GIT_TAG           v1.15.2
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx-arm64
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -129,7 +126,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
       GIT_TAG           v1.15.2
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx-intel
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
@@ -188,7 +184,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
       GIT_TAG           v1.15.2
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
       CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
@@ -227,7 +222,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
       GIT_TAG           v1.15.2
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
       CONFIGURE_COMMAND <SOURCE_DIR>/configure
@@ -293,7 +287,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
       GIT_TAG           v1.15.2
       GIT_SHALLOW       TRUE
-      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
       CONFIGURE_COMMAND ${LIBVPX_EXPORT} && <SOURCE_DIR>/configure
