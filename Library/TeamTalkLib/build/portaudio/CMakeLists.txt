@@ -13,7 +13,7 @@ if (MSVC)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-uniqueID-to-PaDeviceInfo-that-identifies-sound-d.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Allow-MT-option-for-static-library-and-append-d-to-d.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
@@ -48,7 +48,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release -DPA_BUILD_SHARED_LIBS=OFF
@@ -81,7 +81,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_USE_ALSA=ON -DPA_USE_PULSEAUDIO=ON -DPA_USE_JACK=OFF -DPA_USE_OSS=OFF -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DPA_BUILD_SHARED_LIBS=OFF
