@@ -50,7 +50,7 @@ if (MSVC)
 
     ExternalProject_Add(depot-tools
       URL               https://storage.googleapis.com/chrome-infra/depot_tools.zip
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -102,7 +102,7 @@ if (MSVC)
       COMMAND           ${WEBRTC_FETCH_CMD8}
       PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
       COMMAND           ${WEBRTC_PATCH_CMD2}
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
@@ -213,7 +213,7 @@ else()
     ExternalProject_Add(depot-tools
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
       GIT_TAG           39b2e4ef
-      UPDATE_DISCONNECTED ON
+      UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
@@ -261,7 +261,7 @@ else()
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
@@ -277,7 +277,7 @@ else()
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
@@ -293,7 +293,7 @@ else()
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
@@ -308,7 +308,7 @@ else()
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk
@@ -338,7 +338,7 @@ else()
         COMMAND           ${WEBRTC_FETCH_CMD2}
         COMMAND           ${WEBRTC_FETCH_CMD3}
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD1}
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
         BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v -C <INSTALL_DIR> teamtalk

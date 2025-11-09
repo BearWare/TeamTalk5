@@ -16,7 +16,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           openssl-3.6.0
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND ""
         CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
@@ -31,7 +31,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/openssl/openssl.git
         GIT_TAG           openssl-3.6.0
         GIT_SHALLOW       TRUE
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
         BUILD_COMMAND     set CL=/MP
