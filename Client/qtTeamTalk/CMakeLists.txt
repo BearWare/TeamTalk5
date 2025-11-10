@@ -58,7 +58,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   if (Qt6_FOUND)
     set (CMAKE_CXX_STANDARD 17)
-    set (CMAKE_OSX_DEPLOYMENT_TARGET 12.0) # Qt 6.9.2 requires
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 13.0) # Qt 6.10.0 requires
   else()
     set (CMAKE_CXX_STANDARD 17)
   endif()
