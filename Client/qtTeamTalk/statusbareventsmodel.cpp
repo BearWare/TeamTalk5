@@ -66,6 +66,8 @@ StatusBarEventsModel::StatusBarEventsModel(QObject* parent)
     m_statusbarevents.push_back(STATUSBAR_START_RECORD);
 
     m_statusbarevents.push_back(STATUSBAR_TRANSMISSION_BLOCKED);
+
+    m_statusbarevents.push_back(STATUSBAR_SOUND_DEVICE_DETECTED);
 }
 
 QVariant StatusBarEventsModel::headerData ( int section, Qt::Orientation orientation, int role /*= Qt::DisplayRole*/ ) const
@@ -163,6 +165,8 @@ QVariant StatusBarEventsModel::data ( const QModelIndex & index, int role /*= Qt
                 return tr("Recording started");
             case STATUSBAR_TRANSMISSION_BLOCKED :
                 return tr("Transmission blocked by channel operator");
+            case STATUSBAR_SOUND_DEVICE_DETECTED :
+                return tr("Sound device detected");
             case STATUSBAR_NONE :
             case STATUSBAR_NEXT_UNUSED :
             case STATUSBAR_BYPASS :
