@@ -91,7 +91,9 @@ enum StatusBarEvent : qulonglong
 
     STATUSBAR_TRANSMISSION_BLOCKED                        = qulonglong(1) << 29,
 
-    STATUSBAR_NEXT_UNUSED                                 = qulonglong(1) << 30,
+    STATUSBAR_SOUND_DEVICE_DETECTED                       = qulonglong(1) << 30,
+
+    STATUSBAR_NEXT_UNUSED                                 = qulonglong(1) << 31,
 
     STATUSBAR_BYPASS                                      = qulonglong(~0),
 };
