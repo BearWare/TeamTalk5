@@ -19,7 +19,7 @@ if (MSVC)
         UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND ""
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm no-doc --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
         BUILD_COMMAND     set CL=/MP
         COMMAND           nmake
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
@@ -33,7 +33,7 @@ if (MSVC)
         GIT_SHALLOW       TRUE
         UPDATE_DISCONNECTED ON
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm no-doc --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
         BUILD_COMMAND     set CL=/MP
         COMMAND           nmake
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
@@ -79,7 +79,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-intel
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-intel
-      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-x86_64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} no-doc
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install_sw install_ssldirs
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
@@ -95,7 +95,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-arm64
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}-arm64
-      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-arm64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> darwin64-arm64-cc -mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET} no-doc
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install_sw install_ssldirs
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
@@ -164,7 +164,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-      CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests ${OPENSSL_CFG_POSTFIX}
+      CONFIGURE_COMMAND ${OPENSSL_CFG_PREFIX} && export CFLAGS=-arch\ ${CMAKE_OSX_ARCHITECTURES} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> ${OPENSSL_CFG_TARGET} no-shared no-async no-tests no-doc ${OPENSSL_CFG_POSTFIX}
       BUILD_COMMAND     ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   ${OPENSSL_CFG_PREFIX} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
@@ -202,7 +202,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC linux-x86_64 no-doc
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
@@ -258,7 +258,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-      CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared
+      CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared no-doc
       ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
       BUILD_COMMAND     ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
