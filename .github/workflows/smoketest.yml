@@ -1,6 +1,12 @@
 name: SmokeTest
 
-on: [push, pull_request]
+on:
+  push:
+    branches-ignore:
+      - 'debug*'
+  pull_request:
+    branches-ignore:
+      - 'debug*'
 
 env:
   # TeamTalk unit test environment variables
