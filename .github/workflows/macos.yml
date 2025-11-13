@@ -1,6 +1,16 @@
 name: macOS
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-macos*'
+  pull_request:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-macos*'
 
 env:
   # TeamTalk unit test environment variables
