@@ -12,6 +12,10 @@ Android Client
 iOS Client
 -
 Server
+-
+
+Version 5.21.1, 2025/11/13
+Server
 - TeamTalk Pro option -weblogin to store BearWare.dk WebLogin in tt5prosrv.xml
 - TeamTalk Pro option -tokenlogin to store BearWare.dk WebLogin in tt5prosrv.xml
 
