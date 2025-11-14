@@ -10,6 +10,7 @@ Android Client
 - Fixed bug where join and leave events were not announced when focused on another channel
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
+- Maximum bitrate can be specified in SpeexVBR
 iOS Client
 -
 Server
