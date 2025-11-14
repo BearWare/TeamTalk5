@@ -257,7 +257,6 @@
     <string name="user_prop_title_userid">ID de usuario:</string>
     <string name="user_prop_title_statusmsg">Mensaje de estado:</string>
     <string name="user_prop_title_clientname">Nombre del cliente:</string>
-    <string name="user_prop_clientversion">versión</string>
     <string name="user_prop_title_ipaddress">Dirección IP:</string>
     <string name="user_prop_title_voice_volume">Volumen de voz</string>
     <string name="user_prop_title_mute_voice">Silenciar voz.</string>
