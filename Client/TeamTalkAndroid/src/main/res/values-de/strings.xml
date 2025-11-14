@@ -33,15 +33,12 @@
     <string name="text_cmd_userleftchan">hat den Raum verlassen</string>
     <string name="text_cmd_userloggedout">abgemeldet</string>
     <string name="text_cmd_userloggedin">angemeldet</string>
-    <string name="text_cmd_servername">Servername: </string>
-    <string name="text_cmd_servermotd">Nachricht des Tages: </string>
     <string name="pref_cat_subscriptions">Empfang</string>
     <string name="pref_cat_connection_general">Allgemein</string>
     <string name="pref_cat_tts">Text-To-Speech-Einstellungen</string>
     <string name="pref_cat_tts_events">Sprachausgabenmeldungen konfigurieren</string>
     <string name="pref_cat_tts_transmission">Sprachausgabenmeldungen Übertragungskontrolle</string>
     <string name="pref_cat_tts_subscription">Sprachausgabenmeldungen Empfang</string>
-    <string name="pref_cat_soundtest">Klangtest</string>
     <string name="pref_header_general">Allgemein</string>
     <string name="pref_title_nickname">Nickname</string>
     <string name="pref_title_statusmsg">Statusnachricht</string>
@@ -166,8 +163,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Sofern ein Bluetooth-Headset verbunden ist, benutze dessen mikrofon</string>
     <string name="pref_title_voice_processing_checkbox">Sprachvorverarbeitung</string>
     <string name="pref_summary_voice_processing_checkbox">Echo-Unterdrückung und automatische Mikrofonpegel-Kontrolle</string>
-    <string name="pref_title_public_servers">Zeige öffentliche Server</string>
-    <string name="pref_summary_public_servers">Öffentliche Server in der Serverliste anzeigen</string>
 
     <string name="text_tts_loggedin">hat sich angemeldet</string>
     <string name="text_tts_loggedout">hat sich abgemeldet</string>
@@ -204,7 +199,6 @@
     <string name="text_tts_transmit_name_everyone">jeder</string>
     <string name="pref_header_soundsystem">Soundsystem</string>
     <string name="title_activity_audio_codec">Audio-Codec</string>
-    <string name="title_activity_filepicker">Dateiauswahl</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -213,7 +207,6 @@
 
     <string name="button_tx">TX</string>
     <string name="button_remove">Entfernen</string>
-    <string name="button_edit">Bearbeiten</string>
     <string name="action_banchan">Im aktuellen Raum sperren</string>
     <string name="action_bansrv">Für den Server sperren</string>
     <string name="action_edit">Raum bearbeiten</string>
@@ -286,12 +279,8 @@
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Verbinde</string>
     <string name="stat_unauthorized">Nicht erlaubt</string>
-    <string name="label_voice">Sprache:</string>
-    <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Gesamt:</string>
-    <string name="label_mediafile">Mediendatei:</string>
     <string name="default_">Standard</string>
 
     <string name="server_list_empty">Serverliste ist leer</string>
@@ -301,7 +290,6 @@
     <string name="time_date">Zeit/Datum</string>
     <string name="name">Name</string>
 
-    <string name="err_init_sound_input">Fehler beim Initialisieren des Aufnahmegeräts</string>
     <string name="err_init_sound_output">Fehler beim Initialisieren des Wiedergabegeräts</string>
     <string name="err_retrieve_public_server_list">Fehler beim Abrufen der öffentlichen Serverliste</string>
     <string name="err_send_text_message">Fehler beim Senden der Textnachricht</string>
@@ -318,7 +306,6 @@
     <string name="serverlist_export_confirmation">Serverliste wurde als %1$s exportiert</string>
     <string name="server_export_confirmation">Server wurde als %1$s exportiert</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 Servereigenschaften</string>
     <string name="pref_title_server_info">Serverinformationen</string>
     <string name="pref_title_server_name">Servername</string>
     <string name="pref_title_server_address">Domain oder IP</string>
@@ -333,9 +320,6 @@
     <string name="pref_title_channel">Raum</string>
     <string name="pref_title_channel_password">Raumpasswort</string>
     <string name="pref_title_last_channel">Letzter Raum</string>
-
-    <string name="pref_summary_server_name">Mit diesem Namen wird der Server in der Liste erscheinen</string>
-    <string name="pref_summary_server_address">Domain-Name oder IP-Adresse des Servers</string>
 
     <string name="channel_password_prompt">Raumpasswort eingeben</string>
     <string name="button_download">Download</string>
@@ -374,8 +358,6 @@
     <string name="voxlevel">Sprachaktivierungspegel</string>
     <string name="speaker_mute">Lautsprecher stumm</string>
     <string name="speaker_unmute">Lautsprecher ein</string>
-    <string name="mic_mute">Mikrofon stumm</string>
-    <string name="mic_unmute">Mikrofon ein</string>
     <string name="speaker_volume_description">Lautstärkepegel ist %1$s</string>
     <string name="mic_gain_description">Mikrofonpegel ist %1$s</string>
     <string name="voice_activation_on">Sprachaktivierung einschalten</string>
@@ -466,7 +448,6 @@
     <string name="bwpswlab">Passwort:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk-DLL v</string>
-    <string name="pref_title_bearware_summary">Aktivieren, falls der Server die BearWare.dk-Web-Anmeldung unterstützt</string>
     <string name="pref_cat_about">Über</string>
     <string name="pref_title_contrib">Entwickler</string>
     <string name="pref_title_translator">Übersetzer</string>
@@ -486,7 +467,6 @@
     <string name="pref_title_channel_message_sent">Gesendete Raumnachrichten</string>
     <string name="pref_summary_channel_message_sent">Gesendete Raumnachrichten ansagen</string>
     <string name="text_tts_channel_message_sent">Raumnachricht gesendet: %1$s</string>
-    <string name="err_text_length">Nachricht hat die zulässige Länge um %1$d Zeichen überschritten</string>
     <string name="pref_summary_official_servers">Offizielle Server in Serverliste einschließen</string>
     <string name="pref_title_official_servers">Offizielle Server anzeigen</string>
     <string name="pref_summary_unofficial_servers">Inoffizielle server in Serverliste einschließen</string>

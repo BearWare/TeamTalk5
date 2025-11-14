@@ -29,11 +29,8 @@
     <string name="text_cmd_leftroot">غادر القناة الأساسية</string>
     <string name="text_cmd_userjoinchan">انضم المستخدم للقناة</string>
     <string name="text_cmd_userleftchan">غادر المستخدم القناة</string>
-    <string name="text_cmd_servername">اسم الخادم: </string>
-    <string name="text_cmd_servermotd">رسالة اليوم: </string>
     <string name="pref_cat_subscriptions">الإشتراكات</string>
     <string name="pref_cat_tts"> رسائل نص لكلام ضبطت</string>
-    <string name="pref_cat_soundtest">تجربة الصوت</string>
     <string name="pref_header_general">عام</string>
     <string name="pref_title_nickname">الاسم المستعار</string>
     <string name="pref_default_nickname">بدون اسم</string>
@@ -98,7 +95,6 @@
     <string name="text_tts_broadcast_message">رسالة برودكاست من مستخدم %1$s - %2$s</string>
     <string name="pref_header_soundsystem">نظام الصوت</string>
     <string name="title_activity_audio_codec">Aترميز الصوت</string>
-    <string name="title_activity_filepicker">اختيار الملف</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -107,7 +103,6 @@
 
     <string name="button_tx">TX</string>
     <string name="button_remove">حذف</string>
-    <string name="button_edit">تعديل</string>
     <string name="action_edit">تعديل القناة</string>
     <string name="action_join">انضمام</string>
     <string name="action_move">نقل هنا</string>
@@ -142,12 +137,8 @@
     <string name="stat_online">متصل</string>
     <string name="stat_offline">غير متصل</string>
     <string name="stat_connecting">جاري الإتصال</string>
-    <string name="label_voice">صوت:</string>
-    <string name="label_desktop">سطح المكتب:</string>
     <string name="label_ping">أزيز:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">الكم:</string>
-    <string name="label_mediafile">ملف وسائط:</string>
     <string name="default_">إفتراضي</string>
 
     <string name="server_list_empty">TeamTalk 5 قائمة الخوادم فارغة</string>
@@ -156,7 +147,6 @@
     <string name="time_date">التريخ والوقت</string>
     <string name="name">اسم</string>
 
-    <string name="err_init_sound_input">فشل في تعريف بطاقة الصوت</string>
     <string name="err_init_sound_output">معالج مخرج بطاقة الصوت الخارجية</string>
     <string name="err_retrieve_public_server_list">فشل في تجميع فئمة الخوادم العامة</string>
     <string name="err_send_text_message">فشل في إرسال رسالة نصية</string>
@@ -169,7 +159,6 @@
     <string name="action_refresh">تحديث</string>
     <string name="action_import_serverlist">استيراد من ملف</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 خصائص الخادم</string>
     <string name="pref_title_server_info">معلومات الخادم</string>
     <string name="pref_title_server_name">اسم الخادم</string>
     <string name="pref_title_server_address">اسم النطاق أو عنوان الايبي</string>
@@ -183,9 +172,6 @@
     <string name="pref_title_channel">Cقناة</string>
     <string name="pref_title_channel_password">كلمة مرور القناة</string>
     <string name="pref_title_last_channel">الأخير انضم للقناة</string>
-
-    <string name="pref_summary_server_name">هذا الخادم يظهر بهذا الاسم في قائمة الخوادم</string>
-    <string name="pref_summary_server_address">اسم النطاق أو عنوان الايبي لهذا الخادم</string>
 
     <string name="channel_password_prompt">يرجى إدخال كلمة المرور للقناة</string>
     <string name="button_download">تحميل</string>
@@ -210,8 +196,6 @@
     <string name="version_update">إصدار جديدي من teamtalk: %1$s?</string>
     <string name="speaker_mute">كتم الصوت الخارجي</string>
     <string name="speaker_unmute">رفع الكتم عند الصوت الخارجي</string>
-    <string name="mic_mute">كتم صوت المايكروفون</string>
-    <string name="mic_unmute">رفع كتم المايكروفون</string>
 
     <string name="speaker_volume_description">علو الصوت الخارجي هو %1$s</string>
     <string name="mic_gain_description">كسد المايك هو %1$s</string>

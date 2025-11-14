@@ -29,11 +29,8 @@
     <string name="text_cmd_leftroot">Saiu do canal inicial</string>
     <string name="text_cmd_userjoinchan">Entrou no canal</string>
     <string name="text_cmd_userleftchan">Saiu do canal</string>
-    <string name="text_cmd_servername">Nome do servidor: </string>
-    <string name="text_cmd_servermotd">Mensagem do servidor: </string>
     <string name="pref_cat_subscriptions">Subscrições</string>
     <string name="pref_cat_tts">Configurar as mensagens anunciadas pelo leitor de telas</string>
-    <string name="pref_cat_soundtest">Testar som</string>
     <string name="pref_header_general">Geral</string>
     <string name="pref_title_nickname">Nome de usuário</string>
     <string name="pref_default_nickname">Sem nome</string>
@@ -97,8 +94,6 @@
     <string name="pref_summary_speakerphone_checkbox">Trocar de fones para alto-falantes do celular</string>
     <string name="pref_title_voice_processing_checkbox">Ativar áudio processado</string>
     <string name="pref_summary_voice_processing_checkbox">Usar cancelamento de ruídos e ganho automático do microfone</string>
-    <string name="pref_title_public_servers">Mostrar servidores públicos</string>
-    <string name="pref_summary_public_servers">Incluir servidores públicos na lista de servidores</string>
     <string name="text_tts_loggedin">entrou</string>
     <string name="text_tts_loggedout">Saiu</string>
     <string name="text_tts_joined_chan">entrou no canal</string>
@@ -107,7 +102,6 @@
     <string name="text_tts_broadcast_message">Mensagem global de %1$s: %2$s</string>
     <string name="pref_header_soundsystem">Sistema de som</string>
     <string name="title_activity_audio_codec">Codec de audio</string>
-    <string name="title_activity_filepicker">Escolha de arquivo</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -116,7 +110,6 @@
     
     <string name="button_tx">Transmitir</string>
     <string name="button_remove">Apagar</string>
-    <string name="button_edit">Editar</string>
     <string name="action_banchan">Banir do canal atual</string>
     <string name="action_bansrv">Banir do servidor</string>
     <string name="action_edit">Editar canal</string>
@@ -158,12 +151,8 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Conectando</string>
-    <string name="label_voice">Voz:</string>
-    <string name="label_desktop">Tela:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Total:</string>
-    <string name="label_mediafile">Arquivo multimídia:</string>
     <string name="default_">Padrão</string>
 
     <string name="server_list_empty">A lista de servidores está vazia</string>
@@ -172,7 +161,6 @@
     <string name="time_date">Data e hora</string>
     <string name="name">Nome</string>
 
-    <string name="err_init_sound_input">Falha ao iniciar o dispositivo de captura de áudio.</string>
     <string name="err_init_sound_output">Falha ao iniciar o dispositivo de saída de áudio.</string>
     <string name="err_retrieve_public_server_list">Erro ao obter a lista de servidores públicos</string>
     <string name="err_send_text_message">Erro ao enviar mensagem</string>
@@ -185,7 +173,6 @@
     <string name="action_refresh">Atualizar</string>
     <string name="action_import_serverlist">Importar através de um arquivo</string>
 
-    <string name="pref_title_server_props">Propriedades do servidor</string>
     <string name="pref_title_server_info">Informações do servidor</string>
     <string name="pref_title_server_name">Nome do servidor</string>
     <string name="pref_title_server_address">Domínio ou IP do servidor</string>
@@ -199,9 +186,6 @@
     <string name="pref_title_channel">Canal</string>
     <string name="pref_title_channel_password">Senha do canal</string>
     <string name="pref_title_last_channel">Último canal que você entrou</string>
-
-    <string name="pref_summary_server_name">Esse servidor aparecerá na lista com o nome especificado</string>
-    <string name="pref_summary_server_address">O endereço do servidor</string>
 
     <string name="channel_password_prompt">Escreva a senha do canal</string>
     <string name="button_download">Baixar</string>
@@ -226,8 +210,6 @@
     <string name="version_update">Nova versão disponível: %1$s</string>
     <string name="speaker_mute">Desativar som</string>
 	<string name="speaker_unmute">Ativar som</string>
-	<string name="mic_mute">Silenciar microfone</string>
-	<string name="mic_unmute">Ativar som do microfone</string>
     <string name="speaker_volume_description">O volume do alto-falantes é %1$s</string>
     <string name="mic_gain_description">O volume do microfone é %1$s</string>
 
@@ -330,7 +312,6 @@
     <string name="bwpswlab">Senha do usuário:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">Apenas verificar se este servidor permitiu o login da web BearWare.dk</string>
     <string name="pref_cat_about">Sobre</string>
     <string name="pref_title_contrib">Desenvolvedores</string>
     <string name="pref_title_translator">Tradutor</string>
@@ -348,7 +329,6 @@
     <string name="pref_title_channel_message_sent">Mensagens enviadas no canal</string>
     <string name="pref_summary_channel_message_sent">Falar mensagens enviadas no canal</string>
     <string name="text_tts_channel_message_sent">Mensagem enviada para o canal: %1$s</string>
-    <string name="err_text_length">%1$d caracteres excedidos na mensagem</string>
     <string name="pref_summary_official_servers">Mostrar servidores oficiais na lista de servidores</string>
     <string name="pref_title_official_servers">Mostrar servidores oficiais</string>
     <string name="pref_summary_unofficial_servers">Mostrar servidores não oficiais na lista de servidores</string>
