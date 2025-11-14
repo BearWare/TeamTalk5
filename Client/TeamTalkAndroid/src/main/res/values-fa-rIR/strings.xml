@@ -257,7 +257,6 @@
     <string name="user_prop_title_userid">شماره</string>
     <string name="user_prop_title_statusmsg">پیام وضعیت</string>
     <string name="user_prop_title_clientname">نام کلاینت</string>
-    <string name="user_prop_clientversion">نسخۀ</string>
     <string name="user_prop_title_ipaddress">آدرس آیْپی</string>
     <string name="user_prop_title_voice_volume">صدا</string>
     <string name="user_prop_title_mute_voice">قطع صدا</string>

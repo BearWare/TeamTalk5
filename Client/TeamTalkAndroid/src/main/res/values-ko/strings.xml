@@ -190,7 +190,6 @@
     <string name="user_prop_title_userid">사용자 ID:</string>
     <string name="user_prop_title_statusmsg">상태 메시지:</string>
     <string name="user_prop_title_clientname">클라이언트:</string>
-    <string name="user_prop_clientversion">version</string>
     <string name="user_prop_title_ipaddress">IP 주소:</string>
     <string name="user_prop_title_voice_volume">말하기 음량</string>
     <string name="user_prop_title_mute_voice">말하기 음소거</string>

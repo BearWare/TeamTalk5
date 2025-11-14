@@ -386,7 +386,6 @@
     <string name="pref_summary_use_announcements">Les messages par synthèse vocale seront lus par le service d\'accessibilité actuellement actif</string>
     <string name="pref_title_a11y_volume">Utiliser le flux du volume d\'accessibilité</string>
     <string name="pref_summary_a11y_volume">Les messages par synthèse vocale seront lus par le volume d\'accessibilité</string>
-    <string name="user_prop_clientversion">Version</string>
     <string name="action_make_operator">Rendre Opérateur</string>
     <string name="action_revoke_operator">Révoquer l\'opérateur</string>
     <string name="text_operator_password">Entrer le mot de passe de l\'opérateur du canal</string>
