@@ -29,11 +29,8 @@
     <string name="text_cmd_leftroot">Hoofdkanaal verlaten</string>
     <string name="text_cmd_userjoinchan">is kanaal binnengekomen</string>
     <string name="text_cmd_userleftchan">heeft kanaal verlaten</string>
-    <string name="text_cmd_servername">Servernaam: </string>
-    <string name="text_cmd_servermotd">Bericht van de dag: </string>
     <string name="pref_cat_subscriptions">Ontvangst</string>
     <string name="pref_cat_tts">Tekst-naar-spraak-berichten configureren</string>
-    <string name="pref_cat_soundtest">Geluidstest</string>
     <string name="pref_header_general">Algemeen</string>
     <string name="pref_title_nickname">Bijnaam</string>
     <string name="pref_default_nickname">Geennaam</string>
@@ -94,7 +91,6 @@
     <string name="text_tts_broadcast_message">Uitzendbericht van gebruiker %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Geluidssysteem</string>
     <string name="title_activity_audio_codec">Audiocodec</string>
-    <string name="title_activity_filepicker">Bestandsselectie</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex-VBR</string>
@@ -103,7 +99,6 @@
     
     <string name="button_tx">Uitzenden</string>
     <string name="button_remove">Verwijderen</string>
-    <string name="button_edit">Bewerken</string>
     <string name="action_edit">Kanaal bewerken</string>
     <string name="action_join">Binnengaan</string>
     <string name="action_upload">Bestand uploaden</string>
@@ -136,12 +131,8 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Verbinden</string>
-    <string name="label_voice">Stem:</string>
-    <string name="label_desktop">Bureaublad:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Totaal:</string>
-    <string name="label_mediafile">Mediabestand:</string>
     <string name="default_">Standaard</string>
 
     <string name="server_list_empty">TeamTalk 5 sverlijst is leeg</string>
@@ -150,7 +141,6 @@
     <string name="time_date">Tijd datum</string>
     <string name="name">Naam</string>
 
-    <string name="err_init_sound_input">Fout bij initialiseren  van geluidsinvoerapparaat</string>
     <string name="err_init_sound_output">Fout bij initialiseren  van geluidsuitvoerapparaat</string>
     <string name="err_retrieve_public_server_list">Fout bij opvragen van publieke serverlijst</string>
     <string name="err_send_text_message">Fout bij versturen tekstbericht</string>
@@ -163,7 +153,6 @@
     <string name="action_refresh">Vernieuwen</string>
     <string name="action_import_serverlist">Uit bestand importeren</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 Servereigenschappen</string>
     <string name="pref_title_server_info">Serverinformatie</string>
     <string name="pref_title_server_name">Servernaam</string>
     <string name="pref_title_server_address">Domeinnaam of IP-adres</string>
@@ -177,9 +166,6 @@
     <string name="pref_title_channel">Kanaal</string>
     <string name="pref_title_channel_password">Kanaalwachtwoord</string>
     <string name="pref_title_last_channel">Laatst binnengegaan kanaal</string>
-
-    <string name="pref_summary_server_name">Deze server zal met deze naam in de serverlijst verschijnen</string>
-    <string name="pref_summary_server_address">De domeinnaam of het IP-adres van de server</string>
 
     <string name="channel_password_prompt">Voer kanaalwachtwoord in</string>
     <string name="button_download">Downloaden</string>
@@ -204,8 +190,6 @@
     <string name="version_update">Nieuwe versie van TeamTalk beschikbaar: %1$s?</string>
     <string name="speaker_mute">Luidsprekers dempen</string>
 	<string name="speaker_unmute">Luidsprekers dempen opheffen</string>
-	<string name="mic_mute">Microfoon dempen</string>
-	<string name="mic_unmute">Microfoon dempen opheffen</string>
 
     <string name="speaker_volume_description">Luidsprekervolume is %1$s</string>
     <string name="mic_gain_description">Microfoonniveau is %1$s</string>

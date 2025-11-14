@@ -30,7 +30,6 @@
     <string name="text_cmd_userleftchan">opuszcza kanał</string>
     <string name="pref_cat_subscriptions">Subskrypcje</string>
     <string name="pref_cat_tts">Konfiguruj komunikaty TTS</string>
-    <string name="pref_cat_soundtest">Test dźwięku</string>
     <string name="pref_header_general">Ogólne</string>
     <string name="pref_title_nickname">Nick</string>
     <string name="pref_default_nickname">Anonim</string>
@@ -74,7 +73,6 @@
     <string name="text_tts_broadcast_message">Wiadomość globalna od użytkownika %1$s - %2$s</string>
     <string name="pref_header_soundsystem">System dźwięku</string>
     <string name="title_activity_audio_codec">Kodek Audio</string>
-    <string name="title_activity_filepicker">Wybór pliku</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -83,7 +81,6 @@
     
     <string name="button_tx">TX</string>
     <string name="button_remove">Usuń</string>
-    <string name="button_edit">Edytuj</string>
     <string name="action_edit">Edytuj kanał</string>
     <string name="action_join">Dołącz</string>
     <string name="action_upload">Wyślij Plik</string>
@@ -115,11 +112,7 @@
     <string name="stat_online">Połączono</string>
     <string name="stat_offline">Rozłączono</string>
     <string name="stat_connecting">Łączenie</string>
-    <string name="label_voice">Głos:</string>
-    <string name="label_desktop">Pulpit:</string>
     <string name="label_ping">Ping:</string>
-    <string name="label_total">Całkowicie:</string>
-    <string name="label_mediafile">Pliki Multimedialne:</string>
 
     <string name="server_list_empty">Lista serwerów TeamTalk 5 jest pusta</string>
     <string name="no_nickname">Brak nicka</string>
@@ -127,7 +120,6 @@
     <string name="time_date">Godzina Data</string>
     <string name="name">Nazwa</string>
 
-    <string name="err_init_sound_input">Nie udało się zainicjować urządzenia wejścia dźwięku</string>
     <string name="err_init_sound_output">Nie udało się zainicjować urządzenia wyjścia dźwięku</string>
     <string name="err_retrieve_public_server_list">Nie udało się pobrać publicznej listy serwerów</string>
     <string name="err_send_text_message">Nie udało się wysłać wiadomości</string>
@@ -140,7 +132,6 @@
     <string name="action_refresh">Odśwież</string>
     <string name="action_import_serverlist">Zaimportuj z pliku</string>
 
-    <string name="pref_title_server_props">Właściwości serwera TeamTalk 5</string>
     <string name="pref_title_server_info">Informacje o serwerze</string>
     <string name="pref_title_server_name">Nazwa serwera</string>
     <string name="pref_title_server_address">Nazwa domeny lub adres IP</string>
@@ -154,9 +145,6 @@
     <string name="pref_title_channel">Kanał</string>
     <string name="pref_title_channel_password">Hasło kanału</string>
     <string name="pref_title_last_channel">Ostatnio używany kanał</string>
-
-    <string name="pref_summary_server_name">Ten serwer pojawi się pod podaną nazwą na liście serwerów</string>
-    <string name="pref_summary_server_address">Nazwa domeny lub adres IP serwera</string>
 
     <string name="channel_password_prompt">Wprowadź hasło kanału</string>
     <string name="button_download">Pobierz</string>
