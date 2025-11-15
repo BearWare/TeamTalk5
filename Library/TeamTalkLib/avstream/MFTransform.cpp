@@ -915,12 +915,13 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
     HRESULT hr;
     CComPtr<IMFMediaType> pInputType;
     LONG stride = 0;
+    GUID subType;
     hr = MFCreateMediaType(&pInputType);
     if (FAILED(hr))
         goto fail;
 
     pInputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Video);
-    GUID subType = ConvertFourCC(inputfmt.fourcc);
+    subType = ConvertFourCC(inputfmt.fourcc);
     if(subType == GUID_NULL)
         goto fail;
     hr = pInputType->SetGUID(MF_MT_SUBTYPE, subType);
