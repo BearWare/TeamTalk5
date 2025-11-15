@@ -1,16 +1,5 @@
-/.github/CODEOWNERS @BearWare/Maintainers
-/.github/workflows/ @BearWare/Maintainers @hwangsihu
-/Build/ @BearWare/Maintainers
-/Client/ @CoBC @bear101
-/Client/TeamTalkAndroid/ @bear101 @beqabeqa473 @poretsky
-/Client/iTeamTalk/ @bear101
-/Client/jSpamBot/ @bear101
-/Client/qtTeamTalk/ @CoBC @bear101
-/Documentation/TeamTalkSDK/ @bear101
-/Library/ @bear101
-/Server/ @bear101
-/Setup/ @bear101
-
-/CMakeLists.txt @BearWare/Maintainers
-/ChangeLog.txt @BearWare/Maintainers
+* @bear101 @BearWare/Maintainers
+/.github/workflows/ @bear101 @BearWare/Maintainers @hwangsihu
+/.github/CODEOWNERS @bear101
+/Client/TeamTalkAndroid/ @bear101 @BearWare/Maintainers @hwangsihu @poretsky
 /LICENSE.txt @bear101
