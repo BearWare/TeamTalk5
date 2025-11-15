@@ -1,5 +1,5 @@
 /* log entry */
-"%@ joined channel" = "%@ подключился к каналу";
+"%@ joined channel" = "%@ присоединился к каналу";
 
 /* log entry */
 "%@ left channel" = "%@ покинул канал";
@@ -35,7 +35,7 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Доступ к параметрам";
+"Access preferences" = "Доступ к настройкам";
 
 /* server entry
    user detail */
@@ -45,10 +45,10 @@
 "Active" = "Активно";
 
 /* serverlist */
-"Add new server entry" = "Добавление нового сервера";
+"Add new server entry" = "Добавить новый сервер";
 
 /* preferences */
-"Announce content of text message" = "Произносить содержимое текстового сообщения";
+"Announce content of text message" = "Произносить содержание текстового сообщения";
 
 /* preferences */
 "Announce lost server connection" = "Произносить соединение с сервером потеряно";
@@ -75,7 +75,7 @@
 "Application" = "Приложение";
 
 /* preferences */
-"Ascending" = "По Алфавиту";
+"Ascending" = "По Возрастанию";
 
 /* codec detail */
 "Audio Channels" = "Аудиоканалы";
@@ -93,10 +93,10 @@
 "Ban user" = "Заблокировать пользователя";
 
 /* server entry */
-"BearWare.dk Web Login" = "Войти через Веб BearWare.dk";
+"BearWare.dk Web Login" = "Веб-аутентификация BearWare.dk";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Не удалось войти через Веб Bearware.dk. Проверьте настройки Веб Bearware.dk в Параметрах";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Не удалось пройти веб-аутентификацию BearWare.dk. Проверьте вход в систему BearWare.dk в Настройках";
 
 /* codec detail */
 "Bitrate" = "Битрейт";
@@ -147,7 +147,7 @@
 "Channel. %d users" = "Канал. %d пользователей";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Проверить, включен ли на этом сервере вход только через ВебBearWare.dk";
+"Check only if this server has enabled BearWare.dk Web Login" = "Отметьте только если на этом сервере включена веб-аутентификация BearWare.dk";
 
 /* log entry */
 "Command failed: %@" = "Команда не выполнена: %@";
@@ -219,7 +219,7 @@
 "Error" = "Ошибка";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Включение Особого Режима";
+"Exclusive Mode Toggled" = "Включение Эксклюзивного Режима";
 
 /* connect to a server */
 "Failed to setup encryption" = "Не удалось настроить шифрование";
@@ -238,19 +238,19 @@
 "General" = "Общее";
 
 /* TTS EVENT */
-"has joined the channel" = "подключился к каналу";
+"has joined the channel" = "присоединился к каналу";
 
 /* TTS EVENT */
 "has left the channel" = "покинул канал";
 
 /* TTS EVENT */
-"has logged on" = "зашёл на сервер";
+"has logged on" = "вошёл";
 
 /* TTS EVENT */
-"has logged out" = "покинул сервер";
+"has logged out" = "ушёл";
 
 /* preferences */
-"Headset TX Toggle" = "Активация Кнопки Говорить При Помощи Гарнитуры";
+"Headset TX Toggle" = "Управление Кнопкой Говорить На Гарнитуре";
 
 /* hidden channel */
 "Hidden Channel" = "Скрытый Канал";
@@ -262,22 +262,22 @@
 "Inactive" = "Неактивно";
 
 /* Dialog message */
-"Join" = "Подключить";
+"Join" = "Присоединиться";
 
 /* server entry */
-"Join Channel" = "Подключиться К Каналу";
+"Join Channel" = "Присоединиться К Каналу";
 
 /* channel list */
-"Join channel" = "Подключиться к каналу";
+"Join channel" = "Присоединиться к каналу";
 
 /* preferences */
-"Join Root Channel" = "Подключиться К Главному Каналу";
+"Join Root Channel" = "Присоединиться К Главному Каналу";
 
 /* preferences */
-"Join root channel after login" = "Подключить главный канал после входа";
+"Join root channel after login" = "Присоединиться к главному каналу после входа";
 
 /* log entry */
-"Joined %@" = "Подключено %@";
+"Joined %@" = "Присоедино %@";
 
 /* channel list */
 "Kick user" = "Выгнать пользователя";
@@ -312,7 +312,7 @@
 "Media File Volume" = "Громкость Медиафайла";
 
 /* preferences */
-"Media file vs. voice volume" = "Громкость медиафайла";
+"Media file vs. voice volume" = "Громкость медиафайла относительно голоса";
 
 /* server entry */
 "Message of the Day" = "Сообщение Дня";
@@ -347,7 +347,7 @@
 "Name" = "Имя";
 
 /* preferences */
-"Name displayed in channel list" = "Отображаемое имя";
+"Name displayed in channel list" = "Отображаемое имя в списке каналов";
 
 /* Dialog message */
 "New Server" = "Новый Сервер";
@@ -369,7 +369,7 @@
 "No Audio Recording" = "Не Разрешена Запись Звука";
 
 /* create channel */
-"No Interruptions" = "Запретить Перебивать Говорящего";
+"No Interruptions" = "Без Прерываний";
 
 /* channel list */
 "No password" = "Нет пароля";
@@ -410,7 +410,7 @@
 "Permanent Channel" = "Постоянный Канал";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Воспроизводить звук, когда пользователь подключается к каналу";
+"Play sound when a user joins the channel" = "Воспроизводить звук, когда пользователь присоединяется к каналу";
 
 /* preferences */
 "Play sound when a user leaves the channel" = "Воспроизводить звук, когда пользователь покидает канал";
@@ -422,13 +422,13 @@
 "Play sound when channel text message is received" = "Воспроизводить звук, когда получено текстовое сообщение канала";
 
 /* preferences */
-"Play sound when connection is dropped" = "Воспроизводить звук, когда соединение прервано";
+"Play sound when connection is dropped" = "Воспроизводить звук, когда соединение потеряно";
 
 /* preferences */
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда передача речи доступна в режиме \"Не Перебивать Говорящего\"";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда в канале \"Без Прерываний\" можно говорить"";
 
 /* preferences */
 "Play sound when user logs off to the server" = "Воспроизводить звук, когда пользователь покидает сервер";
@@ -440,7 +440,7 @@
 "Play sound when voice activation is triggered" = "Воспроизводить звук, когда срабатывает голосовая активация";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "Воспроизводить звук, когда включается передача голоса";
+"Play sound when voice transmission is toggled" = "Воспроизводить звук, когда включается/выключается передача голоса";
 
 /* preferences */
 "Pop up text message when new messages are received" = "Всплывающее текстовое сообщение при получении новых сообщений";
@@ -449,7 +449,7 @@
 "Popularity" = "По Популярности";
 
 /* serverlist */
-"Preferences" = "Параметры";
+"Preferences" = "Настройки";
 
 /* Sound Input */
 "Preferred" = "Предпочтительный";
@@ -503,7 +503,7 @@
 "Return Sends Message" = "Ввод Отправляет Сообщение";
 
 /* channel list */
-"Return to previous channel" = "Возврат на предыдущий канал";
+"Return to previous channel" = "Вернуться на предыдущий канал";
 
 /* log entry */
 "root channel" = "главный канал";
@@ -515,7 +515,7 @@
 "Save Server" = "Сохранить Сервер";
 
 /* Dialog message */
-"Save server to server list?" = "Сохранить сервер в списке?";
+"Save server to server list?" = "Сохранить сервер в списке серверов?";
 
 /* text message */
 "Send empty message to close keyboard" = "Отправьте пустое сообщение, чтобы закрыть клавиатуру";
@@ -527,7 +527,7 @@
 "Server Connection Lost" = "Соединение С Сервером Потеряно";
 
 /* server entry */
-"Server List Entry" = "Запись  Сервера";
+"Server List Entry" = "Запись В Списке Серверов";
 
 /* server entry */
 "Server Status" = "Статус Сервера";
@@ -558,7 +558,7 @@
 "Sound Events" = "Озвучивание Событий";
 
 /* preferences */
-"Sound System" = "Настройка Звука";
+"Sound System" = "Звуковая Система";
 
 /* preferences */
 "Speaker Output" = "Выход На Динамик";
@@ -622,7 +622,7 @@
 "Transmitting" = "Передаётся";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Блокировать экран при поднесении телефона к уху";
+"Turn off screen when holding phone near ear" = "Выключать экран при поднесении телефона к уху";
 
 /* text field hint
    text message */
@@ -647,10 +647,10 @@
 "User female" = "Пользователь женщина";
 
 /* preferences */
-"User Joins Channel" = "Пользователь Подключается К Каналу";
+"User Joins Channel" = "Пользователь Присоединяется К Каналу";
 
 /* preferences */
-"User joins channel" = "Пользователь подключается к каналу";
+"User joins channel" = "Пользователь присоединяется к каналу";
 
 /* preferences */
 "User leaves channel" = "Пользователь покидает канал";
@@ -679,7 +679,7 @@
 "Username" = "Имя Пользователя";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Некорректные имя пользователя или пароль";
+"Username or password incorrect" = "Некорректное имя пользователя или пароль";
 
 /* server entry */
 "Users Online" = "Пользователи Онлайн";
@@ -719,19 +719,19 @@
 "Voice Preprocessing" = "Предобработка Голоса";
 
 /* preferences */
-"Voice Transmission Toggled" = "Включение Передачи Голоса";
+"Voice Transmission Toggled" = "Включение/Выключение Передачи Голоса";
 
 /* user detail */
 "Voice Volume" = "Громкость Голоса";
 
 /* codec detail */
-"VoIP" = "Речь";
+"VoIP" = "VoIP";
 
 /* user detail */
 "Volume Controls" = "Регуляторы Громкости";
 
 /* Web Login controller */
-"Web Login ID" = "Вход В Веб Аккаунт";
+"Web Login ID" = "Веб-Аутентификация";
 
 /* preferences
    user detail */
