@@ -62,13 +62,13 @@
 "cGm-Jp-0zI.normalTitle" = "Использовать Кодек Speex";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "Подключиться к каналу";
+"ch0-Xf-hyX.normalTitle" = "Присоединиться к каналу";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
 "dcU-Nq-ioW.title" = "Подключение к Серверу";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "Текст приватного текстового сообщения";
+"DHN-DJ-cUp.accessibilityLabel" = "Обмен приватными текстовыми сообщениями";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
 "DHN-DJ-cUp.normalTitle" = "Сообщение";
@@ -95,10 +95,10 @@
 "GFy-mN-epU.text" = "Title";
 
 /* Class = "UILabel"; text = "Filter Server List"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "Показать Публичные Серверы";
+"gPj-u1-dPn.text" = "Показ Публичных Серверов";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
-"Hcv-zz-riB.text" = "Войти Через Веб BearWare.dk";
+"Hcv-zz-riB.text" = "Веб Аккаунт BearWare.dk";
 
 /* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "Дважды нажмите, чтобы развернуть опции для этого канала.";
@@ -122,7 +122,7 @@
 "KsW-VX-Rtb.text" = "Выбрать звуковые события для воспроизведения";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
-"l6D-Hs-MdG.normalTitle" = "Подключиться К Каналу";
+"l6D-Hs-MdG.normalTitle" = "Присоединиться К Каналу";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "LPL-JY-xBM"; */
 "LPL-JY-xBM.normalTitle" = "Отправить";
@@ -137,7 +137,7 @@
 "N1w-a6-R3D.title" = "Свойства Пользователя";
 
 /* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
-"NA0-UK-wve.title" = "Параметры";
+"NA0-UK-wve.title" = "Настройки";
 
 /* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
 "ntU-ZP-sKb.text" = "Настройка Звуковых Устройств";
@@ -149,10 +149,10 @@
 "o2H-Vm-Vjd.text" = "Показать Официальные Серверы";
 
 /* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
-"o7z-cC-U4w.title" = "Вход через Веб BearWare.dk";
+"o7z-cC-U4w.title" = "Веб Аккаунт BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "Подключиться кнопка";
+"PaV-2Q-pt4.accessibilityLabel" = "Подключиться";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Подключиться";
@@ -176,7 +176,7 @@
 "Rrg-2O-NzF.normalTitle" = "Использовать Кодек OPUS";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
-"SmF-8J-cWK.text" = "Войти в аккаунт от BearWare.dk";
+"SmF-8J-cWK.text" = "Вход в аккаунт от BearWare.dk";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "Uc0-gP-wr1"; */
 "Uc0-gP-wr1.text" = "Blank";
@@ -188,7 +188,7 @@
 "vC1-lW-BtX.normalTitle" = "Удалить Канал";
 
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
-"vIN-Uc-3Ms.title" = "Параметры";
+"vIN-Uc-3Ms.title" = "Настройки";
 
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Выбрать Голос";
@@ -212,7 +212,7 @@
 "WRa-tI-lpY.normalTitle" = "Выгнать и Заблокировать Пользователя";
 
 /* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "Настроить Звуковые Входы";
+"XmQ-1z-cFv.title" = "Настройка Звуковых Устройств";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "Отключиться";
