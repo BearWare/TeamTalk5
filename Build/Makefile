@@ -69,29 +69,6 @@ ubuntu:
 	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
-ubuntu18:
-	$(MAKE) CMAKE_EXTRA+="-DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
-                              -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
-                              -DBUILD_TEAMTALK_LIBRARIES=OFF \
-                              -DBUILD_TEAMTALK_SERVERS=OFF \
-                              -DBUILD_TEAMTALK_CLIENTS=OFF \
-                              -DTOOLCHAIN_OPENSSL=OFF \
-                              -DTOOLCHAIN_ZLIB=OFF \
-                              -DTOOLCHAIN_CATCH2=OFF \
-                              -DTOOLCHAIN_LIBVPX=OFF \
-                              -DTOOLCHAIN_FFMPEG=OFF \
-                              -DTOOLCHAIN_OGG=OFF \
-                              -DTOOLCHAIN_OPUS=OFF \
-                              -DTOOLCHAIN_PORTAUDIO=OFF \
-                              -DTOOLCHAIN_SPEEX=OFF \
-                              -DTOOLCHAIN_SPEEXDSP=OFF \
-                              -DFEATURE_OPUSTOOLS=OFF \
-                              -DFEATURE_WEBRTC=OFF \
-                              -DBUILD_TEAMTALK_DOCUMENTATION=OFF" UBUNTUDIR=$@ ubuntu
-ubuntu19:
-	$(MAKE) UBUNTUDIR=$@ ubuntu
-ubuntu20:
-	$(MAKE) UBUNTUDIR=$@ ubuntu
 ubuntu22:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 ubuntu24:
@@ -188,60 +165,6 @@ teamtalk-jar:
         -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF" \
         buildlib
 
-# TeamTalk 5 dependencies for Ubuntu 18
-depend-ubuntu18:
-# Duplicate install in Docker/Dockerfile_ubuntu18
-	apt-get install \
-		autoconf \
-		cmake \
-		doxygen \
-		g++ \
-		junit4 \
-		libasound2-dev \
-		libpcap-dev \
-		libpulse-dev \
-		libqt5texttospeech5-dev \
-		libqt5x11extras5-dev \
-		libssl-dev \
-		libtool \
-		libxss-dev
-		ninja-build \
-		openjdk-11-jdk \
-		pkg-config \
-		python \
-		python3-pytest \
-		qt5-default \
-		qtmultimedia5-dev \
-		qttools5-dev \
-		qttools5-dev-tools \
-		yasm
-
-depend-ubuntu20:
-# Duplicate install in Docker/Dockerfile_ubuntu20
-	apt-get install \
-		autoconf \
-		cmake \
-		doxygen \
-		g++ \
-		junit4 \
-		libasound2-dev \
-		libpcap-dev \
-		libpulse-dev \
-		libqt5texttospeech5-dev \
-		libqt5x11extras5-dev \
-		libssl-dev \
-		libtool \
-		libxss-dev \
-		ninja-build \
-		openjdk-17-jdk \
-		pkg-config \
-		python \
-		qt5-default \
-		qtmultimedia5-dev \
-		qttools5-dev \
-		qttools5-dev-tools \
-		yasm
-
 depend-ubuntu22:
 # Duplicate install in Docker/Dockerfile_ubuntu22
 	apt-get install \
@@ -318,34 +241,6 @@ depend-ubuntu24-android:
 		unzip \
 		wget \
 		xz-utils
-
-depend-debian12:
-	apt-get install \
-		autoconf \
-		cmake \
-		doxygen \
-		g++ \
-		git \
-		junit4 \
-		libasound2-dev \
-		libpcap-dev \
-		libpulse-dev \
-		libssl-dev \
-		libtool \
-		libxss-dev \
-		ninja-build \
-		openjdk-17-jdk \
-		p7zip-full \
-		pkg-config \
-		python3-pytest \
-		qt6-base-dev \
-		qt6-declarative-dev \
-		qt6-multimedia-dev \
-		qt6-speech-dev \
-		qt6-tools-dev \
-		qt6-tools-dev-tools \
-		wget \
-		yasm
 
 depend-raspios12:
 	apt-get-get install \
