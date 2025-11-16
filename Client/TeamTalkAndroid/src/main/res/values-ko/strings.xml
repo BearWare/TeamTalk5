@@ -32,15 +32,12 @@
     <string name="text_cmd_userjoinchan">채널에 입장함</string>
     <string name="text_cmd_userleftchan">채널에서 퇴장함</string>
     <string name="text_cmd_userloggedin">로그인함</string>
-    <string name="text_cmd_servername">"서버 이름: "</string>
-    <string name="text_cmd_servermotd">"환영사: "</string>
     <string name="pref_cat_subscriptions">수신</string>
     <string name="pref_cat_connection_general">일반</string>
     <string name="pref_cat_tts">TTS 메시지 설정</string>
     <string name="pref_cat_tts_events">일반</string>
     <string name="pref_cat_tts_transmission">전송 제어</string>
     <string name="pref_cat_tts_subscription">수신</string>
-    <string name="pref_cat_soundtest">소리 테스트</string>
     <string name="pref_header_general">일반</string>
     <string name="pref_title_nickname">대화명</string>
     <string name="pref_title_statusmsg">상태 메시지</string>
@@ -126,8 +123,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">블루투스 헤드셋이 연결되면 헤드셋 마이크 사용</string>
     <string name="pref_title_voice_processing_checkbox">음성 전처리 활성화</string>
     <string name="pref_summary_voice_processing_checkbox">에코 제거와 자동 음량 조절 사용</string>
-    <string name="pref_title_public_servers">공개 서버 포함</string>
-    <string name="pref_summary_public_servers">서버 목록에서 공개 서버 보기</string>
 
     <string name="text_tts_loggedin">로그인함</string>
     <string name="text_tts_loggedout">로그아웃함</string>
@@ -139,7 +134,6 @@
     <string name="text_tts_transmit_name_everyone">모두</string>
     <string name="pref_header_soundsystem">소리 시스템</string>
     <string name="title_activity_audio_codec">오디오 코덱</string>
-    <string name="title_activity_filepicker">파일 선택</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -148,7 +142,6 @@
 
     <string name="button_tx">말하기</string>
     <string name="button_remove">삭제</string>
-    <string name="button_edit">편집</string>
     <string name="action_banchan">채널에서 차단</string>
     <string name="action_bansrv">서버에서 차단</string>
     <string name="action_edit">채널 편집</string>
@@ -219,12 +212,8 @@
     <string name="stat_offline">연결 해제됨</string>
     <string name="stat_connecting">연결 중</string>
     <string name="stat_unauthorized">인증되지 않음</string>
-    <string name="label_voice">말하기:</string>
-    <string name="label_desktop">화면 공유:</string>
     <string name="label_ping">핑:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">총:</string>
-    <string name="label_mediafile">미디어 파일:</string>
     <string name="default_">기본값</string>
 
     <string name="server_list_empty">서버 없음</string>
@@ -234,7 +223,6 @@
     <string name="time_date">날짜/시간</string>
     <string name="name">이름</string>
 
-    <string name="err_init_sound_input">입력 장치 초기화 실패</string>
     <string name="err_init_sound_output">출력 장치 초기화 실패</string>
     <string name="err_retrieve_public_server_list">공개 서버 목록 불러오기 실패</string>
     <string name="err_send_text_message">메시지 전송 실패</string>
@@ -251,7 +239,6 @@
     <string name="serverlist_export_confirmation">서버 목록을 %1$s 파일로 내보냈습니다</string>
 
     <string name="server_export_confirmation">서버를 %1$s 파일로 내보냈습니다</string>
-    <string name="pref_title_server_props">서버 속성</string>
     <string name="pref_title_server_info">서버 정보</string>
     <string name="pref_title_server_name">서버 이름</string>
     <string name="pref_title_server_address">도메인 이름 또는 IP 주소</string>
@@ -266,9 +253,6 @@
     <string name="pref_title_channel">채널</string>
     <string name="pref_title_channel_password">채널 암호</string>
     <string name="pref_title_last_channel">마지막으로 입장한 채널 기억</string>
-
-    <string name="pref_summary_server_name">서버 목록에 서버가 이 이름으로 표시됩니다.</string>
-    <string name="pref_summary_server_address">서버의 도메인 이름 또는 IP 주소</string>
 
     <string name="channel_password_prompt">채널 암호 입력</string>
     <string name="button_download">다운로드</string>
@@ -307,8 +291,6 @@
     <string name="voxlevel">말하기 활성화 수준</string>
     <string name="speaker_mute">스피커 음소거</string>
     <string name="speaker_unmute">스피커 음소거 해제</string>
-    <string name="mic_mute">마이크 음소거</string>
-    <string name="mic_unmute">마이크 음소거 해제</string>
 
     <string name="speaker_volume_description">스피커 음량 %1$s</string>
     <string name="mic_gain_description">마이크 음량 %1$s</string>
@@ -401,7 +383,6 @@
     <string name="bwpswlab">암호</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">서버가 BearWare.dk 웹 로그인을 사용하는 경우에만 체크</string>
     <string name="pref_cat_about">앱 정보</string>
     <string name="pref_title_contrib">개발자</string>
     <string name="pref_title_translator">번역자</string>
@@ -421,7 +402,6 @@
     <string name="pref_title_channel_message_sent">보낸 채널 메시지</string>
     <string name="pref_summary_channel_message_sent">보낸 채널 메시지 읽기</string>
     <string name="text_tts_channel_message_sent">채널 메시지 보냄: %1$s</string>
-    <string name="err_text_length">메시지가 %1$d 글자를 초과했습니다.</string>
     <string name="pref_summary_official_servers">서버 목록에서 공식 서버 보기</string>
     <string name="pref_title_official_servers">공식 서버 포함</string>
     <string name="pref_summary_unofficial_servers">서버 목록에서 비공식 서버 보기</string>

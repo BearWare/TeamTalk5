@@ -528,11 +528,11 @@ public class AudioCodecActivity extends AppCompatActivity implements
         }
         
         SpeexVBRCodec exchangeSpeexVBRCodec(View rootView, boolean store) {
-            
+
             Spinner sr = rootView.findViewById(R.id.speexvbr_bandmodeSpin);
             SeekBar quality = rootView.findViewById(R.id.speexvbr_qualitySeekBar);
-            // SeekBar bitrate = rootView.findViewById(R.id.speexvbr_maxbrSeekBar);
-            // final TextView bitrateText = rootView.findViewById(R.id.speexvbr_brTextView);
+            SeekBar bitrate = rootView.findViewById(R.id.speexvbr_maxbrSeekBar);
+            final TextView bitrateText = rootView.findViewById(R.id.speexvbr_brTextView);
             CheckBox dtx = rootView.findViewById(R.id.speexvbr_dtxCheckBox);
             SeekBar txinterval = rootView.findViewById(R.id.speexvbr_txintervalSeekBar);
             final TextView txintervalText = rootView.findViewById(R.id.speexvbr_txintervalTextView);
@@ -541,6 +541,12 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 speexvbrcodec.nBandmode = srMap.getValue(sr.getSelectedItemPosition(),
                                                          SpeexConstants.DEFAULT_SPEEX_BANDMODE);
                 speexvbrcodec.nQuality = quality.getProgress() + SpeexConstants.SPEEX_QUALITY_MIN;
+                speexvbrcodec.nBitRate = SpeexConstants.DEFAULT_SPEEX_BITRATE;
+
+                int bandmode = speexvbrcodec.nBandmode;
+                int minbr = getMinBitRate(bandmode);
+                speexvbrcodec.nMaxBitRate = bitrate.getProgress() * 100 + minbr;
+
                 speexvbrcodec.bDTX = dtx.isChecked();
                 speexvbrcodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.SPEEX_MIN_TXINTERVALMSEC;
             }
@@ -550,6 +556,31 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 quality.setMax(SpeexConstants.SPEEX_QUALITY_MAX - SpeexConstants.SPEEX_QUALITY_MIN);
                 quality.setProgress(speexvbrcodec.nQuality - SpeexConstants.SPEEX_QUALITY_MIN);
                 dtx.setChecked(speexvbrcodec.bDTX);
+
+                final int bandmode = speexvbrcodec.nBandmode;
+                final int minbr = getMinBitRate(bandmode);
+                final int maxbr = getMaxBitRate(bandmode);
+
+                bitrate.setMax((maxbr - minbr) / 100);
+                bitrate.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+
+                    @Override
+                    public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                        int br = (progress * 100 + minbr) / 1000;
+                        bitrateText.setText(br + " kbit/s");
+                    }
+
+                    @Override
+                    public void onStartTrackingTouch(SeekBar seekBar) {
+                    }
+
+                    @Override
+                    public void onStopTrackingTouch(SeekBar seekBar) {
+                    }
+                });
+
+                int currentBr = speexvbrcodec.nMaxBitRate > 0 ? speexvbrcodec.nMaxBitRate : maxbr;
+                bitrate.setProgress((currentBr - minbr) / 100);
 
                 int maxtxinterval = TeamTalkConstants.SPEEX_MAX_TXINTERVALMSEC - TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
                 txinterval.setMax(maxtxinterval);
@@ -574,6 +605,32 @@ public class AudioCodecActivity extends AppCompatActivity implements
             }
 
             return speexvbrcodec;
+        }
+
+        private int getMinBitRate(int bandmode) {
+            switch(bandmode) {
+                case SpeexConstants.SPEEX_BANDMODE_NARROW:
+                    return SpeexConstants.SPEEX_NB_MIN_BITRATE;
+                case SpeexConstants.SPEEX_BANDMODE_WIDE:
+                    return SpeexConstants.SPEEX_WB_MIN_BITRATE;
+                case SpeexConstants.SPEEX_BANDMODE_UWIDE:
+                    return SpeexConstants.SPEEX_UWB_MIN_BITRATE;
+                default:
+                    return SpeexConstants.SPEEX_WB_MIN_BITRATE;
+            }
+        }
+
+        private int getMaxBitRate(int bandmode) {
+            switch(bandmode) {
+                case SpeexConstants.SPEEX_BANDMODE_NARROW:
+                    return SpeexConstants.SPEEX_NB_MAX_BITRATE;
+                case SpeexConstants.SPEEX_BANDMODE_WIDE:
+                    return SpeexConstants.SPEEX_WB_MAX_BITRATE;
+                case SpeexConstants.SPEEX_BANDMODE_UWIDE:
+                    return SpeexConstants.SPEEX_UWB_MAX_BITRATE;
+                default:
+                    return SpeexConstants.SPEEX_WB_MAX_BITRATE;
+            }
         }
     }
    

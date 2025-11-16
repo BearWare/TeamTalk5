@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/LinearLayout1"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
@@ -16,7 +15,6 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/channamelabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_name" />
@@ -37,7 +35,6 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/chanpasswdlabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_password" />
@@ -57,7 +54,6 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/chantopiclabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_topic" />
@@ -79,7 +75,6 @@
         android:orientation="horizontal" >
 
         <TextView
-            android:id="@+id/chanoppasswdlabel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/channel_prop_title_op_password"

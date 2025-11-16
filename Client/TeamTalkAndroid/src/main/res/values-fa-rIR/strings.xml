@@ -33,15 +33,12 @@
     <string name="text_cmd_userleftchan">از کانال رفت</string>
     <string name="text_cmd_userloggedout">از سرور رفت</string>
     <string name="text_cmd_userloggedin">وارد سرور شد</string>
-    <string name="text_cmd_servername">نام سرور: </string>
-    <string name="text_cmd_servermotd">پیام روز: </string>
     <string name="pref_cat_subscriptions">اشتراک‌ها</string>
     <string name="pref_cat_connection_general">عمومی</string>
     <string name="pref_cat_tts">تنظیمات صفحه خوان</string>
     <string name="pref_cat_tts_events">پیام‌های عمومی صفحه‌خوان</string>
     <string name="pref_cat_tts_transmission">پیام‌های گفتاری تنظیم دسترسیهای ارتباطی</string>
     <string name="pref_cat_tts_subscription">پیام‌های گفتاری اشتراک‌ها</string>
-    <string name="pref_cat_soundtest">تست صدا</string>
     <string name="pref_header_general">عمومی</string>
     <string name="pref_title_nickname">نام مستعار</string>
     <string name="pref_title_statusmsg">پیام وضعیت</string>
@@ -166,8 +163,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">استفاده از میکروفون هدست بلوتوث</string>
     <string name="pref_title_voice_processing_checkbox">پیش‌پردازش صدا</string>
     <string name="pref_summary_voice_processing_checkbox">حذف اکو و تنظیم خودکار میکروفون</string>
-    <string name="pref_title_public_servers">سرور‌های عمومی</string>
-    <string name="pref_summary_public_servers">نمایش سرور‌های عمومی</string>
 
     <string name="text_tts_loggedin">وارد سرور شد</string>
     <string name="text_tts_loggedout">از سرور رفت</string>
@@ -204,7 +199,6 @@
     <string name="text_tts_transmit_name_everyone">همه</string>
     <string name="pref_header_soundsystem">سیستم صوتی</string>
     <string name="title_activity_audio_codec">مبدل صوتی</string>
-    <string name="title_activity_filepicker">انتخاب فایل</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -213,7 +207,6 @@
 
     <string name="button_tx">میکروفون</string>
     <string name="button_remove">حذف</string>
-    <string name="button_edit">ویرایش</string>
     <string name="action_banchan">ممنوعیت از کانال</string>
     <string name="action_bansrv">ممنوعیت از سرور</string>
     <string name="action_edit">ویرایش کانال</string>
@@ -286,12 +279,8 @@
     <string name="stat_offline">آفلاین</string>
     <string name="stat_connecting">در حال اتصال</string>
     <string name="stat_unauthorized">مجاز نیست</string>
-    <string name="label_voice">صدا:</string>
-    <string name="label_desktop">دسکتاپ:</string>
     <string name="label_ping">تأخیر اتصال:</string>
     <string name="label_rxtx">دریافت و ارسال:</string>
-    <string name="label_total">مجموع:</string>
-    <string name="label_mediafile">فایل صوتی:</string>
     <string name="default_">پیشفرض</string>
 
     <string name="server_list_empty">لیست سرور خالی است</string>
@@ -301,7 +290,6 @@
     <string name="time_date">تاریخ و زمان</string>
     <string name="name">نام</string>
 
-    <string name="err_init_sound_input">دستگاه ورودی صدا راه‌اندازی نشد</string>
     <string name="err_init_sound_output">دستگاه خروجی صدا راه‌اندازی نشد</string>
     <string name="err_retrieve_public_server_list">لیست سرور‌های عمومی بارگیری نشد</string>
     <string name="err_send_text_message">پیام ارسال نشد</string>
@@ -318,7 +306,6 @@
     <string name="serverlist_export_confirmation">سرور‌ها در %1$s ذخیره شدند</string>
     <string name="server_export_confirmation">سرور در %1$s با موفقیت ذخیره شد</string>
 
-    <string name="pref_title_server_props">تنظیمات سرور</string>
     <string name="pref_title_server_info">مشخصات سرور</string>
     <string name="pref_title_server_name">نام سرور</string>
     <string name="pref_title_server_address">دامنه یا آدرس آیْپی</string>
@@ -333,9 +320,6 @@
     <string name="pref_title_channel">کانال</string>
     <string name="pref_title_channel_password">گذرواژۀ کانال</string>
     <string name="pref_title_last_channel">آخرین کانالی که به آن پیوستید</string>
-
-    <string name="pref_summary_server_name">نام این سرور در فهرست سرور‌ها به این صورت نمایش داده خواهد شد</string>
-    <string name="pref_summary_server_address">دامنه یا آدرس آیْپی سرور</string>
 
     <string name="channel_password_prompt">گذرواژه</string>
     <string name="button_download">دانلود</string>
@@ -374,8 +358,6 @@
     <string name="voxlevel">سطح فعالسازی خودکار صدا</string>
     <string name="speaker_mute">قطع اسپیکر</string>
     <string name="speaker_unmute">صدا‌دار‌کردن اسپیکر</string>
-    <string name="mic_mute">قطع میکروفون</string>
-    <string name="mic_unmute">روشن‌کردن میکروفون</string>
     <string name="speaker_volume_description">اسپیکر %1$s</string>
     <string name="mic_gain_description">میکروفون %1$s</string>
     <string name="voice_activation_on">روشن‌کردن فعالسازی خودکار صدا</string>
@@ -466,7 +448,6 @@
     <string name="bwpswlab">گذرواژه:</string>
     <string name="ttversion">نسخۀ</string>
     <string name="ttdllversion">نسخۀ ساخت</string>
-    <string name="pref_title_bearware_summary">چنانچه این سرور از حساب bearware.dk پشتیبانی میکند, این گزینه را علامت‌دار کنید</string>
     <string name="pref_cat_about">در‌باره</string>
     <string name="pref_title_contrib">توسعه‌دهندگان</string>
     <string name="pref_title_translator">مترجم</string>
@@ -486,7 +467,6 @@
     <string name="pref_title_channel_message_sent">پیام‌های کانال</string>
     <string name="pref_summary_channel_message_sent">اعلام پیام‌هایی که توسط شما در کانال ارسال میشوند</string>
     <string name="text_tts_channel_message_sent">ارسال شد: %1$s</string>
-    <string name="err_text_length">مقدار این پیام از %1$d کاراکتر بیشتر است</string>
     <string name="pref_summary_official_servers">نمایش سرور‌های رسمی در فهرست سرور‌ها</string>
     <string name="pref_title_official_servers">سرور‌های رسمی</string>
     <string name="pref_summary_unofficial_servers">نمایش سرور‌های غیررسمی در فهرست سرور‌ها</string>

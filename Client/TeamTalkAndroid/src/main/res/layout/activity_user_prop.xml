@@ -5,7 +5,6 @@
     tools:context=".UserPropActivity">
 
     <GridLayout
-        android:id="@+id/GridLayout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:columnCount="2"
@@ -64,7 +63,6 @@
         android:text=""/>
 
     <TextView
-        android:id="@+id/user_vol_voicelabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
@@ -73,7 +71,6 @@
         android:text="@string/user_prop_title_voice_volume" />
 
     <LinearLayout
-        android:id="@+id/voicevolLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
@@ -109,7 +106,6 @@
         android:text="@string/user_prop_title_mute_voice" />
 
     <TextView
-        android:id="@+id/user_vol_medialabel"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"
@@ -117,7 +113,6 @@
         android:text="@string/user_prop_title_media_volume" />
 
     <LinearLayout
-        android:id="@+id/mfvolumeLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_column="0"

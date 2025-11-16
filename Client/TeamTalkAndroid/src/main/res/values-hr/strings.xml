@@ -30,11 +30,8 @@
     <string name="text_cmd_leftroot">Izašao si s glavnog kanala</string>
     <string name="text_cmd_userjoinchan">Pridružio se kanalu</string>
     <string name="text_cmd_userleftchan">izašao je s kanala</string>
-    <string name="text_cmd_servername">Naziv poslužitelja: </string>
-    <string name="text_cmd_servermotd">Poruka dobrodošlice: </string>
     <string name="pref_cat_subscriptions">pretplate</string>
     <string name="pref_cat_tts">Konfiguriraj poruke koje će govorna jedinica izgovarati</string>
-    <string name="pref_cat_soundtest">Provjera zvuka</string>
     <string name="pref_header_general">Općenito</string>
     <string name="pref_title_nickname">Nadimak</string>
     <string name="pref_default_nickname">Anonimus</string>
@@ -108,8 +105,6 @@
     <string name="pref_summary_speakerphone_checkbox">Prebaci se sa slušalica na zvučnike</string>
     <string name="pref_title_voice_processing_checkbox">Omogući prethodno procesiranje zvuka</string>
     <string name="pref_summary_voice_processing_checkbox">Koristi poništavanje jeke i automatsku kontrolu glasnoće</string>
-    <string name="pref_title_public_servers">Prikaži javne poslužitelje</string>
-    <string name="pref_summary_public_servers">Uključuje javne poslužitelje u listi poslužitelja</string>
 
     <string name="text_tts_loggedin">se prijavio</string>
     <string name="text_tts_loggedout">Se odjavio</string>
@@ -120,7 +115,6 @@
     <string name="text_tts_broadcast_message">Administratorska poruka od %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Sustav zvuka</string>
     <string name="title_activity_audio_codec">Audio kodek</string>
-    <string name="title_activity_filepicker">Odabir datoteke</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -129,7 +123,6 @@
 
     <string name="button_tx">TX</string>
     <string name="button_remove">Ukloni</string>
-    <string name="button_edit">Uredi</string>
     <string name="action_banchan">Protjeraj iz trenutnog kanala</string>
     <string name="action_bansrv">Protjeraj s poslužitelja</string>
     <string name="action_edit">Uredi kanal</string>
@@ -178,12 +171,8 @@
     <string name="stat_online">Na mreži</string>
     <string name="stat_offline">Van mreže</string>
     <string name="stat_connecting">Spajanje</string>
-    <string name="label_voice">Glas:</string>
-    <string name="label_desktop">Radna površina:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Ukupno:</string>
-    <string name="label_mediafile">Multimedijska datoteka:</string>
     <string name="default_">Podrazumjevano</string>
 
     <string name="server_list_empty">TeamTalk 5 popis poslužitelja je prazan</string>
@@ -192,7 +181,6 @@
     <string name="time_date">vrijeme datum</string>
     <string name="name">Name</string>
 
-    <string name="err_init_sound_input">Greška pri inicijalizaciji ulaznog uređaja</string>
     <string name="err_init_sound_output">Greška pri inicijalizaciji izlaznog uređaja</string>
     <string name="err_retrieve_public_server_list">Greška pri dohvaćanju popisa javnih poslućitelja</string>
     <string name="err_send_text_message">Greška pri slanju tekstualne poruke</string>
@@ -206,7 +194,6 @@
     <string name="action_refresh">Osvježi</string>
     <string name="action_import_serverlist">Uvezi iz datoteke</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 svojstva poslužitelja</string>
     <string name="pref_title_server_info">Informacije o poslužitelju</string>
     <string name="pref_title_server_name">Naziv poslužitelja</string>
     <string name="pref_title_server_address">Ime domene ili IP adresa</string>
@@ -220,9 +207,6 @@
     <string name="pref_title_channel">Kanal</string>
     <string name="pref_title_channel_password">Lozinka kanala</string>
     <string name="pref_title_last_channel">Posljednji posjećeni kanal</string>
-
-    <string name="pref_summary_server_name">Ovaj će se poslužitelj prikazati s ovim nazivom in the Server List</string>
-    <string name="pref_summary_server_address">IP adresa ili domena servera</string>
 
     <string name="channel_password_prompt">Upišite lozinku kanala</string>
     <string name="button_download">Preuzmi</string>
@@ -249,8 +233,6 @@
     <string name="version_update">Nova inačica TeamTalka je dostupna: %1$s?</string>
     <string name="speaker_mute">Utišaj zvučnike</string>
     <string name="speaker_unmute">Ottišaj zvučnike</string>
-    <string name="mic_mute">Utišaj mikrofon</string>
-    <string name="mic_unmute">Ottišaj mikrofon</string>
 
     <string name="speaker_volume_description">Glasnoća zvučnika je %1$s</string>
     <string name="mic_gain_description">Glasnoća mikrofona je %1$s</string>

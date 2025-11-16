@@ -28,8 +28,7 @@
 	    android:orientation="horizontal" >
 
 	    <GridLayout
-	        android:id="@+id/gridstats"
-	        android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerVertical="true"
 	        android:layout_gravity="center_vertical"
@@ -68,8 +67,7 @@
 	    </GridLayout>
 
 	    <GridLayout
-	        android:id="@+id/volcontrols"
-	        android:layout_width="wrap_content"
+            android:layout_width="wrap_content"
 	        android:layout_height="wrap_content"
 	        android:layout_centerHorizontal="true"
 	        android:layout_centerVertical="true"

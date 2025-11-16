@@ -29,11 +29,8 @@
     <string name="text_cmd_leftroot">Har forladt rodkanalen</string>
     <string name="text_cmd_userjoinchan">er tilsluttet kanalen</string>
     <string name="text_cmd_userleftchan">Har forladt kanalen</string>
-    <string name="text_cmd_servername">Servernavn: </string>
-    <string name="text_cmd_servermotd">Dagens meddelelse: </string>
     <string name="pref_cat_subscriptions">Tilmeldinger</string>
     <string name="pref_cat_tts">Konfigurer tekst-til-tale-beskeder</string>
-    <string name="pref_cat_soundtest">Lydtest</string>
     <string name="pref_header_general">Generelt</string>
     <string name="pref_title_nickname">Kaldenavn</string>
     <string name="pref_default_nickname">Intet-navn</string>
@@ -108,8 +105,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Når bluetooth headsæt er tilsluttet brug dets  microphone</string>
     <string name="pref_title_voice_processing_checkbox">Aktiver stemme-forbehandling</string>
     <string name="pref_summary_voice_processing_checkbox">Brug fjernelse af ekko  og automatisk lydstyrkekontrol</string>
-    <string name="pref_title_public_servers">Vis offentlige servere</string>
-    <string name="pref_summary_public_servers">Inkluder offentlige servere i serverlisten</string>
     <string name="text_tts_loggedin">Er logget på</string>
     <string name="text_tts_loggedout">Er logget af</string>
     <string name="text_tts_joined_chan">Deltager i kanalen</string>
@@ -119,7 +114,6 @@
     <string name="text_tts_broadcast_message">Broadcastbesked fra %1$s - %2$s</string>
     <string name="pref_header_soundsystem">lydSystem</string>
     <string name="title_activity_audio_codec">lyd-Codec</string>
-    <string name="title_activity_filepicker">filvælger</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -128,7 +122,6 @@
 
     <string name="button_tx">TX</string>
     <string name="button_remove">Fjern</string>
-    <string name="button_edit">Rediger</string>
     <string name="action_banchan">Udeluk fra nuværende kanal</string>
     <string name="action_bansrv">Udeluk fra server</string>
     <string name="action_edit">Rediger kanal</string>
@@ -177,12 +170,8 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Forbinder</string>
-    <string name="label_voice">Stemme:</string>
-    <string name="label_desktop">Skrivebord:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Total:</string>
-    <string name="label_mediafile">MediFil:</string>
     <string name="default_">Standard</string>
 
     <string name="server_list_empty">TeamTalk 5 Server Liste er tom</string>
@@ -191,7 +180,6 @@
     <string name="time_date">Tid Dato</string>
     <string name="name">Navn</string>
 
-    <string name="err_init_sound_input">Fejl: Kunne ikke nulstille lydinputenheden</string>
     <string name="err_init_sound_output">Fejl: Kunne ikke nulstille lydoutputenheden</string>
     <string name="err_retrieve_public_server_list">Fejl: Kunne ikke hente den offentlig serverliste</string>
     <string name="err_send_text_message">Fejl: Kunne ikke sende tekstbeskeden</string>
@@ -207,7 +195,6 @@
     <string name="action_export_serverlist">Eksporter serverliste</string>
     <string name="serverlist_export_confirmation">Serverliste er blevet eksporteret til %1$s</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 Serveregenskaber</string>
     <string name="pref_title_server_info">Serverinformation</string>
     <string name="pref_title_server_name">Servernavn</string>
     <string name="pref_title_server_address">Domænenavn eller IP-adresse</string>
@@ -222,9 +209,6 @@
     <string name="pref_title_channel">Kanal</string>
     <string name="pref_title_channel_password">Kanaladgangskode</string>
     <string name="pref_title_last_channel">Senest tilsluttede kanal</string>
-
-    <string name="pref_summary_server_name">Denne server vil stå med sit navn i serverlisten</string>
-    <string name="pref_summary_server_address">Serverens domænenavn eller IP-adresse </string>
 
     <string name="channel_password_prompt">Intast Kanaladgangskode</string>
     <string name="button_download">Download</string>
@@ -252,8 +236,6 @@
     <string name="version_update">Der er en ny TeamTalk-version tilgængelig: %1$s?</string>
     <string name="speaker_mute">Afbryd højttalere</string>
     <string name="speaker_unmute">Tænd for højttalere</string>
-    <string name="mic_mute">Afbryd mikrofonen</string>
-    <string name="mic_unmute">Tænd for mikrofonen</string>
 
     <string name="speaker_volume_description">Lydstyrken er %1$s</string>
     <string name="mic_gain_description">Mikrofon styrken er %1$s</string>
@@ -342,7 +324,6 @@
     <string name="bwpswlab">Adgangskode:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">Marker kun, hvis denne server har BearWare.dk Web Login aktiveret</string>
     <string name="pref_cat_about">Om</string>
     <string name="pref_title_contrib">Udviklere</string>
     <string name="pref_title_translator">Oversætter</string>
@@ -360,7 +341,6 @@
     <string name="pref_title_channel_message_sent">Kanalbesked er sendt</string>
     <string name="pref_summary_channel_message_sent">Annoncer Kanalbeskeder sendt</string>
     <string name="text_tts_channel_message_sent">Kanalbesked sendt: %1$s</string>
-    <string name="err_text_length">Beskedlængden er overskrevet med  %1$d tegn</string>
     <string name="pref_summary_official_servers">Inkluder officielle servere i serverlisten</string>
     <string name="pref_title_official_servers">Vis officielle servere</string>
     <string name="pref_summary_unofficial_servers">Inkluder uofficielle servere i serverlisten</string>

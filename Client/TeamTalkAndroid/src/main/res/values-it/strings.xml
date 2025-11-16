@@ -30,11 +30,8 @@
     <string name="text_cmd_leftroot">Canale principale sinistro</string>
     <string name="text_cmd_userjoinchan">si unì al canale</string>
     <string name="text_cmd_userleftchan">lasciare il canale</string>
-    <string name="text_cmd_servername">Nome del server: </string>
-    <string name="text_cmd_servermotd">Messaggio del giorno: </string>
     <string name="pref_cat_subscriptions">Abbonamenti</string>
     <string name="pref_cat_tts">Configura messaggi di sintesi vocale</string>
-    <string name="pref_cat_soundtest">Test audio</string>
     <string name="pref_header_general">Generale</string>
     <string name="pref_title_nickname">Pseudonimo</string>
     <string name="pref_default_nickname">Senza nome</string>
@@ -110,8 +107,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Usa il microfono dell\'auricolare bluetooth quando ce n\'è uno da connettere</string>
     <string name="pref_title_voice_processing_checkbox">Attiva l\'elaborazione vocale</string>
     <string name="pref_summary_voice_processing_checkbox">Usa la cancellazione dell\'eco e il controllo automatico del volume</string>
-    <string name="pref_title_public_servers">Mostra server pubblici</string>
-    <string name="pref_summary_public_servers">Includere i server pubblici nell\'elenco dei server</string>
 
     <string name="text_tts_loggedin">ha connesso</string>
     <string name="text_tts_loggedout">ha disconnesso</string>
@@ -122,7 +117,6 @@
     <string name="text_tts_broadcast_message">Messaggio generale da %1$s: %2$s</string>
     <string name="pref_header_soundsystem">Sistema audio</string>
     <string name="title_activity_audio_codec">Codec audio</string>
-    <string name="title_activity_filepicker">Seleziona i file</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -131,7 +125,6 @@
 
     <string name="button_tx">Trasmissione</string>
     <string name="button_remove">Rimuovere</string>
-    <string name="button_edit">Modificare</string>
     <string name="action_banchan">Ban dal canale corrente</string>
     <string name="action_bansrv">Ban dal server</string>
     <string name="action_edit">Modifica canale</string>
@@ -180,12 +173,8 @@
     <string name="stat_online">In linea</string>
     <string name="stat_offline">Disconnesso</string>
     <string name="stat_connecting">Accesso…</string>
-    <string name="label_voice">Voce:</string>
-    <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">Ricezione/Trasmissione:</string>
-    <string name="label_total">Totale:</string>
-    <string name="label_mediafile">File multimediali:</string>
     <string name="default_">Difetto</string>
 
     <string name="server_list_empty">L\'elenco dei server TeamTalk 5 è vuoto</string>
@@ -194,7 +183,6 @@
     <string name="time_date">Ora e data</string>
     <string name="name">Nome</string>
 
-    <string name="err_init_sound_input">Impossibile inizializzare l\'ingresso audio</string>
     <string name="err_init_sound_output">Impossibile inizializzare l\'uscita audio</string>
     <string name="err_retrieve_public_server_list">Impossibile recuperare l\'elenco dei server pubblici</string>
     <string name="err_send_text_message">Impossibile inviare il messaggio di testo</string>
@@ -208,7 +196,6 @@
     <string name="action_refresh">Ricaricare</string>
     <string name="action_import_serverlist">Importa da file .tt</string>
 
-    <string name="pref_title_server_props">Proprietà del server TeamTalk 5</string>
     <string name="pref_title_server_info">Informazioni sul server</string>
     <string name="pref_title_server_name">Nome del server</string>
     <string name="pref_title_server_address">Nome di dominio o indirizzo IP</string>
@@ -222,9 +209,6 @@
     <string name="pref_title_channel">Canale</string>
     <string name="pref_title_channel_password">Password del canale</string>
     <string name="pref_title_last_channel">Ultimo canale unito</string>
-
-    <string name="pref_summary_server_name">Questo server apparirà con questo nome nell\'elenco dei server</string>
-    <string name="pref_summary_server_address">Il nome di dominio o l\'indirizzo IP del server</string>
 
     <string name="channel_password_prompt">Immettere la password del canale</string>
     <string name="button_download">Scarica</string>
@@ -251,8 +235,6 @@
     <string name="version_update">Nuova versione di TeamTalk disponibile: %1$s?</string>
     <string name="speaker_mute">Disattiva l\'altoparlante</string>
     <string name="speaker_unmute">Riattiva l\'altoparlante</string>
-    <string name="mic_mute">Disattiva microfono</string>
-    <string name="mic_unmute">Riattiva il microfono</string>
 
     <string name="speaker_volume_description">Volume altoparlante: %1$s</string>
     <string name="mic_gain_description">Volume microfono: %1$s</string>
@@ -345,7 +327,6 @@
     <string name="pref_title_libraries">Librerie di terze parti</string>
     <string name="channel_prop_title_hiddenchannel">Nascondere</string>
     <string name="pref_title_bearware">BearWare.dk Web Connection</string>
-    <string name="pref_title_bearware_summary">Controlla solo se questo server ha abilitato la connessione web BearWare.dk</string>
     <string name="pref_title_gender">Sesso</string>
     <string name="pref_summary_gender">Controlla l\'icona femminile</string>
     <string name="err_file_write">Impossibile scrivere il file %1$s</string>

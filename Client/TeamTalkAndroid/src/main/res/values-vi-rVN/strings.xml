@@ -30,11 +30,8 @@
     <string name="text_cmd_leftroot">Rời khỏi kênh root</string>
     <string name="text_cmd_userjoinchan">Đã tham gia kênh</string>
     <string name="text_cmd_userleftchan">Rời khỏi kênh</string>
-    <string name="text_cmd_servername">Tên máy chủ:</string>
-    <string name="text_cmd_servermotd">Tin nhắn trong ngày:</string>
     <string name="pref_cat_subscriptions">Đăng ký</string>
     <string name="pref_cat_tts">Định cấu hình các tin nhắn văn bản thành giọng nói</string>
-    <string name="pref_cat_soundtest">Kiểm tra âm thanh</string>
     <string name="pref_header_general">Chung</string>
     <string name="pref_title_nickname">Biệt danh</string>
     <string name="pref_default_nickname">Không tên</string>
@@ -110,8 +107,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Khi tai nghe Bluetooth được kết nối, hãy sử dụng micrô của nó</string>
     <string name="pref_title_voice_processing_checkbox">Bật xử lý giọng nói</string>
     <string name="pref_summary_voice_processing_checkbox">Sử dụng loại bỏ tiếng vang và điều khiển khuếch đại tự động</string>
-    <string name="pref_title_public_servers">Hiển thị máy chủ công khai</string>
-    <string name="pref_summary_public_servers">Bao gồm các máy chủ công khai trong Danh sách máy chủ</string>
     <string name="text_tts_loggedin">Đã đăng nhập</string>
     <string name="text_tts_loggedout">đã đăng xuất</string>
     <string name="text_tts_joined_chan">đã tham gia kênh</string>
@@ -121,7 +116,6 @@
     <string name="text_tts_broadcast_message">Tin nhắn thông báo từ %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Hệ thống âm thanh</string>
     <string name="title_activity_audio_codec">Audio codec</string>
-    <string name="title_activity_filepicker">Chọn tệp</string>
     <string name="title_section_opus">Opus</string>
     <string name="title_section_speex">Tốc độ</string>
     <string name="title_section_speexvbr">Tốc độ VBR</string>
@@ -129,7 +123,6 @@
     <string name="opus_application">Ứng dụng</string>
     <string name="button_tx">TX</string>
     <string name="button_remove">Xóa bỏ</string>
-    <string name="button_edit">Chỉnh sửa</string>
     <string name="action_banchan">chặn khỏi  kênh hiện tại</string>
     <string name="action_bansrv">Chặn khỏi máy chủ</string>
     <string name="action_edit">Chỉnh sửa kênh</string>
@@ -176,19 +169,14 @@
     <string name="stat_online">Trực tuyến</string>
     <string name="stat_offline">Ngoại tuyến</string>
     <string name="stat_connecting">Đang kết nối</string>
-    <string name="label_voice">Giọng nói:</string>
-    <string name="label_desktop">Chia sẻ màn hình:</string>
     <string name="label_ping">Độ chễ:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Tổng cộng:</string>
-    <string name="label_mediafile">Tệp phương tiện:</string>
     <string name="default_">Mặc định</string>
     <string name="server_list_empty">Danh sách máy chủ TeamTalk 5 trống</string>
     <string name="no_nickname">Không có biệt danh</string>
     <string name="message_text">Tin nhắn văn bản</string>
     <string name="time_date">Ngày giờ</string>
     <string name="name">Tên</string>
-    <string name="err_init_sound_input">Không thể khởi chạy âm thanh từ thiết bị đầu vào</string>
     <string name="err_init_sound_output">Không thể khởi chạy âm thanh từ thiết bị đầu ra</string>
     <string name="err_retrieve_public_server_list">Không thể truy xuất danh sách máy chủ công khai</string>
     <string name="err_send_text_message">Không thể gửi tin nhắn văn bản</string>
@@ -204,7 +192,6 @@
     <string name="action_export_serverlist">Xuất danh sách máy chủ</string>
     <string name="serverlist_export_confirmation">Danh sách máy chủ đã được xuất sang %1$s</string>
 
-    <string name="pref_title_server_props">Thông tin máy chủ TeamTalk 5</string>
     <string name="pref_title_server_info">Thông tin máy chủ</string>
     <string name="pref_title_server_name">Tên máy chủ</string>
     <string name="pref_title_server_address">Tên miền hoặc địa chỉ IP</string>
@@ -219,8 +206,6 @@
     <string name="pref_title_channel">Kênh</string>
     <string name="pref_title_channel_password">Mật khẩu kênh</string>
     <string name="pref_title_last_channel">Kênh tham gia lần cuối</string>
-    <string name="pref_summary_server_name">Máy chủ này sẽ xuất hiện với tên này trong danh sách máy chủ</string>
-    <string name="pref_summary_server_address">Tên miền hoặc địa chỉ IP của máy chủ</string>
 
     <string name="channel_password_prompt">Nhập mật khẩu kênh</string>
     <string name="button_download">Tải xuống</string>
@@ -248,8 +233,6 @@
     <string name="version_update">Phiên bản TeamTalk mới có sẵn: %1$s?</string>
     <string name="speaker_mute">Tắt âm thanh</string>
     <string name="speaker_unmute">Bật âm thanh</string>
-    <string name="mic_mute">Tắt micrô</string>
-    <string name="mic_unmute">Bật micrô</string>
     <string name="speaker_volume_description">âm lượng là %1$s</string>
     <string name="mic_gain_description">Âm lượng của micrô là %1$s</string>
     <string name="voice_activation_on">Bật kích hoạt giọng nói</string>
@@ -331,7 +314,6 @@
     <string name="bwpswlab">Mật khẩu:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">Chỉ kiểm tra nếu máy chủ này đã bật đăng nhập web Bearware.dk</string>
     <string name="pref_cat_about">Giới thiệu</string>
     <string name="pref_title_contrib">Phát triển</string>
     <string name="pref_title_translator">Dịch</string>
@@ -349,7 +331,6 @@
     <string name="pref_title_channel_message_sent">Đã gửi tin nhắn kênh</string>
     <string name="pref_summary_channel_message_sent">Thông báo tin nhắn kênh được gửi</string>
     <string name="text_tts_channel_message_sent">Đã gửi tin nhắn kênh: %1$s</string>
-    <string name="err_text_length">Thông báo vượt quá độ dài của %1$d ký tự</string>
     <string name="pref_summary_official_servers">Bao gồm các máy chủ chính thức trong danh sách máy chủ</string>
     <string name="pref_title_official_servers">Hiển thị máy chủ chính thức</string>
     <string name="pref_summary_unofficial_servers">Bao gồm các máy chủ không chính thức trong danh sách máy chủ</string>

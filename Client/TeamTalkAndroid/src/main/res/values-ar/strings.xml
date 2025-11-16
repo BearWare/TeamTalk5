@@ -30,11 +30,8 @@
     <string name="text_cmd_leftroot">غادر القناة الرئيسية</string>
     <string name="text_cmd_userjoinchan">انضم الى القناة</string>
     <string name="text_cmd_userleftchan">غادر القناة</string>
-    <string name="text_cmd_servername">اسم الخادم: </string>
-    <string name="text_cmd_servermotd">رسالة اليوم: </string>
     <string name="pref_cat_subscriptions">الاشتراكات</string>
     <string name="pref_cat_tts">ضبط اعدادات رسائل تحويل النص إلى كلام</string>
-    <string name="pref_cat_soundtest">اختبار الصوت</string>
     <string name="pref_header_general">عام</string>
     <string name="pref_title_nickname">اسم المستخدم</string>
     <string name="pref_default_nickname">بدون اسم</string>
@@ -110,8 +107,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">عندما تكون سماعة البلوتوث متصلة ، استخدم الميكروفون الخاص بها</string>
     <string name="pref_title_voice_processing_checkbox">تفعيل المعالجة المسبقة للصوت</string>
     <string name="pref_summary_voice_processing_checkbox">استخدم إلغاء الصدى والتحكم التلقائي في الميكروفون</string>
-    <string name="pref_title_public_servers">إظهار الخوادم العامة</string>
-    <string name="pref_summary_public_servers">تضمين الخوادم العامة في قائمة الخوادم</string>
 
     <string name="text_tts_loggedin">سجل دخول</string>
     <string name="text_tts_loggedout">سجل خروج</string>
@@ -122,7 +117,6 @@
     <string name="text_tts_broadcast_message">رسالة عامة من %1$s - %2$s</string>
     <string name="pref_header_soundsystem">نظام الصوت</string>
     <string name="title_activity_audio_codec">ترميز الصوت</string>
-    <string name="title_activity_filepicker">اختيار الملف</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -131,7 +125,6 @@
 
     <string name="button_tx">ميكروفون</string>
     <string name="button_remove">حذف</string>
-    <string name="button_edit">تحرير</string>
     <string name="action_banchan">حظر من القناة الحالية</string>
     <string name="action_bansrv">حظر من الخادم</string>
     <string name="action_edit">تحرير القناة</string>
@@ -180,12 +173,8 @@
     <string name="stat_online">متصل</string>
     <string name="stat_offline">غير متصل</string>
     <string name="stat_connecting">يتصل</string>
-    <string name="label_voice">صوت:</string>
-    <string name="label_desktop">سطح المكتب:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">إرسال/استلام:</string>
-    <string name="label_total">المجموع:</string>
-    <string name="label_mediafile">ملف الوسائط:</string>
     <string name="default_">إفتراضي</string>
 
     <string name="server_list_empty">قائمة خوادم TeamTalk5 فارغة</string>
@@ -194,7 +183,6 @@
     <string name="time_date">تاريخ</string>
     <string name="name">اسم</string>
 
-    <string name="err_init_sound_input">فشل في تهيئة جهاز إدخال الصوت</string>
     <string name="err_init_sound_output">فشل في تهيئة جهاز إخراج الصوت</string>
     <string name="err_retrieve_public_server_list">فشل في استرداد قائمة الخوادم العامة</string>
     <string name="err_send_text_message">فشل في إرسال رسالة نصية</string>
@@ -210,7 +198,6 @@
     <string name="action_export_serverlist">تصدير قائمة الخوادم</string>
     <string name="serverlist_export_confirmation">تم تصدير قائمة الخادم الى %1$s</string>
 
-    <string name="pref_title_server_props">خصائص خادم TeamTalk 5</string>
     <string name="pref_title_server_info">معلومات الخادم</string>
     <string name="pref_title_server_name">اسم الخادم</string>
     <string name="pref_title_server_address">عنوان المضيف أو عنوان IP</string>
@@ -225,9 +212,6 @@
     <string name="pref_title_channel">القناة</string>
     <string name="pref_title_channel_password">كلمة مرور القناة</string>
     <string name="pref_title_last_channel">آخر قناة تم الانضمام إليها</string>
-
-    <string name="pref_summary_server_name">سيظهر الخادم بهذا الاسم في قائمة الخوادم لديك</string>
-    <string name="pref_summary_server_address">عنوان المضيف أو عنوان IP الخاص بالخادم</string>
 
     <string name="channel_password_prompt">أدخل كلمة مرور القناة</string>
     <string name="button_download">تحميل</string>
@@ -255,8 +239,6 @@
     <string name="version_update">يتوفر تحديث جديد: %1$s?</string>
     <string name="speaker_mute">كتم الصوت</string>
     <string name="speaker_unmute">الغاء كتم الصوت</string>
-    <string name="mic_mute">كتم الميكروفون</string>
-    <string name="mic_unmute">الغاء كتم الميكروفون</string>
 
     <string name="speaker_volume_description">مستوى الصوت %1$s</string>
     <string name="mic_gain_description">مستوى صوت الميكروفون %1$s</string>
@@ -343,7 +325,6 @@
     <string name="bwpswlab">كلمة المرور:</string>
     <string name="ttversion">اصدار TeamTalk</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">حدد فقط إذا كان الخادم قد قام بتمكين تسجيل الدخول ل BearWare.dk</string>
     <string name="pref_cat_about">حول</string>
     <string name="pref_title_contrib">المطورين</string>
     <string name="pref_title_translator">مترجم</string>
@@ -361,7 +342,6 @@
     <string name="pref_title_channel_message_sent">رسائل القناة المرسلة</string>
     <string name="pref_summary_channel_message_sent">أعلن عن رسائل القناة المرسلة</string>
     <string name="text_tts_channel_message_sent">تم إرسال رسالة الى القناة: %1$s</string>
-    <string name="err_text_length">تم تجاوز طول الرسالة بمقدار %1$d حرف</string>
     <string name="pref_summary_official_servers">قم بتضمين الخوادم الرسمية في قائمة الخوادم</string>
     <string name="pref_title_official_servers">إظهار الخوادم الرسمية</string>
     <string name="pref_summary_unofficial_servers">قم بتضمين الخوادم غير الرسمية في قائمة الخوادم</string>
