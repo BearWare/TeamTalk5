@@ -155,18 +155,15 @@ xcodeswap-apps:
 	sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 teamtalk-jar:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENTS=OFF \
+	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=OFF \
+        -DBUILD_TEAMTALK_CLIENTS=OFF \
         -DBUILD_TEAMTALK_SERVERS=OFF \
+        -DBUILD_TEAMTALK_DOCUMENTATION=OFF \
         -DBUILD_TEAMTALK_LIBRARY_JNI=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF" \
+        -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF" \
         buildlib
 
 depend-ubuntu22:
-# Duplicate install in Docker/Dockerfile_ubuntu22
 	apt-get install \
 		autoconf \
 		cmake \
@@ -186,7 +183,6 @@ depend-ubuntu22:
 		p7zip-full \
 		pkg-config \
 		python-is-python3 \
-		python2 \
 		python3-pytest \
 		qtbase5-dev \
 		qtmultimedia5-dev \
@@ -196,13 +192,11 @@ depend-ubuntu22:
 		yasm
 
 depend-ubuntu24:
-# Duplicate install in Docker/Dockerfile_ubuntu24
 	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
 		g++ \
-		git \
 		junit4 \
 		libasound2-dev \
 		libpcap-dev \
@@ -230,20 +224,18 @@ depend-ubuntu24-android:
 	apt-get install \
 		autoconf \
 		cmake \
-		curl \
 		doxygen \
 		junit4 \
 		libtool \
 		ninja-build \
-		openjdk-17-jdk \
+		openjdk-25-jdk \
 		p7zip-full \
 		pkg-config \
-		unzip \
 		wget \
 		xz-utils
 
 depend-raspios12:
-	apt-get-get install \
+	apt-get install \
 		autoconf \
 		cmake \
 		doxygen \
