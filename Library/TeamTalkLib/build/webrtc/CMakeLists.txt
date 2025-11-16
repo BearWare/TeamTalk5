@@ -47,13 +47,17 @@ if (MSVC)
     file(TO_NATIVE_PATH ${WEBRTC_INSTALL_ROOT} WEBRTC_INSTALL_ROOT_NATIVE)
 
     ExternalProject_Add(depot-tools
+      # Use WEBRTC_FETCH_PATH to avoid issues with MAX_PATH on Windows
+      SOURCE_DIR        ${WEBRTC_FETCH_PATH}/depot-tools
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      BUILD_IN_SOURCE   TRUE
+      # Tested with 23ad8839bff8e65fff2f1aabd4bc48fef894c4ae but hopefully 'main' continues to work
       GIT_TAG           main
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
-      INSTALL_COMMAND   <SOURCE_DIR>\\fetch.bat --help
+      INSTALL_COMMAND   fetch.bat --help
       )
     ExternalProject_Get_Property(depot-tools SOURCE_DIR)
     set (DEPOTTOOLS_DIR ${SOURCE_DIR})
