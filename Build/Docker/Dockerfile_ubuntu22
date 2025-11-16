@@ -2,35 +2,34 @@ FROM ubuntu:22.04
 
 LABEL Description="TeamTalk for Ubuntu 22.04"
 
-RUN apt update --fix-missing
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata keyboard-configuration
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y keyboard-configuration tzdata
 # Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu22
-RUN apt install -y \
-                   autoconf \
-                   cmake \
-                   doxygen \
-                   g++ \
-                   git \
-                   junit4 \
-                   libasound2-dev \
-                   libpcap-dev \
-                   libpulse-dev \
-                   libqt5texttospeech5-dev \
-                   libqt5x11extras5-dev \
-                   libssl-dev \
-                   libtool \
-                   libxss-dev \
-                   make \
-                   ninja-build \
-                   openjdk-18-jdk \
-                   p7zip-full \
-                   pkg-config \
-                   python-is-python3 \
-                   python2 \
-                   python3-pytest \
-                   qtbase5-dev \
-                   qtmultimedia5-dev \
-                   qttools5-dev \
-                   qttools5-dev-tools \
-                   wget \
-                   yasm
+RUN apt-get install -y \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		git \
+		junit4 \
+		libasound2-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libqt5texttospeech5-dev \
+		libqt5x11extras5-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		make \
+		ninja-build \
+		openjdk-18-jdk \
+		p7zip-full \
+		pkg-config \
+		python-is-python3 \
+		python3-pytest \
+		qtbase5-dev \
+		qtmultimedia5-dev \
+		qttools5-dev \
+		qttools5-dev-tools \
+		wget \
+		yasm
