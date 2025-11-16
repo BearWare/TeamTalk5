@@ -21,12 +21,26 @@
 import sys
 import os
 import ctypes
-from ctypes import cdll, c_int, c_char, c_wchar, c_wchar_p, c_char_p, \
-                   c_longlong, c_uint, c_float, c_void_p, c_uint16, \
-                   Structure, Union, POINTER, byref
+from ctypes import (
+    cdll,
+    c_int,
+    c_char,
+    c_wchar,
+    c_wchar_p,
+    c_char_p,
+    c_longlong,
+    c_uint,
+    c_float,
+    c_void_p,
+    c_uint16,
+    Structure,
+    Union,
+    POINTER,
+    byref,
+)
 
 if sys.platform == "win32":
-    if (sys.version_info.major == 3 and sys.version_info.minor >= 8):
+    if sys.version_info.major == 3 and sys.version_info.minor >= 8:
         os.add_dll_directory(os.getcwd())
         # Path relative to TeamTalk SDK's DLL location
         os.add_dll_directory(os.path.dirname(os.path.abspath(__file__)) + "\\..\\TeamTalk_DLL")
@@ -59,6 +73,7 @@ TT_SAMPLERATES_MAX = 16
 _TTInstance = c_void_p
 _TTSoundLoop = c_void_p
 
+
 # Encode string to UTF-8. Encoding on Windows is not necessary since
 # string to and from TeamTalk5.dll are UTF-16.
 def ttstr(ttchar_p_str: TTCHAR_P) -> str:
@@ -67,10 +82,11 @@ def ttstr(ttchar_p_str: TTCHAR_P) -> str:
         return ttchar_p_str
 
     if isinstance(ttchar_p_str, bytes):
-        return str(ttchar_p_str, encoding = 'utf-8')
+        return str(ttchar_p_str, encoding="utf-8")
     if isinstance(ttchar_p_str, str):
-        return ttchar_p_str.encode('utf-8')
+        return ttchar_p_str.encode("utf-8")
     return ttchar_p_str
+
 
 # bindings
 class StreamType(UINT32):
@@ -84,7 +100,10 @@ class StreamType(UINT32):
     STREAMTYPE_MEDIAFILE = STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_MEDIAFILE_VIDEO
     STREAMTYPE_CHANNELMSG = 0x00000040
     STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO = 0x00000080
-    STREAMTYPE_CLASSROOM_ALL = STREAMTYPE_VOICE | STREAMTYPE_VIDEOCAPTURE | STREAMTYPE_DESKTOP | STREAMTYPE_MEDIAFILE | STREAMTYPE_CHANNELMSG
+    STREAMTYPE_CLASSROOM_ALL = (
+        STREAMTYPE_VOICE | STREAMTYPE_VIDEOCAPTURE | STREAMTYPE_DESKTOP | STREAMTYPE_MEDIAFILE | STREAMTYPE_CHANNELMSG
+    )
+
 
 class SoundSystem(INT32):
     SOUNDSYSTEM_NONE = 0
@@ -97,6 +116,7 @@ class SoundSystem(INT32):
     SOUNDSYSTEM_AUDIOUNIT = 8
     SOUNDSYSTEM_PULSEAUDIO = 10
 
+
 class SoundDeviceFeature(UINT32):
     SOUNDDEVICEFEATURE_NONE = 0x0000
     SOUNDDEVICEFEATURE_AEC = 0x0001
@@ -106,40 +126,42 @@ class SoundDeviceFeature(UINT32):
     SOUNDDEVICEFEATURE_DUPLEXMODE = 0x0010
     SOUNDDEVICEFEATURE_DEFAULTCOMDEVICE = 0x0020
 
+
 class SoundDevice(Structure):
     _fields_ = [
-    ("nDeviceID", INT32),
-    ("nSoundSystem", INT32),
-    ("szDeviceName", TTCHAR*TT_STRLEN),
-    ("szDeviceID", TTCHAR*TT_STRLEN),
-    ("nWaveDeviceID", INT32),
-    ("bSupports3D", BOOL),
-    ("nMaxInputChannels", INT32),
-    ("nMaxOutputChannels", INT32),
-    ("inputSampleRates", INT32 * TT_SAMPLERATES_MAX),
-    ("outputSampleRates", INT32 * TT_SAMPLERATES_MAX),
-    ("nDefaultSampleRate", INT32),
-    ("uSoundDeviceFeatures", UINT32)
+        ("nDeviceID", INT32),
+        ("nSoundSystem", INT32),
+        ("szDeviceName", TTCHAR * TT_STRLEN),
+        ("szDeviceID", TTCHAR * TT_STRLEN),
+        ("nWaveDeviceID", INT32),
+        ("bSupports3D", BOOL),
+        ("nMaxInputChannels", INT32),
+        ("nMaxOutputChannels", INT32),
+        ("inputSampleRates", INT32 * TT_SAMPLERATES_MAX),
+        ("outputSampleRates", INT32 * TT_SAMPLERATES_MAX),
+        ("nDefaultSampleRate", INT32),
+        ("uSoundDeviceFeatures", UINT32),
     ]
-    def __init__(self):
-        assert(DBG_SIZEOF(TTType.SOUNDDEVICE) == ctypes.sizeof(SoundDevice))
 
-TT_SOUNDDEVICE_ID_SHARED_FLAG           = 0x00000800
-TT_SOUNDDEVICE_ID_MASK                  = 0x000007FF
-TT_SOUNDDEVICE_ID_REMOTEIO              = 0
-TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO  = (1 | TT_SOUNDDEVICE_ID_SHARED_FLAG)
-TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT      = 0
-TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM     = 1
-TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL      = 1978
+    def __init__(self):
+        assert DBG_SIZEOF(TTType.SOUNDDEVICE) == ctypes.sizeof(SoundDevice)
+
+
+TT_SOUNDDEVICE_ID_SHARED_FLAG = 0x00000800
+TT_SOUNDDEVICE_ID_MASK = 0x000007FF
+TT_SOUNDDEVICE_ID_REMOTEIO = 0
+TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO = 1 | TT_SOUNDDEVICE_ID_SHARED_FLAG
+TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT = 0
+TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM = 1
+TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL = 1978
+
 
 class SoundDeviceEffects(Structure):
-    _fields_ = [
-    ("bEnableAGC", BOOL),
-    ("bEnableDenoise", BOOL),
-    ("bEnableEchoCancellation", BOOL)
-    ]
+    _fields_ = [("bEnableAGC", BOOL), ("bEnableDenoise", BOOL), ("bEnableEchoCancellation", BOOL)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SoundDeviceEffects) == ctypes.sizeof(SoundDeviceEffects))
+        assert DBG_SIZEOF(TTType.SoundDeviceEffects) == ctypes.sizeof(SoundDeviceEffects)
+
 
 class SoundLevel(INT32):
     SOUND_VU_MAX = 100
@@ -151,22 +173,26 @@ class SoundLevel(INT32):
     SOUND_GAIN_DEFAULT = 1000
     SOUND_GAIN_MIN = 0
 
+
 class AudioBlock(Structure):
     _fields_ = [
-    ("nStreamID", INT32),
-    ("nSampleRate", INT32),
-    ("nChannels", INT32),
-    ("lpRawAudio", c_void_p),
-    ("nSamples", INT32),
-    ("uSampleIndex", UINT32),
-    ("uStreamTypes", UINT32),
+        ("nStreamID", INT32),
+        ("nSampleRate", INT32),
+        ("nChannels", INT32),
+        ("lpRawAudio", c_void_p),
+        ("nSamples", INT32),
+        ("uSampleIndex", UINT32),
+        ("uStreamTypes", UINT32),
     ]
-    def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock))
 
-TT_LOCAL_USERID     = 0
-TT_LOCAL_TX_USERID  = 0x1002
-TT_MUXED_USERID     = 0x1001
+    def __init__(self):
+        assert DBG_SIZEOF(TTType.AUDIOBLOCK) == ctypes.sizeof(AudioBlock)
+
+
+TT_LOCAL_USERID = 0
+TT_LOCAL_TX_USERID = 0x1002
+TT_MUXED_USERID = 0x1001
+
 
 class MediaFileStatus(INT32):
     MFS_CLOSED = 0
@@ -176,6 +202,7 @@ class MediaFileStatus(INT32):
     MFS_ABORTED = 4
     MFS_PAUSED = 5
     MFS_PLAYING = 6
+
 
 class AudioFileFormat(INT32):
     AFF_NONE = 0
@@ -188,54 +215,60 @@ class AudioFileFormat(INT32):
     AFF_MP3_256KBIT_FORMAT = 7
     AFF_MP3_320KBIT_FORMAT = 8
 
+
 class AudioFormat(Structure):
-    _fields_ = [
-    ("nAudioFmt", INT32),
-    ("nSampleRate", INT32),
-    ("nChannels", INT32)
-    ]
+    _fields_ = [("nAudioFmt", INT32), ("nSampleRate", INT32), ("nChannels", INT32)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOFORMAT) == ctypes.sizeof(AudioFormat))
+        assert DBG_SIZEOF(TTType.AUDIOFORMAT) == ctypes.sizeof(AudioFormat)
+
 
 class FourCC(INT32):
-    FOURCC_NONE =   0
+    FOURCC_NONE = 0
     FOURCC_I420 = 100
     FOURCC_YUY2 = 101
     FOURCC_RGB32 = 102
 
+
 class VideoFormat(Structure):
     _fields_ = [
-    ("nWidth", INT32),
-    ("nHeight", INT32),
-    ("nFPS_Numerator", INT32),
-    ("nFPS_Denominator", INT32),
-    ("picFourCC", INT32)
+        ("nWidth", INT32),
+        ("nHeight", INT32),
+        ("nFPS_Numerator", INT32),
+        ("nFPS_Denominator", INT32),
+        ("picFourCC", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.VIDEOFORMAT) == ctypes.sizeof(VideoFormat))
+        assert DBG_SIZEOF(TTType.VIDEOFORMAT) == ctypes.sizeof(VideoFormat)
+
 
 class VideoFrame(Structure):
     _fields_ = [
-    ("nWidth", INT32),
-    ("nHeight", INT32),
-    ("nStreamID", INT32),
-    ("bKeyFrame", BOOL),
-    ("frameBuffer", c_void_p),
-    ("nFrameBufferSize", INT32)
+        ("nWidth", INT32),
+        ("nHeight", INT32),
+        ("nStreamID", INT32),
+        ("bKeyFrame", BOOL),
+        ("frameBuffer", c_void_p),
+        ("nFrameBufferSize", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.VIDEOFRAME) == ctypes.sizeof(VideoFrame))
+        assert DBG_SIZEOF(TTType.VIDEOFRAME) == ctypes.sizeof(VideoFrame)
+
 
 class VideoCaptureDevice(Structure):
     _fields_ = [
-    ("szDeviceID", TTCHAR*TT_STRLEN),
-    ("szDeviceName", TTCHAR*TT_STRLEN),
-    ("szCaptureAPI", TTCHAR*TT_STRLEN),
-    ("videoFormats", VideoFormat*TT_VIDEOFORMATS_MAX),
-    ("nVideoFormatsCount", INT32)
+        ("szDeviceID", TTCHAR * TT_STRLEN),
+        ("szDeviceName", TTCHAR * TT_STRLEN),
+        ("szCaptureAPI", TTCHAR * TT_STRLEN),
+        ("videoFormats", VideoFormat * TT_VIDEOFORMATS_MAX),
+        ("nVideoFormatsCount", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.VIDEOCAPTUREDEVICE) == ctypes.sizeof(VideoCaptureDevice))
+        assert DBG_SIZEOF(TTType.VIDEOCAPTUREDEVICE) == ctypes.sizeof(VideoCaptureDevice)
+
 
 class BitmapFormat(INT32):
     BMP_NONE = 0
@@ -244,60 +277,61 @@ class BitmapFormat(INT32):
     BMP_RGB24 = 3
     BMP_RGB32 = 4
 
+
 class DesktopProtocol(INT32):
     DESKTOPPROTOCOL_ZLIB_1 = 1
 
+
 class DesktopWindow(Structure):
     _fields_ = [
-    ("nWidth", INT32),
-    ("nHeight", INT32),
-    ("bmpFormat", INT32),
-    ("nBytesPerLine", INT32),
-    ("nSessionID", INT32),
-    ("nProtocol", INT32),
-    ("frameBuffer", c_void_p),
-    ("nFrameBufferSize", INT32)
+        ("nWidth", INT32),
+        ("nHeight", INT32),
+        ("bmpFormat", INT32),
+        ("nBytesPerLine", INT32),
+        ("nSessionID", INT32),
+        ("nProtocol", INT32),
+        ("frameBuffer", c_void_p),
+        ("nFrameBufferSize", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.DESKTOPWINDOW) == ctypes.sizeof(DesktopWindow))
+        assert DBG_SIZEOF(TTType.DESKTOPWINDOW) == ctypes.sizeof(DesktopWindow)
+
 
 class DesktopKeyState(UINT32):
     DESKTOPKEYSTATE_NONE = 0x00000000
     DESKTOPKEYSTATE_DOWN = 0x00000001
     DESKTOPKEYSTATE_UP = 0x00000002
 
+
 class DesktopInput(Structure):
-    _fields_ = [
-    ("uMousePosX", c_uint16),
-    ("uMousePosY", c_uint16),
-    ("uKeyCode", UINT32),
-    ("uKeyState", UINT32)
-    ]
+    _fields_ = [("uMousePosX", c_uint16), ("uMousePosY", c_uint16), ("uKeyCode", UINT32), ("uKeyState", UINT32)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.DESKTOPINPUT) == ctypes.sizeof(DesktopInput))
+        assert DBG_SIZEOF(TTType.DESKTOPINPUT) == ctypes.sizeof(DesktopInput)
+
 
 class SpeexCodec(Structure):
-    _fields_ = [
-    ("nBandmode", INT32),
-    ("nQuality", INT32),
-    ("nTxIntervalMSec", INT32),
-    ("bStereoPlayback", BOOL)
-    ]
+    _fields_ = [("nBandmode", INT32), ("nQuality", INT32), ("nTxIntervalMSec", INT32), ("bStereoPlayback", BOOL)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SPEEXCODEC) == ctypes.sizeof(SpeexCodec))
+        assert DBG_SIZEOF(TTType.SPEEXCODEC) == ctypes.sizeof(SpeexCodec)
+
 
 class SpeexVBRCodec(Structure):
     _fields_ = [
-    ("nBandmode", INT32),
-    ("nQuality", INT32),
-    ("nBitRate", INT32),
-    ("nMaxBitRate", INT32),
-    ("bDTX", BOOL),
-    ("nTxIntervalMSec", INT32),
-    ("bStereoPlayback", BOOL)
+        ("nBandmode", INT32),
+        ("nQuality", INT32),
+        ("nBitRate", INT32),
+        ("nMaxBitRate", INT32),
+        ("bDTX", BOOL),
+        ("nTxIntervalMSec", INT32),
+        ("bStereoPlayback", BOOL),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SPEEXVBRCODEC) == ctypes.sizeof(SpeexVBRCodec))
+        assert DBG_SIZEOF(TTType.SPEEXVBRCODEC) == ctypes.sizeof(SpeexVBRCodec)
+
 
 SPEEX_NB_MIN_BITRATE = 2150
 SPEEX_NB_MAX_BITRATE = 24600
@@ -306,22 +340,25 @@ SPEEX_WB_MAX_BITRATE = 42200
 SPEEX_UWB_MIN_BITRATE = 4150
 SPEEX_UWB_MAX_BITRATE = 44000
 
+
 class OpusCodec(Structure):
     _fields_ = [
-    ("nSampleRate", INT32),
-    ("nChannels", INT32),
-    ("nApplication", INT32),
-    ("nComplexity", INT32),
-    ("bFEC", BOOL),
-    ("bDTX", BOOL),
-    ("nBitRate", INT32),
-    ("bVBR", BOOL),
-    ("bVBRConstraint", BOOL),
-    ("nTxIntervalMSec", INT32),
-    ("nFrameSizeMSec", INT32),
+        ("nSampleRate", INT32),
+        ("nChannels", INT32),
+        ("nApplication", INT32),
+        ("nComplexity", INT32),
+        ("bFEC", BOOL),
+        ("bDTX", BOOL),
+        ("nBitRate", INT32),
+        ("bVBR", BOOL),
+        ("bVBRConstraint", BOOL),
+        ("nTxIntervalMSec", INT32),
+        ("nFrameSizeMSec", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.OPUSCODEC) == ctypes.sizeof(OpusCodec))
+        assert DBG_SIZEOF(TTType.OPUSCODEC) == ctypes.sizeof(OpusCodec)
+
 
 OPUS_APPLICATION_VOIP = 2048
 OPUS_APPLICATION_AUDIO = 2049
@@ -331,30 +368,31 @@ OPUS_MIN_FRAMESIZE = 2
 OPUS_MAX_FRAMESIZE = 60
 OPUS_REALMAX_FRAMESIZE = 120
 
+
 class SpeexDSP(Structure):
     _fields_ = [
-    ("bEnableAGC", BOOL),
-    ("nGainLevel", INT32),
-    ("nMaxIncDBSec", INT32),
-    ("nMaxDecDBSec", INT32),
-    ("nMaxGainDB", INT32),
-    ("bEnableDenoise", BOOL),
-    ("nMaxNoiseSuppressDB", INT32),
-    ("bEnableEchoCancellation", BOOL),
-    ("nEchoSuppress", INT32),
-    ("nEchoSuppressActive", INT32)
+        ("bEnableAGC", BOOL),
+        ("nGainLevel", INT32),
+        ("nMaxIncDBSec", INT32),
+        ("nMaxDecDBSec", INT32),
+        ("nMaxGainDB", INT32),
+        ("bEnableDenoise", BOOL),
+        ("nMaxNoiseSuppressDB", INT32),
+        ("bEnableEchoCancellation", BOOL),
+        ("nEchoSuppress", INT32),
+        ("nEchoSuppressActive", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SPEEXDSP) == ctypes.sizeof(SpeexDSP))
+        assert DBG_SIZEOF(TTType.SPEEXDSP) == ctypes.sizeof(SpeexDSP)
+
 
 class TTAudioPreprocessor(Structure):
-    _fields_ = [
-    ("nGainLevel", INT32),
-    ("bMuteLeftSpeaker", BOOL),
-    ("bMuteRightSpeaker", BOOL)
-    ]
+    _fields_ = [("nGainLevel", INT32), ("bMuteLeftSpeaker", BOOL), ("bMuteRightSpeaker", BOOL)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.TTAUDIOPREPROCESSOR) == ctypes.sizeof(TTAudioPreprocessor))
+        assert DBG_SIZEOF(TTType.TTAUDIOPREPROCESSOR) == ctypes.sizeof(TTAudioPreprocessor)
+
 
 class WebRTCAudioPreprocessor(Structure):
     _fields_ = [
@@ -370,10 +408,12 @@ class WebRTCAudioPreprocessor(Structure):
         ("gaincontroller2_adaptivedigital_fMaxGainDB", FLOAT),
         ("gaincontroller2_adaptivedigital_fInitialGainDB", FLOAT),
         ("gaincontroller2_adaptivedigital_fMaxGainChangeDBPerSecond", FLOAT),
-        ("gaincontroller2_adaptivedigital_fMaxOutputNoiseLevelDBFS", FLOAT)
+        ("gaincontroller2_adaptivedigital_fMaxOutputNoiseLevelDBFS", FLOAT),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.WEBRTCAUDIOPREPROCESSOR) == ctypes.sizeof(WebRTCAudioPreprocessor))
+        assert DBG_SIZEOF(TTType.WEBRTCAUDIOPREPROCESSOR) == ctypes.sizeof(WebRTCAudioPreprocessor)
+
 
 class AudioPreprocessorType(INT32):
     NO_AUDIOPREPROCESSOR = 0
@@ -382,40 +422,35 @@ class AudioPreprocessorType(INT32):
     WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 = 3
     WEBRTC_AUDIOPREPROCESSOR = 4
 
+
 class AudioPreprocessorUnion(Union):
-    _fields_ = [
-    ("speexdsp", SpeexDSP),
-    ("ttpreprocessor", TTAudioPreprocessor),
-    ("webrtc", WebRTCAudioPreprocessor)
-    ]
+    _fields_ = [("speexdsp", SpeexDSP), ("ttpreprocessor", TTAudioPreprocessor), ("webrtc", WebRTCAudioPreprocessor)]
+
 
 class AudioPreprocessor(Structure):
     _anonymous_ = ["u"]
-    _fields_ = [
-    ("nPreprocessor", INT32),
-    ("u", AudioPreprocessorUnion)
-    ]
+    _fields_ = [("nPreprocessor", INT32), ("u", AudioPreprocessorUnion)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOPREPROCESSOR) == ctypes.sizeof(AudioPreprocessor))
+        assert DBG_SIZEOF(TTType.AUDIOPREPROCESSOR) == ctypes.sizeof(AudioPreprocessor)
+
 
 class WebMVP8CodecUnion(Union):
-    _fields_ = [
-    ("nRcTargetBitrate", INT32),
-    ("rc_target_bitrate", UINT32)
-    ]
+    _fields_ = [("nRcTargetBitrate", INT32), ("rc_target_bitrate", UINT32)]
+
 
 class WebMVP8Codec(Structure):
     _anonymous_ = ["u"]
-    _fields_ = [
-    ("u", WebMVP8CodecUnion),
-    ("nEncodeDeadline", UINT32)
-    ]
+    _fields_ = [("u", WebMVP8CodecUnion), ("nEncodeDeadline", UINT32)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.WEBMVP8CODEC) == ctypes.sizeof(WebMVP8Codec))
+        assert DBG_SIZEOF(TTType.WEBMVP8CODEC) == ctypes.sizeof(WebMVP8Codec)
+
 
 WEBM_VPX_DL_REALTIME = 1
 WEBM_VPX_DL_GOOD_QUALITY = 1000000
 WEBM_VPX_DL_BEST_QUALITY = 0
+
 
 class Codec(INT32):
     NO_CODEC = 0
@@ -424,75 +459,71 @@ class Codec(INT32):
     OPUS_CODEC = 3
     WEBM_VP8_CODEC = 128
 
+
 class AudioCodecUnion(Union):
-    _fields_ = [
-    ("speex", SpeexCodec),
-    ("speex_vbr", SpeexVBRCodec),
-    ("opus", OpusCodec)
-    ]
+    _fields_ = [("speex", SpeexCodec), ("speex_vbr", SpeexVBRCodec), ("opus", OpusCodec)]
+
 
 class AudioCodec(Structure):
     _anonymous_ = ["u"]
-    _fields_ = [
-    ("nCodec", INT32),
-    ("u", AudioCodecUnion)
-    ]
+    _fields_ = [("nCodec", INT32), ("u", AudioCodecUnion)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOCODEC) == ctypes.sizeof(AudioCodec))
+        assert DBG_SIZEOF(TTType.AUDIOCODEC) == ctypes.sizeof(AudioCodec)
+
 
 class AudioConfig(Structure):
     _fields_ = [
-    ("bEnableAGC", BOOL),
-    ("nGainLevel", INT32),
+        ("bEnableAGC", BOOL),
+        ("nGainLevel", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOCONFIG) == ctypes.sizeof(AudioConfig))
+        assert DBG_SIZEOF(TTType.AUDIOCONFIG) == ctypes.sizeof(AudioConfig)
+
 
 class VideoCodecUnion(Union):
-    _fields_ = [
-    ("webm_vp8", WebMVP8Codec)
-    ]
+    _fields_ = [("webm_vp8", WebMVP8Codec)]
+
 
 class VideoCodec(Structure):
     _anonymous_ = ["u"]
-    _fields_ = [
-    ("nCodec", INT32),
-    ("u", VideoCodecUnion)
-    ]
+    _fields_ = [("nCodec", INT32), ("u", VideoCodecUnion)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.VIDEOCODEC) == ctypes.sizeof(VideoCodec))
+        assert DBG_SIZEOF(TTType.VIDEOCODEC) == ctypes.sizeof(VideoCodec)
+
 
 class MediaFileInfo(Structure):
     _fields_ = [
-    ("nStatus", INT32),
-    ("szFileName", TTCHAR*TT_STRLEN),
-    ("audioFmt", AudioFormat),
-    ("videoFmt", VideoFormat),
-    ("uDurationMSec", UINT32),
-    ("uElapsedMSec", UINT32)
+        ("nStatus", INT32),
+        ("szFileName", TTCHAR * TT_STRLEN),
+        ("audioFmt", AudioFormat),
+        ("videoFmt", VideoFormat),
+        ("uDurationMSec", UINT32),
+        ("uElapsedMSec", UINT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.MEDIAFILEINFO) == ctypes.sizeof(MediaFileInfo))
+        assert DBG_SIZEOF(TTType.MEDIAFILEINFO) == ctypes.sizeof(MediaFileInfo)
+
 
 class MediaFilePlayback(Structure):
-    _fields_ = [
-    ("uOffsetMSec", UINT32),
-    ("bPaused", BOOL),
-    ("audioPreprocessor", AudioPreprocessor)
-    ]
+    _fields_ = [("uOffsetMSec", UINT32), ("bPaused", BOOL), ("audioPreprocessor", AudioPreprocessor)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback))
+        assert DBG_SIZEOF(TTType.MEDIAFILEPLAYBACK) == ctypes.sizeof(MediaFilePlayback)
+
 
 TT_MEDIAPLAYBACK_OFFSET_IGNORE = 0xFFFFFFFF
 
+
 class AudioInputProgress(Structure):
-    _fields_ = [
-    ("nStreamID", INT32),
-    ("uQueueMSec", UINT32),
-    ("uElapsedMSec", UINT32)
-    ]
+    _fields_ = [("nStreamID", INT32), ("uQueueMSec", UINT32), ("uElapsedMSec", UINT32)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.AUDIOINPUTPROGRESS) == ctypes.sizeof(AudioInputProgress))
+        assert DBG_SIZEOF(TTType.AUDIOINPUTPROGRESS) == ctypes.sizeof(AudioInputProgress)
+
 
 class UserRight(UINT32):
     USERRIGHT_NONE = 0x00000000
@@ -522,6 +553,7 @@ class UserRight(UINT32):
     USERRIGHT_TEXTMESSAGE_USER = 0x00400000
     USERRIGHT_TEXTMESSAGE_CHANNEL = 0x00800000
 
+
 class ServerLogEvent(UINT32):
     SERVERLOGEVENT_NONE = 0x00000000
     SERVERLOGEVENT_USER_CONNECTED = 0x00000001
@@ -550,52 +582,57 @@ class ServerLogEvent(UINT32):
     SERVERLOGEVENT_SERVER_UPDATED = 0x00800000
     SERVERLOGEVENT_SERVER_SAVECONFIG = 0x01000000
 
+
 class ServerProperties(Structure):
     _fields_ = [
-    ("szServerName", TTCHAR*TT_STRLEN),
-    ("szMOTD", TTCHAR*TT_STRLEN),
-    ("szMOTDRaw", TTCHAR*TT_STRLEN),
-    ("nMaxUsers", INT32),
-    ("nMaxLoginAttempts", INT32),
-    ("nMaxLoginsPerIPAddress", INT32),
-    ("nMaxVoiceTxPerSecond", INT32),
-    ("nMaxVideoCaptureTxPerSecond", INT32),
-    ("nMaxMediaFileTxPerSecond", INT32),
-    ("nMaxDesktopTxPerSecond", INT32),
-    ("nMaxTotalTxPerSecond", INT32),
-    ("bAutoSave", BOOL),
-    ("nTcpPort", INT32),
-    ("nUdpPort", INT32),
-    ("nUserTimeout", INT32),
-    ("szServerVersion", TTCHAR*TT_STRLEN),
-    ("szServerProtocolVersion", TTCHAR*TT_STRLEN),
-    ("nLoginDelayMSec", INT32),
-    ("szAccessToken", TTCHAR*TT_STRLEN),
-    ("uServerLogEvents", UINT32),
+        ("szServerName", TTCHAR * TT_STRLEN),
+        ("szMOTD", TTCHAR * TT_STRLEN),
+        ("szMOTDRaw", TTCHAR * TT_STRLEN),
+        ("nMaxUsers", INT32),
+        ("nMaxLoginAttempts", INT32),
+        ("nMaxLoginsPerIPAddress", INT32),
+        ("nMaxVoiceTxPerSecond", INT32),
+        ("nMaxVideoCaptureTxPerSecond", INT32),
+        ("nMaxMediaFileTxPerSecond", INT32),
+        ("nMaxDesktopTxPerSecond", INT32),
+        ("nMaxTotalTxPerSecond", INT32),
+        ("bAutoSave", BOOL),
+        ("nTcpPort", INT32),
+        ("nUdpPort", INT32),
+        ("nUserTimeout", INT32),
+        ("szServerVersion", TTCHAR * TT_STRLEN),
+        ("szServerProtocolVersion", TTCHAR * TT_STRLEN),
+        ("nLoginDelayMSec", INT32),
+        ("szAccessToken", TTCHAR * TT_STRLEN),
+        ("uServerLogEvents", UINT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SERVERPROPERTIES) == ctypes.sizeof(ServerProperties))
+        assert DBG_SIZEOF(TTType.SERVERPROPERTIES) == ctypes.sizeof(ServerProperties)
+
 
 class ServerStatistics(Structure):
     _fields_ = [
-    ("nTotalBytesTX", INT64),
-    ("nTotalBytesRX", INT64),
-    ("nVoiceBytesTX", INT64),
-    ("nVoiceBytesRX", INT64),
-    ("nVideoCaptureBytesTX", INT64),
-    ("nVideoCaptureBytesRX", INT64),
-    ("nMediaFileBytesTX", INT64),
-    ("nMediaFileBytesRX", INT64),
-    ("nDesktopBytesTX", INT64),
-    ("nDesktopBytesRX", INT64),
-    ("nUsersServed", INT32),
-    ("nUsersPeak", INT32),
-    ("nFilesTx", INT64),
-    ("nFilesRx", INT64),
-    ("nUptimeMSec", INT64)
+        ("nTotalBytesTX", INT64),
+        ("nTotalBytesRX", INT64),
+        ("nVoiceBytesTX", INT64),
+        ("nVoiceBytesRX", INT64),
+        ("nVideoCaptureBytesTX", INT64),
+        ("nVideoCaptureBytesRX", INT64),
+        ("nMediaFileBytesTX", INT64),
+        ("nMediaFileBytesRX", INT64),
+        ("nDesktopBytesTX", INT64),
+        ("nDesktopBytesRX", INT64),
+        ("nUsersServed", INT32),
+        ("nUsersPeak", INT32),
+        ("nFilesTx", INT64),
+        ("nFilesRx", INT64),
+        ("nUptimeMSec", INT64),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.SERVERSTATISTICS) == ctypes.sizeof(ServerStatistics))
+        assert DBG_SIZEOF(TTType.SERVERSTATISTICS) == ctypes.sizeof(ServerStatistics)
+
 
 class BanType(UINT32):
     BANTYPE_NONE = 0x00
@@ -603,49 +640,54 @@ class BanType(UINT32):
     BANTYPE_IPADDR = 0x02
     BANTYPE_USERNAME = 0x04
 
+
 class BannedUser(Structure):
     _fields_ = [
-    ("szIPAddress", TTCHAR*TT_STRLEN),
-    ("szChannelPath", TTCHAR*TT_STRLEN),
-    ("szBanTime", TTCHAR*TT_STRLEN),
-    ("szNickname", TTCHAR*TT_STRLEN),
-    ("szUsername", TTCHAR*TT_STRLEN),
-    ("uBanTypes", UINT32),
-    ("szOwner", TTCHAR*TT_STRLEN)
+        ("szIPAddress", TTCHAR * TT_STRLEN),
+        ("szChannelPath", TTCHAR * TT_STRLEN),
+        ("szBanTime", TTCHAR * TT_STRLEN),
+        ("szNickname", TTCHAR * TT_STRLEN),
+        ("szUsername", TTCHAR * TT_STRLEN),
+        ("uBanTypes", UINT32),
+        ("szOwner", TTCHAR * TT_STRLEN),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.BANNEDUSER) == ctypes.sizeof(BannedUser))
+        assert DBG_SIZEOF(TTType.BANNEDUSER) == ctypes.sizeof(BannedUser)
+
 
 class UserType(UINT32):
     USERTYPE_NONE = 0x0
     USERTYPE_DEFAULT = 0x01
     USERTYPE_ADMIN = 0x02
 
+
 class AbusePrevention(Structure):
-    _fields_ = [
-    ("nCommandsLimit", INT32),
-    ("nCommandsIntervalMSec", INT32)
-    ]
+    _fields_ = [("nCommandsLimit", INT32), ("nCommandsIntervalMSec", INT32)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.ABUSEPREVENTION) == ctypes.sizeof(AbusePrevention))
+        assert DBG_SIZEOF(TTType.ABUSEPREVENTION) == ctypes.sizeof(AbusePrevention)
+
 
 class UserAccount(Structure):
     _fields_ = [
-    ("szUsername", TTCHAR*TT_STRLEN),
-    ("szPassword", TTCHAR*TT_STRLEN),
-    ("uUserType", UINT32),
-    ("uUserRights", UINT32),
-    ("nUserData", INT32),
-    ("szNote", TTCHAR*TT_STRLEN),
-    ("szInitChannel", TTCHAR*TT_STRLEN),
-    ("autoOperatorChannels", INT32*TT_CHANNELS_OPERATOR_MAX),
-    ("nAudioCodecBpsLimit", INT32),
-    ("abusePrevent", AbusePrevention),
-    ("szLastModified", TTCHAR*TT_STRLEN),
-    ("szLastLoginTime", TTCHAR*TT_STRLEN),
+        ("szUsername", TTCHAR * TT_STRLEN),
+        ("szPassword", TTCHAR * TT_STRLEN),
+        ("uUserType", UINT32),
+        ("uUserRights", UINT32),
+        ("nUserData", INT32),
+        ("szNote", TTCHAR * TT_STRLEN),
+        ("szInitChannel", TTCHAR * TT_STRLEN),
+        ("autoOperatorChannels", INT32 * TT_CHANNELS_OPERATOR_MAX),
+        ("nAudioCodecBpsLimit", INT32),
+        ("abusePrevent", AbusePrevention),
+        ("szLastModified", TTCHAR * TT_STRLEN),
+        ("szLastLoginTime", TTCHAR * TT_STRLEN),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.USERACCOUNT) == ctypes.sizeof(UserAccount))
+        assert DBG_SIZEOF(TTType.USERACCOUNT) == ctypes.sizeof(UserAccount)
+
 
 class Subscription(UINT32):
     SUBSCRIBE_NONE = 0x00000000
@@ -666,6 +708,7 @@ class Subscription(UINT32):
     SUBSCRIBE_INTERCEPT_DESKTOP = 0x00400000
     SUBSCRIBE_INTERCEPT_MEDIAFILE = 0x01000000
 
+
 class UserState(UINT32):
     USERSTATE_NONE = 0x0000000
     USERSTATE_VOICE = 0x00000001
@@ -677,55 +720,60 @@ class UserState(UINT32):
     USERSTATE_MEDIAFILE_VIDEO = 0x00000040
     USERSTATE_MEDIAFILE = USERSTATE_MEDIAFILE_AUDIO | USERSTATE_MEDIAFILE_VIDEO
 
+
 class User(Structure):
     _fields_ = [
-    ("nUserID", INT32),
-    ("szUsername", TTCHAR * TT_STRLEN),
-    ("nUserData", INT32),
-    ("uUserType", UINT32),
-    ("szIPAddress", TTCHAR * TT_STRLEN),
-    ("uVersion", UINT32),
-    ("nChannelID", INT32),
-    ("uLocalSubscriptions", UINT32),
-    ("uPeerSubscriptions", UINT32),
-    ("szNickname", TTCHAR * TT_STRLEN),
-    ("nStatusMode", INT32),
-    ("szStatusMsg", TTCHAR * TT_STRLEN),
-    ("uUserState", UINT32),
-    ("szMediaStorageDir", TTCHAR * TT_STRLEN),
-    ("nVolumeVoice", INT32),
-    ("nVolumeMediaFile", INT32),
-    ("nStoppedDelayVoice", INT32),
-    ("nStoppedDelayMediaFile", INT32),
-    ("soundPositionVoice", c_float*3),
-    ("soundPositionMediaFile", c_float*3),
-    ("stereoPlaybackVoice", BOOL*2),
-    ("stereoPlaybackMediaFile", BOOL*2),
-    ("nBufferMSecVoice", INT32),
-    ("nBufferMSecMediaFile", INT32),
-    ("nActiveAdaptiveDelayMSec", INT32),
-    ("szClientName", TTCHAR * TT_STRLEN)
+        ("nUserID", INT32),
+        ("szUsername", TTCHAR * TT_STRLEN),
+        ("nUserData", INT32),
+        ("uUserType", UINT32),
+        ("szIPAddress", TTCHAR * TT_STRLEN),
+        ("uVersion", UINT32),
+        ("nChannelID", INT32),
+        ("uLocalSubscriptions", UINT32),
+        ("uPeerSubscriptions", UINT32),
+        ("szNickname", TTCHAR * TT_STRLEN),
+        ("nStatusMode", INT32),
+        ("szStatusMsg", TTCHAR * TT_STRLEN),
+        ("uUserState", UINT32),
+        ("szMediaStorageDir", TTCHAR * TT_STRLEN),
+        ("nVolumeVoice", INT32),
+        ("nVolumeMediaFile", INT32),
+        ("nStoppedDelayVoice", INT32),
+        ("nStoppedDelayMediaFile", INT32),
+        ("soundPositionVoice", c_float * 3),
+        ("soundPositionMediaFile", c_float * 3),
+        ("stereoPlaybackVoice", BOOL * 2),
+        ("stereoPlaybackMediaFile", BOOL * 2),
+        ("nBufferMSecVoice", INT32),
+        ("nBufferMSecMediaFile", INT32),
+        ("nActiveAdaptiveDelayMSec", INT32),
+        ("szClientName", TTCHAR * TT_STRLEN),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.USER) == ctypes.sizeof(User))
+        assert DBG_SIZEOF(TTType.USER) == ctypes.sizeof(User)
+
 
 class UserStatistics(Structure):
     _fields_ = [
-    ("nVoicePacketsRecv", INT64),
-    ("nVoicePacketsLost", INT64),
-    ("nVideoCapturePacketsRecv", INT64),
-    ("nVideoCaptureFramesRecv", INT64),
-    ("nVideoCaptureFramesLost", INT64),
-    ("nVideoCaptureFramesDropped", INT64),
-    ("nMediaFileAudioPacketsRecv", INT64),
-    ("nMediaFileAudioPacketsLost", INT64),
-    ("nMediaFileVideoPacketsRecv", INT64),
-    ("nMediaFileVideoFramesRecv", INT64),
-    ("nMediaFileVideoFramesLost", INT64),
-    ("nMediaFileVideoFramesDropped", INT64),
+        ("nVoicePacketsRecv", INT64),
+        ("nVoicePacketsLost", INT64),
+        ("nVideoCapturePacketsRecv", INT64),
+        ("nVideoCaptureFramesRecv", INT64),
+        ("nVideoCaptureFramesLost", INT64),
+        ("nVideoCaptureFramesDropped", INT64),
+        ("nMediaFileAudioPacketsRecv", INT64),
+        ("nMediaFileAudioPacketsLost", INT64),
+        ("nMediaFileVideoPacketsRecv", INT64),
+        ("nMediaFileVideoFramesRecv", INT64),
+        ("nMediaFileVideoFramesLost", INT64),
+        ("nMediaFileVideoFramesDropped", INT64),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.USERSTATISTICS) == ctypes.sizeof(UserStatistics))
+        assert DBG_SIZEOF(TTType.USERSTATISTICS) == ctypes.sizeof(UserStatistics)
+
 
 class TextMsgType(INT32):
     MSGTYPE_NONE = 0
@@ -734,18 +782,21 @@ class TextMsgType(INT32):
     MSGTYPE_BROADCAST = 3
     MSGTYPE_CUSTOM = 4
 
+
 class TextMessage(Structure):
     _fields_ = [
-    ("nMsgType", INT32),
-    ("nFromUserID", INT32),
-    ("szFromUsername", TTCHAR*TT_STRLEN),
-    ("nToUserID", INT32),
-    ("nChannelID", INT32),
-    ("szMessage", TTCHAR*TT_STRLEN),
-    ("bMore", BOOL),
+        ("nMsgType", INT32),
+        ("nFromUserID", INT32),
+        ("szFromUsername", TTCHAR * TT_STRLEN),
+        ("nToUserID", INT32),
+        ("nChannelID", INT32),
+        ("szMessage", TTCHAR * TT_STRLEN),
+        ("bMore", BOOL),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.TEXTMESSAGE) == ctypes.sizeof(TextMessage))
+        assert DBG_SIZEOF(TTType.TEXTMESSAGE) == ctypes.sizeof(TextMessage)
+
 
 class ChannelType(UINT32):
     CHANNEL_DEFAULT = 0x0000
@@ -757,29 +808,32 @@ class ChannelType(UINT32):
     CHANNEL_NO_RECORDING = 0x0020
     CHANNEL_HIDDEN = 0x0040
 
+
 class Channel(Structure):
     _fields_ = [
-    ("nParentID", INT32),
-    ("nChannelID", INT32),
-    ("szName", TTCHAR*TT_STRLEN),
-    ("szTopic", TTCHAR*TT_STRLEN),
-    ("szPassword", TTCHAR*TT_STRLEN),
-    ("bPassword", BOOL),
-    ("uChannelType", UINT32),
-    ("nUserData", INT32),
-    ("nDiskQuota", INT64),
-    ("szOpPassword", TTCHAR*TT_STRLEN),
-    ("nMaxUsers", INT32),
-    ("audiocodec", AudioCodec),
-    ("audiocfg", AudioConfig),
-    ("transmitUsers", (INT32*2)*TT_TRANSMITUSERS_MAX),
-    ("transmitUsersQueue", INT32*TT_TRANSMITQUEUE_MAX),
-    ("nTransmitUsersQueueDelayMSec", INT32),
-    ("nTimeOutTimerVoiceMSec", INT32),
-    ("nTimeOutTimerMediaFileMSec", INT32),
+        ("nParentID", INT32),
+        ("nChannelID", INT32),
+        ("szName", TTCHAR * TT_STRLEN),
+        ("szTopic", TTCHAR * TT_STRLEN),
+        ("szPassword", TTCHAR * TT_STRLEN),
+        ("bPassword", BOOL),
+        ("uChannelType", UINT32),
+        ("nUserData", INT32),
+        ("nDiskQuota", INT64),
+        ("szOpPassword", TTCHAR * TT_STRLEN),
+        ("nMaxUsers", INT32),
+        ("audiocodec", AudioCodec),
+        ("audiocfg", AudioConfig),
+        ("transmitUsers", (INT32 * 2) * TT_TRANSMITUSERS_MAX),
+        ("transmitUsersQueue", INT32 * TT_TRANSMITQUEUE_MAX),
+        ("nTransmitUsersQueueDelayMSec", INT32),
+        ("nTimeOutTimerVoiceMSec", INT32),
+        ("nTimeOutTimerMediaFileMSec", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.CHANNEL) == ctypes.sizeof(Channel))
+        assert DBG_SIZEOF(TTType.CHANNEL) == ctypes.sizeof(Channel)
+
 
 class FileTransferStatus(INT32):
     FILETRANSFER_CLOSED = 0
@@ -787,87 +841,99 @@ class FileTransferStatus(INT32):
     FILETRANSFER_ACTIVE = 2
     FILETRANSFER_FINISHED = 3
 
+
 class FileTransfer(Structure):
     _fields_ = [
-    ("nStatus", INT32),
-    ("nTransferID", INT32),
-    ("nChannelID", INT32),
-    ("szLocalFilePath", TTCHAR*TT_STRLEN),
-    ("szRemoteFileName", TTCHAR*TT_STRLEN),
-    ("nFileSize", INT64),
-    ("nTransferred", INT64),
-    ("bInbound", BOOL)
+        ("nStatus", INT32),
+        ("nTransferID", INT32),
+        ("nChannelID", INT32),
+        ("szLocalFilePath", TTCHAR * TT_STRLEN),
+        ("szRemoteFileName", TTCHAR * TT_STRLEN),
+        ("nFileSize", INT64),
+        ("nTransferred", INT64),
+        ("bInbound", BOOL),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.FILETRANSFER) == ctypes.sizeof(FileTransfer))
+        assert DBG_SIZEOF(TTType.FILETRANSFER) == ctypes.sizeof(FileTransfer)
+
 
 class RemoteFile(Structure):
     _fields_ = [
-    ("nChannelID", INT32),
-    ("nFileID", INT32),
-    ("szFileName", TTCHAR*TT_STRLEN),
-    ("nFileSize", INT64),
-    ("szUsername", TTCHAR*TT_STRLEN),
-    ("szUploadTime", TTCHAR*TT_STRLEN)
+        ("nChannelID", INT32),
+        ("nFileID", INT32),
+        ("szFileName", TTCHAR * TT_STRLEN),
+        ("nFileSize", INT64),
+        ("szUsername", TTCHAR * TT_STRLEN),
+        ("szUploadTime", TTCHAR * TT_STRLEN),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.REMOTEFILE) == ctypes.sizeof(RemoteFile))
+        assert DBG_SIZEOF(TTType.REMOTEFILE) == ctypes.sizeof(RemoteFile)
+
 
 class EncryptionContext(Structure):
     _fields_ = [
-    ("szCertificateFile", TTCHAR*TT_STRLEN),
-    ("szPrivateKeyFile", TTCHAR*TT_STRLEN),
-    ("szCAFile", TTCHAR*TT_STRLEN),
-    ("szCADir", TTCHAR*TT_STRLEN),
-    ("bVerifyPeer", BOOL),
-    ("bVerifyClientOnce", BOOL),
-    ("nVerifyDepth", INT32)
+        ("szCertificateFile", TTCHAR * TT_STRLEN),
+        ("szPrivateKeyFile", TTCHAR * TT_STRLEN),
+        ("szCAFile", TTCHAR * TT_STRLEN),
+        ("szCADir", TTCHAR * TT_STRLEN),
+        ("bVerifyPeer", BOOL),
+        ("bVerifyClientOnce", BOOL),
+        ("nVerifyDepth", INT32),
     ]
+
 
 class ClientKeepAlive(Structure):
     _fields_ = [
-    ("nConnectionLostMSec", INT32),
-    ("nTcpKeepAliveIntervalMSec", INT32),
-    ("nUdpKeepAliveIntervalMSec", INT32),
-    ("nUdpKeepAliveRTXMSec", INT32),
-    ("nUdpConnectRTXMSec", INT32),
-    ("nUdpConnectTimeoutMSec", INT32)
+        ("nConnectionLostMSec", INT32),
+        ("nTcpKeepAliveIntervalMSec", INT32),
+        ("nUdpKeepAliveIntervalMSec", INT32),
+        ("nUdpKeepAliveRTXMSec", INT32),
+        ("nUdpConnectRTXMSec", INT32),
+        ("nUdpConnectTimeoutMSec", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.CLIENTKEEPALIVE) == ctypes.sizeof(ClientKeepAlive))
+        assert DBG_SIZEOF(TTType.CLIENTKEEPALIVE) == ctypes.sizeof(ClientKeepAlive)
+
 
 class ClientStatistics(Structure):
     _fields_ = [
-    ("nUdpBytesSent", INT64),
-    ("nUdpBytesRecv", INT64),
-    ("nVoiceBytesSent", INT64),
-    ("nVoiceBytesRecv", INT64),
-    ("nVideoCaptureBytesSent", INT64),
-    ("nVideoCaptureBytesRecv", INT64),
-    ("nMediaFileAudioBytesSent", INT64),
-    ("nMediaFileAudioBytesRecv", INT64),
-    ("nMediaFileVideoBytesSent", INT64),
-    ("nMediaFileVideoBytesRecv", INT64),
-    ("nDesktopBytesSent", INT64),
-    ("nDesktopBytesRecv", INT64),
-    ("nUdpPingTimeMs", INT32),
-    ("nTcpPingTimeMs", INT32),
-    ("nTcpServerSilenceSec", INT32),
-    ("nUdpServerSilenceSec", INT32),
-    ("nSoundInputDeviceDelayMSec", INT32)
+        ("nUdpBytesSent", INT64),
+        ("nUdpBytesRecv", INT64),
+        ("nVoiceBytesSent", INT64),
+        ("nVoiceBytesRecv", INT64),
+        ("nVideoCaptureBytesSent", INT64),
+        ("nVideoCaptureBytesRecv", INT64),
+        ("nMediaFileAudioBytesSent", INT64),
+        ("nMediaFileAudioBytesRecv", INT64),
+        ("nMediaFileVideoBytesSent", INT64),
+        ("nMediaFileVideoBytesRecv", INT64),
+        ("nDesktopBytesSent", INT64),
+        ("nDesktopBytesRecv", INT64),
+        ("nUdpPingTimeMs", INT32),
+        ("nTcpPingTimeMs", INT32),
+        ("nTcpServerSilenceSec", INT32),
+        ("nUdpServerSilenceSec", INT32),
+        ("nSoundInputDeviceDelayMSec", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.CLIENTSTATISTICS) == ctypes.sizeof(ClientStatistics))
+        assert DBG_SIZEOF(TTType.CLIENTSTATISTICS) == ctypes.sizeof(ClientStatistics)
+
 
 class JitterConfig(Structure):
     _fields_ = [
-    ("nFixedDelayMSec", INT32),
-    ("bUseAdativeDejitter", BOOL),
-    ("nMaxAdaptiveDelayMSec", INT32),
-    ("nActiveAdaptiveDelayMSec", INT32)
+        ("nFixedDelayMSec", INT32),
+        ("bUseAdativeDejitter", BOOL),
+        ("nMaxAdaptiveDelayMSec", INT32),
+        ("nActiveAdaptiveDelayMSec", INT32),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.JITTERCONFIG) == ctypes.sizeof(JitterConfig))
+        assert DBG_SIZEOF(TTType.JITTERCONFIG) == ctypes.sizeof(JitterConfig)
+
 
 class ClientError(INT32):
     CMDERR_SUCCESS = 0
@@ -915,13 +981,13 @@ class ClientError(INT32):
     INTERR_TTMESSAGE_QUEUE_OVERFLOW = 10004
     INTERR_SNDEFFECT_FAILURE = 10005
 
+
 class ClientErrorMsg(Structure):
-    _fields_ = [
-    ("nErrorNo", INT32),
-    ("szErrorMsg", TTCHAR*TT_STRLEN)
-    ]
+    _fields_ = [("nErrorNo", INT32), ("szErrorMsg", TTCHAR * TT_STRLEN)]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.CLIENTERRORMSG) == ctypes.sizeof(ClientErrorMsg))
+        assert DBG_SIZEOF(TTType.CLIENTERRORMSG) == ctypes.sizeof(ClientErrorMsg)
+
 
 class ClientEvent(UINT32):
     CLIENTEVENT_NONE = 0
@@ -950,7 +1016,7 @@ class ClientEvent(UINT32):
     CLIENTEVENT_CMD_FILE_NEW = CLIENTEVENT_NONE + 370
     CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380
     CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390
-    CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400
+    CLIENTEVENT_CMD_BANNEDUSER = CLIENTEVENT_NONE + 400
     CLIENTEVENT_CMD_USERACCOUNT_NEW = CLIENTEVENT_NONE + 410
     CLIENTEVENT_CMD_USERACCOUNT_REMOVE = CLIENTEVENT_NONE + 420
     CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500
@@ -979,18 +1045,19 @@ class ClientEvent(UINT32):
     CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE = CLIENTEVENT_NONE + 1150
     CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE = CLIENTEVENT_NONE + 1160
 
+
 # Underscore has special meaning in Python, so we remove it
 class TTType(INT32):
     NONE = 0
     AUDIOCODEC = 1
     BANNEDUSER = 2
-    VIDEOFORMAT =  3
-    OPUSCODEC =  4
-    CHANNEL =  5
-    CLIENTSTATISTICS =  6
-    REMOTEFILE =  7
-    FILETRANSFER =  8
-    MEDIAFILESTATUS =  9
+    VIDEOFORMAT = 3
+    OPUSCODEC = 4
+    CHANNEL = 5
+    CLIENTSTATISTICS = 6
+    REMOTEFILE = 7
+    FILETRANSFER = 8
+    MEDIAFILESTATUS = 9
     SERVERPROPERTIES = 10
     SERVERSTATISTICS = 11
     SOUNDDEVICE = 12
@@ -1029,42 +1096,46 @@ class TTType(INT32):
     DESKTOPWINDOW = 45
     ABUSEPREVENTION = 46
 
+
 class TTMessageUnion(Union):
     _fields_ = [
-    ("channel", Channel),
-    ("clienterrormsg", ClientErrorMsg),
-    ("desktopinput", DesktopInput),
-    ("filetransfer", FileTransfer),
-    ("mediafileinfo", MediaFileInfo),
-    ("remotefile", RemoteFile),
-    ("serverproperties", ServerProperties),
-    ("serverstatistics", ServerStatistics),
-    ("textmessage", TextMessage),
-    ("user", User),
-    ("useraccount", UserAccount),
-    ("banneduser", BannedUser),
-    ("bActive", BOOL),
-    ("nBytesRemain", INT32),
-    ("nStreamID", INT32),
-    ("nPayloadSize", INT32),
-    ("nStreamType", INT32),
-    ("audioinputprogress", AudioInputProgress),
-    ("sounddevice", SoundDevice),
-    ("data", c_char*1)
+        ("channel", Channel),
+        ("clienterrormsg", ClientErrorMsg),
+        ("desktopinput", DesktopInput),
+        ("filetransfer", FileTransfer),
+        ("mediafileinfo", MediaFileInfo),
+        ("remotefile", RemoteFile),
+        ("serverproperties", ServerProperties),
+        ("serverstatistics", ServerStatistics),
+        ("textmessage", TextMessage),
+        ("user", User),
+        ("useraccount", UserAccount),
+        ("banneduser", BannedUser),
+        ("bActive", BOOL),
+        ("nBytesRemain", INT32),
+        ("nStreamID", INT32),
+        ("nPayloadSize", INT32),
+        ("nStreamType", INT32),
+        ("audioinputprogress", AudioInputProgress),
+        ("sounddevice", SoundDevice),
+        ("data", c_char * 1),
     ]
+
 
 class TTMessage(Structure):
     _anonymous_ = ["u"]
 
     _fields_ = [
-    ("nClientEvent", UINT32),
-    ("nSource", INT32),
-    ("ttType", INT32),
-    ("uReserved", UINT32),
-    ("u", TTMessageUnion)
+        ("nClientEvent", UINT32),
+        ("nSource", INT32),
+        ("ttType", INT32),
+        ("uReserved", UINT32),
+        ("u", TTMessageUnion),
     ]
+
     def __init__(self):
-        assert(DBG_SIZEOF(TTType.TTMESSAGE) == ctypes.sizeof(TTMessage))
+        assert DBG_SIZEOF(TTType.TTMESSAGE) == ctypes.sizeof(TTMessage)
+
 
 class ClientFlags(UINT32):
     CLIENT_CLOSED = 0x00000000
@@ -1083,10 +1154,11 @@ class ClientFlags(UINT32):
     CLIENT_MUX_AUDIOFILE = 0x00001000
     CLIENT_CONNECTING = 0x00002000
     CLIENT_CONNECTED = 0x00004000
-    CLIENT_CONNECTION               = CLIENT_CONNECTING or CLIENT_CONNECTED
+    CLIENT_CONNECTION = CLIENT_CONNECTING or CLIENT_CONNECTED
     CLIENT_AUTHORIZED = 0x00008000
     CLIENT_STREAM_AUDIO = 0x00010000
     CLIENT_STREAM_VIDEO = 0x00020000
+
 
 def function_factory(func, signature):
     func.restype = signature[0]
@@ -1096,6 +1168,7 @@ def function_factory(func, signature):
         pass
     return func
 
+
 _GetVersion = function_factory(dll.TT_GetVersion, [TTCHAR_P])
 _InitTeamTalkPoll = function_factory(dll.TT_InitTeamTalkPoll, [_TTInstance])
 _CloseTeamTalk = function_factory(dll.TT_CloseTeamTalk, [BOOL, [_TTInstance]])
@@ -1104,11 +1177,18 @@ _PumpMessage = function_factory(dll.TT_PumpMessage, [BOOL, [_TTInstance, ClientE
 _GetFlags = function_factory(dll.TT_GetFlags, [UINT32, [_TTInstance]])
 _SetLicenseInformation = function_factory(dll.TT_SetLicenseInformation, [BOOL, [TTCHAR_P, TTCHAR_P]])
 _GetDefaultSoundDevices = function_factory(dll.TT_GetDefaultSoundDevices, [BOOL, [POINTER(INT32), POINTER(INT32)]])
-_GetDefaultSoundDevicesEx = function_factory(dll.TT_GetDefaultSoundDevicesEx, [BOOL, [SoundSystem, POINTER(INT32), POINTER(INT32)]])
+_GetDefaultSoundDevicesEx = function_factory(
+    dll.TT_GetDefaultSoundDevicesEx, [BOOL, [SoundSystem, POINTER(INT32), POINTER(INT32)]]
+)
 _GetSoundDevices = function_factory(dll.TT_GetSoundDevices, [BOOL, [POINTER(SoundDevice), POINTER(INT32)]])
 _RestartSoundSystem = function_factory(dll.TT_RestartSoundSystem, [BOOL])
-_StartSoundLoopbackTest = function_factory(dll.TT_StartSoundLoopbackTest, [_TTSoundLoop, [INT32, INT32, INT32, INT32, BOOL, POINTER(SpeexDSP)]])
-_StartSoundLoopbackTestEx = function_factory(dll.TT_StartSoundLoopbackTestEx, [_TTSoundLoop, [INT32, INT32, INT32, INT32, BOOL, POINTER(AudioPreprocessor), POINTER(SoundDeviceEffects)]])
+_StartSoundLoopbackTest = function_factory(
+    dll.TT_StartSoundLoopbackTest, [_TTSoundLoop, [INT32, INT32, INT32, INT32, BOOL, POINTER(SpeexDSP)]]
+)
+_StartSoundLoopbackTestEx = function_factory(
+    dll.TT_StartSoundLoopbackTestEx,
+    [_TTSoundLoop, [INT32, INT32, INT32, INT32, BOOL, POINTER(AudioPreprocessor), POINTER(SoundDeviceEffects)]],
+)
 _CloseSoundLoopbackTest = function_factory(dll.TT_CloseSoundLoopbackTest, [BOOL, [_TTSoundLoop]])
 _InitSoundInputDevice = function_factory(dll.TT_InitSoundInputDevice, [BOOL, [_TTInstance, INT32]])
 _InitSoundInputSharedDevice = function_factory(dll.TT_InitSoundInputSharedDevice, [BOOL, [INT32, INT32, INT32]])
@@ -1118,22 +1198,32 @@ _InitSoundDuplexDevices = function_factory(dll.TT_InitSoundDuplexDevices, [BOOL,
 _CloseSoundInputDevice = function_factory(dll.TT_CloseSoundInputDevice, [BOOL, [_TTInstance]])
 _CloseSoundOutputDevice = function_factory(dll.TT_CloseSoundOutputDevice, [BOOL, [_TTInstance]])
 _CloseSoundDuplexDevices = function_factory(dll.TT_CloseSoundDuplexDevices, [BOOL, [_TTInstance]])
-_SetSoundDeviceEffects = function_factory(dll.TT_SetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]])
-_GetSoundDeviceEffects = function_factory(dll.TT_GetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]])
+_SetSoundDeviceEffects = function_factory(
+    dll.TT_SetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]]
+)
+_GetSoundDeviceEffects = function_factory(
+    dll.TT_GetSoundDeviceEffects, [BOOL, [_TTInstance, POINTER(SoundDeviceEffects)]]
+)
 _GetSoundInputLevel = function_factory(dll.TT_GetSoundInputLevel, [INT32, [_TTInstance]])
 _SetSoundInputGainLevel = function_factory(dll.TT_SetSoundInputGainLevel, [BOOL, [_TTInstance, INT32]])
 _GetSoundInputGainLevel = function_factory(dll.TT_GetSoundInputGainLevel, [INT32, [_TTInstance]])
 _SetSoundInputPreprocess = function_factory(dll.TT_SetSoundInputPreprocess, [BOOL, [_TTInstance, POINTER(SpeexDSP)]])
 _GetSoundInputPreprocess = function_factory(dll.TT_GetSoundInputPreprocess, [BOOL, [_TTInstance, POINTER(SpeexDSP)]])
-_SetSoundInputPreprocessEx = function_factory(dll.TT_SetSoundInputPreprocessEx, [BOOL, [_TTInstance, POINTER(AudioPreprocessor)]])
-_GetSoundInputPreprocessEx = function_factory(dll.TT_GetSoundInputPreprocessEx, [BOOL, [_TTInstance, POINTER(AudioPreprocessor)]])
+_SetSoundInputPreprocessEx = function_factory(
+    dll.TT_SetSoundInputPreprocessEx, [BOOL, [_TTInstance, POINTER(AudioPreprocessor)]]
+)
+_GetSoundInputPreprocessEx = function_factory(
+    dll.TT_GetSoundInputPreprocessEx, [BOOL, [_TTInstance, POINTER(AudioPreprocessor)]]
+)
 _SetSoundOutputVolume = function_factory(dll.TT_SetSoundOutputVolume, [BOOL, [_TTInstance, INT32]])
 _GetSoundOutputVolume = function_factory(dll.TT_GetSoundOutputVolume, [INT32, [_TTInstance]])
 _SetSoundOutputMute = function_factory(dll.TT_SetSoundOutputMute, [BOOL, [_TTInstance, BOOL]])
 _Enable3DSoundPositioning = function_factory(dll.TT_Enable3DSoundPositioning, [BOOL, [_TTInstance, BOOL]])
 _AutoPositionUsers = function_factory(dll.TT_AutoPositionUsers, [BOOL, [_TTInstance]])
 _EnableAudioBlockEvent = function_factory(dll.TT_EnableAudioBlockEvent, [BOOL, [_TTInstance, INT32, INT32, BOOL]])
-_EnableAudioBlockEventEx = function_factory(dll.TT_EnableAudioBlockEventEx, [BOOL, [_TTInstance, INT32, INT32, POINTER(AudioFormat), BOOL]])
+_EnableAudioBlockEventEx = function_factory(
+    dll.TT_EnableAudioBlockEventEx, [BOOL, [_TTInstance, INT32, INT32, POINTER(AudioFormat), BOOL]]
+)
 _InsertAudioBlock = function_factory(dll.TT_InsertAudioBlock, [BOOL, [_TTInstance, POINTER(AudioBlock)]])
 _EnableVoiceTransmission = function_factory(dll.TT_EnableVoiceTransmission, [BOOL, [_TTInstance, BOOL]])
 _EnableVoiceActivation = function_factory(dll.TT_EnableVoiceActivation, [BOOL, [_TTInstance, BOOL]])
@@ -1141,28 +1231,55 @@ _SetVoiceActivationLevel = function_factory(dll.TT_SetVoiceActivationLevel, [BOO
 _GetVoiceActivationLevel = function_factory(dll.TT_GetVoiceActivationLevel, [INT32, [_TTInstance]])
 _SetVoiceActivationStopDelay = function_factory(dll.TT_SetVoiceActivationStopDelay, [BOOL, [_TTInstance, INT32]])
 _GetVoiceActivationStopDelay = function_factory(dll.TT_GetVoiceActivationStopDelay, [INT32, [_TTInstance]])
-_StartRecordingMuxedAudioFile = function_factory(dll.TT_StartRecordingMuxedAudioFile, [BOOL, [_TTInstance, POINTER(AudioCodec), TTCHAR_P, UINT32]])
-_StartRecordingMuxedAudioFileEx = function_factory(dll.TT_StartRecordingMuxedAudioFileEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, UINT32]])
-_StartRecordingMuxedStreams = function_factory(dll.TT_StartRecordingMuxedStreams, [BOOL, [_TTInstance, UINT32, POINTER(AudioCodec), TTCHAR_P, UINT32]])
+_StartRecordingMuxedAudioFile = function_factory(
+    dll.TT_StartRecordingMuxedAudioFile, [BOOL, [_TTInstance, POINTER(AudioCodec), TTCHAR_P, UINT32]]
+)
+_StartRecordingMuxedAudioFileEx = function_factory(
+    dll.TT_StartRecordingMuxedAudioFileEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, UINT32]]
+)
+_StartRecordingMuxedStreams = function_factory(
+    dll.TT_StartRecordingMuxedStreams, [BOOL, [_TTInstance, UINT32, POINTER(AudioCodec), TTCHAR_P, UINT32]]
+)
 _StopRecordingMuxedAudioFile = function_factory(dll.TT_StopRecordingMuxedAudioFile, [BOOL, [_TTInstance]])
 _StopRecordingMuxedAudioFileEx = function_factory(dll.TT_StopRecordingMuxedAudioFileEx, [BOOL, [_TTInstance, INT32]])
-_StartVideoCaptureTransmission = function_factory(dll.TT_StartVideoCaptureTransmission, [BOOL, [_TTInstance, POINTER(VideoCodec)]])
+_StartVideoCaptureTransmission = function_factory(
+    dll.TT_StartVideoCaptureTransmission, [BOOL, [_TTInstance, POINTER(VideoCodec)]]
+)
 _StopVideoCaptureTransmission = function_factory(dll.TT_StopVideoCaptureTransmission, [BOOL, [_TTInstance]])
-_GetVideoCaptureDevices = function_factory(dll.TT_GetVideoCaptureDevices, [BOOL, [POINTER(VideoCaptureDevice), POINTER(INT32)]])
-_InitVideoCaptureDevice = function_factory(dll.TT_InitVideoCaptureDevice, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]])
+_GetVideoCaptureDevices = function_factory(
+    dll.TT_GetVideoCaptureDevices, [BOOL, [POINTER(VideoCaptureDevice), POINTER(INT32)]]
+)
+_InitVideoCaptureDevice = function_factory(
+    dll.TT_InitVideoCaptureDevice, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoFormat)]]
+)
 _CloseVideoCaptureDevice = function_factory(dll.TT_CloseVideoCaptureDevice, [BOOL, [_TTInstance]])
-_StartStreamingMediaFileToChannel = function_factory(dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoCodec)]])
-_StartStreamingMediaFileToChannelEx = function_factory(dll.TT_StartStreamingMediaFileToChannelEx, [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
-_UpdateStreamingMediaFileToChannel = function_factory(dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoCodec)]])
+_StartStreamingMediaFileToChannel = function_factory(
+    dll.TT_StartStreamingMediaFileToChannel, [BOOL, [_TTInstance, TTCHAR_P, POINTER(VideoCodec)]]
+)
+_StartStreamingMediaFileToChannelEx = function_factory(
+    dll.TT_StartStreamingMediaFileToChannelEx,
+    [BOOL, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback), POINTER(VideoCodec)]],
+)
+_UpdateStreamingMediaFileToChannel = function_factory(
+    dll.TT_UpdateStreamingMediaFileToChannel, [BOOL, [_TTInstance, POINTER(MediaFilePlayback), POINTER(VideoCodec)]]
+)
 _StopStreamingMediaFileToChannel = function_factory(dll.TT_StopStreamingMediaFileToChannel, [BOOL, [_TTInstance]])
-_InitLocalPlayback = function_factory(dll.TT_InitLocalPlayback, [INT32, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback)]])
-_UpdateLocalPlayback = function_factory(dll.TT_UpdateLocalPlayback, [BOOL, [_TTInstance, INT32, POINTER(MediaFilePlayback)]])
+_InitLocalPlayback = function_factory(
+    dll.TT_InitLocalPlayback, [INT32, [_TTInstance, TTCHAR_P, POINTER(MediaFilePlayback)]]
+)
+_UpdateLocalPlayback = function_factory(
+    dll.TT_UpdateLocalPlayback, [BOOL, [_TTInstance, INT32, POINTER(MediaFilePlayback)]]
+)
 _StopLocalPlayback = function_factory(dll.TT_StopLocalPlayback, [BOOL, [_TTInstance, INT32]])
 _GetMediaFileInfo = function_factory(dll.TT_GetMediaFileInfo, [BOOL, [TTCHAR_P, POINTER(MediaFileInfo)]])
 _SetEncryptionContext = function_factory(dll.TT_SetEncryptionContext, [BOOL, [_TTInstance, POINTER(EncryptionContext)]])
 _Connect = function_factory(dll.TT_Connect, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL]])
-_ConnectSysID = function_factory(dll.TT_ConnectSysID, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL, TTCHAR_P]])
-_ConnectEx = function_factory(dll.TT_ConnectEx, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, TTCHAR_P, INT32, INT32, BOOL]])
+_ConnectSysID = function_factory(
+    dll.TT_ConnectSysID, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, INT32, INT32, BOOL, TTCHAR_P]]
+)
+_ConnectEx = function_factory(
+    dll.TT_ConnectEx, [BOOL, [_TTInstance, TTCHAR_P, INT32, INT32, TTCHAR_P, INT32, INT32, BOOL]]
+)
 _Disconnect = function_factory(dll.TT_Disconnect, [BOOL, [_TTInstance]])
 _QueryMaxPayload = function_factory(dll.TT_QueryMaxPayload, [BOOL, [_TTInstance, INT32]])
 _GetClientStatistics = function_factory(dll.TT_GetClientStatistics, [BOOL, [_TTInstance, POINTER(ClientStatistics)]])
@@ -1209,10 +1326,12 @@ _GetServerUsers = function_factory(dll.TT_GetServerUsers, [BOOL, [_TTInstance, P
 _GetRootChannelID = function_factory(dll.TT_GetRootChannelID, [INT32, [_TTInstance]])
 _GetMyChannelID = function_factory(dll.TT_GetMyChannelID, [INT32, [_TTInstance]])
 _GetChannel = function_factory(dll.TT_GetChannel, [BOOL, [_TTInstance, INT32, POINTER(Channel)]])
-_GetChannelPath = function_factory(dll.TT_GetChannelPath, [BOOL, [_TTInstance, INT32, POINTER(TTCHAR*TT_STRLEN)]])
+_GetChannelPath = function_factory(dll.TT_GetChannelPath, [BOOL, [_TTInstance, INT32, POINTER(TTCHAR * TT_STRLEN)]])
 _GetChannelIDFromPath = function_factory(dll.TT_GetChannelIDFromPath, [INT32, [_TTInstance, TTCHAR_P]])
 _GetChannelUsers = function_factory(dll.TT_GetChannelUsers, [BOOL, [_TTInstance, INT32, POINTER(User), POINTER(INT32)]])
-_GetChannelFiles = function_factory(dll.TT_GetChannelFiles, [BOOL, [_TTInstance, INT32, POINTER(RemoteFile), POINTER(INT32)]])
+_GetChannelFiles = function_factory(
+    dll.TT_GetChannelFiles, [BOOL, [_TTInstance, INT32, POINTER(RemoteFile), POINTER(INT32)]]
+)
 _GetChannelFile = function_factory(dll.TT_GetChannelFile, [BOOL, [_TTInstance, INT32, INT32, POINTER(RemoteFile)]])
 _IsChannelOperator = function_factory(dll.TT_IsChannelOperator, [BOOL, [_TTInstance, INT32, INT32]])
 _GetServerChannels = function_factory(dll.TT_GetServerChannels, [BOOL, [_TTInstance, POINTER(Channel), POINTER(INT32)]])
@@ -1226,39 +1345,65 @@ _GetUserStatistics = function_factory(dll.TT_GetUserStatistics, [BOOL, [_TTInsta
 _GetUserByUsername = function_factory(dll.TT_GetUserByUsername, [BOOL, [_TTInstance, TTCHAR_P, POINTER(User)]])
 _SetUserVolume = function_factory(dll.TT_SetUserVolume, [BOOL, [_TTInstance, INT32, INT32, INT32]])
 _SetUserMute = function_factory(dll.TT_SetUserMute, [BOOL, [_TTInstance, INT32, INT32, BOOL, INT32]])
-_SetUserStoppedPlaybackDelay = function_factory(dll.TT_SetUserStoppedPlaybackDelay, [BOOL, [_TTInstance, INT32, INT32, INT32]])
-_SetUserJitterControl = function_factory(dll.TT_SetUserJitterControl, [BOOL, [_TTInstance, INT32, INT32, POINTER(JitterConfig)]])
-_GetUserJitterControl = function_factory(dll.TT_GetUserJitterControl, [BOOL, [_TTInstance, INT32, INT32, POINTER(JitterConfig)]])
-_SetUserPosition = function_factory(dll.TT_SetUserPosition, [BOOL, [_TTInstance, INT32, INT32, c_float, c_float, c_float]])
+_SetUserStoppedPlaybackDelay = function_factory(
+    dll.TT_SetUserStoppedPlaybackDelay, [BOOL, [_TTInstance, INT32, INT32, INT32]]
+)
+_SetUserJitterControl = function_factory(
+    dll.TT_SetUserJitterControl, [BOOL, [_TTInstance, INT32, INT32, POINTER(JitterConfig)]]
+)
+_GetUserJitterControl = function_factory(
+    dll.TT_GetUserJitterControl, [BOOL, [_TTInstance, INT32, INT32, POINTER(JitterConfig)]]
+)
+_SetUserPosition = function_factory(
+    dll.TT_SetUserPosition, [BOOL, [_TTInstance, INT32, INT32, c_float, c_float, c_float]]
+)
 _SetUserStereo = function_factory(dll.TT_SetUserStereo, [BOOL, [_TTInstance, INT32, INT32, BOOL, BOOL]])
-_SetUserMediaStorageDir = function_factory(dll.TT_SetUserMediaStorageDir, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32]])
-_SetUserMediaStorageDirEx = function_factory(dll.TT_SetUserMediaStorageDirEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32, UINT32]])
-_SetUserAudioStreamBufferSize = function_factory(dll.TT_SetUserAudioStreamBufferSize, [BOOL, [_TTInstance, INT32, UINT32, INT32]])
-_AcquireUserAudioBlock = function_factory(dll.TT_AcquireUserAudioBlock, [POINTER(AudioBlock), [_TTInstance, StreamType, INT32]])
+_SetUserMediaStorageDir = function_factory(
+    dll.TT_SetUserMediaStorageDir, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32]]
+)
+_SetUserMediaStorageDirEx = function_factory(
+    dll.TT_SetUserMediaStorageDirEx, [BOOL, [_TTInstance, INT32, TTCHAR_P, TTCHAR_P, UINT32, UINT32]]
+)
+_SetUserAudioStreamBufferSize = function_factory(
+    dll.TT_SetUserAudioStreamBufferSize, [BOOL, [_TTInstance, INT32, UINT32, INT32]]
+)
+_AcquireUserAudioBlock = function_factory(
+    dll.TT_AcquireUserAudioBlock, [POINTER(AudioBlock), [_TTInstance, StreamType, INT32]]
+)
 _ReleaseUserAudioBlock = function_factory(dll.TT_ReleaseUserAudioBlock, [BOOL, [_TTInstance, POINTER(AudioBlock)]])
 _GetFileTransferInfo = function_factory(dll.TT_GetFileTransferInfo, [BOOL, [_TTInstance, INT32, POINTER(FileTransfer)]])
 _CancelFileTransfer = function_factory(dll.TT_CancelFileTransfer, [BOOL, [_TTInstance, INT32]])
-_GetErrorMessage = function_factory(dll.TT_GetErrorMessage, [c_void_p, [INT32, POINTER(TTCHAR*TT_STRLEN)]])
+_GetErrorMessage = function_factory(dll.TT_GetErrorMessage, [c_void_p, [INT32, POINTER(TTCHAR * TT_STRLEN)]])
 _DBG_SIZEOF = function_factory(dll.TT_DBG_SIZEOF, [INT32, [TTType]])
 
 # main code
 
+
 def getVersion():
     return _GetVersion()
+
 
 def setLicense(name, key):
     return _SetLicenseInformation(name, key)
 
+
 def DBG_SIZEOF(t):
     return _DBG_SIZEOF(t)
+
 
 class TeamTalkError(Exception):
     pass
 
+
 # Construct multiple TextMessage objects for text messages longer than TT_STRLEN
-def buildTextMessage(content: str, nMsgType: TextMsgType,
-                     nToUserID: int = 0, nChannelID: int = 0, nFromUserID: int = 0,
-                     szFromUsername: str = "") -> [TextMessage]:
+def buildTextMessage(
+    content: str,
+    nMsgType: TextMsgType,
+    nToUserID: int = 0,
+    nChannelID: int = 0,
+    nFromUserID: int = 0,
+    szFromUsername: str = "",
+) -> [TextMessage]:
     result = []
     converted_content = ttstr(content)
 
@@ -1280,7 +1425,7 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
 
     half = TT_STRLEN // 2
     while half > 0:
-        if len(ttstr(content[0:curlen+half])) < TT_STRLEN:
+        if len(ttstr(content[0 : curlen + half])) < TT_STRLEN:
             curlen = curlen + half
         half = half // 2
 
@@ -1294,12 +1439,19 @@ def buildTextMessage(content: str, nMsgType: TextMsgType,
     textmsg.bMore = True
     result.append(textmsg)
 
-    result.extend(buildTextMessage(content[curlen:], nMsgType=nMsgType,
-                                   nToUserID=nToUserID, nChannelID=nChannelID,
-                                   nFromUserID=nFromUserID,
-                                   szFromUsername=szFromUsername))
+    result.extend(
+        buildTextMessage(
+            content[curlen:],
+            nMsgType=nMsgType,
+            nToUserID=nToUserID,
+            nChannelID=nChannelID,
+            nFromUserID=nFromUserID,
+            szFromUsername=szFromUsername,
+        )
+    )
 
     return result
+
 
 def rebuildTextMessage(msgs: [TextMessage]) -> str:
     content = ""
@@ -1309,13 +1461,14 @@ def rebuildTextMessage(msgs: [TextMessage]) -> str:
         if not m.bMore:
             break
         else:
-            assert(m.nMsgType == txtmsg.nMsgType)
-            assert(m.nFromUserID == txtmsg.nFromUserID)
-            assert(m.szFromUsername == txtmsg.szFromUsername)
-            assert(m.nToUserID == txtmsg.nToUserID)
-            assert(m.nChannelID == txtmsg.nChannelID)
+            assert m.nMsgType == txtmsg.nMsgType
+            assert m.nFromUserID == txtmsg.nFromUserID
+            assert m.szFromUsername == txtmsg.szFromUsername
+            assert m.nToUserID == txtmsg.nToUserID
+            assert m.nChannelID == txtmsg.nChannelID
 
     return content
+
 
 class TeamTalk(object):
 
@@ -1330,8 +1483,8 @@ class TeamTalk(object):
     def __del__(self):
         self.closeTeamTalk()
 
-    def runEventLoop(self, nWaitMSec = -1):
-        msg = self.getMessage(nWaitMS = nWaitMSec)
+    def runEventLoop(self, nWaitMSec=-1):
+        msg = self.getMessage(nWaitMS=nWaitMSec)
         event = msg.nClientEvent
         if event == ClientEvent.CLIENTEVENT_CON_SUCCESS:
             self.onConnectSuccess()
@@ -1430,7 +1583,7 @@ class TeamTalk(object):
     def getSoundDevices(self):
         count = c_int()
         _GetSoundDevices(None, byref(count))
-        soundDevs = (SoundDevice*count.value)()
+        soundDevs = (SoundDevice * count.value)()
         _GetSoundDevices(soundDevs, byref(count))
         return soundDevs
 
@@ -1446,7 +1599,15 @@ class TeamTalk(object):
     def setEncryptionContext(self, lpEncryptionContext: EncryptionContext) -> bool:
         return _SetEncryptionContext(self._tt, lpEncryptionContext)
 
-    def connect(self, szHostAddress, nTcpPort: int, nUdpPort: int, nLocalTcpPort: int = 0, nLocalUdpPort:int = 0, bEncrypted: bool = False) -> bool:
+    def connect(
+        self,
+        szHostAddress,
+        nTcpPort: int,
+        nUdpPort: int,
+        nLocalTcpPort: int = 0,
+        nLocalUdpPort: int = 0,
+        bEncrypted: bool = False,
+    ) -> bool:
         return _Connect(self._tt, szHostAddress, nTcpPort, nUdpPort, nLocalTcpPort, nLocalUdpPort, bEncrypted)
 
     def disconnect(self):
@@ -1565,7 +1726,7 @@ class TeamTalk(object):
     def getServerUsers(self):
         count = c_int()
         _GetServerUsers(self._tt, None, byref(count))
-        users = (User*count.value)()
+        users = (User * count.value)()
         _GetServerUsers(self._tt, users, byref(count))
         return users
 
@@ -1576,12 +1737,12 @@ class TeamTalk(object):
         return _GetMyChannelID(self._tt)
 
     def getChannel(self, nChannelID: int) -> Channel:
-        channel= Channel()
+        channel = Channel()
         _GetChannel(self._tt, nChannelID, channel)
         return channel
 
     def getChannelPath(self, nChannelID: int):
-        szChannelPath = (TTCHAR*TT_STRLEN)()
+        szChannelPath = (TTCHAR * TT_STRLEN)()
         _GetChannelPath(self._tt, nChannelID, szChannelPath)
         return szChannelPath.value
 
@@ -1591,21 +1752,21 @@ class TeamTalk(object):
     def getChannelUsers(self, nChannelID: int):
         count = c_int()
         _GetChannelUsers(self._tt, nChannelID, None, byref(count))
-        users = (User*count.value)()
+        users = (User * count.value)()
         _GetChannelUsers(self._tt, nChannelID, users, byref(count))
         return users
 
     def getChannelFiles(self, nChannelID: int):
         count = c_int()
         _GetChannelFiles(self._tt, nChannelID, None, byref(count))
-        files = (RemoteFile*count.value)()
+        files = (RemoteFile * count.value)()
         _GetChannelFiles(self._tt, nChannelID, files, byref(count))
         return files
 
     def getServerChannels(self):
         count = c_int()
         _GetServerChannels(self._tt, None, byref(count))
-        channels = (Channel*count.value)()
+        channels = (Channel * count.value)()
         _GetServerChannels(self._tt, channels, byref(count))
         return channels
 
@@ -1636,7 +1797,7 @@ class TeamTalk(object):
         return user
 
     def getErrorMessage(self, nError: int):
-        szErrorMsg = (TTCHAR*TT_STRLEN)()
+        szErrorMsg = (TTCHAR * TT_STRLEN)()
         _GetErrorMessage(nError, szErrorMsg)
         return szErrorMsg.value
 
@@ -1664,7 +1825,9 @@ class TeamTalk(object):
     def enableAudioBlockEvent(self, nUserID: int, uStreamTypes: int, bEnable: bool) -> bool:
         return _EnableAudioBlockEvent(self._tt, nUserID, uStreamTypes, bEnable)
 
-    def enableAudioBlockEventEx(self, nUserID: int, uStreamTypes: int, lpAudioFormat: AudioFormat, bEnable: bool) -> bool:
+    def enableAudioBlockEventEx(
+        self, nUserID: int, uStreamTypes: int, lpAudioFormat: AudioFormat, bEnable: bool
+    ) -> bool:
         return _EnableAudioBlockEventEx(self._tt, nUserID, uStreamTypes, lpAudioFormat, bEnable)
 
     def insertAudioBlock(self, lpAudioBlock: AudioBlock) -> bool:

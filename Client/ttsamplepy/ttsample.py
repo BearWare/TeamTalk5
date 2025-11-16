@@ -2,7 +2,7 @@ import TeamTalk5
 from TeamTalk5 import ttstr
 
 
-class TTClient():
+class TTClient:
     def __init__(self, host, tcpPort=10333, udpPort=10333, nickName="", userName="", password=""):
         self.host = host
         self.tcpPort = tcpPort
@@ -39,7 +39,7 @@ class TTClient():
     def onConnectionLost(self):
         self.connect()
 
-    def onCmdMyselfLoggedIn(self,userID, userAccount):
+    def onCmdMyselfLoggedIn(self, userID, userAccount):
         print(f"Hello {userAccount.szUsername}. Your User ID is {userID}")
         channelID = self.tt.getChannelIDFromPath(ttstr("/testChannel/"))
         self.tt.doJoinChannelByID(channelID, ttstr(""))
@@ -99,6 +99,7 @@ class TTClient():
 
     def onCmdFileRemove(self, remoteFile):
         print(f"file {remoteFile.szFileName} was removed")
+
 
 if __name__ == "__main__":
     try:

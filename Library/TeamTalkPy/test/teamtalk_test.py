@@ -1,7 +1,7 @@
 import TeamTalk5
-from TeamTalk5 import TextMsgType, buildTextMessage, ttstr, \
-                      TextMessage, rebuildTextMessage, TT_STRLEN
+from TeamTalk5 import TextMsgType, buildTextMessage, ttstr, TextMessage, rebuildTextMessage, TT_STRLEN
 import sys
+
 
 def test_ttypes():
     # Run DBG_SIZEOF() on all structs
@@ -42,16 +42,17 @@ def test_ttypes():
     TeamTalk5.WebRTCAudioPreprocessor()
     TeamTalk5.EncryptionContext()
 
+
 def test_textmessagelength():
-    allchars = ''.join(['%c' % x for x in range(97, 97+26)])
+    allchars = "".join(["%c" % x for x in range(97, 97 + 26)])
     content = ""
     for _ in range(0, 500):
         content += allchars
 
-    msgs = buildTextMessage(content, nMsgType = TextMsgType.MSGTYPE_USER,
-                            szFromUsername = "hest",
-                            nChannelID = 0, nToUserID = 55)
-    for m in msgs[0:len(msgs)-2]:
+    msgs = buildTextMessage(
+        content, nMsgType=TextMsgType.MSGTYPE_USER, szFromUsername="hest", nChannelID=0, nToUserID=55
+    )
+    for m in msgs[0 : len(msgs) - 2]:
         assert m.nMsgType == TextMsgType.MSGTYPE_USER
         assert m.nChannelID == 0
         assert m.szFromUsername == ttstr("hest")
@@ -62,6 +63,7 @@ def test_textmessagelength():
     for m in msgs:
         result += ttstr(m.szMessage)
     assert content == result
+
 
 def test_overlapping_utf8_string():
     threebytes = "㎠"
@@ -74,19 +76,19 @@ def test_overlapping_utf8_string():
         assert len(utf8) == n_times * 3
         assert (TT_STRLEN - 1) % len(utf8) != 0
 
-    msgs = buildTextMessage(content,
-                            nMsgType = TextMsgType.MSGTYPE_USER,
-                            szFromUsername = "hest",
-                            nChannelID = 0, nToUserID = 55)
+    msgs = buildTextMessage(
+        content, nMsgType=TextMsgType.MSGTYPE_USER, szFromUsername="hest", nChannelID=0, nToUserID=55
+    )
     if sys.platform != "win32":
         assert len(msgs) == 2
     result = rebuildTextMessage(msgs)
     assert result == content
 
+
 def test_strmax_textmessage():
     content = "A" * ((TT_STRLEN - 1) * 3)
-    msgs = buildTextMessage(content, nMsgType = TextMsgType.MSGTYPE_USER,
-                            szFromUsername = "hest",
-                            nChannelID = 0, nToUserID = 55)
+    msgs = buildTextMessage(
+        content, nMsgType=TextMsgType.MSGTYPE_USER, szFromUsername="hest", nChannelID=0, nToUserID=55
+    )
     assert len(msgs) == 3
     assert rebuildTextMessage(msgs) == content

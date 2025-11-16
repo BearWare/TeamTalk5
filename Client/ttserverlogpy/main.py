@@ -8,15 +8,17 @@ if sys.getdefaultencoding() != "utf-8":
 timestamp = lambda: int(round(time.time() * 1000))
 DEF_WAIT = 2000
 
-def waitForEvent(ttclient, event, timeout = DEF_WAIT):
+
+def waitForEvent(ttclient, event, timeout=DEF_WAIT):
     msg = ttclient.getMessage(timeout)
     end = timestamp() + timeout
     while msg.nClientEvent != event:
         if timestamp() >= end:
             return False, TTMessage()
         msg = ttclient.getMessage(timeout)
-        
+
     return True, msg
+
 
 def waitForCmdSuccess(ttclient, cmdid, timeout):
     result = True
@@ -27,6 +29,7 @@ def waitForCmdSuccess(ttclient, cmdid, timeout):
 
     return False, TTMessage()
 
+
 print(ttstr(getVersion()))
 
 ttclient = TeamTalk()
@@ -34,7 +37,7 @@ ttclient = TeamTalk()
 if ttclient.connect(ttstr("127.0.0.1"), 10333, 10333, 0, 0, False):
     print("Connecting")
 else:
-    sys.exit('Failed to issue connect')
+    sys.exit("Failed to issue connect")
 
 result, msg = waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS)
 if result:
@@ -75,6 +78,5 @@ if result:
     print("Joined root channel")
 else:
     sys.exit("Failed to join channel")
-    
-ttclient.closeTeamTalk()
 
+ttclient.closeTeamTalk()
