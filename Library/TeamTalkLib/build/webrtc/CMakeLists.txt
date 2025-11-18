@@ -197,7 +197,8 @@ else()
       GIT_TAG           main
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
-      CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && <SOURCE_DIR>/ensure_bootstrap
+      BUILD_IN_SOURCE   TRUE
+      CONFIGURE_COMMAND export PATH=$ENV{PATH}:<SOURCE_DIR> && <SOURCE_DIR>/ensure_bootstrap
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
       )
@@ -297,7 +298,7 @@ else()
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         BUILD_BYPRODUCTS  <INSTALL_DIR>/obj/modules/audio_processing/libteamtalk.a
-        DEPENDS depot-tools
+        DEPENDS webrtc-arm64-src
         )
 
       # Use 'lipo' to create universal binary
