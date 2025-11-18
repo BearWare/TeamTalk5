@@ -192,11 +192,12 @@ else()
     set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
 
     ExternalProject_Add(depot-tools
+      # Tested with 23ad8839bff8e65fff2f1aabd4bc48fef894c4ae but hopefully 'main' continues to work
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
       GIT_TAG           main
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
-      CONFIGURE_COMMAND "<SOURCE_DIR>/ensure_bootstrap"
+      CONFIGURE_COMMAND export PATH=$ENV{PATH}:<SOURCE_DIR> && <SOURCE_DIR>/ensure_bootstrap
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
       )
