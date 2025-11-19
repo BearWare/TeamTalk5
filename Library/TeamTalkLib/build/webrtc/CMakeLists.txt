@@ -49,8 +49,8 @@ if (MSVC)
     ExternalProject_Add(depot-tools
       # Use WEBRTC_FETCH_PATH to avoid issues with MAX_PATH on Windows
       SOURCE_DIR        ${WEBRTC_FETCH_PATH}/depot-tools
-      GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
       BUILD_IN_SOURCE   TRUE
+      GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
       # Tested with 23ad8839bff8e65fff2f1aabd4bc48fef894c4ae but hopefully 'main' continues to work
       GIT_TAG           main
       UPDATE_COMMAND    ""
@@ -192,13 +192,13 @@ else()
     set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
 
     ExternalProject_Add(depot-tools
-      # Tested with 23ad8839bff8e65fff2f1aabd4bc48fef894c4ae but hopefully 'main' continues to work
+      BUILD_IN_SOURCE   TRUE
       GIT_REPOSITORY    https://chromium.googlesource.com/chromium/tools/depot_tools.git
+      # Tested with 23ad8839bff8e65fff2f1aabd4bc48fef894c4ae but hopefully 'main' continues to work
       GIT_TAG           main
       UPDATE_COMMAND    ""
       INSTALL_DIR       ""
-      BUILD_IN_SOURCE   TRUE
-      CONFIGURE_COMMAND export PATH=$ENV{PATH}:<SOURCE_DIR> && <SOURCE_DIR>/ensure_bootstrap
+      CONFIGURE_COMMAND export PATH=$ENV{PATH}:<SOURCE_DIR> && ensure_bootstrap
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
       )
