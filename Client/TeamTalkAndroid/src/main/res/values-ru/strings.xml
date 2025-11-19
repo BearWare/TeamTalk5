@@ -33,15 +33,12 @@
     <string name="text_cmd_userleftchan">покинул канал</string>
     <string name="text_cmd_userloggedout">Ушел с сервера</string>
     <string name="text_cmd_userloggedin">Зарегистрировался на сервере</string>
-    <string name="text_cmd_servername">Имя сервера: </string>
-    <string name="text_cmd_servermotd">Сообщение дня: </string>
     <string name="pref_cat_subscriptions">Подписки</string>
     <string name="pref_cat_connection_general">Общие</string>
     <string name="pref_cat_tts">Настройка синтеза речи</string>
     <string name="pref_cat_tts_events">Общие речевые сообщения</string>
     <string name="pref_cat_tts_transmission">Речевые сообщения управления передачей</string>
     <string name="pref_cat_tts_subscription">Речевые сообщения подписки</string>
-    <string name="pref_cat_soundtest">Тест Звука</string>
     <string name="pref_header_general">Общие Настройки</string>
     <string name="pref_title_nickname">Псевдоним</string>
     <string name="pref_title_statusmsg">Сообщение о состоянии</string>
@@ -166,8 +163,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">При подключении беспроводной гарнитуры будет использоваться ее микрофон</string>
     <string name="pref_title_voice_processing_checkbox">Разрешить предобработку голоса</string>
     <string name="pref_summary_voice_processing_checkbox">Подавление эффекта эхо и автоматическая регулировка уровня</string>
-    <string name="pref_title_public_servers">Показывать публичные серверы</string>
-    <string name="pref_summary_public_servers">Включать публичные серверы в Список Серверов</string>
 
     <string name="text_tts_loggedin">вошел</string>
     <string name="text_tts_loggedout">ушел</string>
@@ -204,12 +199,10 @@
     <string name="text_tts_transmit_name_everyone">каждый</string>
     <string name="pref_header_soundsystem">Звуковая Система</string>
     <string name="title_activity_audio_codec">Аудио Кодек</string>
-    <string name="title_activity_filepicker">Выбор Файла</string>
     <string name="opus_application">Приложение</string>
     
     <string name="button_tx">Речь</string>
     <string name="button_remove">Удалить</string>
-    <string name="button_edit">Редактировать</string>
     <string name="action_banchan">Запретить вход в текущий канал</string>
     <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
@@ -252,7 +245,6 @@
     <string name="user_prop_title_userid">Идентификатор пользователя:</string>
     <string name="user_prop_title_statusmsg">Сообщение о Состоянии:</string>
     <string name="user_prop_title_clientname">Имя клиента:</string>
-    <string name="user_prop_clientversion">версия</string>
     <string name="user_prop_title_ipaddress">IP Адрес:</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
@@ -282,11 +274,7 @@
     <string name="stat_offline">Отсутствует</string>
     <string name="stat_connecting">Устанавливается</string>
     <string name="stat_unauthorized">Не авторизован</string>
-    <string name="label_voice">Голос:</string>
-    <string name="label_desktop">Рабстол:</string>
     <string name="label_ping">Пинг:</string>
-    <string name="label_total">Итого:</string>
-    <string name="label_mediafile">Медиа:</string>
     <string name="default_">По умолчанию</string>
 
     <string name="server_list_empty">Список Серверов TeamTalk 5 пуст</string>
@@ -296,7 +284,6 @@
     <string name="time_date">Время и Дата</string>
     <string name="name">Имя</string>
 
-    <string name="err_init_sound_input">Не удалось инициализировать устройство звукового ввода</string>
     <string name="err_init_sound_output">Не удалось инициализировать устройство звукового вывода</string>
     <string name="err_retrieve_public_server_list">Не удалось получить список публичных серверов</string>
     <string name="err_send_text_message">Не удалось отослать текстовое сообщение</string>
@@ -313,7 +300,6 @@
     <string name="serverlist_export_confirmation">Список серверов сохранен в %1$s</string>
     <string name="server_export_confirmation">Сервер экспортирован в %1$s</string>
 
-    <string name="pref_title_server_props">Свойства Сервера TeamTalk 5</string>
     <string name="pref_title_server_info">Информация о Сервере</string>
     <string name="pref_title_server_name">Имя Сервера</string>
     <string name="pref_title_server_address">Доменное Имя или IP-адрес</string>
@@ -328,9 +314,6 @@
     <string name="pref_title_last_channel">Последний Посещенный Канал</string>
     <string name="pref_title_channel">Канал</string>
     <string name="pref_title_channel_password">Пароль Канала</string>
-
-    <string name="pref_summary_server_name">С этим именем сервер будет фигурировать в списке</string>
-    <string name="pref_summary_server_address">Доменное имя сервера или его IP-адрес</string>
 
     <string name="channel_password_prompt">Введите пароль канала</string>
     <string name="button_download">Загрузить</string>
@@ -369,8 +352,6 @@
     <string name="voxlevel">Порог голосовой активации</string>
     <string name="speaker_mute">Выключить звук</string>
     <string name="speaker_unmute">Включить звук</string>
-    <string name="mic_mute">Выключить микрофон</string>
-    <string name="mic_unmute">Включить микрофон</string>
 
     <string name="speaker_volume_description">Громкость звука %1$s</string>
     <string name="mic_gain_description">Чувствительность микрофона %1$s</string>
@@ -461,7 +442,6 @@
     <string name="diskquotalab">Дисковая квота:</string>
     <string name="bwidlab">Имя пользователя:</string>
     <string name="bwpswlab">Пароль:</string>
-    <string name="pref_title_bearware_summary">Только если для данного сервера разрешен вход через BearWare.dk</string>
     <string name="pref_cat_about">О программе</string>
     <string name="pref_title_contrib">Разработчики</string>
     <string name="pref_title_translator">Переводчик</string>
@@ -481,7 +461,6 @@
     <string name="pref_title_channel_message_sent">Отправка сообщений в канале</string>
     <string name="pref_summary_channel_message_sent">Объявление об отправке сообщений для всех в текущем канале</string>
     <string name="text_tts_channel_message_sent">Отправлено сообщение в канале: %1$s</string>
-    <string name="err_text_length">Длина сообщения превышена на %1$d знаков</string>
     <string name="pref_summary_official_servers">Включать официальные серверы в список серверов</string>
     <string name="pref_title_official_servers">Показывать официальные серверы</string>
     <string name="pref_summary_unofficial_servers">Включать неофициальные серверы в список серверов</string>

@@ -1,6 +1,16 @@
 name: Ubuntu
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-linux*'
+  pull_request:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-linux*'
 
 env:
   # TeamTalk unit test environment variables

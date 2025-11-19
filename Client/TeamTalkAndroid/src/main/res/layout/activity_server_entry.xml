@@ -20,7 +20,6 @@
             android:accessibilityHeading="true" />
 
         <TextView
-            android:id="@+id/server_name_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_server_name"
@@ -89,7 +88,6 @@
             android:accessibilityHeading="true" />
 
         <TextView
-            android:id="@+id/ip_address_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_server_address"
@@ -123,7 +121,6 @@
                 android:layout_marginEnd="8dp">
 
                 <TextView
-                    android:id="@+id/tcp_port_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/pref_title_tcp_port"
@@ -155,7 +152,6 @@
                 android:layout_marginStart="8dp">
 
                 <TextView
-                    android:id="@+id/udp_port_label"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:text="@string/pref_title_udp_port"
@@ -196,7 +192,6 @@
             android:accessibilityHeading="true" />
 
         <TextView
-            android:id="@+id/username_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_username"
@@ -217,7 +212,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/password_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_password"
@@ -246,7 +240,6 @@
             android:layout_marginBottom="8dp" />
 
         <TextView
-            android:id="@+id/nickname_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_nickname"
@@ -267,7 +260,6 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <TextView
-            android:id="@+id/statusmsg_label"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="@string/pref_title_statusmsg"

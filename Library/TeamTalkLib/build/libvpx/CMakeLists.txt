@@ -47,7 +47,7 @@ if (MSVC)
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
         GIT_TAG           v1.15.2
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat
@@ -76,7 +76,7 @@ if (MSVC)
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
         GIT_TAG           v1.15.2
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat

@@ -168,7 +168,8 @@
                                                         STATUSBAR_FILE_REMOVE | \
                                                         STATUSBAR_SAVE_SERVER_CONFIG | \
                                                         STATUSBAR_START_RECORD | \
-                                                        STATUSBAR_TRANSMISSION_BLOCKED)
+                                                        STATUSBAR_TRANSMISSION_BLOCKED | \
+                                                        STATUSBAR_SOUND_DEVICE_DETECTED)
 #define SETTINGS_DISPLAY_CHATTEMPLATES_MODEL_HEADER    "display/chat-templates-model-header"
 #define SETTINGS_DISPLAY_CHATTEMPLATESDLG_SIZE          "display/chat-templates-dialog-size"
 #define SETTINGS_DISPLAY_SERVERLOG_EVENTS_HEADER    "display/serverlog-events-header"

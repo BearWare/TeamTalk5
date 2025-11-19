@@ -24,7 +24,7 @@ if (MSVC)
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
@@ -40,7 +40,7 @@ if (MSVC)
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
-        UPDATE_DISCONNECTED ON
+        UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .

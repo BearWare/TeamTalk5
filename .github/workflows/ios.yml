@@ -1,6 +1,16 @@
 name: iOS
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-ios*'
+  pull_request:
+    branches:
+      - '**'
+      - '!debug*'
+      - 'debug-ios*'
 
 jobs:
   build:

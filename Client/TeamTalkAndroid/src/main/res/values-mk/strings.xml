@@ -29,11 +29,8 @@
     <string name="text_cmd_leftroot">Напушти го главниот канал</string>
     <string name="text_cmd_userjoinchan">Се приклучи на каналот</string>
     <string name="text_cmd_userleftchan">Го напушти каналот</string>
-    <string name="text_cmd_servername">Име на серверот: </string>
-    <string name="text_cmd_servermotd">Порака на денот: </string>
     <string name="pref_cat_subscriptions">Супскрипции</string>
     <string name="pref_cat_tts">Конфигурирај ги известувањата од говорната синтеза</string>
-    <string name="pref_cat_soundtest">Проверка на звукот</string>
     <string name="pref_header_general">Генерални</string>
     <string name="pref_title_nickname">Псевдоним</string>
     <string name="pref_default_nickname">Безименко</string>
@@ -93,8 +90,6 @@
     <string name="pref_summary_speakerphone_checkbox">Префрли се од малиот на големиот звучник</string>
     <string name="pref_title_voice_processing_checkbox">Вклучи препроцесирање на гласот</string>
     <string name="pref_summary_voice_processing_checkbox">Користи пригушување на ехото и автоматска контрола на микрофонот</string>
-    <string name="pref_title_public_servers">Прикажи ги јавните сервери</string>
-    <string name="pref_summary_public_servers">Вклучи ги и јавните сервери во листата со сервери</string>
 
     <string name="text_tts_loggedin">Се најави</string>
     <string name="text_tts_loggedout">се одјави</string>
@@ -104,7 +99,6 @@
     <string name="text_tts_broadcast_message">Броткаст порака од корисникот %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Систем за звук</string>
     <string name="title_activity_audio_codec">Аудио кодек</string>
-    <string name="title_activity_filepicker">Одбирање на датотека</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -113,7 +107,6 @@
     
     <string name="button_tx">TX</string>
     <string name="button_remove">Избриши</string>
-    <string name="button_edit">Уреди</string>
     <string name="action_edit">Уреди го каналот</string>
     <string name="action_join">Приклучи се</string>
     <string name="action_move">Премести го овде</string>
@@ -148,12 +141,8 @@
     <string name="stat_online">На линија</string>
     <string name="stat_offline">Исклучен</string>
     <string name="stat_connecting">се конектира</string>
-    <string name="label_voice">глас:</string>
-    <string name="label_desktop">работна површина:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">тотално:</string>
-    <string name="label_mediafile">медија-датотека:</string>
     <string name="default_">Дифолт</string>
 
     <string name="server_list_empty">Тимток 5 листата за сервери е празна</string>
@@ -162,7 +151,6 @@
     <string name="time_date">податоци за времето</string>
     <string name="name">Име</string>
 
-    <string name="err_init_sound_input">Неуспеа иницијализирањето на уредот за звуковен внес</string>
     <string name="err_init_sound_output">Неуспеа иницијализирањето на уредот за звуковен излес</string>
     <string name="err_retrieve_public_server_list">Неуспеа враќањето на листата со јавни сервери</string>
     <string name="err_send_text_message">Праќањето на текстуалната порака неуспеа</string>
@@ -175,7 +163,6 @@
     <string name="action_refresh">Освежи</string>
     <string name="action_import_serverlist">Вчитај од датотека</string>
 
-    <string name="pref_title_server_props">Тимток 5 својства на серверот</string>
     <string name="pref_title_server_info">Информации за серверот</string>
     <string name="pref_title_server_name">Име на серверот</string>
     <string name="pref_title_server_address">Име на доменот или ИП-адреса</string>
@@ -189,9 +176,6 @@
     <string name="pref_title_channel">Канал</string>
     <string name="pref_title_channel_password">Лозинка за каналот</string>
     <string name="pref_title_last_channel">Последен приклучен на каналот</string>
-
-    <string name="pref_summary_server_name">Овој сервер ќе се појави со ова име во листата на сервери</string>
-    <string name="pref_summary_server_address">Името на доменот или ИП-Адресата од серверот</string>
 
     <string name="channel_password_prompt">Внесете ја лозинката од каналов</string>
     <string name="button_download">Преземи</string>
@@ -216,8 +200,6 @@
     <string name="version_update">Достапна е нова Тимток 5 верзија %1$s?</string>
     <string name="speaker_mute">Исклучи го гласот</string>
 	<string name="speaker_unmute">Вклучи го гласот</string>
-	<string name="mic_mute">Исклучи го микрофонот</string>
-	<string name="mic_unmute">Вклучи го микрофонот</string>
     <string name="speaker_volume_description">Гласноста на звукот е %1$s</string>
     <string name="mic_gain_description">Примањето на микрофонот е %1$s</string>
 

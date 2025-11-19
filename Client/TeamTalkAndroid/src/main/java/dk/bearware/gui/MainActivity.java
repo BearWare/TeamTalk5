@@ -2062,6 +2062,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
+
         users.put(user.nUserID, user);
         
         if(user.nUserID == getClient().getMyUserID()) {
@@ -2081,7 +2082,7 @@ private EditText newmsg;
             //other user joined current channel
         }
         
-        if(curchannel != null && curchannel.nChannelID == user.nChannelID) {
+        if(mychannel != null && mychannel.nChannelID == user.nChannelID) {
             //event took place in current channel
             
             if(user.nUserID != getClient().getMyUserID()) {
@@ -2112,6 +2113,7 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserLeftChannel(int channelid, User user) {
+
         users.put(user.nUserID, user);
         
         if(user.nUserID == getClient().getMyUserID()) {
@@ -2130,10 +2132,11 @@ private EditText newmsg;
             accessibilityAssistant.unlockEvents();
         }
         
-        if(curchannel != null && curchannel.nChannelID == channelid) {
+        if(mychannel != null && mychannel.nChannelID == channelid) {
             //event took place in current channel
             
             accessibilityAssistant.lockEvents();
+            textmsgAdapter.notifyDataSetChanged();
             channelsAdapter.notifyDataSetChanged();
             if (getClient().getMyChannelID() == channelid) {
                     if (sounds.get(SOUND_USERLEFT) != 0)

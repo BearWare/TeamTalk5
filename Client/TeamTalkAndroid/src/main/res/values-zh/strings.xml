@@ -33,15 +33,12 @@
     <string name="text_cmd_userleftchan">离开频道</string>
     <string name="text_cmd_userloggedout">已登出</string>
     <string name="text_cmd_userloggedin">已登录</string>
-    <string name="text_cmd_servername">服务器名称: </string>
-    <string name="text_cmd_servermotd">每日消息: </string>
     <string name="pref_cat_subscriptions">订阅</string>
     <string name="pref_cat_connection_general">常规</string>
     <string name="pref_cat_tts">文字转语音设置</string>
     <string name="pref_cat_tts_events">常规文字转语音消息</string>
     <string name="pref_cat_tts_transmission">传输控制文字转语音消息</string>
     <string name="pref_cat_tts_subscription">订阅文字转语音消息</string>
-    <string name="pref_cat_soundtest">声音测试</string>
     <string name="pref_header_general">常规</string>
     <string name="pref_title_nickname">昵称</string>
     <string name="pref_title_statusmsg">状态消息</string>
@@ -166,8 +163,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">连接蓝牙耳机时使用其麦克风</string>
     <string name="pref_title_voice_processing_checkbox">启用语音预处理</string>
     <string name="pref_summary_voice_processing_checkbox">使用回声消除和自动增益控制</string>
-    <string name="pref_title_public_servers">显示公共服务器</string>
-    <string name="pref_summary_public_servers">在服务器列表中包含公共服务器</string>
 
     <string name="text_tts_loggedin">已登录</string>
     <string name="text_tts_loggedout">已登出</string>
@@ -204,7 +199,6 @@
     <string name="text_tts_transmit_name_everyone">每个人</string>
     <string name="pref_header_soundsystem">声音系统</string>
     <string name="title_activity_audio_codec">音频编解码器</string>
-    <string name="title_activity_filepicker">文件选择</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex 可变比特率</string>
@@ -213,7 +207,6 @@
 
     <string name="button_tx">传输</string>
     <string name="button_remove">移除</string>
-    <string name="button_edit">编辑</string>
     <string name="action_banchan">从当前频道禁止</string>
     <string name="action_bansrv">从服务器禁止</string>
     <string name="action_edit">编辑频道</string>
@@ -257,7 +250,6 @@
     <string name="user_prop_title_userid">用户ID：</string>
     <string name="user_prop_title_statusmsg">状态消息：</string>
     <string name="user_prop_title_clientname">客户端名称：</string>
-    <string name="user_prop_clientversion">版本</string>
     <string name="user_prop_title_ipaddress">IP地址：</string>
     <string name="user_prop_title_voice_volume">语音音量</string>
     <string name="user_prop_title_mute_voice">语音静音</string>
@@ -287,12 +279,8 @@
     <string name="stat_offline">离线</string>
     <string name="stat_connecting">连接中</string>
     <string name="stat_unauthorized">未授权</string>
-    <string name="label_voice">语音：</string>
-    <string name="label_desktop">桌面:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">接收/发送：</string>
-    <string name="label_total">总计：</string>
-    <string name="label_mediafile">媒体文件：</string>
     <string name="default_">默认</string>
 
     <string name="server_list_empty">TeamTalk 5 服务器列表为空</string>
@@ -302,7 +290,6 @@
     <string name="time_date">时间日期</string>
     <string name="name">名称</string>
 
-    <string name="err_init_sound_input">无法初始化声音输入设备</string>
     <string name="err_init_sound_output">无法初始化声音输出设备</string>
     <string name="err_retrieve_public_server_list">无法检索公共服务器列表</string>
     <string name="err_send_text_message">无法发送消息</string>
@@ -319,7 +306,6 @@
     <string name="serverlist_export_confirmation">服务器列表已导出至 %1$s</string>
     <string name="server_export_confirmation">服务器已导出至 %1$s</string>
 
-    <string name="pref_title_server_props">TeamTalk 5 服务器属性</string>
     <string name="pref_title_server_info">服务器信息</string>
     <string name="pref_title_server_name">服务器名称</string>
     <string name="pref_title_server_address">域名或 IP 地址</string>
@@ -334,9 +320,6 @@
     <string name="pref_title_channel">频道</string>
     <string name="pref_title_channel_password">频道密码</string>
     <string name="pref_title_last_channel">最近加入的频道</string>
-
-    <string name="pref_summary_server_name">此服务器将在“服务器列表”中显示此名称</string>
-    <string name="pref_summary_server_address">服务器的域名或 IP 地址</string>
 
     <string name="channel_password_prompt">输入频道密码</string>
     <string name="button_download">下载</string>
@@ -375,8 +358,6 @@
     <string name="voxlevel">语音激活级别</string>
     <string name="speaker_mute">扬声器静音</string>
     <string name="speaker_unmute">取消扬声器静音</string>
-    <string name="mic_mute">麦克风静音</string>
-    <string name="mic_unmute">取消麦克风静音</string>
     <string name="speaker_volume_description">扬声器音量 %1$s</string>
     <string name="mic_gain_description">麦克风音量 %1$s</string>
     <string name="voice_activation_on">开启语音激活</string>
@@ -467,7 +448,6 @@
     <string name="bwpswlab">密码：</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">仅当服务器已启用 BearWare.dk Web 登录时选中</string>
     <string name="pref_cat_about">关于</string>
     <string name="pref_title_contrib">开发者</string>
     <string name="pref_title_translator">翻译者</string>
@@ -487,7 +467,6 @@
     <string name="pref_title_channel_message_sent">发送频道消息</string>
     <string name="pref_summary_channel_message_sent">播报发送的频道消息</string>
     <string name="text_tts_channel_message_sent">我： %1$s</string>
-    <string name="err_text_length">消息长度超出 %1$d 个字符</string>
     <string name="pref_summary_official_servers">在服务器列表中包含官方服务器</string>
     <string name="pref_title_official_servers">显示官方服务器</string>
     <string name="pref_summary_unofficial_servers">在服务器列表中包含非官方服务器</string>

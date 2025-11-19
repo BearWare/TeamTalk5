@@ -30,11 +30,8 @@
     <string name="text_cmd_leftroot">meninggalkan saluran utama</string>
     <string name="text_cmd_userjoinchan">Bergabung dengan saluran</string>
     <string name="text_cmd_userleftchan">meninggalkan saluran</string>
-    <string name="text_cmd_servername">Nama server: </string>
-    <string name="text_cmd_servermotd">Pesan hari ini: </string>
     <string name="pref_cat_subscriptions">Langganan</string>
     <string name="pref_cat_tts">konfigurasi suara Teks-Ke-Ucapan</string>
-    <string name="pref_cat_soundtest">Uji Suara</string>
     <string name="pref_header_general">Umum</string>
     <string name="pref_title_nickname">Nama Panggilan</string>
     <string name="pref_default_nickname">Tanpa Nama</string>
@@ -110,8 +107,6 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Saat headset bluetooth terhubung, gunakan mikrofon dari headset bluetooth</string>
     <string name="pref_title_voice_processing_checkbox">Aktifkan audio preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Gunakan pembatalan echo dan kontrol gain otomatis</string>
-    <string name="pref_title_public_servers">Tampilkan server publik</string>
-    <string name="pref_summary_public_servers">Sertakan server publik dalam Daftar Server</string>
 
     <string name="text_tts_loggedin">telah masuk ke server</string>
     <string name="text_tts_loggedout">telah keluar dari server</string>
@@ -122,7 +117,6 @@
     <string name="text_tts_broadcast_message">Pesan broadcast dari %1$s: %2$s</string>
     <string name="pref_header_soundsystem">sistem Suara</string>
     <string name="title_activity_audio_codec">Codec Audio</string>
-    <string name="title_activity_filepicker">Seleksi File</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -131,7 +125,6 @@
     
     <string name="button_tx">Bicara</string>
     <string name="button_remove">Hapus</string>
-    <string name="button_edit">Edit</string>
     <string name="action_banchan">Ban dari saluran saat ini</string>
     <string name="action_bansrv">Ban dari server</string>
     <string name="action_edit">Edit Saluran</string>
@@ -180,12 +173,8 @@
     <string name="stat_online">Online</string>
     <string name="stat_offline">Offline</string>
     <string name="stat_connecting">Menghubungkan</string>
-    <string name="label_voice">Suara:</string>
-    <string name="label_desktop">Desktop:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
-    <string name="label_total">Total:</string>
-    <string name="label_mediafile">Media File:</string>
     <string name="default_">Default</string>
 
     <string name="server_list_empty">Daftar Server TeamTalk 5 kosong</string>
@@ -194,7 +183,6 @@
     <string name="time_date">Waktu Dan Tanggal</string>
     <string name="name">Nama</string>
 
-    <string name="err_init_sound_input">Gagal untuk menginisialisasi perangkat input suara</string>
     <string name="err_init_sound_output">Gagal untuk menginisialisasi perangkat output suara</string>
     <string name="err_retrieve_public_server_list">Gagal untuk mengambil daftar server publik</string>
     <string name="err_send_text_message">Gagal untuk mengirim pesan teks</string>
@@ -210,7 +198,6 @@
     <string name="action_export_serverlist">Export daftar server</string>
     <string name="serverlist_export_confirmation">Daftar server telah diexport ke %1$s</string>
 
-    <string name="pref_title_server_props">Properti TeamTalk 5 Server</string>
     <string name="pref_title_server_info">Informasi Server</string>
     <string name="pref_title_server_name">Nama Server</string>
     <string name="pref_title_server_address">Nama Domain atau alamat IP</string>
@@ -225,9 +212,6 @@
     <string name="pref_title_channel">Saluran</string>
     <string name="pref_title_channel_password">Kata sandi saluran</string>
     <string name="pref_title_last_channel">Ingat saluran terakhir</string>
-
-    <string name="pref_summary_server_name">Server ini akan muncul dengan nama ini di daftar server</string>
-    <string name="pref_summary_server_address">Nama domain atau alamat IP server</string>
 
     <string name="channel_password_prompt">Masukan kata sandi saluran</string>
     <string name="button_download">Unduh</string>
@@ -255,8 +239,6 @@
     <string name="version_update">TeamTalk versi baru telah tersedia: %1$s?</string>
     <string name="speaker_mute">Diamkan pengeras suara</string>
     <string name="speaker_unmute">Bunyikan pengeras suara</string>
-    <string name="mic_mute">Matikan Mikrofon</string>
-    <string name="mic_unmute">Hidupkan Mikrofon</string>
 
     <string name="speaker_volume_description">Volume pengeras suara %1$s</string>
     <string name="mic_gain_description">Gain mikrofon %1$s</string>
@@ -345,7 +327,6 @@
     <string name="bwpswlab">Kata sandi:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
-    <string name="pref_title_bearware_summary">Aktifkan hanya jika server ini telah mengaktifkan Login Web BearWare.dk</string>
     <string name="pref_cat_about">Tentang</string>
     <string name="pref_title_contrib">Pengembang</string>
     <string name="pref_title_translator">Penerjemah</string>
@@ -363,7 +344,6 @@
     <string name="pref_title_channel_message_sent">Pesan saluran terkirim</string>
     <string name="pref_summary_channel_message_sent">Umumkan pesan saluran terkirim</string>
     <string name="text_tts_channel_message_sent">Pesan Saluran Terkirim: %1$s</string>
-    <string name="err_text_length">Panjang pesan melebihi %1$d karakter</string>
     <string name="pref_summary_official_servers">Sertakan server resmi di daftar server</string>
     <string name="pref_title_official_servers">Tampilkan server resmi</string>
     <string name="pref_summary_unofficial_servers">Sertakan server tidak resmi di daftar server</string>

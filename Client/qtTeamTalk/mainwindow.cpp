@@ -1657,12 +1657,12 @@ void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
 
 void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
 {
-    addStatusMsg(STATUSBAR_BYPASS, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
+    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
 }
 
 void MainWindow::clienteventSoundDeviceRemoved(const SoundDevice& snddev)
 {
-    addStatusMsg(STATUSBAR_BYPASS, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
+    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
 
     auto devid = _Q(snddev.szDeviceID);
     if (devid.size() && (devid == _Q(m_devin.szDeviceID) || devid == _Q(m_devout.szDeviceID)))

@@ -42,6 +42,7 @@
 
 #include <algorithm>
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
@@ -50,6 +51,7 @@
 #include <queue>
 #include <regex>
 #include <sstream>
+#include <thread>
 #include <vector>
 
 #if defined(UNICODE)
@@ -914,7 +916,7 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
     xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
     ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
     ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
-
+    static auto sleepTimeSec = 1ul;
     while (token.empty())
     {
         cout << TEAMTALK_NAME << " requires a BearWare.dk WebLogin" << endl;
@@ -953,9 +955,11 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
         case WEBLOGIN_SERVER_UNAVAILABLE :
         case WEBLOGIN_SERVER_INCOMPATIBLE :
             cout << "Unable to contact BearWare.dk WebLogin" << endl;
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
             break;
         case WEBLOGIN_FAILED :
             cout << "Login failed. Please try again." << endl;
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
             break;
         }
     }
@@ -975,12 +979,14 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
             xmlSettings.SaveFile();
         }
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
         return false;
     case WEBLOGIN_SERVER_UNAVAILABLE :
     case WEBLOGIN_SERVER_INCOMPATIBLE :
         os.str(ACE_TEXT(""));
         os << "BearWare.dk WebLogin is currently unavailable. Continuing... ";
         TT_SYSLOG(os.str().c_str());
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
         break;
     case WEBLOGIN_SUCCESS :
         break;
