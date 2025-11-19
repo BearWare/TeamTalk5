@@ -7,6 +7,7 @@ Default Qt Client
 - Updated Qt to 6.10.0 on Windows and macOS
 - Option to disable sound device detection notifications in statusbar events
 Android Client
+- fixed the bug where status messages wouldn't be set at login sometimes
 - Fixed bug where join and leave events were not announced when focused on another channel
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
