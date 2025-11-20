@@ -450,10 +450,10 @@ if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
       ${TEAMTALKLIB_ROOT}/settings/Settings.h)
 
   if (TOOLCHAIN_CATCH2)
-    add_dependencies(catchtt catch2)
-    list (APPEND TTCLIENTPRODLL_INCLUDE_DIR ${CATCH_INCLUDE_DIR})
+    target_link_libraries (catchtt catch2main catch2)
   else()
-    # Assuming 'catch' package is installed
+    find_package(Catch2 3 REQUIRED)
+    target_link_libraries (catchtt Catch2::Catch2WithMain)
   endif()
 
   target_include_directories (catchtt PRIVATE
