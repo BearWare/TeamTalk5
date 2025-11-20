@@ -1,4 +1,4 @@
-#include <catch2/catch.hpp>
+#include <catch2/catch_all.hpp>
 #include "codec/MediaUtil.h"
 #include "codec/WaveFile.h"
 #include <iostream>
