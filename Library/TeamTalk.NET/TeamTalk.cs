@@ -3967,94 +3967,58 @@ namespace BearWare
      * instance.
      *
      * @see TeamTalkBase.GetMessage */
-    [StructLayout(LayoutKind.Sequential)]
+    [StructLayout(LayoutKind.Explicit, CharSet = CharSet.Unicode)]
     public struct TTMessage
     {
         /** @brief The event's message number @see ClientEvent */
+        [FieldOffset(0)]
         public ClientEvent nClientEvent;
         /** @brief The source of the event depends on @c wmMsg */
+        [FieldOffset(4)]
         public int nSource;
         /** @brief Specifies which member to access in the union */
+        [FieldOffset(8)]
         public TTType ttType;
         /** @brief Reserved. To preserve alignment. */
+        [FieldOffset(12)]
         public uint uReserved;
-        [MarshalAs(UnmanagedType.ByValArray, SizeConst = TTDLL.SIZEOF_TTMESSAGE_DATA)]
-        public byte[] data;
-        //UnionData data;
-        
-        public object DataToObject()
-        {
-            switch (ttType)
-            {
-                case TTType.__CHANNEL:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(Channel));
-                case TTType.__CLIENTERRORMSG:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(ClientErrorMsg));
-                case TTType.__DESKTOPINPUT:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(DesktopInput));
-                case TTType.__FILETRANSFER:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(FileTransfer));
-                case TTType.__MEDIAFILEINFO:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(MediaFileInfo));
-                case TTType.__REMOTEFILE:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(RemoteFile));
-                case TTType.__SERVERPROPERTIES:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(ServerProperties));
-                case TTType.__SERVERSTATISTICS:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(ServerStatistics));
-                case TTType.__TEXTMESSAGE:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(TextMessage));
-                case TTType.__USER:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(User));
-                case TTType.__USERACCOUNT:
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(UserAccount));
-                case TTType.__BANNEDUSER :
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(BannedUser));
-                case TTType.__TTBOOL:
-                    return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this)) != 0;
-                case TTType.__INT32:
-                    return Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
-                case TTType.__STREAMTYPE :
-                    return (StreamType)Marshal.ReadInt32(TTDLL.TT_DBG_GETDATAPTR(ref this));
-                case TTType.__AUDIOINPUTPROGRESS :
-                    return Marshal.PtrToStructure(TTDLL.TT_DBG_GETDATAPTR(ref this), typeof(AudioInputProgress));
-                default:
-                    return null;
-            }
-        }
-    }
-
-    [StructLayout(LayoutKind.Explicit, Size = 5224)]
-    struct UnionData
-    {
-        [FieldOffset(0)]
-        public ClientErrorMsg clienterrormsg;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public Channel channel;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
+        public ClientErrorMsg clienterrormsg;
+        [FieldOffset(16)]
         public DesktopInput desktopinput;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public FileTransfer filetransfer;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public MediaFileInfo mediafileinfo;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public RemoteFile remotefile;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public ServerProperties serverproperties;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
+        public ServerStatistics serverstatistics;
+        [FieldOffset(16)]
         public TextMessage textmessage;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public User user;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public UserAccount useraccount;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
+        public BannedUser banneduser;
+        [FieldOffset(16)]
         public bool bActive;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public int nBytesRemain;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public int nStreamID;
-        [FieldOffset(0)]
+        [FieldOffset(16)]
         public int nPayloadSize;
+        [FieldOffset(16)]
+        public StreamType nStreamType;
+        [FieldOffset(16)]
+        public AudioInputProgress audioinputprogress;
+
     }
 
     /** @}*/
@@ -4525,15 +4489,15 @@ namespace BearWare
                     break;
                 case ClientEvent.CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED :
                     if (OnConnectionMaxPayloadUpdated != null)
-                        OnConnectionMaxPayloadUpdated((int)msg.DataToObject());
+                        OnConnectionMaxPayloadUpdated(msg.nPayloadSize);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_PROCESSING:
                     if (OnCmdProcessing != null)
-                        OnCmdProcessing(msg.nSource, (bool)msg.DataToObject());
+                        OnCmdProcessing(msg.nSource, msg.bActive);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_ERROR:
                     if (OnCmdError != null)
-                        OnCmdError((int)msg.nSource, (ClientErrorMsg)msg.DataToObject());
+                        OnCmdError((int)msg.nSource, msg.clienterrormsg);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_SUCCESS :
                     if (OnCmdSuccess != null)
@@ -4541,7 +4505,7 @@ namespace BearWare
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
                     if (OnCmdMyselfLoggedIn != null)
-                        OnCmdMyselfLoggedIn((int)msg.nSource, (UserAccount)msg.DataToObject());
+                        OnCmdMyselfLoggedIn((int)msg.nSource, msg.useraccount);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDOUT:
                     if (OnCmdMyselfLoggedOut != null)
@@ -4551,143 +4515,143 @@ namespace BearWare
                     if (msg.ttType == TTType.__USER)
                     {
                         if (OnCmdMyselfKicked != null)
-                            OnCmdMyselfKicked((User)msg.DataToObject());
+                            OnCmdMyselfKicked(msg.user);
                     }
                     else if (OnCmdMyselfKicked != null)
                         OnCmdMyselfKicked(new User());
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDIN:
                     if (OnCmdUserLoggedIn != null)
-                        OnCmdUserLoggedIn((User)msg.DataToObject());
+                        OnCmdUserLoggedIn(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_LOGGEDOUT:
                     if (OnCmdUserLoggedOut != null)
-                        OnCmdUserLoggedOut((User)msg.DataToObject());
+                        OnCmdUserLoggedOut(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_UPDATE:
                     if (OnCmdUserUpdate != null)
-                        OnCmdUserUpdate((User)msg.DataToObject());
+                        OnCmdUserUpdate(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_JOINED:
                     if (OnCmdUserJoinedChannel != null)
-                        OnCmdUserJoinedChannel((User)msg.DataToObject());
+                        OnCmdUserJoinedChannel(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_LEFT:
                     if (OnCmdUserLeftChannel != null)
-                        OnCmdUserLeftChannel((User)msg.DataToObject());
+                        OnCmdUserLeftChannel(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG:
                     if (OnCmdUserTextMessage != null)
-                        OnCmdUserTextMessage((TextMessage)msg.DataToObject());
+                        OnCmdUserTextMessage(msg.textmessage);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW:
                     if (OnCmdChannelNew != null)
-                        OnCmdChannelNew((Channel)msg.DataToObject());
+                        OnCmdChannelNew(msg.channel);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE:
                     if (OnCmdChannelUpdate != null)
-                        OnCmdChannelUpdate((Channel)msg.DataToObject());
+                        OnCmdChannelUpdate(msg.channel);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE:
                     if (OnCmdChannelRemove != null)
-                        OnCmdChannelRemove((Channel)msg.DataToObject());
+                        OnCmdChannelRemove(msg.channel);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE:
                     if (OnCmdServerUpdate != null)
-                        OnCmdServerUpdate((ServerProperties)msg.DataToObject());
+                        OnCmdServerUpdate(msg.serverproperties);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS :
                     if (OnCmdServerStatistics != null)
-                        OnCmdServerStatistics((ServerStatistics)msg.DataToObject());
+                        OnCmdServerStatistics(msg.serverstatistics);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
                     if (OnCmdFileNew != null)
-                        OnCmdFileNew((RemoteFile)msg.DataToObject());
+                        OnCmdFileNew(msg.remotefile);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE:
                     if (OnCmdFileRemove != null)
-                        OnCmdFileRemove((RemoteFile)msg.DataToObject());
+                        OnCmdFileRemove(msg.remotefile);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_USERACCOUNT :
                     if (OnCmdUserAccount != null)
-                        OnCmdUserAccount((UserAccount)msg.DataToObject());
+                        OnCmdUserAccount(msg.useraccount);
                     break;
                 case ClientEvent.CLIENTEVENT_CMD_BANNEDUSER :
                     if (OnCmdBannedUser != null)
-                        OnCmdBannedUser((BannedUser)msg.DataToObject());
+                        OnCmdBannedUser(msg.banneduser);
                     break;
                 
                 case ClientEvent.CLIENTEVENT_USER_STATECHANGE :
                     if (OnUserStateChange != null)
-                        OnUserStateChange((User)msg.DataToObject());
+                        OnUserStateChange(msg.user);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_VIDEOCAPTURE:
                     if (OnUserVideoCapture != null)
-                        OnUserVideoCapture(msg.nSource, (int)msg.DataToObject());
+                        OnUserVideoCapture(msg.nSource, msg.nStreamID);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_MEDIAFILE_VIDEO:
                     if (OnUserMediaFileVideo != null)
-                        OnUserMediaFileVideo((int)msg.nSource, (int)msg.DataToObject());
+                        OnUserMediaFileVideo((int)msg.nSource, msg.nStreamID);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW:
                     if (OnUserDesktopWindow != null)
-                        OnUserDesktopWindow((int)msg.nSource, (int)msg.DataToObject());
+                        OnUserDesktopWindow((int)msg.nSource, msg.nStreamID);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR:
                     if (OnUserDesktopCursor != null)
-                        OnUserDesktopCursor((int)msg.nSource, (DesktopInput)msg.DataToObject());
+                        OnUserDesktopCursor((int)msg.nSource, msg.desktopinput);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT :
                     if (OnUserDesktopInput != null)
-                        OnUserDesktopInput((int)msg.nSource, (DesktopInput)msg.DataToObject());
+                        OnUserDesktopInput((int)msg.nSource, msg.desktopinput);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE :
                     if(OnUserRecordMediaFile != null)
-                        OnUserRecordMediaFile((int)msg.nSource, (MediaFileInfo)msg.DataToObject());
+                        OnUserRecordMediaFile((int)msg.nSource, msg.mediafileinfo);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK :
                     if(OnUserAudioBlock != null)
-                        OnUserAudioBlock((int)msg.nSource, (StreamType)msg.DataToObject());
+                        OnUserAudioBlock((int)msg.nSource, msg.nStreamType);
                     break;
                 case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
                     if(OnInternalError!= null)
-                        OnInternalError((ClientErrorMsg)msg.DataToObject());
+                        OnInternalError(msg.clienterrormsg);
                     break;
                 case ClientEvent.CLIENTEVENT_VOICE_ACTIVATION :
                     if(OnVoiceActivation != null)
-                        OnVoiceActivation((bool)msg.DataToObject());
+                        OnVoiceActivation(msg.bActive);
                     break;
                 case ClientEvent.CLIENTEVENT_HOTKEY :
                     if(OnHotKeyToggle != null)
-                        OnHotKeyToggle(msg.nSource, (bool)msg.DataToObject());
+                        OnHotKeyToggle(msg.nSource, msg.bActive);
                     break;
                 case ClientEvent.CLIENTEVENT_HOTKEY_TEST :
                     if(OnHotKeyTest != null)
-                        OnHotKeyTest(msg.nSource, (bool)msg.DataToObject());
+                        OnHotKeyTest(msg.nSource, msg.bActive);
                     break;
                 case ClientEvent.CLIENTEVENT_FILETRANSFER :
                     if(OnFileTransfer != null)
-                        OnFileTransfer((FileTransfer)msg.DataToObject());
+                        OnFileTransfer(msg.filetransfer);
                     break;
                 case ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER :
                     if(OnDesktopWindowTransfer != null)
-                        OnDesktopWindowTransfer(msg.nSource, (int)msg.DataToObject());
+                        OnDesktopWindowTransfer(msg.nSource, msg.nBytesRemain);
                     break;
                 case ClientEvent.CLIENTEVENT_STREAM_MEDIAFILE :
                     if(OnStreamMediaFile != null)
-                        OnStreamMediaFile((MediaFileInfo)msg.DataToObject());
+                        OnStreamMediaFile(msg.mediafileinfo);
                     break;
                 case ClientEvent.CLIENTEVENT_LOCAL_MEDIAFILE:
                     if (OnLocalMediaFile != null)
-                        OnLocalMediaFile((MediaFileInfo)msg.DataToObject());
+                        OnLocalMediaFile(msg.mediafileinfo);
                     break;
                 case ClientEvent.CLIENTEVENT_AUDIOINPUT:
                     if (OnAudioInput != null)
-                        OnAudioInput((AudioInputProgress)msg.DataToObject());
+                        OnAudioInput(msg.audioinputprogress);
                     break;
                 case ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET:
                     if (OnUserFirstVoiceStreamPacket != null)
-                        OnUserFirstVoiceStreamPacket((User)msg.DataToObject(), msg.nSource);
+                        OnUserFirstVoiceStreamPacket(msg.user, msg.nSource);
                     break;
             }
         }
