@@ -28,7 +28,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Install dependencies
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
@@ -71,7 +71,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
 
     - name: Check for source changes
       uses: dorny/paths-filter@v3
