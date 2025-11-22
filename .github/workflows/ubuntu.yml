@@ -16,6 +16,7 @@ jobs:
       (github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/debug') || startsWith(github.ref, 'refs/heads/debug-linux'))) ||
       (github.event_name == 'pull_request' && (!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-linux')))
     strategy:
+      fail-fast: false
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
         include:

@@ -17,6 +17,7 @@ jobs:
       (github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/debug') || startsWith(github.ref, 'refs/heads/debug-windows'))) ||
       (github.event_name == 'pull_request' && (!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')))
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: VS2019Release32
