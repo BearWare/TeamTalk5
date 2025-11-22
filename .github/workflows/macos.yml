@@ -1,16 +1,6 @@
 name: macOS
 
-on:
-  push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-macos*'
-  pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-macos*'
+on: [push, pull_request]
 
 env:
   # TeamTalk unit test environment variables
@@ -22,6 +12,9 @@ env:
 
 jobs:
   build:
+    if: |
+      (github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/debug') || startsWith(github.ref, 'refs/heads/debug-macos'))) ||
+      (github.event_name == 'pull_request' && (!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-macos')))
     runs-on: macos-latest
 
     steps:
