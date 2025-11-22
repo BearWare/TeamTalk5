@@ -50,7 +50,6 @@ jobs:
            libqt5x11extras5-dev
            libspeex-dev
            libspeexdsp-dev
-           libssl-dev
            libtinyxml-dev
            libvpx-dev
            libxss-dev
@@ -64,7 +63,6 @@ jobs:
            qttools5-dev-tools
            valgrind
            yasm
-           zlib1g-dev
 
     - name: Create build directory
       run: cmake -E make_directory ${{runner.workspace}}/build
