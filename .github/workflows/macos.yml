@@ -36,11 +36,17 @@ jobs:
         distribution: 'temurin'
         java-version: '21'
 
+    - name: Set up Python
+      uses: actions/setup-python@v6
+      with:
+        python-version: '3.14'
+
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
         version: '6.10.*'
         modules: 'qtmultimedia qtspeech'
+        setup-python: false
 
     - name: Print env
       run: printenv | sort
