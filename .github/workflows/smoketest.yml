@@ -32,12 +32,6 @@ jobs:
     - name: Update Ubuntu repository
       run: sudo apt-get update
 
-    - name: Remove unnecessary packages
-      run: |
-        sudo apt-get autoremove --purge
-        # Ensure FFmpeg doesn't detect additional dependencies
-        sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
-
     - name: Install dependencies
       run: >-
            sudo apt-get install
