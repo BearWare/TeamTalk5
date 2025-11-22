@@ -1,16 +1,6 @@
 name: Windows
 
-on:
-  push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
-  pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
+on: [push, pull_request]
 
 env:
   # TeamTalk unit test environment variables
@@ -23,6 +13,9 @@ env:
 
 jobs:
   msvc:
+    if: |
+      (github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/debug') || startsWith(github.ref, 'refs/heads/debug-windows'))) ||
+      (github.event_name == 'pull_request' && (!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')))
     strategy:
       matrix:
         include:
