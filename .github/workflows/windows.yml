@@ -24,6 +24,7 @@ env:
 jobs:
   msvc:
     strategy:
+      fail-fast: false
       matrix:
         include:
           - name: VS2019Release32
