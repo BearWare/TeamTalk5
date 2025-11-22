@@ -99,7 +99,7 @@ ios-build:
         -DTOOLCHAIN_ZLIB=OFF" \
         buildlib
 
-IOS_INSTALL_DIR?=$(PWD)/ios-install
+IOS_INSTALL_DIR?=$(TEAMTALK_ROOT)/ios-install
 
 ios-arm64:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$@ ios-build
