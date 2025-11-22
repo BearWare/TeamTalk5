@@ -12,38 +12,38 @@ env:
   SKIPKNOWNBUGS: 1
 
 jobs:
-  msvc:
+  build:
     if: |
       (github.event_name == 'push' && (!startsWith(github.ref, 'refs/heads/debug') || startsWith(github.ref, 'refs/heads/debug-windows'))) ||
       (github.event_name == 'pull_request' && (!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')))
     strategy:
       fail-fast: false
       matrix:
+        arch: [x86, x64]
         include:
-          - name: VS2019Release32
-            vmimage: windows-2025
+          - arch: x86
             cmakeplatform: Win32
-            dotnetarch: x86
+            javaversion: 19
+            msystem: MINGW32
+            opensslplatform: VC-WIN32
+            portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            msystem: MINGW32
-            portablearch: win32
             vcpkgarch: x86-windows
-            javaversion: 19
-          - name: VS2022Release64
-            vmimage: windows-2025
+            vcvars: vcvars32.bat
+          - arch: x64
             cmakeplatform: x64
-            dotnetarch: x64
-            qtarch: win64_msvc2022_64
-            qtversion: '6.10.*'
-            qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
+            javaversion: 25
             msystem: MINGW64
+            opensslplatform: VC-WIN64A
             portablearch: win64
+            qtarch: win64_msvc2022_64
+            qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
+            qtversion: '6.10.*'
             vcpkgarch: x64-windows
-            javaversion: 21
+            vcvars: vcvars64.bat
 
-    runs-on: ${{ matrix.vmimage }}
-    name: ${{ matrix.name }}
+    runs-on: windows-latest
     steps:
     - name: Checkout
       uses: actions/checkout@v6
@@ -55,13 +55,13 @@ jobs:
       with:
         distribution: 'temurin'
         java-version: '${{ matrix.javaversion }}'
-        architecture: ${{ matrix.dotnetarch }}
+        architecture: ${{ matrix.arch }}
 
     - name: Set up Python
       uses: actions/setup-python@v6
       with:
         python-version: '3.14'
-        architecture: ${{ matrix.dotnetarch }}
+        architecture: ${{ matrix.arch }}
 
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
@@ -86,9 +86,6 @@ jobs:
       shell: cmd
       run: set
 
-    - name: Set up MSBuild
-      uses: microsoft/setup-msbuild@v2
-
     - name: Install Cygwin
       uses: cygwin/cygwin-install-action@v6
       with:
@@ -97,6 +94,13 @@ jobs:
         add-to-path: false
         work-vol: 'C:'
 
+    - name: Set up MSYS2
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: ${{ matrix.msystem }}
+        path-type: inherit
+        install: make
+
     - name: Install YASM
       shell: cmd
       run: |
@@ -104,7 +108,7 @@ jobs:
         echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
 
     - name: Install NASM
-      if: matrix.name == 'VS2019Release32'
+      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -113,15 +117,15 @@ jobs:
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
 
     - name: Download and install OpenSSL
-      if: matrix.name == 'VS2019Release32'
+      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
         curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
         tar -xzf openssl-3.6.0.tar.gz
         cd openssl-3.6.0
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars32.bat"
-        perl Configure VC-WIN32 --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        perl Configure ${{ matrix.opensslplatform }} --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
         nmake /s
         nmake /s install
         echo %CD%\openssl-install\bin>> %GITHUB_PATH%
@@ -141,7 +145,7 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        cmake --build output --parallel 8 --config Release --target install
+        cmake --build output --parallel --config Release --target install
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
@@ -194,7 +198,7 @@ jobs:
       run: |
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
-        VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
+        VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
     - name: Run PyTest
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkPy/test
@@ -231,7 +235,7 @@ jobs:
       run: |
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
-        VSTest.Console.exe /Platform:${{ matrix.dotnetarch }} TeamTalk5Test.NET.dll
+        VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
     - name: Stop TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
@@ -243,18 +247,11 @@ jobs:
       shell: cmd
       run: tt5prosvc.exe -u
 
-    # Doxygen doesn't exist as GitHub action, so use pacman from MSYS64
-    - name: Set up MSYS2
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: ${{ matrix.msystem }}
-        path-type: inherit
-        install: make
-
     - name: Compile TeamTalk5.chm
+      continue-on-error: true
       working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
       shell: cmd
-      run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp & exit /b 0'
+      run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp'
 
     - name: Create portable archives
       working-directory: ${{runner.workspace}}
@@ -270,7 +267,7 @@ jobs:
     - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v5
       with:
-        name: teamtalksdk-windows-${{ matrix.dotnetarch }}
+        name: teamtalksdk-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - name: Upload TeamTalk portable artifact
