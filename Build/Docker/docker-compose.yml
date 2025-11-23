@@ -1,22 +1,4 @@
 services:
-  ubuntu18:
-    build:
-      context: .
-      dockerfile: Dockerfile_ubuntu18
-    volumes:
-      - ../..:/TeamTalk5:rw,z
-    user: root
-    working_dir: /TeamTalk5
-
-  ubuntu20:
-    build:
-      context: .
-      dockerfile: Dockerfile_ubuntu20
-    volumes:
-      - ../..:/TeamTalk5:rw,z
-    user: root
-    working_dir: /TeamTalk5
-
   ubuntu22:
     build:
       context: .
