@@ -14,8 +14,8 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-uniqueID-to-PaDeviceInfo-that-identifies-sound-d.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Allow-MT-option-for-static-library-and-append-d-to-d.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0001-Add-uniqueID-to-PaDeviceInfo-that-identifies-sound-d.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
+      COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Allow-MT-option-for-static-library-and-append-d-to-d.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DPA_BUILD_SHARED_LIBS=OFF -DPA_USE_WDMKS=OFF -DPA_USE_WDMKS_DEVICE_INFO=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug

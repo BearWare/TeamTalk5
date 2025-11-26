@@ -23,8 +23,8 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
+        PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
+        COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
         COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -60,8 +60,8 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
+        PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
+        COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
         COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -150,7 +150,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -248,7 +248,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_TAG           ACE+TAO-8_0_5
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -338,7 +338,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -435,8 +435,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
+      COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
