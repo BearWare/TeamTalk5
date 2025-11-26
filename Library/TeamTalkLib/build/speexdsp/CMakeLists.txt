@@ -25,8 +25,8 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch.cmake
+        COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch.cmake
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -47,8 +47,8 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch.cmake
+        COMMAND           ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch.cmake
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
