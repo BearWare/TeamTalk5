@@ -4,7 +4,8 @@
 
 Version 5.22, unreleased
 Default Qt Client
-- Updated Qt to 6.10.0 on Windows and macOS
+- Updated Qt to 6.10.0 on macOS
+- Updated Qt to 6.10.1 on Windows
 - Option to disable sound device detection notifications in statusbar events
 Android Client
 - Fixed bug where join and leave events were not announced when focused on another channel
