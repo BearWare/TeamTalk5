@@ -275,6 +275,7 @@
     <string name="stat_connecting">Устанавливается</string>
     <string name="stat_unauthorized">Не авторизован</string>
     <string name="label_ping">Пинг:</string>
+    <string name="label_rxtx">Трафик:</string>
     <string name="default_">По умолчанию</string>
 
     <string name="server_list_empty">Список Серверов TeamTalk 5 пуст</string>
