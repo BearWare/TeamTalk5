@@ -13,7 +13,7 @@ if (MSVC)
     ExternalProject_Add(ogg-src
       GIT_REPOSITORY    https://github.com/xiph/ogg.git
       GIT_TAG           v1.3.6
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-switch-to-MT.patch
+      PATCH_COMMAND     ${CMAKE_COMMAND} -DPATCH_FILE=${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build-and-switch-to-MT.patch -DSOURCE_DIR=<SOURCE_DIR> -P ${CMAKE_CURRENT_LIST_DIR}/../apply_patch_idempotent.cmake
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
