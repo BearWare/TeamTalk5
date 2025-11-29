@@ -51,19 +51,19 @@ public class TeamTalkAndroidTestCase extends TeamTalkTestCase {
             Manifest.permission.READ_PHONE_STATE);
 
     public void setUp() throws Exception {
-        this.ADMIN_USERNAME = "admin";
-        this.ADMIN_PASSWORD = "admin";
+        ADMIN_USERNAME = "admin";
+        ADMIN_PASSWORD = "admin";
 
-        this.IPADDR = "192.168.0.51";
-        this.TCPPORT = 10333;
-        this.UDPPORT = 10333;
+        IPADDR = "192.168.0.51";
+        TCPPORT = 10333;
+        UDPPORT = 10333;
 
         super.setUp();
 
-        this.INPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
-        this.OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        INPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
+        OUTPUTDEVICEID = SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM | SoundDeviceConstants.TT_SOUNDDEVICE_ID_SHARED_FLAG;
 
         File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        this.STORAGEFOLDER = filepath.toString();
+        STORAGEFOLDER = filepath.toString();
     }
 }

@@ -19,7 +19,7 @@
     <string name="action_createchannel">만들기</string>
     <string name="action_updatechannel">저장</string>
     <string name="text_con_encryption_error">암호화 오류: %1$s</string>
-    <string name="text_con_failed">연결 실패, 다시 시도 중...</string>
+    <string name="text_con_failed">연결 실패, 다시 시도 중…</string>
     <string name="text_con_lost">연결 끊김</string>
     <string name="text_con_success">서버에 연결됨</string>
     <string name="text_con_cmderr">명령을 실행하지 못했습니다.</string>

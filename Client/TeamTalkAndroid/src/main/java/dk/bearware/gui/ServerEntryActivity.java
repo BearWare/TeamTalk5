@@ -114,39 +114,36 @@ public class ServerEntryActivity extends AppCompatActivity
         binding.channelPasswordLayout.setVisibility(visibility);
     }
 
-    private static class PortTextWatcher implements TextWatcher {
-        private final TextInputEditText editText;
+    private record PortTextWatcher(TextInputEditText editText) implements TextWatcher {
 
-        public PortTextWatcher(TextInputEditText editText) {
-            this.editText = editText;
+        @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            String text = s.toString().trim();
-            if (text.isEmpty()) {
-                editText.setError(null);
-                return;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-            
-            try {
-                int port = Integer.parseInt(text);
-                if (port < MIN_PORT || port > MAX_PORT) {
-                    editText.setError("Port must be between " + MIN_PORT + " and " + MAX_PORT);
-                } else {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString().trim();
+                if (text.isEmpty()) {
                     editText.setError(null);
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                editText.setError("Invalid port number");
+
+                try {
+                    int port = Integer.parseInt(text);
+                    if (port < MIN_PORT || port > MAX_PORT) {
+                        editText.setError("Port must be between " + MIN_PORT + " and " + MAX_PORT);
+                    } else {
+                        editText.setError(null);
+                    }
+                } catch (NumberFormatException e) {
+                    editText.setError("Invalid port number");
+                }
             }
         }
-    }
 
     @Override
     protected void onResume() {
@@ -319,7 +316,7 @@ public class ServerEntryActivity extends AppCompatActivity
         }
         
         try {
-            Locale locale = new Locale("", countryCode.toUpperCase());
+            Locale locale = new Locale("", countryCode.toUpperCase(Locale.ROOT));
             String displayName = locale.getDisplayCountry();
             return displayName.isEmpty() ? countryCode : displayName;
         } catch (Exception e) {

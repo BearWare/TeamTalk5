@@ -50,6 +50,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import dk.bearware.ClientEvent;
@@ -228,7 +229,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
     }
 
     private void sortAndNotifyDataSetChanged() {
-        onlineUsers.sort(Comparator.comparing(u -> u.szNickname.toLowerCase()));
+        onlineUsers.sort(Comparator.comparing(u -> u.szNickname.toLowerCase(Locale.ROOT)));
         adapter.notifyDataSetChanged();
     }
 
@@ -311,7 +312,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
                 convertView = inflater.inflate(android.R.layout.simple_list_item_1, parent, false);
             }
 
-            TextView textView = (TextView) convertView.findViewById(android.R.id.text1);
+            TextView textView = convertView.findViewById(android.R.id.text1);
             User user = getItem(position);
 
             if (user != null) {

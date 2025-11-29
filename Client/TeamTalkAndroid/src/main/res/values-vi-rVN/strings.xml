@@ -18,7 +18,7 @@
     <string name="title_activity_stream_media">Phát tệp đến kênh</string>
     <string name="action_createchannel">Tạo</string>
     <string name="action_updatechannel">Cập nhật</string>
-    <string name="text_con_failed">Kết nối đến máy chủ thất bại. Hãy thử lại...</string>
+    <string name="text_con_failed">Kết nối đến máy chủ thất bại. Hãy thử lại…</string>
     <string name="text_con_lost">Mất kết nối với máy chủ</string>
     <string name="text_con_success">Đã kết nối với máy chủ</string>
     <string name="text_con_cmderr">Có lỗi sảy ra với lệnh</string>

@@ -17,7 +17,7 @@
     <string name="title_activity_stream_media">Stream media fil til kanal</string>
     <string name="action_createchannel">Opret</string>
     <string name="action_updatechannel">Opdater</string>
-    <string name="text_con_failed">Kunne ikke forbinde til server. Forsøger igen...</string>
+    <string name="text_con_failed">Kunne ikke forbinde til server. Forsøger igen…</string>
     <string name="text_con_lost">Mistet forbindelsen til server</string>
     <string name="text_con_success">Forbundet til server</string>
     <string name="text_con_cmderr">Kunne ikke udfører kommandoen</string>

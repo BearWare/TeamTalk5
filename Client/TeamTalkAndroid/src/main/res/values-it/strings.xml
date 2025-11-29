@@ -18,7 +18,7 @@
     <string name="title_activity_stream_media">Riproduci un file multimediale sul canale</string>
     <string name="action_createchannel">Creare</string>
     <string name="action_updatechannel">Modificare</string>
-    <string name="text_con_failed">Impossibile connettersi al server. Nuovo tentativo...</string>
+    <string name="text_con_failed">Impossibile connettersi al server. Nuovo tentativo…</string>
     <string name="text_con_lost">Connessione al server persa</string>
     <string name="text_con_success">Collegato al server</string>
     <string name="text_con_cmderr">Impossibile eseguire il comando</string>
@@ -221,7 +221,7 @@
     <string name="err_channel_remove">Impossibile eliminare il canale %1$s</string>
     <string name="err_download_path">La cartella di download %1$s non è disponibile</string>
     <string name="download_progress">%1$d%% scaricato</string>
-    <string name="upload_progress_title">Carica %1$s...</string>
+    <string name="upload_progress_title">Carica %1$s…</string>
     <string name="upload_progress">%1$d%%, fai clic per annullare</string>
     <string name="upload_started">Caricamento iniziato</string>
     <string name="transfer_stopped">Trasferimento interrotto</string>

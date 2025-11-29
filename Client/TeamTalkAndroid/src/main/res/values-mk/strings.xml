@@ -17,7 +17,7 @@
     <string name="title_activity_preferences">Параметри</string>
     <string name="action_createchannel">Креирај</string>
     <string name="action_updatechannel">Ажурирај</string>
-    <string name="text_con_failed">Неуспеа да се конектира на серверот. Се обидува повторно...</string>
+    <string name="text_con_failed">Неуспеа да се конектира на серверот. Се обидува повторно…</string>
     <string name="text_con_lost">Се изгуби конекцијата со серверот</string>
     <string name="text_con_success">Конектирани сте со серверот</string>
     <string name="text_con_cmderr">Неуспеа да ја зададе командата</string>

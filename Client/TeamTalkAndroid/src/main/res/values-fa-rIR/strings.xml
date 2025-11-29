@@ -19,7 +19,7 @@
     <string name="action_createchannel">ایجاد</string>
     <string name="action_updatechannel">به‌روزرسانی</string>
     <string name="text_con_encryption_error">خطای رمزگذاری: %1$s</string>
-    <string name="text_con_failed">خطای اتصال. در حال تلاش مجدد...</string>
+    <string name="text_con_failed">خطای اتصال. در حال تلاش مجدد…</string>
     <string name="text_con_lost">اتصال قطع شد</string>
     <string name="text_con_success">اتصال به سرور برقرار شد</string>
     <string name="text_con_cmderr">دستور اجرا نشد</string>

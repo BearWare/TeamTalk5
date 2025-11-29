@@ -19,7 +19,7 @@
     <string name="action_createchannel">创建</string>
     <string name="action_updatechannel">更新</string>
     <string name="text_con_encryption_error">加密错误： %1$s</string>
-    <string name="text_con_failed">无法连接服务器。重试中...</string>
+    <string name="text_con_failed">无法连接服务器。重试中…</string>
     <string name="text_con_lost">与服务器连接丢失</string>
     <string name="text_con_success">已连接服务器</string>
     <string name="text_con_cmderr">无法发出命令</string>

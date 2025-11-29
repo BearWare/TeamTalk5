@@ -17,7 +17,7 @@
     <string name="title_activity_preferences">Preferências</string>
     <string name="action_createchannel">Criar canal</string>
     <string name="action_updatechannel">Atualizar canal</string>
-    <string name="text_con_failed">Erro ao conectar ao servidor. Tentando novamente...</string>
+    <string name="text_con_failed">Erro ao conectar ao servidor. Tentando novamente…</string>
     <string name="text_con_lost">Conexão com o servidor caiu.</string>
     <string name="text_con_success">Conectado</string>
     <string name="text_con_cmderr">Erro ao executar o comando</string>

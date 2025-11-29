@@ -10,6 +10,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:src="@drawable/channel_green"
         android:importantForAccessibility="no" />
     
@@ -38,6 +39,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="5dp"
+                android:paddingEnd="5dp"
                 android:text=""
                 android:singleLine="true"
                 android:textSize="16sp" />
@@ -64,7 +66,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/action_join"
-        android:focusable="false" 
+        android:focusable="true"
         android:clickable="true" />
     
     </LinearLayout>

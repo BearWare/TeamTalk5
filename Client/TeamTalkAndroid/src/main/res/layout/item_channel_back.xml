@@ -18,6 +18,7 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/channelicon"
         android:paddingStart="5dp"
+        android:paddingEnd="5dp"
         android:orientation="vertical" >
 
         <LinearLayout
@@ -39,7 +40,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingStart="5dp"
-                android:textSize="16sp" 
+                android:paddingEnd="5dp"
+                android:textSize="16sp"
                 android:singleLine="true" />
         </LinearLayout>
 
@@ -50,22 +52,5 @@
             android:singleLine="true"
             android:textSize="14sp" />
     </LinearLayout>
-    
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentTop="true"
-        android:orientation="horizontal" >
-<!--    
-    <Button
-        android:id="@+id/back_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Back"
-        android:focusable="false" 
-        android:clickable="true" />
--->    
-    </LinearLayout>
-    
+
 </RelativeLayout>

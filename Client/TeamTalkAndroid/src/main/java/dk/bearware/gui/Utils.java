@@ -318,7 +318,7 @@ public class Utils {
             return 0;
     }
 
-    /* @return User ID -> StreamType */
+    /** @return User ID -> StreamType */
     public static Map<Integer, Integer> transmitUsersToMap(int[][] transmitUsers) {
         Map<Integer, Integer> map = new HashMap<>();
         for (int[] entry : transmitUsers) {

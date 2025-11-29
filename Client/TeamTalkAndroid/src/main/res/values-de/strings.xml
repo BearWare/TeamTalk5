@@ -19,7 +19,7 @@
     <string name="action_createchannel">Erstellen</string>
     <string name="action_updatechannel">Bearbeiten</string>
     <string name="text_con_encryption_error">Verschlüsselungsfehler: %1$s</string>
-    <string name="text_con_failed">Fehler beim Verbinden zum Server. Nächster Versuch...</string>
+    <string name="text_con_failed">Fehler beim Verbinden zum Server. Nächster Versuch…</string>
     <string name="text_con_lost">Verbindung zum Server unterbrochen</string>
     <string name="text_con_success">Mit Server verbunden</string>
     <string name="text_con_cmderr">Fehler beim Ausführen des Befehls</string>
