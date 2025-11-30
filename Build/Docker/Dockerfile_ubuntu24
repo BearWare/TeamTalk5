@@ -2,9 +2,9 @@ FROM ubuntu:24.04
 
 LABEL Description="TeamTalk for Ubuntu 24.04"
 
-RUN apt update --fix-missing
-RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt -y install keyboard-configuration tzdata
-RUN apt install -y \
+RUN apt-get update
+RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get install -y keyboard-configuration tzdata
+RUN apt-get install -y \
 		autoconf \
 		cmake \
 		doxygen \
@@ -18,7 +18,7 @@ RUN apt install -y \
 		libtool \
 		libxss-dev \
 		ninja-build \
-		openjdk-21-jdk \
+		openjdk-25-jdk \
 		p7zip-full \
 		pkg-config \
 		python-is-python3 \
