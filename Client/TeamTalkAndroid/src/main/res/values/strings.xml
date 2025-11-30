@@ -19,7 +19,7 @@
     <string name="action_createchannel">Create</string>
     <string name="action_updatechannel">Update</string>
     <string name="text_con_encryption_error">Encryption error: %1$s</string>
-    <string name="text_con_failed">Failed to connect to server. Retrying...</string>
+    <string name="text_con_failed">Failed to connect to server. Retrying…</string>
     <string name="text_con_lost">Lost connection to server</string>
     <string name="text_con_success">Connected to server</string>
     <string name="text_con_cmderr">Failed to issue command</string>
@@ -311,6 +311,7 @@
     <string name="pref_title_server_address">Domain Name or IP-address</string>
     <string name="pref_title_tcp_port">TCP Port</string>
     <string name="pref_title_udp_port">UDP Port</string>
+    <string name="default_port">10333</string>
     <string name="pref_title_encription">Encrypted</string>
     <string name="pref_title_authentication">Authentication</string>
     <string name="pref_title_username">Username</string>

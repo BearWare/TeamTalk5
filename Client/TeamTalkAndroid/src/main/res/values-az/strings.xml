@@ -15,7 +15,7 @@
     <string name="title_activity_preferences">Elave Tercihler</string>
     <string name="action_createchannel">Kanal Yarat</string>
     <string name="action_updatechannel">Kanalı Güncelleştir</string>
-    <string name="text_con_failed">Sunucuya Bağlanılmadı. Tekrar Cehd Etmeye Çalışılıyor...</string>
+    <string name="text_con_failed">Sunucuya Bağlanılmadı. Tekrar Cehd Etmeye Çalışılıyor…</string>
     <string name="text_con_lost">Sunucu Bağlantısı Kesildi</string>
     <string name="text_con_success">Sunucuya Bağlanıldı</string>
     <string name="text_con_cmderr">sehv qeyd</string>

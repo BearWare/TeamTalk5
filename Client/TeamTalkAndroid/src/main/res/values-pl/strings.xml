@@ -16,7 +16,7 @@
     <string name="title_activity_preferences">Opcje</string>
     <string name="action_createchannel">Utwórz</string>
     <string name="action_updatechannel">Edytuj</string>
-    <string name="text_con_failed">Nie udało się połączyć z serwerem. Próbuję ponownie...</string>
+    <string name="text_con_failed">Nie udało się połączyć z serwerem. Próbuję ponownie…</string>
     <string name="text_con_lost">Utracono połączenie z serwerem</string>
     <string name="text_con_success">Połączono z serwerem</string>
     <string name="text_con_cmderr">Nie udało się wydać komendy</string>

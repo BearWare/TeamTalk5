@@ -17,7 +17,7 @@
     <string name="title_activity_preferences">إعدادات</string>
     <string name="action_createchannel">إنشاء</string>
     <string name="action_updatechannel">تحديث</string>
-    <string name="text_con_failed">فشل الإتصال بالخادم. جاري المحاولة...</string>
+    <string name="text_con_failed">فشل الإتصال بالخادم. جاري المحاولة…</string>
     <string name="text_con_lost">فقدان الإتصال بالخادم</string>
     <string name="text_con_success">متصل بالخادم</string>
     <string name="text_con_cmderr">فشل في تنفيذ الأمر</string>

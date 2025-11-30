@@ -314,8 +314,8 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
             String fileSize = Formatter.formatFileSize(context, remoteFile.nFileSize);
             String fileinfo = String.format("%s (%s): %s", fileSize, remoteFile.szUsername, remoteFile.szUploadTime);
             ((TextView)convertView.findViewById(R.id.fileinfo)).setText(fileinfo);
-            Button downloadButton = (Button)convertView.findViewById(R.id.download_btn);
-            Button removeButton = (Button)convertView.findViewById(R.id.remove_btn);
+            Button downloadButton = convertView.findViewById(R.id.download_btn);
+            Button removeButton = convertView.findViewById(R.id.remove_btn);
             downloadButton.setOnClickListener(buttonClickListener);
             downloadButton.setAccessibilityDelegate(accessibilityAssistant);
             removeButton.setOnClickListener(buttonClickListener);
@@ -327,7 +327,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                 convertView = inflater.inflate(R.layout.item_file_transfer, parent, false);
             FileTransfer transferinfo = downloads.get(remoteFile.szFileName);
             ((TextView)convertView.findViewById(R.id.progress)).setText(context.getString(R.string.download_progress, getPercentage(transferinfo)));
-            Button cancelButton = (Button)convertView.findViewById(R.id.cancel_btn);
+            Button cancelButton = convertView.findViewById(R.id.cancel_btn);
             cancelButton.setOnClickListener(buttonClickListener);
             cancelButton.setAccessibilityDelegate(accessibilityAssistant);
             break;

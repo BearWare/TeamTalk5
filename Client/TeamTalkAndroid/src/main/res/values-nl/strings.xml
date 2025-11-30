@@ -17,7 +17,7 @@
     <string name="title_activity_preferences">Voorkeuren</string>
     <string name="action_createchannel">Aanmaken</string>
     <string name="action_updatechannel">Bijwerken</string>
-    <string name="text_con_failed">KOn niet verbinden met de server. Opnieuw proberen...</string>
+    <string name="text_con_failed">KOn niet verbinden met de server. Opnieuw proberen…</string>
     <string name="text_con_lost">Verbinding met server verbroken</string>
     <string name="text_con_success">Verbonden met server</string>
     <string name="text_con_cmderr">Fout bij uitvoeren commando</string>

@@ -18,7 +18,7 @@
     <string name="title_activity_stream_media">بث ملف وسائط إلى القناة</string>
     <string name="action_createchannel">انشاء</string>
     <string name="action_updatechannel">تحديث</string>
-    <string name="text_con_failed">فشل الاتصال بالخادم. جاري إعادة المحاولة...</string>
+    <string name="text_con_failed">فشل الاتصال بالخادم. جاري إعادة المحاولة…</string>
     <string name="text_con_lost">انقطع الاتصال بالخادم</string>
     <string name="text_con_success">متصل بالخادم</string>
     <string name="text_con_cmderr">فشل في تنفيذ الأمر</string>

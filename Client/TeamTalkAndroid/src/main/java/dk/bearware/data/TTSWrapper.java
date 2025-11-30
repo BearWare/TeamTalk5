@@ -37,7 +37,7 @@ public class TTSWrapper {
     private static final String TAG = "bearware";
     private TextToSpeech tts;
     public static final String defaultEngineName = "com.google.android.tts"; // should be got from getDefaultEngine method.
-    private Context mContext;
+    private final Context mContext;
     public Boolean useAnnouncements;
     private String mCurrentEngineName = defaultEngineName;
 

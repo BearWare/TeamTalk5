@@ -17,7 +17,7 @@
   <string name="title_activity_stream_media">Kanala ortam dosyası akıt</string>
   <string name="action_createchannel">Oluştur</string>
   <string name="action_updatechannel">Güncelleştir</string>
-  <string name="text_con_failed">Sunucuya bağlanma başarısız. Yeniden deneniyor...</string>
+  <string name="text_con_failed">Sunucuya bağlanma başarısız. Yeniden deneniyor…</string>
   <string name="text_con_lost">Sunucu bağlantısı kaybedildi</string>
   <string name="text_con_success">Sunucuya bağlandı</string>
   <string name="text_con_cmderr">Komutu sonuçlandırma başarısız</string>

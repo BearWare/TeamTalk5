@@ -19,7 +19,7 @@
     <string name="title_activity_stream_media">Трансляция медиафайла в канале</string>
     <string name="action_createchannel">Создать</string>
     <string name="action_updatechannel">Обновить</string>
-    <string name="text_con_failed">Не удалось подключиться к серверу. Попробуем еще...</string>
+    <string name="text_con_failed">Не удалось подключиться к серверу. Попробуем еще…</string>
     <string name="text_con_lost">Потеряна связь с сервером</string>
     <string name="text_con_success">Установлено соединение с сервером</string>
     <string name="text_con_cmderr">Не удалось выдать команду</string>

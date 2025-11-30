@@ -197,9 +197,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     private boolean requestMediaPermissions() {
         boolean video = Permissions.READ_MEDIA_VIDEO.request(this);
         boolean audio = Permissions.READ_MEDIA_AUDIO.request(this);
-        return areMediaPermissionsComplete() ?
-            (video || audio) :
-            false;
+        return areMediaPermissionsComplete() && (video || audio);
     }
 
     private boolean areMediaPermissionsComplete() {

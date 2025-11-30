@@ -61,7 +61,7 @@ public class MapAdapter extends BaseAdapter {
 
     public int getValue(int position, int invalid_value) {
         if(position >= 0 && position < values.size())
-            return (int)values.get(position);
+            return values.get(position);
         return invalid_value;
     }
     public int getValue(String key, int invalid_value) {
@@ -91,7 +91,7 @@ public class MapAdapter extends BaseAdapter {
         if(convertView == null)
             convertView = inflater.inflate(layout_item, null);
         
-        TextView text = (TextView)convertView.findViewById(text_id);
+        TextView text = convertView.findViewById(text_id);
         text.setText(keys.get(pos));
 
         return convertView;

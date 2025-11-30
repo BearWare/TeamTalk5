@@ -19,7 +19,7 @@
     <string name="action_createchannel">Crear</string>
     <string name="action_updatechannel">Actualizar</string>
     <string name="text_con_encryption_error">Error de encriptación: %1$s</string>
-    <string name="text_con_failed">No se pudo conectar al servidor. Reintentando...</string>
+    <string name="text_con_failed">No se pudo conectar al servidor. Reintentando…</string>
     <string name="text_con_lost">Conexión perdida</string>
     <string name="text_con_success">Conectado al servidor</string>
     <string name="text_con_cmderr">Error de ejecución</string>
