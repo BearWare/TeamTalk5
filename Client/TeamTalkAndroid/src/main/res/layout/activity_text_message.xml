@@ -30,7 +30,8 @@
             android:layout_weight="1.0"
             android:inputType="textCapSentences"
             android:singleLine="true"
-            android:hint="@string/editmsg" >
+            android:hint="@string/editmsg"
+            android:importantForAutofill="no" >
 
             <requestFocus />
         </EditText>

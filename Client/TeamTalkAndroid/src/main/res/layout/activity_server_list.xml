@@ -18,6 +18,7 @@
         android:inputType="text"
         android:maxLines="1"
         android:drawableStart="@android:drawable/ic_menu_search"
+        android:importantForAutofill="no"
         android:drawablePadding="8dp"
         android:padding="12dp"
         android:layout_marginBottom="8dp" />

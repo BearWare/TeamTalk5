@@ -1230,9 +1230,7 @@ private EditText newmsg;
 
             Object item = getItem(position);
 
-            if(item instanceof Channel) {
-
-                final Channel channel = (Channel) item;
+            if(item instanceof Channel channel) {
 
                 switch (getItemViewType(position)) {
                     case PARENT_CHANNEL_VIEW_TYPE :
@@ -1285,7 +1283,7 @@ private EditText newmsg;
 
                         if (channel.nMaxUsers > 0) {
                             int population = Utils.getUsers(channel.nChannelID, getService().getUsers()).size();
-                            ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format("(%d)", population) : "");
+                            ((TextView)convertView.findViewById(R.id.population)).setText((population > 0) ? String.format(Locale.ROOT, "(%d)", population) : "");
                         }
 
                         break;
@@ -1301,14 +1299,13 @@ private EditText newmsg;
                         break;
                 }
             }
-            else if(item instanceof User) {
+            else if(item instanceof User user) {
                 if (convertView == null ||
                     convertView.findViewById(R.id.nickname) == null)
                     convertView = inflater.inflate(R.layout.item_user, parent, false);
                 ImageView usericon = convertView.findViewById(R.id.usericon);
                 TextView nickname = convertView.findViewById(R.id.nickname);
                 TextView status = convertView.findViewById(R.id.status);
-                final User user = (User) item;
                 String name = Utils.getDisplayName(getBaseContext(), user);
                 nickname.setText(name);
                 status.setText(user.szStatusMsg);
@@ -1417,7 +1414,7 @@ private EditText newmsg;
 
                     String str;
                     if(stats.nUdpPingTimeMs >= 0) {
-                        str = String.format("%1$d", stats.nUdpPingTimeMs); 
+                        str = String.format(Locale.ROOT, "%1$d", stats.nUdpPingTimeMs);
                         ping.setText(getString(R.string.label_ping) + " " + str);
                         
                         if(stats.nUdpPingTimeMs > 250) {
@@ -1426,9 +1423,9 @@ private EditText newmsg;
                         else {
                             ping.setTextColor(defcolor);
                         }
-                    }                    
-                    
-                    str = String.format("%1$d/%2$d KB", totalrx/ 1024, totaltx / 1024);
+                    }
+
+                    str = String.format(Locale.ROOT, "%1$d/%2$d KB", totalrx/ 1024, totaltx / 1024);
                     total.setText(getString(R.string.label_rxtx) + " " + str);
                     
                     prev_stats = stats;
@@ -1446,15 +1443,13 @@ private EditText newmsg;
     public void onItemClick(AdapterView< ? > l, View v, int position, long id) {
 
         Object item = channelsAdapter.getItem(position);
-        if(item instanceof User) {
-            User user = (User)item;
+        if(item instanceof User user) {
             Intent intent = new Intent(this, UserPropActivity.class);
             // TODO: check 'curchannel' for null
             startActivityForResult(intent.putExtra(UserPropActivity.EXTRA_USERID, user.nUserID),
                                    REQUEST_EDITUSER);
         }
-        else if(item instanceof Channel) {
-            Channel channel = (Channel) item;
+        else if(item instanceof Channel channel) {
             setCurrentChannel((channel.nChannelID > 0) ? channel : null);
             channelsAdapter.notifyDataSetChanged();
         }
@@ -1564,14 +1559,14 @@ private EditText newmsg;
                 UserAccount myuseraccount = new UserAccount();
                 getClient().getMyUserAccount(myuseraccount);
                 if ((myuseraccount.uUserRights & UserRight.USERRIGHT_OPERATOR_ENABLE) != UserRight.USERRIGHT_NONE) {
-                    getClient().doChannelOp(selectedUser.nUserID, selectedUser.nChannelID, getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true);
+                    getClient().doChannelOp(selectedUser.nUserID, selectedUser.nChannelID, !getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID));
                     break;
                 }
                 alert.setTitle(getClient().isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
                 alert.setMessage(R.string.text_operator_password);
                 final EditText input = new EditText(this);
                 input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD | InputType.TYPE_CLASS_TEXT);
-                alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> getClient().doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID)? false: true)));
+                alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> getClient().doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), !getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID))));
                 alert.setNegativeButton(android.R.string.no, null);
                 alert.setView(input);
                 alert.show();
