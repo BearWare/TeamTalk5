@@ -108,7 +108,6 @@ jobs:
         install: make
 
     - name: Install YASM
-      shell: cmd
       run: |
         vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
         echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
