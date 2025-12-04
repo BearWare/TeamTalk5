@@ -25,7 +25,8 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:singleLine="true"
-            android:hint="@string/channamelab">
+            android:hint="@string/channamelab"
+            android:importantForAutofill="no">
         </EditText>
     </LinearLayout>
 
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:lines="1"
-            android:hint="@string/chanpswlab">
+            android:hint="@string/chanpswlab"
+            android:importantForAutofill="no">
         </EditText>
     </LinearLayout>
     <LinearLayout
@@ -64,7 +66,8 @@
             android:layout_height="wrap_content"
             android:inputType="text"
             android:lines="3"
-            android:hint="@string/chantopiclab" >
+            android:hint="@string/chantopiclab"
+            android:importantForAutofill="no" >
         </EditText>
     </LinearLayout>
     
@@ -86,7 +89,8 @@
             android:layout_height="wrap_content"
             android:inputType="textPassword"
             android:lines="1"
-            android:hint="@string/chanoppswlab" >
+            android:hint="@string/chanoppswlab"
+            android:importantForAutofill="no" >
         </EditText>
     </LinearLayout>
     
@@ -108,7 +112,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="number"
-            android:hint="@string/maxuserslab" />
+            android:hint="@string/maxuserslab"
+            android:importantForAutofill="no" />
 
     </LinearLayout>
     
@@ -130,7 +135,8 @@
             android:layout_weight="1"
             android:ems="10"
             android:inputType="number"
-            android:hint="@string/diskquotalab" />
+            android:hint="@string/diskquotalab"
+            android:importantForAutofill="no" />
 
     </LinearLayout>
     <LinearLayout
