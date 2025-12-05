@@ -19,7 +19,7 @@ if (MSVC)
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
         CONFIGURE_COMMAND ""
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
         BUILD_COMMAND     set CL=/MP
         COMMAND           nmake /s
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
@@ -33,7 +33,7 @@ if (MSVC)
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
+        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
         BUILD_COMMAND     set CL=/MP
         COMMAND           nmake
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}

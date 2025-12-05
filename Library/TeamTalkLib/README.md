@@ -55,6 +55,9 @@ manually.
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
     * LibVPX requires *yasm*
+* Download [NASM](https://www.nasm.us/)
+    * Place `nasm.exe` in environment variable %PATH%
+    * OpenSSL requires *NASM* for assembly optimization
 
 ### Install TeamTalk Dependencies on Ubuntu
 
