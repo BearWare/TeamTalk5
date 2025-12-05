@@ -53,6 +53,8 @@ if (BUILD_TEAMTALK_CORE)
 endif()
 
 if (MSVC)
+  add_compile_options(/utf-8)
+
   include(CheckLanguage)
   check_language(CSharp)
 endif()
