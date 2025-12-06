@@ -563,7 +563,7 @@ public:
                 if (m_audio_samples)
                 {
                     assert(m_outputaudiofmt.IsValid());
-                    dwBufSize = PCM16_BYTES(m_audio_samples, m_outputaudiofmt.channels);
+                    dwBufSize = static_cast<DWORD>(PCM16_BYTES(m_audio_samples, m_outputaudiofmt.channels));
                 }
 
                 hr = MFCreateSample(&pOutSample);
@@ -915,12 +915,13 @@ mftransform_t MFTransform::Create(const media::VideoFormat& inputfmt, media::Fou
     HRESULT hr;
     CComPtr<IMFMediaType> pInputType;
     LONG stride = 0;
+    GUID subType;
     hr = MFCreateMediaType(&pInputType);
     if (FAILED(hr))
         goto fail;
 
     pInputType->SetGUID(MF_MT_MAJOR_TYPE, MFMediaType_Video);
-    GUID subType = ConvertFourCC(inputfmt.fourcc);
+    subType = ConvertFourCC(inputfmt.fourcc);
     if(subType == GUID_NULL)
         goto fail;
     hr = pInputType->SetGUID(MF_MT_SUBTYPE, subType);
@@ -1232,11 +1233,11 @@ CComPtr<IMFMediaType> ConvertAudioFormat(const media::AudioFormat& format)
     if(FAILED(hr))
         goto fail;
 
-    hr = pInputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, PCM16_BYTES(format.samplerate, format.channels));
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_AVG_BYTES_PER_SECOND, static_cast<UINT32>(PCM16_BYTES(format.samplerate, format.channels)));
     if(FAILED(hr))
         goto fail;
 
-    hr = pInputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, PCM16_BYTES(1, format.channels));
+    hr = pInputType->SetUINT32(MF_MT_AUDIO_BLOCK_ALIGNMENT, static_cast<UINT32>(PCM16_BYTES(1, format.channels)));
     if(FAILED(hr))
         goto fail;
 
@@ -1330,7 +1331,7 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
             media::AudioFrame frame;
             frame.inputfmt = fmt;
             frame.input_buffer = reinterpret_cast<short*>(pBuffer);
-            frame.input_samples = dwCurLen / PCM16_BYTES(1, fmt.channels);
+            frame.input_samples = static_cast<int>(dwCurLen / PCM16_BYTES(1, fmt.channels));
             frame.timestamp = timestamp;
             mb = AudioFrameToMsgBlock(frame);
         }
@@ -1381,7 +1382,7 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     HRESULT hr;
     CComPtr<IMFSample> pSample;
     CComPtr<IMFMediaBuffer> pMediaBuffer;
-    DWORD dwBufSize = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+    DWORD dwBufSize = static_cast<DWORD>(PCM16_BYTES(frame.input_samples, frame.inputfmt.channels));
 #define RETURNONERROR(error)                \
     do {                                    \
         if (error)                          \
