@@ -56,7 +56,6 @@ public class ServerEntryActivity extends AppCompatActivity
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
     private static final String TAG = "bearware";
-    private static final int DEFAULT_PORT = 10333;
     private static final int MIN_PORT = 1;
     private static final int MAX_PORT = 65535;
 
@@ -271,14 +270,23 @@ public class ServerEntryActivity extends AppCompatActivity
     }
 
     private int parsePort(String portStr) {
+        int defaultPort = getDefaultPort();
         if (portStr.isEmpty()) {
-            return DEFAULT_PORT;
+            return defaultPort;
         }
         try {
             int port = Integer.parseInt(portStr);
-            return (port >= MIN_PORT && port <= MAX_PORT) ? port : DEFAULT_PORT;
+            return (port >= MIN_PORT && port <= MAX_PORT) ? port : defaultPort;
         } catch (NumberFormatException e) {
-            return DEFAULT_PORT;
+            return defaultPort;
+        }
+    }
+
+    private int getDefaultPort() {
+        try {
+            return Integer.parseInt(getString(R.string.default_port));
+        } catch (NumberFormatException e) {
+            return 10333; // Fallback value
         }
     }
 
