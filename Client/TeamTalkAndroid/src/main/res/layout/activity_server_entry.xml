@@ -139,8 +139,7 @@
                         android:maxLength="5"
                         android:text="@string/default_port"
                         android:singleLine="true"
-                        android:selectAllOnFocus="true"
-                        android:contentDescription="@string/pref_title_tcp_port" />
+                        android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
