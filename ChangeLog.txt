@@ -13,7 +13,7 @@ Android Client
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
 - Maximum bitrate can be specified in SpeexVBR
 iOS Client
--
+- Minimum supported iOS version is now 12.0
 Server
 -
 
