@@ -230,17 +230,8 @@ func setupSoundDevices() {
             catoptions = [ .defaultToSpeaker ]
         }
         else {
-            if #available(iOS 10.0, *) {
-                catoptions = [ .allowBluetoothHFP, .allowAirPlay, .allowBluetoothA2DP]
-                if #available(iOS 26.0, *) {
-                    catoptions.update(with: .bluetoothHighQualityRecording)
-                }
-                if a2dp {
-                    catoptions.remove(.allowBluetoothHFP)
-                }
-            } else {
-                catoptions = [ .allowBluetoothHFP ]
-            }
+            // Use .allowBluetooth for iOS 12.0+ (replaces deprecated .allowBluetoothHFP)
+            catoptions = [ .allowBluetooth, .allowAirPlay ]
         }
         // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),
         // will be ignored with .mixWithOthers

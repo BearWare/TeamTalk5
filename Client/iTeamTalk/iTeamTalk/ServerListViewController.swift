@@ -31,7 +31,9 @@ enum ServerType {
 }
 
 // Properties of a TeamTalk server to connect to
-class Server : NSObject {
+class Server : NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool { return true }
+    
     var name = ""
     var ipaddr = ""
     var tcpport = AppInfo.DEFAULT_TCPPORT
@@ -58,24 +60,25 @@ class Server : NSObject {
         
     }
     
-    @objc init(coder dec: NSCoder!) {
-        name = dec.decodeObject(forKey: "name") as! String
-        ipaddr = dec.decodeObject(forKey: "ipaddr") as! String
+    required init?(coder dec: NSCoder) {
+        super.init()
+        name = dec.decodeObject(forKey: "name") as? String ?? ""
+        ipaddr = dec.decodeObject(forKey: "ipaddr") as? String ?? ""
         tcpport = dec.decodeInteger(forKey: "tcpport")
         udpport = dec.decodeInteger(forKey: "udpport")
-        username = dec.decodeObject(forKey: "username") as! String
-        password = dec.decodeObject(forKey: "password") as! String
+        username = dec.decodeObject(forKey: "username") as? String ?? ""
+        password = dec.decodeObject(forKey: "password") as? String ?? ""
         nickname = dec.decodeObject(forKey: "nickname") as? String ?? ""
-        channel = dec.decodeObject(forKey: "channel") as! String
-        chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
+        channel = dec.decodeObject(forKey: "channel") as? String ?? ""
+        chanpasswd = dec.decodeObject(forKey: "chanpasswd") as? String ?? ""
         encrypted = dec.decodeBool(forKey: "encrypted")
         cacertdata = dec.decodeObject(forKey: "cacertdata") as? String ?? ""
         certdata = dec.decodeObject(forKey: "certdata") as? String ?? ""
         certprivkeydata = dec.decodeObject(forKey: "certprivkeydata") as? String ?? ""
         certverifypeer = dec.decodeBool(forKey: "certverifypeer")
     }
-    
-    @objc func encodeWithCoder(_ enc: NSCoder!) {
+
+    func encode(with enc: NSCoder) {
         enc.encode(name, forKey: "name")
         enc.encode(ipaddr, forKey: "ipaddr")
         enc.encode(tcpport, forKey: "tcpport")
@@ -102,9 +105,9 @@ func loadLocalServers() -> [Server] {
         for e in stored {
             let data = e as! Data
             
-            let server = NSKeyedUnarchiver.unarchiveObject(with: data) as! Server
-            
-            servers.append(server)
+            if let server = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Server.self, from: data) {
+                servers.append(server)
+            }
         }
     }
     return servers
@@ -115,8 +118,9 @@ func saveLocalServers(_ servers : [Server]) {
     let defaults = UserDefaults.standard
     var s_array = [Data]()
     for s in servers {
-        let data = NSKeyedArchiver.archivedData(withRootObject: s)
-        s_array.append(data)
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: s, requiringSecureCoding: true) {
+            s_array.append(data)
+        }
     }
     defaults.set(s_array, forKey: "ServerList")
     defaults.synchronize()
