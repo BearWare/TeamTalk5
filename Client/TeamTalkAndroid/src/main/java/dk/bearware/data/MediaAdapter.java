@@ -37,6 +37,7 @@ import android.widget.TextView;
 
 import java.nio.ByteBuffer;
 import java.util.LinkedList;
+import java.util.Locale;
 import java.util.Vector;
 
 import dk.bearware.BitmapFormat;
@@ -134,7 +135,7 @@ ClientEventListener.OnUserDesktopWindowListener {
 
     @Override
     public Object getChild(int groupPosition, int childPosition) {
-        return (User) getGroup(groupPosition);
+        return getGroup(groupPosition);
     }
 
     @Override
@@ -151,7 +152,7 @@ ClientEventListener.OnUserDesktopWindowListener {
 
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
-            ImageView desktop = (ImageView) convertView
+            ImageView desktop = convertView
                     .findViewById(R.id.user_desktop_image);
             desktop.setImageBitmap(bmp);
         }
@@ -187,13 +188,13 @@ ClientEventListener.OnUserDesktopWindowListener {
         if (convertView == null)
             convertView = inflater.inflate(R.layout.item_media_user, parent, false);
 
-        TextView nickname = (TextView) convertView
+        TextView nickname = convertView
                 .findViewById(R.id.media_nickname_textview);
-        TextView wndinfo = (TextView) convertView
+        TextView wndinfo = convertView
                 .findViewById(R.id.mediainfo_textview);
         String name = Utils.getDisplayName(context, user);
         nickname.setText(name);
-        ImageView img = (ImageView) convertView.findViewById(R.id.mediaicon);
+        ImageView img = convertView.findViewById(R.id.mediaicon);
         int img_resource;
         switch(userid & ~USERID_MASK) {
         default :
@@ -214,7 +215,7 @@ ClientEventListener.OnUserDesktopWindowListener {
 
         Bitmap bmp = media_sessions.get(userid);
         if (bmp != null) {
-            wndinfo.setText(String.format("%1$dx%2$d %3$d-bit", bmp.getWidth(),
+            wndinfo.setText(String.format(Locale.ROOT, "%1$dx%2$d %3$d-bit", bmp.getWidth(),
                     bmp.getHeight(),
                     (bmp.getConfig() == Bitmap.Config.ARGB_8888) ? 32 : 0));
         }

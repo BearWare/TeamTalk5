@@ -69,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -447,7 +448,7 @@ public class ServerListActivity extends AppCompatActivity
     }
 
     private class ServerListAdapter extends RecyclerView.Adapter<ServerListAdapter.ServerViewHolder> {
-        private List<ServerEntry> filteredServers = new ArrayList<>();
+        private final List<ServerEntry> filteredServers = new ArrayList<>();
         private String currentFilter = "";
 
         public ServerListAdapter() {
@@ -474,7 +475,7 @@ public class ServerListActivity extends AppCompatActivity
         }
 
         public void filter(String query) {
-            String newFilter = query.toLowerCase().trim();
+            String newFilter = query.toLowerCase(Locale.ROOT).trim();
             if (!newFilter.equals(currentFilter)) {
                 currentFilter = newFilter;
                 updateFilteredList();
@@ -500,8 +501,8 @@ public class ServerListActivity extends AppCompatActivity
         }
 
         private boolean matchesFilter(ServerEntry server, String filter) {
-            return server.servername.toLowerCase().contains(filter) ||
-                   server.ipaddr.toLowerCase().contains(filter);
+            return server.servername.toLowerCase(Locale.ROOT).contains(filter) ||
+                   server.ipaddr.toLowerCase(Locale.ROOT).contains(filter);
         }
 
         public void updateServers() {
@@ -806,7 +807,7 @@ public class ServerListActivity extends AppCompatActivity
 
         TextView tv_version = findViewById(R.id.version_textview);
         TextView tv_dllversion = findViewById(R.id.dllversion_textview);
-        tv_version.setText(String.format("%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
+        tv_version.setText(String.format(Locale.ROOT, "%s%s%s Build %d", getString(R.string.ttversion), version, AppInfo.APPVERSION_POSTFIX, BuildConfig.VERSION_CODE));
         tv_dllversion.setText(getString(R.string.ttdllversion) + TeamTalkBase.getVersion());
 
         checkVersionAsync();

@@ -110,7 +110,7 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:baselineAligned="false" android:orientation="horizontal"
             android:layout_marginBottom="8dp">
 
             <LinearLayout
@@ -137,10 +137,9 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="5"
-                        android:text="10333"
+                        android:text="@string/default_port"
                         android:singleLine="true"
-                        android:selectAllOnFocus="true"
-                        android:contentDescription="@string/pref_title_tcp_port" />
+                        android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>
             </LinearLayout>
 
@@ -168,7 +167,7 @@
                         android:layout_height="wrap_content"
                         android:inputType="number"
                         android:maxLength="5"
-                        android:text="10333"
+                        android:text="@string/default_port"
                         android:singleLine="true"
                         android:selectAllOnFocus="true" />
                 </com.google.android.material.textfield.TextInputLayout>

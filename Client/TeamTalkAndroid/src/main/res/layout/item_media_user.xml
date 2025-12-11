@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentStart="true"
         android:paddingStart="30dip"
+        android:paddingEnd="30dip"
         android:text="@string/no_nickname"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
@@ -24,14 +25,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:src="@drawable/board_blue"
-            android:contentDescription="" />
+            android:importantForAccessibility="no" />
 
         <TextView
             android:id="@+id/mediainfo_textview"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingStart="5dp"
+            android:paddingEnd="5dp"
             android:text="0x0 0-bit"
             tools:ignore="HardcodedText" />
 

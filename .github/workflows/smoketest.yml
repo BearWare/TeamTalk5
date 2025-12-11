@@ -22,7 +22,7 @@ jobs:
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v5
+      uses: actions/checkout@v6
       with:
         submodules: true
 
@@ -30,16 +30,10 @@ jobs:
       uses: actions/setup-java@v5
       with:
         distribution: 'temurin'
-        java-version: '21'
+        java-version: '25'
 
     - name: Update Ubuntu repository
       run: sudo apt-get update
-
-    - name: Remove unnecessary packages
-      run: |
-        sudo apt-get autoremove --purge
-        # Ensure FFmpeg doesn't detect additional dependencies
-        sudo apt-get autoremove --purge libmagickcore-dev libmagickwand-dev libbz2-dev liblzma-dev
 
     - name: Install dependencies
       run: >-

@@ -164,9 +164,9 @@ public class TextMessageAdapter extends BaseAdapter {
                     text_color = user_text_color;
                 }
                 
-                TextView name = (TextView) convertView.findViewById(R.id.name_text);
-                TextView msgtext = (TextView) convertView.findViewById(R.id.msg_text);
-                TextView msgdate = (TextView) convertView.findViewById(R.id.time_text);
+                TextView name = convertView.findViewById(R.id.name_text);
+                TextView msgtext = convertView.findViewById(R.id.msg_text);
+                TextView msgdate = convertView.findViewById(R.id.time_text);
 
                 name.setText(txtmsg.szNickName);
                 msgdate.setText(txtmsg.time.toString());
@@ -186,9 +186,9 @@ public class TextMessageAdapter extends BaseAdapter {
                 bg_color = srvinfo_bg_color;
                 text_color = srvinfo_text_color;
 
-                TextView logmsg = (TextView) convertView.findViewById(R.id.srvname_text);
-                TextView logmotd = (TextView) convertView.findViewById(R.id.srvmotd_text);
-                TextView logtm = (TextView) convertView.findViewById(R.id.logtime_text);
+                TextView logmsg = convertView.findViewById(R.id.srvname_text);
+                TextView logmotd = convertView.findViewById(R.id.srvmotd_text);
+                TextView logtm = convertView.findViewById(R.id.logtime_text);
                 
                 ServerProperties p = (ServerProperties)txtmsg.userData;
                 logmsg.setText(p.szServerName);
@@ -218,8 +218,8 @@ public class TextMessageAdapter extends BaseAdapter {
                         break;
                 }
 
-                TextView logmsg = (TextView) convertView.findViewById(R.id.logmsg_text);
-                TextView logtm = (TextView) convertView.findViewById(R.id.logtime_text);
+                TextView logmsg = convertView.findViewById(R.id.logmsg_text);
+                TextView logtm = convertView.findViewById(R.id.logtime_text);
                 
                 logmsg.setText(txtmsg.szMessage);
                 logtm.setText(txtmsg.time.toString());

@@ -38,7 +38,8 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true"
-        android:requestLegacyExternalStorage="true">
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true">
 
         <activity
             android:name=".WebLoginActivity"
@@ -50,7 +51,6 @@
         <activity
             android:name=".ServerListActivity"
             android:icon="@drawable/teamtalk_blue"
-            android:label="@string/app_name"
             android:launchMode="singleTop"
             android:exported="true">
 

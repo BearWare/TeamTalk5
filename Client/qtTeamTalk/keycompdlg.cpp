@@ -150,7 +150,7 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
     qDebug() << "KeyCompDlg::keyPressEvent";
 
     qDebug() << "Native: " << QString("%1").arg(event->nativeModifiers(), 0, 16)
-             << "modifiers: " << QString("%1").arg(event->modifiers(), 0, 16)
+             << "modifiers: " << QString("%1").arg(int(event->modifiers()), 0, 16)
              << "key: " << QString("%1").arg(event->key(), 0, 16);
 
     if (m_hotkey.empty())
@@ -200,7 +200,7 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
     qDebug() << "KeyCompDlg::keyReleaseEvent";
 
     qDebug() << "Native: " << QString("%1").arg(event->nativeModifiers(), 0, 16)
-             << "modifiers: " << QString("%1").arg(event->modifiers(), 0, 16)
+             << "modifiers: " << QString("%1").arg(int(event->modifiers()), 0, 16)
              << "key: " << QString("%1").arg(event->key(), 0, 16)
              << "active keys count " << m_activekeys.size();
 

@@ -320,6 +320,7 @@
     <string name="pref_title_channel">Channel</string>
     <string name="pref_title_channel_password">Channel Password</string>
     <string name="pref_title_last_channel">Last Joined Channel</string>
+    <string name="default_port" translatable="false">10333</string>
 
     <string name="channel_password_prompt">Enter channel password</string>
     <string name="button_download">Download</string>

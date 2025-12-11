@@ -56,7 +56,6 @@ public class ServerEntryActivity extends AppCompatActivity
         ClientEventListener.OnCmdMyselfLoggedInListener {
 
     private static final String TAG = "bearware";
-    private static final int DEFAULT_PORT = 10333;
     private static final int MIN_PORT = 1;
     private static final int MAX_PORT = 65535;
 
@@ -114,39 +113,36 @@ public class ServerEntryActivity extends AppCompatActivity
         binding.channelPasswordLayout.setVisibility(visibility);
     }
 
-    private static class PortTextWatcher implements TextWatcher {
-        private final TextInputEditText editText;
+    private record PortTextWatcher(TextInputEditText editText) implements TextWatcher {
 
-        public PortTextWatcher(TextInputEditText editText) {
-            this.editText = editText;
+        @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
         }
 
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {}
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            String text = s.toString().trim();
-            if (text.isEmpty()) {
-                editText.setError(null);
-                return;
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
-            
-            try {
-                int port = Integer.parseInt(text);
-                if (port < MIN_PORT || port > MAX_PORT) {
-                    editText.setError("Port must be between " + MIN_PORT + " and " + MAX_PORT);
-                } else {
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                String text = s.toString().trim();
+                if (text.isEmpty()) {
                     editText.setError(null);
+                    return;
                 }
-            } catch (NumberFormatException e) {
-                editText.setError("Invalid port number");
+
+                try {
+                    int port = Integer.parseInt(text);
+                    if (port < MIN_PORT || port > MAX_PORT) {
+                        editText.setError("Port must be between " + MIN_PORT + " and " + MAX_PORT);
+                    } else {
+                        editText.setError(null);
+                    }
+                } catch (NumberFormatException e) {
+                    editText.setError("Invalid port number");
+                }
             }
         }
-    }
 
     @Override
     protected void onResume() {
@@ -274,14 +270,23 @@ public class ServerEntryActivity extends AppCompatActivity
     }
 
     private int parsePort(String portStr) {
+        int defaultPort = getDefaultPort();
         if (portStr.isEmpty()) {
-            return DEFAULT_PORT;
+            return defaultPort;
         }
         try {
             int port = Integer.parseInt(portStr);
-            return (port >= MIN_PORT && port <= MAX_PORT) ? port : DEFAULT_PORT;
+            return (port >= MIN_PORT && port <= MAX_PORT) ? port : defaultPort;
         } catch (NumberFormatException e) {
-            return DEFAULT_PORT;
+            return defaultPort;
+        }
+    }
+
+    private int getDefaultPort() {
+        try {
+            return Integer.parseInt(getString(R.string.default_port));
+        } catch (NumberFormatException e) {
+            return 10333; // Fallback value
         }
     }
 
@@ -319,7 +324,7 @@ public class ServerEntryActivity extends AppCompatActivity
         }
         
         try {
-            Locale locale = new Locale("", countryCode.toUpperCase());
+            Locale locale = new Locale("", countryCode.toUpperCase(Locale.ROOT));
             String displayName = locale.getDisplayCountry();
             return displayName.isEmpty() ? countryCode : displayName;
         } catch (Exception e) {
