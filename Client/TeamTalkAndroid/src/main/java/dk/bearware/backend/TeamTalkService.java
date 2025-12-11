@@ -914,7 +914,8 @@ public class TeamTalkService extends Service
         int statusmode = TeamTalkConstants.STATUSMODE_AVAILABLE;
         String statusmsg = ttserver.statusmsg;
 
-        if (TextUtils.isEmpty(statusmsg)) {
+        if (TextUtils.isEmpty(statusmsg))
+        {
             statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
         }
 
