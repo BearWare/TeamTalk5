@@ -11,6 +11,8 @@
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
     <!-- INTERNET is needed to use a URI-based audio player, depending on the URI -->
     <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <!-- ACCESS_NETWORK_STATE is needed for DNS resolution tied to active network -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"></uses-permission>
     <!-- VIBRATE is needed to vibrate on up/down of tx button -->
     <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
     <!-- READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are needed for file transfer facilities -->
