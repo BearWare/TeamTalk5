@@ -38,7 +38,6 @@ option (TOOLCHAIN_CATCH2 "Build and link Catch2 from TeamTalk toolchain" ON)
 add_feature_info (TOOLCHAIN_CATCH2 TOOLCHAIN_CATCH2 "Catch2 is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_CATCH2)
   add_subdirectory(catch2)
-  set (CATCH_INCLUDE_DIR ${CATCH_INCLUDE_DIR} PARENT_SCOPE)
 endif()
 
 option (TOOLCHAIN_LIBVPX "Build and link LibVPX from TeamTalk toolchain" ON)
