@@ -270,19 +270,19 @@ jobs:
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
 
     - name: Upload TeamTalk SDK artifacts
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - name: Upload TeamTalk portable artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - name: Upload TeamTalk Pro Server artifact
-      uses: actions/upload-artifact@v5
+      uses: actions/upload-artifact@v6
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
         path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
