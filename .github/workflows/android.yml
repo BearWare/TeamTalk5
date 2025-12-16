@@ -3,14 +3,10 @@ name: Android
 on:
   push:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-android*'
+      - master
   pull_request:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-android*'
+      - master
 
 jobs:
   build:

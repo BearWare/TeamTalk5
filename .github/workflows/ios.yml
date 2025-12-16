@@ -3,14 +3,10 @@ name: iOS
 on:
   push:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-ios*'
+      - master
   pull_request:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-ios*'
+      - master
 
 jobs:
   build:
