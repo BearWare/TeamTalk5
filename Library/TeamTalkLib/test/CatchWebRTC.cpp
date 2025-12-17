@@ -1,7 +1,7 @@
-#include <catch2/catch_all.hpp>
+#include <catch2/catch_test_macros.hpp>
+
 #include "codec/MediaUtil.h"
 #include "codec/WaveFile.h"
-#include <iostream>
 
 #include <api/audio/audio_processing.h>
 #include <modules/audio_processing/agc/gain_control.h>
@@ -12,6 +12,7 @@
 
 #include <cstddef>
 #include <cstdint>
+#include <iostream>
 #include <vector>
 
 TEST_CASE("webrtc-audiobuf") {
