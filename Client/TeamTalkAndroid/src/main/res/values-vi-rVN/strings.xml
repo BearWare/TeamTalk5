@@ -22,7 +22,7 @@
     <string name="text_con_failed">Kết nối đến máy chủ thất bại. Hãy thử lại...</string>
     <string name="text_con_lost">Mất kết nối với máy chủ</string>
     <string name="text_con_success">Đã kết nối với máy chủ</string>
-    <string name="text_con_cmderr">Có lỗi sảy ra</string>
+    <string name="text_con_cmderr">Có lỗi xảy ra</string>
     <string name="text_cmderr_login">Không thể gửi lệnh đăng nhập</string>
     <string name="text_cmd_loggedin">Đăng nhập vào máy chủ</string>
     <string name="text_cmd_joinchan">Đã tham gia kênh:</string>
@@ -118,10 +118,10 @@
     <string name="pref_summary_subscription_broadcast_msg">Thông báo khi đăng ký tin nhắn thông báo</string>
     <string name="pref_title_subscription_voice">Đăng ký truyền giọng nói</string>
     <string name="pref_summary_subscription_voice">Thông báo khi đăng ký truyền giọng nói</string>
-    <string name="pref_title_subscription_vid">Đăng ký truyềng video</string>
-    <string name="pref_summary_subscription_vid">Thông báo khi đăng ký truyềng video</string>
-    <string name="pref_title_subscription_desk">Đăng ký chia sẻc màn hình</string>
-    <string name="pref_summary_subscription_desk">Thông báo khi đăng ký chia sẻc màn hình</string>
+    <string name="pref_title_subscription_vid">Đăng ký truyền video</string>
+    <string name="pref_summary_subscription_vid">Thông báo khi đăng ký truyền video</string>
+    <string name="pref_title_subscription_desk">Đăng ký chia sẻ màn hình</string>
+    <string name="pref_summary_subscription_desk">Thông báo khi đăng ký chia sẻ màn hình</string>
     <string name="pref_title_subscription_media">Đăng ký truyền tệp phương tiện</string>
     <string name="pref_summary_subscription_media">Thông báo khi đăng ký truyền tệp phương tiện</string>
     <string name="pref_title_subscription_intercept_user_msg">Chặn tin nhắn người dùng</string>
@@ -133,7 +133,7 @@
     <string name="pref_title_subscription_intercept_vid">Chặn truyền video</string>
     <string name="pref_summary_subscription_intercept_vid">Thông báo khi chặn truyền video</string>
     <string name="pref_title_subscription_intercept_desk">Chặn chia sẻ màn hình</string>
-    <string name="pref_summary_subscription_intercept_desk">Thông báo khi chặn chia sẻc màn hình</string>
+    <string name="pref_summary_subscription_intercept_desk">Thông báo khi chặn chia sẻ màn hình</string>
     <string name="pref_title_subscription_intercept_media">Chặn truyền tệp phương tiện</string>
     <string name="pref_summary_subscription_intercept_media">Thông báo khi chặn truyền tệp phương tiện</string>
     <string name="pref_title_transmit_voice">Bật/tắt truyền giọng nói</string>
@@ -146,7 +146,7 @@
     <string name="pref_summary_transmit_media">Thông báo truyền tệp phương tiện</string>
     <string name="pref_title_transmit_channel_msg">Bật/tắt tin nhắn kênh</string>
     <string name="pref_summary_transmit_channel_msg">Thông báo tin nhắn kênh</string>
-    <string name="pref_title_mute_speakers">Tắt tiếng khi dữ để nói</string>
+    <string name="pref_title_mute_speakers">Tắt tiếng khi giữ để nói</string>
     <string name="pref_summary_mute_speakers">Kích hoạt tính năng này để tránh tiếng vang từ loa</string>
     <string name="pref_title_show_usernames">Hiển thị tên người dùng</string>
     <string name="pref_summary_show_usernames">Hiển thị tên người dùng thay vì biệt danh</string>
@@ -207,7 +207,7 @@
 
     <string name="button_tx">TX</string>
     <string name="button_remove">Xóa bỏ</string>
-    <string name="action_banchan">chặn khỏi  kênh hiện tại</string>
+    <string name="action_banchan">chặn khỏi kênh hiện tại</string>
     <string name="action_bansrv">Chặn khỏi máy chủ</string>
     <string name="action_edit">Chỉnh sửa kênh</string>
     <string name="action_join">Tham gia</string>
@@ -279,7 +279,7 @@
     <string name="stat_offline">Ngoại tuyến</string>
     <string name="stat_connecting">Đang kết nối</string>
     <string name="stat_unauthorized">Không được phép</string>
-    <string name="label_ping">Độ chễ:</string>
+    <string name="label_ping">Độ trễ:</string>
     <string name="label_rxtx">RX/TX:</string>
     <string name="default_">Mặc định</string>
 
@@ -310,7 +310,7 @@
     <string name="pref_title_server_name">Tên máy chủ</string>
     <string name="pref_title_server_address">Tên miền hoặc địa chỉ IP</string>
     <string name="pref_title_tcp_port">Cổng TCP</string>
-    <string name="pref_title_udp_port">Cổng udp</string>
+    <string name="pref_title_udp_port">Cổng UDP</string>
     <string name="pref_title_encription">Được mã hóa</string>
     <string name="pref_title_authentication">Xác thực</string>
     <string name="pref_title_username">tên người dùng</string>
@@ -337,7 +337,7 @@
     <string name="upload_progress_title">Đang tải lên %1$s</string>
     <string name="upload_progress">%1$d%%, Nhấn để hủy</string>
     <string name="upload_started">Đã bắt đầu tải lên</string>
-    <string name="transfer_stopped">Đã dừng/string>
+    <string name="transfer_stopped">Đã dừng</string>
     <string name="complete">Hoàn thành</string>
     <string name="remote_file_exists">Tệp %1$s đã tồn tại trong kênh này</string>
     <string name="remote_file_remove_confirmation">Bạn có chắc chắn muốn xóa tệp %1$s khỏi kênh này không?</string>
@@ -382,7 +382,7 @@
     <string name="text_officialserver">Máy chủ chính thức</string>
     <string name="text_unofficialserver">Máy chủ không chính thức</string>
     <string name="text_passwdprot">Được bảo vệ bằng mật khẩu</string>
-    <string name="text_translator">Dịch bởi Nguyễn xuân quảng</string>
+    <string name="text_translator">Dịch bởi Nguyễn Xuân Quảng</string>
     <string name="desktop_image">Hình ảnh chia sẻ màn hình</string>
     <string name="channel_change_alert">Tất cả mọi thứ đang hoạt động sẽ bị dừng khi chuyển kênh</string>
     <string name="disconnect_alert">Tất cả mọi thứ đang hoạt động sẽ bị dừng khi rời khỏi máy chủ</string>
@@ -433,7 +433,7 @@
     <string name="weblogin_prop_title_login">Đăng nhập</string>
     <string name="weblogin_prop_title_web_login_id">ID đăng nhập BearWare.dk</string>
     <string name="weblogin_prop_title_create_web_login_id">Tạo ID đăng nhập Bearware.dk</string>
-    <string name="weblogin_prop_title_reset_web_login_id">Đặt lại id đăng nhập bearware.dk</string>
+    <string name="weblogin_prop_title_reset_web_login_id">Đặt lại ID đăng nhập bearware.dk</string>
     <string name="text_bearwarelogin_success">%1$s Tên người dùng của bạn %2$s đã được xác nhận</string>
     <string name="text_bearwarelogin_failed">Không xác thực được tên người dùng %1$s (%2$s)</string>
     <string name="text_weblogin_authfailure">Đăng nhập web BearWare.dk không thể xác thực được. Kiểm tra Đăng nhập web BearWare.dk trong tùy chọn</string>
