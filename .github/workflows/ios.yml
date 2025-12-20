@@ -10,6 +10,7 @@ on:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-ios')"
     strategy:
       matrix:
         include:

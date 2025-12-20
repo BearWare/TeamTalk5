@@ -18,6 +18,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug')"
     runs-on: ubuntu-24.04
 
     steps:
