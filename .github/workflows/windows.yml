@@ -30,7 +30,6 @@ jobs:
           - arch: x86
             cmakeplatform: Win32
             javaversion: 19
-            msystem: MINGW32
             opensslplatform: VC-WIN32
             portablearch: win32
             qtarch: win32_msvc2019
@@ -40,7 +39,6 @@ jobs:
           - arch: x64
             cmakeplatform: x64
             javaversion: 25
-            msystem: MINGW64
             opensslplatform: VC-WIN64A
             portablearch: win64
             qtarch: win64_msvc2022_64
@@ -99,13 +97,6 @@ jobs:
         install-dir: 'C:\cygwin64'
         add-to-path: false
         work-vol: 'C:'
-
-    - name: Install MSYS2
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: ${{ matrix.msystem }}
-        path-type: inherit
-        install: make
 
     - name: Install YASM
       run: |
@@ -260,14 +251,9 @@ jobs:
 
     - name: Create portable archives
       working-directory: ${{runner.workspace}}
-      shell: msys2 {0}
       run: |
-        cd install-teamtalk
-        export TEAMTALK_INSTALLDIR=$PWD
-        cd ../TeamTalk5
-        source env.sh
-        cd Setup/Portable
-        make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
+        cmake --build output --config Release --target portable-${{ matrix.portablearch }}
+        cmake --build output --config Release --target portable-${{ matrix.portablearch }}pro
 
     - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v6

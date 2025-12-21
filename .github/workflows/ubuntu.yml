@@ -173,12 +173,11 @@ jobs:
         name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
 
-    - name: Create Ubuntu ${{ matrix.version }} portable archives
+    - name: Create portable archives
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
-        source env.sh
-        cd Setup/Portable
-        make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
+        cmake --build Build/build-ubuntu${{ matrix.version }} --target portable-ubuntu${{ matrix.version }}
+        cmake --build Build/build-ubuntu${{ matrix.version }} --target portable-ubuntu${{ matrix.version }}pro
 
     - name: Upload TeamTalk portable artifact
       uses: actions/upload-artifact@v6

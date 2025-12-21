@@ -84,3 +84,5 @@ if (BUILD_TEAMTALK_DOCUMENTATION)
   add_subdirectory (Documentation/TeamTalk)
   add_subdirectory (Documentation/TeamTalkSDK)
 endif()
+
+add_subdirectory (Setup/Portable)
