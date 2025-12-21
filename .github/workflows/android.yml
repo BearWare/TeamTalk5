@@ -3,17 +3,14 @@ name: Android
 on:
   push:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-android*'
+      - master
   pull_request:
     branches:
-      - '**'
-      - '!debug*'
-      - 'debug-android*'
+      - master
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-android')"
     strategy:
       matrix:
         include:
