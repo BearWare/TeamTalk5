@@ -45,7 +45,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
-    ExternalProject_Add(portaudio-src
+    ExternalProject_Add(PortAudio
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
       UPDATE_COMMAND    ""
@@ -55,30 +55,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
-    ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
-    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  else()
-    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO})
   endif()
 
-  find_library (AUDIOTOOLBOX_LIBRARY AudioToolBox)
-  find_library (AUDIOUNIT_LIBRARY AudioUnit)
-  find_library (CARBON_LIBRARY Carbon)
-  find_library (COREAUDIO_LIBRARY CoreAudio)
-
-  add_library(portaudio STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    add_dependencies(portaudio portaudio-src)
-  endif()
-  target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
-  set_target_properties(portaudio PROPERTIES
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
-  target_link_libraries(portaudio INTERFACE ${CARBON_LIBRARY} ${AUDIOUNIT_LIBRARY} ${COREAUDIO_LIBRARY} ${AUDIOTOOLBOX_LIBRARY})
+  find_package(PortAudio REQUIRED
+      HINTS ${TOOLCHAIN_INSTALL_PREFIX}/portaudio/lib/cmake)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    ExternalProject_Add(portaudio-src
+    ExternalProject_Add(PortAudio
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
       GIT_TAG           7786be7
       UPDATE_COMMAND    ""
@@ -88,25 +73,9 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libportaudio.a
       )
-    ExternalProject_Get_Property(portaudio-src INSTALL_DIR)
-    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
-  else()
-    set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_PORTAUDIO})
   endif()
 
-  add_library(portaudio STATIC IMPORTED GLOBAL)
-  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    add_dependencies(portaudio portaudio-src)
-  endif()
-
-  # Ubuntu: libasound2-dev
-  find_library(ASOUND_LIBRARY asound)
-  # Ubuntu: libpulse-dev
-  find_library(PULSE_LIBRARY pulse)
-
-  target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
-  set_target_properties(portaudio PROPERTIES
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
-  target_link_libraries(portaudio INTERFACE ${ASOUND_LIBRARY} ${PULSE_LIBRARY})
+  find_package(PortAudio REQUIRED
+      HINTS ${TOOLCHAIN_INSTALL_PREFIX}/portaudio/lib/cmake)
 
 endif()
