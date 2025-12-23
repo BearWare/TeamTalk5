@@ -24,7 +24,7 @@ jobs:
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
 
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
     - name: Checkout
@@ -67,7 +67,7 @@ jobs:
   lipo:
     needs: build
 
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
     - name: Checkout
