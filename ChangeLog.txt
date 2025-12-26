@@ -12,6 +12,7 @@ Android Client
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
 - Maximum bitrate can be specified in SpeexVBR
+- Fixed bug where connection to IPv6-only servers was not possible
 iOS Client
 -
 Server

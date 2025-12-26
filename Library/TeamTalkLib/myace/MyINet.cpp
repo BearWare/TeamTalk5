@@ -37,12 +37,20 @@
 #if defined(WIN32)
 #else
 #include <arpa/inet.h>
+#if defined(ACE_HAS_IPV6)
+#include <net/if.h>
+#endif
+#endif
+
+#if defined(ANDROID)
+#include <android/log.h>
 #endif
 
 #include <algorithm>
 #include <cassert>
 #include <cctype>
 #include <cerrno>
+#include <cstdlib>
 #include <iomanip>
 #include <memory>
 #include <sstream>
@@ -63,36 +71,115 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
     }
 
 #else
+    // Fast path for numeric literals (avoids platform resolver quirks).
+    // getaddrinfo() should handle numeric hosts, but on some Android devices
+    // it can still fail transiently (EAI_AGAIN) even for IPv6 literals.
+    const auto host_utf8_full = UnicodeToUtf8(host);
+    const char* host_utf8_cstr = host_utf8_full.c_str();
+    std::string host_utf8(host_utf8_cstr != nullptr ? host_utf8_cstr : "");
+    if (!host_utf8.empty() && host_utf8.front() == '[' && host_utf8.back() == ']')
+        host_utf8 = host_utf8.substr(1, host_utf8.size() - 2);
+
+    // IPv6 literals may include a zone index, e.g. "fe80::1%wlan0".
+    std::string v6addr = host_utf8;
+    std::string v6scope;
+    auto percent = host_utf8.find('%');
+    if (percent != std::string::npos)
+    {
+        v6addr = host_utf8.substr(0, percent);
+        v6scope = host_utf8.substr(percent + 1);
+    }
+
+    sockaddr_in6 sa6 {};
+    if (!v6addr.empty() && inet_pton(AF_INET6, v6addr.c_str(), &sa6.sin6_addr) == 1)
+    {
+        bool ok = true;
+        if (!v6scope.empty())
+        {
+            unsigned int scope_id = 0;
+            bool digits = std::all_of(v6scope.begin(), v6scope.end(),
+                                      [](unsigned char c) { return std::isdigit(c) != 0; });
+            if (digits)
+            {
+                scope_id = static_cast<unsigned int>(std::strtoul(v6scope.c_str(), nullptr, 10));
+            }
+            else
+            {
+                scope_id = if_nametoindex(v6scope.c_str());
+            }
+            if (scope_id == 0)
+                ok = false;
+            else
+                sa6.sin6_scope_id = scope_id;
+        }
+        if (ok)
+        {
+#if defined(ACE_HAS_SOCKADDR_IN6_SIN6_LEN)
+            sa6.sin6_len = sizeof(sa6);
+#endif
+            sa6.sin6_family = AF_INET6;
+            sa6.sin6_port = ACE_HTONS(port);
+            // ACE_INET_Addr::set() takes a `sockaddr_in*` even for IPv6; the `len`
+            // parameter determines whether it is interpreted as IPv4 or IPv6.
+            ACE_INET_Addr addr6;
+            addr6.set(reinterpret_cast<const sockaddr_in*>(static_cast<const void*>(&sa6)), sizeof(sa6));
+            result.push_back(addr6);
+            return result;
+        }
+    }
+
+    sockaddr_in sa4 {};
+    if (!host_utf8.empty() && inet_pton(AF_INET, host_utf8.c_str(), &sa4.sin_addr) == 1)
+    {
+#if defined(ACE_HAS_SOCKADDR_IN_SIN_LEN)
+        sa4.sin_len = sizeof(sa4);
+#endif
+        sa4.sin_family = AF_INET;
+        sa4.sin_port = ACE_HTONS(port);
+        ACE_INET_Addr addr4;
+        addr4.set(&sa4, sizeof(sa4));
+        result.push_back(addr4);
+        return result;
+    }
+
     bool const encode = true;
     addrinfo hints;
     ACE_OS::memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
-    // The ai_flags used to contain AI_ADDRCONFIG as well but that prevented
-    // lookups from completing if there is no, or only a loopback, IPv6
-    // interface configured. See Bugzilla 4211 for more info.
+    // Avoid AI_ALL / AI_V4MAPPED with AF_UNSPEC: on some libc implementations
+    // (notably Android's bionic) this combination returns EAI_BADFLAGS for
+    // IPv6‑only hosts, which leaves us with an empty address list. Stick to
+    // plain lookups here so both IPv4 and IPv6 results are returned.
+    hints.ai_flags = 0;
 
-    hints.ai_flags = AI_V4MAPPED;
-#if defined(ACE_HAS_IPV6) && defined(AI_ALL)
-    // Without AI_ALL, Windows machines exhibit inconsistent behaviors on
-    // difference machines we have tested.
-    hints.ai_flags |= AI_ALL;
-#endif
-
-    // Note - specify the socktype here to avoid getting multiple entries
-    // returned with the same address for different socket types or
-    // protocols. If this causes a problem for some reason (an address that's
-    // available for TCP but not UDP, or vice-versa) this will need to change
-    // back to unrestricted hints and weed out the duplicate addresses by
-    // searching this->inet_addrs_ which would slow things down.
-    hints.ai_socktype = SOCK_STREAM;
+    // Do not constrain ai_socktype here. Android's resolver can fail in some
+    // network configurations when ai_socktype is set, and TeamTalk also uses
+    // UDP sockets so we want results for both transport types.
+    hints.ai_socktype = 0;
+    hints.ai_protocol = 0;
 
     addrinfo* res = nullptr;
 
-    const int ADDRINFOERROR = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
+    // Android's resolver may return EAI_AGAIN transiently even when DNS works
+    // (e.g. during network transitions). Retry a few times before giving up.
+    int ADDRINFOERROR = 0;
+    for (int attempt = 0; attempt < 3; ++attempt)
+    {
+        ADDRINFOERROR = ACE_OS::getaddrinfo(host_utf8_full.c_str(), nullptr, &hints, &res);
+        if (ADDRINFOERROR == 0 || ADDRINFOERROR != EAI_AGAIN)
+            break;
+        ACE_OS::sleep(ACE_Time_Value(0, 200 * 1000)); // 200ms
+    }
 
     if (ADDRINFOERROR != 0)
     {
         errno = ADDRINFOERROR;
+#if defined(ANDROID)
+        __android_log_print(ANDROID_LOG_WARN, "bearware-native",
+                            "getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d",
+                            host_utf8_full.c_str(), ADDRINFOERROR,
+                            ACE_OS::strerror(ADDRINFOERROR), hints.ai_flags, hints.ai_family);
+#endif
         return {};
     }
 
@@ -112,13 +199,13 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)
         {
-            addr.in6_.sin6_port = encode ? ACE_NTOHS(port) : port;
+            addr.in6_.sin6_port = encode ? ACE_HTONS(port) : port;
             result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_));
         }
         else
 #endif
         {
-            addr.in4_.sin_port = encode ? ACE_NTOHS(port) : port;
+            addr.in4_.sin_port = encode ? ACE_HTONS(port) : port;
             result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_));
         }
     }
