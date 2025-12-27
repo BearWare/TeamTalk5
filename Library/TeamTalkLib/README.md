@@ -49,8 +49,8 @@ manually.
   [Strawberry Perl](https://strawberryperl.com/) on Windows
   * Place `perl.exe` in environment variable %PATH%.
     * OpenSSL and ACE Framework uses Perl
-* Install [Cygwin](https://www.cygwin.com) in `C:/cygwin64`
-  * LibVPX requires *cygwin*
+* Install [MSYS2](https://www.msys2.org/) in `C:/MSYS64`
+  * LibVPX requires *MSYS2*
 * Download [yasm](http://yasm.tortall.net)
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
