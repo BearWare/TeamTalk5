@@ -12,7 +12,7 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
-      GIT_TAG           7786be7
+      GIT_TAG           213c048
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-uniqueID-to-PaDeviceInfo-that-identifies-sound-d.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Allow-MT-option-for-static-library-and-append-d-to-d.patch
@@ -47,7 +47,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     string (REPLACE ";" "\$<SEMICOLON>" ARCHS "${CMAKE_OSX_ARCHITECTURES}")
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
-      GIT_TAG           7786be7
+      GIT_TAG           213c048
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
@@ -80,7 +80,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(portaudio-src
       GIT_REPOSITORY    https://github.com/PortAudio/portaudio.git
-      GIT_TAG           7786be7
+      GIT_TAG           213c048
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/portaudio
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/portaudio
