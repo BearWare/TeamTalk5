@@ -33,7 +33,7 @@
 #include <string>
 #include <vector>
 
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port);
+std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port);
 
 int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
 int HttpPostRequest(const ACE_CString& url, const char* data, int len,
