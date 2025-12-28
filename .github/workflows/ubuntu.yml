@@ -2,15 +2,9 @@ name: Ubuntu
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -22,6 +16,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-linux')"
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
@@ -55,38 +50,38 @@ jobs:
       run: printenv | sort
 
     - name: Install dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      working-directory: ${{github.workspace}}/Build
       run: sudo make depend-ubuntu${{ matrix.version }}
 
     - name: Build TeamTalk library and apps
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         source env.sh
         make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Run Java Server API tests (non-encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
         ENCRYPTED: 0
         WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
         ENCRYPTED: 1
         WEBRTC: 0
 
     - name: Start TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5srv -d -c Server/tt5srv.xml
 
     - name: Start TeamTalk Pro Server (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp -f Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
@@ -95,26 +90,26 @@ jobs:
         Server/tt5prosrv -d -wd Server/
 
     - name: Run PyTest
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         source env.sh
         pytest-3 Library/TeamTalkPy/test/teamtalk_test.py
 
     - name: Run Python client
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         source env.sh
         make -C Client/ttserverlogpy
 
     - name: Run Catch unit tests
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkLib/test
       run: valgrind --tool=memcheck --leak-check=full --error-exitcode=1 ./catchtt --durations yes
 
     - name: Stop TeamTalk Pro Server
       run: killall tt5prosrv
 
     - name: Run Java unit tests (non-encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunit
       env:
         ENCRYPTED: 0
@@ -124,13 +119,13 @@ jobs:
       run: killall tt5srv
 
     - name: Start TeamTalk Pro Server (non-encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp -f Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5prosrv -d -c Server/tt5srv.xml
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitpro
       env:
         ENCRYPTED: 0
@@ -142,7 +137,7 @@ jobs:
       run: killall tt5prosrv
 
     - name: Start TeamTalk Pro Server (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp -f Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
@@ -150,7 +145,7 @@ jobs:
         Server/tt5prosrv -d -wd Server/
 
     - name: Run Java unit tests with virtual audio device (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitpro
       env:
         ENCRYPTED: 1
@@ -160,21 +155,21 @@ jobs:
       run: killall tt5prosrv
 
     - name: Build jSpamBot using Gradle
-      working-directory: ${{runner.workspace}}/TeamTalk5/Client/jSpamBot
+      working-directory: ${{github.workspace}}/Client/jSpamBot
       run: gradle build
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
+      working-directory: ${{github.workspace}}/Build/build-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
 
     - name: Create Ubuntu ${{ matrix.version }} portable archives
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         source env.sh
         cd Setup/Portable
@@ -184,10 +179,10 @@ jobs:
       uses: actions/upload-artifact@v6
       with:
         name: teamtalk-ubuntu${{ matrix.version }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalk-*
+        path: ${{github.workspace}}/Setup/Portable/teamtalk-*
 
     - name: Upload TeamTalk Pro artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalkpro-ubuntu${{ matrix.version }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*
+        path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*

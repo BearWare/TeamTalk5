@@ -2,15 +2,9 @@ name: Windows
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -23,6 +17,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')"
     strategy:
       matrix:
         arch: [x86, x64]
@@ -88,7 +83,7 @@ jobs:
     - name: Install dependencies
       run: python -m pip install -U pip pytest pytest-cov
 
-    - name: Print environment
+    - name: Print env
       shell: cmd
       run: set
 
@@ -137,7 +132,6 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{runner.workspace}}
-      shell: cmd
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
@@ -157,7 +151,7 @@ jobs:
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
 
     - name: Copy server configuration
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         copy Library\TeamTalkLib\test\tt5srv.xml_template Server\tt5srv.xml
         copy Library\TeamTalkLib\test\tt5prosrv.xml_template Server\tt5prosrv.xml
@@ -166,33 +160,33 @@ jobs:
         copy Library\TeamTalkLib\test\ca.cer Server\
 
     - name: Start TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5svc.exe -i
         tt5svc.exe -s
 
     - name: Start TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
         tt5prosvc.exe -s
 
     - name: Run Catch unit tests
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkLib/test
       shell: cmd
       run: catchtt.exe --durations yes
 
     - name: Restart TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5svc.exe -e
         tt5svc.exe -s
 
-    - name: Stop and remove TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+    - name: Stop and uninstall TeamTalk Pro Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -e
@@ -207,29 +201,26 @@ jobs:
         VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
     - name: Run PyTest
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkPy/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkPy/test
       run: pytest teamtalk_test.py
 
     - name: Run Python client
-      working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy
+      working-directory: ${{github.workspace}}/Client/ttserverlogpy
       run: python main.py
 
-    - name: Stop TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+    - name: Stop and uninstall TeamTalk Standard Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
-      run: tt5svc.exe -e
-
-    - name: Uninstall TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
-      shell: cmd
-      run: tt5svc.exe -u
+      run: |
+        tt5svc.exe -e
+        tt5svc.exe -u
 
     - name: Enable encryption
       shell: cmd
       run: echo ENCRYPTED=true>> %GITHUB_ENV%
 
     - name: Start TeamTalk Pro Server (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
@@ -243,19 +234,16 @@ jobs:
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
-    - name: Stop TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+    - name: Stop and uninstall TeamTalk Pro Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
-      run: tt5prosvc.exe -e
-
-    - name: Uninstall TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
-      shell: cmd
-      run: tt5prosvc.exe -u
+      run: |
+        tt5prosvc.exe -e
+        tt5prosvc.exe -u
 
     - name: Compile TeamTalk5.chm
       continue-on-error: true
-      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
+      working-directory: ${{github.workspace}}/Documentation/TeamTalk
       shell: cmd
       run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp'
 
@@ -272,7 +260,7 @@ jobs:
 
     - name: Compile Inno Setup installer
       if: matrix.arch == 'x64'
-      working-directory: ${{runner.workspace}}/TeamTalk5/Setup/Installer/Windows
+      working-directory: ${{github.workspace}}/Setup/Installer/Windows
       shell: cmd
       run: |
         "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{runner.workspace}}\TeamTalk5" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
@@ -285,7 +273,7 @@ jobs:
         name: teamtalk-installer-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/TeamTalk_*.exe
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-windows-${{ matrix.arch }}
@@ -295,10 +283,10 @@ jobs:
       uses: actions/upload-artifact@v6
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
+        path: ${{github.workspace}}/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - name: Upload TeamTalk Pro Server artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
+        path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}

@@ -2,15 +2,9 @@ name: macOS
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-macos*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-macos*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -22,6 +16,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-macos')"
     runs-on: macos-latest
 
     steps:
@@ -52,22 +47,22 @@ jobs:
       run: printenv | sort
 
     - name: Install dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      working-directory: ${{github.workspace}}/Build
       run: make depend-mac
 
     - name: Build TeamTalk library and apps
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       shell: bash
       run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp Library/TeamTalkLib/test/tt5srv.xml_template Server/tt5srv.xml
         Server/tt5srv -d -c Server/tt5srv.xml
 
     - name: Start TeamTalk Pro Server (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         cp -f Library/TeamTalkLib/test/tt5prosrv.xml_template Server/tt5prosrv.xml
         cp Library/TeamTalkLib/test/ttservercert.pem Server/
@@ -76,17 +71,17 @@ jobs:
         Server/tt5prosrv -d -wd Server/
 
     - name: Run Catch unit tests
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkLib/test
       run: catchtt.app/Contents/MacOS/catchtt --durations yes
 
     - name: Stop TeamTalk servers
       run: killall tt5srv tt5prosrv
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
+      working-directory: ${{github.workspace}}/Build/build-mac
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-macos
