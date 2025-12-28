@@ -56,7 +56,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
     // The ai_flags used to contain AI_ADDRCONFIG as well but that prevented
     // lookups from completing if there is no, or only a loopback, IPv6
     // interface configured. See Bugzilla 4211 for more info.
-
     hints.ai_flags = AI_V4MAPPED;
 #if defined(ACE_HAS_IPV6) && defined(AI_ALL)
     // Without AI_ALL, Windows machines exhibit inconsistent behaviors on
@@ -64,18 +63,8 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
     hints.ai_flags |= AI_ALL;
 #endif
 
-    // Note - specify the socktype here to avoid getting multiple entries
-    // returned with the same address for different socket types or
-    // protocols. If this causes a problem for some reason (an address that's
-    // available for TCP but not UDP, or vice-versa) this will need to change
-    // back to unrestricted hints and weed out the duplicate addresses by
-    // searching this->inet_addrs_ which would slow things down.
-    hints.ai_socktype = SOCK_STREAM;
-
     addrinfo* res = nullptr;
-
     const int ADDRINFOERROR = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
-
     if (ADDRINFOERROR != 0)
     {
         errno = ADDRINFOERROR;
