@@ -42,10 +42,6 @@
 #endif
 #endif
 
-#if defined(ANDROID)
-#include <android/log.h>
-#endif
-
 #include <algorithm>
 #include <cassert>
 #include <cctype>
@@ -65,8 +61,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
     const auto host_utf8_full = UnicodeToUtf8(host);
     const char* host_utf8_cstr = host_utf8_full.c_str();
     std::string host_utf8(host_utf8_cstr != nullptr ? host_utf8_cstr : "");
-    if (!host_utf8.empty() && host_utf8.front() == '[' && host_utf8.back() == ']')
-        host_utf8 = host_utf8.substr(1, host_utf8.size() - 2);
 
     // IPv6 literals may include a zone index, e.g. "fe80::1%wlan0".
     std::string v6addr = host_utf8;
@@ -149,23 +143,26 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 
     // Android's resolver may return EAI_AGAIN transiently even when DNS works
     // (e.g. during network transitions). Retry a few times before giving up.
-    int ADDRINFOERROR = 0;
+    int addrinfoError = 0;
     for (int attempt = 0; attempt < 3; ++attempt)
     {
-        ADDRINFOERROR = ACE_OS::getaddrinfo(host_utf8_full.c_str(), nullptr, &hints, &res);
-        if (ADDRINFOERROR == 0 || ADDRINFOERROR != EAI_AGAIN)
+        addrinfoError = ACE_OS::getaddrinfo(host_utf8_full.c_str(), nullptr, &hints, &res);
+        if (addrinfoError == 0 || addrinfoError != EAI_AGAIN)
             break;
         ACE_OS::sleep(ACE_Time_Value(0, 200 * 1000)); // 200ms
     }
 
-    if (ADDRINFOERROR != 0)
+    if (addrinfoError != 0)
     {
-        errno = ADDRINFOERROR;
-#if defined(ANDROID)
-        __android_log_print(ANDROID_LOG_WARN, "bearware-native",
-                            "getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d",
-                            host_utf8_full.c_str(), ADDRINFOERROR,
-                            ACE_OS::strerror(ADDRINFOERROR), hints.ai_flags, hints.ai_family);
+        errno = addrinfoError;
+#if defined(UNICODE)
+        MYTRACE(ACE_TEXT("getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d\n"),
+                Utf8ToUnicode(host_utf8_full.c_str()).c_str(), addrinfoError,
+                Utf8ToUnicode(ACE_OS::strerror(addrinfoError)).c_str(), hints.ai_flags, hints.ai_family);
+#else
+        MYTRACE(ACE_TEXT("getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d\n"),
+                host_utf8_full.c_str(), addrinfoError, ACE_OS::strerror(addrinfoError),
+                hints.ai_flags, hints.ai_family);
 #endif
         return {};
     }
