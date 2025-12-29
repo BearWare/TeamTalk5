@@ -1,0 +1,79 @@
+name: "CodeQL Advanced"
+
+on:
+  push:
+    branches: [ "master" ]
+  pull_request:
+    branches: [ "master" ]
+
+jobs:
+  analyze:
+    name: Analyze (${{ matrix.language }})
+    runs-on: ${{ (matrix.language == 'swift' && 'macos-latest') || 'ubuntu-latest' }}
+    permissions:
+      security-events: write
+      packages: read
+
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+        - language: c-cpp
+          build-mode: manual
+        - language: csharp
+          build-mode: none
+        - language: java-kotlin
+          build-mode: none
+        - language: python
+          build-mode: none
+        - language: swift
+          build-mode: manual
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      with:
+        languages: ${{ matrix.language }}
+        build-mode: ${{ matrix.build-mode }}
+
+    - name: Install C/C++ dependencies
+      if: matrix.language == 'c-cpp'
+      working-directory: ${{github.workspace}}/Build
+      run: |
+        sudo apt-get update
+        sudo make depend-ubuntu24
+
+    - name: Build C/C++
+      if: matrix.language == 'c-cpp'
+      working-directory: ${{github.workspace}}
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF" -C Build ubuntu24
+
+    - name: Install Swift/iOS dependencies
+      if: matrix.language == 'swift'
+      working-directory: ${{github.workspace}}/Build
+      run: |
+        brew update
+        make depend-mac
+
+    - name: Build iOS
+      if: matrix.language == 'swift'
+      working-directory: ${{github.workspace}}/Build
+      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos" ios-build
+
+    - name: Build iTeamTalk
+      if: matrix.language == 'swift'
+      working-directory: ${{github.workspace}}
+      run: |
+        xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj \
+          CODE_SIGN_IDENTITY=- \
+          AD_HOC_CODE_SIGNING_ALLOWED=YES \
+          CODE_SIGN_STYLE=Automatic \
+          COMPILER_INDEX_STORE_ENABLE=NO
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:${{matrix.language}}"
