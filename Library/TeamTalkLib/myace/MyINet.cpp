@@ -55,22 +55,10 @@
 #include <memory>
 #include <sstream>
 
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int port)
+std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port)
 {
     std::vector<ACE_INET_Addr> result;
 
-#if ACE_MAJOR_VERSION < 6 || (ACE_MAJOR_VERSION == 6 && ACE_MINOR_VERSION < 4)
-    result.resize(1);
-
-    int address_family = AF_INET;
-    result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
-    if (result[0].is_any())
-    {
-        address_family = AF_INET6;
-        result[0] = ACE_INET_Addr(port, host.c_str(), address_family);
-    }
-
-#else
     // Fast path for numeric literals (avoids platform resolver quirks).
     // getaddrinfo() should handle numeric hosts, but on some Android devices
     // it can still fail transiently (EAI_AGAIN) even for IPv6 literals.
@@ -142,7 +130,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
         return result;
     }
 
-    bool const encode = true;
     addrinfo hints;
     ACE_OS::memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
@@ -183,7 +170,6 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
         return {};
     }
 
-
     for (addrinfo* curr = res; curr != nullptr; curr = curr->ai_next)
     {
         union ip46
@@ -199,20 +185,18 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, int por
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)
         {
-            addr.in6_.sin6_port = encode ? ACE_HTONS(port) : port;
+            addr.in6_.sin6_port = htons(port);
             result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_));
         }
         else
 #endif
         {
-            addr.in4_.sin_port = encode ? ACE_HTONS(port) : port;
+            addr.in4_.sin_port = htons(port);
             result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_));
         }
     }
 
     ACE_OS::freeaddrinfo(res);
-
-#endif /* ACE_MAJOR_VERSION */
 
     return result;
 }

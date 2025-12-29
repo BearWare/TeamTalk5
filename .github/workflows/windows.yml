@@ -150,6 +150,7 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output --parallel --config Release --target install
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
@@ -268,6 +269,21 @@ jobs:
         source env.sh
         cd Setup/Portable
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
+
+    - name: Compile Inno Setup installer
+      if: matrix.arch == 'x64'
+      working-directory: ${{runner.workspace}}/TeamTalk5/Setup/Installer/Windows
+      shell: cmd
+      run: |
+        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{runner.workspace}}\TeamTalk5" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
+        move Output\*.exe ${{runner.workspace}}\
+
+    - name: Upload Inno Setup installer artifact
+      if: matrix.arch == 'x64'
+      uses: actions/upload-artifact@v6
+      with:
+        name: teamtalk-installer-windows-${{ matrix.arch }}
+        path: ${{runner.workspace}}/TeamTalk_*.exe
 
     - name: Upload TeamTalk SDK artifacts
       uses: actions/upload-artifact@v6

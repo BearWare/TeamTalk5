@@ -132,7 +132,7 @@ PacketHandler::~PacketHandler()
     Close();
 }
 
-bool PacketHandler::Open(const ACE_Addr &addr, int recv_buf, int send_buf)
+bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
 {
     // Use the address' family so IPv6 endpoints get an IPv6 socket on
     // platforms (Android) that don't auto-upgrade AF_INET to AF_INET6.
@@ -141,9 +141,7 @@ bool PacketHandler::Open(const ACE_Addr &addr, int recv_buf, int send_buf)
         family = ACE_PROTOCOL_FAMILY_INET;
 
     int ret = Socket().open(addr, family, 0, 1);
-
     TTASSERT(reactor());
-
     if(ret == 0 && (reactor() != nullptr))
     {
         //Register the reactor to call back when incoming client connects
