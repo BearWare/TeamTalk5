@@ -2,15 +2,9 @@ name: Ubuntu
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -22,6 +16,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-linux')"
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
