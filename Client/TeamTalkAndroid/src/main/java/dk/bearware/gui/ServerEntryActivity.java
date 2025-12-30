@@ -238,10 +238,7 @@ public class ServerEntryActivity extends AppCompatActivity
 
     private void connectToServer() {
         serverentry = getServerEntry();
-        getService().setServerEntry(serverentry);
-        if (!getService().reconnect()) {
-            Toast.makeText(this, R.string.err_connection, Toast.LENGTH_LONG).show();
-        }
+        getService().initConnection(serverentry);
     }
 
     private void saveServerAndFinish() {

@@ -191,11 +191,7 @@ public class ServerListActivity extends AppCompatActivity
             // Connect to server if 'serverentry' is specified.
             // Connection to server is either started here or in onServiceConnected()
             if (this.serverentry != null) {
-                getService().setServerEntry(this.serverentry);
-
-                if (!getService().reconnect()) {
-                    showToast(getString(R.string.err_connection));
-                }
+                getService().initConnection(this.serverentry);
             }
         }
     }
@@ -383,11 +379,7 @@ public class ServerListActivity extends AppCompatActivity
 
     private void onServerClick(ServerEntry entry) {
         this.serverentry = entry;
-        getService().setServerEntry(this.serverentry);
-
-        if (!getService().reconnect()) {
-            showToast(getString(R.string.err_connection));
-        }
+        getService().initConnection(this.serverentry);
     }
 
     private void onServerLongClick(View view, ServerEntry entry, int position) {
@@ -794,11 +786,7 @@ public class ServerListActivity extends AppCompatActivity
         // Connect to server if 'serverentry' is specified.
         // Connection to server is either started here or in onResume()
         if (serverentry != null) {
-            service.setServerEntry(serverentry);
-
-            if (!service.reconnect()) {
-                showToast(getString(R.string.err_connection));
-            }
+            service.initConnection(serverentry);
         }
 
         refreshServerList();
