@@ -1,0 +1,52 @@
+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+From: TeamTalk Developer <dev@bearware.dk>
+Date: Mon, 30 Dec 2024 10:00:00 +0000
+Subject: [PATCH] Add ZDSR (Zhengdu Screen Reader) support to Tolk
+
+This patch adds support for the ZDSR (Zhengdu Screen Reader) by:
+1. Adding the ZDSR driver files to the Tolk build
+2. Integrating ZDSR into the screen reader detection list
+3. Adding ZDSR API definitions
+
+---
+ CMakeLists.txt       | 2 ++
+ src/Tolk.cpp         | 4 ++++
+ 2 files changed, 6 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 8b7984a..1111111 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -57,6 +57,8 @@ add_library(Tolk SHARED src/Tolk.cpp src/Tolk.h src/TolkVersion.h src/TolkJNI.
+   src/ScreenReaderDriverWE.cpp src/ScreenReaderDriverWE.h
+   src/ScreenReaderDriverZT.cpp src/ScreenReaderDriverZT.h
+   src/ScreenReaderDriverSAPI.cpp src/ScreenReaderDriverSAPI.h
++  src/ScreenReaderDriverZDSR.cpp src/ScreenReaderDriverZDSR.h
++  src/zdsr.h
+   src/fsapi.c src/fsapi.h src/wineyes.c src/wineyes.h src/zt.c src/zt.h)
+ 
+ target_include_directories (Tolk INTERFACE src)
+diff --git a/src/Tolk.cpp b/src/Tolk.cpp
+index 0000000..1111111 100644
+--- a/src/Tolk.cpp
++++ b/src/Tolk.cpp
+@@ -16,6 +16,7 @@
+ #include "ScreenReaderDriverSNova.h"
+ #include "ScreenReaderDriverWE.h"
+ #include "ScreenReaderDriverZT.h"
++#include "ScreenReaderDriverZDSR.h"
+ 
+ using namespace std;
+ 
+@@ -40,6 +41,9 @@ TOLK_DLL_DECLSPEC void TOLK_CALL Tolk_Load() {
+ #endif
+   g_screenReaderDrivers.push_back(new ScreenReaderDriverSA());
+   g_screenReaderDrivers.push_back(new ScreenReaderDriverZT());
++  // Add ZDSR (Zhengdu Screen Reader) support
++  g_screenReaderDrivers.push_back(new ScreenReaderDriverZDSR());
++
+   if (g_trySAPI)
+     g_sapi = new ScreenReaderDriverSAPI();
+   g_isLoaded = true;
+-- 
+2.51.0.windows.2
