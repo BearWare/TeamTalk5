@@ -86,7 +86,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-macos
