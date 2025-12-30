@@ -137,7 +137,6 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{runner.workspace}}
-      shell: cmd
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
