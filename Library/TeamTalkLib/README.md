@@ -49,8 +49,12 @@ manually.
   [Strawberry Perl](https://strawberryperl.com/) on Windows
   * Place `perl.exe` in environment variable %PATH%.
     * OpenSSL and ACE Framework uses Perl
-* Install [Cygwin](https://www.cygwin.com) in `C:/cygwin64`
-  * LibVPX requires *cygwin*
+* Install [MSYS2](https://www.msys2.org/) in `C:/MSYS64` (recommended)
+  * Run `pacman -S base-devel` to install build tools
+  * LibVPX requires *MSYS2* or *Cygwin*
+* Alternatively, install [Cygwin](https://www.cygwin.com/) in `C:/cygwin64`
+  * Install `make` package during Cygwin setup
+  * Cygwin is supported but MSYS2 is preferred
 * Download [yasm](http://yasm.tortall.net)
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
@@ -223,8 +227,9 @@ The following toolchain toggles are available:
   * When `ON` enables [LibVPX](https://github.com/webmproject/libvpx)
   * When `OFF` uses LibVPX installed on host
     * `OFF` is only supported on Linux distributions
-  * Building LibVPX on Windows requires Cygwin, https://www.cygwin.com/
-    * Install Cygwin in `C:/cygwin64`
+  * Building LibVPX on Windows requires MSYS2 or Cygwin
+    * MSYS2 (recommended): Install in `C:/MSYS64` and run `pacman -S base-devel`
+    * Cygwin (alternative): Install in `C:/cygwin64` with `make` package
   * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
     * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
     * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
