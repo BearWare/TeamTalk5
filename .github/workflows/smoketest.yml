@@ -17,7 +17,7 @@ env:
 jobs:
   build:
     if: "!startsWith(github.head_ref, 'debug')"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-24.04
 
     steps:
     - name: Checkout
@@ -35,53 +35,31 @@ jobs:
       run: sudo apt-get update
 
     - name: Install dependencies
+      working-directory: ${{github.workspace}}/Build
+      run: sudo make depend-ubuntu24
+
+    - name: Install SmokeTest dependencies
       run: >-
            sudo apt-get install
-           cmake
-           doxygen
-           junit4
            libace-dev
            libace-inet-dev
            libace-inet-ssl-dev
            libace-ssl-dev
-           libasound2-dev
            libogg-dev
            libopus-dev
-           libpcap-dev
-           libqt5texttospeech5-dev
-           libqt5x11extras5-dev
            libspeex-dev
            libspeexdsp-dev
-           libssl-dev
            libtinyxml-dev
            libvpx-dev
-           libxss-dev
-           ninja-build
-           portaudio19-dev
-           python3-minimal
-           python3-pytest
-           qtbase5-dev
-           qtmultimedia5-dev
-           qttools5-dev
-           qttools5-dev-tools
            valgrind
-           yasm
-           zlib1g-dev
-
-    - name: Create build directory
-      run: cmake -E make_directory ${{runner.workspace}}/build
 
     - name: Configure CMake
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}
       run: >-
-           cmake $GITHUB_WORKSPACE -G Ninja
+           cmake -S TeamTalk5 -B output -G Ninja
            -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
-           -DFEATURE_PORTAUDIO=OFF
-           -DFEATURE_V4L2=OFF
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
-           -DTOOLCHAIN_CATCH2=ON
-           -DTOOLCHAIN_FFMPEG=ON
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_OGG=OFF
            -DTOOLCHAIN_OPENSSL=OFF
@@ -92,7 +70,7 @@ jobs:
            -DTOOLCHAIN_ZLIB=OFF
 
     - name: Build
-      working-directory: ${{runner.workspace}}/build
+      working-directory: ${{runner.workspace}}/output
       run: cmake --build .
 
     - name: Run Java Server API tests (non-encrypted)
