@@ -33,6 +33,10 @@
 #include <ace/Event_Handler.h>
 #include <ace/Addr.h>
 
+#if defined(ACE_HAS_IPV6) && !defined(WIN32)
+#include <netinet/in.h>
+#endif
+
 #include <cstring>
 #include <cstddef>
 #include <vector>
@@ -130,12 +134,14 @@ PacketHandler::~PacketHandler()
 
 bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
 {
-    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET /* protocol_family */,
-                            0 /* protocol */, 1 /* reuse_addr */,
-                            addr.get_type() == AF_INET6 ? 1 : 0 /* ipv6_only */);
+    // Use the address' family so IPv6 endpoints get an IPv6 socket on
+    // platforms (Android) that don't auto-upgrade AF_INET to AF_INET6.
+    int family = addr.get_type();
+    if (family == AF_UNSPEC || family == 0)
+        family = ACE_PROTOCOL_FAMILY_INET;
 
+    int ret = Socket().open(addr, family, 0, 1);
     TTASSERT(reactor());
-
     if(ret == 0 && (reactor() != nullptr))
     {
         //Register the reactor to call back when incoming client connects
@@ -151,6 +157,19 @@ bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
         ret = ACE_OS::setsockopt(Socket().get_handle(), SOL_SOCKET, SO_SNDBUF,
             reinterpret_cast<const char*>(&send_buf), sizeof(send_buf));
         TTASSERT(ret == 0);
+
+#if defined(ACE_HAS_IPV6) && defined(IPV6_V6ONLY)
+        // Allow dual stack when we bind IPv6, for backwards compatibility.
+        if (family == AF_INET6)
+        {
+            int v6only = 0;
+            int v6ret = Socket().set_option(IPPROTO_IPV6, IPV6_V6ONLY, &v6only, sizeof(v6only));
+            if (v6ret != 0)
+            {
+                MYTRACE(ACE_TEXT("Warning: Failed to set IPV6_V6ONLY=0 for UDP socket. Dual-stack may be disabled.\n"));
+            }
+        }
+#endif
 
         ret = Socket().get_local_addr(m_localaddr);
         TTASSERT(ret >= 0);

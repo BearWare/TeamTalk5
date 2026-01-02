@@ -113,6 +113,7 @@ import dk.bearware.gui.MainActivity;
 import dk.bearware.gui.MediaButtonEventReceiver;
 import dk.bearware.gui.R;
 import dk.bearware.gui.Utils;
+import dk.bearware.utils.DnsUtils;
 
 import static dk.bearware.gui.CmdComplete.CMD_COMPLETE_NONE;
 
@@ -633,9 +634,21 @@ public class TeamTalkService extends Service
 
         if (!setupEncryption())
             return false;
-        
-        if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
-                             ttserver.udpport, 0, 0, ttserver.encrypted)) {
+
+        String[] connectHosts = DnsUtils.resolveHostCandidatesForConnect(this, ttserver.ipaddr);
+        boolean ok = false;
+        String chosen = (connectHosts.length > 0) ? connectHosts[0] : ttserver.ipaddr;
+        for (String host : connectHosts) {
+            chosen = host;
+            ok = ttclient.connect(host, ttserver.tcpport,
+                                  ttserver.udpport, 0, 0, ttserver.encrypted);
+            if (ok)
+                break;
+        }
+        Log.i(TAG, "connect() to " + chosen + ":" + ttserver.tcpport +
+                   " udp " + ttserver.udpport + " enc=" + ttserver.encrypted +
+                   " -> " + ok);
+        if(!ok) {
             ttclient.disconnect();
             return false;
         }
