@@ -128,9 +128,11 @@ PacketHandler::~PacketHandler()
     Close();
 }
 
-bool PacketHandler::Open(const ACE_Addr &addr, int recv_buf, int send_buf)
+bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
 {
-    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
+    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET /* protocol_family */,
+                            0 /* protocol */, 1 /* reuse_addr */,
+                            addr.get_type() == AF_INET6 ? 1 : 0 /* ipv6_only */);
 
     TTASSERT(reactor());
 

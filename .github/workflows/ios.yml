@@ -2,18 +2,13 @@ name: iOS
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-ios*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-ios*'
+    branches: [ "master" ]
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-ios')"
     strategy:
       matrix:
         include:

@@ -1196,6 +1196,49 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testIPv6Addr() {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv s = newServerInstance(SYSTEMID, "::1");
+        TeamTalkBase c = newClientInstance();
+        connect(s, c, SYSTEMID, "::1", TCPPORT, UDPPORT);
+        login(s, c, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(s, c);
+        c.disconnect();
+        s.stopServer();
+    }
+
+    @Test
+    public void testIPv6Hostname() throws Exception {
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+
+        UserAccount useraccount = new UserAccount();
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_DEFAULT;
+        useraccount.uUserRights = UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccounts.add(useraccount);
+
+        InetAddress inetAddress = InetAddress.getByName("::1");
+        String hostname = inetAddress.getHostName();
+
+        TeamTalkSrv s = newServerInstance(SYSTEMID, "::1");
+        TeamTalkBase c = newClientInstance();
+        connect(s, c, SYSTEMID, hostname, TCPPORT, UDPPORT);
+        login(s, c, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(s, c);
+        c.disconnect();
+        s.stopServer();
+    }
+
+    @Test
     public void testInterceptVoice() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();

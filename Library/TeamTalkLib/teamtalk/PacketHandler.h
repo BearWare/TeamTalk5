@@ -26,7 +26,6 @@
 
 #include "PacketLayout.h"
 
-#include <ace/Addr.h>
 #include <ace/Condition_Thread_Mutex.h>
 #include <ace/Event_Handler.h>
 #include <ace/INET_Addr.h>
@@ -84,7 +83,7 @@ constexpr auto IP_TOS_MULTIMEDIA_VIDEO = (0x1e << 2);
         PacketHandler(ACE_Reactor* r);
         ~PacketHandler() override;
 
-        bool Open(const ACE_Addr &addr, int recv_buf, int send_buf);
+        bool Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf);
         bool Close();
 
         void AddListener(teamtalk::PacketListener* pListener);
