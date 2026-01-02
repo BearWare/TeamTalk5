@@ -2,15 +2,9 @@ name: Windows
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-windows*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -23,6 +17,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')"
     strategy:
       matrix:
         arch: [x86, x64]
@@ -88,7 +83,7 @@ jobs:
     - name: Install dependencies
       run: python -m pip install -U pip pytest pytest-cov
 
-    - name: Print environment
+    - name: Print env
       shell: cmd
       run: set
 
@@ -137,7 +132,6 @@ jobs:
 
     - name: Configure CMake
       working-directory: ${{runner.workspace}}
-      shell: cmd
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
@@ -191,7 +185,7 @@ jobs:
         tt5svc.exe -e
         tt5svc.exe -s
 
-    - name: Stop and remove TeamTalk Pro Server
+    - name: Stop and uninstall TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
       run: |
@@ -214,15 +208,12 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy
       run: python main.py
 
-    - name: Stop TeamTalk Standard Server
+    - name: Stop and uninstall TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
-      run: tt5svc.exe -e
-
-    - name: Uninstall TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
-      shell: cmd
-      run: tt5svc.exe -u
+      run: |
+        tt5svc.exe -e
+        tt5svc.exe -u
 
     - name: Enable encryption
       shell: cmd
@@ -243,15 +234,12 @@ jobs:
         xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
-    - name: Stop TeamTalk Pro Server
+    - name: Stop and uninstall TeamTalk Pro Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
       shell: cmd
-      run: tt5prosvc.exe -e
-
-    - name: Uninstall TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
-      shell: cmd
-      run: tt5prosvc.exe -u
+      run: |
+        tt5prosvc.exe -e
+        tt5prosvc.exe -u
 
     - name: Compile TeamTalk5.chm
       continue-on-error: true
@@ -285,7 +273,7 @@ jobs:
         name: teamtalk-installer-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/TeamTalk_*.exe
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-windows-${{ matrix.arch }}

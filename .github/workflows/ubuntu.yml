@@ -2,15 +2,9 @@ name: Ubuntu
 
 on:
   push:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
   pull_request:
-    branches:
-      - '**'
-      - '!debug*'
-      - 'debug-linux*'
+    branches: [ "master" ]
 
 env:
   # TeamTalk unit test environment variables
@@ -22,6 +16,7 @@ env:
 
 jobs:
   build:
+    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-linux')"
     strategy:
       matrix:
         os: [ubuntu-22.04, ubuntu-24.04]
@@ -167,7 +162,7 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
 
-    - name: Upload TeamTalk SDK artifacts
+    - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
       with:
         name: teamtalksdk-ubuntu${{ matrix.version }}
