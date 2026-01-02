@@ -1,0 +1,17 @@
+name: Delete old workflow runs
+
+on:
+  schedule:
+    - cron: "0 0 1 * *"
+
+jobs:
+  delete-runs:
+    runs-on: ubuntu-latest
+
+    permissions:
+      actions: write
+      contents: read
+
+    steps:
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
