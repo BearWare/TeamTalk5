@@ -53,21 +53,12 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 
     addrinfo hints{};
     hints.ai_family = AF_UNSPEC;
-    // The ai_flags used to contain AI_ADDRCONFIG as well but that prevented
-    // lookups from completing if there is no, or only a loopback, IPv6
-    // interface configured. See Bugzilla 4211 for more info.
-    hints.ai_flags = AI_V4MAPPED;
-#if defined(ACE_HAS_IPV6) && defined(AI_ALL)
-    // Without AI_ALL, Windows machines exhibit inconsistent behaviors on
-    // difference machines we have tested.
-    hints.ai_flags |= AI_ALL;
-#endif
 
     addrinfo* res = nullptr;
     const int ADDRINFOERROR = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
     if (ADDRINFOERROR != 0)
     {
-        errno = ADDRINFOERROR;
+        MYTRACE(ACE_TEXT("Failed to resolve %s. Error: %d"), host.c_str(), ADDRINFOERROR);
         return {};
     }
 
@@ -79,9 +70,8 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 #if defined (ACE_HAS_IPV6)
             sockaddr_in6 in6_;
 #endif /* ACE_HAS_IPV6 */
-        };
+        } addr{};
 
-        ip46 addr;
         ACE_OS::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)
