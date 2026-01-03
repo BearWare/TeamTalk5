@@ -45,6 +45,11 @@ jobs:
            libace-inet-ssl-dev
            libace-ssl-dev
            libasound2-dev
+           libavcodec-dev
+           libavdevice-dev
+           libavfilter-dev
+           libavformat-dev
+           libavutil-dev
            libogg-dev
            libopus-dev
            libpcap-dev
@@ -53,6 +58,9 @@ jobs:
            libspeex-dev
            libspeexdsp-dev
            libssl-dev
+           libswresample-dev
+           libswscale-dev
+           libswscale-dev
            libtinyxml-dev
            libvpx-dev
            libxss-dev
