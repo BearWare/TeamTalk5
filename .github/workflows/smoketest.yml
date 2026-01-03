@@ -60,7 +60,6 @@ jobs:
            libssl-dev
            libswresample-dev
            libswscale-dev
-           libswscale-dev
            libtinyxml-dev
            libvpx-dev
            libxss-dev
