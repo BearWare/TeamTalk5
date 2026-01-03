@@ -788,7 +788,7 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHANNEL_TOPIC, ui.chanTopicChkBox->isChecked(), SETTINGS_DISPLAY_CHANNEL_TOPIC_DEFAULT);
         ttSettings->setValueOrClear(SETTINGS_DISPLAY_START_SERVERLIST, ui.startServerListChkBox->isChecked(), SETTINGS_DISPLAY_START_SERVERLIST_DEFAULT);
         bool modlistview = ttSettings->value(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT).toBool() != ui.chatlistviewChkBox->isChecked();
-        ttSettings->setValueOrClear(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, ui.chatlistviewChkBox->isChecked(), SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT);
+        ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, ui.chatlistviewChkBox->isChecked());
         if (modlistview)
             QMessageBox::critical(this, tr("Chat History"),
                                   tr("Please restart application to change to chat history control"));
