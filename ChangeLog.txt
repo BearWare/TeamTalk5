@@ -7,14 +7,16 @@ Default Qt Client
 - Updated Qt to 6.10.0 on macOS
 - Updated Qt to 6.10.1 on Windows
 - Option to disable sound device detection notifications in statusbar events
+- Fixed bug where only first resolved IP-address was used for connection attempt
 Android Client
-- fixed the bug where status messages wouldn't be set at login sometimes
-- Fixed bug where join and leave events were not announced when focused on another channel
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
 - Maximum bitrate can be specified in SpeexVBR
+- Fixed bug where status messages would not be set at login
+- Fixed bug where join and leave events were not announced when focused on another channel
+- Fixed bug where only first resolved IP-address was used for connection attempt
 iOS Client
--
+- Fixed bug where only first resolved IP-address was used for connection attempt
 Server
 -
 
