@@ -33,6 +33,7 @@
 #include <openssl/aes.h>
 #endif
 
+#include <array>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -1133,10 +1134,10 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     {
         using decrypt_pkt_t = std::unique_ptr< PACKETTYPE >;
     public:
-        CryptPacket(const PACKETTYPE& p, const uint8_t* encryptkey);
+        CryptPacket(const PACKETTYPE& p, const std::array<uint8_t, CRYPTKEY_SIZE>& encryptkey);
         CryptPacket(const char* packet, uint16_t packet_size);
         CryptPacket(const FieldPacket& packet) : FieldPacket(packet) { assert(GetKind() == packet.GetKind()); }
-        std::unique_ptr< PACKETTYPE > Decrypt(const uint8_t* decryptkey) const;
+        std::unique_ptr< PACKETTYPE > Decrypt(const std::array<uint8_t, CRYPTKEY_SIZE>& decryptkey) const;
 
         enum : uint8_t
         {

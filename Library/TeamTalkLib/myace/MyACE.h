@@ -99,7 +99,7 @@ ACE_TString StringToLower(const ACE_TString& str);
 strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 
 ACE_TString KeyToHexString(const unsigned char* key, int length);
-void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key);
+void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen);
 
 ACE_Time_Value ToTimeValue(int msec);
 

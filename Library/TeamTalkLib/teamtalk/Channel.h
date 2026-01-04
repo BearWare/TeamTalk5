@@ -27,12 +27,13 @@
 #include "Common.h"
 #include "PacketLayout.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
 #include "TTAssert.h"
+#include "myace/MyACE.h"
 
 #include <ace/SString.h>
 #include <ace/Time_Value.h>
 
+#include <array>
 #include <cstddef>
 #include <cstdint>
 #include <map>
@@ -497,14 +498,13 @@ namespace teamtalk {
         }
 
 #if defined(ENABLE_ENCRYPTION)
-        void SetEncryptKey(const uint8_t* cryptkey)
+        void SetEncryptKey(const std::array<uint8_t, CRYPTKEY_SIZE>& cryptkey)
         {
-            for(int i=0;i<CRYPTKEY_SIZE;i++)
-                m_cryptkey[i] = cryptkey[i];
+            m_cryptkey = cryptkey;
         }
-        const uint8_t* GetEncryptKey() const { return m_cryptkey; }
+        const std::array<uint8_t, CRYPTKEY_SIZE>& GetEncryptKey() const { return m_cryptkey; }
     protected:
-        uint8_t m_cryptkey[CRYPTKEY_SIZE];
+        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey;
 #endif
 
     private:

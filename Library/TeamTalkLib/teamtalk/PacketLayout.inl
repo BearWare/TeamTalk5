@@ -36,8 +36,8 @@ struct cipher_guard
 };
 
 template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
-CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket(const PACKETTYPE& p, 
-                                                          const uint8_t* cryptkey)
+CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket(const PACKETTYPE& p,
+                                                          const std::array<uint8_t, CRYPTKEY_SIZE>& cryptkey)
                          : FieldPacket(p.GetHdrType(), PACKET_KIND_CRYPT, p.GetSrcUserID(), p.GetTime())
 {
     int buffers = 0;
@@ -68,7 +68,7 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
     int encrypt_len = 0, tmpLen = 0;
     EVP_CIPHER_CTX* aesEncCtx = EVP_CIPHER_CTX_new();
     cipher_guard g(aesEncCtx);
-    status = EVP_EncryptInit(aesEncCtx, cf, cryptkey, NULL);
+    status = EVP_EncryptInit(aesEncCtx, cf, cryptkey.data(), NULL);
     assert(status == 1);
     //status = EVP_CIPHER_CTX_set_padding(aesEncCtx, 0);
     //assert(status == 1);
@@ -134,7 +134,7 @@ CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::CryptPacket
 }
 
 template < typename PACKETTYPE, uint8_t PACKET_KIND_CRYPT, uint8_t PACKET_KIND_DECRYPTED >
-std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::Decrypt(const uint8_t* decryptkey) const
+std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET_KIND_DECRYPTED >::Decrypt(const std::array<uint8_t, CRYPTKEY_SIZE>& decryptkey) const
 {
     const uint8_t* encrypt_ptr = FindField(FIELDTYPE_CRYPTDATA);
     if(!encrypt_ptr)
@@ -157,7 +157,7 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     int decrypt_len = 0, tmpLen = 0;
     EVP_CIPHER_CTX* aesDecCtx = EVP_CIPHER_CTX_new();
     cipher_guard g(aesDecCtx);
-    status = EVP_DecryptInit(aesDecCtx, cf, decryptkey, NULL);
+    status = EVP_DecryptInit(aesDecCtx, cf, decryptkey.data(), NULL);
     assert(status == 1);
     //status = EVP_CIPHER_CTX_set_padding(aesDecCtx, 0);
     //assert(status == 1);
