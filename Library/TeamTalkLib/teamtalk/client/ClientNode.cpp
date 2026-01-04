@@ -54,9 +54,6 @@ using namespace vidcap;
 constexpr auto VIDEOFILE_ENCODER_FRAMES_MAX         = 3;
 constexpr auto VIDEOCAPTURE_ENCODER_FRAMES_MAX      = 3;
 constexpr auto VIDEOCAPTURE_LOCAL_FRAMES_MAX        = 10;
-constexpr auto UDP_SOCKET_RECV_BUF_SIZE             = 0x20000;
-constexpr auto UDP_SOCKET_SEND_BUF_SIZE             = 0x20000;
-
 constexpr auto LOCAL_USERID                         = 0; // Local user recording
 constexpr auto MUX_USERID                           = 0x1001; // User ID for recording muxed stream
 constexpr auto LOCAL_TX_USERID                      = 0x1002; // User ID for local user transmitting
@@ -849,7 +846,7 @@ void ClientNode::RecreateUdpSocket()
     //recreate the UDP socket which has the server connection
     m_packethandler.Close();
     auto localaddr = GetLocalAddr();
-    m_packethandler.Open(localaddr, UDP_SOCKET_RECV_BUF_SIZE, UDP_SOCKET_SEND_BUF_SIZE);
+    m_packethandler.Open(localaddr);
 }
 
 void ClientNode::OpenAudioCapture(const AudioCodec& codec)
@@ -4961,8 +4958,7 @@ void ClientNode::OnOpened()
     
     MYTRACE(ACE_TEXT("UDP bind: %s. %d\n"), InetAddrToString(localaddr).c_str(), localaddr.get_type());
 
-    if (m_packethandler.Open(localaddr, UDP_SOCKET_RECV_BUF_SIZE,
-                             UDP_SOCKET_SEND_BUF_SIZE))
+    if (m_packethandler.Open(localaddr))
     {
         m_packethandler.AddListener(this);
     }
