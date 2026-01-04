@@ -37,9 +37,6 @@
 #include <set>
 #include <vector>
 
-
-using byte_t = unsigned char;
-
 namespace teamtalk {
 
 constexpr auto PACKETBUFFER = 0x10000;

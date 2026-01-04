@@ -5609,11 +5609,10 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
     {
         //check that key sizes match
-        byte_t encrypt[CRYPTKEY_SIZE];
-        memset(encrypt, 0, sizeof(encrypt));
-        TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-        if(sizeof(encrypt) == crypt_key.length()/2)
-            HexStringToKey(crypt_key, encrypt);
+        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+        if (sizeof(encrypt) == crypt_key.length() / 2)
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
         newchan->SetEncryptKey(encrypt);
     }
 #endif
@@ -5684,11 +5683,10 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
     {
         //check that key sizes match
-        byte_t encrypt[CRYPTKEY_SIZE];
-        memset(encrypt, 0, sizeof(encrypt));
-        TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-        if(sizeof(encrypt) == crypt_key.length()/2)
-            HexStringToKey(crypt_key, encrypt);
+        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+        if (sizeof(encrypt) == crypt_key.length() / 2)
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
         chan->SetEncryptKey(encrypt);
     }
 #endif
@@ -5744,11 +5742,10 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
         {
             //check that key sizes match
-            byte_t encrypt[CRYPTKEY_SIZE];
-            memset(encrypt, 0, sizeof(encrypt));
-            TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-            if(sizeof(encrypt) == crypt_key.length()/2)
-                HexStringToKey(crypt_key, encrypt);
+            std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+            TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+            if (sizeof(encrypt) == crypt_key.length() / 2)
+                HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
             chan->SetEncryptKey(encrypt);
         }
 #endif

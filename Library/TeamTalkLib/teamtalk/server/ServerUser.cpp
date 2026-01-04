@@ -1473,9 +1473,10 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
     if((GetUserType() & USERTYPE_ADMIN) != 0u)  //admins should see password
     {
 #if defined(ENABLE_ENCRYPTION)
+        TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
         if(encrypted)
-            AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey(),
-                                                       CRYPTKEY_SIZE), command);
+            AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey().data(),
+                           channel.GetEncryptKey().size()), command);
 #endif
     }
     AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
@@ -1542,9 +1543,13 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     if((GetUserType() & USERTYPE_ADMIN) != 0u)
     {
 #if defined(ENABLE_ENCRYPTION)
-        if(encrypted)
-            AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey(),
-                                                       CRYPTKEY_SIZE), command);
+        TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
+        if (encrypted)
+        {
+            AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey().data(),
+                                                       channel.GetEncryptKey().size()),
+                           command);
+        }
 #endif
     }
     AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
@@ -1704,9 +1709,13 @@ void ServerUser::DoJoinedChannel(const ServerChannel& channel, bool encrypted)
     command = ACE_TString(SERVER_JOINED);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
 #if defined(ENABLE_ENCRYPTION)
-    if(encrypted)
-        AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey(),
-                                                   CRYPTKEY_SIZE), command);
+    TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
+    if (encrypted)
+    {
+        AppendProperty(TT_CRYPTKEY, KeyToHexString(channel.GetEncryptKey().data(),
+                                                   channel.GetEncryptKey().size()),
+                       command);
+    }
 #endif
     command += ACE_TString(EOL);
 

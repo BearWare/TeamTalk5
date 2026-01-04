@@ -366,16 +366,16 @@ ACE_TString KeyToHexString(const unsigned char* key, int length)
     return s;
 }
 
-void HexStringToKey(const ACE_TString& crypt_key, unsigned char* key)
+void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen)
 {
     assert(!crypt_key.empty() && crypt_key.length() % 2 == 0);
 
     int pos = 0;
     ACE_TString str;
-    for(size_t i=0;i<crypt_key.length();i+=2)
+    for(size_t i=0;i<crypt_key.length() && keylen--;i+=2)
     {
         str = crypt_key.substr(i, 2);
-        key[pos] = (unsigned char)ACE_OS::strtol(str.c_str(), (ACE_TCHAR **)nullptr, 16);
+        key[pos] = (uint8_t)ACE_OS::strtol(str.c_str(), nullptr, 16);
         pos++;
     }
 }
