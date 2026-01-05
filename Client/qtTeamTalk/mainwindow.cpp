@@ -2104,10 +2104,8 @@ void MainWindow::connectToServer()
     m_desktopaccess_entries.clear();
     getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
-    if(!TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport,
-                   m_host.udpport, localtcpport, localudpport, m_host.encrypted))
-        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+    TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport, m_host.udpport,
+               localtcpport, localudpport, m_host.encrypted);
 }
 
 void MainWindow::disconnectFromServer()
