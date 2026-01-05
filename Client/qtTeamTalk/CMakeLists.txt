@@ -95,6 +95,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     # AAC UI module
     src/aac/state_machine.h
     src/aac/aac_ui.h
+src/aac/events.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
