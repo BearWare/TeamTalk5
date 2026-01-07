@@ -93,11 +93,13 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.h chattemplatesdlg.h
 
     # AAC UI module
-    src/aac/state_machine.h
-    src/aac/aac_ui.h
-src/aac/events.h
+    aac/state_machine.h
+aac/events.h
+aac/ui/aac_ui.h
+aac/aac_module.h
 
-    main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
+
+main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
     uservideodlg.cpp serverpropertiesdlg.cpp keycompdlg.cpp
@@ -120,8 +122,9 @@ src/aac/events.h
     chattextlist.cpp chattemplatesdlg.cpp
 
     # AAC UI module
-    src/aac/state_machine.cpp
-    src/aac/aac_ui.cpp
+    aac/state_machine.cpp
+    aac/ui/aac_ui.cpp
+    aac/aac_module.cpp
 
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
