@@ -428,7 +428,7 @@
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда в канале \"Без Прерываний\" можно говорить"";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда в канале \"Без Прерываний\" можно говорить";
 
 /* preferences */
 "Play sound when user logs off to the server" = "Воспроизводить звук, когда пользователь покидает сервер";

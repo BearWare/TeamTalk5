@@ -123,6 +123,7 @@ PacketHandler::PacketHandler(ACE_Reactor* r)
 {
     //MYTRACE(ACE_TEXT("%p PacketHandler()\n"), this);
     TTASSERT(r);
+    constexpr auto PACKETBUFFER = 0x10000;
     m_buffer.resize(PACKETBUFFER);
 }
 
@@ -132,7 +133,7 @@ PacketHandler::~PacketHandler()
     Close();
 }
 
-bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
+bool PacketHandler::Open(const ACE_INET_Addr &addr)
 {
     // Use the address' family so IPv6 endpoints get an IPv6 socket on
     // platforms (Android) that don't auto-upgrade AF_INET to AF_INET6.
@@ -142,23 +143,13 @@ bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
 
     int ret = Socket().open(addr, family, 0, 1);
     TTASSERT(reactor());
-    if(ret == 0 && (reactor() != nullptr))
+
+    if (ret == 0)
     {
         //Register the reactor to call back when incoming client connects
         ret = reactor()->register_handler(this, PacketHandler::READ_MASK);
         TTASSERT(ret != -1);
-        priority(HI_PRIORITY);
-        TTASSERT(ret != -1);
-        //MYTRACE("PacketHandler %d opened successfully\n", get_handle());
-        int ret = 0;
-        ret = ACE_OS::setsockopt(Socket().get_handle(), SOL_SOCKET, SO_RCVBUF,
-            reinterpret_cast<const char*>(&recv_buf), sizeof(recv_buf));
-        TTASSERT(ret == 0);
-        ret = ACE_OS::setsockopt(Socket().get_handle(), SOL_SOCKET, SO_SNDBUF,
-            reinterpret_cast<const char*>(&send_buf), sizeof(send_buf));
-        TTASSERT(ret == 0);
-
-#if defined(ACE_HAS_IPV6) && defined(IPV6_V6ONLY)
+#if defined(__ANDROID__) && defined(ACE_HAS_IPV6) && defined(IPV6_V6ONLY)
         // Allow dual stack when we bind IPv6, for backwards compatibility.
         if (family == AF_INET6)
         {
@@ -169,7 +160,7 @@ bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
                 MYTRACE(ACE_TEXT("Warning: Failed to set IPV6_V6ONLY=0 for UDP socket. Dual-stack may be disabled.\n"));
             }
         }
-#endif
+#endif /* __ANDROID__ */
 
         ret = Socket().get_local_addr(m_localaddr);
         TTASSERT(ret >= 0);
@@ -178,18 +169,11 @@ bool PacketHandler::Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf)
     return ret == 0;
 }
 
-bool PacketHandler::Close()
+void PacketHandler::Close()
 {
-    if(reactor() != nullptr)
-    {
-        reactor()->remove_handler(this, PacketHandler::ALL_EVENTS_MASK | PacketHandler::DONT_CALL);
-        //MYTRACE("PacketHandler %d closed\n", get_handle());
-
-        m_localaddr = ACE_INET_Addr();
-        int const ret = Socket().close();
-        return ret == 0;
-    }
-            return false;
+    reactor()->remove_handler(this, PacketHandler::ALL_EVENTS_MASK | PacketHandler::DONT_CALL);
+    m_localaddr = ACE_INET_Addr();
+    Socket().close();
 }
 
 void PacketHandler::AddListener(teamtalk::PacketListener* pListener)

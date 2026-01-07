@@ -37,12 +37,7 @@
 #include <set>
 #include <vector>
 
-
-using byte_t = unsigned char;
-
 namespace teamtalk {
-
-constexpr auto PACKETBUFFER = 0x10000;
 
 // https://da.wikipedia.org/wiki/Differentiated_Services
 constexpr auto IP_TOS_IGNORE = (0x00 << 2);
@@ -83,8 +78,8 @@ constexpr auto IP_TOS_MULTIMEDIA_VIDEO = (0x1e << 2);
         PacketHandler(ACE_Reactor* r);
         ~PacketHandler() override;
 
-        bool Open(const ACE_INET_Addr &addr, int recv_buf, int send_buf);
-        bool Close();
+        bool Open(const ACE_INET_Addr &addr);
+        void Close();
 
         void AddListener(teamtalk::PacketListener* pListener);
         void RemoveListener(teamtalk::PacketListener* pListener);

@@ -54,7 +54,11 @@
 std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port)
 {
     std::vector<ACE_INET_Addr> result;
+    addrinfo hints{};
+    addrinfo* res = nullptr;
+    int addrinfoerror = 0;
 
+#if defined(__ANDROID__)
     // Fast path for numeric literals (avoids platform resolver quirks).
     // getaddrinfo() should handle numeric hosts, but on some Android devices
     // it can still fail transiently (EAI_AGAIN) even for IPv6 literals.
@@ -124,46 +128,36 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
         return result;
     }
 
-    addrinfo hints;
-    ACE_OS::memset(&hints, 0, sizeof hints);
     hints.ai_family = AF_UNSPEC;
     // Avoid AI_ALL / AI_V4MAPPED with AF_UNSPEC: on some libc implementations
     // (notably Android's bionic) this combination returns EAI_BADFLAGS for
     // IPv6‑only hosts, which leaves us with an empty address list. Stick to
     // plain lookups here so both IPv4 and IPv6 results are returned.
     hints.ai_flags = 0;
-
     // Do not constrain ai_socktype here. Android's resolver can fail in some
     // network configurations when ai_socktype is set, and TeamTalk also uses
     // UDP sockets so we want results for both transport types.
     hints.ai_socktype = 0;
     hints.ai_protocol = 0;
 
-    addrinfo* res = nullptr;
-
     // Android's resolver may return EAI_AGAIN transiently even when DNS works
     // (e.g. during network transitions). Retry a few times before giving up.
-    int addrinfoError = 0;
     for (int attempt = 0; attempt < 3; ++attempt)
     {
-        addrinfoError = ACE_OS::getaddrinfo(host_utf8_full.c_str(), nullptr, &hints, &res);
-        if (addrinfoError == 0 || addrinfoError != EAI_AGAIN)
+        addrinfoerror = ACE_OS::getaddrinfo(host_utf8_full.c_str(), nullptr, &hints, &res);
+        if (addrinfoerror == 0 || addrinfoerror != EAI_AGAIN)
             break;
         ACE_OS::sleep(ACE_Time_Value(0, 200 * 1000)); // 200ms
     }
-
-    if (addrinfoError != 0)
-    {
-        errno = addrinfoError;
-#if defined(UNICODE)
-        MYTRACE(ACE_TEXT("getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d\n"),
-                Utf8ToUnicode(host_utf8_full.c_str()).c_str(), addrinfoError,
-                Utf8ToUnicode(ACE_OS::strerror(addrinfoError)).c_str(), hints.ai_flags, hints.ai_family);
 #else
-        MYTRACE(ACE_TEXT("getaddrinfo failed host=%s err=%d (%s) flags=0x%x family=%d\n"),
-                host_utf8_full.c_str(), addrinfoError, ACE_OS::strerror(addrinfoError),
-                hints.ai_flags, hints.ai_family);
-#endif
+    hints.ai_family = AF_UNSPEC;
+    hints.ai_socktype = SOCK_STREAM; // ensure no duplicate IP-addresses for SOCK_DGRAM
+    addrinfoerror = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
+#endif /* __ANDROID__ */
+
+    if (addrinfoerror != 0)
+    {
+        MYTRACE(ACE_TEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
         return {};
     }
 
@@ -175,9 +169,8 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 #if defined (ACE_HAS_IPV6)
             sockaddr_in6 in6_;
 #endif /* ACE_HAS_IPV6 */
-        };
+        } addr{};
 
-        ip46 addr;
         ACE_OS::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)

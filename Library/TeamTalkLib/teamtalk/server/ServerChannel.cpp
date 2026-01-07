@@ -56,7 +56,7 @@ ServerChannel::~ServerChannel()
 void ServerChannel::Init()
 {
 #if defined(ENABLE_ENCRYPTION)
-    RAND_bytes(m_cryptkey, sizeof(m_cryptkey));
+    RAND_bytes(m_cryptkey.data(), sizeof(m_cryptkey));
 #endif
     SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
 }

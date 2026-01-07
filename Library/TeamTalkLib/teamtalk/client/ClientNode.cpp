@@ -54,9 +54,6 @@ using namespace vidcap;
 constexpr auto VIDEOFILE_ENCODER_FRAMES_MAX         = 3;
 constexpr auto VIDEOCAPTURE_ENCODER_FRAMES_MAX      = 3;
 constexpr auto VIDEOCAPTURE_LOCAL_FRAMES_MAX        = 10;
-constexpr auto UDP_SOCKET_RECV_BUF_SIZE             = 0x20000;
-constexpr auto UDP_SOCKET_SEND_BUF_SIZE             = 0x20000;
-
 constexpr auto LOCAL_USERID                         = 0; // Local user recording
 constexpr auto MUX_USERID                           = 0x1001; // User ID for recording muxed stream
 constexpr auto LOCAL_TX_USERID                      = 0x1002; // User ID for local user transmitting
@@ -849,7 +846,7 @@ void ClientNode::RecreateUdpSocket()
     //recreate the UDP socket which has the server connection
     m_packethandler.Close();
     auto localaddr = GetLocalAddr();
-    m_packethandler.Open(localaddr, UDP_SOCKET_RECV_BUF_SIZE, UDP_SOCKET_SEND_BUF_SIZE);
+    m_packethandler.Open(localaddr);
 }
 
 void ClientNode::OpenAudioCapture(const AudioCodec& codec)
@@ -4026,20 +4023,18 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     m_serverinfo.systemid = sysid;
     
     m_serverinfo.hostaddrs = DetermineHostAddress(hostaddr, tcpport);
+    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), int(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
     if (!m_serverinfo.hostaddrs.empty())
     {
         m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
         m_serverinfo.udpaddr.set_port_number(udpport);
-    }
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), int(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
-    
-    if ((!m_serverinfo.hostaddrs.empty()) &&
-        Connect(encrypted, m_serverinfo.hostaddrs[0], m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : nullptr))
-    {
-        StartTimer(TIMER_ONE_SECOND_ID, 0, ACE_Time_Value(1), ACE_Time_Value(1));
 
         m_flags |= CLIENT_CONNECTING;
-        return true;
+        if (Connect(encrypted, m_serverinfo.hostaddrs[0], m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : nullptr))
+        {
+            StartTimer(TIMER_ONE_SECOND_ID, 0, ACE_Time_Value(1), ACE_Time_Value(1));
+            return true;
+        }
     }
 
     Disconnect(); //clean up
@@ -4051,13 +4046,14 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                          const ACE_INET_Addr* localtcpaddr)
 {
     int ret = 0;
+    std::array<ACE_TCHAR, 128> remoteipaddr{}, localtcpipaddr{}, localudpipaddr{};
+    hosttcpaddr.addr_to_string(remoteipaddr.data(), remoteipaddr.size());
+    localtcpaddr ? localtcpaddr->addr_to_string(localtcpipaddr.data(), localtcpipaddr.size())
+                 : m_localTcpAddr.addr_to_string(localtcpipaddr.data(), localtcpipaddr.size());
+    m_localUdpAddr.addr_to_string(localudpipaddr.data(), localudpipaddr.size());
 
-#if !defined(UNICODE)
-    MYTRACE(ACE_TEXT("Trying remote TCP: %s:%d, Local TCP: %s:%d, UDP: %s:%d\n"),
-            hosttcpaddr.get_host_addr(), hosttcpaddr.get_port_number(),
-            m_localTcpAddr.get_host_addr(), m_localTcpAddr.get_port_number(),
-            m_localUdpAddr.get_host_addr(), m_localUdpAddr.get_port_number());
-#endif            
+    MYTRACE(ACE_TEXT("Trying remote TCP: %s, Local TCP: %s, UDP: %s\n"),
+            remoteipaddr.data(), localtcpipaddr.data(), localudpipaddr.data());
     
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
@@ -4961,8 +4957,7 @@ void ClientNode::OnOpened()
     
     MYTRACE(ACE_TEXT("UDP bind: %s. %d\n"), InetAddrToString(localaddr).c_str(), localaddr.get_type());
 
-    if (m_packethandler.Open(localaddr, UDP_SOCKET_RECV_BUF_SIZE,
-                             UDP_SOCKET_SEND_BUF_SIZE))
+    if (m_packethandler.Open(localaddr))
     {
         m_packethandler.AddListener(this);
     }
@@ -5004,14 +4999,14 @@ void ClientNode::OnClosed()
 #endif
     m_def_stream = nullptr;
     
-    if((m_flags & CLIENT_CONNECTED) != 0u)
+    if ((m_flags & CLIENT_CONNECTED) == CLIENT_CONNECTED)
     {
         m_flags &= ~CLIENT_CONNECTED;
         //Disconnect and clean up clientnode
         if(m_listener != nullptr)
             m_listener->OnConnectionLost();
     }
-    else if((m_flags & CLIENT_CONNECTING) != 0u)
+    else if ((m_flags & CLIENT_CONNECTING) == CLIENT_CONNECTING)
     {
         // try next resolved host before giving up
         if (m_serverinfo.hostaddrs.size() > 1)
@@ -5020,9 +5015,8 @@ void ClientNode::OnClosed()
             u_short const udpport = m_serverinfo.udpaddr.get_port_number();
             m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
             m_serverinfo.udpaddr.set_port_number(udpport);
-            if (Connect(encrypted, m_serverinfo.hostaddrs[0],
-                        m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : nullptr))
-                return;
+            Connect(encrypted, m_serverinfo.hostaddrs[0], m_localTcpAddr != ACE_INET_Addr() ? &m_localTcpAddr : nullptr);
+            return; // if Connect() returns false then OnClosed() is automatically called by callback
         }
 
         m_flags &= ~CLIENT_CONNECTING;
@@ -5609,11 +5603,10 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
     {
         //check that key sizes match
-        byte_t encrypt[CRYPTKEY_SIZE];
-        memset(encrypt, 0, sizeof(encrypt));
-        TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-        if(sizeof(encrypt) == crypt_key.length()/2)
-            HexStringToKey(crypt_key, encrypt);
+        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+        if (sizeof(encrypt) == crypt_key.length() / 2)
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
         newchan->SetEncryptKey(encrypt);
     }
 #endif
@@ -5684,11 +5677,10 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
     {
         //check that key sizes match
-        byte_t encrypt[CRYPTKEY_SIZE];
-        memset(encrypt, 0, sizeof(encrypt));
-        TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-        if(sizeof(encrypt) == crypt_key.length()/2)
-            HexStringToKey(crypt_key, encrypt);
+        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+        if (sizeof(encrypt) == crypt_key.length() / 2)
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
         chan->SetEncryptKey(encrypt);
     }
 #endif
@@ -5744,11 +5736,10 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
         {
             //check that key sizes match
-            byte_t encrypt[CRYPTKEY_SIZE];
-            memset(encrypt, 0, sizeof(encrypt));
-            TTASSERT(sizeof(encrypt) == crypt_key.length()/2);
-            if(sizeof(encrypt) == crypt_key.length()/2)
-                HexStringToKey(crypt_key, encrypt);
+            std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
+            TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
+            if (sizeof(encrypt) == crypt_key.length() / 2)
+                HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
             chan->SetEncryptKey(encrypt);
         }
 #endif
