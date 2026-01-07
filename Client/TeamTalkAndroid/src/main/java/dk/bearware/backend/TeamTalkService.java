@@ -52,6 +52,7 @@ import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.ServiceCompat;
 
@@ -521,11 +522,6 @@ public class TeamTalkService extends Service
         return ttserver;
     }
 
-    // set TT server which service should connect to
-    public void setServerEntry(ServerEntry entry) {
-        ttserver = entry;
-    }
-
     // set channel which service should join
     public void setJoinChannel(Channel channel) {
         joinchannel = channel;
@@ -623,24 +619,23 @@ public class TeamTalkService extends Service
         }
     }
 
-    public boolean reconnect() {
-        if(ttserver == null || ttclient == null)
-            return false;
+    public void initConnection(@NonNull ServerEntry entry) {
+        this.ttserver = entry;
+        reconnect();
+    }
 
+    private void reconnect() {
         syncToUserCache();
 
         ttclient.disconnect();
 
-        if (!setupEncryption())
-            return false;
-        
-        if(!ttclient.connect(ttserver.ipaddr, ttserver.tcpport,
-                             ttserver.udpport, 0, 0, ttserver.encrypted)) {
-            ttclient.disconnect();
-            return false;
+        if (!setupEncryption()) {
+            Toast.makeText(this, getResources().getString(R.string.text_con_encryption_setup_error),
+                    Toast.LENGTH_SHORT).show();
+            return;
         }
-        
-        return true;
+
+        ttclient.connect(ttserver.ipaddr, ttserver.tcpport, ttserver.udpport, 0, 0, ttserver.encrypted);
     }
 
     private boolean setupEncryption() {
