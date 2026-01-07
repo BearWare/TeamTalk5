@@ -92,7 +92,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     mytableview.h mytabwidget.h shortcutsmodel.h utilmedia.h
     chattextlist.h chattemplatesdlg.h
 
-    # AAC UI module
+# --- AAC Module (PR #6) ----------------------------------------------------
     aac/state_machine.h
 aac/events.h
 aac/ui/aac_ui.h
