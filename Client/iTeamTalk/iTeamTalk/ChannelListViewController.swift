@@ -1021,13 +1021,7 @@ class ChannelListViewController :
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
-                        if #available(iOS 10.0, *) {
-                            self.unreadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {s in self.timerUnreadBlinker(s)})
-                        } else {
-                            self.unreadTimer = Timer(timeInterval: 1.0, target: self,
-                                                     selector: #selector(ChannelListViewController.timerUnreadBlinker(_:)),
-                                                     userInfo: nil, repeats: true)
-                        }
+                        self.unreadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {s in self.timerUnreadBlinker(s)})
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)                    
                 }

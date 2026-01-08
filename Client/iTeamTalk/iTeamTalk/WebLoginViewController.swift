@@ -131,10 +131,10 @@ class WebLoginViewController : UITableViewController {
             if parser.parse() && authParser.username.count > 0 {
                 let fmtmsg = NSLocalizedString("%@, your username \"%@\" has been validated", comment: "Web Login Controller")
                 let loginmsg = String(format: fmtmsg, authParser.nickname, authParser.username)
-                let alert = UIAlertView(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
-                                        message: loginmsg, delegate: nil,
-                                        cancelButtonTitle: NSLocalizedString("OK", comment: "Web Login Controller"))
-                alert.show()
+                let alert = UIAlertController(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
+                                              message: loginmsg, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Web Login Controller"), style: .default))
+                self.present(alert, animated: true)
                 
                 let settings = UserDefaults.standard
                 settings.set(authParser.username, forKey: PREF_GENERAL_BEARWARE_ID)
@@ -144,17 +144,18 @@ class WebLoginViewController : UITableViewController {
                 tableView.reloadData()
             }
             else {
-                let alert = UIAlertView(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
-                                        message: NSLocalizedString("Username or password incorrect", comment: "Web Login Controller"),
-                                        delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "Web Login Controller"))
-                alert.show()
+                let alert = UIAlertController(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
+                                              message: NSLocalizedString("Username or password incorrect", comment: "Web Login Controller"),
+                                              preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Web Login Controller"), style: .default))
+                self.present(alert, animated: true)
             }
         }
     }
     
     @IBAction func createWebLogin(_ sender: UIButton) {
         if let url = URL(string: AppInfo.BEARWARE_REGISTRATION_WEBSITE) {
-            UIApplication.shared.openURL(url)
+            UIApplication.shared.open(url)
         }
     }
     
