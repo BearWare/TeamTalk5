@@ -43,7 +43,7 @@ void tt_assert(const char* assertion, const char* file, int line);
 
 //ensure that it's the thread owner of the reactor which is executing
 #define ASSERT_REACTOR_THREAD(reactor)                                  \
-    do {                                                                \
+    do { /* NOLINT */                                                   \
         ACE_thread_t tid;                                               \
         int ret = (reactor).owner(&tid);                                \
         TTASSERT(ret >= 0);                                             \
@@ -51,7 +51,7 @@ void tt_assert(const char* assertion, const char* file, int line);
     } while(0)
 
 #define ASSERT_NOT_REACTOR_THREAD(reactor)                              \
-    do {                                                                \
+    do { /* NOLINT */                                                   \
         ACE_thread_t tid;                                               \
         int ret = (reactor).owner(&tid);                                \
         TTASSERT(ret >= 0);                                             \
