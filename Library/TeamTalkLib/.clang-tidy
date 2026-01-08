@@ -6,6 +6,9 @@ Checks: >
     concurrency-*,
     cppcoreguidelines-*,
     -cppcoreguidelines-pro-type-member-init,
+    -cppcoreguidelines-pro-type-union-access,
+    -cppcoreguidelines-pro-type-vararg,
+    -cppcoreguidelines-special-member-functions,
     llvm-*,
     -llvm-header-guard,
     misc-*,
@@ -20,6 +23,7 @@ Checks: >
     readability-*,
     -readability-braces-around-statements,
     -readability-identifier-length,
+    -readability-uppercase-literal-suffix,
     -readability-use-concise-preprocessor-directives,
 
 WarningsAsErrors: true
@@ -41,3 +45,5 @@ CheckOptions:
     value:           UPPER_CASE
   - key:             readability-identifier-naming.PrivateMemberPrefix
     value:           m_
+  - key:             misc-include-cleaner.MissingIncludes
+    value:           false
