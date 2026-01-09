@@ -7,6 +7,7 @@ Default Qt Client
 - Updated Qt to 6.10.0 on macOS
 - Updated Qt to 6.10.1 on Windows
 - Option to disable sound device detection notifications in statusbar events
+- Fixed bug where the value of the Show chat history as list view instead of text edit setting was sometimes deleted
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Android Client
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
