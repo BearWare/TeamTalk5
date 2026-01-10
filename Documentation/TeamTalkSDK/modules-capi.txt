@@ -24,9 +24,9 @@
  * Before being able to initialize the sound devices to use for
  * recording and playback the computer's available sound devices must
  * first be queried. This is done using the function
- * TT_GetSoundDevices() which returns an array of #SoundDevice-structs
+ * TT_GetSoundDevices() which returns an array of #SoundDevice structs
  * containing a description of the sound device. In the
- * #SoundDevice-struct there's a member variable called @a
+ * #SoundDevice struct there's a member variable called @a
  * nDeviceID. This ID should be passed to the client instance's two
  * sound initialization functions #TT_InitSoundInputDevice and
  * #TT_InitSoundOutputDevice. Once this has been done the #TT_GetFlags
@@ -460,7 +460,7 @@
  * how to configure the TeamTalk server.
  *
  * The server's name, message of the day (MOTD) can be updated using
- * the #ServerProperties-struct. Only users with
+ * the #ServerProperties struct. Only users with
  * #USERRIGHT_UPDATE_SERVERPROPERTIES are allowed change a server's
  * properties while it's running. This is done using the command
  * TT_DoUpdateServer().
@@ -473,7 +473,7 @@
  *
  * Two types of users exists on a server, default users
  * (#USERTYPE_DEFAULT) and administrator users (#USERTYPE_ADMIN). The
- * #UserType-enum can be used to see who is what. A user of
+ * #UserType enum can be used to see who is what. A user of
  * #USERTYPE_ADMIN have unrestricted rights on the server and can
  * issue any command to the server whereas a default user is limited
  * to the #UserRights which are assigned to the @c uUserRights member
@@ -543,7 +543,7 @@
  * #USERRIGHT_UPLOAD_FILES and #USERRIGHT_DOWNLOAD_FILES are
  * enabled. To upload a file to a channel the channel needs to have a
  * disk quota. The disk quota is specified by @a nDiskQuota in the
- * #Channel-struct. The file being uploaded must have a file size
+ * #Channel struct. The file being uploaded must have a file size
  * which is less than the disk quota and the sum of sizes of existing
  * files. Once a file is uploaded only channel operators and the
  * file's owner can delete a file.
@@ -621,10 +621,10 @@
  * messages, audio data and video data from all users. If, however, a
  * client wants to stop receiving e.g. audio from a user, he can call
  * #TT_DoUnsubscribe along with the user ID and the
- * #SUBSCRIBE_VOICE-flag to tell the server that he no longer wants to
+ * #SUBSCRIBE_VOICE flag to tell the server that he no longer wants to
  * receive audio from that user. The server will then respond with the
  * event #CLIENTEVENT_CMD_USER_UPDATE and the @a uLocalSubscriptions
- * member of #User will have the #SUBSCRIBE_VOICE-flag removed. At the
+ * member of #User will have the #SUBSCRIBE_VOICE flag removed. At the
  * remote user the \a uPeerSubscriptions member will be
  * changed. Subscribe/unsubscribe can also be done for user, channel
  * and broadcast messages and video data. The function #TT_DoSubscribe

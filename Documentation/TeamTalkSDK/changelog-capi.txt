@@ -486,8 +486,8 @@
  *
  * @subsection v58bapi API change in v5.8b
  *
- * - New field @c szLastModified on #UserAccount-struct.
- * - New field @c szUploadTime on #RemoteFile-struct
+ * - New field @c szLastModified on #UserAccount struct.
+ * - New field @c szUploadTime on #RemoteFile struct
  *
  * <hr>
  *
@@ -536,14 +536,14 @@
  * through #SOUNDDEVICEFEATURE_AEC.
  *
  * Read more about WebRTC's audio preprocessor using the
- * #WebRTCAudioPreprocessor-struct.
+ * #WebRTCAudioPreprocessor struct.
  *
  * @subsubsection v57aclassroom Classroom support for channel text messages
  *
  * Previously it was only possible to control #STREAMTYPE_VOICE,
  * #STREAMTYPE_MEDIAFILE, #STREAMTYPE_VIDEOCAPTURE and
  * #STREAMTYPE_DESKTOP in a classroom using @c transmitUsers on
- * #Channel-struct. Now #STREAMTYPE_CHANNELMSG has been added so it's
+ * #Channel struct. Now #STREAMTYPE_CHANNELMSG has been added so it's
  * also possible to enable/disable channel text messages sent through
  * TT_DoTextMessage().
  *
@@ -873,7 +873,7 @@
  * by the TeamTalk client instance.
  *
  * Now it's possible to configure the keep alive properties using
- * #ClientKeepAlive-struct and functions TT_SetClientKeepAlive() and
+ * #ClientKeepAlive struct and functions TT_SetClientKeepAlive() and
  * TT_GetClientKeepAlive().
  *
  * @subsubsection v55arecord Record audio from multiple channels
@@ -1117,7 +1117,7 @@
  * - Fixed severe issue causing audio playback not to start if client
  *   received bursts of audio packets (the client has a 1 second
  *   buffer which would overflow and not restart).
- * - Fixed @c nChannelID not being set in #User-struct when using
+ * - Fixed @c nChannelID not being set in #User struct when using
  *   TeamTalk Server API.
  *
  * <hr>
@@ -1178,7 +1178,7 @@
  * The Speex sound preprocessing library (SpeexDSP) is now also
  * supported on iOS platforms.
  *
- * The #SpeexDSP-struct is used by TT_SetSoundInputPreprocess() and
+ * The #SpeexDSP struct is used by TT_SetSoundInputPreprocess() and
  * TT_StartSoundLoopbackTest().
  *
  * @subsubsection v52attand TeamTalk for Android now uses Android Studio
@@ -1204,7 +1204,7 @@
  *
  * @subsubsection v52aclientname Get software client used by peer
  *
- * Added @c szClientName to #User-struct. The client name is specified
+ * Added @c szClientName to #User struct. The client name is specified
  * in TT_DoLoginEx().
  *
  * @subsubsection v52aconsys Limit access to TeamTalk server to one software client
@@ -1256,7 +1256,7 @@
  * Server API callback #UserCreateUserAccountCallback changed so
  * #UserAccount is const.
  *
- * - Added function TT_PumpMessage() for getting latest #User-state. 
+ * - Added function TT_PumpMessage() for getting latest #User state. 
  * - Added function TTS_StopServer() for closing network sockets.
  * - Added function TTS_SetChannelFilesRoot() for server files storage.
  * - Added function TTS_AddFileToChannel() for adding files to server.
@@ -2672,9 +2672,9 @@
  * - @c TT_GetUserMessage
  *   - Call @c TT_GetTextMessage instead.
  * - @c TT_IsUserMute
- *   - Check @c USERSTATE_MUTE in @a uUserState of #User-struct.
+ *   - Check @c USERSTATE_MUTE in @a uUserState of #User struct.
  * - @c TT_IsUserTalking
- *   - Check @c USERSTATE_TALKING in @a uUserState of #User-struct.
+ *   - Check @c USERSTATE_TALKING in @a uUserState of #User struct.
  * - @c TT_ForwardToAll
  *   - Call @c TT_EnablePeerToPeer with parameter to false (the default setting).
  * - @c TT_IsForwardingToAll
