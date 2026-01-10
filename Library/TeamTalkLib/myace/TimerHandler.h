@@ -24,8 +24,8 @@
 #if !defined(TIMERHANDLER_H)
 #define TIMERHANDLER_H
 
-#include <ace/Event_Handler.h>
 #include <ace/Basic_Types.h>
+#include <ace/Event_Handler.h>
 #include <ace/Time_Value.h>
 
 #include <map>

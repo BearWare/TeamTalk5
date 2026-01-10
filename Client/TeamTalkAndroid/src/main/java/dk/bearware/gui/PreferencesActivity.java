@@ -420,7 +420,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             enginePrefs.setEntryValues(values.toArray(new CharSequence[engines.size()]));
 
             if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.O) {
-                CheckBoxPreference mTtsPref = (CheckBoxPreference) findPreference("a11y_volume");
+                CheckBoxPreference mTtsPref = (CheckBoxPreference) findPreference("pref_a11y_volume");
                 PreferenceCategory mTtsCat = (PreferenceCategory) findPreference("tts_def");
                 mTtsCat.removePreference(mTtsPref);
             }

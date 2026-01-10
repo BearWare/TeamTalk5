@@ -893,6 +893,7 @@ void MainWindow::initialScreenReaderSetup()
                     ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+                ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, true);
             }
         }
     }

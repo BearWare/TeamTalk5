@@ -126,15 +126,13 @@ ACE_CString Utf8ToLocal(const char* local, int len = -1);
 bool ValidUtf8(const ACE_CString& utf8_str);
 ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen);
 
-#if !defined(MYTRACE)
-
 #if defined(_DEBUG)
 
 void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-type-vararg) */
 
-#define MYTRACE_COND(check, trace_str, ...)  /* NOLINT(cppcoreguidelines-avoid-do-while,cppcoreguidelines-pro-type-vararg) */ \
-    do {                                            \
-        if(check) MYTRACE(trace_str, ##__VA_ARGS__);  \
+#define MYTRACE_COND(check, trace_str, ...)                       \
+    do { /* NOLINT */                                             \
+        if(check) MYTRACE(trace_str, ##__VA_ARGS__); /* NOLINT */ \
     } while(0)
 
 #else
@@ -143,8 +141,6 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-t
 #define MYTRACE_COND(...)      ((void)0)
 
 #endif /* _DEBUG */
-
-#endif /* MYTRACE */
 
 class Profiler
 {

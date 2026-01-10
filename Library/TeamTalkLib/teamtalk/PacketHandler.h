@@ -26,10 +26,8 @@
 
 #include "PacketLayout.h"
 
-#include <ace/Condition_Thread_Mutex.h>
 #include <ace/Event_Handler.h>
 #include <ace/INET_Addr.h>
-#include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
 #include <ace/Reactor.h>
 #include <ace/SOCK_Dgram.h>

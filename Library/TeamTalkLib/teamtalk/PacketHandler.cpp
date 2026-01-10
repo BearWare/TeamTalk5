@@ -28,19 +28,18 @@
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
 
+#include <ace/Event_Handler.h>
 #include <ace/Message_Block.h>
 #include <ace/Reactor.h>
-#include <ace/Event_Handler.h>
-#include <ace/Addr.h>
 
 #if defined(ACE_HAS_IPV6) && !defined(WIN32)
 #include <netinet/in.h>
 #endif
 
-#include <cstring>
 #include <cstddef>
-#include <vector>
+#include <cstring>
 #include <queue>
+#include <vector>
 
 using namespace teamtalk;
 
