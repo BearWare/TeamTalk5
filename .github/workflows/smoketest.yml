@@ -45,6 +45,7 @@ jobs:
            libace-inet-dev
            libace-inet-ssl-dev
            libace-ssl-dev
+           portaudio19-dev
            libogg-dev
            libopus-dev
            libspeex-dev
@@ -64,6 +65,7 @@ jobs:
            -DTOOLCHAIN_OGG=OFF
            -DTOOLCHAIN_OPENSSL=OFF
            -DTOOLCHAIN_OPUS=OFF
+           -DTOOLCHAIN_PORTAUDIO=OFF
            -DTOOLCHAIN_SPEEX=OFF
            -DTOOLCHAIN_SPEEXDSP=OFF
            -DTOOLCHAIN_TINYXML=OFF
