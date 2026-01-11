@@ -2,17 +2,20 @@
 
 #include <QObject>
 
-class MainWindow;
+class BackendAdapter;
 class StateMachine;
+class MainWindow;
 
 class AppController : public QObject {
     Q_OBJECT
 public:
     explicit AppController(QObject* parent = nullptr);
 
+    // Entry point for the AAC‑native UI
     void start();
 
 private:
-    MainWindow* m_mainWindow;
-    StateMachine* m_stateMachine;
+    BackendAdapter* m_backend = nullptr;
+    StateMachine*   m_stateMachine = nullptr;
+    MainWindow*     m_mainWindow = nullptr;
 };
