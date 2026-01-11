@@ -14,7 +14,7 @@
  * @brief Ensure the header and DLL are exactly the same version. To
  * get the version of the loaded DLL call TT_GetVersion(). A remote
  * client's version can be seen in the @a szVersion member of the
- * #User-struct. */
+ * #User struct. */
 
 #define TEAMTALK_VERSION "5.21.2.5190"
 
@@ -2949,7 +2949,7 @@ extern "C" {
          * 
          * The password specified in #TT_DoChannelOpEx is not correct.
          * The operator password is the @a szOpPassword of the 
-         * #Channel-struct. */
+         * #Channel struct. */
         CMDERR_INCORRECT_OP_PASSWORD = 2010,
 
         /** @brief The selected #AudioCodec exceeds what the server allows.
@@ -4650,7 +4650,7 @@ extern "C" {
      *
      * Some devices, like Android, enable the user to toggle certain
      * audio effects on their device to improve audio quality. The
-     * #SoundDeviceEffects-struct can be used to toggle these audio
+     * #SoundDeviceEffects struct can be used to toggle these audio
      * effects on the device.
      *
      * The following sound systems support TT_SetSoundDeviceEffects():
@@ -4964,7 +4964,7 @@ extern "C" {
 
     /**
      * @brief Transmit application provided raw audio in
-     * #AudioBlock-structs as #STREAMTYPE_VOICE, i.e. microphone
+     * #AudioBlock structs as #STREAMTYPE_VOICE, i.e. microphone
      * input.
      *
      * Since #STREAMTYPE_VOICE is being replaced by audio input this
@@ -7634,7 +7634,7 @@ extern "C" {
     /** 
      * @brief Release the shared memory of an #AudioBlock.
      *
-     * All #AudioBlock-structures extracted through
+     * All #AudioBlock structures extracted through
      * TT_AcquireUserAudioBlock() must be released again since they
      * share memory with the local client instance.
      *

@@ -16,7 +16,7 @@
  * @brief Ensure the header and DLL are exactly the same version. To
  * get the version of the loaded DLL call TT_GetVersion(). A remote
  * client's version can be seen in the @a szVersion member of the
- * #User-struct. */
+ * #User struct. */
 
 #define TEAMTALK_SERVER_VERSION "5.21.2.5190"
 
