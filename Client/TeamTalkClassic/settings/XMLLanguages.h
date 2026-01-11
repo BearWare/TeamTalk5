@@ -47,7 +47,7 @@ public:
     void SortItems();
 
 protected:
-  virtual TiXmlElement* GetRootElement();
+  virtual tinyxml2::XMLElement* GetRootElement();
 private:
-    TiXmlElement* GetItem(int id);
+    tinyxml2::XMLElement* GetItem(int id);
 };
