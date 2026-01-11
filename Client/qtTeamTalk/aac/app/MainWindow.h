@@ -10,9 +10,11 @@ class MainWindow : public QMainWindow {
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
+    void attachStateMachine(StateMachine* sm);
 
 private:
     BackendAdapter* m_backend;
+    StateMachine* m_stateMachine = nullptr;
 
     void setupBackendConnections();
     void attachStateMachine(class StateMachine* sm);
