@@ -1,21 +1,21 @@
 #include "AppController.h"
-#include "MainWindow.h"
+#include "BackendAdapter.h"
 #include "StateMachine.h"
+#include "MainWindow.h"
 
 AppController::AppController(QObject* parent)
-    : QObject(parent),
-      m_mainWindow(nullptr),
-      m_stateMachine(nullptr)
+    : QObject(parent)
 {
+    m_backend = new BackendAdapter(this);
+    m_stateMachine = new StateMachine(this);
+    m_mainWindow = new MainWindow();
+
+    // Wire components together
+    m_stateMachine->attachBackend(m_backend);
+    m_stateMachine->attachMainWindow(m_mainWindow);
 }
 
 void AppController::start()
 {
-    m_mainWindow = new MainWindow();
-    m_stateMachine = new StateMachine(m_mainWindow);
-
-    // Wire StateMachine into MainWindow
-    m_mainWindow->attachStateMachine(m_stateMachine);
-
     m_mainWindow->show();
 }
