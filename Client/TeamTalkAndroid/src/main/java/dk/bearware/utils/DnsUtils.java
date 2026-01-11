@@ -268,7 +268,7 @@ public final class DnsUtils {
                 v6 = queryUdpDns(dns, hostname, 28 /* AAAA */);
             if (v4 == null)
                 v4 = queryUdpDns(dns, hostname, 1 /* A */);
-            if (v4 != null || v6 != null)
+            if (v4 != null && v6 != null)
                 break;
         }
 
