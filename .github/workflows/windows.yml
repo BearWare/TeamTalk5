@@ -73,9 +73,7 @@ jobs:
         setup-python: false
 
     - name: Install Doxygen
-      uses: ssciwr/doxygen-install@v1
-      with:
-        version: '1.16.0'
+      run: choco install doxygen.install
 
     - name: Set up VSTest
       uses: darenm/Setup-VSTest@v1
