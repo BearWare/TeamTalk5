@@ -1036,7 +1036,7 @@ public class TeamTalkService extends Service
         
         // set media file volume
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        int mf_volume = pref.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
+        int mf_volume = pref.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 50);
         mf_volume = Utils.refVolume(mf_volume);
         ttclient.setUserVolume(user.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
         ttclient.pumpMessage(ClientEvent.CLIENTEVENT_USER_STATECHANGE, user.nUserID);

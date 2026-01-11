@@ -212,7 +212,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             getClient().doChangeStatus(statusmode, statusmsg);
         }
         
-        int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 100);
+        int mf_volume = prefs.getInt(Preferences.PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME, 50);
         mf_volume = Utils.refVolume(mf_volume);
         for(User u: getService().getUsers().values()) {
             getClient().setUserVolume(u.nUserID, StreamType.STREAMTYPE_MEDIAFILE_AUDIO, mf_volume);
