@@ -15,6 +15,7 @@ private:
     BackendAdapter* m_backend;
 
     void setupBackendConnections();
+    void attachStateMachine(class StateMachine* sm);
 
 private slots:
     void onConnectionStateChanged(ConnectionState state);
