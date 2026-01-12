@@ -15,4 +15,11 @@ DisconnectedScreen::DisconnectedScreen(QWidget* parent)
 
     layout->addWidget(label);
     layout->addWidget(btn);
+
+    //
+    // UI → signal wiring
+    //
+    connect(btn, &QPushButton::clicked, this, [this]() {
+        emit connectRequested();
+    });
 }
