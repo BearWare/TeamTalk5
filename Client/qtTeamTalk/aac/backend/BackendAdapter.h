@@ -30,6 +30,11 @@ signals:
     void channelEvent(const ChannelEvent& event);
     void errorOccurred(const ErrorEvent& error);
 
+    // AAC‑relevant new signals
+    void selfVoiceEvent(const SelfVoiceEvent& event);
+    void audioDeviceEvent(const AudioDeviceEvent& event);
+    void textMessageEvent(const TextMessageEvent& event);
+
 private slots:
     void pollTeamTalk();
 
