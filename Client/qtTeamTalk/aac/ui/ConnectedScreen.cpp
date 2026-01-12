@@ -2,17 +2,52 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QScrollArea>
 
 ConnectedScreen::ConnectedScreen(QWidget* parent)
     : QWidget(parent)
 {
-    auto layout = new QVBoxLayout(this);
+    auto root = new QVBoxLayout(this);
 
-    auto label = new QLabel("Connected", this);
-    label->setAlignment(Qt::AlignCenter);
+    auto title = new QLabel("Select a channel", this);
+    title->setAlignment(Qt::AlignCenter);
+    root->addWidget(title);
 
-    auto joinBtn = new QPushButton("Join Channel", this);
+    //
+    // Scrollable AAC-friendly channel list
+    //
+    auto scroll = new QScrollArea(this);
+    scroll->setWidgetResizable(true);
+    scroll->setFrameShape(QFrame::NoFrame);
 
-    layout->addWidget(label);
-    layout->addWidget(joinBtn);
+    auto container = new QWidget(this);
+    m_channelListLayout = new QVBoxLayout(container);
+    m_channelListLayout->setSpacing(24);   // large touch targets
+    m_channelListLayout->setContentsMargins(24, 24, 24, 24);
+
+    scroll->setWidget(container);
+    root->addWidget(scroll);
+
+    //
+    // TEMPORARY: Populate with placeholder channels
+    // Later, MainWindow will call a method to update this list dynamically.
+    //
+    auto addChannel = [&](int id, const QString& name) {
+        auto btn = new QPushButton(name, this);
+        btn->setMinimumHeight(80);          // AAC large target
+        btn->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Preferred);
+
+        connect(btn, &QPushButton::clicked, this, [this, id]() {
+            emit joinChannelRequested(id);
+        });
+
+        m_channelListLayout->addWidget(btn);
+    };
+
+    addChannel(1, "General Chat");
+    addChannel(2, "Music Room");
+    addChannel(3, "Gaming");
+    addChannel(4, "AFK");
+
+    m_channelListLayout->addStretch();
 }
