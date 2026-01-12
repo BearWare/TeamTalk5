@@ -4,7 +4,6 @@
 BackendAdapter::BackendAdapter(QObject* parent)
     : QObject(parent)
 {
-    // Initialize TeamTalk in polling mode
     m_tt = TT_InitTeamTalkPoll();
     if (!m_tt) {
         ErrorEvent err;
@@ -13,11 +12,10 @@ BackendAdapter::BackendAdapter(QObject* parent)
         return;
     }
 
-    // Start periodic polling of TeamTalk messages
     m_pollTimer = new QTimer(this);
     connect(m_pollTimer, &QTimer::timeout,
             this, &BackendAdapter::pollTeamTalk);
-    m_pollTimer->start(20); // 20 ms polling interval
+    m_pollTimer->start(20);
 }
 
 void BackendAdapter::connectToServer(const QString& host, int port)
@@ -30,10 +28,10 @@ void BackendAdapter::connectToServer(const QString& host, int port)
     INT32 cmdid = TT_Connect(m_tt,
                              hostUtf8.constData(),
                              port,
-                             0,  // udpport
-                             0,  // encrypted
-                             0,  // timeout
-                             0); // local bind IP
+                             0,
+                             0,
+                             0,
+                             0);
 
     if (cmdid <= 0) {
         ErrorEvent err;
@@ -107,9 +105,9 @@ void BackendAdapter::pollTeamTalk()
 
         switch (msg.nClientEvent) {
 
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
         // CONNECTION EVENTS
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
 
         case CLIENTEVENT_CON_SUCCESS: {
             emit connectionStateChanged(ConnectionState::Connected);
@@ -128,9 +126,9 @@ void BackendAdapter::pollTeamTalk()
             break;
         }
 
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
         // COMMAND ERRORS
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
 
         case CLIENTEVENT_CMD_ERROR: {
             ErrorEvent err;
@@ -143,180 +141,86 @@ void BackendAdapter::pollTeamTalk()
             break;
         }
 
-        // ---------------------------------------------------------------------
-        // CHANNEL EVENTS
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
+        // YOU JOINED A CHANNEL
+        // --------------------------------------------------------------
 
-        case CLIENTEVENT_CMD_ADD_CHANNEL: {
+        case CLIENTEVENT_CMD_MYSELF_JOINED: {
             ChannelEvent ev;
-            // ev.type = ChannelEventType::ChannelAdded;
-            // ev.channelId = msg.channel.nChannelID;
-            // ev.parentId = msg.channel.nParentID;
-            // ev.name = QString::fromUtf8(msg.channel.szName);
+            ev.type = ChannelEventType::Joined;
+            ev.channelId = msg.user.nChannelID;
             emit channelEvent(ev);
             break;
         }
 
-        case CLIENTEVENT_CMD_UPDATE_CHANNEL: {
+        // --------------------------------------------------------------
+        // YOU LEFT A CHANNEL
+        // --------------------------------------------------------------
+
+        case CLIENTEVENT_CMD_MYSELF_LEFT: {
             ChannelEvent ev;
-            // ev.type = ChannelEventType::ChannelUpdated;
-            // ev.channelId = msg.channel.nChannelID;
-            // ev.parentId = msg.channel.nParentID;
-            // ev.name = QString::fromUtf8(msg.channel.szName);
+            ev.type = ChannelEventType::Left;
+            ev.channelId = msg.user.nChannelID;
             emit channelEvent(ev);
             break;
         }
 
-        case CLIENTEVENT_CMD_REMOVE_CHANNEL: {
-            ChannelEvent ev;
-            // ev.type = ChannelEventType::ChannelRemoved;
-            // ev.channelId = msg.channel.nChannelID;
-            emit channelEvent(ev);
-            break;
-        }
+        // --------------------------------------------------------------
+        // SELF VOICE STATE (talking indicator)
+        // --------------------------------------------------------------
 
-        // ---------------------------------------------------------------------
-        // USER EVENTS (JOIN/LEAVE/UPDATE/TALKING)
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_CMD_USER_JOINED: {
-            ChannelEvent ev;
-            // ev.type = ChannelEventType::UserJoined;
-            // ev.userId = msg.user.nUserID;
-            // ev.channelId = msg.user.nChannelID;
-            // ev.userName = QString::fromUtf8(msg.user.szNickname);
-            emit channelEvent(ev);
-            break;
-        }
-
-        case CLIENTEVENT_CMD_USER_LEFT: {
-            ChannelEvent ev;
-            // ev.type = ChannelEventType::UserLeft;
-            // ev.userId = msg.user.nUserID;
-            // ev.channelId = msg.user.nChannelID;
-            emit channelEvent(ev);
-            break;
-        }
-
+        case CLIENTEVENT_USER_STATECHANGE:
         case CLIENTEVENT_CMD_USER_UPDATE: {
-            ChannelEvent ev;
-            // bool talking = (msg.user.uUserState & USERSTATE_VOICE) != 0;
-            // ev.type = ChannelEventType::UserUpdated;
-            // ev.userId = msg.user.nUserID;
-            // ev.channelId = msg.user.nChannelID;
-            // ev.isTalking = talking;
-            emit channelEvent(ev);
+            if (msg.user.nUserID == TT_GetMyUserID(m_tt)) {
+                SelfVoiceEvent ev;
+                bool talking = (msg.user.uUserState & USERSTATE_VOICE) != 0;
+                ev.state = talking ? SelfVoiceState::Talking : SelfVoiceState::Silent;
+                emit selfVoiceEvent(ev);
+            }
             break;
         }
 
-        case CLIENTEVENT_USER_STATECHANGE: {
-            ChannelEvent ev;
-            // bool talking = (msg.user.uUserState & USERSTATE_VOICE) != 0;
-            // ev.type = ChannelEventType::UserUpdated;
-            // ev.userId = msg.user.nUserID;
-            // ev.channelId = msg.user.nChannelID;
-            // ev.isTalking = talking;
-            emit channelEvent(ev);
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // AAC‑RELEVANT: AUDIO DEVICE CHANGES
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
+        // AUDIO DEVICE EVENTS
+        // --------------------------------------------------------------
 
         case CLIENTEVENT_SOUNDDEVICE_ADD: {
-            ErrorEvent err;
-            err.message = QStringLiteral("A new sound device was added");
-            emit errorOccurred(err);
+            AudioDeviceEvent ev;
+            ev.type = AudioDeviceEventType::Added;
+            emit audioDeviceEvent(ev);
             break;
         }
 
         case CLIENTEVENT_SOUNDDEVICE_REMOVE: {
-            ErrorEvent err;
-            err.message = QStringLiteral("A sound device was removed");
-            emit errorOccurred(err);
+            AudioDeviceEvent ev;
+            ev.type = AudioDeviceEventType::Removed;
+            emit audioDeviceEvent(ev);
             break;
         }
 
         case CLIENTEVENT_SOUNDDEVICE_FAILURE: {
-            ErrorEvent err;
-            err.message = QStringLiteral("A sound device failed");
-            emit errorOccurred(err);
+            AudioDeviceEvent ev;
+            ev.type = AudioDeviceEventType::Failed;
+            emit audioDeviceEvent(ev);
             break;
         }
 
-        // ---------------------------------------------------------------------
-        // AAC‑RELEVANT: SERVER STATISTICS
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
+        // TEXT MESSAGES (optional TTS)
+        // --------------------------------------------------------------
 
-        case CLIENTEVENT_CMD_SERVERSTATISTICS: {
-            // msg.serverstatistics
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // OPTIONAL: TEXT MESSAGES
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_USER_TEXTMESSAGE: {
-            break;
-        }
-
+        case CLIENTEVENT_USER_TEXTMESSAGE:
         case CLIENTEVENT_CMD_TEXTMESSAGE: {
+            TextMessageEvent ev;
+            ev.fromUserId = msg.textmessage.nFromUserID;
+            ev.message = QString::fromUtf8(msg.textmessage.szMessage);
+            emit textMessageEvent(ev);
             break;
         }
 
-        // ---------------------------------------------------------------------
-        // OPTIONAL: CHANNEL OPERATORS
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_CMD_CHANNEL_OPERATOR: {
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // OPTIONAL: USER ACCOUNT EVENTS
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_CMD_USERACCOUNT: {
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // OPTIONAL: FILE TRANSFERS
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_FILETRANSFER: {
-            break;
-        }
-
-        case CLIENTEVENT_FILETRANSFER_BEGIN: {
-            break;
-        }
-
-        case CLIENTEVENT_FILETRANSFER_END: {
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // OPTIONAL: MEDIA PLAYBACK
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_USER_MEDIAFILE_STATUS: {
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // OPTIONAL: VOICE ACTIVATION (VAD)
-        // ---------------------------------------------------------------------
-
-        case CLIENTEVENT_VOICEACTIVATION: {
-            break;
-        }
-
-        // ---------------------------------------------------------------------
-        // DEFAULT: IGNORE EVERYTHING ELSE
-        // ---------------------------------------------------------------------
+        // --------------------------------------------------------------
+        // IGNORE EVERYTHING ELSE
+        // --------------------------------------------------------------
 
         default:
             break;
