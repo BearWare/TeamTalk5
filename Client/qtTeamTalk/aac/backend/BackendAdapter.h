@@ -2,6 +2,11 @@
 
 #include <QObject>
 #include <QString>
+#include <QTimer>
+
+// TeamTalk 5 Classic C API
+#include "TeamTalk.h"
+
 #include "BackendState.h"
 #include "BackendEvents.h"
 
@@ -25,8 +30,12 @@ signals:
     void channelEvent(const ChannelEvent& event);
     void errorOccurred(const ErrorEvent& error);
 
+private slots:
+    void pollTeamTalk();
+
 private:
     BackendState m_state;
 
-    // TODO: Add TeamTalk backend instance pointer later
+    TTInstance* m_tt = nullptr;
+    QTimer* m_pollTimer = nullptr;
 };
