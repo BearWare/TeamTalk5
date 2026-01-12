@@ -50,4 +50,29 @@ ConnectedScreen::ConnectedScreen(QWidget* parent)
     addChannel(4, "AFK");
 
     m_channelListLayout->addStretch();
+void ConnectedScreen::setChannels(const QList<QPair<int, QString>>& channels)
+{
+    // Clear old items
+    QLayoutItem* item;
+    while ((item = m_channelListLayout->takeAt(0)) != nullptr) {
+        delete item->widget();
+        delete item;
+    }
+
+    // Add new channels
+    for (const auto& ch : channels) {
+        int id = ch.first;
+        QString name = ch.second;
+
+        auto btn = new QPushButton(name, this);
+        btn->setMinimumHeight(80);
+
+        connect(btn, &QPushButton::clicked, this, [this, id]() {
+            emit joinChannelRequested(id);
+        });
+
+        m_channelListLayout->addWidget(btn);
+    }
+
+    m_channelListLayout->addStretch();
 }
