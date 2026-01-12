@@ -1,0 +1,59 @@
+/* GLOBAL RESET */
+* {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 20px;
+    color: #FFFFFF;
+}
+
+/* MAIN WINDOW BACKGROUND */
+QWidget {
+    background-color: #000000;
+}
+
+/* BUTTONS */
+QPushButton {
+    background-color: #222222;
+    border: 3px solid #FFFFFF;
+    border-radius: 12px;
+    padding: 16px;
+    font-weight: bold;
+}
+
+QPushButton:hover {
+    background-color: #333333;
+}
+
+QPushButton:pressed {
+    background-color: #555555;
+}
+
+/* TRANSMIT BUTTON ACTIVE */
+QPushButton#transmitActive {
+    background-color: #00AA00;
+    border-color: #00FF00;
+    color: #FFFFFF;
+}
+
+/* AUDIO BANNER */
+#AudioBanner {
+    background-color: #444444;
+    border-bottom: 3px solid #FFFFFF;
+    padding: 10px;
+}
+
+/* MESSAGE BUBBLES */
+.MessageBubble {
+    background-color: #222222;
+    border: 2px solid #FFFFFF;
+    border-radius: 12px;
+    padding: 12px;
+    margin: 8px 0;
+}
+
+.MessageBubbleIncoming {
+    background-color: #003366;
+}
+
+.MessageBubbleSelf {
+    background-color: #006600;
+}
