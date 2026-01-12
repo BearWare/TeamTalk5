@@ -17,7 +17,6 @@ private:
     StateMachine* m_stateMachine = nullptr;
 
     void setupBackendConnections();
-    void attachStateMachine(class StateMachine* sm);
 
 private slots:
     void onConnectionStateChanged(ConnectionState state);
