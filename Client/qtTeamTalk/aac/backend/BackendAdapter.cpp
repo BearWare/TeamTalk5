@@ -227,3 +227,40 @@ void BackendAdapter::pollTeamTalk()
         }
     }
 }
+void BackendAdapter::refreshChannels()
+{
+    const QList<ChannelInfo> channels = enumerateChannels();
+    emit channelsEnumerated(channels);
+}
+
+QList<ChannelInfo> BackendAdapter::enumerateChannels() const
+{
+    QList<ChannelInfo> out;
+
+    if (!m_tt)
+        return out;
+
+    // TeamTalk C API: get all channels on the server
+    int chanids[TT_CHANNELS_MAX];
+    int count = TT_GetServerChannels(m_tt, chanids, TT_CHANNELS_MAX);
+
+    if (count <= 0)
+        return out;
+
+    for (int i = 0; i < count; ++i) {
+        TTChannel chan = {};
+        if (!TT_GetChannel(m_tt, chanids[i], &chan))
+            continue;
+
+        ChannelInfo ci;
+        ci.id = chan.nChannelID;
+        ci.name = QString::fromUtf8(chan.szName);
+        ci.userCount = chan.nUsers;
+        ci.isPasswordProtected = chan.bPassword != 0;
+        ci.topic = QString::fromUtf8(chan.szTopic);
+
+        out.append(ci);
+    }
+
+    return out;
+}
