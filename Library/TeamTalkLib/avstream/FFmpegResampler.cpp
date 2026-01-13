@@ -59,10 +59,10 @@ bool FFMPEGResampler::Init()
     if(m_ctx != nullptr)
         return false;
 
-    AVChannelLayout out_ch_layout = GetOutputFormat().channels == 2 ?
-        (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO : (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
-    AVChannelLayout in_ch_layout = GetInputFormat().channels == 2 ?
-        (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO : (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO;
+    AVChannelLayout out_ch_layout = {};
+    av_channel_layout_default(&out_ch_layout, GetOutputFormat().channels);
+    AVChannelLayout in_ch_layout = {};
+    av_channel_layout_default(&in_ch_layout, GetInputFormat().channels);
 
     int ret = swr_alloc_set_opts2(&m_ctx,
                                   &out_ch_layout,
