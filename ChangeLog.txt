@@ -4,6 +4,10 @@
 
 Version 5.22, unreleased
 Default Qt Client
+- FFmpeg streaming support on Windows
+  Note:
+    - Performance may be reduced because only FFmpeg's built-in encoder is used. This change supports OGG (Vorbis) playback.
+    - This change may significantly increase the size of TeamTalk5.dll.
 - Updated Qt to 6.10.0 on macOS
 - Updated Qt to 6.10.1 on Windows
 - Option to disable sound device detection notifications in statusbar events

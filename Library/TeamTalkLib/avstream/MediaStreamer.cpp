@@ -62,7 +62,11 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
         return true;
 #endif
 
-#if defined(ENABLE_MEDIAFOUNDATION)
+#if defined(ENABLE_FFMPEG) && defined(ENABLE_MEDIAFOUNDATION)
+    if (GetAVMediaFileProp(filename, fileprop))
+        return true;
+    return GetMFMediaFileProp(filename, fileprop);
+#elif defined(ENABLE_MEDIAFOUNDATION)
     return GetMFMediaFileProp(filename, fileprop);
 #elif defined(ENABLE_DSHOW)
     return GetDSMediaFileProp(filename, fileprop);
@@ -82,7 +86,13 @@ mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const Me
         return mediafile_streamer_t(new OpusFileStreamer(filename, out_prop));
 #endif
 
-#if defined(ENABLE_MEDIAFOUNDATION)
+#if defined(ENABLE_FFMPEG) && defined(ENABLE_MEDIAFOUNDATION)
+    MediaFileProp ffmpegProp;
+    if (GetAVMediaFileProp(filename, ffmpegProp))
+        streamer = std::make_shared<FFmpegStreamer>(filename, out_prop);
+    else
+        streamer.reset(new MFStreamer(filename, out_prop));
+#elif defined(ENABLE_MEDIAFOUNDATION)
     streamer.reset(new MFStreamer(filename, out_prop));
 #elif defined(ENABLE_DSHOW)
     streamer.reset(new DSWrapperThread());

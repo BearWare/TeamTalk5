@@ -88,9 +88,31 @@ bool OpenInput(const ACE_TString& filename,
     const AVCodec *aud_dec;
     const AVCodec *vid_dec;
 
-    if (avformat_open_input(&fmt_ctx, filename.c_str(), iformat, &options) < 0)
+    auto utf8name = UnicodeToUtf8(filename);
+
+    if (utf8name.substr(0, 8) == "file:///")
     {
-        MYTRACE(ACE_TEXT("FFmpeg opened %s\n"), filename.c_str());
+        utf8name = utf8name.substr(8);
+        ACE_CString decoded;
+        for (size_t i = 0; i < utf8name.length(); ++i)
+        {
+            if (utf8name[i] == '%' && i + 2 < utf8name.length())
+            {
+                char hex[3] = { utf8name[i+1], utf8name[i+2], 0 };
+                decoded += static_cast<char>(strtol(hex, nullptr, 16));
+                i += 2;
+            }
+            else
+            {
+                decoded += utf8name[i];
+            }
+        }
+        utf8name = decoded;
+    }
+
+    if (avformat_open_input(&fmt_ctx, utf8name.c_str(), iformat, &options) < 0)
+    {
+        MYTRACE(ACE_TEXT("FFmpeg failed to open %s\n"), filename.c_str());
         goto cleanup;
     }
 
@@ -134,6 +156,11 @@ bool OpenInput(const ACE_TString& filename,
                                              -1, -1, &vid_dec, 0);
     if (video_stream_index >= 0) {
         const AVStream* vidstream = fmt_ctx->streams[video_stream_index];
+        if (vidstream->disposition & AV_DISPOSITION_ATTACHED_PIC)
+        {
+            video_stream_index = -1;
+            goto cleanup;
+        }
         const AVCodecParameters* vidparms = vidstream->codecpar;
         const AVCodec *vidcodec = avcodec_find_decoder(vidparms->codec_id);
         if (vidcodec != nullptr)
@@ -222,6 +249,22 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
         return false;
 
     FillMediaFileProp(fmt_ctx, aud_dec_ctx, vid_dec_ctx, video_stream_index, out_prop);
+
+    if (!out_prop.video.IsValid())
+    {
+        int pic_stream_index = av_find_best_stream(fmt_ctx, AVMEDIA_TYPE_VIDEO, -1, -1, nullptr, 0);
+        if (pic_stream_index >= 0)
+        {
+            const AVStream* picstream = fmt_ctx->streams[pic_stream_index];
+            if (picstream->disposition & AV_DISPOSITION_ATTACHED_PIC)
+            {
+                out_prop.video = media::VideoFormat(picstream->codecpar->width,
+                                                    picstream->codecpar->height,
+                                                    1, 1, media::FOURCC_RGB32);
+            }
+        }
+    }
+
     out_prop.filename = filename;
 
     if (aud_dec_ctx != nullptr)
@@ -287,7 +330,7 @@ void FFmpegStreamer::Run()
     if(!SetupInput(in_fmt, options, fmt_ctx, aud_dec_ctx, vid_dec_ctx,
                    audio_stream_index, video_stream_index))
     {
-        MYTRACE("Failed to setup input: %s\n", m_media_in.filename.c_str());
+        MYTRACE(ACE_TEXT("Failed to setup input: %s\n"), m_media_in.filename.c_str());
         m_open.set(false);
         goto end;
     }
@@ -332,7 +375,7 @@ void FFmpegStreamer::Run()
         if(video_filter_graph == nullptr)
         {
             m_open.set(false);
-            MYTRACE("Failed to create video filter. Device: %s, fmt %dx%d@%d fourCC: %u\n",
+            MYTRACE(ACE_TEXT("Failed to create video filter. Device: %s, fmt %dx%d@%d fourCC: %u\n"),
                     m_media_in.filename.c_str(), m_media_out.video.width, m_media_out.video.height,
                     ((m_media_out.video.fps_denominator != 0) ? m_media_out.video.fps_numerator / m_media_out.video.fps_denominator : -1),
                     m_media_out.video.fourcc);
@@ -432,7 +475,7 @@ void FFmpegStreamer::Run()
                 }
                 else
                 {
-                    MYTRACE("Seeked to audio position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
             }
 
@@ -450,7 +493,7 @@ void FFmpegStreamer::Run()
                 }
                 else
                 {
-                    MYTRACE("Seeked to video position %u in %s\n", ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
                 }
 
             }

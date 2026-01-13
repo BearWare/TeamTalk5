@@ -106,7 +106,6 @@ jobs:
         echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
 
     - name: Install NASM
-      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
