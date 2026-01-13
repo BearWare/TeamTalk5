@@ -749,8 +749,8 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     char ch_layout_str[64];
     int ret = 0;
     AVRational const time_base = fmt_ctx->streams[audio_stream_index]->time_base;
-    AVChannelLayout out_ch_layout = out_channels == 1 ?
-        (AVChannelLayout)AV_CHANNEL_LAYOUT_MONO : (AVChannelLayout)AV_CHANNEL_LAYOUT_STEREO;
+    AVChannelLayout out_ch_layout = {};
+    av_channel_layout_default(&out_ch_layout, out_channels);
 
     filter_graph = avfilter_graph_alloc();
 
