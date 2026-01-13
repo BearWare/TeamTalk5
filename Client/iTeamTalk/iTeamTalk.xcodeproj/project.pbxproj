@@ -105,6 +105,9 @@
 		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
 		254057771C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		254057791C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
+		2541399E2F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
+		2541399F2F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
+		254139A02F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2541CCA828EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		2541CCA928EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
 		2541CCAA28EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -409,6 +412,7 @@
 				id,
 				ms,
 				vi,
+				uk,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
@@ -534,6 +538,7 @@
 				2541CCA928EB65D7007BC487 /* id */,
 				25BE20F7292E1356004397FC /* ms */,
 				25ED59492A82C48E009A038E /* vi */,
+				2541399F2F16ECF6004A3901 /* uk */,
 			);
 			name = Main.storyboard;
 			sourceTree = "<group>";
@@ -549,6 +554,7 @@
 				2541CCA828EB65D7007BC487 /* id */,
 				25BE20F6292E1356004397FC /* ms */,
 				25ED59482A82C48E009A038E /* vi */,
+				2541399E2F16ECF6004A3901 /* uk */,
 			);
 			name = LaunchScreen.xib;
 			sourceTree = "<group>";
@@ -575,6 +581,7 @@
 				2541CCAA28EB65D7007BC487 /* id */,
 				25BE20F8292E1356004397FC /* ms */,
 				25ED594A2A82C48F009A038E /* vi */,
+				254139A02F16ECF6004A3901 /* uk */,
 			);
 			name = Localizable.strings;
 			sourceTree = "<group>";
