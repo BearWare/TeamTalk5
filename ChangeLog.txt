@@ -21,6 +21,7 @@ Android Client
 - Fixed bug where join and leave events were not announced when focused on another channel
 - Fixed bug where only first resolved IP-address was used for connection attempt
 iOS Client
+- Ukranian translation
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Server
 -

@@ -1,763 +1,756 @@
 /* log entry */
-"%@ joined channel" = "%@ joined channel";
+"%@ joined channel" = "%@ тепер у каналі";
 
 /* log entry */
-"%@ left channel" = "%@ left channel";
+"%@ left channel" = "%@ поза каналом";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, your username \"%@\" has been validated";
+"%@, your username \"%@\" has been validated" = "%1$@, ваш логін «%2$@» підтверджено";
 
 /* preferences */
-"%d %% - Default" = "%d %% - Default";
+"%d %% - Default" = "%d %% — Типово";
 
 /* codec detail */
-"(Active)" = "(Active)";
+"(Active)" = "(Активно)";
 
 /* codec detail */
-"12 KHz" = "12 KHz";
+"12 KHz" = "12 кГц";
 
 /* codec detail
    create channel */
-"16 KHz" = "16 KHz";
+"16 KHz" = "16 кГц";
 
 /* codec detail */
-"24 KHz" = "24 KHz";
+"24 KHz" = "24 кГц";
 
 /* codec detail
    create channel */
-"32 KHz" = "32 KHz";
+"32 KHz" = "32 кГц";
 
 /* codec detail */
-"48 KHz" = "48 KHz";
+"48 KHz" = "48 кГц";
 
 /* codec detail
    create channel */
-"8 KHz" = "8 KHz";
+"8 KHz" = "8 кГц";
 
 /* serverlist */
-"Access preferences" = "Access preferences";
+"Access preferences" = "Доступ до налаштувань";
 
 /* server entry
    user detail */
-"Actions" = "Actions";
-
-/* channel list
-   Sound Devices */
-"Active" = "Active";
-
-/* serverlist */
-"Add new server entry" = "Add new server entry";
-
-/* preferences */
-"Announce content of text message" = "Announce content of text message";
-
-/* preferences */
-"Announce lost server connection" = "Announce lost server connection";
-
-/* preferences */
-"Announce user joining channel" = "Announce user joining channel";
-
-/* preferences */
-"Announce user leaving channel" = "Announce user leaving channel";
-
-/* preferences */
-"Announce user logged onto server" = "Announce user logged onto server";
-
-/* preferences */
-"Announce user logged out of server" = "Announce user logged out of server";
-
-/* text to speech */
-"Announcements" = "Announcements";
-
-/* preferences */
-"App Version" = "App Version";
-
-/* codec detail */
-"Application" = "Application";
-
-/* preferences */
-"Ascending" = "Ascending";
-
-/* codec detail */
-"Audio Channels" = "Audio Channels";
-
-/* create channel */
-"Audio Codec" = "Audio Codec";
-
-/* Web Login Controller */
-"Authenticate" = "Authenticate";
-
-/* server entry
-   Web Login controller */
-"Authentication" = "Authentication";
+"Actions" = "Дії";
 
 /* channel list */
-"Ban user" = "Ban user";
+"Active" = "Активний";
 
-/* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+/* serverlist */
+"Add new server entry" = "Додати сервер";
 
-/* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences";
+/* preferences */
+"Announce content of text message" = "Оголошувати повідомлення";
+
+/* preferences */
+"Announce lost server connection" = "Оголошувати втрату зв’язку з сервером";
+
+/* preferences */
+"Announce user joining channel" = "Оголошувати приєднання користувача до каналу";
+
+/* preferences */
+"Announce user leaving channel" = "Оголошувати вихід користувача з каналу";
+
+/* preferences */
+"Announce user logged onto server" = "Оголошувати вхід користувача на сервер";
+
+/* preferences */
+"Announce user logged out of server" = "Оголошувати вихід користувача з сервера";
+
+/* text to speech */
+"Announcements" = "Оголошення";
+
+/* preferences */
+"App Version" = "Версія програми";
 
 /* codec detail */
-"Bitrate" = "Bitrate";
+"Application" = "Призначення";
+
+/* preferences */
+"Ascending" = "За зростанням";
+
+/* codec detail */
+"Audio Channels" = "Аудіоканали";
+
+/* create channel */
+"Audio Codec" = "Аудіокодек";
+
+/* Web Login Controller */
+"Authenticate" = "Автентифікація";
+
+/* server entry */
+"Authentication" = "Автентифікація";
+
+/* channel list */
+"Ban user" = "Заблокувати користувача";
+
+/* server entry */
+"BearWare.dk Web Login" = "Вебакаунт BearWare.dk";
+
+/* weblogin event */
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Не вдалося виконати автентифікацію через вебакаунт BearWare.dk. Перевірте його налаштування";
+
+/* codec detail */
+"Bitrate" = "Бітрейт";
 
 /* preferences */
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+"Bluetooth A2DP Playback" = "Відтворення через Bluetooth A2DP";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "Використовувати розширений профіль розподілу звуку для Bluetooth";
 
 /* text message type */
-"Broadcast message" = "Broadcast message";
+"Broadcast message" = "Загальне повідомлення";
 
 /* preferences
    user detail */
-"Broadcast Messages" = "Broadcast Messages";
+"Broadcast Messages" = "Загальні повідомлення";
 
 /* preferences */
-"Broadcast Text Message" = "Broadcast Text Message";
+"Broadcast Text Message" = "Загальне текстове повідомлення";
 
 /* Dialog message */
-"Cancel" = "Cancel";
+"Cancel" = "Скасувати";
 
 /* channel list
    server entry */
-"Channel" = "Channel";
+"Channel" = "Канал";
 
 /* text message type */
-"Channel message" = "Channel message";
+"Channel message" = "Повідомлення каналу";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "Channel message from %@. %@";
+"Channel message from %@. %@" = "Повідомлення каналу від %@. %@";
 
 /* preferences
    user detail */
-"Channel Messages" = "Channel Messages";
+"Channel Messages" = "Повідомлення каналу";
 
 /* create channel */
-"Channel Properties" = "Channel Properties";
+"Channel Properties" = "Властивості каналу";
 
 /* preferences */
-"Channel Text Message" = "Channel Text Message";
+"Channel Text Message" = "Текстове повідомлення каналу";
 
 /* channel list */
-"Channel. %d users" = "Channel. %d users";
+"Channel. %d users" = "Канал. %d користувачів";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Check only if this server has enabled BearWare.dk Web Login";
+"Check only if this server has enabled BearWare.dk Web Login" = "Вибирайте, лише якщо на сервері увімкнено вебавтентифікацію BearWare.dk";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "Помилка команди: %@";
 
 /* create channel */
-"Commands" = "Commands";
-
-/* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Commands" = "Команди";
 
 /* serverlist */
-"Connect to server" = "Connect to server";
+"Connect to server" = "Підключитися до сервера";
+
+/* connect to a server */
+"Connect to Server" = "Підключення до сервера";
 
 /* preferences
    server entry */
-"Connection" = "Connection";
+"Connection" = "Підключення";
 
 /* preferences
    tts event */
-"Connection lost" = "Connection lost";
+"Connection lost" = "Зв’язок втрачено";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "Країна";
 
 /* View Title */
-"Create Channel" = "Create Channel";
+"Create Channel" = "Створити канал";
 
 /* main-tab */
-"Create new channel" = "Create new channel";
+"Create new channel" = "Створити новий канал";
 
-/* Sound Devices */
-"Default" = "Default";
+/* Sound Input */
+"Default" = "Типово";
 
 /* preferences */
-"Default Subscriptions" = "Default Subscriptions";
+"Default Subscriptions" = "Типові підписки";
 
 /* serverlist */
-"Delete server from list" = "Delete server from list";
+"Delete server from list" = "Видалити сервер зі списку";
 
 /* preferences
    user detail */
-"Desktop" = "Desktop";
+"Desktop" = "Робочий стіл";
 
 /* preferences */
-"Display" = "Display";
+"Display" = "Дисплей";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Double tap and hold to transmit. Triple tap fast to lock transmission.";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Двічі торкніться й утримуйте для передачі. Торкніться тричі для її фіксації.";
 
 /* preferences */
-"Double tap to lock TX button" = "Double tap to lock TX button";
+"Double tap to lock TX button" = "Фіксувати кнопку «Говорити» подвійним дотиком";
 
 /* codec detail */
 "DTX" = "DTX";
 
 /* channel list */
-"Edit properties" = "Edit properties";
+"Edit properties" = "Редагувати властивості";
 
 /* server entry */
-"Encrypted" = "Encrypted";
+"Encrypted" = "Зашифровано";
 
 /* Dialog message */
-"Enter Password" = "Enter Password";
+"Enter Password" = "Введіть пароль";
 
 /* Dialog
    Dialog message
    message dialog
    user detail */
-"Error" = "Error";
+"Error" = "Помилка";
 
 /* preferences */
-"Exclusive Mode Toggled" = "Exclusive Mode Toggled";
+"Exclusive Mode Toggled" = "Зміна режиму без переривань";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Не вдалося налаштувати шифрування";
 
 /* preferences */
-"Female" = "Female";
+"Female" = "Жіноча";
 
 /* codec detail */
-"Frame Size" = "Frame Size";
+"Frame Size" = "Розмір кадру";
 
 /* preferences */
-"Gender" = "Gender";
+"Gender" = "Стать";
 
 /* preferences
-   Sound Devices
    user detail */
-"General" = "General";
+"General" = "Загальне";
 
 /* TTS EVENT */
-"has joined the channel" = "has joined the channel";
+"has joined the channel" = "тепер у каналі";
 
 /* TTS EVENT */
-"has left the channel" = "has left the channel";
+"has left the channel" = "поза каналом";
 
 /* TTS EVENT */
-"has logged on" = "has logged on";
+"has logged on" = "увійшов";
 
 /* TTS EVENT */
-"has logged out" = "has logged out";
+"has logged out" = "вийшов";
 
 /* preferences */
-"Headset TX Toggle" = "Headset TX Toggle";
+"Headset TX Toggle" = "Керування кнопкою «Говорити» на гарнітурі";
 
 /* hidden channel */
-"Hidden Channel" = "Hidden Channel";
+"Hidden Channel" = "Прихований канал";
 
 /* server entry */
-"Host address" = "Host address";
+"Host address" = "Адреса хоста";
 
 /* channel list */
-"Inactive" = "Inactive";
+"Inactive" = "Неактивно";
 
 /* Dialog message */
-"Join" = "Join";
-
-/* channel list */
-"Join channel" = "Join channel";
+"Join" = "Приєднатися";
 
 /* server entry */
-"Join Channel" = "Join Channel";
-
-/* preferences */
-"Join Root Channel" = "Join Root Channel";
-
-/* preferences */
-"Join root channel after login" = "Join root channel after login";
-
-/* log entry */
-"Joined %@" = "Joined %@";
+"Join Channel" = "Приєднатися до каналу";
 
 /* channel list */
-"Kick user" = "Kick user";
+"Join channel" = "Приєднатися до каналу";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "Limit length of names in channel list to %d characters";
+"Join Root Channel" = "Приєднатися до кореневого каналу";
+
+/* preferences */
+"Join root channel after login" = "Приєднуватися до кореневого каналу після авторизації";
+
+/* log entry */
+"Joined %@" = "Приєднано до %@";
+
+/* channel list */
+"Kick user" = "Вигнати користувача";
+
+/* preferences */
+"Limit length of names in channel list to %d characters" = "Обмежити довжину імен у списку каналів до %d символів";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "Локальний сервер";
 
 /* text message type */
-"Log message" = "Log message";
+"Log message" = "Лог повідомлення";
 
 /* log entry */
-"Logged on to server" = "Logged on to server";
+"Logged on to server" = "Вхід на сервер";
 
 /* preferences */
-"Male" = "Male";
+"Male" = "Чоловіча";
 
 /* preferences */
-"Master Volume" = "Master Volume";
+"Master Volume" = "Загальна гучність";
 
 /* preferences */
-"Maximum Text Length" = "Maximum Text Length";
+"Maximum Text Length" = "Максимальна довжина тексту";
 
 /* preferences
    user detail */
-"Media File" = "Media File";
+"Media File" = "Медіафайл";
 
 /* preferences
    user detail */
-"Media File Volume" = "Media File Volume";
+"Media File Volume" = "Гучність медіафайла";
 
 /* preferences */
-"Media file vs. voice volume" = "Media file vs. voice volume";
+"Media file vs. voice volume" = "Гучність медіафайла відносно голосу";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "Повідомлення дня";
 
 /* preferences */
-"Microphone Gain" = "Microphone Gain";
+"Microphone Gain" = "Підсилення мікрофона";
 
 /* codec detail
    create channel */
-"Mono" = "Mono";
+"Mono" = "Моно";
 
 /* channel list */
-"Move user" = "Move user";
+"Move user" = "Перемістити користувача";
 
 /* channel list */
-"Move users here" = "Move users here";
+"Move users here" = "Перемістити користувачів сюди";
 
 /* codec detail */
-"Music" = "Music";
+"Music" = "Музика";
 
 /* channel list */
-"Mute" = "Mute";
+"Mute" = "Вимкнути звук";
 
 /* user detail */
-"Mute Media File" = "Mute Media File";
+"Mute Media File" = "Вимкнути звук медіафайла";
 
 /* user detail */
-"Mute Voice" = "Mute Voice";
+"Mute Voice" = "Вимкнути голос";
 
 /* create channel
    server entry */
-"Name" = "Name";
+"Name" = "Назва";
 
 /* preferences */
-"Name displayed in channel list" = "Name displayed in channel list";
+"Name displayed in channel list" = "Ім’я, що відображається у списку каналів";
 
 /* Dialog message */
-"New Server" = "New Server";
+"New Server" = "Новий сервер";
 
 /* preferences */
-"Nickname" = "Nickname";
+"Nickname" = "Псевдонім";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "Псевдонім (необов’язково)";
 
 /* Dialog message */
-"No" = "No";
+"No" = "Ні";
 
 /* codec detail
    create channel */
-"No Audio" = "No Audio";
+"No Audio" = "Без звуку";
 
 /* create channel */
-"No Audio Recording" = "No Audio Recording";
+"No Audio Recording" = "Запис звуку заборонено";
 
 /* create channel */
-"No Interruptions" = "No Interruptions";
+"No Interruptions" = "Без переривань";
 
 /* channel list */
-"No password" = "No password";
+"No password" = "Без пароля";
 
 /* create channel */
-"No Voice Activation" = "No Voice Activation";
+"No Voice Activation" = "Без активації голосом";
 
 /* default nickname */
-"Noname" = "Noname";
+"Noname" = "Без імені";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "Офіційний сервер";
 
 /* Dialog
    Dialog message
    message dialog
-   user detail
-   Web Login Controller */
-"OK" = "OK";
+   user detail */
+"OK" = "ОК";
 
 /* codec detail */
-"OPUS Codec" = "OPUS Codec";
+"OPUS Codec" = "Кодек OPUS";
 
 /* preferences */
-"Order of channels in Channel List" = "Order of channels in Channel List";
+"Order of channels in Channel List" = "Порядок каналів у списку";
 
 /* channel list */
-"Parent channel" = "Parent channel";
+"Parent channel" = "Головний канал";
 
 /* create channel
    Dialog message
-   server entry
-   Web Login Controller */
-"Password" = "Password";
+   server entry */
+"Password" = "Пароль";
 
 /* channel list */
-"Password protected" = "Password protected";
+"Password protected" = "Захищено паролем";
 
 /* create channel */
-"Permanent Channel" = "Permanent Channel";
+"Permanent Channel" = "Постійний канал";
 
 /* preferences */
-"Play sound when a user joins the channel" = "Play sound when a user joins the channel";
+"Play sound when a user joins the channel" = "Звук при вході користувача до каналу";
 
 /* preferences */
-"Play sound when a user leaves the channel" = "Play sound when a user leaves the channel";
+"Play sound when a user leaves the channel" = "Звук при виході користувача з каналу";
 
 /* preferences */
-"Play sound when broadcast text message is received" = "Play sound when broadcast text message is received";
+"Play sound when broadcast text message is received" = "Звук при отриманні загального повідомлення";
 
 /* preferences */
-"Play sound when channel text message is received" = "Play sound when channel text message is received";
+"Play sound when channel text message is received" = "Звук при отриманні повідомлення каналу";
 
 /* preferences */
-"Play sound when connection is dropped" = "Play sound when connection is dropped";
+"Play sound when connection is dropped" = "Звук при втраті зв’язку";
 
 /* preferences */
-"Play sound when private text message is received" = "Play sound when private text message is received";
+"Play sound when private text message is received" = "Звук при отриманні приватного повідомлення";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Play sound when transmit ready in \"No Interruptions\" channel";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Звук, коли можна говорити в каналі «Без переривань»";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Звук при виході користувача з сервера";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Звук при вході користувача на сервер";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Play sound when voice activation is triggered";
+"Play sound when voice activation is triggered" = "Звук при активації голосом";
 
 /* preferences */
-"Play sound when voice transmission is toggled" = "Play sound when voice transmission is toggled";
+"Play sound when voice transmission is toggled" = "Звук при увімкненні/вимкненні передачі голосу";
 
 /* preferences */
-"Pop up text message when new messages are received" = "Pop up text message when new messages are received";
+"Pop up text message when new messages are received" = "Спливаюче вікно при отриманні повідомлень";
 
 /* preferences */
-"Popularity" = "Popularity";
+"Popularity" = "За популярністю";
 
 /* serverlist */
-"Preferences" = "Preferences";
+"Preferences" = "Налаштування";
 
-/* Sound Devices */
-"Preferred" = "Preferred";
+/* Sound Input */
+"Preferred" = "Бажаний";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Pressing Return-key sends text message";
+"Pressing Return-key sends text message" = "Надсилати повідомлення клавішею Enter";
 
 /* text message type */
-"Private message" = "Private message";
+"Private message" = "Приватне повідомлення";
 
 /* preferences */
-"Private Text Message" = "Private Text Message";
+"Private Text Message" = "Приватне текстове повідомлення";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "Private text message from %@. %@";
+"Private text message from %@. %@" = "Приватне повідомлення від %@. %@";
 
 /* preferences */
-"Proximity Sensor" = "Proximity Sensor";
+"Proximity Sensor" = "Датчик наближення";
 
 /* serverlist */
-"Public server" = "Public server";
+"Public server" = "Публічний сервер";
 
 /* preferences */
-"Push To Talk Lock" = "Push To Talk Lock";
+"Push To Talk Lock" = "Фіксація кнопки «Говорити»";
 
 /* codec detail */
-"Quality" = "Quality";
+"Quality" = "Якість";
 
 /* preferences */
-"Receive broadcast messages by default" = "Receive broadcast messages by default";
+"Receive broadcast messages by default" = "Отримувати загальні повідомлення";
 
 /* preferences */
-"Receive channel messages by default" = "Receive channel messages by default";
+"Receive channel messages by default" = "Отримувати повідомлення каналу";
 
 /* preferences */
-"Receive desktop sessions by default" = "Receive desktop sessions by default";
+"Receive desktop sessions by default" = "Отримувати сеанси робочого столу";
 
 /* preferences */
-"Receive media file streams by default" = "Receive media file streams by default";
+"Receive media file streams by default" = "Отримувати трансляції медіафайлів";
 
 /* preferences */
-"Receive text messages by default" = "Receive text messages by default";
+"Receive text messages by default" = "Отримувати текстові повідомлення";
 
 /* preferences */
-"Receive voice streams by default" = "Receive voice streams by default";
+"Receive voice streams by default" = "Отримувати трансляцію голосу";
 
 /* preferences */
-"Receive webcam streams by default" = "Receive webcam streams by default";
+"Receive webcam streams by default" = "Отримувати трансляції з вебкамер";
 
 /* preferences */
-"Return Sends Message" = "Return Sends Message";
+"Return Sends Message" = "Enter надсилає повідомлення";
 
 /* channel list */
-"Return to previous channel" = "Return to previous channel";
+"Return to previous channel" = "Повернутися до попереднього каналу";
 
 /* log entry */
-"root channel" = "root channel";
+"root channel" = "кореневий канал";
 
 /* codec detail */
-"Sample Rate" = "Sample Rate";
+"Sample Rate" = "Частота дискретизації";
 
 /* Dialog message */
-"Save Server" = "Save Server";
+"Save Server" = "Зберегти сервер";
 
 /* Dialog message */
-"Save server to server list?" = "Save server to server list?";
+"Save server to server list?" = "Зберегти сервер у списку?";
 
 /* text message */
-"Send empty message to close keyboard" = "Send empty message to close keyboard";
+"Send empty message to close keyboard" = "Надішліть порожнє повідомлення, щоб згорнути клавіатуру";
 
 /* channel list */
-"Send private message" = "Send private message";
+"Send private message" = "Надіслати приватне повідомлення";
 
 /* preferences */
-"Server Connection Lost" = "Server Connection Lost";
+"Server Connection Lost" = "Зв’язок із сервером втрачено";
 
 /* server entry */
-"Server List Entry" = "Server List Entry";
+"Server List Entry" = "Запис у списку серверів";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "Статус сервера";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "Показувати у списку серверів";
 
 /* preferences */
-"Show male or female icon" = "Show male or female icon";
+"Show male or female icon" = "Показувати значки статі";
 
 /* preferences */
-"Show Text Messages Instantly" = "Show Text Messages Instantly";
+"Show Text Messages Instantly" = "Показувати повідомлення миттєво";
 
 /* preferences */
-"Show Usernames" = "Show Usernames";
+"Show Usernames" = "Показувати логіни";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Show usernames instead of nicknames";
+"Show usernames instead of nicknames" = "Показувати логіни замість псевдонімів";
 
 /* channel list */
-"Silent" = "Silent";
+"Silent" = "Мовчить";
 
 /* preferences */
-"Sort Channels" = "Sort Channels";
+"Sort Channels" = "Сортування каналів";
 
 /* preferences
    text to speech */
-"Sound Events" = "Sound Events";
+"Sound Events" = "Озвучення подій";
 
 /* preferences */
-"Sound System" = "Sound System";
+"Sound System" = "Звукова система";
 
 /* preferences */
-"Speaker Output" = "Speaker Output";
+"Speaker Output" = "Вихід на динамік";
 
 /* preferences */
-"Speech Rate" = "Speech Rate";
+"Speech Rate" = "Швидкість мовлення";
 
 /* preferences */
-"Speech Volume" = "Speech Volume";
+"Speech Volume" = "Гучність мовлення";
 
 /* codec detail */
-"Speex Codec" = "Speex Codec";
+"Speex Codec" = "Кодек Speex";
 
 /* codec detail */
-"Speex Variable Bitrate Codec" = "Speex Variable Bitrate Codec";
+"Speex Variable Bitrate Codec" = "Кодек Speex із змінним бітрейтом";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Статус події";
 
 /* codec detail
-   create channel
-   Sound Devices */
-"Stereo" = "Stereo";
+   create channel */
+"Stereo" = "Стерео";
 
 /* user detail */
-"Subscriptions" = "Subscriptions";
+"Subscriptions" = "Підписки";
 
 /* channel list */
-"Talking" = "Talking";
+"Talking" = "Говорить";
 
 /* server entry */
-"TCP Port" = "TCP Port";
+"TCP Port" = "TCP-порт";
 
 /* preferences */
-"Text To Speech Events" = "Text To Speech Events";
+"Text To Speech Events" = "Мовленнєві події";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "The rate of the speaking voice is %.1f";
+"The rate of the speaking voice is %.1f" = "Швидкість мовлення %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "The volume of the speaking voice is %.1f";
+"The volume of the speaking voice is %.1f" = "Гучність мовлення %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "Toggle to enable/disable transmission";
+"Toggle to enable/disable transmission" = "Перемикач для увімкнення або вимкнення передачі голосу";
 
 /* preferences */
-"Toggle voice transmission using headset" = "Toggle voice transmission using headset";
+"Toggle voice transmission using headset" = "Перемикання передачі голосу за допомогою гарнітури";
 
 /* create channel */
-"Topic" = "Topic";
+"Topic" = "Тема";
 
 /* preferences */
-"Translator" = "Translator";
+"Translator" = "Перекладач";
 
 /* channel list */
-"Transmit inactive" = "Transmit inactive";
+"Transmit inactive" = "Передача голосу неактивна";
 
 /* codec detail */
-"Transmit Interval" = "Transmit Interval";
+"Transmit Interval" = "Інтервал передачі";
 
 /* channel list */
-"Transmitting" = "Transmitting";
+"Transmitting" = "Передача";
 
 /* preferences */
-"Turn off screen when holding phone near ear" = "Turn off screen when holding phone near ear";
+"Turn off screen when holding phone near ear" = "Вимикати екран, коли телефон біля вуха";
 
 /* text field hint
    text message */
-"Type text here" = "Type text here";
+"Type text here" = "Введіть текст";
 
 /* server entry */
-"UDP Port" = "UDP Port";
+"UDP Port" = "UDP-порт";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
-
-/* Sound Devices */
-"Use echo cancellation and automatic gain control" = "Use echo cancellation and automatic gain control";
+"Unofficial server" = "Неофіційний сервер";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Use iPhone's speaker instead of earpiece";
+"Use echo cancellation and automatic gain control" = "Використовувати усунення еха та автоматичне регулювання підсилення";
+
+/* preferences */
+"Use iPhone's speaker instead of earpiece" = "Використовувати зовнішній динамік замість розмовного";
 
 /* channel list */
-"User" = "User";
+"User" = "Користувач";
 
 /* channel list */
-"User female" = "User female";
+"User female" = "Користувачка";
 
 /* preferences */
-"User Joins Channel" = "User Joins Channel";
+"User Joins Channel" = "Користувач приєднується до каналу";
 
 /* preferences */
-"User joins channel" = "User joins channel";
+"User joins channel" = "Користувач приєднується до каналу";
 
 /* preferences */
-"User leaves channel" = "User leaves channel";
+"User leaves channel" = "Користувач покидає канал";
 
 /* preferences */
-"User Leaves Channel" = "User Leaves Channel";
+"User Leaves Channel" = "Користувач покидає канал";
 
 /* preferences */
-"User logged in" = "User logged in";
+"User logged in" = "Користувач увійшов";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Користувач увійшов";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User logged out" = "Користувач вийшов";
 
 /* preferences */
-"User logged out" = "User logged out";
+"User Logged Out" = "Користувач вийшов";
 
 /* preferences
    user detail */
-"User Messages" = "User Messages";
+"User Messages" = "Повідомлення користувача";
 
 /* server entry
-   user detail
-   Web Login Controller */
-"Username" = "Username";
+   user detail */
+"Username" = "Логін";
 
 /* Web Login Controller */
-"Username or password incorrect" = "Username or password incorrect";
+"Username or password incorrect" = "Неправильний логін або пароль";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "Користувачі онлайн";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %d, Country: %@";
+"Users: %d, Country: %@" = "Користувачі: %1$d, Країна: %2$@";
 
 /* codec detail */
-"Variable Bitrate" = "Variable Bitrate";
+"Variable Bitrate" = "Змінний бітрейт";
 
 /* preferences */
-"Version Information" = "Version Information";
+"Version Information" = "Інформація про версію";
 
 /* channel list */
-"View" = "View";
+"View" = "Переглянути";
 
 /* channel list */
-"View properties" = "View properties";
+"View properties" = "Переглянути властивості";
 
 /* preferences
    user detail */
-"Voice" = "Voice";
+"Voice" = "Голос";
 
 /* preferences */
-"Voice Activation Level" = "Voice Activation Level";
+"Voice Activation Level" = "Рівень голосової активації";
 
 /* preferences */
-"Voice Activation Level: %d. Recommended: %d" = "Voice Activation Level: %d. Recommended: %d";
+"Voice Activation Level: %d. Recommended: %d" = "Рівень голосової активації: %d. Рекомендовано: %d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "Voice Activation Level: Disabled";
+"Voice Activation Level: Disabled" = "Рівень голосової активації: Вимкнено";
 
 /* preferences */
-"Voice Activation Triggered" = "Voice Activation Triggered";
+"Voice Activation Triggered" = "Спрацювання активації голосом";
 
 /* preferences */
-"Voice Preprocessing" = "Voice Preprocessing";
+"Voice Preprocessing" = "Попередня обробка голосу";
 
 /* preferences */
-"Voice Transmission Toggled" = "Voice Transmission Toggled";
+"Voice Transmission Toggled" = "Перемикання передачі голосу";
 
 /* user detail */
-"Voice Volume" = "Voice Volume";
+"Voice Volume" = "Гучність голосу";
 
 /* codec detail */
 "VoIP" = "VoIP";
 
 /* user detail */
-"Volume Controls" = "Volume Controls";
+"Volume Controls" = "Керування гучністю";
 
 /* Web Login controller */
-"Web Login ID" = "Web Login ID";
+"Web Login ID" = "Вебакаунт";
 
 /* preferences
    user detail */
-"WebCam" = "WebCam";
+"WebCam" = "Вебкамера";
 
 /* Dialog message */
-"Yes" = "Yes";
+"Yes" = "Так";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "Вас вигнали з каналу";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "Вас вигнав із каналу %@";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "Вас вигнали з сервера";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "Вас вигнав із сервера %@";
 
 /* speech */
-"You have selected %@" = "You have selected %@";
+"You have selected %@" = "Ви вибрали %@";
