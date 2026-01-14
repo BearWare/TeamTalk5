@@ -46,6 +46,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_inChannelScreen, &InChannelScreen::transmitToggled,
             m_stateMachine, &StateMachine::onTransmitToggled);
 
+connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
+        m_inChannelScreen, &InChannelScreen::setSelfVoiceState);
+
     // Start on the Connect screen
     showScreen(m_connectScreen);
 }
