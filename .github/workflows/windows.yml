@@ -94,11 +94,15 @@ jobs:
         work-vol: 'C:'
 
     - name: Install MSYS2
+      id: msys2
       uses: msys2/setup-msys2@v2
       with:
         msystem: ${{ matrix.msystem }}
         path-type: inherit
         install: make
+
+    - name: Add MSYS2 to PATH
+      run: echo "${{ steps.msys2.outputs.msys2-location }}\usr\bin" >> $env:GITHUB_PATH
 
     - name: Install YASM
       run: |
