@@ -22,6 +22,11 @@ signals:
     void audioDeviceStateChanged(AudioDeviceEventType type);
     void incomingTextMessage(int fromUserId, const QString& message);
 
+public slots:
+    // UI → StateMachine
+    void onConnectRequested(const QString& host, int port);
+    void onRefreshChannelsRequested();
+
 private slots:
     void onConnectionStateChanged(ConnectionState state);
     void onChannelEvent(const ChannelEvent& event);
