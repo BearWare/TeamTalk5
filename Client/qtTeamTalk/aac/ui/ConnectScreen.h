@@ -2,9 +2,9 @@
 
 #include <QWidget>
 
-class QPushButton;
 class QLineEdit;
 class QSpinBox;
+class QPushButton;
 
 class ConnectScreen : public QWidget
 {
