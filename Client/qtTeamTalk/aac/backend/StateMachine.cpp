@@ -3,8 +3,14 @@
 StateMachine::StateMachine(QObject* parent)
     : QObject(parent)
 {
-}
+    // Create reconnect timer
+    m_reconnectTimer = new QTimer(this);
+    m_reconnectTimer->setSingleShot(true);
 
+    // When the timer fires, attempt a reconnect
+    connect(m_reconnectTimer, &QTimer::timeout,
+            this, &StateMachine::attemptReconnect);
+}
 //
 // UI → StateMachine
 //
@@ -109,16 +115,25 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
     emit connectionStateChanged(state);
 
     //
-    // Connected → refresh channels
+    // Connected → stop reconnecting, refresh channels
     //
     if (state == ConnectionState::Connected) {
+
+        // Stop any pending reconnect attempts
+        m_reconnectAttempts = 0;
+        if (m_reconnectTimer->isActive())
+            m_reconnectTimer->stop();
+
+        // Refresh channels
         if (m_backend)
             m_backend->refreshChannels();
+
+        emit notifyUser(QStringLiteral("Connected to server"));
         return;
     }
 
     //
-    // Disconnected → clear state
+    // Disconnected → clear state, notify, start reconnect logic
     //
     if (state == ConnectionState::Disconnected) {
 
@@ -130,6 +145,28 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
         m_state.currentChannelId = -1;
         emit channelChanged(-1);
 
+        emit notifyUser(QStringLiteral("Disconnected from server"));
+
+        // Only reconnect if we have connection details
+        if (m_lastHost.isEmpty() || m_lastPort == 0)
+            return;
+
+        // Attempt reconnect with exponential backoff
+        if (m_reconnectAttempts < m_maxReconnectAttempts) {
+
+            // Exponential backoff: 3s, 6s, 12s, 24s, capped at 30s
+            int delay = qMin(30000, 3000 * (1 << m_reconnectAttempts));
+
+            emit reconnecting(m_reconnectAttempts + 1, delay);
+
+            m_reconnectTimer->start(delay);
+            m_reconnectAttempts++;
+
+        } else {
+            emit notifyUser(QStringLiteral("Reconnect attempts stopped"));
+            emit reconnectStopped();
+        }
+
         return;
     }
 
@@ -137,6 +174,7 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
     // Connecting → nothing special
     //
 }
+
 
 void StateMachine::onChannelEvent(const ChannelEvent& event)
 {
@@ -167,4 +205,23 @@ void StateMachine::onAudioDeviceEvent(const AudioDeviceEvent& event)
 void StateMachine::onTextMessageEvent(const TextMessageEvent& event)
 {
     emit incomingTextMessage(event.fromUserId, event.message);
+}
+
+void StateMachine::attemptReconnect()
+{
+    if (!m_backend)
+        return;
+
+    emit notifyUser(QStringLiteral("Reconnecting…"));
+    m_backend->connectToServer(m_lastHost, m_lastPort);
+}
+void StateMachine::stopAutoReconnect()
+{
+    if (m_reconnectTimer->isActive())
+        m_reconnectTimer->stop();
+
+    m_reconnectAttempts = 0;
+
+    emit notifyUser(QStringLiteral("Reconnect cancelled"));
+    emit reconnectStopped();
 }
