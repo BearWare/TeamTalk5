@@ -4,19 +4,18 @@
 #include "backend/BackendEvents.h"
 
 class BackendAdapter;
+class StateMachine;
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow() override;
-    void attachStateMachine(StateMachine* sm);
 
 private:
-    BackendAdapter* m_backend;
+    BackendAdapter* m_backend = nullptr;
     StateMachine* m_stateMachine = nullptr;
-
-    void setupBackendConnections();
 
 private slots:
     void onConnectionStateChanged(ConnectionState state);
