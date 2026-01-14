@@ -14,7 +14,8 @@ public:
 
 signals:
     // UI-facing signals
-    void connectionStateChanged(ConnectionState state);
+    void channelListChanged(const QList<QPair<int, QString>>& channels);
+void connectionStateChanged(ConnectionState state);
     void channelChanged(int channelId);
     void errorOccurred(const QString& message);
 
@@ -34,8 +35,9 @@ private slots:
     void onConnectionStateChanged(ConnectionState state);
     void onChannelEvent(const ChannelEvent& event);
     void onErrorOccurred(const ErrorEvent& error);
+    void onChannelsEnumerated(const QList<ChannelInfo>& channels);
 
-    void onSelfVoiceEvent(const SelfVoiceEvent& event);
+void onSelfVoiceEvent(const SelfVoiceEvent& event);
     void onAudioDeviceEvent(const AudioDeviceEvent& event);
     void onTextMessageEvent(const TextMessageEvent& event);
 
