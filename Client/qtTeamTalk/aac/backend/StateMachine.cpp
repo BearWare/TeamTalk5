@@ -5,6 +5,26 @@ StateMachine::StateMachine(QObject* parent)
 {
 }
 
+void StateMachine::onConnectRequested(const QString& host, int port)
+{
+    if (!m_backend)
+        return;
+
+    // Update internal state
+    m_state.connectionState = ConnectionState::Connecting;
+    emit connectionStateChanged(ConnectionState::Connecting);
+
+    // Delegate to backend
+    m_backend->connectToServer(host, port);
+}
+
+void StateMachine::onRefreshChannelsRequested()
+{
+    if (!m_backend)
+        return;
+
+    m_backend->requestChannelList();
+}
 void StateMachine::attachBackend(BackendAdapter* backend)
 {
     m_backend = backend;
@@ -51,6 +71,12 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
 {
     m_state.connectionState = state;
     emit connectionStateChanged(state);
+
+    if (state == ConnectionState::Connected) {
+        // Automatically refresh channels when connected
+        if (m_backend)
+            m_backend->requestChannelList();
+    }
 }
 
 //
