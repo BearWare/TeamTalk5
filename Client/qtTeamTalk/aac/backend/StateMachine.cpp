@@ -104,11 +104,38 @@ void StateMachine::attachBackend(BackendAdapter* backend)
 
 void StateMachine::onConnectionStateChanged(ConnectionState state)
 {
+    // Update internal state
     m_state.connectionState = state;
     emit connectionStateChanged(state);
 
-    if (state == ConnectionState::Connected && m_backend)
-    m_backend->refreshChannels();
+    //
+    // Connected → refresh channels
+    //
+    if (state == ConnectionState::Connected) {
+        if (m_backend)
+            m_backend->refreshChannels();
+        return;
+    }
+
+    //
+    // Disconnected → clear state
+    //
+    if (state == ConnectionState::Disconnected) {
+
+        // Clear channel list
+        m_state.channels.clear();
+        emit channelListChanged({});
+
+        // Reset channel ID
+        m_state.currentChannelId = -1;
+        emit channelChanged(-1);
+
+        return;
+    }
+
+    //
+    // Connecting → nothing special
+    //
 }
 
 void StateMachine::onChannelEvent(const ChannelEvent& event)
