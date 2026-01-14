@@ -1,14 +1,21 @@
 #pragma once
+
 #include <QWidget>
 
-class InChannelScreen : public QWidget {
+class QPushButton;
+
+class InChannelScreen : public QWidget
+{
     Q_OBJECT
 public:
     explicit InChannelScreen(QWidget* parent = nullptr);
 
-    void setTransmitState(bool active);
-    void showMessageBubble(int fromUserId, const QString& message);
+signals:
+    void leaveRequested();
+    void transmitToggled(bool on);
 
 private:
-    QPushButton* m_transmitBtn = nullptr;
+    QPushButton* m_leaveButton = nullptr;
+    QPushButton* m_transmitButton = nullptr;
+    bool m_transmitting = false;
 };
