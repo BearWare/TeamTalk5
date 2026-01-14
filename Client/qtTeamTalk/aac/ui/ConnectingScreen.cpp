@@ -5,10 +5,13 @@
 ConnectingScreen::ConnectingScreen(QWidget* parent)
     : QWidget(parent)
 {
-    auto layout = new QVBoxLayout(this);
+    auto* layout = new QVBoxLayout(this);
 
-    auto label = new QLabel("Connecting…", this);
-    label->setAlignment(Qt::AlignCenter);
+    m_label = new QLabel("Connecting…", this);
+    m_label->setAlignment(Qt::AlignCenter);
+    m_label->setStyleSheet("font-size: 32px;");
 
-    layout->addWidget(label);
+    layout->addStretch();
+    layout->addWidget(m_label);
+    layout->addStretch();
 }
