@@ -46,10 +46,25 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_inChannelScreen, &InChannelScreen::transmitToggled,
             m_stateMachine, &StateMachine::onTransmitToggled);
 
-connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
-        m_inChannelScreen, &InChannelScreen::setSelfVoiceState);
+    connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
+            m_inChannelScreen, &InChannelScreen::setSelfVoiceState);
 
-    // Start on the Connect screen
+    connect(m_stateMachine, &StateMachine::reconnecting,
+            this, &MainWindow::onReconnecting);
+
+    connect(m_stateMachine, &StateMachine::reconnectStopped,
+            this, &MainWindow::onReconnectStopped);
+
+    connect(m_stateMachine, &StateMachine::notifyUser,
+            this, &MainWindow::onNotifyUser);
+
+    // Countdown timer for reconnect (NEW)
+    m_reconnectCountdownTimer = new QTimer(this);
+    m_reconnectCountdownTimer->setInterval(1000);
+    connect(m_reconnectCountdownTimer, &QTimer::timeout,
+            this, &MainWindow::updateReconnectCountdown);
+
+// Start on the Connect screen
     showScreen(m_connectScreen);
 }
 
@@ -59,6 +74,7 @@ void MainWindow::onBackendError(const ErrorEvent& error)
 {
     QMessageBox::warning(this, tr("Error"), error.message);
 }
+
 void MainWindow::showScreen(QWidget* screen)
 {
     setCentralWidget(screen);
@@ -82,13 +98,46 @@ void MainWindow::updateScreenForConnectionState(ConnectionState state)
     }
 }
 
+void MainWindow::onReconnecting(int attempt, int delayMs)
+{
+    m_reconnectSecondsRemaining = delayMs / 1000;
+    m_reconnectCountdownTimer->start();
+}
+
+void MainWindow::onReconnectStopped()
+{
+    m_reconnectCountdownTimer->stop();
+}
+
+void MainWindow::onNotifyUser(const QString& message)
+{
+    // Optional: show message in UI
+}
+
+void MainWindow::updateReconnectCountdown()
+{
+    if (m_reconnectSecondsRemaining > 0) {
+        m_reconnectSecondsRemaining--;
+    } else {
+        m_reconnectCountdownTimer->stop();
+    }
+}
+
+void MainWindow::onReconnectNowClicked()
+{
+    m_reconnectCountdownTimer->stop();
+    m_stateMachine->stopAutoReconnect();
+
+    m_stateMachine->onConnectRequested(
+        m_stateMachine->lastHost(),
+        m_stateMachine->lastPort()
+    );
+}
+
 void MainWindow::updateScreenForChannelState(int channelId)
 {
     if (channelId == -1) {
-        // Not in a channel → show channel list
         showScreen(m_channelListScreen);
     } else {
-        // In a channel → show in-channel screen
         showScreen(m_inChannelScreen);
     }
-}
