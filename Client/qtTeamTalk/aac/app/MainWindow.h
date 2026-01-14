@@ -16,6 +16,7 @@ public:
 private:
     BackendAdapter* m_backend = nullptr;
     StateMachine* m_stateMachine = nullptr;
+ConnectScreen* m_connectScreen = nullptr;
 
 private slots:
     void onConnectionStateChanged(ConnectionState state);
