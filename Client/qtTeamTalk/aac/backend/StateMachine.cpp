@@ -27,7 +27,7 @@ void StateMachine::onRefreshChannelsRequested()
     if (!m_backend)
         return;
 
-    m_backend->requestChannelList();
+    m_backend->refreshChannels();
 }
 
 void StateMachine::onJoinChannelRequested(int channelId)
@@ -54,6 +54,21 @@ void StateMachine::onTransmitToggled(bool on)
     m_backend->setTransmitEnabled(on);
 }
 
+void StateMachine::onChannelsEnumerated(const QList<ChannelInfo>& channels)
+{
+    // Store in backend state
+    m_state.channels = channels;
+
+    // Convert to UI-friendly format
+    QList<QPair<int, QString>> uiList;
+    for (const auto& ch : channels) {
+        uiList.append({ ch.id, ch.name });
+    }
+
+    // Notify UI
+    emit channelListChanged(uiList);
+}
+
 //
 // Backend → StateMachine wiring
 //
@@ -61,6 +76,9 @@ void StateMachine::onTransmitToggled(bool on)
 void StateMachine::attachBackend(BackendAdapter* backend)
 {
     m_backend = backend;
+
+    connect(backend, &BackendAdapter::channelsEnumerated,
+            this, &StateMachine::onChannelsEnumerated);
 
     connect(backend, &BackendAdapter::connectionStateChanged,
             this, &StateMachine::onConnectionStateChanged);
@@ -80,7 +98,6 @@ void StateMachine::attachBackend(BackendAdapter* backend)
     connect(backend, &BackendAdapter::textMessageEvent,
             this, &StateMachine::onTextMessageEvent);
 }
-
 //
 // Backend → UI translation
 //
@@ -91,7 +108,7 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
     emit connectionStateChanged(state);
 
     if (state == ConnectionState::Connected && m_backend)
-        m_backend->requestChannelList();
+    m_backend->refreshChannels();
 }
 
 void StateMachine::onChannelEvent(const ChannelEvent& event)
