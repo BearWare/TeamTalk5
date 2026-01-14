@@ -1,8 +1,8 @@
 #include "ConnectScreen.h"
 #include <QVBoxLayout>
-#include <QPushButton>
 #include <QLineEdit>
 #include <QSpinBox>
+#include <QPushButton>
 #include <QLabel>
 
 ConnectScreen::ConnectScreen(QWidget* parent)
@@ -12,7 +12,7 @@ ConnectScreen::ConnectScreen(QWidget* parent)
 
     auto* hostLabel = new QLabel("Server Address:", this);
     m_hostEdit = new QLineEdit(this);
-    m_hostEdit->setText("localhost"); // default or your choice
+    m_hostEdit->setText("localhost");
 
     auto* portLabel = new QLabel("Port:", this);
     m_portSpin = new QSpinBox(this);
@@ -20,7 +20,7 @@ ConnectScreen::ConnectScreen(QWidget* parent)
     m_portSpin->setValue(10333);
 
     m_connectButton = new QPushButton("Connect", this);
-    m_connectButton->setMinimumHeight(80); // AAC-friendly size
+    m_connectButton->setMinimumHeight(80);
 
     layout->addWidget(hostLabel);
     layout->addWidget(m_hostEdit);
