@@ -26,6 +26,9 @@ public slots:
     // UI → StateMachine
     void onConnectRequested(const QString& host, int port);
     void onRefreshChannelsRequested();
+    void onJoinChannelRequested(int channelId);
+    void onLeaveChannelRequested();
+    void onTransmitToggled(bool on);
 
 private slots:
     void onConnectionStateChanged(ConnectionState state);
