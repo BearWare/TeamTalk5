@@ -21,7 +21,7 @@ public:
 
 public slots:
     // User-intent entry points
-    void connectRequested();
+    void connectRequested(const QString& host, int port, const QString& username);
     void disconnectRequested();
     void onRefreshChannelsRequested();
     void onJoinChannelRequested(int channelId);
@@ -49,6 +49,9 @@ signals:
     void reconnecting(int attempt, int delayMs);
     void reconnectStopped();
     void notifyUser(const QString& message);
+
+    // Pass-through to backend
+    void requestConnect(const QString& host, int port, const QString& username);
 
 private:
     UiConnectionState m_state = UiConnectionState::Idle;
