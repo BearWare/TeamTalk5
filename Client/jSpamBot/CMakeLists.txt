@@ -20,6 +20,7 @@ if (Java_FOUND)
         src/main/java/Main.java
         src/main/java/SpamBotSession.java
         src/main/java/TeamTalkServer.java
+        src/main/java/TimeProvider.java
         src/main/java/WebLogin.java
         )
 
