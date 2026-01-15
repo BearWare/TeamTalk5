@@ -1,7 +1,7 @@
 #pragma once
 
 #include <QObject>
-#include "backend/BackendEvents.h"
+#include "BackendEvents.h"
 
 class BackendAdapter;
 
@@ -20,7 +20,6 @@ public:
     void attachBackend(BackendAdapter* backend);
 
 public slots:
-    // User-intent entry points
     void connectRequested(const QString& host, int port, const QString& username);
     void disconnectRequested();
     void onRefreshChannelsRequested();
@@ -34,9 +33,9 @@ public slots:
     void onChannelEvent(const ChannelEvent& event);
     void onBackendError(const ErrorEvent& error);
     void onSelfVoiceEvent(const SelfVoiceEvent& event);
+    void onOtherUserVoiceEvent(const OtherUserVoiceEvent& event);
 
 signals:
-    // UI-driving signals
     void uiShouldShowConnecting();
     void uiShouldShowConnected();
     void uiShouldShowDisconnected();
@@ -44,13 +43,8 @@ signals:
 
     void channelListChanged(const QList<ChannelInfo>& channels);
     void selfVoiceStateChanged(SelfVoiceState state);
+    void otherUserVoiceStateChanged(const OtherUserVoiceEvent& event);
 
-    // Reconnect arc
-    void reconnecting(int attempt, int delayMs);
-    void reconnectStopped();
-    void notifyUser(const QString& message);
-
-    // Pass-through to backend
     void requestConnect(const QString& host, int port, const QString& username);
 
 private:
