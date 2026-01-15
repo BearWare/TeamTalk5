@@ -4,6 +4,7 @@
 #include <QList>
 #include <QMap>
 #include <QDateTime>
+#include <QTimer>
 
 #include "aac/backend/BackendEvents.h"
 
@@ -17,6 +18,8 @@ class InChannelScreen : public QWidget {
 public:
     explicit InChannelScreen(QWidget* parent = nullptr);
 
+    void setChannelName(const QString& name);
+
 signals:
     void leaveChannelRequested();
     void transmitToggled(bool enabled);
@@ -24,16 +27,19 @@ signals:
 public slots:
     void updateSelfVoiceState(SelfVoiceState state);
     void updateOtherUserVoiceState(const OtherUserVoiceEvent& event);
+    void clearParticipants();
+    void setEventMessage(const QString& message);
 
 private slots:
     void onLeaveClicked();
     void onTransmitClicked();
+    void onQuietTimerTick();
 
 private:
     enum class TransmitUiState {
-        Idle,       // not armed
-        Armed,      // armed but not speaking
-        Speaking    // speaking
+        Idle,
+        Armed,
+        Speaking
     };
 
     struct Participant {
@@ -47,9 +53,15 @@ private:
     void updateTransmitUi();
     void updateParticipantItem(Participant& p);
     void resortParticipants();
+    void updateSpeakingBanner();
+    void updateParticipantCount();
 
     // UI
     QLabel* m_channelLabel = nullptr;
+    QLabel* m_speakingBanner = nullptr;
+    QLabel* m_quietBanner = nullptr;
+    QLabel* m_participantCountLabel = nullptr;
+    QLabel* m_eventBanner = nullptr;
     QListWidget* m_participantList = nullptr;
     QPushButton* m_transmitButton = nullptr;
     QPushButton* m_leaveButton = nullptr;
@@ -59,5 +71,6 @@ private:
     SelfVoiceState m_selfVoiceState = SelfVoiceState::Silent;
     TransmitUiState m_transmitUiState = TransmitUiState::Idle;
 
-    QMap<int, Participant> m_participants; // key: userId
+    QMap<int, Participant> m_participants;
+    QTimer m_quietTimer;
 };
