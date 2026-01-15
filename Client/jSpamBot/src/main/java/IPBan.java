@@ -30,6 +30,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.time.Duration;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Vector;
@@ -38,18 +39,33 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class IPBan {
+    TimeProvider time;
     // bans already on server (doListBans() result)
     Vector<BannedUser> serverbans = new Vector<>();
     // IPs/networks to ban (loaded from file)
     Vector<String> networks;
     int networkindex = -1;
-    int banDurationSecs;
+    Duration banDuration;
     Logger logger;
+    // Ban types made by spambot (ban network and ban user)
+    final int SPAMBOT_NETWORK_BAN_TYPE = BanType.BANTYPE_IPADDR;
+    final int SPAMBOT_USER_BAN_TYPE = BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME;
 
-    public IPBan(Vector<String> networks, int banDurationSecs, Logger log) {
+    public IPBan(TimeProvider time, Vector<String> networks, Duration banDuration, Logger log) {
+        this.time = time;
         this.networks = networks;
-        this.banDurationSecs = banDurationSecs;
+        this.banDuration = banDuration;
         this.logger = log;
+    }
+
+    static void setBanTime(BannedUser ban) {
+        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
+        ban.szBanTime = String.format("%04d/%02d/%02d %02d:%02d",
+                now.getYear(),
+                now.getMonthValue(),
+                now.getDayOfMonth(),
+                now.getHour(),
+                now.getMinute());
     }
 
     public static Vector<String> loadFile(String filename, Logger log) {
@@ -69,17 +85,29 @@ public class IPBan {
         return networks;
     }
 
-    public void addBan(BannedUser ban) {
+    private void addBan(BannedUser ban) {
         if (ban.szBanTime.isEmpty()) {
-            ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-            ban.szBanTime = String.format("%04d/%02d/%02d %02d:%02d",
-                                          now.getYear(),
-                                          now.getMonthValue(),
-                                          now.getDayOfMonth(),
-                                          now.getHour(),
-                                          now.getMinute());
+            logger.severe("Ban time is not set on ban owner " + ban.szOwner + " IP addr: " + ban.szIPAddress);
+        }
+        if (ban.szOwner.isEmpty()) {
+            logger.severe("Ban owner is not set on ban type " + ban.uBanTypes + " IP addr: " + ban.szIPAddress);
+        }
+        if (ban.uBanTypes == BanType.BANTYPE_NONE) {
+            logger.severe("Ban type is not set, IP addr: " + ban.szIPAddress);
         }
         serverbans.add(ban);
+    }
+
+    public void addLocalBan(BannedUser ban, TeamTalkBase ttinst) {
+        UserAccount ua = new UserAccount();
+        ttinst.getMyUserAccount(ua);
+        ban.szOwner = ua.szUsername;
+        setBanTime(ban);
+        addRemoteBan(ban);
+    }
+
+    public void addRemoteBan(BannedUser ban) {
+        addBan(ban);
     }
 
     private void removeBan(BannedUser ban) {
@@ -91,17 +119,17 @@ public class IPBan {
         UserAccount ua = new UserAccount();
         ttinst.getMyUserAccount(ua);
 
-        // make list of bans created by spambot
+        // make list of network bans created by spambot
         Vector<BannedUser> mybans = new Vector<>();
         Vector<String> ipaddrs = new Vector<>();
         for (BannedUser b : this.serverbans) {
-            if (b.uBanTypes == BanType.BANTYPE_IPADDR && b.szOwner.equals(ua.szUsername)) {
+            if (b.uBanTypes == SPAMBOT_NETWORK_BAN_TYPE && b.szOwner.equals(ua.szUsername)) {
                 mybans.add(b);
                 ipaddrs.add(b.szIPAddress);
             }
         }
 
-        //remove bans no longer found in 'networks'
+        //remove network bans no longer found in 'networks'
         for (BannedUser b : mybans) {
             if (!this.networks.contains(b.szIPAddress)) {
                 this.serverbans.remove(b);
@@ -111,24 +139,28 @@ public class IPBan {
             }
         }
 
-        // submit new bans not already on server
+        // submit new network bans not already on server
         for (++this.networkindex; this.networkindex < networks.size();++this.networkindex) {
             String ipaddr = networks.elementAt(this.networkindex);
             if (!ipaddrs.contains(ipaddr)) {
                 BannedUser b = new BannedUser();
                 b.szIPAddress = ipaddr;
-                b.uBanTypes = BanType.BANTYPE_IPADDR;
+                b.uBanTypes = SPAMBOT_NETWORK_BAN_TYPE;
                 this.logger.info(String.format("Added new network ban: 0x%x IP: %s Username: %s Channel: %s",
                                                b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
-                return ttinst.doBan(b);
+                // store in local ban list
+                int cmdid = ttinst.doBan(b);
+                if (cmdid > 0) {
+                    addLocalBan(b, ttinst);
+                }
+                return cmdid;
             }
         }
 
-        // remove expired bans
-        if (this.banDurationSecs > 0) {
-            ZonedDateTime bannedBefore = ZonedDateTime.now(ZoneId.of("UTC")).minusSeconds(this.banDurationSecs);
-            for (BannedUser b : getBannedBySpamBot(ua, BanType.BANTYPE_IPADDR | BanType.BANTYPE_USERNAME,
-                                                   bannedBefore)) {
+        // remove expired user bans
+        if (!this.banDuration.isZero()) {
+            ZonedDateTime bannedBefore = ZonedDateTime.now(ZoneId.of("UTC")).minus(this.banDuration);
+            for (BannedUser b : getBannedBySpamBot(ua, SPAMBOT_USER_BAN_TYPE, bannedBefore)) {
                 removeBan(b);
                 this.logger.info(String.format("Removed expired ban: 0x%x IP: %s Username: %s Channel: %s",
                                                b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
@@ -142,8 +174,7 @@ public class IPBan {
     private Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, ZonedDateTime before) {
         Vector<BannedUser> result = new Vector<>();
         for (BannedUser b : getBannedUsersBefore(before)) {
-            if (b.szOwner.equals(ua.szUsername) &&
-                b.uBanTypes == uBanTypes) {
+            if (b.szOwner.equals(ua.szUsername) && b.uBanTypes == uBanTypes) {
                 result.add(b);
             }
         }
