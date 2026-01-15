@@ -8,6 +8,8 @@
 #include "aac/ui/ChannelListScreen.h"
 #include "aac/ui/InChannelScreen.h"
 
+#include <QTimer>
+
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
@@ -38,20 +40,20 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_backend, &BackendAdapter::channelEvent,
             m_stateMachine, &StateMachine::onChannelEvent);
 
-    connect(m_backend, &BackendAdapter::errorOccurred,
+    connect(m_backend, &BackendAdapter::backendError,
             m_stateMachine, &StateMachine::onBackendError);
 
     connect(m_backend, &BackendAdapter::selfVoiceEvent,
             m_stateMachine, &StateMachine::onSelfVoiceEvent);
 
+    connect(m_backend, &BackendAdapter::otherUserVoiceEvent,
+            m_stateMachine, &StateMachine::onOtherUserVoiceEvent);
+
     //
     // StateMachine → Backend (actions)
     //
-    connect(m_stateMachine, &StateMachine::connectRequested,
-            m_backend, [this]() {
-                // TODO: pull host/port from ConnectScreen
-                m_backend->connectToServer("localhost", 10333);
-            });
+    connect(m_stateMachine, &StateMachine::requestConnect,
+            m_backend, &BackendAdapter::connectToServer);
 
     connect(m_stateMachine, &StateMachine::disconnectRequested,
             m_backend, &BackendAdapter::disconnectFromServer);
@@ -77,6 +79,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_stateMachine, &StateMachine::uiShouldShowConnected,
             this, &MainWindow::showChannelListScreen);
 
+    connect(m_stateMachine, &StateMachine::uiShouldShowInChannelScreen,
+            this, &MainWindow::showInChannelScreen);
+
     connect(m_stateMachine, &StateMachine::uiShouldShowDisconnected,
             this, &MainWindow::showConnectScreen);
 
@@ -92,6 +97,9 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
             m_inChannelScreen, &InChannelScreen::updateSelfVoiceState);
 
+    connect(m_stateMachine, &StateMachine::otherUserVoiceStateChanged,
+            m_inChannelScreen, &InChannelScreen::updateOtherUserVoiceState);
+
     //
     // UI → StateMachine (user actions)
     //
@@ -103,6 +111,17 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(m_inChannelScreen, &InChannelScreen::leaveChannelRequested,
             m_stateMachine, &StateMachine::onLeaveChannelRequested);
+
+    connect(m_inChannelScreen, &InChannelScreen::transmitToggled,
+            m_stateMachine, &StateMachine::onTransmitToggled);
+
+    //
+    // Event pump timer
+    //
+    QTimer* pollTimer = new QTimer(this);
+    connect(pollTimer, &QTimer::timeout,
+            m_backend, &BackendAdapter::processEvents);
+    pollTimer->start(10);
 
     //
     // Start in disconnected state
