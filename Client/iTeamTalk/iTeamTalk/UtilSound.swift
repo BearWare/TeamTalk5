@@ -165,13 +165,11 @@ func getCategory(_ opt: AVAudioSession.CategoryOptions) -> String {
             str += "overrideMutedMicrophoneInterruption|"
         }
     }
-    if #available(iOS 10.0, *) {
-        if opt.contains(.allowAirPlay) {
-            str += "allowAirPlay|"
-        }
-        if opt.contains(.allowBluetoothA2DP) {
-            str += "allowBluetoothA2DP|"
-        }
+    if opt.contains(.allowAirPlay) {
+        str += "allowAirPlay|"
+    }
+    if opt.contains(.allowBluetoothA2DP) {
+        str += "allowBluetoothA2DP|"
     }
     return str
 }
@@ -230,16 +228,13 @@ func setupSoundDevices() {
             catoptions = [ .defaultToSpeaker ]
         }
         else {
-            if #available(iOS 10.0, *) {
-                catoptions = [ .allowBluetoothHFP, .allowAirPlay, .allowBluetoothA2DP]
-                if #available(iOS 26.0, *) {
-                    catoptions.update(with: .bluetoothHighQualityRecording)
-                }
-                if a2dp {
-                    catoptions.remove(.allowBluetoothHFP)
-                }
-            } else {
-                catoptions = [ .allowBluetoothHFP ]
+            // Use .allowBluetooth for iOS 12.0+ (replaces deprecated .allowBluetoothHFP)
+            catoptions = [ .allowBluetooth, .allowAirPlay, .allowBluetoothA2DP ]
+            if #available(iOS 26.0, *) {
+                catoptions.update(with: .bluetoothHighQualityRecording)
+            }
+            if a2dp {
+                catoptions.remove(.allowBluetooth)
             }
         }
         // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),
