@@ -18,4 +18,15 @@ application {
 dependencies {
     implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
     implementation 'org.json:json:20250517'
+
+    testImplementation(platform('org.junit:junit-bom:6.0.2'))
+    testImplementation('org.junit.jupiter:junit-jupiter')
+    testRuntimeOnly('org.junit.platform:junit-platform-launcher')
+}
+
+test {
+    useJUnitPlatform()
+    testLogging {
+        events "passed", "skipped", "failed"
+    }
 }
