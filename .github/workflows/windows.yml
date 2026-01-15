@@ -30,7 +30,6 @@ jobs:
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            vcpkgarch: x86-windows
             vcvars: vcvars32.bat
           - arch: x64
             cmakeplatform: x64
@@ -41,7 +40,6 @@ jobs:
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             qtversion: '6.10.*'
-            vcpkgarch: x64-windows
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
@@ -102,8 +100,8 @@ jobs:
 
     - name: Install YASM
       run: |
-        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
-        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
+        vcpkg install --recurse --clean-after-build yasm
+        echo %VCPKG_INSTALLATION_ROOT%\installed\x64-windows\tools\yasm>> %GITHUB_PATH%
 
     - name: Install NASM
       if: matrix.arch == 'x86'

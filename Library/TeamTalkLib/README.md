@@ -52,8 +52,7 @@ manually.
 * Install [Cygwin](https://www.cygwin.com) in `C:/cygwin64`
   * LibVPX requires *cygwin*
 * Download [yasm](http://yasm.tortall.net)
-    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
-    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
+    * Place `yasm.exe` in `C:/tt5dist/yasm`
     * LibVPX requires *yasm*
 
 ### Install TeamTalk Dependencies on Ubuntu
@@ -226,8 +225,7 @@ The following toolchain toggles are available:
   * Building LibVPX on Windows requires Cygwin, https://www.cygwin.com/
     * Install Cygwin in `C:/cygwin64`
   * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
-    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
-    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
+    * Place `yasm.exe` in `C:/tt5dist/yasm`
 * `TOOLCHAIN_FFMPEG`
   * When `ON` builds [FFmpeg](https://github.com/FFmpeg/FFmpeg)
   * When `OFF` uses FFmpeg installed on host.
