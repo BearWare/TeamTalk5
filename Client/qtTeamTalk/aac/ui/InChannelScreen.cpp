@@ -1,4 +1,5 @@
 #include "InChannelScreen.h"
+#include "aac/backend/BackendEvents.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
