@@ -1,267 +1,246 @@
 #include "BackendAdapter.h"
-#include <QDebug>
+#include <QTextStream>
 
 BackendAdapter::BackendAdapter(QObject* parent)
     : QObject(parent)
 {
-    m_tt = TT_InitTeamTalkPoll();
-    if (!m_tt) {
-        ErrorEvent err;
-        err.message = QStringLiteral("Failed to initialize TeamTalk backend");
-        emit errorOccurred(err);
-        return;
-    }
-
-    m_pollTimer = new QTimer(this);
-    connect(m_pollTimer, &QTimer::timeout,
-            this, &BackendAdapter::pollTeamTalk);
-    m_pollTimer->start(20);
+    // m_tt = TT_InitTeamTalkPoll();
 }
 
-void BackendAdapter::connectToServer(const QString& host, int port)
+//
+// ------------------------------------------------------------
+// Connection
+// ------------------------------------------------------------
+//
+
+void BackendAdapter::connectToServer(const QString& host, int port, const QString& username)
 {
-    if (!m_tt)
-        return;
+    m_state.username = username;
 
-    const QByteArray hostUtf8 = host.toUtf8();
+    log(QString("Connecting to %1:%2 as %3")
+        .arg(host).arg(port).arg(username));
 
-    INT32 cmdid = TT_Connect(m_tt,
-                             hostUtf8.constData(),
-                             port,
-                             0,
-                             0,
-                             0,
-                             0);
-
-    if (cmdid <= 0) {
-        ErrorEvent err;
-        err.message = QStringLiteral("Failed to initiate connection");
-        emit errorOccurred(err);
-    }
+    TT_Connect(
+        m_tt,
+        host.toUtf8().constData(),
+        port,
+        0, 0,
+        username.toUtf8().constData(),
+        ""
+    );
 }
 
 void BackendAdapter::disconnectFromServer()
 {
-    if (!m_tt)
-        return;
-
+    log("Disconnecting from server");
     TT_Disconnect(m_tt);
+}
+
+//
+// ------------------------------------------------------------
+// Channel operations
+// ------------------------------------------------------------
+//
+
+void BackendAdapter::refreshChannels()
+{
+    log("Requesting channel list");
+    TT_DoChannelList(m_tt);
 }
 
 void BackendAdapter::joinChannel(int channelId)
 {
-    if (!m_tt)
-        return;
-
-    INT32 cmdid = TT_DoJoinChannelByID(m_tt, channelId, "");
-    if (cmdid <= 0) {
-        ErrorEvent err;
-        err.message = QStringLiteral("Failed to send join channel command");
-        emit errorOccurred(err);
-    }
+    log(QString("Joining channel %1").arg(channelId));
+    TT_JoinChannelByID(m_tt, channelId, "");
 }
 
 void BackendAdapter::leaveChannel()
 {
-    if (!m_tt)
-        return;
-
-    INT32 cmdid = TT_DoLeaveChannel(m_tt);
-    if (cmdid <= 0) {
-        ErrorEvent err;
-        err.message = QStringLiteral("Failed to send leave channel command");
-        emit errorOccurred(err);
-    }
+    log("Leaving channel");
+    TT_LeaveChannel(m_tt);
 }
+
+//
+// ------------------------------------------------------------
+// Voice
+// ------------------------------------------------------------
+//
 
 void BackendAdapter::setTransmitEnabled(bool enabled)
 {
-    if (!m_tt)
-        return;
+    log(QString("Transmit %1").arg(enabled ? "ON" : "OFF"));
 
-    INT32 myUserId = TT_GetMyUserID(m_tt);
-    if (myUserId <= 0)
-        return;
-
-    bool ok = TT_SetUserTransmitStream(m_tt,
-                                       myUserId,
-                                       STREAMTYPE_VOICE,
-                                       enabled ? TRANSMIT_ENABLE : TRANSMIT_DISABLE);
-
-    if (!ok) {
-        ErrorEvent err;
-        err.message = QStringLiteral("Failed to change transmit state");
-        emit errorOccurred(err);
-    }
+    TT_SetTransmissionMode(
+        m_tt,
+        enabled ? TRANSMIT_AUDIO : TRANSMIT_NONE
+    );
 }
 
-void BackendAdapter::pollTeamTalk()
-{
-    if (!m_tt)
-        return;
+//
+// ------------------------------------------------------------
+// Event pump
+// ------------------------------------------------------------
+//
 
+void BackendAdapter::processEvents()
+{
     TTMessage msg;
-    while (TT_GetMessage(m_tt, &msg, 0)) {
+    while (TT_GetMessage(m_tt, &msg)) {
 
         switch (msg.nClientEvent) {
 
-        // --------------------------------------------------------------
-        // CONNECTION EVENTS
-        // --------------------------------------------------------------
-
-case CLIENTEVENT_CON_SUCCESS: {
-    emit connectionStateChanged(ConnectionState::Connected);
-    refreshChannels();   // optional auto-refresh
-    break;
-}
-
-        case CLIENTEVENT_CON_FAILED: {
-            ErrorEvent err;
-            err.message = QStringLiteral("Connection failed");
-            emit errorOccurred(err);
+        // --------------------------------------------------------
+        // Connection state
+        // --------------------------------------------------------
+        case CLIENTEVENT_CON_CONNECTING:
+            emit connectionStateChanged(ConnectionState::Connecting);
             break;
-        }
 
-        case CLIENTEVENT_CON_LOST: {
+        case CLIENTEVENT_CON_SUCCESS:
+            emit connectionStateChanged(ConnectionState::Connected);
+            break;
+
+        case CLIENTEVENT_CON_FAILED:
+        case CLIENTEVENT_CON_LOST:
             emit connectionStateChanged(ConnectionState::Disconnected);
             break;
-        }
 
-        // --------------------------------------------------------------
-        // COMMAND ERRORS
-        // --------------------------------------------------------------
+        // --------------------------------------------------------
+        // Channel list
+        // --------------------------------------------------------
+        case CLIENTEVENT_CMD_CHANNEL_LIST:
+        {
+            QList<ChannelInfo> list;
 
-        case CLIENTEVENT_CMD_ERROR: {
-            ErrorEvent err;
-            if (msg.clienterrormsg.szErrorMsg[0]) {
-                err.message = QString::fromUtf8(msg.clienterrormsg.szErrorMsg);
-            } else {
-                err.message = QStringLiteral("Backend reported an unknown error");
+            for (int i = 0; i < msg.channel.nChannels; ++i) {
+                const TTChannel* ch = msg.channel.lpChannels[i];
+
+                ChannelInfo info;
+                info.id = ch->nChannelID;
+                info.parentId = ch->nParentID;
+                info.name = QString::fromUtf8(ch->szName);
+
+                list.append(info);
             }
-            emit errorOccurred(err);
+
+            emit channelsEnumerated(list);
             break;
         }
 
-        // --------------------------------------------------------------
-        // YOU JOINED A CHANNEL
-        // --------------------------------------------------------------
-
-        case CLIENTEVENT_CMD_MYSELF_JOINED: {
+        // --------------------------------------------------------
+        // Join / leave channel
+        // --------------------------------------------------------
+        case CLIENTEVENT_CMD_MYSELF_JOINED_CHANNEL:
+        {
             ChannelEvent ev;
             ev.type = ChannelEventType::Joined;
-            ev.channelId = msg.user.nChannelID;
+            ev.channelId = msg.channel.nChannelID;
             emit channelEvent(ev);
             break;
         }
 
-        // --------------------------------------------------------------
-        // YOU LEFT A CHANNEL
-        // --------------------------------------------------------------
-
-        case CLIENTEVENT_CMD_MYSELF_LEFT: {
+        case CLIENTEVENT_CMD_MYSELF_LEFT_CHANNEL:
+        {
             ChannelEvent ev;
             ev.type = ChannelEventType::Left;
-            ev.channelId = msg.user.nChannelID;
+            ev.channelId = msg.channel.nChannelID;
             emit channelEvent(ev);
             break;
         }
 
-        // --------------------------------------------------------------
-        // SELF VOICE STATE (talking indicator)
-        // --------------------------------------------------------------
+        // --------------------------------------------------------
+        // Errors
+        // --------------------------------------------------------
+        case CLIENTEVENT_CMD_ERROR:
+        {
+            ErrorEvent err;
+            err.message = mapErrorCode(
+                msg.clienterrormsg.nErrorNo,
+                QString::fromUtf8(msg.clienterrormsg.szErrorMsg)
+            );
 
+            log(QString("Error: %1").arg(err.message));
+            emit backendError(err);
+            break;
+        }
+
+        // --------------------------------------------------------
+        // Voice state (self + others)
+        // --------------------------------------------------------
         case CLIENTEVENT_USER_STATECHANGE:
-        case CLIENTEVENT_CMD_USER_UPDATE: {
-            if (msg.user.nUserID == TT_GetMyUserID(m_tt)) {
+        {
+            int myId = TT_GetMyUserID(m_tt);
+
+            // Self
+            if (msg.user.nUserID == myId) {
                 SelfVoiceEvent ev;
-                bool talking = (msg.user.uUserState & USERSTATE_VOICE) != 0;
-                ev.state = talking ? SelfVoiceState::Talking : SelfVoiceState::Silent;
+                ev.state = (msg.user.uUserState & USERSTATE_VOICE)
+                    ? SelfVoiceState::Transmitting
+                    : SelfVoiceState::Silent;
+
                 emit selfVoiceEvent(ev);
+            }
+            // Others
+            else {
+                OtherUserVoiceEvent ev;
+                ev.userId = msg.user.nUserID;
+                ev.username = QString::fromUtf8(msg.user.szNickname);
+                ev.state = (msg.user.uUserState & USERSTATE_VOICE)
+                    ? OtherUserVoiceState::Speaking
+                    : OtherUserVoiceState::Silent;
+
+                emit otherUserVoiceEvent(ev);
             }
             break;
         }
-
-        // --------------------------------------------------------------
-        // AUDIO DEVICE EVENTS
-        // --------------------------------------------------------------
-
-        case CLIENTEVENT_SOUNDDEVICE_ADD: {
-            AudioDeviceEvent ev;
-            ev.type = AudioDeviceEventType::Added;
-            emit audioDeviceEvent(ev);
-            break;
-        }
-
-        case CLIENTEVENT_SOUNDDEVICE_REMOVE: {
-            AudioDeviceEvent ev;
-            ev.type = AudioDeviceEventType::Removed;
-            emit audioDeviceEvent(ev);
-            break;
-        }
-
-        case CLIENTEVENT_SOUNDDEVICE_FAILURE: {
-            AudioDeviceEvent ev;
-            ev.type = AudioDeviceEventType::Failed;
-            emit audioDeviceEvent(ev);
-            break;
-        }
-
-        // --------------------------------------------------------------
-        // TEXT MESSAGES (optional TTS)
-        // --------------------------------------------------------------
-
-        case CLIENTEVENT_USER_TEXTMESSAGE:
-        case CLIENTEVENT_CMD_TEXTMESSAGE: {
-            TextMessageEvent ev;
-            ev.fromUserId = msg.textmessage.nFromUserID;
-            ev.message = QString::fromUtf8(msg.textmessage.szMessage);
-            emit textMessageEvent(ev);
-            break;
-        }
-
-        // --------------------------------------------------------------
-        // IGNORE EVERYTHING ELSE
-        // --------------------------------------------------------------
 
         default:
             break;
         }
     }
 }
-void BackendAdapter::refreshChannels()
+
+//
+// ------------------------------------------------------------
+// Helpers
+// ------------------------------------------------------------
+//
+
+QString BackendAdapter::mapErrorCode(int code, const QString& raw)
 {
-    const QList<ChannelInfo> channels = enumerateChannels();
-    emit channelsEnumerated(channels);
+    switch (code) {
+
+    case TT_CMDERR_TIMEOUT:
+        return "The server did not respond. Please check your connection.";
+
+    case TT_CMDERR_SERVER_FULL:
+        return "The server is full. Try again later.";
+
+    case TT_CMDERR_NOT_LOGGEDIN:
+        return "You are not connected to the server.";
+
+    case TT_CMDERR_CHANNEL_NOT_FOUND:
+        return "The channel no longer exists.";
+
+    case TT_CMDERR_ALREADY_IN_CHANNEL:
+        return "You are already in this channel.";
+
+    case TT_CMDERR_INVALID_USERNAME:
+        return "The username is not allowed.";
+
+    default:
+        return raw.isEmpty()
+            ? "An unknown error occurred."
+            : raw;
+    }
 }
 
-QList<ChannelInfo> BackendAdapter::enumerateChannels() const
+void BackendAdapter::log(const QString& message)
 {
-    QList<ChannelInfo> out;
-
-    if (!m_tt)
-        return out;
-
-    // TeamTalk C API: get all channels on the server
-    int chanids[TT_CHANNELS_MAX];
-    int count = TT_GetServerChannels(m_tt, chanids, TT_CHANNELS_MAX);
-
-    if (count <= 0)
-        return out;
-
-    for (int i = 0; i < count; ++i) {
-        TTChannel chan = {};
-        if (!TT_GetChannel(m_tt, chanids[i], &chan))
-            continue;
-
-        ChannelInfo ci;
-        ci.id = chan.nChannelID;
-        ci.name = QString::fromUtf8(chan.szName);
-        ci.userCount = chan.nUsers;
-        ci.isPasswordProtected = chan.bPassword != 0;
-        ci.topic = QString::fromUtf8(chan.szTopic);
-
-        out.append(ci);
+    QFile f("backend.log");
+    if (f.open(QIODevice::Append | QIODevice::Text)) {
+        QTextStream out(&f);
+        out << QDateTime::currentDateTime().toString(Qt::ISODate)
+            << " - " << message << "\n";
     }
-
-    return out;
 }
