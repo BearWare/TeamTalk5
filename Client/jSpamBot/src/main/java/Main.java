@@ -24,6 +24,8 @@
 import dk.bearware.TeamTalk5;
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.Vector;
 import java.util.logging.FileHandler;
 import java.util.logging.Level;
@@ -110,11 +112,12 @@ public class Main {
                     sessions.clear();
                     for (var server : servers) {
                         try {
+                            TimeProvider time = Instant::now;
                             var spambot = new SpamBotSession(server,
                                                              new WebLogin(username, passwd, logger),
                                                              new IPBan(bannetworks, banDurationSeconds, logger),
                                                              badwords,
-                                                             new Abuse(ipjoins, iplogins, ipkicks, ipcmdduration),
+                                                             new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmdduration)),
                                                              abusedb, ipv4banprefix, ipv6banprefix, logger);
                             sessions.add(spambot);
                         }

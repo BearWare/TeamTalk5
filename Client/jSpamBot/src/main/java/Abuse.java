@@ -21,52 +21,52 @@
  *
  */
 
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
 
 public class Abuse {
 
-    Map< String, Vector<Long> > iplogins = new HashMap<>();
-    Map< String, Vector<Long> > ipjoins = new HashMap<>();
-    Map< String, Vector<Long> > ipkicks = new HashMap<>();
+    Map< String, Vector<Instant> > iplogins = new HashMap<>();
+    Map< String, Vector<Instant> > ipjoins = new HashMap<>();
+    Map< String, Vector<Instant> > ipkicks = new HashMap<>();
 
+    TimeProvider time;
     int ipJoinCount, ipLoginCount, ipKickCount;
-    long durationSec;
+    Duration banDuration;
 
-    public Abuse(int ipJoinCount, int ipLoginCount, int ipKickCount, long durationSec) {
+    public Abuse(TimeProvider time, int ipJoinCount, int ipLoginCount, int ipKickCount, Duration banDuration) {
+        this.time = time;
         this.ipJoinCount = ipJoinCount;
         this.ipLoginCount = ipLoginCount;
         this.ipKickCount = ipKickCount;
-        this.durationSec = durationSec;
+        this.banDuration = banDuration;
     }
 
-    private static void inc(Map< String, Vector<Long> > ipmap, String ipaddr) {
-        Vector<Long> timestamps = ipmap.get(ipaddr);
-        if (timestamps == null) {
-            timestamps = new Vector<Long>();
-            ipmap.put(ipaddr, timestamps);
-        }
-        timestamps.add(System.nanoTime());
+    private static void inc(TimeProvider time, Map< String, Vector<Instant> > ipmap, String ipaddr) {
+        Vector<Instant> timestamps = ipmap.computeIfAbsent(ipaddr, k -> new Vector<Instant>());
+        timestamps.add(time.now());
     }
 
     public void incLogin(String ipaddr) {
-        inc(iplogins, ipaddr);
+        inc(time, iplogins, ipaddr);
     }
 
     public void incJoins(String ipaddr) {
-        inc(ipjoins, ipaddr);
+        inc(time, ipjoins, ipaddr);
     }
 
     public void incKicks(String ipaddr) {
-        inc(ipkicks, ipaddr);
+        inc(time, ipkicks, ipaddr);
     }
     
-    private static void clean(Map< String, Vector<Long> > history, long durationSec) {
+    private static void clean(TimeProvider time, Map< String, Vector<Instant> > history, Duration banDuration) {
         Vector<String> removeme = new Vector<>();
         for (String key : history.keySet()) {
             var occurTimes = history.get(key);
-            while (occurTimes.size() > 0 && occurTimes.firstElement() + durationSec * 1E9 <= System.nanoTime()) {
+            while (!occurTimes.isEmpty() && Duration.between(occurTimes.firstElement(), time.now()).compareTo(banDuration) > 0) {
                 occurTimes.remove(0);
             }
             if (occurTimes.isEmpty())
@@ -83,17 +83,17 @@ public class Abuse {
     }
 
     public boolean checkLoginAbuse(String ipaddr) {
-        clean(iplogins, this.durationSec);
+        clean(time, iplogins, this.banDuration);
         return iplogins.get(ipaddr) != null ? iplogins.get(ipaddr).size() >= ipLoginCount : false;
     }
 
     public boolean checkJoinAbuse(String ipaddr) {
-        clean(ipjoins, this.durationSec);
+        clean(time, ipjoins, this.banDuration);
         return ipjoins.get(ipaddr) != null ? ipjoins.get(ipaddr).size() >= ipJoinCount : false;
     }
 
     public boolean checkKickAbuse(String ipaddr) {
-        clean(ipkicks, this.durationSec);
+        clean(time, ipkicks, this.banDuration);
         return ipkicks.get(ipaddr) != null ? ipkicks.get(ipaddr).size() >= ipKickCount : false;
     }
 }
