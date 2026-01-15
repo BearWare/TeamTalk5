@@ -12,12 +12,11 @@ public:
     explicit ConnectScreen(QWidget* parent = nullptr);
 
 signals:
-    void connectRequested();
-    void connectToServer(const QString& host, int port);
+    void connectRequested(const QString& host, int port, const QString& username);
 
 private:
     QLineEdit* m_hostEdit;
     QSpinBox* m_portEdit;
+    QLineEdit* m_usernameEdit;   // ← Add this
     QPushButton* m_connectButton;
-    QPushButton* m_startButton;
 };
