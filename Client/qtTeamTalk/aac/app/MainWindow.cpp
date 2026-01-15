@@ -1,32 +1,76 @@
 #include "MainWindow.h"
-#include "backend/BackendAdapter.h"
-#include "backend/StateMachine.h"
 
-#include <QMessageBox>
+#include "aac/backend/BackendAdapter.h"
+#include "aac/state/StateMachine.h"
+
+#include "aac/ui/ConnectScreen.h"
+#include "aac/ui/ConnectingScreen.h"
+#include "aac/ui/ChannelListScreen.h"
+#include "aac/ui/InChannelScreen.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
-    // Backend + StateMachine
+    //
+    // Create backend + state machine
+    //
     m_backend = new BackendAdapter(this);
     m_stateMachine = new StateMachine(this);
     m_stateMachine->attachBackend(m_backend);
 
-    // Screens
-    m_connectScreen = new ConnectScreen(this);
-    m_connectingScreen = new ConnectingScreen(this);
-    m_channelListScreen = new ChannelListScreen(this);
-    m_inChannelScreen = new InChannelScreen(this);
+    //
+    // Create screens
+    //
+    m_connectScreen      = new ConnectScreen(this);
+    m_connectingScreen   = new ConnectingScreen(this);
+    m_channelListScreen  = new ChannelListScreen(this);
+    m_inChannelScreen    = new InChannelScreen(this);
 
-    // ------------------------------------------------------------
-    // CONNECT ARC
-    // ------------------------------------------------------------
-    connect(m_connectScreen, &ConnectScreen::connectRequested,
-            m_stateMachine, &StateMachine::connectRequested);
+    //
+    // Backend → StateMachine
+    //
+    connect(m_backend, &BackendAdapter::connectionStateChanged,
+            m_stateMachine, &StateMachine::onConnectionStateChanged);
 
-    connect(m_connectScreen, &ConnectScreen::connectToServer,
-            m_backend, &BackendAdapter::connectToServer);
+    connect(m_backend, &BackendAdapter::channelsEnumerated,
+            m_stateMachine, &StateMachine::onChannelsEnumerated);
 
+    connect(m_backend, &BackendAdapter::channelEvent,
+            m_stateMachine, &StateMachine::onChannelEvent);
+
+    connect(m_backend, &BackendAdapter::errorOccurred,
+            m_stateMachine, &StateMachine::onBackendError);
+
+    connect(m_backend, &BackendAdapter::selfVoiceEvent,
+            m_stateMachine, &StateMachine::onSelfVoiceEvent);
+
+    //
+    // StateMachine → Backend (actions)
+    //
+    connect(m_stateMachine, &StateMachine::connectRequested,
+            m_backend, [this]() {
+                // TODO: pull host/port from ConnectScreen
+                m_backend->connectToServer("localhost", 10333);
+            });
+
+    connect(m_stateMachine, &StateMachine::disconnectRequested,
+            m_backend, &BackendAdapter::disconnectFromServer);
+
+    connect(m_stateMachine, &StateMachine::onRefreshChannelsRequested,
+            m_backend, &BackendAdapter::refreshChannels);
+
+    connect(m_stateMachine, &StateMachine::onJoinChannelRequested,
+            m_backend, &BackendAdapter::joinChannel);
+
+    connect(m_stateMachine, &StateMachine::onLeaveChannelRequested,
+            m_backend, &BackendAdapter::leaveChannel);
+
+    connect(m_stateMachine, &StateMachine::onTransmitToggled,
+            m_backend, &BackendAdapter::setTransmitEnabled);
+
+    //
+    // StateMachine → UI (screen switching)
+    //
     connect(m_stateMachine, &StateMachine::uiShouldShowConnecting,
             this, &MainWindow::showConnectingScreen);
 
@@ -36,38 +80,62 @@ MainWindow::MainWindow(QWidget* parent)
     connect(m_stateMachine, &StateMachine::uiShouldShowDisconnected,
             this, &MainWindow::showConnectScreen);
 
-    // ------------------------------------------------------------
-    // CONNECTING ARC
-    // ------------------------------------------------------------
-    connect(m_connectingScreen, &ConnectingScreen::cancelRequested,
-            m_stateMachine, &StateMachine::disconnectRequested);
-
-    // ------------------------------------------------------------
-    // CHANNEL LIST ARC
-    // ------------------------------------------------------------
-    connect(m_channelListScreen, &ChannelListScreen::refreshRequested,
-            m_stateMachine, &StateMachine::onRefreshChannelsRequested);
+    connect(m_stateMachine, &StateMachine::uiShouldShowError,
+            this, [this](const QString& msg) {
+                m_connectScreen->setError(msg);
+                showScreen(m_connectScreen);
+            });
 
     connect(m_stateMachine, &StateMachine::channelListChanged,
             m_channelListScreen, &ChannelListScreen::setChannels);
 
+    connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
+            m_inChannelScreen, &InChannelScreen::updateSelfVoiceState);
+
+    //
+    // UI → StateMachine (user actions)
+    //
+    connect(m_connectScreen, &ConnectScreen::connectRequested,
+            m_stateMachine, &StateMachine::connectRequested);
+
     connect(m_channelListScreen, &ChannelListScreen::joinChannelRequested,
             m_stateMachine, &StateMachine::onJoinChannelRequested);
 
-    // ------------------------------------------------------------
-    // IN-CHANNEL ARC
-    // ------------------------------------------------------------
-    connect(m_inChannelScreen, &InChannelScreen::transmitToggled,
-            m_stateMachine, &StateMachine::onTransmitToggled);
-
-    connect(m_inChannelScreen, &InChannelScreen::leaveRequested,
+    connect(m_inChannelScreen, &InChannelScreen::leaveChannelRequested,
             m_stateMachine, &StateMachine::onLeaveChannelRequested);
 
-    connect(m_stateMachine, &StateMachine::selfVoiceStateChanged,
-            m_inChannelScreen, &InChannelScreen::setSelfVoiceState);
+    //
+    // Start in disconnected state
+    //
+    showConnectScreen();
+}
 
-    // ------------------------------------------------------------
-    // INITIAL SCREEN
-    // ------------------------------------------------------------
+MainWindow::~MainWindow() = default;
+
+void MainWindow::showScreen(QWidget* screen)
+{
+    if (!screen)
+        return;
+
+    setCentralWidget(screen);
+}
+
+void MainWindow::showConnectScreen()
+{
     showScreen(m_connectScreen);
+}
+
+void MainWindow::showConnectingScreen()
+{
+    showScreen(m_connectingScreen);
+}
+
+void MainWindow::showChannelListScreen()
+{
+    showScreen(m_channelListScreen);
+}
+
+void MainWindow::showInChannelScreen()
+{
+    showScreen(m_inChannelScreen);
 }
