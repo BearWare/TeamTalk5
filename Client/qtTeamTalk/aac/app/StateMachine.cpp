@@ -43,6 +43,7 @@ void StateMachine::connectRequested(const QString& host, int port, const QString
 void StateMachine::disconnectRequested()
 {
     m_state = UiConnectionState::Idle;
+    m_currentChannelId = -1;
     emit uiShouldShowDisconnected();
 
     if (m_backend)
@@ -81,6 +82,7 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
 {
     switch (state) {
     case ConnectionState::Connecting:
+        m_state = UiConnectionState::Connecting;
         emit uiShouldShowConnecting();
         break;
 
@@ -91,6 +93,7 @@ void StateMachine::onConnectionStateChanged(ConnectionState state)
 
     case ConnectionState::Disconnected:
         m_state = UiConnectionState::Idle;
+        m_currentChannelId = -1;
         emit uiShouldShowDisconnected();
         break;
     }
@@ -105,20 +108,40 @@ void StateMachine::onChannelsEnumerated(const QList<ChannelInfo>& channels)
 void StateMachine::onChannelEvent(const ChannelEvent& event)
 {
     switch (event.type) {
-    case ChannelEventType::Joined:
-        // We just joined a channel → show in‑channel UI
+    case ChannelEventType::Joined: {
+        m_currentChannelId = event.channelId;
+
+        QString channelName = QObject::tr("Channel");
+        for (const auto& ch : m_channels) {
+            if (ch.id == event.channelId) {
+                channelName = ch.name;
+                break;
+            }
+        }
+
+        emit currentChannelNameChanged(channelName);
+        emit clearInChannelScreen();
+        emit inChannelEventMessage(QObject::tr("You joined: %1").arg(channelName));
         emit uiShouldShowInChannelScreen();
         break;
+    }
 
     case ChannelEventType::Left:
-        // We left the channel → go back to channel list
+        m_currentChannelId = -1;
+        emit inChannelEventMessage(QObject::tr("You left the channel"));
+        emit clearInChannelScreen();
         emit uiShouldShowConnected();
         break;
     }
 }
+
 void StateMachine::onBackendError(const ErrorEvent& error)
 {
-    emit uiShouldShowError(error.message);
+    if (m_state == UiConnectionState::Connected && m_currentChannelId != -1) {
+        emit inChannelError(error.message);
+    } else {
+        emit uiShouldShowError(error.message);
+    }
 }
 
 void StateMachine::onSelfVoiceEvent(const SelfVoiceEvent& event)
