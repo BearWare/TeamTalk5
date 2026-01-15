@@ -1,14 +1,29 @@
 #pragma once
 
 #include <QString>
+#include <QList>
 
+// ------------------------------------------------------------
+// Connection state
+// ------------------------------------------------------------
 enum class ConnectionState {
-    Disconnected,
     Connecting,
     Connected,
-    Error
+    Disconnected
 };
 
+// ------------------------------------------------------------
+// Channel info
+// ------------------------------------------------------------
+struct ChannelInfo {
+    int id;
+    int parentId;
+    QString name;
+};
+
+// ------------------------------------------------------------
+// Channel events
+// ------------------------------------------------------------
 enum class ChannelEventType {
     Joined,
     Left
@@ -19,37 +34,35 @@ struct ChannelEvent {
     int channelId;
 };
 
+// ------------------------------------------------------------
+// Error events
+// ------------------------------------------------------------
 struct ErrorEvent {
     QString message;
 };
 
-// ---------------------------------------------------------------------
-// AAC‑RELEVANT ADDITIONS
-// ---------------------------------------------------------------------
-
-// 1. Self voice state (for your own transmit indicator)
+// ------------------------------------------------------------
+// Self voice state
+// ------------------------------------------------------------
 enum class SelfVoiceState {
     Silent,
-    Talking
+    Transmitting
 };
 
 struct SelfVoiceEvent {
     SelfVoiceState state;
 };
 
-// 2. Audio device events (mic/headset added/removed/failure)
-enum class AudioDeviceEventType {
-    Added,
-    Removed,
-    Failed
+// ------------------------------------------------------------
+// Other users' voice state
+// ------------------------------------------------------------
+enum class OtherUserVoiceState {
+    Silent,
+    Speaking
 };
 
-struct AudioDeviceEvent {
-    AudioDeviceEventType type;
-};
-
-// 3. Optional: incoming text messages (for TTS surfaces)
-struct TextMessageEvent {
-    int fromUserId;
-    QString message;
+struct OtherUserVoiceEvent {
+    int userId;
+    QString username;
+    OtherUserVoiceState state;
 };
