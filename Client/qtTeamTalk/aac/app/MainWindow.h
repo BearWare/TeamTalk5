@@ -6,11 +6,12 @@
 class BackendAdapter;
 class StateMachine;
 
-// Forward declare your screen classes
 class ConnectScreen;
 class ConnectingScreen;
 class ChannelListScreen;
 class InChannelScreen;
+
+class QTimer;
 
 class MainWindow : public QMainWindow
 {
@@ -29,6 +30,23 @@ private:
     ChannelListScreen* m_channelListScreen = nullptr;
     InChannelScreen* m_inChannelScreen = nullptr;
 
+    // Reconnect countdown
+    QTimer* m_reconnectCountdownTimer = nullptr;
+    int m_reconnectSecondsRemaining = 0;
+
 private slots:
     void onBackendError(const ErrorEvent& error);
+
+    void updateScreenForConnectionState(ConnectionState state);
+    void updateScreenForChannelState(int channelId);
+
+    void onReconnecting(int attempt, int delayMs);
+    void onReconnectStopped();
+    void onNotifyUser(const QString& message);
+
+    void updateReconnectCountdown();
+    void onReconnectNowClicked();
+
+private:
+    void showScreen(QWidget* screen);
 };
