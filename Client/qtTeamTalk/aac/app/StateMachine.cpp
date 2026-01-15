@@ -9,6 +9,24 @@ StateMachine::StateMachine(QObject* parent)
 void StateMachine::attachBackend(BackendAdapter* backend)
 {
     m_backend = backend;
+
+    connect(backend, &BackendAdapter::channelsEnumerated,
+            this, &StateMachine::onChannelsEnumerated);
+
+    connect(backend, &BackendAdapter::connectionStateChanged,
+            this, &StateMachine::onConnectionStateChanged);
+
+    connect(backend, &BackendAdapter::channelEvent,
+            this, &StateMachine::onChannelEvent);
+
+    connect(backend, &BackendAdapter::backendError,
+            this, &StateMachine::onBackendError);
+
+    connect(backend, &BackendAdapter::selfVoiceEvent,
+            this, &StateMachine::onSelfVoiceEvent);
+
+    connect(backend, &BackendAdapter::otherUserVoiceEvent,
+            this, &StateMachine::onOtherUserVoiceEvent);
 }
 
 //
@@ -19,8 +37,6 @@ void StateMachine::connectRequested(const QString& host, int port, const QString
 {
     m_state = UiConnectionState::Connecting;
     emit uiShouldShowConnecting();
-
-    // Pass real values to backend
     emit requestConnect(host, port, username);
 }
 
@@ -88,7 +104,7 @@ void StateMachine::onChannelsEnumerated(const QList<ChannelInfo>& channels)
 
 void StateMachine::onChannelEvent(const ChannelEvent& event)
 {
-    // Expand later as needed
+    // Expand later if needed
 }
 
 void StateMachine::onBackendError(const ErrorEvent& error)
@@ -99,4 +115,9 @@ void StateMachine::onBackendError(const ErrorEvent& error)
 void StateMachine::onSelfVoiceEvent(const SelfVoiceEvent& event)
 {
     emit selfVoiceStateChanged(event.state);
+}
+
+void StateMachine::onOtherUserVoiceEvent(const OtherUserVoiceEvent& event)
+{
+    emit otherUserVoiceStateChanged(event);
 }
