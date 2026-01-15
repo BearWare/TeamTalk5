@@ -20,6 +20,7 @@ public:
     void attachBackend(BackendAdapter* backend);
 
 public slots:
+    // User → StateMachine
     void connectRequested(const QString& host, int port, const QString& username);
     void disconnectRequested();
     void onRefreshChannelsRequested();
@@ -36,20 +37,30 @@ public slots:
     void onOtherUserVoiceEvent(const OtherUserVoiceEvent& event);
 
 signals:
+    // Screen navigation
     void uiShouldShowConnecting();
     void uiShouldShowConnected();
     void uiShouldShowInChannelScreen();
     void uiShouldShowDisconnected();
     void uiShouldShowError(const QString& message);
 
+    // In-channel context
+    void currentChannelNameChanged(const QString& name);
+    void inChannelEventMessage(const QString& message);
+    void clearInChannelScreen();
+    void inChannelError(const QString& message);
+
+    // Data to UI
     void channelListChanged(const QList<ChannelInfo>& channels);
     void selfVoiceStateChanged(SelfVoiceState state);
     void otherUserVoiceStateChanged(const OtherUserVoiceEvent& event);
 
+    // Actions to backend
     void requestConnect(const QString& host, int port, const QString& username);
 
 private:
     UiConnectionState m_state = UiConnectionState::Idle;
     BackendAdapter* m_backend = nullptr;
     QList<ChannelInfo> m_channels;
+    int m_currentChannelId = -1;
 };
