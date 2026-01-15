@@ -91,6 +91,9 @@ MainWindow::MainWindow(QWidget* parent)
                 showScreen(m_connectScreen);
             });
 
+    //
+    // StateMachine → UI (data + in-channel context)
+    //
     connect(m_stateMachine, &StateMachine::channelListChanged,
             m_channelListScreen, &ChannelListScreen::setChannels);
 
@@ -99,6 +102,18 @@ MainWindow::MainWindow(QWidget* parent)
 
     connect(m_stateMachine, &StateMachine::otherUserVoiceStateChanged,
             m_inChannelScreen, &InChannelScreen::updateOtherUserVoiceState);
+
+    connect(m_stateMachine, &StateMachine::currentChannelNameChanged,
+            m_inChannelScreen, &InChannelScreen::setChannelName);
+
+    connect(m_stateMachine, &StateMachine::inChannelEventMessage,
+            m_inChannelScreen, &InChannelScreen::setEventMessage);
+
+    connect(m_stateMachine, &StateMachine::clearInChannelScreen,
+            m_inChannelScreen, &InChannelScreen::clearParticipants);
+
+    connect(m_stateMachine, &StateMachine::inChannelError,
+            m_inChannelScreen, &InChannelScreen::setEventMessage);
 
     //
     // UI → StateMachine (user actions)
