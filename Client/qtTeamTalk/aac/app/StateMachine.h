@@ -10,7 +10,6 @@ class StateMachine : public QObject {
 public:
     explicit StateMachine(QObject* parent = nullptr);
 
-    // High-level UI state for the connection
     enum class UiConnectionState {
         Idle,
         Connecting,
@@ -24,11 +23,17 @@ public slots:
     // User-intent entry points
     void connectRequested();
     void disconnectRequested();
+    void onRefreshChannelsRequested();
+    void onJoinChannelRequested(int channelId);
+    void onLeaveChannelRequested();
+    void onTransmitToggled(bool enabled);
 
-    // Backend event entry points
+    // Backend → StateMachine
+    void onChannelsEnumerated(const QList<ChannelInfo>& channels);
     void onConnectionStateChanged(ConnectionState state);
     void onChannelEvent(const ChannelEvent& event);
     void onBackendError(const ErrorEvent& error);
+    void onSelfVoiceEvent(const SelfVoiceEvent& event);
 
 signals:
     // UI-driving signals
@@ -37,7 +42,16 @@ signals:
     void uiShouldShowDisconnected();
     void uiShouldShowError(const QString& message);
 
+    void channelListChanged(const QList<ChannelInfo>& channels);
+    void selfVoiceStateChanged(SelfVoiceState state);
+
+    // Reconnect arc
+    void reconnecting(int attempt, int delayMs);
+    void reconnectStopped();
+    void notifyUser(const QString& message);
+
 private:
     UiConnectionState m_state = UiConnectionState::Idle;
     BackendAdapter* m_backend = nullptr;
+    QList<ChannelInfo> m_channels;
 };
