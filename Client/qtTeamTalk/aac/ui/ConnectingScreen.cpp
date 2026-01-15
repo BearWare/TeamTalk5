@@ -1,17 +1,19 @@
 #include "ConnectingScreen.h"
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QPushButton>
 
 ConnectingScreen::ConnectingScreen(QWidget* parent)
     : QWidget(parent)
 {
     auto* layout = new QVBoxLayout(this);
 
-    m_label = new QLabel("Connecting…", this);
-    m_label->setAlignment(Qt::AlignCenter);
-    m_label->setStyleSheet("font-size: 32px;");
+    auto* label = new QLabel("Connecting...", this);
+    m_cancelButton = new QPushButton("Cancel", this);
 
-    layout->addStretch();
-    layout->addWidget(m_label);
-    layout->addStretch();
+    layout->addWidget(label);
+    layout->addWidget(m_cancelButton);
+
+    connect(m_cancelButton, &QPushButton::clicked,
+            this, &ConnectingScreen::cancelRequested);
 }
