@@ -38,6 +38,7 @@ public slots:
 signals:
     void uiShouldShowConnecting();
     void uiShouldShowConnected();
+    void uiShouldShowInChannelScreen();
     void uiShouldShowDisconnected();
     void uiShouldShowError(const QString& message);
 
