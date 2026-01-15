@@ -3,33 +3,31 @@
 #include <QLineEdit>
 #include <QSpinBox>
 #include <QPushButton>
-#include <QLabel>
 
 ConnectScreen::ConnectScreen(QWidget* parent)
     : QWidget(parent)
 {
     auto* layout = new QVBoxLayout(this);
 
-    auto* hostLabel = new QLabel("Server Address:", this);
     m_hostEdit = new QLineEdit(this);
-    m_hostEdit->setText("localhost");
+    m_hostEdit->setPlaceholderText("Server host");
 
-    auto* portLabel = new QLabel("Port:", this);
-    m_portSpin = new QSpinBox(this);
-    m_portSpin->setRange(1, 65535);
-    m_portSpin->setValue(10333);
+    m_portEdit = new QSpinBox(this);
+    m_portEdit->setRange(1, 65535);
+    m_portEdit->setValue(10333);
 
     m_connectButton = new QPushButton("Connect", this);
-    m_connectButton->setMinimumHeight(80);
+    m_startButton = new QPushButton("Start", this);
 
-    layout->addWidget(hostLabel);
     layout->addWidget(m_hostEdit);
-    layout->addWidget(portLabel);
-    layout->addWidget(m_portSpin);
+    layout->addWidget(m_portEdit);
     layout->addWidget(m_connectButton);
-    layout->addStretch();
+    layout->addWidget(m_startButton);
 
-    connect(m_connectButton, &QPushButton::clicked, this, [this]() {
-        emit connectRequested(m_hostEdit->text(), m_portSpin->value());
+    connect(m_connectButton, &QPushButton::clicked,
+            this, &ConnectScreen::connectRequested);
+
+    connect(m_startButton, &QPushButton::clicked, this, [this] {
+        emit connectToServer(m_hostEdit->text(), m_portEdit->value());
     });
 }
