@@ -1,6 +1,8 @@
 #pragma once
 
 #include <QObject>
+#include <QFile>
+#include <QDateTime>
 #include "BackendEvents.h"
 
 class BackendAdapter : public QObject {
@@ -20,6 +22,9 @@ public:
     // Voice
     void setTransmitEnabled(bool enabled);
 
+    // Event pump
+    void processEvents();
+
 signals:
     // Backend → StateMachine
     void channelsEnumerated(const QList<ChannelInfo>& channels);
@@ -27,8 +32,16 @@ signals:
     void channelEvent(const ChannelEvent& event);
     void backendError(const ErrorEvent& error);
     void selfVoiceEvent(const SelfVoiceEvent& event);
+    void otherUserVoiceEvent(const OtherUserVoiceEvent& event);
 
 private:
     TTInstance* m_tt = nullptr;
-    BackendState m_state;
+
+    // Helpers
+    QString mapErrorCode(int code, const QString& raw);
+    void log(const QString& message);
+
+    struct {
+        QString username;
+    } m_state;
 };
