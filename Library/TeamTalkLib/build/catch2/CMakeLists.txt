@@ -13,7 +13,8 @@ if (MSVC)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
       GIT_TAG           v3.11.0
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
