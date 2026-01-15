@@ -2,14 +2,16 @@
 
 #include <QWidget>
 
-class QLabel;
+class QPushButton;
 
-class ConnectingScreen : public QWidget
-{
+class ConnectingScreen : public QWidget {
     Q_OBJECT
 public:
     explicit ConnectingScreen(QWidget* parent = nullptr);
 
+signals:
+    void cancelRequested();
+
 private:
-    QLabel* m_label = nullptr;
+    QPushButton* m_cancelButton;
 };
