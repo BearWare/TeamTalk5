@@ -1,4 +1,8 @@
 SET PATH=@YASM_EXE_DIRECTORY_NATIVE@;%PATH%
+SET MSYS2_PATH_TYPE=inherit
+SET CHERE_INVOKING=1
 IF EXIST build-@LIBVPX_WIN_TARGET@ RMDIR /Q /S build-@LIBVPX_WIN_TARGET@
 MKDIR build-@LIBVPX_WIN_TARGET@
-@BASH_EXE_PATH@ --login -c "cd $OLDPWD/build-@LIBVPX_WIN_TARGET@ && ../configure --target=@LIBVPX_WIN_TARGET@ --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+CD build-@LIBVPX_WIN_TARGET@
+@LIBVPX_BASH_EXE_PATH@ --login -c "../configure --target=@LIBVPX_WIN_TARGET@ --disable-examples --disable-docs --enable-static-msvcrt --disable-unit-tests && make"
+CD ..
