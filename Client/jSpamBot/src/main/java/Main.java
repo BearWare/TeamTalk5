@@ -60,7 +60,7 @@ public class Main {
         int iplogins = Integer.parseInt(System.getProperty("dk.bearware.iplogincount", "10"));
         int ipjoins = Integer.parseInt(System.getProperty("dk.bearware.ipjoinscount", "10"));
         int ipkicks = Integer.parseInt(System.getProperty("dk.bearware.ipkickscount", "10"));
-        int ipcmdduration = Integer.parseInt(System.getProperty("dk.bearware.ipcmdduration", "60"));
+        int ipcmddurationSeconds = Integer.parseInt(System.getProperty("dk.bearware.ipcmdduration", "60"));
         int ipv4banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv4banprefix", "32"));
         int ipv6banprefix = Integer.parseInt(System.getProperty("dk.bearware.ipv6banprefix", "128"));
         String abuseIPDBKey = System.getProperty("dk.bearware.abuseipdbkey", "");
@@ -87,12 +87,12 @@ public class Main {
 
         var sessions = new Vector<SpamBotSession>();
         var lastServers = new Vector<TeamTalkServer>();
-        var serverlistUpdateTimeout = System.nanoTime();
-        var connectionUpdateTimeout = System.nanoTime();
+        var serverlistUpdateTimeout = Instant.now();
+        var connectionUpdateTimeout = Instant.now();
         while (true) {
 
             // update list of spambot servers
-            if (System.nanoTime() >= serverlistUpdateTimeout) {
+            if (Instant.now().isAfter(serverlistUpdateTimeout)) {
                 logger.info("Updating server list...");
                 var servers = getServerList();
                 if (servers.size() == 0) {
@@ -115,9 +115,9 @@ public class Main {
                             TimeProvider time = Instant::now;
                             var spambot = new SpamBotSession(server,
                                                              new WebLogin(username, passwd, logger),
-                                                             new IPBan(bannetworks, banDurationSeconds, logger),
+                                                             new IPBan(time, bannetworks, Duration.ofSeconds(banDurationSeconds), logger),
                                                              badwords,
-                                                             new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmdduration)),
+                                                             new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmddurationSeconds)),
                                                              abusedb, ipv4banprefix, ipv6banprefix, logger);
                             sessions.add(spambot);
                         }
@@ -128,18 +128,18 @@ public class Main {
                     lastServers = servers;
                 }
                 // get server list every minute
-                serverlistUpdateTimeout = System.nanoTime() + 1 * 60 * 1000000000l;
+                serverlistUpdateTimeout = Instant.now().plus(Duration.ofSeconds(60));
             }
 
             // initiate connection (if not already open)
-            if (System.nanoTime() >= connectionUpdateTimeout) {
+            if (Instant.now().isAfter(connectionUpdateTimeout)) {
                 logger.info("Updating connections...");
 
                 for (var session : sessions) {
                     session.runConnectionEventLoop();
                 }
                 // try connecting again every 5 minutes
-                connectionUpdateTimeout = System.nanoTime() + 5 * 60 * 1000000000l;
+                connectionUpdateTimeout = Instant.now().plus(Duration.ofMinutes(5));
             }
 
             // run event loop on all active sessions
