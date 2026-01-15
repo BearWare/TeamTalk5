@@ -109,10 +109,11 @@ void BackendAdapter::pollTeamTalk()
         // CONNECTION EVENTS
         // --------------------------------------------------------------
 
-        case CLIENTEVENT_CON_SUCCESS: {
-            emit connectionStateChanged(ConnectionState::Connected);
-            break;
-        }
+case CLIENTEVENT_CON_SUCCESS: {
+    emit connectionStateChanged(ConnectionState::Connected);
+    refreshChannels();   // optional auto-refresh
+    break;
+}
 
         case CLIENTEVENT_CON_FAILED: {
             ErrorEvent err;
