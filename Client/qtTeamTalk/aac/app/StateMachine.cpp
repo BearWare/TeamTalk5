@@ -104,9 +104,18 @@ void StateMachine::onChannelsEnumerated(const QList<ChannelInfo>& channels)
 
 void StateMachine::onChannelEvent(const ChannelEvent& event)
 {
-    // Expand later if needed
-}
+    switch (event.type) {
+    case ChannelEventType::Joined:
+        // We just joined a channel → show in‑channel UI
+        emit uiShouldShowInChannelScreen();
+        break;
 
+    case ChannelEventType::Left:
+        // We left the channel → go back to channel list
+        emit uiShouldShowConnected();
+        break;
+    }
+}
 void StateMachine::onBackendError(const ErrorEvent& error)
 {
     emit uiShouldShowError(error.message);
