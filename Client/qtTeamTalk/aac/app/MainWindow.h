@@ -27,10 +27,11 @@ private:
     ChannelListScreen* m_channelListScreen = nullptr;
     InChannelScreen* m_inChannelScreen = nullptr;
 
-    // Screen switching helper
+    // Helpers
     void showScreen(QWidget* screen);
 
-    // Screen-switching slots
+private slots:
+    // StateMachine → UI
     void showConnectScreen();
     void showConnectingScreen();
     void showChannelListScreen();
