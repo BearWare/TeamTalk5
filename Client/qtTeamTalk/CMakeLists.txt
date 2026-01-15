@@ -92,7 +92,14 @@ if (Qt5_FOUND OR Qt6_FOUND)
     mytableview.h mytabwidget.h shortcutsmodel.h utilmedia.h
     chattextlist.h chattemplatesdlg.h
 
-    main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
+# --- AAC Module (PR #6) ----------------------------------------------------
+    aac/state_machine.h
+aac/events.h
+aac/ui/aac_ui.h
+aac/aac_module.h
+
+
+main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
     uservideodlg.cpp serverpropertiesdlg.cpp keycompdlg.cpp
@@ -113,6 +120,12 @@ if (Qt5_FOUND OR Qt6_FOUND)
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
     mytableview.cpp mytabwidget.cpp shortcutsmodel.cpp utilmedia.cpp
     chattextlist.cpp chattemplatesdlg.cpp
+
+    # AAC UI module
+    aac/state_machine.cpp
+    aac/ui/aac_ui.cpp
+    aac/aac_module.cpp
+
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
     serverproperties.ui uservideo.ui keycomp.ui textmessage.ui
