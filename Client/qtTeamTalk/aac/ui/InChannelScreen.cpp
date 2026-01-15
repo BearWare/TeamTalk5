@@ -8,6 +8,7 @@
 #include <QLabel>
 #include <QPixmap>
 #include <QIcon>
+#include <QFont>
 
 InChannelScreen::InChannelScreen(QWidget* parent)
     : QWidget(parent)
@@ -39,6 +40,22 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addWidget(m_quietBanner);
 
     //
+    // Participant count
+    //
+    m_participantCountLabel = new QLabel("", this);
+    m_participantCountLabel->setAlignment(Qt::AlignCenter);
+    m_participantCountLabel->setStyleSheet("font-size: 14px; color: #cccccc;");
+    rootLayout->addWidget(m_participantCountLabel);
+
+    //
+    // Last event banner
+    //
+    m_eventBanner = new QLabel("", this);
+    m_eventBanner->setAlignment(Qt::AlignCenter);
+    m_eventBanner->setStyleSheet("font-size: 14px; color: #ffaa00;");
+    rootLayout->addWidget(m_eventBanner);
+
+    //
     // Participants list
     //
     m_participantList = new QListWidget(this);
@@ -53,15 +70,25 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     m_transmitButton = new QPushButton(tr("Transmit"), this);
     m_transmitButton->setCheckable(true);
     m_transmitButton->setMinimumHeight(48);
+    m_transmitButton->setMinimumWidth(160);
     m_transmitButton->setStyleSheet("font-size: 18px;");
     bottomRow->addWidget(m_transmitButton, 2);
 
     m_leaveButton = new QPushButton(tr("Leave channel"), this);
     m_leaveButton->setMinimumHeight(48);
+    m_leaveButton->setMinimumWidth(140);
     m_leaveButton->setStyleSheet("font-size: 18px;");
     bottomRow->addWidget(m_leaveButton, 1);
 
     rootLayout->addLayout(bottomRow);
+
+    //
+    // Focus / tab order for motor efficiency
+    //
+    m_transmitButton->setFocusPolicy(Qt::StrongFocus);
+    m_leaveButton->setFocusPolicy(Qt::StrongFocus);
+    setTabOrder(m_transmitButton, m_leaveButton);
+    setTabOrder(m_leaveButton, m_participantList);
 
     //
     // Connections
@@ -80,6 +107,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
             this, &InChannelScreen::onQuietTimerTick);
     m_quietTimer.start();
 
+    updateParticipantCount();
     updateTransmitUi();
 }
 
@@ -156,6 +184,7 @@ void InChannelScreen::updateOtherUserVoiceState(const OtherUserVoiceEvent& event
     updateParticipantItem(ref);
     resortParticipants();
     updateSpeakingBanner();
+    updateParticipantCount();
 }
 
 //
@@ -166,6 +195,15 @@ void InChannelScreen::clearParticipants()
     m_participantList->clear();
     m_participants.clear();
     m_speakingBanner->clear();
+    updateParticipantCount();
+}
+
+//
+// Event message
+//
+void InChannelScreen::setEventMessage(const QString& message)
+{
+    m_eventBanner->setText(message);
 }
 
 //
@@ -307,6 +345,20 @@ void InChannelScreen::updateSpeakingBanner()
     } else {
         m_speakingBanner->setText(tr("Multiple people are speaking"));
     }
+}
+
+//
+// Participant count
+//
+void InChannelScreen::updateParticipantCount()
+{
+    const int count = m_participants.size();
+    if (count == 0)
+        m_participantCountLabel->setText(tr("No other participants"));
+    else if (count == 1)
+        m_participantCountLabel->setText(tr("1 other participant"));
+    else
+        m_participantCountLabel->setText(tr("%1 other participants").arg(count));
 }
 
 //
