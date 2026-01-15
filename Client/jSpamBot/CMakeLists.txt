@@ -12,9 +12,16 @@ if (Java_FOUND)
 
   set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
 
-  set (JAVA_SOURCES src/SpamBotSession.java src/WebLogin.java
-    src/Main.java src/TeamTalkServer.java src/IPBan.java
-    src/BadWords.java src/Abuse.java src/AbuseDB.java)
+  set (JAVA_SOURCES
+        src/main/java/Abuse.java
+        src/main/java/AbuseDB.java
+        src/main/java/BadWords.java
+        src/main/java/IPBan.java
+        src/main/java/Main.java
+        src/main/java/SpamBotSession.java
+        src/main/java/TeamTalkServer.java
+        src/main/java/WebLogin.java
+        )
 
   if (BUILD_TEAMTALK_CLIENT_JSPAMBOT)
 
