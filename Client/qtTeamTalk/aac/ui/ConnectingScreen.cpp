@@ -9,10 +9,10 @@ ConnectingScreen::ConnectingScreen(AACAccessibilityManager* aac, QWidget* parent
 {
     auto* layout = new QVBoxLayout(this);
 
-    auto* label = new QLabel("Connecting...", this);
+    auto* label = new QLabel(tr("Connecting..."), this);
     layout->addWidget(label);
 
-    m_cancelButton = new QPushButton("Cancel", this);
+    m_cancelButton = new QPushButton(tr("Cancel"), this);
     layout->addWidget(m_cancelButton);
     registerInteractive(m_cancelButton, true);
 
