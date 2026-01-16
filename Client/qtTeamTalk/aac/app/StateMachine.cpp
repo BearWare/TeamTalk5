@@ -75,6 +75,32 @@ void StateMachine::onTransmitToggled(bool enabled)
 }
 
 //
+// Large‑Target Mode
+//
+
+void StateMachine::enableLargeTargetMode()
+{
+    if (!m_largeTargetModeEnabled) {
+        m_largeTargetModeEnabled = true;
+        emit largeTargetModeChanged(true);
+    }
+}
+
+void StateMachine::disableLargeTargetMode()
+{
+    if (m_largeTargetModeEnabled) {
+        m_largeTargetModeEnabled = false;
+        emit largeTargetModeChanged(false);
+    }
+}
+
+void StateMachine::toggleLargeTargetMode()
+{
+    m_largeTargetModeEnabled = !m_largeTargetModeEnabled;
+    emit largeTargetModeChanged(m_largeTargetModeEnabled);
+}
+
+//
 // Backend → StateMachine
 //
 
