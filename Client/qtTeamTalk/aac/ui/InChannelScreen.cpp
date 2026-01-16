@@ -12,12 +12,12 @@
 #include <QFont>
 
 InChannelScreen::InChannelScreen(QWidget* parent)
-    : QWidget(parent)
+    : AACScreen(parent)
 {
     auto* rootLayout = new QVBoxLayout(this);
 
     //
-    // Channel name
+    // Channel name (NOT scaled in B1)
     //
     m_channelLabel = new QLabel(tr("In Channel"), this);
     m_channelLabel->setAlignment(Qt::AlignCenter);
@@ -25,7 +25,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addWidget(m_channelLabel);
 
     //
-    // Speaking banner
+    // Speaking banner (NOT scaled)
     //
     m_speakingBanner = new QLabel("", this);
     m_speakingBanner->setAlignment(Qt::AlignCenter);
@@ -33,7 +33,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addWidget(m_speakingBanner);
 
     //
-    // Quiet channel banner
+    // Quiet channel banner (NOT scaled)
     //
     m_quietBanner = new QLabel("", this);
     m_quietBanner->setAlignment(Qt::AlignCenter);
@@ -41,7 +41,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addWidget(m_quietBanner);
 
     //
-    // Participant count
+    // Participant count (NOT scaled)
     //
     m_participantCountLabel = new QLabel("", this);
     m_participantCountLabel->setAlignment(Qt::AlignCenter);
@@ -49,7 +49,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addWidget(m_participantCountLabel);
 
     //
-    // Last event banner
+    // Last event banner (NOT scaled)
     //
     m_eventBanner = new QLabel("", this);
     m_eventBanner->setAlignment(Qt::AlignCenter);
@@ -84,7 +84,7 @@ InChannelScreen::InChannelScreen(QWidget* parent)
     rootLayout->addLayout(bottomRow);
 
     //
-    // Focus / tab order for motor efficiency
+    // Focus / tab order
     //
     m_transmitButton->setFocusPolicy(Qt::StrongFocus);
     m_leaveButton->setFocusPolicy(Qt::StrongFocus);
@@ -240,7 +240,7 @@ void InChannelScreen::updateTransmitUi()
 }
 
 //
-// Participant item update (with voice bar + glow)
+// Participant item update
 //
 void InChannelScreen::updateParticipantItem(Participant& p)
 {
@@ -382,4 +382,36 @@ void InChannelScreen::onQuietTimerTick()
         m_quietBanner->setText(tr("Quiet channel"));
     else
         m_quietBanner->clear();
+}
+
+//
+// Large‑Target Mode
+// -----------------
+// We rely on AACScreen for:
+//   - scaling the Transmit button
+//   - scaling the Leave button
+//   - scaling layout spacing/margins
+//
+// We add custom behaviour for:
+//   - participant list row height
+//
+
+void InChannelScreen::applyLargeTargetMode(bool enabled)
+{
+    AACScreen::applyLargeTargetMode(enabled);
+
+    //
+    // Participant list row height
+    //
+    if (m_participantList) {
+        if (enabled) {
+            m_participantList->setStyleSheet(QStringLiteral(
+                "QListWidget::item { min-height: %1px; }"
+            ).arg(AAC_MIN_TARGET));
+        } else {
+            m_participantList->setStyleSheet(QStringLiteral(
+                "QListWidget::item { min-height: 32px; }"
+            ));
+        }
+    }
 }
