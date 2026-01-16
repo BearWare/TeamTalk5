@@ -1,10 +1,10 @@
 #pragma once
 
-#include <QWidget>
+#include "AACScreen.h"
 
 class QPushButton;
 
-class ConnectingScreen : public QWidget {
+class ConnectingScreen : public AACScreen {
     Q_OBJECT
 public:
     explicit ConnectingScreen(QWidget* parent = nullptr);
@@ -12,6 +12,9 @@ public:
 signals:
     void cancelRequested();
 
+public slots:
+    void applyLargeTargetMode(bool enabled) override;
+
 private:
-    QPushButton* m_cancelButton;
+    QPushButton* m_cancelButton = nullptr;
 };
