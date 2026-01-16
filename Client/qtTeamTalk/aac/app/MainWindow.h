@@ -2,14 +2,16 @@
 
 #include <QMainWindow>
 
-class BackendAdapter;
-class StateMachine;
-
 class AACAccessibilityManager;
+class StateMachine;
+class BackendAdapter;
+
 class ConnectScreen;
-class ConnectingScreen;
 class ChannelListScreen;
 class InChannelScreen;
+class ConnectingScreen;
+class AppSettingsScreen;
+class AACSettingsScreen;
 
 class MainWindow : public QMainWindow {
     Q_OBJECT
@@ -17,28 +19,52 @@ public:
     explicit MainWindow(QWidget* parent = nullptr);
     ~MainWindow();
 
+private slots:
+    // Navigation
+    void showConnectScreen();
+    void showChannelListScreen();
+    void showInChannelScreen(int channelId, const QString& channelName);
+    void showConnectingScreen();
+    void showAppSettingsScreen();
+    void showAACSettingsScreen();
+
+    // ConnectScreen
+    void onConnectRequested(const QString& host, int port, const QString& username);
+
+    // ChannelListScreen
+    void onRefreshRequested();
+    void onJoinChannelRequested(int channelId);
+
+    // InChannelScreen
+    void onLeaveChannelRequested();
+    void onTransmitToggled(bool enabled);
+
+    // ConnectingScreen
+    void onCancelConnectRequested();
+
+    // Backend events
+    void onConnected();
+    void onConnectionFailed(const QString& reason);
+    void onDisconnected();
+    void onChannelsUpdated(const QList<ChannelInfo>& channels);
+    void onJoinedChannel(int channelId, const QString& channelName);
+    void onLeftChannel();
+    void onSelfVoiceState(SelfVoiceState state);
+    void onOtherUserVoiceState(const OtherUserVoiceEvent& event);
+    void onEventMessage(const QString& message);
+
 private:
-    // AAC framework
+    void wireScreens();
+    void applyAACDefaults();
+
     AACAccessibilityManager* m_aac = nullptr;
-
-    // Backend + StateMachine
+    StateMachine* m_state = nullptr;
     BackendAdapter* m_backend = nullptr;
-    StateMachine* m_stateMachine = nullptr;
 
-    // Screens
     ConnectScreen* m_connectScreen = nullptr;
-    ConnectingScreen* m_connectingScreen = nullptr;
     ChannelListScreen* m_channelListScreen = nullptr;
     InChannelScreen* m_inChannelScreen = nullptr;
-
-    void showScreen(QWidget* screen);
-
-private slots:
-    void showConnectScreen();
-    void showConnectingScreen();
-    void showChannelListScreen();
-    void showInChannelScreen();
-
-protected:
-    void keyPressEvent(QKeyEvent* e) override;
+    ConnectingScreen* m_connectingScreen = nullptr;
+    AppSettingsScreen* m_appSettingsScreen = nullptr;
+    AACSettingsScreen* m_aacSettingsScreen = nullptr;
 };
