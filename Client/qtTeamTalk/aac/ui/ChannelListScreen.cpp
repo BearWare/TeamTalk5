@@ -4,10 +4,9 @@
 #include <QListWidget>
 #include <QPushButton>
 #include <QListWidgetItem>
-#include <QFont>
 
-ChannelListScreen::ChannelListScreen(QWidget* parent)
-    : AACScreen(parent)
+ChannelListScreen::ChannelListScreen(AACAccessibilityManager* aac, QWidget* parent)
+    : AACScreen(aac, parent)
 {
     auto* layout = new QVBoxLayout(this);
 
@@ -17,6 +16,9 @@ ChannelListScreen::ChannelListScreen(QWidget* parent)
     layout->addWidget(m_list);
     layout->addWidget(m_refreshButton);
 
+    registerInteractive(m_list);
+    registerInteractive(m_refreshButton, true);
+
     connect(m_refreshButton, &QPushButton::clicked,
             this, &ChannelListScreen::refreshRequested);
 
@@ -24,6 +26,13 @@ ChannelListScreen::ChannelListScreen(QWidget* parent)
             this, [this](QListWidgetItem* item) {
                 emit joinChannelRequested(item->data(Qt::UserRole).toInt());
             });
+
+    if (m_aac) {
+        connect(m_aac, &AACAccessibilityManager::modesChanged,
+                this, [this](const AACModeFlags&) { updateRowHeight(); });
+    }
+
+    updateRowHeight();
 }
 
 void ChannelListScreen::setChannels(const QList<ChannelInfo>& channels)
@@ -36,36 +45,20 @@ void ChannelListScreen::setChannels(const QList<ChannelInfo>& channels)
     }
 }
 
-//
-// Large‑Target Mode
-// -----------------
-// We rely on AACScreen for:
-//   - scaling the Refresh button
-//   - scaling layout spacing/margins
-//
-// But we add custom behaviour for:
-//   - list item minimum height
-//
-
-void ChannelListScreen::applyLargeTargetMode(bool enabled)
+void ChannelListScreen::updateRowHeight()
 {
-    // First apply default AAC scaling
-    AACScreen::applyLargeTargetMode(enabled);
+    if (!m_list || !m_aac)
+        return;
 
-    //
-    // Now apply custom row height scaling
-    //
-    if (m_list) {
-        if (enabled) {
-            // Increase row height for motor accessibility
-            m_list->setStyleSheet(QStringLiteral(
-                "QListWidget::item { min-height: %1px; }"
-            ).arg(AAC_MIN_TARGET));
-        } else {
-            // Reset to default
-            m_list->setStyleSheet(QStringLiteral(
-                "QListWidget::item { min-height: 32px; }"
-            ));
-        }
+    const bool large = m_aac->modes().largeTargets;
+
+    if (large) {
+        m_list->setStyleSheet(QStringLiteral(
+            "QListWidget::item { min-height: %1px; }"
+        ).arg(AACLayoutEngine::AAC_MIN_TARGET));
+    } else {
+        m_list->setStyleSheet(QStringLiteral(
+            "QListWidget::item { min-height: 32px; }"
+        ));
     }
 }
