@@ -1,5 +1,7 @@
 #pragma once
 
+#include "AACScreen.h"
+
 #include <QWidget>
 #include <QList>
 #include <QMap>
@@ -13,7 +15,7 @@ class QListWidgetItem;
 class QPushButton;
 class QLabel;
 
-class InChannelScreen : public QWidget {
+class InChannelScreen : public AACScreen {
     Q_OBJECT
 public:
     explicit InChannelScreen(QWidget* parent = nullptr);
@@ -29,6 +31,9 @@ public slots:
     void updateOtherUserVoiceState(const OtherUserVoiceEvent& event);
     void clearParticipants();
     void setEventMessage(const QString& message);
+
+    // Override to apply AAC scaling
+    void applyLargeTargetMode(bool enabled) override;
 
 private slots:
     void onLeaveClicked();
