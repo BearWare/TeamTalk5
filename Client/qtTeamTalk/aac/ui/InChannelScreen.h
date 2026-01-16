@@ -2,12 +2,9 @@
 
 #include "AACScreen.h"
 
-#include <QWidget>
-#include <QList>
 #include <QMap>
 #include <QDateTime>
 #include <QTimer>
-
 #include "aac/backend/BackendEvents.h"
 
 class QListWidget;
@@ -18,7 +15,7 @@ class QLabel;
 class InChannelScreen : public AACScreen {
     Q_OBJECT
 public:
-    explicit InChannelScreen(QWidget* parent = nullptr);
+    explicit InChannelScreen(AACAccessibilityManager* aac, QWidget* parent = nullptr);
 
     void setChannelName(const QString& name);
 
@@ -31,9 +28,6 @@ public slots:
     void updateOtherUserVoiceState(const OtherUserVoiceEvent& event);
     void clearParticipants();
     void setEventMessage(const QString& message);
-
-    // Override to apply AAC scaling
-    void applyLargeTargetMode(bool enabled) override;
 
 private slots:
     void onLeaveClicked();
@@ -60,8 +54,8 @@ private:
     void resortParticipants();
     void updateSpeakingBanner();
     void updateParticipantCount();
+    void updateRowHeight();
 
-    // UI
     QLabel* m_channelLabel = nullptr;
     QLabel* m_speakingBanner = nullptr;
     QLabel* m_quietBanner = nullptr;
@@ -71,7 +65,6 @@ private:
     QPushButton* m_transmitButton = nullptr;
     QPushButton* m_leaveButton = nullptr;
 
-    // State
     bool m_transmitEnabled = false;
     SelfVoiceState m_selfVoiceState = SelfVoiceState::Silent;
     TransmitUiState m_transmitUiState = TransmitUiState::Idle;
