@@ -1,101 +1,75 @@
 #include "AACScreen.h"
-#include <QLayout>
-#include <QPushButton>
-#include <QLineEdit>
-#include <QSpinBox>
-#include <QAbstractButton>
-#include <QFont>
 
-AACScreen::AACScreen(QWidget* parent)
+AACScreen::AACScreen(AACAccessibilityManager* aac, QWidget* parent)
     : QWidget(parent)
+    , m_aac(aac)
 {
 }
 
-//
-// Default Large‑Target Mode implementation
-// ----------------------------------------
-// This scales:
-//   - QPushButton
-//   - QLineEdit
-//   - QSpinBox
-//   - Any QAbstractButton
-//   - Layout spacing/margins
-//
-// It does NOT scale:
-//   - QLabel
-//   - Informational banners
-//   - Non‑interactive text
-//
-
-void AACScreen::applyLargeTargetMode(bool enabled)
-{
-    //
-    // Scale all child widgets that are interactive
-    //
-    const auto children = findChildren<QWidget*>();
-    for (QWidget* w : children) {
-        scaleInteractiveWidget(w, enabled);
-    }
-
-    //
-    // Scale all layouts
-    //
-    if (auto* lay = layout())
-        scaleLayout(lay, enabled);
-}
-
-//
-// Scale a single interactive widget
-//
-
-void AACScreen::scaleInteractiveWidget(QWidget* w, bool enabled)
+void AACScreen::registerInteractive(QWidget* w, bool primary)
 {
     if (!w)
         return;
 
-    const bool isButton = qobject_cast<QAbstractButton*>(w) != nullptr;
-    const bool isLineEdit = qobject_cast<QLineEdit*>(w) != nullptr;
-    const bool isSpinBox = qobject_cast<QSpinBox*>(w) != nullptr;
+    m_interactive << w;
+    if (primary)
+        m_primary << w;
 
-    if (!isButton && !isLineEdit && !isSpinBox)
-        return; // ignore non‑interactive widgets
+    w->installEventFilter(this);
+}
 
-    if (enabled) {
-        w->setMinimumSize(AAC_MIN_TARGET, AAC_MIN_TARGET);
+QList<QWidget*> AACScreen::interactiveWidgets() const
+{
+    return m_interactive;
+}
 
-        QFont f = w->font();
-        f.setPointSizeF(f.pointSizeF() * AAC_FONT_SCALE);
-        w->setFont(f);
-    } else {
-        // Reset to default minimums
-        w->setMinimumSize(0, 0);
+QList<QWidget*> AACScreen::primaryWidgets() const
+{
+    return m_primary;
+}
 
-        // Reset font to default (Qt will resolve)
-        QFont f = w->font();
-        f.setPointSizeF(f.pointSizeF() / AAC_FONT_SCALE);
-        w->setFont(f);
+QLayout* AACScreen::rootLayout() const
+{
+    return layout();
+}
+
+bool AACScreen::eventFilter(QObject* obj, QEvent* event)
+{
+    if (!m_aac)
+        return QWidget::eventFilter(obj, event);
+
+    QWidget* w = qobject_cast<QWidget*>(obj);
+    if (!w)
+        return QWidget::eventFilter(obj, event);
+
+    switch (event->type()) {
+    case QEvent::Enter:
+        m_aac->inputController()->startDwellOn(w);
+        break;
+    case QEvent::Leave:
+        m_aac->inputController()->stopDwellOn(w);
+        break;
+    default:
+        break;
+    }
+
+    return QWidget::eventFilter(obj, event);
+}
+
+void AACScreen::showEvent(QShowEvent* e)
+{
+    QWidget::showEvent(e);
+
+    if (m_aac) {
+        m_aac->inputController()->attachScreen(this);
+        m_aac->layoutEngine()->applyLayout(this);
     }
 }
 
-//
-// Scale layout spacing + margins
-//
-
-void AACScreen::scaleLayout(QLayout* lay, bool enabled)
+void AACScreen::hideEvent(QHideEvent* e)
 {
-    if (!lay)
-        return;
+    QWidget::hideEvent(e);
 
-    if (enabled) {
-        lay->setSpacing(AAC_MIN_SPACING);
-        lay->setContentsMargins(
-            AAC_MIN_SPACING,
-            AAC_MIN_SPACING,
-            AAC_MIN_SPACING,
-            AAC_MIN_SPACING
-        );
-    } else {
-        lay->setSpacing(8);
-        lay->setContentsMargins(8, 8, 8, 8);
-    }
+    if (m_aac)
+        m_aac->inputController()->detachScreen(this);
 }
