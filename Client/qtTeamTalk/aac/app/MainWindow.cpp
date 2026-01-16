@@ -3,50 +3,45 @@
 #include "aac/backend/BackendAdapter.h"
 #include "aac/state/StateMachine.h"
 
-#include "aac/ui/AACScreen.h"
+#include "aac/aac/AACFramework.h"
+
 #include "aac/ui/ConnectScreen.h"
 #include "aac/ui/ConnectingScreen.h"
 #include "aac/ui/ChannelListScreen.h"
 #include "aac/ui/InChannelScreen.h"
 
 #include <QTimer>
+#include <QKeyEvent>
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
 {
     //
-    // Create backend + state machine
+    // AAC framework
+    //
+    m_aac = new AACAccessibilityManager(this);
+
+    AACModeFlags modes;
+    modes.largeTargets = true;        // keep your Large-Target baseline
+    modes.dwell = true;               // enable dwell
+    modes.auditoryFeedback = true;    // ready for sounds
+    // other modes can be toggled later
+    m_aac->setModes(modes);
+
+    //
+    // Backend + state machine
     //
     m_backend = new BackendAdapter(this);
     m_stateMachine = new StateMachine(this);
     m_stateMachine->attachBackend(m_backend);
 
     //
-    // Create screens
+    // Screens (now AAC-aware)
     //
-    m_connectScreen      = new ConnectScreen(this);
-    m_connectingScreen   = new ConnectingScreen(this);
-    m_channelListScreen  = new ChannelListScreen(this);
-    m_inChannelScreen    = new InChannelScreen(this);
-
-    //
-    // Register AAC screens for Large‑Target Mode propagation
-    //
-    m_aacScreens << m_connectScreen
-                 << m_connectingScreen
-                 << m_channelListScreen
-                 << m_inChannelScreen;
-
-    //
-    // Large‑Target Mode → UI
-    //
-    connect(m_stateMachine, &StateMachine::largeTargetModeChanged,
-            this, &MainWindow::onLargeTargetModeChanged);
-
-    //
-    // Apply initial mode immediately
-    //
-    onLargeTargetModeChanged(m_stateMachine->largeTargetModeEnabled());
+    m_connectScreen      = new ConnectScreen(m_aac, this);
+    m_connectingScreen   = new ConnectingScreen(m_aac, this);
+    m_channelListScreen  = new ChannelListScreen(m_aac, this);
+    m_inChannelScreen    = new InChannelScreen(m_aac, this);
 
     //
     // Backend → StateMachine
@@ -70,7 +65,7 @@ MainWindow::MainWindow(QWidget* parent)
             m_stateMachine, &StateMachine::onOtherUserVoiceEvent);
 
     //
-    // StateMachine → Backend (actions)
+    // StateMachine → Backend
     //
     connect(m_stateMachine, &StateMachine::requestConnect,
             m_backend, &BackendAdapter::connectToServer);
@@ -91,7 +86,7 @@ MainWindow::MainWindow(QWidget* parent)
             m_backend, &BackendAdapter::setTransmitEnabled);
 
     //
-    // StateMachine → UI (screen switching)
+    // StateMachine → UI
     //
     connect(m_stateMachine, &StateMachine::uiShouldShowConnecting,
             this, &MainWindow::showConnectingScreen);
@@ -111,9 +106,6 @@ MainWindow::MainWindow(QWidget* parent)
                 showScreen(m_connectScreen);
             });
 
-    //
-    // StateMachine → UI (data + in‑channel context)
-    //
     connect(m_stateMachine, &StateMachine::channelListChanged,
             m_channelListScreen, &ChannelListScreen::setChannels);
 
@@ -136,13 +128,16 @@ MainWindow::MainWindow(QWidget* parent)
             m_inChannelScreen, &InChannelScreen::setEventMessage);
 
     //
-    // UI → StateMachine (user actions)
+    // UI → StateMachine
     //
     connect(m_connectScreen, &ConnectScreen::connectRequested,
             m_stateMachine, &StateMachine::connectRequested);
 
     connect(m_channelListScreen, &ChannelListScreen::joinChannelRequested,
             m_stateMachine, &StateMachine::onJoinChannelRequested);
+
+    connect(m_channelListScreen, &ChannelListScreen::refreshRequested,
+            m_stateMachine, &StateMachine::onRefreshChannelsRequested);
 
     connect(m_inChannelScreen, &InChannelScreen::leaveChannelRequested,
             m_stateMachine, &StateMachine::onLeaveChannelRequested);
@@ -166,15 +161,10 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() = default;
 
-//
-// Screen switching helpers
-//
-
 void MainWindow::showScreen(QWidget* screen)
 {
     if (!screen)
         return;
-
     setCentralWidget(screen);
 }
 
@@ -198,14 +188,24 @@ void MainWindow::showInChannelScreen()
     showScreen(m_inChannelScreen);
 }
 
-//
-// Large‑Target Mode propagation
-//
-
-void MainWindow::onLargeTargetModeChanged(bool enabled)
+void MainWindow::keyPressEvent(QKeyEvent* e)
 {
-    for (AACScreen* screen : m_aacScreens) {
-        if (screen)
-            screen->applyLargeTargetMode(enabled);
+    if (!m_aac) {
+        QMainWindow::keyPressEvent(e);
+        return;
     }
+
+    if (e->key() == Qt::Key_Space) {
+        m_aac->inputController()->onSwitchActivate();
+        e->accept();
+        return;
+    }
+
+    if (e->key() == Qt::Key_Tab) {
+        m_aac->inputController()->onSwitchNext();
+        e->accept();
+        return;
+    }
+
+    QMainWindow::keyPressEvent(e);
 }
