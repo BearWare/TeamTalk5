@@ -156,6 +156,13 @@ bool OpenInput(const ACE_TString& filename,
                                              -1, -1, &vid_dec, 0);
     if (video_stream_index >= 0) {
         const AVStream* vidstream = fmt_ctx->streams[video_stream_index];
+        if (vidstream->disposition & AV_DISPOSITION_ATTACHED_PIC)
+        {
+            video_stream_index = -1;
+        }
+    }
+    if (video_stream_index >= 0) {
+        const AVStream* vidstream = fmt_ctx->streams[video_stream_index];
         const AVCodecParameters* vidparms = vidstream->codecpar;
         const AVCodec *vidcodec = avcodec_find_decoder(vidparms->codec_id);
         if (vidcodec != nullptr)
