@@ -1,10 +1,12 @@
 #pragma once
 
 #include <QMainWindow>
+#include <QList>
 
 class BackendAdapter;
 class StateMachine;
 
+class AACScreen;
 class ConnectScreen;
 class ConnectingScreen;
 class ChannelListScreen;
@@ -27,6 +29,9 @@ private:
     ChannelListScreen* m_channelListScreen = nullptr;
     InChannelScreen* m_inChannelScreen = nullptr;
 
+    // All AAC screens for Large‑Target Mode propagation
+    QList<AACScreen*> m_aacScreens;
+
     // Helpers
     void showScreen(QWidget* screen);
 
@@ -36,4 +41,7 @@ private slots:
     void showConnectingScreen();
     void showChannelListScreen();
     void showInChannelScreen();
+
+    // Large‑Target Mode → UI
+    void onLargeTargetModeChanged(bool enabled);
 };
