@@ -2,33 +2,35 @@
 
 #include <QWidget>
 #include <QPointer>
+#include <QList>
+#include <QEvent>
 
-//
-// AACScreen
-// ----------
-// Base class for all AAC‑native UI screens.
-// Provides default Large‑Target Mode behaviour (interactive controls only).
-//
+#include "aac/aac/AACFramework.h"
 
-class AACScreen : public QWidget {
+// Base class for all AAC-aware screens.
+// Acts as an adapter to the AAC framework.
+class AACScreen : public QWidget, public AACScreenAdapter {
     Q_OBJECT
 public:
-    explicit AACScreen(QWidget* parent = nullptr);
+    explicit AACScreen(AACAccessibilityManager* aac, QWidget* parent = nullptr);
 
-public slots:
-    // Called by MainWindow whenever Large‑Target Mode changes.
-    virtual void applyLargeTargetMode(bool enabled);
+    // AACScreenAdapter interface
+    QList<QWidget*> interactiveWidgets() const override;
+    QList<QWidget*> primaryWidgets() const override;
+    QLayout* rootLayout() const override;
+    QWidget* predictiveStripContainer() const override { return nullptr; }
 
 protected:
-    // Utility: scale a single interactive widget (buttons, fields, etc.)
-    void scaleInteractiveWidget(QWidget* w, bool enabled);
+    AACAccessibilityManager* m_aac = nullptr;
 
-    // Utility: scale layout spacing/margins
-    void scaleLayout(QLayout* layout, bool enabled);
+    QList<QWidget*> m_interactive;
+    QList<QWidget*> m_primary;
 
-    // Constants for Large‑Target Mode
-    static constexpr int AAC_MIN_TARGET = 140;     // px
-    static constexpr int AAC_MIN_SPACING = 24;     // px
-    static constexpr qreal AAC_FONT_SCALE = 1.3;   // multiplier
+    // Register an interactive widget (optionally primary for Ultra-Minimal Mode)
+    void registerInteractive(QWidget* w, bool primary = false);
+
+    bool eventFilter(QObject* obj, QEvent* event) override;
+
+    void showEvent(QShowEvent* e) override;
+    void hideEvent(QHideEvent* e) override;
 };
-
