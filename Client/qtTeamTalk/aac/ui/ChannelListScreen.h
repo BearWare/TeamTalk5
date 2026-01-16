@@ -6,6 +6,11 @@
 class QListWidget;
 class QPushButton;
 
+// Channel list screen with:
+// - Channel list
+// - Refresh button
+// - Settings (App Settings)
+// - AAC Access (AAC Settings)
 class ChannelListScreen : public AACScreen {
     Q_OBJECT
 public:
@@ -17,6 +22,8 @@ public slots:
 signals:
     void refreshRequested();
     void joinChannelRequested(int channelId);
+    void settingsRequested();
+    void aacSettingsRequested();
 
 private:
     QListWidget* m_list = nullptr;
