@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QWidget>
+#include "AACScreen.h"
 #include "../backend/channelinfo.h"
 
 class QListWidget;
 class QPushButton;
 
-class ChannelListScreen : public QWidget {
+class ChannelListScreen : public AACScreen {
     Q_OBJECT
 public:
     explicit ChannelListScreen(QWidget* parent = nullptr);
@@ -14,11 +14,14 @@ public:
 public slots:
     void setChannels(const QList<ChannelInfo>& channels);
 
+    // Override to apply AAC scaling
+    void applyLargeTargetMode(bool enabled) override;
+
 signals:
     void refreshRequested();
     void joinChannelRequested(int channelId);
 
 private:
-    QListWidget* m_list;
-    QPushButton* m_refreshButton;
+    QListWidget* m_list = nullptr;
+    QPushButton* m_refreshButton = nullptr;
 };
