@@ -9,6 +9,7 @@
 #include <QPixmap>
 #include <QIcon>
 #include <QFont>
+#include <QResizeEvent>
 
 InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
     : AACScreen(aac, parent)
@@ -58,11 +59,6 @@ InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
 
     rootLayout->addLayout(bottomRow);
 
-    m_transmitButton->setFocusPolicy(Qt::StrongFocus);
-    m_leaveButton->setFocusPolicy(Qt::StrongFocus);
-    setTabOrder(m_transmitButton, m_leaveButton);
-    setTabOrder(m_leaveButton, m_participantList);
-
     connect(m_leaveButton, &QPushButton::clicked,
             this, &InChannelScreen::onLeaveClicked);
 
@@ -79,9 +75,34 @@ InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
                 this, [this](const AACModeFlags&) { updateRowHeight(); });
     }
 
+    // Floating AAC settings gear
+    m_floatingSettingsButton = new QPushButton("⚙", this);
+    m_floatingSettingsButton->setFixedSize(64, 64);
+    m_floatingSettingsButton->setStyleSheet(
+        "border-radius: 32px;"
+        "background-color: #444;"
+        "color: white;"
+        "font-size: 28px;"
+    );
+    m_floatingSettingsButton->raise();
+    m_floatingSettingsButton->move(width() - 80, height() - 80);
+    m_floatingSettingsButton->show();
+
+    registerInteractive(m_floatingSettingsButton);
+
+    connect(m_floatingSettingsButton, &QPushButton::clicked,
+            this, [this]() { emit settingsRequested(); });
+
     updateParticipantCount();
     updateTransmitUi();
     updateRowHeight();
+}
+
+void InChannelScreen::resizeEvent(QResizeEvent* e)
+{
+    QWidget::resizeEvent(e);
+    if (m_floatingSettingsButton)
+        m_floatingSettingsButton->move(width() - 80, height() - 80);
 }
 
 void InChannelScreen::setChannelName(const QString& name)
