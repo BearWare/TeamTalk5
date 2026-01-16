@@ -1,5 +1,4 @@
 #include "InChannelScreen.h"
-#include "aac/backend/BackendEvents.h"
 
 #include <QVBoxLayout>
 #include <QHBoxLayout>
@@ -11,126 +10,90 @@
 #include <QIcon>
 #include <QFont>
 
-InChannelScreen::InChannelScreen(QWidget* parent)
-    : AACScreen(parent)
+InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
+    : AACScreen(aac, parent)
 {
     auto* rootLayout = new QVBoxLayout(this);
 
-    //
-    // Channel name (NOT scaled in B1)
-    //
     m_channelLabel = new QLabel(tr("In Channel"), this);
     m_channelLabel->setAlignment(Qt::AlignCenter);
     m_channelLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
     rootLayout->addWidget(m_channelLabel);
 
-    //
-    // Speaking banner (NOT scaled)
-    //
     m_speakingBanner = new QLabel("", this);
     m_speakingBanner->setAlignment(Qt::AlignCenter);
     m_speakingBanner->setStyleSheet("font-size: 16px; color: #00aa00;");
     rootLayout->addWidget(m_speakingBanner);
 
-    //
-    // Quiet channel banner (NOT scaled)
-    //
     m_quietBanner = new QLabel("", this);
     m_quietBanner->setAlignment(Qt::AlignCenter);
     m_quietBanner->setStyleSheet("font-size: 14px; color: #888;");
     rootLayout->addWidget(m_quietBanner);
 
-    //
-    // Participant count (NOT scaled)
-    //
     m_participantCountLabel = new QLabel("", this);
     m_participantCountLabel->setAlignment(Qt::AlignCenter);
     m_participantCountLabel->setStyleSheet("font-size: 14px; color: #cccccc;");
     rootLayout->addWidget(m_participantCountLabel);
 
-    //
-    // Last event banner (NOT scaled)
-    //
     m_eventBanner = new QLabel("", this);
     m_eventBanner->setAlignment(Qt::AlignCenter);
     m_eventBanner->setStyleSheet("font-size: 14px; color: #ffaa00;");
     rootLayout->addWidget(m_eventBanner);
 
-    //
-    // Participants list
-    //
     m_participantList = new QListWidget(this);
     m_participantList->setSelectionMode(QAbstractItemView::NoSelection);
     rootLayout->addWidget(m_participantList, 1);
+    registerInteractive(m_participantList);
 
-    //
-    // Bottom row: transmit + leave
-    //
     auto* bottomRow = new QHBoxLayout();
 
     m_transmitButton = new QPushButton(tr("Transmit"), this);
     m_transmitButton->setCheckable(true);
-    m_transmitButton->setMinimumHeight(48);
-    m_transmitButton->setMinimumWidth(160);
-    m_transmitButton->setStyleSheet("font-size: 18px;");
     bottomRow->addWidget(m_transmitButton, 2);
+    registerInteractive(m_transmitButton, true);
 
     m_leaveButton = new QPushButton(tr("Leave channel"), this);
-    m_leaveButton->setMinimumHeight(48);
-    m_leaveButton->setMinimumWidth(140);
-    m_leaveButton->setStyleSheet("font-size: 18px;");
     bottomRow->addWidget(m_leaveButton, 1);
+    registerInteractive(m_leaveButton);
 
     rootLayout->addLayout(bottomRow);
 
-    //
-    // Focus / tab order
-    //
     m_transmitButton->setFocusPolicy(Qt::StrongFocus);
     m_leaveButton->setFocusPolicy(Qt::StrongFocus);
     setTabOrder(m_transmitButton, m_leaveButton);
     setTabOrder(m_leaveButton, m_participantList);
 
-    //
-    // Connections
-    //
     connect(m_leaveButton, &QPushButton::clicked,
             this, &InChannelScreen::onLeaveClicked);
 
     connect(m_transmitButton, &QPushButton::clicked,
             this, &InChannelScreen::onTransmitClicked);
 
-    //
-    // Quiet channel timer
-    //
     m_quietTimer.setInterval(1000);
     connect(&m_quietTimer, &QTimer::timeout,
             this, &InChannelScreen::onQuietTimerTick);
     m_quietTimer.start();
 
+    if (m_aac) {
+        connect(m_aac, &AACAccessibilityManager::modesChanged,
+                this, [this](const AACModeFlags&) { updateRowHeight(); });
+    }
+
     updateParticipantCount();
     updateTransmitUi();
+    updateRowHeight();
 }
 
-//
-// Channel name
-//
 void InChannelScreen::setChannelName(const QString& name)
 {
     m_channelLabel->setText(name);
 }
 
-//
-// Leave
-//
 void InChannelScreen::onLeaveClicked()
 {
     emit leaveChannelRequested();
 }
 
-//
-// Transmit toggle
-//
 void InChannelScreen::onTransmitClicked()
 {
     m_transmitEnabled = m_transmitButton->isChecked();
@@ -138,9 +101,6 @@ void InChannelScreen::onTransmitClicked()
     updateTransmitUi();
 }
 
-//
-// Self voice state
-//
 void InChannelScreen::updateSelfVoiceState(SelfVoiceState state)
 {
     m_selfVoiceState = state;
@@ -157,9 +117,6 @@ void InChannelScreen::updateSelfVoiceState(SelfVoiceState state)
     updateTransmitUi();
 }
 
-//
-// Other users' voice state
-//
 void InChannelScreen::updateOtherUserVoiceState(const OtherUserVoiceEvent& event)
 {
     Participant p;
@@ -188,9 +145,6 @@ void InChannelScreen::updateOtherUserVoiceState(const OtherUserVoiceEvent& event
     updateParticipantCount();
 }
 
-//
-// Clear participants
-//
 void InChannelScreen::clearParticipants()
 {
     m_participantList->clear();
@@ -199,17 +153,11 @@ void InChannelScreen::clearParticipants()
     updateParticipantCount();
 }
 
-//
-// Event message
-//
 void InChannelScreen::setEventMessage(const QString& message)
 {
     m_eventBanner->setText(message);
 }
 
-//
-// Transmit UI
-//
 void InChannelScreen::updateTransmitUi()
 {
     QString text;
@@ -221,13 +169,11 @@ void InChannelScreen::updateTransmitUi()
         style = "background-color: #444; color: white; font-size: 18px;";
         m_transmitButton->setChecked(false);
         break;
-
     case TransmitUiState::Armed:
         text = tr("Ready");
         style = "background-color: #0066cc; color: white; font-size: 18px;";
         m_transmitButton->setChecked(true);
         break;
-
     case TransmitUiState::Speaking:
         text = tr("Speaking");
         style = "background-color: #00aa00; color: white; font-size: 18px;";
@@ -239,9 +185,6 @@ void InChannelScreen::updateTransmitUi()
     m_transmitButton->setStyleSheet(style);
 }
 
-//
-// Participant item update
-//
 void InChannelScreen::updateParticipantItem(Participant& p)
 {
     if (!p.item)
@@ -259,9 +202,6 @@ void InChannelScreen::updateParticipantItem(Participant& p)
 
     p.item->setText(label);
 
-    //
-    // Voice bar icon
-    //
     QPixmap bar(12, 32);
     if (p.voiceState == OtherUserVoiceState::Speaking)
         bar.fill(QColor("#00aa00"));
@@ -270,9 +210,6 @@ void InChannelScreen::updateParticipantItem(Participant& p)
 
     p.item->setIcon(QIcon(bar));
 
-    //
-    // Glow effect
-    //
     if (p.voiceState == OtherUserVoiceState::Speaking) {
         p.item->setBackground(QColor("#003300"));
         p.item->setForeground(Qt::white);
@@ -288,9 +225,6 @@ void InChannelScreen::updateParticipantItem(Participant& p)
     }
 }
 
-//
-// Sorting
-//
 void InChannelScreen::resortParticipants()
 {
     QList<Participant> list = m_participants.values();
@@ -327,9 +261,6 @@ void InChannelScreen::resortParticipants()
     }
 }
 
-//
-// Speaking banner
-//
 void InChannelScreen::updateSpeakingBanner()
 {
     QStringList speaking;
@@ -348,9 +279,6 @@ void InChannelScreen::updateSpeakingBanner()
     }
 }
 
-//
-// Participant count
-//
 void InChannelScreen::updateParticipantCount()
 {
     const int count = m_participants.size();
@@ -362,9 +290,6 @@ void InChannelScreen::updateParticipantCount()
         m_participantCountLabel->setText(tr("%1 other participants").arg(count));
 }
 
-//
-// Quiet channel indicator
-//
 void InChannelScreen::onQuietTimerTick()
 {
     bool anyRecent = false;
@@ -384,34 +309,20 @@ void InChannelScreen::onQuietTimerTick()
         m_quietBanner->clear();
 }
 
-//
-// Large‑Target Mode
-// -----------------
-// We rely on AACScreen for:
-//   - scaling the Transmit button
-//   - scaling the Leave button
-//   - scaling layout spacing/margins
-//
-// We add custom behaviour for:
-//   - participant list row height
-//
-
-void InChannelScreen::applyLargeTargetMode(bool enabled)
+void InChannelScreen::updateRowHeight()
 {
-    AACScreen::applyLargeTargetMode(enabled);
+    if (!m_participantList || !m_aac)
+        return;
 
-    //
-    // Participant list row height
-    //
-    if (m_participantList) {
-        if (enabled) {
-            m_participantList->setStyleSheet(QStringLiteral(
-                "QListWidget::item { min-height: %1px; }"
-            ).arg(AAC_MIN_TARGET));
-        } else {
-            m_participantList->setStyleSheet(QStringLiteral(
-                "QListWidget::item { min-height: 32px; }"
-            ));
-        }
+    const bool large = m_aac->modes().largeTargets;
+
+    if (large) {
+        m_participantList->setStyleSheet(QStringLiteral(
+            "QListWidget::item { min-height: %1px; }"
+        ).arg(AACLayoutEngine::AAC_MIN_TARGET));
+    } else {
+        m_participantList->setStyleSheet(QStringLiteral(
+            "QListWidget::item { min-height: 32px; }"
+        ));
     }
 }
