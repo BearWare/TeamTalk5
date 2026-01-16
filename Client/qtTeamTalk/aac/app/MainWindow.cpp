@@ -3,6 +3,7 @@
 #include "aac/backend/BackendAdapter.h"
 #include "aac/state/StateMachine.h"
 
+#include "aac/ui/AACScreen.h"
 #include "aac/ui/ConnectScreen.h"
 #include "aac/ui/ConnectingScreen.h"
 #include "aac/ui/ChannelListScreen.h"
@@ -27,6 +28,25 @@ MainWindow::MainWindow(QWidget* parent)
     m_connectingScreen   = new ConnectingScreen(this);
     m_channelListScreen  = new ChannelListScreen(this);
     m_inChannelScreen    = new InChannelScreen(this);
+
+    //
+    // Register AAC screens for Large‑Target Mode propagation
+    //
+    m_aacScreens << m_connectScreen
+                 << m_connectingScreen
+                 << m_channelListScreen
+                 << m_inChannelScreen;
+
+    //
+    // Large‑Target Mode → UI
+    //
+    connect(m_stateMachine, &StateMachine::largeTargetModeChanged,
+            this, &MainWindow::onLargeTargetModeChanged);
+
+    //
+    // Apply initial mode immediately
+    //
+    onLargeTargetModeChanged(m_stateMachine->largeTargetModeEnabled());
 
     //
     // Backend → StateMachine
@@ -92,7 +112,7 @@ MainWindow::MainWindow(QWidget* parent)
             });
 
     //
-    // StateMachine → UI (data + in-channel context)
+    // StateMachine → UI (data + in‑channel context)
     //
     connect(m_stateMachine, &StateMachine::channelListChanged,
             m_channelListScreen, &ChannelListScreen::setChannels);
@@ -146,6 +166,10 @@ MainWindow::MainWindow(QWidget* parent)
 
 MainWindow::~MainWindow() = default;
 
+//
+// Screen switching helpers
+//
+
 void MainWindow::showScreen(QWidget* screen)
 {
     if (!screen)
@@ -172,4 +196,16 @@ void MainWindow::showChannelListScreen()
 void MainWindow::showInChannelScreen()
 {
     showScreen(m_inChannelScreen);
+}
+
+//
+// Large‑Target Mode propagation
+//
+
+void MainWindow::onLargeTargetModeChanged(bool enabled)
+{
+    for (AACScreen* screen : m_aacScreens) {
+        if (screen)
+            screen->applyLargeTargetMode(enabled);
+    }
 }
