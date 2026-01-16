@@ -1,12 +1,12 @@
 #pragma once
 
-#include <QWidget>
+#include "AACScreen.h"
 
 class QLineEdit;
 class QSpinBox;
 class QPushButton;
 
-class ConnectScreen : public QWidget {
+class ConnectScreen : public AACScreen {
     Q_OBJECT
 public:
     explicit ConnectScreen(QWidget* parent = nullptr);
@@ -14,9 +14,13 @@ public:
 signals:
     void connectRequested(const QString& host, int port, const QString& username);
 
+public slots:
+    // Override only if needed — default AACScreen behaviour is enough
+    void applyLargeTargetMode(bool enabled) override;
+
 private:
-    QLineEdit* m_hostEdit;
-    QSpinBox* m_portEdit;
-    QLineEdit* m_usernameEdit;   // ← Add this
-    QPushButton* m_connectButton;
+    QLineEdit* m_hostEdit = nullptr;
+    QSpinBox* m_portEdit = nullptr;
+    QLineEdit* m_usernameEdit = nullptr;
+    QPushButton* m_connectButton = nullptr;
 };
