@@ -12,6 +12,11 @@ class QListWidgetItem;
 class QPushButton;
 class QLabel;
 
+// In‑channel screen with:
+// - Participant list
+// - Transmit button
+// - Leave button
+// - Floating AAC settings gear (AAC Settings only)
 class InChannelScreen : public AACScreen {
     Q_OBJECT
 public:
@@ -22,12 +27,16 @@ public:
 signals:
     void leaveChannelRequested();
     void transmitToggled(bool enabled);
+    void settingsRequested();   // Floating gear → AAC Settings
 
 public slots:
     void updateSelfVoiceState(SelfVoiceState state);
     void updateOtherUserVoiceState(const OtherUserVoiceEvent& event);
     void clearParticipants();
     void setEventMessage(const QString& message);
+
+protected:
+    void resizeEvent(QResizeEvent* e) override;
 
 private slots:
     void onLeaveClicked();
@@ -64,6 +73,9 @@ private:
     QListWidget* m_participantList = nullptr;
     QPushButton* m_transmitButton = nullptr;
     QPushButton* m_leaveButton = nullptr;
+
+    // New floating AAC settings gear
+    QPushButton* m_floatingSettingsButton = nullptr;
 
     bool m_transmitEnabled = false;
     SelfVoiceState m_selfVoiceState = SelfVoiceState::Silent;
