@@ -1,96 +1,47 @@
 #pragma once
 
 #include <QObject>
-#include "BackendEvents.h"
+#include <QString>
 
-class BackendAdapter;
+#include "aac/backend/channelinfo.h"
+#include "aac/backend/BackendEvents.h"
+
+// Very thin state machine wrapper.
+// Your BackendAdapter already drives most transitions.
+// This class exists mainly so MainWindow can remain clean.
 
 class StateMachine : public QObject {
     Q_OBJECT
 public:
-    explicit StateMachine(QObject* parent = nullptr);
-
-    enum class UiConnectionState {
-        Idle,
-        Connecting,
-        Connected
-    };
-    Q_ENUM(UiConnectionState)
-
-    void attachBackend(BackendAdapter* backend);
-
-    //
-    // Large‑Target Mode (AAC accessibility)
-    //
-    bool largeTargetModeEnabled() const { return m_largeTargetModeEnabled; }
-
-public slots:
-    // User → StateMachine
-    void connectRequested(const QString& host, int port, const QString& username);
-    void disconnectRequested();
-    void onRefreshChannelsRequested();
-    void onJoinChannelRequested(int channelId);
-    void onLeaveChannelRequested();
-    void onTransmitToggled(bool enabled);
-
-    //
-    // Large‑Target Mode toggles
-    //
-    void enableLargeTargetMode();
-    void disableLargeTargetMode();
-    void toggleLargeTargetMode();
-
-    // Backend → StateMachine
-    void onChannelsEnumerated(const QList<ChannelInfo>& channels);
-    void onConnectionStateChanged(ConnectionState state);
-    void onChannelEvent(const ChannelEvent& event);
-    void onBackendError(const ErrorEvent& error);
-    void onSelfVoiceEvent(const SelfVoiceEvent& event);
-    void onOtherUserVoiceEvent(const OtherUserVoiceEvent& event);
+    explicit StateMachine(QObject* parent = nullptr) = default;
 
 signals:
-    //
-    // Screen navigation
-    //
-    void uiShouldShowConnecting();
-    void uiShouldShowConnected();
-    void uiShouldShowInChannelScreen();
-    void uiShouldShowDisconnected();
-    void uiShouldShowError(const QString& message);
+    // High‑level navigation signals (MainWindow listens to these)
+    void goToConnect();
+    void goToConnecting();
+    void goToChannelList();
+    void goToInChannel(int channelId, const QString& channelName);
 
-    //
-    // In‑channel context
-    //
-    void currentChannelNameChanged(const QString& name);
-    void inChannelEventMessage(const QString& message);
-    void clearInChannelScreen();
-    void inChannelError(const QString& message);
+    // Backend‑driven events
+    void connected();
+    void connectionFailed(const QString& reason);
+    void disconnected();
+    void channelsUpdated(const QList<ChannelInfo>& channels);
+    void joinedChannel(int channelId, const QString& channelName);
+    void leftChannel();
+    void selfVoiceState(SelfVoiceState state);
+    void otherUserVoiceState(const OtherUserVoiceEvent& event);
+    void eventMessage(const QString& message);
 
-    //
-    // Data to UI
-    //
-    void channelListChanged(const QList<ChannelInfo>& channels);
-    void selfVoiceStateChanged(SelfVoiceState state);
-    void otherUserVoiceStateChanged(const OtherUserVoiceEvent& event);
-
-    //
-    // Actions to backend
-    //
-    void requestConnect(const QString& host, int port, const QString& username);
-
-    //
-    // Large‑Target Mode → UI
-    //
-    void largeTargetModeChanged(bool enabled);
-
-private:
-    UiConnectionState m_state = UiConnectionState::Idle;
-    BackendAdapter* m_backend = nullptr;
-    QList<ChannelInfo> m_channels;
-    int m_currentChannelId = -1;
-
-    //
-    // AAC accessibility state
-    //
-    bool m_largeTargetModeEnabled = false;
+public slots:
+    // These slots are called by BackendAdapter
+    void onConnected()                { emit connected(); }
+    void onConnectionFailed(const QString& r) { emit connectionFailed(r); }
+    void onDisconnected()             { emit disconnected(); }
+    void onChannelsUpdated(const QList<ChannelInfo>& c) { emit channelsUpdated(c); }
+    void onJoinedChannel(int id, const QString& name) { emit joinedChannel(id, name); }
+    void onLeftChannel()              { emit leftChannel(); }
+    void onSelfVoiceState(SelfVoiceState s) { emit selfVoiceState(s); }
+    void onOtherUserVoiceState(const OtherUserVoiceEvent& e) { emit otherUserVoiceState(e); }
+    void onEventMessage(const QString& m) { emit eventMessage(m); }
 };
