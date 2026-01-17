@@ -1,6 +1,11 @@
 #include "AACFramework.h"
 
 #include <QtGlobal>
+#include <QPainter>
+#include <QPen>
+#include <QEnterEvent>
+#include <QFocusEvent>
+#include <QMouseEvent>
 #include <QWidget>
 #include <QLayout>
 #include <QAbstractButton>
@@ -408,4 +413,85 @@ void AACFeedbackEngine::hapticStrong()
 void AACFeedbackEngine::hapticError()
 {
     doHaptic(3);
+}
+// -------------------------
+// AACButton
+// -------------------------
+
+AACButton::AACButton(AACAccessibilityManager* aac, QWidget* parent)
+    : QPushButton(parent)
+    , m_aac(aac)
+{
+    setFocusPolicy(Qt::StrongFocus);
+
+    if (m_aac) {
+        connect(m_aac->inputController(), &AACInputController::dwellProgressChanged,
+                this, [this](QWidget* target, float p) {
+                    if (target == this)
+                        setDwellProgress(p);
+                });
+    }
+}
+
+void AACButton::setDeepWell(bool enabled)
+{
+    m_deepWell = enabled;
+    setProperty("aacDeepWell", enabled);
+}
+
+bool AACButton::isDeepWell() const { return m_deepWell; }
+
+void AACButton::setDwellProgress(float p)
+{
+    m_dwellProgress = p;
+    update();
+}
+
+void AACButton::enterEvent(QEnterEvent* e)
+{
+    QPushButton::enterEvent(e);
+    if (m_aac)
+        m_aac->inputController()->startDwellOn(this);
+}
+
+void AACButton::leaveEvent(QEvent* e)
+{
+    QPushButton::leaveEvent(e);
+    if (m_aac)
+        m_aac->inputController()->stopDwellOn(this);
+}
+
+void AACButton::focusInEvent(QFocusEvent* e)
+{
+    QPushButton::focusInEvent(e);
+    if (m_aac)
+        m_aac->feedbackEngine()->playFocus();
+}
+
+void AACButton::mousePressEvent(QMouseEvent* e)
+{
+    if (m_aac)
+        m_aac->feedbackEngine()->playClick();
+    QPushButton::mousePressEvent(e);
+}
+
+void AACButton::paintEvent(QPaintEvent* e)
+{
+    QPushButton::paintEvent(e);
+
+    if (m_dwellProgress <= 0.0f)
+        return;
+
+    QPainter p(this);
+    p.setRenderHint(QPainter::Antialiasing, true);
+
+    QRectF r = rect().adjusted(4, 4, -4, -4);
+    QPen pen(QColor("#00AEEF"));
+    pen.setWidth(4);
+    p.setPen(pen);
+    p.setBrush(Qt::NoBrush);
+
+    int startAngle = 90 * 16;
+    int spanAngle = -int(360 * 16 * m_dwellProgress);
+    p.drawArc(r, startAngle, spanAngle);
 }
