@@ -1,5 +1,6 @@
 #include "AACFramework.h"
 
+#include <QtGlobal>
 #include <QWidget>
 #include <QLayout>
 #include <QAbstractButton>
@@ -240,6 +241,13 @@ void AACInputController::onDwellTick()
 
     const int elapsed = static_cast<int>(m_dwellElapsed.elapsed());
     const int target = m_mgr->dwellConfig().dwellDurationMs;
+
+    // Dwell progress: 0.0–1.0
+    float progress = 0.0f;
+    if (target > 0)
+        progress = qBound(0.0f, float(elapsed) / float(target), 1.0f);
+
+    emit dwellProgressChanged(m_dwellTarget, progress);
 
     if (elapsed >= target) {
         QWidget* w = m_dwellTarget;
