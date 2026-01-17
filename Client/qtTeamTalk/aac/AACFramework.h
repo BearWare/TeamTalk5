@@ -1,5 +1,7 @@
 #pragma once
 
+#include <QPushButton>
+#include <QtGlobal>
 #include <QObject>
 #include <QPointer>
 #include <QList>
@@ -12,6 +14,29 @@
 class QWidget;
 class QLayout;
 class QAbstractButton;
+class AACButton : public QPushButton {
+    Q_OBJECT
+public:
+    explicit AACButton(AACAccessibilityManager* aac, QWidget* parent = nullptr);
+
+    void setDeepWell(bool enabled);
+    bool isDeepWell() const;
+
+public slots:
+    void setDwellProgress(float p); // 0.0–1.0
+
+protected:
+    void enterEvent(QEnterEvent* e) override;
+    void leaveEvent(QEvent* e) override;
+    void focusInEvent(QFocusEvent* e) override;
+    void mousePressEvent(QMouseEvent* e) override;
+    void paintEvent(QPaintEvent* e) override;
+
+private:
+    AACAccessibilityManager* m_aac = nullptr;
+    bool m_deepWell = false;
+    float m_dwellProgress = 0.0f;
+};
 
 // High-level AAC mode flags
 struct AACModeFlags {
@@ -70,7 +95,7 @@ signals:
     void modesChanged(const AACModeFlags& modes);
     void dwellConfigChanged(const AACDwellConfig& cfg);
     void dwellProgressChanged(QWidget* target, float progress); // 0.0–1.0
-void scanningConfigChanged(const AACScanningConfig& cfg);
+    void scanningConfigChanged(const AACScanningConfig& cfg);
     void layoutConfigChanged(const AACLayoutConfig& cfg);
 
 private:
