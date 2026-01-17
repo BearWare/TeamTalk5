@@ -69,7 +69,8 @@ public:
 signals:
     void modesChanged(const AACModeFlags& modes);
     void dwellConfigChanged(const AACDwellConfig& cfg);
-    void scanningConfigChanged(const AACScanningConfig& cfg);
+    void dwellProgressChanged(QWidget* target, float progress); // 0.0–1.0
+void scanningConfigChanged(const AACScanningConfig& cfg);
     void layoutConfigChanged(const AACLayoutConfig& cfg);
 
 private:
