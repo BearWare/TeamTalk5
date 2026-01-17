@@ -49,7 +49,7 @@ jobs:
            libopus-dev
            libspeex-dev
            libspeexdsp-dev
-           libtinyxml-dev
+           libtinyxml2-dev
            libvpx-dev
            valgrind
 
@@ -67,7 +67,7 @@ jobs:
            -DTOOLCHAIN_OPUS=OFF
            -DTOOLCHAIN_SPEEX=OFF
            -DTOOLCHAIN_SPEEXDSP=OFF
-           -DTOOLCHAIN_TINYXML=OFF
+           -DTOOLCHAIN_TINYXML2=OFF
            -DTOOLCHAIN_ZLIB=OFF
 
     - name: Build
