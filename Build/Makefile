@@ -203,7 +203,7 @@ depend-ubuntu24:
 		libtool \
 		libxss-dev \
 		ninja-build \
-		openjdk-21-jdk \
+		openjdk-25-jdk \
 		p7zip-full \
 		pkg-config \
 		python-is-python3 \
