@@ -67,6 +67,7 @@ struct AACLayoutConfig {
 };
 
 // Forward declarations
+class AACVocabularyManager;
 class AACLayoutEngine;
 class AACInputController;
 class AACFeedbackEngine;
@@ -104,6 +105,8 @@ public:
     AACSpeechEngine* speechEngine() const { return m_speechEngine; }
     AACMessageHistory* history() const { return m_history; }
 
+    AACVocabularyManager* vocabularyManager() const { return m_vocabularyManager; }
+
 signals:
     void modesChanged(const AACModeFlags& modes);
     void dwellConfigChanged(const AACDwellConfig& cfg);
@@ -127,6 +130,7 @@ private:
 
     AACSpeechEngine* m_speechEngine = nullptr;
     AACMessageHistory* m_history = nullptr;
+    AACVocabularyManager* m_vocabularyManager = nullptr;
 };
 
 // A screen exposes its interactive widgets + layout to the framework
