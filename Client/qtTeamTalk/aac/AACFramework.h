@@ -1,4 +1,4 @@
-a#pragma once
+#pragma once
 
 #include <QPushButton>
 #include <QtGlobal>
