@@ -10,7 +10,9 @@
 #include <QRect>
 #include <QSoundEffect>
 #include <QTimer>
+#include <QStringList>
 
+class QTextToSpeech;
 class QWidget;
 class QLayout;
 class QAbstractButton;
@@ -70,6 +72,14 @@ class AACInputController;
 class AACFeedbackEngine;
 
 // Central manager: owns modes + engines
+// Forward declarations
+class AACLayoutEngine;
+class AACInputController;
+class AACFeedbackEngine;
+class AACSpeechEngine;
+class AACMessageHistory;
+
+// Central manager: owns modes + engines
 class AACAccessibilityManager : public QObject {
     Q_OBJECT
 public:
@@ -91,12 +101,19 @@ public:
     AACInputController* inputController() const { return m_inputController; }
     AACFeedbackEngine* feedbackEngine() const { return m_feedbackEngine; }
 
+    AACSpeechEngine* speechEngine() const { return m_speechEngine; }
+    AACMessageHistory* history() const { return m_history; }
+
 signals:
     void modesChanged(const AACModeFlags& modes);
     void dwellConfigChanged(const AACDwellConfig& cfg);
-    void dwellProgressChanged(QWidget* target, float progress); // 0.0–1.0
+    void dwellProgressChanged(QWidget* target, float progress);
     void scanningConfigChanged(const AACScanningConfig& cfg);
     void layoutConfigChanged(const AACLayoutConfig& cfg);
+
+    void speechStarted(const QString& text);
+    void speechFinished(const QString& text);
+    void historyChanged(const QStringList& history);
 
 private:
     AACModeFlags m_modes;
@@ -107,6 +124,9 @@ private:
     AACLayoutEngine* m_layoutEngine = nullptr;
     AACInputController* m_inputController = nullptr;
     AACFeedbackEngine* m_feedbackEngine = nullptr;
+
+    AACSpeechEngine* m_speechEngine = nullptr;
+    AACMessageHistory* m_history = nullptr;
 };
 
 // A screen exposes its interactive widgets + layout to the framework
@@ -227,4 +247,51 @@ private:
 
     void initSounds();
     void doHaptic(int strength);
+};
+// Speech engine: text-to-speech output
+class AACSpeechEngine : public QObject {
+    Q_OBJECT
+public:
+    explicit AACSpeechEngine(AACAccessibilityManager* mgr, QObject* parent = nullptr);
+
+    void speak(const QString& text);
+    void stop();
+
+    void setVoice(const QString& voiceName);
+    void setRate(double rate);
+    void setPitch(double pitch);
+
+    void setSpeakAsYouType(bool enabled);
+    bool speakAsYouType() const { return m_speakAsYouType; }
+
+    void speakLetter(const QString& letter);
+
+signals:
+    void speechStarted(const QString& text);
+    void speechFinished(const QString& text);
+
+private:
+    AACAccessibilityManager* m_mgr = nullptr;
+    QTextToSpeech* m_tts = nullptr;
+    bool m_speakAsYouType = false;
+};
+
+// Message history: log + replay
+class AACMessageHistory : public QObject {
+    Q_OBJECT
+public:
+    explicit AACMessageHistory(AACAccessibilityManager* mgr, QObject* parent = nullptr);
+
+    void addMessage(const QString& msg);
+    QStringList history() const;
+
+    void replayMessage(int index);
+    void replayLast();
+
+signals:
+    void historyChanged(const QStringList& history);
+
+private:
+    AACAccessibilityManager* m_mgr = nullptr;
+    QStringList m_history;
 };
