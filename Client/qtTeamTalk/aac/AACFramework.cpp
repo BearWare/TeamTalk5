@@ -1,5 +1,6 @@
 #include "AACFramework.h"
 
+#include <QTextToSpeech>
 #include <QtGlobal>
 #include <QPainter>
 #include <QPen>
@@ -24,6 +25,16 @@ AACAccessibilityManager::AACAccessibilityManager(QObject* parent)
     m_layoutEngine = new AACLayoutEngine(this, this);
     m_inputController = new AACInputController(this, this);
     m_feedbackEngine = new AACFeedbackEngine(this, this);
+m_speechEngine = new AACSpeechEngine(this, this);
+m_history = new AACMessageHistory(this, this);
+
+connect(m_speechEngine, &AACSpeechEngine::speechStarted,
+        this, &AACAccessibilityManager::speechStarted);
+connect(m_speechEngine, &AACSpeechEngine::speechFinished,
+        this, &AACAccessibilityManager::speechFinished);
+
+connect(m_history, &AACMessageHistory::historyChanged,
+        this, &AACAccessibilityManager::historyChanged);
 }
 
 void AACAccessibilityManager::setModes(const AACModeFlags& modes)
@@ -494,4 +505,125 @@ void AACButton::paintEvent(QPaintEvent* e)
     int startAngle = 90 * 16;
     int spanAngle = -int(360 * 16 * m_dwellProgress);
     p.drawArc(r, startAngle, spanAngle);
+}
+// -------------------------
+// AACSpeechEngine
+// -------------------------
+
+AACSpeechEngine::AACSpeechEngine(AACAccessibilityManager* mgr, QObject* parent)
+    : QObject(parent)
+    , m_mgr(mgr)
+{
+    m_tts = new QTextToSpeech(this);
+}
+
+void AACSpeechEngine::speak(const QString& text)
+{
+    if (!m_tts || text.isEmpty())
+        return;
+
+    emit speechStarted(text);
+    m_tts->say(text);
+
+    // We don't get a per-utterance finished signal easily here,
+    // so we emit finished immediately after scheduling.
+    emit speechFinished(text);
+
+    if (m_mgr && !text.trimmed().isEmpty()) {
+        m_mgr->history()->addMessage(text);
+    }
+}
+
+void AACSpeechEngine::stop()
+{
+    if (!m_tts)
+        return;
+    m_tts->stop();
+}
+
+void AACSpeechEngine::setVoice(const QString& voiceName)
+{
+    if (!m_tts)
+        return;
+
+    const auto voices = m_tts->availableVoices();
+    for (const QVoice& v : voices) {
+        if (v.name() == voiceName) {
+            m_tts->setVoice(v);
+            break;
+        }
+    }
+}
+
+void AACSpeechEngine::setRate(double rate)
+{
+    if (!m_tts)
+        return;
+    m_tts->setRate(rate);
+}
+
+void AACSpeechEngine::setPitch(double pitch)
+{
+    if (!m_tts)
+        return;
+    m_tts->setPitch(pitch);
+}
+
+void AACSpeechEngine::setSpeakAsYouType(bool enabled)
+{
+    m_speakAsYouType = enabled;
+}
+
+void AACSpeechEngine::speakLetter(const QString& letter)
+{
+    if (!m_tts || !m_speakAsYouType)
+        return;
+
+    if (letter.isEmpty())
+        return;
+
+    m_tts->say(letter);
+}
+// -------------------------
+// AACMessageHistory
+// -------------------------
+
+AACMessageHistory::AACMessageHistory(AACAccessibilityManager* mgr, QObject* parent)
+    : QObject(parent)
+    , m_mgr(mgr)
+{
+}
+
+void AACMessageHistory::addMessage(const QString& msg)
+{
+    if (msg.trimmed().isEmpty())
+        return;
+
+    m_history << msg;
+    emit historyChanged(m_history);
+}
+
+QStringList AACMessageHistory::history() const
+{
+    return m_history;
+}
+
+void AACMessageHistory::replayMessage(int index)
+{
+    if (!m_mgr || index < 0 || index >= m_history.size())
+        return;
+
+    const QString msg = m_history.at(index);
+    if (AACSpeechEngine* s = m_mgr->speechEngine())
+        s->speak(msg);
+}
+
+void AACMessageHistory::replayLast()
+{
+    if (!m_mgr || m_history.isEmpty())
+        return;
+
+    const QString msg = m_history.last();
+    if (AACSpeechEngine* s = m_mgr->speechEngine())
+        s->speak(msg);
 }
