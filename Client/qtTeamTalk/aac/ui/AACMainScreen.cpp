@@ -76,11 +76,17 @@ void AACMainScreen::connectSignals()
             this,            &AACMainScreen::switchToCategories);
 
     // When a category is selected, show the symbol grid
-    connect(m_categoryScreen, &AACCategoryScreen::categorySelected,
-            this, [this](const QString& cat) {
-                m_symbolScreen->setCategory(cat);
-                switchToSymbols();
-            });
+connect(m_categoryScreen, &AACCategoryScreen::categorySelected,
+        this, [this](const QString& cat) {
+            m_symbolScreen->setCategory(cat);
+            switchToSymbols();
+        });
+
+connect(m_symbolScreen, &AACSymbolGridScreen::wordSelected,
+        this, [this](const QString& word) {
+            m_textBar->appendWord(word);
+        });
+
 }
 
 void AACMainScreen::switchToKeyboard()
