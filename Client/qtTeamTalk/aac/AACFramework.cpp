@@ -27,6 +27,8 @@ AACAccessibilityManager::AACAccessibilityManager(QObject* parent)
     m_feedbackEngine = new AACFeedbackEngine(this, this);
 m_speechEngine = new AACSpeechEngine(this, this);
 m_history = new AACMessageHistory(this, this);
+    m_vocabularyManager = new AACVocabularyManager(this);
+    m_vocabularyManager->initialize();
 
 connect(m_speechEngine, &AACSpeechEngine::speechStarted,
         this, &AACAccessibilityManager::speechStarted);
