@@ -15,6 +15,9 @@ public:
 
     void setCategory(const QString& category);
 
+signals:
+    void wordSelected(const QString& word);
+
 private:
     void buildSymbols();
     void clearSymbols();
