@@ -52,7 +52,10 @@ void AACSymbolGridScreen::buildSymbols()
             m_aac,
             this
         );
-
+    connect(btn, &AACSymbolButton::clicked,
+            this, [this, item]() {
+                emit wordSelected(item.label);
+            });
         // If your button supports IDs, this is where you'd pass it
         // btn->setWordId(item.id);
 
