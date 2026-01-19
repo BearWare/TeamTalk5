@@ -1,71 +1,76 @@
-#include "AAPredictiveStrip.h"
+#include "PredictiveStrip.h"
 #include "AACAccessibilityManager.h"
+#include "AACPredictionEngine.h"
+#include "AACButton.h"
 
-#include <QPainter>
-#include <QMouseEvent>
+#include <QDebug>
 
-AAPredictiveStrip::AAPredictiveStrip(AACAccessibilityManager* aac, QWidget* parent)
+PredictiveStrip::PredictiveStrip(AACAccessibilityManager* mgr, QWidget* parent)
     : QWidget(parent),
-      m_aac(aac)
+      m_mgr(mgr)
 {
-    setMinimumHeight(48);
-    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-
-    // Integrate with dwell/scanning
-    if (m_aac)
-        m_aac->registerInteractive(this, true);
+    m_layout = new QHBoxLayout(this);
+    m_layout->setContentsMargins(4, 4, 4, 4);
+    m_layout->setSpacing(8);
 }
 
-void AAPredictiveStrip::setSuggestions(const QStringList& words)
+QString PredictiveStrip::lastWord(const QString& text) const
 {
-    m_words = words;
-    update();
+    QString trimmed = text.trimmed();
+    if (trimmed.isEmpty())
+        return QString();
 
-    // Notify keyboard and other components
-    emit suggestionsUpdated(m_words);
+    QStringList parts = trimmed.split(' ', Qt::SkipEmptyParts);
+    return parts.isEmpty() ? QString() : parts.last();
 }
 
-void AAPredictiveStrip::paintEvent(QPaintEvent*)
+void PredictiveStrip::setContext(const QString& text)
 {
-    QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing);
+    m_lastContext = text;
 
-    const int count = m_words.size();
-    if (count == 0)
+    if (!m_mgr || !m_mgr->predictionEngine())
         return;
 
-    const int w = width() / count;
-    const int h = height();
-
-    for (int i = 0; i < count; ++i) {
-        QRect rect(i * w, 0, w, h);
-
-        // Background
-        p.setBrush(QColor(240, 240, 240));
-        p.setPen(Qt::NoPen);
-        p.drawRoundedRect(rect.adjusted(4, 4, -4, -4), 6, 6);
-
-        // Text
-        p.setPen(Qt::black);
-        p.drawText(rect, Qt::AlignCenter, m_words[i]);
+    QString key = lastWord(text);
+    if (key.isEmpty()) {
+        rebuild({});
+        return;
     }
+
+    QStringList suggestions =
+        m_mgr->predictionEngine()->suggest(text, 5);
+
+    rebuild(suggestions);
 }
 
-void AAPredictiveStrip::mousePressEvent(QMouseEvent* e)
+void PredictiveStrip::onCharacterTyped(QChar ch)
 {
-    if (m_words.isEmpty())
-        return;
+    // Optional refinement: just call setContext again
+    setContext(m_lastContext + ch);
+}
 
-    const int count = m_words.size();
-    const int w = width() / count;
-
-    int index = e->x() / w;
-    if (index >= 0 && index < m_words.size()) {
-        const QString word = m_words[index];
-        emit suggestionActivated(word);
-
-        // Accessibility: treat this as an activation event
-        if (m_aac)
-            m_aac->announce(word);
+void PredictiveStrip::rebuild(const QStringList& suggestions)
+{
+    // Clear old buttons
+    QLayoutItem* item;
+    while ((item = m_layout->takeAt(0)) != nullptr) {
+        if (QWidget* w = item->widget())
+            w->deleteLater();
+        delete item;
     }
+
+    // Add new suggestion buttons
+    for (const QString& word : suggestions) {
+        auto* btn = new AACButton(m_mgr, this);
+        btn->setText(word);
+        btn->setMinimumHeight(48);
+
+        connect(btn, &QPushButton::clicked, this, [this, word]() {
+            emit suggestionChosen(word);
+        });
+
+        m_layout->addWidget(btn);
+    }
+
+    // If no suggestions, leave strip empty
 }
