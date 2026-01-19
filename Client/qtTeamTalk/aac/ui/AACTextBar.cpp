@@ -178,7 +178,23 @@ void AACTextBar::insertCharacter(QChar ch)
 
 void AACTextBar::insertSpace()
 {
-    insertCharacter(' ');
+    // Learn the completed word...
+    if (m_mgr && m_mgr->predictionEngine()) {
+        const QString w = lastWord();
+        if (!w.isEmpty())
+            m_mgr->predictionEngine()->learnUtterance(w);
+    }
+
+    // Insert the space...
+    if (m_edit) {
+        int pos = m_edit->cursorPosition();
+        QString t = m_edit->text();
+        t.insert(pos, QLatin1Char(' '));
+        m_edit->setText(t);
+        m_edit->setCursorPosition(pos + 1);
+
+        emit textChanged(t);
+    }
 }
 
 void AACTextBar::backspace()
@@ -218,4 +234,16 @@ void AACTextBar::appendWord(const QString& word)
     m_edit->setText(t);
     m_edit->setCursorPosition(t.length());
     emit textChanged(t);
+}
+QString AACTextBar::lastWord() const
+{
+    if (!m_edit)
+        return QString();
+
+    QString t = m_edit->text().left(m_edit->cursorPosition()).trimmed();
+    if (t.isEmpty())
+        return QString();
+
+    const QStringList parts = t.split(' ', Qt::SkipEmptyParts);
+    return parts.isEmpty() ? QString() : parts.last();
 }
