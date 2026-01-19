@@ -16,6 +16,7 @@ class QTextToSpeech;
 class QWidget;
 class QLayout;
 class QAbstractButton;
+class AACPredictionEngine;
 class AACButton : public QPushButton {
     Q_OBJECT
 public:
@@ -101,6 +102,7 @@ public:
     AACLayoutEngine* layoutEngine() const { return m_layoutEngine; }
     AACInputController* inputController() const { return m_inputController; }
     AACFeedbackEngine* feedbackEngine() const { return m_feedbackEngine; }
+AACPredictionEngine* predictionEngine() const { return m_predictionEngine; }
 
     AACSpeechEngine* speechEngine() const { return m_speechEngine; }
     AACMessageHistory* history() const { return m_history; }
@@ -131,6 +133,7 @@ private:
     AACSpeechEngine* m_speechEngine = nullptr;
     AACMessageHistory* m_history = nullptr;
     AACVocabularyManager* m_vocabularyManager = nullptr;
+AACPredictionEngine* m_predictionEngine = nullptr;
 };
 
 // A screen exposes its interactive widgets + layout to the framework
