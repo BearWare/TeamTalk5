@@ -14,6 +14,9 @@ public:
                                AACVocabularyManager* vocab,
                                QWidget* parent = nullptr);
 
+signals:
+    void categorySelected(const QString& category);
+
 private:
     void buildCategories();
     void clearCategories();
