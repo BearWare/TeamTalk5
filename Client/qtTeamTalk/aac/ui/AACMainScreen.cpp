@@ -105,6 +105,11 @@ void AACMainScreen::connectSignals()
     connect(m_predictive, &PredictiveStrip::suggestionChosen,
             m_textBar,     &AACTextBar::appendWord);
 
+connect(m_predictive, &PredictiveStrip::suggestionChosen,
+        this, [this](const QString& word) {
+            if (m_mgr && m_mgr->predictionEngine())
+                m_mgr->predictionEngine()->learnUtterance(word);
+        });
 
     //
     // PREDICTIVE STRIP → KEYBOARD (optional adaptive behaviour)
