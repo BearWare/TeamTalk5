@@ -29,6 +29,7 @@ m_speechEngine = new AACSpeechEngine(this, this);
 m_history = new AACMessageHistory(this, this);
     m_vocabularyManager = new AACVocabularyManager(this);
     m_vocabularyManager->initialize();
+m_predictionEngine = new AACPredictionEngine(this, this);
 
 connect(m_speechEngine, &AACSpeechEngine::speechStarted,
         this, &AACAccessibilityManager::speechStarted);
