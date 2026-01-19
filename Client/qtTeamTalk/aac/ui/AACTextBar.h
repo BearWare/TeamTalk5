@@ -38,6 +38,9 @@ signals:
     void pitchChanged(double pitch);
     void voiceChanged(const QString& voiceName);
 
+public slots:
+    void insertSpace();
+
 private slots:
     void onSpeak();
     void onStop();
@@ -61,6 +64,7 @@ private:
     QPushButton* m_speakBtn = nullptr;
     QPushButton* m_stopBtn = nullptr;
 
+QString lastWord() const;
     QSlider* m_rateSlider = nullptr;
     QSlider* m_pitchSlider = nullptr;
 
