@@ -22,7 +22,16 @@ public:
     QString text() const;
     void setText(const QString& t);
 
+public:
+    void insertCharacter(QChar ch);
+    void insertSpace();
+    void backspace();
+    void moveCursorLeft();
+    void moveCursorRight();
+    void appendWord(const QString& word);
+
 signals:
+    void textChanged(const QString& text);
     void speakRequested(const QString& text);
     void stopRequested();
     void rateChanged(double rate);
