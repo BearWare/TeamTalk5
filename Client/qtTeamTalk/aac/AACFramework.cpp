@@ -534,6 +534,12 @@ void AACSpeechEngine::speak(const QString& text)
 
     if (m_mgr && !text.trimmed().isEmpty()) {
         m_mgr->history()->addMessage(text);
+// Prediction learning trigger #3 — learn full utterance
+if (m_mgr && m_mgr->predictionEngine()) {
+    const QString trimmed = text.trimmed();
+    if (!trimmed.isEmpty())
+        m_mgr->predictionEngine()->learnUtterance(trimmed);
+}
     }
 }
 
