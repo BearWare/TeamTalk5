@@ -1,53 +1,71 @@
-#include "AACFramework.h"
+#include "AAPredictiveStrip.h"
+#include "AACAccessibilityManager.h"
+
 #include <QPainter>
 #include <QMouseEvent>
 
-AACPredictiveStrip::AACPredictiveStrip(AACAccessibilityManager* aac, QWidget* parent)
-    : QWidget(parent)
-    , m_aac(aac)
+AAPredictiveStrip::AAPredictiveStrip(AACAccessibilityManager* aac, QWidget* parent)
+    : QWidget(parent),
+      m_aac(aac)
 {
-    setMinimumHeight(40);
+    setMinimumHeight(48);
+    setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+    // Integrate with dwell/scanning
+    if (m_aac)
+        m_aac->registerInteractive(this, true);
 }
 
-void AACPredictiveStrip::setSuggestions(const QStringList& words)
+void AAPredictiveStrip::setSuggestions(const QStringList& words)
 {
     m_words = words;
     update();
+
+    // Notify keyboard and other components
+    emit suggestionsUpdated(m_words);
 }
 
-void AACPredictiveStrip::paintEvent(QPaintEvent* e)
+void AAPredictiveStrip::paintEvent(QPaintEvent*)
 {
-    QWidget::paintEvent(e);
-
-    if (m_words.isEmpty())
-        return;
-
     QPainter p(this);
-    p.setRenderHint(QPainter::Antialiasing, true);
+    p.setRenderHint(QPainter::Antialiasing);
 
-    int count = m_words.size();
-    if (count <= 0)
+    const int count = m_words.size();
+    if (count == 0)
         return;
 
-    int w = width() / count;
+    const int w = width() / count;
+    const int h = height();
+
     for (int i = 0; i < count; ++i) {
-        QRect r(i * w, 0, w, height());
-        p.fillRect(r.adjusted(2, 2, -2, -2), QColor("#F0F0F0"));
+        QRect rect(i * w, 0, w, h);
+
+        // Background
+        p.setBrush(QColor(240, 240, 240));
+        p.setPen(Qt::NoPen);
+        p.drawRoundedRect(rect.adjusted(4, 4, -4, -4), 6, 6);
+
+        // Text
         p.setPen(Qt::black);
-        p.drawText(r, Qt::AlignCenter, m_words.at(i));
+        p.drawText(rect, Qt::AlignCenter, m_words[i]);
     }
 }
 
-void AACPredictiveStrip::mousePressEvent(QMouseEvent* e)
+void AAPredictiveStrip::mousePressEvent(QMouseEvent* e)
 {
     if (m_words.isEmpty())
         return;
 
-    int count = m_words.size();
-    int w = width() / count;
-    int index = e->pos().x() / w;
-    if (index >= 0 && index < count)
-        emit suggestionActivated(m_words.at(index));
+    const int count = m_words.size();
+    const int w = width() / count;
 
-    QWidget::mousePressEvent(e);
+    int index = e->x() / w;
+    if (index >= 0 && index < m_words.size()) {
+        const QString word = m_words[index];
+        emit suggestionActivated(word);
+
+        // Accessibility: treat this as an activation event
+        if (m_aac)
+            m_aac->announce(word);
+    }
 }
