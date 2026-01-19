@@ -166,3 +166,56 @@ void AACTextBar::rebuildHistoryMenu() {
 void AACTextBar::onHistoryTriggered() {
     rebuildHistoryMenu();
 }
+void AACTextBar::insertCharacter(QChar ch)
+{
+    int pos = m_edit->cursorPosition();
+    QString t = m_edit->text();
+    t.insert(pos, ch);
+    m_edit->setText(t);
+    m_edit->setCursorPosition(pos + 1);
+    emit textChanged(t);
+}
+
+void AACTextBar::insertSpace()
+{
+    insertCharacter(' ');
+}
+
+void AACTextBar::backspace()
+{
+    int pos = m_edit->cursorPosition();
+    if (pos == 0)
+        return;
+
+    QString t = m_edit->text();
+    t.remove(pos - 1, 1);
+    m_edit->setText(t);
+    m_edit->setCursorPosition(pos - 1);
+    emit textChanged(t);
+}
+
+void AACTextBar::moveCursorLeft()
+{
+    int pos = m_edit->cursorPosition();
+    if (pos > 0)
+        m_edit->setCursorPosition(pos - 1);
+}
+
+void AACTextBar::moveCursorRight()
+{
+    int pos = m_edit->cursorPosition();
+    if (pos < m_edit->text().length())
+        m_edit->setCursorPosition(pos + 1);
+}
+
+void AACTextBar::appendWord(const QString& word)
+{
+    QString t = m_edit->text();
+    if (!t.isEmpty())
+        t += " ";
+    t += word;
+
+    m_edit->setText(t);
+    m_edit->setCursorPosition(t.length());
+    emit textChanged(t);
+}
