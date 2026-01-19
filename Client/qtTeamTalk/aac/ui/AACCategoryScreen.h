@@ -4,7 +4,6 @@
 
 class QGridLayout;
 class AACCategoryButton;
-
 class AACVocabularyManager;
 
 class AACCategoryScreen : public AACScreen {
