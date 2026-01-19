@@ -10,6 +10,13 @@ class AACKeyboardScreen : public AACScreen {
 public:
     explicit AACKeyboardScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
 
+signals:
+    void characterTyped(QChar ch);
+    void backspaceRequested();
+    void moveCursorLeft();
+    void moveCursorRight();
+    void spaceRequested();
+
 private:
     void buildKeyboard();
     void addRow(const QStringList& keys, int row);
