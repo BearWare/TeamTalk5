@@ -10,12 +10,15 @@ class AACTextBar;
 class AACKeyboardScreen;
 class AACSymbolGridScreen;
 class AACCategoryScreen;
-class PredictiveStrip; // your existing widget
+class AACVocabularyManager;
+class PredictiveStrip;
 
 class AACMainScreen : public QWidget {
     Q_OBJECT
 public:
-    explicit AACMainScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+    explicit AACMainScreen(AACAccessibilityManager* mgr,
+                           AACVocabularyManager* vocab,
+                           QWidget* parent = nullptr);
 
 private:
     void buildUi();
@@ -25,6 +28,7 @@ private:
     void switchToCategories();
 
     AACAccessibilityManager* m_mgr = nullptr;
+    AACVocabularyManager* m_vocab = nullptr;
 
     AACTextBar* m_textBar = nullptr;
     PredictiveStrip* m_predictive = nullptr;
