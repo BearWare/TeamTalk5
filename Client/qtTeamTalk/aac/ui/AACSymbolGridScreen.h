@@ -4,14 +4,22 @@
 
 class QGridLayout;
 class AACSymbolButton;
+class AACVocabularyManager;
 
 class AACSymbolGridScreen : public AACScreen {
     Q_OBJECT
 public:
-    explicit AACSymbolGridScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+    explicit AACSymbolGridScreen(AACAccessibilityManager* mgr,
+                                 AACVocabularyManager* vocab,
+                                 QWidget* parent = nullptr);
+
+    void setCategory(const QString& category);
 
 private:
-    void buildGrid();
+    void buildSymbols();
+    void clearSymbols();
 
+    QString m_category;
     QGridLayout* m_grid = nullptr;
+    AACVocabularyManager* m_vocab = nullptr;
 };
