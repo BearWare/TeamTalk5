@@ -14,6 +14,7 @@ public:
 
 signals:
     void suggestionActivated(const QString& word);
+    void suggestionsUpdated(const QStringList& suggestions);
 
 protected:
     void paintEvent(QPaintEvent* e) override;
