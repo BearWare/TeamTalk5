@@ -1,5 +1,5 @@
 #include "AACPredictionEngine.h"
-#include "AACFramework.h"          // if you need access to manager types, optional
+#include "AACFramework.h"
 
 #include <QRegularExpression>
 #include <QFile>
@@ -16,12 +16,11 @@ AACPredictionEngine::AACPredictionEngine(AACAccessibilityManager* mgr,
 }
 
 // -------------------------
-// Tokenization helpers
+// Tokenization helpers (2,3)
 // -------------------------
 
 QString AACPredictionEngine::normalizePunctuation(const QString& text) const
 {
-    // Stage 3: make sentence-ending punctuation separate tokens
     QString cleaned = text;
     cleaned.replace(".", " . ");
     cleaned.replace("!", " ! ");
@@ -31,7 +30,6 @@ QString AACPredictionEngine::normalizePunctuation(const QString& text) const
 
 std::vector<std::string> AACPredictionEngine::tokenize(const QString& text) const
 {
-    // Stage 2 + 3: whitespace split after punctuation normalization
     QString cleaned = normalizePunctuation(text);
 
     QStringList parts = cleaned.split(QRegularExpression("\\s+"),
@@ -46,7 +44,7 @@ std::vector<std::string> AACPredictionEngine::tokenize(const QString& text) cons
 }
 
 // -------------------------
-// Stage 2: learning
+// Stage 2 + 7: learning
 // -------------------------
 
 void AACPredictionEngine::learnUtterance(const QString& text)
@@ -65,6 +63,22 @@ void AACPredictionEngine::learnUtterance(const QString& text)
         const std::string& next = tokens[i];
         ++m_bigram[prev][next];
     }
+
+    // Stage 7: phrase memory
+    learnPhrase(text);
+}
+
+void AACPredictionEngine::learnPhrase(const QString& text)
+{
+    const QString trimmed = text.trimmed();
+    if (trimmed.isEmpty())
+        return;
+
+    std::string key = trimmed.toLower().toStdString();
+    auto& entry = m_phrases[key];
+    entry.phrase = key;
+    entry.count += 1;
+    entry.recencyTick = ++m_recencyCounter;
 }
 
 // -------------------------
@@ -77,12 +91,11 @@ void AACPredictionEngine::boostToken(const QString& token)
     if (w.empty())
         return;
 
-    // Just bump unigram count by a fixed amount
     m_unigram[w] += 10;
 }
 
 // -------------------------
-// Stage 2 + 3: prediction
+// Stage 2,3,7: prediction
 // -------------------------
 
 std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
@@ -92,8 +105,15 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     if (maxSuggestions <= 0)
         return result;
 
+    // Stage 7: phrase-level suggestions first
+    auto phraseRes = phraseSuggestions(prefix, maxSuggestions);
+    for (auto& p : phraseRes)
+        result.push_back(p);
+    if ((int)result.size() >= maxSuggestions)
+        return result;
+
     if (prefix.empty()) {
-        // No context: fall back to top unigrams
+        // No context: top unigrams (with recency implicitly baked into counts)
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
         std::sort(uni.begin(), uni.end(),
                   [](auto& a, auto& b){ return a.second > b.second; });
@@ -106,7 +126,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         return result;
     }
 
-    // Stage 3: punctuation-aware context
+    // Punctuation-aware context
     QString qPrefix = QString::fromStdString(prefix);
     QString cleaned = normalizePunctuation(qPrefix);
 
@@ -127,7 +147,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         sentenceStart = true;
     }
 
-    // 1) Bigram context if we have a last word
+    // 1) Bigram context
     if (!lastWord.empty()) {
         auto itBig = m_bigram.find(lastWord);
         if (itBig != m_bigram.end()) {
@@ -145,7 +165,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
-    // 2) Fallback / fill with top unigrams
+    // 2) Fill with top unigrams
     if ((int)result.size() < maxSuggestions) {
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
         std::sort(uni.begin(), uni.end(),
@@ -160,7 +180,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
-    // Stage 3: capitalize at sentence start (UI-friendly)
+    // Capitalize at sentence start
     if (sentenceStart) {
         for (auto& s : result) {
             if (!s.empty())
@@ -171,11 +191,57 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     return result;
 }
 
+// Stage 7: phrase suggestions (recency + frequency)
+std::vector<std::string> AACPredictionEngine::phraseSuggestions(const std::string& prefix,
+                                                                int maxSuggestions) const
+{
+    std::vector<std::string> out;
+    if (maxSuggestions <= 0)
+        return out;
+
+    const std::string lowerPrefix = QString::fromStdString(prefix)
+                                        .trimmed()
+                                        .toLower()
+                                        .toStdString();
+
+    if (lowerPrefix.empty())
+        return out;
+
+    struct Scored {
+        std::string phrase;
+        int score;
+        int recency;
+    };
+
+    std::vector<Scored> candidates;
+    candidates.reserve(m_phrases.size());
+
+    for (const auto& kv : m_phrases) {
+        const auto& entry = kv.second;
+        if (entry.phrase.rfind(lowerPrefix, 0) == 0) { // starts with prefix
+            int score = entry.count * 10 + entry.recencyTick; // simple freq+recency
+            candidates.push_back({ entry.phrase, score, entry.recencyTick });
+        }
+    }
+
+    std::sort(candidates.begin(), candidates.end(),
+              [](const Scored& a, const Scored& b) {
+                  return a.score > b.score;
+              });
+
+    for (const auto& c : candidates) {
+        out.push_back(c.phrase);
+        if ((int)out.size() >= maxSuggestions)
+            break;
+    }
+
+    return out;
+}
+
 // -------------------------
 // Stage 4: persistence
 // -------------------------
 
-bool AACPredictionEngine::saveFromFile(const QString& path) const; // <-- remove this line if present
 bool AACPredictionEngine::saveToFile(const QString& path) const
 {
     QFile f(path);
@@ -199,6 +265,15 @@ bool AACPredictionEngine::saveToFile(const QString& path) const
         }
     }
 
+    // Phrases
+    out << "PHRASE\n";
+    for (const auto& kv : m_phrases) {
+        const auto& e = kv.second;
+        out << QString::fromStdString(e.phrase)
+            << " " << e.count
+            << " " << e.recencyTick << "\n";
+    }
+
     return true;
 }
 
@@ -210,6 +285,8 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
 
     m_unigram.clear();
     m_bigram.clear();
+    m_phrases.clear();
+    m_recencyCounter = 0;
 
     QTextStream in(&f);
     QString section;
@@ -219,12 +296,13 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
         if (line.isEmpty())
             continue;
 
-        if (line == "UNIGRAM" || line == "BIGRAM") {
+        if (line == "UNIGRAM" || line == "BIGRAM" || line == "PHRASE") {
             section = line;
             continue;
         }
 
         QStringList parts = line.split(' ', Qt::SkipEmptyParts);
+
         if (section == "UNIGRAM") {
             if (parts.size() != 2)
                 continue;
@@ -238,6 +316,30 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
             std::string next = parts[1].toLower().toStdString();
             int count = parts[2].toInt();
             m_bigram[prev][next] = count;
+        } else if (section == "PHRASE") {
+            if (parts.size() < 3)
+                continue;
+            // phrase may contain spaces; reconstruct
+            bool okCount = false;
+            bool okRec = false;
+            int count = parts[parts.size() - 2].toInt(&okCount);
+            int rec = parts[parts.size() - 1].toInt(&okRec);
+            if (!okCount || !okRec)
+                continue;
+
+            QString phrase;
+            for (int i = 0; i < parts.size() - 2; ++i) {
+                if (i > 0) phrase += " ";
+                phrase += parts[i];
+            }
+
+            std::string key = phrase.toLower().toStdString();
+            PhraseEntry e;
+            e.phrase = key;
+            e.count = count;
+            e.recencyTick = rec;
+            m_phrases[key] = e;
+            m_recencyCounter = std::max(m_recencyCounter, rec);
         }
     }
 
