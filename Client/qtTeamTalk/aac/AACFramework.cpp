@@ -22,24 +22,64 @@
 AACAccessibilityManager::AACAccessibilityManager(QObject* parent)
     : QObject(parent)
 {
-    m_layoutEngine = new AACLayoutEngine(this, this);
-    m_inputController = new AACInputController(this, this);
-    m_feedbackEngine = new AACFeedbackEngine(this, this);
-m_speechEngine = new AACSpeechEngine(this, this);
-m_history = new AACMessageHistory(this, this);
+    m_layoutEngine      = new AACLayoutEngine(this, this);
+    m_inputController   = new AACInputController(this, this);
+    m_feedbackEngine    = new AACFeedbackEngine(this, this);
+    m_speechEngine      = new AACSpeechEngine(this, this);
+    m_history           = new AACMessageHistory(this, this);
     m_vocabularyManager = new AACVocabularyManager(this);
     m_vocabularyManager->initialize();
-m_predictionEngine = new AACPredictionEngine(this, this);
 
-connect(m_speechEngine, &AACSpeechEngine::speechStarted,
-        this, &AACAccessibilityManager::speechStarted);
-connect(m_speechEngine, &AACSpeechEngine::speechFinished,
-        this, &AACAccessibilityManager::speechFinished);
+    m_predictionEngine  = new AACPredictionEngine(this, this);
 
-connect(m_history, &AACMessageHistory::historyChanged,
-        this, &AACAccessibilityManager::historyChanged);
+    connect(m_speechEngine, &AACSpeechEngine::speechStarted,
+            this, &AACAccessibilityManager::speechStarted);
+    connect(m_speechEngine, &AACSpeechEngine::speechFinished,
+            this, &AACAccessibilityManager::speechFinished);
+
+    connect(m_history, &AACMessageHistory::historyChanged,
+            this, &AACAccessibilityManager::historyChanged);
 }
 
+void AACAccessibilityManager::setPredictionEnabled(bool enabled)
+{
+    if (m_predictionEnabled == enabled)
+        return;
+
+    m_predictionEnabled = enabled;
+    emit predictionEnabledChanged(enabled);
+}
+
+// Stage 5: vocabulary boosting
+void AACAccessibilityManager::boostPredictionVocabulary()
+{
+    if (!m_vocabularyManager || !m_predictionEngine)
+        return;
+
+    // If you have a better API, adapt this:
+    const QStringList words = m_vocabularyManager->allWords(); // hypothetical
+    for (const QString& w : words)
+        m_predictionEngine->boostToken(w);
+}
+
+// Stage 4: per-user persistence
+void AACAccessibilityManager::loadPredictionForUser(const QString& userId)
+{
+    if (!m_predictionEngine)
+        return;
+
+    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
+    m_predictionEngine->loadFromFile(path);
+}
+
+void AACAccessibilityManager::savePredictionForUser(const QString& userId)
+{
+    if (!m_predictionEngine)
+        return;
+
+    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
+    m_predictionEngine->saveToFile(path);
+}
 void AACAccessibilityManager::setModes(const AACModeFlags& modes)
 {
     if (m_modes.largeTargets == modes.largeTargets &&
@@ -73,44 +113,6 @@ void AACAccessibilityManager::setLayoutConfig(const AACLayoutConfig& cfg)
 {
     m_layoutConfig = cfg;
     emit layoutConfigChanged(m_layoutConfig);
-}
-void AACAccessibilityManager::setPredictionEnabled(bool enabled)
-{
-    if (m_predictionEnabled == enabled)
-        return;
-
-    m_predictionEnabled = enabled;
-    emit predictionEnabledChanged(enabled);
-}
-void AACAccessibilityManager::boostPredictionVocabulary()
-{
-    if (!m_vocabularyManager || !m_predictionEngine)
-        return;
-
-    // Adjust to your real vocabulary API
-    const auto categories = m_vocabularyManager->categories();
-    for (const auto& cat : categories)
-        m_predictionEngine->boostToken(cat.name());
-
-    const auto symbols = m_vocabularyManager->symbols();
-    for (const auto& sym : symbols)
-        m_predictionEngine->boostToken(sym.label());
-}
-void AACAccessibilityManager::loadPredictionForUser(const QString& userId)
-{
-    if (!m_predictionEngine)
-        return;
-
-    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
-    m_predictionEngine->loadFromFile(path);   // rename if your engine uses a different API
-}
-void AACAccessibilityManager::savePredictionForUser(const QString& userId)
-{
-    if (!m_predictionEngine)
-        return;
-
-    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
-    m_predictionEngine->saveToFile(path);     // rename if your engine uses a different API
 }
 
 // -------------------------
