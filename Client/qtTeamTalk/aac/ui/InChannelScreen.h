@@ -7,16 +7,12 @@
 #include <QTimer>
 #include "aac/backend/BackendEvents.h"
 
+class QLineEdit;
 class QListWidget;
 class QListWidgetItem;
 class QPushButton;
 class QLabel;
 
-// In‑channel screen with:
-// - Participant list
-// - Transmit button
-// - Leave button
-// - Floating AAC settings gear (AAC Settings only)
 class InChannelScreen : public AACScreen {
     Q_OBJECT
 public:
@@ -27,7 +23,7 @@ public:
 signals:
     void leaveChannelRequested();
     void transmitToggled(bool enabled);
-    void settingsRequested();   // Floating gear → AAC Settings
+    void settingsRequested();
 
 public slots:
     void updateSelfVoiceState(SelfVoiceState state);
@@ -50,6 +46,20 @@ private:
         Speaking
     };
 
+    // -------------------------
+    // Prediction UI
+    // -------------------------
+    QLineEdit* m_inputEdit = nullptr;   // text entry box
+    QLabel* m_ghostLabel = nullptr;     // faint prediction text
+    QString m_ghostText;                // current suggestion
+
+    void onInputTextChanged(const QString& text);
+    void onAcceptGhost();
+    void renderGhostText(const QString& committed, const QString& ghost);
+
+    // -------------------------
+    // Participant + UI state
+    // -------------------------
     struct Participant {
         int userId;
         QString username;
@@ -74,7 +84,6 @@ private:
     QPushButton* m_transmitButton = nullptr;
     QPushButton* m_leaveButton = nullptr;
 
-    // New floating AAC settings gear
     QPushButton* m_floatingSettingsButton = nullptr;
 
     bool m_transmitEnabled = false;
