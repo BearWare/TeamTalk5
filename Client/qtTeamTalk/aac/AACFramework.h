@@ -26,6 +26,7 @@ class AACInputController;
 class AACFeedbackEngine;
 class AACSpeechEngine;
 class AACMessageHistory;
+class AACPredictionEngine;
 
 // -------------------------
 // AACButton
@@ -82,24 +83,6 @@ struct AACLayoutConfig {
 };
 
 // -------------------------
-// Central manager: AACFramework
-// -------------------------
-class AACFramework {
-public:
-    static AACFramework& Get();
-
-    AACPredictionEngine predictionEngine;
-    bool predictionEnabled = true;
-
-    void BoostVocabulary();
-    void LoadPredictionForUser(const QString& userId);
-    void SavePredictionForUser(const QString& userId);
-
-    // You likely already have:
-    AACVocabularyManager* vocabularyManager = nullptr;
-};
-
-// -------------------------
 // AACAccessibilityManager
 // -------------------------
 class AACAccessibilityManager : public QObject {
@@ -128,6 +111,15 @@ public:
 
     AACVocabularyManager* vocabularyManager() const { return m_vocabularyManager; }
 
+AACPredictionEngine* predictionEngine() const { return m_predictionEngine; }
+
+    bool predictionEnabled() const { return m_predictionEnabled; }
+    void setPredictionEnabled(bool enabled);
+
+    void boostPredictionVocabulary();
+    void loadPredictionForUser(const QString& userId);
+    void savePredictionForUser(const QString& userId);
+
 signals:
     void modesChanged(const AACModeFlags& modes);
     void dwellConfigChanged(const AACDwellConfig& cfg);
@@ -138,6 +130,7 @@ signals:
     void speechStarted(const QString& text);
     void speechFinished(const QString& text);
     void historyChanged(const QStringList& history);
+    void predictionEnabledChanged(bool enabled);
 
 private:
     AACModeFlags m_modes;
@@ -152,6 +145,9 @@ private:
     AACSpeechEngine* m_speechEngine = nullptr;
     AACMessageHistory* m_history = nullptr;
     AACVocabularyManager* m_vocabularyManager = nullptr;
+
+    AACPredictionEngine* m_predictionEngine = nullptr;
+    bool m_predictionEnabled = true;
 };
 
 // -------------------------
