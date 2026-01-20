@@ -1,19 +1,25 @@
 #pragma once
-#include <QObject>
-#include <QHash>
-#include <QStringList>
+#include <string>
+#include <vector>
+#include <unordered_map>
+#include <map>
 
-class AACPredictionEngine : public QObject {
-    Q_OBJECT
+class PredictiveTextEngine
+{
 public:
-    explicit AACPredictionEngine(QObject* parent = nullptr);
+    PredictiveTextEngine();
 
-    QStringList suggest(const QString& context, int max = 5) const;
-    void learnUtterance(const QString& utterance);
+    void Train(const std::string& text);
+    std::vector<std::string> Predict(const std::string& text, int topK = 3);
 
 private:
-    // lastWord -> (word -> count)
-    QHash<QString, QHash<QString, int>> m_nextWordCounts;
-    // global word frequency
-    QHash<QString, int> m_globalCounts;
+    std::vector<std::string> Tokenize(const std::string& text);
+
+    // unigram: token → next-token → count
+    std::unordered_map<std::string, std::map<std::string, int>> unigram_;
+
+    // bigram: (token1 + "\n" + token2) → next-token → count
+    std::unordered_map<std::string, std::map<std::string, int>> bigram_;
+
+    const std::string punct_ = ".,!?";
 };
