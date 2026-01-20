@@ -74,6 +74,44 @@ void AACAccessibilityManager::setLayoutConfig(const AACLayoutConfig& cfg)
     m_layoutConfig = cfg;
     emit layoutConfigChanged(m_layoutConfig);
 }
+void AACAccessibilityManager::setPredictionEnabled(bool enabled)
+{
+    if (m_predictionEnabled == enabled)
+        return;
+
+    m_predictionEnabled = enabled;
+    emit predictionEnabledChanged(enabled);
+}
+void AACAccessibilityManager::boostPredictionVocabulary()
+{
+    if (!m_vocabularyManager || !m_predictionEngine)
+        return;
+
+    // Adjust to your real vocabulary API
+    const auto categories = m_vocabularyManager->categories();
+    for (const auto& cat : categories)
+        m_predictionEngine->boostToken(cat.name());
+
+    const auto symbols = m_vocabularyManager->symbols();
+    for (const auto& sym : symbols)
+        m_predictionEngine->boostToken(sym.label());
+}
+void AACAccessibilityManager::loadPredictionForUser(const QString& userId)
+{
+    if (!m_predictionEngine)
+        return;
+
+    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
+    m_predictionEngine->loadFromFile(path);   // rename if your engine uses a different API
+}
+void AACAccessibilityManager::savePredictionForUser(const QString& userId)
+{
+    if (!m_predictionEngine)
+        return;
+
+    const QString path = QStringLiteral("pred_%1.dat").arg(userId);
+    m_predictionEngine->saveToFile(path);     // rename if your engine uses a different API
+}
 
 // -------------------------
 // AACLayoutEngine
