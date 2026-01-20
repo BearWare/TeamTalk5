@@ -10,6 +10,10 @@
 #include <QIcon>
 #include <QFont>
 #include <QResizeEvent>
+#include <QLineEdit>
+#include <QKeyEvent>
+
+#include "AACFramework.h"   // for AACFramework::Get().predictionEngine / predictionEnabled
 
 InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
     : AACScreen(aac, parent)
@@ -46,6 +50,28 @@ InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
     rootLayout->addWidget(m_participantList, 1);
     registerInteractive(m_participantList);
 
+    // --- Text input row (prediction target) ---
+    auto* inputRow = new QHBoxLayout();
+
+    m_inputEdit = new QLineEdit(this);
+    m_inputEdit->setPlaceholderText(tr("Type a message..."));
+    inputRow->addWidget(m_inputEdit, 1);
+    registerInteractive(m_inputEdit, true);
+
+    rootLayout->addLayout(inputRow);
+
+    // Ghost label overlay
+    m_ghostLabel = new QLabel(this);
+    m_ghostLabel->setStyleSheet("color: gray;");
+    m_ghostLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
+    m_ghostLabel->raise();
+
+    connect(m_inputEdit, &QLineEdit::textChanged,
+            this, &InChannelScreen::onInputTextChanged);
+
+    m_inputEdit->installEventFilter(this);
+
+    // --- Bottom row (transmit / leave) ---
     auto* bottomRow = new QHBoxLayout();
 
     m_transmitButton = new QPushButton(tr("Transmit"), this);
@@ -101,8 +127,12 @@ InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
 void InChannelScreen::resizeEvent(QResizeEvent* e)
 {
     QWidget::resizeEvent(e);
+
     if (m_floatingSettingsButton)
         m_floatingSettingsButton->move(width() - 80, height() - 80);
+
+    if (m_ghostLabel && m_inputEdit)
+        m_ghostLabel->setGeometry(m_inputEdit->geometry());
 }
 
 void InChannelScreen::setChannelName(const QString& name)
@@ -346,4 +376,67 @@ void InChannelScreen::updateRowHeight()
             "QListWidget::item { min-height: 32px; }"
         ));
     }
+}
+
+// -------------------------
+// Prediction handlers
+// -------------------------
+
+void InChannelScreen::onInputTextChanged(const QString& text)
+{
+    if (!AACFramework::Get().predictionEnabled) {
+        m_ghostText.clear();
+        renderGhostText(text, "");
+        return;
+    }
+
+    auto& engine = AACFramework::Get().predictionEngine;
+    auto suggestions = engine.Predict(text.toStdString(), 1);
+
+    if (!suggestions.empty())
+        m_ghostText = QString::fromStdString(suggestions[0]);
+    else
+        m_ghostText.clear();
+
+    renderGhostText(text, m_ghostText);
+}
+
+void InChannelScreen::renderGhostText(const QString& committed, const QString& ghost)
+{
+    if (!m_ghostLabel)
+        return;
+
+    if (ghost.isEmpty()) {
+        m_ghostLabel->clear();
+        return;
+    }
+
+    m_ghostLabel->setText(committed + " " + ghost);
+}
+
+void InChannelScreen::onAcceptGhost()
+{
+    if (!m_inputEdit || m_ghostText.isEmpty())
+        return;
+
+    QString t = m_inputEdit->text();
+    if (!t.isEmpty())
+        t += " ";
+    t += m_ghostText;
+
+    m_inputEdit->setText(t);
+    m_inputEdit->setCursorPosition(t.length());
+}
+
+bool InChannelScreen::eventFilter(QObject* obj, QEvent* event)
+{
+    if (obj == m_inputEdit && event->type() == QEvent::KeyPress) {
+        auto* key = static_cast<QKeyEvent*>(event);
+        if (key->key() == Qt::Key_Tab) {
+            onAcceptGhost();
+            return true;
+        }
+    }
+
+    return AACScreen::eventFilter(obj, event);
 }
