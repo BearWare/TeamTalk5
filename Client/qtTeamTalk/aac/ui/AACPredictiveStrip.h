@@ -2,28 +2,27 @@
 
 #include <QWidget>
 #include <QHBoxLayout>
-#include <QStringList>
+#include <QPushButton>
+#include <QLineEdit>
 
 class AACAccessibilityManager;
-class AACButton;
 
-class PredictiveStrip : public QWidget {
+class AACPredictiveStrip : public QWidget
+{
     Q_OBJECT
 public:
-    explicit PredictiveStrip(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+    explicit AACPredictiveStrip(AACAccessibilityManager* aac,
+                                QLineEdit* targetEdit,
+                                QWidget* parent = nullptr);
 
 public slots:
-    void setContext(const QString& text);          // called when text bar changes
-    void onCharacterTyped(QChar ch);               // optional: refine predictions
-
-signals:
-    void suggestionChosen(const QString& word);    // emitted when user taps a suggestion
+    void refresh(const QString& text);
 
 private:
-    AACAccessibilityManager* m_mgr = nullptr;
+    AACAccessibilityManager* m_aac = nullptr;
+    QLineEdit* m_targetEdit = nullptr;
     QHBoxLayout* m_layout = nullptr;
-    QString m_lastContext;
+    QList<QPushButton*> m_buttons;
 
-    void rebuild(const QStringList& suggestions);
-    QString lastWord(const QString& text) const;
+    void applySuggestion(const QString& suggestion);
 };
