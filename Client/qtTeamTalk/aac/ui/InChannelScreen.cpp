@@ -13,8 +13,6 @@
 #include <QLineEdit>
 #include <QKeyEvent>
 
-#include "AACFramework.h"   // for AACFramework::Get().predictionEngine / predictionEnabled
-
 InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
     : AACScreen(aac, parent)
 {
@@ -384,59 +382,24 @@ void InChannelScreen::updateRowHeight()
 
 void InChannelScreen::onInputTextChanged(const QString& text)
 {
-    if (!AACFramework::Get().predictionEnabled) {
+    if (!m_aac || !m_aac->predictionEnabled()) {
         m_ghostText.clear();
         renderGhostText(text, "");
         return;
     }
 
-    auto& engine = AACFramework::Get().predictionEngine;
-    auto suggestions = engine.Predict(text.toStdString(), 1);
+    AACPredictionEngine* engine = m_aac->predictionEngine();
+    if (!engine) {
+        m_ghostText.clear();
+        renderGhostText(text, "");
+        return;
+    }
 
+    auto suggestions = engine->Predict(text.toStdString(), 1);
     if (!suggestions.empty())
         m_ghostText = QString::fromStdString(suggestions[0]);
     else
         m_ghostText.clear();
 
     renderGhostText(text, m_ghostText);
-}
-
-void InChannelScreen::renderGhostText(const QString& committed, const QString& ghost)
-{
-    if (!m_ghostLabel)
-        return;
-
-    if (ghost.isEmpty()) {
-        m_ghostLabel->clear();
-        return;
-    }
-
-    m_ghostLabel->setText(committed + " " + ghost);
-}
-
-void InChannelScreen::onAcceptGhost()
-{
-    if (!m_inputEdit || m_ghostText.isEmpty())
-        return;
-
-    QString t = m_inputEdit->text();
-    if (!t.isEmpty())
-        t += " ";
-    t += m_ghostText;
-
-    m_inputEdit->setText(t);
-    m_inputEdit->setCursorPosition(t.length());
-}
-
-bool InChannelScreen::eventFilter(QObject* obj, QEvent* event)
-{
-    if (obj == m_inputEdit && event->type() == QEvent::KeyPress) {
-        auto* key = static_cast<QKeyEvent*>(event);
-        if (key->key() == Qt::Key_Tab) {
-            onAcceptGhost();
-            return true;
-        }
-    }
-
-    return AACScreen::eventFilter(obj, event);
 }
