@@ -1,50 +1,101 @@
 #include "AACPredictionEngine.h"
+#include <sstream>
+#include <cctype>
+#include <algorithm>
 
-AACPredictionEngine::AACPredictionEngine(QObject* parent)
-    : QObject(parent)
-{}
-
-void AACPredictionEngine::learnUtterance(const QString& utterance)
+PredictiveTextEngine::PredictiveTextEngine()
 {
-    const QStringList words = utterance.split(QRegularExpression("\\s+"),
-                                              Qt::SkipEmptyParts);
-    for (int i = 0; i < words.size(); ++i) {
-        const QString w = words[i].toLower();
-        m_globalCounts[w]++;
+}
 
-        if (i + 1 < words.size()) {
-            const QString next = words[i+1].toLower();
-            m_nextWordCounts[w][next]++;
+std::vector<std::string> PredictiveTextEngine::Tokenize(const std::string& text)
+{
+    std::vector<std::string> tokens;
+    std::string current;
+
+    for (char c : text)
+    {
+        if (std::isspace(c))
+        {
+            if (!current.empty())
+            {
+                tokens.push_back(current);
+                current.clear();
+            }
         }
+        else if (punct_.find(c) != std::string::npos)
+        {
+            if (!current.empty())
+            {
+                tokens.push_back(current);
+                current.clear();
+            }
+            tokens.push_back(std::string(1, c));
+        }
+        else
+        {
+            current.push_back(std::tolower(c));
+        }
+    }
+
+    if (!current.empty())
+        tokens.push_back(current);
+
+    return tokens;
+}
+
+void PredictiveTextEngine::Train(const std::string& text)
+{
+    auto tokens = Tokenize(text);
+    if (tokens.size() < 2)
+        return;
+
+    // unigram
+    for (size_t i = 0; i + 1 < tokens.size(); ++i)
+        unigram_[tokens[i]][tokens[i + 1]]++;
+
+    // bigram
+    for (size_t i = 0; i + 2 < tokens.size(); ++i)
+    {
+        std::string key = tokens[i] + "\n" + tokens[i + 1];
+        bigram_[key][tokens[i + 2]]++;
     }
 }
 
-QStringList AACPredictionEngine::suggest(const QString& context, int max) const
+std::vector<std::string> PredictiveTextEngine::Predict(const std::string& text, int topK)
 {
-    QString last;
+    auto tokens = Tokenize(text);
+    if (tokens.empty())
+        return {};
+
+    std::string last = tokens.back();
+    std::string bigramKey;
+
+    if (tokens.size() >= 2)
+        bigramKey = tokens[tokens.size() - 2] + "\n" + tokens[tokens.size() - 1];
+
+    std::vector<std::string> results;
+
+    // 1. Try bigram
+    if (!bigramKey.empty() && bigram_.count(bigramKey))
     {
-        const QStringList words = context.split(QRegularExpression("\\s+"),
-                                               Qt::SkipEmptyParts);
-        if (!words.isEmpty())
-            last = words.last().toLower();
+        auto& m = bigram_[bigramKey];
+        for (auto it = m.rbegin(); it != m.rend() && results.size() < (size_t)topK; ++it)
+            results.push_back(it->first);
+
+        if (!results.empty())
+            return results;
     }
 
-    QList<QPair<QString,int>> candidates;
+    // 2. Fallback to unigram
+    if (unigram_.count(last))
+    {
+        auto& m = unigram_[last];
+        for (auto it = m.rbegin(); it != m.rend() && results.size() < (size_t)topK; ++it)
+            results.push_back(it->first);
 
-    if (!last.isEmpty() && m_nextWordCounts.contains(last)) {
-        const auto& map = m_nextWordCounts[last];
-        for (auto it = map.begin(); it != map.end(); ++it)
-            candidates.append({it.key(), it.value()});
-    } else {
-        for (auto it = m_globalCounts.begin(); it != m_globalCounts.end(); ++it)
-            candidates.append({it.key(), it.value()});
+        return results;
     }
 
-    std::sort(candidates.begin(), candidates.end(),
-              [](auto a, auto b){ return a.second > b.second; });
-
-    QStringList out;
-    for (int i = 0; i < candidates.size() && out.size() < max; ++i)
-        out << candidates[i].first;
-    return out;
+    // 3. No prediction
+    return {};
 }
