@@ -31,21 +31,22 @@ void PredictiveStrip::setContext(const QString& text)
     if (!m_mgr || !m_mgr->predictionEngine())
         return;
 
-    QString key = lastWord(text);
-    if (key.isEmpty()) {
-        rebuild({});
-        return;
-    }
+    // Ask engine for up to 3 suggestions
+    auto* engine = m_mgr->predictionEngine();
+    std::vector<std::string> raw =
+        engine->Predict(text.toStdString(), 3);
 
-    QStringList suggestions =
-        m_mgr->predictionEngine()->suggest(text, 5);
+    QStringList suggestions;
+    for (const auto& s : raw) {
+        if (!s.empty())
+            suggestions << QString::fromStdString(s);
+    }
 
     rebuild(suggestions);
 }
 
 void PredictiveStrip::onCharacterTyped(QChar ch)
 {
-    // Optional refinement: just call setContext again
     setContext(m_lastContext + ch);
 }
 
@@ -71,6 +72,4 @@ void PredictiveStrip::rebuild(const QStringList& suggestions)
 
         m_layout->addWidget(btn);
     }
-
-    // If no suggestions, leave strip empty
 }
