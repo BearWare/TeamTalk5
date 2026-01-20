@@ -1,38 +1,47 @@
 #pragma once
-#include <string>
-#include <vector>
+
+#include <QObject>
+#include <QString>
+#include <QStringList>
+
 #include <unordered_map>
-#include <map>
+#include <vector>
+#include <string>
 
-class AACPredictionEngine
+class AACAccessibilityManager;
+
+class AACPredictionEngine : public QObject
 {
+    Q_OBJECT
 public:
-    AACPredictionEngine();
+    explicit AACPredictionEngine(AACAccessibilityManager* mgr,
+                                 QObject* parent = nullptr);
 
-    // Train on a piece of text (e.g. a sent message)
-    void Train(const std::string& text);
+    // Stage 2: learn from full utterances
+    void learnUtterance(const QString& text);
 
-    // Get up to topK predictions for the given context text
-    std::vector<std::string> Predict(const std::string& text, int topK = 3);
+    // Core prediction API used by InChannelScreen
+    std::vector<std::string> Predict(const std::string& prefix,
+                                     int maxSuggestions) const;
 
-    // Persistence
-    bool Save(const std::string& path) const;
-    bool Load(const std::string& path);
+    // Stage 4: persistence
+    bool loadFromFile(const QString& path);
+    bool saveToFile(const QString& path) const;
 
-    // Domain weighting (e.g. TeamTalk vocab)
-    void BoostToken(const std::string& token, int amount = 5);
+    // Stage 5: vocabulary boosting (called from AACAccessibilityManager::boostPredictionVocabulary)
+    void boostToken(const QString& token);
 
 private:
-    std::vector<std::string> Tokenize(const std::string& text);
+    AACAccessibilityManager* m_mgr = nullptr;
 
-    // unigram: token → next-token → count
-    std::unordered_map<std::string, std::map<std::string, int>> unigram_;
+    // unigram: word -> count
+    std::unordered_map<std::string, int> m_unigram;
 
-    // bigram: "t1\nt2" → next-token → count
-    std::unordered_map<std::string, std::map<std::string, int>> bigram_;
+    // bigram: prevWord -> (nextWord -> count)
+    std::unordered_map<std::string,
+        std::unordered_map<std::string, int>> m_bigram;
 
-    // trigram: "t1\nt2\nt3" → next-token → count
-    std::unordered_map<std::string, std::map<std::string, int>> trigram_;
-
-    const std::string punct_ = ".,!?";
+    // Tokenization helpers (Stage 2 + 3)
+    std::vector<std::string> tokenize(const QString& text) const;
+    QString normalizePunctuation(const QString& text) const;
 };
