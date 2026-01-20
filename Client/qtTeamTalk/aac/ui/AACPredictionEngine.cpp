@@ -1,197 +1,245 @@
 #include "AACPredictionEngine.h"
+#include "AACFramework.h"          // if you need access to manager types, optional
+
+#include <QRegularExpression>
+#include <QFile>
+#include <QTextStream>
+
+#include <algorithm>
 #include <cctype>
-#include <fstream>
-#include <sstream>
 
-AACPredictionEngine::AACPredictionEngine()
+AACPredictionEngine::AACPredictionEngine(AACAccessibilityManager* mgr,
+                                         QObject* parent)
+    : QObject(parent)
+    , m_mgr(mgr)
 {
 }
 
-std::vector<std::string> AACPredictionEngine::Tokenize(const std::string& text)
+// -------------------------
+// Tokenization helpers
+// -------------------------
+
+QString AACPredictionEngine::normalizePunctuation(const QString& text) const
 {
-    std::vector<std::string> tokens;
-    std::string current;
-
-    for (char c : text)
-    {
-        if (std::isspace(static_cast<unsigned char>(c)))
-        {
-            if (!current.empty())
-            {
-                tokens.push_back(current);
-                current.clear();
-            }
-        }
-        else if (punct_.find(c) != std::string::npos)
-        {
-            if (!current.empty())
-            {
-                tokens.push_back(current);
-                current.clear();
-            }
-            tokens.push_back(std::string(1, c));
-        }
-        else
-        {
-            current.push_back(static_cast<char>(std::tolower(static_cast<unsigned char>(c))));
-        }
-    }
-
-    if (!current.empty())
-        tokens.push_back(current);
-
-    return tokens;
+    // Stage 3: make sentence-ending punctuation separate tokens
+    QString cleaned = text;
+    cleaned.replace(".", " . ");
+    cleaned.replace("!", " ! ");
+    cleaned.replace("?", " ? ");
+    return cleaned;
 }
 
-void AACPredictionEngine::Train(const std::string& text)
+std::vector<std::string> AACPredictionEngine::tokenize(const QString& text) const
 {
-    auto tokens = Tokenize(text);
-    if (tokens.size() < 2)
+    // Stage 2 + 3: whitespace split after punctuation normalization
+    QString cleaned = normalizePunctuation(text);
+
+    QStringList parts = cleaned.split(QRegularExpression("\\s+"),
+                                      Qt::SkipEmptyParts);
+
+    std::vector<std::string> out;
+    out.reserve(parts.size());
+    for (const auto& p : parts)
+        out.push_back(p.toLower().toStdString());
+
+    return out;
+}
+
+// -------------------------
+// Stage 2: learning
+// -------------------------
+
+void AACPredictionEngine::learnUtterance(const QString& text)
+{
+    auto tokens = tokenize(text);
+    if (tokens.empty())
         return;
 
-    // unigram
-    for (size_t i = 0; i + 1 < tokens.size(); ++i)
-        unigram_[tokens[i]][tokens[i + 1]]++;
+    // Unigrams
+    for (const auto& w : tokens)
+        ++m_unigram[w];
 
-    // bigram
-    for (size_t i = 0; i + 2 < tokens.size(); ++i)
-    {
-        std::string key = tokens[i] + "\n" + tokens[i + 1];
-        bigram_[key][tokens[i + 2]]++;
-    }
-
-    // trigram
-    for (size_t i = 0; i + 3 < tokens.size(); ++i)
-    {
-        std::string key = tokens[i] + "\n" + tokens[i + 1] + "\n" + tokens[i + 2];
-        trigram_[key][tokens[i + 3]]++;
+    // Bigrams
+    for (size_t i = 1; i < tokens.size(); ++i) {
+        const std::string& prev = tokens[i - 1];
+        const std::string& next = tokens[i];
+        ++m_bigram[prev][next];
     }
 }
 
-std::vector<std::string> AACPredictionEngine::Predict(const std::string& text, int topK)
+// -------------------------
+// Stage 5: vocabulary boosting
+// -------------------------
+
+void AACPredictionEngine::boostToken(const QString& token)
 {
-    auto tokens = Tokenize(text);
-    std::vector<std::string> results;
-    if (tokens.empty() || topK <= 0)
-        return results;
+    std::string w = token.trimmed().toLower().toStdString();
+    if (w.empty())
+        return;
 
-    // ---- trigram backoff ----
-    if (tokens.size() >= 3)
-    {
-        std::string triKey = tokens[tokens.size() - 3] + "\n" +
-                             tokens[tokens.size() - 2] + "\n" +
-                             tokens[tokens.size() - 1];
-
-        auto itTri = trigram_.find(triKey);
-        if (itTri != trigram_.end())
-        {
-            auto& m = itTri->second;
-            for (auto it = m.rbegin(); it != m.rend() && results.size() < static_cast<size_t>(topK); ++it)
-                results.push_back(it->first);
-        }
-    }
-
-    if (results.size() >= static_cast<size_t>(topK))
-        return results;
-
-    // ---- bigram backoff ----
-    if (tokens.size() >= 2)
-    {
-        std::string biKey = tokens[tokens.size() - 2] + "\n" + tokens[tokens.size() - 1];
-        auto itBi = bigram_.find(biKey);
-        if (itBi != bigram_.end())
-        {
-            auto& m = itBi->second;
-            for (auto it = m.rbegin(); it != m.rend() && results.size() < static_cast<size_t>(topK); ++it)
-                results.push_back(it->first);
-        }
-    }
-
-    if (results.size() >= static_cast<size_t>(topK))
-        return results;
-
-    // ---- unigram backoff ----
-    std::string last = tokens.back();
-    auto itUni = unigram_.find(last);
-    if (itUni != unigram_.end())
-    {
-        auto& m = itUni->second;
-        for (auto it = m.rbegin(); it != m.rend() && results.size() < static_cast<size_t>(topK); ++it)
-            results.push_back(it->first);
-    }
-
-    return results;
+    // Just bump unigram count by a fixed amount
+    m_unigram[w] += 10;
 }
 
-bool AACPredictionEngine::Save(const std::string& path) const
+// -------------------------
+// Stage 2 + 3: prediction
+// -------------------------
+
+std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
+                                                      int maxSuggestions) const
 {
-    std::ofstream out(path);
-    if (!out)
+    std::vector<std::string> result;
+    if (maxSuggestions <= 0)
+        return result;
+
+    if (prefix.empty()) {
+        // No context: fall back to top unigrams
+        std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
+        std::sort(uni.begin(), uni.end(),
+                  [](auto& a, auto& b){ return a.second > b.second; });
+
+        for (auto& u : uni) {
+            result.push_back(u.first);
+            if ((int)result.size() >= maxSuggestions)
+                break;
+        }
+        return result;
+    }
+
+    // Stage 3: punctuation-aware context
+    QString qPrefix = QString::fromStdString(prefix);
+    QString cleaned = normalizePunctuation(qPrefix);
+
+    QStringList parts = cleaned.split(QRegularExpression("\\s+"),
+                                      Qt::SkipEmptyParts);
+
+    bool sentenceStart = false;
+    std::string lastWord;
+
+    if (!parts.isEmpty()) {
+        QString last = parts.last();
+        if (last == "." || last == "!" || last == "?") {
+            sentenceStart = true;
+        } else {
+            lastWord = last.toLower().toStdString();
+        }
+    } else {
+        sentenceStart = true;
+    }
+
+    // 1) Bigram context if we have a last word
+    if (!lastWord.empty()) {
+        auto itBig = m_bigram.find(lastWord);
+        if (itBig != m_bigram.end()) {
+            std::vector<std::pair<std::string,int>> candidates(
+                itBig->second.begin(), itBig->second.end());
+
+            std::sort(candidates.begin(), candidates.end(),
+                      [](auto& a, auto& b){ return a.second > b.second; });
+
+            for (auto& c : candidates) {
+                result.push_back(c.first);
+                if ((int)result.size() >= maxSuggestions)
+                    break;
+            }
+        }
+    }
+
+    // 2) Fallback / fill with top unigrams
+    if ((int)result.size() < maxSuggestions) {
+        std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
+        std::sort(uni.begin(), uni.end(),
+                  [](auto& a, auto& b){ return a.second > b.second; });
+
+        for (auto& u : uni) {
+            if (std::find(result.begin(), result.end(), u.first) == result.end()) {
+                result.push_back(u.first);
+                if ((int)result.size() >= maxSuggestions)
+                    break;
+            }
+        }
+    }
+
+    // Stage 3: capitalize at sentence start (UI-friendly)
+    if (sentenceStart) {
+        for (auto& s : result) {
+            if (!s.empty())
+                s[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
+        }
+    }
+
+    return result;
+}
+
+// -------------------------
+// Stage 4: persistence
+// -------------------------
+
+bool AACPredictionEngine::saveFromFile(const QString& path) const; // <-- remove this line if present
+bool AACPredictionEngine::saveToFile(const QString& path) const
+{
+    QFile f(path);
+    if (!f.open(QIODevice::WriteOnly | QIODevice::Text))
         return false;
 
+    QTextStream out(&f);
+
+    // Unigrams
     out << "UNIGRAM\n";
-    for (const auto& u : unigram_)
-        for (const auto& n : u.second)
-            out << u.first << '\t' << n.first << '\t' << n.second << '\n';
+    for (const auto& kv : m_unigram)
+        out << QString::fromStdString(kv.first) << " " << kv.second << "\n";
 
+    // Bigrams
     out << "BIGRAM\n";
-    for (const auto& b : bigram_)
-        for (const auto& n : b.second)
-            out << b.first << '\t' << n.first << '\t' << n.second << '\n';
-
-    out << "TRIGRAM\n";
-    for (const auto& t : trigram_)
-        for (const auto& n : t.second)
-            out << t.first << '\t' << n.first << '\t' << n.second << '\n';
+    for (const auto& pkv : m_bigram) {
+        QString prev = QString::fromStdString(pkv.first);
+        for (const auto& nkv : pkv.second) {
+            QString next = QString::fromStdString(nkv.first);
+            out << prev << " " << next << " " << nkv.second << "\n";
+        }
+    }
 
     return true;
 }
 
-bool AACPredictionEngine::Load(const std::string& path)
+bool AACPredictionEngine::loadFromFile(const QString& path)
 {
-    std::ifstream in(path);
-    if (!in)
+    QFile f(path);
+    if (!f.open(QIODevice::ReadOnly | QIODevice::Text))
         return false;
 
-    unigram_.clear();
-    bigram_.clear();
-    trigram_.clear();
+    m_unigram.clear();
+    m_bigram.clear();
 
-    std::string section;
-    if (!std::getline(in, section))
-        return false;
+    QTextStream in(&f);
+    QString section;
 
-    std::string line;
-    while (std::getline(in, line))
-    {
-        if (line == "BIGRAM" || line == "TRIGRAM")
-        {
+    while (!in.atEnd()) {
+        QString line = in.readLine().trimmed();
+        if (line.isEmpty())
+            continue;
+
+        if (line == "UNIGRAM" || line == "BIGRAM") {
             section = line;
             continue;
         }
 
-        std::istringstream iss(line);
-        std::string key, next;
-        int count = 0;
-        if (!(iss >> key >> next >> count))
-            continue;
-
-        if (section == "UNIGRAM")
-            unigram_[key][next] += count;
-        else if (section == "BIGRAM")
-            bigram_[key][next] += count;
-        else if (section == "TRIGRAM")
-            trigram_[key][next] += count;
+        QStringList parts = line.split(' ', Qt::SkipEmptyParts);
+        if (section == "UNIGRAM") {
+            if (parts.size() != 2)
+                continue;
+            std::string word = parts[0].toLower().toStdString();
+            int count = parts[1].toInt();
+            m_unigram[word] = count;
+        } else if (section == "BIGRAM") {
+            if (parts.size() != 3)
+                continue;
+            std::string prev = parts[0].toLower().toStdString();
+            std::string next = parts[1].toLower().toStdString();
+            int count = parts[2].toInt();
+            m_bigram[prev][next] = count;
+        }
     }
 
     return true;
-}
-
-void AACPredictionEngine::BoostToken(const std::string& token, int amount)
-{
-    if (amount <= 0)
-        return;
-
-    for (auto& u : unigram_)
-        u.second[token] += amount;
 }
