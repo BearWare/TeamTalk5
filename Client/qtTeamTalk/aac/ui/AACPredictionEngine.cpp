@@ -57,6 +57,8 @@ void AACPredictionEngine::learnUtterance(const QString& text)
     // Unigrams + word seen counts (Stage 2 + 10)
     for (const auto& w : tokens) {
         ++m_unigram[w];
+        m_cachedTotalUnigrams = -1; // invalidate cache
+
         int& seen = m_wordSeenCount[w];
         ++seen;
         // Stage 10 (Option B): add to custom dictionary on second occurrence
@@ -109,6 +111,7 @@ void AACPredictionEngine::boostToken(const QString& token)
         return;
 
     m_unigram[w] += 10;
+    m_cachedTotalUnigrams = -1; // invalidate cache
 }
 
 // -------------------------
@@ -139,7 +142,7 @@ bool AACPredictionEngine::fuzzyCloseEnough(const std::string& typed,
 }
 
 // -------------------------
-// Stage 2,3,7,8,9,10,11: prediction
+// Stage 2,3,7,8,9,10,11,12: prediction
 // -------------------------
 
 std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
@@ -327,6 +330,35 @@ std::vector<std::string> AACPredictionEngine::phraseSuggestions(const std::strin
 }
 
 // -------------------------
+// Stage 12: confidence API
+// -------------------------
+
+float AACPredictionEngine::confidenceFor(const std::string& token) const
+{
+    if (token.empty())
+        return 0.0f;
+
+    auto it = m_unigram.find(token);
+    if (it == m_unigram.end())
+        return 0.0f;
+
+    if (m_cachedTotalUnigrams < 0) {
+        int total = 0;
+        for (const auto& kv : m_unigram)
+            total += kv.second;
+        m_cachedTotalUnigrams = std::max(total, 1);
+    }
+
+    float freq = static_cast<float>(it->second) /
+                 static_cast<float>(m_cachedTotalUnigrams);
+
+    // Clamp and lightly compress so UI shading is pleasant
+    if (freq < 0.0f) freq = 0.0f;
+    if (freq > 0.2f) freq = 0.2f; // assume anything above 20% is "very high"
+    return freq / 0.2f;           // map [0,0.2] → [0,1]
+}
+
+// -------------------------
 // Stage 4: persistence
 // -------------------------
 
@@ -401,6 +433,7 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
     m_customWords.clear();
     m_wordSeenCount.clear();
     m_recencyCounter = 0;
+    m_cachedTotalUnigrams = -1;
 
     QTextStream in(&f);
     QString section;
