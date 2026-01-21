@@ -7,6 +7,7 @@
 
 #include <algorithm>
 #include <cctype>
+#include <limits>
 
 AACPredictionEngine::AACPredictionEngine(AACAccessibilityManager* mgr,
                                          QObject* parent)
@@ -44,7 +45,7 @@ std::vector<std::string> AACPredictionEngine::tokenize(const QString& text) cons
 }
 
 // -------------------------
-// Stage 2 + 7: learning
+// Stage 2 + 7 + 8 + 10: learning
 // -------------------------
 
 void AACPredictionEngine::learnUtterance(const QString& text)
@@ -53,15 +54,31 @@ void AACPredictionEngine::learnUtterance(const QString& text)
     if (tokens.empty())
         return;
 
-    // Unigrams
-    for (const auto& w : tokens)
+    // Unigrams + word seen counts (Stage 2 + 10)
+    for (const auto& w : tokens) {
         ++m_unigram[w];
+        int& seen = m_wordSeenCount[w];
+        ++seen;
+        // Stage 10 (Option B): add to custom dictionary on second occurrence
+        if (seen == 2)
+            m_customWords.insert(w);
+    }
 
-    // Bigrams
+    // Bigrams (Stage 2)
     for (size_t i = 1; i < tokens.size(); ++i) {
         const std::string& prev = tokens[i - 1];
         const std::string& next = tokens[i];
         ++m_bigram[prev][next];
+    }
+
+    // Trigrams (Stage 8)
+    if (tokens.size() >= 3) {
+        for (size_t i = 2; i < tokens.size(); ++i) {
+            const std::string& w1 = tokens[i - 2];
+            const std::string& w2 = tokens[i - 1];
+            const std::string& w3 = tokens[i];
+            ++m_trigram[w1][w2][w3];
+        }
     }
 
     // Stage 7: phrase memory
@@ -95,7 +112,34 @@ void AACPredictionEngine::boostToken(const QString& token)
 }
 
 // -------------------------
-// Stage 2,3,7: prediction
+// Stage 11: fuzzy matching
+// -------------------------
+
+int AACPredictionEngine::fuzzyDistance(const std::string& a,
+                                       const std::string& b) const
+{
+    // Simple mismatch + length difference heuristic
+    int mismatches = 0;
+    size_t len = std::min(a.size(), b.size());
+    for (size_t i = 0; i < len; ++i) {
+        if (a[i] != b[i])
+            ++mismatches;
+    }
+    mismatches += static_cast<int>(std::max(a.size(), b.size()) - len);
+    return mismatches;
+}
+
+bool AACPredictionEngine::fuzzyCloseEnough(const std::string& typed,
+                                           const std::string& candidate) const
+{
+    if (typed.empty())
+        return false;
+    int d = fuzzyDistance(typed, candidate);
+    return d <= 2;
+}
+
+// -------------------------
+// Stage 2,3,7,8,9,10,11: prediction
 // -------------------------
 
 std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
@@ -126,7 +170,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         return result;
     }
 
-    // Punctuation-aware context
+    // Punctuation-aware context (Stage 3 + 9)
     QString qPrefix = QString::fromStdString(prefix);
     QString cleaned = normalizePunctuation(qPrefix);
 
@@ -147,7 +191,36 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         sentenceStart = true;
     }
 
-    // 1) Bigram context
+    // Stage 8: Trigram context (w1, w2 -> w3)
+    if (parts.size() >= 3) {
+        std::string w1 = parts[parts.size() - 3].toLower().toStdString();
+        std::string w2 = parts[parts.size() - 2].toLower().toStdString();
+
+        auto it1 = m_trigram.find(w1);
+        if (it1 != m_trigram.end()) {
+            auto it2 = it1->second.find(w2);
+            if (it2 != it1->second.end()) {
+                std::vector<std::pair<std::string,int>> triCandidates(
+                    it2->second.begin(), it2->second.end());
+
+                std::sort(triCandidates.begin(), triCandidates.end(),
+                          [](auto& a, auto& b){ return a.second > b.second; });
+
+                for (auto& c : triCandidates) {
+                    if (std::find(result.begin(), result.end(), c.first) == result.end()) {
+                        result.push_back(c.first);
+                        if ((int)result.size() >= maxSuggestions)
+                            break;
+                    }
+                }
+            }
+        }
+
+        if ((int)result.size() >= maxSuggestions)
+            return result;
+    }
+
+    // 1) Bigram context (Stage 2)
     if (!lastWord.empty()) {
         auto itBig = m_bigram.find(lastWord);
         if (itBig != m_bigram.end()) {
@@ -158,14 +231,29 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
                       [](auto& a, auto& b){ return a.second > b.second; });
 
             for (auto& c : candidates) {
-                result.push_back(c.first);
-                if ((int)result.size() >= maxSuggestions)
-                    break;
+                if (std::find(result.begin(), result.end(), c.first) == result.end()) {
+                    result.push_back(c.first);
+                    if ((int)result.size() >= maxSuggestions)
+                        break;
+                }
             }
         }
     }
 
-    // 2) Fill with top unigrams
+    // 2) Personal dictionary + fuzzy matching (Stage 10 + 11)
+    if (!lastWord.empty() && (int)result.size() < maxSuggestions) {
+        for (const auto& w : m_customWords) {
+            if (fuzzyCloseEnough(lastWord, w)) {
+                if (std::find(result.begin(), result.end(), w) == result.end()) {
+                    result.push_back(w);
+                    if ((int)result.size() >= maxSuggestions)
+                        break;
+                }
+            }
+        }
+    }
+
+    // 3) Fill with top unigrams (Stage 2,12)
     if ((int)result.size() < maxSuggestions) {
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
         std::sort(uni.begin(), uni.end(),
@@ -180,7 +268,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
-    // Capitalize at sentence start
+    // Stage 9: Capitalize at sentence start
     if (sentenceStart) {
         for (auto& s : result) {
             if (!s.empty())
@@ -265,6 +353,19 @@ bool AACPredictionEngine::saveToFile(const QString& path) const
         }
     }
 
+    // Trigrams (Stage 8)
+    out << "TRIGRAM\n";
+    for (const auto& w1kv : m_trigram) {
+        QString w1 = QString::fromStdString(w1kv.first);
+        for (const auto& w2kv : w1kv.second) {
+            QString w2 = QString::fromStdString(w2kv.first);
+            for (const auto& w3kv : w2kv.second) {
+                QString w3 = QString::fromStdString(w3kv.first);
+                out << w1 << " " << w2 << " " << w3 << " " << w3kv.second << "\n";
+            }
+        }
+    }
+
     // Phrases
     out << "PHRASE\n";
     for (const auto& kv : m_phrases) {
@@ -272,6 +373,16 @@ bool AACPredictionEngine::saveToFile(const QString& path) const
         out << QString::fromStdString(e.phrase)
             << " " << e.count
             << " " << e.recencyTick << "\n";
+    }
+
+    // Personal dictionary (Stage 10)
+    out << "CUSTOM\n";
+    for (const auto& w : m_customWords) {
+        int seen = 0;
+        auto it = m_wordSeenCount.find(w);
+        if (it != m_wordSeenCount.end())
+            seen = it->second;
+        out << QString::fromStdString(w) << " " << seen << "\n";
     }
 
     return true;
@@ -285,7 +396,10 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
 
     m_unigram.clear();
     m_bigram.clear();
+    m_trigram.clear();
     m_phrases.clear();
+    m_customWords.clear();
+    m_wordSeenCount.clear();
     m_recencyCounter = 0;
 
     QTextStream in(&f);
@@ -296,7 +410,8 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
         if (line.isEmpty())
             continue;
 
-        if (line == "UNIGRAM" || line == "BIGRAM" || line == "PHRASE") {
+        if (line == "UNIGRAM" || line == "BIGRAM" || line == "TRIGRAM" ||
+            line == "PHRASE" || line == "CUSTOM") {
             section = line;
             continue;
         }
@@ -316,10 +431,17 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
             std::string next = parts[1].toLower().toStdString();
             int count = parts[2].toInt();
             m_bigram[prev][next] = count;
+        } else if (section == "TRIGRAM") {
+            if (parts.size() != 4)
+                continue;
+            std::string w1 = parts[0].toLower().toStdString();
+            std::string w2 = parts[1].toLower().toStdString();
+            std::string w3 = parts[2].toLower().toStdString();
+            int count = parts[3].toInt();
+            m_trigram[w1][w2][w3] = count;
         } else if (section == "PHRASE") {
             if (parts.size() < 3)
                 continue;
-            // phrase may contain spaces; reconstruct
             bool okCount = false;
             bool okRec = false;
             int count = parts[parts.size() - 2].toInt(&okCount);
@@ -340,6 +462,14 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
             e.recencyTick = rec;
             m_phrases[key] = e;
             m_recencyCounter = std::max(m_recencyCounter, rec);
+        } else if (section == "CUSTOM") {
+            if (parts.size() != 2)
+                continue;
+            std::string word = parts[0].toLower().toStdString();
+            int seen = parts[1].toInt();
+            m_wordSeenCount[word] = seen;
+            if (seen >= 2)
+                m_customWords.insert(word);
         }
     }
 
