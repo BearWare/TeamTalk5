@@ -381,10 +381,7 @@ elseif (MSVC)
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.4
       GIT_SHALLOW       TRUE
-      PATCH_COMMAND git config core.autocrlf false
-      COMMAND git config core.eol lf
-      COMMAND git rm --cached -r .
-      COMMAND git reset --hard
+      GIT_CONFIG        core.autocrlf=false core.eol=lf
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
