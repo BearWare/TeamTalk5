@@ -102,6 +102,9 @@ public:
     const AACLayoutConfig& layoutConfig() const { return m_layoutConfig; }
     void setLayoutConfig(const AACLayoutConfig& cfg);
 
+    void setActiveCategory(const QString& category);
+    QString activeCategory() const { return m_activeCategory; }
+
     AACLayoutEngine* layoutEngine() const { return m_layoutEngine; }
     AACInputController* inputController() const { return m_inputController; }
     AACFeedbackEngine* feedbackEngine() const { return m_feedbackEngine; }
@@ -126,6 +129,7 @@ signals:
     void dwellProgressChanged(QWidget* target, float progress);
     void scanningConfigChanged(const AACScanningConfig& cfg);
     void layoutConfigChanged(const AACLayoutConfig& cfg);
+    void activeCategoryChanged(const QString& category);
 
     void speechStarted(const QString& text);
     void speechFinished(const QString& text);
@@ -133,7 +137,9 @@ signals:
     void predictionEnabledChanged(bool enabled);
 
 private:
-    AACModeFlags m_modes;
+    QString m_activeCategory;
+
+   AACModeFlags m_modes;
     AACDwellConfig m_dwellConfig;
     AACScanningConfig m_scanningConfig;
     AACLayoutConfig m_layoutConfig;
