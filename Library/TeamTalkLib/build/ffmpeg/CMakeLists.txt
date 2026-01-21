@@ -359,12 +359,20 @@ elseif (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    find_program(FFMPEG_BASH_EXE_PATH bash.exe PATHS C:/msys64/usr/bin $ENV{PATH} NO_DEFAULT_PATH)
+    find_program(FFMPEG_BASH_EXE_PATH bash.exe PATHS C:/msys64/usr/bin C:/cygwin64/bin $ENV{PATH} NO_DEFAULT_PATH)
     if (FFMPEG_BASH_EXE_PATH-NOTFOUND)
       message(WARNING "MSYS2 bash.exe is required to build FFmpeg")
     else()
       message("Found bash.exe (MSYS2) for FFmpeg here: ${FFMPEG_BASH_EXE_PATH}")
     endif()
+
+    find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
+    if (YASM_EXE_DIRECTORY-NOTFOUND)
+      message(WARNING "yasm.exe is required to build FFmpeg. See https://yasm.tortall.net")
+    else()
+      message("Found YASM for FFmpeg here: ${YASM_EXE_DIRECTORY}")
+    endif()
+    file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
 
     set(FFMPEG_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
     configure_file(${CMAKE_CURRENT_LIST_DIR}/build-ffmpeg-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat @ONLY)
@@ -373,6 +381,10 @@ elseif (MSVC)
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
       GIT_TAG           n6.1.4
       GIT_SHALLOW       TRUE
+      PATCH_COMMAND git config core.autocrlf false
+      COMMAND git config core.eol lf
+      COMMAND git rm --cached -r .
+      COMMAND git reset --hard
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
