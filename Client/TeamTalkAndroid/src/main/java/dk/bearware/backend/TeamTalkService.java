@@ -680,21 +680,25 @@ public class TeamTalkService extends Service
     public int HISTORY_USER_MSG_MAX = 100;
 
     public Vector<MyTextMessage> getUserTextMsgs(int userid) {
-        Vector<MyTextMessage> msgs;
-        if(usertxtmsgs.get(userid) == null) {
-            msgs = new Vector<>();
+        Vector<MyTextMessage> msgs = usertxtmsgs.get(userid);
+        if (msgs == null) {
+            msgs = new Vector<MyTextMessage>();
             usertxtmsgs.put(userid, msgs);
         }
-        msgs = usertxtmsgs.get(userid);
-        if(msgs.size() > HISTORY_USER_MSG_MAX)
+        if (msgs.size() > HISTORY_USER_MSG_MAX)
             msgs.remove(0);
+
+        MyTextMessage.merge(msgs);
+
         return msgs;
     }
 
     public Vector<MyTextMessage> getChatLogTextMsgs() {
-        if(chatlogtxtmsgs.size()>HISTORY_CHATLOG_MSG_MAX)
+        if (chatlogtxtmsgs.size() > HISTORY_CHATLOG_MSG_MAX)
             chatlogtxtmsgs.remove(0);
-
+        int c = chatlogtxtmsgs.size();
+        MyTextMessage.merge(chatlogtxtmsgs);
+        Log.d(TAG, "Messages changed from " + c + " to " + chatlogtxtmsgs.size());
         return chatlogtxtmsgs;
     }
 
