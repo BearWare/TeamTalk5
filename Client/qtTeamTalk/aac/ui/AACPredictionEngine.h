@@ -18,11 +18,11 @@ public:
     explicit AACPredictionEngine(AACAccessibilityManager* mgr,
                                  QObject* parent = nullptr);
 
-    // Stage 1–2: learning
+    // Learning (Stages 1–2, 5, 7, 8, 10)
     void learnUtterance(const QString& text);
     void boostToken(const QString& token);
 
-    // Stage 1–12: prediction
+    // Prediction (Stages 1–20 core prediction path)
     std::vector<std::string> Predict(const std::string& prefix,
                                      int maxSuggestions) const;
 
@@ -38,7 +38,7 @@ public:
                          const std::vector<std::string>& shown,
                          const std::string& actualTyped);
 
-    // Stage 20: dwell reinforcement (same as click)
+    // Stage 20: dwell reinforcement (same as click, but stronger in future)
     void reinforceDwellChoice(const std::string& prev,
                               const std::string& chosen);
 
@@ -46,7 +46,24 @@ public:
     bool saveToFile(const QString& path) const;
     bool loadFromFile(const QString& path);
 
+    // Stage 18: AAC context hooks (to be wired from AACFramework)
+    void setCurrentCategory(const QString& category);
+    void setLastSymbolWord(const QString& word);
+
+    // Stage 19: stability / freeze control (optional external use)
+    void freezePredictions();
+    void unfreezePredictions();
+
 private:
+    // Context struct for Stage 17 (multi-word + punctuation context)
+    struct Context {
+        std::string lastWord;    // w_{-1}
+        std::string prevWord;    // w_{-2}
+        bool sentenceStart = false;
+        bool afterComma = false;
+        bool afterQuestion = false;
+    };
+
     // Helpers
     QString normalizePunctuation(const QString& text) const;
     std::vector<std::string> tokenize(const QString& text) const;
@@ -59,8 +76,11 @@ private:
     std::vector<std::string> phraseSuggestions(const std::string& prefix,
                                                int maxSuggestions) const;
 
-    // Stage 12+ scoring helper
-    float scoreCandidate(const std::string& prev,
+    // Stage 17: build context from prefix
+    Context buildContext(const QStringList& parts) const;
+
+    // Stage 12+17+18: scoring helper
+    float scoreCandidate(const Context& ctx,
                          const std::string& candidate) const;
 
 private:
@@ -97,8 +117,14 @@ private:
     std::unordered_map<std::string,
         std::unordered_map<std::string, float>> m_sessionBigramBoost;
 
-    // Stage 19: stability smoothing (hook, not yet used heavily)
+    // Stage 18: AAC context
+    QString m_currentCategory;          // e.g. "Food", "People"
+    std::string m_lastSymbolWord;       // last symbol's associated word (if any)
+
+    // Stage 19: stability
     mutable std::vector<std::string> m_lastStable;
+    bool m_predictionsFrozen = false;
+    float m_stabilityThreshold = 0.7f;  // overlap threshold for hysteresis
 };
 
 #endif // AACPREDICTIONENGINE_H
