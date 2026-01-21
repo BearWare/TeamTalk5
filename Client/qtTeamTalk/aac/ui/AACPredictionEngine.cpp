@@ -61,7 +61,7 @@ void AACPredictionEngine::learnUtterance(const QString& text)
 
         int& seen = m_wordSeenCount[w];
         ++seen;
-        // Stage 10 (Option B): add to custom dictionary on second occurrence
+        // Stage 10: add to custom dictionary on second occurrence
         if (seen == 2)
             m_customWords.insert(w);
     }
@@ -84,20 +84,14 @@ void AACPredictionEngine::learnUtterance(const QString& text)
     }
 
     // Stage 7: phrase memory
-    learnPhrase(text);
-}
-
-void AACPredictionEngine::learnPhrase(const QString& text)
-{
     const QString trimmed = text.trimmed();
-    if (trimmed.isEmpty())
-        return;
-
-    std::string key = trimmed.toLower().toStdString();
-    auto& entry = m_phrases[key];
-    entry.phrase = key;
-    entry.count += 1;
-    entry.recencyTick = ++m_recencyCounter;
+    if (!trimmed.isEmpty()) {
+        std::string key = trimmed.toLower().toStdString();
+        auto& entry = m_phrases[key];
+        entry.phrase = key;
+        entry.count += 1;
+        entry.recencyTick = ++m_recencyCounter;
+    }
 }
 
 // -------------------------
@@ -111,7 +105,7 @@ void AACPredictionEngine::boostToken(const QString& token)
         return;
 
     m_unigram[w] += 10;
-    m_cachedTotalUnigrams = -1; // invalidate cache
+    m_cachedTotalUnigrams = -1;
 }
 
 // -------------------------
@@ -121,7 +115,6 @@ void AACPredictionEngine::boostToken(const QString& token)
 int AACPredictionEngine::fuzzyDistance(const std::string& a,
                                        const std::string& b) const
 {
-    // Simple mismatch + length difference heuristic
     int mismatches = 0;
     size_t len = std::min(a.size(), b.size());
     for (size_t i = 0; i < len; ++i) {
@@ -139,6 +132,93 @@ bool AACPredictionEngine::fuzzyCloseEnough(const std::string& typed,
         return false;
     int d = fuzzyDistance(typed, candidate);
     return d <= 2;
+}
+
+// -------------------------
+// Stage 7: phrase suggestions (recency + frequency)
+// -------------------------
+
+std::vector<std::string> AACPredictionEngine::phraseSuggestions(const std::string& prefix,
+                                                                int maxSuggestions) const
+{
+    std::vector<std::string> out;
+    if (maxSuggestions <= 0)
+        return out;
+
+    const std::string lowerPrefix = QString::fromStdString(prefix)
+                                        .trimmed()
+                                        .toLower()
+                                        .toStdString();
+
+    if (lowerPrefix.empty())
+        return out;
+
+    struct Scored {
+        std::string phrase;
+        int score;
+        int recency;
+    };
+
+    std::vector<Scored> candidates;
+    candidates.reserve(m_phrases.size());
+
+    for (const auto& kv : m_phrases) {
+        const auto& entry = kv.second;
+        if (entry.phrase.rfind(lowerPrefix, 0) == 0) { // starts with prefix
+            int score = entry.count * 10 + entry.recencyTick; // freq + recency
+            candidates.push_back({ entry.phrase, score, entry.recencyTick });
+        }
+    }
+
+    std::sort(candidates.begin(), candidates.end(),
+              [](const Scored& a, const Scored& b) {
+                  return a.score > b.score;
+              });
+
+    for (const auto& c : candidates) {
+        out.push_back(c.phrase);
+        if ((int)out.size() >= maxSuggestions)
+            break;
+    }
+
+    return out;
+}
+
+// -------------------------
+// Stage 12+: scoring helper
+// -------------------------
+
+float AACPredictionEngine::scoreCandidate(const std::string& prev,
+                                          const std::string& candidate) const
+{
+    float score = 0.0f;
+
+    // Unigram weight
+    auto itU = m_unigram.find(candidate);
+    if (itU != m_unigram.end())
+        score += itU->second * 1.0f;
+
+    // Bigram weight
+    auto itB = m_bigram.find(prev);
+    if (itB != m_bigram.end()) {
+        auto it2 = itB->second.find(candidate);
+        if (it2 != itB->second.end())
+            score += it2->second * 2.0f;
+    }
+
+    // Session boosts
+    auto itSB = m_sessionBoost.find(candidate);
+    if (itSB != m_sessionBoost.end())
+        score += itSB->second;
+
+    auto itSBB = m_sessionBigramBoost.find(prev);
+    if (itSBB != m_sessionBigramBoost.end()) {
+        auto it2 = itSBB->second.find(candidate);
+        if (it2 != itSBB->second.end())
+            score += it2->second;
+    }
+
+    return score;
 }
 
 // -------------------------
@@ -160,7 +240,7 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         return result;
 
     if (prefix.empty()) {
-        // No context: top unigrams (with recency implicitly baked into counts)
+        // No context: top unigrams
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
         std::sort(uni.begin(), uni.end(),
                   [](auto& a, auto& b){ return a.second > b.second; });
@@ -279,54 +359,10 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
+    // Stage 19: stability hook (currently just caches last list)
+    m_lastStable = result;
+
     return result;
-}
-
-// Stage 7: phrase suggestions (recency + frequency)
-std::vector<std::string> AACPredictionEngine::phraseSuggestions(const std::string& prefix,
-                                                                int maxSuggestions) const
-{
-    std::vector<std::string> out;
-    if (maxSuggestions <= 0)
-        return out;
-
-    const std::string lowerPrefix = QString::fromStdString(prefix)
-                                        .trimmed()
-                                        .toLower()
-                                        .toStdString();
-
-    if (lowerPrefix.empty())
-        return out;
-
-    struct Scored {
-        std::string phrase;
-        int score;
-        int recency;
-    };
-
-    std::vector<Scored> candidates;
-    candidates.reserve(m_phrases.size());
-
-    for (const auto& kv : m_phrases) {
-        const auto& entry = kv.second;
-        if (entry.phrase.rfind(lowerPrefix, 0) == 0) { // starts with prefix
-            int score = entry.count * 10 + entry.recencyTick; // simple freq+recency
-            candidates.push_back({ entry.phrase, score, entry.recencyTick });
-        }
-    }
-
-    std::sort(candidates.begin(), candidates.end(),
-              [](const Scored& a, const Scored& b) {
-                  return a.score > b.score;
-              });
-
-    for (const auto& c : candidates) {
-        out.push_back(c.phrase);
-        if ((int)out.size() >= maxSuggestions)
-            break;
-    }
-
-    return out;
 }
 
 // -------------------------
@@ -352,10 +388,74 @@ float AACPredictionEngine::confidenceFor(const std::string& token) const
     float freq = static_cast<float>(it->second) /
                  static_cast<float>(m_cachedTotalUnigrams);
 
-    // Clamp and lightly compress so UI shading is pleasant
-    if (freq < 0.0f) freq = 0.0f;
-    if (freq > 0.2f) freq = 0.2f; // assume anything above 20% is "very high"
-    return freq / 0.2f;           // map [0,0.2] → [0,1]
+    if (freq > 0.2f) freq = 0.2f;
+    return freq / 0.2f;
+}
+
+// -------------------------
+// Stage 13: positive reinforcement
+// -------------------------
+
+void AACPredictionEngine::reinforceChoice(const std::string& prev,
+                                          const std::string& chosen)
+{
+    if (chosen.empty())
+        return;
+
+    // Strengthen unigram
+    m_unigram[chosen] += 3;
+    m_cachedTotalUnigrams = -1;
+
+    // Strengthen bigram
+    if (!prev.empty())
+        m_bigram[prev][chosen] += 5;
+
+    // Session boost
+    m_sessionBoost[chosen] += 1.0f;
+    if (!prev.empty())
+        m_sessionBigramBoost[prev][chosen] += 1.5f;
+
+    // Recency tick
+    ++m_recencyCounter;
+}
+
+// -------------------------
+// Stage 14: negative reinforcement
+// -------------------------
+
+void AACPredictionEngine::penalizeIgnored(const std::string& prev,
+                                          const std::vector<std::string>& shown,
+                                          const std::string& actualTyped)
+{
+    for (const auto& cand : shown) {
+        if (cand == actualTyped)
+            continue;
+
+        // Penalize bigram
+        if (!prev.empty()) {
+            auto it = m_bigram.find(prev);
+            if (it != m_bigram.end()) {
+                auto it2 = it->second.find(cand);
+                if (it2 != it->second.end())
+                    it2->second = std::max(0, it2->second - 1);
+            }
+        }
+
+        // Decay session boost
+        auto itSB = m_sessionBoost.find(cand);
+        if (itSB != m_sessionBoost.end())
+            itSB->second *= 0.8f;
+    }
+}
+
+// -------------------------
+// Stage 20: dwell reinforcement
+// -------------------------
+
+void AACPredictionEngine::reinforceDwellChoice(const std::string& prev,
+                                               const std::string& chosen)
+{
+    reinforceChoice(prev, chosen);
 }
 
 // -------------------------
@@ -385,7 +485,7 @@ bool AACPredictionEngine::saveToFile(const QString& path) const
         }
     }
 
-    // Trigrams (Stage 8)
+    // Trigrams
     out << "TRIGRAM\n";
     for (const auto& w1kv : m_trigram) {
         QString w1 = QString::fromStdString(w1kv.first);
@@ -407,7 +507,7 @@ bool AACPredictionEngine::saveToFile(const QString& path) const
             << " " << e.recencyTick << "\n";
     }
 
-    // Personal dictionary (Stage 10)
+    // Personal dictionary
     out << "CUSTOM\n";
     for (const auto& w : m_customWords) {
         int seen = 0;
@@ -434,6 +534,9 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
     m_wordSeenCount.clear();
     m_recencyCounter = 0;
     m_cachedTotalUnigrams = -1;
+    m_sessionBoost.clear();
+    m_sessionBigramBoost.clear();
+    m_lastStable.clear();
 
     QTextStream in(&f);
     QString section;
