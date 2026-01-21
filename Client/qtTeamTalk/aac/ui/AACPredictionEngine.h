@@ -5,6 +5,7 @@
 #include <QStringList>
 
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
 #include <string>
 #include <deque>
@@ -40,6 +41,15 @@ private:
     std::unordered_map<std::string,
         std::unordered_map<std::string, int>> m_bigram;
 
+    // Stage 8: trigram
+    std::unordered_map<std::string,
+        std::unordered_map<std::string,
+            std::unordered_map<std::string, int>>> m_trigram;
+
+    // Stage 10: personal dictionary (Option B: repeated words only)
+    std::unordered_map<std::string, int> m_wordSeenCount;
+    std::unordered_set<std::string> m_customWords;
+
     // Stage 7: recency + phrase memory
     struct PhraseEntry {
         std::string phrase;
@@ -57,4 +67,9 @@ private:
     void learnPhrase(const QString& text);
     std::vector<std::string> phraseSuggestions(const std::string& prefix,
                                                int maxSuggestions) const;
+
+    // Stage 11: fuzzy matching helper
+    int fuzzyDistance(const std::string& a, const std::string& b) const;
+    bool fuzzyCloseEnough(const std::string& typed,
+                          const std::string& candidate) const;
 };
