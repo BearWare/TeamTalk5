@@ -40,6 +40,10 @@ void AACCategoryScreen::buildCategories()
     for (const QString& c : cats) {
         AACCategoryButton* btn = new AACCategoryButton(c, m_aac, this);
 
+connect(btn, &AACCategoryButton::clicked,
+        this, [this, c]() {
+            emit categorySelected(c);
+        });
         m_grid->addWidget(btn, row, col++);
         registerInteractive(btn, true);
 
