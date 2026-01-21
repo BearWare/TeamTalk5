@@ -26,6 +26,7 @@ QString AACPredictionEngine::normalizePunctuation(const QString& text) const
     cleaned.replace(".", " . ");
     cleaned.replace("!", " ! ");
     cleaned.replace("?", " ? ");
+    cleaned.replace(",", " , "); // for afterComma context
     return cleaned;
 }
 
@@ -185,10 +186,43 @@ std::vector<std::string> AACPredictionEngine::phraseSuggestions(const std::strin
 }
 
 // -------------------------
-// Stage 12+: scoring helper
+// Stage 17: build context
 // -------------------------
 
-float AACPredictionEngine::scoreCandidate(const std::string& prev,
+AACPredictionEngine::Context
+AACPredictionEngine::buildContext(const QStringList& parts) const
+{
+    Context ctx;
+
+    if (parts.isEmpty()) {
+        ctx.sentenceStart = true;
+        return ctx;
+    }
+
+    QString last = parts.last();
+    if (last == "." || last == "!" || last == "?") {
+        ctx.sentenceStart = true;
+    } else {
+        ctx.lastWord = last.toLower().toStdString();
+    }
+
+    if (parts.size() >= 2) {
+        QString prev = parts[parts.size() - 2];
+        ctx.prevWord = prev.toLower().toStdString();
+        if (prev == ",")
+            ctx.afterComma = true;
+        if (prev == "?")
+            ctx.afterQuestion = true;
+    }
+
+    return ctx;
+}
+
+// -------------------------
+// Stage 12+17+18: scoring helper
+// -------------------------
+
+float AACPredictionEngine::scoreCandidate(const Context& ctx,
                                           const std::string& candidate) const
 {
     float score = 0.0f;
@@ -198,31 +232,70 @@ float AACPredictionEngine::scoreCandidate(const std::string& prev,
     if (itU != m_unigram.end())
         score += itU->second * 1.0f;
 
-    // Bigram weight
-    auto itB = m_bigram.find(prev);
-    if (itB != m_bigram.end()) {
-        auto it2 = itB->second.find(candidate);
-        if (it2 != itB->second.end())
-            score += it2->second * 2.0f;
+    // Bigram weight (lastWord -> candidate)
+    if (!ctx.lastWord.empty()) {
+        auto itB = m_bigram.find(ctx.lastWord);
+        if (itB != m_bigram.end()) {
+            auto it2 = itB->second.find(candidate);
+            if (it2 != itB->second.end())
+                score += it2->second * 2.0f;
+        }
     }
 
-    // Session boosts
+    // Trigram weight (prevWord, lastWord -> candidate)
+    if (!ctx.prevWord.empty() && !ctx.lastWord.empty()) {
+        auto it1 = m_trigram.find(ctx.prevWord);
+        if (it1 != m_trigram.end()) {
+            auto it2 = it1->second.find(ctx.lastWord);
+            if (it2 != it1->second.end()) {
+                auto it3 = it2->second.find(candidate);
+                if (it3 != it2->second.end())
+                    score += it3->second * 3.0f;
+            }
+        }
+    }
+
+    // Session boosts (Stage 15)
     auto itSB = m_sessionBoost.find(candidate);
     if (itSB != m_sessionBoost.end())
         score += itSB->second;
 
-    auto itSBB = m_sessionBigramBoost.find(prev);
-    if (itSBB != m_sessionBigramBoost.end()) {
-        auto it2 = itSBB->second.find(candidate);
-        if (it2 != itSBB->second.end())
-            score += it2->second;
+    if (!ctx.lastWord.empty()) {
+        auto itSBB = m_sessionBigramBoost.find(ctx.lastWord);
+        if (itSBB != m_sessionBigramBoost.end()) {
+            auto it2 = itSBB->second.find(candidate);
+            if (it2 != itSBB->second.end())
+                score += it2->second;
+        }
+    }
+
+    // Stage 18: AAC category weighting (simple, safe)
+    if (!m_currentCategory.isEmpty()) {
+        // Heuristic: if candidate appears in phrases that start with this category name,
+        // give a small boost. This is a placeholder for richer vocab metadata.
+        auto itP = m_phrases.find(m_currentCategory.toLower().toStdString());
+        if (itP != m_phrases.end()) {
+            // Very small bias, just enough to tilt
+            score += 0.5f;
+        }
+    }
+
+    // Stage 18: last symbol word weighting
+    if (!m_lastSymbolWord.empty() && candidate == m_lastSymbolWord) {
+        score += 2.0f; // strong bias toward repeating last symbol word
+    }
+
+    // Punctuation context: after question, boost "yes/no" style words slightly
+    if (ctx.afterQuestion) {
+        if (candidate == "yes" || candidate == "no")
+            score += 1.5f;
     }
 
     return score;
 }
 
 // -------------------------
-// Stage 2,3,7,8,9,10,11,12: prediction
+// Stage 2,3,7,8,9,10,11,12,17,18,19: prediction
 // -------------------------
 
 std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
@@ -232,12 +305,18 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     if (maxSuggestions <= 0)
         return result;
 
+    // Stage 19: freeze — if frozen and we have a stable list, return it
+    if (m_predictionsFrozen && !m_lastStable.empty())
+        return m_lastStable;
+
     // Stage 7: phrase-level suggestions first
     auto phraseRes = phraseSuggestions(prefix, maxSuggestions);
     for (auto& p : phraseRes)
         result.push_back(p);
-    if ((int)result.size() >= maxSuggestions)
+    if ((int)result.size() >= maxSuggestions) {
+        m_lastStable = result;
         return result;
+    }
 
     if (prefix.empty()) {
         // No context: top unigrams
@@ -250,38 +329,24 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
             if ((int)result.size() >= maxSuggestions)
                 break;
         }
+        m_lastStable = result;
         return result;
     }
 
-    // Punctuation-aware context (Stage 3 + 9)
+    // Punctuation-aware context (Stage 3 + 9 + 17)
     QString qPrefix = QString::fromStdString(prefix);
     QString cleaned = normalizePunctuation(qPrefix);
 
     QStringList parts = cleaned.split(QRegularExpression("\\s+"),
                                       Qt::SkipEmptyParts);
 
-    bool sentenceStart = false;
-    std::string lastWord;
-
-    if (!parts.isEmpty()) {
-        QString last = parts.last();
-        if (last == "." || last == "!" || last == "?") {
-            sentenceStart = true;
-        } else {
-            lastWord = last.toLower().toStdString();
-        }
-    } else {
-        sentenceStart = true;
-    }
+    Context ctx = buildContext(parts);
 
     // Stage 8: Trigram context (w1, w2 -> w3)
-    if (parts.size() >= 3) {
-        std::string w1 = parts[parts.size() - 3].toLower().toStdString();
-        std::string w2 = parts[parts.size() - 2].toLower().toStdString();
-
-        auto it1 = m_trigram.find(w1);
+    if (!ctx.prevWord.empty() && !ctx.lastWord.empty()) {
+        auto it1 = m_trigram.find(ctx.prevWord);
         if (it1 != m_trigram.end()) {
-            auto it2 = it1->second.find(w2);
+            auto it2 = it1->second.find(ctx.lastWord);
             if (it2 != it1->second.end()) {
                 std::vector<std::pair<std::string,int>> triCandidates(
                     it2->second.begin(), it2->second.end());
@@ -299,13 +364,15 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
             }
         }
 
-        if ((int)result.size() >= maxSuggestions)
+        if ((int)result.size() >= maxSuggestions) {
+            m_lastStable = result;
             return result;
+        }
     }
 
     // 1) Bigram context (Stage 2)
-    if (!lastWord.empty()) {
-        auto itBig = m_bigram.find(lastWord);
+    if (!ctx.lastWord.empty()) {
+        auto itBig = m_bigram.find(ctx.lastWord);
         if (itBig != m_bigram.end()) {
             std::vector<std::pair<std::string,int>> candidates(
                 itBig->second.begin(), itBig->second.end());
@@ -324,9 +391,9 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     }
 
     // 2) Personal dictionary + fuzzy matching (Stage 10 + 11)
-    if (!lastWord.empty() && (int)result.size() < maxSuggestions) {
+    if (!ctx.lastWord.empty() && (int)result.size() < maxSuggestions) {
         for (const auto& w : m_customWords) {
-            if (fuzzyCloseEnough(lastWord, w)) {
+            if (fuzzyCloseEnough(ctx.lastWord, w)) {
                 if (std::find(result.begin(), result.end(), w) == result.end()) {
                     result.push_back(w);
                     if ((int)result.size() >= maxSuggestions)
@@ -336,11 +403,18 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
-    // 3) Fill with top unigrams (Stage 2,12)
+    // 3) Fill with top unigrams (Stage 2,12,17,18)
     if ((int)result.size() < maxSuggestions) {
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
+        // Use scoreCandidate to sort by full context-aware score
         std::sort(uni.begin(), uni.end(),
-                  [](auto& a, auto& b){ return a.second > b.second; });
+                  [this, &ctx](auto& a, auto& b){
+                      float sa = scoreCandidate(ctx, a.first);
+                      float sb = scoreCandidate(ctx, b.first);
+                      if (sa == sb)
+                          return a.second > b.second;
+                      return sa > sb;
+                  });
 
         for (auto& u : uni) {
             if (std::find(result.begin(), result.end(), u.first) == result.end()) {
@@ -352,16 +426,32 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     }
 
     // Stage 9: Capitalize at sentence start
-    if (sentenceStart) {
+    if (ctx.sentenceStart) {
         for (auto& s : result) {
             if (!s.empty())
                 s[0] = static_cast<char>(std::toupper(static_cast<unsigned char>(s[0])));
         }
     }
 
-    // Stage 19: stability hook (currently just caches last list)
-    m_lastStable = result;
+    // Stage 19: stability layer (hysteresis)
+    if (!m_lastStable.empty()) {
+        int overlap = 0;
+        for (const auto& s : result) {
+            if (std::find(m_lastStable.begin(), m_lastStable.end(), s) != m_lastStable.end())
+                ++overlap;
+        }
+        float overlapRatio = 0.0f;
+        int denom = std::max((int)result.size(), (int)m_lastStable.size());
+        if (denom > 0)
+            overlapRatio = static_cast<float>(overlap) / static_cast<float>(denom);
 
+        // If lists are very similar, keep the old one to avoid flicker
+        if (overlapRatio >= m_stabilityThreshold) {
+            return m_lastStable;
+        }
+    }
+
+    m_lastStable = result;
     return result;
 }
 
@@ -455,7 +545,36 @@ void AACPredictionEngine::penalizeIgnored(const std::string& prev,
 void AACPredictionEngine::reinforceDwellChoice(const std::string& prev,
                                                const std::string& chosen)
 {
+    // For now, same as click; could be stronger later
     reinforceChoice(prev, chosen);
+}
+
+// -------------------------
+// Stage 18: AAC context hooks
+// -------------------------
+
+void AACPredictionEngine::setCurrentCategory(const QString& category)
+{
+    m_currentCategory = category;
+}
+
+void AACPredictionEngine::setLastSymbolWord(const QString& word)
+{
+    m_lastSymbolWord = word.trimmed().toLower().toStdString();
+}
+
+// -------------------------
+// Stage 19: freeze control
+// -------------------------
+
+void AACPredictionEngine::freezePredictions()
+{
+    m_predictionsFrozen = true;
+}
+
+void AACPredictionEngine::unfreezePredictions()
+{
+    m_predictionsFrozen = false;
 }
 
 // -------------------------
@@ -537,6 +656,9 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
     m_sessionBoost.clear();
     m_sessionBigramBoost.clear();
     m_lastStable.clear();
+    m_predictionsFrozen = false;
+    m_currentCategory.clear();
+    m_lastSymbolWord.clear();
 
     QTextStream in(&f);
     QString section;
