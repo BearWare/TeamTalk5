@@ -131,6 +131,11 @@ connect(m_predictive, &PredictiveStrip::suggestionChosen,
     connect(m_categoryScreen, &AACCategoryScreen::categorySelected,
             this,             &AACMainScreen::onCategorySelected);
 
+connect(m_categoryScreen, &AACCategoryScreen::categorySelected,
+        m_mgr,            &AACAccessibilityManager::setActiveCategory);
+
+connect(m_categoryScreen, &AACCategoryScreen::categorySelected,
+        m_symbolScreen,   &AACSymbolGridScreen::setCategory);
 
     //
     // SYMBOL GRID → TEXT BAR (insert chosen word)
@@ -138,7 +143,11 @@ connect(m_predictive, &PredictiveStrip::suggestionChosen,
     connect(m_symbolScreen, &AACSymbolGridScreen::wordChosen,
             m_textBar,       &AACTextBar::appendWord);
 
-
+connect(m_symbolScreen, &AACSymbolGridScreen::wordSelected,
+        this, [this](const QString& word) {
+            if (m_mgr && m_mgr->predictionEngine())
+                m_mgr->predictionEngine()->setLastSymbolWord(word);
+        });
     //
     // SYMBOL GRID → MAIN SCREEN (navigation back to categories)
     //
