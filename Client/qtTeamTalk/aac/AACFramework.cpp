@@ -50,6 +50,18 @@ void AACAccessibilityManager::setPredictionEnabled(bool enabled)
     emit predictionEnabledChanged(enabled);
 }
 
+void AACAccessibilityManager::setActiveCategory(const QString& category)
+{
+    if (m_activeCategory == category)
+        return;
+
+    m_activeCategory = category;
+    emit activeCategoryChanged(category);
+
+    if (m_predictionEngine)
+        m_predictionEngine->setCurrentCategory(category);
+}
+
 // Stage 5: vocabulary boosting
 void AACAccessibilityManager::boostPredictionVocabulary()
 {
