@@ -8,6 +8,7 @@
 #include <string>
 #include <vector>
 #include <unordered_map>
+#include <chrono>
 
 class AACAccessibilityManager;
 
@@ -33,10 +34,16 @@ public:
     void reinforceChoice(const std::string& prev,
                          const std::string& chosen);
 
-    // Stage 14: negative reinforcement (ignored predictions)
+    // Stage 14: negative reinforcement
     void penalizeIgnored(const std::string& prev,
                          const std::vector<std::string>& shown,
                          const std::string& actualTyped);
+    void onUserSelected(const std::string& prev,
+                        const std::string& chosen,
+                        const std::vector<std::string>& shown);
+    void onUserDeletedAutocompleted(const std::string& token);
+    void onPredictionBarShown();
+    void tick(); // call periodically for ignore‑timeout
 
     // Stage 20: dwell reinforcement (same as click, but stronger in future)
     void reinforceDwellChoice(const std::string& prev,
@@ -83,6 +90,9 @@ private:
     float scoreCandidate(const Context& ctx,
                          const std::string& candidate) const;
 
+    // Stage 14: internal penalty helper
+    void applyPenalty(const std::string& token, float basePenalty);
+
 private:
     AACAccessibilityManager* m_mgr = nullptr;
 
@@ -125,6 +135,22 @@ private:
     mutable std::vector<std::string> m_lastStable;
     bool m_predictionsFrozen = false;
     float m_stabilityThreshold = 0.7f;  // overlap threshold for hysteresis
+
+    // Stage 14: negative reinforcement state
+    struct PenaltyConfig {
+        float globalPenaltyFactor = 0.2f;
+        float decayFactor = 0.95f;
+        std::unordered_map<std::string, float> categoryPenalty;
+    };
+
+    PenaltyConfig m_penaltyCfg;
+    std::unordered_map<std::string, int> m_positiveCount;
+    std::unordered_map<std::string, int> m_negativeCount;
+
+    bool m_predictionBarVisible = false;
+    std::chrono::steady_clock::time_point m_predictionBarShown;
+    int m_ignoreThresholdMs = 2000;
+    std::string m_lastTopPrediction;
 };
 
 #endif // AACPREDICTIONENGINE_H
