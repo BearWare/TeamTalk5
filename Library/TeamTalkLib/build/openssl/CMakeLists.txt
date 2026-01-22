@@ -11,36 +11,31 @@ set (TOOLCHAIN_INSTALL_PREFIX_OPENSSL ${TOOLCHAIN_INSTALL_PREFIX}/openssl)
 if (MSVC)
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    set(OPENSSL_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
+    file(TO_NATIVE_PATH ${OPENSSL_INSTALL_DIR} OPENSSL_INSTALL_DIR)
+
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      ExternalProject_Add(openssl-src
-        GIT_REPOSITORY    https://github.com/openssl/openssl.git
-        GIT_TAG           openssl-3.6.0
-        GIT_SHALLOW       TRUE
-        UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-        CONFIGURE_COMMAND ""
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN64A
-        BUILD_COMMAND     set CL=/MP
-        COMMAND           nmake /s
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-        INSTALL_COMMAND   nmake /s install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
-        )
+      set(OPENSSL_TARGET VC-WIN64A)
     else()
-      ExternalProject_Add(openssl-src
-        GIT_REPOSITORY    https://github.com/openssl/openssl.git
-        GIT_TAG           openssl-3.6.0
-        GIT_SHALLOW       TRUE
-        UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
-        CONFIGURE_COMMAND perl <SOURCE_DIR>\\Configure no-shared no-asm --prefix=<INSTALL_DIR> --openssldir=<INSTALL_DIR>\\ssl VC-WIN32
-        BUILD_COMMAND     set CL=/MP
-        COMMAND           nmake
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-        INSTALL_COMMAND   nmake install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
-        )
+      set(OPENSSL_TARGET VC-WIN32)
     endif()
+
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/build-openssl-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-openssl-win.bat @ONLY)
+
+    ExternalProject_Add(openssl-src
+      GIT_REPOSITORY    https://github.com/openssl/openssl.git
+      GIT_TAG           openssl-3.6.0
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-openssl-win.bat
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
+      INSTALL_COMMAND   nmake /s install
+      BUILD_IN_SOURCE   TRUE
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.lib <INSTALL_DIR>/lib/libssl.lib
+      DEPENDS           ${NASM_TARGET}
+      )
     ExternalProject_Get_Property(openssl-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()

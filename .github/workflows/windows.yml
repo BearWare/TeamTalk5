@@ -94,21 +94,15 @@ jobs:
         install: base-devel
         release: false
 
-    - name: Install YASM
-      run: |
-        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
-        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
-
     - name: Install NASM
-      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/${{ matrix.portablearch }}/nasm-3.01-${{ matrix.portablearch }}.zip
+        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
         7z x nasm.zip
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
 
-    - name: Download and install OpenSSL
+    - name: Download and install OpenSSL for Qt 5.15
       if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
