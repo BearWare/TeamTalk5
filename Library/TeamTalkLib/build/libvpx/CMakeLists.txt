@@ -32,15 +32,6 @@ if (MSVC)
     file(TO_NATIVE_PATH ${LIBVPX_BASH_EXE_PATH} LIBVPX_BASH_EXE_PATH_NATIVE)
 
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-      find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
-      if (YASM_EXE_DIRECTORY-NOTFOUND)
-        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
-      else()
-        message("Found YASM for libvpx here: ${YASM_EXE_DIRECTORY}")
-      endif()
-
-      file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
       set (LIBVPX_WIN_TARGET x86_64-win64-vs17)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat @ONLY)
 
@@ -59,17 +50,9 @@ if (MSVC)
         BUILD_IN_SOURCE   TRUE
         BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
                           <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
+        DEPENDS           ${NASM_TARGET}
         )
     else()
-
-      find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/win32)
-      if (YASM_EXE_DIRECTORY-NOTFOUND)
-        message(WARNING "yasm.exe is required to build libvpx. See https://yasm.tortall.net")
-      else()
-        message("Found YASM.exe for libvpx here: ${YASM_EXE_DIRECTORY}")
-      endif()
-
-      file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
       set (LIBVPX_WIN_TARGET x86-win32-vs17)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat @ONLY)
 
@@ -88,6 +71,7 @@ if (MSVC)
         BUILD_IN_SOURCE   TRUE
         BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
                           <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
+        DEPENDS           ${NASM_TARGET}
         )
     endif()
     ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
@@ -277,7 +261,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
     list (APPEND LIBVPX_EXPORT && export LD=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
     list (APPEND LIBVPX_EXPORT && export CXX=i686-linux-android${ANDROID_PLATFORM_LEVEL}-clang++)
     list (APPEND LIBVPX_EXPORT && export STRIP=llvm-strip)
-    set (LIBVPX_CFG --target=x86-android-gcc --as=yasm)
+    set (LIBVPX_CFG --target=x86-android-gcc --as=nasm)
   elseif ("x86_64" STREQUAL "${ANDROID_ABI}")
     list (APPEND LIBVPX_EXPORT && export CC=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)
     list (APPEND LIBVPX_EXPORT && export LD=x86_64-linux-android${ANDROID_PLATFORM_LEVEL}-clang)

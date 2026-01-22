@@ -1,0 +1,4 @@
+SET PATH=@NASM_EXE_DIRECTORY_NATIVE@;%PATH%
+SET CL=/MP
+perl @OPENSSL_SOURCE_DIR@\Configure no-shared --prefix=@OPENSSL_INSTALL_DIR@ --openssldir=@OPENSSL_INSTALL_DIR@\ssl @OPENSSL_TARGET@
+nmake /s
