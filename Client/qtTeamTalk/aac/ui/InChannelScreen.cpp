@@ -1,141 +1,109 @@
 #include "InChannelScreen.h"
 
-#include <QVBoxLayout>
-#include <QHBoxLayout>
-#include <QListWidget>
-#include <QListWidgetItem>
-#include <QPushButton>
 #include <QLabel>
-#include <QPixmap>
-#include <QIcon>
-#include <QFont>
-#include <QResizeEvent>
-#include <QLineEdit>
-#include <QKeyEvent>
+#include <QHBoxLayout>
 
-InChannelScreen::InChannelScreen(AACAccessibilityManager* aac, QWidget* parent)
-    : AACScreen(aac, parent)
+#include "backend/BackendAdapter.h"
+#include "aac/AACMainScreen.h"
+
+InChannelScreen::InChannelScreen(AACAccessibilityManager* aac,
+                                 BackendAdapter* backend,
+                                 QWidget* parent)
+    : QWidget(parent)
+    , m_aac(aac)
+    , m_backend(backend)
 {
-    auto* rootLayout = new QVBoxLayout(this);
+    m_rootLayout = new QVBoxLayout(this);
+    m_rootLayout->setContentsMargins(8, 8, 8, 8);
+    m_rootLayout->setSpacing(8);
 
-    m_channelLabel = new QLabel(tr("In Channel"), this);
-    m_channelLabel->setAlignment(Qt::AlignCenter);
-    m_channelLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
-    rootLayout->addWidget(m_channelLabel);
+    m_channelLabel = new QLabel(tr("Channel"), this);
+    m_eventLabel   = new QLabel(this);
 
-    m_speakingBanner = new QLabel("", this);
-    m_speakingBanner->setAlignment(Qt::AlignCenter);
-    m_speakingBanner->setStyleSheet("font-size: 16px; color: #00aa00;");
-    rootLayout->addWidget(m_speakingBanner);
+    m_aacMain = new AACMainScreen(m_aac, this);
+    connect(m_aacMain, &AACMainScreen::textCommitted,
+            this, &InChannelScreen::onTextCommitted);
 
-    m_quietBanner = new QLabel("", this);
-    m_quietBanner->setAlignment(Qt::AlignCenter);
-    m_quietBanner->setStyleSheet("font-size: 14px; color: #888;");
-    rootLayout->addWidget(m_quietBanner);
-
-    m_participantCountLabel = new QLabel("", this);
-    m_participantCountLabel->setAlignment(Qt::AlignCenter);
-    m_participantCountLabel->setStyleSheet("font-size: 14px; color: #cccccc;");
-    rootLayout->addWidget(m_participantCountLabel);
-
-    m_eventBanner = new QLabel("", this);
-    m_eventBanner->setAlignment(Qt::AlignCenter);
-    m_eventBanner->setStyleSheet("font-size: 14px; color: #ffaa00;");
-    rootLayout->addWidget(m_eventBanner);
-
-    m_participantList = new QListWidget(this);
-    m_participantList->setSelectionMode(QAbstractItemView::NoSelection);
-    rootLayout->addWidget(m_participantList, 1);
-    registerInteractive(m_participantList);
-
-    // --- Text input row (prediction target) ---
-    auto* inputRow = new QHBoxLayout();
-
-    m_inputEdit = new QLineEdit(this);
-    m_inputEdit->setPlaceholderText(tr("Type a message..."));
-    inputRow->addWidget(m_inputEdit, 1);
-    registerInteractive(m_inputEdit, true);
-
-    rootLayout->addLayout(inputRow);
-
-    // Ghost label overlay
-    m_ghostLabel = new QLabel(this);
-    m_ghostLabel->setStyleSheet("color: gray;");
-    m_ghostLabel->setAttribute(Qt::WA_TransparentForMouseEvents);
-    m_ghostLabel->raise();
-
-    connect(m_inputEdit, &QLineEdit::textChanged,
-            this, &InChannelScreen::onInputTextChanged);
-
-    m_inputEdit->installEventFilter(this);
-
-    // --- Bottom row (transmit / leave) ---
-    auto* bottomRow = new QHBoxLayout();
-
-    m_transmitButton = new QPushButton(tr("Transmit"), this);
-    m_transmitButton->setCheckable(true);
-    bottomRow->addWidget(m_transmitButton, 2);
-    registerInteractive(m_transmitButton, true);
-
-    m_leaveButton = new QPushButton(tr("Leave channel"), this);
-    bottomRow->addWidget(m_leaveButton, 1);
-    registerInteractive(m_leaveButton);
-
-    rootLayout->addLayout(bottomRow);
+    QHBoxLayout* controls = new QHBoxLayout();
+    m_leaveButton = new QPushButton(tr("Leave"), this);
+    m_pttButton   = new QPushButton(tr("PTT"), this);
+    m_pttButton->setCheckable(true);
 
     connect(m_leaveButton, &QPushButton::clicked,
             this, &InChannelScreen::onLeaveClicked);
+    connect(m_pttButton, &QPushButton::toggled,
+            this, &InChannelScreen::onPTToggled);
 
-    connect(m_transmitButton, &QPushButton::clicked,
-            this, &InChannelScreen::onTransmitClicked);
+    controls->addWidget(m_leaveButton);
+    controls->addWidget(m_pttButton);
+    controls->addStretch(1);
 
-    m_quietTimer.setInterval(1000);
-    connect(&m_quietTimer, &QTimer::timeout,
-            this, &InChannelScreen::onQuietTimerTick);
-    m_quietTimer.start();
-
-    if (m_aac) {
-        connect(m_aac, &AACAccessibilityManager::modesChanged,
-                this, [this](const AACModeFlags&) { updateRowHeight(); });
-    }
-
-    // Floating AAC settings gear
-    m_floatingSettingsButton = new QPushButton("⚙", this);
-    m_floatingSettingsButton->setFixedSize(64, 64);
-    m_floatingSettingsButton->setStyleSheet(
-        "border-radius: 32px;"
-        "background-color: #444;"
-        "color: white;"
-        "font-size: 28px;"
-    );
-    m_floatingSettingsButton->raise();
-    m_floatingSettingsButton->move(width() - 80, height() - 80);
-    m_floatingSettingsButton->show();
-
-    registerInteractive(m_floatingSettingsButton);
-
-    connect(m_floatingSettingsButton, &QPushButton::clicked,
-            this, [this]() { emit settingsRequested(); });
-
-    updateParticipantCount();
-    updateTransmitUi();
-    updateRowHeight();
+    m_rootLayout->addWidget(m_channelLabel);
+    m_rootLayout->addWidget(m_eventLabel);
+    m_rootLayout->addWidget(m_aacMain);
+    m_rootLayout->addLayout(controls);
+    m_rootLayout->addStretch(1);
 }
 
-void InChannelScreen::resizeEvent(QResizeEvent* e)
+QList<QWidget*> InChannelScreen::interactiveWidgets() const
 {
-    QWidget::resizeEvent(e);
+    QList<QWidget*> out;
+    out << const_cast<AACMainScreen*>(m_aacMain);
+    out << const_cast<QPushButton*>(m_leaveButton);
+    out << const_cast<QPushButton*>(m_pttButton);
+    return out;
+}
 
-    if (m_floatingSettingsButton)
-        m_floatingSettingsButton->move(width() - 80, height() - 80);
+QList<QWidget*> InChannelScreen::primaryWidgets() const
+{
+    QList<QWidget*> out;
+    out << const_cast<AACMainScreen*>(m_aacMain);
+    return out;
+}
 
-    if (m_ghostLabel && m_inputEdit)
-        m_ghostLabel->setGeometry(m_inputEdit->geometry());
+QLayout* InChannelScreen::rootLayout() const
+{
+    return m_rootLayout;
+}
+
+QWidget* InChannelScreen::predictiveStripContainer() const
+{
+    return m_aacMain->predictiveStripContainer();
 }
 
 void InChannelScreen::setChannelName(const QString& name)
 {
-    m_channelLabel->setText(name);
+    m_channelLabel->setText(tr("Channel: %1").arg(name));
+}
+
+void InChannelScreen::updateSelfVoiceState(const SelfVoiceState& state)
+{
+    Q_UNUSED(state);
+    // hook for visual feedback if desired
+}
+
+void InChannelScreen::updateOtherUserVoiceState(const OtherUserVoiceEvent& event)
+{
+    Q_UNUSED(event);
+    // hook for visual feedback if desired
+}
+
+void InChannelScreen::setEventMessage(const QString& msg)
+{
+    m_eventLabel->setText(msg);
+}
+
+void InChannelScreen::onTextCommitted(const QString& text)
+{
+    const QString trimmed = text.trimmed();
+    if (trimmed.isEmpty())
+        return;
+
+    if (m_aac && m_aac->speechEngine())
+        m_aac->speechEngine()->speak(trimmed);
+
+    if (m_backend)
+        m_backend->sendChannelMessage(trimmed);
 }
 
 void InChannelScreen::onLeaveClicked()
@@ -143,263 +111,7 @@ void InChannelScreen::onLeaveClicked()
     emit leaveChannelRequested();
 }
 
-void InChannelScreen::onTransmitClicked()
+void InChannelScreen::onPTToggled(bool checked)
 {
-    m_transmitEnabled = m_transmitButton->isChecked();
-    emit transmitToggled(m_transmitEnabled);
-    updateTransmitUi();
-}
-
-void InChannelScreen::updateSelfVoiceState(SelfVoiceState state)
-{
-    m_selfVoiceState = state;
-
-    if (!m_transmitEnabled) {
-        m_transmitUiState = TransmitUiState::Idle;
-    } else {
-        if (m_selfVoiceState == SelfVoiceState::Transmitting)
-            m_transmitUiState = TransmitUiState::Speaking;
-        else
-            m_transmitUiState = TransmitUiState::Armed;
-    }
-
-    updateTransmitUi();
-}
-
-void InChannelScreen::updateOtherUserVoiceState(const OtherUserVoiceEvent& event)
-{
-    Participant p;
-
-    if (m_participants.contains(event.userId)) {
-        p = m_participants[event.userId];
-    } else {
-        p.userId = event.userId;
-        p.username = event.username;
-        p.voiceState = OtherUserVoiceState::Silent;
-        p.lastSpoke = QDateTime();
-        p.item = new QListWidgetItem(m_participantList);
-        m_participants.insert(event.userId, p);
-    }
-
-    Participant& ref = m_participants[event.userId];
-    ref.username = event.username;
-    ref.voiceState = event.state;
-
-    if (event.state == OtherUserVoiceState::Speaking)
-        ref.lastSpoke = QDateTime::currentDateTime();
-
-    updateParticipantItem(ref);
-    resortParticipants();
-    updateSpeakingBanner();
-    updateParticipantCount();
-}
-
-void InChannelScreen::clearParticipants()
-{
-    m_participantList->clear();
-    m_participants.clear();
-    m_speakingBanner->clear();
-    updateParticipantCount();
-}
-
-void InChannelScreen::setEventMessage(const QString& message)
-{
-    m_eventBanner->setText(message);
-}
-
-void InChannelScreen::updateTransmitUi()
-{
-    QString text;
-    QString style;
-
-    switch (m_transmitUiState) {
-    case TransmitUiState::Idle:
-        text = tr("Transmit");
-        style = "background-color: #444; color: white; font-size: 18px;";
-        m_transmitButton->setChecked(false);
-        break;
-    case TransmitUiState::Armed:
-        text = tr("Ready");
-        style = "background-color: #0066cc; color: white; font-size: 18px;";
-        m_transmitButton->setChecked(true);
-        break;
-    case TransmitUiState::Speaking:
-        text = tr("Speaking");
-        style = "background-color: #00aa00; color: white; font-size: 18px;";
-        m_transmitButton->setChecked(true);
-        break;
-    }
-
-    m_transmitButton->setText(text);
-    m_transmitButton->setStyleSheet(style);
-}
-
-void InChannelScreen::updateParticipantItem(Participant& p)
-{
-    if (!p.item)
-        return;
-
-    QString label = p.username;
-
-    if (p.voiceState == OtherUserVoiceState::Speaking)
-        label += tr("  — speaking");
-
-    if (p.lastSpoke.isValid()) {
-        label += tr("  (last spoke: %1)")
-                     .arg(p.lastSpoke.time().toString("HH:mm:ss"));
-    }
-
-    p.item->setText(label);
-
-    QPixmap bar(12, 32);
-    if (p.voiceState == OtherUserVoiceState::Speaking)
-        bar.fill(QColor("#00aa00"));
-    else
-        bar.fill(QColor("#333333"));
-
-    p.item->setIcon(QIcon(bar));
-
-    if (p.voiceState == OtherUserVoiceState::Speaking) {
-        p.item->setBackground(QColor("#003300"));
-        p.item->setForeground(Qt::white);
-        QFont f = p.item->font();
-        f.setBold(true);
-        p.item->setFont(f);
-    } else {
-        p.item->setBackground(Qt::black);
-        p.item->setForeground(Qt::white);
-        QFont f = p.item->font();
-        f.setBold(false);
-        p.item->setFont(f);
-    }
-}
-
-void InChannelScreen::resortParticipants()
-{
-    QList<Participant> list = m_participants.values();
-
-    std::sort(list.begin(), list.end(), [](const Participant& a, const Participant& b) {
-        if (a.voiceState == OtherUserVoiceState::Speaking &&
-            b.voiceState != OtherUserVoiceState::Speaking)
-            return true;
-        if (b.voiceState == OtherUserVoiceState::Speaking &&
-            a.voiceState != OtherUserVoiceState::Speaking)
-            return false;
-
-        if (a.lastSpoke.isValid() && b.lastSpoke.isValid())
-            return a.lastSpoke > b.lastSpoke;
-
-        if (a.lastSpoke.isValid() && !b.lastSpoke.isValid())
-            return true;
-        if (!a.lastSpoke.isValid() && b.lastSpoke.isValid())
-            return false;
-
-        return a.username.toLower() < b.username.toLower();
-    });
-
-    m_participantList->clear();
-
-    for (Participant& p : list) {
-        if (!p.item)
-            p.item = new QListWidgetItem(m_participantList);
-        else
-            m_participantList->addItem(p.item);
-
-        updateParticipantItem(p);
-        m_participants[p.userId] = p;
-    }
-}
-
-void InChannelScreen::updateSpeakingBanner()
-{
-    QStringList speaking;
-
-    for (const auto& p : m_participants) {
-        if (p.voiceState == OtherUserVoiceState::Speaking)
-            speaking << p.username;
-    }
-
-    if (speaking.isEmpty()) {
-        m_speakingBanner->clear();
-    } else if (speaking.size() == 1) {
-        m_speakingBanner->setText(tr("%1 is speaking").arg(speaking.first()));
-    } else {
-        m_speakingBanner->setText(tr("Multiple people are speaking"));
-    }
-}
-
-void InChannelScreen::updateParticipantCount()
-{
-    const int count = m_participants.size();
-    if (count == 0)
-        m_participantCountLabel->setText(tr("No other participants"));
-    else if (count == 1)
-        m_participantCountLabel->setText(tr("1 other participant"));
-    else
-        m_participantCountLabel->setText(tr("%1 other participants").arg(count));
-}
-
-void InChannelScreen::onQuietTimerTick()
-{
-    bool anyRecent = false;
-    const QDateTime now = QDateTime::currentDateTime();
-
-    for (const auto& p : m_participants) {
-        if (p.lastSpoke.isValid() &&
-            p.lastSpoke.secsTo(now) < 10) {
-            anyRecent = true;
-            break;
-        }
-    }
-
-    if (!anyRecent)
-        m_quietBanner->setText(tr("Quiet channel"));
-    else
-        m_quietBanner->clear();
-}
-
-void InChannelScreen::updateRowHeight()
-{
-    if (!m_participantList || !m_aac)
-        return;
-
-    const bool large = m_aac->modes().largeTargets;
-
-    if (large) {
-        m_participantList->setStyleSheet(QStringLiteral(
-            "QListWidget::item { min-height: %1px; }"
-        ).arg(AACLayoutEngine::AAC_MIN_TARGET));
-    } else {
-        m_participantList->setStyleSheet(QStringLiteral(
-            "QListWidget::item { min-height: 32px; }"
-        ));
-    }
-}
-
-// -------------------------
-// Prediction handlers
-// -------------------------
-
-void InChannelScreen::onInputTextChanged(const QString& text)
-{
-    if (!m_aac || !m_aac->predictionEnabled()) {
-        m_ghostText.clear();
-        renderGhostText(text, "");
-        return;
-    }
-
-    AACPredictionEngine* engine = m_aac->predictionEngine();
-    if (!engine) {
-        m_ghostText.clear();
-        renderGhostText(text, "");
-        return;
-    }
-
-    auto suggestions = engine->Predict(text.toStdString(), 1);
-    if (!suggestions.empty())
-        m_ghostText = QString::fromStdString(suggestions[0]);
-    else
-        m_ghostText.clear();
-
-    renderGhostText(text, m_ghostText);
+    emit transmitToggled(checked);
 }
