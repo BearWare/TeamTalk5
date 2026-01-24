@@ -6,6 +6,7 @@
 
 #include "aac/AACAccessibilityManager.h"
 #include "aac/AACLayoutEngine.h"
+#include "aac/AACMainScreen.h"
 
 #include "backend/BackendAdapter.h"
 #include "backend/StateMachine.h"
@@ -16,6 +17,8 @@
 #include "screens/ConnectingScreen.h"
 #include "screens/AppSettingsScreen.h"
 #include "screens/AACSettingsScreen.h"
+#include "screens/AACCategoryScreen.h"
+#include "screens/AACSymbolGridScreen.h"
 
 MainWindow::MainWindow(QWidget* parent)
     : QMainWindow(parent)
@@ -26,23 +29,28 @@ MainWindow::MainWindow(QWidget* parent)
 
     auto* central = new QWidget(this);
     auto* layout = new QVBoxLayout(central);
-    auto* stack = new QStackedWidget(central);
-    layout->addWidget(stack);
+    m_stack = new QStackedWidget(central);
+    layout->addWidget(m_stack);
     setCentralWidget(central);
 
     m_connectScreen = new ConnectScreen(m_aac, this);
     m_channelListScreen = new ChannelListScreen(m_aac, this);
-    m_inChannelScreen = new InChannelScreen(m_aac, this);
+    m_inChannelScreen = new InChannelScreen(m_aac, m_backend, this);
     m_connectingScreen = new ConnectingScreen(m_aac, this);
     m_appSettingsScreen = new AppSettingsScreen(m_aac, this);
     m_aacSettingsScreen = new AACSettingsScreen(m_aac, this);
 
-    stack->addWidget(m_connectScreen);
-    stack->addWidget(m_channelListScreen);
-    stack->addWidget(m_inChannelScreen);
-    stack->addWidget(m_connectingScreen);
-    stack->addWidget(m_appSettingsScreen);
-    stack->addWidget(m_aacSettingsScreen);
+    m_aacCategoryScreen = new AACCategoryScreen(m_aac, this);
+    m_aacSymbolScreen   = new AACSymbolGridScreen(m_aac, this);
+
+    m_stack->addWidget(m_connectScreen);
+    m_stack->addWidget(m_channelListScreen);
+    m_stack->addWidget(m_inChannelScreen);
+    m_stack->addWidget(m_connectingScreen);
+    m_stack->addWidget(m_appSettingsScreen);
+    m_stack->addWidget(m_aacSettingsScreen);
+    m_stack->addWidget(m_aacCategoryScreen);
+    m_stack->addWidget(m_aacSymbolScreen);
 
     wireScreens();
     applyAACDefaults();
@@ -51,6 +59,27 @@ MainWindow::MainWindow(QWidget* parent)
 }
 
 MainWindow::~MainWindow() {}
+
+void MainWindow::switchToScreen(QWidget* w)
+{
+    if (!w || !m_aac)
+        return;
+
+    if (auto* pred = m_aac->predictionEngine())
+        pred->freezePredictions();
+
+    m_stack->setCurrentWidget(w);
+
+    if (auto* adapter = qobject_cast<AACScreenAdapter*>(w)) {
+        if (m_aac->layoutEngine())
+            m_aac->layoutEngine()->applyLayout(adapter);
+        if (m_aac->inputController())
+            m_aac->inputController()->attachScreen(adapter);
+    }
+
+    if (auto* pred = m_aac->predictionEngine())
+        pred->unfreezePredictions();
+}
 
 void MainWindow::wireScreens()
 {
@@ -82,7 +111,7 @@ void MainWindow::wireScreens()
             this, &MainWindow::onTransmitToggled);
 
     connect(m_inChannelScreen, &InChannelScreen::settingsRequested,
-            this, &MainWindow::showAACSettingsScreen);
+            this, &MainWindow::showAACSettingsScreen); // if such signal exists
 
     connect(m_connectingScreen, &ConnectingScreen::cancelRequested,
             this, &MainWindow::onCancelConnectRequested);
@@ -113,6 +142,21 @@ void MainWindow::wireScreens()
 
     connect(m_backend, &BackendAdapter::eventMessage,
             this, &MainWindow::onEventMessage);
+
+    // AAC category → symbol grid
+    connect(m_aacCategoryScreen, &AACCategoryScreen::categoryChosen,
+            this, [this](const QString& cat) {
+                m_aacSymbolScreen->setCategory(cat);
+                switchToScreen(m_aacSymbolScreen);
+            });
+
+    // AAC symbol → InChannelScreen/AACMainScreen
+    connect(m_aacSymbolScreen, &AACSymbolGridScreen::symbolActivated,
+            this, [this](const QString& word) {
+                if (auto* main = m_inChannelScreen->findChild<AACMainScreen*>())
+                    main->appendWord(word);
+                switchToScreen(m_inChannelScreen);
+            });
 }
 
 void MainWindow::applyAACDefaults()
@@ -131,33 +175,34 @@ void MainWindow::applyAACDefaults()
 
 void MainWindow::showConnectScreen()
 {
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_connectScreen);
+    switchToScreen(m_connectScreen);
 }
 
 void MainWindow::showChannelListScreen()
 {
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_channelListScreen);
+    switchToScreen(m_channelListScreen);
 }
 
 void MainWindow::showInChannelScreen(int channelId, const QString& channelName)
 {
+    Q_UNUSED(channelId);
     m_inChannelScreen->setChannelName(channelName);
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_inChannelScreen);
+    switchToScreen(m_inChannelScreen);
 }
 
 void MainWindow::showConnectingScreen()
 {
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_connectingScreen);
+    switchToScreen(m_connectingScreen);
 }
 
 void MainWindow::showAppSettingsScreen()
 {
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_appSettingsScreen);
+    switchToScreen(m_appSettingsScreen);
 }
 
 void MainWindow::showAACSettingsScreen()
 {
-    centralWidget()->findChild<QStackedWidget*>()->setCurrentWidget(m_aacSettingsScreen);
+    switchToScreen(m_aacSettingsScreen);
 }
 
 void MainWindow::onConnectRequested(const QString& host, int port, const QString& username)
