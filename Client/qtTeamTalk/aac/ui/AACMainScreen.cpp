@@ -120,6 +120,46 @@ void AACMainScreen::appendWord(const QString& word)
     m_text->setText(current);
 }
 
+void AACMainScreen::onPredictionDwellActivated(QWidget* w)
+{
+    if (!m_pred)
+        return;
+
+    // We expect dwell to target the prediction bar as a whole
+    if (w != m_predictionBar)
+        return;
+
+    QListWidgetItem* item = m_predictionBar->currentItem();
+    if (!item)
+        return;
+
+    const QString chosenQ = item->text();
+    const std::string chosen = chosenQ.toStdString();
+
+    const QString currentText = m_text->text();
+    QString prevWord = extractPrevWord(currentText);
+    const std::string prev = prevWord.toLower().toStdString();
+
+    std::vector<std::string> shown;
+    shown.reserve(m_predictionBar->count());
+    for (int i = 0; i < m_predictionBar->count(); ++i)
+        shown.push_back(m_predictionBar->item(i)->text().toStdString());
+
+    // Dwell-specific reinforcement
+    m_pred->reinforceDwellChoice(prev, chosen);
+    m_pred->onUserSelected(prev, chosen, shown);
+
+    QStringList parts =
+        currentText.split(QRegularExpression("\\s+"), Qt::SkipEmptyParts);
+    if (!parts.isEmpty())
+        parts.removeLast();
+    parts << chosenQ;
+
+    QString newText = parts.join(" ") + " ";
+    m_text->setText(newText);
+    emit textCommitted(newText);
+}
+
 // Helpers
 
 QString AACMainScreen::extractPrevWord(const QString& text) const
@@ -146,6 +186,14 @@ QString AACMainScreen::extractSecondLastWord(const QString& text) const
     return parts[parts.size() - 2];
 }
 
+float AACMainScreen::confidenceForItem(QListWidgetItem* item) const
+{
+    if (!item || !m_pred)
+        return 0.0f;
+    const std::string token = item->text().toLower().toStdString();
+    return m_pred->confidenceFor(token); // 0.0–1.0
+}
+
 // Slots
 
 void AACMainScreen::onTextChanged(const QString& text)
@@ -159,8 +207,17 @@ void AACMainScreen::onTextChanged(const QString& text)
     m_predictionBar->clear();
     if (!suggestions.empty()) {
         m_pred->onPredictionBarShown();
-        for (const auto& s : suggestions)
-            m_predictionBar->addItem(QString::fromStdString(s));
+        for (const auto& s : suggestions) {
+            auto* item = new QListWidgetItem(QString::fromStdString(s));
+            float conf = m_pred->confidenceFor(s);
+            if (conf > 0.66f)
+                item->setForeground(QColor("#008000"));      // high confidence
+            else if (conf > 0.33f)
+                item->setForeground(QColor("#0055AA"));      // medium
+            else
+                item->setForeground(Qt::darkGray);           // low
+            m_predictionBar->addItem(item);
+        }
     }
 }
 
@@ -201,7 +258,6 @@ void AACMainScreen::onCommitButtonClicked()
     if (text.isEmpty())
         return;
 
-    // Penalise ignored predictions for the last word
     if (m_pred && m_aac && m_aac->predictionEnabled()) {
         QString actualWord = extractPrevWord(text);
         QString prevWord   = extractSecondLastWord(text);
