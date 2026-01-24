@@ -2,9 +2,11 @@
 
 #include <QMainWindow>
 
+class QStackedWidget;
+
 class AACAccessibilityManager;
-class StateMachine;
 class BackendAdapter;
+class StateMachine;
 
 class ConnectScreen;
 class ChannelListScreen;
@@ -12,15 +14,17 @@ class InChannelScreen;
 class ConnectingScreen;
 class AppSettingsScreen;
 class AACSettingsScreen;
+class AACCategoryScreen;
+class AACSymbolGridScreen;
 
-class MainWindow : public QMainWindow {
+class MainWindow : public QMainWindow
+{
     Q_OBJECT
 public:
     explicit MainWindow(QWidget* parent = nullptr);
-    ~MainWindow();
+    ~MainWindow() override;
 
 private slots:
-    // Navigation
     void showConnectScreen();
     void showChannelListScreen();
     void showInChannelScreen(int channelId, const QString& channelName);
@@ -28,21 +32,13 @@ private slots:
     void showAppSettingsScreen();
     void showAACSettingsScreen();
 
-    // ConnectScreen
     void onConnectRequested(const QString& host, int port, const QString& username);
-
-    // ChannelListScreen
     void onRefreshRequested();
     void onJoinChannelRequested(int channelId);
-
-    // InChannelScreen
     void onLeaveChannelRequested();
     void onTransmitToggled(bool enabled);
-
-    // ConnectingScreen
     void onCancelConnectRequested();
 
-    // Backend events
     void onConnected();
     void onConnectionFailed(const QString& reason);
     void onDisconnected();
@@ -54,12 +50,11 @@ private slots:
     void onEventMessage(const QString& message);
 
 private:
-    void wireScreens();
-    void applyAACDefaults();
-
     AACAccessibilityManager* m_aac = nullptr;
-    StateMachine* m_state = nullptr;
     BackendAdapter* m_backend = nullptr;
+    StateMachine* m_state = nullptr;
+
+    QStackedWidget* m_stack = nullptr;
 
     ConnectScreen* m_connectScreen = nullptr;
     ChannelListScreen* m_channelListScreen = nullptr;
@@ -67,4 +62,11 @@ private:
     ConnectingScreen* m_connectingScreen = nullptr;
     AppSettingsScreen* m_appSettingsScreen = nullptr;
     AACSettingsScreen* m_aacSettingsScreen = nullptr;
+
+    AACCategoryScreen* m_aacCategoryScreen = nullptr;
+    AACSymbolGridScreen* m_aacSymbolScreen = nullptr;
+
+    void wireScreens();
+    void applyAACDefaults();
+    void switchToScreen(QWidget* w);
 };
