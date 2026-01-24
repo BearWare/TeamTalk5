@@ -3,22 +3,20 @@
 #include <QWidget>
 #include <QGridLayout>
 #include <QList>
-#include <QString>
 
-#include "AACFramework.h" // for AACScreenAdapter, AACAccessibilityManager
-#include "AACFramework.h" // AACButton is declared there in your project
+#include "aac/AACFramework.h" // AACScreenAdapter, AACAccessibilityManager, AACButton
 
 class AACSymbolGridScreen : public QWidget, public AACScreenAdapter
 {
     Q_OBJECT
 public:
-    explicit AACSymbolGridScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+    explicit AACSymbolGridScreen(AACAccessibilityManager* aac, QWidget* parent = nullptr);
 
     // AACScreenAdapter
     QList<QWidget*> interactiveWidgets() const override;
     QList<QWidget*> primaryWidgets() const override;
     QLayout* rootLayout() const override;
-    QWidget* predictiveStripContainer() const override;
+    QWidget* predictiveStripContainer() const override { return nullptr; }
 
 signals:
     void symbolActivated(const QString& word);
@@ -30,12 +28,10 @@ private slots:
     void onSymbolClicked();
 
 private:
-    AACAccessibilityManager* m_mgr = nullptr;
-
+    AACAccessibilityManager* m_aac = nullptr;
     QGridLayout* m_rootLayout = nullptr;
-    QString      m_currentCategory;
-
-    QList<AACButton*> m_symbolButtons;
+    QString m_currentCategory;
+    QList<AACButton*> m_buttons;
 
     void rebuildGrid();
 };
