@@ -2,16 +2,16 @@
 
 #include <QPushButton>
 
-AACSymbolGridScreen::AACSymbolGridScreen(AACAccessibilityManager* mgr, QWidget* parent)
+AACSymbolGridScreen::AACSymbolGridScreen(AACAccessibilityManager* aac, QWidget* parent)
     : QWidget(parent)
-    , m_mgr(mgr)
+    , m_aac(aac)
 {
     m_rootLayout = new QGridLayout(this);
     m_rootLayout->setContentsMargins(8, 8, 8, 8);
     m_rootLayout->setSpacing(8);
 
-    if (m_mgr)
-        m_currentCategory = m_mgr->activeCategory();
+    if (m_aac)
+        m_currentCategory = m_aac->activeCategory();
 
     rebuildGrid();
 }
@@ -19,7 +19,7 @@ AACSymbolGridScreen::AACSymbolGridScreen(AACAccessibilityManager* mgr, QWidget* 
 QList<QWidget*> AACSymbolGridScreen::interactiveWidgets() const
 {
     QList<QWidget*> out;
-    for (AACButton* b : m_symbolButtons)
+    for (AACButton* b : m_buttons)
         out << b;
     return out;
 }
@@ -27,7 +27,7 @@ QList<QWidget*> AACSymbolGridScreen::interactiveWidgets() const
 QList<QWidget*> AACSymbolGridScreen::primaryWidgets() const
 {
     QList<QWidget*> out;
-    for (AACButton* b : m_symbolButtons)
+    for (AACButton* b : m_buttons)
         out << b;
     return out;
 }
@@ -37,63 +37,46 @@ QLayout* AACSymbolGridScreen::rootLayout() const
     return m_rootLayout;
 }
 
-QWidget* AACSymbolGridScreen::predictiveStripContainer() const
-{
-    return nullptr;
-}
-
 void AACSymbolGridScreen::setCategory(const QString& category)
 {
     if (m_currentCategory == category)
         return;
-
     m_currentCategory = category;
     rebuildGrid();
 }
 
 void AACSymbolGridScreen::rebuildGrid()
 {
-    // Clear existing buttons
+    // clear
     QLayoutItem* item = nullptr;
     while ((item = m_rootLayout->takeAt(0)) != nullptr) {
         if (QWidget* w = item->widget())
             w->deleteLater();
         delete item;
     }
-    m_symbolButtons.clear();
+    m_buttons.clear();
 
-    if (!m_mgr || !m_mgr->vocabularyManager())
+    if (!m_aac || !m_aac->vocabularyManager())
         return;
 
-    const auto symbols =
-        m_mgr->vocabularyManager()->symbolsForCategory(m_currentCategory);
-    // Assuming symbolsForCategory returns a list of objects with .word or QStrings.
-    // If it's QStringList, adjust accordingly.
-
-    int row = 0;
-    int col = 0;
+    const auto symbols = m_aac->vocabularyManager()->symbolsForCategory(m_currentCategory);
+    int row = 0, col = 0;
     const int maxCols = 4;
 
     for (const auto& sym : symbols) {
-        QString word;
-        if constexpr (std::is_same_v<decltype(sym), QString>) {
-            word = sym;
-        } else {
-            word = sym.word; // adjust to your actual symbol type
-        }
+        QString word = sym.word; // adjust to your symbol type
 
-        AACButton* btn = new AACButton(m_mgr, this);
+        AACButton* btn = new AACButton(m_aac, this);
         btn->setText(word);
-        btn->setDeepWell(m_mgr->modes().deepWells);
+        btn->setDeepWell(m_aac->modes().deepWells);
 
         connect(btn, &QPushButton::clicked,
                 this, &AACSymbolGridScreen::onSymbolClicked);
 
         m_rootLayout->addWidget(btn, row, col);
-        m_symbolButtons << btn;
+        m_buttons << btn;
 
-        ++col;
-        if (col >= maxCols) {
+        if (++col >= maxCols) {
             col = 0;
             ++row;
         }
@@ -102,7 +85,7 @@ void AACSymbolGridScreen::rebuildGrid()
 
 void AACSymbolGridScreen::onSymbolClicked()
 {
-    if (!m_mgr)
+    if (!m_aac)
         return;
 
     AACButton* btn = qobject_cast<AACButton*>(sender());
@@ -111,8 +94,8 @@ void AACSymbolGridScreen::onSymbolClicked()
 
     const QString word = btn->text();
 
-    if (m_mgr->predictionEngine())
-        m_mgr->predictionEngine()->setLastSymbolWord(word);
+    if (m_aac->predictionEngine())
+        m_aac->predictionEngine()->setLastSymbolWord(word);
 
     emit symbolActivated(word);
 }
