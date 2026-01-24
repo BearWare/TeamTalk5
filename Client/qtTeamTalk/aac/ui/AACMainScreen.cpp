@@ -2,18 +2,20 @@
 
 #include <QLabel>
 #include <QPushButton>
-#include <QSpacerItem>
+#include <QAbstractItemView>
 #include <QSizePolicy>
 
-AACMainScreen::AACMainScreen(AACAccessibilityManager* mgr, QWidget* parent)
+AACMainScreen::AACMainScreen(AACAccessibilityManager* aac, QWidget* parent)
     : QWidget(parent)
-    , m_mgr(mgr)
-    , m_pred(mgr ? mgr->predictionEngine() : nullptr)
+    , m_aac(aac)
+    , m_pred(aac ? aac->predictionEngine() : nullptr)
 {
+    // Root layout
     m_rootLayout = new QVBoxLayout(this);
     m_rootLayout->setContentsMargins(8, 8, 8, 8);
     m_rootLayout->setSpacing(8);
 
+    // Label + text field
     m_label = new QLabel(tr("Message:"), this);
     m_text  = new QLineEdit(this);
     m_text->setPlaceholderText(tr("Type or select symbols..."));
@@ -71,6 +73,8 @@ AACMainScreen::AACMainScreen(AACAccessibilityManager* mgr, QWidget* parent)
     m_tickTimer.start(250);
 }
 
+// AACScreenAdapter implementation
+
 QList<QWidget*> AACMainScreen::interactiveWidgets() const
 {
     QList<QWidget*> out;
@@ -100,10 +104,23 @@ QWidget* AACMainScreen::predictiveStripContainer() const
     return m_predictiveStripContainer;
 }
 
+// Public slots
+
 void AACMainScreen::setText(const QString& text)
 {
     m_text->setText(text);
 }
+
+void AACMainScreen::appendWord(const QString& word)
+{
+    QString current = m_text->text();
+    if (!current.isEmpty() && !current.endsWith(' '))
+        current += ' ';
+    current += word + ' ';
+    m_text->setText(current);
+}
+
+// Helpers
 
 QString AACMainScreen::extractPrevWord(const QString& text) const
 {
@@ -129,9 +146,11 @@ QString AACMainScreen::extractSecondLastWord(const QString& text) const
     return parts[parts.size() - 2];
 }
 
+// Slots
+
 void AACMainScreen::onTextChanged(const QString& text)
 {
-    if (!m_pred || !m_mgr || !m_mgr->predictionEnabled())
+    if (!m_pred || !m_aac || !m_aac->predictionEnabled())
         return;
 
     const std::string prefix = text.toStdString();
@@ -182,8 +201,8 @@ void AACMainScreen::onCommitButtonClicked()
     if (text.isEmpty())
         return;
 
-    // Treat last word as "actual typed" if predictions were visible
-    if (m_pred && m_mgr && m_mgr->predictionEnabled()) {
+    // Penalise ignored predictions for the last word
+    if (m_pred && m_aac && m_aac->predictionEnabled()) {
         QString actualWord = extractPrevWord(text);
         QString prevWord   = extractSecondLastWord(text);
 
