@@ -1,55 +1,59 @@
 #include "AACCategoryScreen.h"
-#include "AACCategoryButton.h"
-#include "AACVocabularyManager.h"
 
-#include <QGridLayout>
-
-AACCategoryScreen::AACCategoryScreen(AACAccessibilityManager* mgr,
-                                     AACVocabularyManager* vocab,
-                                     QWidget* parent)
-    : AACScreen(mgr, parent),
-      m_vocab(vocab)
+AACCategoryScreen::AACCategoryScreen(AACAccessibilityManager* mgr, QWidget* parent)
+    : QWidget(parent)
+    , m_mgr(mgr)
 {
-    m_grid = new QGridLayout(this);
-    setLayout(m_grid);
+    m_rootLayout = new QVBoxLayout(this);
+    m_rootLayout->setContentsMargins(8, 8, 8, 8);
+    m_rootLayout->setSpacing(8);
 
-    buildCategories();
+    m_list = new QListWidget(this);
+    m_list->setSelectionMode(QAbstractItemView::SingleSelection);
 
-    // React to live updates
-    connect(m_vocab, &AACVocabularyManager::categoriesChanged,
-            this, &AACCategoryScreen::buildCategories);
+    m_rootLayout->addWidget(m_list);
+    m_rootLayout->addStretch(1);
+
+    if (m_mgr && m_mgr->vocabularyManager()) {
+        const QStringList cats = m_mgr->vocabularyManager()->categories();
+        for (const QString& c : cats)
+            m_list->addItem(c);
+    }
+
+    connect(m_list, &QListWidget::itemClicked,
+            this, &AACCategoryScreen::onCategoryClicked);
 }
 
-void AACCategoryScreen::clearCategories()
+QList<QWidget*> AACCategoryScreen::interactiveWidgets() const
 {
-    QLayoutItem* item;
-    while ((item = m_grid->takeAt(0)) != nullptr) {
-        if (item->widget())
-            delete item->widget();
-        delete item;
-    }
+    QList<QWidget*> out;
+    out << const_cast<QListWidget*>(m_list);
+    return out;
 }
 
-void AACCategoryScreen::buildCategories()
+QList<QWidget*> AACCategoryScreen::primaryWidgets() const
 {
-    clearCategories();
+    QList<QWidget*> out;
+    out << const_cast<QListWidget*>(m_list);
+    return out;
+}
 
-    QStringList cats = m_vocab->categories();
+QLayout* AACCategoryScreen::rootLayout() const
+{
+    return m_rootLayout;
+}
 
-    int row = 0, col = 0;
-    for (const QString& c : cats) {
-        AACCategoryButton* btn = new AACCategoryButton(c, m_aac, this);
+QWidget* AACCategoryScreen::predictiveStripContainer() const
+{
+    return nullptr;
+}
 
-connect(btn, &AACCategoryButton::clicked,
-        this, [this, c]() {
-            emit categorySelected(c);
-        });
-        m_grid->addWidget(btn, row, col++);
-        registerInteractive(btn, true);
+void AACCategoryScreen::onCategoryClicked(QListWidgetItem* item)
+{
+    if (!item || !m_mgr)
+        return;
 
-        if (col >= 3) {
-            col = 0;
-            row++;
-        }
-    }
+    const QString category = item->text();
+    m_mgr->setActiveCategory(category);
+    emit categoryChosen(category);
 }
