@@ -43,6 +43,7 @@ public slots:
     // External screens (symbol grid) can append words
     void setText(const QString& text);
     void appendWord(const QString& word);
+    void onPredictionDwellActivated(QWidget* w); // called by AACInputController
 
 private slots:
     void onTextChanged(const QString& text);
@@ -53,6 +54,7 @@ private slots:
 private:
     QString extractPrevWord(const QString& text) const;
     QString extractSecondLastWord(const QString& text) const;
+    float confidenceForItem(QListWidgetItem* item) const;
 
     AACAccessibilityManager* m_aac = nullptr;
     AACPredictionEngine*     m_pred = nullptr;
