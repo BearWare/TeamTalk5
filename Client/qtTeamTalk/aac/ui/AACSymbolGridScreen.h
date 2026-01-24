@@ -1,28 +1,41 @@
 #pragma once
 
-#include "AACScreen.h"
+#include <QWidget>
+#include <QGridLayout>
+#include <QList>
+#include <QString>
 
-class QGridLayout;
-class AACSymbolButton;
-class AACVocabularyManager;
+#include "AACFramework.h" // for AACScreenAdapter, AACAccessibilityManager
+#include "AACFramework.h" // AACButton is declared there in your project
 
-class AACSymbolGridScreen : public AACScreen {
+class AACSymbolGridScreen : public QWidget, public AACScreenAdapter
+{
     Q_OBJECT
 public:
-    explicit AACSymbolGridScreen(AACAccessibilityManager* mgr,
-                                 AACVocabularyManager* vocab,
-                                 QWidget* parent = nullptr);
+    explicit AACSymbolGridScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
 
-    void setCategory(const QString& category);
+    // AACScreenAdapter
+    QList<QWidget*> interactiveWidgets() const override;
+    QList<QWidget*> primaryWidgets() const override;
+    QLayout* rootLayout() const override;
+    QWidget* predictiveStripContainer() const override;
 
 signals:
-    void wordSelected(const QString& word);
+    void symbolActivated(const QString& word);
+
+public slots:
+    void setCategory(const QString& category);
+
+private slots:
+    void onSymbolClicked();
 
 private:
-    void buildSymbols();
-    void clearSymbols();
+    AACAccessibilityManager* m_mgr = nullptr;
 
-    QString m_category;
-    QGridLayout* m_grid = nullptr;
-    AACVocabularyManager* m_vocab = nullptr;
+    QGridLayout* m_rootLayout = nullptr;
+    QString      m_currentCategory;
+
+    QList<AACButton*> m_symbolButtons;
+
+    void rebuildGrid();
 };
