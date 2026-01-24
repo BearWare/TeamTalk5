@@ -8,6 +8,7 @@
 #include <algorithm>
 #include <cctype>
 #include <limits>
+#include <cmath>
 
 AACPredictionEngine::AACPredictionEngine(AACAccessibilityManager* mgr,
                                          QObject* parent)
@@ -219,7 +220,7 @@ AACPredictionEngine::buildContext(const QStringList& parts) const
 }
 
 // -------------------------
-// Stage 12+17+18: scoring helper
+// Stage 12+17+18+14: scoring helper
 // -------------------------
 
 float AACPredictionEngine::scoreCandidate(const Context& ctx,
@@ -271,11 +272,8 @@ float AACPredictionEngine::scoreCandidate(const Context& ctx,
 
     // Stage 18: AAC category weighting (simple, safe)
     if (!m_currentCategory.isEmpty()) {
-        // Heuristic: if candidate appears in phrases that start with this category name,
-        // give a small boost. This is a placeholder for richer vocab metadata.
         auto itP = m_phrases.find(m_currentCategory.toLower().toStdString());
         if (itP != m_phrases.end()) {
-            // Very small bias, just enough to tilt
             score += 0.5f;
         }
     }
@@ -289,6 +287,13 @@ float AACPredictionEngine::scoreCandidate(const Context& ctx,
     if (ctx.afterQuestion) {
         if (candidate == "yes" || candidate == "no")
             score += 1.5f;
+    }
+
+    // Stage 14: negative reinforcement penalty
+    auto negIt = m_negativeCount.find(candidate);
+    if (negIt != m_negativeCount.end()) {
+        float penalty = m_penaltyCfg.globalPenaltyFactor * negIt->second;
+        score -= penalty;
     }
 
     return score;
@@ -314,6 +319,8 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
     for (auto& p : phraseRes)
         result.push_back(p);
     if ((int)result.size() >= maxSuggestions) {
+        if (!result.empty())
+            m_lastTopPrediction = result.front();
         m_lastStable = result;
         return result;
     }
@@ -329,6 +336,8 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
             if ((int)result.size() >= maxSuggestions)
                 break;
         }
+        if (!result.empty())
+            m_lastTopPrediction = result.front();
         m_lastStable = result;
         return result;
     }
@@ -365,6 +374,8 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
 
         if ((int)result.size() >= maxSuggestions) {
+            if (!result.empty())
+                m_lastTopPrediction = result.front();
             m_lastStable = result;
             return result;
         }
@@ -403,10 +414,9 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         }
     }
 
-    // 3) Fill with top unigrams (Stage 2,12,17,18)
+    // 3) Fill with top unigrams (Stage 2,12,17,18,14)
     if ((int)result.size() < maxSuggestions) {
         std::vector<std::pair<std::string,int>> uni(m_unigram.begin(), m_unigram.end());
-        // Use scoreCandidate to sort by full context-aware score
         std::sort(uni.begin(), uni.end(),
                   [this, &ctx](auto& a, auto& b){
                       float sa = scoreCandidate(ctx, a.first);
@@ -445,12 +455,13 @@ std::vector<std::string> AACPredictionEngine::Predict(const std::string& prefix,
         if (denom > 0)
             overlapRatio = static_cast<float>(overlap) / static_cast<float>(denom);
 
-        // If lists are very similar, keep the old one to avoid flicker
         if (overlapRatio >= m_stabilityThreshold) {
             return m_lastStable;
         }
     }
 
+    if (!result.empty())
+        m_lastTopPrediction = result.front();
     m_lastStable = result;
     return result;
 }
@@ -492,20 +503,16 @@ void AACPredictionEngine::reinforceChoice(const std::string& prev,
     if (chosen.empty())
         return;
 
-    // Strengthen unigram
     m_unigram[chosen] += 3;
     m_cachedTotalUnigrams = -1;
 
-    // Strengthen bigram
     if (!prev.empty())
         m_bigram[prev][chosen] += 5;
 
-    // Session boost
     m_sessionBoost[chosen] += 1.0f;
     if (!prev.empty())
         m_sessionBigramBoost[prev][chosen] += 1.5f;
 
-    // Recency tick
     ++m_recencyCounter;
 }
 
@@ -513,28 +520,85 @@ void AACPredictionEngine::reinforceChoice(const std::string& prev,
 // Stage 14: negative reinforcement
 // -------------------------
 
+void AACPredictionEngine::applyPenalty(const std::string& token, float basePenalty)
+{
+    int inc = static_cast<int>(std::ceil(basePenalty));
+    m_negativeCount[token] += inc;
+
+    if (m_negativeCount[token] > 50)
+        m_negativeCount[token] = 50;
+}
+
 void AACPredictionEngine::penalizeIgnored(const std::string& prev,
                                           const std::vector<std::string>& shown,
                                           const std::string& actualTyped)
 {
-    for (const auto& cand : shown) {
-        if (cand == actualTyped)
-            continue;
+    Q_UNUSED(prev);
 
-        // Penalize bigram
-        if (!prev.empty()) {
-            auto it = m_bigram.find(prev);
-            if (it != m_bigram.end()) {
-                auto it2 = it->second.find(cand);
-                if (it2 != it->second.end())
-                    it2->second = std::max(0, it2->second - 1);
-            }
+    if (actualTyped.empty())
+        return;
+
+    bool actualWasShown =
+        std::find(shown.begin(), shown.end(), actualTyped) != shown.end();
+
+    if (!actualWasShown) {
+        for (const auto& s : shown)
+            applyPenalty(s, 1.0f);
+    }
+}
+
+void AACPredictionEngine::onUserSelected(const std::string& prev,
+                                         const std::string& chosen,
+                                         const std::vector<std::string>& shown)
+{
+    bool wasShown =
+        std::find(shown.begin(), shown.end(), chosen) != shown.end();
+
+    if (wasShown) {
+        m_positiveCount[chosen] += 1;
+
+        m_sessionBoost[chosen] += 0.3f;
+        if (!prev.empty())
+            m_sessionBigramBoost[prev][chosen] += 0.3f;
+
+        auto it = m_negativeCount.find(chosen);
+        if (it != m_negativeCount.end() && it->second > 0)
+            it->second -= 1;
+    }
+}
+
+void AACPredictionEngine::onUserDeletedAutocompleted(const std::string& token)
+{
+    applyPenalty(token, 2.0f);
+}
+
+void AACPredictionEngine::onPredictionBarShown()
+{
+    m_predictionBarVisible = true;
+    m_predictionBarShown = std::chrono::steady_clock::now();
+}
+
+void AACPredictionEngine::tick()
+{
+    if (!m_predictionBarVisible)
+        return;
+
+    auto now = std::chrono::steady_clock::now();
+    auto elapsedMs =
+        std::chrono::duration_cast<std::chrono::milliseconds>(
+            now - m_predictionBarShown).count();
+
+    if (elapsedMs >= m_ignoreThresholdMs) {
+
+        if (!m_lastTopPrediction.empty())
+            applyPenalty(m_lastTopPrediction, 1.0f);
+
+        for (auto& kv : m_negativeCount) {
+            kv.second = static_cast<int>(
+                std::floor(kv.second * m_penaltyCfg.decayFactor));
         }
 
-        // Decay session boost
-        auto itSB = m_sessionBoost.find(cand);
-        if (itSB != m_sessionBoost.end())
-            itSB->second *= 0.8f;
+        m_predictionBarVisible = false;
     }
 }
 
@@ -545,8 +609,18 @@ void AACPredictionEngine::penalizeIgnored(const std::string& prev,
 void AACPredictionEngine::reinforceDwellChoice(const std::string& prev,
                                                const std::string& chosen)
 {
-    // For now, same as click; could be stronger later
-    reinforceChoice(prev, chosen);
+    m_positiveCount[chosen] += 2;
+    m_sessionBoost[chosen]  += 0.6f;
+
+    if (!prev.empty())
+        m_sessionBigramBoost[prev][chosen] += 0.6f;
+
+    auto it = m_negativeCount.find(chosen);
+    if (it != m_negativeCount.end() && it->second > 0) {
+        it->second -= 2;
+        if (it->second < 0)
+            it->second = 0;
+    }
 }
 
 // -------------------------
@@ -659,6 +733,9 @@ bool AACPredictionEngine::loadFromFile(const QString& path)
     m_predictionsFrozen = false;
     m_currentCategory.clear();
     m_lastSymbolWord.clear();
+    m_negativeCount.clear();
+    m_positiveCount.clear();
+    m_lastTopPrediction.clear();
 
     QTextStream in(&f);
     QString section;
