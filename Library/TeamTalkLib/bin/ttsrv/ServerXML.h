@@ -52,7 +52,7 @@ namespace teamtalk {
         ServerXML(const std::string& rootname);
         bool SaveFile() override;
 
-        TiXmlElement* GetRootElement() override;
+        tinyxml2::XMLElement* GetRootElement() override;
 
         /***** <general> *****/
         std::string GetSystemID(const std::string& defwelcome);
@@ -192,17 +192,17 @@ namespace teamtalk {
         bool UpdateFile() override;
     private:
         /**** Sections ****/
-        TiXmlElement* GetGeneralElement();
-        TiXmlElement* GetFileStorageElement();
-        TiXmlElement* GetLoggingElement();
-        TiXmlElement* GetBandwidthLimitElement();
-        TiXmlElement* GetServerBansElement();
-        TiXmlElement* GetUsersElement();
-        TiXmlElement* GetChannelElement(const std::string& chpath);
-        TiXmlElement* GetUser(const std::string& username);
-        bool GetUser(const TiXmlElement& userElement, UserAccount& user) const;
-        bool GetUserBan(const TiXmlElement& banElement, BannedUser& ban);
-        static void NewUserBan(TiXmlElement& banElement, const BannedUser& ban);
+        tinyxml2::XMLElement* GetGeneralElement();
+        tinyxml2::XMLElement* GetFileStorageElement();
+        tinyxml2::XMLElement* GetLoggingElement();
+        tinyxml2::XMLElement* GetBandwidthLimitElement();
+        tinyxml2::XMLElement* GetServerBansElement();
+        tinyxml2::XMLElement* GetUsersElement();
+        tinyxml2::XMLElement* GetChannelElement(const std::string& chpath);
+        tinyxml2::XMLElement* GetUser(const std::string& username);
+        bool GetUser(const tinyxml2::XMLElement* userElement, UserAccount& user) const;
+        bool GetUserBan(const tinyxml2::XMLElement* banElement, BannedUser& ban);
+        void NewUserBan(tinyxml2::XMLElement* banElement, const BannedUser& ban);
     };
 } // namespace teamtalk
 #endif
