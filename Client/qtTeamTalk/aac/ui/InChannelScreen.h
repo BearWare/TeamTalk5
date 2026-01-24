@@ -1,95 +1,55 @@
 #pragma once
 
-#include "AACScreen.h"
+#include <QWidget>
+#include <QVBoxLayout>
+#include <QPushButton>
 
-#include <QMap>
-#include <QDateTime>
-#include <QTimer>
-#include "aac/backend/BackendEvents.h"
+#include "aac/AACFramework.h" // AACScreenAdapter, AACAccessibilityManager
 
-class QLineEdit;
-class QListWidget;
-class QListWidgetItem;
-class QPushButton;
-class QLabel;
+class BackendAdapter;
+class AACMainScreen;
 
-class InChannelScreen : public AACScreen {
+struct SelfVoiceState;
+struct OtherUserVoiceEvent;
+
+class InChannelScreen : public QWidget, public AACScreenAdapter
+{
     Q_OBJECT
 public:
-    explicit InChannelScreen(AACAccessibilityManager* aac, QWidget* parent = nullptr);
+    explicit InChannelScreen(AACAccessibilityManager* aac,
+                             BackendAdapter* backend,
+                             QWidget* parent = nullptr);
+
+    // AACScreenAdapter
+    QList<QWidget*> interactiveWidgets() const override;
+    QList<QWidget*> primaryWidgets() const override;
+    QLayout* rootLayout() const override;
+    QWidget* predictiveStripContainer() const override;
 
     void setChannelName(const QString& name);
 
 signals:
     void leaveChannelRequested();
     void transmitToggled(bool enabled);
-    void settingsRequested();
 
 public slots:
-    void updateSelfVoiceState(SelfVoiceState state);
+    void updateSelfVoiceState(const SelfVoiceState& state);
     void updateOtherUserVoiceState(const OtherUserVoiceEvent& event);
-    void clearParticipants();
-    void setEventMessage(const QString& message);
-
-protected:
-    void resizeEvent(QResizeEvent* e) override;
+    void setEventMessage(const QString& msg);
 
 private slots:
+    void onTextCommitted(const QString& text);
     void onLeaveClicked();
-    void onTransmitClicked();
-    void onQuietTimerTick();
+    void onPTToggled(bool checked);
 
 private:
-    enum class TransmitUiState {
-        Idle,
-        Armed,
-        Speaking
-    };
+    AACAccessibilityManager* m_aac = nullptr;
+    BackendAdapter* m_backend = nullptr;
 
-    // -------------------------
-    // Prediction UI
-    // -------------------------
-    QLineEdit* m_inputEdit = nullptr;   // text entry box
-    QLabel* m_ghostLabel = nullptr;     // faint prediction text
-    QString m_ghostText;                // current suggestion
-
-    void onInputTextChanged(const QString& text);
-    void onAcceptGhost();
-    void renderGhostText(const QString& committed, const QString& ghost);
-
-    // -------------------------
-    // Participant + UI state
-    // -------------------------
-    struct Participant {
-        int userId;
-        QString username;
-        OtherUserVoiceState voiceState;
-        QDateTime lastSpoke;
-        QListWidgetItem* item = nullptr;
-    };
-
-    void updateTransmitUi();
-    void updateParticipantItem(Participant& p);
-    void resortParticipants();
-    void updateSpeakingBanner();
-    void updateParticipantCount();
-    void updateRowHeight();
-
-    QLabel* m_channelLabel = nullptr;
-    QLabel* m_speakingBanner = nullptr;
-    QLabel* m_quietBanner = nullptr;
-    QLabel* m_participantCountLabel = nullptr;
-    QLabel* m_eventBanner = nullptr;
-    QListWidget* m_participantList = nullptr;
-    QPushButton* m_transmitButton = nullptr;
+    QVBoxLayout* m_rootLayout = nullptr;
+    AACMainScreen* m_aacMain = nullptr;
     QPushButton* m_leaveButton = nullptr;
-
-    QPushButton* m_floatingSettingsButton = nullptr;
-
-    bool m_transmitEnabled = false;
-    SelfVoiceState m_selfVoiceState = SelfVoiceState::Silent;
-    TransmitUiState m_transmitUiState = TransmitUiState::Idle;
-
-    QMap<int, Participant> m_participants;
-    QTimer m_quietTimer;
+    QPushButton* m_pttButton = nullptr;
+    QLabel* m_channelLabel = nullptr;
+    QLabel* m_eventLabel = nullptr;
 };
