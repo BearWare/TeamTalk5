@@ -1,25 +1,41 @@
 #pragma once
 
-#include "AACScreen.h"
+#include <QWidget>
+#include <QListWidget>
+#include <QVBoxLayout>
+#include <QString>
 
-class QGridLayout;
-class AACCategoryButton;
-class AACVocabularyManager;
+#include "AACFramework.h" // for AACScreenAdapter, AACAccessibilityManager
 
-class AACCategoryScreen : public AACScreen {
+/**
+ * AACCategoryScreen
+ *
+ * Shows AAC vocabulary categories.
+ * Selecting a category:
+ *  - Updates AACAccessibilityManager::activeCategory
+ *  - Updates AACPredictionEngine category context via setActiveCategory()
+ */
+class AACCategoryScreen : public QWidget, public AACScreenAdapter
+{
     Q_OBJECT
 public:
-    explicit AACCategoryScreen(AACAccessibilityManager* mgr,
-                               AACVocabularyManager* vocab,
-                               QWidget* parent = nullptr);
+    explicit AACCategoryScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+
+    // AACScreenAdapter
+    QList<QWidget*> interactiveWidgets() const override;
+    QList<QWidget*> primaryWidgets() const override;
+    QLayout* rootLayout() const override;
+    QWidget* predictiveStripContainer() const override;
 
 signals:
-    void categorySelected(const QString& category);
+    void categoryChosen(const QString& category);
+
+private slots:
+    void onCategoryClicked(QListWidgetItem* item);
 
 private:
-    void buildCategories();
-    void clearCategories();
+    AACAccessibilityManager* m_mgr = nullptr;
 
-    QGridLayout* m_grid = nullptr;
-    AACVocabularyManager* m_vocab = nullptr;
+    QVBoxLayout*  m_rootLayout = nullptr;
+    QListWidget*  m_list = nullptr;
 };
