@@ -9,24 +9,25 @@
 #include <QString>
 #include <QRegularExpression>
 
-#include "AACFramework.h" // for AACScreenAdapter, AACAccessibilityManager, AACPredictionEngine
+#include "aac/AACFramework.h"   // AACScreenAdapter, AACAccessibilityManager, AACPredictionEngine
 
 class QLabel;
+class QPushButton;
 
 /**
  * AACMainScreen
  *
- * Main AAC text composition screen:
- * - Text input buffer
- * - Prediction bar
- * - Hooks into AACPredictionEngine via AACAccessibilityManager
- * - Implements AACScreenAdapter for layout + scanning
+ * AAC-native text composition screen:
+ *  - Text input buffer
+ *  - Prediction bar
+ *  - Full wiring to AACPredictionEngine
+ *  - Implements AACScreenAdapter for layout + scanning
  */
 class AACMainScreen : public QWidget, public AACScreenAdapter
 {
     Q_OBJECT
 public:
-    explicit AACMainScreen(AACAccessibilityManager* mgr, QWidget* parent = nullptr);
+    explicit AACMainScreen(AACAccessibilityManager* aac, QWidget* parent = nullptr);
 
     // AACScreenAdapter implementation
     QList<QWidget*> interactiveWidgets() const override;
@@ -35,10 +36,13 @@ public:
     QWidget* predictiveStripContainer() const override;
 
 signals:
+    // Emitted when the user commits the current text (to speak/send)
     void textCommitted(const QString& text);
 
 public slots:
+    // External screens (symbol grid) can append words
     void setText(const QString& text);
+    void appendWord(const QString& word);
 
 private slots:
     void onTextChanged(const QString& text);
@@ -50,7 +54,7 @@ private:
     QString extractPrevWord(const QString& text) const;
     QString extractSecondLastWord(const QString& text) const;
 
-    AACAccessibilityManager* m_mgr = nullptr;
+    AACAccessibilityManager* m_aac = nullptr;
     AACPredictionEngine*     m_pred = nullptr;
 
     QVBoxLayout*   m_rootLayout = nullptr;
