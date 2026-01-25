@@ -257,6 +257,7 @@ private:
     void changeMediaFileOffset(int pos);
     void changeMediaFileVolume(int pos);
     void setMediaFilePosition();
+    void setMediaFileTabProgress(const MediaFileInfo& mfi);
     void loadHotKeys();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
