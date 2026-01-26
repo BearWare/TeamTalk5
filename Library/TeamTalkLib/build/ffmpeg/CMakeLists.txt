@@ -359,13 +359,6 @@ elseif (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    find_program(FFMPEG_BASH_EXE_PATH bash.exe PATHS C:/msys64/usr/bin C:/cygwin64/bin $ENV{PATH} NO_DEFAULT_PATH)
-    if (FFMPEG_BASH_EXE_PATH-NOTFOUND)
-      message(WARNING "MSYS2 bash.exe is required to build FFmpeg")
-    else()
-      message("Found bash.exe (MSYS2) for FFmpeg here: ${FFMPEG_BASH_EXE_PATH}")
-    endif()
-
     find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
     if (YASM_EXE_DIRECTORY-NOTFOUND)
       message(WARNING "yasm.exe is required to build FFmpeg. See https://yasm.tortall.net")

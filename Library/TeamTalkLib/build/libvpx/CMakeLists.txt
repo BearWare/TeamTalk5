@@ -19,18 +19,6 @@ if (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    # Favor MSYS2 over Cygwin since CMake may otherwise find a
-    # non-working bash.exe file. GitHub e.g. finds C:/Program
-    # Files/Git/bin/bash.exe which cannot be used.
-    find_program(LIBVPX_BASH_EXE_PATH bash.exe PATHS C:/msys64/usr/bin C:/cygwin64/bin $ENV{PATH} NO_DEFAULT_PATH)
-    if (LIBVPX_BASH_EXE_PATH-NOTFOUND)
-      message(WARNING "MSYS2 or Cygwin bash.exe is required to build libvpx")
-    else()
-      message("Found bash.exe (MSYS2/Cygwin) for libvpx here: ${LIBVPX_BASH_EXE_PATH}")
-    endif()
-
-    file(TO_NATIVE_PATH ${LIBVPX_BASH_EXE_PATH} LIBVPX_BASH_EXE_PATH_NATIVE)
-
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
 
       find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
