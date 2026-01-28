@@ -2,7 +2,7 @@
 "%@ joined channel" = "%@ entrou no canal";
 
 /* log entry */
-"%@ left channel" = "%@ left channel";
+"%@ left channel" = "%@ saiu do canal";
 
 /* Web Login Controller */
 "%@, your username \"%@\" has been validated" = "%@, seu nome de usuário, \"%@\", foi validado";
@@ -35,38 +35,38 @@
 "8 KHz" = "8 KHz";
 
 /* serverlist */
-"Access preferences" = "Access preferences";
+"Access preferences" = "Acessar preferências";
 
 /* server entry
    user detail */
 "Actions" = "Ações";
 
 /* channel list */
-"Active" = "Active";
+"Active" = "Ativo";
 
 /* serverlist */
 "Add new server entry" = "Adicionar novo servidor";
 
 /* preferences */
-"Announce content of text message" = "Anunciando conteúdo das mensagens de texto";
+"Announce content of text message" = "Falar conteúdo das mensagens de texto";
 
 /* preferences */
-"Announce lost server connection" = "Notificar quando a conexão do servidor cair";
+"Announce lost server connection" = "Falar quando a conexão do servidor cair";
 
 /* preferences */
-"Announce user joining channel" = "Notificar quando um usuário entrar no canal";
+"Announce user joining channel" = "Falar quando um usuário entrar no canal";
 
 /* preferences */
-"Announce user leaving channel" = "Notificar quando um usuário sair do canal";
+"Announce user leaving channel" = "Falar quando um usuário sair do canal";
 
 /* preferences */
-"Announce user logged onto server" = "Notificar quando um usuário entrar no servidor";
+"Announce user logged onto server" = "Falar quando um usuário entrar no servidor";
 
 /* preferences */
-"Announce user logged out of server" = "Notificar quando um usuário sair do servidor";
+"Announce user logged out of server" = "Falar quando um usuário sair do servidor";
 
 /* text to speech */
-"Announcements" = "Notificações";
+"Announcements" = "Texto para fala";
 
 /* preferences */
 "App Version" = "Versão do aplicativo";
@@ -94,7 +94,7 @@
 "Ban user" = "Banir usuário";
 
 /* server entry */
-"BearWare.dk Web Login" = "BearWare.dk Web Login";
+"BearWare.dk Web Login" = "Login da Web BearWare.dk";
 
 /* weblogin event */
 "BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "Erro ao autenticar usando o login bearware.dk. Por favor, verificar em preferências.";
@@ -106,10 +106,10 @@
 "Bjoern D. Rasmussen, contact@bearware.dk" = "Bjoern D. Rasmussen, contact@bearware.dk";
 
 /* Sound Devices */
-"Bluetooth A2DP Playback" = "Bluetooth A2DP Playback";
+"Bluetooth A2DP Playback" = "Reprodução Bluetooth A2DP";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "Bluetooth playback should use Advanced Audio Distribution Profile";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "A reprodução via Bluetooth deve usar o Perfil de Distribuição de Áudio Avançado";
 
 /* text message type */
 "Broadcast message" = "Mensagem global";
@@ -148,19 +148,19 @@
 "Channel. %d users" = "Canal. %d usuários";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "Verifique apenas se este servidor habilitou o login da Web BearWare.dk";
+"Check only if this server has enabled BearWare.dk Web Login" = "Verificar apenas se este servidor habilitou o login da Web BearWare.dk";
 
 /* log entry */
-"Command failed: %@" = "Command failed: %@";
+"Command failed: %@" = "Erro ao executar o comando: %@";
 
 /* create channel */
 "Commands" = "Comandos";
 
 /* serverlist */
-"Connect to server" = "Conectar no servidor";
+"Connect to server" = "Conectar ao servidor";
 
 /* connect to a server */
-"Connect to Server" = "Connect to Server";
+"Connect to Server" = "Conectar nesse servidor";
 
 /* preferences
    server entry */
@@ -171,7 +171,7 @@
 "Connection lost" = "Conexão caiu";
 
 /* server entry */
-"Country" = "Country";
+"Country" = "País";
 
 /* View Title */
 "Create Channel" = "Criar canal";
@@ -196,10 +196,10 @@
 "Display" = "Tela";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Dois cliques e segure para transmitir. três cliques rápidos para ativar a transmissão contínua";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "Dê dois cliques e segure para transmitir. Três cliques rápidos para ativar a transmissão contínua";
 
 /* preferences */
-"Double tap to lock TX button" = "Clique duplo para ativar o botão pressionar para falar";
+"Double tap to lock TX button" = "Clique duplo para ativar o botão transmitir";
 
 /* codec detail */
 "DTX" = "DTX";
@@ -223,10 +223,10 @@
 "Exclusive Mode Toggled" = "Modo exclusivo alternado";
 
 /* connect to a server */
-"Failed to setup encryption" = "Failed to setup encryption";
+"Failed to setup encryption" = "Erro ao configurar encriptação";
 
 /* preferences */
-"Female" = "Mulher";
+"Female" = "Feminino";
 
 /* codec detail */
 "Frame Size" = "Tamanho do quadro";
@@ -287,7 +287,7 @@
 "Limit length of names in channel list to %d characters" = "O tamanho máximo de caracteres em nomes na lista de canais é %d";
 
 /* serverlist */
-"Local server" = "Local server";
+"Local server" = "Servidor local";
 
 /* text message type */
 "Log message" = "Mensagem de log";
@@ -296,7 +296,7 @@
 "Logged on to server" = "Conectado ao servidor";
 
 /* preferences */
-"Male" = "Homem";
+"Male" = "Masculino";
 
 /* preferences */
 "Master Volume" = "Volume principal";
@@ -316,10 +316,10 @@
 "Media file vs. voice volume" = "Volume de mídia (não o de voz)";
 
 /* server entry */
-"Message of the Day" = "Message of the Day";
+"Message of the Day" = "Mensagem do dia";
 
 /* preferences */
-"Microphone Gain" = "Ganho do microfone";
+"Microphone Gain" = "Volume do microfone";
 
 /* codec detail
    create channel */
@@ -357,7 +357,7 @@
 "Nickname" = "Apelido";
 
 /* server entry */
-"Nickname (optional)" = "Nickname (optional)";
+"Nickname (optional)" = "Apelido (opcional)";
 
 /* Dialog message */
 "No" = "Não";
@@ -376,13 +376,13 @@
 "No password" = "Sem senha";
 
 /* create channel */
-"No Voice Activation" = "Sem ativação por voz";
+"No Voice Activation" = "Sem ativação de voz";
 
 /* default nickname */
 "Noname" = "SemNome";
 
 /* serverlist */
-"Official server" = "Official server";
+"Official server" = "Servidor oficial";
 
 /* Dialog
    Dialog message
@@ -395,7 +395,7 @@
 "OPUS Codec" = "Codec OPUS";
 
 /* preferences */
-"Order of channels in Channel List" = "Ordem dos canais na lista";
+"Order of channels in Channel List" = "Classificação dos canais na lista";
 
 /* channel list */
 "Parent channel" = "Canal pai";
@@ -434,13 +434,13 @@
 "Play sound when transmit ready in \"No Interruptions\" channel" = "Reproduzir som quando a transmissão sem interrupções estiver pronta no canal";
 
 /* preferences */
-"Play sound when user logs off to the server" = "Play sound when user logs off to the server";
+"Play sound when user logs off to the server" = "Reproduzir som quando um usuário sair do servidor";
 
 /* preferences */
-"Play sound when user logs on to the server" = "Play sound when user logs on to the server";
+"Play sound when user logs on to the server" = "Reproduzir som quando um usuário conectar no servidor";
 
 /* preferences */
-"Play sound when voice activation is triggered" = "Reproduzir som quando a ativação por voz for detectada";
+"Play sound when voice activation is triggered" = "Reproduzir som quando a transmissão por ativação de voz for ativada";
 
 /* preferences */
 "Play sound when voice transmission is toggled" = "Reproduzir som quando a transmissão de voz for alternada";
@@ -458,7 +458,7 @@
 "Preferred" = "Preferido";
 
 /* preferences */
-"Pressing Return-key sends text message" = "Botão nova linha envia a mensagem";
+"Pressing Return-key sends text message" = "Botão nova linha envia mensagem";
 
 /* text message type */
 "Private message" = "Mensagem privada";
@@ -518,7 +518,7 @@
 "Save Server" = "Salvar servidor";
 
 /* Dialog message */
-"Save server to server list?" = "Guardar servidor na lista de servidores?";
+"Save server to server list?" = "Adicionar servidor na lista de servidores?";
 
 /* text message */
 "Send empty message to close keyboard" = "Enviar mensagem em branco para fechar o teclado";
@@ -533,10 +533,10 @@
 "Server List Entry" = "Lista de servidores";
 
 /* server entry */
-"Server Status" = "Server Status";
+"Server Status" = "Estado do servidor";
 
 /* preferences */
-"Show in Server List" = "Show in Server List";
+"Show in Server List" = "Mostrar na lista de servidores";
 
 /* preferences */
 "Show male or female icon" = "Mostrar ícones de gêneros";
@@ -548,7 +548,7 @@
 "Show Usernames" = "Mostrar nomes de usuário";
 
 /* preferences */
-"Show usernames instead of nicknames" = "Mostrar nomes de usuário invés de apelidos";
+"Show usernames instead of nicknames" = "Mostrar nomes de usuário em vez de apelidos";
 
 /* channel list */
 "Silent" = "Silenciado";
@@ -561,7 +561,7 @@
 "Sound Events" = "Eventos de som";
 
 /* preferences */
-"Sound System" = "Som do sistema";
+"Sound System" = "Sistema de som";
 
 /* preferences */
 "Speaker Output" = "Alto-falantes de saída";
@@ -579,7 +579,7 @@
 "Speex Variable Bitrate Codec" = "Codec Speex com bitrate variada";
 
 /* Text message view */
-"Status Event" = "Status Event";
+"Status Event" = "Status do evento";
 
 /* codec detail
    create channel */
@@ -595,7 +595,7 @@
 "TCP Port" = "Porta TCP";
 
 /* preferences */
-"Text To Speech Events" = "Eventos com leitor de telas";
+"Text To Speech Events" = "Eventos de texto para fala";
 
 /* preferences */
 "The rate of the speaking voice is %.1f" = "A velocidade da voz que está falando é %.1f";
@@ -635,13 +635,13 @@
 "UDP Port" = "Porta UDP";
 
 /* serverlist */
-"Unofficial server" = "Unofficial server";
+"Unofficial server" = "Servidor não oficial";
 
 /* preferences */
-"Use echo cancellation and automatic gain control" = "Usar cancelamento de eco e controle de ganho automático";
+"Use echo cancellation and automatic gain control" = "Usar cancelamento de eco e controle de volume automático";
 
 /* preferences */
-"Use iPhone's speaker instead of earpiece" = "Usar o alto-falante do iPhone em vez do fone de ouvido";
+"Use iPhone's speaker instead of earpiece" = "Usar o alto-falante do iPhone em vez de fone de ouvido";
 
 /* channel list */
 "User" = "Usuário";
@@ -662,16 +662,16 @@
 "User Leaves Channel" = "Usuário saiu do canal";
 
 /* preferences */
-"User logged in" = "Usuário conectou";
+"User logged in" = "Usuário conectou-se";
 
 /* preferences */
-"User Logged In" = "User Logged In";
+"User Logged In" = "Usuário conectou-se";
 
 /* preferences */
-"User logged out" = "Usuário desconectou";
+"User logged out" = "Usuário desconectou-se";
 
 /* preferences */
-"User Logged Out" = "User Logged Out";
+"User Logged Out" = "Usuário desconectou-se";
 
 /* preferences
    user detail */
@@ -686,10 +686,10 @@
 "Username or password incorrect" = "Nome de usuário ou senha incorreta";
 
 /* server entry */
-"Users Online" = "Users Online";
+"Users Online" = "Usuários conectados";
 
 /* serverlist */
-"Users: %d, Country: %@" = "Users: %1$d, Country: %2$@";
+"Users: %d, Country: %@" = "Usuários: %1$d, país: %2$@";
 
 /* codec detail */
 "Variable Bitrate" = "Bitrate variada";
@@ -708,16 +708,16 @@
 "Voice" = "Voz";
 
 /* preferences */
-"Voice Activation Level" = "Nível da ativação de voz";
+"Voice Activation Level" = "Nível da detexão de voz";
 
 /* preferences */
-"Voice Activation Level: %d. Recommended: %d" = "Ganho da ativação por voz: %d. Recomendado: %d";
+"Voice Activation Level: %d. Recommended: %d" = "Volume da detexão de voz: %d. Recomendado: %d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "Ganho da ativação por voz: Desativado";
+"Voice Activation Level: Disabled" = "Nível da detexão de voz: Desativado";
 
 /* preferences */
-"Voice Activation Triggered" = "Ativação por voz detectada";
+"Voice Activation Triggered" = "Ativação de voz detectada";
 
 /* preferences */
 "Voice Preprocessing" = "Pré-processando a voz";
@@ -745,16 +745,16 @@
 "Yes" = "Sim";
 
 /* Dialog */
-"You have been kicked from channel" = "You have been kicked from channel";
+"You have been kicked from channel" = "Você foi expulso do canal";
 
 /* Dialog */
-"You have been kicked from channel by %@" = "You have been kicked from channel by %@";
+"You have been kicked from channel by %@" = "Você foi expulso do canal por %@";
 
 /* Dialog */
-"You have been kicked from server" = "You have been kicked from server";
+"You have been kicked from server" = "Você foi expulso do servidor";
 
 /* Dialog */
-"You have been kicked from server by %@" = "You have been kicked from server by %@";
+"You have been kicked from server by %@" = "Você foi expulso do servidor por %@";
 
 /* speech */
 "You have selected %@" = "Você selecionou %@";

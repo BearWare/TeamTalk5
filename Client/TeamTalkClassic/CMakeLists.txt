@@ -3,6 +3,8 @@ project (TeamTalk5Classic)
 include(CMakeDependentOption)
 include(ExternalProject)
 
+set (CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 function(set_output_dir target dir)
   set_target_properties (${target} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${dir}
@@ -24,7 +26,11 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/leethomason/tinyxml2.git
       GIT_TAG           11.0.0
       UPDATE_COMMAND    ""
-      CMAKE_ARGS        -DCMAKE_DEBUG_POSTFIX=d -DCMAKE_MSVC_RUNTIME_LIBRARY=MultiThreaded$<$<CONFIG:Debug>:Debug> -DBUILD_SHARED_LIBS=OFF -DBUILD_TESTING=OFF -Dtinyxml2_INSTALL_PKGCONFIG=OFF
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
+      CMAKE_ARGS        -DCMAKE_DEBUG_POSTFIX=d
+                        -DBUILD_SHARED_LIBS=OFF
+                        -DBUILD_TESTING=OFF
+                        -Dtinyxml2_INSTALL_PKGCONFIG=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_COMMAND   ""
@@ -52,16 +58,6 @@ if (MSVC)
   set(CMAKE_MFC_FLAG 1)
 
   link_directories (../../Library/TeamTalk_DLL)
-
-  foreach (flag_var
-      CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-      CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-    if (${flag_var} MATCHES "/MD")
-      STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-    endif()
-  endforeach(flag_var)
 
   set_source_files_properties (stdafx.cpp PROPERTIES COMPILE_FLAGS "/Ycstdafx.h")
 

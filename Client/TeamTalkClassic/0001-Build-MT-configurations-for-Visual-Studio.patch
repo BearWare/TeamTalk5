@@ -1,0 +1,25 @@
+From 430151ea32f4165bf91c1ad9b672344567d20d54 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Wed, 28 Jan 2026 08:08:07 +0100
+Subject: [PATCH] Build /MT configurations for Visual Studio
+
+---
+ CMakeLists.txt | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index b7bdf86..dc58db8 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -4,6 +4,8 @@ project(tinyxml2 VERSION 11.0.0)
+ include(CTest)
+ option(tinyxml2_BUILD_TESTING "Build tests for tinyxml2" "${BUILD_TESTING}")
+ 
++set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
++
+ ##
+ ## Honor tinyxml2_SHARED_LIBS to match install interface
+ ##
+-- 
+2.45.1
+
