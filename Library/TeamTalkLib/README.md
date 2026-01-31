@@ -55,10 +55,10 @@ manually.
 * Alternatively, install [Cygwin](https://www.cygwin.com/) in `C:/cygwin64`
   * Install `make` package during Cygwin setup
   * Cygwin is supported but MSYS2 is preferred
-* Download [yasm](http://yasm.tortall.net)
-    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
-    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
-    * LibVPX requires *yasm*
+* Install [NASM](https://www.nasm.us)
+    * Install to default location (`C:/Program Files/NASM`) or add to PATH
+    * LibVPX requires *NASM*
+    * NASM will be auto-downloaded if not found during CMake configuration
 
 ### Install TeamTalk Dependencies on Ubuntu
 
@@ -230,9 +230,9 @@ The following toolchain toggles are available:
   * Building LibVPX on Windows requires MSYS2 or Cygwin
     * MSYS2 (recommended): Install in `C:/MSYS64` and run `pacman -S base-devel`
     * Cygwin (alternative): Install in `C:/cygwin64` with `make` package
-  * Building LibVPX on Windows requires yasm, http://yasm.tortall.net/
-    * Place `yasm.exe` for x64 in `C:/tt5dist/yasm/x64`
-    * Place `yasm.exe` for Win32 in `C:/tt5dist/yasm/win32`
+  * Building LibVPX on Windows requires NASM, https://www.nasm.us/
+    * Install to default location (`C:/Program Files/NASM`) or add to PATH
+    * NASM will be auto-downloaded if not found
 * `TOOLCHAIN_FFMPEG`
   * When `ON` builds [FFmpeg](https://github.com/FFmpeg/FFmpeg)
   * When `OFF` uses FFmpeg installed on host.

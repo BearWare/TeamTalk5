@@ -10,6 +10,10 @@ add_feature_info(TOOLCHAIN_BUILD_EXTERNALPROJECTS TOOLCHAIN_BUILD_EXTERNALPROJEC
 
 set (TOOLCHAIN_BUILD_MAKEJOBS -j4 CACHE STRING "Maximum number of build jobs to pass to make-command")
 
+if (MSVC)
+  add_subdirectory(nasm)
+endif()
+
 option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ON)
 add_feature_info(TOOLCHAIN_OPENSSL TOOLCHAIN_OPENSSL "OpenSSL library is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_OPENSSL)
