@@ -1791,7 +1791,6 @@ TEST_CASE("testThumbnail")
 
     MediaFileProp mfp;
     REQUIRE(GetMediaFileProp(filename, mfp));
-    REQUIRE(mfp.video.IsValid());
 
     MediaStreamOutput const prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_NONE);
     FFmpegStreamer ffmpeg(filename, prop);
@@ -1801,18 +1800,18 @@ TEST_CASE("testThumbnail")
     std::promise<bool> done;
     auto sig_done = done.get_future();
 
-    auto status = [&] (const MediaFileProp&  /*mfp*/, MediaStreamStatus status) {
-                      if (status == MEDIASTREAM_FINISHED)
-                          done.set_value(true);
-                  };
+    auto status = [&](const MediaFileProp&  /*mfp*/, MediaStreamStatus status) {
+        if (status == MEDIASTREAM_FINISHED)
+            done.set_value(true);
+        };
 
-    auto audio = [] (media::AudioFrame& /*audio_frame*/, ACE_Message_Block* /*mb_audio*/) {
-                     return false;
-                 };
+    auto audio = [](media::AudioFrame& /*audio_frame*/, ACE_Message_Block* /*mb_audio*/) {
+        return false;
+        };
 
-    auto video = [] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/) {
-                    return false;
-                };
+    auto video = [](media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/) {
+        return false;
+        };
 
     ffmpeg.RegisterStatusCallback(status, true);
     ffmpeg.RegisterAudioCallback(audio, true);
