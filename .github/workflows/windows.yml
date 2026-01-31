@@ -24,7 +24,7 @@ jobs:
         include:
           - arch: x86
             cmakeplatform: Win32
-            javaversion: 19
+            javaversion: 11
             opensslplatform: VC-WIN32
             portablearch: win32
             qtarch: win32_msvc2019
@@ -135,6 +135,22 @@ jobs:
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
 
+    - name: Run Java Server API tests (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java Server API tests (encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
+
     - name: Copy server configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
@@ -162,6 +178,32 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       shell: cmd
       run: catchtt.exe --durations yes
+
+    - name: Run Java unit tests (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkStdTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java unit tests with shared audio devices (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+        INPUTDEVICEID: 4026
+        OUTPUTDEVICEID: 4026
+
+    - name: Run Java unit tests with virtual audio device (encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Restart TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
