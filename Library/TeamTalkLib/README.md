@@ -211,9 +211,9 @@ The following toolchain toggles are available:
     * `OFF` is only supported on Linux distributions
   * Build ACE on Windows requires *ActivePerl* or *Strawberry Perl*
     * Place `perl.exe` in %PATH%.
-* `TOOLCHAIN_TINYXML`
-  * When `ON` builds [TinyXML](https://github.com/aughey/tinyxml)
-  * When `OFF` uses TinyXML installed on host
+* `TOOLCHAIN_TINYXML2`
+  * When `ON` builds [TinyXML2](https://github.com/leethomason/tinyxml2)
+  * When `OFF` uses TinyXML2 installed on host
     * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_ZLIB`
   * When `ON` builds [ZLib](https://github.com/madler/zlib)
