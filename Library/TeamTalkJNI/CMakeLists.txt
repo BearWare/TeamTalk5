@@ -222,6 +222,17 @@ if (Java_FOUND)
   # JUnit tests
 
   if (MSVC)
+    ExternalProject_Add(hamcrest-core
+      URL                 https://repo1.maven.org/maven2/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar
+      DOWNLOAD_NO_EXTRACT TRUE
+      DOWNLOAD_NAME       hamcrest-core.jar
+      UPDATE_COMMAND      ""
+      INSTALL_COMMAND     ""
+      INSTALL_DIR         ""
+      CONFIGURE_COMMAND   ""
+      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/hamcrest-core.jar ${CMAKE_CURRENT_LIST_DIR}/libs/hamcrest-core.jar
+      )
+
     ExternalProject_Add(junit4
       URL                 https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
       DOWNLOAD_NO_EXTRACT TRUE
@@ -230,7 +241,8 @@ if (Java_FOUND)
       INSTALL_COMMAND     ""
       INSTALL_DIR         ""
       CONFIGURE_COMMAND   ""
-      BUILD_COMMAND       ""
+      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit4.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar
+      DEPENDS             hamcrest-core
       )
     ExternalProject_Get_Property(junit4 DOWNLOAD_DIR)
     set (junit ${DOWNLOAD_DIR}/junit4.jar)
