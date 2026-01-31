@@ -8045,6 +8045,9 @@ void MainWindow::closeEvent(QCloseEvent *event)
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 {
+    if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+        TT_DoPing(ttInst);
+
     ClientStatistics stats = {};
     TT_GetClientStatistics(ttInst, &stats);
     float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
