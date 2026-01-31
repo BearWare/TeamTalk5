@@ -24,7 +24,7 @@ if (MSVC)
 
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -69,7 +69,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-intel-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-intel
@@ -85,7 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(openssl-arm64-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl-arm64
@@ -154,7 +154,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -192,7 +192,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
@@ -248,7 +248,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(openssl-src
       GIT_REPOSITORY    https://github.com/openssl/openssl.git
-      GIT_TAG           openssl-3.6.0
+      GIT_TAG           openssl-3.6.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
