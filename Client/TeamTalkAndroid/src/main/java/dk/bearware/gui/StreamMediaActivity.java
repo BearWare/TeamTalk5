@@ -123,15 +123,11 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         Permissions granted = Permissions.onRequestResult(this, requestCode, grantResults);
         if (granted == null)
             return;
-        switch (granted) {
-            case READ_EXTERNAL_STORAGE:
-            case READ_MEDIA_VIDEO:
-            case READ_MEDIA_AUDIO:
-                if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
-                    mediaSelectionStart();
-                break;
-        default:
-            break;
+        if (granted == Permissions.READ_EXTERNAL_STORAGE ||
+            granted == Permissions.READ_MEDIA_VIDEO ||
+            granted == Permissions.READ_MEDIA_AUDIO) {
+            if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
+                mediaSelectionStart();
         }
     }
 
@@ -141,30 +137,28 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
         Button stream_btn = this.findViewById(R.id.media_file_stream_btn);
 
         OnClickListener listener = v -> {
-            switch(v.getId()) {
-                case R.id.media_file_select_btn :
+            int id = v.getId();
+            if (id == R.id.media_file_select_btn) {
                 if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
                     requestMediaPermissions() :
                     Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                        mediaSelectionStart();
-                    }
-                    break;
-                case R.id.media_file_stream_btn :
-                    String path = file_path.getText().toString();
-                    if(path.isEmpty())
-                        return;
-                    VideoCodec videocodec = new VideoCodec();
-                    videocodec.nCodec = Codec.NO_CODEC;
-                    if (!getClient().startStreamingMediaFileToChannel(path, videocodec)) {
-                        Toast.makeText(StreamMediaActivity.this,
-                        R.string.err_stream_media,
-                        Toast.LENGTH_LONG).show();
-                    } else {
-                        SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
-                        editor.putString(lastMedia, path).apply();
-                        finish();
-                    }
-                    break;
+                    mediaSelectionStart();
+                }
+            } else if (id == R.id.media_file_stream_btn) {
+                String path = file_path.getText().toString();
+                if(path.isEmpty())
+                    return;
+                VideoCodec videocodec = new VideoCodec();
+                videocodec.nCodec = Codec.NO_CODEC;
+                if (!getClient().startStreamingMediaFileToChannel(path, videocodec)) {
+                    Toast.makeText(StreamMediaActivity.this,
+                    R.string.err_stream_media,
+                    Toast.LENGTH_LONG).show();
+                } else {
+                    SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(getBaseContext()).edit();
+                    editor.putString(lastMedia, path).apply();
+                    finish();
+                }
             }
         };
 
