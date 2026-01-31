@@ -236,16 +236,14 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
     public View getView(int position, View convertView, ViewGroup parent) {
         final RemoteFile remoteFile = remoteFiles.get(position);
         View.OnClickListener buttonClickListener = v -> {
-            switch (v.getId()) {
-            case R.id.cancel_btn: {
+            int id = v.getId();
+            if (id == R.id.cancel_btn) {
                 FileTransfer transfer = downloads.get(remoteFile.szFileName);
                 if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
                     downloadCancellationCleanup(transfer);
                     notifyDataSetChanged();
                 }
-                break;
-            }
-            case R.id.download_btn: {
+            } else if (id == R.id.download_btn) {
                 if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(activity)) {
                     File dlPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
                     if (dlPath.mkdirs() || dlPath.isDirectory()) {
@@ -281,9 +279,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                                        Toast.LENGTH_LONG).show();
                     }
                 }
-                break;
-            }
-            case R.id.remove_btn: {
+            } else if (id == R.id.remove_btn) {
                 AlertDialog.Builder alert = new AlertDialog.Builder(context);
                 alert.setMessage(context.getString(R.string.remote_file_remove_confirmation, remoteFile.szFileName));
                 alert.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -300,10 +296,6 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
 
                 alert.setNegativeButton(android.R.string.no, null);
                 alert.show();
-                break;
-            }
-            default:
-                break;
             }
         };
 
