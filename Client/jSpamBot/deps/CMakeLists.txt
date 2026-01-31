@@ -2,9 +2,6 @@ project(JSON)
 
 include(ExternalProject)
 
-find_package (Java REQUIRED)
-include (UseJava)
-
 ExternalProject_Add(JSON-java-src
   GIT_REPOSITORY    https://github.com/stleary/JSON-java.git
   GIT_TAG           20250517
