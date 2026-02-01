@@ -23,7 +23,7 @@ if (MSVC)
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
-        GIT_TAG           v1.3.1
+        GIT_TAG           9f25df2
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-MSVC-zlib-library-name.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -40,7 +40,7 @@ if (MSVC)
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
-        GIT_TAG           v1.3.1
+        GIT_TAG           9f25df2
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-MSVC-zlib-library-name.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -74,7 +74,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/madler/zlib.git
-      GIT_TAG           v1.3.1
+      GIT_TAG           9f25df2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -104,7 +104,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/madler/zlib.git
-      GIT_TAG           v1.3.1
+      GIT_TAG           9f25df2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
