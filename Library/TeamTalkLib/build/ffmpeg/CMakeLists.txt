@@ -359,14 +359,6 @@ elseif (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    find_path(YASM_EXE_DIRECTORY yasm.exe PATHS C:/tt5dist/yasm/x64)
-    if (YASM_EXE_DIRECTORY-NOTFOUND)
-      message(WARNING "yasm.exe is required to build FFmpeg. See https://yasm.tortall.net")
-    else()
-      message("Found YASM for FFmpeg here: ${YASM_EXE_DIRECTORY}")
-    endif()
-    file (TO_NATIVE_PATH ${YASM_EXE_DIRECTORY} YASM_EXE_DIRECTORY_NATIVE)
-
     set(FFMPEG_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
     configure_file(${CMAKE_CURRENT_LIST_DIR}/build-ffmpeg-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat @ONLY)
 
@@ -389,6 +381,7 @@ elseif (MSVC)
       <INSTALL_DIR>/lib/libswresample.a
       <INSTALL_DIR>/lib/libswscale.a
       <INSTALL_DIR>/lib/libavutil.a
+      DEPENDS           ${NASM_TARGET}
       )
     ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
