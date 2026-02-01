@@ -25,6 +25,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-MSVC-zlib-library-name.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
@@ -33,7 +34,7 @@ if (MSVC)
                           -DBUILD_SHARED_LIBS=OFF
         BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
         INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlib.lib
       )
     else()
 
@@ -41,6 +42,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/madler/zlib.git
         GIT_TAG           v1.3.1
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-MSVC-zlib-library-name.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
@@ -49,7 +51,7 @@ if (MSVC)
                           -DBUILD_SHARED_LIBS=OFF
         BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
         INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlib.lib
         )
     endif()
     ExternalProject_Get_Property(zlib-src INSTALL_DIR)
@@ -64,8 +66,8 @@ if (MSVC)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(zlib PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/zlibstatic.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/zlibstatic.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/zlib.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/zlib.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 

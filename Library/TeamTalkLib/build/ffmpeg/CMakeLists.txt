@@ -360,6 +360,10 @@ elseif (MSVC)
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     set(FFMPEG_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
+    string(REGEX REPLACE "^([A-Za-z]):" "/\\1" OPENSSL_PKG_CONFIG_DIR "${TOOLCHAIN_INSTALL_PREFIX}/openssl/lib/pkgconfig")
+    string(TOLOWER "${OPENSSL_PKG_CONFIG_DIR}" OPENSSL_PKG_CONFIG_DIR)
+    string(REGEX REPLACE "^([A-Za-z]):" "/\\1" ZLIB_PKG_CONFIG_DIR "${TOOLCHAIN_INSTALL_PREFIX}/zlib/lib/pkgconfig")
+    string(TOLOWER "${ZLIB_PKG_CONFIG_DIR}" ZLIB_PKG_CONFIG_DIR)
     configure_file(${CMAKE_CURRENT_LIST_DIR}/build-ffmpeg-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat @ONLY)
 
     ExternalProject_Add(ffmpeg-src
@@ -381,7 +385,7 @@ elseif (MSVC)
       <INSTALL_DIR>/lib/libswresample.a
       <INSTALL_DIR>/lib/libswscale.a
       <INSTALL_DIR>/lib/libavutil.a
-      DEPENDS           ${NASM_TARGET}
+      DEPENDS           ${NASM_TARGET} zlib-src openssl-src
       )
     ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)

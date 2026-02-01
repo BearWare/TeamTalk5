@@ -1,0 +1,25 @@
+From 3182b17f5e95f1273d4ce432a6f5c4ccd39969e0 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Sun, 1 Feb 2026 19:52:11 +0900
+Subject: [PATCH] Fix MSVC zlib library name
+
+---
+ CMakeLists.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 1b31303..2d13210 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -223,7 +223,7 @@ if(ZLIB_BUILD_STATIC)
+         PUBLIC $<$<BOOL:${HAVE_OFF64_T}>:_LARGEFILE64_SOURCE=1>)
+     set_target_properties(
+         zlibstatic PROPERTIES EXPORT_NAME ZLIBSTATIC OUTPUT_NAME
+-                                                     z${zlib_static_suffix})
++                                                     $<IF:$<BOOL:${MSVC}>,zlib,z${zlib_static_suffix}>)
+ endif(ZLIB_BUILD_STATIC)
+ 
+ if(ZLIB_INSTALL)
+-- 
+2.52.0.windows.1
+
