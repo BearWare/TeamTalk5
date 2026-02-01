@@ -1158,6 +1158,9 @@ void MainWindow::clienteventCmdProcessing(int cmdid, bool complete)
         case CMD_COMPLETE_LOGIN:
             cmdCompleteLoggedIn(TT_GetMyUserID(ttInst));
             break;
+        case CMD_COMPLETE_PING:
+            speakClientStats();
+            break;
         case CMD_COMPLETE_JOINCHANNEL:
             break;
         case CMD_COMPLETE_LIST_CHANNELBANS:
@@ -8044,6 +8047,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
+{
+    if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+    {
+        int cmdid = TT_DoPing(ttInst);
+        if (cmdid > 0)
+        {
+            m_commands.insert(cmdid, CMD_COMPLETE_PING);
+            return;
+        }
+    }
+    speakClientStats();
+}
+
+void MainWindow::speakClientStats()
 {
     ClientStatistics stats = {};
     TT_GetClientStatistics(ttInst, &stats);

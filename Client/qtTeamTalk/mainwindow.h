@@ -53,7 +53,8 @@ enum CommandComplete
     CMD_COMPLETE_SUBSCRIBE,
     CMD_COMPLETE_UNSUBSCRIBE,
 
-    CMD_COMPLETE_SAVECONFIG
+    CMD_COMPLETE_SAVECONFIG,
+    CMD_COMPLETE_PING
 };
 
 enum TimerEvent
@@ -246,6 +247,7 @@ private:
     /* 'mode' is mask of 'AudioStorageMode' */
     void updateAudioStorage(bool enable, AudioStorageMode mode);
     void updateAudioConfig();
+    void speakClientStats();
     bool sendDesktopWindow();
     void restartSendDesktopWindowTimer();
     void sendDesktopCursor();
