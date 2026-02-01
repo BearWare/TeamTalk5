@@ -24,7 +24,7 @@ jobs:
         include:
           - arch: x86
             cmakeplatform: Win32
-            javaversion: 19
+            javaversion: 11
             opensslplatform: VC-WIN32
             portablearch: win32
             qtarch: win32_msvc2019
