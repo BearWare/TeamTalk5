@@ -50,8 +50,8 @@ manually.
   * Place `perl.exe` in environment variable %PATH%.
     * OpenSSL and ACE Framework uses Perl
 * Install [MSYS2](https://www.msys2.org/) in `C:/MSYS64` (recommended)
-  * Run `pacman -S base-devel` to install build tools
-  * LibVPX requires *MSYS2* or *Cygwin*
+  * Run `pacman -S base-devel pkg-config` to install build tools
+  * FFmpeg and LibVPX requires *MSYS2* or *Cygwin*
 * Alternatively, install [Cygwin](https://www.cygwin.com/) in `C:/cygwin64`
   * Install `make` package during Cygwin setup
   * Cygwin is supported but MSYS2 is preferred
