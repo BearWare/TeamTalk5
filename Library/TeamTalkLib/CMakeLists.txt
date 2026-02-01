@@ -1,5 +1,9 @@
 project (TeamTalk5Lib LANGUAGES CXX)
 
+# Build Multi-threaded instead of Multi-Treaded DLL to avoid MSVC
+# dependency hell
+set (CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 include (FeatureSummary)
 
 set (TEAMTALKLIB_ROOT ${CMAKE_CURRENT_LIST_DIR})
@@ -19,8 +23,6 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   endif()
 endif()
 
-# Build Multi-threaded instead of Multi-Treaded DLL to avoid MSVC
-# dependency hell
 if (MSVC)
   set (COMPILE_FLAGS -DUNICODE -D_UNICODE
     -D_CRT_NONSTDC_NO_WARNINGS
@@ -28,16 +30,6 @@ if (MSVC)
     -D_CRT_SECURE_NO_DEPRECATE
     -D_CRT_NONSTDC_NO_DEPRECATE
     -D_WINSOCK_DEPRECATED_NO_WARNINGS)
-
-  foreach (flag_var
-      CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-      CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-    if (${flag_var} MATCHES "/MD")
-      STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-    endif()
-  endforeach(flag_var)
 
   # Use for building TeamTalk toolchain
   set (PLATFORMTOOLSET "/property:PlatformToolset=v143")
@@ -459,13 +451,13 @@ if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
   endif()
 
   target_include_directories (catchtt PRIVATE
-    ${TTCLIENTPRODLL_INCLUDE_DIR} ${TINYXML_INCLUDE_DIR})
+    ${TTCLIENTPRODLL_INCLUDE_DIR})
 
   target_compile_options (catchtt PRIVATE
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
   target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
-    ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML_LINK_FLAGS})
+    ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML2_LINK_FLAGS})
 
   if (MSVC AND ${CMAKE_SIZEOF_VOID_P} EQUAL 4)
     target_link_options (catchtt PRIVATE /NODEFAULTLIB:MSVCRT /NODEFAULTLIB:vcruntime.lib)

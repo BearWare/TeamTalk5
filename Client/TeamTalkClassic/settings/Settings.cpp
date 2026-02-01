@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -24,9 +24,11 @@
 #include "stdafx.h"
 #include "Settings.h"
 #include "MyStd.h"
+#include <cassert>
 #include <sstream>
 
 using namespace std;
+using namespace tinyxml2;
 
 namespace teamtalk {
 
@@ -49,33 +51,33 @@ namespace teamtalk {
     {
         std::ostringstream os;
         os << "File: " << this->GetFileName() << ". ";
-        os << m_xmlDocument.ErrorDesc() << ". ";
-        os << "Line " << m_xmlDocument.ErrorRow() << " column " << m_xmlDocument.ErrorCol() << ".";
+        os << m_xmlDocument.ErrorStr() << ". ";
+        os << "Line " << m_xmlDocument.ErrorLineNum() << ".";
         return os.str();
     }
 
     bool XMLDocument::Parse(const std::string& xml)
     {
         m_xmlDocument.Clear();
-        return m_xmlDocument.Parse(xml.c_str(), 0, TIXML_ENCODING_UNKNOWN) == NULL;
+        return m_xmlDocument.Parse(xml.c_str()) == XML_SUCCESS;
     }
 
 
     bool XMLDocument::CreateFile(const std::string& filename)
     {
         m_xmlDocument.Clear();
-        string szXml = 
+        string szXml =
             "<?xml version=\"1.0\" encoding=\"UTF-8\"?>"
             "<" + m_rootname + " version=\"" + m_xmlversion + "\">"
             "</" + m_rootname + ">";
 
-        m_xmlDocument.Parse(szXml.c_str(), 0, TIXML_ENCODING_UTF8);
-        return m_xmlDocument.SaveFile(filename.c_str()) && LoadFile(filename.c_str());
+        m_xmlDocument.Parse(szXml.c_str());
+        return m_xmlDocument.SaveFile(filename.c_str()) == XML_SUCCESS && LoadFile(filename.c_str());
     }
 
     bool XMLDocument::SetFileVersion(const std::string& version)
     {
-        TiXmlElement* item=GetRootElement();
+        tinyxml2::XMLElement* item=GetRootElement();
 
         if(item)
         {
@@ -87,18 +89,22 @@ namespace teamtalk {
 
     string XMLDocument::GetFileVersion()
     {
-        TiXmlElement* item=GetRootElement();
+        tinyxml2::XMLElement* item=GetRootElement();
 
         string version;
         if(item)
-            version = item->Attribute("version");
+        {
+            const char* attr = item->Attribute("version");
+            if (attr)
+                version = attr;
+        }
 
         return version;
     }
 
     void XMLDocument::SetValue(const std::string& path, const std::string& value)
     {
-        TiXmlElement* item = GetRootElement();
+        tinyxml2::XMLElement* item = GetRootElement();
         stdstrings_t tokens = stdtokenize(path, "/");
         assert(tokens.size());
         if (tokens.empty() || !item)
@@ -112,18 +118,17 @@ namespace teamtalk {
             auto child = item->FirstChildElement(tokens[0].c_str());
             if (!child)
             {
-                TiXmlElement newelement(tokens[0].c_str());
-                child = AppendElement(*item, newelement);
+                child = AppendElement(item, tokens[0].c_str());
             }
             item = child;
             tokens.erase(tokens.begin());
         }
-        PutString(*item, name, value);
+        PutString(item, name, value);
     }
 
     std::string XMLDocument::GetValue(bool prefixRoot, const std::string& path, const std::string& defaultvalue)
     {
-        TiXmlElement* item = GetRootElement();
+        tinyxml2::XMLElement* item = GetRootElement();
         if (!item)
             return defaultvalue;
 
@@ -151,7 +156,7 @@ namespace teamtalk {
         }
         string value = defaultvalue;
         if(tokens.empty() && item)
-            GetElementText(*item, value);
+            GetElementText(item, value);
         return value;
     }
 
@@ -159,7 +164,7 @@ namespace teamtalk {
     {
         SetValue(path, i2str(value));
     }
-    
+
     int XMLDocument::GetValue(bool prefixRoot, const std::string& path, int defaultvalue)
     {
         return str2i(GetValue(prefixRoot, path, i2str(defaultvalue)));
@@ -169,7 +174,7 @@ namespace teamtalk {
     {
         SetValue(path, std::string(value?"true":"false"));
     }
-    
+
     bool XMLDocument::GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue)
     {
         return GetValue(prefixRoot, path, std::string(defaultvalue?"true":"false")) == "true";
@@ -177,7 +182,7 @@ namespace teamtalk {
 
     bool XMLDocument::LoadFile(const std::string& filename)
     {
-        if(m_xmlDocument.LoadFile(filename.c_str()))
+        if(m_xmlDocument.LoadFile(filename.c_str()) == XML_SUCCESS)
         {
             m_filename = filename;
             m_rootname = GetRootElement()? GetRootElement()->Value() : "";
@@ -188,21 +193,21 @@ namespace teamtalk {
 
     bool XMLDocument::SaveFile()
     {
-        return m_xmlDocument.SaveFile();
+        return m_xmlDocument.SaveFile(m_filename.c_str()) == XML_SUCCESS;
     }
 
-    void XMLDocument::PutElementText(TiXmlElement& element, const std::string& value)
+    void XMLDocument::PutElementText(tinyxml2::XMLElement* element, const std::string& value)
     {
-        TiXmlText text(value.c_str());
-        element.InsertEndChild(text);
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(value.c_str());
+        element->InsertEndChild(text);
     }
 
-    void XMLDocument::GetElementText(const TiXmlElement& element, string& value) const
+    void XMLDocument::GetElementText(const tinyxml2::XMLElement* element, string& value)
     {
         //if string == "" text is null apparently
-        if(element.FirstChild())
+        if(element->FirstChild())
         {
-            const TiXmlText* text = element.FirstChild()->ToText();
+            const tinyxml2::XMLText* text = element->FirstChild()->ToText();
             if(text)
                 value = text->Value();
             else
@@ -212,75 +217,69 @@ namespace teamtalk {
             value = "";
     }
 
-    void XMLDocument::PutBoolean(TiXmlElement& parent, const string& szName, bool bValue)
+    void XMLDocument::PutBoolean(tinyxml2::XMLElement* parent, const string& szName, bool bValue)
     {
-        TiXmlElement newelement(szName.c_str());
-        TiXmlText text(bValue? "true" : "false");
-        newelement.InsertEndChild(text);
-
-        TiXmlElement* existing = parent.FirstChildElement(szName.c_str());
+        tinyxml2::XMLElement* existing = parent->FirstChildElement(szName.c_str());
         if(existing)
-            parent.ReplaceChild(existing, newelement);
-        else
-            parent.InsertEndChild(newelement);
+            parent->DeleteChild(existing);
+
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(szName.c_str());
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(bValue ? "true" : "false");
+        newelement->InsertEndChild(text);
+        parent->InsertEndChild(newelement);
     }
 
-    void XMLDocument::PutString(TiXmlElement& parent, const string& szName, const string& szValue)
+    void XMLDocument::PutString(tinyxml2::XMLElement* parent, const string& szName, const string& szValue)
     {
-        TiXmlElement newelement(szName.c_str());
-        TiXmlText text(szValue.c_str());
-        newelement.InsertEndChild(text);
-
-        TiXmlElement* existing = parent.FirstChildElement(szName.c_str());
+        tinyxml2::XMLElement* existing = parent->FirstChildElement(szName.c_str());
         if(existing)
-            parent.ReplaceChild(existing, newelement);
-        else
-            parent.InsertEndChild(newelement);
+            parent->DeleteChild(existing);
+
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(szName.c_str());
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(szValue.c_str());
+        newelement->InsertEndChild(text);
+        parent->InsertEndChild(newelement);
     }
 
-    void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, int nValue)
+    void XMLDocument::PutInteger(tinyxml2::XMLElement* parent, const string& szName, int nValue)
     {
-        TiXmlElement newelement(szName.c_str());
+        tinyxml2::XMLElement* existing = parent->FirstChildElement(szName.c_str());
+        if(existing)
+            parent->DeleteChild(existing);
+
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(szName.c_str());
         string s = i2str(nValue);
-
-        TiXmlText text(s.c_str());
-        newelement.InsertEndChild(text);
-
-        TiXmlElement* existing = parent.FirstChildElement(szName.c_str());
-        if(existing)
-            parent.ReplaceChild(existing, newelement);
-        else
-            parent.InsertEndChild(newelement);
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(s.c_str());
+        newelement->InsertEndChild(text);
+        parent->InsertEndChild(newelement);
     }
 
-    void XMLDocument::PutInteger(TiXmlElement& parent, const string& szName, int64_t nValue)
+    void XMLDocument::PutInteger(tinyxml2::XMLElement* parent, const string& szName, int64_t nValue)
     {
-        TiXmlElement newelement(szName.c_str());
+        tinyxml2::XMLElement* existing = parent->FirstChildElement(szName.c_str());
+        if(existing)
+            parent->DeleteChild(existing);
+
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(szName.c_str());
         string s = i2str(nValue);
-
-        TiXmlText text(s.c_str());
-        newelement.InsertEndChild(text);
-
-        TiXmlElement* existing = parent.FirstChildElement(szName.c_str());
-        if(existing)
-            parent.ReplaceChild(existing, newelement);
-        else
-            parent.InsertEndChild(newelement);
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(s.c_str());
+        newelement->InsertEndChild(text);
+        parent->InsertEndChild(newelement);
     }
 
-    TiXmlElement* XMLDocument::AppendElement(TiXmlElement& parent, const TiXmlElement& newElement)
+    tinyxml2::XMLElement* XMLDocument::AppendElement(tinyxml2::XMLElement* parent, const char* name)
     {
-        TiXmlElement* pElement = parent.InsertEndChild(newElement)->ToElement();
-        return pElement;
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(name);
+        return parent->InsertEndChild(newelement)->ToElement();
     }
 
-    bool XMLDocument::GetBoolean(const TiXmlElement& parent, const string& szName, bool& bValue) const
+    bool XMLDocument::GetBoolean(const tinyxml2::XMLElement* parent, const string& szName, bool& bValue) const
     {
-        const TiXmlElement* item = parent.FirstChildElement(szName.c_str());
+        const tinyxml2::XMLElement* item = parent->FirstChildElement(szName.c_str());
         if(item)
         {
             string s;
-            GetElementText(*item, s);
+            GetElementText(item, s);
 
             if(strcmpnocase(s, "true"))
             {
@@ -298,83 +297,58 @@ namespace teamtalk {
         return false;
     }
 
-    bool XMLDocument::GetString(const TiXmlElement& parent, const string& szName, string& szValue) const
+    bool XMLDocument::GetString(const tinyxml2::XMLElement* parent, const string& szName, string& szValue) const
     {
-        const TiXmlElement* item = parent.FirstChildElement(szName.c_str());
+        const tinyxml2::XMLElement* item = parent->FirstChildElement(szName.c_str());
         if(item)
         {
-            GetElementText(*item, szValue);
+            GetElementText(item, szValue);
             return true;
         }
 
         return false;
     }
 
-    bool XMLDocument::GetInteger(const TiXmlElement& parent, const string& szName, int& nValue) const
+    bool XMLDocument::GetInteger(const tinyxml2::XMLElement* parent, const string& szName, int& nValue) const
     {
-        const TiXmlElement* item = parent.FirstChildElement(szName.c_str());
+        const tinyxml2::XMLElement* item = parent->FirstChildElement(szName.c_str());
 
         if(item)
         {
             string s;
-            GetElementText(*item, s);
+            GetElementText(item, s);
             nValue = str2i(s);
             return true;
         }
         return false;
     }
 
-    bool XMLDocument::GetInteger(const TiXmlElement& parent, const string& szName, int64_t& nValue) const
+    bool XMLDocument::GetInteger(const tinyxml2::XMLElement* parent, const string& szName, int64_t& nValue) const
     {
-        const TiXmlElement* item = parent.FirstChildElement(szName.c_str());
+        const tinyxml2::XMLElement* item = parent->FirstChildElement(szName.c_str());
 
         if(item)
         {
             string s;
-            GetElementText(*item, s);
+            GetElementText(item, s);
             nValue = str2i64(s);
             return true;
         }
         return false;
     }
 
-    TiXmlElement* XMLDocument::ReplaceElement(TiXmlElement& target, const TiXmlElement& element)
+    tinyxml2::XMLElement* XMLDocument::ReplaceElement(tinyxml2::XMLElement* target, const char* name)
     {
-        TiXmlElement* pResult = NULL;
-        TiXmlElement* existing = target.FirstChildElement(element.Value());
-        if(existing && existing->FirstAttribute())
-        {
-            bool found = false;
-            for(;existing && !found;existing=existing->NextSiblingElement())
-            {
-                bool match = true;
-                const TiXmlAttribute* attr = element.FirstAttribute();
-                for(;attr && match;attr=attr->Next())
-                {
-                    const char* val1 = existing->Attribute(attr->Name());
-                    const char* val2 = attr->Value();
-                    if(val1 == val2)
-                        continue;
-                    match &= val1 && val2 && strcmp(val1, val2) == 0;
-                }
-                if(match)
-                    break;
-            }
-        }
-
+        tinyxml2::XMLElement* existing = target->FirstChildElement(name);
         if(existing)
-        {
-            pResult = target.ReplaceChild(existing, element)->ToElement();
-        }
-        else
-            pResult = target.InsertEndChild(element)->ToElement();
+            target->DeleteChild(existing);
 
-        return pResult;
+        tinyxml2::XMLElement* newelement = m_xmlDocument.NewElement(name);
+        return target->InsertEndChild(newelement)->ToElement();
     }
 
-    TiXmlElement* XMLDocument::GetRootElement()
+    tinyxml2::XMLElement* XMLDocument::GetRootElement()
     {
         return m_xmlDocument.RootElement();
     }
 }
-

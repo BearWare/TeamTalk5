@@ -94,27 +94,22 @@ jobs:
         install: base-devel pkg-config
         release: false
 
-    - name: Install YASM
-      run: |
-        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
-        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
-
     - name: Install NASM
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/${{ matrix.portablearch }}/nasm-3.01-${{ matrix.portablearch }}.zip
+        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
         7z x nasm.zip
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
 
-    - name: Download and install OpenSSL
+    - name: Download and install OpenSSL for Qt 5.15
       if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
-        tar -xzf openssl-3.6.0.tar.gz
-        cd openssl-3.6.0
+        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.1/openssl-3.6.1.tar.gz
+        tar -xzf openssl-3.6.1.tar.gz
+        cd openssl-3.6.1
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         perl Configure ${{ matrix.opensslplatform }} --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
         nmake /s

@@ -176,6 +176,7 @@ depend-ubuntu22:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -186,8 +187,7 @@ depend-ubuntu22:
 		qtmultimedia5-dev \
 		qttools5-dev \
 		qttools5-dev-tools \
-		wget \
-		yasm
+		wget
 
 depend-ubuntu24:
 	apt-get install \
@@ -202,6 +202,7 @@ depend-ubuntu24:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -215,8 +216,7 @@ depend-ubuntu24:
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
 		wget \
-		xz-utils \
-		yasm
+		xz-utils
 
 depend-ubuntu24-android:
 	apt-get install \
@@ -225,6 +225,7 @@ depend-ubuntu24-android:
 		doxygen \
 		junit4 \
 		libtool \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -246,6 +247,7 @@ depend-raspios12:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-17-jdk \
 		p7zip-full \
@@ -256,8 +258,7 @@ depend-raspios12:
 		qt6-multimedia-dev \
 		qt6-speech-dev \
 		qt6-tools-dev \
-		qt6-tools-dev-tools \
-		yasm
+		qt6-tools-dev-tools
 
 depend-mac:
 	brew install \
@@ -265,7 +266,7 @@ depend-mac:
 		automake \
 		doxygen \
 		libtool \
+		nasm \
 		ninja \
 		pkg-config \
-		python-setuptools \
-		yasm
+		python-setuptools
