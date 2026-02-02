@@ -29,7 +29,6 @@ jobs:
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            vcpkgarch: x86-windows
             vcvars: vcvars32.bat
           - arch: x64
             cmakeplatform: x64
@@ -39,7 +38,6 @@ jobs:
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
             qtversion: '6.10.*'
-            vcpkgarch: x64-windows
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
