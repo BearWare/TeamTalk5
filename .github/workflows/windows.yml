@@ -69,7 +69,7 @@ jobs:
         setup-python: false
 
     - name: Install Doxygen
-      uses: ssciwr/doxygen-install@v1
+      uses: ssciwr/doxygen-install@v2
       with:
         version: '1.16.1'
 
