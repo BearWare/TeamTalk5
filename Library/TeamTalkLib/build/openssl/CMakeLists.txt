@@ -38,6 +38,44 @@ if (MSVC)
       )
     ExternalProject_Get_Property(openssl-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/lib/pkgconfig)
+    file(WRITE ${INSTALL_DIR}/lib/pkgconfig/libcrypto.pc
+"prefix=${INSTALL_DIR}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: OpenSSL-libcrypto
+Description: OpenSSL cryptography library
+Version: 3.6.1
+Libs: -L\${libdir} -llibcrypto
+Libs.private: -lcrypt32 -ladvapi32 -luser32 -lws2_32
+Cflags: -I\${includedir}
+")
+    file(WRITE ${INSTALL_DIR}/lib/pkgconfig/libssl.pc
+"prefix=${INSTALL_DIR}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: OpenSSL-libssl
+Description: Secure Sockets Layer and cryptography libraries
+Version: 3.6.1
+Requires.private: libcrypto
+Libs: -L\${libdir} -llibssl
+Cflags: -I\${includedir}
+")
+    file(WRITE ${INSTALL_DIR}/lib/pkgconfig/openssl.pc
+"prefix=${INSTALL_DIR}
+exec_prefix=\${prefix}
+libdir=\${exec_prefix}/lib
+includedir=\${prefix}/include
+
+Name: OpenSSL
+Description: Secure Sockets Layer and cryptography libraries and tools
+Version: 3.6.1
+Requires: libssl libcrypto
+")
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL})
   endif(TOOLCHAIN_BUILD_EXTERNALPROJECTS)

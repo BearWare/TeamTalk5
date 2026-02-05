@@ -89,7 +89,7 @@ jobs:
         msystem: MSYS
         path-type: inherit
         update: true
-        install: base-devel
+        install: base-devel pkg-config
         release: false
 
     - name: Install NASM
