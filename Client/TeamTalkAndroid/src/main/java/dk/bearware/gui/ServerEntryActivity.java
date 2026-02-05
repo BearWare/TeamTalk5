@@ -219,19 +219,16 @@ public class ServerEntryActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.action_connect:
-                connectToServer();
-                break;
-            case R.id.action_saveserver:
-                saveServerAndFinish();
-                break;
-            case android.R.id.home:
-                setResult(RESULT_CANCELED);
-                finish();
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_connect) {
+            connectToServer();
+        } else if (itemId == R.id.action_saveserver) {
+            saveServerAndFinish();
+        } else if (itemId == android.R.id.home) {
+            setResult(RESULT_CANCELED);
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
