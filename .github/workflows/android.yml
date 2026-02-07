@@ -77,7 +77,7 @@ jobs:
         ./gradlew build -x packageRelease
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.maketarget }}
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-release-${{ matrix.maketarget }}
       run: cmake --build . --target install
 
     - name: Upload TeamTalk SDK artifact

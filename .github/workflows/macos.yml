@@ -50,10 +50,10 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: make depend-mac
 
-    - name: Build TeamTalk library and apps
+    - name: Build TeamTalk toolchain, libraries and apps
       working-directory: ${{runner.workspace}}/TeamTalk5
       shell: bash
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -78,8 +78,13 @@ jobs:
       run: killall tt5srv tt5prosrv
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-mac
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-release-mac
       run: cmake --build . --target install
+
+    - name: Build debug TeamTalk using prebuilt toolchain
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      shell: bash
+      run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6

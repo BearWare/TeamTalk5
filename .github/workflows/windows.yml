@@ -114,7 +114,7 @@ jobs:
         nmake /s install
         echo %CD%\openssl-install\bin>> %GITHUB_PATH%
 
-    - name: Configure CMake
+    - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
@@ -122,6 +122,7 @@ jobs:
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build and install TeamTalk
@@ -249,6 +250,25 @@ jobs:
       run: |
         "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{runner.workspace}}\TeamTalk5" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
         move Output\*.exe ${{runner.workspace}}\
+
+    - name: Configure CMake for prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
+        -DFEATURE_WEBRTC=OFF
+        -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
+        -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
+
+    - name: Build debug TeamTalk using prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        cmake --build output-developer --parallel --config Debug
 
     - name: Upload Inno Setup installer artifact
       if: matrix.arch == 'x64'
