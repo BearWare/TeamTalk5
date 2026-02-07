@@ -122,6 +122,7 @@ jobs:
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build and install TeamTalk
@@ -259,6 +260,7 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build TeamTalk for developers using prebuilt toolchain
