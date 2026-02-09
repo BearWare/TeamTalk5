@@ -1,0 +1,35 @@
+[versions]
+agp = "8.13.2"
+desugar = "2.1.5"
+gson = "2.13.2"
+annotation = "1.9.1"
+appcompat = "1.7.1"
+core = "1.17.0"
+fragment = "1.8.9"
+media = "1.7.1"
+preference = "1.2.1"
+viewpager = "1.1.0"
+material = "1.13.0"
+junit = "4.13.2"
+testCore = "1.7.0"
+testRunner = "1.7.0"
+testRules = "1.7.0"
+
+[libraries]
+desugar-jdk-libs = { group = "com.android.tools", name = "desugar_jdk_libs", version.ref = "desugar" }
+gson = { group = "com.google.code.gson", name = "gson", version.ref = "gson" }
+androidx-annotation = { group = "androidx.annotation", name = "annotation", version.ref = "annotation" }
+androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
+androidx-core = { group = "androidx.core", name = "core", version.ref = "core" }
+androidx-fragment = { group = "androidx.fragment", name = "fragment", version.ref = "fragment" }
+androidx-media = { group = "androidx.media", name = "media", version.ref = "media" }
+androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
+androidx-viewpager = { group = "androidx.viewpager", name = "viewpager", version.ref = "viewpager" }
+material = { group = "com.google.android.material", name = "material", version.ref = "material" }
+junit = { group = "junit", name = "junit", version.ref = "junit" }
+androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCore" }
+androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
+androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "testRules" }
+
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }

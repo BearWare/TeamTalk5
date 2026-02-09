@@ -1,30 +1,15 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.2'
-    }
+plugins {
+    alias(libs.plugins.android.application)
 }
 
-apply plugin: 'com.android.application'
-
 android {
+    // enableKotlin = false
     namespace = 'dk.bearware.gui'
-    compileSdk = 36
+    compileSdk {
+        version = release(36)
+    }
     buildToolsVersion = '36.1.0'
     ndkVersion = '29.0.14206865'
-
-    buildFeatures {
-        buildConfig = true
-        viewBinding = true
-    }
-
-    androidResources {
-        generateLocaleConfig = true
-    }
 
     defaultConfig {
         applicationId = 'dk.bearware.gui'
@@ -36,10 +21,26 @@ android {
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
         coreLibraryDesugaringEnabled = true
+    }
+
+    buildFeatures {
+        buildConfig = true
+        viewBinding = true
+    }
+
+    androidResources {
+        generateLocaleConfig = true
     }
 
     splits {
@@ -51,47 +52,29 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'teamtalk-proguard-rules.txt'
-        }
-    }
-
-    repositories {
-        google()
-        mavenCentral()
-    }
-
     lint {
         disable 'MissingTranslation'
     }
 }
 
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.google.code.gson:gson:2.13.2'
-    implementation 'androidx.annotation:annotation:1.9.1'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.core:core:1.17.0'
-    implementation 'androidx.fragment:fragment:1.8.9'
-    implementation 'androidx.media:media:1.7.1'
-    implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.viewpager:viewpager:1.1.0'
-    implementation 'com.google.android.material:material:1.13.0'
+    coreLibraryDesugaring libs.desugar.jdk.libs
+    implementation libs.gson
+    implementation libs.androidx.annotation
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.core
+    implementation libs.androidx.fragment
+    implementation libs.androidx.media
+    implementation libs.androidx.preference
+    implementation libs.androidx.viewpager
+    implementation libs.material
     implementation files('libs/TeamTalk5.jar')
 
-    // Required -- JUnit 4 framework
-    testImplementation 'junit:junit:4.13.2'
+    testImplementation libs.junit
     testImplementation files('libs/TeamTalk5Test.jar')
 
-    // Core library
-    androidTestImplementation 'androidx.test:core:1.7.0'
-
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.7.0'
-    androidTestImplementation 'androidx.test:rules:1.7.0'
-
-    // Assertions
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.rules
     androidTestImplementation files('libs/TeamTalk5Test.jar')
 }
