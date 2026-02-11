@@ -50,8 +50,8 @@ manually.
   * Place `perl.exe` in environment variable %PATH%.
     * OpenSSL and ACE Framework uses Perl
 * Install [MSYS2](https://www.msys2.org/) in `C:/MSYS64` (recommended)
-  * Run `pacman -S base-devel` to install build tools
-  * LibVPX requires *MSYS2* or *Cygwin*
+  * Run `pacman -S base-devel pkg-config` to install build tools
+  * FFmpeg and LibVPX requires *MSYS2* or *Cygwin*
 * Alternatively, install [Cygwin](https://www.cygwin.com/) in `C:/cygwin64`
   * Install `make` package during Cygwin setup
   * Cygwin is supported but MSYS2 is preferred
@@ -138,6 +138,9 @@ Studio 2022 run CMake like this:
 
 Note that WebRTC dependency will create a folder in `C:\webrtc` where
 it downloads its repository.
+
+When both `FEATURE_FFMPEG` and `FEATURE_MEDIAFOUNDATION` are enabled,
+FFmpeg is tried first and Media Foundation is used as fallback.
 
 ### Build TeamTalk Binaries for Ubuntu 22
 
@@ -285,8 +288,10 @@ The following feature toggles are available:
   * Toolchain mapping: `TOOLCHAIN_SPEEXDSP`
 * `FEATURE_FFMPEG`
   * FFmpeg for streaming and audio resampling
-  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
   * Toolchain mapping: `TOOLCHAIN_FFMPEG`
+  * Building FFmpeg on Windows requires MSYS2
+    * Install in `C:/MSYS64` and run `pacman -S base-devel`
 * `FEATURE_V4L2`
   * Video for Linux 2 for video capture support
   * Supported platforms: Ubuntu/Linux, Raspbian

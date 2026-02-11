@@ -44,6 +44,10 @@ if (TOOLCHAIN_CATCH2)
   add_subdirectory(catch2)
 endif()
 
+if (MSVC)
+  add_subdirectory(bash)
+endif()
+
 option (TOOLCHAIN_LIBVPX "Build and link LibVPX from TeamTalk toolchain" ON)
 add_feature_info(TOOLCHAIN_LIBVPX TOOLCHAIN_LIBVPX "libVPX video codec is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_LIBVPX)
