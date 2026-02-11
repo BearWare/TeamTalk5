@@ -70,7 +70,6 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
       endif()
 
       install (TARGETS TeamTalk5-jni DESTINATION Library/TeamTalkJNI)
-      
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_JNIPRO)
@@ -222,14 +221,41 @@ if (Java_FOUND)
 
   # JUnit tests
 
-  find_jar (junit NAMES junit4 junit
-            PATHS ENV JUNIT_HOME
-            DOC "Find JUnit")
+  if (MSVC)
+    ExternalProject_Add(hamcrest-core
+      URL                 https://repo1.maven.org/maven2/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar
+      DOWNLOAD_NO_EXTRACT TRUE
+      DOWNLOAD_NAME       hamcrest-core.jar
+      UPDATE_COMMAND      ""
+      INSTALL_COMMAND     ""
+      INSTALL_DIR         ""
+      CONFIGURE_COMMAND   ""
+      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/hamcrest-core.jar ${CMAKE_CURRENT_LIST_DIR}/libs/hamcrest-core.jar
+      )
+
+    ExternalProject_Add(junit4
+      URL                 https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
+      DOWNLOAD_NO_EXTRACT TRUE
+      DOWNLOAD_NAME       junit4.jar
+      UPDATE_COMMAND      ""
+      INSTALL_COMMAND     ""
+      INSTALL_DIR         ""
+      CONFIGURE_COMMAND   ""
+      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit4.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar
+      DEPENDS             hamcrest-core
+      )
+    ExternalProject_Get_Property(junit4 DOWNLOAD_DIR)
+    set (junit ${DOWNLOAD_DIR}/junit4.jar)
+  else()
+    find_jar (junit NAMES junit4 junit
+      PATHS ENV JUNIT_HOME
+      DOC "Find JUnit")
+    set (JUNITJAR ${junit})
+  endif()
 
   if (NOT junit)
     message(WARNING "Cannot find JUnit jar. Skipping JUnit tests.")
   else()
-
     if (BUILD_TEAMTALK_LIBRARY_JAR)
       add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${junit}
         ENTRY_POINT org/junit/runner/JUnitCore
@@ -239,6 +265,10 @@ if (Java_FOUND)
         test/TeamTalkStdTestSuite.java
         test/SingleJUnitTestRunner.java
         OUTPUT_DIR libs)
+      if (MSVC)
+        add_dependencies(TeamTalk5Test junit4)
+      endif()
+      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5Test.jar DESTINATION Library/TeamTalkJNI/libs)
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_JARPRO)
@@ -250,6 +280,7 @@ if (Java_FOUND)
         test/TeamTalkProTestSuite.java
         test/SingleJUnitTestRunner.java
         OUTPUT_DIR libs)
+      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5ProTest.jar DESTINATION Library/TeamTalkJNI/libs)
 
       add_jar (TeamTalk5SrvTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
         ENTRY_POINT org/junit/runner/JUnitCore
@@ -258,7 +289,12 @@ if (Java_FOUND)
         test/TeamTalkServerTestSuite.java
         test/SingleJUnitTestRunner.java
         OUTPUT_DIR libs)
-    endif()
-  endif()
+      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5SrvTest.jar DESTINATION Library/TeamTalkJNI/libs)
 
+      if (MSVC)
+        add_dependencies(TeamTalk5ProTest junit4)
+        add_dependencies(TeamTalk5SrvTest junit4)
+      endif()
+    endif(BUILD_TEAMTALK_LIBRARY_JARPRO)
+  endif()
 endif()

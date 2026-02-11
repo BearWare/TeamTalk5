@@ -3,6 +3,8 @@ project (TeamTalk5Classic)
 include(CMakeDependentOption)
 include(ExternalProject)
 
+set (CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
+
 function(set_output_dir target dir)
   set_target_properties (${target} PROPERTIES
     LIBRARY_OUTPUT_DIRECTORY ${dir}
@@ -20,26 +22,30 @@ include (ttclassic.cmake)
 
 if (MSVC)
 
-  ExternalProject_Add(tinyxml-classic-src
-      GIT_REPOSITORY    https://github.com/bear101/tinyxml.git
-      GIT_TAG           bdr_v2
+  ExternalProject_Add(tinyxml2-classic-src
+      GIT_REPOSITORY    https://github.com/leethomason/tinyxml2.git
+      GIT_TAG           11.0.0
       UPDATE_COMMAND    ""
-      CMAKE_ARGS        -DTINYXML_MULTITHREADED=ON
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
+      CMAKE_ARGS        -DCMAKE_DEBUG_POSTFIX=d
+                        -DBUILD_SHARED_LIBS=OFF
+                        -DBUILD_TESTING=OFF
+                        -Dtinyxml2_INSTALL_PKGCONFIG=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_COMMAND   ""
-      BUILD_BYPRODUCTS  ${BINARY_DIR}/Debug/tinyxmld.lib
-                        ${BINARY_DIR}/Release/tinyxml.lib
+      BUILD_BYPRODUCTS  ${BINARY_DIR}/Debug/tinyxml2d.lib
+                        ${BINARY_DIR}/Release/tinyxml2.lib
       )
-  ExternalProject_Get_Property(tinyxml-classic-src SOURCE_DIR)
-  ExternalProject_Get_Property(tinyxml-classic-src BINARY_DIR)
+  ExternalProject_Get_Property(tinyxml2-classic-src SOURCE_DIR)
+  ExternalProject_Get_Property(tinyxml2-classic-src BINARY_DIR)
 
-  add_library(tinyxml-classic STATIC IMPORTED GLOBAL)
-  add_dependencies(tinyxml-classic tinyxml-classic-src)
-  target_include_directories (tinyxml-classic INTERFACE ${SOURCE_DIR})
-  set_target_properties(tinyxml-classic PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${BINARY_DIR}/Debug/tinyxmld.lib
-    IMPORTED_LOCATION ${BINARY_DIR}/Release/tinyxml.lib)
+  add_library(tinyxml2-classic STATIC IMPORTED GLOBAL)
+  add_dependencies(tinyxml2-classic tinyxml2-classic-src)
+  target_include_directories (tinyxml2-classic INTERFACE ${SOURCE_DIR})
+  set_target_properties(tinyxml2-classic PROPERTIES
+    IMPORTED_LOCATION_DEBUG ${BINARY_DIR}/Debug/tinyxml2d.lib
+    IMPORTED_LOCATION ${BINARY_DIR}/Release/tinyxml2.lib)
 
   if ("${CMAKE_GENERATOR}" MATCHES "Visual Studio")
     set (VS_BUILD 1)
@@ -52,16 +58,6 @@ if (MSVC)
   set(CMAKE_MFC_FLAG 1)
 
   link_directories (../../Library/TeamTalk_DLL)
-
-  foreach (flag_var
-      CMAKE_C_FLAGS CMAKE_C_FLAGS_DEBUG CMAKE_C_FLAGS_RELEASE
-      CMAKE_C_FLAGS_MINSIZEREL CMAKE_C_FLAGS_RELWITHDEBINFO
-      CMAKE_CXX_FLAGS CMAKE_CXX_FLAGS_DEBUG CMAKE_CXX_FLAGS_RELEASE
-      CMAKE_CXX_FLAGS_MINSIZEREL CMAKE_CXX_FLAGS_RELWITHDEBINFO)
-    if (${flag_var} MATCHES "/MD")
-      STRING(REGEX REPLACE "/MD" "/MT" ${flag_var} "${${flag_var}}")
-    endif()
-  endforeach(flag_var)
 
   set_source_files_properties (stdafx.cpp PROPERTIES COMPILE_FLAGS "/Ycstdafx.h")
 
@@ -92,19 +88,19 @@ if (MSVC)
       install (FILES ${TOLK_DLL_FILES} DESTINATION Client/TeamTalkClassic)
       if (BUILD_TEAMTALK_LIBRARY_DLL)
         target_include_directories (TeamTalk5Classic PUBLIC ./)
-        target_link_libraries (TeamTalk5Classic TeamTalk5DLL Tolk tinyxml-classic)
+        target_link_libraries (TeamTalk5Classic TeamTalk5DLL Tolk tinyxml2-classic)
       else()
         target_include_directories (TeamTalk5Classic PUBLIC ./ ../../Library/TeamTalk_DLL)
-        target_link_libraries (TeamTalk5Classic TeamTalk5 Tolk tinyxml-classic)
+        target_link_libraries (TeamTalk5Classic TeamTalk5 Tolk tinyxml2-classic)
       endif()
     else()
       target_compile_options (TeamTalk5Classic PUBLIC ${TTCLASSIC_COMPILE_FLAGS})
       if (BUILD_TEAMTALK_LIBRARY_DLL)
         target_include_directories (TeamTalk5Classic PUBLIC ./)
-        target_link_libraries (TeamTalk5Classic TeamTalk5DLL tinyxml-classic)
+        target_link_libraries (TeamTalk5Classic TeamTalk5DLL tinyxml2-classic)
       else()
         target_include_directories (TeamTalk5Classic PUBLIC ./ ../../Library/TeamTalk_DLL)
-        target_link_libraries (TeamTalk5Classic TeamTalk5 tinyxml-classic)
+        target_link_libraries (TeamTalk5Classic TeamTalk5 tinyxml2-classic)
       endif()
     endif()
     set_output_dir(TeamTalk5Classic "${CMAKE_CURRENT_SOURCE_DIR}/")

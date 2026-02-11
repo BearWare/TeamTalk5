@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -24,7 +24,7 @@
 #if !defined(SETTINGS_H)
 #define SETTINGS_H
 
-#include <tinyxml.h>
+#include <tinyxml2.h>
 #include <string>
 #include <vector>
 #include <map>
@@ -41,7 +41,7 @@
 #undef CreateFile
 #endif
 
-/* 
+/*
 * Host Manager elements
 * <hostmanager>
 *  <host name="blah">
@@ -55,7 +55,7 @@
 
 namespace teamtalk {
 
-    class XMLDocument  
+    class XMLDocument
     {
     public:
         XMLDocument(const std::string& rootname, const std::string& version);
@@ -83,23 +83,23 @@ namespace teamtalk {
         bool GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue);
 
     protected:
-        TiXmlDocument m_xmlDocument;
-        void PutElementText(TiXmlElement& element, const std::string& value);
-        void GetElementText(const TiXmlElement& element, std::string& value) const;
+        tinyxml2::XMLDocument m_xmlDocument;
+        void PutElementText(tinyxml2::XMLElement* element, const std::string& value);
+        static void GetElementText(const tinyxml2::XMLElement* element, std::string& value);
 
-        void PutBoolean(TiXmlElement& parent, const std::string& szName, bool bValue);
-        void PutString(TiXmlElement& parent, const std::string& szName, const std::string& szValue);
-        void PutInteger(TiXmlElement& parent, const std::string& szName, int nValue);
-        void PutInteger(TiXmlElement& parent, const std::string& szName, int64_t nValue);
+        void PutBoolean(tinyxml2::XMLElement* parent, const std::string& szName, bool bValue);
+        void PutString(tinyxml2::XMLElement* parent, const std::string& szName, const std::string& szValue);
+        void PutInteger(tinyxml2::XMLElement* parent, const std::string& szName, int nValue);
+        void PutInteger(tinyxml2::XMLElement* parent, const std::string& szName, int64_t nValue);
 
-        bool GetBoolean(const TiXmlElement& parent, const std::string& szName, bool& bValue) const;
-        bool GetString(const TiXmlElement& parent, const std::string& szName, std::string& szValue) const;
-        bool GetInteger(const TiXmlElement& parent, const std::string& szName, int& nValue) const;
-        bool GetInteger(const TiXmlElement& parent, const std::string& szName, int64_t& nValue) const;
+        bool GetBoolean(const tinyxml2::XMLElement* parent, const std::string& szName, bool& bValue) const;
+        bool GetString(const tinyxml2::XMLElement* parent, const std::string& szName, std::string& szValue) const;
+        bool GetInteger(const tinyxml2::XMLElement* parent, const std::string& szName, int& nValue) const;
+        bool GetInteger(const tinyxml2::XMLElement* parent, const std::string& szName, int64_t& nValue) const;
 
-        TiXmlElement* AppendElement(TiXmlElement& parent, const TiXmlElement& newElement);
-        TiXmlElement* ReplaceElement(TiXmlElement& target, const TiXmlElement& element);
-        virtual TiXmlElement* GetRootElement();
+        tinyxml2::XMLElement* AppendElement(tinyxml2::XMLElement* parent, const char* name);
+        tinyxml2::XMLElement* ReplaceElement(tinyxml2::XMLElement* target, const char* name);
+        virtual tinyxml2::XMLElement* GetRootElement();
         std::string m_rootname, m_filename, m_xmlversion;
     };
 

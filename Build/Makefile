@@ -47,16 +47,16 @@ android-build:
         buildlib
 
 android-armeabi-v7a: teamtalk-env
-	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-arm64-v8a: teamtalk-env
-	$(MAKE) ANDROID_ABI=arm64-v8a BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=arm64-v8a BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-x86: teamtalk-env
-	$(MAKE) ANDROID_ABI=x86 BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=x86 BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-x64: teamtalk-env
-	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-all: android-armeabi-v7a android-arm64-v8a android-x86 android-x64
 
@@ -65,22 +65,23 @@ generic:
 
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) \
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$(UBUNTUDIR) \
 	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu22:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
+
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
                               -DTOOLCHAIN_OPENSSL=OFF" \
-                              BUILDDIR=build-$@ generic
+                              BUILDDIR=build-$(CONFIGTYPE)-$@ generic
 
 mac:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$@ CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
 
 ios-build:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS \
@@ -100,11 +101,11 @@ ios-build:
         buildlib
 
 ios-arm64:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$@ ios-build
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=arm64 lipo-arch
 
 ios-x64:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$@ ios-build
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=x86_64 lipo-arch
 
 ios-all: ios-arm64 ios-x64 lipo
@@ -153,7 +154,7 @@ xcodeswap-apps:
 	sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 teamtalk-jar:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=OFF \
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=OFF \
         -DBUILD_TEAMTALK_CLIENTS=OFF \
         -DBUILD_TEAMTALK_SERVERS=OFF \
         -DBUILD_TEAMTALK_DOCUMENTATION=OFF \
@@ -176,6 +177,7 @@ depend-ubuntu22:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -186,8 +188,7 @@ depend-ubuntu22:
 		qtmultimedia5-dev \
 		qttools5-dev \
 		qttools5-dev-tools \
-		wget \
-		yasm
+		wget
 
 depend-ubuntu24:
 	apt-get install \
@@ -202,6 +203,7 @@ depend-ubuntu24:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -215,8 +217,7 @@ depend-ubuntu24:
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
 		wget \
-		xz-utils \
-		yasm
+		xz-utils
 
 depend-ubuntu24-android:
 	apt-get install \
@@ -225,6 +226,7 @@ depend-ubuntu24-android:
 		doxygen \
 		junit4 \
 		libtool \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -246,6 +248,7 @@ depend-raspios12:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-17-jdk \
 		p7zip-full \
@@ -256,8 +259,7 @@ depend-raspios12:
 		qt6-multimedia-dev \
 		qt6-speech-dev \
 		qt6-tools-dev \
-		qt6-tools-dev-tools \
-		yasm
+		qt6-tools-dev-tools
 
 depend-mac:
 	brew install \
@@ -265,7 +267,7 @@ depend-mac:
 		automake \
 		doxygen \
 		libtool \
+		nasm \
 		ninja \
 		pkg-config \
-		python-setuptools \
-		yasm
+		python-setuptools

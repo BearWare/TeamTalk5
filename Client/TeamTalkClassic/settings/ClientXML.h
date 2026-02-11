@@ -501,22 +501,22 @@ namespace teamtalk {
         bool GetMediaFileRepeat(bool defaultvalue);
         /********** </mediafiles> *********/
     protected:
-        TiXmlElement* GetRootElement();
-        TiXmlElement* GetMainElement();
-        TiXmlElement* GetGeneralElement();
-        TiXmlElement* GetWindowElement();
-        TiXmlElement* GetClientElement();
-        TiXmlElement* GetSoundSystemElement();
-        TiXmlElement* GetEventsElement();
-        TiXmlElement* GetVideoElement();
-        TiXmlElement* GetAdvancedElement();
-        TiXmlElement* GetShortCutsElement();
-        TiXmlElement* GetHostManagerElement();
-        TiXmlElement* GetLatestHostsElement();
-        TiXmlElement* GetMediaFilesElement();
+        tinyxml2::XMLElement* GetRootElement();
+        tinyxml2::XMLElement* GetMainElement();
+        tinyxml2::XMLElement* GetGeneralElement();
+        tinyxml2::XMLElement* GetWindowElement();
+        tinyxml2::XMLElement* GetClientElement();
+        tinyxml2::XMLElement* GetSoundSystemElement();
+        tinyxml2::XMLElement* GetEventsElement();
+        tinyxml2::XMLElement* GetVideoElement();
+        tinyxml2::XMLElement* GetAdvancedElement();
+        tinyxml2::XMLElement* GetShortCutsElement();
+        tinyxml2::XMLElement* GetHostManagerElement();
+        tinyxml2::XMLElement* GetLatestHostsElement();
+        tinyxml2::XMLElement* GetMediaFilesElement();
 
-        void PutHotKey(TiXmlElement& parent, const HotKey& hotkey);
-        bool GetHotKey( const TiXmlElement& parent, HotKey& hotkey);
+        void PutHotKey(tinyxml2::XMLElement* parent, const HotKey& hotkey);
+        bool GetHotKey(const tinyxml2::XMLElement* parent, HotKey& hotkey);
     };
 
     class TTFile : public XMLDocument
@@ -527,7 +527,7 @@ namespace teamtalk {
 
        void SetHostEntry(const HostEntry& entry);
        bool GetHostEntry(HostEntry& entry, int i);
-       TiXmlElement* GetRootElement();
+       tinyxml2::XMLElement* GetRootElement();
        bool HasClientSetup();
     };
 

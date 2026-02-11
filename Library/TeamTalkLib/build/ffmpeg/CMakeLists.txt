@@ -28,7 +28,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       --disable-autodetect
       --enable-openssl
       --enable-zlib
-      # Compile options (yasm does not work for arm64)
+      # Compile options (nasm does not work for arm64)
       --disable-asm
       --disable-debug
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64

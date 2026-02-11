@@ -53,11 +53,11 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Build
       run: sudo make depend-ubuntu${{ matrix.version }}
 
-    - name: Build TeamTalk library and apps
+    - name: Build TeamTalk toolchain, libraries and apps
       working-directory: ${{runner.workspace}}/TeamTalk5
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
+        make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Run Java Server API tests (non-encrypted)
@@ -159,8 +159,15 @@ jobs:
       run: gradle build
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-ubuntu${{ matrix.version }}
+      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-release-ubuntu${{ matrix.version }}
       run: cmake --build . --target install
+
+    - name: Build debug TeamTalk using prebuilt toolchain
+      working-directory: ${{runner.workspace}}/TeamTalk5
+      run: |
+        source env.sh
+        make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_WEBRTC=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
+        echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6

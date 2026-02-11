@@ -24,12 +24,11 @@ jobs:
         include:
           - arch: x86
             cmakeplatform: Win32
-            javaversion: 19
+            javaversion: 11
             opensslplatform: VC-WIN32
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            vcpkgarch: x86-windows
             vcvars: vcvars32.bat
           - arch: x64
             cmakeplatform: x64
@@ -37,9 +36,8 @@ jobs:
             opensslplatform: VC-WIN64A
             portablearch: win64
             qtarch: win64_msvc2022_64
-            qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
+            qtmodules: 'qtmultimedia qtspeech'
             qtversion: '6.10.*'
-            vcpkgarch: x64-windows
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
@@ -71,7 +69,7 @@ jobs:
         setup-python: false
 
     - name: Install Doxygen
-      uses: ssciwr/doxygen-install@v1
+      uses: ssciwr/doxygen-install@v2
       with:
         version: '1.16.1'
 
@@ -94,34 +92,29 @@ jobs:
         install: base-devel
         release: false
 
-    - name: Install YASM
-      run: |
-        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
-        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
-
     - name: Install NASM
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/${{ matrix.portablearch }}/nasm-3.01-${{ matrix.portablearch }}.zip
+        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
         7z x nasm.zip
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
 
-    - name: Download and install OpenSSL
+    - name: Download and install OpenSSL for Qt 5.15
       if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
-        tar -xzf openssl-3.6.0.tar.gz
-        cd openssl-3.6.0
+        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.1/openssl-3.6.1.tar.gz
+        tar -xzf openssl-3.6.1.tar.gz
+        cd openssl-3.6.1
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         perl Configure ${{ matrix.opensslplatform }} --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
         nmake /s
         nmake /s install
         echo %CD%\openssl-install\bin>> %GITHUB_PATH%
 
-    - name: Configure CMake
+    - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
@@ -129,6 +122,7 @@ jobs:
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build and install TeamTalk
@@ -140,6 +134,22 @@ jobs:
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
+
+    - name: Run Java Server API tests (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java Server API tests (encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Copy server configuration
       working-directory: ${{runner.workspace}}/TeamTalk5
@@ -168,6 +178,32 @@ jobs:
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
       shell: cmd
       run: catchtt.exe --durations yes
+
+    - name: Run Java unit tests (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkStdTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java unit tests with shared audio devices (non-encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+        INPUTDEVICEID: 4026
+        OUTPUTDEVICEID: 4026
+
+    - name: Run Java unit tests with virtual audio device (encrypted)
+      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Restart TeamTalk Standard Server
       working-directory: ${{runner.workspace}}/TeamTalk5/Server
@@ -256,6 +292,25 @@ jobs:
       run: |
         "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{runner.workspace}}\TeamTalk5" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
         move Output\*.exe ${{runner.workspace}}\
+
+    - name: Configure CMake for prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
+        -DFEATURE_WEBRTC=OFF
+        -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
+        -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
+
+    - name: Build debug TeamTalk using prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        cmake --build output-developer --parallel --config Debug
 
     - name: Upload Inno Setup installer artifact
       if: matrix.arch == 'x64'

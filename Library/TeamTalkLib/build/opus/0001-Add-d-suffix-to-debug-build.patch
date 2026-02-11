@@ -1,0 +1,27 @@
+From 1a86f29a4fd8c57ea65a72b3be9ed27a687afacb Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Wed, 28 Jan 2026 09:06:38 +0100
+Subject: [PATCH] Add 'd' suffix to debug build
+
+---
+ CMakeLists.txt | 4 ++++
+ 1 file changed, 4 insertions(+)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index fcf034b1..affab339 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -293,6 +293,10 @@ add_library(Opus::opus ALIAS opus)
+ get_library_version(OPUS_LIBRARY_VERSION OPUS_LIBRARY_VERSION_MAJOR)
+ message(DEBUG "Opus library version: ${OPUS_LIBRARY_VERSION}")
+ 
++if (MSVC)
++  set_property(TARGET opus PROPERTY OUTPUT_NAME_DEBUG opusd)
++endif()
++
+ set_target_properties(opus
+                       PROPERTIES SOVERSION
+                                  ${OPUS_LIBRARY_VERSION_MAJOR}
+-- 
+2.45.1
+

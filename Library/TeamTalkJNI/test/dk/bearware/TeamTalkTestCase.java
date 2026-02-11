@@ -393,7 +393,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
                 long padding = 0;
                 if ((w * PIXEL_SIZE) % 4 != 0)
                     padding = 1;
-                
+
                 for (int h=16;h <= 65535; h += 16) {
                     if (w * h > wnd.nWidth * wnd.nHeight && (w + padding) * h <= PIXELS_MAX) {
                         wnd.nWidth = w;
@@ -1214,6 +1214,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testRecordMultipleChannels() {
+
+        if (GITHUBSKIP) {
+            // uses System.currentTimeMillis()
+            return;
+        }
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN |
@@ -3191,6 +3196,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testSoloTransmitChannelDelay() {
+        if (GITHUBSKIP) {
+            // uses System.currentTimeMillis()
+            return;
+        }
+
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
             UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
@@ -4197,6 +4207,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testInitSoundSharedInputOutput() {
 
+        if (GITHUBSKIP) {
+            // uses System.currentTimeMillis()
+            return;
+        }
+
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
             UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL;
@@ -4321,6 +4336,11 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
     @Test
     public void testTransmissionTime() {
+
+        if (GITHUBSKIP) {
+            // uses System.currentTimeMillis()
+            return;
+        }
 
         String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_MULTI_LOGIN | UserRight.USERRIGHT_TRANSMIT_VOICE |
