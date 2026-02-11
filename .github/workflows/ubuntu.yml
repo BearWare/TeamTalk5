@@ -61,6 +61,7 @@ jobs:
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Run Java Server API tests (non-encrypted)
+      if: matrix.os == 'ubuntu-22.04'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -68,6 +69,7 @@ jobs:
         WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
+      if: matrix.os == 'ubuntu-24.04'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -125,6 +127,7 @@ jobs:
         Server/tt5prosrv -d -c Server/tt5srv.xml
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
+      if: matrix.os == 'ubuntu-24.04'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -144,7 +147,8 @@ jobs:
         cp Library/TeamTalkLib/test/ttserverkey.pem Server/
         Server/tt5prosrv -d -wd Server/
 
-    - name: Run Java unit tests with virtual audio device (encrypted)
+    - name: Run Java unit tests (encrypted)
+      if: matrix.os == 'ubuntu-22.04'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       run: make runjunitpro
       env:
