@@ -136,6 +136,7 @@ jobs:
         echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
 
     - name: Run Java Server API tests (non-encrypted)
+      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       shell: cmd
       run: junit.bat TeamTalkServerTestSuite
@@ -144,6 +145,7 @@ jobs:
         WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
+      if: matrix.arch == 'x64'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       shell: cmd
       run: junit.bat TeamTalkServerTestSuite
@@ -188,6 +190,7 @@ jobs:
         WEBRTC: 0
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
+      if: matrix.arch == 'x64'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       shell: cmd
       run: junit.bat TeamTalkProTestSuite
@@ -198,6 +201,7 @@ jobs:
         OUTPUTDEVICEID: 4026
 
     - name: Run Java unit tests with virtual audio device (encrypted)
+      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkJNI
       shell: cmd
       run: junit.bat TeamTalkProTestSuite
