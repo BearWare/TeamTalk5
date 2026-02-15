@@ -1,0 +1,4 @@
+SET PATH=@NASM_EXE_DIRECTORY_NATIVE@;%PATH%
+SET MSYS2_PATH_TYPE=inherit
+SET CHERE_INVOKING=1
+@BASH_EXE_PATH@ --login -c "./configure --prefix=@FFMPEG_INSTALL_DIR@ --toolchain=msvc --arch=@FFMPEG_ARCH@ --target-os=@FFMPEG_TARGET_OS@ --disable-doc --disable-programs --disable-autodetect --disable-debug && make @TOOLCHAIN_BUILD_MAKEJOBS@ && make install"
