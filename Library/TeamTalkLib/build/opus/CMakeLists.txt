@@ -13,7 +13,8 @@ if (MSVC)
     ExternalProject_Add(opus-src
       GIT_REPOSITORY    https://github.com/xiph/opus.git
       GIT_TAG           v1.6.1
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build.patch
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-d-suffix-to-debug-build.patch
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/opus
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DOPUS_STATIC_RUNTIME=ON
