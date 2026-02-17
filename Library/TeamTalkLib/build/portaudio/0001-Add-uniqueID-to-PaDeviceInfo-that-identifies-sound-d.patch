@@ -1,4 +1,4 @@
-From 47ce494f57d9e1cb1b7840278918cd080427a50a Mon Sep 17 00:00:00 2001
+From cb9f6067681bc88d895c7b54ba87dbd9a5b6ad07 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 5 Nov 2025 20:29:14 +0100
 Subject: [PATCH 1/2] Add 'uniqueID' to PaDeviceInfo that identifies sound
@@ -12,7 +12,7 @@ Subject: [PATCH 1/2] Add 'uniqueID' to PaDeviceInfo that identifies sound
  4 files changed, 26 insertions(+), 2 deletions(-)
 
 diff --git a/include/portaudio.h b/include/portaudio.h
-index b8878cc..2e93324 100644
+index bda62f5..a62b485 100644
 --- a/include/portaudio.h
 +++ b/include/portaudio.h
 @@ -523,6 +523,7 @@ typedef struct PaDeviceInfo
@@ -96,5 +96,5 @@ index 3639d6d..b46ea1f 100644
  
  error:
 -- 
-2.45.1
+2.53.0.windows.1
 
