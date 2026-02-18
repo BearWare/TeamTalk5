@@ -4,16 +4,13 @@
 
 Version 5.22, unreleased
 Default Qt Client
-- FFmpeg streaming support on Windows
-  Note:
-    - This change supports playback of all formats that FFmpeg can play without any external libraries (AAC, Vorbis, etc.).
-    - This change may significantly increase the size of TeamTalk5.dll.
-- Updated Qt to 6.10.2 on Windows and macOS
+- Ability to stream AAC, Vorbis, etc. on Windows
 - Option to disable sound device detection notifications in statusbar events
 - Ukranian translation
-- Speak Client Statistics now refreshes ping on Ctrl+T
+- Speak Client Statistics now refreshes network latency on Ctrl+T
 - Fixed bug where the value of the Show chat history as list view instead of text edit setting was sometimes deleted
 - Fixed bug where only first resolved IP-address was used for connection attempt
+- Updated Qt to 6.10.2 on Windows and macOS
 Android Client
 -
 iOS Client
