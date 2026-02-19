@@ -294,7 +294,7 @@ jobs:
       working-directory: ${{github.workspace}}/Setup/Installer/Windows
       shell: cmd
       run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{github.workspace}}" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
+        iscc /DBaseDir="${{github.workspace}}" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
         move Output\*.exe ${{runner.workspace}}\
 
     - name: Configure CMake for prebuilt toolchain
