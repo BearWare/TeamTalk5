@@ -1,21 +1,18 @@
 SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
-IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 SET PATH=@DEPOTTOOLS_DIR_NATIVE@;%PATH%
+CD @WEBRTC_FETCH_PATH_NATIVE@
+IF NOT "%ERRORLEVEL%" == "0" GOTO fail
+CALL fetch --nohooks webrtc
+IF NOT "%ERRORLEVEL%" == "0" GOTO fail
+CD @WEBRTC_SOURCE_ROOT_NATIVE@
+IF NOT "%ERRORLEVEL%" == "0" GOTO fail
+CALL git checkout branch-heads/6818
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 CD @WEBRTC_FETCH_PATH_NATIVE@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-fetch.bat --nohooks webrtc
+CALL gclient sync -D
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-
-cd @WEBRTC_SOURCE_ROOT_NATIVE@
-IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-git checkout branch-heads/6818
-IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-gclient sync -D
-IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-
-@ECHO Finished fetching WebRTC
-
+ECHO Finished fetching WebRTC
 EXIT /B 0
 
 :fail
