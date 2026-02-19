@@ -5,6 +5,7 @@ libsrtp_build_boringssl=false
 libsrtp_ssl_root=""
 rtc_build_examples=false
 rtc_build_libvpx=false
+rtc_build_opus=false
 rtc_build_ssl=false
 rtc_builtin_ssl_root_certificates=false
 rtc_disable_logging=true
