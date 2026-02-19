@@ -12,7 +12,8 @@ Default Qt Client
 - Fixed bug where only first resolved IP-address was used for connection attempt
 - Updated Qt to 6.10.2 on Windows and macOS
 Android Client
--
+- Fixed bug where TeamTalk would crash when entering TTS settings
+- Fixed bug where the initial volume of media files did not match the settings screen
 iOS Client
 - Ukranian translation
 - Fixed bug where only first resolved IP-address was used for connection attempt
@@ -24,8 +25,6 @@ Android Client
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
 - Maximum bitrate can be specified in SpeexVBR
-- Fixed bug where TeamTalk would crash when entering TTS settings
-- Fixed bug where the initial volume of media files did not match the settings screen
 - Fixed bug where status messages would not be set at login
 - Fixed bug where join and leave events were not announced when focused on another channel
 - Fixed bug where only first resolved IP-address was used for connection attempt
