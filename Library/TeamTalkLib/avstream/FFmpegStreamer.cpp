@@ -220,7 +220,7 @@ static void FillMediaFileProp(AVFormatContext *fmt_ctx,
 {
     if (aud_dec_ctx != nullptr)
     {
-        out_prop.audio = media::AudioFormat(aud_dec_ctx->sample_rate, aud_dec_ctx->channels);
+        out_prop.audio = media::AudioFormat(aud_dec_ctx->sample_rate, aud_dec_ctx->ch_layout.nb_channels);
     }
 
     if ((vid_dec_ctx != nullptr) && video_stream_index >= 0)
@@ -664,7 +664,7 @@ int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
         frame_timestamp -= start_offset;
     }
 
-    int const n_channels = av_get_channel_layout_nb_channels(filt_frame->channel_layout);
+    int const n_channels = filt_frame->ch_layout.nb_channels;
     auto* audio_data = reinterpret_cast<short*>(filt_frame->data[0]);
 
     AudioFrame media_frame;
@@ -770,28 +770,27 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
 
     const AVFilter *abuffersrc  = avfilter_get_by_name("abuffer");
     const AVFilter *abuffersink = avfilter_get_by_name("abuffersink");
-    AVFilterInOut *outputs = avfilter_inout_alloc(); //TODO: Free??
-    AVFilterInOut *inputs  = avfilter_inout_alloc(); //TODO: Free??
-    const enum AVSampleFormat OUT_SAMPLE_FMTS[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
-    int64_t out_channel_layouts[] = { -1, -1 };
-    int out_sample_rates[] = { out_samplerate, -1 };
+    AVFilterInOut *outputs = avfilter_inout_alloc();
+    AVFilterInOut *inputs  = avfilter_inout_alloc();
     const AVFilterLink *outlink = nullptr;
     char args[512];
     char filter_descr[100];
+    char ch_layout_str[64];
     int ret = 0;
     AVRational const time_base = fmt_ctx->streams[audio_stream_index]->time_base;
-    out_channel_layouts[0] = (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO);
+    AVChannelLayout out_ch_layout = {};
+    av_channel_layout_default(&out_ch_layout, out_channels);
 
     filter_graph = avfilter_graph_alloc();
 
-    /* buffer audio source: the decoded frames from the decoder will be inserted here. */
-    if (aud_dec_ctx->channel_layout == 0u)
-        aud_dec_ctx->channel_layout = av_get_default_channel_layout(aud_dec_ctx->channels);
+    if (aud_dec_ctx->ch_layout.order == AV_CHANNEL_ORDER_UNSPEC)
+        av_channel_layout_default(&aud_dec_ctx->ch_layout, aud_dec_ctx->ch_layout.nb_channels);
 
+    av_channel_layout_describe(&aud_dec_ctx->ch_layout, ch_layout_str, sizeof(ch_layout_str));
     snprintf(args, sizeof(args),
-             "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=0x%x",
+             "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=%s",
              time_base.num, time_base.den, aud_dec_ctx->sample_rate,
-             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), (unsigned)aud_dec_ctx->channel_layout);
+             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), ch_layout_str);
 
     ret = avfilter_graph_create_filter(&aud_buffersrc_ctx, abuffersrc, "in",
                                        args, nullptr, filter_graph);
@@ -801,30 +800,48 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     /* buffer audio sink: to terminate the filter chain. */
-    ret = avfilter_graph_create_filter(&aud_buffersink_ctx, abuffersink, "out",
-                                       nullptr, nullptr, filter_graph);
-    if (ret < 0) {
+    aud_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, abuffersink, "out");
+    if (!aud_buffersink_ctx) {
         MYTRACE(ACE_TEXT("Cannot create audio buffer sink\n"));
         goto error;
     }
 
-    ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_fmts", OUT_SAMPLE_FMTS, -1,
-                              AV_OPT_SEARCH_CHILDREN);
+    {
+        const enum AVSampleFormat sample_fmts[] = { AV_SAMPLE_FMT_S16 };
+        ret = av_opt_set_array(aud_buffersink_ctx, "sample_formats",
+                               AV_OPT_SEARCH_CHILDREN,
+                               0, 1, AV_OPT_TYPE_SAMPLE_FMT, sample_fmts);
+    }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Failed to set output sample fmt\n"));
         goto error;
     }
 
-    ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts, -1,
-                              AV_OPT_SEARCH_CHILDREN);
+    {
+        const AVChannelLayout channel_layouts[] = { out_ch_layout };
+        ret = av_opt_set_array(aud_buffersink_ctx, "channel_layouts",
+                               AV_OPT_SEARCH_CHILDREN,
+                               0, 1, AV_OPT_TYPE_CHLAYOUT, channel_layouts);
+    }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output channel layout\n"));
         goto error;
     }
-    ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_rates", out_sample_rates, -1,
-                              AV_OPT_SEARCH_CHILDREN);
+
+    {
+        const int samplerates[] = { out_samplerate };
+        ret = av_opt_set_array(aud_buffersink_ctx, "samplerates",
+                               AV_OPT_SEARCH_CHILDREN,
+                               0, 1, AV_OPT_TYPE_INT, samplerates);
+    }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output sample rate\n"));
+        goto error;
+    }
+
+    ret = avfilter_init_dict(aud_buffersink_ctx, nullptr);
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot initialize audio buffer sink\n"));
         goto error;
     }
 
@@ -892,7 +909,6 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
     AVRational const time_base = fmt_ctx->streams[video_stream_index]->time_base;
-    const enum AVPixelFormat PIX_FMTS[] = { output_pixfmt, AV_PIX_FMT_NONE };
     char filters_descr[100];
 
     snprintf(filters_descr, sizeof(filters_descr), "scale=%d:%d",
@@ -917,17 +933,26 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     /* buffer video sink: to terminate the filter chain. */
-    ret = avfilter_graph_create_filter(&vid_buffersink_ctx, buffersink, "out",
-                                       nullptr, nullptr, filter_graph);
-    if (ret < 0) {
+    vid_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, buffersink, "out");
+    if (!vid_buffersink_ctx) {
         MYTRACE(ACE_TEXT("Cannot create buffer sink\n"));
         goto error;
     }
 
-    ret = av_opt_set_int_list(vid_buffersink_ctx, "pix_fmts", PIX_FMTS,
-                              AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
+    {
+        const enum AVPixelFormat pixel_formats[] = { output_pixfmt };
+        ret = av_opt_set_array(vid_buffersink_ctx, "pixel_formats",
+                               AV_OPT_SEARCH_CHILDREN,
+                               0, 1, AV_OPT_TYPE_PIXEL_FMT, pixel_formats);
+    }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output pixel format\n"));
+        goto error;
+    }
+
+    ret = avfilter_init_dict(vid_buffersink_ctx, nullptr);
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot initialize video buffer sink\n"));
         goto error;
     }
 
