@@ -17,6 +17,8 @@ if (MSVC)
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
+                        -DINSTALL_DOCS=OFF
+                        -DINSTALL_PKG_CONFIG_MODULE=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --target ogg --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
@@ -52,6 +54,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
       CMAKE_ARGS        -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET} -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_OSX_ARCHITECTURES=${ARCHS} -DCMAKE_BUILD_TYPE=release
+                        -DINSTALL_DOCS=OFF
+                        -DINSTALL_PKG_CONFIG_MODULE=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -88,6 +92,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS}
+                        -DINSTALL_DOCS=OFF
+                        -DINSTALL_PKG_CONFIG_MODULE=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -116,6 +122,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> -DCMAKE_POSITION_INDEPENDENT_CODE=ON -DCMAKE_BUILD_TYPE=release
+                        -DINSTALL_DOCS=OFF
+                        -DINSTALL_PKG_CONFIG_MODULE=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )
@@ -148,6 +156,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ogg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OGG}
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR> ${OGG_CFG_FLAGS} -DCMAKE_BUILD_TYPE=release
+                        -DINSTALL_DOCS=OFF
+                        -DINSTALL_PKG_CONFIG_MODULE=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --target ogg
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libogg.a
       )

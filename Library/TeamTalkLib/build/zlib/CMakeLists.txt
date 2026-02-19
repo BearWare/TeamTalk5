@@ -23,33 +23,33 @@ if (MSVC)
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
-        GIT_TAG           v1.3.1
+        GIT_TAG           v1.3.2
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-                          -DCMAKE_BUILD_TYPE=Release
-                          -DBUILD_SHARED_LIBS=OFF
+                          -DZLIB_BUILD_TESTING=OFF
+                          -DZLIB_BUILD_SHARED=OFF
         BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
         INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zs.lib
       )
     else()
 
       ExternalProject_Add(zlib-src
         GIT_REPOSITORY    https://github.com/madler/zlib.git
-        GIT_TAG           v1.3.1
+        GIT_TAG           v1.3.2
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ZLIB}
         SOURCE_SUBDIR     .
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-                          -DCMAKE_BUILD_TYPE=Release
-                          -DBUILD_SHARED_LIBS=OFF
+                          -DZLIB_BUILD_TESTING=OFF
+                          -DZLIB_BUILD_SHARED=OFF
         BUILD_COMMAND     ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release
         INSTALL_COMMAND   ${CMAKE_COMMAND} --build <BINARY_DIR> --config Release --target install
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zlibstatic.lib
+        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/zs.lib
         )
     endif()
     ExternalProject_Get_Property(zlib-src INSTALL_DIR)
@@ -64,15 +64,15 @@ if (MSVC)
   endif()
   target_include_directories (zlib INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(zlib PROPERTIES
-    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/zlibstatic.lib
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/zlibstatic.lib)
+    IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/zs.lib
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/zs.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/madler/zlib.git
-      GIT_TAG           v1.3.1
+      GIT_TAG           v1.3.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
@@ -102,7 +102,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(zlib-src
       GIT_REPOSITORY    https://github.com/madler/zlib.git
-      GIT_TAG           v1.3.1
+      GIT_TAG           v1.3.2
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/zlib
