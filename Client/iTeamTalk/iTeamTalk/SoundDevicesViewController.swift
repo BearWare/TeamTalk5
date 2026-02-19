@@ -57,15 +57,13 @@ class SoundDevicesViewController : UITableViewController {
         voiceprepswitch.addTarget(self, action: #selector(SoundDevicesViewController.voicepreprocessingChanged(_:)), for: .valueChanged)
         sound_items.append(voice_prepcell)
 
-        if #available(iOS 10.0, *) {
-            let a2dpcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-            let a2dpswitch = newTableCellSwitch(a2dpcell, label: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Devices"),
-                                                initial: settings.object(forKey: PREF_BLUETOOTH_A2DP) != nil && settings.bool(forKey: PREF_BLUETOOTH_A2DP))
-            a2dpcell.detailTextLabel!.text = NSLocalizedString("Bluetooth playback should use Advanced Audio Distribution Profile",
-                                                               comment: "Sound Devices")
-            a2dpswitch.addTarget(self, action: #selector(SoundDevicesViewController.bluetoothA2DPChanged(_:)), for: .valueChanged)
-            sound_items.append(a2dpcell)
-        }
+        let a2dpcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
+        let a2dpswitch = newTableCellSwitch(a2dpcell, label: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Devices"),
+                                            initial: settings.object(forKey: PREF_BLUETOOTH_A2DP) != nil && settings.bool(forKey: PREF_BLUETOOTH_A2DP))
+        a2dpcell.detailTextLabel!.text = NSLocalizedString("Bluetooth playback should use Advanced Audio Distribution Profile",
+                                                           comment: "Sound Devices")
+        a2dpswitch.addTarget(self, action: #selector(SoundDevicesViewController.bluetoothA2DPChanged(_:)), for: .valueChanged)
+        sound_items.append(a2dpcell)
 
         let center = NotificationCenter.default
         center.addObserver(self, selector: #selector(SoundDevicesViewController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)

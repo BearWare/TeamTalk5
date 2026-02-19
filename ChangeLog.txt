@@ -14,6 +14,7 @@ Default Qt Client
 Android Client
 -
 iOS Client
+- Minimum supported iOS version is now 12.0
 - Ukranian translation
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Server
