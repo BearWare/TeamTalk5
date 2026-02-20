@@ -277,65 +277,58 @@ public class ServerListActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode) {
-            case REQUEST_NEWSERVER : {
-                if(resultCode == RESULT_OK) {
-                    ServerEntry entry = Utils.getServerEntry(data);
-                    if(entry != null) {
+        if (requestCode == REQUEST_NEWSERVER) {
+            if(resultCode == RESULT_OK) {
+                ServerEntry entry = Utils.getServerEntry(data);
+                if(entry != null) {
+                    servers.add(entry);
+                    Collections.sort(servers, this);
+                    adapter.updateServers();
+                    saveServers();
+                }
+            }
+        } else if (requestCode == REQUEST_EDITSERVER) {
+            if(resultCode == RESULT_OK) {
+                ServerEntry entry = Utils.getServerEntry(data);
+                if(entry != null) {
+                    int pos = data.getIntExtra(POSITION_NAME, -1);
+                    if ((pos >= 0) && (pos < servers.size())) {
+                        servers.removeElementAt(pos);
+                        servers.insertElementAt(entry, pos);
+                    }
+                    else {
                         servers.add(entry);
-                        Collections.sort(servers, this);
-                        adapter.updateServers();
-                        saveServers();
                     }
+                    Collections.sort(servers, this);
+                    adapter.updateServers();
+                    saveServers();
                 }
-                break;
             }
-            case REQUEST_EDITSERVER : {
-                if(resultCode == RESULT_OK) {
-                    ServerEntry entry = Utils.getServerEntry(data);
-                    if(entry != null) {
-                        int pos = data.getIntExtra(POSITION_NAME, -1);
-                        if ((pos >= 0) && (pos < servers.size())) {
-                            servers.removeElementAt(pos);
-                            servers.insertElementAt(entry, pos);
+        } else if (requestCode == REQUEST_IMPORT_SERVERLIST) {
+            if(resultCode == RESULT_OK) {
+                StringBuilder xml = new StringBuilder();
+                try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
+                    String line;
+                    if (inputStream != null) {
+                        BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
+                        while ((line = source.readLine()) != null) {
+                            xml.append(line);
                         }
-                        else {
-                            servers.add(entry);
-                        }
-                        Collections.sort(servers, this);
-                        adapter.updateServers();
-                        saveServers();
+                        source.close();
                     }
                 }
-                break;
-            }
-            case REQUEST_IMPORT_SERVERLIST : {
-                if(resultCode == RESULT_OK) {
-                    StringBuilder xml = new StringBuilder();
-                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
-                        String line;
-                        if (inputStream != null) {
-                            BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
-                            while ((line = source.readLine()) != null) {
-                                xml.append(line);
-                            }
-                            source.close();
-                        }
-                    }
-                    catch (Exception ex) {
-                    }
-                    Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
-                    if (entries != null) {
-                        for (ServerEntry entry : entries) {
-                            entry.servertype = ServerEntry.ServerType.LOCAL;
-                        }
-                        servers.addAll(entries);
-                        Collections.sort(servers, this);
-                        adapter.updateServers();
-                        saveServers();
-                    }
+                catch (Exception ex) {
                 }
-                break;
+                Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
+                if (entries != null) {
+                    for (ServerEntry entry : entries) {
+                        entry.servertype = ServerEntry.ServerType.LOCAL;
+                    }
+                    servers.addAll(entries);
+                    Collections.sort(servers, this);
+                    adapter.updateServers();
+                    saveServers();
+                }
             }
         }
     }
@@ -349,34 +342,27 @@ public class ServerListActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_newserverentry :
-                Intent edit = new Intent(this, ServerEntryActivity.class);
-                startActivityForResult(edit, REQUEST_NEWSERVER);
-            break;
-            case R.id.action_refreshserverlist :
-                refreshServerList();
-            break;
-            case R.id.action_import_serverlist :
-                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                    fileSelectionStart();
-                }
-            break;
-            case R.id.action_export_serverlist :
-                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                    exportServers();
-                }
-            break;
-            case R.id.action_settings : {
-                Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
-                startActivity(intent);
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_newserverentry) {
+            Intent edit = new Intent(this, ServerEntryActivity.class);
+            startActivityForResult(edit, REQUEST_NEWSERVER);
+        } else if (itemId == R.id.action_refreshserverlist) {
+            refreshServerList();
+        } else if (itemId == R.id.action_import_serverlist) {
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                fileSelectionStart();
             }
-            case R.id.action_exit :
-                finish();
-            break;
-            default :
-                return super.onOptionsItemSelected(item);
+        } else if (itemId == R.id.action_export_serverlist) {
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                exportServers();
+            }
+        } else if (itemId == R.id.action_settings) {
+            Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
+            startActivity(intent);
+        } else if (itemId == R.id.action_exit) {
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -394,21 +380,21 @@ public class ServerListActivity extends AppCompatActivity
         PopupMenu serverActions = new PopupMenu(this, view);
         serverActions.inflate(R.menu.server_actions);
         serverActions.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_exportsrv:
-                    if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                        exportServer(entry);
-                    }
-                    return true;
-                case R.id.action_editsrv:
-                    Intent intent = new Intent(this, ServerEntryActivity.class);
-                    startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
-                    return true;
-                case R.id.action_removesrv:
-                    showRemoveServerDialog(entry);
-                    return true;
-                default:
-                    return false;
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_exportsrv) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                    exportServer(entry);
+                }
+                return true;
+            } else if (itemId == R.id.action_editsrv) {
+                Intent intent = new Intent(this, ServerEntryActivity.class);
+                startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
+                return true;
+            } else if (itemId == R.id.action_removesrv) {
+                showRemoveServerDialog(entry);
+                return true;
+            } else {
+                return false;
             }
         });
         serverActions.show();
