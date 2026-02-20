@@ -24,7 +24,7 @@ if (MSVC)
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -fdx
+        COMMAND           git clean -ffdx
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
@@ -63,7 +63,7 @@ if (MSVC)
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -fdx
+        COMMAND           git clean -ffdx
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
