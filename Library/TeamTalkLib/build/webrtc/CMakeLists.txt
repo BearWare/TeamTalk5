@@ -9,7 +9,7 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_WEBRTC ${TOOLCHAIN_INSTALL_PREFIX}/webrtc)
 
 if (MSVC)
-  # WebRTC for Windows depends on "Windows 11 SDK (10.0.22621.0)". This
+  # WebRTC for Windows depends on "Windows 11 SDK (10.0.26100.0)". This
   # can be installed from Visual Studio Installer.
   #
   # WebRTC for Windows depends on "C++ Clang Compiler for Windows (18.1.8)".
