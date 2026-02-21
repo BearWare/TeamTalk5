@@ -1,0 +1,83 @@
+From b451a63117d8bdf6a1c57518b1e45798e7bd0963 Mon Sep 17 00:00:00 2001
+From: hwangsihu <129564966+hwangsihu@users.noreply.github.com>
+Date: Thu, 4 Dec 2025 20:02:11 +0900
+Subject: [PATCH] Add support for Visual Studio 2026
+
+---
+ build/vs_toolchain.py | 22 +++++++++++++++-------
+ 1 file changed, 15 insertions(+), 7 deletions(-)
+
+diff --git a/build/vs_toolchain.py b/build/vs_toolchain.py
+index f3a6fc7de..ecb7102b6 100755
+--- a/build/vs_toolchain.py
++++ b/build/vs_toolchain.py
+@@ -49,7 +49,8 @@ json_data_file = os.path.join(script_dir, 'win_toolchain.json')
+ # The first version is assumed by this script to be the one that is packaged,
+ # which makes a difference for the arm64 runtime.
+ MSVS_VERSIONS = collections.OrderedDict([
+-    ('2022', '17.0'),  # Default and packaged version of Visual Studio.
++    ('2026', '18.0'),  # Default and packaged version of Visual Studio.
++    ('2022', '17.0'),
+     ('2019', '16.0'),
+     ('2017', '15.0'),
+ ])
+@@ -57,11 +58,16 @@ MSVS_VERSIONS = collections.OrderedDict([
+ # List of preferred VC toolset version based on MSVS
+ # Order is not relevant for this dictionary.
+ MSVC_TOOLSET_VERSION = {
++    '2026': 'VC145',
+     '2022': 'VC143',
+     '2019': 'VC142',
+     '2017': 'VC141',
+ }
+ 
++MSVS_YEAR_TO_PATH = {
++    '2026': '18',
++}
++
+ def _HostIsWindows():
+   """Returns True if running on a Windows host (including under cygwin)."""
+   return sys.platform in ('win32', 'cygwin')
+@@ -189,8 +195,9 @@ def GetVisualStudioVersion():
+       program_files_path_variable = '%ProgramFiles%'
+     else:
+       program_files_path_variable = '%ProgramFiles(x86)%'
++    path_version = MSVS_YEAR_TO_PATH.get(version, version)
+     path = os.path.expandvars(program_files_path_variable +
+-                              '/Microsoft Visual Studio/%s' % version)
++                              '/Microsoft Visual Studio/%s' % path_version)
+     if path and any(
+         os.path.exists(os.path.join(path, edition))
+         for edition in ('Enterprise', 'Professional', 'Community', 'Preview',
+@@ -220,22 +227,23 @@ def DetectVisualStudioPath():
+     program_files_path_variable = '%ProgramFiles%'
+   else:
+     program_files_path_variable = '%ProgramFiles(x86)%'
++  path_version = MSVS_YEAR_TO_PATH.get(version_as_year, version_as_year)
+   for path in (os.environ.get('vs%s_install' % version_as_year),
+                os.path.expandvars(program_files_path_variable +
+                                   '/Microsoft Visual Studio/%s/Enterprise' %
+-                                  version_as_year),
++                                  path_version),
+                os.path.expandvars(program_files_path_variable +
+                                   '/Microsoft Visual Studio/%s/Professional' %
+-                                  version_as_year),
++                                  path_version),
+                os.path.expandvars(program_files_path_variable +
+                                   '/Microsoft Visual Studio/%s/Community' %
+-                                  version_as_year),
++                                  path_version),
+                os.path.expandvars(program_files_path_variable +
+                                   '/Microsoft Visual Studio/%s/Preview' %
+-                                  version_as_year),
++                                  path_version),
+                os.path.expandvars(program_files_path_variable +
+                                   '/Microsoft Visual Studio/%s/BuildTools' %
+-                                  version_as_year)):
++                                  path_version)):
+     if path and os.path.exists(path):
+       return path
+ 
+-- 
+2.51.2.windows.1
+

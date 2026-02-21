@@ -47,6 +47,57 @@ jobs:
       with:
         submodules: true
 
+    - name: Free disk space
+      shell: pwsh
+      run: |
+        Get-PSDrive C | Select-Object Used,Free
+        Remove-Item -Recurse -Force "C:\Android" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\hostedtoolcache\windows\Go" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\hostedtoolcache\windows\Python" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\hostedtoolcache\windows\PyPy" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\hostedtoolcache\windows\Node" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\hostedtoolcache\windows\Ruby" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Miniconda" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\ghcup" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\PostgreSQL" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\MongoDB" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\LLVM" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\dotnet\sdk\8*" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\dotnet\sdk\9*" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\R" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\vcpkg" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Users\Default\.rustup" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Users\Default\.cargo" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\Google\Chrome" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files (x86)\Google" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\Program Files\Mozilla Firefox" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\SeleniumWebDrivers" -ErrorAction SilentlyContinue
+        Remove-Item -Recurse -Force "C:\selenium" -ErrorAction SilentlyContinue
+        & docker image prune -af 2>$null
+        & docker system prune -af 2>$null
+        $vsInstaller = "C:\Program Files (x86)\Microsoft Visual Studio\Installer\vs_installer.exe"
+        $vsPath = "C:\Program Files\Microsoft Visual Studio\2022\Enterprise"
+        if (Test-Path $vsInstaller) {
+            & $vsInstaller modify --installPath $vsPath `
+                --remove Microsoft.VisualStudio.Workload.Azure `
+                --remove Microsoft.VisualStudio.Workload.Data `
+                --remove Microsoft.VisualStudio.Workload.DataScience `
+                --remove Microsoft.VisualStudio.Workload.ManagedDesktop `
+                --remove Microsoft.VisualStudio.Workload.ManagedGame `
+                --remove Microsoft.VisualStudio.Workload.NativeCrossPlat `
+                --remove Microsoft.VisualStudio.Workload.NativeGame `
+                --remove Microsoft.VisualStudio.Workload.NativeMobile `
+                --remove Microsoft.VisualStudio.Workload.NetCrossPlat `
+                --remove Microsoft.VisualStudio.Workload.NetWeb `
+                --remove Microsoft.VisualStudio.Workload.Node `
+                --remove Microsoft.VisualStudio.Workload.Office `
+                --remove Microsoft.VisualStudio.Workload.Python `
+                --remove Microsoft.VisualStudio.Workload.Universal `
+                --remove Microsoft.VisualStudio.Workload.VisualStudioExtension `
+                --quiet --norestart 2>$null | Out-Null
+        }
+        Get-PSDrive C | Select-Object Used,Free
+
     - name: Set up Java
       uses: actions/setup-java@v5
       with:
@@ -120,7 +171,6 @@ jobs:
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
-        -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
@@ -142,7 +192,6 @@ jobs:
       run: junit.bat TeamTalkServerTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
       if: matrix.arch == 'x64'
@@ -151,7 +200,6 @@ jobs:
       run: junit.bat TeamTalkServerTestSuite
       env:
         ENCRYPTED: 1
-        WEBRTC: 0
 
     - name: Copy server configuration
       working-directory: ${{github.workspace}}
@@ -187,7 +235,6 @@ jobs:
       run: junit.bat TeamTalkStdTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
       if: matrix.arch == 'x64'
@@ -196,7 +243,6 @@ jobs:
       run: junit.bat TeamTalkProTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
         INPUTDEVICEID: 4026
         OUTPUTDEVICEID: 4026
 
@@ -207,7 +253,6 @@ jobs:
       run: junit.bat TeamTalkProTestSuite
       env:
         ENCRYPTED: 1
-        WEBRTC: 0
 
     - name: Restart TeamTalk Standard Server
       working-directory: ${{github.workspace}}/Server
@@ -303,7 +348,6 @@ jobs:
         cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
-        -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain

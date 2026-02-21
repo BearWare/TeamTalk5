@@ -25,6 +25,34 @@ jobs:
       with:
         submodules: true
 
+    - name: Free disk space
+      run: |
+        df -h /
+        rm -rf ~/Library/Android
+        rm -rf ~/.dotnet
+        rm -rf ~/Library/Caches/Homebrew
+        rm -rf /usr/local/share/powershell
+        rm -rf /usr/local/share/chromium
+        rm -rf /usr/local/share/chromedriver-mac-arm64
+        rm -rf /usr/local/share/edge_driver
+        rm -rf /usr/local/share/gecko_driver
+        rm -rf /Applications/Firefox.app
+        rm -rf "/Applications/Google Chrome.app"
+        for xc in /Applications/Xcode_*.app; do
+          [ "$xc" = "$(xcode-select -p | sed 's|/Contents/Developer||')" ] && continue
+          echo "Removing $xc"
+          sudo rm -rf "$xc"
+        done
+        sudo rm -rf \
+          /Users/runner/Library/Developer/CoreSimulator/Caches \
+          /Library/Developer/CoreSimulator/Volumes \
+          /Library/Developer/CoreSimulator/Cryptex/Images
+        xcrun simctl delete all 2>/dev/null || true
+        rm -rf ~/.rustup ~/.cargo
+        rm -rf /opt/homebrew/opt/geckodriver
+        brew cleanup --prune=all 2>/dev/null || true
+        df -h /
+
     - name: Set up Java
       uses: actions/setup-java@v5
       with:
@@ -53,7 +81,7 @@ jobs:
     - name: Build TeamTalk toolchain, libraries and apps
       working-directory: ${{github.workspace}}
       shell: bash
-      run: make CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{github.workspace}}
@@ -84,7 +112,7 @@ jobs:
     - name: Build debug TeamTalk using prebuilt toolchain
       working-directory: ${{github.workspace}}
       shell: bash
-      run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6

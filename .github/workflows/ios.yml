@@ -25,13 +25,41 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v6
 
+    - name: Free disk space
+      run: |
+        df -h /
+        rm -rf ~/Library/Android
+        rm -rf ~/.dotnet
+        rm -rf ~/Library/Caches/Homebrew
+        rm -rf /usr/local/share/powershell
+        rm -rf /usr/local/share/chromium
+        rm -rf /usr/local/share/chromedriver-mac-arm64
+        rm -rf /usr/local/share/edge_driver
+        rm -rf /usr/local/share/gecko_driver
+        rm -rf /Applications/Firefox.app
+        rm -rf "/Applications/Google Chrome.app"
+        for xc in /Applications/Xcode_*.app; do
+          [ "$xc" = "$(xcode-select -p | sed 's|/Contents/Developer||')" ] && continue
+          echo "Removing $xc"
+          sudo rm -rf "$xc"
+        done
+        sudo rm -rf \
+          /Users/runner/Library/Developer/CoreSimulator/Caches \
+          /Library/Developer/CoreSimulator/Volumes \
+          /Library/Developer/CoreSimulator/Cryptex/Images
+        xcrun simctl delete all 2>/dev/null || true
+        rm -rf ~/.rustup ~/.cargo
+        rm -rf /opt/homebrew/opt/geckodriver
+        brew cleanup --prune=all 2>/dev/null || true
+        df -h /
+
     - name: Install dependencies
       working-directory: ${{github.workspace}}/Build
       run: make depend-mac
 
     - name: Build TeamTalk library
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      run: make CMAKE_EXTRA="-DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Install TeamTalk SDK
       working-directory: ${{github.workspace}}/Build/build-${{ matrix.cmakearch }}
