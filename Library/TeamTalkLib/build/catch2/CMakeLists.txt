@@ -15,7 +15,8 @@ if (MSVC)
       GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         -DCATCH_INSTALL_DOCS=OFF
