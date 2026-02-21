@@ -197,7 +197,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-tests no-apps no-docs linux-x86_64
+      CONFIGURE_COMMAND <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> --libdir=lib -DPIC -fPIC no-tests no-apps no-docs linux-x86_64
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   make ${TOOLCHAIN_BUILD_MAKEJOBS} install
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libcrypto.a <INSTALL_DIR>/lib/libssl.a
@@ -253,7 +253,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/openssl
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_OPENSSL}
-      CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> -DPIC -fPIC no-shared no-tests no-apps no-docs
+      CONFIGURE_COMMAND ${OPENSSL_EXPORT} && <SOURCE_DIR>/Configure --prefix=<INSTALL_DIR> --libdir=lib -DPIC -fPIC no-shared no-tests no-apps no-docs
       ${OPENSSL_CFG_TARGET} -D__ANDROID_API__=${ANDROID_PLATFORM_LEVEL}
       BUILD_COMMAND     ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS}
       INSTALL_COMMAND   ${OPENSSL_EXPORT} && make ${TOOLCHAIN_BUILD_MAKEJOBS} install
