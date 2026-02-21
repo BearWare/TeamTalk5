@@ -164,6 +164,7 @@ teamtalk-jar:
 
 depend-ubuntu22:
 	apt-get install \
+		7zip \
 		autoconf \
 		cmake \
 		doxygen \
@@ -180,7 +181,6 @@ depend-ubuntu22:
 		nasm \
 		ninja-build \
 		openjdk-25-jdk \
-		p7zip-full \
 		pkg-config \
 		python-is-python3 \
 		python3-pytest \
@@ -192,6 +192,7 @@ depend-ubuntu22:
 
 depend-ubuntu24:
 	apt-get install \
+		7zip \
 		autoconf \
 		cmake \
 		doxygen \
@@ -206,7 +207,6 @@ depend-ubuntu24:
 		nasm \
 		ninja-build \
 		openjdk-25-jdk \
-		p7zip-full \
 		pkg-config \
 		python-is-python3 \
 		python3-pytest \
@@ -221,6 +221,7 @@ depend-ubuntu24:
 
 depend-ubuntu24-android:
 	apt-get install \
+		7zip \
 		autoconf \
 		cmake \
 		doxygen \
@@ -229,13 +230,13 @@ depend-ubuntu24-android:
 		nasm \
 		ninja-build \
 		openjdk-25-jdk \
-		p7zip-full \
 		pkg-config \
 		wget \
 		xz-utils
 
 depend-raspios12:
 	apt-get install \
+		7zip \
 		autoconf \
 		cmake \
 		doxygen \
@@ -251,7 +252,6 @@ depend-raspios12:
 		nasm \
 		ninja-build \
 		openjdk-17-jdk \
-		p7zip-full \
 		pkg-config \
 		python3-pytest \
 		qt6-base-dev \

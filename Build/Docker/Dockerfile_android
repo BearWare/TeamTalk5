@@ -6,6 +6,7 @@ RUN apt-get update
 RUN DEBIAN_FRONTEND=noninteractive TZ=Etc/UTC apt-get -y install tzdata keyboard-configuration
 # Duplicate of /TeamTalk5/Build/Makefile:depend-ubuntu24-android
 RUN apt-get install -y \
+                   7zip \
                    autoconf \
                    cmake \
                    curl \
@@ -16,7 +17,6 @@ RUN apt-get install -y \
                    make \
                    ninja-build \
                    openjdk-25-jdk \
-                   p7zip-full \
                    pkg-config \
                    python-is-python3 \
                    unzip \
