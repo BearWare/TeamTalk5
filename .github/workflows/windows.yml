@@ -25,7 +25,6 @@ jobs:
           - arch: x86
             cmakeplatform: Win32
             javaversion: 11
-            opensslplatform: VC-WIN32
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
@@ -33,7 +32,6 @@ jobs:
           - arch: x64
             cmakeplatform: x64
             javaversion: 25
-            opensslplatform: VC-WIN64A
             portablearch: win64
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech'
@@ -105,14 +103,9 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.1/openssl-3.6.1.tar.gz
-        tar -xzf openssl-3.6.1.tar.gz
-        cd openssl-3.6.1
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
-        perl Configure ${{ matrix.opensslplatform }} --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
-        nmake /s
-        nmake /s install
-        echo %CD%\openssl-install\bin>> %GITHUB_PATH%
+        curl -fsSL -o Win32OpenSSL.exe https://slproweb.com/download/Win32OpenSSL-3_6_1.exe
+        start /wait Win32OpenSSL.exe /silent /sp- /suppressmsgboxes /DIR="C:\Program Files (x86)\OpenSSL"
+        echo C:\Program Files (x86)\OpenSSL\bin>> %GITHUB_PATH%
 
     - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
