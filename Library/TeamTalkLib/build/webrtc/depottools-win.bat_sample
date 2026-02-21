@@ -10,7 +10,7 @@ CALL git checkout branch-heads/6818
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 CD @WEBRTC_FETCH_PATH_NATIVE@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-CALL gclient sync -D
+CALL gclient sync -D @TOOLCHAIN_BUILD_MAKEJOBS@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 ECHO Finished fetching WebRTC
 EXIT /B 0
