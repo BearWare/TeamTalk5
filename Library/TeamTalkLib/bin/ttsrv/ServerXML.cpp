@@ -1110,26 +1110,18 @@ namespace teamtalk{
 
     bool ServerXML::RemoveUserBan(const BannedUser& ban)
     {
-        int i = 0;
-        int c = GetUserBanCount();
-        BannedUser tmp;
-        while(GetUserBan(i, tmp) && !tmp.Same(ban)) i++;
-
         XMLElement* item = GetServerBansElement();
-        if(i < c && (item != nullptr))
+        for(XMLElement* child = item->FirstChildElement("serverban");
+             child != nullptr; child = child->NextSiblingElement("serverban"))
         {
-            int e = 0;
-            for(XMLElement* child = item->FirstChildElement("serverban");
-                child != nullptr; child = child->NextSiblingElement("serverban"))
+            BannedUser tmp;
+            if (GetUserBan(child, tmp) && tmp.Same(ban))
             {
-                if (i == e++)
-                {
-                    item->DeleteChild(child);
-                    break;
-                }
+                item->DeleteChild(child);
+                return true;
             }
         }
-        return i != c;
+        return false;
     }
 
     bool ServerXML::GetUserBan(int index, BannedUser& ban)
