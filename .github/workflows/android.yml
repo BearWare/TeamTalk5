@@ -31,6 +31,36 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v6
 
+    - name: Free disk space
+      run: |
+        df -h /
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/hostedtoolcache/go
+        sudo rm -rf /opt/hostedtoolcache/Python
+        sudo rm -rf /opt/hostedtoolcache/PyPy
+        sudo rm -rf /opt/hostedtoolcache/node
+        sudo rm -rf /opt/hostedtoolcache/Ruby
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /usr/local/.ghcup
+        sudo rm -rf /usr/share/swift
+        sudo rm -rf /home/linuxbrew
+        sudo rm -rf /usr/share/miniconda
+        sudo rm -rf /etc/skel/.rustup
+        sudo rm -rf /etc/skel/.cargo
+        sudo rm -rf /usr/local/julia*
+        sudo rm -rf /usr/lib/jvm
+        sudo rm -rf /usr/local/share/powershell
+        sudo rm -rf /opt/microsoft
+        sudo rm -rf /usr/local/share/chromium
+        sudo rm -rf /usr/local/share/edge_driver
+        sudo rm -rf /usr/local/share/gecko_driver
+        sudo rm -rf /usr/local/share/chromedriver-linux64
+        sudo docker image prune -af 2>/dev/null || true
+        sudo apt-get autoremove --purge -y php*-common mysql-server-core-* postgresql-* firefox google-chrome-stable microsoft-edge-stable 2>/dev/null || true
+        sudo apt-get autoremove --purge -y 2>/dev/null || true
+        sudo apt-get clean autoclean
+        df -h /
+
     - name: Set up Java
       uses: actions/setup-java@v5
       with:
@@ -56,7 +86,7 @@ jobs:
 
     - name: Build TeamTalk library for Android
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      run: make CMAKE_EXTRA="-DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
