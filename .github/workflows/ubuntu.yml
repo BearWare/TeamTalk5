@@ -84,11 +84,19 @@ jobs:
       run: sudo make depend-ubuntu${{ matrix.version }}
 
     - name: Build TeamTalk toolchain, libraries and apps
+      id: build
+      continue-on-error: true
       working-directory: ${{github.workspace}}
       run: |
         source env.sh
         make CMAKE_EXTRA="-DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
+
+    - name: Check disk space after build
+      if: steps.build.outcome == 'failure'
+      run: |
+        df -h /
+        exit 1
 
     - name: Run Java Server API tests (non-encrypted)
       if: matrix.os == 'ubuntu-22.04'
@@ -192,11 +200,19 @@ jobs:
       run: cmake --build . --target install
 
     - name: Build debug TeamTalk using prebuilt toolchain
+      id: build-debug
+      continue-on-error: true
       working-directory: ${{github.workspace}}
       run: |
         source env.sh
         make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
+
+    - name: Check disk space after debug build
+      if: steps.build-debug.outcome == 'failure'
+      run: |
+        df -h /
+        exit 1
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v6
