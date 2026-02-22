@@ -120,7 +120,6 @@ jobs:
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
-        -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
@@ -142,7 +141,6 @@ jobs:
       run: junit.bat TeamTalkServerTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
       if: matrix.arch == 'x64'
@@ -151,7 +149,6 @@ jobs:
       run: junit.bat TeamTalkServerTestSuite
       env:
         ENCRYPTED: 1
-        WEBRTC: 0
 
     - name: Copy server configuration
       working-directory: ${{github.workspace}}
@@ -187,7 +184,6 @@ jobs:
       run: junit.bat TeamTalkStdTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
       if: matrix.arch == 'x64'
@@ -196,7 +192,6 @@ jobs:
       run: junit.bat TeamTalkProTestSuite
       env:
         ENCRYPTED: 0
-        WEBRTC: 0
         INPUTDEVICEID: 4026
         OUTPUTDEVICEID: 4026
 
@@ -207,7 +202,6 @@ jobs:
       run: junit.bat TeamTalkProTestSuite
       env:
         ENCRYPTED: 1
-        WEBRTC: 0
 
     - name: Restart TeamTalk Standard Server
       working-directory: ${{github.workspace}}/Server
@@ -303,7 +297,6 @@ jobs:
         cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
-        -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
