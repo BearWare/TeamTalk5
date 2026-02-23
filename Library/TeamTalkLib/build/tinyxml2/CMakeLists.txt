@@ -28,8 +28,6 @@ if (MSVC)
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml2
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         -DCMAKE_DEBUG_POSTFIX=d
-                        -DBUILD_SHARED_LIBS=OFF
-                        -DBUILD_TESTING=OFF
                         -Dtinyxml2_INSTALL_PKGCONFIG=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
@@ -68,8 +66,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
                           -DCMAKE_OSX_DEPLOYMENT_TARGET=${CMAKE_OSX_DEPLOYMENT_TARGET}
                           -DCMAKE_OSX_ARCHITECTURES=${ARCHS}
                           -DCMAKE_BUILD_TYPE=release
-                          -DBUILD_SHARED_LIBS=OFF
-                          -DBUILD_TESTING=OFF
+                          -Dtinyxml2_INSTALL_PKGCONFIG=OFF
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_TINYXML2}
         BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libtinyxml2.a
         )
@@ -98,8 +95,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml2
         CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                           -DCMAKE_BUILD_TYPE=release
-                          -DBUILD_SHARED_LIBS=OFF
-                          -DBUILD_TESTING=OFF
+                          -Dtinyxml2_INSTALL_PKGCONFIG=OFF
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_TINYXML2}
         BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libtinyxml2.a
         )
@@ -133,8 +129,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
                           -DCMAKE_SYSTEM_NAME=${CMAKE_SYSTEM_NAME}
                           -DCMAKE_TOOLCHAIN_FILE=${CMAKE_TOOLCHAIN_FILE}
                           -DANDROID_ABI=${ANDROID_ABI} -DANDROID_PLATFORM=${ANDROID_PLATFORM}
-                          -DBUILD_SHARED_LIBS=OFF
-                          -DBUILD_TESTING=OFF
+                          -Dtinyxml2_INSTALL_PKGCONFIG=OFF
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_TINYXML2}
         BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libtinyxml2.a
         )
