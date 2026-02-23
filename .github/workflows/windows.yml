@@ -119,6 +119,7 @@ jobs:
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
         -DTOOLCHAIN_BUILD_MAKEJOBS=-j2
+        -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
@@ -130,7 +131,7 @@ jobs:
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
-        cmake --build output --parallel --config Release --target install
+        cmake --build output --parallel 2 --config Release --target install
         echo ${{github.workspace}}\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{github.workspace}}\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{github.workspace}}\Library\TeamTalkPy>> %GITHUB_ENV%

@@ -31,7 +31,7 @@ jobs:
 
     - name: Build TeamTalk library
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      run: make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Install TeamTalk SDK
       working-directory: ${{github.workspace}}/Build/build-${{ matrix.cmakearch }}
