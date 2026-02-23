@@ -8,6 +8,7 @@
         <bind-ip />
         <tcpport>10333</tcpport>
         <udpport>10333</udpport>
+        <upnp>false</upnp>
         <login-attempts>0</login-attempts>
         <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
         <bandwidth-limits>

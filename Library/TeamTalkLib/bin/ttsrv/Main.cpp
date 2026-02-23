@@ -27,6 +27,7 @@
 #include "ServerUtil.h"
 #include "ServerXML.h"
 #include "TeamTalkDefs.h"
+#include "UPnP.h"
 #include "myace/MyACE.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Log.h"
@@ -161,6 +162,9 @@ static bool daemon_mode = false;
 static bool nondaemon = false;
 static int rxloss = 0, txloss = 0;
 static bool cleanfiles = false;
+static bool upnp_enabled = false;
+static uint16_t upnp_tcpport = 0;
+static uint16_t upnp_udpport = 0;
 
 //setting files
 static ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
@@ -412,7 +416,27 @@ int RunServer(
         return -1;
     }
     
-            TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
+    if (xmlSettings.GetUPnP())
+    {
+        upnp_tcpport = prop.tcpaddrs[0].get_port_number();
+        upnp_udpport = prop.udpaddrs[0].get_port_number();
+        std::string externalIP;
+        if (UPnP_AddPortMapping(upnp_tcpport, upnp_udpport, externalIP))
+        {
+            upnp_enabled = true;
+            ACE_TCHAR msg[256];
+            ACE_OS::snprintf(msg, 256,
+                ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %hs"),
+                (int)upnp_tcpport, (int)upnp_udpport, externalIP.c_str());
+            TT_LOG(msg);
+        }
+        else
+        {
+            TT_SYSLOG(ACE_TEXT("UPnP: Failed to add port mappings. Check if your router supports UPnP."));
+        }
+    }
+
+    TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
         if(!verbose)
             ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
 
@@ -488,6 +512,12 @@ int RunServer(
 #endif /* BUILD_NT_SERVICE */
 
     ACE_LOG_MSG->set_flags(ACE_Log_Msg::STDERR);
+
+    if (upnp_enabled)
+    {
+        UPnP_RemovePortMapping(upnp_tcpport, upnp_udpport);
+        upnp_enabled = false;
+    }
 
     servernode.StopServer();
     TT_LOG(ACE_TEXT("Stopped ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("."));

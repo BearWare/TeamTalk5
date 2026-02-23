@@ -101,6 +101,9 @@ namespace teamtalk {
         bool SetAutoSave(bool enable);
         bool GetAutoSave();
 
+        bool SetUPnP(bool enable);
+        bool GetUPnP();
+
         bool SetMaxLoginAttempts(int nMax);
         int GetMaxLoginAttempts();
 
