@@ -57,7 +57,7 @@ jobs:
       working-directory: ${{github.workspace}}
       run: |
         source env.sh
-        make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
+        make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build ubuntu${{ matrix.version }}
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Run Java Server API tests (non-encrypted)
