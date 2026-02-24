@@ -32,7 +32,7 @@ if (MSVC)
     -D_WINSOCK_DEPRECATED_NO_WARNINGS)
 
   # Use for building TeamTalk toolchain
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v143")
+  set (PLATFORMTOOLSET "/property:PlatformToolset=v145")
 
 else()
   set (COMPILE_FLAGS -Wno-deprecated-declarations)
