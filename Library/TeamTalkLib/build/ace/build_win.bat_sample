@@ -1,4 +1,4 @@
 cd ACE
 set ACE_ROOT=%CD%
 set SSL_ROOT=@OPENSSL_DIR@
-perl %ACE_ROOT%\bin\mwc.pl -type vs2022 -static -features ssl=1 -features uses_wchar=1 -features ipv6=1 -expand_vars ace protocols
+perl %ACE_ROOT%\bin\mwc.pl -type vs2026 -static -features ssl=1 -features uses_wchar=1 -features ipv6=1 -expand_vars ace protocols

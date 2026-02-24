@@ -29,10 +29,10 @@ Framework, e.g.:
 
 Now use CMake to generate project files:
 
-`cmake -G "Visual Studio 17 2022" -A x64 -S C:/TeamTalk5 -B builddir`
+`cmake -G "Visual Studio 18 2026" -A x64 -S C:/TeamTalk5 -B builddir`
 `cmake --build builddir
 
-To open the generated project files in Visual Studio 2022 open
+To open the generated project files in Visual Studio 2026 open
 *TeamTalk5.vcxproj*.
 
 ## Update Translation Files for Qt-based TeamTalk 5
