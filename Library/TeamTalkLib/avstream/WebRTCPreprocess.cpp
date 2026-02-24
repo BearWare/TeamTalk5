@@ -26,7 +26,6 @@
 #include "codec/MediaUtil.h"
 #include "myace/MyACE.h"
 
-#include <absl/strings/string_view.h>
 #include <api/audio/audio_processing.h>
 #include <api/audio/audio_processing_statistics.h>
 #include <ace/SString.h>
@@ -37,24 +36,6 @@
 #include <string>
 
 constexpr auto DEBUG_WEBRTC = 0;
-
-// webrtc::GainControlImpl queries this feature. Field trials is
-// excluded by passing rtc_exclude_field_trial_default=true to GN.
-namespace webrtc::field_trial {
-std::string FindFullName(absl::string_view trial_)
-{
-    std::string const trial(trial_);;
-#if defined(UNICODE)
-    ACE_TString str = LocalToUnicode(trial.c_str());
-#else
-    ACE_TString const str = trial.c_str();
-#endif
-    MYTRACE(ACE_TEXT("Querying feature: %s\n"), str.c_str());
-    return "Disabled";
-    //return "Enabled";
-}
-} // namespace field_trial
-  // namespace webrtc
 
 bool IsEnabled(const webrtc::AudioProcessing::Config& cfg)
 {
@@ -136,7 +117,10 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         if (stats != nullptr)
         {
             auto wstats = apm.GetStatistics();
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             voice_detected |= wstats.voice_detected.value_or(false);
+#pragma clang diagnostic pop
         }
 
         in_index += in_cfg.num_frames();
@@ -146,7 +130,10 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
 
     if ((stats != nullptr) && n > 0)
     {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
         stats->voice_detected = voice_detected;
+#pragma clang diagnostic pop
     }
 
     return infrm.input_samples;

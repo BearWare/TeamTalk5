@@ -27,6 +27,8 @@
 #include "codec/WaveFile.h"
 
 #include <api/audio/audio_processing.h>
+#include <api/audio/builtin_audio_processing_builder.h>
+#include <api/environment/environment_factory.h>
 #include <modules/audio_processing/agc/gain_control.h>
 #include <modules/audio_processing/audio_buffer.h>
 #include <modules/audio_processing/ns/noise_suppressor.h>
@@ -169,7 +171,7 @@ TEST_CASE("webrtc-apm")
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames());
     std::vector<int16_t> apm_buff(af.channels * out_cfg.num_frames());
 
-    auto apm = webrtc::AudioProcessingBuilder().Create();
+    auto apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
 
     // first try gain_controller1
 
@@ -228,7 +230,7 @@ TEST_CASE("webrtc-double-gain")
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames());
     std::vector<int16_t> apm_buff(af.channels * out_cfg.num_frames());
 
-    auto apm = webrtc::AudioProcessingBuilder().Create();
+    auto apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
 
     webrtc::AudioProcessing::Config apm_cfg;
     rawfile.Close();

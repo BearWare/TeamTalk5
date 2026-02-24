@@ -6,7 +6,7 @@ CALL fetch --nohooks webrtc
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 CD @WEBRTC_SOURCE_ROOT_NATIVE@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
-CALL git checkout branch-heads/6818
+CALL git checkout branch-heads/7632
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
 CD @WEBRTC_FETCH_PATH_NATIVE@
 IF NOT "%ERRORLEVEL%" == "0" GOTO fail
