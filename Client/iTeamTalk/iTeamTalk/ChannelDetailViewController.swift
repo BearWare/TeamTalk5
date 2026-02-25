@@ -25,7 +25,7 @@ import UIKit
 
 class ChannelDetailViewController :
     UITableViewController, TeamTalkEvent,
-    UITextFieldDelegate, UIAlertViewDelegate {
+    UITextFieldDelegate {
 
     var channel = Channel()
     
@@ -184,22 +184,23 @@ class ChannelDetailViewController :
     @IBAction func joinChannelPressed(_ sender: UIButton) {
         
         if channel.bPassword == TRUE {
-            let alert = UIAlertView(title: NSLocalizedString("Enter Password", comment: "Dialog message"),
-                                    message: NSLocalizedString("Password", comment: "Dialog message"), delegate: self,
-                                                               cancelButtonTitle: NSLocalizedString("Join", comment: "Dialog message"))
-            alert.alertViewStyle = .secureTextInput
-            alert.textField(at: 0)?.text = self.passwdfield?.text
-            alert.show()
+            let alert = UIAlertController(title: NSLocalizedString("Enter Password", comment: "Dialog message"),
+                                          message: NSLocalizedString("Password", comment: "Dialog message"),
+                                          preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.isSecureTextEntry = true
+                textField.text = self.passwdfield?.text
+            }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Join", comment: "Dialog message"), style: .default) { _ in
+                let passwd = alert.textFields?[0].text ?? ""
+                self.cmdid = TT_DoJoinChannelByID(ttInst, self.channel.nChannelID, passwd)
+            })
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Dialog message"), style: .cancel))
+            self.present(alert, animated: true)
         }
         else {
             cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
         }
-    }
-    
-    
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        let passwd = (alertView.textField(at: 0)?.text)!
-        cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, passwd)
     }
 
     

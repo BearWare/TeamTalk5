@@ -15,6 +15,7 @@ Android Client
 - Fixed bug where TeamTalk would crash when entering TTS settings
 - Fixed bug where the initial volume of media files did not match the settings screen
 iOS Client
+- Minimum supported iOS version is now 12.0
 - Ukranian translation
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Server
