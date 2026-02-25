@@ -23,7 +23,8 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/leethomason/tinyxml2.git
       GIT_TAG           11.0.0
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/tinyxml2
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         -DCMAKE_DEBUG_POSTFIX=d
