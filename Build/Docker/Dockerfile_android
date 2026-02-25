@@ -14,6 +14,7 @@ RUN apt-get install -y \
                    junit4 \
                    libtool \
                    make \
+                   nasm \
                    ninja-build \
                    openjdk-25-jdk \
                    p7zip-full \
