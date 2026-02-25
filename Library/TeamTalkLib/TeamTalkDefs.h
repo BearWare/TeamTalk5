@@ -38,6 +38,7 @@
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
+constexpr auto TEAMTALK_SDK_URL = "https://www.bearware.dk/teamtalksdk/tt5sdk.php?";
 
 constexpr auto TT_MAX_ID = 0xFFE;
 constexpr auto USER_TIMEOUT = 60; //secs before disconnecting users without keepalive (60 seconds)
