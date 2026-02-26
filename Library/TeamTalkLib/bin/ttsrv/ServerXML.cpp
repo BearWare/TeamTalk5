@@ -473,6 +473,26 @@ namespace teamtalk{
         return enabled;
     }
 
+    bool ServerXML::SetUPnP(bool enable)
+    {
+        XMLElement* parent = GetGeneralElement();
+        if(parent != nullptr)
+        {
+            PutBoolean(parent, "upnp", enable);
+            return true;
+        }
+        return false;
+    }
+
+    bool ServerXML::GetUPnP()
+    {
+        bool enabled = false;
+        XMLElement* parent = GetGeneralElement();
+        if(parent != nullptr)
+            GetBoolean(parent, "upnp", enabled);
+        return enabled;
+    }
+
     bool ServerXML::SetMaxLoginAttempts(int nMax)
     {
         XMLElement* parent = GetGeneralElement();

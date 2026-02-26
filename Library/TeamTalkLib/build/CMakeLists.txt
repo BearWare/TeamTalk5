@@ -26,6 +26,12 @@ if (TOOLCHAIN_ACE)
   add_subdirectory(ace)
 endif()
 
+option (TOOLCHAIN_MINIUPNPC "Build and link miniupnpc from TeamTalk toolchain" ON)
+add_feature_info (TOOLCHAIN_MINIUPNPC TOOLCHAIN_MINIUPNPC "miniupnpc is provided by TOOLCHAIN_INSTALL_PREFIX")
+if (TOOLCHAIN_MINIUPNPC)
+  add_subdirectory(miniupnpc)
+endif()
+
 option (TOOLCHAIN_TINYXML2 "Build and link TinyXML2 from TeamTalk toolchain" ON)
 add_feature_info (TOOLCHAIN_TINYXML2 TOOLCHAIN_TINYXML2 "TinyXML2 is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_TINYXML2)

@@ -214,6 +214,10 @@ The following toolchain toggles are available:
     * `OFF` is only supported on Linux distributions
   * Build ACE on Windows requires *ActivePerl* or *Strawberry Perl*
     * Place `perl.exe` in %PATH%.
+* `TOOLCHAIN_MINIUPNPC`
+  * When `ON` builds [miniupnpc](https://github.com/miniupnp/miniupnp)
+  * When `OFF` uses miniupnpc installed on host
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_TINYXML2`
   * When `ON` builds [TinyXML2](https://github.com/leethomason/tinyxml2)
   * When `OFF` uses TinyXML2 installed on host

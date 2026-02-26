@@ -45,6 +45,7 @@ jobs:
            libace-inet-dev
            libace-inet-ssl-dev
            libace-ssl-dev
+           libminiupnpc-dev
            libogg-dev
            libopus-dev
            libspeex-dev
@@ -62,6 +63,7 @@ jobs:
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
            -DTOOLCHAIN_LIBVPX=OFF
+           -DTOOLCHAIN_MINIUPNPC=OFF
            -DTOOLCHAIN_OGG=OFF
            -DTOOLCHAIN_OPENSSL=OFF
            -DTOOLCHAIN_OPUS=OFF
