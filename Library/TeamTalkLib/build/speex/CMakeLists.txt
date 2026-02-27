@@ -26,9 +26,7 @@ if (MSVC)
         GIT_TAG           Speex-1.2.1
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS2015-project-and-upgrade-to-VS-2026.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -50,9 +48,7 @@ if (MSVC)
         GIT_TAG           Speex-1.2.1
         UPDATE_COMMAND    ""
         PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Renamed-solution-file-from-x86-to-Win32.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS2015-project-and-upgrade-to-VS-2026.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
