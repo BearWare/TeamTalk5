@@ -53,7 +53,7 @@ manually.
   * Run `pacman -S base-devel pkg-config` to install build tools
   * FFmpeg and LibVPX requires *MSYS2* or *Cygwin*
 * Alternatively, install [Cygwin](https://www.cygwin.com/) in `C:/cygwin64`
-  * Install `make` package during Cygwin setup
+  * Install `make` and `pkg-config` packages during Cygwin setup
   * Cygwin is supported but MSYS2 is preferred
 * Install [NASM](https://www.nasm.us)
     * Install to default location (`C:/Program Files/NASM`) or add to PATH
