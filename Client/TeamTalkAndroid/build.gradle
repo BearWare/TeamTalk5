@@ -3,7 +3,7 @@ plugins {
 }
 
 android {
-    // enableKotlin = false
+    enableKotlin = false
     namespace = 'dk.bearware.gui'
     compileSdk {
         version = release(36)
