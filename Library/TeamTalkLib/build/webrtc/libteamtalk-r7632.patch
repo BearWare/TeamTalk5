@@ -1,0 +1,33 @@
+From c75699bd519f4045fde1b0c4f5c8334f993d9139 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Fri, 20 Feb 2026 11:11:48 +0900
+Subject: [PATCH] Add teamtalk static library target to audio_processing
+ BUILD.gn
+
+---
+ modules/audio_processing/BUILD.gn | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/modules/audio_processing/BUILD.gn b/modules/audio_processing/BUILD.gn
+index 57af2d3d85..8acab8979f 100644
+--- a/modules/audio_processing/BUILD.gn
++++ b/modules/audio_processing/BUILD.gn
+@@ -230,6 +230,15 @@ rtc_library("audio_processing") {
+   }
+ }
+ 
++static_library("teamtalk") {
++  complete_static_lib = true
++  deps = [
++    ":audio_processing",
++    "../../api/audio:builtin_audio_processing_builder",
++    "../../api/environment:environment_factory",
++  ]
++}
++
+ rtc_library("residual_echo_detector") {
+   poisonous = [ "default_echo_detector" ]
+   configs += [ ":apm_debug_dump" ]
+-- 
+2.53.0.windows.1
+
