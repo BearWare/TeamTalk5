@@ -25,14 +25,12 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2015\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
         INSTALL_COMMAND   cd <SOURCE_DIR>/include
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
@@ -48,14 +46,12 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2015\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
+        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
+        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
         INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
         INSTALL_COMMAND   cd <SOURCE_DIR>/include
         COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
