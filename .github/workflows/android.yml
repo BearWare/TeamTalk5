@@ -81,7 +81,7 @@ jobs:
       run: cmake --build . --target install
 
     - name: Upload TeamTalk SDK artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-${{ matrix.maketarget }}
         path: ${{runner.workspace}}/install-${{ matrix.maketarget }}

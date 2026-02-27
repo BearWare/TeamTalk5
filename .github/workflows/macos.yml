@@ -87,7 +87,7 @@ jobs:
       run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Upload TeamTalk SDK artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-macos
         path: ${{runner.workspace}}/install
