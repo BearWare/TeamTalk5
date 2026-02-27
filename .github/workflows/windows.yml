@@ -311,25 +311,25 @@ jobs:
 
     - name: Upload Inno Setup installer artifact
       if: matrix.arch == 'x64'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalk-installer-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/TeamTalk_*.exe
 
     - name: Upload TeamTalk SDK artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - name: Upload TeamTalk portable artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
         path: ${{github.workspace}}/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - name: Upload TeamTalk Pro Server artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
         path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
