@@ -56,7 +56,7 @@ jobs:
 
     - name: Build TeamTalk library for Android
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      run: make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
