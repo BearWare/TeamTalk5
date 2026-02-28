@@ -1623,6 +1623,12 @@ TEST_CASE( "Opus Read File" )
 #if defined(ENABLE_ENCRYPTION)
 TEST_CASE("TestHTTPS")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPS\"... No Internet" << std::endl;
+        return;
+    }
+
     std::string response1;
     std::string response2;
     std::string response3;
@@ -1634,6 +1640,12 @@ TEST_CASE("TestHTTPS")
 
 TEST_CASE("TestWebLogin")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPS\"... No Internet" << std::endl;
+        return;
+    }
+
     ACE_TString token;
     ACE_TString loginid;
     REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == WEBLOGIN_FAILED);
@@ -1641,6 +1653,11 @@ TEST_CASE("TestWebLogin")
 
 TEST_CASE("TestHTTPPost")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPPost\"... No Internet" << std::endl;
+        return;
+    }
     std::map<std::string, std::string> headers;
     headers["Content-Type"] = "application/x-www-form-urlencoded";
     std::string const content = "client=TeamTalk5&version=5.0.0.0";
@@ -1650,6 +1667,11 @@ TEST_CASE("TestHTTPPost")
 
 TEST_CASE("TestHTTPPostData")
 {
+    if (GITHUBSKIP)
+    {
+        std::cout << "Skipping \"TestHTTPPost\"... No Internet" << std::endl;
+        return;
+    }
     std::map<std::string, std::string> formdata;
     formdata["client"] = "TeamTalk5";
     formdata["version"] = "5.0.0.0";
