@@ -174,7 +174,7 @@ jobs:
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Upload TeamTalk SDK artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-ubuntu${{ matrix.version }}
         path: ${{runner.workspace}}/install
@@ -187,13 +187,13 @@ jobs:
         make ubuntu${{ matrix.version }} ubuntu${{ matrix.version }}pro
 
     - name: Upload TeamTalk portable artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalk-ubuntu${{ matrix.version }}
         path: ${{github.workspace}}/Setup/Portable/teamtalk-*
 
     - name: Upload TeamTalk Pro artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalkpro-ubuntu${{ matrix.version }}
         path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*
