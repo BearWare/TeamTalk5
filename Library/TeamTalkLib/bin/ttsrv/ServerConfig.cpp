@@ -48,6 +48,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <iostream>
+#include <map>
 #include <queue>
 #include <regex>
 #include <sstream>
@@ -287,6 +288,155 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
+
+static std::string GetMyIPAddress()
+{
+    std::string xml;
+    switch (HttpGetRequest(WEBLOGIN_PING_URL, xml))
+    {
+    case 1 :
+    {
+        teamtalk::XMLDocument xmldoc("teamtalk", "1.0");
+        if (xmldoc.Parse(xml))
+        {
+            return xmldoc.GetValue(false, "teamtalk/ipaddress", "");
+        }
+    }
+    }
+    return {};
+}
+
+static void SubmitSpamBotServer(teamtalk::ServerXML& xmlSettings)
+{
+    cout << "Do you wish to submit your TeamTalk Pro server for SpamBot monitoring? ";
+    if (!PrintGetBool(true))
+        return;
+
+    while (!LoginBearWare(xmlSettings))
+    {
+        cout << "Try again? ";
+        if (!PrintGetBool(true))
+            break;
+    }
+
+    auto myipaddr = GetMyIPAddress();
+    std::cout << "What is the public IP-address of your server? ";
+    myipaddr = PrintGetString(myipaddr);
+    std::cout << "What is the TCP port of your server? ";
+    int const tcpport = PrintGetInt(xmlSettings.GetHostTcpPort(DEFAULT_TCPPORT));
+    std::cout << "What is the UDP port of your server? ";
+    int const udpport = PrintGetInt(xmlSettings.GetHostUdpPort(DEFAULT_UDPPORT));
+    std::cout << "Is the server encrypted? ";
+    bool const encrypted = PrintGetBool(!xmlSettings.GetCertificateFile().empty());
+
+    std::string bearwareid;
+    std::string token;
+    xmlSettings.GetBearWareWebLogin(bearwareid, token);
+    std::map<std::string, std::string> formdata;
+    formdata["client"] = TEAMTALK_LIB_NAME;
+    formdata["version"] = TEAMTALK_VERSION;
+    formdata["action"] = "spambotsubmit"; // TODO: make endpoint
+    formdata["username"] = bearwareid;
+    formdata["token"] = token;
+    // TODO: query user for input
+    formdata["ipaddress"] = myipaddr;
+    formdata["tcpport"] = std::to_string(tcpport);
+    formdata["udpport"] = std::to_string(udpport);
+    formdata["encrypted"] = encrypted ? "true" : "false";
+
+    std::string xml;
+    switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
+    {
+    case -1 :
+    case 0 :
+    case 1 :
+    }
+}
+
+static void RemoveSpamBotServer(teamtalk::ServerXML& xmlSettings)
+{
+    cout << "Do you wish to remove your TeamTalk Pro server from SpamBot monitoring? ";
+    if (!PrintGetBool(true))
+        return;
+
+    while (!LoginBearWare(xmlSettings))
+    {
+        cout << "Try again? ";
+        if (!PrintGetBool(true))
+            break;
+    }
+
+    auto myipaddr = GetMyIPAddress();
+    std::cout << "What is the registered IP-address of your server? ";
+    myipaddr = PrintGetString(myipaddr);
+    std::cout << "What is the TCP port of your server? ";
+    int const tcpport = PrintGetInt(xmlSettings.GetHostTcpPort(DEFAULT_TCPPORT));
+
+    std::string bearwareid;
+    std::string token;
+    xmlSettings.GetBearWareWebLogin(bearwareid, token);
+    std::map<std::string, std::string> formdata;
+    formdata["client"] = TEAMTALK_LIB_NAME;
+    formdata["version"] = TEAMTALK_VERSION;
+    formdata["action"] = "spambotremove"; // TODO: make endpoint
+    formdata["username"] = bearwareid;
+    formdata["token"] = token;
+    formdata["ipaddress"] = myipaddr;
+    formdata["tcpport"] = std::to_string(tcpport);
+
+    std::string xml;
+    switch (HttpPostRequest(SPAMBOT_SUBMIT_URL, formdata, xml))
+    {
+    case -1 :
+    case 0 :
+    case 1 :
+    }
+}
+
+static void ConfigureSpamBotUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
+{
+    cout << "Creating SpamBot web-login account." << endl;
+    user.username = ACE_TEXT( WEBLOGIN_SPAMBOT_USERNAME );
+    user.passwd = ACE_TEXT("");
+
+    cout << "Available user types:" << endl;
+    cout << "\t1. Default user." << endl;
+    cout << "\t2. Administrator." << endl;
+    cout << "Select user type:";
+    switch(PrintGetInt(1))
+    {
+    case 2 :
+        user.usertype = USERTYPE_ADMIN;
+        break;
+    case 1 :
+    default :
+    {
+        user.usertype = USERTYPE_DEFAULT;
+        int userrights = USERRIGHT_NONE;
+
+        cout << "User can see all other users on server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_VIEW_ALL_USERS) != 0)?
+                         (userrights | USERRIGHT_VIEW_ALL_USERS) : (userrights & ~USERRIGHT_VIEW_ALL_USERS);
+
+        cout << "User can kick users off the server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_KICK_USERS) != 0)?
+                         (userrights | USERRIGHT_KICK_USERS) : (userrights & ~USERRIGHT_KICK_USERS);
+
+        cout << "User can ban users from the server: ";
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_BAN_USERS) != 0)?
+                         (userrights | USERRIGHT_BAN_USERS) : (userrights & ~USERRIGHT_BAN_USERS);
+
+        user.userrights = userrights;
+    }
+    break;
+    }
+
+    xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
+    xmlSettings.AddNewUser(user);
+
+    SubmitSpamBotServer(xmlSettings);
+}
+
 void ConfigureEncryption(bool& certverifyonce, int& certdepth,
                          ACE_TString& cadir, ACE_TString& keyfile,
                          ACE_TString& certfile, ACE_TString& cafile,
@@ -531,6 +681,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         CREATE_USERACCOUNT,
 #if defined(ENABLE_TEAMTALKPRO)
         CREATE_USERACCOUNT_BEARWARE,
+        CREATE_USERACCOUNT_SPAMBOT,
 #endif
         DELETE_USERACCOUNT,
         QUIT_USERACCOUNTS
@@ -625,6 +776,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             user.username = ACE_TEXT( WEBLOGIN_BEARWARE_USERNAME );
             user.passwd = ACE_TEXT("");
             ConfigureUserAccount(user, xmlSettings);
+            break;
+        case CREATE_USERACCOUNT_SPAMBOT :
+            ConfigureSpamBotUserAccount(user, xmlSettings);
             break;
 #endif /* ENABLE_TEAMTALKPRO */
         case DELETE_USERACCOUNT :
