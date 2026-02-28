@@ -1,7 +1,6 @@
 
 if (TOOLCHAIN_PORTAUDIO)
-  set (PORTAUDIO_LINK_FLAGS portaudio)
-
+  set (PORTAUDIO_LINK_FLAGS PortAudio::portaudio)
 else()
 
   # Ubuntu: portaudio19-dev
