@@ -1,0 +1,35 @@
+From 462ea847d883aeab305e98d4667d96abc303d070 Mon Sep 17 00:00:00 2001
+From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
+Date: Sat, 28 Feb 2026 21:13:28 +0100
+Subject: [PATCH] Fix memory leak in ACE::HTTPS::Session_T
+
+Seems close_streams() and close_connection() were incorrectly put in
+constructor instead of destructor.
+---
+ ACE/protocols/ace/INet/HTTPS_Session.cpp | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/ACE/protocols/ace/INet/HTTPS_Session.cpp b/ACE/protocols/ace/INet/HTTPS_Session.cpp
+index a92d4a054cb..0f9ae11760f 100644
+--- a/ACE/protocols/ace/INet/HTTPS_Session.cpp
++++ b/ACE/protocols/ace/INet/HTTPS_Session.cpp
+@@ -54,14 +54,14 @@ namespace ACE
+ #endif
+       {
+         INET_TRACE ("ACE_HTTPS_Session - ctor");
+-        this->close_streams ();
+-        this->close_connection ();
+       }
+ 
+     template <ACE_SYNCH_DECL>
+     Session_T<ACE_SYNCH_USE>::~Session_T ()
+       {
+         INET_TRACE ("ACE_HTTPS_Session - dtor");
++        this->close_streams ();
++        this->close_connection ();
+       }
+ 
+     template <ACE_SYNCH_DECL>
+-- 
+2.51.0
+
