@@ -923,8 +923,8 @@ void PrintCommandArgs()
     cout << "          " << TEAMTALK_EXE << " -c /home/bill/srv1/" << TEAMTALK_SETTINGSFILE << " -l " << TEAMTALK_LOGFILE << " -nd" << endl;
 #endif
     cout << endl;
-    cout << "Kind regards go to the people behind the ACE Framework, Speex, OPUS" << endl;
-    cout << "and WebM projects!" << endl;
+    cout << "Kind regards go to the people behind the ACE Framework, miniupnpc, OpenSSL" << endl;
+    cout << "and TinyXML2 projects!" << endl;
     cout << endl;
     cout << "Report bugs to contact@bearware.dk" << endl;
     cout << endl;
