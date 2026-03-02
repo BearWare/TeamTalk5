@@ -12,7 +12,7 @@ android {
     ndkVersion = '29.0.14206865'
 
     defaultConfig {
-        applicationId = 'dk.bearware.gui'
+        applicationId = 'dk.bearware.guibeka'
         minSdk = 21
         targetSdk = 36
         versionCode = 147
