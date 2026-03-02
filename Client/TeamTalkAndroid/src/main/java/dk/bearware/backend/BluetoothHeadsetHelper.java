@@ -162,6 +162,11 @@ public class BluetoothHeadsetHelper {
 
     private void onScoAudioDisconnected() {
         onHeadsetSco = false;
+        scoAudioConnected = false; /* allow scoAudioConnect() again after e.g. phone call ended */
+        if (stateChangeEventsHandled) {
+            context.unregisterReceiver(stateChangeEventReceiver);
+            stateChangeEventsHandled = false;
+        }
         for (ScoAudioConnectionListener listener : scoAudioConnectionListeners)
             listener.onScoAudioDisconnected();
     }
