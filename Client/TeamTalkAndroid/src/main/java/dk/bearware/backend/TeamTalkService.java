@@ -535,16 +535,27 @@ public class TeamTalkService extends Service
 
     /** When "use bluetooth headset microphone" is on and headset SCO is active, use VOICECOM
      * so that input is routed to the Bluetooth headset mic. */
-    private int getPreferredSoundInputDeviceId() {
-        if (bluetoothHeadsetHelper == null || !bluetoothHeadsetHelper.isStarted())
-            return SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
-        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-        if (!prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false))
-            return SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
-        if (!bluetoothHeadsetHelper.isHeadsetConnected() || !bluetoothHeadsetHelper.isOnHeadsetSco())
-            return SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
-        return SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM;
-    }
+	private int getPreferredSoundInputDeviceId() {
+		return shouldUseBluetoothVoiceCom()
+				? SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM
+				: SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
+	}
+
+	private boolean shouldUseBluetoothVoiceCom() {
+		if (bluetoothHeadsetHelper == null || !bluetoothHeadsetHelper.isStarted()) {
+			return false;
+		}
+
+		SharedPreferences prefs =
+				PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+
+		if (!prefs.getBoolean(Preferences.PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET, false)) {
+			return false;
+		}
+
+		return bluetoothHeadsetHelper.isHeadsetConnected()
+				&& bluetoothHeadsetHelper.isOnHeadsetSco();
+	}
 
     /** Re-initialize sound input with the preferred device (e.g. after SCO connect/disconnect). */
     private void reinitSoundInputDevice() {
