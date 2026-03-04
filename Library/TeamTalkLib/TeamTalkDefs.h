@@ -24,9 +24,9 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
-#define TEAMTALK_VERSION            "5.22.0.5194"
-#define TEAMTALK_RC_VERSION         5,22,0,5194
-#define TEAMTALK_RC_FILEVERSION     "5, 22, 0, 5194"
+#define TEAMTALK_VERSION            "5.22.0.5195"
+#define TEAMTALK_RC_VERSION         5,22,0,5195
+#define TEAMTALK_RC_FILEVERSION     "5, 22, 0, 5195"
 #define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -35,6 +35,9 @@
 #define WEBLOGIN_BEARWARE_USERNAME  "bearware"
 #define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
 #define WEBLOGIN_URL                "https://login.bearware.dk/teamtalk/weblogin.php?"
+constexpr auto WEBLOGIN_SPAMBOT_USERNAME    = "spambot" WEBLOGIN_BEARWARE_POSTFIX;
+constexpr auto SPAMBOT_SUBMIT_URL           = "https://www.bearware.dk/teamtalk/tt5servers.php";
+constexpr auto WEBLOGIN_PING_URL            = "https://login.bearware.dk/teamtalk/weblogin.php?ping=1";
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
