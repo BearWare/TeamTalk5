@@ -53,7 +53,7 @@ jobs:
     - name: Build TeamTalk toolchain, libraries and apps
       working-directory: ${{github.workspace}}
       shell: bash
-      run: make CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CMAKE_EXTRA="-DTOOLCHAIN_BUILD_MAKEJOBS=-j2 -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DBUILD_TEAMTALK_CLIENT_QTTEAMTALK_PRODUCT=ON -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Start TeamTalk Standard Server
       working-directory: ${{github.workspace}}
@@ -84,7 +84,7 @@ jobs:
     - name: Build debug TeamTalk using prebuilt toolchain
       working-directory: ${{github.workspace}}
       shell: bash
-      run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_WEBRTC=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
+      run: make CONFIGTYPE=debug CMAKE_EXTRA="-DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-install -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF -DFEATURE_PORTAUDIO=OFF -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install" -C Build mac
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v7
