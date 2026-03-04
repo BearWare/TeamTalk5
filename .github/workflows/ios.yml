@@ -61,12 +61,21 @@ jobs:
 
   lipo:
     needs: build
+    permissions:
+      security-events: write
+      packages: read
 
     runs-on: macos-latest
 
     steps:
     - name: Checkout
       uses: actions/checkout@v6
+
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      with:
+        languages: swift
+        build-mode: manual
 
     - name: Check for source changes
       uses: dorny/paths-filter@v3
@@ -109,3 +118,9 @@ jobs:
         AD_HOC_CODE_SIGNING_ALLOWED=YES
         CODE_SIGN_STYLE=Automatic
         COMPILER_INDEX_STORE_ENABLE=NO
+
+    - name: Perform CodeQL Analysis
+      if: steps.changes.outputs.src == 'true'
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:swift"
