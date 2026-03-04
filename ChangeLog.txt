@@ -16,6 +16,7 @@ Default Qt Client
 Android Client
 - Fixed bug where TeamTalk would crash when entering TTS settings
 - Fixed bug where the initial volume of media files did not match the settings screen
+- Fixed using Bluetooth headset microphone on some Xiaomi firmwares
 iOS Client
 - Ukranian translation
 - Easy log on to server using Join Code
