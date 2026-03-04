@@ -25,7 +25,7 @@ import UIKit
 import AVFoundation
 import OSLog
 
-class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEvent {
+class MainTabBarController : UITabBarController, TeamTalkEvent {
 
     // timer for polling TeamTalk client events
     var polltimer : Timer?
@@ -555,41 +555,29 @@ class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEv
                                     $0.username == server.username})
 
         if found.count == 0 && server.servertype == .LOCAL {
-            let alertView = UIAlertView(title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
-                                        message: NSLocalizedString("Save Server", comment: "Dialog message"), delegate: self,
-                                        cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
-                                        otherButtonTitles: NSLocalizedString("Yes", comment: "Dialog message"))
-            alertView.alertViewStyle = .plainTextInput
-            alertView.textField(at: 0)?.text = NSLocalizedString("New Server", comment: "Dialog message")
-            alertView.tag = ALERTVIEW_SAVESERVER
-            alertView.show()
-        }
-        else {
-            self.navigationController!.popViewController(animated: true)
-        }
-    }
-
-    let ALERTVIEW_SAVESERVER = 1
-    
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        
-        switch alertView.tag {
-            
-        case ALERTVIEW_SAVESERVER :
-            // save new server to the list of local servers
-            if buttonIndex == 1 {
-                
-                let name = (alertView.textField(at: 0)?.text)!
+            let alert = UIAlertController(title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
+                                          message: NSLocalizedString("Save Server", comment: "Dialog message"),
+                                          preferredStyle: .alert)
+            alert.addTextField { textField in
+                textField.text = NSLocalizedString("New Server", comment: "Dialog message")
+            }
+            alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Dialog message"), style: .default) { _ in
+                let name = alert.textFields?[0].text ?? ""
                 var servers = loadLocalServers()
                 // ensure server name doesn't already exist
                 servers = servers.filter({$0.name != name})
-                server.name = name
-                servers.append(server)
-                
+                self.server.name = name
+                servers.append(self.server)
                 saveLocalServers(servers)
-            }
+                self.navigationController!.popViewController(animated: true)
+            })
+            alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Dialog message"), style: .cancel) { _ in
+                self.navigationController!.popViewController(animated: true)
+            })
+            self.present(alert, animated: true)
+        }
+        else {
             self.navigationController!.popViewController(animated: true)
-        default : break
         }
     }
     
