@@ -12,14 +12,15 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.11.0
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
+      GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Enable-Runtime-Library-option-MT-for-MSVC.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
-                        -DBUILD_TESTING=OFF
                         -DCATCH_INSTALL_DOCS=OFF
+                        -DCATCH_INSTALL_EXTRAS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
       COMMAND           ${CMAKE_COMMAND} --build . --config Release
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_CATCH2}
@@ -55,7 +56,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.11.0
+      GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -64,8 +65,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
                         -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         -DCMAKE_OSX_ARCHITECTURES=${ARCHS}
                         -DCMAKE_BUILD_TYPE=release
-                        -DBUILD_TESTING=OFF
                         -DCATCH_INSTALL_DOCS=OFF
+                        -DCATCH_INSTALL_EXTRAS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libCatch2.a <INSTALL_DIR>/lib/libCatch2Main.a
       )
@@ -101,15 +102,15 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.11.0
+      GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_CATCH2}
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         ${CATCH2_CFG_FLAGS}
-                        -DBUILD_TESTING=OFF
                         -DCATCH_INSTALL_DOCS=OFF
+                        -DCATCH_INSTALL_EXTRAS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libCatch2.a <INSTALL_DIR>/lib/libCatch2Main.a
       )
@@ -137,7 +138,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.11.0
+      GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -145,8 +146,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         -DCMAKE_POSITION_INDEPENDENT_CODE=ON
                         -DCMAKE_BUILD_TYPE=release
-                        -DBUILD_TESTING=OFF
                         -DCATCH_INSTALL_DOCS=OFF
+                        -DCATCH_INSTALL_EXTRAS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libCatch2.a <INSTALL_DIR>/lib/libCatch2Main.a
       )
@@ -178,7 +179,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.11.0
+      GIT_TAG           v3.13.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -186,8 +187,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                         ${CATCH2_CFG_FLAGS}
                         -DCMAKE_BUILD_TYPE=release
-                        -DBUILD_TESTING=OFF
                         -DCATCH_INSTALL_DOCS=OFF
+                        -DCATCH_INSTALL_EXTRAS=OFF
       BUILD_COMMAND     ${CMAKE_COMMAND} --build .
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libCatch2.a <INSTALL_DIR>/lib/libCatch2Main.a
       )

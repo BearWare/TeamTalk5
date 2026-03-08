@@ -14,7 +14,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-arm64-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n6.1.4
+      GIT_TAG           n8.0.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
@@ -28,7 +28,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       --disable-autodetect
       --enable-openssl
       --enable-zlib
-      # Compile options (yasm does not work for arm64)
+      # Compile options (nasm does not work for arm64)
       --disable-asm
       --disable-debug
       --extra-cflags=-mmacosx-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}\ -arch\ arm64
@@ -52,7 +52,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-intel-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n6.1.4
+      GIT_TAG           n8.0.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
@@ -267,7 +267,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n6.1.4
+      GIT_TAG           n8.0.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -348,12 +348,113 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
     ${INSTALL_DIR}/lib/libavutil.a)
 
+elseif (MSVC)
+
+  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+    set(FFMPEG_ARCH x86_64)
+    set(FFMPEG_TARGET_OS win64)
+  else()
+    set(FFMPEG_ARCH x86)
+    set(FFMPEG_TARGET_OS win32)
+  endif()
+
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    set(FFMPEG_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/build-ffmpeg-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat @ONLY)
+
+    ExternalProject_Add(ffmpeg-src
+      GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
+      GIT_TAG           n8.0.1
+      GIT_SHALLOW       TRUE
+      GIT_CONFIG        core.autocrlf=false core.eol=lf
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat
+      INSTALL_COMMAND   ""
+      BUILD_IN_SOURCE   TRUE
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
+      <INSTALL_DIR>/lib/libavfilter.a
+      <INSTALL_DIR>/lib/libavformat.a
+      <INSTALL_DIR>/lib/libavcodec.a
+      <INSTALL_DIR>/lib/libswresample.a
+      <INSTALL_DIR>/lib/libswscale.a
+      <INSTALL_DIR>/lib/libavutil.a
+      DEPENDS           ${NASM_TARGET}
+      )
+    ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
+    file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
+  else()
+    set(INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
+  endif()
+
+  set(FFMPEG_LINK bcrypt ws2_32 secur32 strmiids ole32 user32 shlwapi vfw32)
+
+  add_library(ffmpeg-avdevice STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-avdevice ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
+  set_target_properties(ffmpeg-avdevice PROPERTIES
+    INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+  target_link_libraries(ffmpeg-avdevice INTERFACE ${FFMPEG_LINK})
+
+  add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-avfilter ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avfilter PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavfilter.a)
+
+  add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-avformat ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavformat.a)
+
+  add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-avcodec ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avcodec PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavcodec.a)
+
+  add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-swresample ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-swresample PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libswresample.a)
+
+  add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-swscale ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libswscale.a)
+
+  add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(ffmpeg-avutil ffmpeg-src)
+  endif()
+  target_include_directories(ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
+  set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
+    ${INSTALL_DIR}/lib/libavutil.a)
+
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n6.1.4
+      GIT_TAG           n8.0.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -469,7 +570,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n6.1.4
+      GIT_TAG           n8.0.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg

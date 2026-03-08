@@ -222,12 +222,12 @@ endif()
 
           add_custom_target (QtTeamTalk5-windeploy-release ALL
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler ${QT_DEPLOY_ARGS} --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           add_custom_target (QtTeamTalk5-windeploy-debug
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
@@ -237,8 +237,8 @@ endif()
             find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
             find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
           else()
-            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3.dll)
-            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3.dll)
+            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
+            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
           endif()
           if (QT_OPENSSL_LIBCRYPTODLL_PATH-NOTFOUND OR QT_OPENSSL_LIBSSLDLL_PATH-NOTFOUND)
             message (WARNING "Cannot find OpenSSL 3.x DLLs for Qt deployed DLLs")

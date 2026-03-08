@@ -4,19 +4,35 @@
 
 Version 5.22, unreleased
 Default Qt Client
-- Updated Qt to 6.10.0 on macOS
-- Updated Qt to 6.10.1 on Windows
+- Ability to stream AAC, Vorbis, etc. on Windows
 - Option to disable sound device detection notifications in statusbar events
+- Ukranian translation
+- Speak Client Statistics now refreshes network latency on Ctrl+T
+- Easy log on to server using Join Code
+- Fixed bug where the value of the Show chat history as list view instead of text edit setting was sometimes deleted
+- Fixed bug where only first resolved IP-address was used for connection attempt
+- Fixed bug where all servers with same name was deleted on server deletion
+- Updated Qt to 6.10.2 on Windows and macOS
 Android Client
-- fixed the bug where status messages wouldn't be set at login sometimes
-- Fixed bug where join and leave events were not announced when focused on another channel
+- Fixed bug where TeamTalk would crash when entering TTS settings
+- Fixed bug where the initial volume of media files did not match the settings screen
+- Fixed using Bluetooth headset microphone on some Xiaomi firmwares
+iOS Client
+- Ukranian translation
+- Easy log on to server using Join Code
+- Fixed bug where only first resolved IP-address was used for connection attempt
+Server
+- Ability to open TCP/UDP ports using UPnP
+- Fixed performance issue when removing bans
+
+Version 5.21.2, 2026/02/18
+Android Client
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
 - Maximum bitrate can be specified in SpeexVBR
-iOS Client
--
-Server
--
+- Fixed bug where status messages would not be set at login
+- Fixed bug where join and leave events were not announced when focused on another channel
+- Fixed bug where only first resolved IP-address was used for connection attempt
 
 Version 5.21.1, 2025/11/13
 Server

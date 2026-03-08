@@ -616,6 +616,7 @@ MainWindow::MainWindow(const QString& cfgfile)
             &ChannelsTree::slotUserVideoFrame);
     connect(this, &MainWindow::cmdSuccess, this, &MainWindow::slotCmdSuccess);
     connect(this, &MainWindow::mediaPlaybackUpdate, playsoundevent, &PlaySoundEvent::playbackUpdate);
+    connect(this, &MainWindow::mediaStreamUpdate, this, &MainWindow::setMediaFileTabProgress);
     /* End - CLIENTEVENT_* messages */
 
     m_timers.insert(startTimer(1000), TIMER_ONE_SECOND);
@@ -893,6 +894,7 @@ void MainWindow::initialScreenReaderSetup()
                     ttSettings->setValue(SETTINGS_TTS_ENGINE, TTSENGINE_QT);
 #endif
                 ttSettings->setValue(SETTINGS_DISPLAY_VU_METER_UPDATES, false);
+                ttSettings->setValue(SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW, true);
             }
         }
     }
@@ -1155,6 +1157,9 @@ void MainWindow::clienteventCmdProcessing(int cmdid, bool complete)
         {
         case CMD_COMPLETE_LOGIN:
             cmdCompleteLoggedIn(TT_GetMyUserID(ttInst));
+            break;
+        case CMD_COMPLETE_PING:
+            speakClientStats();
             break;
         case CMD_COMPLETE_JOINCHANNEL:
             break;
@@ -1459,6 +1464,8 @@ void MainWindow::clienteventVoiceActivation(bool active)
 
 void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
 {
+    auto prevmfi = m_mfi.value_or(MediaFileInfo());
+
     switch (mediafileinfo.nStatus)
     {
     case MFS_ERROR :
@@ -1487,14 +1494,17 @@ void MainWindow::clienteventStreamMediaFile(const MediaFileInfo& mediafileinfo)
 
     emit mediaStreamUpdate(mediafileinfo);
 
-    //update if still talking
-    emit updateMyself();
-
     // only allow updates to 'm_mfi' if a user has actively started playback
     if (m_mfi)
         m_mfi = mediafileinfo;
 
-    slotUpdateMediaTabUI();
+    if (prevmfi.nStatus != mediafileinfo.nStatus)
+    {
+        //update if still talking
+        emit updateMyself();
+
+        slotUpdateMediaTabUI();
+    }
 }
 
 void MainWindow::clienteventUserVideoCapture(int source, int streamid)
@@ -2104,10 +2114,8 @@ void MainWindow::connectToServer()
     m_desktopaccess_entries.clear();
     getDesktopAccessList(m_desktopaccess_entries, m_host.ipaddr, m_host.tcpport);
 
-    if(!TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport,
-                   m_host.udpport, localtcpport, localudpport, m_host.encrypted))
-        addStatusMsg(STATUSBAR_BYPASS, tr("Failed to connect to %1 TCP port %2 UDP port %3")
-                     .arg(m_host.ipaddr).arg(m_host.tcpport).arg(m_host.udpport));
+    TT_Connect(ttInst, _W(m_host.ipaddr), m_host.tcpport, m_host.udpport,
+               localtcpport, localudpport, m_host.encrypted);
 }
 
 void MainWindow::disconnectFromServer()
@@ -5707,6 +5715,16 @@ void MainWindow::setMediaFilePosition()
     ttSettings->setValueOrClear(SETTINGS_STREAMMEDIA_OFFSET, m_mfp.uOffsetMSec, SETTINGS_STREAMMEDIA_OFFSET_DEFAULT);
 }
 
+void MainWindow::setMediaFileTabProgress(const MediaFileInfo& mfi)
+{
+    ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(mfi.uDurationMSec)));
+    if (!timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
+    {
+        ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
+        setMediaFileProgress(ui.playbackOffsetSlider, mfi);
+    }
+}
+
 void MainWindow::slotChannelsUploadFile(bool /*checked =false */)
 {
     int channelid = m_filesmodel->getChannelID();
@@ -6578,12 +6596,7 @@ void MainWindow::slotUpdateMediaTabUI()
             ui.playMediaFileButton->setIcon(QIcon(QString::fromUtf8(":/images/images/pause.png")));
         }
 
-        ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(mfi.uDurationMSec)));
-        if (!timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
-        {
-            ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
-            setMediaFileProgress(ui.playbackOffsetSlider, mfi);
-        }
+        setMediaFileTabProgress(mfi);
         ui.mediaAudioFmtLabel->setText(tr("Audio format: %1").arg(getMediaAudioDescription(mfi.audioFmt)));
         ui.mediaVideoFmtLabel->setText(tr("Video format: %1").arg(getMediaVideoDescription(mfi.videoFmt)));
         break;
@@ -8034,6 +8047,20 @@ void MainWindow::closeEvent(QCloseEvent *event)
 }
 
 void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
+{
+    if (TT_GetFlags(ttInst) & CLIENT_CONNECTED)
+    {
+        int cmdid = TT_DoPing(ttInst);
+        if (cmdid > 0)
+        {
+            m_commands.insert(cmdid, CMD_COMPLETE_PING);
+            return;
+        }
+    }
+    speakClientStats();
+}
+
+void MainWindow::speakClientStats()
 {
     ClientStatistics stats = {};
     TT_GetClientStatistics(ttInst, &stats);

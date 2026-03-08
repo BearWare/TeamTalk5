@@ -204,7 +204,7 @@ namespace teamtalk {
 
 #if defined(_DEBUG)
 
-#define ASSERT_CLIENTNODE_LOCKED(clientnode) do {                       \
+#define ASSERT_CLIENTNODE_LOCKED(clientnode) do { /* NOLINT */ \
     TTASSERT(clientnode->m_reactorlock_thr_id == ACE_Thread::self());   \
     } while(0)
 

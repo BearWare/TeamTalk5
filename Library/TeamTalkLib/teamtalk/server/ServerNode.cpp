@@ -44,9 +44,6 @@
 
 using namespace teamtalk;
 
-constexpr auto UDP_SOCKET_RECV_BUF_SIZE = (1024*1024);
-constexpr auto UDP_SOCKET_SEND_BUF_SIZE = (1024*1024);
-
 ServerNode::ServerNode(const ACE_TString& version,
                        ACE_Reactor* timerReactor,
                        ACE_Reactor* tcpReactor, 
@@ -955,7 +952,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
     for (const auto& a : m_properties.udpaddrs)
     {
         packethandler_t const ph(new PacketHandler(m_udp_reactor));
-        udpport &= ph->Open(a, UDP_SOCKET_RECV_BUF_SIZE, UDP_SOCKET_SEND_BUF_SIZE);
+        udpport &= ph->Open(a);
         if (udpport)
             ph->AddListener(this);
         m_packethandlers.push_back(ph);

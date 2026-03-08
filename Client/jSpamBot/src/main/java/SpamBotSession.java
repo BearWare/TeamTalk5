@@ -25,6 +25,8 @@ import java.net.Inet4Address;
 import java.net.Inet6Address;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.time.Duration;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.Locale;
 import java.util.Map;
@@ -115,8 +117,8 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         runTimedEvents();
     }
 
-    private long SYNC_TIMEOUT = 1 * 10 * 1000000000l;
-    private long synctimeout = System.nanoTime() + SYNC_TIMEOUT;
+    private final Duration SYNC_TIMEOUT = Duration.ofSeconds(10);
+    private Instant synctimeout = Instant.now();
 
     private void runTimedEvents() {
 
@@ -129,11 +131,14 @@ implements ConnectionListener, CommandListener, AutoCloseable {
             return;
 
         // run unban timer
-        if (System.nanoTime() > synctimeout) {
-            synctimeout = System.nanoTime() + SYNC_TIMEOUT;
+        if (Instant.now().isAfter(synctimeout)) {
             int bancmdid = this.bans.syncBans(this.ttclient);
-            if (bancmdid > 0)
+            if (bancmdid > 0) {
                 activecommands.put(bancmdid, CmdComplete.CMD_ADDBAN);
+            }
+            else {
+                synctimeout = Instant.now().plus(SYNC_TIMEOUT);
+            }
         }
     }
 
@@ -216,7 +221,7 @@ implements ConnectionListener, CommandListener, AutoCloseable {
 
     @Override
     public void onCmdBannedUser(BannedUser ban) {
-        this.bans.addBan(ban);
+        this.bans.addRemoteBan(ban);
     }
 
     @Override
@@ -368,18 +373,29 @@ implements ConnectionListener, CommandListener, AutoCloseable {
         b.szUsername = user.szUsername;
         b.szIPAddress = user.szIPAddress;
         int prefix = getBanPrefix(user.szIPAddress);
-        if (prefix > 0)
+        if (prefix > 0) {
             b.szIPAddress = String.format("%s/%d", b.szIPAddress, prefix);
-        activecommands.put(ttclient.doBan(b), CmdComplete.CMD_ABUSE_BAN);
+        }
+        int cmdid = ttclient.doBan(b);
+        if (cmdid > 0) {
+            activecommands.put(cmdid, CmdComplete.CMD_ABUSE_BAN);
+            this.bans.addLocalBan(b, ttclient);
+        }
 
+        // inform user about ban
         TextMessage textmsg = new TextMessage();
         textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
         textmsg.szMessage = "You have been banned due to abuse";
         textmsg.nToUserID = user.nUserID;
+        cmdid = ttclient.doTextMessage(textmsg);
+        if (cmdid > 0) {
+            activecommands.put(cmdid, CmdComplete.CMD_ABUSE_TEXTMSG);
+        }
 
-        activecommands.put(ttclient.doTextMessage(textmsg), CmdComplete.CMD_ABUSE_TEXTMSG);
-
-        activecommands.put(ttclient.doKickUser(user.nUserID, 0), CmdComplete.CMD_ABUSE_KICK);
+        cmdid = ttclient.doKickUser(user.nUserID, 0);
+        if (cmdid > 0) {
+            activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
+        }
 
         abusedb.report(user.szIPAddress, "Spam");
     }

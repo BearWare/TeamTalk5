@@ -358,6 +358,11 @@ Each of the items in the dialog are explained here:
           [Server Properties Dialog](@ref serverpropertiesdlg):
           \verbatim #teamtalkskip# \endverbatim 
           This will verify that you're the owner of the server.
+      - **Generate Join Code**
+        - This will generate a code that other users can enter to log on
+          to the server. The server's login details are published on
+          BearWare.dk. Only one Join Code can be published on BearWare.dk
+          per BearWare.dk WebLogin username.
 
 - **Add new server**
   - Create a new local server. See [Create New Server](@ref newserver)
@@ -374,6 +379,11 @@ Each of the items in the dialog are explained here:
   - All the servers on the server list can be stored to .tt file as
     backup.
   - The *Import .tt File* can then import the backup again.
+
+- **Enter Join Code**
+  - If you receive a Join Code from a TeamTalk server owner then you
+    can enter it here and be able to connect to the server. Join Codes
+    are published on BearWare.dk.
 
 - **Latest hosts**
   - A history of the last used server are listed here and can be used
