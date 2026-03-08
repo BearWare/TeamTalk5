@@ -5694,7 +5694,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1945"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>목록에서 선택한 항목 읽기</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2217"/>
@@ -6693,12 +6693,12 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="302"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>간편 로그인을 위한 참여 코드</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="308"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="331"/>
@@ -6826,7 +6826,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="831"/>
         <location filename="../serverlistdlg.cpp" line="853"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드 입력</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -6963,35 +6963,35 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="811"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
         <location filename="../serverlistdlg.cpp" line="893"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>서버 정보를 가져오지 못했습니다.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="854"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드가 올바르지 않습니다</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>서버의 로그인 정보가 공개되어 다른 사용자가 생성된 코드를 사용하여 참여할 수 있게 됩니다. 계속하시겠습니까?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <location filename="../serverlistdlg.cpp" line="892"/>
         <location filename="../serverlistdlg.cpp" line="909"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드 생성</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="910"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>다음 참여 코드를 입력하여 서버에 연결하세요:</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="949"/>
@@ -7051,7 +7051,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>참여 코드 생성 (&amp;J)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1037"/>
@@ -7180,7 +7180,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>로그인 시 암호화 오류 발생</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7280,7 +7280,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>새 스트리밍 시작함</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -7939,7 +7939,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation>사운드 장치 감지됨</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
