@@ -210,6 +210,9 @@
 /* server entry */
 "Encrypted" = "암호화됨";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "암호를 입력하십시오";
 
@@ -374,6 +377,9 @@
 
 /* channel list */
 "No password" = "암호 없음";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "말하기 활성화 금지";

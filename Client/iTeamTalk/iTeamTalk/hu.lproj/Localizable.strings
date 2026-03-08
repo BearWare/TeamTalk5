@@ -209,6 +209,9 @@
 /* server entry */
 "Encrypted" = "Encrypted";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "Jelszó Beírása";
 
@@ -373,6 +376,9 @@
 
 /* channel list */
 "No password" = "jelszómentes";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Hang aktiválás tiltott";

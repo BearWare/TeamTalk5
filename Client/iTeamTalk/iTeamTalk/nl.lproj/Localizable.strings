@@ -209,6 +209,9 @@
 /* server entry */
 "Encrypted" = "Encrypted";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "Wachtwoord Invoeren";
 
@@ -373,6 +376,9 @@
 
 /* channel list */
 "No password" = "Geen wachtwoord";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Geen stemactivatie";
