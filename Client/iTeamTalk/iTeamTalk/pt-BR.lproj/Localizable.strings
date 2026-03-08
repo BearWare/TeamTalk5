@@ -210,6 +210,9 @@
 /* server entry */
 "Encrypted" = "Encriptado";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "Digite a senha";
 
@@ -374,6 +377,9 @@
 
 /* channel list */
 "No password" = "Sem senha";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Sem ativação de voz";

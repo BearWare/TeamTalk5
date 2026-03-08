@@ -209,6 +209,9 @@
 /* server entry */
 "Encrypted" = "Зашифровано";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "Введіть пароль";
 
@@ -373,6 +376,9 @@
 
 /* channel list */
 "No password" = "Без пароля";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Без активації голосом";

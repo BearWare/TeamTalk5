@@ -210,6 +210,9 @@
 /* server entry */
 "Encrypted" = "Şifreli";
 
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
+
 /* Dialog message */
 "Enter Password" = "Parolayı Girin";
 
@@ -374,6 +377,9 @@
 
 /* channel list */
 "No password" = "Parola yok";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Ses Etkinleştirme Yok";
