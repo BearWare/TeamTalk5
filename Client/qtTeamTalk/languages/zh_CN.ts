@@ -5728,7 +5728,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1945"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>朗读列表中选定项目</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2217"/>
@@ -6727,12 +6727,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="302"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>加入码快速登录</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="308"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>加入码</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="331"/>
@@ -6860,7 +6860,7 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="831"/>
         <location filename="../serverlistdlg.cpp" line="853"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>输入加入码</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -6997,35 +6997,35 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="811"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>加入码</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
         <location filename="../serverlistdlg.cpp" line="893"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>无法获取服务器信息。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="854"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>加入码不正确</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>这将发布服务器登录信息，以便其他人使用生成的代码加入服务器。要继续吗？</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <location filename="../serverlistdlg.cpp" line="892"/>
         <location filename="../serverlistdlg.cpp" line="909"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>生成加入码</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="910"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>输入以下加入代码以连接到服务器：</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="949"/>
@@ -7085,7 +7085,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>生成加入码(&amp;J)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1037"/>
@@ -7214,7 +7214,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>用户登录导致加密错误</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7314,7 +7314,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>用户开始新流</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -7973,7 +7973,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation检测到声音设备></translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
