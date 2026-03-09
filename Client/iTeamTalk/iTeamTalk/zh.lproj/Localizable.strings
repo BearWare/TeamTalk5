@@ -211,7 +211,7 @@
 "Encrypted" = "加密";
 
 /* serverlist */
-"Enter Join Code" = "Enter Join Code";
+"Enter Join Code" = "输入加入码";
 
 /* Dialog message */
 "Enter Password" = "输入密码";
@@ -379,7 +379,7 @@
 "No password" = "无密码";
 
 /* serverlist */
-"No server found" = "No server found";
+"No server found" = "未找到服务器";
 
 /* create channel */
 "No Voice Activation" = "禁止语音激活";
