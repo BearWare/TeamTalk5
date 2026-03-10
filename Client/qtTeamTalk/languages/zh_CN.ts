@@ -7973,7 +7973,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation检测到声音设备></translation>
+        <translation>检测到声音设备</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
