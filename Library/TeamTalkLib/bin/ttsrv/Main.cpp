@@ -265,6 +265,7 @@ static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
     SyncReactor(*udpReactor);
 
     int log_check = 0;
+    int upnp_check = 0;
     ACE_Time_Value tm(10,0);
     while(tcpReactor->handle_events(tm) >= 0)
     {
@@ -273,6 +274,17 @@ static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
         {
             RotateLogfile(workdir, logfile.c_str(), logstream);
         }
+
+        if (upnp_enabled && ++upnp_check >= 60)
+        {
+            upnp_check = 0;
+            if (!UPnP_RenewPortMapping(upnp_tcpport, upnp_udpport))
+            {
+                std::string externalIP;
+                UPnP_AddPortMapping(upnp_tcpport, upnp_udpport, externalIP);
+            }
+        }
+
         tm.set(10, 0);
     }
 

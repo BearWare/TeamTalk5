@@ -27,4 +27,5 @@
 #include <string>
 
 bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& externalIP);
+bool UPnP_RenewPortMapping(uint16_t tcpport, uint16_t udpport);
 void UPnP_RemovePortMapping(uint16_t tcpport, uint16_t udpport);

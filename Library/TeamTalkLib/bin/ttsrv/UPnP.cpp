@@ -33,6 +33,7 @@
 
 static struct UPNPUrls s_urls = {};
 static struct IGDdatas s_data = {};
+static char s_lanaddr[40] = {};
 static bool s_initialized = false;
 
 bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& externalIP)
@@ -45,15 +46,15 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
         return false;
     }
 
-    char lanaddr[40] = {};
+    std::memset(s_lanaddr, 0, sizeof(s_lanaddr));
 #if MINIUPNPC_API_VERSION >= 18
     char wanaddr[40] = {};
     int r = UPNP_GetValidIGD(devlist, &s_urls, &s_data,
-                              lanaddr, sizeof(lanaddr),
+                              s_lanaddr, sizeof(s_lanaddr),
                               wanaddr, sizeof(wanaddr));
 #else
     int r = UPNP_GetValidIGD(devlist, &s_urls, &s_data,
-                              lanaddr, sizeof(lanaddr));
+                              s_lanaddr, sizeof(s_lanaddr));
 #endif
     freeUPNPDevlist(devlist);
 
@@ -68,23 +69,37 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
                               s_data.first.servicetype, extIP);
     externalIP = extIP;
 
+    s_initialized = true;
+    return UPnP_RenewPortMapping(tcpport, udpport);
+}
+
+bool UPnP_RenewPortMapping(uint16_t tcpport, uint16_t udpport)
+{
+    if (!s_initialized)
+        return false;
+
     std::string const tcp_str = std::to_string(tcpport);
     int ret = UPNP_AddPortMapping(s_urls.controlURL,
         s_data.first.servicetype,
-        tcp_str.c_str(), tcp_str.c_str(), lanaddr,
+        tcp_str.c_str(), tcp_str.c_str(), s_lanaddr,
         "TeamTalk Server", "TCP", "", "0");
     if (ret != UPNPCOMMAND_SUCCESS)
+    {
         TT_LOG(ACE_TEXT("UPnP: Failed to add TCP port mapping."));
+        return false;
+    }
 
     std::string const udp_str = std::to_string(udpport);
     ret = UPNP_AddPortMapping(s_urls.controlURL,
         s_data.first.servicetype,
-        udp_str.c_str(), udp_str.c_str(), lanaddr,
+        udp_str.c_str(), udp_str.c_str(), s_lanaddr,
         "TeamTalk Server", "UDP", "", "0");
     if (ret != UPNPCOMMAND_SUCCESS)
+    {
         TT_LOG(ACE_TEXT("UPnP: Failed to add UDP port mapping."));
+        return false;
+    }
 
-    s_initialized = true;
     return true;
 }
 
@@ -103,6 +118,7 @@ void UPnP_RemovePortMapping(uint16_t tcpport, uint16_t udpport)
 
     FreeUPNPUrls(&s_urls);
     std::memset(&s_data, 0, sizeof(s_data));
+    std::memset(s_lanaddr, 0, sizeof(s_lanaddr));
     s_initialized = false;
 
     TT_LOG(ACE_TEXT("UPnP: Port mappings removed."));
