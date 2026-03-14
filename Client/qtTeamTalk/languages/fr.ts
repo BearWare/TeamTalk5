@@ -5728,7 +5728,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../preferences.ui" line="1945"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Énoncer l’élément sélectionné dans les listes</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2217"/>
@@ -6727,12 +6727,12 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverdlg.ui" line="302"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Code de connexion rapide</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="308"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Code de connexion</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="331"/>
@@ -6860,7 +6860,7 @@ Faut-il appliquer ces paramètres?</translation>
         <location filename="../serverlistdlg.cpp" line="831"/>
         <location filename="../serverlistdlg.cpp" line="853"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrer le code de connexion</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -6997,35 +6997,35 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="811"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Code de connexion</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
         <location filename="../serverlistdlg.cpp" line="893"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Échec à la récupération des informations du serveur.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="854"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>Code de connexion incorrect</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Cela publiera les informations de connexion du serveur afin que d’autres puissent s’y connecter à l’aide d’un code généré. Continuer?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <location filename="../serverlistdlg.cpp" line="892"/>
         <location filename="../serverlistdlg.cpp" line="909"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer un code de connexion</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="910"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Entrer le code de connexion suivant pour vous connecter au serveur:</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="949"/>
@@ -7085,7 +7085,7 @@ Faut-il appliquer ces paramètres?</translation>
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>Générer un code de conne&amp;xion</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1037"/>
@@ -7215,7 +7215,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>La connexion d’un utilisateur a provoqué une erreur d’encryption</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7315,7 +7315,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Un utilisateur a démarré une diffusion</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -7974,7 +7974,7 @@ Supprimez le compte utilisateur publié pour désinscrire votre serveur.</transl
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation>Périphérique audio détecté</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
