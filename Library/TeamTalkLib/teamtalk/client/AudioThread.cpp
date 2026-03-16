@@ -30,6 +30,8 @@
 
 #if defined(ENABLE_WEBRTC)
 #include "avstream/WebRTCPreprocess.h"
+#include <api/audio/builtin_audio_processing_builder.h>
+#include <api/environment/environment_factory.h>
 #endif
 
 #include <cassert>
@@ -277,7 +279,7 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         }
 
         if (!m_apm)
-            m_apm = webrtc::AudioProcessingBuilder().Create();
+            m_apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
         m_apm->ApplyConfig(preprocess.webrtc);
         if (m_apm->Initialize() != webrtc::AudioProcessing::kNoError)
         {
