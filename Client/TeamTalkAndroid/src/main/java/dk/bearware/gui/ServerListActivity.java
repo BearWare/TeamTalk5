@@ -277,59 +277,63 @@ public class ServerListActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == REQUEST_NEWSERVER) {
-            if(resultCode == RESULT_OK) {
-                ServerEntry entry = Utils.getServerEntry(data);
-                if(entry != null) {
-                    servers.add(entry);
-                    Collections.sort(servers, this);
-                    adapter.updateServers();
-                    saveServers();
-                }
-            }
-        } else if (requestCode == REQUEST_EDITSERVER) {
-            if(resultCode == RESULT_OK) {
-                ServerEntry entry = Utils.getServerEntry(data);
-                if(entry != null) {
-                    int pos = data.getIntExtra(POSITION_NAME, -1);
-                    if ((pos >= 0) && (pos < servers.size())) {
-                        servers.removeElementAt(pos);
-                        servers.insertElementAt(entry, pos);
-                    }
-                    else {
+        switch (requestCode) {
+            case REQUEST_NEWSERVER :
+                if(resultCode == RESULT_OK) {
+                    ServerEntry entry = Utils.getServerEntry(data);
+                    if(entry != null) {
                         servers.add(entry);
+                        Collections.sort(servers, this);
+                        adapter.updateServers();
+                        saveServers();
                     }
-                    Collections.sort(servers, this);
-                    adapter.updateServers();
-                    saveServers();
                 }
-            }
-        } else if (requestCode == REQUEST_IMPORT_SERVERLIST) {
-            if(resultCode == RESULT_OK) {
-                StringBuilder xml = new StringBuilder();
-                try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
-                    String line;
-                    if (inputStream != null) {
-                        BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
-                        while ((line = source.readLine()) != null) {
-                            xml.append(line);
+                break;
+            case REQUEST_EDITSERVER :
+                if(resultCode == RESULT_OK) {
+                    ServerEntry entry = Utils.getServerEntry(data);
+                    if(entry != null) {
+                        int pos = data.getIntExtra(POSITION_NAME, -1);
+                        if ((pos >= 0) && (pos < servers.size())) {
+                            servers.removeElementAt(pos);
+                            servers.insertElementAt(entry, pos);
                         }
-                        source.close();
+                        else {
+                            servers.add(entry);
+                        }
+                        Collections.sort(servers, this);
+                        adapter.updateServers();
+                        saveServers();
                     }
                 }
-                catch (Exception ex) {
-                }
-                Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
-                if (entries != null) {
-                    for (ServerEntry entry : entries) {
-                        entry.servertype = ServerEntry.ServerType.LOCAL;
+                break;
+            case REQUEST_IMPORT_SERVERLIST :
+                if(resultCode == RESULT_OK) {
+                    StringBuilder xml = new StringBuilder();
+                    try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
+                        String line;
+                        if (inputStream != null) {
+                            BufferedReader source = new BufferedReader(new InputStreamReader(inputStream));
+                            while ((line = source.readLine()) != null) {
+                                xml.append(line);
+                            }
+                            source.close();
+                        }
                     }
-                    servers.addAll(entries);
-                    Collections.sort(servers, this);
-                    adapter.updateServers();
-                    saveServers();
+                    catch (Exception ex) {
+                    }
+                    Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
+                    if (entries != null) {
+                        for (ServerEntry entry : entries) {
+                            entry.servertype = ServerEntry.ServerType.LOCAL;
+                        }
+                        servers.addAll(entries);
+                        Collections.sort(servers, this);
+                        adapter.updateServers();
+                        saveServers();
+                    }
                 }
-            }
+                break;
         }
     }
 
