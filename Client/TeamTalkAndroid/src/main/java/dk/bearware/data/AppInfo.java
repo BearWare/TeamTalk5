@@ -103,4 +103,14 @@ public class AppInfo {
         return urlToRead;
     }
 
+    public static String getJoinCodeUrl(Context context, String joincode) {
+        try {
+            joincode = URLEncoder.encode(joincode, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            Log.e(TAG, "Failed to encode join code", e);
+        }
+        String urlToRead = String.format("https://www.bearware.dk/teamtalk/tt5servers.php?action=joincode&joincode=%s&%s",
+                joincode, getDefautlUrlArgs(context));
+        return urlToRead;
+    }
 }
