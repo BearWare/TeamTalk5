@@ -23,6 +23,8 @@
 
 package dk.bearware.gui;
 
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -93,6 +95,7 @@ public class ServerEntryActivity extends AppCompatActivity
         }
         else {
             binding.serverStatusSection.setVisibility(View.GONE);
+            hideJoinCode();
         }
     }
 
@@ -103,6 +106,13 @@ public class ServerEntryActivity extends AppCompatActivity
         
         binding.tcpPortEdit.addTextChangedListener(new PortTextWatcher(binding.tcpPortEdit));
         binding.udpPortEdit.addTextChangedListener(new PortTextWatcher(binding.udpPortEdit));
+
+        binding.copyJoincodeBtn.setOnClickListener(v -> {
+            String joincode = binding.joincodeEdit.getText().toString();
+            ClipboardManager clipboard = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+            ClipData clip = ClipData.newPlainText("label", joincode);
+            clipboard.setPrimaryClip(clip);
+        });
     }
 
     private void setChannelViewsVisibility(boolean visible) {
@@ -298,6 +308,7 @@ public class ServerEntryActivity extends AppCompatActivity
         populateConnectionSettings(entry);
         populateAuthenticationSettings(entry);
         populateChannelSettings(entry);
+        populateJoinCodeSettings(entry);
     }
 
     private void populateServerInfo(ServerEntry entry) {
@@ -351,6 +362,23 @@ public class ServerEntryActivity extends AppCompatActivity
         binding.channelEdit.setText(entry.channel);
         binding.channelPasswordEdit.setText(entry.chanpasswd);
         setChannelViewsVisibility(!entry.rememberLastChannel);
+    }
+
+    private void populateJoinCodeSettings(ServerEntry entry) {
+        if (!entry.joincode.isEmpty()) {
+            binding.joincodeEdit.setText(entry.joincode);
+        }
+        else {
+            hideJoinCode();
+        }
+    }
+
+    private void hideJoinCode() {
+        binding.prefTitleJoincode.setVisibility(View.GONE);
+        binding.joincodeLayout.setVisibility(View.GONE);
+        binding.textJoincode.setVisibility(View.GONE);
+        binding.joincodeEdit.setVisibility(View.GONE);
+        binding.copyJoincodeBtn.setVisibility(View.GONE);
     }
 
     private String formatServerInfo(int titleResId, String value) {

@@ -553,6 +553,9 @@ public class Utils {
                 catch(NumberFormatException e) {
                     continue;
                 }
+                NodeList joincodenode = hostelement.getElementsByTagName("joincode");
+                if (joincodenode.getLength() > 0)
+                    entry.joincode = joincodenode.item(0).getTextContent();
                 NodeList listingnode = hostelement.getElementsByTagName("listing");
                 if (listingnode.getLength() > 0) {
                     switch (listingnode.item(0).getTextContent()) {
