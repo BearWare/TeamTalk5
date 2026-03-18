@@ -14,7 +14,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-arm64-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-arm64
@@ -52,7 +52,7 @@ if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ffmpeg-intel-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg-intel
@@ -213,7 +213,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(gas-preprocessor
       GIT_REPOSITORY    https://github.com/FFmpeg/gas-preprocessor.git
-      GIT_TAG           f85b940
+      GIT_TAG           ca93666
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/gas-preprocessor
       INSTALL_DIR       ""
@@ -267,7 +267,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -364,7 +364,7 @@ elseif (MSVC)
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       GIT_CONFIG        core.autocrlf=false core.eol=lf
       UPDATE_COMMAND    ""
@@ -374,13 +374,13 @@ elseif (MSVC)
       BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat
       INSTALL_COMMAND   ""
       BUILD_IN_SOURCE   TRUE
-      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/libavdevice.a
-      <INSTALL_DIR>/lib/libavfilter.a
-      <INSTALL_DIR>/lib/libavformat.a
-      <INSTALL_DIR>/lib/libavcodec.a
-      <INSTALL_DIR>/lib/libswresample.a
-      <INSTALL_DIR>/lib/libswscale.a
-      <INSTALL_DIR>/lib/libavutil.a
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/avdevice.lib
+      <INSTALL_DIR>/lib/avfilter.lib
+      <INSTALL_DIR>/lib/avformat.lib
+      <INSTALL_DIR>/lib/avcodec.lib
+      <INSTALL_DIR>/lib/swresample.lib
+      <INSTALL_DIR>/lib/swscale.lib
+      <INSTALL_DIR>/lib/avutil.lib
       DEPENDS           ${NASM_TARGET}
       )
     ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
@@ -398,7 +398,7 @@ elseif (MSVC)
   target_include_directories(ffmpeg-avdevice INTERFACE ${INSTALL_DIR}/include)
   set_target_properties(ffmpeg-avdevice PROPERTIES
     INTERFACE_COMPILE_OPTIONS -D__STDC_CONSTANT_MACROS
-    IMPORTED_LOCATION ${INSTALL_DIR}/lib/libavdevice.a)
+    IMPORTED_LOCATION ${INSTALL_DIR}/lib/avdevice.lib)
   target_link_libraries(ffmpeg-avdevice INTERFACE ${FFMPEG_LINK})
 
   add_library(ffmpeg-avfilter STATIC IMPORTED GLOBAL)
@@ -407,7 +407,7 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-avfilter INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avfilter PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavfilter.a)
+    ${INSTALL_DIR}/lib/avfilter.lib)
 
   add_library(ffmpeg-avformat STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -415,7 +415,7 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-avformat INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avformat PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavformat.a)
+    ${INSTALL_DIR}/lib/avformat.lib)
 
   add_library(ffmpeg-avcodec STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -423,7 +423,7 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-avcodec INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avcodec PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavcodec.a)
+    ${INSTALL_DIR}/lib/avcodec.lib)
 
   add_library(ffmpeg-swresample STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -431,7 +431,7 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-swresample INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swresample PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libswresample.a)
+    ${INSTALL_DIR}/lib/swresample.lib)
 
   add_library(ffmpeg-swscale STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -439,7 +439,7 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-swscale INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-swscale PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libswscale.a)
+    ${INSTALL_DIR}/lib/swscale.lib)
 
   add_library(ffmpeg-avutil STATIC IMPORTED GLOBAL)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -447,14 +447,14 @@ elseif (MSVC)
   endif()
   target_include_directories(ffmpeg-avutil INTERFACE ${INSTALL_DIR}/include)
   set_property(TARGET ffmpeg-avutil PROPERTY IMPORTED_LOCATION
-    ${INSTALL_DIR}/lib/libavutil.a)
+    ${INSTALL_DIR}/lib/avutil.lib)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
@@ -570,7 +570,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ffmpeg-src
       GIT_REPOSITORY    https://github.com/FFmpeg/FFmpeg.git
-      GIT_TAG           n8.0.1
+      GIT_TAG           n8.1
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
