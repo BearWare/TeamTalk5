@@ -30,6 +30,9 @@
 #include "teamtalk/Commands.h"
 #include "teamtalk/server/Server.h"
 #include "teamtalk/server/ServerNode.h"
+#if defined(ENABLE_TEAMTALKPRO)
+#include "teamtalk/server/SpamBot.h"
+#endif
 
 #include <cstddef>
 #include <vector>
@@ -100,12 +103,23 @@ namespace teamtalk {
 
         ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) override;
 
+#if defined(ENABLE_TEAMTALKPRO)
+        ErrorMsg ValidateTextMessage(const TextMessage& msg, const ServerUser& user) override;
+        ErrorMsg ValidateChannelProp(const ChannelProp& prop) override;
+        void OnTimerTick() override;
+
+        SpamBot& GetSpamBot() { return m_spambot; }
+        void InitSpamBot();
+#endif
+
     private:
 #if defined(ENABLE_TEAMTALKPRO)
         void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
         ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
         void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
         std::map<int, UserAccount> m_pendinglogin;
+        SpamBot m_spambot;
+        int m_spambot_tick_counter = 0;
 #endif
         teamtalk::ServerXML& m_settings;
     };

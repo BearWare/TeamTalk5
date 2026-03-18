@@ -501,6 +501,12 @@ namespace teamtalk {
         virtual ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status) = 0;
 
         virtual ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) = 0;
+
+        virtual ErrorMsg ValidateTextMessage(const TextMessage& msg, const ServerUser& user)
+        { return ErrorMsg(TT_CMDERR_SUCCESS); }
+        virtual ErrorMsg ValidateChannelProp(const ChannelProp& prop)
+        { return ErrorMsg(TT_CMDERR_SUCCESS); }
+        virtual void OnTimerTick() {}
     };
 } // namespace teamtalk
 #endif

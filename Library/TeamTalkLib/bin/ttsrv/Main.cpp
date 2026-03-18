@@ -436,6 +436,10 @@ int RunServer(
         }
     }
 
+#if defined(ENABLE_TEAMTALKPRO)
+    srvguard.InitSpamBot();
+#endif
+
     TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
         if(!verbose)
             ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);

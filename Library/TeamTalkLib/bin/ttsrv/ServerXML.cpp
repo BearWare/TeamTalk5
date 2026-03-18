@@ -1601,4 +1601,370 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         return 0;
     }
 
+#if defined(ENABLE_TEAMTALKPRO)
+
+    //////////////////////////////////////
+    // SpamBot XML section
+    //////////////////////////////////////
+
+    XMLElement* ServerXML::GetSpamBotElement()
+    {
+        XMLElement* root = GetRootElement();
+        if (root != nullptr)
+        {
+            XMLElement* child = root->FirstChildElement("spambot");
+            if (child == nullptr)
+                child = ReplaceElement(root, "spambot");
+            return child;
+        }
+        return nullptr;
+    }
+
+    bool ServerXML::SetSpamBotEnabled(bool enabled)
+    {
+        XMLElement* parent = GetSpamBotElement();
+        if (parent != nullptr)
+        {
+            PutBoolean(parent, "enabled", enabled);
+            return true;
+        }
+        return false;
+    }
+
+    bool ServerXML::GetSpamBotEnabled()
+    {
+        XMLElement* parent = GetSpamBotElement();
+        if (parent != nullptr)
+        {
+            bool val = false;
+            GetBoolean(parent, "enabled", val);
+            return val;
+        }
+        return false;
+    }
+
+    // Bad words settings
+
+    bool ServerXML::SetSpamBotBadWordsEnabled(bool enabled)
+    {
+        SetValueBool("spambot/badwords/enabled", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotBadWordsEnabled()
+    {
+        return GetValueBool(true, "spambot/badwords/enabled", false);
+    }
+
+    bool ServerXML::SetSpamBotBadWordsFiles(const std::vector<std::string>& files)
+    {
+        XMLElement* parent = GetSpamBotElement();
+        if (parent == nullptr) return false;
+
+        XMLElement* bw = parent->FirstChildElement("badwords");
+        if (bw == nullptr)
+            bw = ReplaceElement(parent, "badwords");
+
+        // remove existing file entries
+        while (XMLElement* f = bw->FirstChildElement("file"))
+            bw->DeleteChild(f);
+
+        // add new entries
+        for (const auto& file : files)
+        {
+            PutString(bw, "file", file);
+        }
+        return true;
+    }
+
+    std::vector<std::string> ServerXML::GetSpamBotBadWordsFiles()
+    {
+        std::vector<std::string> result;
+        XMLElement* parent = GetSpamBotElement();
+        if (parent == nullptr) return result;
+
+        XMLElement* bw = parent->FirstChildElement("badwords");
+        if (bw == nullptr) return result;
+
+        for (XMLElement* child = bw->FirstChildElement("file");
+             child != nullptr;
+             child = child->NextSiblingElement("file"))
+        {
+            std::string val;
+            GetElementText(*child, val);
+            if (!val.empty())
+                result.push_back(val);
+        }
+        return result;
+    }
+
+    bool ServerXML::SetSpamBotBadWordsAutoDownload(bool enabled)
+    {
+        SetValueBool("spambot/badwords/auto-download", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotBadWordsAutoDownload()
+    {
+        return GetValueBool(true, "spambot/badwords/auto-download", false);
+    }
+
+    bool ServerXML::SetSpamBotBadWordsURLs(const std::vector<std::string>& urls)
+    {
+        XMLElement* parent = GetSpamBotElement();
+        if (parent == nullptr) return false;
+
+        XMLElement* bw = parent->FirstChildElement("badwords");
+        if (bw == nullptr)
+            bw = ReplaceElement(parent, "badwords");
+
+        // remove existing url entries
+        while (XMLElement* u = bw->FirstChildElement("url"))
+            bw->DeleteChild(u);
+
+        for (const auto& url : urls)
+        {
+            PutString(bw, "url", url);
+        }
+        return true;
+    }
+
+    std::vector<std::string> ServerXML::GetSpamBotBadWordsURLs()
+    {
+        std::vector<std::string> result;
+        XMLElement* parent = GetSpamBotElement();
+        if (parent == nullptr) return result;
+
+        XMLElement* bw = parent->FirstChildElement("badwords");
+        if (bw == nullptr) return result;
+
+        for (XMLElement* child = bw->FirstChildElement("url");
+             child != nullptr;
+             child = child->NextSiblingElement("url"))
+        {
+            std::string val;
+            GetElementText(*child, val);
+            if (!val.empty())
+                result.push_back(val);
+        }
+        return result;
+    }
+
+    bool ServerXML::SetSpamBotBadWordsUpdateInterval(int minutes)
+    {
+        SetValue("spambot/badwords/update-interval-mins", minutes);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotBadWordsUpdateInterval()
+    {
+        return GetValue(true, "spambot/badwords/update-interval-mins", 60);
+    }
+
+    // VPN IPs settings
+
+    bool ServerXML::SetSpamBotVpnIpsEnabled(bool enabled)
+    {
+        SetValueBool("spambot/vpnips/enabled", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotVpnIpsEnabled()
+    {
+        return GetValueBool(true, "spambot/vpnips/enabled", false);
+    }
+
+    bool ServerXML::SetSpamBotVpnIpsFile(const std::string& file)
+    {
+        SetValue("spambot/vpnips/file", file);
+        return true;
+    }
+
+    std::string ServerXML::GetSpamBotVpnIpsFile()
+    {
+        return GetValue(true, "spambot/vpnips/file", "");
+    }
+
+    bool ServerXML::SetSpamBotVpnIpsAutoDownload(bool enabled)
+    {
+        SetValueBool("spambot/vpnips/auto-download", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotVpnIpsAutoDownload()
+    {
+        return GetValueBool(true, "spambot/vpnips/auto-download", false);
+    }
+
+    bool ServerXML::SetSpamBotVpnIpsURL(const std::string& url)
+    {
+        SetValue("spambot/vpnips/url", url);
+        return true;
+    }
+
+    std::string ServerXML::GetSpamBotVpnIpsURL()
+    {
+        return GetValue(true, "spambot/vpnips/url", "");
+    }
+
+    bool ServerXML::SetSpamBotVpnIpsUpdateInterval(int minutes)
+    {
+        SetValue("spambot/vpnips/update-interval-mins", minutes);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotVpnIpsUpdateInterval()
+    {
+        return GetValue(true, "spambot/vpnips/update-interval-mins", 60);
+    }
+
+    // Abuse detection settings
+
+    bool ServerXML::SetSpamBotAbuseEnabled(bool enabled)
+    {
+        SetValueBool("spambot/abuse/enabled", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotAbuseEnabled()
+    {
+        return GetValueBool(true, "spambot/abuse/enabled", false);
+    }
+
+    bool ServerXML::SetSpamBotIpLoginCount(int count)
+    {
+        SetValue("spambot/abuse/ip-login-count", count);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotIpLoginCount()
+    {
+        return GetValue(true, "spambot/abuse/ip-login-count", 10);
+    }
+
+    bool ServerXML::SetSpamBotIpJoinsCount(int count)
+    {
+        SetValue("spambot/abuse/ip-joins-count", count);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotIpJoinsCount()
+    {
+        return GetValue(true, "spambot/abuse/ip-joins-count", 10);
+    }
+
+    bool ServerXML::SetSpamBotIpKicksCount(int count)
+    {
+        SetValue("spambot/abuse/ip-kicks-count", count);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotIpKicksCount()
+    {
+        return GetValue(true, "spambot/abuse/ip-kicks-count", 10);
+    }
+
+    bool ServerXML::SetSpamBotAbuseDuration(int secs)
+    {
+        SetValue("spambot/abuse/duration-secs", secs);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotAbuseDuration()
+    {
+        return GetValue(true, "spambot/abuse/duration-secs", 60);
+    }
+
+    bool ServerXML::SetSpamBotBanDuration(int secs)
+    {
+        SetValue("spambot/abuse/ban-duration-secs", secs);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotBanDuration()
+    {
+        return GetValue(true, "spambot/abuse/ban-duration-secs", 0);
+    }
+
+    bool ServerXML::SetSpamBotIpv4BanPrefix(int prefix)
+    {
+        SetValue("spambot/abuse/ipv4-ban-prefix", prefix);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotIpv4BanPrefix()
+    {
+        return GetValue(true, "spambot/abuse/ipv4-ban-prefix", 32);
+    }
+
+    bool ServerXML::SetSpamBotIpv6BanPrefix(int prefix)
+    {
+        SetValue("spambot/abuse/ipv6-ban-prefix", prefix);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotIpv6BanPrefix()
+    {
+        return GetValue(true, "spambot/abuse/ipv6-ban-prefix", 128);
+    }
+
+    // AbuseIPDB settings
+
+    bool ServerXML::SetSpamBotAbuseIPDBEnabled(bool enabled)
+    {
+        SetValueBool("spambot/abuseipdb/enabled", enabled);
+        return true;
+    }
+
+    bool ServerXML::GetSpamBotAbuseIPDBEnabled()
+    {
+        return GetValueBool(true, "spambot/abuseipdb/enabled", false);
+    }
+
+    bool ServerXML::SetSpamBotAbuseIPDBKey(const std::string& key)
+    {
+        SetValue("spambot/abuseipdb/api-key", key);
+        return true;
+    }
+
+    std::string ServerXML::GetSpamBotAbuseIPDBKey()
+    {
+        return GetValue(true, "spambot/abuseipdb/api-key", "");
+    }
+
+    bool ServerXML::SetSpamBotAbuseIPDBTotalReports(int count)
+    {
+        SetValue("spambot/abuseipdb/total-reports", count);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotAbuseIPDBTotalReports()
+    {
+        return GetValue(true, "spambot/abuseipdb/total-reports", 2);
+    }
+
+    bool ServerXML::SetSpamBotAbuseIPDBDistinctUsers(int count)
+    {
+        SetValue("spambot/abuseipdb/distinct-users", count);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotAbuseIPDBDistinctUsers()
+    {
+        return GetValue(true, "spambot/abuseipdb/distinct-users", 2);
+    }
+
+    bool ServerXML::SetSpamBotAbuseIPDBConfidenceScore(int score)
+    {
+        SetValue("spambot/abuseipdb/confidence-score", score);
+        return true;
+    }
+
+    int ServerXML::GetSpamBotAbuseIPDBConfidenceScore()
+    {
+        return GetValue(true, "spambot/abuseipdb/confidence-score", 2);
+    }
+
+#endif /* ENABLE_TEAMTALKPRO */
+
 } // namespace teamtalk

@@ -191,6 +191,68 @@ namespace teamtalk {
                                  std::string& token);
         /******** </bearware-weblogin> *********/
 
+#if defined(ENABLE_TEAMTALKPRO)
+        /********** <spambot> ************/
+        bool SetSpamBotEnabled(bool enabled);
+        bool GetSpamBotEnabled();
+
+        // Bad words settings
+        bool SetSpamBotBadWordsEnabled(bool enabled);
+        bool GetSpamBotBadWordsEnabled();
+        bool SetSpamBotBadWordsFiles(const std::vector<std::string>& files);
+        std::vector<std::string> GetSpamBotBadWordsFiles();
+        bool SetSpamBotBadWordsAutoDownload(bool enabled);
+        bool GetSpamBotBadWordsAutoDownload();
+        bool SetSpamBotBadWordsURLs(const std::vector<std::string>& urls);
+        std::vector<std::string> GetSpamBotBadWordsURLs();
+        bool SetSpamBotBadWordsUpdateInterval(int minutes);
+        int GetSpamBotBadWordsUpdateInterval();
+
+        // VPN IPs settings
+        bool SetSpamBotVpnIpsEnabled(bool enabled);
+        bool GetSpamBotVpnIpsEnabled();
+        bool SetSpamBotVpnIpsFile(const std::string& file);
+        std::string GetSpamBotVpnIpsFile();
+        bool SetSpamBotVpnIpsAutoDownload(bool enabled);
+        bool GetSpamBotVpnIpsAutoDownload();
+        bool SetSpamBotVpnIpsURL(const std::string& url);
+        std::string GetSpamBotVpnIpsURL();
+        bool SetSpamBotVpnIpsUpdateInterval(int minutes);
+        int GetSpamBotVpnIpsUpdateInterval();
+
+        // Abuse detection settings
+        bool SetSpamBotAbuseEnabled(bool enabled);
+        bool GetSpamBotAbuseEnabled();
+        bool SetSpamBotIpLoginCount(int count);
+        int GetSpamBotIpLoginCount();
+        bool SetSpamBotIpJoinsCount(int count);
+        int GetSpamBotIpJoinsCount();
+        bool SetSpamBotIpKicksCount(int count);
+        int GetSpamBotIpKicksCount();
+        bool SetSpamBotAbuseDuration(int secs);
+        int GetSpamBotAbuseDuration();
+        bool SetSpamBotBanDuration(int secs);
+        int GetSpamBotBanDuration();
+        bool SetSpamBotIpv4BanPrefix(int prefix);
+        int GetSpamBotIpv4BanPrefix();
+        bool SetSpamBotIpv6BanPrefix(int prefix);
+        int GetSpamBotIpv6BanPrefix();
+
+        // AbuseIPDB settings
+        bool SetSpamBotAbuseIPDBEnabled(bool enabled);
+        bool GetSpamBotAbuseIPDBEnabled();
+        bool SetSpamBotAbuseIPDBKey(const std::string& key);
+        std::string GetSpamBotAbuseIPDBKey();
+        bool SetSpamBotAbuseIPDBTotalReports(int count);
+        int GetSpamBotAbuseIPDBTotalReports();
+        bool SetSpamBotAbuseIPDBDistinctUsers(int count);
+        int GetSpamBotAbuseIPDBDistinctUsers();
+        bool SetSpamBotAbuseIPDBConfidenceScore(int score);
+        int GetSpamBotAbuseIPDBConfidenceScore();
+
+        /********** </spambot> ************/
+#endif
+
     protected:
         bool UpdateFile() override;
     private:
@@ -206,6 +268,9 @@ namespace teamtalk {
         bool GetUser(const tinyxml2::XMLElement* userElement, UserAccount& user) const;
         bool GetUserBan(const tinyxml2::XMLElement* banElement, BannedUser& ban);
         void NewUserBan(tinyxml2::XMLElement* banElement, const BannedUser& ban);
+#if defined(ENABLE_TEAMTALKPRO)
+        tinyxml2::XMLElement* GetSpamBotElement();
+#endif
     };
 } // namespace teamtalk
 #endif

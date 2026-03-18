@@ -18,6 +18,7 @@ set (TTSRV_SOURCES
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/UPnP.cpp
   ${TEAMTALKLIB_ROOT}/settings/Settings.cpp
+  ${TEAMTALKLIB_ROOT}/teamtalk/server/SpamBot.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/Main.cpp
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ttsrv.rc)
 
@@ -30,5 +31,6 @@ set (TTSRV_HEADERS
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerUtil.h
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/ServerXML.h
   ${TEAMTALKLIB_ROOT}/bin/ttsrv/UPnP.h
-  ${TEAMTALKLIB_ROOT}/settings/Settings.h)
+  ${TEAMTALKLIB_ROOT}/settings/Settings.h
+  ${TEAMTALKLIB_ROOT}/teamtalk/server/SpamBot.h)
 

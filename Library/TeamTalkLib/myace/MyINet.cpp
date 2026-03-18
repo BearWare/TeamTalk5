@@ -138,6 +138,82 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
     return httpCode.is_ok() ? 1 : 0;
 }
 
+int HttpGetRequest(const ACE_CString& url, const std::map<std::string, std::string>& headers,
+                   std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
+{
+    AceSingletons();
+
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    if (!url_safe)
+        return -1;
+
+    class MyGetRequest : public ACE::HTTP::ClientRequestHandler
+    {
+        const std::map<std::string, std::string>& m_headers;
+    public:
+        MyGetRequest(const std::map<std::string, std::string>& headers) : m_headers(headers) {}
+
+    protected:
+        std::istream& handle_open_request(const ACE::INet::URL_Base& url) override
+        {
+            const ACE::HTTP::URL& http_url = dynamic_cast<const ACE::HTTP::URL&>(url);
+
+            bool connected = false;
+            if (http_url.has_proxy())
+                connected = this->initialize_connection(http_url.get_scheme(),
+                    http_url.get_host(), http_url.get_port(), true,
+                    http_url.get_proxy_host(), http_url.get_proxy_port());
+            else
+                connected = this->initialize_connection(http_url.get_scheme(),
+                    http_url.get_host(), http_url.get_port());
+
+            if (connected)
+            {
+                request().reset(ACE::HTTP::Request::HTTP_GET,
+                    http_url.get_request_uri(), request().get_version());
+                this->initialize_request(http_url, this->request());
+
+                for (const auto& v : m_headers)
+                    request().set(v.first.c_str(), v.second.c_str());
+
+                this->session()->send_request(this->request());
+                if (this->session()->receive_response(this->response()))
+                    return this->response_stream();
+
+                this->close_connection();
+                this->handle_request_error(http_url);
+            }
+            else
+            {
+                this->handle_connection_error(http_url);
+            }
+
+            return this->response_stream();
+        }
+    } http(headers);
+
+    ACE::INet::URLStream urlin = url_safe->open(http);
+    std::ostringstream oss;
+    oss << urlin->rdbuf();
+    result = oss.str();
+
+    ACE::HTTP::Status const httpCode = http.response().get_status();
+#if defined(UNICODE)
+    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+        Utf8ToUnicode(result.c_str()).c_str());
+#else
+    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
+#endif
+    if (statusCode != nullptr)
+        *statusCode = httpCode.get_status();
+
+    if (!httpCode.is_valid() || httpCode.get_status() == ACE::HTTP::Status::HTTP_NONE ||
+        httpCode.get_status() >= ACE::HTTP::Status::HTTP_INTERNAL_SERVER_ERROR)
+        return -1;
+
+    return httpCode.is_ok() ? 1 : 0;
+}
+
 int HttpPostRequest(const ACE_CString& url, const char* data, int len,
                     const std::map<std::string, std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)

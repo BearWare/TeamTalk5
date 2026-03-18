@@ -842,6 +842,38 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         return ErrorMsg(TT_CMDERR_SERVER_BANNED);
     }
 
+#if defined(ENABLE_TEAMTALKPRO)
+    if (m_spambot.IsEnabled())
+    {
+        std::string const ip = UnicodeToUtf8(user.GetIpAddress()).c_str();
+
+        if (m_spambot.IsVpnAddress(user.GetIpAddress()))
+        {
+            TT_LOG(ACE_TEXT("SpamBot: Blocked VPN IP: %s"), user.GetIpAddress().c_str());
+            return ErrorMsg(TT_CMDERR_SERVER_BANNED);
+        }
+
+        if (m_spambot.CheckAbuseIPDB(ip))
+        {
+            TT_LOG(ACE_TEXT("SpamBot: Blocked AbuseIPDB-flagged IP: %s"), user.GetIpAddress().c_str());
+            return ErrorMsg(TT_CMDERR_SERVER_BANNED);
+        }
+
+        m_spambot.IncLogin(ip);
+        if (m_spambot.CheckLoginAbuse(ip))
+        {
+            std::string const banip = m_spambot.ApplyBanPrefix(ip);
+            BannedUser spamban;
+            spamban.bantype = BANTYPE_IPADDR;
+            spamban.ipaddr = Utf8ToUnicode(banip.c_str());
+            spamban.owner = ACE_TEXT("SpamBot");
+            m_settings.AddUserBan(spamban);
+            TT_LOG(ACE_TEXT("SpamBot: Login abuse ban: %s"), user.GetIpAddress().c_str());
+            return ErrorMsg(TT_CMDERR_SERVER_BANNED);
+        }
+    }
+#endif
+
     MYTRACE(ACE_TEXT("Authenticating %s\n"), useraccount.username.c_str());
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -886,6 +918,25 @@ ErrorMsg ServerGuard::JoinChannel(const ServerUser& user, const ServerChannel& c
     testban.chanpath = chan.GetChannelPath();
     if (chan.IsBanned(testban))
         return TT_CMDERR_CHANNEL_BANNED;
+
+#if defined(ENABLE_TEAMTALKPRO)
+    if (m_spambot.IsEnabled())
+    {
+        std::string const ip = UnicodeToUtf8(user.GetIpAddress()).c_str();
+        m_spambot.IncJoins(ip);
+        if (m_spambot.CheckJoinAbuse(ip))
+        {
+            std::string const banip = m_spambot.ApplyBanPrefix(ip);
+            BannedUser spamban;
+            spamban.bantype = BANTYPE_IPADDR;
+            spamban.ipaddr = Utf8ToUnicode(banip.c_str());
+            spamban.owner = ACE_TEXT("SpamBot");
+            m_settings.AddUserBan(spamban);
+            TT_LOG(ACE_TEXT("SpamBot: Join abuse ban: %s"), user.GetIpAddress().c_str());
+            return ErrorMsg(TT_CMDERR_SERVER_BANNED);
+        }
+    }
+#endif
 
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
@@ -999,18 +1050,40 @@ ErrorMsg ServerGuard::GetUserBans(const ServerUser&  /*user*/, std::vector<Banne
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-ErrorMsg ServerGuard::ChangeNickname(const ServerUser& user, const ACE_TString&  /*newnick*/)
+ErrorMsg ServerGuard::ChangeNickname(const ServerUser& user, const ACE_TString& newnick)
 {
-    if((user.GetUserRights() & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE)
-        return ErrorMsg(TT_CMDERR_SUCCESS);
-    return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    if((user.GetUserRights() & USERRIGHT_LOCKED_NICKNAME) != USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
+#if defined(ENABLE_TEAMTALKPRO)
+    if (m_spambot.IsEnabled() &&
+        m_spambot.ContainsBadWord(UnicodeToUtf8(newnick).c_str()))
+    {
+        TT_LOG(ACE_TEXT("SpamBot: Bad word in nickname from #%d: \"%s\""),
+               user.GetUserID(), newnick.c_str());
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+#endif
+
+    return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-ErrorMsg ServerGuard::ChangeStatus(const ServerUser& user, int  /*mode*/, const ACE_TString&  /*status*/)
+ErrorMsg ServerGuard::ChangeStatus(const ServerUser& user, int  /*mode*/, const ACE_TString& status)
 {
-    if((user.GetUserRights() & USERRIGHT_LOCKED_STATUS) == USERRIGHT_NONE)
-        return ErrorMsg(TT_CMDERR_SUCCESS);
-    return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    if((user.GetUserRights() & USERRIGHT_LOCKED_STATUS) != USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
+#if defined(ENABLE_TEAMTALKPRO)
+    if (m_spambot.IsEnabled() &&
+        m_spambot.ContainsBadWord(UnicodeToUtf8(status).c_str()))
+    {
+        TT_LOG(ACE_TEXT("SpamBot: Bad word in status from #%d: \"%s\""),
+               user.GetUserID(), status.c_str());
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+#endif
+
+    return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
 ErrorMsg ServerGuard::SaveConfiguration(const ServerUser& /*user*/, teamtalk::ServerNode& servernode)
@@ -1019,3 +1092,138 @@ ErrorMsg ServerGuard::SaveConfiguration(const ServerUser& /*user*/, teamtalk::Se
     ConvertChannels(servernode.GetRootChannel(), channels, true);
     return SaveServerProperties(m_settings, servernode.GetServerProperties(), channels) ? ErrorMsg(TT_CMDERR_SUCCESS) : ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 }
+
+#if defined(ENABLE_TEAMTALKPRO)
+
+ErrorMsg ServerGuard::ValidateTextMessage(const TextMessage& msg, const ServerUser& user)
+{
+    if (!m_spambot.IsEnabled())
+        return ErrorMsg(TT_CMDERR_SUCCESS);
+
+    std::string const text = UnicodeToUtf8(msg.content).c_str();
+    if (m_spambot.ContainsBadWord(text))
+    {
+        TT_LOG(ACE_TEXT("SpamBot: Bad word in text message from #%d"), user.GetUserID());
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+
+    return ErrorMsg(TT_CMDERR_SUCCESS);
+}
+
+ErrorMsg ServerGuard::ValidateChannelProp(const ChannelProp& prop)
+{
+    if (!m_spambot.IsEnabled())
+        return ErrorMsg(TT_CMDERR_SUCCESS);
+
+    std::string const name = UnicodeToUtf8(prop.name).c_str();
+    std::string const topic = UnicodeToUtf8(prop.topic).c_str();
+
+    if (m_spambot.ContainsBadWord(name) || m_spambot.ContainsBadWord(topic))
+    {
+        TT_LOG(ACE_TEXT("SpamBot: Bad word in channel name/topic: \"%s\""), prop.name.c_str());
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
+
+    return ErrorMsg(TT_CMDERR_SUCCESS);
+}
+
+void ServerGuard::InitSpamBot()
+{
+    SpamBotSettings settings;
+
+    settings.enabled = m_settings.GetSpamBotEnabled();
+    if (!settings.enabled)
+        return;
+
+    settings.badwords_enabled = m_settings.GetSpamBotBadWordsEnabled();
+    settings.badwords_files = m_settings.GetSpamBotBadWordsFiles();
+    settings.badwords_auto_download = m_settings.GetSpamBotBadWordsAutoDownload();
+    settings.badwords_urls = m_settings.GetSpamBotBadWordsURLs();
+    settings.badwords_update_interval_mins = m_settings.GetSpamBotBadWordsUpdateInterval();
+
+    settings.vpnips_enabled = m_settings.GetSpamBotVpnIpsEnabled();
+    settings.vpnips_file = m_settings.GetSpamBotVpnIpsFile();
+    settings.vpnips_auto_download = m_settings.GetSpamBotVpnIpsAutoDownload();
+    settings.vpnips_url = m_settings.GetSpamBotVpnIpsURL();
+    settings.vpnips_update_interval_mins = m_settings.GetSpamBotVpnIpsUpdateInterval();
+
+    settings.abuse_enabled = m_settings.GetSpamBotAbuseEnabled();
+    settings.ip_login_count = m_settings.GetSpamBotIpLoginCount();
+    settings.ip_joins_count = m_settings.GetSpamBotIpJoinsCount();
+    settings.ip_kicks_count = m_settings.GetSpamBotIpKicksCount();
+    settings.abuse_duration_secs = m_settings.GetSpamBotAbuseDuration();
+    settings.ban_duration_secs = m_settings.GetSpamBotBanDuration();
+    settings.ipv4_ban_prefix = m_settings.GetSpamBotIpv4BanPrefix();
+    settings.ipv6_ban_prefix = m_settings.GetSpamBotIpv6BanPrefix();
+
+    settings.abuseipdb_enabled = m_settings.GetSpamBotAbuseIPDBEnabled();
+    settings.abuseipdb_key = m_settings.GetSpamBotAbuseIPDBKey();
+    settings.abuseipdb_total_reports = m_settings.GetSpamBotAbuseIPDBTotalReports();
+    settings.abuseipdb_distinct_users = m_settings.GetSpamBotAbuseIPDBDistinctUsers();
+    settings.abuseipdb_confidence_score = m_settings.GetSpamBotAbuseIPDBConfidenceScore();
+
+    m_spambot.Configure(settings);
+
+    if (settings.badwords_auto_download || settings.vpnips_auto_download)
+        m_spambot.DownloadAndUpdate();
+
+    TT_LOG(ACE_TEXT("SpamBot: Initialized (badwords=%s, vpnips=%s, abuse=%s, abuseipdb=%s)"),
+           settings.badwords_enabled ? ACE_TEXT("on") : ACE_TEXT("off"),
+           settings.vpnips_enabled ? ACE_TEXT("on") : ACE_TEXT("off"),
+           settings.abuse_enabled ? ACE_TEXT("on") : ACE_TEXT("off"),
+           settings.abuseipdb_enabled ? ACE_TEXT("on") : ACE_TEXT("off"));
+}
+
+void ServerGuard::OnTimerTick()
+{
+    if (!m_spambot.IsEnabled())
+        return;
+
+    m_spambot_tick_counter++;
+
+    if (m_spambot_tick_counter % 60 != 0)
+        return;
+
+    m_spambot.CleanAbuseTrackers();
+
+    const auto& s = m_spambot.GetSettings();
+
+    // expire SpamBot bans
+    if (s.ban_duration_secs > 0)
+    {
+        ACE_Time_Value const now = ACE_OS::gettimeofday();
+        ACE_Time_Value const duration(s.ban_duration_secs, 0);
+
+        auto bans = m_settings.GetUserBans();
+        for (const auto& ban : bans)
+        {
+            if (ban.owner == ACE_TEXT("SpamBot") &&
+                now > ban.bantime + duration)
+            {
+                m_settings.RemoveUserBan(ban);
+                TT_LOG(ACE_TEXT("SpamBot: Expired ban for IP: %s"),
+                       ban.ipaddr.c_str());
+            }
+        }
+    }
+
+    // periodic file downloads
+    int update_secs = 0;
+    if (s.badwords_auto_download && s.badwords_update_interval_mins > 0)
+        update_secs = s.badwords_update_interval_mins * 60;
+    if (s.vpnips_auto_download && s.vpnips_update_interval_mins > 0)
+    {
+        int const vpn_secs = s.vpnips_update_interval_mins * 60;
+        if (update_secs == 0 || vpn_secs < update_secs)
+            update_secs = vpn_secs;
+    }
+
+    if (update_secs > 0 && m_spambot_tick_counter % update_secs == 0)
+    {
+        std::thread([this]() {
+            m_spambot.DownloadAndUpdate();
+        }).detach();
+    }
+}
+
+#endif /* ENABLE_TEAMTALKPRO */

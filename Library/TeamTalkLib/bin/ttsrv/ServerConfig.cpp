@@ -711,6 +711,152 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         cout << "Certificate Authority (CA) file: " << cafile << endl;
     if (certverifypeer && (!cadir.empty()))
         cout << "Certificate Authority (CA) directory: " << cadir << endl;
+
+    // SpamBot configuration
+    cout << endl << "SpamBot - Server-side spam protection." << endl;
+    cout << "Enable SpamBot? ";
+    bool spambot_enabled = PrintGetBool(xmlSettings.GetSpamBotEnabled());
+    bool spambot_badwords = false, spambot_badwords_autodownload = false;
+    bool spambot_vpnips = false, spambot_vpnips_autodownload = false;
+    bool spambot_abuse = false, spambot_abuseipdb = false;
+    std::vector<std::string> bw_files, bw_urls;
+    std::string vpnips_file, vpnips_url, abuseipdb_key;
+    int bw_update_mins = 60, vpn_update_mins = 60;
+    int ip_login_cnt = 10, ip_joins_cnt = 10, ip_kicks_cnt = 10;
+    int abuse_dur = 60, ban_dur = 0, ipv4_pfx = 32, ipv6_pfx = 128;
+    int abuseipdb_reports = 2, abuseipdb_users = 2, abuseipdb_score = 2;
+
+    if (spambot_enabled)
+    {
+        cout << endl << "-- Bad Words Filter --" << endl;
+        cout << "Enable bad words filter? ";
+        spambot_badwords = PrintGetBool(xmlSettings.GetSpamBotBadWordsEnabled());
+        if (spambot_badwords)
+        {
+            bw_files = xmlSettings.GetSpamBotBadWordsFiles();
+            cout << "Bad words file paths (comma-separated): ";
+            {
+                std::string defaults;
+                for (size_t i = 0; i < bw_files.size(); i++)
+                {
+                    if (i > 0) defaults += ",";
+                    defaults += bw_files[i];
+                }
+                if (defaults.empty())
+                    defaults = "badwords.txt";
+                std::string const val = PrintGetString(defaults);
+                bw_files.clear();
+                std::istringstream iss(val);
+                std::string token;
+                while (std::getline(iss, token, ','))
+                {
+                    while (!token.empty() && token.front() == ' ') token.erase(token.begin());
+                    while (!token.empty() && token.back() == ' ') token.pop_back();
+                    if (!token.empty()) bw_files.push_back(token);
+                }
+            }
+
+            cout << "Auto-download bad words files? ";
+            spambot_badwords_autodownload = PrintGetBool(xmlSettings.GetSpamBotBadWordsAutoDownload());
+            if (spambot_badwords_autodownload)
+            {
+                bw_urls = xmlSettings.GetSpamBotBadWordsURLs();
+                cout << "Download URLs (comma-separated): ";
+                {
+                    std::string defaults;
+                    for (size_t i = 0; i < bw_urls.size(); i++)
+                    {
+                        if (i > 0) defaults += ",";
+                        defaults += bw_urls[i];
+                    }
+                    if (defaults.empty())
+                        defaults = "https://raw.githubusercontent.com/BearWare/TeamTalk5/master/Client/jSpamBot/src/badwords.txt";
+                    std::string const val = PrintGetString(defaults);
+                    bw_urls.clear();
+                    std::istringstream iss(val);
+                    std::string token;
+                    while (std::getline(iss, token, ','))
+                    {
+                        while (!token.empty() && token.front() == ' ') token.erase(token.begin());
+                        while (!token.empty() && token.back() == ' ') token.pop_back();
+                        if (!token.empty()) bw_urls.push_back(token);
+                    }
+                }
+                cout << "Update interval (minutes): ";
+                bw_update_mins = PrintGetInt(xmlSettings.GetSpamBotBadWordsUpdateInterval());
+            }
+        }
+
+        cout << endl << "-- VPN IP Blocking --" << endl;
+        cout << "Enable VPN IP blocking? ";
+        spambot_vpnips = PrintGetBool(xmlSettings.GetSpamBotVpnIpsEnabled());
+        if (spambot_vpnips)
+        {
+            vpnips_file = xmlSettings.GetSpamBotVpnIpsFile();
+            cout << "VPN IPs file path: ";
+            vpnips_file = PrintGetString(vpnips_file.empty() ? "vpnips.txt" : vpnips_file);
+
+            cout << "Auto-download VPN IPs file? ";
+            spambot_vpnips_autodownload = PrintGetBool(xmlSettings.GetSpamBotVpnIpsAutoDownload());
+            if (spambot_vpnips_autodownload)
+            {
+                vpnips_url = xmlSettings.GetSpamBotVpnIpsURL();
+                cout << "Download URL: ";
+                vpnips_url = PrintGetString(vpnips_url.empty() ?
+                    "https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/vpn/ipv4.txt" : vpnips_url);
+                cout << "Update interval (minutes): ";
+                vpn_update_mins = PrintGetInt(xmlSettings.GetSpamBotVpnIpsUpdateInterval());
+            }
+        }
+
+        cout << endl << "-- Abuse Detection --" << endl;
+        cout << "Enable abuse detection (login/join/kick rate limiting)? ";
+        spambot_abuse = PrintGetBool(xmlSettings.GetSpamBotAbuseEnabled());
+        if (spambot_abuse)
+        {
+            cout << "Max logins per IP within time window: ";
+            ip_login_cnt = PrintGetInt(xmlSettings.GetSpamBotIpLoginCount());
+            cout << "Max channel joins per IP within time window: ";
+            ip_joins_cnt = PrintGetInt(xmlSettings.GetSpamBotIpJoinsCount());
+            cout << "Max kicks per IP within time window: ";
+            ip_kicks_cnt = PrintGetInt(xmlSettings.GetSpamBotIpKicksCount());
+            cout << "Time window in seconds: ";
+            abuse_dur = PrintGetInt(xmlSettings.GetSpamBotAbuseDuration());
+            cout << "Ban duration in seconds (0 = permanent): ";
+            ban_dur = PrintGetInt(xmlSettings.GetSpamBotBanDuration());
+            cout << "IPv4 CIDR ban prefix (32 = single IP): ";
+            ipv4_pfx = PrintGetInt(xmlSettings.GetSpamBotIpv4BanPrefix());
+            cout << "IPv6 CIDR ban prefix (128 = single IP): ";
+            ipv6_pfx = PrintGetInt(xmlSettings.GetSpamBotIpv6BanPrefix());
+        }
+
+        cout << endl << "-- AbuseIPDB Integration --" << endl;
+        cout << "Enable AbuseIPDB IP reputation checking? ";
+        spambot_abuseipdb = PrintGetBool(xmlSettings.GetSpamBotAbuseIPDBEnabled());
+        if (spambot_abuseipdb)
+        {
+            abuseipdb_key = xmlSettings.GetSpamBotAbuseIPDBKey();
+            cout << "AbuseIPDB API key: ";
+            abuseipdb_key = PrintGetPassword(abuseipdb_key);
+            cout << "Minimum total reports threshold: ";
+            abuseipdb_reports = PrintGetInt(xmlSettings.GetSpamBotAbuseIPDBTotalReports());
+            cout << "Minimum distinct users threshold: ";
+            abuseipdb_users = PrintGetInt(xmlSettings.GetSpamBotAbuseIPDBDistinctUsers());
+            cout << "Minimum confidence score threshold: ";
+            abuseipdb_score = PrintGetInt(xmlSettings.GetSpamBotAbuseIPDBConfidenceScore());
+        }
+
+    }
+
+    cout << endl;
+    cout << "SpamBot: " << (spambot_enabled ? "enabled" : "disabled") << endl;
+    if (spambot_enabled)
+    {
+        cout << "  Bad words filter: " << (spambot_badwords ? "enabled" : "disabled") << endl;
+        cout << "  VPN IP blocking: " << (spambot_vpnips ? "enabled" : "disabled") << endl;
+        cout << "  Abuse detection: " << (spambot_abuse ? "enabled" : "disabled") << endl;
+        cout << "  AbuseIPDB: " << (spambot_abuseipdb ? "enabled" : "disabled") << endl;
+    }
 #endif
 
     int count = 0;
@@ -747,6 +893,59 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         xmlSettings.SetMaxLoginAttempts(max_login_attempts);
         xmlSettings.SetMaxLoginsPerIP(max_logins_per_ip);
         xmlSettings.SetLoginDelay(logindelay);
+
+#if defined(ENABLE_TEAMTALKPRO)
+        xmlSettings.SetSpamBotEnabled(spambot_enabled);
+        if (spambot_enabled)
+        {
+            xmlSettings.SetSpamBotBadWordsEnabled(spambot_badwords);
+            if (spambot_badwords)
+            {
+                xmlSettings.SetSpamBotBadWordsFiles(bw_files);
+                xmlSettings.SetSpamBotBadWordsAutoDownload(spambot_badwords_autodownload);
+                if (spambot_badwords_autodownload)
+                {
+                    xmlSettings.SetSpamBotBadWordsURLs(bw_urls);
+                    xmlSettings.SetSpamBotBadWordsUpdateInterval(bw_update_mins);
+                }
+            }
+
+            xmlSettings.SetSpamBotVpnIpsEnabled(spambot_vpnips);
+            if (spambot_vpnips)
+            {
+                xmlSettings.SetSpamBotVpnIpsFile(vpnips_file);
+                xmlSettings.SetSpamBotVpnIpsAutoDownload(spambot_vpnips_autodownload);
+                if (spambot_vpnips_autodownload)
+                {
+                    xmlSettings.SetSpamBotVpnIpsURL(vpnips_url);
+                    xmlSettings.SetSpamBotVpnIpsUpdateInterval(vpn_update_mins);
+                }
+            }
+
+            xmlSettings.SetSpamBotAbuseEnabled(spambot_abuse);
+            if (spambot_abuse)
+            {
+                xmlSettings.SetSpamBotIpLoginCount(ip_login_cnt);
+                xmlSettings.SetSpamBotIpJoinsCount(ip_joins_cnt);
+                xmlSettings.SetSpamBotIpKicksCount(ip_kicks_cnt);
+                xmlSettings.SetSpamBotAbuseDuration(abuse_dur);
+                xmlSettings.SetSpamBotBanDuration(ban_dur);
+                xmlSettings.SetSpamBotIpv4BanPrefix(ipv4_pfx);
+                xmlSettings.SetSpamBotIpv6BanPrefix(ipv6_pfx);
+            }
+
+            xmlSettings.SetSpamBotAbuseIPDBEnabled(spambot_abuseipdb);
+            if (spambot_abuseipdb)
+            {
+                xmlSettings.SetSpamBotAbuseIPDBKey(abuseipdb_key);
+                xmlSettings.SetSpamBotAbuseIPDBTotalReports(abuseipdb_reports);
+                xmlSettings.SetSpamBotAbuseIPDBDistinctUsers(abuseipdb_users);
+                xmlSettings.SetSpamBotAbuseIPDBConfidenceScore(abuseipdb_score);
+            }
+
+        }
+#endif
+
         xmlSettings.SaveFile();
 
         cout << "Changes saved." << endl;

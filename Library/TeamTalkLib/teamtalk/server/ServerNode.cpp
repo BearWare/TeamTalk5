@@ -568,6 +568,10 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             else
                 ++it;
         }
+
+        if (m_srvguard)
+            m_srvguard->OnTimerTick();
+
         break;
     }
     case TIMERSRV_DESKTOPACKPACKET_ID :
@@ -3679,6 +3683,10 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     if (m_rootchannel && m_rootchannel->GetSubChannelCount(true) + 1 > MAX_CHANNELS)
         return ErrorMsg(TT_CMDERR_MAX_CHANNELS_EXCEEDED);
 
+    ErrorMsg const chanErr = m_srvguard->ValidateChannelProp(chanprop);
+    if (!chanErr.Success())
+        return chanErr;
+
     //check bandwidth restriction
     if((user != nullptr) && (user->GetUserAccount().audiobpslimit != 0) &&
         GetAudioCodecBitRate(chanprop.audiocodec) > user->GetUserAccount().audiobpslimit)
@@ -4060,6 +4068,10 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
     serveruser_t const from = GetUser(msg.from_userid, nullptr);
     if (!from)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    ErrorMsg const spamErr = m_srvguard->ValidateTextMessage(msg, *from);
+    if (!spamErr.Success())
+        return spamErr;
 
     switch(msg.msgType)
     {
