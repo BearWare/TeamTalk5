@@ -23,6 +23,11 @@
 
 import UIKit
 
+class JoinCodeCell : UITableViewCell {
+    @IBOutlet weak var joincodecopyBtn: UIButton!
+    @IBOutlet weak var joincodeLabel: UILabel!
+}
+
 class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
 
     var server = Server()
@@ -130,6 +135,14 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         chpasswdfield!.autocapitalizationType = .none
         chpasswdfield!.isSecureTextEntry = true
         chanItems.append(chpasswdcell)
+        
+        if (self.server.joincode.isEmpty == false) {
+            let joincodecell = self.tableView.dequeueReusableCell(withIdentifier: "JoinCodeCopy") as! JoinCodeCell
+            joincodecell.joincodeLabel.text = self.server.joincode            
+            joincodecell.joincodecopyBtn.addTarget(self, action: #selector(copyJoinCode), for: .touchUpInside)
+            
+            actionItems.append(joincodecell)
+        }
 
         let connectcell = tableView.dequeueReusableCell(withIdentifier: "Connect Server")!
         actionItems.append(connectcell)
@@ -180,6 +193,10 @@ class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
         nicknamefield!.spellCheckingType = .no
         nicknamefield!.autocapitalizationType = .none
         authItems.append(nicknamecell)
+    }
+    
+    @objc func copyJoinCode() {
+        UIPasteboard.general.string = self.server.joincode
     }
     
     func saveServerDetail() {
