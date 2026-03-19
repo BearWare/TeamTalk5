@@ -800,6 +800,7 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     /* buffer audio sink: to terminate the filter chain. */
+#if LIBAVUTIL_VERSION_MAJOR >= 60
     aud_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, abuffersink, "out");
     if (!aud_buffersink_ctx) {
         MYTRACE(ACE_TEXT("Cannot create audio buffer sink\n"));
@@ -844,6 +845,44 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
         MYTRACE(ACE_TEXT("Cannot initialize audio buffer sink\n"));
         goto error;
     }
+#else
+    ret = avfilter_graph_create_filter(&aud_buffersink_ctx, abuffersink, "out",
+                                       nullptr, nullptr, filter_graph);
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot create audio buffer sink\n"));
+        goto error;
+    }
+
+    {
+        const enum AVSampleFormat OUT_SAMPLE_FMTS[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_fmts", OUT_SAMPLE_FMTS, -1,
+                                  AV_OPT_SEARCH_CHILDREN);
+    }
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Failed to set output sample fmt\n"));
+        goto error;
+    }
+
+    {
+        int64_t out_channel_layouts[] = { (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO), -1 };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts, -1,
+                                  AV_OPT_SEARCH_CHILDREN);
+    }
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot set output channel layout\n"));
+        goto error;
+    }
+
+    {
+        int out_sample_rates[] = { out_samplerate, -1 };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_rates", out_sample_rates, -1,
+                                  AV_OPT_SEARCH_CHILDREN);
+    }
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot set output sample rate\n"));
+        goto error;
+    }
+#endif
 
     /* Endpoints for the filter graph. */
     outputs->name       = av_strdup("in");
@@ -933,6 +972,7 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     /* buffer video sink: to terminate the filter chain. */
+#if LIBAVUTIL_VERSION_MAJOR >= 60
     vid_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, buffersink, "out");
     if (!vid_buffersink_ctx) {
         MYTRACE(ACE_TEXT("Cannot create buffer sink\n"));
@@ -955,6 +995,24 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
         MYTRACE(ACE_TEXT("Cannot initialize video buffer sink\n"));
         goto error;
     }
+#else
+    {
+        const enum AVPixelFormat PIX_FMTS[] = { output_pixfmt, AV_PIX_FMT_NONE };
+        ret = avfilter_graph_create_filter(&vid_buffersink_ctx, buffersink, "out",
+                                           nullptr, nullptr, filter_graph);
+        if (ret < 0) {
+            MYTRACE(ACE_TEXT("Cannot create buffer sink\n"));
+            goto error;
+        }
+
+        ret = av_opt_set_int_list(vid_buffersink_ctx, "pix_fmts", PIX_FMTS,
+                                  AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
+    }
+    if (ret < 0) {
+        MYTRACE(ACE_TEXT("Cannot set output pixel format\n"));
+        goto error;
+    }
+#endif
 
     /* Endpoints for the filter graph. */
     outputs->name       = av_strdup("in");

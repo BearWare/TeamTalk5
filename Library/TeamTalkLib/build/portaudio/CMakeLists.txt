@@ -38,6 +38,7 @@ if (MSVC)
     add_dependencies(portaudio portaudio-src)
   endif()
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
+  target_compile_definitions (portaudio INTERFACE PORTAUDIO_TOOLCHAIN)
   set_target_properties(portaudio PROPERTIES
     IMPORTED_LOCATION_DEBUG ${INSTALL_DIR}/lib/portaudiod.lib
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/portaudio.lib)
@@ -72,6 +73,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
     add_dependencies(portaudio portaudio-src)
   endif()
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
+  target_compile_definitions (portaudio INTERFACE PORTAUDIO_TOOLCHAIN)
   set_target_properties(portaudio PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
   target_link_libraries(portaudio INTERFACE ${CARBON_LIBRARY} ${AUDIOUNIT_LIBRARY} ${COREAUDIO_LIBRARY} ${AUDIOTOOLBOX_LIBRARY})
@@ -106,6 +108,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   find_library(PULSE_LIBRARY pulse)
 
   target_include_directories (portaudio INTERFACE ${INSTALL_DIR}/include)
+  target_compile_definitions (portaudio INTERFACE PORTAUDIO_TOOLCHAIN)
   set_target_properties(portaudio PROPERTIES
     IMPORTED_LOCATION ${INSTALL_DIR}/lib/libportaudio.a)
   target_link_libraries(portaudio INTERFACE ${ASOUND_LIBRARY} ${PULSE_LIBRARY})
