@@ -172,6 +172,9 @@
 "Connection lost" = "Verbindung unterbrochen";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Land";
 
 /* View Title */
@@ -275,6 +278,9 @@
 
 /* channel list */
 "Join channel" = "Raum betreten";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Hauptraum betreten";
@@ -635,6 +641,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Bildschirm ausschalten, wenn Telefon ans Ohr gehalten wird";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

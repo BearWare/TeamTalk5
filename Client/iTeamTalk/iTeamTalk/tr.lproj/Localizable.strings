@@ -171,6 +171,9 @@
 "Connection lost" = "Bağlantı kaybı";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Country";
 
 /* View Title */
@@ -273,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "Kanala katıl";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Kök Kanala Katıl";
@@ -632,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Telefon kulağa yakın tutulduğunda ekranı kapat";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */
