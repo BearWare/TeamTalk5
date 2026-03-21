@@ -211,11 +211,8 @@
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
 "WRa-tI-lpY.normalTitle" = "Expulsar e banir usuário";
 
-/* Class = "UIButton"; configuration.title = "Enter Join Code"; ObjectID = "wxh-6H-4XJ"; */
-"wxh-6H-4XJ.configuration.title" = "Enter Join Code";
-
-/* Class = "UIButton"; normalTitle = "Button"; ObjectID = "wxh-6H-4XJ"; */
-"wxh-6H-4XJ.normalTitle" = "Button";
+/* Class = "UIButton"; normalTitle = "Enter Join Code"; ObjectID = "wxh-6H-4XJ"; */
+"wxh-6H-4XJ.normalTitle" = "Enter Join Code";
 
 /* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
 "XmQ-1z-cFv.title" = "Configurar dispositivos de entrada";
