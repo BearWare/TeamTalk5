@@ -18,7 +18,7 @@ Android Client
 - Fixed bug where the initial volume of media files did not match the settings screen
 - Fixed using Bluetooth headset microphone on some Xiaomi firmwares
 iOS Client
-- Ukranian translation
+- Ukrainian translation
 - Easy log on to server using Join Code
 - Fixed bug where only first resolved IP-address was used for connection attempt
 Server
