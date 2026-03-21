@@ -36,6 +36,7 @@ class Server : NSObject {
     var ipaddr = ""
     var tcpport = AppInfo.DEFAULT_TCPPORT
     var udpport = AppInfo.DEFAULT_UDPPORT
+    var joincode = ""
     var nickname = ""
     var username = ""
     var password = ""
@@ -131,6 +132,8 @@ class ServerListViewController : UITableViewController,
     var servers = [Server]()
     
     var nextappupdate = Date()
+    
+    let ROW_OFFSET = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -291,7 +294,7 @@ class ServerListViewController : UITableViewController,
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return servers.count + 1 /* join code button */
+        return servers.count + ROW_OFFSET /* join code button */
     }
     
     fileprivate func createServerCell(_ tableView: UITableView, _ indexPath: IndexPath, _ serverIndex: Int) -> UITableViewCell {
@@ -334,7 +337,7 @@ class ServerListViewController : UITableViewController,
     }
     
     fileprivate func createJoinCodeCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinCodeCell", for: indexPath)
+        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinCodeCell")!
         return cell
     }
     
@@ -342,7 +345,7 @@ class ServerListViewController : UITableViewController,
         if indexPath.row == 0 {
             return createJoinCodeCell(tableView, indexPath)
         }
-        return createServerCell(tableView, indexPath, indexPath.row - 1)
+        return createServerCell(tableView, indexPath, indexPath.row - ROW_OFFSET)
     }
 
     @objc @available(iOS 8.0, *)
@@ -372,8 +375,11 @@ class ServerListViewController : UITableViewController,
                                       preferredStyle: .alert)
         alert.addTextField {
             textField in
-            textField.placeholder = "Type Join Code"
+            textField.placeholder = NSLocalizedString("Type Join Code", comment: "serverlist")
             textField.autocorrectionType = .no
+            if let clipboardText = UIPasteboard.general.string {
+                textField.text = clipboardText
+            }
         }
         
         // Add an "OK" action
@@ -394,7 +400,7 @@ class ServerListViewController : UITableViewController,
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Server" {
             let index = self.tableView.indexPathForSelectedRow
-            currentServer = servers[index!.row]
+            currentServer = servers[index!.row - ROW_OFFSET]
             let serverDetail = segue.destination as! ServerDetailViewController
             serverDetail.server = currentServer
         }
@@ -625,6 +631,8 @@ class ServerParser : NSObject, XMLParserDelegate {
             currentServer.udpport = Int(v)!
         case "encrypted" :
             currentServer.encrypted = string == "true"
+        case "joincode" :
+            currentServer.joincode = string
         case "listing" :
             if string == "official" {
                 currentServer.servertype = .OFFICIAL
