@@ -170,6 +170,9 @@
 "Connection lost" = "Mistet serverforbindelse";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Land";
 
 /* View Title */
@@ -272,6 +275,9 @@
 
 /* channel list */
 "Join channel" = "Skift til kanal";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Skift til Rodkanalen";
@@ -629,6 +635,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Sluk for skærm når telefonen holdes tæt ved øret";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

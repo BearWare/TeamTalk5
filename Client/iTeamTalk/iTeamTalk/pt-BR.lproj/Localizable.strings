@@ -171,6 +171,9 @@
 "Connection lost" = "Conexão caiu";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "País";
 
 /* View Title */
@@ -273,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "Entrar no canal";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Entrar no canal inicial";
@@ -632,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Desligar a tela ao aproximar o telefone do ouvido";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

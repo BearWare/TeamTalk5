@@ -172,6 +172,9 @@
 "Connection lost" = "Mất kết nối";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Quốc gia";
 
 /* View Title */
@@ -275,6 +278,9 @@
 
 /* server entry */
 "Join Channel" = "Tham gia kênh";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Tham gia kênh gốc";
@@ -635,6 +641,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Tắt màn hình khi để điện thoại gần tai";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

@@ -171,6 +171,9 @@
 "Connection lost" = "Sambungan terputus";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Negara";
 
 /* View Title */
@@ -273,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "Masuk saluran";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Masuk ke Saluran Utama";
@@ -632,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon menghampiri telinga";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

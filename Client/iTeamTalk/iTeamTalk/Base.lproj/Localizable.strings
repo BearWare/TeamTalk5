@@ -767,3 +767,12 @@
 
 /* serverlist */
 "No server found" = "No server found";
+
+/* server entry */
+"Copy" = "Copy";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";

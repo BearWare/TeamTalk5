@@ -171,6 +171,9 @@
 "Connection lost" = "연결 끊김";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "국가";
 
 /* View Title */
@@ -273,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "채널 입장";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "최상위 채널 입장";
@@ -632,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "iPhone을 귀 근처로 가져가면 자동으로 화면 꺼짐";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */
