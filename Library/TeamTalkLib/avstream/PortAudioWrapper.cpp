@@ -211,7 +211,9 @@ bool PortAudio::GetDefaultDevices(SoundAPI sndsys, int& inputdeviceid,
         hostapiIndex = Pa_HostApiTypeIdToHostApiIndex(paWDMKS);
         break;
     case SOUND_API_PULSEAUDIO :
+#if defined(PORTAUDIO_TOOLCHAIN)
         hostapiIndex = Pa_HostApiTypeIdToHostApiIndex(paPulseAudio);
+#endif
         break;
     case SOUND_API_OPENSLES_ANDROID :
     case SOUND_API_AUDIOUNIT :
@@ -244,7 +246,11 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
             continue;
 
         DeviceInfo device;
+#if defined(PORTAUDIO_TOOLCHAIN)
         device.devicename = Utf8ToUnicode(devinfo->name);
+#else
+        device.devicename = devinfo->name;
+#endif
         device.soundsystem = GetSoundSystem(devinfo);
         device.id = i;
         device.max_input_channels = devinfo->maxInputChannels;
@@ -264,10 +270,12 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo*  devinfo, soundsystem::D
 {
     device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
 
-#if defined(WIN32)
+#if defined(WIN32) && defined(PORTAUDIO_TOOLCHAIN)
     if (devinfo->uniqueID)
         device.deviceid = Utf8ToUnicode(devinfo->uniqueID);
+#endif
 
+#if defined(WIN32)
     // CWMAudioAECCapture
     if (device.soundsystem == SOUND_API_WASAPI && device.input_channels.size())
     {
@@ -388,8 +396,10 @@ SoundAPI PortAudio::GetSoundSystem(const PaDeviceInfo* devinfo)
         return SOUND_API_WASAPI;
     else if(devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paWDMKS))
         return SOUND_API_WDMKS;
+#if defined(PORTAUDIO_TOOLCHAIN)
     else if (devinfo->hostApi == Pa_HostApiTypeIdToHostApiIndex(paPulseAudio))
         return SOUND_API_PULSEAUDIO;
+#endif
 
     return SOUND_API_NOSOUND;
 }

@@ -45,13 +45,21 @@ jobs:
            libace-inet-dev
            libace-inet-ssl-dev
            libace-ssl-dev
+           libavcodec-dev
+           libavdevice-dev
+           libavfilter-dev
+           libavformat-dev
+           libavutil-dev
            libminiupnpc-dev
            libogg-dev
            libopus-dev
+           libswresample-dev
+           libswscale-dev
            libspeex-dev
            libspeexdsp-dev
            libtinyxml2-dev
            libvpx-dev
+           portaudio19-dev
            valgrind
 
     - name: Configure CMake
@@ -59,14 +67,15 @@ jobs:
       run: >-
            cmake -S TeamTalk5 -B output -G Ninja
            -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
-           -DFEATURE_PORTAUDIO=OFF
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
+           -DTOOLCHAIN_FFMPEG=OFF
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_MINIUPNPC=OFF
            -DTOOLCHAIN_OGG=OFF
            -DTOOLCHAIN_OPENSSL=OFF
            -DTOOLCHAIN_OPUS=OFF
+           -DTOOLCHAIN_PORTAUDIO=OFF
            -DTOOLCHAIN_SPEEX=OFF
            -DTOOLCHAIN_SPEEXDSP=OFF
            -DTOOLCHAIN_TINYXML2=OFF
