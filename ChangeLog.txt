@@ -14,6 +14,7 @@ Default Qt Client
 - Fixed bug where all servers with same name was deleted on server deletion
 - Updated Qt to 6.10.2 on Windows and macOS
 Android Client
+- Minimum supported Android version is now 6.0 (Marshmallow)
 - Easy log on to server using Join Code
 - Fixed bug where TeamTalk would crash when entering TTS settings
 - Fixed bug where the initial volume of media files did not match the settings screen
