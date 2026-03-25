@@ -8,13 +8,13 @@
 "0QA-gn-V1p.text" = "空白";
 
 /* Class = "UIButton"; normalTitle = "Copy"; ObjectID = "0Zd-t9-MPI"; */
-"0Zd-t9-MPI.normalTitle" = "Copy";
+"0Zd-t9-MPI.normalTitle" = "复制";
 
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "发送";
 
 /* Class = "UILabel"; text = "Join Code"; ObjectID = "3ZB-ZM-KqH"; */
-"3ZB-ZM-KqH.text" = "Join Code";
+"3ZB-ZM-KqH.text" = "加入码";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityHint" = "发送私人消息";
@@ -200,7 +200,7 @@
 "VWP-v4-bY8.title" = "选择语音";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w2Q-QY-g8c"; */
-"w2Q-QY-g8c.text" = "Blank";
+"w2Q-QY-g8c.text" = "空白";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "空白";
