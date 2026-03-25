@@ -8,16 +8,16 @@
     <string name="title_activity_server_entry">Propiedades del servidor</string>
     <string name="title_activity_main">TeamTalk 5 para Android</string>
     <string name="title_section_channels">Canales</string>
-    <string name="title_section_chat">Chat</string>
-    <string name="title_section_media">Media</string>
+    <string name="title_section_Chat">Chat</string>
+    <string name="title_section_Media">Media</string>
     <string name="title_section_files">Archivos</string>
     <string name="title_activity_channel_prop">Propiedades del canal</string>
-    <string name="title_activity_user_prop">Propiedades de usuario</string>
+    <string name="title_activity_user_prop">Propiedades del usuario</string>
     <string name="title_activity_text_message">Mensaje de texto</string>
     <string name="title_activity_preferences">Preferencias</string>
     <string name="title_activity_stream_media">Transmitir medio al canal</string>
-    <string name="action_createchannel">Crear</string>
-    <string name="action_updatechannel">Actualizar</string>
+    <string name="action_createchannel">Crear canal</string>
+    <string name="action_updatechannel">Actualizar canal</string>
     <string name="text_con_encryption_error">Error de encriptación: %1$s</string>
     <string name="text_con_failed">No se pudo conectar al servidor. Reintentando...</string>
     <string name="text_con_lost">Conexión perdida</string>
@@ -31,22 +31,25 @@
     <string name="text_cmd_leftroot">Salió del canal raíz</string>
     <string name="text_cmd_userjoinchan">Se unió al canal</string>
     <string name="text_cmd_userleftchan">salió del canal</string>
-    <string name="text_cmd_userloggedout">A salido</string>
-    <string name="text_cmd_userloggedin">A entrado</string>
+    <string name="text_cmd_userloggedout">Ha salido</string>
+    <string name="text_cmd_userloggedin">Ha entrado</string>
+    <string name="text_cmd_servername">Nombre del servidor: </string>
+    <string name="text_cmd_servermotd">Mensaje del día: </string>
     <string name="pref_cat_subscriptions">Suscripciones</string>
     <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Texto a voz</string>
     <string name="pref_cat_tts_events">Eventos de texto a voz</string>
     <string name="pref_cat_tts_transmission">Eventos de  transmisión</string>
     <string name="pref_cat_tts_subscription">Eventos de suscripción</string>
+    <string name="pref_cat_soundtest">Prueba de sonido</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Apodo</string>
     <string name="pref_title_statusmsg">Mensaje de estado</string>
     <string name="pref_default_nickname">Sin nombre</string>
-    <string name="pref_title_proximity_sensor">Usar Sensor de proximidad</string>
+    <string name="pref_title_proximity_sensor">Usar sensor de proximidad</string>
     <string name="pref_title_keep_screen_on">Mantener la pantalla encendida al conectarse</string>
     <string name="pref_title_vibrate">Vibrar al presionar para hablar</string>
-    <string name="pref_show_log_messages">Ver mensajes de conexión en el historial</string>
+    <string name="pref_show_log_messages">Mostrar mensajes de conexión en el historial</string>
     <string name="pref_title_audio_icons">Eventos de sonido</string>
     <string name="pref_title_rx_tx_audio_icon">Activación por voz</string>
     <string name="pref_summary_rx_tx_audio_icon">Reproducir el sonido cuando se presione el botón TX</string>
@@ -77,10 +80,10 @@
     <string name="pref_summary_auto_join_root">Se unirá automáticamente al canal raíz al conectarse</string>
     <string name="pref_title_sub_txtmsg">Mensajes privados</string>
     <string name="pref_summary_sub_txtmsg">Suscribirse a mensajes privados</string>
-    <string name="pref_title_sub_chanmsg">mensaje en el canal</string>
+    <string name="pref_title_sub_chanmsg">Mensaje en el canal</string>
     <string name="pref_summary_sub_chanmsg">Suscríbase a los mensajes de texto del canal</string>
-    <string name="pref_title_sub_bcastmsg">mensajes de difución</string>
-    <string name="pref_summary_sub_bcastmsg">Suscribirse a mensajes de texto de difución</string>
+    <string name="pref_title_sub_bcastmsg">Mensajes de difusión</string>
+    <string name="pref_summary_sub_bcastmsg">Suscribirse a mensajes de texto de difusión</string>
     <string name="pref_title_sub_voice">Voz</string>
     <string name="pref_summary_sub_voice">Suscribirse a transmisiones de voz</string>
     <string name="pref_title_sub_video">Captura de video</string>
@@ -92,18 +95,18 @@
     <string name="pref_header_tts">Texto a voz</string>
     <string name="pref_title_speech_engine">Selección de motor de  voz</string>
     <string name="pref_summary_speech_engine">Selecciona uno de los sintetizadores de voz instalados, diferente de la configuración del sistema</string>
-    <string name="pref_title_a11y_volume">Use accessibility stream volume</string>
-    <string name="pref_summary_a11y_volume">Reproducir la voz desde el volumen de accesibilidad</string>
+    <string name="pref_title_a11y_volume">Usar volumen de accesibilidad</string>
+    <string name="pref_summary_a11y_volume">Reproduce la voz desde el volumen de accesibilidad</string>
     <string name="pref_title_use_announcements">Anunciar los eventos mediante el servicio de accesibilidad en ejecución</string>
     <string name="pref_summary_use_announcements">Los mensajes se anunciarán a través del servicio de accesibilidad en ejecución</string>
     <string name="pref_title_server_login">El usuario ha entrado al servidor</string>
-    <string name="pref_summary_server_login">Anuncia el nombre del usuario que entró al servidor</string>
+    <string name="pref_summary_server_login">Anuncia el nombre del usuario que ha entrado al servidor</string>
     <string name="pref_title_server_logout">El usuario sale del servidor</string>
-    <string name="pref_summary_server_logout">Anuncia el nombre del usuario que sale del servidor</string>
+    <string name="pref_summary_server_logout">Anuncia el nombre del usuario que ha salido del servidor</string>
     <string name="pref_title_channel_join">El usuario se une al canal</string>
-    <string name="pref_summary_channel_join">Anuncia el nombre del usuario que se unió al canal</string>
+    <string name="pref_summary_channel_join">Anuncia el nombre del usuario que se ha unido al canal</string>
     <string name="pref_title_channel_leave">El usuario sale del canal</string>
-    <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que sale del canal</string>
+    <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que ha salido del canal</string>
     <string name="pref_title_private_message">Mensajes privados</string>
     <string name="pref_summary_private_message">Anunciar al resivir mensajes privados</string>
     <string name="pref_title_channel_message">Mensajes del canal recibidos</string>
@@ -115,7 +118,7 @@
     <string name="pref_title_subscription_channel_msg">Suscripción a mensajes del canal</string>
     <string name="pref_summary_subscription_channel_msg">Anuncia el cambio de suscripción a mensajes del canal</string>
     <string name="pref_title_subscription_broadcast_msg">Suscripción de mensajes de difusión</string>
-    <string name="pref_summary_subscription_broadcast_msg">Anuncia el camvio de suscripción a mensajes de difusión.</string>
+    <string name="pref_summary_subscription_broadcast_msg">Anuncia el camvio de suscripción a mensajes de difusión</string>
     <string name="pref_title_subscription_voice">Suscripción de voz</string>
     <string name="pref_summary_subscription_voice">Anuncia el cambio de Suscripción de voz</string>
     <string name="pref_title_subscription_vid">Suscripción de video</string>
@@ -156,13 +159,15 @@
     <string name="pref_summary_bearwareid">Configurar inicio de sesión web de BearWare.dk</string>
 
     <string name="pref_title_mediafile_volume">Volumen de medios</string>
-    <string name="pref_summary_mediafile_volume">Volumen de medios vs. volumen de voz</string>
+    <string name="pref_summary_mediafile_volume">Volumen de medios</string>
     <string name="pref_title_speakerphone_checkbox">Activar altavoces</string>
     <string name="pref_summary_speakerphone_checkbox">Activar el altavoz del teléfono</string>
     <string name="pref_title_bluetooth_headset_checkbox">Usar micrófono de auriculares Bluetooth</string>
     <string name="pref_summary_bluetooth_headset_checkbox">Cuando los auriculares Bluetooth estén conectados, utiliza el micrófono incorporado en ellos</string>
     <string name="pref_title_voice_processing_checkbox">Habilitar cancelación de eco</string>
     <string name="pref_summary_voice_processing_checkbox">Elimina el eco de altavoces cercanos</string>
+    <string name="pref_title_public_servers">Mostrar servidores públicos</string>
+    <string name="pref_summary_public_servers">Incluir servidores públicos en la lista de servidores</string>
 
     <string name="text_tts_loggedin">Ha entrado</string>
     <string name="text_tts_loggedout">Ha salido</string>
@@ -173,7 +178,7 @@
     <string name="text_tts_broadcast_message">Mensaje de difusión de %1$s - %2$s</string>
     <string name="text_tts_subscription_user_msg_changed">Cambió la suscripción mensajes privados a:</string>
     <string name="text_tts_subscription_channel_msg_changed">Cambió la suscripción mensajes del canal a:</string>
-    <string name="text_tts_subscription_broadcast_msg_changed">Cambió la suscripción mensajes de difución a:</string>
+    <string name="text_tts_subscription_broadcast_msg_changed">Cambió la suscripción mensajes de difusión a:</string>
     <string name="text_tts_subscription_voice_changed">Cambió la suscripción  de voz a:</string>
     <string name="text_tts_subscription_vid_changed">Cambió la suscripción  de video a:</string>
     <string name="text_tts_subscription_desk_changed">Cambió la suscripción  de escritorio a:</string>
@@ -199,6 +204,7 @@
     <string name="text_tts_transmit_name_everyone">Todo el mundo</string>
     <string name="pref_header_soundsystem">Sistema de sonido</string>
     <string name="title_activity_audio_codec">Códec de audio</string>
+    <string name="title_activity_filepicker">Selección de archivos</string>
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
@@ -206,14 +212,15 @@
     <string name="opus_application">Aplicación</string>
 
     <string name="button_tx">Transmitir</string>
-    <string name="button_remove">quitar</string>
+    <string name="button_remove">Eliminar</string>
+    <string name="button_edit">Editar</string>
     <string name="action_banchan">Banear del canal</string>
     <string name="action_bansrv">Banear del servidor</string>
     <string name="action_edit">Editar canal</string>
     <string name="action_join">Unirse</string>
     <string name="action_leave">Salir del canal</string>
-    <string name="action_edituser">Propiedades de usuario</string>
-    <string name="action_message">Mensaje</string>
+    <string name="action_edituser">Propiedades del usuario</string>
+    <string name="action_message">Enviar mensaje privado</string>
     <string name="action_kickchan">Expulsar del canal</string>
     <string name="action_kicksrv">Expulsar del servidor</string>
     <string name="action_move">Mover aquí</string>
@@ -221,7 +228,7 @@
     <string name="action_deselect">Deseleccionar para mover</string>
     <string name="action_exportsrv">Exportar servidor</string>
     <string name="action_editsrv">Editar servidor</string>
-    <string name="action_removesrv">Quitar servidor</string>
+    <string name="action_removesrv">Eliminar servidor</string>
     <string name="action_upload">Cargar archivo</string>
     <string name="action_broadcast">Mensaje de difusión</string>
     <string name="action_stream">Transmitir medio</string>
@@ -230,7 +237,7 @@
     <string name="button_msg">Mensaje</string>
     <string name="button_send">Enviar</string>
 
-    <string name="channel_prop_title_name">Nombre del Canal</string>
+    <string name="channel_prop_title_name">Nombre del canal</string>
     <string name="channel_prop_title_topic">Tema</string>
     <string name="channel_prop_title_password">Contraseña</string>
     <string name="channel_prop_title_op_password">Contraseña de operador</string>
@@ -250,9 +257,10 @@
     <string name="user_prop_title_userid">ID de usuario:</string>
     <string name="user_prop_title_statusmsg">Mensaje de estado:</string>
     <string name="user_prop_title_clientname">Nombre del cliente:</string>
+    <string name="user_prop_clientversion">Versión del cliente</string>
     <string name="user_prop_title_ipaddress">Dirección IP:</string>
     <string name="user_prop_title_voice_volume">Volumen de voz</string>
-    <string name="user_prop_title_mute_voice">Silenciar voz.</string>
+    <string name="user_prop_title_mute_voice">Silenciar voz</string>
     <string name="user_prop_title_media_volume">Volumen de medios</string>
     <string name="user_prop_title_mute_media">Silenciar medios</string>
     <string name="user_prop_title_subscribe_txtmsg">Suscripción de mensajes privados</string>
@@ -279,8 +287,12 @@
     <string name="stat_offline">Desconectado</string>
     <string name="stat_connecting">Conexión</string>
     <string name="stat_unauthorized">No autorizado</string>
+    <string name="label_voice">Voz:</string>
+    <string name="label_desktop">Escritorio:</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
+    <string name="label_total">Total:</string>
+    <string name="label_mediafile">Medios:</string>
     <string name="default_">Por defecto</string>
 
     <string name="server_list_empty">La lista de servidores está vacía</string>
@@ -290,6 +302,7 @@
     <string name="time_date">Fecha y hora</string>
     <string name="name">Nombre</string>
 
+    <string name="err_init_sound_input">No se pudo iniciar el dispositivo de entrada de sonido</string>
     <string name="err_init_sound_output">No se pudo iniciar el dispositivo de salida de sonido</string>
     <string name="err_retrieve_public_server_list">Error al cargar la lista de servidores públicos</string>
     <string name="err_send_text_message">Error al enviar el mensaje</string>
@@ -300,12 +313,18 @@
     <string name="action_save">Guardar</string>
     <string name="action_connect">Conectar</string>
     <string name="action_new_server">Nuevo servidor</string>
-    <string name="action_refresh">Actualizar</string>
+    <string name="action_refresh">Actualizar la lista de servidores</string>
     <string name="action_import_serverlist">Importar desde un archivo .tt</string>
     <string name="action_export_serverlist">Exportar lista de servidores a un archivo .tt</string>
+    <string name="action_enter_joincode">Ingrese el código de unión</string>
+    <string name="text_specify_joincode">Introduzca el código de acceso al servidor</string>
+    <string name="err_enter_joincode">Código de acceso al servidor incorrecto</string>
+    <string name="pref_title_joincode">Código de acceso para inicio de sesión fácil</string>
+    <string name="text_joincode">Código de acceso</string>
     <string name="serverlist_export_confirmation">La lista de servidores ha sido exportada a %1$s</string>
     <string name="server_export_confirmation">El servidor ha sido exportado a %1$s</string>
 
+    <string name="pref_title_server_props">Propiedades del servidor </string>
     <string name="pref_title_server_info">Información del servidor</string>
     <string name="pref_title_server_name">Nombre del servidor</string>
     <string name="pref_title_server_address">Nombre de dominio o dirección IP</string>
@@ -320,6 +339,9 @@
     <string name="pref_title_channel">Canal</string>
     <string name="pref_title_channel_password">Contraseña del canal</string>
     <string name="pref_title_last_channel">Último canal al que te has unido</string>
+
+    <string name="pref_summary_server_name">Este servidor aparecerá con este nombre en la lista de servidores</string>
+    <string name="pref_summary_server_address">El nombre de dominio o la dirección IP del servidor</string>
 
     <string name="channel_password_prompt">Ingrese la contraseña del canal</string>
     <string name="button_download">Descargar</string>
@@ -342,7 +364,7 @@
     <string name="remote_file_remove_confirmation">¿Realmente deseas eliminar el archivo %1$s de este canal?</string>
     <string name="server_remove_confirmation">¿Realmente deseas eliminar %1$s de la lista de servidores?</string>
     <string name="channel_remove_confirmation">Realmente deseas eliminar el canal %1$s?</string>
-    <string name="ban_confirmation"> %1$s?</string>
+    <string name="ban_confirmation">¿Realmente deseas banear al usuario %1$s?</string>
     <string name="kick_confirmation">Realmente deseas expulsar al usuario %1$s?</string>
     <string name="version_update">Nueva versión de TeamTalk disponible: %1$s?</string>
     <string name="opusbitrate">Tasa de bits</string>
@@ -358,6 +380,8 @@
     <string name="voxlevel">Nivel de activación por voz</string>
     <string name="speaker_mute">Silenciar altavoces</string>
     <string name="speaker_unmute">Activar altavoces</string>
+    <string name="mic_mute">Micrófono desactivado</string>
+    <string name="mic_unmute">Micrófono activado</string>
     <string name="speaker_volume_description">El volumen del altavoz es %1$s</string>
     <string name="mic_gain_description">La ganancia del micrófono es %1$s</string>
     <string name="voice_activation_on">Encender activación por voz</string>
@@ -381,9 +405,9 @@
     <string name="text_officialserver">Servidor oficial</string>
     <string name="text_unofficialserver">Servidor no oficial</string>
     <string name="text_passwdprot">Privado, </string>
-    <string name="text_translator">Traducido por Damián Echevarría. Colaborador: Ulises Salguero</string>
+    <string name="text_translator">Traducido por Damián Echevarría.</string>
     <string name="desktop_image">Imagen de escritorio</string>
-    <string name="channel_change_alert">Todas las transferencias activas se detendrán al cambiar de canal</string>
+    <string name="channel_change_alert">Todas las transferencias activas se detendrán al salir del canal</string>
     <string name="disconnect_alert">Todas las transferencias activas se detendrán al salir del servidor</string>
 
     <string name="err_invalid_username">Nombre de usuario inválido</string>
@@ -448,6 +472,7 @@
     <string name="bwpswlab">Contraseña:</string>
     <string name="ttversion">TeamTalk v</string>
     <string name="ttdllversion">TeamTalk DLL v</string>
+    <string name="pref_title_bearware_summary">Marcar solo si este servidor ha habilitado el inicio de sesión web de BearWare.dk</string>
     <string name="pref_cat_about">Acerca de</string>
     <string name="pref_title_contrib">Desarrolladores</string>
     <string name="pref_title_translator">Traductor</string>
@@ -455,9 +480,9 @@
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
     <string name="pref_title_gender">Género</string>
     <string name="pref_summary_gender">Seleccionar para género femenino</string>
-    <string name="user_state_away">Ausente</string>
-    <string name="user_state_operator">Operador del canal</string>
-    <string name="user_state_selected">Seleccionado para mover, </string>
+    <string name="user_state_away">Ausente -</string>
+    <string name="user_state_operator">Operador del canal -</string>
+    <string name="user_state_selected">Seleccionado para mover -</string>
     <string name="pref_title_userloggedin_icon">Usuario conectado</string>
     <string name="pref_summary_userloggedin_icon">Reproducir sonido cuando un usuario entra al servidor</string>
     <string name="pref_title_userloggedoff_icon">Usuario desconectado</string>
@@ -467,6 +492,7 @@
     <string name="pref_title_channel_message_sent">Mensajes enviados al canal</string>
     <string name="pref_summary_channel_message_sent">Anunciar mensajes enviados en el canal</string>
     <string name="text_tts_channel_message_sent">Mensaje enviado al canal: %1$s</string>
+    <string name="err_text_length">El mensaje excedió la longitud por %1$d caracteres</string>
     <string name="pref_summary_official_servers">Incluir servidores oficiales en la lista de servidores</string>
     <string name="pref_title_official_servers">Mostrar servidores oficiales</string>
     <string name="pref_summary_unofficial_servers">Incluir servidores no oficiales en la lista de servidores</string>
@@ -492,4 +518,5 @@
     <string name="online_user_info_channel">Canal</string>
     <string name="online_user_info_ip">Dirección IP</string>
     <string name="online_user_info_client">Cliente</string>
+    <string name="text_copy">Copiar</string>
 </resources>
