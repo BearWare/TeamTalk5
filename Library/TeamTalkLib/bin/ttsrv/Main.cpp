@@ -162,9 +162,6 @@ static bool daemon_mode = false;
 static bool nondaemon = false;
 static int rxloss = 0, txloss = 0;
 static bool cleanfiles = false;
-static bool upnp_enabled = false;
-static uint16_t upnp_tcpport = 0;
-static uint16_t upnp_udpport = 0;
 
 //setting files
 static ServerXML xmlSettings(TEAMTALK_XML_ROOTNAME);
@@ -267,7 +264,7 @@ static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
     int log_check = 0;
     int upnp_check = 0;
     ACE_Time_Value tm(10,0);
-    while(tcpReactor->handle_events(tm) >= 0)
+    while (tcpReactor->handle_events(tm) >= 0)
     {
         if (++log_check % 10 == 0 && xmlSettings.GetServerLogMaxSize() > 0 &&
             logstream.tellp() >= xmlSettings.GetServerLogMaxSize())
@@ -275,13 +272,14 @@ static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
             RotateLogfile(workdir, logfile.c_str(), logstream);
         }
 
-        if (upnp_enabled && ++upnp_check >= 60)
+        if (xmlSettings.GetUPnP() && ++upnp_check >= 60)
         {
             upnp_check = 0;
-            if (!UPnP_RenewPortMapping(upnp_tcpport, upnp_udpport))
+            if (!UPnP_RenewPortMapping(tcpport, udpport))
             {
+                UPnP_RemovePortMapping(tcpport, udpport);
                 std::string externalIP;
-                UPnP_AddPortMapping(upnp_tcpport, upnp_udpport, externalIP);
+                UPnP_AddPortMapping(tcpport, udpport, externalIP);
             }
         }
 
@@ -364,18 +362,28 @@ int RunServer(
     prop.txloss = txloss;
 
     //check for override options
-    if(tcpport > 0)
+    if (tcpport > 0)
     {
         ACE_INET_Addr const addr((u_short)tcpport, (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
         prop.tcpaddrs.clear();
         prop.tcpaddrs.push_back(addr);
     }
-    if(udpport > 0)
+    else
+    {
+        tcpport = prop.tcpaddrs.front().get_port_number();
+    }
+
+    if (udpport > 0)
     {
         ACE_INET_Addr const addr((u_short)udpport, (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
         prop.udpaddrs.clear();
         prop.udpaddrs.push_back(addr);
     }
+    else
+    {
+        udpport = prop.udpaddrs.front().get_port_number();
+    }
+
     if(!bindip.empty())
     {
         ACE_INET_Addr const tcpaddr((!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_port_number() : tcpport, bindip.c_str());
@@ -430,16 +438,13 @@ int RunServer(
     
     if (xmlSettings.GetUPnP())
     {
-        upnp_tcpport = prop.tcpaddrs[0].get_port_number();
-        upnp_udpport = prop.udpaddrs[0].get_port_number();
         std::string externalIP;
-        if (UPnP_AddPortMapping(upnp_tcpport, upnp_udpport, externalIP))
+        if (UPnP_AddPortMapping(tcpport, udpport, externalIP))
         {
-            upnp_enabled = true;
             ACE_TCHAR msg[256];
             ACE_OS::snprintf(msg, 256,
                 ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %hs"),
-                (int)upnp_tcpport, (int)upnp_udpport, externalIP.c_str());
+                (int)tcpport, (int)udpport, externalIP.c_str());
             TT_LOG(msg);
         }
         else
@@ -525,10 +530,9 @@ int RunServer(
 
     ACE_LOG_MSG->set_flags(ACE_Log_Msg::STDERR);
 
-    if (upnp_enabled)
+    if (xmlSettings.GetUPnP())
     {
-        UPnP_RemovePortMapping(upnp_tcpport, upnp_udpport);
-        upnp_enabled = false;
+        UPnP_RemovePortMapping(tcpport, udpport);
     }
 
     servernode.StopServer();
