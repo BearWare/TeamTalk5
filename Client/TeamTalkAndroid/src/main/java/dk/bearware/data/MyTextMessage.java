@@ -26,6 +26,8 @@ package dk.bearware.data;
 import java.nio.charset.StandardCharsets;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Vector;
 
 import dk.bearware.Constants;
@@ -39,12 +41,7 @@ public class MyTextMessage extends TextMessage {
     public Date time = Calendar.getInstance().getTime();
     
     public MyTextMessage(TextMessage msg, String name) {
-        this.nChannelID = msg.nChannelID;
-        this.nFromUserID = msg.nFromUserID;
-        this.nMsgType = msg.nMsgType;
-        this.nToUserID = msg.nToUserID;
-        this.szFromUsername = msg.szFromUsername;
-        this.szMessage = msg.szMessage;
+        super(msg);
         this.szNickName = name;
     }
 
@@ -97,6 +94,34 @@ public class MyTextMessage extends TextMessage {
         newmsg.szMessage = remain.substring(curlen);
         result.addAll(newmsg.split());
         return result;
+    }
+
+    public static void merge(Vector<MyTextMessage> msgs) {
+        Map<Integer, Vector<MyTextMessage> > mergemsgs = new HashMap<>();
+        Vector<MyTextMessage> removemsgs = new Vector<>();
+        for (MyTextMessage m : msgs) {
+            int key = (m.nMsgType << 16) | m.nFromUserID;
+            Vector<MyTextMessage> moremessages = mergemsgs.get(key);
+            if (m.bMore) {
+                if (moremessages == null) {
+                    moremessages = new Vector<>();
+                    mergemsgs.put(key, moremessages);
+                }
+                moremessages.add(m);
+            }
+            else if (moremessages != null)  {
+                String content = "";
+                for (MyTextMessage moremessage : moremessages) {
+                    content += moremessage.szMessage;
+                    removemsgs.add(moremessage);
+                }
+                m.szMessage = content + m.szMessage;
+                mergemsgs.remove(key);
+            }
+        }
+        for (MyTextMessage m : removemsgs) {
+            msgs.remove(m);
+        }
     }
     
     public static final int MSGTYPE_LOG_INFO    = 0x80000000;
