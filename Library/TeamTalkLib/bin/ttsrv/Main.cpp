@@ -252,7 +252,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
     return exitcode;
 }
 
-static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor, 
+static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
                   const ACE_TString& workdir)
 {
     int const ret = ACE_Thread_Manager::instance ()->spawn(EventLoop, udpReactor);
@@ -435,7 +435,7 @@ int RunServer(
         TT_SYSLOG(error_msg);
         return -1;
     }
-    
+
     if (xmlSettings.GetUPnP())
     {
         std::string externalIP;
@@ -443,7 +443,7 @@ int RunServer(
         {
             ACE_TCHAR msg[256];
             ACE_OS::snprintf(msg, 256,
-                ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %hs"),
+                ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
                 (int)tcpport, (int)udpport, externalIP.c_str());
             TT_LOG(msg);
         }
@@ -454,12 +454,11 @@ int RunServer(
     }
 
     TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
-        if(!verbose)
-            ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
+    if(!verbose)
+        ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
 
-        //don't write server events to syslog
-        ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SYSLOG);
-   
+    //don't write server events to syslog
+    ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SYSLOG);
 
 #if defined(BUILD_NT_SERVICE)
     SetConsoleCtrlHandler(ControlHandler, TRUE);
