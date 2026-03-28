@@ -3,8 +3,32 @@ name: macOS
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/macos.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/ttserverlog/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Server/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/macos.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/ttserverlog/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Server/**'
 
 env:
   # TeamTalk unit test environment variables
@@ -16,7 +40,6 @@ env:
 
 jobs:
   build:
-    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-macos')"
     runs-on: macos-latest
 
     steps:
