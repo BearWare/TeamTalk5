@@ -8,8 +8,8 @@
     <string name="title_activity_server_entry">Propiedades del servidor</string>
     <string name="title_activity_main">TeamTalk 5 para Android</string>
     <string name="title_section_channels">Canales</string>
-    <string name="title_section_Chat">Chat</string>
-    <string name="title_section_Media">Media</string>
+    <string name="title_section_chat">Chat</string>
+    <string name="title_section_media">Media</string>
     <string name="title_section_files">Archivos</string>
     <string name="title_activity_channel_prop">Propiedades del canal</string>
     <string name="title_activity_user_prop">Propiedades del usuario</string>
