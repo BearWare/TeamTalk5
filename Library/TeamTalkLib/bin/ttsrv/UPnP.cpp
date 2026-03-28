@@ -60,8 +60,12 @@ bool UPnP_AddPortMapping(uint16_t tcpport, uint16_t udpport, std::string& extern
 
     switch (r)
     {
+#if MINIUPNPC_API_VERSION >= 18
     case UPNP_CONNECTED_IGD :
     case UPNP_PRIVATEIP_IGD :
+#else
+    case 1 :
+#endif
         break;
     default :
         TT_LOG(ACE_TEXT("UPnP: No valid IGD found."));
