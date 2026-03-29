@@ -1,0 +1,31 @@
+From a061de6d24372b3e1f6db25c12ae6179d5fe03c0 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Sun, 29 Mar 2026 23:54:16 +0900
+Subject: [PATCH] Fix MSVC detection for non-English locales
+
+---
+ configure | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/configure b/configure
+index 175969427..43e8c13a6 100755
+--- a/configure
++++ b/configure
+@@ -5365,12 +5365,12 @@ probe_cc(){
+         _flags_filter=msvc_flags_link
+         _ld_lib='%.lib'
+         _ld_path='-libpath:'
+-    elif VSLANG=1033 $_cc -nologo- 2>&1 | grep -q ^Microsoft || { $_cc -v 2>&1 | grep -q clang && $_cc -? > /dev/null 2>&1; }; then
++    elif VSLANG=1033 $_cc -nologo- 2>&1 | grep -q Microsoft || { $_cc -v 2>&1 | grep -q clang && $_cc -? > /dev/null 2>&1; }; then
+         _type=msvc
+-        if VSLANG=1033 $_cc -nologo- 2>&1 | grep -q ^Microsoft; then
++        if VSLANG=1033 $_cc -nologo- 2>&1 | grep -q Microsoft; then
+             # Depending on the tool (cl.exe or link.exe), the version number
+             # is printed on the first line of stderr or stdout
+-            _ident=$(VSLANG=1033 $_cc 2>&1 | grep ^Microsoft | head -n1 | tr -d '\r')
++            _ident=$(VSLANG=1033 $_cc 2>&1 | grep Microsoft | head -n1 | tr -d '\r')
+         else
+             _ident=$($_cc --version 2>/dev/null | head -n1 | tr -d '\r')
+         fi
+--
+2.53.0.windows.1
