@@ -67,4 +67,5 @@ public class ServerEntry {
 
     public int stats_usercount = 0;
     public String stats_motd = "", stats_country = "";
+    public String joincode = "";
 }

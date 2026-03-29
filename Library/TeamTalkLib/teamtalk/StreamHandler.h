@@ -40,8 +40,8 @@
 #include <ace/SSL/SSL_SOCK_Stream.h>
 #include <map>
 #else
-#include <ace/SOCK_Stream.h>
 #include <ace/SOCK_Acceptor.h>
+#include <ace/SOCK_Stream.h>
 #endif
 
 #include <cerrno>

@@ -171,6 +171,9 @@
 "Connection lost" = "连接丢失";
 
 /* server entry */
+"Copy" = "复制";
+
+/* server entry */
 "Country" = "国家";
 
 /* View Title */
@@ -209,6 +212,9 @@
 
 /* server entry */
 "Encrypted" = "加密";
+
+/* serverlist */
+"Enter Join Code" = "输入加入码";
 
 /* Dialog message */
 "Enter Password" = "输入密码";
@@ -270,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "加入频道";
+
+/* server entry */
+"Join Code: %@" = "加入码： %@";
 
 /* preferences */
 "Join Root Channel" = "加入跟频道";
@@ -374,6 +383,9 @@
 
 /* channel list */
 "No password" = "无密码";
+
+/* serverlist */
+"No server found" = "未找到服务器";
 
 /* create channel */
 "No Voice Activation" = "禁止语音激活";
@@ -626,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "将手机靠近耳朵时关闭屏幕";
+
+/* serverlist */
+"Type Join Code" = "输入加入码";
 
 /* text field hint
    text message */

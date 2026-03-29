@@ -24,24 +24,18 @@ jobs:
         include:
           - arch: x86
             cmakeplatform: Win32
-            javaversion: 19
-            msystem: MINGW32
-            opensslplatform: VC-WIN32
+            javaversion: 11
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            vcpkgarch: x86-windows
             vcvars: vcvars32.bat
           - arch: x64
             cmakeplatform: x64
             javaversion: 25
-            msystem: MINGW64
-            opensslplatform: VC-WIN64A
             portablearch: win64
             qtarch: win64_msvc2022_64
-            qtmodules: 'qtmultimedia qtspeech qtvirtualkeyboard'
+            qtmodules: 'qtmultimedia qtspeech'
             qtversion: '6.10.*'
-            vcpkgarch: x64-windows
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
@@ -73,9 +67,9 @@ jobs:
         setup-python: false
 
     - name: Install Doxygen
-      uses: ssciwr/doxygen-install@v1
+      uses: ssciwr/doxygen-install@v2
       with:
-        version: '1.15.0'
+        version: '1.16.1'
 
     - name: Set up VSTest
       uses: darenm/Setup-VSTest@v1
@@ -87,50 +81,33 @@ jobs:
       shell: cmd
       run: set
 
-    - name: Install Cygwin
-      uses: cygwin/cygwin-install-action@v6
-      with:
-        packages: make
-        install-dir: 'C:\cygwin64'
-        add-to-path: false
-        work-vol: 'C:'
-
     - name: Install MSYS2
       uses: msys2/setup-msys2@v2
       with:
-        msystem: ${{ matrix.msystem }}
+        msystem: MSYS
         path-type: inherit
-        install: make
-
-    - name: Install YASM
-      run: |
-        vcpkg install --recurse yasm --triplet ${{ matrix.vcpkgarch }} --clean-after-build
-        echo %VCPKG_INSTALLATION_ROOT%\installed\${{ matrix.vcpkgarch }}\tools\yasm>> %GITHUB_PATH%
+        update: true
+        install: base-devel
+        release: false
 
     - name: Install NASM
-      if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/${{ matrix.portablearch }}/nasm-3.01-${{ matrix.portablearch }}.zip
+        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
         7z x nasm.zip
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
 
-    - name: Download and install OpenSSL
+    - name: Download and install OpenSSL for Qt 5.15
       if: matrix.arch == 'x86'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -JOL https://github.com/openssl/openssl/releases/download/openssl-3.6.0/openssl-3.6.0.tar.gz
-        tar -xzf openssl-3.6.0.tar.gz
-        cd openssl-3.6.0
-        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
-        perl Configure ${{ matrix.opensslplatform }} --prefix=%CD%\openssl-install --openssldir=%CD%\openssl-install
-        nmake /s
-        nmake /s install
-        echo %CD%\openssl-install\bin>> %GITHUB_PATH%
+        curl -fsSL -o Win32OpenSSL.exe https://slproweb.com/download/Win32OpenSSL-3_6_1.exe
+        start /wait Win32OpenSSL.exe /silent /sp- /suppressmsgboxes /DIR="C:\Program Files (x86)\OpenSSL"
+        echo C:\Program Files (x86)\OpenSSL\bin>> %GITHUB_PATH%
 
-    - name: Configure CMake
+    - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
       run: >-
         cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
@@ -138,6 +115,7 @@ jobs:
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build and install TeamTalk
@@ -146,12 +124,30 @@ jobs:
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output --parallel --config Release --target install
-        echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalk_DLL>> %GITHUB_PATH%
-        echo ${{runner.workspace}}\TeamTalk5\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
-        echo PYTHONPATH=${{runner.workspace}}\TeamTalk5\Library\TeamTalkPy>> %GITHUB_ENV%
+        echo ${{github.workspace}}\Library\TeamTalk_DLL>> %GITHUB_PATH%
+        echo ${{github.workspace}}\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
+        echo PYTHONPATH=${{github.workspace}}\Library\TeamTalkPy>> %GITHUB_ENV%
+
+    - name: Run Java Server API tests (non-encrypted)
+      if: matrix.arch == 'x86'
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java Server API tests (encrypted)
+      if: matrix.arch == 'x64'
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkServerTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
 
     - name: Copy server configuration
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: |
         copy Library\TeamTalkLib\test\tt5srv.xml_template Server\tt5srv.xml
         copy Library\TeamTalkLib\test\tt5prosrv.xml_template Server\tt5prosrv.xml
@@ -160,33 +156,61 @@ jobs:
         copy Library\TeamTalkLib\test\ca.cer Server\
 
     - name: Start TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5svc.exe -i
         tt5svc.exe -s
 
     - name: Start TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
         tt5prosvc.exe -s
 
     - name: Run Catch unit tests
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkLib/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkLib/test
       shell: cmd
       run: catchtt.exe --durations yes
 
+    - name: Run Java unit tests (non-encrypted)
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkStdTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+
+    - name: Run Java unit tests with shared audio devices (non-encrypted)
+      if: matrix.arch == 'x64'
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 0
+        WEBRTC: 0
+        INPUTDEVICEID: 4026
+        OUTPUTDEVICEID: 4026
+
+    - name: Run Java unit tests with virtual audio device (encrypted)
+      if: matrix.arch == 'x86'
+      working-directory: ${{github.workspace}}/Library/TeamTalkJNI
+      shell: cmd
+      run: junit.bat TeamTalkProTestSuite
+      env:
+        ENCRYPTED: 1
+        WEBRTC: 0
+
     - name: Restart TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5svc.exe -e
         tt5svc.exe -s
 
     - name: Stop and uninstall TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -e
@@ -197,19 +221,19 @@ jobs:
       shell: cmd
       run: |
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
-        xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
+        xcopy /S /Y /E ${{github.workspace}}\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
     - name: Run PyTest
-      working-directory: ${{runner.workspace}}/TeamTalk5/Library/TeamTalkPy/test
+      working-directory: ${{github.workspace}}/Library/TeamTalkPy/test
       run: pytest teamtalk_test.py
 
     - name: Run Python client
-      working-directory: ${{runner.workspace}}/TeamTalk5/Client/ttserverlogpy
+      working-directory: ${{github.workspace}}/Client/ttserverlogpy
       run: python main.py
 
     - name: Stop and uninstall TeamTalk Standard Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5svc.exe -e
@@ -220,7 +244,7 @@ jobs:
       run: echo ENCRYPTED=true>> %GITHUB_ENV%
 
     - name: Start TeamTalk Pro Server (encrypted)
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -i
@@ -231,11 +255,11 @@ jobs:
       shell: cmd
       run: |
         cd output\Library\TeamTalk.NET\TeamTalkTest.NET\Release
-        xcopy /S /Y /E ${{runner.workspace}}\TeamTalk5\Library\TeamTalkLib\test\testdata testdata\
+        xcopy /S /Y /E ${{github.workspace}}\Library\TeamTalkLib\test\testdata testdata\
         VSTest.Console.exe /Platform:${{ matrix.arch }} TeamTalk5Test.NET.dll
 
     - name: Stop and uninstall TeamTalk Pro Server
-      working-directory: ${{runner.workspace}}/TeamTalk5/Server
+      working-directory: ${{github.workspace}}/Server
       shell: cmd
       run: |
         tt5prosvc.exe -e
@@ -243,7 +267,7 @@ jobs:
 
     - name: Compile TeamTalk5.chm
       continue-on-error: true
-      working-directory: ${{runner.workspace}}/TeamTalk5/Documentation/TeamTalk
+      working-directory: ${{github.workspace}}/Documentation/TeamTalk
       shell: cmd
       run: '"C:\Program Files (x86)\HTML Help Workshop\hhc.exe" output\index.hhp'
 
@@ -260,33 +284,52 @@ jobs:
 
     - name: Compile Inno Setup installer
       if: matrix.arch == 'x64'
-      working-directory: ${{runner.workspace}}/TeamTalk5/Setup/Installer/Windows
+      working-directory: ${{github.workspace}}/Setup/Installer/Windows
       shell: cmd
       run: |
-        "C:\Program Files (x86)\Inno Setup 6\iscc.exe" /DBaseDir="${{runner.workspace}}\TeamTalk5" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
+        iscc /DBaseDir="${{github.workspace}}" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
         move Output\*.exe ${{runner.workspace}}\
+
+    - name: Configure CMake for prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      run: >-
+        cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
+        -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
+        -DFEATURE_WEBRTC=OFF
+        -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
+        -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+        -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
+        -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
+
+    - name: Build debug TeamTalk using prebuilt toolchain
+      working-directory: ${{runner.workspace}}
+      shell: cmd
+      run: |
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        cmake --build output-developer --parallel --config Debug
 
     - name: Upload Inno Setup installer artifact
       if: matrix.arch == 'x64'
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalk-installer-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/TeamTalk_*.exe
 
     - name: Upload TeamTalk SDK artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-windows-${{ matrix.arch }}
         path: ${{runner.workspace}}/install-teamtalk
 
     - name: Upload TeamTalk portable artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalk-portable-${{ matrix.portablearch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
+        path: ${{github.workspace}}/Setup/Portable/TeamTalk_*_Portable-${{ matrix.portablearch }}
 
     - name: Upload TeamTalk Pro Server artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
-        path: ${{runner.workspace}}/TeamTalk5/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
+        path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}

@@ -27,13 +27,13 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.preference.PreferenceManager;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -41,6 +41,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.PopupMenu;
@@ -61,7 +63,6 @@ import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.StringReader;
@@ -110,6 +111,7 @@ public class ServerListActivity extends AppCompatActivity
     private static final int REQUEST_EDITSERVER = 1;
     private static final int REQUEST_NEWSERVER = 2;
     private static final int REQUEST_IMPORT_SERVERLIST = 3;
+    private static final int REQUEST_JOINCODE = 4;
     private static final String POSITION_NAME = "pos";
 
     @Override
@@ -277,8 +279,8 @@ public class ServerListActivity extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        switch(requestCode) {
-            case REQUEST_NEWSERVER : {
+        switch (requestCode) {
+            case REQUEST_NEWSERVER :
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -289,8 +291,7 @@ public class ServerListActivity extends AppCompatActivity
                     }
                 }
                 break;
-            }
-            case REQUEST_EDITSERVER : {
+            case REQUEST_EDITSERVER :
                 if(resultCode == RESULT_OK) {
                     ServerEntry entry = Utils.getServerEntry(data);
                     if(entry != null) {
@@ -308,8 +309,7 @@ public class ServerListActivity extends AppCompatActivity
                     }
                 }
                 break;
-            }
-            case REQUEST_IMPORT_SERVERLIST : {
+            case REQUEST_IMPORT_SERVERLIST :
                 if(resultCode == RESULT_OK) {
                     StringBuilder xml = new StringBuilder();
                     try (InputStream inputStream = this.getContentResolver().openInputStream(data.getData())) {
@@ -336,7 +336,9 @@ public class ServerListActivity extends AppCompatActivity
                     }
                 }
                 break;
-            }
+            case REQUEST_JOINCODE:
+                enterJoinCode();
+                break;
         }
     }
 
@@ -349,34 +351,29 @@ public class ServerListActivity extends AppCompatActivity
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_newserverentry :
-                Intent edit = new Intent(this, ServerEntryActivity.class);
-                startActivityForResult(edit, REQUEST_NEWSERVER);
-            break;
-            case R.id.action_refreshserverlist :
-                refreshServerList();
-            break;
-            case R.id.action_import_serverlist :
-                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                    fileSelectionStart();
-                }
-            break;
-            case R.id.action_export_serverlist :
-                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                    exportServers();
-                }
-            break;
-            case R.id.action_settings : {
-                Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
-                startActivity(intent);
-                break;
+        int itemId = item.getItemId();
+        if (itemId == R.id.action_newserverentry) {
+            Intent edit = new Intent(this, ServerEntryActivity.class);
+            startActivityForResult(edit, REQUEST_NEWSERVER);
+        } else if (itemId == R.id.action_refreshserverlist) {
+            refreshServerList();
+        } else if (itemId == R.id.action_import_serverlist) {
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
+                fileSelectionStart();
             }
-            case R.id.action_exit :
-                finish();
-            break;
-            default :
-                return super.onOptionsItemSelected(item);
+        } else if (itemId == R.id.action_export_serverlist) {
+            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                exportServers();
+            }
+        } else if (itemId == R.id.action_enter_joincode) {
+            enterJoinCode();
+        } else if (itemId == R.id.action_settings) {
+            Intent intent = new Intent(ServerListActivity.this, PreferencesActivity.class);
+            startActivity(intent);
+        } else if (itemId == R.id.action_exit) {
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }
@@ -394,21 +391,21 @@ public class ServerListActivity extends AppCompatActivity
         PopupMenu serverActions = new PopupMenu(this, view);
         serverActions.inflate(R.menu.server_actions);
         serverActions.setOnMenuItemClickListener(item -> {
-            switch (item.getItemId()) {
-                case R.id.action_exportsrv:
-                    if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                        exportServer(entry);
-                    }
-                    return true;
-                case R.id.action_editsrv:
-                    Intent intent = new Intent(this, ServerEntryActivity.class);
-                    startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
-                    return true;
-                case R.id.action_removesrv:
-                    showRemoveServerDialog(entry);
-                    return true;
-                default:
-                    return false;
+            int itemId = item.getItemId();
+            if (itemId == R.id.action_exportsrv) {
+                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
+                    exportServer(entry);
+                }
+                return true;
+            } else if (itemId == R.id.action_editsrv) {
+                Intent intent = new Intent(this, ServerEntryActivity.class);
+                startActivityForResult(Utils.putServerEntry(intent, entry).putExtra(POSITION_NAME, position), REQUEST_EDITSERVER);
+                return true;
+            } else if (itemId == R.id.action_removesrv) {
+                showRemoveServerDialog(entry);
+                return true;
+            } else {
+                return false;
             }
         });
         serverActions.show();
@@ -969,5 +966,54 @@ public class ServerListActivity extends AppCompatActivity
         });
         alert.setNegativeButton(android.R.string.no, null);
         alert.show();
+    }
+
+    private void enterJoinCode() {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.action_enter_joincode);
+        alert.setMessage(R.string.text_specify_joincode);
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.requestFocus();
+        alert.setView(input);
+        alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+            InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(input.getWindowToken(), 0);
+            getServerFromJoinCode(input.getText().toString().trim());
+        });
+        alert.setNegativeButton(android.R.string.cancel, (dialog, whichButton) -> {
+            InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            im.hideSoftInputFromWindow(input.getWindowToken(), 0);
+        });
+        final AlertDialog dialog = alert.create();
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.show();
+    }
+
+    private void getServerFromJoinCode(String joincode) {
+        if (executorService == null) return;
+
+        executorService.execute(() -> {
+            String urlToRead = AppInfo.getJoinCodeUrl(ServerListActivity.this, joincode);
+            String xml = Utils.getURL(urlToRead);
+            Vector<ServerEntry> entries = new Vector<>();
+            if (!xml.isEmpty()) {
+                entries = Utils.getXmlServerEntries(xml);
+            }
+            final Vector<ServerEntry> finalEntries = entries;
+            runOnUiThread(() -> {
+                if (!finalEntries.isEmpty()) {
+                    ServerListActivity.this.serverentry = finalEntries.firstElement();
+                    getService().setServerEntry(this.serverentry);
+
+                    if (!getService().reconnect()) {
+                        showToast(getString(R.string.err_connection));
+                    }
+                }
+                else {
+                    showToast(getString(R.string.err_enter_joincode));
+                }
+            });
+        });
     }
 }

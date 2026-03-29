@@ -73,6 +73,7 @@
         <udpport>10443</udpport>
         <certificate-file>ttservercert.pem</certificate-file>
         <privatekey-file>ttserverkey.pem</privatekey-file>
+        <upnp>false</upnp>
         <login-attempts>0</login-attempts>
         <max-logins-per-ipaddr>0</max-logins-per-ipaddr>
         <user-timeout>60</user-timeout>
@@ -246,6 +247,10 @@
  *     ttsrvencrypt on how to create certificate and private key files.
  *   - @c \<privatekey-file\>
  *     Read @c \<certificate-file\> description above.
+ *   - @c \<upnp\>
+ *     If 'true' the server will use UPnP to automatically open the TCP
+ *     and UDP ports on the router when the server starts. The port
+ *     mappings are removed when the server stops.
  *   - @c \<login-attempts\>
  *     The maximum number of log in attempt with incorrect password before
  *     banning a user's IP-address.

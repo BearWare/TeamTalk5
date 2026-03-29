@@ -386,6 +386,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     int udpport = DEFAULT_UDPPORT;
     int max_login_attempts = 0;
     int logindelay = 0;
+    bool upnp = false;
 
     servername = Utf8ToUnicode(xmlSettings.GetServerName().c_str());
     motd = Utf8ToUnicode(xmlSettings.GetMessageOfTheDay().c_str());
@@ -402,6 +403,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     max_login_attempts = xmlSettings.GetMaxLoginAttempts();
     max_logins_per_ip = xmlSettings.GetMaxLoginsPerIP();
     logindelay = xmlSettings.GetLoginDelay();
+    upnp = xmlSettings.GetUPnP();
 
 #if defined(ENABLE_TEAMTALKPRO)
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
@@ -484,6 +486,8 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     tcpport = PrintGetInt(tcpport);
     cout << "Server should bind to the following UDP port: ";
     udpport = PrintGetInt(udpport);
+    cout << "Enable UPnP port forwarding (automatically open TCP/UDP ports on router)? ";
+    upnp = PrintGetBool(upnp);
     cout << "Bind to specific IP-addresses? (required for IPv6) ";
     if (PrintGetBool(!bindips.empty()))
     {
@@ -682,6 +686,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
 
     cout << "Server will bind to TCP port " << tcpport << endl;
     cout << "Server will bind to UDP port " << udpport << endl;
+    cout << "UPnP port forwarding: " << (upnp ? "enabled" : "disabled") << endl;
     cout << "Server will bind to IP-address: " << endl;
     for (const auto& ip : bindips)
         cout << "\t- " << ip << endl;
@@ -728,6 +733,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         xmlSettings.SetBindIPs(bindips);
         xmlSettings.SetHostTcpPort(tcpport);
         xmlSettings.SetHostUdpPort(udpport);
+        xmlSettings.SetUPnP(upnp);
 #if defined(ENABLE_TEAMTALKPRO)
         xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile).c_str());
         xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile).c_str());

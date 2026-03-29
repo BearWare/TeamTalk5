@@ -303,6 +303,11 @@
     <string name="action_refresh">Refresh</string>
     <string name="action_import_serverlist">Import from a .tt File</string>
     <string name="action_export_serverlist">Export server list</string>
+    <string name="action_enter_joincode">Enter Join Code</string>
+    <string name="text_specify_joincode">Server Join Code</string>
+    <string name="err_enter_joincode">Incorrect Join Code for server</string>
+    <string name="pref_title_joincode">Join Code for Easy Login</string>
+    <string name="text_joincode">Join Code</string>
     <string name="serverlist_export_confirmation">Server list has been exported to %1$s</string>
     <string name="server_export_confirmation">Server has been exported to %1$s</string>
 
@@ -493,4 +498,5 @@
     <string name="online_user_info_channel">Channel</string>
     <string name="online_user_info_ip">IPAddress</string>
     <string name="online_user_info_client">Client</string>
+    <string name="text_copy">Copy</string>
 </resources>

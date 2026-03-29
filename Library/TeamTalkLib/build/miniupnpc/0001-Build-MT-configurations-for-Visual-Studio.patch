@@ -1,0 +1,25 @@
+From e1670625d67a3f7dc979c98fa16eb658af178ec4 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Wed, 25 Feb 2026 17:15:41 +0900
+Subject: [PATCH] Build /MT configurations for Visual Studio
+
+---
+ miniupnpc/CMakeLists.txt | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/miniupnpc/CMakeLists.txt b/miniupnpc/CMakeLists.txt
+index ac9c0ba..b268041 100644
+--- a/miniupnpc/CMakeLists.txt
++++ b/miniupnpc/CMakeLists.txt
+@@ -1,5 +1,8 @@
+ cmake_minimum_required(VERSION 3.14 FATAL_ERROR)
+ 
++cmake_policy(SET CMP0091 NEW)
++set(CMAKE_MSVC_RUNTIME_LIBRARY "MultiThreaded$<$<CONFIG:Debug>:Debug>")
++
+ project (miniupnpc
+          VERSION 2.3.3
+          DESCRIPTION "UPnP IGD client lightweight library"
+-- 
+2.53.0.windows.1
+

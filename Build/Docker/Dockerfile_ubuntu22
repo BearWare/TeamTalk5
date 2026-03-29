@@ -21,6 +21,7 @@ RUN apt-get install -y \
                    libtool \
                    libxss-dev \
                    make \
+                   nasm \
                    ninja-build \
                    openjdk-25-jdk \
                    p7zip-full \
@@ -31,5 +32,4 @@ RUN apt-get install -y \
                    qtmultimedia5-dev \
                    qttools5-dev \
                    qttools5-dev-tools \
-                   wget \
-                   yasm
+                   wget

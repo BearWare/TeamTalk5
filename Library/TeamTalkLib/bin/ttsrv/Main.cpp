@@ -27,6 +27,7 @@
 #include "ServerUtil.h"
 #include "ServerXML.h"
 #include "TeamTalkDefs.h"
+#include "UPnP.h"
 #include "myace/MyACE.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Log.h"
@@ -251,7 +252,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
     return exitcode;
 }
 
-static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor, 
+static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
                   const ACE_TString& workdir)
 {
     int const ret = ACE_Thread_Manager::instance ()->spawn(EventLoop, udpReactor);
@@ -261,14 +262,27 @@ static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
     SyncReactor(*udpReactor);
 
     int log_check = 0;
+    int upnp_check = 0;
     ACE_Time_Value tm(10,0);
-    while(tcpReactor->handle_events(tm) >= 0)
+    while (tcpReactor->handle_events(tm) >= 0)
     {
         if (++log_check % 10 == 0 && xmlSettings.GetServerLogMaxSize() > 0 &&
             logstream.tellp() >= xmlSettings.GetServerLogMaxSize())
         {
             RotateLogfile(workdir, logfile.c_str(), logstream);
         }
+
+        if (xmlSettings.GetUPnP() && ++upnp_check >= 60)
+        {
+            upnp_check = 0;
+            if (!UPnP_RenewPortMapping(tcpport, udpport))
+            {
+                UPnP_RemovePortMapping(tcpport, udpport);
+                std::string externalIP;
+                UPnP_AddPortMapping(tcpport, udpport, externalIP);
+            }
+        }
+
         tm.set(10, 0);
     }
 
@@ -348,18 +362,28 @@ int RunServer(
     prop.txloss = txloss;
 
     //check for override options
-    if(tcpport > 0)
+    if (tcpport > 0)
     {
         ACE_INET_Addr const addr((u_short)tcpport, (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
         prop.tcpaddrs.clear();
         prop.tcpaddrs.push_back(addr);
     }
-    if(udpport > 0)
+    else
+    {
+        tcpport = prop.tcpaddrs.front().get_port_number();
+    }
+
+    if (udpport > 0)
     {
         ACE_INET_Addr const addr((u_short)udpport, (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
         prop.udpaddrs.clear();
         prop.udpaddrs.push_back(addr);
     }
+    else
+    {
+        udpport = prop.udpaddrs.front().get_port_number();
+    }
+
     if(!bindip.empty())
     {
         ACE_INET_Addr const tcpaddr((!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_port_number() : tcpport, bindip.c_str());
@@ -411,14 +435,30 @@ int RunServer(
         TT_SYSLOG(error_msg);
         return -1;
     }
-    
-            TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
-        if(!verbose)
-            ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
 
-        //don't write server events to syslog
-        ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SYSLOG);
-   
+    if (xmlSettings.GetUPnP())
+    {
+        std::string externalIP;
+        if (UPnP_AddPortMapping(tcpport, udpport, externalIP))
+        {
+            ACE_TCHAR msg[256];
+            ACE_OS::snprintf(msg, 256,
+                ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
+                (int)tcpport, (int)udpport, externalIP.c_str());
+            TT_LOG(msg);
+        }
+        else
+        {
+            TT_SYSLOG(ACE_TEXT("UPnP: Failed to add port mappings. Check if your router supports UPnP."));
+        }
+    }
+
+    TT_LOG(ACE_TEXT("Started ") ACE_TEXT( TEAMTALK_NAME ) ACE_TEXT(" v.") ACE_TEXT( TEAMTALK_VERSION ) ACE_TEXT("."));
+    if(!verbose)
+        ACE_LOG_MSG->clr_flags(ACE_Log_Msg::STDERR);
+
+    //don't write server events to syslog
+    ACE_LOG_MSG->clr_flags(ACE_Log_Msg::SYSLOG);
 
 #if defined(BUILD_NT_SERVICE)
     SetConsoleCtrlHandler(ControlHandler, TRUE);
@@ -488,6 +528,11 @@ int RunServer(
 #endif /* BUILD_NT_SERVICE */
 
     ACE_LOG_MSG->set_flags(ACE_Log_Msg::STDERR);
+
+    if (xmlSettings.GetUPnP())
+    {
+        UPnP_RemovePortMapping(tcpport, udpport);
+    }
 
     servernode.StopServer();
     TT_LOG(ACE_TEXT("Stopped ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("."));
@@ -893,8 +938,8 @@ void PrintCommandArgs()
     cout << "          " << TEAMTALK_EXE << " -c /home/bill/srv1/" << TEAMTALK_SETTINGSFILE << " -l " << TEAMTALK_LOGFILE << " -nd" << endl;
 #endif
     cout << endl;
-    cout << "Kind regards go to the people behind the ACE Framework, Speex, OPUS" << endl;
-    cout << "and WebM projects!" << endl;
+    cout << "Kind regards go to the people behind the ACE Framework, miniupnpc, OpenSSL" << endl;
+    cout << "and TinyXML2 projects!" << endl;
     cout << endl;
     cout << "Report bugs to contact@bearware.dk" << endl;
     cout << endl;

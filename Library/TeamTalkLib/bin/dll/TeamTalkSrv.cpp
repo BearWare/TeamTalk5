@@ -31,6 +31,7 @@
 #include "teamtalk/Common.h"
 #include "teamtalk/server/Server.h"
 #include "teamtalk/server/ServerNode.h"
+#include "license/Trial.h"
 
 #include <ace/ACE.h>
 #include <ace/OS_Memory.h>
@@ -49,6 +50,8 @@
 #include <memory>
 
 using teamtalk::ServerNode;
+
+extern bool g_LicenseValid;
 
 struct ServerInstance
 {
@@ -192,6 +195,8 @@ TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
     static bool const b = false;
     if(!b)InitContext();
 
+    LicenseCheck();
+
     ServerInstance* ttInst = nullptr;
     ACE_NEW_RETURN(ttInst, ServerInstance(false), nullptr);
 
@@ -222,6 +227,12 @@ TEAMTALKDLL_API TTBOOL TTS_RunEventLoop(IN TTSInstance* lpTTSInstance,
     ServerInstance* ttInst = GetServerinst(lpTTSInstance);
     if(ttInst == nullptr)
         return FALSE;
+
+    if (!g_LicenseValid)
+    {
+        std::cerr << "TeamTalk SDK license has expired" << std::endl;
+        return FALSE;
+    }
 
     ACE_thread_t thrid = ACE_OS::NULL_thread;;
     if(ttInst->tcpReactor.owner(&thrid)>=0 && thrid != ACE_OS::thr_self())

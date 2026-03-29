@@ -36,6 +36,7 @@ class Server : NSObject {
     var ipaddr = ""
     var tcpport = AppInfo.DEFAULT_TCPPORT
     var udpport = AppInfo.DEFAULT_UDPPORT
+    var joincode = ""
     var nickname = ""
     var username = ""
     var password = ""
@@ -131,6 +132,8 @@ class ServerListViewController : UITableViewController,
     var servers = [Server]()
     
     var nextappupdate = Date()
+    
+    let ROW_OFFSET = 1
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -239,6 +242,43 @@ class ServerListViewController : UITableViewController,
         tableView.reloadData()
     }
     
+    func downloadServer(joincode: String) {
+        if let joincodeurl = URL(string: AppInfo.getBearWareJoinCode(joincode: joincode)) {
+            let task = URLSession.shared.dataTask(with: joincodeurl) { data, response, error in
+                if error != nil {
+                    print ("Failed to download server list \(joincodeurl.absoluteString)")
+                    return
+                }
+                guard let httpResponse = response as? HTTPURLResponse,
+                      (200...299).contains(httpResponse.statusCode) else {
+                    print ("Failed to download server list \(joincodeurl.absoluteString)")
+                    return
+                }
+                if let data = data {
+                    DispatchQueue.main.async {
+                        let parser = XMLParser(data: data)
+                        let serverparser = ServerParser()
+                        parser.delegate = serverparser
+                        parser.parse()
+                        
+                        if serverparser.currentServer.ipaddr.isEmpty == false {
+                            self.currentServer = serverparser.currentServer
+                            self.performSegue(withIdentifier: "Show ChannelList", sender: self)
+                        } else {
+                            let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "serverlist"),
+                                                          message: NSLocalizedString("No server found", comment: "serverlist"),
+                                                          preferredStyle: .alert)
+                            let okAction = UIAlertAction(title: "OK", style: .default) { _ in }
+                            alert.addAction(okAction)
+                            self.present(alert, animated: true)
+                        }
+                    }
+                }
+            }
+            task.resume()
+        }
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -254,16 +294,15 @@ class ServerListViewController : UITableViewController,
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return servers.count
+        return servers.count + ROW_OFFSET /* join code button */
     }
     
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
+    fileprivate func createServerCell(_ tableView: UITableView, _ indexPath: IndexPath, _ serverIndex: Int) -> UITableViewCell {
         let cellIdentifier = "ServerTableCell"
         
         let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ServerTableCell
-        let server = servers[indexPath.row]
-        cell.connectBtn.tag = indexPath.row
+        let server = servers[serverIndex]
+        cell.connectBtn.tag = serverIndex
         cell.nameLabel.text = server.name
         cell.detailLabel.text = "\(server.ipaddr):\(server.tcpport)"
         if server.servertype != .LOCAL {
@@ -287,14 +326,26 @@ class ServerListViewController : UITableViewController,
         }
         
         if #available(iOS 8.0, *) {
-            let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.connectServer(_:)), tag: indexPath.row)
-            let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.deleteServer(_:)), tag: indexPath.row)
+            let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.connectServer(_:)), tag: serverIndex)
+            let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.deleteServer(_:)), tag: serverIndex)
             cell.accessibilityCustomActions = [action_connect, action_delete]
         } else {
             // Fallback on earlier versions
         }
         
         return cell
+    }
+    
+    fileprivate func createJoinCodeCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
+        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinCodeCell")!
+        return cell
+    }
+    
+    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        if indexPath.row == 0 {
+            return createJoinCodeCell(tableView, indexPath)
+        }
+        return createServerCell(tableView, indexPath, indexPath.row - ROW_OFFSET)
     }
 
     @objc @available(iOS 8.0, *)
@@ -318,10 +369,38 @@ class ServerListViewController : UITableViewController,
         return true
     }
 
+    @IBAction func enterJoinCode(_ sender: Any) {
+        let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "serverlist"),
+                                      message: NSLocalizedString("Enter Join Code", comment: "serverlist"),
+                                      preferredStyle: .alert)
+        alert.addTextField {
+            textField in
+            textField.placeholder = NSLocalizedString("Type Join Code", comment: "serverlist")
+            textField.autocorrectionType = .no
+            if let clipboardText = UIPasteboard.general.string {
+                textField.text = clipboardText
+            }
+        }
+        
+        // Add an "OK" action
+        let okAction = UIAlertAction(title: "OK", style: .default) { _ in
+            if let text = alert.textFields?.first?.text {
+                self.downloadServer(joincode: text)
+            }
+        }
+
+        // Add a "Cancel" action
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel) { _ in }
+
+        alert.addAction(okAction)
+        alert.addAction(cancelAction)
+        self.present(alert, animated: true)
+    }
+    
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "Show Server" {
             let index = self.tableView.indexPathForSelectedRow
-            currentServer = servers[index!.row]
+            currentServer = servers[index!.row - ROW_OFFSET]
             let serverDetail = segue.destination as! ServerDetailViewController
             serverDetail.server = currentServer
         }
@@ -552,6 +631,8 @@ class ServerParser : NSObject, XMLParserDelegate {
             currentServer.udpport = Int(v)!
         case "encrypted" :
             currentServer.encrypted = string == "true"
+        case "joincode" :
+            currentServer.joincode = string
         case "listing" :
             if string == "official" {
                 currentServer.servertype = .OFFICIAL

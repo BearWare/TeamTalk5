@@ -33,30 +33,30 @@ android-build:
 	fi; \
 	$(MAKE) CONFIGTYPE=$(CONFIGTYPE) \
         CMAKE_EXTRA+="-DCMAKE_TOOLCHAIN_FILE=$(ANDROID_NDK_HOME)/build/cmake/android.toolchain.cmake \
+        -DCMAKE_POSITION_INDEPENDENT_CODE=ON \
         -DANDROID_ABI=$(ANDROID_ABI) \
         -DANDROID_PLATFORM=android-21 \
         -DBUILD_TEAMTALK_LIBRARY_LIB=ON \
         -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
-        -DBUILD_TEAMTALK_LIBRARIES=ON \
         -DBUILD_TEAMTALK_CLIENTS=OFF \
         -DBUILD_TEAMTALK_SERVERS=OFF \
         -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF \
         -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF \
-        -DTOOLCHAIN_ZLIB=OFF \
-        -DCMAKE_POSITION_INDEPENDENT_CODE=ON" \
+        -DBUILD_TEAMTALK_DOCUMENTATION=OFF \
+        -DTOOLCHAIN_ZLIB=OFF" \
         buildlib
 
 android-armeabi-v7a: teamtalk-env
-	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=armeabi-v7a BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-arm64-v8a: teamtalk-env
-	$(MAKE) ANDROID_ABI=arm64-v8a BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=arm64-v8a BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-x86: teamtalk-env
-	$(MAKE) ANDROID_ABI=x86 BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=x86 BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-x64: teamtalk-env
-	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$@ android-build
+	$(MAKE) ANDROID_ABI=x86_64 BUILDDIR=build-$(CONFIGTYPE)-$@ android-build
 
 android-all: android-armeabi-v7a android-arm64-v8a android-x86 android-x64
 
@@ -65,22 +65,23 @@ generic:
 
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
-	$(MAKE) BUILDDIR=build-$(UBUNTUDIR) \
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$(UBUNTUDIR) \
 	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu22:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
+
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
                               -DTOOLCHAIN_OPENSSL=OFF" \
-                              BUILDDIR=build-$@ generic
+                              BUILDDIR=build-$(CONFIGTYPE)-$@ generic
 
 mac:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$@ CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=\"arm64;x86_64\"" generic
 
 ios-build:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_SYSTEM_NAME=iOS \
@@ -88,23 +89,24 @@ ios-build:
         -DBUILD_TEAMTALK_LIBRARY_LIBPRO=ON \
         -DBUILD_TEAMTALK_LIBRARY_DLL=OFF \
         -DBUILD_TEAMTALK_LIBRARY_DLLPRO=OFF \
-        -DFEATURE_OGG=OFF \
-        -DFEATURE_FFMPEG=OFF \
-        -DFEATURE_OPUSTOOLS=OFF \
         -DBUILD_TEAMTALK_LIBRARIES=OFF \
         -DBUILD_TEAMTALK_CLIENTS=OFF \
         -DBUILD_TEAMTALK_SERVERS=OFF \
         -DBUILD_TEAMTALK_SERVER_SRVEXE=OFF \
         -DBUILD_TEAMTALK_SERVER_SRVEXEPRO=OFF \
+        -DBUILD_TEAMTALK_DOCUMENTATION=OFF \
+        -DFEATURE_FFMPEG=OFF \
+        -DFEATURE_OGG=OFF \
+        -DFEATURE_OPUSTOOLS=OFF \
         -DTOOLCHAIN_ZLIB=OFF" \
         buildlib
 
 ios-arm64:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$@ ios-build
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=arm64 lipo-arch
 
 ios-x64:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$@ ios-build
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=x86_64 lipo-arch
 
 ios-all: ios-arm64 ios-x64 lipo
@@ -153,12 +155,12 @@ xcodeswap-apps:
 	sudo xcode-select -s /Applications/Xcode.app/Contents/Developer
 
 teamtalk-jar:
-	$(MAKE) BUILDDIR=build-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=OFF \
+	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CORE=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_JNI=OFF \
+        -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF \
         -DBUILD_TEAMTALK_CLIENTS=OFF \
         -DBUILD_TEAMTALK_SERVERS=OFF \
-        -DBUILD_TEAMTALK_DOCUMENTATION=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_JNI=OFF \
-        -DBUILD_TEAMTALK_LIBRARY_JNIPRO=OFF" \
+        -DBUILD_TEAMTALK_DOCUMENTATION=OFF" \
         buildlib
 
 depend-ubuntu22:
@@ -176,6 +178,7 @@ depend-ubuntu22:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -186,8 +189,7 @@ depend-ubuntu22:
 		qtmultimedia5-dev \
 		qttools5-dev \
 		qttools5-dev-tools \
-		wget \
-		yasm
+		wget
 
 depend-ubuntu24:
 	apt-get install \
@@ -202,8 +204,9 @@ depend-ubuntu24:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
-		openjdk-21-jdk \
+		openjdk-25-jdk \
 		p7zip-full \
 		pkg-config \
 		python-is-python3 \
@@ -215,8 +218,7 @@ depend-ubuntu24:
 		qt6-tools-dev \
 		qt6-tools-dev-tools \
 		wget \
-		xz-utils \
-		yasm
+		xz-utils
 
 depend-ubuntu24-android:
 	apt-get install \
@@ -225,6 +227,7 @@ depend-ubuntu24-android:
 		doxygen \
 		junit4 \
 		libtool \
+		nasm \
 		ninja-build \
 		openjdk-25-jdk \
 		p7zip-full \
@@ -246,6 +249,7 @@ depend-raspios12:
 		libssl-dev \
 		libtool \
 		libxss-dev \
+		nasm \
 		ninja-build \
 		openjdk-17-jdk \
 		p7zip-full \
@@ -256,8 +260,7 @@ depend-raspios12:
 		qt6-multimedia-dev \
 		qt6-speech-dev \
 		qt6-tools-dev \
-		qt6-tools-dev-tools \
-		yasm
+		qt6-tools-dev-tools
 
 depend-mac:
 	brew install \
@@ -265,7 +268,7 @@ depend-mac:
 		automake \
 		doxygen \
 		libtool \
+		nasm \
 		ninja \
 		pkg-config \
-		python-setuptools \
-		yasm
+		python-setuptools

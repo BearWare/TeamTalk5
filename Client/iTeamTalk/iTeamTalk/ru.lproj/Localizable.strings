@@ -170,6 +170,9 @@
 "Connection lost" = "Соединение потеряно";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Страна";
 
 /* View Title */
@@ -208,6 +211,9 @@
 
 /* server entry */
 "Encrypted" = "С шифрованием";
+
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
 
 /* Dialog message */
 "Enter Password" = "Введите Пароль";
@@ -269,6 +275,9 @@
 
 /* channel list */
 "Join channel" = "Присоединиться к каналу";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Присоединиться К Главному Каналу";
@@ -374,6 +383,9 @@
 /* channel list */
 "No password" = "Нет пароля";
 
+/* serverlist */
+"No server found" = "No server found";
+
 /* create channel */
 "No Voice Activation" = "Не Разрешена Голосовая Активация";
 
@@ -428,7 +440,7 @@
 "Play sound when private text message is received" = "Воспроизводить звук, когда получено приватное текстовое сообщение";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда в канале \"Без Прерываний\" можно говорить"";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "Воспроизводить звук, когда в канале \"Без Прерываний\" можно говорить";
 
 /* preferences */
 "Play sound when user logs off to the server" = "Воспроизводить звук, когда пользователь покидает сервер";
@@ -623,6 +635,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Выключать экран при поднесении телефона к уху";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

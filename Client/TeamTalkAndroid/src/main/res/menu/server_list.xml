@@ -13,6 +13,10 @@
         app:showAsAction="never"
         android:title="@string/action_exit"/>
     <item
+        android:id="@+id/action_enter_joincode"
+        app:showAsAction="never"
+        android:title="@string/action_enter_joincode"/>
+    <item
         android:id="@+id/action_newserverentry"
         app:showAsAction="always|withText"
         android:title="@string/action_new_server">
