@@ -353,9 +353,15 @@ elseif (MSVC)
   if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
     set(FFMPEG_ARCH x86_64)
     set(FFMPEG_TARGET_OS win64)
+    set(FFMPEG_CROSS_COMPILE "")
   else()
     set(FFMPEG_ARCH x86)
     set(FFMPEG_TARGET_OS win32)
+    if (CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "AMD64" OR CMAKE_HOST_SYSTEM_PROCESSOR STREQUAL "x86_64")
+      set(FFMPEG_CROSS_COMPILE "--enable-cross-compile --host-cc=cl.exe")
+    else()
+      set(FFMPEG_CROSS_COMPILE "")
+    endif()
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -368,6 +374,8 @@ elseif (MSVC)
       GIT_SHALLOW       TRUE
       GIT_CONFIG        core.autocrlf=false core.eol=lf
       UPDATE_COMMAND    ""
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git apply --ignore-whitespace ${CMAKE_CURRENT_LIST_DIR}/0001-Fix-MSVC-detection-for-non-English-locales.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ffmpeg
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG}
       CONFIGURE_COMMAND ""
