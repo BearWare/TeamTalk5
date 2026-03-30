@@ -3,8 +3,56 @@ name: Windows
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/windows.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/TeamTalkClassic/**'
+      - 'Client/Tolk/**'
+      - 'Client/ttserverlog/**'
+      - 'Client/ttserverlog.net/**'
+      - 'Client/ttserverlogpy/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalk.NET/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Library/TeamTalkPy/**'
+      - 'Server/**'
+      - 'Setup/Client/Sounds/**'
+      - 'Setup/Client/Windows/**'
+      - 'Setup/Installer/**'
+      - 'Setup/Portable/**'
+      - 'Setup/Server/Windows/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/windows.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/TeamTalkClassic/**'
+      - 'Client/Tolk/**'
+      - 'Client/ttserverlog/**'
+      - 'Client/ttserverlog.net/**'
+      - 'Client/ttserverlogpy/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalk.NET/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Library/TeamTalkPy/**'
+      - 'Server/**'
+      - 'Setup/Client/Sounds/**'
+      - 'Setup/Client/Windows/**'
+      - 'Setup/Installer/**'
+      - 'Setup/Portable/**'
+      - 'Setup/Server/Windows/**'
 
 env:
   # TeamTalk unit test environment variables
@@ -17,7 +65,7 @@ env:
 
 jobs:
   build:
-    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')"
+    if: "!contains(github.event.head_commit.message || '', ':skip windows')"
     strategy:
       matrix:
         arch: [x86, x64]
