@@ -1,0 +1,23 @@
+From b497e9a16238aa00736e783bbe40fe559a73351a Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Mon, 30 Mar 2026 00:05:02 +0900
+Subject: [PATCH] Add x86-win32-vs18 platform target
+
+---
+ configure | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/configure b/configure
+index 57efa773c..5e4e41f49 100755
+--- a/configure
++++ b/configure
+@@ -153,6 +153,7 @@ all_platforms="${all_platforms} x86-win32-vs14"
+ all_platforms="${all_platforms} x86-win32-vs15"
+ all_platforms="${all_platforms} x86-win32-vs16"
+ all_platforms="${all_platforms} x86-win32-vs17"
++all_platforms="${all_platforms} x86-win32-vs18"
+ all_platforms="${all_platforms} x86_64-android-gcc"
+ all_platforms="${all_platforms} x86_64-darwin9-gcc"
+ all_platforms="${all_platforms} x86_64-darwin10-gcc"
+--
+2.53.0.windows.1

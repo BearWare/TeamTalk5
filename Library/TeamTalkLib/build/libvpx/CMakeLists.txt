@@ -20,12 +20,12 @@ if (MSVC)
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      set (LIBVPX_WIN_TARGET x86_64-win64-vs17)
+      set (LIBVPX_WIN_TARGET x86_64-win64-vs18)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-        GIT_TAG           v1.16.0
+        GIT_TAG           15dca2fe6
         UPDATE_COMMAND    ""
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
@@ -41,13 +41,15 @@ if (MSVC)
         DEPENDS           ${NASM_TARGET}
         )
     else()
-      set (LIBVPX_WIN_TARGET x86-win32-vs17)
+      set (LIBVPX_WIN_TARGET x86-win32-vs18)
       configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat @ONLY)
 
       ExternalProject_Add(libvpx-src
         GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-        GIT_TAG           v1.16.0
+        GIT_TAG           15dca2fe6
         UPDATE_COMMAND    ""
+        PATCH_COMMAND     git reset --hard
+        COMMAND           git apply --ignore-whitespace ${CMAKE_CURRENT_LIST_DIR}/0001-Add-x86-win32-vs18-platform-target.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
         CONFIGURE_COMMAND ""
         BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat
@@ -83,7 +85,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(libvpx-arm64-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-      GIT_TAG           v1.16.0
+      GIT_TAG           15dca2fe6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-arm64
@@ -99,7 +101,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(libvpx-intel-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-      GIT_TAG           v1.16.0
+      GIT_TAG           15dca2fe6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx-intel
@@ -158,7 +160,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-      GIT_TAG           v1.16.0
+      GIT_TAG           15dca2fe6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
@@ -197,7 +199,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-      GIT_TAG           v1.16.0
+      GIT_TAG           15dca2fe6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
@@ -263,7 +265,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(libvpx-src
       GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-      GIT_TAG           v1.16.0
+      GIT_TAG           15dca2fe6
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
