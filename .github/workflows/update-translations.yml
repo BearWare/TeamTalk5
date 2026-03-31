@@ -1,0 +1,45 @@
+name: Update Translations
+
+on:
+  push:
+    branches: [ "master" ]
+    paths:
+      - 'Client/qtTeamTalk/**.cpp'
+      - 'Client/qtTeamTalk/**.h'
+      - 'Client/qtTeamTalk/**.ui'
+  workflow_dispatch:
+
+jobs:
+  update-translations:
+    runs-on: ubuntu-latest
+    container: archlinux:latest
+
+    permissions:
+      contents: write
+
+    steps:
+    - name: Install packages
+      run: pacman -Syu --noconfirm git qt6-declarative qt6-tools
+
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Mark workspace as safe directory
+      run: git config --global --add safe.directory '*'
+
+    - name: Update translation files
+      id: lupdate
+      working-directory: ${{github.workspace}}
+      run: |
+        /usr/lib/qt6/bin/lupdate Client/qtTeamTalk -ts Client/qtTeamTalk/languages/*.ts -no-obsolete
+        echo "changed=$(git diff --quiet Client/qtTeamTalk/languages/ && echo false || echo true)" >> "$GITHUB_OUTPUT"
+
+    - name: Commit updated translations
+      if: steps.lupdate.outputs.changed == 'true'
+      working-directory: ${{github.workspace}}
+      run: |
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
+        git add Client/qtTeamTalk/languages/*.ts
+        git commit -m "Update translation files"
+        git push
