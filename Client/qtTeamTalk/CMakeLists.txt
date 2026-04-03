@@ -27,10 +27,14 @@ endif()
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
 if (WIN32)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/WinToast)
-  set(WINTOAST_SOURCES
-    3rdparty/WinToast/wintoastlib.cpp 3rdparty/WinToast/wintoastlib.h
+  include(FetchContent)
+  FetchContent_Declare(
+    WinToast
+    GIT_REPOSITORY https://github.com/mohabouje/WinToast.git
+    GIT_TAG        v1.3.2
   )
+  set(WINTOASTLIB_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(WinToast)
 endif()
 
 if (Qt5_FOUND OR Qt6_FOUND)
@@ -125,9 +129,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
-if (WIN32)
-  list(APPEND QTTEAMTALK_SOURCES ${WINTOAST_SOURCES})
-endif()
 
   if (Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
@@ -238,6 +239,10 @@ endif()
       target_link_options(${TEAMTALK_TARGET} PRIVATE -sectcreate __TEXT __info_plist ${CMAKE_CURRENT_SOURCE_DIR}/Info.plist)
     else()
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
+    endif()
+
+    if (WIN32)
+      target_link_libraries (${TEAMTALK_TARGET} WinToast)
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_DLL)
