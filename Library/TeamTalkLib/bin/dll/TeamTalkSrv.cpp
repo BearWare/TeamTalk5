@@ -192,8 +192,7 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContextEx(IN TTSInstance* lpTTSInstance,
 
 TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
 {
-    static bool const b = false;
-    if(!b)InitContext();
+    InitContext();
 
     LicenseCheck();
 
