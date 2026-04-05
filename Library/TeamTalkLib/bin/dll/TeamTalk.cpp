@@ -50,9 +50,9 @@
 
 #include "license/Trial.h"
 
-#if defined(WIN32)
 #include <ace/Init_ACE.h>
 
+#if defined(WIN32)
 #include "win32/AudioDeviceNotify.h"
 #include "win32/HotKey.h"
 #include "win32/Mixer.h"
@@ -276,8 +276,8 @@ static std::mutex soundloops_mutex;
 static soundloops_t soundloops;
 
 #if defined(WIN32)
-BOOL APIENTRY DllMain(HANDLE hModule, 
-                      DWORD  ul_reason_for_call, 
+BOOL APIENTRY DllMain(HANDLE hModule,
+                      DWORD  ul_reason_for_call,
                       VOID* lpReserved)
 {
     int ret = 0;
@@ -327,6 +327,18 @@ void HOTKEY_USAGE(int num)
     if(HOTKEY_USAGE_COUNT>=0)
         HOTKEY_USAGE_COUNT += num;
     TTASSERT(HOTKEY_USAGE_COUNT>=0);
+}
+#else
+__attribute__((constructor))
+static void tt_lib_init()
+{
+    ACE::init();
+}
+
+__attribute__((destructor))
+static void tt_lib_fini()
+{
+    ACE::fini();
 }
 #endif
 
