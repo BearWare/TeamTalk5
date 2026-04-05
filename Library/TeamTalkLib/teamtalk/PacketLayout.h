@@ -30,7 +30,6 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/evp.h>
-#include <openssl/aes.h>
 #endif
 
 #include <array>
