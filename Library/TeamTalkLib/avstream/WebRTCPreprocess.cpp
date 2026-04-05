@@ -99,8 +99,6 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
             return -1;
     }
 
-    // AudioProcessingStats
-    int const output_rms_dbfs = 0;
     bool voice_detected = false;
 
     int in_index = 0;
