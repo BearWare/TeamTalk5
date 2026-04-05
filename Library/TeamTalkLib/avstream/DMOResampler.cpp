@@ -89,13 +89,9 @@ bool DMOResampler::Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFm
     HRESULT hr = 0;
     GUID const gResampler = __uuidof(CResamplerMediaObject);
     GUID const gMO = __uuidof(IMediaObject);
-    static bool init = false;
-    if (!init) {
-        hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-        init = true;
-    }
+    CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
 
-    hr = CoCreateInstance(gResampler, nullptr, CLSCTX_INPROC_SERVER, gMO, 
+    hr = CoCreateInstance(gResampler, nullptr, CLSCTX_INPROC_SERVER, gMO,
                           (void**)&m_pDMO);
     if(FAILED(hr))
         return false;
