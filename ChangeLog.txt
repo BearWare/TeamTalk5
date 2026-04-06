@@ -2,11 +2,21 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.22, unreleased
+Version 5.22.1, unreleased
+Default Qt Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.22, 2026/04/06
 Default Qt Client
 - Ability to stream AAC, Vorbis, etc. on Windows
 - Option to disable sound device detection notifications in statusbar events
-- Ukranian translation
+- Ukrainian translation
 - Speak Client Statistics now refreshes network latency on Ctrl+T
 - Easy log on to server using Join Code
 - Fixed bug where the value of the Show chat history as list view instead of text edit setting was sometimes deleted
