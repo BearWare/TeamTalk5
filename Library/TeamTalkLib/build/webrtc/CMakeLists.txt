@@ -70,15 +70,11 @@ if (MSVC)
       set (WEBRTC_DOWNLOAD_CMD ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
       set (WEBRTC_PATCH_CMD cd ${WEBRTC_SOURCE_ROOT})
       set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\0001-Add-teamtalk-static-lib.patch)
-      set (WEBRTC_PATCH_CMD3 cd ${WEBRTC_SOURCE_ROOT}\\build)
-      set (WEBRTC_PATCH_CMD4 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\0001-Add-support-for-Visual-Studio-2026.patch)
     else()
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
       set (WEBRTC_DOWNLOAD_CMD "")
       set (WEBRTC_PATCH_CMD "")
       set (WEBRTC_PATCH_CMD2 "")
-      set (WEBRTC_PATCH_CMD3 "")
-      set (WEBRTC_PATCH_CMD4 "")
     endif()
 
     configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
@@ -89,8 +85,6 @@ if (MSVC)
       DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD}
       PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
       COMMAND           ${WEBRTC_PATCH_CMD2}
-      COMMAND           ${WEBRTC_PATCH_CMD3}
-      COMMAND           ${WEBRTC_PATCH_CMD4}
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
