@@ -4,6 +4,11 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v522arelease
+ * - @ref v522afeatures
+ *   - @ref v522affmpeg
+ * - @ref v522aapi
+ *
  * @ref v519arelease
  * - @ref v519abugfix
  * 
@@ -264,6 +269,22 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v522arelease TeamTalk 5 SDK v. 5.22a release, April 8th 2026
+ *
+ * @subsection v522afeatures New features in v5.22a
+ *
+ * @subsubsection v522affmpeg Windows client can now stream same formats as Linux and Mac
+ *
+ * Windows client can now also stream AAC, Vorbis, etc.
+ *
+ * @subsection v522aapi API changes in v5.22a
+ *
+ * - New enum value @c #SERVERLOGEVENT_USER_CRYPTERROR in #ServerLogEvent
+ * - New enum value @c #SERVERLOGEVENT_USER_NEW_STREAM in #ServerLogEvent
+ * - Deprecated @c nWaveDeviceID in #SoundDevice
  *
  * <hr>
  *
