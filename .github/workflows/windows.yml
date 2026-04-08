@@ -103,7 +103,7 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        curl -fsSL -o Win32OpenSSL.exe https://slproweb.com/download/Win32OpenSSL-3_6_1.exe
+        curl -fsSL -o Win32OpenSSL.exe https://slproweb.com/download/Win32OpenSSL-3_6_2.exe
         start /wait Win32OpenSSL.exe /silent /sp- /suppressmsgboxes /DIR="C:\Program Files (x86)\OpenSSL"
         echo C:\Program Files (x86)\OpenSSL\bin>> %GITHUB_PATH%
 
