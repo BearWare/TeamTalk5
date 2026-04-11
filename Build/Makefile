@@ -1,6 +1,5 @@
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
-CMAKE_GENERATOR?=Ninja
 
 SHELL := /bin/bash
 
@@ -19,7 +18,7 @@ teamtalk-env:
 
 genlib:
 	mkdir -p $(BUILDDIR)
-	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) -G "$(CMAKE_GENERATOR)" ../../
+	cd $(BUILDDIR) && cmake $(CMAKE_EXTRA) -DCMAKE_EXPORT_COMPILE_COMMANDS=ON -DCMAKE_BUILD_TYPE=$(CONFIGTYPE) ../../
 
 buildlib: genlib
 	cmake --build $(BUILDDIR) $(CMAKE_BUILD_EXTRA)
