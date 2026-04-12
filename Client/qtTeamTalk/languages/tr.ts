@@ -5693,7 +5693,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferences.ui" line="1945"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>Listelerdeki seçili öğeyi seslendir</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2217"/>
@@ -6692,12 +6692,12 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="302"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>Kolay Giriş için Katılım Kodu</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="308"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodu</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="331"/>
@@ -6820,7 +6820,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../serverlistdlg.cpp" line="831"/>
         <location filename="../serverlistdlg.cpp" line="853"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodunu gir</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -6978,35 +6978,35 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverlistdlg.cpp" line="811"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodu</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
         <location filename="../serverlistdlg.cpp" line="893"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucu bilgileri alınamadı.</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="854"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodu yanlış</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>Bu işlem, başkalarının oluşturulan bir kodu kullanarak katılabilmesi için sunucunun giriş bilgilerini yayınlayacaktır. Devam edilsin mi?</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <location filename="../serverlistdlg.cpp" line="892"/>
         <location filename="../serverlistdlg.cpp" line="909"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodu üret</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="910"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>Sunucuya bağlanmak için aşağıdaki Katılım Kodunu girin:</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="949"/>
@@ -7066,7 +7066,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>katılım kodu &amp;üret</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1037"/>
@@ -7177,7 +7177,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı girişi şifreleme hatasına neden oldu</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7277,7 +7277,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>Kullanıcı yeni bir yayın başlattı</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -7936,7 +7936,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation>ses aygıtı tespit edildi</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
