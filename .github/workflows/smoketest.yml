@@ -41,6 +41,7 @@ jobs:
     - name: Install SmokeTest dependencies
       run: >-
            sudo apt-get install
+           catch2
            libace-dev
            libace-inet-dev
            libace-inet-ssl-dev
@@ -69,6 +70,7 @@ jobs:
            -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
            -DFEATURE_WEBRTC=OFF
            -DTOOLCHAIN_ACE=OFF
+           -DTOOLCHAIN_CATCH2=OFF
            -DTOOLCHAIN_FFMPEG=OFF
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_MINIUPNPC=OFF
