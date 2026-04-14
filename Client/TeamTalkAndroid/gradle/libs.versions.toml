@@ -1,5 +1,5 @@
 [versions]
-agp = "9.1.0"
+agp = "9.1.1"
 desugar = "2.1.5"
 gson = "2.13.2"
 annotation = "1.9.1"
