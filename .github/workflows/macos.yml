@@ -42,6 +42,7 @@ jobs:
         version: '6.11.1'
         modules: 'qtmultimedia qtspeech'
         setup-python: false
+        aqtsource: 'aqtinstall@git+https://github.com/miurahr/aqtinstall.git@master'
 
     - name: Print env
       run: printenv | sort
