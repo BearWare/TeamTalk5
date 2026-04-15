@@ -69,7 +69,7 @@ ubuntu:
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu22:
-	$(MAKE) UBUNTUDIR=$@ ubuntu
+	$(MAKE) UBUNTUDIR=$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENT_PRISM=OFF" ubuntu
 
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
