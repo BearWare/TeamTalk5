@@ -31,6 +31,9 @@
 #include "utiltts.h"
 #include "utilui.h"
 #include "settings.h"
+#if defined(ENABLE_PRISM)
+#include <prism.h>
+#endif
 #include "soundeventsmodel.h"
 #include "shortcutsmodel.h"
 
@@ -616,11 +619,10 @@ void PreferencesDlg::initTTSEventsTab()
 #if defined(QT_TEXTTOSPEECH_LIB)
     ui.ttsengineComboBox->addItem(tr("Default"), TTSENGINE_QT);
 #endif
-#if defined(Q_OS_WIN)
-    ui.ttsengineComboBox->addItem(tr("Tolk"), TTSENGINE_TOLK);
-#elif defined(Q_OS_LINUX)
-
-#elif defined(Q_OS_MAC)
+#if defined(ENABLE_PRISM)
+    ui.ttsengineComboBox->addItem(tr("Prism"), TTSENGINE_PRISM);
+#endif
+#if defined(Q_OS_MAC)
         ui.ttsengineComboBox->addItem(tr("VoiceOver (via Apple Script)"), TTSENGINE_APPLESCRIPT);
 #endif
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
@@ -1055,14 +1057,19 @@ void PreferencesDlg::slotSaveChanges()
         ttSettings->setValue(SETTINGS_TTS_VOICE, getCurrentItemData(ui.ttsVoiceComboBox, ""));
         ttSettings->setValueOrClear(SETTINGS_TTS_RATE, ui.ttsVoiceRateSpinBox->value(), SETTINGS_TTS_RATE_DEFAULT);
         ttSettings->setValueOrClear(SETTINGS_TTS_VOLUME, ui.ttsVoiceVolumeSpinBox->value(), SETTINGS_TTS_VOLUME_DEFAULT);
-#if defined(Q_OS_WIN)
-        ttSettings->setValueOrClear(SETTINGS_TTS_SAPI, ui.ttsForceSapiChkBox->isChecked(), SETTINGS_TTS_SAPI_DEFAULT);
-        ttSettings->setValueOrClear(SETTINGS_TTS_TRY_SAPI, ui.ttsTrySapiChkBox->isChecked(), SETTINGS_TTS_TRY_SAPI_DEFAULT);
-#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
-        ttSettings->setValueOrClear(SETTINGS_TTS_ASSERTIVE, ui.ttsAssertiveChkBox->isChecked(), SETTINGS_TTS_ASSERTIVE_DEFAULT);
+#if defined(ENABLE_PRISM)
+        if (getCurrentItemData(ui.ttsengineComboBox).toUInt() == TTSENGINE_PRISM)
+        {
+            ttSettings->setValueOrClear(SETTINGS_TTS_PRISM_BACKEND, getCurrentItemData(ui.ttsVoiceComboBox, quint64(0)).toULongLong(), quint64(SETTINGS_TTS_PRISM_BACKEND_DEFAULT));
+            ttSettings->setValueOrClear(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""), SETTINGS_TTS_OUTPUT_MODE_DEFAULT);
+            ttSettings->setValueOrClear(SETTINGS_TTS_INTERRUPT, ui.ttsAssertiveChkBox->isChecked(), SETTINGS_TTS_INTERRUPT_DEFAULT);
+        }
 #endif
-        ttSettings->setValueOrClear(SETTINGS_TTS_OUTPUT_MODE, getCurrentItemData(ui.ttsOutputModeComboBox, ""), SETTINGS_TTS_OUTPUT_MODE_DEFAULT);
-#elif defined(Q_OS_DARWIN)
+#if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
+        if (getCurrentItemData(ui.ttsengineComboBox).toUInt() == TTSENGINE_QTANNOUNCEMENT)
+            ttSettings->setValueOrClear(SETTINGS_TTS_ASSERTIVE, ui.ttsAssertiveChkBox->isChecked(), SETTINGS_TTS_ASSERTIVE_DEFAULT);
+#endif
+#if defined(Q_OS_DARWIN)
         ttSettings->setValueOrClear(SETTINGS_TTS_SPEAKLISTS, ui.ttsSpeakListsChkBox->isChecked(), SETTINGS_TTS_SPEAKLISTS_DEFAULT);
 #endif
         ttSettings->setValue(SETTINGS_DISPLAY_TTSHEADER, ui.ttsTableView->horizontalHeader()->saveState());
@@ -1427,8 +1434,6 @@ void PreferencesDlg::slotUpdateTTSTab()
     ui.label_ttsnotifTimestamp->hide();
     ui.ttsNotifTimestampSpinBox->hide();
 
-    ui.ttsForceSapiChkBox->hide();
-    ui.ttsTrySapiChkBox->hide();
     ui.ttsSpeakListsChkBox->hide();
     ui.ttsAssertiveChkBox->hide();
     ui.label_ttsoutputmode->hide();
@@ -1475,37 +1480,51 @@ void PreferencesDlg::slotUpdateTTSTab()
 #endif /* QT_TEXTTOSPEECH_LIB */
     }
     break;
-    case TTSENGINE_TOLK :
-#if defined(ENABLE_TOLK)
+    case TTSENGINE_PRISM :
+#if defined(ENABLE_PRISM)
     {
+        ui.label_ttsvoice->setText(tr("Backend"));
+        ui.label_ttsvoice->show();
+        ui.ttsVoiceComboBox->show();
         ui.label_ttsoutputmode->show();
         ui.ttsOutputModeComboBox->show();
-        ui.ttsForceSapiChkBox->show();
-        ui.ttsTrySapiChkBox->show();
 
-        bool tolkLoaded = Tolk_IsLoaded();
-        if (!tolkLoaded)
-            Tolk_Load();
-        QString currentSR = QString("%1").arg(Tolk_DetectScreenReader());
-        bool hasBraille = Tolk_HasBraille();
-        bool hasSpeech = Tolk_HasSpeech();
-        if (!tolkLoaded)
-            Tolk_Unload();
-        if(currentSR.size())
+        ui.ttsVoiceComboBox->clear();
+        ui.ttsVoiceComboBox->addItem(tr("Auto"), quint64(PRISM_BACKEND_INVALID));
         {
-            ui.ttsForceSapiChkBox->setText(tr("Use SAPI instead of %1 screenreader").arg(currentSR));
-            ui.ttsTrySapiChkBox->setText(tr("Switch to SAPI if %1 screenreader is not available").arg(currentSR));
+            PrismConfig cfg = prism_config_init();
+            PrismContext* ctx = prism_init(&cfg);
+            if (ctx)
+            {
+                size_t count = prism_registry_count(ctx);
+                for (size_t i = 0; i < count; i++)
+                {
+                    PrismBackendId id = prism_registry_id_at(ctx, i);
+                    const char* name = prism_registry_name(ctx, id);
+                    if (name)
+                        ui.ttsVoiceComboBox->addItem(QString::fromUtf8(name), quint64(id));
+                }
+                prism_shutdown(ctx);
+            }
         }
-        ui.ttsForceSapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
-        ui.ttsTrySapiChkBox->setChecked(ttSettings->value(SETTINGS_TTS_TRY_SAPI, SETTINGS_TTS_TRY_SAPI_DEFAULT).toBool());
+        quint64 savedBackend = ttSettings->value(SETTINGS_TTS_PRISM_BACKEND, SETTINGS_TTS_PRISM_BACKEND_DEFAULT).toULongLong();
+        for (int i = 0; i < ui.ttsVoiceComboBox->count(); i++)
+        {
+            if (ui.ttsVoiceComboBox->itemData(i).toULongLong() == savedBackend)
+            {
+                ui.ttsVoiceComboBox->setCurrentIndex(i);
+                break;
+            }
+        }
+
         ui.ttsOutputModeComboBox->clear();
-        if (hasSpeech == true && hasBraille == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), TTS_OUTPUTMODE_SPEECHBRAILLE);
-        if (hasBraille == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Braille only"), TTS_OUTPUTMODE_BRAILLE);
-        if (hasSpeech == true)
-            ui.ttsOutputModeComboBox->addItem(tr("Speech only"), TTS_OUTPUTMODE_SPEECH);
+        ui.ttsOutputModeComboBox->addItem(tr("Speech and Braille"), TTS_OUTPUTMODE_SPEECHBRAILLE);
+        ui.ttsOutputModeComboBox->addItem(tr("Speech only"), TTS_OUTPUTMODE_SPEECH);
+        ui.ttsOutputModeComboBox->addItem(tr("Braille only"), TTS_OUTPUTMODE_BRAILLE);
         setCurrentItemData(ui.ttsOutputModeComboBox, ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt());
+
+        ui.ttsAssertiveChkBox->show();
+        ui.ttsAssertiveChkBox->setChecked(ttSettings->value(SETTINGS_TTS_INTERRUPT, SETTINGS_TTS_INTERRUPT_DEFAULT).toBool());
     }
 #endif
     break;

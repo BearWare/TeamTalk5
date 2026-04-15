@@ -25,10 +25,6 @@
 #include "Resource.h"
 #include "SoundEventsPage.h"
 
-#if defined(ENABLE_TOLK)
-#include <Tolk.h>
-#endif
-
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #undef THIS_FILE
