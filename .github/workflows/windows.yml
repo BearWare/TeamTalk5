@@ -69,6 +69,7 @@ jobs:
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
         setup-python: false
+        aqtsource: 'aqtinstall@git+https://github.com/miurahr/aqtinstall.git@master'
 
     - name: Install Doxygen
       uses: ssciwr/doxygen-install@v2
