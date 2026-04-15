@@ -198,8 +198,10 @@ depend-ubuntu24:
 		g++ \
 		junit4 \
 		libasound2-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \
@@ -243,8 +245,10 @@ depend-raspios12:
 		git \
 		junit4 \
 		libasound2-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \

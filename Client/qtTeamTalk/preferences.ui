@@ -1912,20 +1912,6 @@
              <widget class="QComboBox" name="ttsOutputModeComboBox"/>
             </item>
             <item row="7" column="0" colspan="2">
-             <widget class="QCheckBox" name="ttsForceSapiChkBox">
-              <property name="text">
-               <string>Use SAPI instead of current screenreader</string>
-              </property>
-             </widget>
-            </item>
-            <item row="8" column="0" colspan="2">
-             <widget class="QCheckBox" name="ttsTrySapiChkBox">
-              <property name="text">
-               <string>Switch to SAPI if current screenreader is not available</string>
-              </property>
-             </widget>
-            </item>
-            <item row="9" column="0" colspan="2">
              <widget class="QCheckBox" name="ttsAssertiveChkBox">
               <property name="text">
                <string>Interrupt current screenreader speech on new event</string>

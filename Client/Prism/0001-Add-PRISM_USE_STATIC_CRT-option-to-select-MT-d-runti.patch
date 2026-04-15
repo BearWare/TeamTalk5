@@ -1,0 +1,45 @@
+From 22cf931fa04810b941badefbc68ca3f46e47b7dd Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Fri, 24 Apr 2026 20:19:54 +0900
+Subject: [PATCH] Add PRISM_USE_STATIC_CRT option to select /MT(d) runtime
+
+---
+ CMakeLists.txt | 15 +++++----------
+ 1 file changed, 5 insertions(+), 10 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 02e4e48..7ebf131 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -39,6 +39,7 @@ if(PRISM_ENABLE_VCPKG_SPECIFIC_OPTIONS)
+     OFF)
+ endif()
+ option(PRISM_ENABLE_GDEXTENSION "Enable building of the Godot GDExtension" ON)
++option(PRISM_USE_STATIC_CRT "Use /MT(d) static CRT on MSVC" OFF)
+ option(PRISM_ENABLE_LEGACY_BACKENDS
+        "Enable building of legacy backends which are dead or rarely used" OFF)
+ if(PRISM_ENABLE_LEGACY_BACKENDS)
+@@ -63,16 +64,10 @@ if(WIN32)
+     set(CMAKE_MSVC_RUNTIME_LIBRARY
+         "MultiThreadedDLL"
+         CACHE STRING "Match godot-cpp non-debug CRT")
+-  else()
+-    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
+-      set(CMAKE_MSVC_RUNTIME_LIBRARY
+-          "MultiThreaded"
+-          CACHE STRING "Set MSVC CRT library type")
+-    else()
+-      set(CMAKE_MSVC_RUNTIME_LIBRARY
+-          "MultiThreadedDebug"
+-          CACHE STRING "Set MSVC CRT library type")
+-    endif()
++  elseif(PRISM_USE_STATIC_CRT)
++    set(CMAKE_MSVC_RUNTIME_LIBRARY
++        "MultiThreaded$<$<CONFIG:Debug>:Debug>"
++        CACHE STRING "Use static CRT")
+   endif()
+ endif()
+ function(add_import_library target def_file dll_name)
+-- 
+2.54.0.windows.1
+
