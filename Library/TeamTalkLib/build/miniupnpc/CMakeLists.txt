@@ -23,7 +23,7 @@ if (MSVC)
       GIT_REPOSITORY    https://github.com/miniupnp/miniupnp.git
       GIT_TAG           miniupnpc_2_3_3
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
+      PATCH_COMMAND     git am ${CMAKE_CURRENT_LIST_DIR}/0001-Build-MT-configurations-for-Visual-Studio.patch
       SOURCE_SUBDIR     miniupnpc
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/miniupnpc
       CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
