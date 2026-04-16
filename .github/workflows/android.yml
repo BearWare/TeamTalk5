@@ -44,6 +44,11 @@ jobs:
         ndk-version: r29
         add-to-path: false
 
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v6
+      with:
+        validate-wrappers: true
+
     - name: Update Ubuntu repository
       run: sudo apt-get update
 
