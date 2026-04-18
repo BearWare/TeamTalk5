@@ -21,6 +21,7 @@
  *
  */
 
+import SwiftUI
 import UIKit
 
 enum ServerType {
@@ -31,7 +32,11 @@ enum ServerType {
 }
 
 // Properties of a TeamTalk server to connect to
-class Server : NSObject {
+class Server : NSObject, NSSecureCoding {
+    static var supportsSecureCoding: Bool {
+        true
+    }
+    
     var name = ""
     var ipaddr = ""
     var tcpport = AppInfo.DEFAULT_TCPPORT
@@ -59,24 +64,24 @@ class Server : NSObject {
         
     }
     
-    @objc init(coder dec: NSCoder!) {
-        name = dec.decodeObject(forKey: "name") as! String
-        ipaddr = dec.decodeObject(forKey: "ipaddr") as! String
+    required init?(coder dec: NSCoder) {
+        name = Server.decodeString(dec, forKey: "name")
+        ipaddr = Server.decodeString(dec, forKey: "ipaddr")
         tcpport = dec.decodeInteger(forKey: "tcpport")
         udpport = dec.decodeInteger(forKey: "udpport")
-        username = dec.decodeObject(forKey: "username") as! String
-        password = dec.decodeObject(forKey: "password") as! String
-        nickname = dec.decodeObject(forKey: "nickname") as? String ?? ""
-        channel = dec.decodeObject(forKey: "channel") as! String
-        chanpasswd = dec.decodeObject(forKey: "chanpasswd") as! String
+        username = Server.decodeString(dec, forKey: "username")
+        password = Server.decodeString(dec, forKey: "password")
+        nickname = Server.decodeString(dec, forKey: "nickname")
+        channel = Server.decodeString(dec, forKey: "channel")
+        chanpasswd = Server.decodeString(dec, forKey: "chanpasswd")
         encrypted = dec.decodeBool(forKey: "encrypted")
-        cacertdata = dec.decodeObject(forKey: "cacertdata") as? String ?? ""
-        certdata = dec.decodeObject(forKey: "certdata") as? String ?? ""
-        certprivkeydata = dec.decodeObject(forKey: "certprivkeydata") as? String ?? ""
+        cacertdata = Server.decodeString(dec, forKey: "cacertdata")
+        certdata = Server.decodeString(dec, forKey: "certdata")
+        certprivkeydata = Server.decodeString(dec, forKey: "certprivkeydata")
         certverifypeer = dec.decodeBool(forKey: "certverifypeer")
     }
     
-    @objc func encodeWithCoder(_ enc: NSCoder!) {
+    func encode(with enc: NSCoder) {
         enc.encode(name, forKey: "name")
         enc.encode(ipaddr, forKey: "ipaddr")
         enc.encode(tcpport, forKey: "tcpport")
@@ -92,6 +97,13 @@ class Server : NSObject {
         enc.encode(certprivkeydata, forKey: "certprivkeydata")
         enc.encode(certverifypeer, forKey: "certverifypeer")
     }
+    
+    private static func decodeString(_ decoder: NSCoder, forKey key: String) -> String {
+        if let value = decoder.decodeObject(of: NSString.self, forKey: key) {
+            return value as String
+        }
+        return ""
+    }
 }
 
 func loadLocalServers() -> [Server] {
@@ -103,9 +115,9 @@ func loadLocalServers() -> [Server] {
         for e in stored {
             let data = e as! Data
             
-            let server = NSKeyedUnarchiver.unarchiveObject(with: data) as! Server
-            
-            servers.append(server)
+            if let server = try? NSKeyedUnarchiver.unarchivedObject(ofClass: Server.self, from: data) {
+                servers.append(server)
+            }
         }
     }
     return servers
@@ -116,36 +128,128 @@ func saveLocalServers(_ servers : [Server]) {
     let defaults = UserDefaults.standard
     var s_array = [Data]()
     for s in servers {
-        let data = NSKeyedArchiver.archivedData(withRootObject: s)
-        s_array.append(data)
+        if let data = try? NSKeyedArchiver.archivedData(withRootObject: s, requiringSecureCoding: true) {
+            s_array.append(data)
+        }
     }
     defaults.set(s_array, forKey: "ServerList")
     defaults.synchronize()
 }
 
-class ServerListViewController : UITableViewController,
-    XMLParserDelegate {
-    
-    // server for segue
+final class ServerListViewController: UIHostingController<ServerListView> {
+
     var currentServer = Server()
     // list of available servers
-    var servers = [Server]()
-    
+    var servers = [Server]() {
+        didSet { model.servers = servers }
+    }
+
     var nextappupdate = Date()
-    
-    let ROW_OFFSET = 1
+    private var model: ServerListModel
+
+    init() {
+        let model = ServerListModel(servers: [])
+        self.model = model
+        super.init(rootView: ServerListView(
+            model: model,
+            enterJoinCode: { },
+            showServer: { _ in },
+            connectServer: { _ in },
+            deleteServer: { _ in }
+        ))
+    }
+
+    required init?(coder: NSCoder) { fatalError("use init()") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        // Do any additional setup after loading the view, typically from a nib.
-        
-        if let addbtn = self.navigationItem.rightBarButtonItem {
-            addbtn.accessibilityLabel = NSLocalizedString("Add new server entry", comment: "serverlist")
+
+        rootView = ServerListView(
+            model: model,
+            enterJoinCode: { [weak self] in self?.enterJoinCode() },
+            showServer: { [weak self] server in self?.showServer(server) },
+            connectServer: { [weak self] server in self?.initiateConnect(to: server) },
+            deleteServer: { [weak self] server in self?.deleteServer(server) }
+        )
+
+        navigationItem.title = NSLocalizedString("TeamTalk Servers", comment: "serverlist")
+
+        let setupBtn = UIBarButtonItem(
+            image: UIImage(named: "setup"),
+            style: .plain,
+            target: self,
+            action: #selector(openPreferences)
+        )
+        setupBtn.accessibilityLabel = NSLocalizedString("Preferences", comment: "serverlist")
+        setupBtn.accessibilityHint = NSLocalizedString("Access preferences", comment: "serverlist")
+        navigationItem.leftBarButtonItem = setupBtn
+
+        let addBtn = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(addServer)
+        )
+        addBtn.accessibilityLabel = NSLocalizedString("Add new server entry", comment: "serverlist")
+        navigationItem.rightBarButtonItem = addBtn
+
+        NotificationCenter.default.addObserver(self, selector: #selector(handleOpenURL(_:)), name: .iTeamTalkOpenURL, object: nil)
+    }
+
+    @objc private func openPreferences() {
+        let model = PreferencesModel()
+        let vc = UIHostingController(rootView: PreferencesView(model: model))
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func addServer() {
+        pushServerDetail(for: Server())
+    }
+
+    private func showServer(_ server: Server) {
+        pushServerDetail(for: server)
+    }
+
+    private func pushServerDetail(for server: Server) {
+        let vc = ServerDetailViewController()
+        vc.server = server
+        vc.onConnect = { [weak self] updatedServer in
+            guard let self else { return }
+            upsertServer(updatedServer)
+            currentServer = updatedServer
+            showChannelList()
         }
-        if let setupbtn = self.navigationItem.leftBarButtonItem {
-            setupbtn.accessibilityLabel = NSLocalizedString("Preferences", comment: "serverlist")
-            setupbtn.accessibilityHint = NSLocalizedString("Access preferences", comment: "serverlist")
+        vc.onDelete = { [weak self] in
+            guard let self else { return }
+            servers.removeAll { $0 === server }
+            saveServerList()
+            navigationController?.popViewController(animated: true)
         }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func upsertServer(_ server: Server) {
+        if let idx = servers.firstIndex(where: { $0.name == server.name }) {
+            servers[idx] = server
+        } else {
+            servers.append(server)
+        }
+        saveServerList()
+    }
+
+    private func initiateConnect(to server: Server) {
+        currentServer = server
+        showChannelList()
+    }
+
+    private func showChannelList() {
+        let vc = MainTabBarController(server: currentServer)
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    @objc private func handleOpenURL(_ notification: Notification) {
+        guard let url = notification.object as? URL else { return }
+        navigationController?.popToRootViewController(animated: true)
+        openUrl(url)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -163,7 +267,7 @@ class ServerListViewController : UITableViewController,
             Timer.scheduledTimer(timeInterval: 1.0, target: self, selector: #selector(ServerListViewController.downloadServerList), userInfo: nil, repeats: false)
         }
 
-        tableView.reloadData()
+        model.servers = servers
         
         if (nextappupdate as NSDate).earlierDate(Date()) == nextappupdate {
             Timer.scheduledTimer(timeInterval: 2.0, target: self, selector: #selector(ServerListViewController.checkAppUpdate), userInfo: nil, repeats: false)
@@ -239,7 +343,7 @@ class ServerListViewController : UITableViewController,
         for s in serverparser.servers {
             servers.append(s)
         }
-        tableView.reloadData()
+        model.servers = servers
     }
     
     func downloadServer(joincode: String) {
@@ -263,7 +367,7 @@ class ServerListViewController : UITableViewController,
                         
                         if serverparser.currentServer.ipaddr.isEmpty == false {
                             self.currentServer = serverparser.currentServer
-                            self.performSegue(withIdentifier: "Show ChannelList", sender: self)
+                            self.showChannelList()
                         } else {
                             let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "serverlist"),
                                                           message: NSLocalizedString("No server found", comment: "serverlist"),
@@ -289,87 +393,29 @@ class ServerListViewController : UITableViewController,
         saveLocalServers(servers.filter({$0.servertype == .LOCAL}))
     }
     
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return servers.count + ROW_OFFSET /* join code button */
-    }
-    
-    fileprivate func createServerCell(_ tableView: UITableView, _ indexPath: IndexPath, _ serverIndex: Int) -> UITableViewCell {
-        let cellIdentifier = "ServerTableCell"
-        
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ServerTableCell
-        let server = servers[serverIndex]
-        cell.connectBtn.tag = serverIndex
-        cell.nameLabel.text = server.name
-        cell.detailLabel.text = "\(server.ipaddr):\(server.tcpport)"
-        if server.servertype != .LOCAL {
-            let detail = cell.detailLabel.text! + ", " +
-            String(format: NSLocalizedString("Users: %d, Country: %@", comment: "serverlist"), server.stats_usercount, server.stats_country)
-            cell.detailLabel.text = detail
-        }
-        switch server.servertype {
-        case .LOCAL :
-            cell.iconImageView.image = UIImage(named: "teamtalk_yellow.png")
-            cell.iconImageView.accessibilityLabel = NSLocalizedString("Local server", comment: "serverlist")
-        case .OFFICIAL :
-            cell.iconImageView.image = UIImage(named: "teamtalk_blue.png")
-            cell.iconImageView.accessibilityLabel = NSLocalizedString("Official server", comment: "serverlist")
-        case .PUBLIC :
-            cell.iconImageView.image = UIImage(named: "teamtalk_green.png")
-            cell.iconImageView.accessibilityLabel = NSLocalizedString("Public server", comment: "serverlist")
-        case .UNOFFICIAL :
-            cell.iconImageView.image = UIImage(named: "teamtalk_orange.png")
-            cell.iconImageView.accessibilityLabel = NSLocalizedString("Unofficial server", comment: "serverlist")
-        }
-        
-        if #available(iOS 8.0, *) {
-            let action_connect = MyCustomAction(name: NSLocalizedString("Connect to server", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.connectServer(_:)), tag: serverIndex)
-            let action_delete = MyCustomAction(name: NSLocalizedString("Delete server from list", comment: "serverlist"), target: self, selector: #selector(ServerListViewController.deleteServer(_:)), tag: serverIndex)
-            cell.accessibilityCustomActions = [action_connect, action_delete]
-        } else {
-            // Fallback on earlier versions
-        }
-        
-        return cell
-    }
-    
-    fileprivate func createJoinCodeCell(_ tableView: UITableView, _ indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "JoinCodeCell")!
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        if indexPath.row == 0 {
-            return createJoinCodeCell(tableView, indexPath)
-        }
-        return createServerCell(tableView, indexPath, indexPath.row - ROW_OFFSET)
-    }
-
-    @objc @available(iOS 8.0, *)
+    @objc
     func connectServer(_ action: UIAccessibilityCustomAction) -> Bool {
-        
         if let ac = action as? MyCustomAction {
-            currentServer = servers[ac.tag]
-            performSegue(withIdentifier: "Show ChannelList", sender: self)
+            initiateConnect(to: servers[ac.tag])
         }
         return true
     }
     
-    @objc @available(iOS 8.0, *)
+    @objc
     func deleteServer(_ action: UIAccessibilityCustomAction) -> Bool {
         
         if let ac = action as? MyCustomAction {
-            servers.remove(at: ac.tag)
-            saveServerList()
-            tableView.reloadData()
+            deleteServer(servers[ac.tag])
         }
         return true
     }
 
-    @IBAction func enterJoinCode(_ sender: Any) {
+    private func deleteServer(_ server: Server) {
+        servers.removeAll { $0 === server }
+        saveServerList()
+    }
+
+    func enterJoinCode() {
         let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "serverlist"),
                                       message: NSLocalizedString("Enter Join Code", comment: "serverlist"),
                                       preferredStyle: .alert)
@@ -397,59 +443,6 @@ class ServerListViewController : UITableViewController,
         self.present(alert, animated: true)
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Show Server" {
-            let index = self.tableView.indexPathForSelectedRow
-            currentServer = servers[index!.row - ROW_OFFSET]
-            let serverDetail = segue.destination as! ServerDetailViewController
-            serverDetail.server = currentServer
-        }
-        else if segue.identifier == "New Server" {
-            
-        }
-        else if segue.identifier == "Show ChannelList" {
-            let vc = segue.destination as! MainTabBarController
-            vc.setTeamTalkServer(currentServer)
-        }
-    }
-    
-    @IBAction func deleteServerDetail(_ segue:UIStoryboardSegue) {
-        let vc = segue.source as! ServerDetailViewController
-        
-        vc.saveServerDetail()
-        let name = vc.namefield?.text
-        
-        servers = servers.filter({$0.name != name})
-        
-        saveServerList()
-        
-        tableView.reloadData()
-    }
-    
-    @IBAction func saveServerDetail(_ segue:UIStoryboardSegue) {
-        let vc = segue.source as! ServerDetailViewController
-        
-        vc.saveServerDetail()
-        let name = vc.server.name
-        
-        if let found = servers.map({$0.name}).firstIndex(of: name) {
-            servers[found] = vc.server
-        }
-        else {
-            servers.append(vc.server)
-        }
-        
-        self.currentServer = vc.server
-        
-        saveServerList()
-        
-        tableView.reloadData()
-    }
-    
-    @IBAction func connectToServer(_ sender: UIButton) {
-        currentServer = servers[sender.tag]
-    }
-
     func openUrl(_ url: URL) {
         
         if url.isFileURL {
@@ -558,7 +551,93 @@ class ServerListViewController : UITableViewController,
         }
         
         if !currentServer.ipaddr.isEmpty {
-            performSegue(withIdentifier: "Show ChannelList", sender: self)
+            showChannelList()
+        }
+    }
+}
+
+final class ServerListModel: ObservableObject {
+    @Published var servers: [Server]
+
+    init(servers: [Server]) {
+        self.servers = servers
+    }
+}
+
+struct ServerListView: View {
+    @ObservedObject var model: ServerListModel
+
+    let enterJoinCode: () -> Void
+    let showServer: (Server) -> Void
+    let connectServer: (Server) -> Void
+    let deleteServer: (Server) -> Void
+
+    var body: some View {
+        List {
+            TeamTalkActionRow(title: NSLocalizedString("Enter Join Code", comment: "serverlist"), action: enterJoinCode)
+
+            ForEach(model.servers, id: \.self) { server in
+                TeamTalkServerRow(
+                    title: server.name,
+                    subtitle: detail(for: server),
+                    iconName: iconName(for: server),
+                    iconAccessibilityLabel: iconAccessibilityLabel(for: server),
+                    actionTitle: NSLocalizedString("Connect", comment: "serverlist")
+                ) {
+                    connectServer(server)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    showServer(server)
+                }
+                .swipeActions(edge: .trailing) {
+                    Button(role: .destructive) {
+                        deleteServer(server)
+                    } label: {
+                        Label(NSLocalizedString("Delete", comment: "serverlist"), systemImage: "trash")
+                    }
+                }
+                .accessibilityAction(named: NSLocalizedString("Connect to server", comment: "serverlist")) {
+                    connectServer(server)
+                }
+                .accessibilityAction(named: NSLocalizedString("Delete server from list", comment: "serverlist")) {
+                    deleteServer(server)
+                }
+            }
+        }
+    }
+
+    private func detail(for server: Server) -> String {
+        var detail = "\(server.ipaddr):\(server.tcpport)"
+        if server.servertype != .LOCAL {
+            detail += ", " + String(format: NSLocalizedString("Users: %d, Country: %@", comment: "serverlist"), server.stats_usercount, server.stats_country)
+        }
+        return detail
+    }
+
+    private func iconName(for server: Server) -> String {
+        switch server.servertype {
+        case .LOCAL:
+            return "teamtalk_yellow.png"
+        case .OFFICIAL:
+            return "teamtalk_blue.png"
+        case .PUBLIC:
+            return "teamtalk_green.png"
+        case .UNOFFICIAL:
+            return "teamtalk_orange.png"
+        }
+    }
+
+    private func iconAccessibilityLabel(for server: Server) -> String {
+        switch server.servertype {
+        case .LOCAL:
+            return NSLocalizedString("Local server", comment: "serverlist")
+        case .OFFICIAL:
+            return NSLocalizedString("Official server", comment: "serverlist")
+        case .PUBLIC:
+            return NSLocalizedString("Public server", comment: "serverlist")
+        case .UNOFFICIAL:
+            return NSLocalizedString("Unofficial server", comment: "serverlist")
         }
     }
 }

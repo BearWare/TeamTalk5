@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -21,8 +21,10 @@
  *
  */
 
-import UIKit
 import AVFoundation
+import SwiftUI
+import TeamTalkKit
+import UIKit
 
 let PREF_GENERAL_NICKNAME = "nickname_preference"
 let PREF_GENERAL_GENDER = "gender_preference"
@@ -84,568 +86,563 @@ let PREF_TTSEVENT_VOL = "tts_volume_preference"
 let PREF_TTSEVENT_USERLOGIN = "tts_user_login"
 let PREF_TTSEVENT_USERLOGOUT = "tts_user_logout"
 
+final class PreferencesModel: ObservableObject {
 
-class PreferencesViewController : UITableViewController, UITextFieldDelegate, TeamTalkEvent {
-    
-    var nicknamefield : UITextField?
-    
+    struct SubscriptionRow: Identifiable {
+        let title: String
+        let subtitle: String
+        let type: Subscription
+        let key: String
+
+        var id: String {
+            key
+        }
+    }
+
+    struct VersionRow: Identifiable {
+        let title: String
+        let value: String
+
+        var id: String {
+            title
+        }
+    }
+
+    @Published var nicknameText: String
+    @Published var genderIndex: Int
+    @Published var pushToTalkLock: Bool
+    @Published var headsetTXToggle: Bool
+    @Published var sendOnReturn: Bool
+    @Published var proximitySensor: Bool
+    @Published var popupTextMessages: Bool
+    @Published var limitText: Double
+    @Published var showUsername: Bool
+    @Published var channelSortIndex: Int
+    @Published var joinRoot: Bool
+    @Published var defaultSubscriptions: Subscriptions
+    @Published var masterVolumePercent: Double
+    @Published var mediaFileVolumePercent: Double
+    @Published var microphoneGainPercent: Double
+    @Published var voiceActivationLevel: Double
+    @Published var ttsRate: Double
+    @Published var ttsVolume: Double
+
     var users = Set<INT32>()
-    
-    var limittextcell : UITableViewCell?
-    var mastervolcell : UITableViewCell?
-    var voiceactcell : UITableViewCell?
-    var microphonecell : UITableViewCell?
-    var ttsratecell : UITableViewCell?
-    var ttsvolcell : UITableViewCell?
 
-    var general_items = [UITableViewCell]()
-    var display_items = [UITableViewCell]()
-    var soundevents_items = [UITableViewCell]()
-    var sound_items  = [UITableViewCell]()
-    var subscription_items = [UITableViewCell]()
-    var connection_items = [UITableViewCell]()
-    var ttsevents_items = [UITableViewCell]()
-    var version_items = [UITableViewCell]()
-    
-    let SECTION_GENERAL = 0,
-        SECTION_DISPLAY = 1,
-        SECTION_SOUND = 2,
-        SECTION_SOUNDEVENTS = 3,
-        SECTION_TTSEVENTS = 4,
-        SECTION_CONNECTION = 5,
-        SECTION_SUBSCRIPTIONS = 6,
-        SECTION_VERSION = 7,
-        SECTIONS_COUNT = 8
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
+    let subscriptionRows: [SubscriptionRow]
+    let versionRows: [VersionRow]
+
+    init() {
         let settings = UserDefaults.standard
-        
-        var nickname = settings.string(forKey: PREF_GENERAL_NICKNAME)
-        if nickname == nil {
-            nickname = ""
-        }
-        
-        // general items
-        
-        let nicknamecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname", comment: "preferences"), initial: nickname!)
-        nicknamecell.detailTextLabel!.text = NSLocalizedString("Name displayed in channel list", comment: "preferences")
-        nicknamefield?.addTarget(self, action: #selector(PreferencesViewController.nicknameChanged(_:)), for: .editingDidEnd)
-        nicknamefield?.delegate = self
-        general_items.append(nicknamecell)
-        
-        let gendercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let genderoptions = [ NSLocalizedString("Male", comment: "preferences"), NSLocalizedString("Female", comment: "preferences")]
-        let gendersegctl = newTableCellSegCtrl(gendercell, label: NSLocalizedString("Gender", comment: "preferences"), values: genderoptions)
-        gendersegctl.selectedSegmentIndex = settings.integer(forKey: PREF_GENERAL_GENDER)
-        gendercell.detailTextLabel!.text = NSLocalizedString("Show male or female icon", comment: "preferences")
-        gendersegctl.addTarget(self, action: #selector(PreferencesViewController.genderChanged(_:)), for: .valueChanged)
-        general_items.append(gendercell)
-        
-        let weblogincell = tableView.dequeueReusableCell(withIdentifier: "Web Login Cell")
-        general_items.append(weblogincell!)
-        
-        let pttlock = settings.object(forKey: PREF_GENERAL_PTTLOCK) != nil && settings.bool(forKey: PREF_GENERAL_PTTLOCK)
-        let pttlockcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let pttlockswitch = newTableCellSwitch(pttlockcell, label: NSLocalizedString("Push To Talk Lock", comment: "preferences"), initial: pttlock)
-        pttlockcell.detailTextLabel!.text = NSLocalizedString("Double tap to lock TX button", comment: "preferences")
-        pttlockswitch.addTarget(self, action: #selector(PreferencesViewController.pttlockChanged(_:)), for: .valueChanged)
-        general_items.append(pttlockcell)
-        
-        let headsettxcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let headsettxswitch = newTableCellSwitch(headsettxcell, label: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
-            initial: settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE))
-        headsettxcell.detailTextLabel!.text = NSLocalizedString("Toggle voice transmission using headset", comment: "preferences")
-        headsettxswitch.addTarget(self, action: #selector(PreferencesViewController.headsetTxToggleChanged(_:)), for: .valueChanged)
-        general_items.append(headsettxcell)
-        
-        let sendonenter = settings.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || settings.bool(forKey: PREF_GENERAL_SENDONRETURN)
-        let sendonentercell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let sendonenterswitch = newTableCellSwitch(sendonentercell, label: NSLocalizedString("Return Sends Message", comment: "preferences"), initial: sendonenter)
-        sendonentercell.detailTextLabel!.text = NSLocalizedString("Pressing Return-key sends text message", comment: "preferences")
-        sendonenterswitch.addTarget(self, action: #selector(PreferencesViewController.sendonenterChanged(_:)), for: .valueChanged)
-        general_items.append(sendonentercell)
-        
-        // display items
 
-        let proximitycell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let proximity = settings.object(forKey: PREF_DISPLAY_PROXIMITY) != nil && settings.bool(forKey: PREF_DISPLAY_PROXIMITY)
-        let proximitywitch = newTableCellSwitch(proximitycell, label: NSLocalizedString("Proximity Sensor", comment: "preferences"), initial: proximity)
-        proximitycell.detailTextLabel!.text = NSLocalizedString("Turn off screen when holding phone near ear", comment: "preferences")
-        proximitywitch.addTarget(self, action: #selector(PreferencesViewController.proximityChanged(_:)), for: .valueChanged)
-        display_items.append(proximitycell)
-        
-        let txtmsgpopcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let txtmsgpopup = settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG)
-        let txtmsgswitch = newTableCellSwitch(txtmsgpopcell, label: NSLocalizedString("Show Text Messages Instantly", comment: "preferences"), initial: txtmsgpopup)
-        txtmsgpopcell.detailTextLabel!.text = NSLocalizedString("Pop up text message when new messages are received", comment: "preferences")
-        txtmsgswitch.addTarget(self, action: #selector(PreferencesViewController.showtextmessagesChanged(_:)), for: .valueChanged)
-        display_items.append(txtmsgpopcell)
-        
-        limittextcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let limittext = settings.object(forKey: PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integer(forKey: PREF_DISPLAY_LIMITTEXT)
-        let limittextstepper = newTableCellStepper(limittextcell!, label: NSLocalizedString("Maximum Text Length", comment: "preferences"), min: 1, max: Double(TT_STRLEN-1), step: 1, initial: Double(limittext))
-        limittextChanged(limittextstepper)
-        limittextstepper.addTarget(self, action: #selector(PreferencesViewController.limittextChanged(_:)), for: .valueChanged)
-        display_items.append(limittextcell!)
-        
-        let pubservercell = tableView.dequeueReusableCell(withIdentifier: "ShowPublicServers")
-        display_items.append(pubservercell!)
-        
-        let showusernamecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let showusername = settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME)
-        let showusernameswitch = newTableCellSwitch(showusernamecell, label: NSLocalizedString("Show Usernames", comment: "preferences"), initial: showusername)
-        showusernamecell.detailTextLabel!.text = NSLocalizedString("Show usernames instead of nicknames", comment: "preferences")
-        showusernameswitch.addTarget(self, action: #selector(PreferencesViewController.showusernameChanged(_:)), for: .valueChanged)
-        display_items.append(showusernamecell)
-        
-        let sortchancell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let options = [ NSLocalizedString("Ascending", comment: "preferences"), NSLocalizedString("Popularity", comment: "preferences")]
-        let sortchansegctl = newTableCellSegCtrl(sortchancell, label: NSLocalizedString("Sort Channels", comment: "preferences"), values: options)
-        let chansort = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
-        sortchansegctl.selectedSegmentIndex = chansort
-        sortchancell.detailTextLabel!.text = NSLocalizedString("Order of channels in Channel List", comment: "preferences")
-        sortchansegctl.addTarget(self, action: #selector(PreferencesViewController.channelSortChanged(_:)), for: .valueChanged)
-        display_items.append(sortchancell)
-        
-        // sound preferences
-        
-        mastervolcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let outputvol = Int(TT_GetSoundOutputVolume(ttInst))
-        let output_pct = refVolumeToPercent(outputvol)
-        let mastervolslider = newTableCellSlider(mastervolcell!, label: NSLocalizedString("Master Volume", comment: "preferences"), min: 0, max: 1, initial: Float(output_pct) / 100)
-        mastervolslider.addTarget(self, action: #selector(PreferencesViewController.masterVolumeChanged(_:)), for: .valueChanged)
-        masterVolumeChanged(mastervolslider)
-        sound_items.append(mastervolcell!)
-        
-        let mfvolumecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        var mfvol = DEFAULT_MEDIAFILE_VOLUME
+        nicknameText = settings.string(forKey: PREF_GENERAL_NICKNAME) ?? ""
+        genderIndex = settings.integer(forKey: PREF_GENERAL_GENDER)
+        pushToTalkLock = settings.object(forKey: PREF_GENERAL_PTTLOCK) != nil && settings.bool(forKey: PREF_GENERAL_PTTLOCK)
+        headsetTXToggle = settings.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && settings.bool(forKey: PREF_HEADSET_TXTOGGLE)
+        sendOnReturn = settings.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || settings.bool(forKey: PREF_GENERAL_SENDONRETURN)
+        proximitySensor = settings.object(forKey: PREF_DISPLAY_PROXIMITY) != nil && settings.bool(forKey: PREF_DISPLAY_PROXIMITY)
+        popupTextMessages = settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG)
+        limitText = Double(settings.object(forKey: PREF_DISPLAY_LIMITTEXT) == nil ? DEFAULT_LIMIT_TEXT : settings.integer(forKey: PREF_DISPLAY_LIMITTEXT))
+        showUsername = settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME)
+        channelSortIndex = settings.object(forKey: PREF_DISPLAY_SORTCHANNELS) == nil ? ChanSort.ASCENDING.rawValue : settings.integer(forKey: PREF_DISPLAY_SORTCHANNELS)
+        joinRoot = settings.object(forKey: PREF_JOINROOTCHANNEL) == nil || settings.bool(forKey: PREF_JOINROOTCHANNEL)
+        defaultSubscriptions = getDefaultSubscriptions()
+
+        masterVolumePercent = Double(refVolumeToPercent(Int(TeamTalkClient.shared.soundOutputVolume)))
+
+        var mediaVolume = DEFAULT_MEDIAFILE_VOLUME
         if settings.value(forKey: PREF_MEDIAFILE_VOLUME) != nil {
-            mfvol = settings.float(forKey: PREF_MEDIAFILE_VOLUME)
+            mediaVolume = settings.float(forKey: PREF_MEDIAFILE_VOLUME)
         }
-        let mfvolumeslider = newTableCellSlider(mfvolumecell, label: NSLocalizedString("Media File Volume", comment: "preferences"), min: 0, max: 1, initial: mfvol)
-        mfvolumeslider.addTarget(self, action: #selector(PreferencesViewController.mediafileVolumeChanged(_:)), for: .valueChanged)
-        mfvolumecell.detailTextLabel?.text = NSLocalizedString("Media file vs. voice volume", comment: "preferences")
-        sound_items.append(mfvolumecell)
+        mediaFileVolumePercent = Double(mediaVolume * 100)
 
-        microphonecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let inputvol = Int(TT_GetSoundInputGainLevel(ttInst))
-        let input_pct = refVolumeToPercent(inputvol)
-        let microphoneslider = newTableCellSlider(microphonecell!, label: NSLocalizedString("Microphone Gain", comment: "preferences"), min: 0, max: 1, initial: Float(input_pct) / 100)
-        microphoneslider.addTarget(self, action: #selector(PreferencesViewController.microphoneGainChanged(_:)), for: .valueChanged)
-        microphoneGainChanged(microphoneslider)
-        sound_items.append(microphonecell!)
-        
-        // use SOUND_VU_MAX + 1 as voice activation disabled
-        var voiceact = VOICEACT_DISABLED
+        microphoneGainPercent = Double(refVolumeToPercent(Int(TeamTalkClient.shared.soundInputGainLevel)))
+
+        var voiceActivation = VOICEACT_DISABLED
         if settings.object(forKey: PREF_VOICEACTIVATION) != nil {
-            voiceact = settings.integer(forKey: PREF_VOICEACTIVATION)
+            voiceActivation = settings.integer(forKey: PREF_VOICEACTIVATION)
         }
-        voiceactcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let voiceactslider = newTableCellSlider(voiceactcell!, label: NSLocalizedString("Voice Activation Level", comment: "preferences"),
-            min: 0, max: 1, initial: Float(voiceact) / Float(VOICEACT_DISABLED))
-        voiceactslider.addTarget(self, action: #selector(PreferencesViewController.voiceactlevelChanged(_:)), for: .valueChanged)
-        voiceactlevelChanged(voiceactslider)
-        sound_items.append(voiceactcell!)
-        
-        let sndinputscell = tableView.dequeueReusableCell(withIdentifier: "SelectSoundDevices")
-        sound_items.append(sndinputscell!)
-                
+        voiceActivationLevel = Double(voiceActivation)
 
-        // sound events
-        
-        let sndeventscell = tableView.dequeueReusableCell(withIdentifier: "SoundEvents")
-        soundevents_items.append(sndeventscell!)
-
-
-        // connection items
-        
-        let joinroot = settings.object(forKey: PREF_JOINROOTCHANNEL) == nil || settings.bool(forKey: PREF_JOINROOTCHANNEL)
-        let joinrootcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let joinrootswitch = newTableCellSwitch(joinrootcell, label: NSLocalizedString("Join Root Channel", comment: "preferences"), initial: joinroot)
-        joinrootcell.detailTextLabel!.text = NSLocalizedString("Join root channel after login", comment: "preferences")
-        joinrootswitch.addTarget(self, action: #selector(PreferencesViewController.joinrootChanged(_:)), for: .valueChanged)
-        connection_items.append(joinrootcell)
-        
-        // subscription items
-        
-        let subs = getDefaultSubscriptions()
-
-        let subusermsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subusermsgswitch = newTableCellSwitch(subusermsgcell, label: NSLocalizedString("User Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_USER_MSG.rawValue) != 0)
-        subusermsgcell.detailTextLabel!.text = NSLocalizedString("Receive text messages by default", comment: "preferences")
-        subusermsgswitch.tag = Int(SUBSCRIBE_USER_MSG.rawValue)
-        subusermsgswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subusermsgcell)
-        
-        let subchanmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subchanmsgswitch = newTableCellSwitch(subchanmsgcell, label: NSLocalizedString("Channel Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_CHANNEL_MSG.rawValue) != 0)
-        subchanmsgcell.detailTextLabel!.text = NSLocalizedString("Receive channel messages by default", comment: "preferences")
-        subchanmsgswitch.tag = Int(SUBSCRIBE_CHANNEL_MSG.rawValue)
-        subchanmsgswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subchanmsgcell)
-        
-        let subbcastmsgcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subbcastmsgswitch = newTableCellSwitch(subbcastmsgcell, label: NSLocalizedString("Broadcast Messages", comment: "preferences"), initial: (subs & SUBSCRIBE_BROADCAST_MSG.rawValue) != 0)
-        subbcastmsgcell.detailTextLabel!.text = NSLocalizedString("Receive broadcast messages by default", comment: "preferences")
-        subbcastmsgswitch.tag = Int(SUBSCRIBE_BROADCAST_MSG.rawValue)
-        subbcastmsgswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subbcastmsgcell)
-
-        let subvoicecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subvoiceswitch = newTableCellSwitch(subvoicecell, label: NSLocalizedString("Voice", comment: "preferences"), initial: (subs & SUBSCRIBE_VOICE.rawValue) != 0)
-        subvoicecell.detailTextLabel!.text = NSLocalizedString("Receive voice streams by default", comment: "preferences")
-        subvoiceswitch.tag = Int(SUBSCRIBE_VOICE.rawValue)
-        subvoiceswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subvoicecell)
-        
-        let subwebcamcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subwebcamswitch = newTableCellSwitch(subwebcamcell, label: NSLocalizedString("WebCam", comment: "preferences"), initial: (subs & SUBSCRIBE_VIDEOCAPTURE.rawValue) != 0)
-        subwebcamcell.detailTextLabel!.text = NSLocalizedString("Receive webcam streams by default", comment: "preferences")
-        subwebcamswitch.tag = Int(SUBSCRIBE_VIDEOCAPTURE.rawValue)
-        subwebcamswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subwebcamcell)
-        
-        let submediafilecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let submediafileswitch = newTableCellSwitch(submediafilecell, label: NSLocalizedString("Media File", comment: "preferences"), initial: (subs & SUBSCRIBE_MEDIAFILE.rawValue) != 0)
-        submediafilecell.detailTextLabel?.text = NSLocalizedString("Receive media file streams by default", comment: "preferences")
-        submediafileswitch.tag = Int(SUBSCRIBE_MEDIAFILE.rawValue)
-        submediafileswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(submediafilecell)
-        
-        let subdesktopcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        let subdesktopswitch = newTableCellSwitch(subdesktopcell, label: NSLocalizedString("Desktop", comment: "preferences"), initial: (subs & SUBSCRIBE_DESKTOP.rawValue) != 0)
-        subdesktopcell.detailTextLabel!.text = NSLocalizedString("Receive desktop sessions by default", comment: "preferences")
-        subdesktopswitch.tag = Int(SUBSCRIBE_DESKTOP.rawValue)
-        subdesktopswitch.addTarget(self, action: #selector(PreferencesViewController.subscriptionChanged(_:)), for: .valueChanged)
-        subscription_items.append(subdesktopcell)
-        
-        
-        // text to speech events
-        
-        let ttsvoicecell = tableView.dequeueReusableCell(withIdentifier: "Speech Cell")
-        ttsevents_items.append(ttsvoicecell!)
-
-        ttsratecell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        var ttsrate = AVSpeechUtteranceDefaultSpeechRate
+        var storedTTSRate = AVSpeechUtteranceDefaultSpeechRate
         if settings.value(forKey: PREF_TTSEVENT_RATE) != nil {
-            ttsrate = settings.float(forKey: PREF_TTSEVENT_RATE)
+            storedTTSRate = settings.float(forKey: PREF_TTSEVENT_RATE)
         }
-        let ttsrateslider = newTableCellSlider(ttsratecell!, label: NSLocalizedString("Speech Rate", comment: "preferences"),
-            min: AVSpeechUtteranceMinimumSpeechRate, max: AVSpeechUtteranceMaximumSpeechRate, initial: Float(ttsrate))
-        ttsrateslider.addTarget(self, action: #selector(PreferencesViewController.ttsrateChanged(_:)), for: .valueChanged)
-        ttsrateChanged(ttsrateslider)
-        ttsevents_items.append(ttsratecell!)
-        
-        ttsvolcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        var ttsvol = DEFAULT_TTS_VOL
+        ttsRate = Double(storedTTSRate)
+
+        var storedTTSVolume = DEFAULT_TTS_VOL
         if settings.value(forKey: PREF_TTSEVENT_VOL) != nil {
-            ttsvol = settings.float(forKey: PREF_TTSEVENT_VOL)
+            storedTTSVolume = settings.float(forKey: PREF_TTSEVENT_VOL)
         }
-        let ttsvolslider = newTableCellSlider(ttsvolcell!, label: NSLocalizedString("Speech Volume", comment: "preferences"),
-            min: 0, max: 1, initial: Float(ttsvol))
-        ttsvolslider.addTarget(self, action: #selector(PreferencesViewController.ttsvolChanged(_:)), for: .valueChanged)
-        ttsvolChanged(ttsvolslider)
-        ttsevents_items.append(ttsvolcell!)
+        ttsVolume = Double(storedTTSVolume)
 
-        let ttsselectcell = tableView.dequeueReusableCell(withIdentifier: "TextToSpeech")
-        ttsevents_items.append(ttsselectcell!)
+        subscriptionRows = [
+            SubscriptionRow(title: NSLocalizedString("User Messages", comment: "preferences"), subtitle: NSLocalizedString("Receive text messages by default", comment: "preferences"), type: SUBSCRIBE_USER_MSG, key: PREF_SUB_USERMSG),
+            SubscriptionRow(title: NSLocalizedString("Channel Messages", comment: "preferences"), subtitle: NSLocalizedString("Receive channel messages by default", comment: "preferences"), type: SUBSCRIBE_CHANNEL_MSG, key: PREF_SUB_CHANMSG),
+            SubscriptionRow(title: NSLocalizedString("Broadcast Messages", comment: "preferences"), subtitle: NSLocalizedString("Receive broadcast messages by default", comment: "preferences"), type: SUBSCRIBE_BROADCAST_MSG, key: PREF_SUB_BROADCAST),
+            SubscriptionRow(title: NSLocalizedString("Voice", comment: "preferences"), subtitle: NSLocalizedString("Receive voice streams by default", comment: "preferences"), type: SUBSCRIBE_VOICE, key: PREF_SUB_VOICE),
+            SubscriptionRow(title: NSLocalizedString("WebCam", comment: "preferences"), subtitle: NSLocalizedString("Receive webcam streams by default", comment: "preferences"), type: SUBSCRIBE_VIDEOCAPTURE, key: PREF_SUB_VIDEOCAP),
+            SubscriptionRow(title: NSLocalizedString("Media File", comment: "preferences"), subtitle: NSLocalizedString("Receive media file streams by default", comment: "preferences"), type: SUBSCRIBE_MEDIAFILE, key: PREF_SUB_MEDIAFILE),
+            SubscriptionRow(title: NSLocalizedString("Desktop", comment: "preferences"), subtitle: NSLocalizedString("Receive desktop sessions by default", comment: "preferences"), type: SUBSCRIBE_DESKTOP, key: PREF_SUB_DESKTOP)
+        ]
 
-        
-        // version items
-        
-        let translatorcell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        translatorcell.textLabel?.text = NSLocalizedString("Translator", comment: "preferences")
-        translatorcell.detailTextLabel?.text = NSLocalizedString("Bjoern D. Rasmussen, contact@bearware.dk", comment: "preferences")
-        version_items.append(translatorcell)
-        
-        let versioncell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        versioncell.textLabel?.text = NSLocalizedString("App Version", comment: "preferences")
-        let v_str = String(cString: TT_GetVersion())
-        versioncell.detailTextLabel?.text = "\(AppInfo.getAppName()) v\(AppInfo.getAppVersionLong()), Library v\(v_str)"
-        version_items.append(versioncell)
-    }
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return false
-    }
-    
-    @objc func subscriptionChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        
-        switch UInt32(sender.tag) {
-        case SUBSCRIBE_USER_MSG.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_USERMSG)
-        case SUBSCRIBE_CHANNEL_MSG.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_CHANMSG)
-        case SUBSCRIBE_BROADCAST_MSG.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_BROADCAST)
-        case SUBSCRIBE_VOICE.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_VOICE)
-        case SUBSCRIBE_VIDEOCAPTURE.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_VIDEOCAP)
-        case SUBSCRIBE_MEDIAFILE.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_MEDIAFILE)
-        case SUBSCRIBE_DESKTOP.rawValue :
-            defaults.set(sender.isOn, forKey: PREF_SUB_DESKTOP)
-        default :
-            break
-        }
-    }
-    
-    @objc func nicknameChanged(_ sender: UITextField) {
-        TT_DoChangeNickname(ttInst, sender.text!)
-        
-        let defaults = UserDefaults.standard
-        defaults.setValue(sender.text!, forKey: PREF_GENERAL_NICKNAME)
-    }
-    
-    @objc func pttlockChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_GENERAL_PTTLOCK)
+        let version = TeamTalkClient.shared.version
+        versionRows = [
+            VersionRow(
+                title: NSLocalizedString("Translator", comment: "preferences"),
+                value: NSLocalizedString("Bjoern D. Rasmussen, contact@bearware.dk", comment: "preferences")
+            ),
+            VersionRow(
+                title: NSLocalizedString("App Version", comment: "preferences"),
+                value: "\(AppInfo.getAppName()) v\(AppInfo.getAppVersionLong()), Library v\(version)"
+            )
+        ]
     }
 
-    @objc func sendonenterChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_GENERAL_SENDONRETURN)
-    }
-    
-    @objc func masterVolumeChanged(_ sender: UISlider) {
-        let percent : Int = Int(sender.value * 10.0) * 10
-        let vol = refVolume(Double(percent))
-        TT_SetSoundOutputVolume(ttInst, INT32(vol))
-        
-        if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), percent)
-            mastervolcell!.detailTextLabel!.text = txt
-        }
-        else {
-            mastervolcell!.detailTextLabel!.text = "\(percent) %"
-        }
-        
-        let defaults = UserDefaults.standard
-        defaults.set(percent, forKey: PREF_MASTER_VOLUME)
-    }
-    
-    @objc func showtextmessagesChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_DISPLAY_POPUPTXTMSG)
+    func nicknameChanged(_ nickname: String) {
+        nicknameText = nickname
+        TeamTalkClient.shared.changeNickname(nickname)
+        UserDefaults.standard.set(nickname, forKey: PREF_GENERAL_NICKNAME)
     }
 
-    @objc func proximityChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_DISPLAY_PROXIMITY)
-        
-        let device = UIDevice.current
-        device.isProximityMonitoringEnabled = sender.isOn
+    func genderChanged(_ index: Int) {
+        genderIndex = index
+        UserDefaults.standard.set(index, forKey: PREF_GENERAL_GENDER)
+
+        let gender = index != 0 ? StatusMode.STATUSMODE_FEMALE : StatusMode.STATUSMODE_AVAILABLE
+        TeamTalkClient.shared.changeStatus(mode: INT32(gender.rawValue))
     }
 
-    @objc func limittextChanged(_ sender: UIStepper) {
-        let defaults = UserDefaults.standard
-        defaults.set(Int(sender.value), forKey: PREF_DISPLAY_LIMITTEXT)
-        let txt = String(format: NSLocalizedString("Limit length of names in channel list to %d characters", comment: "preferences"), Int(sender.value))
-        limittextcell!.detailTextLabel!.text = txt
+    func pttlockChanged(_ enabled: Bool) {
+        pushToTalkLock = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_GENERAL_PTTLOCK)
     }
-    
-    @objc func showusernameChanged(_ sender: UISwitch) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_DISPLAY_SHOWUSERNAME)
+
+    func sendonenterChanged(_ enabled: Bool) {
+        sendOnReturn = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_GENERAL_SENDONRETURN)
     }
-    
-    @objc func headsetTxToggleChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_HEADSET_TXTOGGLE)
-        
-        if sender.isOn {
+
+    func headsetTxToggleChanged(_ enabled: Bool) {
+        headsetTXToggle = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_HEADSET_TXTOGGLE)
+
+        if enabled {
             UIApplication.shared.beginReceivingRemoteControlEvents()
-        }
-        else {
+        } else {
             UIApplication.shared.endReceivingRemoteControlEvents()
         }
-        
-        // Headset TX toggle modifies .mixWithOthers flag
+
         setupSoundDevices()
     }
 
-    @objc func voiceactlevelChanged(_ sender: UISlider) {
-        let level = Int(sender.value * Float(VOICEACT_DISABLED))
-        
+    func showtextmessagesChanged(_ enabled: Bool) {
+        popupTextMessages = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_DISPLAY_POPUPTXTMSG)
+    }
+
+    func proximityChanged(_ enabled: Bool) {
+        proximitySensor = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_DISPLAY_PROXIMITY)
+        UIDevice.current.isProximityMonitoringEnabled = enabled
+    }
+
+    func limittextChanged(_ value: Double) {
+        limitText = value
+        UserDefaults.standard.set(Int(value), forKey: PREF_DISPLAY_LIMITTEXT)
+    }
+
+    func showusernameChanged(_ enabled: Bool) {
+        showUsername = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_DISPLAY_SHOWUSERNAME)
+    }
+
+    func channelSortChanged(_ index: Int) {
+        channelSortIndex = index
+        UserDefaults.standard.set(index == 0 ? ChanSort.ASCENDING.rawValue : ChanSort.POPULARITY.rawValue, forKey: PREF_DISPLAY_SORTCHANNELS)
+    }
+
+    func joinrootChanged(_ enabled: Bool) {
+        joinRoot = enabled
+        UserDefaults.standard.set(enabled, forKey: PREF_JOINROOTCHANNEL)
+    }
+
+    func subscriptionChanged(_ enabled: Bool, row: SubscriptionRow) {
+        if enabled {
+            defaultSubscriptions |= row.type.rawValue
+        } else {
+            defaultSubscriptions &= ~row.type.rawValue
+        }
+        UserDefaults.standard.set(enabled, forKey: row.key)
+    }
+
+    func masterVolumeChanged(_ percent: Double) {
+        let roundedPercent = Double(Int(percent / 10.0) * 10)
+        masterVolumePercent = roundedPercent
+        let vol = refVolume(roundedPercent)
+        TeamTalkClient.shared.setSoundOutputVolume(INT32(vol))
+        UserDefaults.standard.set(Int(roundedPercent), forKey: PREF_MASTER_VOLUME)
+    }
+
+    func mediafileVolumeChanged(_ percent: Double) {
+        mediaFileVolumePercent = percent
+        let normalized = Float(percent / 100.0)
+        UserDefaults.standard.set(normalized, forKey: PREF_MEDIAFILE_VOLUME)
+
+        let vol = refVolume(percent)
+        for userID in users {
+            TeamTalkClient.shared.setUserVolume(userID: userID, stream: STREAMTYPE_MEDIAFILE_AUDIO, volume: INT32(vol))
+            TeamTalkClient.shared.pump(CLIENTEVENT_USER_STATECHANGE, source: userID)
+        }
+    }
+
+    func microphoneGainChanged(_ percent: Double) {
+        let roundedPercent = Double(Int(percent / 10.0) * 10)
+        microphoneGainPercent = roundedPercent
+        let vol = refVolume(roundedPercent)
+        TeamTalkClient.shared.setSoundInputGainLevel(INT32(vol))
+        UserDefaults.standard.set(Int(roundedPercent), forKey: PREF_MICROPHONE_GAIN)
+    }
+
+    func voiceactlevelChanged(_ levelValue: Double) {
+        let level = Int(levelValue)
+        voiceActivationLevel = Double(level)
+
         if level == VOICEACT_DISABLED {
-            TT_EnableVoiceActivation(ttInst, FALSE)
-            voiceactcell?.detailTextLabel?.text = NSLocalizedString("Voice Activation Level: Disabled", comment: "preferences")
+            TeamTalkClient.shared.enableVoiceActivation(false)
+        } else {
+            TeamTalkClient.shared.enableVoiceActivation(true)
+            TeamTalkClient.shared.setVoiceActivationLevel(INT32(level))
         }
-        else {
-            TT_EnableVoiceActivation(ttInst, TRUE)
-            TT_SetVoiceActivationLevel(ttInst, INT32(level))
-            let txt = String(format: NSLocalizedString("Voice Activation Level: %d. Recommended: %d", comment: "preferences"), level, DEFAULT_VOICEACT)
-            voiceactcell?.detailTextLabel?.text = txt
-        }
-        let defaults = UserDefaults.standard
-        defaults.set(level, forKey: PREF_VOICEACTIVATION)
+        UserDefaults.standard.set(level, forKey: PREF_VOICEACTIVATION)
     }
-    
-    @objc func microphoneGainChanged(_ sender: UISlider) {
-        let vol_pct : Int = Int(sender.value * 10.0) * 10
-        let vol = refVolume(Double(vol_pct))
-        TT_SetSoundInputGainLevel(ttInst, INT32(vol))
-        
+
+    func ttsrateChanged(_ value: Double) {
+        ttsRate = value
+        UserDefaults.standard.set(Float(value), forKey: PREF_TTSEVENT_RATE)
+    }
+
+    func ttsvolChanged(_ value: Double) {
+        ttsVolume = value
+        UserDefaults.standard.set(Float(value), forKey: PREF_TTSEVENT_VOL)
+    }
+
+    func isSubscribed(to row: SubscriptionRow) -> Bool {
+        (defaultSubscriptions & row.type.rawValue) != 0
+    }
+
+    func percentSubtitle(_ value: Double) -> String {
+        let percent = Int(value.rounded())
+        let vol = refVolume(Double(percent))
         if UInt32(vol) == SOUND_VOLUME_DEFAULT.rawValue {
-            let txt = String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), vol_pct)
-            microphonecell!.detailTextLabel!.text = txt
+            return String(format: NSLocalizedString("%d %% - Default", comment: "preferences"), percent)
         }
-        else {
-            microphonecell!.detailTextLabel!.text = "\(vol_pct) %"
-        }
-        
-        let defaults = UserDefaults.standard
-        defaults.set(vol_pct, forKey: PREF_MICROPHONE_GAIN)
+        return "\(percent) %"
     }
 
-    @objc func mediafileVolumeChanged(_ sender: UISlider) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.value, forKey: PREF_MEDIAFILE_VOLUME)
-        
-        let vol = refVolume(100.0 * Double(sender.value))
-        for u in users {
-            TT_SetUserVolume(ttInst, u, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
-            // tell TeamTalk event loop to send us an updated User-struct
-            TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, u)
+    func voiceActivationValueText(_ value: Double) -> String {
+        let level = Int(value.rounded())
+        if level == VOICEACT_DISABLED {
+            return NSLocalizedString("Disabled", comment: "preferences")
         }
-    }
-    
-    @objc func ttsrateChanged(_ sender: UISlider) {
-        let defaults = UserDefaults.standard
-        defaults.set(Float(sender.value), forKey: PREF_TTSEVENT_RATE)
-        let txt = String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
-        ttsratecell!.detailTextLabel!.text = txt
-    }
-    
-    @objc func ttsvolChanged(_ sender: UISlider) {
-        let defaults = UserDefaults.standard
-        defaults.set(Float(sender.value), forKey: PREF_TTSEVENT_VOL)
-        let txt = String(format: NSLocalizedString("The volume of the speaking voice is %.1f", comment: "preferences"), Float(sender.value))
-        ttsvolcell!.detailTextLabel!.text = txt
-    }
-    
-    @objc func joinrootChanged(_ sender: UISwitch) {
-        
-        let defaults = UserDefaults.standard
-        defaults.set(sender.isOn, forKey: PREF_JOINROOTCHANNEL)
-    }
-    
-    @objc func channelSortChanged(_ segctrl: UISegmentedControl) {
-        let defaults = UserDefaults.standard
-        defaults.set(segctrl.selectedSegmentIndex == 0 ? ChanSort.ASCENDING.rawValue : ChanSort.POPULARITY.rawValue,
-                     forKey: PREF_DISPLAY_SORTCHANNELS)
+        return "\(level)"
     }
 
-    @IBAction func genderChanged(_ sender: UISegmentedControl) {
-        let defaults = UserDefaults.standard
-        defaults.set(sender.selectedSegmentIndex, forKey: PREF_GENERAL_GENDER)
-        
-        let gender = sender.selectedSegmentIndex != 0 ? StatusMode.STATUSMODE_FEMALE : StatusMode.STATUSMODE_AVAILABLE
-        TT_DoChangeStatus(ttInst, INT32(gender.rawValue), "")
+    func voiceActivationSubtitle(_ value: Double) -> String {
+        let level = Int(value.rounded())
+        if level == VOICEACT_DISABLED {
+            return NSLocalizedString("Voice Activation Level: Disabled", comment: "preferences")
+        }
+        return String(format: NSLocalizedString("Voice Activation Level: %d. Recommended: %d", comment: "preferences"), level, DEFAULT_VOICEACT)
     }
+}
 
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Select Voice" {
-        }
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return SECTIONS_COUNT
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case SECTION_GENERAL :
-            return NSLocalizedString("General", comment: "preferences")
-        case SECTION_DISPLAY :
-            return NSLocalizedString("Display", comment: "preferences")
-        case SECTION_SOUNDEVENTS :
-            return NSLocalizedString("Sound Events", comment: "preferences")
-        case SECTION_SOUND :
-            return NSLocalizedString("Sound System", comment: "preferences")
-        case SECTION_CONNECTION :
-            return NSLocalizedString("Connection", comment: "preferences")
-        case SECTION_SUBSCRIPTIONS :
-            return NSLocalizedString("Default Subscriptions", comment: "preferences")
-        case SECTION_TTSEVENTS :
-            return NSLocalizedString("Text To Speech Events", comment: "preferences")
-        case SECTION_VERSION :
-            return NSLocalizedString("Version Information", comment: "preferences")
-        default :
-            return nil
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case SECTION_GENERAL :
-            return general_items.count
-        case SECTION_DISPLAY :
-            return display_items.count
-        case SECTION_SOUNDEVENTS :
-            return soundevents_items.count
-        case SECTION_SOUND :
-            return sound_items.count
-        case SECTION_CONNECTION :
-            return connection_items.count
-        case SECTION_SUBSCRIPTIONS :
-            return subscription_items.count
-        case SECTION_TTSEVENTS :
-            return ttsevents_items.count
-        case SECTION_VERSION :
-            return version_items.count
-        default :
-            return 0
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch indexPath.section {
-        case SECTION_GENERAL :
-            return general_items[indexPath.row]
-        case SECTION_DISPLAY :
-            return display_items[indexPath.row]
-        case SECTION_SOUNDEVENTS:
-            return soundevents_items[indexPath.row]
-        case SECTION_SOUND :
-            return sound_items[indexPath.row]
-        case SECTION_CONNECTION :
-            return connection_items[indexPath.row]
-        case SECTION_SUBSCRIPTIONS :
-            return subscription_items[indexPath.row]
-        case SECTION_TTSEVENTS:
-            return ttsevents_items[indexPath.row]
-        case SECTION_VERSION :
-            return version_items[indexPath.row]
-        default :
-            return UITableViewCell()
-        }
-    }
-    
+extension PreferencesModel: TeamTalkEvent {
     func handleTTMessage(_ m: TTMessage) {
-        var m = m
-        
         switch m.nClientEvent {
-            
-        case CLIENTEVENT_CMD_USER_JOINED :
-            let user = getUser(&m).pointee
-            users.insert(user.nUserID)
-        case CLIENTEVENT_CMD_USER_LEFT :
-            let user = getUser(&m).pointee
-            users.remove(user.nUserID)
-        default : break
+        case CLIENTEVENT_CMD_USER_JOINED:
+            users.insert(TeamTalkMessagePayload.user(from: m).nUserID)
+        case CLIENTEVENT_CMD_USER_LEFT:
+            users.remove(TeamTalkMessagePayload.user(from: m).nUserID)
+        default:
+            break
         }
     }
 }
+
+struct PreferencesView: View {
+    @ObservedObject var model: PreferencesModel
+
+    var body: some View {
+        Form {
+            generalSection
+            displaySection
+            soundSection
+            soundEventsSection
+            ttsSection
+            connectionSection
+            subscriptionsSection
+            versionSection
+        }
+        .navigationTitle(NSLocalizedString("Preferences", comment: "tab"))
+    }
+
+    private var generalSection: some View {
+        Section(NSLocalizedString("General", comment: "preferences")) {
+            VStack(alignment: .leading, spacing: 4) {
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Nickname", comment: "preferences"),
+                    placeholder: NSLocalizedString("Nickname", comment: "preferences"),
+                    text: Binding(
+                        get: { model.nicknameText },
+                        set: { model.nicknameChanged($0) }
+                    )
+                )
+                PreferenceSubtitle(NSLocalizedString("Name displayed in channel list", comment: "preferences"))
+            }
+
+            VStack(alignment: .leading, spacing: 4) {
+                TeamTalkSegmentedRow(
+                    title: NSLocalizedString("Gender", comment: "preferences"),
+                    values: [
+                        NSLocalizedString("Male", comment: "preferences"),
+                        NSLocalizedString("Female", comment: "preferences")
+                    ],
+                    selectedIndex: Binding(
+                        get: { model.genderIndex },
+                        set: { model.genderChanged($0) }
+                    )
+                )
+                PreferenceSubtitle(NSLocalizedString("Show male or female icon", comment: "preferences"))
+            }
+
+            NavigationLink {
+                WebLoginView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("BearWare.dk Web Login", comment: "preferences"),
+                    subtitle: NSLocalizedString("Login ID from BearWare.dk", comment: "preferences")
+                )
+            }
+
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Push To Talk Lock", comment: "preferences"),
+                subtitle: NSLocalizedString("Double tap to lock TX button", comment: "preferences"),
+                isOn: Binding(get: { model.pushToTalkLock }, set: { model.pttlockChanged($0) })
+            )
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Headset TX Toggle", comment: "preferences"),
+                subtitle: NSLocalizedString("Toggle voice transmission using headset", comment: "preferences"),
+                isOn: Binding(get: { model.headsetTXToggle }, set: { model.headsetTxToggleChanged($0) })
+            )
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Return Sends Message", comment: "preferences"),
+                subtitle: NSLocalizedString("Pressing Return-key sends text message", comment: "preferences"),
+                isOn: Binding(get: { model.sendOnReturn }, set: { model.sendonenterChanged($0) })
+            )
+        }
+    }
+
+    private var displaySection: some View {
+        Section(NSLocalizedString("Display", comment: "preferences")) {
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Proximity Sensor", comment: "preferences"),
+                subtitle: NSLocalizedString("Turn off screen when holding phone near ear", comment: "preferences"),
+                isOn: Binding(get: { model.proximitySensor }, set: { model.proximityChanged($0) })
+            )
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Show Text Messages Instantly", comment: "preferences"),
+                subtitle: NSLocalizedString("Pop up text message when new messages are received", comment: "preferences"),
+                isOn: Binding(get: { model.popupTextMessages }, set: { model.showtextmessagesChanged($0) })
+            )
+            VStack(alignment: .leading, spacing: 4) {
+                TeamTalkStepperRow(
+                    title: NSLocalizedString("Maximum Text Length", comment: "preferences"),
+                    value: Binding(get: { model.limitText }, set: { model.limittextChanged($0) }),
+                    range: 1...Double(TT_STRLEN - 1),
+                    step: 1
+                )
+                PreferenceSubtitle(String(format: NSLocalizedString("Limit length of names in channel list to %d characters", comment: "preferences"), Int(model.limitText)))
+            }
+            NavigationLink {
+                PublicServerView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("Filter Server List", comment: "preferences"),
+                    subtitle: NSLocalizedString("Limit types of servers to show", comment: "preferences")
+                )
+            }
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Show Usernames", comment: "preferences"),
+                subtitle: NSLocalizedString("Show usernames instead of nicknames", comment: "preferences"),
+                isOn: Binding(get: { model.showUsername }, set: { model.showusernameChanged($0) })
+            )
+            VStack(alignment: .leading, spacing: 4) {
+                TeamTalkSegmentedRow(
+                    title: NSLocalizedString("Sort Channels", comment: "preferences"),
+                    values: [
+                        NSLocalizedString("Ascending", comment: "preferences"),
+                        NSLocalizedString("Popularity", comment: "preferences")
+                    ],
+                    selectedIndex: Binding(get: { model.channelSortIndex }, set: { model.channelSortChanged($0) })
+                )
+                PreferenceSubtitle(NSLocalizedString("Order of channels in Channel List", comment: "preferences"))
+            }
+        }
+    }
+
+    private var soundSection: some View {
+        Section(NSLocalizedString("Sound System", comment: "preferences")) {
+            sliderWithSubtitle(
+                title: NSLocalizedString("Master Volume", comment: "preferences"),
+                subtitle: model.percentSubtitle(model.masterVolumePercent),
+                value: Binding(get: { model.masterVolumePercent }, set: { model.masterVolumeChanged($0) }),
+                range: 0...100,
+                step: 10,
+                displayValue: { model.percentSubtitle($0) }
+            )
+            sliderWithSubtitle(
+                title: NSLocalizedString("Media File Volume", comment: "preferences"),
+                subtitle: NSLocalizedString("Media file vs. voice volume", comment: "preferences"),
+                value: Binding(get: { model.mediaFileVolumePercent }, set: { model.mediafileVolumeChanged($0) }),
+                range: 0...100,
+                step: 1,
+                displayValue: { "\(Int($0.rounded())) %" }
+            )
+            sliderWithSubtitle(
+                title: NSLocalizedString("Microphone Gain", comment: "preferences"),
+                subtitle: model.percentSubtitle(model.microphoneGainPercent),
+                value: Binding(get: { model.microphoneGainPercent }, set: { model.microphoneGainChanged($0) }),
+                range: 0...100,
+                step: 10,
+                displayValue: { model.percentSubtitle($0) }
+            )
+            sliderWithSubtitle(
+                title: NSLocalizedString("Voice Activation Level", comment: "preferences"),
+                subtitle: model.voiceActivationSubtitle(model.voiceActivationLevel),
+                value: Binding(get: { model.voiceActivationLevel }, set: { model.voiceactlevelChanged($0) }),
+                range: 0...Double(VOICEACT_DISABLED),
+                step: 1,
+                displayValue: { model.voiceActivationValueText($0) }
+            )
+            NavigationLink {
+                SoundDevicesView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("Setup Sound Devices", comment: "preferences"),
+                    subtitle: NSLocalizedString("Choose input and output devices", comment: "preferences")
+                )
+            }
+        }
+    }
+
+    private var soundEventsSection: some View {
+        Section(NSLocalizedString("Sound Events", comment: "preferences")) {
+            NavigationLink {
+                SoundEventsView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("Setup Sound Events", comment: "preferences"),
+                    subtitle: NSLocalizedString("Choose sounds events to play", comment: "preferences")
+                )
+            }
+        }
+    }
+
+    private var ttsSection: some View {
+        Section(NSLocalizedString("Text To Speech Events", comment: "preferences")) {
+            NavigationLink {
+                SpeechListView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("Speech", comment: "preferences"),
+                    subtitle: NSLocalizedString("Select the text-to-speech voice to use", comment: "preferences")
+                )
+            }
+            sliderWithSubtitle(
+                title: NSLocalizedString("Speech Rate", comment: "preferences"),
+                subtitle: String(format: NSLocalizedString("The rate of the speaking voice is %.1f", comment: "preferences"), Float(model.ttsRate)),
+                value: Binding(get: { model.ttsRate }, set: { model.ttsrateChanged($0) }),
+                range: Double(AVSpeechUtteranceMinimumSpeechRate)...Double(AVSpeechUtteranceMaximumSpeechRate),
+                step: 0.1,
+                displayValue: { String(format: "%.1f", $0) }
+            )
+            sliderWithSubtitle(
+                title: NSLocalizedString("Speech Volume", comment: "preferences"),
+                subtitle: String(format: NSLocalizedString("The volume of the speaking voice is %.1f", comment: "preferences"), Float(model.ttsVolume)),
+                value: Binding(get: { model.ttsVolume }, set: { model.ttsvolChanged($0) }),
+                range: 0...1,
+                step: 0.1,
+                displayValue: { String(format: "%.1f", $0) }
+            )
+            NavigationLink {
+                TextToSpeechEventsView()
+            } label: {
+                TeamTalkValueRow(
+                    title: NSLocalizedString("Setup Announcements", comment: "preferences"),
+                    subtitle: NSLocalizedString("Choose events to playback", comment: "preferences")
+                )
+            }
+        }
+    }
+
+    private var connectionSection: some View {
+        Section(NSLocalizedString("Connection", comment: "preferences")) {
+            TeamTalkToggleRow(
+                title: NSLocalizedString("Join Root Channel", comment: "preferences"),
+                subtitle: NSLocalizedString("Join root channel after login", comment: "preferences"),
+                isOn: Binding(get: { model.joinRoot }, set: { model.joinrootChanged($0) })
+            )
+        }
+    }
+
+    private var subscriptionsSection: some View {
+        Section(NSLocalizedString("Default Subscriptions", comment: "preferences")) {
+            ForEach(model.subscriptionRows) { row in
+                TeamTalkToggleRow(
+                    title: row.title,
+                    subtitle: row.subtitle,
+                    isOn: Binding(
+                        get: { model.isSubscribed(to: row) },
+                        set: { model.subscriptionChanged($0, row: row) }
+                    )
+                )
+            }
+        }
+    }
+
+    private var versionSection: some View {
+        Section(NSLocalizedString("Version Information", comment: "preferences")) {
+            ForEach(model.versionRows) { row in
+                TeamTalkValueRow(title: row.title, value: row.value)
+            }
+        }
+    }
+
+    private func sliderWithSubtitle(title: String,
+                                    subtitle: String,
+                                    value: Binding<Double>,
+                                    range: ClosedRange<Double>,
+                                    step: Double,
+                                    displayValue: @escaping (Double) -> String) -> some View {
+        VStack(alignment: .leading, spacing: 4) {
+            TeamTalkSliderRow(title: title, value: value, range: range, step: step, displayValue: displayValue)
+            PreferenceSubtitle(subtitle)
+        }
+    }
+}
+
+private struct PreferenceSubtitle: View {
+    let text: String
+
+    init(_ text: String) {
+        self.text = text
+    }
+
+    var body: some View {
+        Text(text)
+            .font(.footnote)
+            .foregroundStyle(.secondary)
+    }
+}
+

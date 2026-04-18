@@ -22,12 +22,11 @@
  */
 
 import UIKit
+import TeamTalkKit
 
-@UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-    var window: UIWindow?
-    
+
     let backgroundQueue = DispatchQueue.global(qos: DispatchQoS.QoSClass.background)
     var backgroundRunning: Bool = false
     var backgroundTask: UIBackgroundTaskIdentifier = UIBackgroundTaskIdentifier.invalid
@@ -35,10 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         // Override point for customization after application launch.
         
-        TT_SetLicenseInformation(REGISTRATION_NAME, REGISTRATION_KEY)
-        
         // Our one and only TT client instance
-        ttInst = TT_InitTeamTalkPoll()
+        TeamTalkClient.shared.start(licenseName: REGISTRATION_NAME, licenseKey: REGISTRATION_KEY)
         
         // Default values are not set in Settings bundle, so we need to load them manually
         let defaults = UserDefaults.standard
@@ -69,36 +66,17 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             defaults.synchronize()
         }
         
-        // fix linker problems unit-tests
-        if TT_GetRootChannelID(nil) == TRUE {
-            TT_CloseSoundOutputDevice(nil)
-            TT_StartSoundLoopbackTest(0, 0, 0, 0, 0, nil)
-            TT_CloseSoundLoopbackTest(nil)
-            TT_CloseSoundInputDevice(nil)
-            TT_GetSoundDevices(nil, nil)
-            TT_DoLeaveChannel(nil)
-            TT_GetRootChannelID(nil)
-            TT_DBG_SetSoundInputTone(nil, 0, 0)
-            TT_DoLogin(nil, "", "", "")
-            TT_RestartSoundSystem()
-        }
+        TeamTalkClient.touchLinkerSymbolsForTests()
         
         return true
     }
 
     func application(_ app: UIApplication,
-                     open url: URL, 
+                     open url: URL,
                      options opt: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
-
-        let urlStr = url.absoluteString
-//        print ("URL: " + url.absoluteString)
-        if urlStr.starts(with: AppInfo.TTLINK_PREFIX) || url.isFileURL {
-            let nav = self.window?.rootViewController as! UINavigationController
-            nav.popToRootViewController(animated: true)
-            let svc = nav.topViewController as! ServerListViewController
-            svc.openUrl(url)
+        if url.absoluteString.starts(with: AppInfo.TTLINK_PREFIX) || url.isFileURL {
+            NotificationCenter.default.post(name: .iTeamTalkOpenURL, object: url)
         }
-        
         return true
     }
     
@@ -106,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
         // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
         
-        if TT_GetFlags(ttInst) & CLIENT_CONNECTED.rawValue != 0 {
+        if TeamTalkClient.shared.isConnected {
             backgroundRunning = true
             backgroundQueue.async(execute: testBackgroundTask)
         }
@@ -129,8 +107,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
-        TT_CloseTeamTalk(ttInst)
-        ttInst = nil
+        TeamTalkClient.shared.close()
     }
 
     func testBackgroundTask() {

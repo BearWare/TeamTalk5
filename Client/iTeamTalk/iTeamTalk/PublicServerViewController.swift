@@ -6,72 +6,66 @@
 //  Copyright © 2022 BearWare.dk. All rights reserved.
 //
 
-import UIKit
-import Foundation
+import SwiftUI
 
-class PublicServerViewController : UITableViewController {
+struct PublicServerView: View {
+    private let rows = PublicServerRow.allCases
 
-    let SECTION_PUBLICSERVERS = 0,
-        SECTION_SORTING = 1,
-        SECTIONS_COUNT = 1
-
-    var publicserver_items = [UITableViewCell]()
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-                
-        let officialservercell = tableView.dequeueReusableCell(withIdentifier: "ShowOfficialServers")
-        let officialserverswitch = UISwitch()
-        officialserverswitch.addTarget(self, action: #selector(handleSwitchActionOfficial), for: .valueChanged)
-        officialservercell?.accessoryView = officialserverswitch
-        publicserver_items.append(officialservercell!)
-
-        let unofficialservercell = tableView.dequeueReusableCell(withIdentifier: "ShowUnofficialServers")
-        let unofficialserverswitch = UISwitch()
-        unofficialserverswitch.addTarget(self, action: #selector(handleSwitchActionUnofficial), for: .valueChanged)
-        unofficialservercell?.accessoryView = unofficialserverswitch
-        publicserver_items.append(unofficialservercell!)
-
-        let settings = UserDefaults.standard
-        officialserverswitch.isOn = settings.object(forKey: PREF_DISPLAY_OFFICIALSERVERS) == nil || settings.bool(forKey: PREF_DISPLAY_OFFICIALSERVERS)
-        unofficialserverswitch.isOn = settings.object(forKey: PREF_DISPLAY_UNOFFICIALSERVERS) != nil && settings.bool(forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
+    var body: some View {
+        Form {
+            Section(NSLocalizedString("Show in Server List", comment: "preferences")) {
+                ForEach(rows) { row in
+                    TeamTalkToggleRow(title: row.title, isOn: Binding(
+                        get: { row.boolValue },
+                        set: { UserDefaults.standard.set($0, forKey: row.preferenceKey) }
+                    ))
+                }
+            }
+        }
+        .navigationTitle(NSLocalizedString("Filter Server List", comment: "preferences"))
     }
-    
-    @objc func handleSwitchActionOfficial(sender: UISwitch) {
-        let settings = UserDefaults.standard
-        settings.set(sender.isOn, forKey: PREF_DISPLAY_OFFICIALSERVERS)
+}
+
+private enum PublicServerRow: CaseIterable, Identifiable {
+    case official
+    case unofficial
+
+    var id: String {
+        preferenceKey
     }
 
-    @objc func handleSwitchActionUnofficial(sender: UISwitch) {
-        let settings = UserDefaults.standard
-        settings.set(sender.isOn, forKey: PREF_DISPLAY_UNOFFICIALSERVERS)
-    }
-
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return SECTIONS_COUNT
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case SECTION_PUBLICSERVERS :
-            return NSLocalizedString("Show in Server List", comment: "preferences")
-        default : return ""
+    var title: String {
+        switch self {
+        case .official:
+            return NSLocalizedString("Official Servers", comment: "preferences")
+        case .unofficial:
+            return NSLocalizedString("Unofficial Servers", comment: "preferences")
         }
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case SECTION_PUBLICSERVERS :
-            return publicserver_items.count
-        default : return 0
+
+    var preferenceKey: String {
+        switch self {
+        case .official:
+            return PREF_DISPLAY_OFFICIALSERVERS
+        case .unofficial:
+            return PREF_DISPLAY_UNOFFICIALSERVERS
         }
     }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        switch indexPath.section {
-        case SECTION_PUBLICSERVERS :
-            return publicserver_items[indexPath.row]
-        default : return UITableViewCell()
+
+    var defaultValue: Bool {
+        switch self {
+        case .official:
+            return true
+        case .unofficial:
+            return false
         }
+    }
+
+    var boolValue: Bool {
+        let settings = UserDefaults.standard
+        if settings.object(forKey: preferenceKey) == nil {
+            return defaultValue
+        }
+        return settings.bool(forKey: preferenceKey)
     }
 }

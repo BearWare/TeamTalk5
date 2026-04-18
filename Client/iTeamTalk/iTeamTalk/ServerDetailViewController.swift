@@ -21,286 +21,226 @@
  *
  */
 
+import SwiftUI
 import UIKit
 
-class JoinCodeCell : UITableViewCell {
-    @IBOutlet weak var joincodecopyBtn: UIButton!
-    @IBOutlet weak var joincodeLabel: UILabel!
-}
-
-class ServerDetailViewController : UITableViewController, UITextFieldDelegate {
+final class ServerDetailViewController: UIHostingController<ServerDetailView> {
 
     var server = Server()
+    var onConnect: ((Server) -> Void)?
+    var onDelete: (() -> Void)?
+    private var model: ServerDetailModel
 
-    let SECTION_NAME = 0,
-        SECTION_STATUS = 1,
-        SECTION_CON = 2,
-        SECTION_AUTH = 3,
-        SECTION_CHAN = 4,
-        SECTION_ACTIONS = 5,
-        SECTION_COUNT = 6
+    init() {
+        let model = ServerDetailModel(server: Server())
+        self.model = model
+        super.init(rootView: ServerDetailView(model: model, copyJoinCode: { }, connect: { }, delete: { }))
+    }
 
-    var nameItems = [UITableViewCell]()
-    var statusItems = [UITableViewCell]()
-    var conItems = [UITableViewCell]()
-    var authItems = [UITableViewCell]()
-    var chanItems = [UITableViewCell]()
-    var actionItems = [UITableViewCell]()
-    
-    var namefield : UITextField?
-    var ipaddrfield : UITextField?
-    var tcpportfield : UITextField?
-    var udpportfield : UITextField?
-    var encryptedfield : UISwitch?
-    var usernamefield : UITextField?
-    var passwdfield : UITextField?
-    var nicknamefield : UITextField?
-    var webloginfield : UISwitch?
-    var chanfield : UITextField?
-    var chpasswdfield : UITextField?
-    
+    required init?(coder: NSCoder) { fatalError("use init()") }
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        // ServerList Entry section
-        let namecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        namefield = newTableCellTextField(namecell, label: NSLocalizedString("Name", comment: "server entry"), initial: server.name)
-        namefield!.delegate = self
-        nameItems.append(namecell)
+        navigationItem.title = NSLocalizedString("Server Entry", comment: "server entry")
 
-        // Status section
-        if server.servertype != .LOCAL {
-            let usercountcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            usercountcell.selectionStyle = .none
-            usercountcell.textLabel?.text = NSLocalizedString("Users Online", comment: "server entry")
-            usercountcell.detailTextLabel?.text = String(server.stats_usercount)
-            statusItems.append(usercountcell)
-            
-            let motdcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            motdcell.selectionStyle = .none
-            motdcell.textLabel?.text = NSLocalizedString("Message of the Day", comment: "server entry")
-            motdcell.detailTextLabel?.text = server.stats_motd
-            statusItems.append(motdcell)
-            
-            let countrycell = UITableViewCell(style: .value1, reuseIdentifier: nil)
-            countrycell.selectionStyle = .none
-            countrycell.textLabel?.text = NSLocalizedString("Country", comment: "server entry")
-            countrycell.detailTextLabel?.text = server.stats_country
-            statusItems.append(countrycell)
-        }
-
-        // Connection section
-        let ipaddrcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        ipaddrfield = newTableCellTextField(ipaddrcell, label: NSLocalizedString("Host address", comment: "server entry"), initial: server.ipaddr)
-        ipaddrfield!.delegate = self
-        ipaddrfield!.keyboardType = .URL
-        ipaddrfield!.spellCheckingType = .no
-        ipaddrfield!.autocorrectionType = .no
-        ipaddrfield!.autocapitalizationType = .none
-        conItems.append(ipaddrcell)
-
-        let tcpportcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        tcpportfield = newTableCellTextField(tcpportcell, label: NSLocalizedString("TCP Port", comment: "server entry"), initial: String(server.tcpport))
-        tcpportfield!.delegate = self
-        tcpportfield!.keyboardType = .numberPad
-        conItems.append(tcpportcell)
-
-        let udpportcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        udpportfield = newTableCellTextField(udpportcell, label: NSLocalizedString("UDP Port", comment: "server entry"), initial: String(server.udpport))
-        udpportfield!.delegate = self
-        udpportfield!.keyboardType = .numberPad
-        conItems.append(udpportcell)
-
-        let encryptedcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        encryptedfield = newTableCellSwitch(encryptedcell, label: NSLocalizedString("Encrypted", comment: "server entry"), initial: server.encrypted)
-        conItems.append(encryptedcell)
-
-        // create auth items
-        refreshAuthorizationItems(weblogin: AppInfo.isBearWareWebLogin(self.server.username))
-        
-        //initial channel
-        let chancell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        chanfield = newTableCellTextField(chancell, label: NSLocalizedString("Channel", comment: "server entry"), initial: server.channel)
-        chanfield!.delegate = self
-        chanfield!.autocorrectionType = .no
-        chanfield!.spellCheckingType = .no
-        chanfield!.autocapitalizationType = .none
-        chanItems.append(chancell)
-
-        let chpasswdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        chpasswdfield = newTableCellTextField(chpasswdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: server.chanpasswd)
-        chpasswdfield!.delegate = self
-        chpasswdfield!.autocorrectionType = .no
-        chpasswdfield!.spellCheckingType = .no
-        chpasswdfield!.autocapitalizationType = .none
-        chpasswdfield!.isSecureTextEntry = true
-        chanItems.append(chpasswdcell)
-        
-        if (self.server.joincode.isEmpty == false) {
-            let joincodecell = self.tableView.dequeueReusableCell(withIdentifier: "JoinCodeCopy") as! JoinCodeCell
-            joincodecell.joincodeLabel.text = self.server.joincode            
-            joincodecell.joincodecopyBtn.addTarget(self, action: #selector(copyJoinCode), for: .touchUpInside)
-            
-            actionItems.append(joincodecell)
-        }
-
-        let connectcell = tableView.dequeueReusableCell(withIdentifier: "Connect Server")!
-        actionItems.append(connectcell)
-        
-        let deletecell = tableView.dequeueReusableCell(withIdentifier: "Delete Server")!
-        actionItems.append(deletecell)
-        
-        tableView.dataSource = self
-        tableView.delegate = self
+        let model = ServerDetailModel(server: server)
+        self.model = model
+        rootView = ServerDetailView(
+            model: model,
+            copyJoinCode: { [weak self] in self?.copyJoinCode() },
+            connect: { [weak self] in self?.connectServer() },
+            delete: { [weak self] in self?.deleteServer() }
+        )
     }
-    
-    func refreshAuthorizationItems(weblogin: Bool) {
-        self.authItems.removeAll()
-        
-        // Authentication section
-        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "server entry"), initial: weblogin ? AppInfo.WEBLOGIN_BEARWARE_USERNAME : server.username)
-        usernamefield!.delegate = self
-        usernamefield!.autocorrectionType = .no
-        usernamefield!.spellCheckingType = .no
-        usernamefield!.autocapitalizationType = .none
-        if weblogin == false {
-            authItems.append(usernamecell)
-        }
-        
-        let passwdcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        passwdfield = newTableCellTextField(passwdcell, label: NSLocalizedString("Password", comment: "server entry"), initial: weblogin ? "" : server.password)
-        passwdfield!.delegate = self
-        passwdfield!.autocorrectionType = .no
-        passwdfield!.spellCheckingType = .no
-        passwdfield!.autocapitalizationType = .none
-        passwdfield!.isSecureTextEntry = true
-        
-        if weblogin == false {
-            authItems.append(passwdcell)
-        }
 
-        let weblogincell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
-        webloginfield = newTableCellSwitch(weblogincell, label: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"), initial: weblogin)
-        weblogincell.detailTextLabel?.text = NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry")
-        webloginfield?.addTarget(self, action: #selector(bearwareWebLogin(_:)), for: .valueChanged)
-        authItems.append(weblogincell)
-
-        let nicknamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        nicknamefield = newTableCellTextField(nicknamecell, label: NSLocalizedString("Nickname (optional)", comment: "server entry"), initial: server.nickname)
-        nicknamefield!.delegate = self
-        nicknamefield!.autocorrectionType = .no
-        nicknamefield!.spellCheckingType = .no
-        nicknamefield!.autocapitalizationType = .none
-        authItems.append(nicknamecell)
-    }
-    
     @objc func copyJoinCode() {
-        UIPasteboard.general.string = self.server.joincode
+        UIPasteboard.general.string = server.joincode
     }
-    
+
     func saveServerDetail() {
-        server.name = namefield!.text!
-        server.ipaddr = ipaddrfield!.text!
-        if let n = Int(tcpportfield!.text!) {
+        model.apply(to: server)
+    }
+
+    private func connectServer() {
+        saveServerDetail()
+        onConnect?(server)
+    }
+
+    private func deleteServer() {
+        onDelete?()
+    }
+}
+
+final class ServerDetailModel: ObservableObject {
+    let joinCode: String
+    let statusRows: [ServerStatusRow]
+
+    @Published var nameText: String
+    @Published var hostText: String
+    @Published var tcpPortText: String
+    @Published var udpPortText: String
+    @Published var isEncrypted: Bool
+    @Published var usernameText: String
+    @Published var passwordText: String
+    @Published var nicknameText: String
+    @Published var isWebLogin: Bool
+    @Published var channelText: String
+    @Published var channelPasswordText: String
+
+    init(server: Server) {
+        joinCode = server.joincode
+        nameText = server.name
+        hostText = server.ipaddr
+        tcpPortText = String(server.tcpport)
+        udpPortText = String(server.udpport)
+        isEncrypted = server.encrypted
+        usernameText = server.username
+        passwordText = server.password
+        nicknameText = server.nickname
+        isWebLogin = AppInfo.isBearWareWebLogin(server.username)
+        channelText = server.channel
+        channelPasswordText = server.chanpasswd
+
+        if server.servertype != .LOCAL {
+            statusRows = [
+                ServerStatusRow(title: NSLocalizedString("Users Online", comment: "server entry"), value: String(server.stats_usercount)),
+                ServerStatusRow(title: NSLocalizedString("Message of the Day", comment: "server entry"), value: server.stats_motd),
+                ServerStatusRow(title: NSLocalizedString("Country", comment: "server entry"), value: server.stats_country)
+            ]
+        } else {
+            statusRows = []
+        }
+    }
+
+    func apply(to server: Server) {
+        server.name = nameText
+        server.ipaddr = hostText
+        if let n = Int(tcpPortText) {
             server.tcpport = n
         }
-        if let n = Int(udpportfield!.text!) {
+        if let n = Int(udpPortText) {
             server.udpport = n
         }
-        server.encrypted = encryptedfield!.isOn
-        let username = usernamefield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        server.username = username
-        server.password = passwdfield!.text!
-        server.nickname = nicknamefield!.text!
+        server.encrypted = isEncrypted
+        server.username = isWebLogin ? AppInfo.WEBLOGIN_BEARWARE_USERNAME : usernameText.trimmingCharacters(in: .whitespacesAndNewlines)
+        server.password = isWebLogin ? "" : passwordText
+        server.nickname = nicknameText
         server.servertype = .LOCAL
-        let channame = chanfield!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        server.channel = channame
-        server.chanpasswd = chpasswdfield!.text!
+        server.channel = channelText.trimmingCharacters(in: .whitespacesAndNewlines)
+        server.chanpasswd = channelPasswordText
     }
-    
-    func textFieldShouldReturn(_ textfield: UITextField) -> Bool {
-        textfield.resignFirstResponder()
-        return false
-    }
-    
-    @objc func bearwareWebLogin(_ sender: UISwitch) {
-        refreshAuthorizationItems(weblogin: sender.isOn)
-        tableView.reloadData()
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return SECTION_COUNT
-    }
-    
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case SECTION_NAME :
-            return NSLocalizedString("Server List Entry", comment: "server entry")
-        case SECTION_STATUS :
-            return NSLocalizedString("Server Status", comment: "server entry")
-        case SECTION_CON :
-            return NSLocalizedString("Connection", comment: "server entry")
-        case SECTION_AUTH :
-            return NSLocalizedString("Authentication", comment: "server entry")
-        case SECTION_CHAN :
-            return NSLocalizedString("Join Channel", comment: "server entry")
-        case SECTION_ACTIONS :
-            return NSLocalizedString("Actions", comment: "server entry")
-        default :
-            return nil
+}
+
+struct ServerDetailView: View {
+    @ObservedObject var model: ServerDetailModel
+
+    let copyJoinCode: () -> Void
+    let connect: () -> Void
+    let delete: () -> Void
+
+    var body: some View {
+        Form {
+            Section(NSLocalizedString("Server List Entry", comment: "server entry")) {
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Name", comment: "server entry"),
+                    placeholder: NSLocalizedString("Name", comment: "server entry"),
+                    text: $model.nameText
+                )
+            }
+
+            if !model.statusRows.isEmpty {
+                Section(NSLocalizedString("Server Status", comment: "server entry")) {
+                    ForEach(model.statusRows) { row in
+                        TeamTalkValueRow(title: row.title, value: row.value)
+                    }
+                }
+            }
+
+            Section(NSLocalizedString("Connection", comment: "server entry")) {
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Host address", comment: "server entry"),
+                    placeholder: NSLocalizedString("Host address", comment: "server entry"),
+                    text: $model.hostText
+                )
+                .keyboardType(.URL)
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("TCP Port", comment: "server entry"),
+                    placeholder: NSLocalizedString("TCP Port", comment: "server entry"),
+                    text: $model.tcpPortText
+                )
+                .keyboardType(.numberPad)
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("UDP Port", comment: "server entry"),
+                    placeholder: NSLocalizedString("UDP Port", comment: "server entry"),
+                    text: $model.udpPortText
+                )
+                .keyboardType(.numberPad)
+                TeamTalkToggleRow(
+                    title: NSLocalizedString("Encrypted", comment: "server entry"),
+                    isOn: $model.isEncrypted
+                )
+            }
+
+            Section(NSLocalizedString("Authentication", comment: "server entry")) {
+                if !model.isWebLogin {
+                    TeamTalkTextFieldRow(
+                        title: NSLocalizedString("Username", comment: "server entry"),
+                        placeholder: NSLocalizedString("Username", comment: "server entry"),
+                        text: $model.usernameText
+                    )
+                    TeamTalkTextFieldRow(
+                        title: NSLocalizedString("Password", comment: "server entry"),
+                        placeholder: NSLocalizedString("Password", comment: "server entry"),
+                        text: $model.passwordText,
+                        isSecure: true
+                    )
+                }
+                TeamTalkToggleRow(
+                    title: NSLocalizedString("BearWare.dk Web Login", comment: "server entry"),
+                    subtitle: NSLocalizedString("Check only if this server has enabled BearWare.dk Web Login", comment: "server entry"),
+                    isOn: $model.isWebLogin
+                )
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Nickname (optional)", comment: "server entry"),
+                    placeholder: NSLocalizedString("Nickname (optional)", comment: "server entry"),
+                    text: $model.nicknameText
+                )
+            }
+
+            Section(NSLocalizedString("Join Channel", comment: "server entry")) {
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Channel", comment: "server entry"),
+                    placeholder: NSLocalizedString("Channel", comment: "server entry"),
+                    text: $model.channelText
+                )
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Password", comment: "server entry"),
+                    placeholder: NSLocalizedString("Password", comment: "server entry"),
+                    text: $model.channelPasswordText,
+                    isSecure: true
+                )
+            }
+
+            Section(NSLocalizedString("Actions", comment: "server entry")) {
+                if !model.joinCode.isEmpty {
+                    TeamTalkValueRow(
+                        title: NSLocalizedString("Join Code", comment: "server entry"),
+                        value: model.joinCode
+                    )
+                    TeamTalkActionRow(title: NSLocalizedString("Copy Join Code", comment: "server entry"), action: copyJoinCode)
+                }
+                TeamTalkActionRow(title: NSLocalizedString("Connect", comment: "server entry"), action: connect)
+                TeamTalkActionRow(title: NSLocalizedString("Delete Server", comment: "server entry"), role: .destructive, action: delete)
+            }
         }
     }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        switch section {
-        case SECTION_NAME :
-            return nameItems.count
-        case SECTION_STATUS :
-            return statusItems.count
-        case SECTION_CON :
-            return conItems.count
-        case SECTION_AUTH :
-            return authItems.count
-        case SECTION_CHAN :
-            return chanItems.count
-        case SECTION_ACTIONS :
-            return actionItems.count
-        default :
-            return 0
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        
-        switch indexPath.section {
-        case SECTION_NAME :
-            return nameItems[indexPath.row]
-        case SECTION_STATUS :
-            return statusItems[indexPath.row]
-        case SECTION_CON :
-            return conItems[indexPath.row]
-        case SECTION_AUTH :
-            return authItems[indexPath.row]
-        case SECTION_CHAN :
-            return chanItems[indexPath.row]
-        case SECTION_ACTIONS :
-            return actionItems[indexPath.row]
-        default :
-            break
-        }
-        
-        return UITableViewCell()
-    }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "Connect From ServerDetail" {
-            
-            saveServerDetail()
-            
-            let vc = segue.destination as! MainTabBarController
-            vc.setTeamTalkServer(server)
-        }
+}
+
+struct ServerStatusRow: Identifiable {
+    let title: String
+    let value: String
+
+    var id: String {
+        title
     }
 }

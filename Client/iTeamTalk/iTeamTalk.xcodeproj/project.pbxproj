@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 46;
+	objectVersion = 60;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,34 +18,31 @@
 		251997F81EBA5FE7003C94B1 /* voiceact_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */; };
 		251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */; };
 		251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B87C8225000E8009DC5AC /* WebLoginViewController.swift */; };
-		251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251F61351BD68F6700617C43 /* TextMsgTableCell.swift */; };
-		253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */ = {isa = PBXBuildFile; fileRef = 253343BE1C8C85CF00B43A9A /* Splash-568h.png */; };
 		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
 		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
 		2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */; };
 		2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
-		254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A501B98BAA300BE0DEF /* Main.storyboard */; };
+		598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */; };
+
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
 		254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */; };
 		254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */; };
-		254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */; };
 		254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A6E1B98C89600BE0DEF /* AppInfo.swift */; };
 		254B7A721B99E67400BE0DEF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A701B99E67400BE0DEF /* AudioToolbox.framework */; };
 		254B7A731B99E67400BE0DEF /* AVFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A711B99E67400BE0DEF /* AVFoundation.framework */; };
 		254B7A771B99E68800BE0DEF /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A751B99E68800BE0DEF /* libstdc++.dylib */; };
 		254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A781B99E69200BE0DEF /* libz.dylib */; };
 		254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */; };
-		254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */; };
 		254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */; };
 		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
+		254B7A852F90210000CD0A01 /* TeamTalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 254B7A862F90210000CD0A01 /* TeamTalkKit */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
 		2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2593F5B927D6984E0048431A /* PublicServerViewController.swift */; };
 		2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF83275EA20300FCEE28 /* UtilSound.swift */; };
 		2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF85275EA29D00FCEE28 /* UtilTTS.swift */; };
 		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
-		25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */; };
 		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
 		25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA20691BE933310089AD54 /* PreferencesViewController.swift */; };
 		25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25AA206D1BEBCA0A0089AD54 /* off.mp3 */; };
@@ -60,6 +57,7 @@
 		25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC311BF7360D00EC5A8C /* user_message.mp3 */; };
 		25E7D94F22399672001A5035 /* SoundDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */; };
 		25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FFC2DA25ABA07E000334DC /* UtilTT.swift */; };
+		C0D3E0020000000000000002 /* SwiftUIRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D3E0020000000000000001 /* SwiftUIRows.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,9 +71,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
-		2501A9B81C52A35900C729B3 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9BA1C52A35A00C729B3 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2501A9BB1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Main.strings; sourceTree = "<group>"; };
 		2501A9BD1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechListViewController.swift; sourceTree = "<group>"; };
 		25062438263E6A9700F3DA3A /* logged_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = logged_on.mp3; sourceTree = "<group>"; };
@@ -87,78 +83,59 @@
 		251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_stop.mp3; sourceTree = "<group>"; };
 		251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_off.mp3; sourceTree = "<group>"; };
 		251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_on.mp3; sourceTree = "<group>"; };
-		251B42671C5BC1C8009650EA /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Main.strings; sourceTree = "<group>"; };
-		251B42681C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Main.strings; sourceTree = "<group>"; };
 		251B42691C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
-		251B426A1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Main.strings; sourceTree = "<group>"; };
 		251B426B1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251B87C8225000E8009DC5AC /* WebLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
-		251F61351BD68F6700617C43 /* TextMsgTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMsgTableCell.swift; sourceTree = "<group>"; };
-		252BDD5F1C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Main.strings; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		252EB82C21921FE60026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Main.strings; sourceTree = "<group>"; };
 		252EB82E21921FE70026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
-		253343BE1C8C85CF00B43A9A /* Splash-568h.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Splash-568h.png"; path = "iTeamTalk/Splash-568h.png"; sourceTree = "<group>"; };
 		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
 		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
 		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
-		254057771C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Main.strings; sourceTree = "<group>"; };
 		254057791C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2541399E2F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		2541399F2F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Main.strings; sourceTree = "<group>"; };
 		254139A02F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2541CCA828EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		2541CCA928EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Main.strings; sourceTree = "<group>"; };
 		2541CCAA28EB65D7007BC487 /* id */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = id; path = id.lproj/Localizable.strings; sourceTree = "<group>"; };
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		254B7A511B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkApp.swift; sourceTree = "<group>"; };
+
 		254B7A531B98BAA300BE0DEF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254B7A561B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTeamTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A611B98BAA400BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkTests.swift; sourceTree = "<group>"; };
-		254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerTableCell.swift; sourceTree = "<group>"; };
 		254B7A6E1B98C89600BE0DEF /* AppInfo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppInfo.swift; sourceTree = "<group>"; };
 		254B7A701B99E67400BE0DEF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		254B7A711B99E67400BE0DEF /* AVFoundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AVFoundation.framework; path = System/Library/Frameworks/AVFoundation.framework; sourceTree = SDKROOT; };
 		254B7A751B99E68800BE0DEF /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		254B7A781B99E69200BE0DEF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../../Library/TeamTalk_DLL/libTeamTalk5.a; sourceTree = "<group>"; };
-		254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "iTeamTalk-Bridging-Header.h"; sourceTree = "<group>"; };
-		254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "iTeamTalk-Bridging-Header.m"; sourceTree = "<group>"; };
 		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
 		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
-		254BE12224DED8F200244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Main.strings"; sourceTree = "<group>"; };
 		254BE12324DED8F300244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		254BE12424DED8F500244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		254C08491C345E3700C98566 /* newuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = newuser.mp3; sourceTree = "<group>"; };
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
-		256328171C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Main.strings; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2593F5B927D6984E0048431A /* PublicServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicServerViewController.swift; sourceTree = "<group>"; };
 		2597EF83275EA20300FCEE28 /* UtilSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilSound.swift; sourceTree = "<group>"; };
 		2597EF85275EA29D00FCEE28 /* UtilTTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTTS.swift; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelTableCell.swift; sourceTree = "<group>"; };
 		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
 		25AA20691BE933310089AD54 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		25AA206D1BEBCA0A0089AD54 /* off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = off.mp3; sourceTree = "<group>"; };
-		25AB78D31C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D51C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
-		25AB78D61C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Main.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25BA014621557109003C836D /* TextToSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechViewController.swift; sourceTree = "<group>"; };
 		25BA014821557F48003C836D /* SoundEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEventsViewController.swift; sourceTree = "<group>"; };
 		25BE20F6292E1356004397FC /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		25BE20F7292E1356004397FC /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Main.strings; sourceTree = "<group>"; };
 		25BE20F8292E1356004397FC /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25D205E422ACCD260009F286 /* broadcast_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = broadcast_message.mp3; sourceTree = "<group>"; };
 		25D7B2F026373333009D684D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		25D7B2F126373334009D684D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Main.strings; sourceTree = "<group>"; };
 		25D7B2F226373336009D684D /* it */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = it; path = it.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25DD929E1BB2FA0E00779988 /* Common.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Common.swift; sourceTree = "<group>"; };
 		25DF9A011C5E00E100469BA8 /* License.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = License.swift; sourceTree = "<group>"; };
@@ -168,15 +145,13 @@
 		25E4DC311BF7360D00EC5A8C /* user_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = user_message.mp3; sourceTree = "<group>"; };
 		25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDevicesViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		25ED59482A82C48E009A038E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		25ED59492A82C48E009A038E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Main.strings; sourceTree = "<group>"; };
 		25ED594A2A82C48F009A038E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25ED9FDD265AD28500127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		25ED9FDE265AD28700127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Main.strings; sourceTree = "<group>"; };
 		25ED9FDF265AD28900127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25ED9FE4265AD5A400127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
-		25ED9FE5265AD5A500127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Main.strings; sourceTree = "<group>"; };
 		25ED9FE6265AD5A700127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25FFC2DA25ABA07E000334DC /* UtilTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTT.swift; sourceTree = "<group>"; };
+		C0D3E0020000000000000001 /* SwiftUIRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIRows.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -189,6 +164,7 @@
 				254B7A731B99E67400BE0DEF /* AVFoundation.framework in Frameworks */,
 				254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */,
 				254B7A771B99E68800BE0DEF /* libstdc++.dylib in Frameworks */,
+				254B7A852F90210000CD0A01 /* TeamTalkKit in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -205,7 +181,6 @@
 		254B7A3E1B98BAA300BE0DEF = {
 			isa = PBXGroup;
 			children = (
-				253343BE1C8C85CF00B43A9A /* Splash-568h.png */,
 				254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */,
 				254B7A781B99E69200BE0DEF /* libz.dylib */,
 				254B7A751B99E68800BE0DEF /* libstdc++.dylib */,
@@ -231,14 +206,12 @@
 			isa = PBXGroup;
 			children = (
 				253713391BC97D1200A7ADB3 /* Settings.bundle */,
-				254B7A7E1B9DE2C500BE0DEF /* iTeamTalk-Bridging-Header.h */,
-				254B7A7F1B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m */,
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
+				C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */,
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
 				2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */,
 				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
 				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
-				25A062741BA477CB00DC1F9B /* ChannelTableCell.swift */,
 				25DD929E1BB2FA0E00779988 /* Common.swift */,
 				25DF9A011C5E00E100469BA8 /* License.swift */,
 				253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */,
@@ -246,12 +219,11 @@
 				2593F5B927D6984E0048431A /* PublicServerViewController.swift */,
 				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
 				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
-				254B7A6C1B98BCFC00BE0DEF /* ServerTableCell.swift */,
 				25BA014821557F48003C836D /* SoundEventsViewController.swift */,
 				25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */,
 				2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */,
 				2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */,
-				251F61351BD68F6700617C43 /* TextMsgTableCell.swift */,
+				C0D3E0020000000000000001 /* SwiftUIRows.swift */,
 				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
 				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2597EF83275EA20300FCEE28 /* UtilSound.swift */,
@@ -262,7 +234,6 @@
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
 				259B12F71C4182E7008A355E /* Localizable.strings */,
-				254B7A501B98BAA300BE0DEF /* Main.storyboard */,
 				25E4DC2C1BF7291000EC5A8C /* Sounds */,
 				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
 			);
@@ -338,6 +309,9 @@
 			dependencies = (
 			);
 			name = iTeamTalk;
+			packageProductDependencies = (
+				254B7A862F90210000CD0A01 /* TeamTalkKit */,
+			);
 			productName = iTeamTalk;
 			productReference = 254B7A471B98BAA300BE0DEF /* iTeamTalk.app */;
 			productType = "com.apple.product-type.application";
@@ -373,7 +347,6 @@
 				TargetAttributes = {
 					254B7A461B98BAA300BE0DEF = {
 						CreatedOnToolsVersion = 6.4;
-						DevelopmentTeam = QF4DLGWC27;
 						LastSwiftMigration = 1020;
 						SystemCapabilities = {
 							com.apple.BackgroundModes = {
@@ -415,6 +388,9 @@
 				uk,
 			);
 			mainGroup = 254B7A3E1B98BAA300BE0DEF;
+			packageReferences = (
+				254B7A872F90210000CD0A01 /* XCLocalSwiftPackageReference "TeamTalkKit" */,
+			);
 			productRefGroup = 254B7A481B98BAA300BE0DEF /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -430,7 +406,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				253343BF1C8C85CF00B43A9A /* Splash-568h.png in Resources */,
 				25E4DC321BF7360D00EC5A8C /* channel_message.mp3 in Resources */,
 				259B12F91C4182E7008A355E /* Localizable.strings in Resources */,
 				2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */,
@@ -441,7 +416,6 @@
 				251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */,
 				254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */,
 				25D205E522ACCD260009F286 /* broadcast_message.mp3 in Resources */,
-				254B7A521B98BAA300BE0DEF /* Main.storyboard in Resources */,
 				2506243B263E6A9700F3DA3A /* logged_off.mp3 in Resources */,
 				254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */,
 				251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */,
@@ -475,24 +449,22 @@
 				2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */,
 				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
 				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
-				25A062751BA477CB00DC1F9B /* ChannelTableCell.swift in Sources */,
 				2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */,
 				25E7D94F22399672001A5035 /* SoundDevicesViewController.swift in Sources */,
-				251F61361BD68F6700617C43 /* TextMsgTableCell.swift in Sources */,
+				C0D3E0020000000000000002 /* SwiftUIRows.swift in Sources */,
 				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UtilUI.swift in Sources */,
 				2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */,
-				254B7A6D1B98BCFC00BE0DEF /* ServerTableCell.swift in Sources */,
 				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */,
 				25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */,
 				25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
+				598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */,
 				2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */,
 				2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */,
 				2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */,
 				25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */,
-				254B7A801B9DE2C700BE0DEF /* iTeamTalk-Bridging-Header.m in Sources */,
 				253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -516,33 +488,6 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
-		254B7A501B98BAA300BE0DEF /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				254B7A511B98BAA300BE0DEF /* Base */,
-				254057771C418D190090C769 /* tr */,
-				256328171C41A9F20055373F /* ru */,
-				25AB78D31C4831460073E6B8 /* de */,
-				25AB78D61C494DD50073E6B8 /* es */,
-				2501A9B81C52A35900C729B3 /* fr */,
-				2501A9BB1C52A36800C729B3 /* pl */,
-				251B42671C5BC1C8009650EA /* en */,
-				251B42681C5D4723009650EA /* hu */,
-				251B426A1C5D4A31009650EA /* da */,
-				252BDD5F1C85F90600102B5E /* nl */,
-				252EB82C21921FE60026A2D0 /* zh */,
-				254BE12224DED8F200244D0C /* pt-BR */,
-				25D7B2F126373334009D684D /* it */,
-				25ED9FDE265AD28700127B0E /* ko */,
-				25ED9FE5265AD5A500127B0E /* ar */,
-				2541CCA928EB65D7007BC487 /* id */,
-				25BE20F7292E1356004397FC /* ms */,
-				25ED59492A82C48E009A038E /* vi */,
-				2541399F2F16ECF6004A3901 /* uk */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
 		254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -640,7 +585,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -693,10 +638,11 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -706,26 +652,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = QF4DLGWC27;
+				DEVELOPMENT_TEAM = Y7J75349M6;
 				ENABLE_BITCODE = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TeamTalk;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
 				MARKETING_VERSION = 5.22;
-				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscopiTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -736,26 +684,28 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "Brand Assets";
 				CLANG_ENABLE_MODULES = YES;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 3;
-				DEVELOPMENT_TEAM = QF4DLGWC27;
+				DEVELOPMENT_TEAM = Y7J75349M6;
 				ENABLE_BITCODE = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = "";
 				INFOPLIST_FILE = iTeamTalk/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = TeamTalk;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.productivity";
-				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					../../Library/TeamTalk_DLL/,
 				);
 				MARKETING_VERSION = 5.22;
-				PRODUCT_BUNDLE_IDENTIFIER = BearWare.dk.iTeamTalk5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscopiTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_OBJC_BRIDGING_HEADER = "iTeamTalk/iTeamTalk-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -772,7 +722,11 @@
 					"$(inherited)",
 				);
 				INFOPLIST_FILE = iTeamTalkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -787,7 +741,11 @@
 				ENABLE_BITCODE = NO;
 				FRAMEWORK_SEARCH_PATHS = "$(inherited)";
 				INFOPLIST_FILE = iTeamTalkTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = "BearWare.dk.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
@@ -826,6 +784,21 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCLocalSwiftPackageReference section */
+		254B7A872F90210000CD0A01 /* XCLocalSwiftPackageReference "TeamTalkKit" */ = {
+			isa = XCLocalSwiftPackageReference;
+			relativePath = TeamTalkKit;
+		};
+/* End XCLocalSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		254B7A862F90210000CD0A01 /* TeamTalkKit */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 254B7A872F90210000CD0A01 /* XCLocalSwiftPackageReference "TeamTalkKit" */;
+			productName = TeamTalkKit;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 254B7A3F1B98BAA300BE0DEF /* Project object */;
 }

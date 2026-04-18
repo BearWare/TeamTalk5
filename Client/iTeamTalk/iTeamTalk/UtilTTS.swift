@@ -23,6 +23,7 @@
 
 import Foundation
 import AVFoundation
+import TeamTalkKit
 import UIKit
 
 // initialize TTS values globally
@@ -45,11 +46,7 @@ func newUtterance(_ utterance: String) {
         myUtterance.volume = (vol as AnyObject).floatValue!
     }
     if let voice = settings.string(forKey: PREF_TTSEVENT_VOICEID) {
-        if #available(iOS 9.0, *) {
-            myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
-        } else {
-            // Fallback on earlier versions
-        }
+        myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
     }
     else if let lang = settings.string(forKey: PREF_TTSEVENT_VOICELANG) {
         myUtterance.voice = AVSpeechSynthesisVoice(language: lang)

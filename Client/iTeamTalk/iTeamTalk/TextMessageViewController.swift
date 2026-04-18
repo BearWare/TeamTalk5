@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -21,416 +21,335 @@
  *
  */
 
+import SwiftUI
+import TeamTalkKit
 import UIKit
 
-class TextMessageViewController :
-    UIViewController, UITableViewDataSource,
-    UITableViewDelegate, TeamTalkEvent,
-    UITextViewDelegate {
-    
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var msgTextView: UITextView!
-    @IBOutlet weak var sendButton: UIButton!
-    
-    @IBOutlet weak var msgTextViewBottomConstraint: NSLayoutConstraint!
-    @IBOutlet weak var sendButtonBottomConstraint: NSLayoutConstraint!
-    
+final class TextMessageViewController: UIHostingController<TextMessageView>, TeamTalkEvent {
+
     // userid > 0 means private message session, i.e. MSGTYPE_USER
-    var userid : INT32 = 0
-    
-    var delegate : MyTextMessageDelegate?
+    var userid: INT32 = 0
+    var delegate: MyTextMessageDelegate?
 
-    let initial_text = NSLocalizedString("Type text here", comment: "text message")
+    private let initialText = NSLocalizedString("Type text here", comment: "text message")
+    private let model: TextMessageModel
 
-    var messages = [Int : [MyTextMessage] ]()
-    var curMessageSection = 0
-    
-    func generateKey(_ msg: TextMessage) -> Int {
-        return (Int(msg.nMsgType.rawValue) << 16) | Int(msg.nFromUserID)
+    private var messages = [Int: [MyTextMessage]]()
+    private var curMessageSection = 0
+    private var mergemessages = [Int: [TextMessage]]()
+
+    init() {
+        let model = TextMessageModel()
+        self.model = model
+        super.init(rootView: TextMessageView(
+            model: model,
+            placeholder: NSLocalizedString("Type text here", comment: "text message"),
+            sendMessage: { },
+            dismissKeyboard: { }
+        ))
     }
-    
-    var mergemessages = [Int : [TextMessage] ]()
-    
-    func getTextMessageContent(_ msg: TextMessage) -> String? {
-        var msg = msg
-        let key = generateKey(msg)
-        if msg.bMore == TRUE {
-            if mergemessages[key] == nil {
-                mergemessages[key] = [TextMessage]()
-            }
-            mergemessages[key]!.append(msg)
-            
-            // prevent out-of-memory
-            if mergemessages[key]!.count > 1000 {
-                mergemessages.removeValue(forKey: key)
-            }
-        }
-        else if mergemessages[key] != nil {
-            var content = ""
-            for m in mergemessages[key]! {
-                var m = m
-                content += String(cString: getTextMessageString(MESSAGE, &m))
-            }
-            mergemessages.removeValue(forKey: key)
-            return content + String(cString: getTextMessageString(MESSAGE, &msg))
-        }
-        else {
-            return String(cString: getTextMessageString(MESSAGE, &msg))
-        }
-        return nil
+
+    required init?(coder: NSCoder) {
+        fatalError("TextMessageViewController is always created programmatically")
     }
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let def = NotificationCenter.default
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillShow(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-        def.addObserver(self, selector: #selector(TextMessageViewController.keyboardWillHide(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-        
-        resetText()
-        
-        tableView.dataSource = self
-        tableView.delegate = self
-        
-        msgTextView.delegate = self
-        
-        msgTextView.accessibilityLabel = NSLocalizedString("Send empty message to close keyboard", comment: "text message")
+        rootView = TextMessageView(
+            model: model,
+            placeholder: initialText,
+            sendMessage: { [weak self] in self?.sendCurrentMessage() },
+            dismissKeyboard: { [weak self] in self?.view.endEditing(true) }
+        )
     }
 
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
-        if self.isMovingFromParent {
+
+        if isMovingFromParent {
             unreadmessages.remove(userid)
         }
     }
 
     func showLogMessages() -> Bool {
-        return userid == 0
+        userid == 0
     }
-    
-    func appendEventMessage(_ m : MyTextMessage) {
+
+    func appendEventMessage(_ message: MyTextMessage) {
         if messages[curMessageSection] == nil ||
-            messages[curMessageSection]?.last?.fromuserid != m.fromuserid ||
-            messages[curMessageSection]?.last?.nickname != m.nickname  ||
-            messages[curMessageSection]?.last?.msgtype != m.msgtype {
+            messages[curMessageSection]?.last?.fromuserid != message.fromuserid ||
+            messages[curMessageSection]?.last?.nickname != message.nickname ||
+            messages[curMessageSection]?.last?.msgtype != message.msgtype {
             curMessageSection += 1
-            messages[curMessageSection] = [ MyTextMessage ] ()
+            messages[curMessageSection] = [MyTextMessage]()
         }
-        messages[curMessageSection]!.append(m)
+        messages[curMessageSection]!.append(message)
 
         if messages.values.count > MAX_TEXTMESSAGES {
-            
             let key = messages.keys.sorted().first
             messages[key!]!.removeFirst()
             if messages[key!]!.isEmpty {
                 messages.removeValue(forKey: key!)
             }
         }
+        updateMessages()
     }
-    
-    func getEventMessage(_ indexPath : IndexPath) -> MyTextMessage {
-        let sortedKeys = messages.keys.sorted(by: <)
-        let key = sortedKeys[indexPath.section]
-        return messages[key]![indexPath.row]
-    }
-    
+
     func getLastEventMessage() -> MyTextMessage? {
-        return messages[curMessageSection]?.last
+        messages[curMessageSection]?.last
     }
-    
-    func dismissKeyboard() {
-        if msgTextView.isFirstResponder {
-           msgTextView.resignFirstResponder()
-        }
+
+    private func generateKey(_ msg: TextMessage) -> Int {
+        (Int(msg.nMsgType.rawValue) << 16) | Int(msg.nFromUserID)
     }
-    
-    func resetText() {
-        msgTextView.text = initial_text
-        msgTextView.textColor = UIColor.lightGray
-    }
-    
-    func updateTableView() {
-        
-        tableView.reloadData()
-        
-        let n_messages = messages.values.count
-        if n_messages > 0 {
-            let lastsection = messages.keys.count - 1
-            let ip = IndexPath(row: tableView.numberOfRows(inSection: lastsection) - 1, section: lastsection)
-            tableView.scrollToRow(at: ip, at: .bottom, animated: true)
-        }
-    }
-    
-    override func viewDidAppear(_ animated: Bool) {
-        super.viewDidAppear(animated)
-        repositionControls()
-    }
-    
-    @objc func keyboardWillShow(_ notify: Notification) {
-        moveForKeyboard(notify, up: true)
-    }
-    
-    @objc func keyboardWillHide(_ notify: Notification) {
-        moveForKeyboard(notify, up: false)
-    }
-    
-    func repositionControls() {
-        if let tc = self.tabBarController {
-            msgTextViewBottomConstraint.constant = tc.tabBar.frame.size.height
-            sendButtonBottomConstraint.constant = tc.tabBar.frame.size.height
-        }
-        else {
-            msgTextViewBottomConstraint.constant = 0
-            sendButtonBottomConstraint.constant = 0
-        }
-    }
-    
-    func moveForKeyboard(_ notify: Notification, up: Bool) {
-        if let userInfo = notify.userInfo {
-            if let keyboardFrame = (userInfo[UIResponder.keyboardFrameEndUserInfoKey] as AnyObject).cgRectValue {
-                
-                if up {
-                    msgTextViewBottomConstraint.constant = keyboardFrame.height
-                    sendButtonBottomConstraint.constant = keyboardFrame.height
-                }
-                else {
-                    repositionControls()
-                }
-                
-                updateTableView()
+
+    private func getTextMessageContent(_ msg: TextMessage) -> String? {
+        let key = generateKey(msg)
+        if msg.bMore == TRUE {
+            if mergemessages[key] == nil {
+                mergemessages[key] = [TextMessage]()
             }
+            mergemessages[key]!.append(msg)
+
+            if mergemessages[key]!.count > 1000 {
+                mergemessages.removeValue(forKey: key)
+            }
+        } else if mergemessages[key] != nil {
+            var content = ""
+            for m in mergemessages[key]! {
+                content += TeamTalkString.textMessage(m)
+            }
+            mergemessages.removeValue(forKey: key)
+            return content + TeamTalkString.textMessage(msg)
+        } else {
+            return TeamTalkString.textMessage(msg)
         }
+        return nil
     }
-    
-    @IBAction func sendTextMessage(_ sender: UIButton) {
-        
-        if msgTextView.text.isEmpty {
-            msgTextView.resignFirstResponder()
+
+    private func sendCurrentMessage() {
+        let content = model.composedText
+        if content.isEmpty {
+            view.endEditing(true)
             return
         }
-        
+
         var msg = TextMessage()
-        msg.nFromUserID = TT_GetMyUserID(ttInst)
-        
+        msg.nFromUserID = TeamTalkClient.shared.myUserID
+
         if userid == 0 {
             msg.nMsgType = MSGTYPE_CHANNEL
-            msg.nChannelID = TT_GetMyChannelID(ttInst)
-        }
-        else {
+            msg.nChannelID = TeamTalkClient.shared.myChannelID
+        } else {
             msg.nMsgType = MSGTYPE_USER
             msg.nToUserID = userid
-            
-            var user = User()
-            TT_GetUser(ttInst, msg.nFromUserID, &user)
+
+            let user = TeamTalkClient.shared.withUser(id: msg.nFromUserID) { $0 }
             let name = getDisplayName(user)
-            let mymsg = MyTextMessage(fromuserid: msg.nFromUserID, nickname: name, msgtype: .PRIV_IM_MYSELF, content: msgTextView.text)
-
+            let mymsg = MyTextMessage(fromuserid: msg.nFromUserID, nickname: name, msgtype: .PRIV_IM_MYSELF, content: content)
             appendEventMessage(mymsg)
+            delegate?.appendTextMessage(userid, txtmsg: mymsg)
+        }
 
-            if delegate != nil {
-                delegate!.appendTextMessage(userid, txtmsg: mymsg)
+        if TeamTalkClient.shared.sendTextMessage(msg, content: content) {
+            model.composedText = ""
+        }
+    }
+
+    private func updateMessages() {
+        let sections = messages.keys.sorted().compactMap { key -> TextMessageSection? in
+            guard let values = messages[key], let first = values.first else {
+                return nil
             }
-            updateTableView()
+            return TextMessageSection(title: sectionTitle(for: first), messages: values)
         }
-        
-        if iTeamTalk.sendTextMessage(msg: msg, content: msgTextView.text) {
-            msgTextView.text = ""
+        model.sections = sections
+    }
+
+    private func sectionTitle(for message: MyTextMessage) -> String {
+        switch message.msgtype {
+        case .PRIV_IM, .PRIV_IM_MYSELF, .CHAN_IM, .CHAN_IM_MYSELF, .BCAST:
+            return message.nickname
+        case .LOGMSG:
+            return NSLocalizedString("Status Event", comment: "Text message view")
         }
     }
-    
-    func textViewShouldBeginEditing(_ textView: UITextView) -> Bool {
-        
-        if msgTextView.text == initial_text {
-            msgTextView.text = ""
-        }
-        
-        if #available(iOS 13, *) {
-            msgTextView.textColor = .label
-        } else {
-            msgTextView.textColor = .black
-        }
-        
-        return true
-    }
-    
-    func textViewDidEndEditing(_ textView: UITextView) {
-        if msgTextView.text.isEmpty {
-            resetText()
-        }
-    }
-    
-    // send message on enter
-    func textView(_ textView: UITextView,
-                  shouldChangeTextIn range: NSRange,
-                  replacementText text: String) -> Bool {
-        
-        let defaults = UserDefaults.standard
-        if defaults.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || defaults.bool(forKey: PREF_GENERAL_SENDONRETURN) {
-            
-            if text.contains("\n") {
-                sendTextMessage(sendButton)
-                return false
-            }
-        }
-        return true
-    }
-    
+
     func handleTTMessage(_ m: TTMessage) {
-        var m = m
-
         switch m.nClientEvent {
-            
-        case CLIENTEVENT_CMD_USER_TEXTMSG :
-            
-            let txtmsg = getTextMessage(&m).pointee
-            
-            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid /* private message to this view controller */) ||
-                (txtmsg.nMsgType == MSGTYPE_CHANNEL && userid == 0 /* channel message to tab-bar chat */) ||
-                (txtmsg.nMsgType == MSGTYPE_BROADCAST && userid == 0 /* broadcast to tab-bar chat */) {
-                
+        case CLIENTEVENT_CMD_USER_TEXTMSG:
+            let txtmsg = TeamTalkMessagePayload.textMessage(from: m)
+
+            if (txtmsg.nMsgType == MSGTYPE_USER && txtmsg.nFromUserID == userid) ||
+                (txtmsg.nMsgType == MSGTYPE_CHANNEL && userid == 0) ||
+                (txtmsg.nMsgType == MSGTYPE_BROADCAST && userid == 0) {
+
                 if let content = getTextMessageContent(txtmsg) {
-                    var user = User()
-                    TT_GetUser(ttInst, txtmsg.nFromUserID, &user)
-                    
+                    let user = TeamTalkClient.shared.withUser(id: txtmsg.nFromUserID) { $0 }
+
                     var msgtype = MsgType.PRIV_IM
-                    
+
                     switch txtmsg.nMsgType {
-                    case MSGTYPE_USER :
-                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM
-                    case MSGTYPE_CHANNEL :
-                        msgtype = TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .CHAN_IM_MYSELF : .CHAN_IM
-                    case MSGTYPE_BROADCAST :
+                    case MSGTYPE_USER:
+                        msgtype = TeamTalkClient.shared.myUserID == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM
+                    case MSGTYPE_CHANNEL:
+                        msgtype = TeamTalkClient.shared.myUserID == txtmsg.nFromUserID ? .CHAN_IM_MYSELF : .CHAN_IM
+                    case MSGTYPE_BROADCAST:
                         msgtype = .BCAST
-                    default :
+                    default:
                         break
                     }
 
                     let name = getDisplayName(user)
                     let mymsg = MyTextMessage(fromuserid: txtmsg.nFromUserID, nickname: name, msgtype: msgtype, content: content)
                     appendEventMessage(mymsg)
-                    
-                    if tableView != nil {
-                        updateTableView()
-                    }
-                    
                     speakTextMessage(txtmsg.nMsgType, mymsg: mymsg)
                 }
             }
-        case CLIENTEVENT_CMD_USER_LOGGEDIN :
-            
-            let user = getUser(&m).pointee
-            if showLogMessages() && TT_GetMyUserID(ttInst) == user.nUserID {
-                let logmsg = MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry"))
-                appendEventMessage(logmsg)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+
+        case CLIENTEVENT_CMD_USER_LOGGEDIN:
+            let user = TeamTalkMessagePayload.user(from: m)
+            if showLogMessages() && TeamTalkClient.shared.myUserID == user.nUserID {
+                appendEventMessage(MyTextMessage(logmsg: NSLocalizedString("Logged on to server", comment: "log entry")))
             }
-            
-        case CLIENTEVENT_CMD_USER_JOINED :
-            
-            let user = getUser(&m).pointee
-            if showLogMessages() && TT_GetMyChannelID(ttInst) == user.nChannelID {
-                var logmsg : MyTextMessage?
-                if TT_GetMyUserID(ttInst) == user.nUserID {
-                    var channel = Channel()
-                    TT_GetChannel(ttInst, user.nChannelID, &channel)
-                    var channame : String
-                    if channel.nParentID == 0 {
-                        channame = NSLocalizedString("root channel", comment: "log entry")
-                    }
-                    else {
-                        channame = getChannel(channel, strprop: NAME)
+
+        case CLIENTEVENT_CMD_USER_JOINED:
+            let user = TeamTalkMessagePayload.user(from: m)
+            if showLogMessages() && TeamTalkClient.shared.myChannelID == user.nChannelID {
+                let logmsg: MyTextMessage
+                if TeamTalkClient.shared.myUserID == user.nUserID {
+                    let channame = TeamTalkClient.shared.withChannel(id: user.nChannelID) { channel in
+                        if channel.nParentID == 0 {
+                            return NSLocalizedString("root channel", comment: "log entry")
+                        }
+                        return TeamTalkString.channel(.name, from: channel)
                     }
                     let txt = String(format: NSLocalizedString("Joined %@", comment: "log entry"), channame)
                     logmsg = MyTextMessage(logmsg: txt)
-                }
-                else {
+                } else {
                     let name = getDisplayName(user)
                     let txt = String(format: NSLocalizedString("%@ joined channel", comment: "log entry"), name)
                     logmsg = MyTextMessage(logmsg: txt)
                 }
-                
-                appendEventMessage(logmsg!)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+                appendEventMessage(logmsg)
             }
-        case CLIENTEVENT_CMD_USER_LEFT :
-            
-            let user = getUser(&m).pointee
-            if showLogMessages() && TT_GetMyChannelID(ttInst) == m.nSource {
+
+        case CLIENTEVENT_CMD_USER_LEFT:
+            let user = TeamTalkMessagePayload.user(from: m)
+            if showLogMessages() && TeamTalkClient.shared.myChannelID == m.nSource {
                 let name = getDisplayName(user)
                 let txt = String(format: NSLocalizedString("%@ left channel", comment: "log entry"), name)
-                let logmsg = MyTextMessage(logmsg: txt)
-                appendEventMessage(logmsg)
-                
-                if tableView != nil {
-                    updateTableView()
-                }
+                appendEventMessage(MyTextMessage(logmsg: txt))
             }
-        case CLIENTEVENT_CMD_ERROR :
-            
-            let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
-            let txt = String(format: NSLocalizedString("Command failed: %@", comment: "log entry"),  errmsg)
-            let logmsg = MyTextMessage(logmsg: txt)
-            appendEventMessage(logmsg)
-            
-            if tableView != nil {
-                updateTableView()
-            }
-        default : break
+
+        case CLIENTEVENT_CMD_ERROR:
+            let errmsg = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+            let txt = String(format: NSLocalizedString("Command failed: %@", comment: "log entry"), errmsg)
+            appendEventMessage(MyTextMessage(logmsg: txt))
+
+        default:
+            break
         }
     }
-    
-    func numberOfSections(in tableView: UITableView) -> Int {
+}
 
-        return messages.keys.count
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        let sortedKeys = messages.keys.sorted()
-        let key = sortedKeys[section]
-        return messages[key]!.count
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+final class TextMessageModel: ObservableObject {
+    @Published var sections = [TextMessageSection]()
+    @Published var composedText = ""
+}
 
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
-        getEventMessage(indexPath).drawCell(cell)
-        
-        return cell
-    }
-    
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "Text Msg Cell") as! TextMsgTableCell
+struct TextMessageSection: Identifiable {
+    let id = UUID()
+    let title: String
+    let messages: [MyTextMessage]
+}
 
-        cell.messageTextView.text = getEventMessage(indexPath).message
-        
-        let fixedWidth = cell.messageTextView.frame.size.width
-        let newSize = cell.messageTextView.sizeThatFits(CGSize(width: fixedWidth, height: CGFloat.greatestFiniteMagnitude))
-        
-        return newSize.height
+struct TextMessageView: View {
+    @ObservedObject var model: TextMessageModel
+    let placeholder: String
+    let sendMessage: () -> Void
+    let dismissKeyboard: () -> Void
+
+    @FocusState private var isComposing: Bool
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ScrollViewReader { proxy in
+                List {
+                    ForEach(model.sections) { section in
+                        Section(section.title) {
+                            ForEach(section.messages.indices, id: \.self) { index in
+                                let message = section.messages[index]
+                                TeamTalkMessageRow(message: message)
+                                    .listRowInsets(EdgeInsets(top: 4, leading: 8, bottom: 4, trailing: 8))
+                                    .listRowBackground(message.backgroundColor)
+                            }
+                        }
+                    }
+                }
+                .listStyle(.plain)
+                .onChange(of: model.sections.count) { _ in
+                    scrollToBottom(proxy)
+                }
+                .onChange(of: model.sections.last?.messages.count ?? 0) { _ in
+                    scrollToBottom(proxy)
+                }
+            }
+
+            Divider()
+
+            HStack(alignment: .bottom, spacing: 8) {
+                ZStack(alignment: .topLeading) {
+                    TextEditor(text: $model.composedText)
+                        .focused($isComposing)
+                        .frame(minHeight: 40, maxHeight: 96)
+                        .textInputAutocapitalization(.sentences)
+                        .accessibilityLabel(NSLocalizedString("Send empty message to close keyboard", comment: "text message"))
+                        .onChange(of: model.composedText) { text in
+                            sendOnReturnIfNeeded(text)
+                        }
+
+                    if model.composedText.isEmpty {
+                        Text(placeholder)
+                            .foregroundStyle(.secondary)
+                            .padding(.horizontal, 5)
+                            .padding(.vertical, 8)
+                            .allowsHitTesting(false)
+                    }
+                }
+
+                Button(NSLocalizedString("Send", comment: "text message")) {
+                    if model.composedText.isEmpty {
+                        isComposing = false
+                        dismissKeyboard()
+                    } else {
+                        sendMessage()
+                    }
+                }
+                .buttonStyle(.borderedProminent)
+            }
+            .padding(.horizontal, 8)
+            .padding(.vertical, 6)
+            .background(.bar)
+        }
     }
 
-    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        let em = getEventMessage(IndexPath(row: 0, section: section))
-        switch em.msgtype {
-        case .PRIV_IM :
-            fallthrough
-        case .PRIV_IM_MYSELF :
-            fallthrough
-        case .CHAN_IM :
-            fallthrough
-        case .CHAN_IM_MYSELF :
-            fallthrough
-        case .BCAST :
-            return em.nickname
-        case .LOGMSG :
-            return NSLocalizedString("Status Event", comment: "Text message view")
+    private func sendOnReturnIfNeeded(_ text: String) {
+        let defaults = UserDefaults.standard
+        let sendOnReturn = defaults.object(forKey: PREF_GENERAL_SENDONRETURN) == nil || defaults.bool(forKey: PREF_GENERAL_SENDONRETURN)
+        guard sendOnReturn, text.contains("\n") else {
+            return
+        }
+        model.composedText = text.replacingOccurrences(of: "\n", with: "")
+        sendMessage()
+    }
+
+    private func scrollToBottom(_ proxy: ScrollViewProxy) {
+        guard let section = model.sections.last, !section.messages.isEmpty else {
+            return
+        }
+        DispatchQueue.main.async {
+            proxy.scrollTo(section.id, anchor: .bottom)
         }
     }
 }

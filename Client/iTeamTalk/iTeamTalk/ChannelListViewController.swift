@@ -21,12 +21,80 @@
  *
  */
 
-import UIKit
 import AVFoundation
+import SwiftUI
+import TeamTalkKit
+import UIKit
 
-class ChannelListViewController :
-    UIViewController, UITableViewDataSource,
-    UITableViewDelegate, MyTextMessageDelegate, TeamTalkEvent  {
+enum ChannelListRow: Identifiable {
+    case join
+    case user(User)
+    case channel(Channel)
+
+    var id: String {
+        switch self {
+        case .join:
+            return "join"
+        case .user(let user):
+            return "user-\(user.nUserID)"
+        case .channel(let channel):
+            return "channel-\(channel.nChannelID)"
+        }
+    }
+}
+
+final class ChannelListModel: ObservableObject {
+    @Published var rows: [ChannelListRow] = []
+    @Published var isTransmitting: Bool = false
+    @Published var pttHint: String = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
+}
+
+struct ChannelListContainerView: View {
+    @ObservedObject var model: ChannelListModel
+    let selectRow: (ChannelListRow) -> Void
+    let joinCurrentChannel: () -> Void
+    let messageUser: (INT32) -> Void
+    let editChannel: (INT32) -> Void
+    let userDetails: (User) -> ChannelUserDetails
+    let channelDetails: (Channel) -> ChannelDisplayDetails
+    let onPTTDown: () -> Void
+    let onPTTUp: () -> Void
+
+    var body: some View {
+        VStack(spacing: 0) {
+            ChannelListView(
+                model: model,
+                selectRow: selectRow,
+                joinCurrentChannel: joinCurrentChannel,
+                messageUser: messageUser,
+                editChannel: editChannel,
+                userDetails: userDetails,
+                channelDetails: channelDetails
+            )
+
+            Button {} label: {
+                Text(NSLocalizedString("Talk", comment: "PTT button"))
+                    .frame(maxWidth: .infinity)
+                    .frame(height: 50)
+                    .background(model.isTransmitting ? Color.red : Color.green)
+                    .foregroundStyle(.white)
+                    .fontWeight(.semibold)
+            }
+            .simultaneousGesture(
+                DragGesture(minimumDistance: 0)
+                    .onChanged { _ in onPTTDown() }
+                    .onEnded { _ in onPTTUp() }
+            )
+            .accessibilityLabel(NSLocalizedString("Push to Talk", comment: "PTT button"))
+            .accessibilityHint(model.pttHint)
+            .accessibilityValue(model.isTransmitting
+                ? NSLocalizedString("Active", comment: "PTT button")
+                : NSLocalizedString("Inactive", comment: "PTT button"))
+        }
+    }
+}
+
+final class ChannelListViewController: UIHostingController<ChannelListContainerView>, MyTextMessageDelegate, TeamTalkEvent {
 
     // all channels on server
     var channels = [INT32 : Channel]()
@@ -56,37 +124,84 @@ class ChannelListViewController :
     var textmessages = [INT32 : [MyTextMessage] ]()
     // timer for blinking unread messages
     var unreadTimer : Timer?
-    // list of channels and users
-    @IBOutlet weak var tableView: UITableView!
     // users being displayed in table-view
     var displayUsers = [User]()
     // channels (subchannels) being displayed in table-view
     var displayChans = [Channel]()
-    // PTT button
-    @IBOutlet weak var txButton: UIButton!
     // timeout for PTT lock
     var pttLockTimeout = Date()
-    
-    @IBOutlet weak var txButtonConstraint: NSLayoutConstraint!
-    
+
+    private var channelListModel: ChannelListModel
+
+    init() {
+        let model = ChannelListModel()
+        self.channelListModel = model
+        super.init(rootView: ChannelListContainerView(
+            model: model,
+            selectRow: { _ in },
+            joinCurrentChannel: { },
+            messageUser: { _ in },
+            editChannel: { _ in },
+            userDetails: { _ in ChannelUserDetails(title: "", subtitle: nil, iconName: "", iconAccessibilityLabel: "", messageIconName: "") },
+            channelDetails: { _ in ChannelDisplayDetails(title: "", subtitle: nil, iconName: "", iconAccessibilityLabel: "", actionTitle: "", isParent: false) },
+            onPTTDown: { },
+            onPTTUp: { }
+        ))
+    }
+
+    required init?(coder: NSCoder) { fatalError("use init()") }
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        tableView.dataSource = self
-        tableView.delegate = self
-    
+        rootView = ChannelListContainerView(
+            model: channelListModel,
+            selectRow: { [weak self] row in self?.selectRow(row) },
+            joinCurrentChannel: { [weak self] in
+                guard let self else { return }
+                self.joinNewChannel(self.curchannel)
+            },
+            messageUser: { [weak self] userID in
+                self?.showTextMessages(userid: userID)
+            },
+            editChannel: { [weak self] channelID in
+                self?.showChannelDetail(channelID: channelID)
+            },
+            userDetails: { [weak self] user in
+                self?.userDetails(user) ?? ChannelUserDetails(
+                    title: getDisplayName(user),
+                    subtitle: TeamTalkString.user(.statusMessage, from: user),
+                    iconName: "man_blue.png",
+                    iconAccessibilityLabel: NSLocalizedString("Silent", comment: "channel list"),
+                    messageIconName: "message_blue"
+                )
+            },
+            channelDetails: { [weak self] channel in
+                self?.channelDetails(channel) ?? ChannelDisplayDetails(
+                    title: TeamTalkString.channel(.name, from: channel),
+                    subtitle: TeamTalkString.channel(.topic, from: channel),
+                    iconName: "channel_orange.png",
+                    iconAccessibilityLabel: NSLocalizedString("Channel", comment: "channel list"),
+                    actionTitle: NSLocalizedString("View", comment: "channel list"),
+                    isParent: false
+                )
+            },
+            onPTTDown: { [weak self] in self?.txBtnDown() },
+            onPTTUp: { [weak self] in self?.txBtnUp() }
+        )
+
+        refreshChannelList()
         updateTX()
+    }
+
+    private func refreshChannelList() {
+        updateDisplayItems()
+        channelListModel.rows = displayRows()
     }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
         updateTX()
-
-        // Height of bottom tab-controller changes depending on resolution
-        if let tc = self.tabBarController {
-            txButtonConstraint.constant = tc.tabBar.frame.size.height
-        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -105,10 +220,6 @@ class ChannelListViewController :
         // Dispose of any resources that can be recreated.
     }
     
-    @IBAction func joinChannel(_ sender: UIButton) {
-        joinNewChannel(curchannel)
-    }
-    
     func joinNewChannel(_ channel: Channel) {
         if channel.bPassword == TRUE {
             
@@ -122,7 +233,7 @@ class ChannelListViewController :
                 passwdField?.autocorrectionType = .no
                 passwdField?.spellCheckingType = .no
                 passwdField?.autocapitalizationType = .none
-                passwdField?.text = getChannel(channel, strprop: PASSWORD)
+                passwdField?.text = TeamTalkString.channel(.password, from: channel)
             }
             
             passwdAlert.addAction(UIAlertAction(title: NSLocalizedString("Cancel", comment: "Dialog message"), style: .cancel, handler: { (pAction) in
@@ -132,9 +243,9 @@ class ChannelListViewController :
             passwdAlert.addAction(UIAlertAction(title: NSLocalizedString("Join", comment: "Dialog message"),
                                                 style: .default, handler: { (pAction) in
 
-                                                    let passwd = passwdField?.text
+                                                    let passwd = passwdField?.text ?? ""
                                                     self.chanpasswds[channel.nChannelID] = passwd
-                                                    self.cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, passwd)
+                                                    self.cmdid = TeamTalkClient.shared.joinChannel(id: channel.nChannelID, password: passwd)
                                                     self.activeCommands[self.cmdid] = .joinCmd
 
                                                     passwdAlert.dismiss(animated: true, completion: nil)
@@ -143,7 +254,7 @@ class ChannelListViewController :
             self.present(passwdAlert, animated: true, completion: nil)
         }
         else {
-            cmdid = TT_DoJoinChannelByID(ttInst, channel.nChannelID, "")
+            cmdid = TeamTalkClient.shared.joinChannel(id: channel.nChannelID)
             activeCommands[cmdid] = .joinCmd
         }
         
@@ -185,8 +296,8 @@ class ChannelListViewController :
                 let bid = $1.nChannelID
                 let au = users.values.filter({$0.nChannelID == aid})
                 let bu = users.values.filter({$0.nChannelID == bid})
-                let aname = getChannel($0, strprop: NAME)
-                let bname = getChannel($1, strprop: NAME)
+                let aname = TeamTalkString.channel(.name, from: $0)
+                let bname = TeamTalkString.channel(.name, from: $1)
                 return au.count == bu.count ?
                     aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending : au.count > bu.count
             }
@@ -194,8 +305,8 @@ class ChannelListViewController :
             fallthrough
         default :
             displayChans = subchans.sorted() {
-                let aname = getChannel($0, strprop: NAME)
-                let bname = getChannel($1, strprop: NAME)
+                let aname = TeamTalkString.channel(.name, from: $0)
+                let bname = TeamTalkString.channel(.name, from: $1)
                 return aname.caseInsensitiveCompare(bname) == ComparisonResult.orderedAscending
             }
         }
@@ -204,256 +315,144 @@ class ChannelListViewController :
         }
     }
     
-    func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        
-        updateDisplayItems()
-        
-        var n_items = displayChans.count + displayUsers.count
-        
-        if curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0 {
-            n_items += 1 // +1 for 'Join this channel'
-        }
-        
-        if curchannel.nParentID != 0 {
-            n_items += 1 //+1 for 'Back' to parent channel
-        }
-        return n_items
-    }
-    
-    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-
-        //print("row = \(indexPath.row) cur channel = \(curchannel.nChannelID) subs = \(subchans.count) users = \(chanusers.count)")
-
+    private func displayRows() -> [ChannelListRow] {
         let show_join = curchannel.nChannelID != mychannel.nChannelID && curchannel.nChannelID > 0
         let show_parent = curchannel.nParentID != 0
-        
-        // for some absurd reason UITableView::numberOfRowsInSection() and UITableView::cellForRowAt()
-        // can be interleaved when calling UITableView::reloadData() so row-count and data to be 
-        // displayed (self.channels and self.users) are out of sync
-        var display_rows = displayChans.count + displayUsers.count
+
+        var rows = [ChannelListRow]()
         if show_join {
-            display_rows += 1
-        }
-        if show_parent {
-            display_rows += 1
-        }
-        
-        if indexPath.row >= display_rows {
-            return UITableViewCell(style: .default, reuseIdentifier: nil)
-        }
-        
-        // current index for users
-        var user_index = indexPath.row
-        if show_join {
-            user_index -= 1
-        }
-        
-        if show_join && indexPath.row == 0 {
-            let cellIdentifier = "JoinChannelCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath)
-            return cell
-        }
-        
-        if user_index < displayUsers.count {
-            
-            let cellIdentifier = "UserTableCell"
-            let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! UserTableCell
-            let user = displayUsers[user_index]
-            let name = getDisplayName(user)
-            let statusmsg = getUser(user, strprop: STATUSMSG)
-            
-            cell.nicknameLabel.text = name
-            cell.statusmsgLabel.text = statusmsg
-            
-            let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
-            
-            if female {
-                cell.userImage.accessibilityLabel = NSLocalizedString("User female", comment: "channel list")
-            }
-            else {
-                cell.userImage.accessibilityLabel = NSLocalizedString("User", comment: "channel list")
-            }
-
-            if user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
-                (TT_GetMyUserID(ttInst) == user.nUserID &&
-                    isTransmitting(ttInst!, stream: STREAMTYPE_VOICE)) {
-                        
-                cell.userImage.image = UIImage(named: female ? "woman_green.png" : "man_green.png")
-                cell.userImage.accessibilityLabel = NSLocalizedString("Talking", comment: "channel list")
-            }
-            else {
-                cell.userImage.image = UIImage(named: female ? "woman_blue.png" : "man_blue.png")
-                cell.userImage.accessibilityLabel = NSLocalizedString("Silent", comment: "channel list")
-            }
-            
-            cell.messageBtn.tag = Int(user.nUserID)
-            cell.tag = Int(user.nUserID)
-            
-            if #available(iOS 8.0, *) {
-                let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.messageUser(_:)), tag: cell.tag)
-                let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.muteUser(_:)), tag: cell.tag)
-                
-                var actions = [MyCustomAction]()
-                actions.append(action_msg)
-                actions.append(action_mute)
-                
-                if (myuseraccount.uUserRights & USERRIGHT_MOVE_USERS.rawValue) != 0 {
-                    let action_move = MyCustomAction(name: NSLocalizedString("Move user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveUser(_:)), tag: cell.tag)
-                    actions.append(action_move)
-                }
-                
-                let op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID) == TRUE
-                if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 || op {
-                    let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: cell.tag)
-                    actions.append(action_kick)
-                }
-                
-                if (myuseraccount.uUserRights & USERRIGHT_BAN_USERS.rawValue) != 0 || op {
-                    let action_ban = MyCustomAction(name: NSLocalizedString("Ban user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.banUser(_:)), tag: cell.tag)
-                    actions.append(action_ban)
-                }
-
-                cell.accessibilityCustomActions = actions
-            } else {
-                // Fallback on earlier versions
-            }
-            
-            return cell
+            rows.append(.join)
         }
 
-        // current index for channels
-        var chan_index = indexPath.row - displayUsers.count
-        if show_join {
-            chan_index -= 1
+        for user in displayUsers {
+            rows.append(.user(user))
         }
-        
-        let cellIdentifier = "ChannelTableCell"
-        let cell = tableView.dequeueReusableCell(withIdentifier: cellIdentifier, for: indexPath) as! ChannelTableCell
-        
-        var channel = Channel()
-        var textcolor : UIColor? = nil
-        var title : String?, subtitle : String?
-        
-        cell.chanimage.accessibilityLabel = NSLocalizedString("Channel", comment: "channel list")
-        
-        if curchannel.nChannelID == 0 {
-            
-            // display only the root channel
-            
-            assert(displayChans.count == 1) //only sub channel should be the root channel
-            
-            channel = displayChans[chan_index]
-            
-            title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
-            subtitle = getChannel(channel, strprop: TOPIC)
-            
-            if channel.bPassword != 0 {
-                cell.chanimage.image = UIImage(named: "channel_pink.png")
-                cell.chanimage.accessibilityLabel = NSLocalizedString("Password protected", comment: "channel list")
-            }
-            else {
-                cell.chanimage.image = UIImage(named: "channel_orange.png")
-                cell.chanimage.accessibilityLabel = NSLocalizedString("No password", comment: "channel list")
-            }
-        }
-        else if chan_index == 0 && show_parent {
-            
-            // display previous channel if not in root channel
-            
-            channel = channels[curchannel.nParentID]!
-            
-            title = NSLocalizedString("Parent channel", comment: "channel list")
-            if channel.nParentID == 0 {
-                subtitle = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
-            }
-            else {
-                subtitle = getChannel(channel, strprop: NAME)
-            }
-            
-            textcolor = UIColor.gray
-            cell.chanimage.image = UIImage(named: "back_orange.png")
-            cell.chanimage.accessibilityLabel = NSLocalizedString("Return to previous channel", comment: "channel list")
-        }
-        else {
-            
-            // display sub channels
-            
-            if show_parent {
-                chan_index -= 1
-            }
 
-            assert(chan_index >= 0)
-            assert(chan_index < displayChans.count)
-            
-            channel = displayChans[chan_index]
-            
-            let user_count = getUsersCount(channel.nChannelID)
-            title = getChannel(channel, strprop: NAME) + " (\(user_count))"
-            subtitle = getChannel(channel, strprop: TOPIC)
-            
-            if channel.bPassword != 0 {
-                cell.chanimage.image = UIImage(named: "channel_pink.png")
-                cell.chanimage.accessibilityLabel = NSLocalizedString("Password protected", comment: "channel list")
-            }
-            else {
-                cell.chanimage.image = UIImage(named: "channel_orange.png")
-                cell.chanimage.accessibilityLabel = NSLocalizedString("No password", comment: "channel list")
-            }
-            
-            cell.chanimage.accessibilityLabel =
-                String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), user_count)
+        if show_parent, let channel = channels[curchannel.nParentID] {
+            rows.append(.channel(channel))
         }
-        
-        cell.channame.textColor = textcolor
-        cell.chantopicLabel.textColor = textcolor
-        
-        cell.channame.text = limitText(title!)
-        cell.chantopicLabel.text = subtitle
-        
-        cell.editBtn.tag = Int(channel.nChannelID)
-        cell.tag = Int(channel.nChannelID)
-        
-        if #available(iOS 8.0, *) {
-            
-            var actions = [MyCustomAction]()
 
-            if moveusers.count > 0 {
-                let action_move = MyCustomAction(name: NSLocalizedString("Move users here", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveIntoChannel(_:)), tag: cell.tag)
-                actions.append(action_move)
-            }
-            
-            if channel.nChannelID != mychannel.nChannelID {
-                let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: cell.tag)
-                actions.append(action_join)
-            }
-
-            let op = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), channel.nChannelID) == TRUE
-            if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) != 0 || op {
-                let action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
-                actions.append(action_edit)
-            }
-            else {
-                cell.editBtn.setTitle(NSLocalizedString("View", comment: "channel list"), for: UIControl.State())
-                let action_view = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: cell.tag)
-                actions.append(action_view)
-            }
-            
-            cell.accessibilityCustomActions = actions
-        } else {
-            // Fallback on earlier versions
+        for channel in displayChans {
+            rows.append(.channel(channel))
         }
-        return cell
+
+        return rows
     }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let cell = self.tableView.cellForRow(at: indexPath)
-        if cell is ChannelTableCell {
-            curchannel = channels[INT32(cell!.tag)]!
-            tableView.reloadData()
+
+    private func userDetails(_ user: User) -> ChannelUserDetails {
+        let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
+        let isTalking = user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
+            (TeamTalkClient.shared.myUserID == user.nUserID && TeamTalkClient.shared.isVoiceTransmitting)
+        let iconName = isTalking ? (female ? "woman_green.png" : "man_green.png") : (female ? "woman_blue.png" : "man_blue.png")
+        let iconAccessibilityLabel = isTalking ? NSLocalizedString("Talking", comment: "channel list") : NSLocalizedString("Silent", comment: "channel list")
+        let messageIcon = unreadmessages.contains(user.nUserID) && Int(Date().timeIntervalSince1970) % 2 == 0 ? "message_red" : "message_blue"
+        return ChannelUserDetails(
+            title: getDisplayName(user),
+            subtitle: TeamTalkString.user(.statusMessage, from: user),
+            iconName: iconName,
+            iconAccessibilityLabel: iconAccessibilityLabel,
+            messageIconName: messageIcon
+        )
+    }
+
+    private func userActions(for user: User) -> [MyCustomAction] {
+        let tag = Int(user.nUserID)
+        let action_msg = MyCustomAction(name: NSLocalizedString("Send private message", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.messageUser(_:)), tag: tag)
+        let action_mute = MyCustomAction(name: NSLocalizedString("Mute", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.muteUser(_:)), tag: tag)
+
+        var actions = [action_msg, action_mute]
+
+        if (myuseraccount.uUserRights & USERRIGHT_MOVE_USERS.rawValue) != 0 {
+            let action_move = MyCustomAction(name: NSLocalizedString("Move user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveUser(_:)), tag: tag)
+            actions.append(action_move)
+        }
+
+        let op = TeamTalkClient.shared.isChannelOperator(channelID: user.nChannelID)
+        if (myuseraccount.uUserRights & USERRIGHT_KICK_USERS.rawValue) != 0 || op {
+            let action_kick = MyCustomAction(name: NSLocalizedString("Kick user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.kickUser(_:)), tag: tag)
+            actions.append(action_kick)
+        }
+
+        if (myuseraccount.uUserRights & USERRIGHT_BAN_USERS.rawValue) != 0 || op {
+            let action_ban = MyCustomAction(name: NSLocalizedString("Ban user", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.banUser(_:)), tag: tag)
+            actions.append(action_ban)
+        }
+
+        return actions
+    }
+
+    private func channelActions(for channel: Channel) -> [MyCustomAction] {
+        let tag = Int(channel.nChannelID)
+        var actions = [MyCustomAction]()
+
+        if moveusers.count > 0 {
+            let action_move = MyCustomAction(name: NSLocalizedString("Move users here", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.moveIntoChannel(_:)), tag: tag)
+            actions.append(action_move)
+        }
+
+        if channel.nChannelID != mychannel.nChannelID {
+            let action_join = MyCustomAction(name: NSLocalizedString("Join channel", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.joinThisChannel(_:)), tag: tag)
+            actions.append(action_join)
+        }
+
+        let op = TeamTalkClient.shared.isChannelOperator(channelID: channel.nChannelID)
+        if (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) != 0 || op {
+            let action_edit = MyCustomAction(name: NSLocalizedString("Edit properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: tag)
+            actions.append(action_edit)
+        } else {
+            let action_view = MyCustomAction(name: NSLocalizedString("View properties", comment: "channel list"), target: self, selector: #selector(ChannelListViewController.editChannel(_:)), tag: tag)
+            actions.append(action_view)
+        }
+
+        return actions
+    }
+
+    private func channelDetails(_ channel: Channel) -> ChannelDisplayDetails {
+        let op = TeamTalkClient.shared.isChannelOperator(channelID: channel.nChannelID)
+        let canEdit = (myuseraccount.uUserRights & USERRIGHT_MODIFY_CHANNELS.rawValue) != 0 || op
+        let actionTitle = canEdit ? NSLocalizedString("Edit", comment: "channel list") : NSLocalizedString("View", comment: "channel list")
+
+        if curchannel.nChannelID == 0 {
+            let iconName = channel.bPassword != 0 ? "channel_pink.png" : "channel_orange.png"
+            let iconAccessibilityLabel = channel.bPassword != 0 ? NSLocalizedString("Password protected", comment: "channel list") : NSLocalizedString("No password", comment: "channel list")
+            return ChannelDisplayDetails(title: TeamTalkString.serverProperties(.name, from: srvprop), subtitle: TeamTalkString.channel(.topic, from: channel), iconName: iconName, iconAccessibilityLabel: iconAccessibilityLabel, actionTitle: actionTitle, isParent: false)
+        }
+
+        if channel.nChannelID == curchannel.nParentID {
+            let subtitle: String
+            if channel.nParentID == 0 {
+                subtitle = TeamTalkString.serverProperties(.name, from: srvprop)
+            } else {
+                subtitle = TeamTalkString.channel(.name, from: channel)
+            }
+            return ChannelDisplayDetails(title: NSLocalizedString("Parent channel", comment: "channel list"),
+                                         subtitle: subtitle,
+                                         iconName: "back_orange.png",
+                                         iconAccessibilityLabel: NSLocalizedString("Return to previous channel", comment: "channel list"),
+                                         actionTitle: actionTitle,
+                                         isParent: true)
+        }
+
+        let userCount = getUsersCount(channel.nChannelID)
+        let iconName = channel.bPassword != 0 ? "channel_pink.png" : "channel_orange.png"
+        let iconAccessibilityLabel = String(format: NSLocalizedString("Channel. %d users", comment: "channel list"), userCount)
+        return ChannelDisplayDetails(title: TeamTalkString.channel(.name, from: channel) + " (\(userCount))",
+                                     subtitle: TeamTalkString.channel(.topic, from: channel),
+                                     iconName: iconName,
+                                     iconAccessibilityLabel: iconAccessibilityLabel,
+                                     actionTitle: actionTitle,
+                                     isParent: false)
+    }
+
+    private func selectRow(_ row: ChannelListRow) {
+        switch row {
+        case .join:
+            joinNewChannel(curchannel)
+        case .user(let user):
+            showUserDetail(userid: user.nUserID)
+        case .channel(let channel):
+            curchannel = channel
+            refreshChannelList()
             updateTitle()
         }
     }
@@ -461,72 +460,78 @@ class ChannelListViewController :
     func updateTitle() {
         var title = ""
         if curchannel.nParentID == 0 {
-            title = String(cString: getServerPropertiesString(SERVERNAME, &srvprop))
+            title = TeamTalkString.serverProperties(.name, from: srvprop)
         }
         else {
-            title = getChannel(curchannel, strprop: NAME)
+            title = TeamTalkString.channel(.name, from: curchannel)
         }
         
-        self.tabBarController?.navigationItem.title = title
+        self.navigationItem.title = title
     }
     
-    @objc @available(iOS 8.0, *)
+    @objc
     func messageUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
-            performSegue(withIdentifier: "New TextMessage", sender: ac)
+            showTextMessages(userid: INT32(ac.tag))
         }
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func muteUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             let userid = INT32(ac.tag)
             if let user = users[userid] {
-                TT_SetUserMute(ttInst, userid, STREAMTYPE_MEDIAFILE_AUDIO,
-                               (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == 0 ? TRUE : FALSE )
-                TT_SetUserMute(ttInst, userid, STREAMTYPE_VOICE,
-                               (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == 0 ? TRUE : FALSE )
+                TeamTalkClient.shared.setUserMute(
+                    userID: userid,
+                    stream: STREAMTYPE_MEDIAFILE_AUDIO,
+                    muted: (user.uUserState & USERSTATE_MUTE_MEDIAFILE.rawValue) == 0
+                )
+                TeamTalkClient.shared.setUserMute(
+                    userID: userid,
+                    stream: STREAMTYPE_VOICE,
+                    muted: (user.uUserState & USERSTATE_MUTE_VOICE.rawValue) == 0
+                )
                 // tell TeamTalk event loop to send us an updated User-struct
-                TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, userid)
+                TeamTalkClient.shared.pump(CLIENTEVENT_USER_STATECHANGE, source: userid)
             }
             
         }
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func moveUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             moveusers.append(INT32(ac.tag))
-            self.tableView.reloadData() //need to update accessible actions on channels
+            self.refreshChannelList() //need to update accessible actions on channels
         }
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func kickUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             
-            cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            cmdid = TeamTalkClient.shared.kickUser(id: INT32(ac.tag), fromChannelID: curchannel.nChannelID)
             activeCommands[cmdid] = .kickCmd
         }
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func banUser(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             
-            cmdid = TT_DoBanUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            cmdid = TeamTalkClient.shared.banUser(id: INT32(ac.tag), fromChannelID: curchannel.nChannelID)
             activeCommands[cmdid] = .banCmd
-            cmdid = TT_DoKickUser(ttInst, INT32(ac.tag), curchannel.nChannelID)
+            cmdid = TeamTalkClient.shared.kickUser(id: INT32(ac.tag), fromChannelID: curchannel.nChannelID)
             activeCommands[cmdid] = .kickCmd
         }
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func joinThisChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             if let channel = channels[INT32(ac.tag)] {
@@ -536,19 +541,19 @@ class ChannelListViewController :
         return true
     }
 
-    @objc @available(iOS 8.0, *)
+    @objc
     func editChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
-            performSegue(withIdentifier: "Edit Channel", sender: ac)
+            showChannelDetail(channelID: INT32(ac.tag))
         }
         return true
     }
     
-    @objc @available(iOS 8.0, *)
+    @objc
     func moveIntoChannel(_ action: UIAccessibilityCustomAction) -> Bool {
         if let ac = action as? MyCustomAction {
             for userid in moveusers {
-                cmdid = TT_DoMoveUser(ttInst, userid, INT32(ac.tag))
+                cmdid = TeamTalkClient.shared.moveUser(id: userid, toChannelID: INT32(ac.tag))
                 activeCommands[cmdid] = .moveCmd
             }
             moveusers.removeAll()
@@ -567,32 +572,30 @@ class ChannelListViewController :
         switch cmd! {
             
         case .loginCmd :
-            let flags = TT_GetFlags(ttInst)
-
-            if (flags & CLIENT_AUTHORIZED.rawValue) != 0 {
+            if TeamTalkClient.shared.isAuthorized {
                 
                 if rejoinchannel.nChannelID > 0 {
                     // if we were previously in a channel then rejoin
-                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : getChannel(rejoinchannel, strprop: PASSWORD)
+                    let passwd = chanpasswds[rejoinchannel.nChannelID] != nil ? chanpasswds[rejoinchannel.nChannelID] : TeamTalkString.channel(.password, from: rejoinchannel)
                     if chanpasswds[rejoinchannel.nChannelID] == nil {
                         // if channel password is from initial login (Server-struct) then we need to store it
-                       chanpasswds[rejoinchannel.nChannelID] = getChannel(rejoinchannel, strprop: PASSWORD)
+                       chanpasswds[rejoinchannel.nChannelID] = TeamTalkString.channel(.password, from: rejoinchannel)
                     }
-                    setChannelString(PASSWORD, &rejoinchannel, passwd!)
-                    cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
+                    TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd!)
+                    cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
-                else if getChannel(rejoinchannel, strprop: NAME).isEmpty == false {
+                else if TeamTalkString.channel(.name, from: rejoinchannel).isEmpty == false {
                     // join from initial login
-                    let passwd = getChannel(rejoinchannel, strprop: PASSWORD)
-                    setChannelString(PASSWORD, &rejoinchannel, passwd)
-                    cmdid = TT_DoJoinChannel(ttInst, &rejoinchannel)
+                    let passwd = TeamTalkString.channel(.password, from: rejoinchannel)
+                    TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd)
+                    cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
                     activeCommands[cmdid] = .joinCmd
                 }
                 else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil ||
                     UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
                     //join root channel automatically (if enabled)
-                    cmdid = TT_DoJoinChannelByID(ttInst, TT_GetRootChannelID(ttInst), "")
+                    cmdid = TeamTalkClient.shared.joinChannel(id: TeamTalkClient.shared.rootChannelID)
                     activeCommands[cmdid] = .joinCmd
                 }
             }
@@ -610,89 +613,54 @@ class ChannelListViewController :
 
         activeCommands.removeValue(forKey: active_cmdid)
         
-        self.tableView.reloadData()
+        self.refreshChannelList()
     }
     
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-
-        if segue.identifier == "Show User" {
-            let index = self.tableView.indexPathForSelectedRow
-            let cell = self.tableView.cellForRow(at: index!)
-
-            let userDetail = segue.destination as! UserDetailViewController
-            userDetail.userid = INT32(cell!.tag)
-        }
-        else if segue.identifier == "New Channel" {
-            let chanDetail = segue.destination as! ChannelDetailViewController
-            chanDetail.channel.nParentID = curchannel.nChannelID
-            
-            if chanDetail.channel.nParentID == 0 {
-                let subchans = channels.values.filter({$0.nParentID == 0})
-                if let root = subchans.first {
-                    chanDetail.channel.nParentID = root.nChannelID
-                }
-            }
-        }
-        else if segue.identifier == "Edit Channel" {
-            
-            var chanid : INT32 = 0
-            
-            if let btn = sender as? UIButton {
-                chanid = INT32(btn.tag)
-            }
-            if #available(iOS 8.0, *) {
-                if let ac = sender as? MyCustomAction {
-                    chanid = INT32(ac.tag)
-                }
-            } else {
-                // Fallback on earlier versions
-            }
-
-            if let channel = channels[chanid] {
-                
-                let chanDetail = segue.destination as! ChannelDetailViewController
-                
-                chanDetail.channel = channel
-                
-                if getChannel(channel, strprop: PASSWORD).isEmpty {
-                    if let passwd = self.chanpasswds[chanid] {
-                        setChannelString(PASSWORD, &chanDetail.channel, passwd)
-                    }
-                }
-            }
-        }
-        else if segue.identifier == "New TextMessage" {
-
-            var userid : INT32 = -1
-            if let btn = sender as? UIButton {
-                userid = INT32(btn.tag)
-            }
-            if #available(iOS 8.0, *) {
-                if let action = sender as? MyCustomAction {
-                    userid = INT32(action.tag)
-                }
-            } else {
-                // Fallback on earlier versions
-            }
-            
-            let txtmsgView = segue.destination as! TextMessageViewController
-            openTextMessages(txtmsgView, userid: userid)
-        }
+    private func showUserDetail(userid: INT32) {
+        let vc = UserDetailViewController()
+        vc.userid = userid
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
-    @IBAction func openTextMessages(_ segue:UIStoryboardSegue) {
 
-        let src_vc = segue.source as! UserDetailViewController
-        
-        let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
-        openTextMessages(vc, userid: src_vc.userid)
-        self.navigationController?.pushViewController(vc, animated: true)
+    private func showChannelDetail(channelID: INT32) {
+        guard let channel = channels[channelID] else { return }
+        let vc = ChannelDetailViewController()
+        vc.channel = channel
+        if TeamTalkString.channel(.password, from: channel).isEmpty {
+            if let passwd = chanpasswds[channelID] {
+                TeamTalkString.setChannel(.password, on: &vc.channel, to: passwd)
+            }
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
 
+    func showNewChannelDetail() {
+        let vc = ChannelDetailViewController()
+        vc.channel.nParentID = curchannel.nChannelID
+        if vc.channel.nParentID == 0 {
+            let subchans = channels.values.filter({ $0.nParentID == 0 })
+            if let root = subchans.first {
+                vc.channel.nParentID = root.nChannelID
+            }
+        }
+        navigationController?.pushViewController(vc, animated: true)
+    }
+
+    private func makeTextMessageViewController(userid: INT32) -> TextMessageViewController {
+        let viewController = TextMessageViewController()
+        openTextMessages(viewController, userid: userid)
+        return viewController
+    }
+
+    private func showTextMessages(userid: INT32) {
+        let viewController = makeTextMessageViewController(userid: userid)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 
     func openTextMessages(_ sender: TextMessageViewController, userid: INT32) {
         sender.userid = userid
         sender.delegate = self
+        sender.navigationItem.title = NSLocalizedString("Private Text Message", comment: "text message navigation title")
         addToTTMessages(sender)
         if let msgs = self.textmessages[userid] {
             for m in msgs {
@@ -701,25 +669,19 @@ class ChannelListViewController :
         }
     }
     
-    @IBAction func closeTextMessages(_ segue:UIStoryboardSegue) {
-        
-        print("Closed messages")
-        
-    }
-    
-    @IBAction func txBtnDown(_ sender: UIButton) {
-        
+    func txBtnDown() {
+
         if hasPTTLock() {
             enableVoiceTx(true)
         }
         else {
-            enableVoiceTx(!isTransmitting(ttInst!, stream: STREAMTYPE_VOICE))
+            enableVoiceTx(!TeamTalkClient.shared.isVoiceTransmitting)
         }
     }
     
     func enableVoiceTx(_ enable: Bool) {
 
-        TT_EnableVoiceTransmission(ttInst, enable ? TRUE : FALSE)
+        TeamTalkClient.shared.enableVoiceTransmission(enable)
         playSound(enable ? .tx_ON : .tx_OFF)
         updateTX()
 
@@ -742,67 +704,22 @@ class ChannelListViewController :
         }
     }
     
-    @IBAction func txBtnUpInside(_ sender: UIButton) {
-        txBtnUp()
-    }
-    
-    @IBAction func txBtnUpOutside(_ sender: UIButton) {
-        txBtnUp()
-    }
-    
     func updateTX() {
-        
-        let flags = TT_GetFlags(ttInst)
-        
-        switch flags & CLIENT_TX_VOICE.rawValue {
-        case CLIENT_TX_VOICE.rawValue :
-            txButton.backgroundColor = UIColor.red
-            txButton.accessibilityHint = NSLocalizedString("Transmitting", comment: "channel list")
-            txButton.accessibilityValue = NSLocalizedString("Active", comment: "channel list")
-        default :
-            txButton.backgroundColor = UIColor.green
-            txButton.accessibilityHint = NSLocalizedString("Transmit inactive", comment: "channel list")
-            txButton.accessibilityValue = NSLocalizedString("Inactive", comment: "channel list")
-        }
-        
-        if hasPTTLock() {
-            txButton.accessibilityHint = NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
-        }
-        else {
-            txButton.accessibilityHint = NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
-        }
-        
-        tableView.reloadData()
-        
+        channelListModel.isTransmitting = TeamTalkClient.shared.isVoiceTransmitting
+        channelListModel.pttHint = hasPTTLock()
+            ? NSLocalizedString("Double tap and hold to transmit. Triple tap fast to lock transmission.", comment: "channel list")
+            : NSLocalizedString("Toggle to enable/disable transmission", comment: "channel list")
+        refreshChannelList()
     }
     
     @objc func timerUnreadBlinker(_ timer: Timer) {
-        let cells = tableView.visibleCells
-        for c in cells {
-            if c.reuseIdentifier == "UserTableCell"  {
-                let cell = c as! UserTableCell
-                if unreadmessages.contains(INT32(c.tag)) {
-                    let time = Int(Date().timeIntervalSince1970)
-                    if time % 2 == 0 {
-                        cell.messageBtn.setImage(UIImage(named: "message_red"), for: UIControl.State())
-                    }
-                    else {
-                        cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControl.State())
-                    }
-                }
-                else {
-                    cell.messageBtn.setImage(UIImage(named: "message_blue"), for: UIControl.State())
-                }
-            }
-        }
+        refreshChannelList()
         if unreadmessages.isEmpty {
             unreadTimer?.invalidate()
         }
     }
     
     func handleTTMessage(_ m: TTMessage) {
-        var m = m
-        
         switch(m.nClientEvent) {
 
         case CLIENTEVENT_CON_LOST :
@@ -813,11 +730,11 @@ class ChannelListViewController :
             mychannel = Channel()
             activeCommands.removeAll()
             
-            tableView.reloadData()
+            refreshChannelList()
             break
             
         case CLIENTEVENT_CMD_PROCESSING :
-            if getTTBOOL(&m) == TRUE {
+            if TeamTalkMessagePayload.isActive(m) {
                 // command active
                 self.currentCmdId = m.nSource
             }
@@ -829,27 +746,23 @@ class ChannelListViewController :
             }
         case CLIENTEVENT_CMD_ERROR :
             if activeCommands[m.nSource] != nil {
-                let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
-                if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    // Fallback on earlier versions
-                }
+                let errmsg = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
         case CLIENTEVENT_CMD_SERVER_UPDATE :
-            srvprop = getServerProperties(&m).pointee
+            srvprop = TeamTalkMessagePayload.serverProperties(from: m)
             
         case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-            myuseraccount = getUserAccount(&m).pointee
+            myuseraccount = TeamTalkMessagePayload.userAccount(from: m)
             if (myuseraccount.uUserType & USERTYPE_ADMIN.rawValue) != 0 {
                 // an admin user type can do everything
                 myuseraccount.uUserRights = 0xFFFFFFFF
             }
             
         case CLIENTEVENT_CMD_CHANNEL_NEW :
-            let channel = getChannel(&m).pointee
+            let channel = TeamTalkMessagePayload.channel(from: m)
             
             channels[channel.nChannelID] = channel
             
@@ -859,16 +772,16 @@ class ChannelListViewController :
             }
             
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
             
         case CLIENTEVENT_CMD_CHANNEL_UPDATE :
-            let channel = getChannel(&m).pointee
+            let channel = TeamTalkMessagePayload.channel(from: m)
             channels[channel.nChannelID] = channel
             
             if mychannel.nChannelID == channel.nChannelID {
                 
-                let myuserid = TT_GetMyUserID(ttInst)
+                let myuserid = TeamTalkClient.shared.myUserID
                 if channel.transmitUsersQueue.0 == myuserid &&
                     mychannel.transmitUsersQueue.0 != myuserid {
                     playSound(.transmit_ON)
@@ -885,29 +798,29 @@ class ChannelListViewController :
             }
             
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
             
         case CLIENTEVENT_CMD_CHANNEL_REMOVE :
-            let channel = getChannel(&m).pointee
+            let channel = TeamTalkMessagePayload.channel(from: m)
             channels.removeValue(forKey: channel.nChannelID)
             
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
             
         case CLIENTEVENT_CMD_USER_LOGGEDIN :
             
             playSound(.logged_IN)
             
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users[user.nUserID] = user
             
             if currentCmdId == 0 {
                 if user.nChannelID == curchannel.nChannelID {
-                    self.tableView.reloadData()
+                    self.refreshChannelList()
                 }
-                if TT_GetMyUserID(ttInst) != user.nUserID {
+                if TeamTalkClient.shared.myUserID != user.nUserID {
                     let defaults = UserDefaults.standard
                     
                     if defaults.object(forKey: PREF_TTSEVENT_USERLOGIN) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGIN) {
@@ -921,14 +834,14 @@ class ChannelListViewController :
             
             playSound(.logged_OUT)
             
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users.removeValue(forKey: user.nUserID)
 
             if currentCmdId == 0 {
                 if user.nChannelID == curchannel.nChannelID {
-                    self.tableView.reloadData()
+                    self.refreshChannelList()
                 }
-                if TT_GetMyUserID(ttInst) != user.nUserID {
+                if TeamTalkClient.shared.myUserID != user.nUserID {
                     let defaults = UserDefaults.standard
                     
                     if defaults.object(forKey: PREF_TTSEVENT_USERLOGOUT) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGOUT) {
@@ -939,17 +852,17 @@ class ChannelListViewController :
             }
             
         case CLIENTEVENT_CMD_USER_JOINED :
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users[user.nUserID] = user
             
             // we joined a new channel so update table view
-            if user.nUserID == TT_GetMyUserID(ttInst) {
+            if user.nUserID == TeamTalkClient.shared.myUserID {
                 curchannel = channels[user.nChannelID]!
                 mychannel = channels[user.nChannelID]!
 
                 //store password if it's from initial login (Server-struct)
                 if rejoinchannel.nChannelID == 0 && chanpasswds[user.nChannelID] == nil {
-                   chanpasswds[user.nChannelID] = getChannel(rejoinchannel, strprop: PASSWORD)
+                   chanpasswds[user.nChannelID] = TeamTalkString.channel(.password, from: rejoinchannel)
                 }
                 rejoinchannel = channels[user.nChannelID]! //join this on connection lost
 
@@ -969,18 +882,18 @@ class ChannelListViewController :
             }
 
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
         case CLIENTEVENT_CMD_USER_UPDATE :
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users[user.nUserID] = user
             
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
             
         case CLIENTEVENT_CMD_USER_LEFT :
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users[user.nUserID] = user
             
             if myuseraccount.uUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue == 0 {
@@ -990,7 +903,7 @@ class ChannelListViewController :
                 users[user.nUserID] = user
             }
     
-            if user.nUserID == TT_GetMyUserID(ttInst) {
+            if user.nUserID == TeamTalkClient.shared.myUserID {
                 mychannel = Channel()
                 rejoinchannel = Channel()
             }
@@ -1005,11 +918,11 @@ class ChannelListViewController :
             }
             
             if currentCmdId == 0 {
-                self.tableView.reloadData()
+                self.refreshChannelList()
             }
             
         case CLIENTEVENT_CMD_USER_TEXTMSG :
-            let txtmsg = getTextMessage(&m).pointee
+            let txtmsg = TeamTalkMessagePayload.textMessage(from: m)
             
             if txtmsg.nMsgType == MSGTYPE_USER {
                 
@@ -1017,16 +930,12 @@ class ChannelListViewController :
                 if let user = users[txtmsg.nFromUserID] {
                     let name = getDisplayName(user)
                     let newmsg = MyTextMessage(m: txtmsg, nickname: name,
-                        msgtype: TT_GetMyUserID(ttInst) == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM)
+                        msgtype: TeamTalkClient.shared.myUserID == txtmsg.nFromUserID ? .PRIV_IM_MYSELF : .PRIV_IM)
                     appendTextMessage(txtmsg.nFromUserID, txtmsg: newmsg)
                     
                     if unreadmessages.count == 0 {
-                        if #available(iOS 10.0, *) {
-                            self.unreadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true, block: {s in self.timerUnreadBlinker(s)})
-                        } else {
-                            self.unreadTimer = Timer(timeInterval: 1.0, target: self,
-                                                     selector: #selector(ChannelListViewController.timerUnreadBlinker(_:)),
-                                                     userInfo: nil, repeats: true)
+                        self.unreadTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { s in
+                            self.timerUnreadBlinker(s)
                         }
                     }
                     unreadmessages.insert(txtmsg.nFromUserID)                    
@@ -1041,8 +950,7 @@ class ChannelListViewController :
                 }
                 
                 if settings.object(forKey: PREF_DISPLAY_POPUPTXTMSG) == nil || settings.bool(forKey: PREF_DISPLAY_POPUPTXTMSG) {
-                    let vc = self.storyboard?.instantiateViewController(withIdentifier: "Text Message") as! TextMessageViewController
-                    openTextMessages(vc, userid: txtmsg.nFromUserID)
+                    let vc = makeTextMessageViewController(userid: txtmsg.nFromUserID)
                     self.navigationController?.pushViewController(vc, animated: true)
                     if let m = vc.getLastEventMessage() {
                         speakTextMessage(txtmsg.nMsgType, mymsg: m)
@@ -1052,24 +960,20 @@ class ChannelListViewController :
             
         case CLIENTEVENT_CMD_ERROR :
             if m.nSource == cmdid {
-                let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
-                if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    // Fallback on earlier versions
-                }
+                let errmsg = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog message"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
+                self.present(alert, animated: true, completion: nil)
             }
 
         case CLIENTEVENT_USER_STATECHANGE :
-            let user = getUser(&m).pointee
+            let user = TeamTalkMessagePayload.user(from: m)
             users[user.nUserID] = user
-            self.tableView.reloadData()
+            self.refreshChannelList()
         
         case CLIENTEVENT_VOICE_ACTIVATION :
             
-            tableView.reloadData()
+            refreshChannelList()
 
         default :
             //print("Unhandled message \(m.nClientEvent.rawValue)")
@@ -1079,20 +983,94 @@ class ChannelListViewController :
 
     func updateAudioConfig() {
         if mychannel.audiocfg.bEnableAGC == TRUE {
-            TT_SetSoundInputGainLevel(ttInst, INT32(SOUND_GAIN_DEFAULT.rawValue))
-            var ap = newAudioPreprocessor(preprocessor: WEBRTC_AUDIOPREPROCESSOR)
-            let gain = Float(mychannel.audiocfg.nGainLevel) / Float(CHANNEL_AUDIOCONFIG_MAX)
+            TeamTalkClient.shared.setSoundInputGainLevel(INT32(SOUND_GAIN_DEFAULT.rawValue))
+            var ap = TeamTalkAudioPreprocessor.makeWebRTCPreprocessor()
+            let gain = Float(mychannel.audiocfg.nGainLevel) / Float(TeamTalkAudioPreprocessor.channelAudioConfigMax)
             ap.webrtc.gaincontroller2.fixeddigital.fGainDB = WEBRTC_GAINCONTROLLER2_FIXEDGAIN_MAX * gain
             ap.webrtc.gaincontroller2.bEnable = TRUE
-            TT_SetSoundInputPreprocessEx(ttInst, &ap)
+            TeamTalkClient.shared.setSoundInputPreprocess(&ap)
         }
         else {
-            var ap = newAudioPreprocessor(preprocessor: TEAMTALK_AUDIOPREPROCESSOR)
-            TT_SetSoundInputPreprocessEx(ttInst, &ap)
+            var ap = TeamTalkAudioPreprocessor.makeTeamTalkPreprocessor()
+            TeamTalkClient.shared.setSoundInputPreprocess(&ap)
             
             let defaults = UserDefaults.standard
             let vol = defaults.integer(forKey: PREF_MICROPHONE_GAIN)
-            TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))
+            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
+        }
+    }
+}
+
+struct ChannelUserDetails {
+    let title: String
+    let subtitle: String?
+    let iconName: String
+    let iconAccessibilityLabel: String
+    let messageIconName: String
+}
+
+struct ChannelDisplayDetails {
+    let title: String
+    let subtitle: String?
+    let iconName: String
+    let iconAccessibilityLabel: String
+    let actionTitle: String
+    let isParent: Bool
+}
+
+struct ChannelListView: View {
+    @ObservedObject var model: ChannelListModel
+
+    let selectRow: (ChannelListRow) -> Void
+    let joinCurrentChannel: () -> Void
+    let messageUser: (INT32) -> Void
+    let editChannel: (INT32) -> Void
+    let userDetails: (User) -> ChannelUserDetails
+    let channelDetails: (Channel) -> ChannelDisplayDetails
+
+    var body: some View {
+        List(model.rows) { row in
+            switch row {
+            case .join:
+                TeamTalkActionRow(
+                    title: NSLocalizedString("Join this channel", comment: "channel list"),
+                    action: joinCurrentChannel
+                )
+
+            case .user(let user):
+                let details = userDetails(user)
+                TeamTalkIconActionRow(
+                    title: details.title,
+                    subtitle: details.subtitle,
+                    iconName: details.iconName,
+                    iconAccessibilityLabel: details.iconAccessibilityLabel,
+                    actionTitle: NSLocalizedString("Text Messaging", comment: "channel list"),
+                    actionImageName: details.messageIconName
+                ) {
+                    messageUser(user.nUserID)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectRow(row)
+                }
+
+            case .channel(let channel):
+                let details = channelDetails(channel)
+                TeamTalkIconActionRow(
+                    title: limitText(details.title),
+                    subtitle: details.subtitle,
+                    iconName: details.iconName,
+                    iconAccessibilityLabel: details.iconAccessibilityLabel,
+                    actionTitle: details.actionTitle,
+                    isDimmed: details.isParent
+                ) {
+                    editChannel(channel.nChannelID)
+                }
+                .contentShape(Rectangle())
+                .onTapGesture {
+                    selectRow(row)
+                }
+            }
         }
     }
 }

@@ -21,157 +21,118 @@
  *
  */
 
-import UIKit
+import SwiftUI
 
-class WebLoginViewController : UITableViewController {
-    
-    var weblogin_items = [UITableViewCell]()
-    var authentication_items = [UITableViewCell]()
-    
-    var usernameField : UITextField?
-    var passwordField : UITextField?
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        createTableItems()
+struct WebLoginView: View {
+    @Environment(\.openURL) private var openURL
+    @State private var usernameText = ""
+    @State private var passwordText = ""
+    @State private var hasStoredUsername = false
+    @State private var alertMessage: String?
+
+    var body: some View {
+        Form {
+            Section(NSLocalizedString("Web Login ID", comment: "Web Login controller")) {
+                if hasStoredUsername {
+                    TeamTalkActionRow(
+                        title: NSLocalizedString("Reset Web Login", comment: "Web Login Controller"),
+                        role: .destructive,
+                        action: resetWebLogin
+                    )
+                } else {
+                    TeamTalkActionRow(
+                        title: NSLocalizedString("Create Web Login", comment: "Web Login Controller"),
+                        action: openWebLoginSignup
+                    )
+                }
+            }
+
+            Section(NSLocalizedString("Authentication", comment: "Web Login controller")) {
+                TeamTalkTextFieldRow(
+                    title: NSLocalizedString("Username", comment: "Web Login Controller"),
+                    text: $usernameText,
+                    isEnabled: !hasStoredUsername
+                )
+
+                if !hasStoredUsername {
+                    TeamTalkTextFieldRow(
+                        title: NSLocalizedString("Password", comment: "Web Login Controller"),
+                        text: $passwordText,
+                        isSecure: true
+                    )
+
+                    TeamTalkActionRow(
+                        title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
+                        action: validateWebLogin
+                    )
+                }
+            }
+        }
+        .navigationTitle(NSLocalizedString("BearWare.dk Web Login", comment: "Web Login controller"))
+        .onAppear(perform: loadWebLogin)
+        .alert(NSLocalizedString("Authenticate", comment: "Web Login Controller"),
+               isPresented: Binding(get: { alertMessage != nil }, set: { isPresented in
+                   if !isPresented {
+                       alertMessage = nil
+                   }
+               })) {
+            Button(NSLocalizedString("OK", comment: "Web Login Controller"), role: .cancel) {
+                alertMessage = nil
+            }
+        } message: {
+            Text(alertMessage ?? "")
+        }
     }
-    
-    func createTableItems() {
-        
-        weblogin_items.removeAll()
-        authentication_items.removeAll()
-        
+
+    private func loadWebLogin() {
         let settings = UserDefaults.standard
         let username = settings.string(forKey: PREF_GENERAL_BEARWARE_ID)
-        
-        if username == nil {
-            let createcell = tableView.dequeueReusableCell(withIdentifier: "Create Web Login")
-            weblogin_items.append(createcell!)
-        }
-        else {
-            let resetcell = tableView.dequeueReusableCell(withIdentifier: "Reset Web Login")
-            weblogin_items.append(resetcell!)
-        }
-        
-        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        let usernameLabel = NSLocalizedString("Username", comment: "Web Login Controller")
-        usernameField = newTableCellTextField(usernamecell, label: usernameLabel, initial: username ?? "")
-        usernameField!.autocorrectionType = .no
-        usernameField!.spellCheckingType = .no
-        usernameField!.autocapitalizationType = .none
-        usernameField!.isUserInteractionEnabled = username == nil
-        
-        authentication_items.append(usernamecell)
-        
-        if username == nil {
-            let passwordcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-            let passwordLabel = NSLocalizedString("Password", comment: "Web Login Controller")
-            passwordField = newTableCellTextField(passwordcell, label: passwordLabel, initial: "")
-            passwordField!.autocorrectionType = .no
-            passwordField!.spellCheckingType = .no
-            passwordField!.autocapitalizationType = .none
-            passwordField!.isSecureTextEntry = true
-            
-            authentication_items.append(passwordcell)
-            
-            let logincell = tableView.dequeueReusableCell(withIdentifier: "Exec Web Login")
-            
-            authentication_items.append(logincell!)
-        }
-    }
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 2
+        usernameText = username ?? ""
+        passwordText = ""
+        hasStoredUsername = username != nil
     }
 
-    override func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        switch section {
-        case 0 :
-            return NSLocalizedString("Web Login ID", comment: "Web Login controller")
-        case 1 :
-            return NSLocalizedString("Authentication", comment: "Web Login controller")
-        default:
-            return ""
+    private func validateWebLogin() {
+        let username = usernameText.trimmingCharacters(in: .whitespacesAndNewlines)
+        usernameText = username
+
+        let tokenURL = AppInfo.getBearWareTokenURL(username: username, passwd: passwordText)
+
+        guard let url = URL(string: tokenURL), let parser = XMLParser(contentsOf: url) else {
+            alertMessage = NSLocalizedString("Username or password incorrect", comment: "Web Login Controller")
+            return
         }
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        switch section {
-        case 0 : return weblogin_items.count
-        case 1 : return authentication_items.count
-        default:
-            return 0
-        }
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-     
-        switch (indexPath.section) {
-        case 0 :
-            return weblogin_items[indexPath.row]
-        case 1 :
-            return authentication_items[indexPath.row]
-        default:
-            return UITableViewCell()
-        }
-    }
-    
-    @IBAction func validateLogin(_ sender: UIButton) {
-        
-        let username = usernameField!.text!.trimmingCharacters(in: .whitespacesAndNewlines)
-        usernameField!.text = username
-        
-        let url = AppInfo.getBearWareTokenURL(username: username, passwd: passwordField!.text!)
-        
+
         let authParser = WebLoginParser()
-        if let parser = XMLParser(contentsOf: URL(string: url)!) {
-            
-            parser.delegate = authParser
-            if parser.parse() && authParser.username.count > 0 {
-                let fmtmsg = NSLocalizedString("%@, your username \"%@\" has been validated", comment: "Web Login Controller")
-                let loginmsg = String(format: fmtmsg, authParser.nickname, authParser.username)
-                let alert = UIAlertView(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
-                                        message: loginmsg, delegate: nil,
-                                        cancelButtonTitle: NSLocalizedString("OK", comment: "Web Login Controller"))
-                alert.show()
-                
-                let settings = UserDefaults.standard
-                settings.set(authParser.username, forKey: PREF_GENERAL_BEARWARE_ID)
-                settings.set(authParser.token, forKey: PREF_GENERAL_BEARWARE_TOKEN)
-                
-                createTableItems()
-                tableView.reloadData()
-            }
-            else {
-                let alert = UIAlertView(title: NSLocalizedString("Authenticate", comment: "Web Login Controller"),
-                                        message: NSLocalizedString("Username or password incorrect", comment: "Web Login Controller"),
-                                        delegate: nil, cancelButtonTitle: NSLocalizedString("OK", comment: "Web Login Controller"))
-                alert.show()
-            }
+        parser.delegate = authParser
+        if parser.parse() && authParser.username.count > 0 {
+            let fmtmsg = NSLocalizedString("%@, your username \"%@\" has been validated", comment: "Web Login Controller")
+            alertMessage = String(format: fmtmsg, authParser.nickname, authParser.username)
+
+            let settings = UserDefaults.standard
+            settings.set(authParser.username, forKey: PREF_GENERAL_BEARWARE_ID)
+            settings.set(authParser.token, forKey: PREF_GENERAL_BEARWARE_TOKEN)
+
+            loadWebLogin()
+        } else {
+            alertMessage = NSLocalizedString("Username or password incorrect", comment: "Web Login Controller")
         }
     }
-    
-    @IBAction func createWebLogin(_ sender: UIButton) {
+
+    private func openWebLoginSignup() {
         if let url = URL(string: AppInfo.BEARWARE_REGISTRATION_WEBSITE) {
-            UIApplication.shared.openURL(url)
+            openURL(url)
         }
     }
-    
-    @IBAction func resetWebLogin(_ sender: UIButton) {
-        
+
+    private func resetWebLogin() {
         let settings = UserDefaults.standard
         settings.set(nil, forKey: PREF_GENERAL_BEARWARE_ID)
         settings.set(nil, forKey: PREF_GENERAL_BEARWARE_TOKEN)
-        
-        usernameField?.text = ""
-        passwordField?.text = ""
-        
-        createTableItems()
-        tableView.reloadData()
+
+        loadWebLogin()
     }
 }
-
 
 class WebLoginParser : NSObject, XMLParserDelegate {
     
@@ -204,7 +165,6 @@ class WebLoginParser : NSObject, XMLParserDelegate {
     func parser(_ parser: XMLParser, didEndElement elementName: String,
                 namespaceURI: String?, qualifiedName qName: String?) {
         
-        self.elementStack.removeLast()
+        elementStack.removeLast()
     }
-    
 }

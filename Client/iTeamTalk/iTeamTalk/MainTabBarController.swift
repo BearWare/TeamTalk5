@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -21,584 +21,475 @@
  *
  */
 
-import UIKit
 import AVFoundation
 import OSLog
+import SwiftUI
+import TeamTalkKit
+import UIKit
 
-class MainTabBarController : UITabBarController, UIAlertViewDelegate, TeamTalkEvent {
+// MARK: - SwiftUI Tab View
+
+struct MainTabView: View {
+    let channelNav: UINavigationController
+    let chatVC: TextMessageViewController
+    @ObservedObject var preferencesModel: PreferencesModel
+
+    var body: some View {
+        TabView {
+            UINavControllerView(channelNav)
+                .tabItem {
+                    Label(NSLocalizedString("Channels", comment: "tab"), image: "channels")
+                }
+                .tag(0)
+
+            UIViewControllerView(chatVC)
+                .tabItem {
+                    Label(NSLocalizedString("Messages", comment: "tab"), image: "messages")
+                }
+                .tag(1)
+
+            NavigationStack {
+                PreferencesView(model: preferencesModel)
+            }
+            .tabItem {
+                Label(NSLocalizedString("Preferences", comment: "tab"), image: "setup")
+            }
+            .tag(2)
+        }
+    }
+}
+
+private struct UINavControllerView: UIViewControllerRepresentable {
+    private let navController: UINavigationController
+    init(_ navController: UINavigationController) { self.navController = navController }
+    func makeUIViewController(context: Context) -> UINavigationController { navController }
+    func updateUIViewController(_ uiViewController: UINavigationController, context: Context) {}
+}
+
+private struct UIViewControllerView<VC: UIViewController>: UIViewControllerRepresentable {
+    private let viewController: VC
+    init(_ viewController: VC) { self.viewController = viewController }
+    func makeUIViewController(context: Context) -> VC { viewController }
+    func updateUIViewController(_ uiViewController: VC, context: Context) {}
+}
+
+// MARK: - Main Tab Bar Controller
+
+final class MainTabBarController: UIHostingController<MainTabView>, TeamTalkEvent {
 
     // timer for polling TeamTalk client events
-    var polltimer : Timer?
+    var polltimer: Timer?
     // reconnect timer
-    var reconnecttimer : Timer?
+    var reconnecttimer: Timer?
     // ip-addr and login information for current server
-    var server = Server()
+    var server: Server
     // active command
-    var cmdid : INT32 = 0
+    var cmdid: INT32 = 0
 
-    let CHANNELTAB = 0, TEXTMSGTAB = 1, PREFTAB = 2
+    private let channelListVC: ChannelListViewController
+    private let channelChatVC: TextMessageViewController
+    private let preferencesModel: PreferencesModel
+
+    init(server: Server) {
+        self.server = server
+
+        let channelListVC = ChannelListViewController()
+        let channelChatVC = TextMessageViewController()
+        let preferencesModel = PreferencesModel()
+
+        self.channelListVC = channelListVC
+        self.channelChatVC = channelChatVC
+        self.preferencesModel = preferencesModel
+
+        let channelNav = UINavigationController(rootViewController: channelListVC)
+
+        super.init(rootView: MainTabView(
+            channelNav: channelNav,
+            chatVC: channelChatVC,
+            preferencesModel: preferencesModel
+        ))
+    }
+
+    required init?(coder: NSCoder) { fatalError("use init(server:)") }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        if let addbtn = self.navigationItem.rightBarButtonItem {
-            addbtn.accessibilityLabel = NSLocalizedString("Create new channel", comment: "main-tab")
-        }
+
+        navigationItem.leftBarButtonItem = UIBarButtonItem(
+            title: NSLocalizedString("Disconnect", comment: "main-tab"),
+            style: .plain,
+            target: self,
+            action: #selector(disconnectButtonPressed(_:))
+        )
+        let addBtn = UIBarButtonItem(
+            barButtonSystemItem: .add,
+            target: self,
+            action: #selector(newChannelPressed(_:))
+        )
+        addBtn.accessibilityLabel = NSLocalizedString("Create new channel", comment: "main-tab")
+        navigationItem.rightBarButtonItem = addBtn
 
         addToTTMessages(self)
-        
-        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-        let chatTab = viewControllers?[TEXTMSGTAB] as! TextMessageViewController
-        let prefTab = viewControllers?[PREFTAB] as! PreferencesViewController
-        addToTTMessages(channelsTab)
-        addToTTMessages(chatTab)
-        addToTTMessages(prefTab)
+        addToTTMessages(channelListVC)
+        addToTTMessages(channelChatVC)
+        addToTTMessages(preferencesModel)
+
+        // wire up the channel chat tab
+        channelChatVC.navigationItem.title = NSLocalizedString("Messages", comment: "tab")
+        channelListVC.openTextMessages(channelChatVC, userid: 0)
 
         setupSoundDevices()
-        
+
         let defaults = UserDefaults.standard
         if defaults.object(forKey: PREF_MASTER_VOLUME) != nil {
             let vol = defaults.integer(forKey: PREF_MASTER_VOLUME)
-            TT_SetSoundOutputVolume(ttInst, INT32(refVolume(Double(vol))))
+            TeamTalkClient.shared.setSoundOutputVolume(INT32(refVolume(Double(vol))))
         }
-        
+
         if defaults.object(forKey: PREF_VOICEACTIVATION) != nil {
             let voiceact = defaults.integer(forKey: PREF_VOICEACTIVATION)
             if voiceact != VOICEACT_DISABLED {
-                TT_EnableVoiceActivation(ttInst, TRUE)
-                TT_SetVoiceActivationLevel(ttInst, INT32(voiceact))
+                TeamTalkClient.shared.enableVoiceActivation(true)
+                TeamTalkClient.shared.setVoiceActivationLevel(INT32(voiceact))
             }
         }
-        
+
         if defaults.object(forKey: PREF_MICROPHONE_GAIN) != nil {
             let vol = defaults.integer(forKey: PREF_MICROPHONE_GAIN)
-            TT_SetSoundInputGainLevel(ttInst, INT32(refVolume(Double(vol))))
+            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
         }
-        
-        polltimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MainTabBarController.timerEvent), userInfo: nil, repeats: true)
-        
-        let device = UIDevice.current
-        
-        let center = NotificationCenter.default
-        center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: UIDevice.proximityStateDidChangeNotification, object: device)
 
-        // detect device changes, e.g. headset plugged in
+        polltimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(MainTabBarController.timerEvent), userInfo: nil, repeats: true)
+
+        let center = NotificationCenter.default
+        center.addObserver(self, selector: #selector(MainTabBarController.proximityChanged(_:)), name: UIDevice.proximityStateDidChangeNotification, object: UIDevice.current)
         center.addObserver(self, selector: #selector(MainTabBarController.audioRouteChange(_:)), name: AVAudioSession.routeChangeNotification, object: nil)
-        
         center.addObserver(self, selector: #selector(MainTabBarController.audioInterruption(_:)), name: AVAudioSession.interruptionNotification, object: nil)
-        
+
         connectToServer()
     }
-    
+
     deinit {
-        TT_Disconnect(ttInst)
+        TeamTalkClient.shared.disconnect()
         closeSoundDevices()
         runTeamTalkEventHandler()
         print("Destroyed main view controller")
     }
-    
+
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        
+
         let defaults = UserDefaults.standard
-        
-        let proximity = defaults.object(forKey: PREF_DISPLAY_PROXIMITY) != nil && defaults.bool(forKey: PREF_DISPLAY_PROXIMITY)
-        if proximity {
-            let device = UIDevice.current
-            device.isProximityMonitoringEnabled = true
+        if defaults.object(forKey: PREF_DISPLAY_PROXIMITY) != nil && defaults.bool(forKey: PREF_DISPLAY_PROXIMITY) {
+            UIDevice.current.isProximityMonitoringEnabled = true
         }
-        
-        // headset can toggle tx
         if defaults.object(forKey: PREF_HEADSET_TXTOGGLE) != nil && defaults.bool(forKey: PREF_HEADSET_TXTOGGLE) {
             UIApplication.shared.beginReceivingRemoteControlEvents()
         }
     }
-    
+
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
-        
+
         if self.isMovingFromParent {
             polltimer?.invalidate()
             reconnecttimer?.invalidate()
-
-            ttMessageHandlers.removeAll()
+            removeAllTTMessageHandlers()
             unreadmessages.removeAll()
         }
-        
-        let device = UIDevice.current
-        device.isProximityMonitoringEnabled = false
-        
+
+        UIDevice.current.isProximityMonitoringEnabled = false
         UIApplication.shared.endReceivingRemoteControlEvents()
     }
-    
-    override func remoteControlReceived(with event: UIEvent?) { // *
-        let rc = event!.subtype
+
+    override func remoteControlReceived(with event: UIEvent?) {
+        guard let rc = event?.subtype else { return }
         switch rc {
-        case .remoteControlPause : fallthrough
-        case .remoteControlTogglePlayPause:
-            let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-            channelsTab.enableVoiceTx(false)
-        case .remoteControlPreviousTrack:
-            fallthrough
-        case .remoteControlNextTrack:
-            let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-            channelsTab.enableVoiceTx(true)
-        
+        case .remoteControlPause, .remoteControlTogglePlayPause:
+            channelListVC.enableVoiceTx(false)
+        case .remoteControlPreviousTrack, .remoteControlNextTrack:
+            channelListVC.enableVoiceTx(true)
         default:
             break
         }
     }
-    
-    func setTeamTalkServer(_ server: Server) {
-        self.server = server
-    }
-    
+
     func startReconnectTimer() {
         reconnecttimer = Timer.scheduledTimer(timeInterval: 5.0, target: self, selector: #selector(MainTabBarController.connectToServer), userInfo: nil, repeats: false)
     }
-    
+
     @objc func connectToServer() {
-        
-        if setupEncryption(ttInst!, server: server) == false {
-            let alert = UIAlertController(title: NSLocalizedString("Connect to Server", comment: "connect to a server"),
-                                          message: NSLocalizedString("Failed to setup encryption", comment: "connect to a server"),
-                                          preferredStyle: .alert)
-            alert.addAction(UIAlertAction(title: "OK", style: .default) { (action:UIAlertAction!) in
-                self.navigationController!.popViewController(animated: true)
+        if setupEncryption(server: server) == false {
+            let alert = UIAlertController(
+                title: NSLocalizedString("Connect to Server", comment: "connect to a server"),
+                message: NSLocalizedString("Failed to setup encryption", comment: "connect to a server"),
+                preferredStyle: .alert
+            )
+            alert.addAction(UIAlertAction(title: "OK", style: .default) { [weak self] _ in
+                self?.navigationController?.popViewController(animated: true)
             })
-            self.present(alert, animated: true, completion: nil)
-        }
-        else {
-            if TT_Connect(ttInst, server.ipaddr, INT32(server.tcpport), INT32(server.udpport), 0, 0, server.encrypted ? TRUE : FALSE) == FALSE {
-                TT_Disconnect(ttInst)
+            present(alert, animated: true)
+        } else {
+            if !TeamTalkClient.shared.connect(toHost: server.ipaddr,
+                                              tcpPort: INT32(server.tcpport),
+                                              udpPort: INT32(server.udpport),
+                                              encrypted: server.encrypted) {
+                TeamTalkClient.shared.disconnect()
                 startReconnectTimer()
             }
         }
     }
-        
-    // run the TeamTalk event loop
+
     @objc func timerEvent() {
         runTeamTalkEventHandler()
     }
-    
-    @objc func proximityChanged(_ notification: Notification) {
-        let device = notification.object as! UIDevice
-        
-        if device.proximityState {
-//            print("Proximity state 1")
-        }
-        else {
-//            print("Proximity state 0")
-        }
-    }
-    
+
+    @objc func proximityChanged(_ notification: Notification) {}
+
     @objc func audioRouteChange(_ notification: Notification) {
-//        let session = AVAudioSession.sharedInstance()
-//        print("Audio route: " + session.currentRoute.debugDescription)
-        if let reason = notification.userInfo![AVAudioSessionRouteChangeReasonKey] {
-            
-            switch reason as! UInt {
-            case AVAudioSession.RouteChangeReason.unknown.rawValue :
-                print("AudioRouteChange Unknown")
-                break
-            case AVAudioSession.RouteChangeReason.newDeviceAvailable.rawValue :
-                print("AudioRouteChange NewDeviceAvailable")
-                break
-            case AVAudioSession.RouteChangeReason.oldDeviceUnavailable.rawValue:
-                print("AudioRouteChange Unknown")
-                setupSoundDevices()
-            case AVAudioSession.RouteChangeReason.categoryChange.rawValue:
-                let session = AVAudioSession.sharedInstance()
-                print("AudioRouteChange CategoryChange, new category: \(session.category), new mode: \(session.mode)")
-                break
-            case AVAudioSession.RouteChangeReason.override.rawValue :
-                let session = AVAudioSession.sharedInstance()
-                print("AudioRouteChange Override, new route: " + session.currentRoute.description)
-                break
-            case AVAudioSession.RouteChangeReason.routeConfigurationChange.rawValue :
-                print("AudioRouteChange RouteConfigurationChange")
-                break
-            case AVAudioSession.RouteChangeReason.wakeFromSleep.rawValue:
-                print("AudioRouteChange WakeFromSleep")
-                break
-            case AVAudioSession.RouteChangeReason.noSuitableRouteForCategory.rawValue:
-                print("AudioRouteChange NoSuitableRouteForCategory")
-                break
-            default :
-                print("AudioRouteChange Default")
-                break
-            }
+        guard let reasonValue = notification.userInfo?[AVAudioSessionRouteChangeReasonKey] as? UInt,
+              let reason = AVAudioSession.RouteChangeReason(rawValue: reasonValue) else { return }
+
+        switch reason {
+        case .oldDeviceUnavailable:
+            setupSoundDevices()
+        default:
+            break
         }
-        
-        let session = AVAudioSession.sharedInstance()
-        print (session.currentRoute)
+        print(AVAudioSession.sharedInstance().currentRoute)
     }
 
     @objc func audioInterruption(_ notification: Notification) {
-        
-        // Phone call active/inactive
-        if let reason = notification.userInfo![AVAudioSessionInterruptionTypeKey] {
-            
-            switch reason as! UInt {
-            case AVAudioSession.InterruptionType.began.rawValue :
-                //print("Audio interruption begin")
-                break
-            case AVAudioSession.InterruptionType.ended.rawValue :
-                //print("Audio interruption ended")
-                break
-            default :
-                break
-            }
-        }
-        
-        if let reason = notification.userInfo![AVAudioSessionInterruptionOptionKey] {
-            
-            // when phone call is complete we restart the sound devices
-            switch reason as! UInt {
-            case AVAudioSession.InterruptionOptions.shouldResume.rawValue :
-                //print("Audio session can now resume")
-                
-                setupSoundDevices()
-                
-                break
-            default :
-                break
-            }
+        guard let optionValue = notification.userInfo?[AVAudioSessionInterruptionOptionKey] as? UInt else { return }
+        let options = AVAudioSession.InterruptionOptions(rawValue: optionValue)
+        if options.contains(.shouldResume) {
+            setupSoundDevices()
         }
     }
-    
+
     func handleTTMessage(_ m: TTMessage) {
-        var m = m
-        
-        switch(m.nClientEvent) {
-            
-        case CLIENTEVENT_CON_SUCCESS :
-            if #available(iOS 14.0, *) {
-                os_log("Connected to \(self.server.ipaddr)")
-            }
+        switch m.nClientEvent {
+
+        case CLIENTEVENT_CON_SUCCESS:
+            os_log("Connected to \(self.server.ipaddr)")
 
             if AppInfo.isBearWareWebLogin(self.server.username) {
-                
-                var srvprop = ServerProperties()
-                TT_GetServerProperties(ttInst, &srvprop)
-                
                 let settings = UserDefaults.standard
                 let username = settings.string(forKey: PREF_GENERAL_BEARWARE_ID) ?? ""
                 let token = settings.string(forKey: PREF_GENERAL_BEARWARE_TOKEN) ?? ""
-                let accesstoken = String(cString: getServerPropertiesString(ACCESSTOKEN, &srvprop))
-                
+                let accesstoken = TeamTalkClient.shared.withServerProperties {
+                    TeamTalkString.serverProperties(.accessToken, from: $0)
+                }
+
                 let url = AppInfo.getBearWareServerTokenURL(username: username, token: token, accesstoken: accesstoken)
-                
                 let authParser = WebLoginParser()
                 if let parser = XMLParser(contentsOf: URL(string: url)!) {
-                    
                     parser.delegate = authParser
                     if parser.parse() && authParser.username.count > 0 {
                         self.server.username = authParser.username
                         self.server.password = AppInfo.WEBLOGIN_BEARWARE_PASSWDPREFIX + authParser.token
                     }
                 }
-                
+
                 if self.server.username == AppInfo.WEBLOGIN_BEARWARE_USERNAME {
                     let err = NSLocalizedString("BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences", comment: "weblogin event")
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: err, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
+                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: err, preferredStyle: .alert)
+                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog message"), style: .default, handler: nil))
+                    present(alert, animated: true)
                 }
             }
-            
-            login()
-            
-        case CLIENTEVENT_CON_FAILED :
-            
-            TT_Disconnect(ttInst)
-            startReconnectTimer()
-            
-            if #available(iOS 14.0, *) {
-                os_log("Connect to \(self.server.ipaddr) failed")
-            }
-            
-        case CLIENTEVENT_CON_LOST :
-            
-            if #available(iOS 14.0, *) {
-                os_log("Connection to \(self.server.ipaddr) lost")
-            }
 
-            TT_Disconnect(ttInst)
+            login()
+
+        case CLIENTEVENT_CON_FAILED:
+            TeamTalkClient.shared.disconnect()
+            startReconnectTimer()
+            os_log("Connect to \(self.server.ipaddr) failed")
+
+        case CLIENTEVENT_CON_LOST:
+            os_log("Connection to \(self.server.ipaddr) lost")
+            TeamTalkClient.shared.disconnect()
             playSound(.srv_LOST)
-            
-            let defaults = UserDefaults.standard
-            
-            if defaults.object(forKey: PREF_TTSEVENT_CONLOST) == nil || defaults.bool(forKey: PREF_TTSEVENT_CONLOST) {
+            if UserDefaults.standard.object(forKey: PREF_TTSEVENT_CONLOST) == nil || UserDefaults.standard.bool(forKey: PREF_TTSEVENT_CONLOST) {
                 newUtterance(NSLocalizedString("Connection lost", comment: "tts event"))
             }
-
             startReconnectTimer()
-            
-        case CLIENTEVENT_VOICE_ACTIVATION :
-            
-            playSound(getTTBOOL(&m) != 0 ? .voxtriggered_ON : .voxtriggered_OFF)
-            
-        case CLIENTEVENT_CMD_PROCESSING :
-            if getTTBOOL(&m) != 0 {
-            }
-            else {
+            os_log("Connection to \(self.server.ipaddr) lost")
+
+        case CLIENTEVENT_VOICE_ACTIVATION:
+            playSound(TeamTalkMessagePayload.isActive(m) ? .voxtriggered_ON : .voxtriggered_OFF)
+
+        case CLIENTEVENT_CMD_PROCESSING:
+            if !TeamTalkMessagePayload.isActive(m) {
                 commandComplete(m.nSource)
             }
-            
-        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN :
-            var account = getUserAccount(&m).pointee
-            let initchan = String(cString: getUserAccountString(INITCHANNEL, &account))
-            if initchan.isEmpty == false {
+
+        case CLIENTEVENT_CMD_MYSELF_LOGGEDIN:
+            let account = TeamTalkMessagePayload.userAccount(from: m)
+            let initchan = TeamTalkString.userAccount(.initialChannel, from: account)
+            if !initchan.isEmpty {
                 server.channel = initchan
             }
 
-        case CLIENTEVENT_CMD_MYSELF_KICKED :
-            if (m.nSource == 0)
-            {
-                playSound(.srv_LOST)
-                if (m.ttType == __USER)
-                {
-                    if #available(iOS 8.0, *) {
-                        let msg = String(format: NSLocalizedString("You have been kicked from server by %@", comment: "Dialog"), getDisplayName(m.user))
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                      message: msg, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
-                else
-                {
-                    if #available(iOS 8.0, *) {
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                      message: NSLocalizedString("You have been kicked from server", comment: "Dialog"),
-                                                      preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
+        case CLIENTEVENT_CMD_MYSELF_KICKED:
+            let msg: String
+            if TeamTalkMessagePayload.hasUserPayload(m) {
+                let kicker = getDisplayName(TeamTalkMessagePayload.user(from: m))
+                msg = m.nSource == 0
+                    ? String(format: NSLocalizedString("You have been kicked from server by %@", comment: "Dialog"), kicker)
+                    : String(format: NSLocalizedString("You have been kicked from channel by %@", comment: "Dialog"), kicker)
+            } else {
+                msg = m.nSource == 0
+                    ? NSLocalizedString("You have been kicked from server", comment: "Dialog")
+                    : NSLocalizedString("You have been kicked from channel", comment: "Dialog")
             }
-            else
-            {
-                if (m.ttType == __USER)
-                {
-                    if #available(iOS 8.0, *) {
-                        let msg = String(format: NSLocalizedString("You have been kicked from channel by %@", comment: "Dialog"), getDisplayName(m.user))
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                      message: msg, preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
-                else
-                {
-                    if #available(iOS 8.0, *) {
-                        let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"),
-                                                      message: NSLocalizedString("You have been kicked from channel", comment: "Dialog"),
-                                                      preferredStyle: UIAlertController.Style.alert)
-                        alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: UIAlertAction.Style.default, handler: nil))
-                        self.present(alert, animated: true, completion: nil)
-                    } else {
-                        // Fallback on earlier versions
-                    }
-                }
+            if m.nSource == 0 { playSound(.srv_LOST) }
+            let alert = UIAlertController(title: NSLocalizedString("Error", comment: "Dialog"), message: msg, preferredStyle: .alert)
+            alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "Dialog"), style: .default, handler: nil))
+            present(alert, animated: true)
+
+        case CLIENTEVENT_CMD_ERROR:
+            if m.nSource == cmdid {
+                let errmsg = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+                let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: errmsg, preferredStyle: .alert)
+                alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "message dialog"), style: .default, handler: nil))
+                present(alert, animated: true)
             }
 
-        case CLIENTEVENT_CMD_ERROR :
-            if m.nSource == cmdid {
-                let errmsg = getClientErrorMsg(m.clienterrormsg, strprop: ERRMESSAGE)
-                if #available(iOS 8.0, *) {
-                    let alert = UIAlertController(title: NSLocalizedString("Error", comment: "message dialog"), message: errmsg, preferredStyle: UIAlertController.Style.alert)
-                    alert.addAction(UIAlertAction(title: NSLocalizedString("OK", comment: "message dialog"), style: UIAlertAction.Style.default, handler: nil))
-                    self.present(alert, animated: true, completion: nil)
-                } else {
-                    // Fallback on earlier versions
-                }
-            }
-        
-        case CLIENTEVENT_CMD_USER_LOGGEDIN :
+        case CLIENTEVENT_CMD_USER_LOGGEDIN:
             let subs = getDefaultSubscriptions()
-            let user = getUser(&m).pointee
-            if TT_GetMyUserID(ttInst) != user.nUserID && user.uLocalSubscriptions != subs {
-                TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subs)
+            let user = TeamTalkMessagePayload.user(from: m)
+            if TeamTalkClient.shared.myUserID != user.nUserID && user.uLocalSubscriptions != subs {
+                TeamTalkClient.shared.unsubscribe(userID: user.nUserID, subscriptions: user.uLocalSubscriptions ^ subs)
             }
-            
-            // restore from user cache
             syncFromUserCache(user: user)
 
-        case CLIENTEVENT_CMD_USER_LOGGEDOUT :
-            // sync user settings to cache
-            syncToUserCache(user: getUser(&m).pointee)
+        case CLIENTEVENT_CMD_USER_LOGGEDOUT:
+            syncToUserCache(user: TeamTalkMessagePayload.user(from: m))
 
-        case CLIENTEVENT_CMD_USER_JOINED :
-            let user = getUser(&m).pointee
+        case CLIENTEVENT_CMD_USER_JOINED:
+            let user = TeamTalkMessagePayload.user(from: m)
             let defaults = UserDefaults.standard
-            if let mfvol = defaults.object(forKey: PREF_MEDIAFILE_VOLUME) {
-                let mfvol_double = mfvol as! Double
-                let vol = refVolume(100.0 * mfvol_double)
-                TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, INT32(vol))
-
-                // tell TeamTalk event loop to send us an updated User-struct
-                TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID)
+            if let mfvol = defaults.object(forKey: PREF_MEDIAFILE_VOLUME) as? Double {
+                let vol = refVolume(100.0 * mfvol)
+                TeamTalkClient.shared.setUserVolume(userID: user.nUserID, stream: STREAMTYPE_MEDIAFILE_AUDIO, volume: INT32(vol))
+                TeamTalkClient.shared.pump(CLIENTEVENT_USER_STATECHANGE, source: user.nUserID)
             }
-            
-            // restore from user cache
-            if (TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
+            if (TeamTalkClient.shared.myUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
                 syncFromUserCache(user: user)
             }
 
-        case CLIENTEVENT_CMD_USER_LEFT :
+        case CLIENTEVENT_CMD_USER_LEFT:
+            if (TeamTalkClient.shared.myUserRights & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
+                syncToUserCache(user: TeamTalkMessagePayload.user(from: m))
+            }
 
-            // sync user settings from cache
-            if (TT_GetMyUserRights(ttInst) & USERRIGHT_VIEW_ALL_USERS.rawValue) != USERRIGHT_VIEW_ALL_USERS.rawValue {
-                syncToUserCache(user: getUser(&m).pointee)
+        case CLIENTEVENT_CMD_USER_TEXTMSG:
+            switch TeamTalkMessagePayload.textMessage(from: m).nMsgType {
+            case MSGTYPE_CHANNEL:   playSound(.chan_MSG)
+            case MSGTYPE_USER:      playSound(.user_MSG)
+            case MSGTYPE_BROADCAST: playSound(.broadcast_MSG)
+            default: break
             }
-            
-        case CLIENTEVENT_CMD_USER_TEXTMSG :
-            
-            switch getTextMessage(&m).pointee.nMsgType {
-            case MSGTYPE_CHANNEL :
-                playSound(.chan_MSG)
-            case MSGTYPE_USER :
-                playSound(.user_MSG)
-            case MSGTYPE_BROADCAST :
-                playSound(.broadcast_MSG)
-            default : break
-            }
-        default :
+
+        default:
             break
         }
     }
-    
-    func commandComplete(_ active_cmdid : INT32) {
-        
-        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-        let cmd = channelsTab.activeCommands[active_cmdid]
-        
-        if cmd == nil {
-            return
-        }
-        
-        switch cmd! {
-            
-        case .loginCmd :
-            //setup initial channel
-            if server.channel.isEmpty == false {
-                
-                var path = StringWrap();
-                toTTString(server.channel, dst: &path.buf)
 
+    func commandComplete(_ active_cmdid: INT32) {
+        let cmd = channelListVC.activeCommands[active_cmdid]
+        guard let cmd else { return }
+
+        switch cmd {
+        case .loginCmd:
+            if !server.channel.isEmpty {
                 var tokens = server.channel.components(separatedBy: "/")
-                
-                let chanid = TT_GetChannelIDFromPath(ttInst, fromStringWrap(&path))
+                let chanid = TeamTalkClient.shared.channelID(fromPath: server.channel)
                 if chanid > 0 {
-                    //join existing channel
-                    channelsTab.rejoinchannel.nChannelID = chanid
-                    toTTString(server.chanpasswd, dst: &channelsTab.rejoinchannel.szPassword)
-                }
-                else if tokens.count > 0 {
-                    // extract path of parent channel
+                    channelListVC.rejoinchannel.nChannelID = chanid
+                    TeamTalkString.setChannel(.password, on: &channelListVC.rejoinchannel, to: server.chanpasswd)
+                } else if tokens.count > 0 {
                     let channame = tokens.removeLast()
-                    var chanpath = ""
-                    for c in tokens {
-                        chanpath += "/" + c
-                    }
-                    
-                    toTTString(chanpath, dst: &path.buf)
-                    let parentid = TT_GetChannelIDFromPath(ttInst, fromStringWrap(&path))
+                    let chanpath = tokens.map { "/" + $0 }.joined()
+                    let parentid = TeamTalkClient.shared.channelID(fromPath: chanpath)
                     if parentid > 0 {
-                        channelsTab.rejoinchannel.nParentID = parentid
-                        setChannelString(NAME, &channelsTab.rejoinchannel, channame)
-                        setChannelString(PASSWORD, &channelsTab.rejoinchannel, server.chanpasswd)
-                        channelsTab.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
+                        channelListVC.rejoinchannel.nParentID = parentid
+                        TeamTalkString.setChannel(.name, on: &channelListVC.rejoinchannel, to: channame)
+                        TeamTalkString.setChannel(.password, on: &channelListVC.rejoinchannel, to: server.chanpasswd)
+                        channelListVC.rejoinchannel.audiocodec = newAudioCodec(DEFAULT_AUDIOCODEC)
                     }
                 }
-                
-                //only do the initial login once. ChannelListViewController will
-                //handle rejoin
                 server.channel.removeAll()
                 server.chanpasswd.removeAll()
             }
-            
             let settings = UserDefaults.standard
             if settings.integer(forKey: PREF_GENERAL_GENDER) != 0 {
-                TT_DoChangeStatus(ttInst, INT32(StatusMode.STATUSMODE_FEMALE.rawValue), "")
+                TeamTalkClient.shared.changeStatus(mode: INT32(StatusMode.STATUSMODE_FEMALE.rawValue))
             }
-        default :
+        default:
             break
         }
     }
-    
-    func login() {
-        
-        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
 
-        let nickname = server.nickname.isEmpty ? (UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? "") : server.nickname
-        
-        cmdid = TT_DoLoginEx(ttInst, nickname, server.username, server.password, AppInfo.getAppName())
-        channelsTab.activeCommands[cmdid] = .loginCmd
-        
+    func login() {
+        let nickname = server.nickname.isEmpty
+            ? (UserDefaults.standard.string(forKey: PREF_GENERAL_NICKNAME) ?? "")
+            : server.nickname
+
+        cmdid = TeamTalkClient.shared.login(
+            nickname: nickname,
+            username: server.username,
+            password: server.password,
+            clientName: AppInfo.getAppName()
+        )
+        channelListVC.activeCommands[cmdid] = .loginCmd
         reconnecttimer?.invalidate()
     }
-    
-    @IBAction func disconnectButtonPressed(_ sender: UIBarButtonItem) {
+
+    @objc private func newChannelPressed(_ sender: UIBarButtonItem) {
+        channelListVC.showNewChannelDetail()
+    }
+
+    @objc func disconnectButtonPressed(_ sender: UIBarButtonItem) {
         let servers = loadLocalServers()
-        let found = servers.filter({$0.ipaddr == server.ipaddr &&
-                                    $0.tcpport == server.tcpport &&
-                                    $0.udpport == server.udpport &&
-                                    $0.username == server.username})
-
-        if found.count == 0 && server.servertype == .LOCAL {
-            let alertView = UIAlertView(title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
-                                        message: NSLocalizedString("Save Server", comment: "Dialog message"), delegate: self,
-                                        cancelButtonTitle: NSLocalizedString("No", comment: "Dialog message"),
-                                        otherButtonTitles: NSLocalizedString("Yes", comment: "Dialog message"))
-            alertView.alertViewStyle = .plainTextInput
-            alertView.textField(at: 0)?.text = NSLocalizedString("New Server", comment: "Dialog message")
-            alertView.tag = ALERTVIEW_SAVESERVER
-            alertView.show()
+        let found = servers.filter {
+            $0.ipaddr == server.ipaddr &&
+            $0.tcpport == server.tcpport &&
+            $0.udpport == server.udpport &&
+            $0.username == server.username
         }
-        else {
-            self.navigationController!.popViewController(animated: true)
+
+        if found.isEmpty && server.servertype == .LOCAL {
+            showSaveServerAlert()
+        } else {
+            navigationController?.popViewController(animated: true)
         }
     }
 
-    let ALERTVIEW_SAVESERVER = 1
-    
-    func alertView(_ alertView: UIAlertView, clickedButtonAt buttonIndex: Int) {
-        
-        switch alertView.tag {
-            
-        case ALERTVIEW_SAVESERVER :
-            // save new server to the list of local servers
-            if buttonIndex == 1 {
-                
-                let name = (alertView.textField(at: 0)?.text)!
-                var servers = loadLocalServers()
-                // ensure server name doesn't already exist
-                servers = servers.filter({$0.name != name})
-                server.name = name
-                servers.append(server)
-                
-                saveLocalServers(servers)
-            }
-            self.navigationController!.popViewController(animated: true)
-        default : break
+    private func showSaveServerAlert() {
+        let alert = UIAlertController(
+            title: NSLocalizedString("Save server to server list?", comment: "Dialog message"),
+            message: NSLocalizedString("Save Server", comment: "Dialog message"),
+            preferredStyle: .alert
+        )
+        alert.addTextField { textField in
+            textField.text = NSLocalizedString("New Server", comment: "Dialog message")
         }
+        alert.addAction(UIAlertAction(title: NSLocalizedString("No", comment: "Dialog message"), style: .cancel) { [weak self] _ in
+            self?.navigationController?.popViewController(animated: true)
+        })
+        alert.addAction(UIAlertAction(title: NSLocalizedString("Yes", comment: "Dialog message"), style: .default) { [weak self, weak alert] _ in
+            guard let self else { return }
+            let name = alert?.textFields?.first?.text ?? NSLocalizedString("New Server", comment: "Dialog message")
+            var servers = loadLocalServers()
+            servers = servers.filter { $0.name != name }
+            server.name = name
+            servers.append(server)
+            saveLocalServers(servers)
+            navigationController?.popViewController(animated: true)
+        })
+        present(alert, animated: true)
     }
-    
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        let channelsTab = viewControllers?[CHANNELTAB] as! ChannelListViewController
-//        channelsTab.prepareForSegue(segue, sender: sender)
-        
-        for v in viewControllers! {
-            v.prepare(for: segue, sender: sender)
-        }
-    }
+
 }

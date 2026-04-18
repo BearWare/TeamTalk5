@@ -4,3 +4,5 @@
 CMakeFiles
 CMakeLists.txt.user
 TAGS
+.DS_STORE
+.build
