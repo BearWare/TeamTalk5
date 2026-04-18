@@ -29,12 +29,13 @@ final class ServerDetailViewController: UIHostingController<ServerDetailView> {
     var server = Server()
     var onConnect: ((Server) -> Void)?
     var onDelete: (() -> Void)?
+    var onSave: ((Server) -> Void)?
     private var model: ServerDetailModel
 
     init() {
         let model = ServerDetailModel(server: Server())
         self.model = model
-        super.init(rootView: ServerDetailView(model: model, copyJoinCode: { }, connect: { }, delete: { }))
+        super.init(rootView: ServerDetailView(model: model, copyJoinCode: { }, connect: { }, delete: { }, save: { }))
     }
 
     required init?(coder: NSCoder) { fatalError("use init()") }
@@ -49,7 +50,8 @@ final class ServerDetailViewController: UIHostingController<ServerDetailView> {
             model: model,
             copyJoinCode: { [weak self] in self?.copyJoinCode() },
             connect: { [weak self] in self?.connectServer() },
-            delete: { [weak self] in self?.deleteServer() }
+            delete: { [weak self] in self?.deleteServer() },
+            save: { [weak self] in self?.saveServerDetail() }
         )
     }
 
@@ -59,10 +61,11 @@ final class ServerDetailViewController: UIHostingController<ServerDetailView> {
 
     func saveServerDetail() {
         model.apply(to: server)
+        onSave?(server)
     }
 
     private func connectServer() {
-        saveServerDetail()
+        //saveServerDetail()
         onConnect?(server)
     }
 
@@ -137,7 +140,7 @@ struct ServerDetailView: View {
     let copyJoinCode: () -> Void
     let connect: () -> Void
     let delete: () -> Void
-
+    let save: () -> Void
     var body: some View {
         Form {
             Section(NSLocalizedString("Server List Entry", comment: "server entry")) {
@@ -231,6 +234,7 @@ struct ServerDetailView: View {
                 }
                 TeamTalkActionRow(title: NSLocalizedString("Connect", comment: "server entry"), action: connect)
                 TeamTalkActionRow(title: NSLocalizedString("Delete Server", comment: "server entry"), role: .destructive, action: delete)
+                TeamTalkActionRow(title: NSLocalizedString("Save server", comment: "server entry"), action: save)
             }
         }
     }

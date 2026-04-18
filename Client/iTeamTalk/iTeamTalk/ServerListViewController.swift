@@ -224,6 +224,11 @@ final class ServerListViewController: UIHostingController<ServerListView> {
             saveServerList()
             navigationController?.popViewController(animated: true)
         }
+        vc.onSave = { [weak self] upddatedServer in
+            guard let self else { return }
+            upsertServer(upddatedServer)
+            navigationController?.popViewController(animated: true)
+        }
         navigationController?.pushViewController(vc, animated: true)
     }
 
