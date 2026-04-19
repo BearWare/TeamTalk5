@@ -774,8 +774,8 @@ QString PasswordDialog::getPassword() const
 }
 
 #if defined(Q_OS_WIN)
-#include <wintoastlib.h>
 #include <Windows.h>
+#include <wintoastlib.h>
 
 using namespace WinToastLib;
 
