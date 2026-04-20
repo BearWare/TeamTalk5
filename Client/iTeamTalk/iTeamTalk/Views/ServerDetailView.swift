@@ -116,6 +116,9 @@ struct ServerDetailView: View {
                         .autocorrectionDisabled()
                         .textInputAutocapitalization(.never)
                 }
+                Toggle(isOn: $showPassword) {
+                    Text(""Show password)
+                }
             }
 
             Section("Actions") {
