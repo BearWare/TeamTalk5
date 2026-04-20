@@ -199,7 +199,7 @@ func syncToUserCache(user: User) {
 
 var userCache = [String : UserCached]()
 
-let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
+let DEFAULT_NICKNAME = String(localized: "Noname", comment: "default nickname")
 
 func within<T : Comparable>(_ min_v: T, max_v: T, value: T) -> T {
     if value < min_v {

@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2005-2018, BearWare.dk
- * 
+ *
  * Contact Information:
  *
  * Bjoern D. Rasmussen
@@ -44,18 +44,28 @@ struct SpeechListView: View {
                         Button {
                             select(voice)
                         } label: {
-                            TeamTalkValueRow(
-                                title: voice.name,
-                                subtitle: localName(for: language),
-                                value: selectedVoiceIdentifier == voice.identifier ? NSLocalizedString("Selected", comment: "speech") : nil
-                            )
+                            LabeledContent {
+                                if selectedVoiceIdentifier == voice.identifier {
+                                    Text("Selected")
+                                        .foregroundStyle(.secondary)
+                                }
+                            } label: {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(voice.name)
+                                    if let name = localName(for: language) {
+                                        Text(name)
+                                            .font(.footnote)
+                                            .foregroundStyle(.secondary)
+                                    }
+                                }
+                            }
                         }
                         .buttonStyle(.plain)
                     }
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("Text-to-Speech Voice", comment: "speech"))
+        .navigationTitle("Text-to-Speech Voice")
     }
 
     private func voices(for language: String) -> [AVSpeechSynthesisVoice] {
@@ -70,7 +80,7 @@ struct SpeechListView: View {
         selectedVoiceIdentifier = voice.identifier
         UserDefaults.standard.setValue(voice.identifier, forKey: PREF_TTSEVENT_VOICEID)
 
-        let utterance = String(format: NSLocalizedString("You have selected %@" , comment: "speech"), voice.name)
+        let utterance = String(format: String(localized: "You have selected %@", comment: "speech"), voice.name)
         newUtterance(utterance)
     }
 }

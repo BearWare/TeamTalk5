@@ -66,7 +66,7 @@ struct MyTextMessage {
     }
 }
 
-protocol MyTextMessageDelegate {
+protocol MyTextMessageDelegate: AnyObject {
     func appendTextMessage(_ userid: INT32, txtmsg: MyTextMessage)
 }
 

@@ -110,6 +110,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         TeamTalkClient.shared.close()
     }
 
+    // Forward remote control events (headset buttons) via NotificationCenter
+    // so that non-UIKit code can respond to them.
+    override func remoteControlReceived(with event: UIEvent?) {
+        NotificationCenter.default.post(name: .iTeamTalkRemoteControl, object: event)
+    }
+
     func testBackgroundTask() {
         if (backgroundRunning) {
             endBackgroundTask()

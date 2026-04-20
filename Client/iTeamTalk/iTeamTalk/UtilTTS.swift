@@ -62,12 +62,12 @@ func speakTextMessage(_ msgtype: TextMsgType, mymsg: MyTextMessage) {
     let tts_chan = settings.object(forKey: PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
     
     if tts_priv {
-        let ttsmsg = String(format: NSLocalizedString("Private text message from %@. %@", comment: "TTS EVENT"),
+        let ttsmsg = String(format: String(localized: "Private text message from %@. %@", comment: "TTS EVENT"),
             limitText(mymsg.nickname), mymsg.message)
         newUtterance(ttsmsg)
     }
     if tts_chan {
-        let ttsmsg = String(format: NSLocalizedString("Channel message from %@. %@", comment: "TTS EVENT"),
+        let ttsmsg = String(format: String(localized: "Channel message from %@. %@", comment: "TTS EVENT"),
             limitText(mymsg.nickname), mymsg.message)
         newUtterance(ttsmsg)
     }

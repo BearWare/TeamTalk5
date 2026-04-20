@@ -1,10 +1,25 @@
-//
-//  PublicServerViewController.swift
-//  iTeamTalk
-//
-//  Created by Bjørn Damstedt Rasmussen on 07/03/2022.
-//  Copyright © 2022 BearWare.dk. All rights reserved.
-//
+/*
+ * Copyright (c) 2005-2018, BearWare.dk
+ *
+ * Contact Information:
+ *
+ * Bjoern D. Rasmussen
+ * Kirketoften 5
+ * DK-8260 Viby J
+ * Denmark
+ * Email: contact@bearware.dk
+ * Phone: +45 20 20 54 59
+ * Web: http://www.bearware.dk
+ *
+ * This source code is part of the TeamTalk SDK owned by
+ * BearWare.dk. Use of this file, or its compiled unit, requires a
+ * TeamTalk SDK License Key issued by BearWare.dk.
+ *
+ * The TeamTalk SDK License Agreement along with its Terms and
+ * Conditions are outlined in the file License.txt included with the
+ * TeamTalk SDK distribution.
+ *
+ */
 
 import SwiftUI
 
@@ -13,16 +28,16 @@ struct PublicServerView: View {
 
     var body: some View {
         Form {
-            Section(NSLocalizedString("Show in Server List", comment: "preferences")) {
+            Section("Show in Server List") {
                 ForEach(rows) { row in
-                    TeamTalkToggleRow(title: row.title, isOn: Binding(
+                    Toggle(row.title, isOn: Binding(
                         get: { row.boolValue },
                         set: { UserDefaults.standard.set($0, forKey: row.preferenceKey) }
                     ))
                 }
             }
         }
-        .navigationTitle(NSLocalizedString("Filter Server List", comment: "preferences"))
+        .navigationTitle("Filter Server List")
     }
 }
 
@@ -34,12 +49,12 @@ private enum PublicServerRow: CaseIterable, Identifiable {
         preferenceKey
     }
 
-    var title: String {
+    var title: LocalizedStringKey {
         switch self {
         case .official:
-            return NSLocalizedString("Official Servers", comment: "preferences")
+            return "Official Servers"
         case .unofficial:
-            return NSLocalizedString("Unofficial Servers", comment: "preferences")
+            return "Unofficial Servers"
         }
     }
 

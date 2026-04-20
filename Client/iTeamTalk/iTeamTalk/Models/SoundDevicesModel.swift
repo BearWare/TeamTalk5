@@ -25,37 +25,6 @@ import AVFoundation
 import SwiftUI
 import TeamTalkKit
 
-struct SoundDevicesView: View {
-    @StateObject private var model = SoundDevicesModel()
-
-    var body: some View {
-        Form {
-            Section(NSLocalizedString("General", comment: "Sound Devices")) {
-                ForEach(model.toggleRows) { row in
-                    TeamTalkToggleRow(title: row.title, subtitle: row.subtitle, isOn: Binding(
-                        get: { model.preferenceValue(forKey: row.preferenceKey) },
-                        set: { model.setPreference($0, forKey: row.preferenceKey) }
-                    ))
-                }
-            }
-
-            ForEach(model.audioInputSections) { section in
-                Section(section.title) {
-                    ForEach(section.dataSources.indices, id: \.self) { index in
-                        Button {
-                            model.selectDataSource(at: index, for: section.input)
-                        } label: {
-                            TeamTalkValueRow(title: model.title(for: section.dataSources, at: index, input: section.input))
-                        }
-                        .buttonStyle(.plain)
-                    }
-                }
-            }
-        }
-        .navigationTitle(NSLocalizedString("Setup Sound Devices", comment: "Sound Devices"))
-    }
-}
-
 final class SoundDevicesModel: ObservableObject {
     struct ToggleRow: Identifiable {
         let id: String
@@ -76,20 +45,20 @@ final class SoundDevicesModel: ObservableObject {
     let toggleRows = [
         ToggleRow(
             id: PREF_SPEAKER_OUTPUT,
-            title: NSLocalizedString("Speaker Output", comment: "preferences"),
-            subtitle: NSLocalizedString("Use iPhone's speaker instead of earpiece", comment: "preferences"),
+            title: String(localized: "Speaker Output", comment: "preferences"),
+            subtitle: String(localized: "Use iPhone's speaker instead of earpiece", comment: "preferences"),
             preferenceKey: PREF_SPEAKER_OUTPUT
         ),
         ToggleRow(
             id: PREF_VOICEPROCESSINGIO,
-            title: NSLocalizedString("Voice Preprocessing", comment: "preferences"),
-            subtitle: NSLocalizedString("Use echo cancellation and automatic gain control", comment: "Sound Devices"),
+            title: String(localized: "Voice Preprocessing", comment: "preferences"),
+            subtitle: String(localized: "Use echo cancellation and automatic gain control", comment: "Sound Devices"),
             preferenceKey: PREF_VOICEPROCESSINGIO
         ),
         ToggleRow(
             id: PREF_BLUETOOTH_A2DP,
-            title: NSLocalizedString("Bluetooth A2DP Playback", comment: "Sound Devices"),
-            subtitle: NSLocalizedString("Bluetooth playback should use Advanced Audio Distribution Profile", comment: "Sound Devices"),
+            title: String(localized: "Bluetooth A2DP Playback", comment: "Sound Devices"),
+            subtitle: String(localized: "Bluetooth playback should use Advanced Audio Distribution Profile", comment: "Sound Devices"),
             preferenceKey: PREF_BLUETOOTH_A2DP
         )
     ]
@@ -146,21 +115,21 @@ final class SoundDevicesModel: ObservableObject {
                at index: Int,
                input: AVAudioSessionPortDescription) -> String {
         guard index < dataSources.count, let dataSource = dataSources[index] else {
-            return NSLocalizedString("Default", comment: "Sound Devices")
+            return String(localized: "Default", comment: "Sound Devices")
         }
 
         var title = dataSource.dataSourceName
         if let supportedPolarPatterns = dataSource.supportedPolarPatterns,
            supportedPolarPatterns.contains(.stereo) {
-            title += " (" + NSLocalizedString("Stereo", comment: "Sound Devices") + ")"
+            title += " (" + String(localized: "Stereo", comment: "Sound Devices") + ")"
         }
 
         if getAudioPortDataSource(descr: input) == dataSource.dataSourceID {
-            title += ", " + NSLocalizedString("Preferred", comment: "Sound Devices")
+            title += ", " + String(localized: "Preferred", comment: "Sound Devices")
         }
 
         if AVAudioSession.sharedInstance().inputDataSource?.dataSourceID == dataSource.dataSourceID {
-            title += ", " + NSLocalizedString("Active", comment: "Sound Devices")
+            title += ", " + String(localized: "Active", comment: "Sound Devices")
         }
 
         return title

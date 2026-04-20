@@ -7,24 +7,16 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */; };
 		2506243A263E6A9700F3DA3A /* logged_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25062438263E6A9700F3DA3A /* logged_on.mp3 */; };
 		2506243B263E6A9700F3DA3A /* logged_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25062439263E6A9700F3DA3A /* logged_off.mp3 */; };
 		2516CB6C1BA8818B00EF9A17 /* UtilUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6B1BA8818B00EF9A17 /* UtilUI.swift */; };
-		2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */; };
-		2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */; };
 		251997F41EBA5FD3003C94B1 /* txqueue_start.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */; };
 		251997F61EBA5FDE003C94B1 /* txqueue_stop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */; };
 		251997F81EBA5FE7003C94B1 /* voiceact_off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */; };
 		251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */; };
-		251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 251B87C8225000E8009DC5AC /* WebLoginViewController.swift */; };
-		253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */; };
 		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
-		2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */; };
-		2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
 		598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */; };
-
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
 		254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */; };
 		254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */; };
@@ -34,20 +26,13 @@
 		254B7A771B99E68800BE0DEF /* libstdc++.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A751B99E68800BE0DEF /* libstdc++.dylib */; };
 		254B7A791B99E69200BE0DEF /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A781B99E69200BE0DEF /* libz.dylib */; };
 		254B7A7B1B99E77000BE0DEF /* libTeamTalk5.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */; };
-		254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */; };
-		254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */; };
 		254B7A852F90210000CD0A01 /* TeamTalkKit in Frameworks */ = {isa = PBXBuildFile; productRef = 254B7A862F90210000CD0A01 /* TeamTalkKit */; };
 		254C084B1C345E3700C98566 /* newuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C08491C345E3700C98566 /* newuser.mp3 */; };
 		254C084C1C345E3700C98566 /* removeuser.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 254C084A1C345E3700C98566 /* removeuser.mp3 */; };
-		2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2593F5B927D6984E0048431A /* PublicServerViewController.swift */; };
 		2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF83275EA20300FCEE28 /* UtilSound.swift */; };
 		2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2597EF85275EA29D00FCEE28 /* UtilTTS.swift */; };
 		259B12F91C4182E7008A355E /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 259B12F71C4182E7008A355E /* Localizable.strings */; };
-		25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */; };
-		25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25AA20691BE933310089AD54 /* PreferencesViewController.swift */; };
 		25AA206E1BEBCA0A0089AD54 /* off.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25AA206D1BEBCA0A0089AD54 /* off.mp3 */; };
-		25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA014621557109003C836D /* TextToSpeechViewController.swift */; };
-		25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25BA014821557F48003C836D /* SoundEventsViewController.swift */; };
 		25D205E522ACCD260009F286 /* broadcast_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25D205E422ACCD260009F286 /* broadcast_message.mp3 */; };
 		25DD929F1BB2FA0E00779988 /* Common.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DD929E1BB2FA0E00779988 /* Common.swift */; };
 		25DF9A021C5E00E100469BA8 /* License.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25DF9A011C5E00E100469BA8 /* License.swift */; };
@@ -55,9 +40,33 @@
 		25E4DC321BF7360D00EC5A8C /* channel_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */; };
 		25E4DC331BF7360D00EC5A8C /* serverlost.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */; };
 		25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC311BF7360D00EC5A8C /* user_message.mp3 */; };
-		25E7D94F22399672001A5035 /* SoundDevicesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */; };
 		25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FFC2DA25ABA07E000334DC /* UtilTT.swift */; };
-		C0D3E0020000000000000002 /* SwiftUIRows.swift in Sources */ = {isa = PBXBuildFile; fileRef = C0D3E0020000000000000001 /* SwiftUIRows.swift */; };
+		CC0003000000000000000001 /* AudioCodecModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000001 /* AudioCodecModel.swift */; };
+		CC0003000000000000000002 /* ChannelDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000002 /* ChannelDetailModel.swift */; };
+		CC0003000000000000000003 /* ChannelListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000003 /* ChannelListModel.swift */; };
+		CC0003000000000000000004 /* MainTabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000004 /* MainTabModel.swift */; };
+		CC0003000000000000000005 /* PreferencesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000005 /* PreferencesModel.swift */; };
+		CC0003000000000000000006 /* ServerDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000006 /* ServerDetailModel.swift */; };
+		CC0003000000000000000007 /* ServerListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000007 /* ServerListModel.swift */; };
+		CC0003000000000000000008 /* SoundDevicesModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000008 /* SoundDevicesModel.swift */; };
+		CC0003000000000000000009 /* TextMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000009 /* TextMessageModel.swift */; };
+		CC000300000000000000000A /* UserDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000200000000000000000A /* UserDetailModel.swift */; };
+		CC000300000000000000000B /* WebLoginModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000200000000000000000B /* WebLoginModel.swift */; };
+		CC0005000000000000000001 /* AudioCodecView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000001 /* AudioCodecView.swift */; };
+		CC0005000000000000000002 /* ChannelDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000002 /* ChannelDetailView.swift */; };
+		CC0005000000000000000003 /* ChannelListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000003 /* ChannelListView.swift */; };
+		CC0005000000000000000004 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000004 /* MainTabView.swift */; };
+		CC0005000000000000000005 /* PreferencesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000005 /* PreferencesView.swift */; };
+		CC0005000000000000000006 /* PublicServerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000006 /* PublicServerView.swift */; };
+		CC0005000000000000000007 /* ServerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000007 /* ServerDetailView.swift */; };
+		CC0005000000000000000008 /* ServerListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000008 /* ServerListView.swift */; };
+		CC0005000000000000000009 /* SoundDevicesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000009 /* SoundDevicesView.swift */; };
+		CC000500000000000000000A /* SoundEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000400000000000000000A /* SoundEventsView.swift */; };
+		CC000500000000000000000B /* SpeechListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000400000000000000000B /* SpeechListView.swift */; };
+		CC000500000000000000000D /* TextMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000400000000000000000D /* TextMessageView.swift */; };
+		CC000500000000000000000E /* TextToSpeechEventsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000400000000000000000E /* TextToSpeechEventsView.swift */; };
+		CC000500000000000000000F /* UserDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC000400000000000000000F /* UserDetailView.swift */; };
+		CC0005000000000000000010 /* WebLoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0004000000000000000010 /* WebLoginView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -73,25 +82,18 @@
 /* Begin PBXFileReference section */
 		2501A9BA1C52A35A00C729B3 /* fr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = fr; path = fr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2501A9BD1C52A36800C729B3 /* pl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = pl; path = pl.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpeechListViewController.swift; sourceTree = "<group>"; };
 		25062438263E6A9700F3DA3A /* logged_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = logged_on.mp3; sourceTree = "<group>"; };
 		25062439263E6A9700F3DA3A /* logged_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = logged_off.mp3; sourceTree = "<group>"; };
 		2516CB6B1BA8818B00EF9A17 /* UtilUI.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilUI.swift; sourceTree = "<group>"; };
-		2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelDetailViewController.swift; sourceTree = "<group>"; };
-		2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UserDetailViewController.swift; sourceTree = "<group>"; };
 		251997F31EBA5FD3003C94B1 /* txqueue_start.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_start.mp3; sourceTree = "<group>"; };
 		251997F51EBA5FDE003C94B1 /* txqueue_stop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = txqueue_stop.mp3; sourceTree = "<group>"; };
 		251997F71EBA5FE7003C94B1 /* voiceact_off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_off.mp3; sourceTree = "<group>"; };
 		251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voiceact_on.mp3; sourceTree = "<group>"; };
 		251B42691C5D4723009650EA /* hu */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = hu; path = hu.lproj/Localizable.strings; sourceTree = "<group>"; };
 		251B426B1C5D4A31009650EA /* da */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = da; path = da.lproj/Localizable.strings; sourceTree = "<group>"; };
-		251B87C8225000E8009DC5AC /* WebLoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginViewController.swift; sourceTree = "<group>"; };
 		252BDD611C85F90600102B5E /* nl */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = nl; path = nl.lproj/Localizable.strings; sourceTree = "<group>"; };
 		252EB82E21921FE70026A2D0 /* zh */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = zh; path = zh.lproj/Localizable.strings; sourceTree = "<group>"; };
-		253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainTabBarController.swift; sourceTree = "<group>"; };
 		253713391BC97D1200A7ADB3 /* Settings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = Settings.bundle; sourceTree = "<group>"; };
-		2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextMessageViewController.swift; sourceTree = "<group>"; };
-		2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AudioCodecViewController.swift; sourceTree = "<group>"; };
 		254057791C418D190090C769 /* tr */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = tr; path = tr.lproj/Localizable.strings; sourceTree = "<group>"; };
 		2541399E2F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		254139A02F16ECF6004A3901 /* uk */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = uk; path = uk.lproj/Localizable.strings; sourceTree = "<group>"; };
@@ -101,7 +103,6 @@
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkApp.swift; sourceTree = "<group>"; };
-
 		254B7A531B98BAA300BE0DEF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254B7A561B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTeamTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -113,25 +114,18 @@
 		254B7A751B99E68800BE0DEF /* libstdc++.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = "libstdc++.dylib"; path = "usr/lib/libstdc++.dylib"; sourceTree = SDKROOT; };
 		254B7A781B99E69200BE0DEF /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		254B7A7A1B99E77000BE0DEF /* libTeamTalk5.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libTeamTalk5.a; path = ../../Library/TeamTalk_DLL/libTeamTalk5.a; sourceTree = "<group>"; };
-		254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerDetailViewController.swift; sourceTree = "<group>"; };
-		254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ServerListViewController.swift; sourceTree = "<group>"; };
 		254BE12324DED8F300244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/LaunchScreen.strings"; sourceTree = "<group>"; };
 		254BE12424DED8F500244D0C /* pt-BR */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "pt-BR"; path = "pt-BR.lproj/Localizable.strings"; sourceTree = "<group>"; };
 		254C08491C345E3700C98566 /* newuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = newuser.mp3; sourceTree = "<group>"; };
 		254C084A1C345E3700C98566 /* removeuser.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = removeuser.mp3; sourceTree = "<group>"; };
 		256328191C41A9F20055373F /* ru */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ru; path = ru.lproj/Localizable.strings; sourceTree = "<group>"; };
-		2593F5B927D6984E0048431A /* PublicServerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicServerViewController.swift; sourceTree = "<group>"; };
 		2597EF83275EA20300FCEE28 /* UtilSound.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilSound.swift; sourceTree = "<group>"; };
 		2597EF85275EA29D00FCEE28 /* UtilTTS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTTS.swift; sourceTree = "<group>"; };
 		259B12F81C4182E7008A355E /* Base */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = Base; path = Base.lproj/Localizable.strings; sourceTree = "<group>"; };
 		259B12FA1C4182FE008A355E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
-		25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChannelListViewController.swift; sourceTree = "<group>"; };
-		25AA20691BE933310089AD54 /* PreferencesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PreferencesViewController.swift; sourceTree = "<group>"; };
 		25AA206D1BEBCA0A0089AD54 /* off.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = off.mp3; sourceTree = "<group>"; };
 		25AB78D51C4831460073E6B8 /* de */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = de; path = de.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25AB78D81C494DD50073E6B8 /* es */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = es; path = es.lproj/Localizable.strings; sourceTree = "<group>"; };
-		25BA014621557109003C836D /* TextToSpeechViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechViewController.swift; sourceTree = "<group>"; };
-		25BA014821557F48003C836D /* SoundEventsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEventsViewController.swift; sourceTree = "<group>"; };
 		25BE20F6292E1356004397FC /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25BE20F8292E1356004397FC /* ms */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ms; path = ms.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25D205E422ACCD260009F286 /* broadcast_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = broadcast_message.mp3; sourceTree = "<group>"; };
@@ -143,7 +137,6 @@
 		25E4DC2F1BF7360D00EC5A8C /* channel_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = channel_message.mp3; sourceTree = "<group>"; };
 		25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = serverlost.mp3; sourceTree = "<group>"; };
 		25E4DC311BF7360D00EC5A8C /* user_message.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = user_message.mp3; sourceTree = "<group>"; };
-		25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDevicesViewController.swift; sourceTree = "<group>"; wrapsLines = 1; };
 		25ED59482A82C48E009A038E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25ED594A2A82C48F009A038E /* vi */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = vi; path = vi.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25ED9FDD265AD28500127B0E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
@@ -151,7 +144,32 @@
 		25ED9FE4265AD5A400127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25ED9FE6265AD5A700127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25FFC2DA25ABA07E000334DC /* UtilTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTT.swift; sourceTree = "<group>"; };
-		C0D3E0020000000000000001 /* SwiftUIRows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIRows.swift; sourceTree = "<group>"; };
+		CC0002000000000000000001 /* AudioCodecModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCodecModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000002 /* ChannelDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000003 /* ChannelListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000004 /* MainTabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000005 /* PreferencesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000006 /* ServerDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000007 /* ServerListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000008 /* SoundDevicesModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDevicesModel.swift; sourceTree = "<group>"; };
+		CC0002000000000000000009 /* TextMessageModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessageModel.swift; sourceTree = "<group>"; };
+		CC000200000000000000000A /* UserDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailModel.swift; sourceTree = "<group>"; };
+		CC000200000000000000000B /* WebLoginModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginModel.swift; sourceTree = "<group>"; };
+		CC0004000000000000000001 /* AudioCodecView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCodecView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000002 /* ChannelDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000003 /* ChannelListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000004 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000005 /* PreferencesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000006 /* PublicServerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicServerView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000007 /* ServerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerDetailView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000008 /* ServerListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ServerListView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000009 /* SoundDevicesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundDevicesView.swift; sourceTree = "<group>"; };
+		CC000400000000000000000A /* SoundEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEventsView.swift; sourceTree = "<group>"; };
+		CC000400000000000000000B /* SpeechListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechListView.swift; sourceTree = "<group>"; };
+		CC000400000000000000000D /* TextMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextMessageView.swift; sourceTree = "<group>"; };
+		CC000400000000000000000E /* TextToSpeechEventsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextToSpeechEventsView.swift; sourceTree = "<group>"; };
+		CC000400000000000000000F /* UserDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDetailView.swift; sourceTree = "<group>"; };
+		CC0004000000000000000010 /* WebLoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebLoginView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -209,28 +227,14 @@
 				254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */,
 				C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */,
 				254B7A6E1B98C89600BE0DEF /* AppInfo.swift */,
-				2537133D1BCEA77D00A7ADB3 /* AudioCodecViewController.swift */,
-				2516CB6D1BA9EE9900EF9A17 /* ChannelDetailViewController.swift */,
-				25A062761BA4789F00DC1F9B /* ChannelListViewController.swift */,
 				25DD929E1BB2FA0E00779988 /* Common.swift */,
 				25DF9A011C5E00E100469BA8 /* License.swift */,
-				253713351BC8F0C700A7ADB3 /* MainTabBarController.swift */,
-				25AA20691BE933310089AD54 /* PreferencesViewController.swift */,
-				2593F5B927D6984E0048431A /* PublicServerViewController.swift */,
-				254B7A811B9F73F300BE0DEF /* ServerDetailViewController.swift */,
-				254B7A831BA0C72700BE0DEF /* ServerListViewController.swift */,
-				25BA014821557F48003C836D /* SoundEventsViewController.swift */,
-				25E7D94E22399672001A5035 /* SoundDevicesViewController.swift */,
-				2501A9C01C59254A00C729B3 /* SpeechListViewController.swift */,
-				2537133B1BCA59E600A7ADB3 /* TextMessageViewController.swift */,
-				C0D3E0020000000000000001 /* SwiftUIRows.swift */,
-				25BA014621557109003C836D /* TextToSpeechViewController.swift */,
-				2516CB711BA9FE8B00EF9A17 /* UserDetailViewController.swift */,
 				2597EF83275EA20300FCEE28 /* UtilSound.swift */,
 				25FFC2DA25ABA07E000334DC /* UtilTT.swift */,
 				2597EF85275EA29D00FCEE28 /* UtilTTS.swift */,
 				2516CB6B1BA8818B00EF9A17 /* UtilUI.swift */,
-				251B87C8225000E8009DC5AC /* WebLoginViewController.swift */,
+				CC000001000000000000000001 /* Models */,
+				CC000001000000000000000002 /* Views */,
 				254B7A531B98BAA300BE0DEF /* Images.xcassets */,
 				254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */,
 				259B12F71C4182E7008A355E /* Localizable.strings */,
@@ -238,6 +242,46 @@
 				254B7A4A1B98BAA300BE0DEF /* Supporting Files */,
 			);
 			path = iTeamTalk;
+			sourceTree = "<group>";
+		};
+		CC000001000000000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CC0002000000000000000001 /* AudioCodecModel.swift */,
+				CC0002000000000000000002 /* ChannelDetailModel.swift */,
+				CC0002000000000000000003 /* ChannelListModel.swift */,
+				CC0002000000000000000004 /* MainTabModel.swift */,
+				CC0002000000000000000005 /* PreferencesModel.swift */,
+				CC0002000000000000000006 /* ServerDetailModel.swift */,
+				CC0002000000000000000007 /* ServerListModel.swift */,
+				CC0002000000000000000008 /* SoundDevicesModel.swift */,
+				CC0002000000000000000009 /* TextMessageModel.swift */,
+				CC000200000000000000000A /* UserDetailModel.swift */,
+				CC000200000000000000000B /* WebLoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CC000001000000000000000002 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CC0004000000000000000001 /* AudioCodecView.swift */,
+				CC0004000000000000000002 /* ChannelDetailView.swift */,
+				CC0004000000000000000003 /* ChannelListView.swift */,
+				CC0004000000000000000004 /* MainTabView.swift */,
+				CC0004000000000000000005 /* PreferencesView.swift */,
+				CC0004000000000000000006 /* PublicServerView.swift */,
+				CC0004000000000000000007 /* ServerDetailView.swift */,
+				CC0004000000000000000008 /* ServerListView.swift */,
+				CC0004000000000000000009 /* SoundDevicesView.swift */,
+				CC000400000000000000000A /* SoundEventsView.swift */,
+				CC000400000000000000000B /* SpeechListView.swift */,
+				CC000400000000000000000D /* TextMessageView.swift */,
+				CC000400000000000000000E /* TextToSpeechEventsView.swift */,
+				CC000400000000000000000F /* UserDetailView.swift */,
+				CC0004000000000000000010 /* WebLoginView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		254B7A4A1B98BAA300BE0DEF /* Supporting Files */ = {
@@ -441,31 +485,41 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				254B7A841BA0C72700BE0DEF /* ServerListViewController.swift in Sources */,
 				254B7A6F1B98C89600BE0DEF /* AppInfo.swift in Sources */,
 				25DD929F1BB2FA0E00779988 /* Common.swift in Sources */,
-				2516CB721BA9FE8B00EF9A17 /* UserDetailViewController.swift in Sources */,
 				25DF9A021C5E00E100469BA8 /* License.swift in Sources */,
-				2593F5BA27D6984E0048431A /* PublicServerViewController.swift in Sources */,
-				251B87C9225000E8009DC5AC /* WebLoginViewController.swift in Sources */,
-				25BA014921557F48003C836D /* SoundEventsViewController.swift in Sources */,
 				2597EF84275EA20300FCEE28 /* UtilSound.swift in Sources */,
-				25E7D94F22399672001A5035 /* SoundDevicesViewController.swift in Sources */,
-				C0D3E0020000000000000002 /* SwiftUIRows.swift in Sources */,
-				2537133C1BCA59E600A7ADB3 /* TextMessageViewController.swift in Sources */,
 				2516CB6C1BA8818B00EF9A17 /* UtilUI.swift in Sources */,
-				2501A9C11C59254A00C729B3 /* SpeechListViewController.swift in Sources */,
-				254B7A821B9F73F300BE0DEF /* ServerDetailViewController.swift in Sources */,
 				25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */,
-				25BA014721557109003C836D /* TextToSpeechViewController.swift in Sources */,
-				25AA206A1BE933310089AD54 /* PreferencesViewController.swift in Sources */,
+				2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */,
 				254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */,
 				598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */,
-				2537133E1BCEA77D00A7ADB3 /* AudioCodecViewController.swift in Sources */,
-				2597EF86275EA29D00FCEE28 /* UtilTTS.swift in Sources */,
-				2516CB6E1BA9EE9900EF9A17 /* ChannelDetailViewController.swift in Sources */,
-				25A062771BA4789F00DC1F9B /* ChannelListViewController.swift in Sources */,
-				253713361BC8F0C700A7ADB3 /* MainTabBarController.swift in Sources */,
+				CC0003000000000000000001 /* AudioCodecModel.swift in Sources */,
+				CC0003000000000000000002 /* ChannelDetailModel.swift in Sources */,
+				CC0003000000000000000003 /* ChannelListModel.swift in Sources */,
+				CC0003000000000000000004 /* MainTabModel.swift in Sources */,
+				CC0003000000000000000005 /* PreferencesModel.swift in Sources */,
+				CC0003000000000000000006 /* ServerDetailModel.swift in Sources */,
+				CC0003000000000000000007 /* ServerListModel.swift in Sources */,
+				CC0003000000000000000008 /* SoundDevicesModel.swift in Sources */,
+				CC0003000000000000000009 /* TextMessageModel.swift in Sources */,
+				CC000300000000000000000A /* UserDetailModel.swift in Sources */,
+				CC000300000000000000000B /* WebLoginModel.swift in Sources */,
+				CC0005000000000000000001 /* AudioCodecView.swift in Sources */,
+				CC0005000000000000000002 /* ChannelDetailView.swift in Sources */,
+				CC0005000000000000000003 /* ChannelListView.swift in Sources */,
+				CC0005000000000000000004 /* MainTabView.swift in Sources */,
+				CC0005000000000000000005 /* PreferencesView.swift in Sources */,
+				CC0005000000000000000006 /* PublicServerView.swift in Sources */,
+				CC0005000000000000000007 /* ServerDetailView.swift in Sources */,
+				CC0005000000000000000008 /* ServerListView.swift in Sources */,
+				CC0005000000000000000009 /* SoundDevicesView.swift in Sources */,
+				CC000500000000000000000A /* SoundEventsView.swift in Sources */,
+				CC000500000000000000000B /* SpeechListView.swift in Sources */,
+				CC000500000000000000000D /* TextMessageView.swift in Sources */,
+				CC000500000000000000000E /* TextToSpeechEventsView.swift in Sources */,
+				CC000500000000000000000F /* UserDetailView.swift in Sources */,
+				CC0005000000000000000010 /* WebLoginView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
