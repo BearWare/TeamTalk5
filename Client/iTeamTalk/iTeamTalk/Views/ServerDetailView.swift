@@ -117,7 +117,7 @@ struct ServerDetailView: View {
                         .textInputAutocapitalization(.never)
                 }
                 Toggle(isOn: $showPassword) {
-                    Text(""Show password)
+                    Text("Show password")
                 }
             }
 
