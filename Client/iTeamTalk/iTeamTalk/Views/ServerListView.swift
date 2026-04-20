@@ -209,6 +209,7 @@ private struct ServerDetailSheetView: View {
                 },
                 connect: {
                     dismiss()
+                    detailMod   el.apply(to: detailModel.server)
                     listModel.connect(to: detailModel.server)
                 },
                 delete: {
@@ -221,6 +222,7 @@ private struct ServerDetailSheetView: View {
                     dismiss()
                 }
             )
+
         }
     }
 }
