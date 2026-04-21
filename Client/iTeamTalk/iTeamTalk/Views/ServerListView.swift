@@ -28,12 +28,23 @@ struct ServerListView: View {
     @ObservedObject var model: ServerListModel
 
     var body: some View {
-        if let mainTabModel = model.activeMainTabModel {
-            MainTabView(model: mainTabModel, close: {
-                model.closeActiveServer()
-            })
-        } else {
-            NavigationStack(path: $model.navigationPath) {
+        Group {
+            if let mainTabModel = model.activeMainTabModel {
+                MainTabView(model: mainTabModel, close: {
+                    model.closeActiveServer()
+                })
+            } else {
+                serverList
+            }
+        }
+        .onReceive(NotificationCenter.default.publisher(for: .iTeamTalkOpenURL)) { notification in
+            guard let url = notification.object as? URL else { return }
+            model.openUrl(url)
+        }
+    }
+
+    private var serverList: some View {
+        NavigationStack(path: $model.navigationPath) {
             List {
                 Button {
                     model.showJoinCodeAlert = true
@@ -138,15 +149,10 @@ struct ServerListView: View {
             .onAppear {
                 model.onAppear()
             }
-            .onReceive(NotificationCenter.default.publisher(for: .iTeamTalkOpenURL)) { notification in
-                guard let url = notification.object as? URL else { return }
-                model.openUrl(url)
-            }
             .sheet(item: $model.serverDetailModel) { detailModel in
                 ServerDetailSheetView(detailModel: detailModel, listModel: model)
                     .presentationDragIndicator(.visible)
             }
-        }
         }
     }
 
@@ -209,7 +215,7 @@ private struct ServerDetailSheetView: View {
                 },
                 connect: {
                     dismiss()
-                    detailMod   el.apply(to: detailModel.server)
+                    detailModel.apply(to: detailModel.server)
                     listModel.connect(to: detailModel.server)
                 },
                 delete: {
