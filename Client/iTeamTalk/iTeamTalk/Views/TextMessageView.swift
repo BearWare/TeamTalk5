@@ -124,8 +124,7 @@ private struct MessageRow: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .padding(.vertical, 6)
         .background(message.backgroundColor)
-        .accessibilityElement(children: .ignore)
-        .accessibilityLabel(message.message)
+        .accessibilityElement(children: .combine)
         .accessibilityHint(accessibilityHint)
     }
 
