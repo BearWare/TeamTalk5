@@ -173,7 +173,6 @@ struct ChannelListView: View {
                         model.showChannelDetail(channelID: channel.nChannelID)
                     }
                     .buttonStyle(.borderless)
-                    .accessibilityLabel(details.actionTitle)
                 }
                 .accessibilityElement(children: .contain)
                 .contentShape(Rectangle())

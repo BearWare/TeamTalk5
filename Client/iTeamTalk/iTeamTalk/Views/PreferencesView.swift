@@ -51,7 +51,6 @@ struct PreferencesView: View {
                 ))
                 .multilineTextAlignment(.trailing)
                 .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
                 PreferenceSubtitle("Name displayed in channel list")
             }
 
@@ -88,7 +87,7 @@ struct PreferencesView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
-            }
+                            }
             Toggle(isOn: Binding(get: { model.headsetTXToggle }, set: { model.headsetTxToggleChanged($0) })) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Headset TX Toggle")
