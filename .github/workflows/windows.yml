@@ -18,6 +18,9 @@ env:
 jobs:
   build:
     if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-windows')"
+    permissions:
+      security-events: write
+      packages: read
     strategy:
       matrix:
         arch: [x86, x64]
@@ -107,6 +110,14 @@ jobs:
         start /wait Win32OpenSSL.exe /silent /sp- /suppressmsgboxes /DIR="C:\Program Files (x86)\OpenSSL"
         echo C:\Program Files (x86)\OpenSSL\bin>> %GITHUB_PATH%
 
+    - name: Initialize CodeQL
+      if: matrix.arch == 'x64'
+      uses: github/codeql-action/init@v4
+      with:
+        languages: csharp
+        build-mode: manual
+        config-file: ./.github/codeql-config.yml
+
     - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
       run: >-
@@ -114,7 +125,6 @@ jobs:
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
-        -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
@@ -333,3 +343,9 @@ jobs:
       with:
         name: teamtalkpro-${{ matrix.portablearch }}
         path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
+
+    - name: Perform CodeQL Analysis
+      if: matrix.arch == 'x64'
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:csharp"
