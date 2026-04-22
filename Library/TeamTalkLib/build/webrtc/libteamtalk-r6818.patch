@@ -1,8 +1,8 @@
 diff --git a/modules/audio_processing/BUILD.gn b/modules/audio_processing/BUILD.gn
-index 03a63bb6c0..636d21f7c7 100644
+index 03a63bb6c0..18d736e9c5 100644
 --- a/modules/audio_processing/BUILD.gn
 +++ b/modules/audio_processing/BUILD.gn
-@@ -209,6 +209,13 @@ rtc_library("audio_processing") {
+@@ -209,6 +209,15 @@ rtc_library("audio_processing") {
    }
  }
  
@@ -10,6 +10,8 @@ index 03a63bb6c0..636d21f7c7 100644
 +  complete_static_lib = true
 +  deps = [
 +    ":audio_processing",
++    "../../api/audio:builtin_audio_processing_builder",
++    "../../api/environment:environment_factory",
 +  ]
 +}
 +
