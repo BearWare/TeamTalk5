@@ -36,9 +36,14 @@
 
 #include <QDebug>
 #include <QMessageBox>
+#include <QFile>
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDir>
+
+#if defined(Q_OS_LINUX)
+#include <unistd.h>
+#endif
 #include <QVariant>
 #include <QKeyEvent>
 #if defined(QT_TEXTTOSPEECH_LIB)
@@ -561,7 +566,13 @@ void PreferencesDlg::initSoundSystemTab()
     ui.sndSysBox->addItem(tr("CoreAudio"), SOUNDSYSTEM_COREAUDIO);
 #else
     ui.sndSysBox->addItem(tr("Advanced Linux Sound Architecture (ALSA)"), SOUNDSYSTEM_ALSA);
-    ui.sndSysBox->addItem(tr("PulseAudio"), SOUNDSYSTEM_PULSEAUDIO);
+    {
+        // On a PipeWire system the PulseAudio backend is served by
+        // pipewire-pulse, so reflect that in the label when detected.
+        bool pipewire = QFile::exists(QString("/run/user/%1/pipewire-0").arg(getuid()));
+        QString label = pipewire ? tr("PulseAudio / PipeWire") : tr("PulseAudio");
+        ui.sndSysBox->addItem(label, SOUNDSYSTEM_PULSEAUDIO);
+    }
 #endif
     int comboIndex = ui.sndSysBox->findData(SoundSystem(ttSettings->value(SETTINGS_SOUND_SOUNDSYSTEM, SOUNDSYSTEM_NONE).toInt()));
     if(comboIndex>=0)
