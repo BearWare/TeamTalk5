@@ -9,24 +9,8 @@ on:
 jobs:
   build:
     if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-android')"
-    strategy:
-      matrix:
-        include:
-          - name: Android armeabi-v7a
-            maketarget: android-armeabi-v7a
-            arch: armeabi-v7a
-          - name: Android arm64-v8a
-            maketarget: android-arm64-v8a
-            arch: arm64-v8a
-          - name: Android x86
-            maketarget: android-x86
-            arch: x86
-          - name: Android x86_64
-            maketarget: android-x64
-            arch: x86_64
 
     runs-on: ubuntu-24.04
-    name: ${{ matrix.name }}
     steps:
     - name: Checkout
       uses: actions/checkout@v6
@@ -61,7 +45,7 @@ jobs:
 
     - name: Build TeamTalk library for Android
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-G Ninja -DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      run: make CMAKE_EXTRA="-G Ninja -DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-android" CMAKE_BUILD_EXTRA="--target install" android-all
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -77,12 +61,8 @@ jobs:
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
       run: ./gradlew build -x packageRelease
 
-    - name: Install TeamTalk SDK
-      working-directory: ${{github.workspace}}/Build/build-release-${{ matrix.maketarget }}
-      run: cmake --build . --target install
-
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v7
       with:
-        name: teamtalksdk-${{ matrix.maketarget }}
-        path: ${{runner.workspace}}/install-${{ matrix.maketarget }}
+        name: teamtalksdk-android
+        path: ${{runner.workspace}}/install-android
