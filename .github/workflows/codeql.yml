@@ -1,4 +1,4 @@
-name: "CodeQL Advanced"
+name: "CodeQL (Python)"
 
 on:
   push:
@@ -8,22 +8,11 @@ on:
 
 jobs:
   analyze:
-    name: Analyze (${{ matrix.language }})
+    name: Analyze (python)
     runs-on: ubuntu-latest
     permissions:
       security-events: write
       packages: read
-
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-        - language: csharp
-          build-mode: none
-        - language: java-kotlin
-          build-mode: none
-        - language: python
-          build-mode: none
 
     steps:
     - name: Checkout
@@ -32,10 +21,11 @@ jobs:
     - name: Initialize CodeQL
       uses: github/codeql-action/init@v4
       with:
-        languages: ${{ matrix.language }}
-        build-mode: ${{ matrix.build-mode }}
+        languages: python
+        build-mode: none
+        config-file: ./.github/codeql-config.yml
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4
       with:
-        category: "/language:${{matrix.language}}"
+        category: "/language:python"

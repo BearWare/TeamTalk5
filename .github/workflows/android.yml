@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-android')"
+    permissions:
+      security-events: write
+      packages: read
     strategy:
       matrix:
         include:
@@ -49,6 +52,14 @@ jobs:
       with:
         validate-wrappers: true
 
+    - name: Initialize CodeQL
+      if: matrix.arch == 'arm64-v8a'
+      uses: github/codeql-action/init@v4
+      with:
+        languages: java-kotlin
+        build-mode: manual
+        config-file: ./.github/codeql-config.yml
+
     - name: Update Ubuntu repository
       run: sudo apt-get update
 
@@ -86,3 +97,9 @@ jobs:
       with:
         name: teamtalksdk-${{ matrix.maketarget }}
         path: ${{runner.workspace}}/install-${{ matrix.maketarget }}
+
+    - name: Perform CodeQL Analysis
+      if: matrix.arch == 'arm64-v8a'
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:java-kotlin"
