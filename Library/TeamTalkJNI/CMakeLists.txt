@@ -231,6 +231,7 @@ if (Java_FOUND)
       INSTALL_DIR         ""
       CONFIGURE_COMMAND   ""
       BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/hamcrest-core.jar ${CMAKE_CURRENT_LIST_DIR}/libs/hamcrest-core.jar
+      BUILD_BYPRODUCTS    ${CMAKE_CURRENT_LIST_DIR}/libs/hamcrest-core.jar
       )
 
     ExternalProject_Add(junit4
@@ -242,10 +243,10 @@ if (Java_FOUND)
       INSTALL_DIR         ""
       CONFIGURE_COMMAND   ""
       BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit4.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar
+      BUILD_BYPRODUCTS    ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar
       DEPENDS             hamcrest-core
       )
-    ExternalProject_Get_Property(junit4 DOWNLOAD_DIR)
-    set (junit ${DOWNLOAD_DIR}/junit4.jar)
+    set (junit ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar)
   else()
     find_jar (junit NAMES junit4 junit
       PATHS ENV JUNIT_HOME
