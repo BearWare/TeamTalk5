@@ -1674,8 +1674,8 @@ void MainWindow::clienteventSoundDeviceRemoved(const SoundDevice& snddev)
 {
     addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
 
-    auto devid = _Q(snddev.szDeviceID);
-    if (devid.size() && (devid == _Q(m_devin.szDeviceID) || devid == _Q(m_devout.szDeviceID)))
+    auto devid = getSoundDeviceUID(snddev);
+    if (devid.size() && (devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout)))
     {
         initSound();
     }
@@ -4453,7 +4453,7 @@ void MainWindow::slotClientSoundDevices()
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
                 ttSettings->setValueOrClear(SETTINGS_SOUND_INPUTDEVICE, dev.nDeviceID, SETTINGS_SOUND_INPUTDEVICE_DEFAULT);
-                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, _Q(dev.szDeviceID));
+                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, getSoundDeviceUID(dev));
                 reinitfunc();
                 });
         }
@@ -4464,7 +4464,7 @@ void MainWindow::slotClientSoundDevices()
             newaction->setChecked(dev.nDeviceID == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt());
             connect(newaction, &QAction::triggered, [dev, reinitfunc] {
                 ttSettings->setValueOrClear(SETTINGS_SOUND_OUTPUTDEVICE, dev.nDeviceID, SETTINGS_SOUND_OUTPUTDEVICE_DEFAULT);
-                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, _Q(dev.szDeviceID));
+                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, getSoundDeviceUID(dev));
                 reinitfunc();
                 });
         }
