@@ -23,14 +23,12 @@ jobs:
         arch: [x86, x64]
         include:
           - arch: x86
-            cmakeplatform: Win32
             javaversion: 11
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
             vcvars: vcvars32.bat
           - arch: x64
-            cmakeplatform: x64
             javaversion: 25
             portablearch: win64
             qtarch: win64_msvc2022_64
@@ -109,8 +107,10 @@ jobs:
 
     - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
+      shell: cmd
       run: >-
-        cmake -S TeamTalk5 -B output -A ${{ matrix.cmakeplatform }}
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}" &&
+        cmake -S TeamTalk5 -B output -G "Ninja Multi-Config"
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
@@ -123,7 +123,7 @@ jobs:
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
-        cmake --build output --parallel --config Release --target install
+        cmake --build output --config Release --target install
         echo ${{github.workspace}}\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{github.workspace}}\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
         echo PYTHONPATH=${{github.workspace}}\Library\TeamTalkPy>> %GITHUB_ENV%
@@ -292,8 +292,10 @@ jobs:
 
     - name: Configure CMake for prebuilt toolchain
       working-directory: ${{runner.workspace}}
+      shell: cmd
       run: >-
-        cmake -S TeamTalk5 -B output-developer -A ${{ matrix.cmakeplatform }}
+        call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}" &&
+        cmake -S TeamTalk5 -B output-developer -G "Ninja Multi-Config"
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2=ON
         -DBUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2_PERF=OFF
         -DFEATURE_WEBRTC=OFF
@@ -307,7 +309,7 @@ jobs:
       shell: cmd
       run: |
         call "C:\Program Files\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
-        cmake --build output-developer --parallel --config Debug
+        cmake --build output-developer --config Debug
 
     - name: Upload Inno Setup installer artifact
       if: matrix.arch == 'x64'
