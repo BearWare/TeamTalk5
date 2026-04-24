@@ -98,6 +98,7 @@ struct ChannelListView: View {
 
             case .user(let user):
                 let details = model.userDetails(user)
+                let isMoveSelected = model.isMoveUserSelected(userid: user.nUserID)
                 HStack(spacing: 10) {
                     Image(details.iconName)
                         .resizable()
@@ -118,6 +119,11 @@ struct ChannelListView: View {
 
                     Spacer(minLength: 12)
 
+                    if isMoveSelected {
+                        Image(systemName: "checkmark.circle.fill")
+                            .foregroundStyle(.green)
+                    }
+
                     Button {
                         model.showTextMessages(userid: user.nUserID)
                     } label: {
@@ -128,15 +134,18 @@ struct ChannelListView: View {
                     .buttonStyle(.borderless)
                     .accessibilityLabel("Text Messaging")
                 }
-                .accessibilityElement(children: .contain)
+                .accessibilityElement(children: .combine)
                 .contentShape(Rectangle())
                 .onTapGesture {
                     model.selectRow(.user(user))
                 }
+                .accessibilityAction(named: "Message this user") {
+                    model.showTextMessages(userid: user.nUserID)
+                }
                 .accessibilityAction(named: "Mute") {
                     model.muteUser(userid: user.nUserID)
                 }
-                .accessibilityAction(named: "Move user") {
+                .accessibilityAction(named: model.moveUserActionTitle(userid: user.nUserID)) {
                     model.moveUser(userid: user.nUserID)
                 }
                 .accessibilityAction(named: "Kick user") {
@@ -174,9 +183,13 @@ struct ChannelListView: View {
                     }
                     .buttonStyle(.borderless)
                 }
-                .accessibilityElement(children: .contain)
+                .accessibilityElement(children: .combine)
+                .accessibilityHint(model.moveDestinationAccessibilityHint())
                 .contentShape(Rectangle())
                 .onTapGesture {
+                    model.selectRow(.channel(channel))
+                }
+                .accessibilityAction(named: "Expand") {
                     model.selectRow(.channel(channel))
                 }
                 .accessibilityAction(named: "Move users here") {

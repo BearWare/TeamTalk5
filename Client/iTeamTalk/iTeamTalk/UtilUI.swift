@@ -97,6 +97,15 @@ func limitText(_ s: String) -> String {
     return s
 }
 
+func announceForAccessibility(_ message: String) {
+    guard UIAccessibility.isVoiceOverRunning,
+          UIApplication.shared.applicationState == .active else {
+        return
+    }
+
+    UIAccessibility.post(notification: .announcement, argument: message)
+}
+
 func getDisplayName(_ user: User) -> String {
     let settings = UserDefaults.standard
     if settings.object(forKey: PREF_DISPLAY_SHOWUSERNAME) != nil && settings.bool(forKey: PREF_DISPLAY_SHOWUSERNAME) {
@@ -156,4 +165,3 @@ func formPasswordField(
             .accessibilityHidden(true)
     }
 }
-

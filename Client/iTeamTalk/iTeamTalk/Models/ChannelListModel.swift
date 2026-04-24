@@ -89,7 +89,7 @@ final class ChannelListModel: ObservableObject {
     var mychannel = Channel()
     var rejoinchannel = Channel()
     var users = [INT32: User]()
-    var moveusers = [INT32]()
+    var moveusers = Set<INT32>()
     var cmdid: INT32 = 0
     var currentCmdId: INT32 = 0
     var activeCommands = [INT32: Command]()
@@ -147,6 +147,7 @@ final class ChannelListModel: ObservableObject {
     }
 
     func refreshChannelList() {
+        moveusers = Set(moveusers.filter { users[$0] != nil })
         updateDisplayItems()
         rows = displayRows()
     }
@@ -316,8 +317,24 @@ final class ChannelListModel: ObservableObject {
     }
 
     func moveUser(userid: INT32) {
-        moveusers.append(userid)
+        guard let user = users[userid] else { return }
+
+        let isSelected = moveusers.contains(userid)
+        if isSelected {
+            moveusers.remove(userid)
+        } else {
+            moveusers.insert(userid)
+        }
+
         refreshChannelList()
+        announceForAccessibility(
+            String(
+                format: isSelected
+                    ? String(localized: "%@ deselected", comment: "channel list")
+                    : String(localized: "%@ selected", comment: "channel list"),
+                getDisplayName(user)
+            )
+        )
     }
 
     func kickUser(userid: INT32) {
@@ -337,11 +354,49 @@ final class ChannelListModel: ObservableObject {
     }
 
     func moveIntoChannel(channelID: INT32) {
+        guard !moveusers.isEmpty else {
+            announceForAccessibility(String(localized: "No users selected to move", comment: "channel list"))
+            return
+        }
+
         for userid in moveusers {
             cmdid = TeamTalkClient.shared.moveUser(id: userid, toChannelID: channelID)
             activeCommands[cmdid] = .moveCmd
         }
         moveusers.removeAll()
+        refreshChannelList()
+    }
+
+    func isMoveUserSelected(userid: INT32) -> Bool {
+        moveusers.contains(userid)
+    }
+
+    func moveUserActionTitle(userid: INT32) -> String {
+        if isMoveUserSelected(userid: userid) {
+            return String(localized: "Deselect user", comment: "channel list")
+        }
+        return String(localized: "Move user", comment: "channel list")
+    }
+
+    /*func moveUserAccessibilityValue(userid: INT32) -> String {
+        if isMoveUserSelected(userid: userid) {
+            return String(localized: "Selected for moving", comment: "channel list")
+        }
+        return String(localized: "Not selected for moving", comment: "channel list")
+    }*/
+
+    func moveDestinationAccessibilityHint() -> String {
+        switch moveusers.count {
+        case 0:
+            return String(localized: "No users selected to move", comment: "channel list")
+        case 1:
+            return String(localized: "1 user selected to move here", comment: "channel list")
+        default:
+            return String(
+                format: String(localized: "%d users selected to move here", comment: "channel list"),
+                moveusers.count
+            )
+        }
     }
 
     // MARK: - Navigation

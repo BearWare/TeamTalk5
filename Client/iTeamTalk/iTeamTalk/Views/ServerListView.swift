@@ -22,7 +22,6 @@
  */
 
 import SwiftUI
-import UIKit
 
 struct ServerListView: View {
     @ObservedObject var model: ServerListModel
@@ -69,7 +68,6 @@ struct ServerListView: View {
                                 .foregroundStyle(.secondary)
                                 .lineLimit(2)
                         }
-
                         Spacer(minLength: 12)
 
                         Button("Connect") {
@@ -77,7 +75,7 @@ struct ServerListView: View {
                         }
                         .buttonStyle(.bordered)
                     }
-                    .accessibilityElement(children: .contain)
+                    .accessibilityElement(children: .combine)
                     .contentShape(Rectangle())
                     .onTapGesture {
                         model.showServerDetail(for: server)
@@ -89,12 +87,15 @@ struct ServerListView: View {
                             Label("Delete", systemImage: "trash")
                         }
                     }
-                    .accessibilityAction(named: "Connect to server") {
+                    /*.accessibilityAction(named: "Connect to server") {
                         model.connect(to: server)
                     }
-                    /*.accessibilityAction(named: "Delete server from list") {
+                    .accessibilityAction(named: "Delete server from list") {
                         model.deleteServer(server)
                     }*/
+                    .accessibilityAction(named: "Show server details") {
+                        model.showServerDetail(for: server)
+                    }
                 }
             }
             .navigationTitle("TeamTalk Servers")
