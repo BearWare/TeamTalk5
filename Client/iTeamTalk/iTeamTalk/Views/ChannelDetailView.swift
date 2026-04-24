@@ -92,20 +92,4 @@ struct ChannelDetailView: View {
             if newValue { dismiss() }
         }
     }
-
-    private func formTextField(
-        _ title: LocalizedStringKey,
-        text: Binding<String>
-    ) -> some View {
-        LabeledContent {
-            TextField("", text: text)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .multilineTextAlignment(.trailing)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .accessibilityLabel(Text(title))
-        } label: {
-            Text(title)
-        }
-    }
 }

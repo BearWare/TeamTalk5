@@ -37,7 +37,7 @@ struct ServerDetailView: View {
     var body: some View {
         Form {
             Section("Server List Entry") {
-                formTextField("Name", text: $model.nameText)
+                formTextField("Name", text: $model.nameText, )
             }
 
             if !model.statusRows.isEmpty {
@@ -116,25 +116,6 @@ struct ServerDetailView: View {
                 Button("Save server", action: save)
                     .disabled(model.hostText.isEmpty || model.tcpPortText.isEmpty || model.udpPortText.isEmpty)
             }
-        }
-    }
-
-    private func formTextField(
-        _ title: LocalizedStringKey,
-        text: Binding<String>,
-        keyboardType: UIKeyboardType = .default
-    ) -> some View {
-        LabeledContent {
-            TextField("", text: text)
-                .frame(maxWidth: .infinity, alignment: .trailing)
-                .multilineTextAlignment(.trailing)
-                .autocorrectionDisabled()
-                .textInputAutocapitalization(.never)
-                .keyboardType(keyboardType)
-                .accessibilityLabel(Text(title))
-        } label: {
-            Text(title)
-                .accessibilityHidden(true)
         }
     }
 

@@ -115,7 +115,8 @@ func getDisplayName(_ user: User) -> String {
 func formTextField(
     _ title: LocalizedStringKey,
     text: Binding<String>,
-    keyboardType: UIKeyboardType = .default
+    keyboardType: UIKeyboardType = .default,
+    disabled: Bool=false
 ) -> some View {
     LabeledContent {
         TextField("", text: text)
@@ -124,6 +125,7 @@ func formTextField(
             .autocorrectionDisabled()
             .textInputAutocapitalization(.never)
             .keyboardType(keyboardType)
+            .disabled(disabled)
             .accessibilityLabel(Text(title))
     } label: {
         Text(title)
@@ -149,25 +151,6 @@ func formPasswordField(
         .multilineTextAlignment(.trailing)
         .textInputAutocapitalization(.never)
         .accessibilityLabel(Text(title))
-    } label: {
-        Text(title)
-            .accessibilityHidden(true)
-    }
-}
-
-func formTextField(
-    _ title: LocalizedStringKey,
-    text: Binding<String>,
-    disabled: Bool = false
-) -> some View {
-    LabeledContent {
-        TextField("", text: text)
-            .frame(maxWidth: .infinity, alignment: .trailing)
-            .multilineTextAlignment(.trailing)
-            .autocorrectionDisabled()
-            .textInputAutocapitalization(.never)
-            .disabled(disabled)
-            .accessibilityLabel(Text(title))
     } label: {
         Text(title)
             .accessibilityHidden(true)
