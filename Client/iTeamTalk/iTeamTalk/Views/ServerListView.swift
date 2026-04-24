@@ -175,13 +175,13 @@ struct ServerListView: View {
     private func iconName(for server: Server) -> String {
         switch server.servertype {
         case .LOCAL:
-            return "teamtalk_yellow.png"
+            return "teamtalk_yellow"
         case .OFFICIAL:
-            return "teamtalk_blue.png"
+            return "teamtalk_blue"
         case .PUBLIC:
-            return "teamtalk_green.png"
+            return "teamtalk_green"
         case .UNOFFICIAL:
-            return "teamtalk_orange.png"
+            return "teamtalk_orange"
         }
     }
 

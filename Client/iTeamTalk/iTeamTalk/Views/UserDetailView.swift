@@ -29,11 +29,17 @@ struct UserDetailView: View {
     var body: some View {
         Form {
             Section("General") {
-                TextField("Username", text: $model.usernameText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .disabled(true)
+                LabeledContent {
+                    TextField("", text: $model.usernameText)
+                        .frame(maxWidth: .infinity, alignment: .trailing)
+                        .multilineTextAlignment(.trailing)
+                        .autocorrectionDisabled()
+                        .textInputAutocapitalization(.never)
+                        .disabled(true)
+                        .accessibilityLabel(Text("Username"))
+                } label: {
+                    Text("Username")
+                }
             }
 
             Section("Volume Controls") {

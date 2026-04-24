@@ -32,18 +32,9 @@ struct ChannelDetailView: View {
     var body: some View {
         Form {
             Section("Channel Properties") {
-                TextField("Name", text: $model.nameText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                TextField("Password", text: $model.passwordText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                TextField("Topic", text: $model.topicText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                formTextField("Name", text: $model.nameText)
+                formTextField("Password", text: $model.passwordText)
+                formTextField("Topic", text: $model.topicText)
                 Button(action: setupCodec) {
                     LabeledContent("Audio Codec",
                                    value: model.codecDescription)
@@ -99,6 +90,22 @@ struct ChannelDetailView: View {
         }
         .onChange(of: model.shouldDismiss) { newValue in
             if newValue { dismiss() }
+        }
+    }
+
+    private func formTextField(
+        _ title: LocalizedStringKey,
+        text: Binding<String>
+    ) -> some View {
+        LabeledContent {
+            TextField("", text: text)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .accessibilityLabel(Text(title))
+        } label: {
+            Text(title)
         }
     }
 }

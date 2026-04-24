@@ -26,7 +26,8 @@ import SwiftUI
 struct ServerDetailView: View {
     @Environment(\.dismiss) private var dismiss
     @ObservedObject var model: ServerDetailModel
-    @State private var showPassword = false
+    @State private var showServerPassword = false
+    @State private var showChannelPassword = false
 
     let copyJoinCode: () -> Void
     let connect: () -> Void
@@ -36,10 +37,7 @@ struct ServerDetailView: View {
     var body: some View {
         Form {
             Section("Server List Entry") {
-                TextField("Name", text: $model.nameText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                formTextField("Name", text: $model.nameText)
             }
 
             if !model.statusRows.isEmpty {
@@ -51,40 +49,17 @@ struct ServerDetailView: View {
             }
 
             Section("Connection") {
-                TextField("Host address", text: $model.hostText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.URL)
-                TextField("TCP Port", text: $model.tcpPortText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.numberPad)
-                TextField("UDP Port", text: $model.udpPortText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .keyboardType(.numberPad)
+                formTextField("Host address", text: $model.hostText, keyboardType: .URL)
+                formTextField("TCP Port", text: $model.tcpPortText, keyboardType: .numberPad)
+                formTextField("UDP Port", text: $model.udpPortText, keyboardType: .numberPad)
                 Toggle("Encrypted", isOn: $model.isEncrypted)
             }
 
             Section("Authentication") {
                 if !model.isWebLogin {
-                    TextField("Username", text: $model.usernameText)
-                        .multilineTextAlignment(.trailing)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                    if !showPassword {
-                        SecureField("Password", text: $model.passwordText)
-                            .textInputAutocapitalization(.never)
-                    } else {
-                        TextField("Password", text: $model.passwordText)
-                            .multilineTextAlignment(.trailing)
-                            .textInputAutocapitalization(.never)
-                            .autocorrectionDisabled()
-                    }
-                    Toggle(isOn: $showPassword) {
+                    formTextField("Username", text: $model.usernameText)
+                    formPasswordField("Password", text: $model.passwordText, isRevealed: showServerPassword)
+                    Toggle(isOn: $showServerPassword) {
                         Text("Show password")
                     }
                 }
@@ -96,27 +71,13 @@ struct ServerDetailView: View {
                             .foregroundStyle(.secondary)
                     }
                 }
-                TextField("Nickname (optional)", text: $model.nicknameText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
+                formTextField("Nickname (optional)", text: $model.nicknameText)
             }
 
             Section("Join Channel") {
-                TextField("Channel", text: $model.channelText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                if !showPassword {
-                    SecureField("Password", text: $model.channelPasswordText)
-                        .textInputAutocapitalization(.never)
-                } else {
-                    TextField("Channel password", text: $model.channelPasswordText)
-                        .multilineTextAlignment(.trailing)
-                        .autocorrectionDisabled()
-                        .textInputAutocapitalization(.never)
-                }
-                Toggle(isOn: $showPassword) {
+                formTextField("Channel name", text: $model.channelText)
+                formPasswordField("Channel password", text: $model.channelPasswordText, isRevealed: showChannelPassword)
+                Toggle(isOn: $showChannelPassword) {
                     Text("Show password")
                 }
             }
@@ -133,6 +94,7 @@ struct ServerDetailView: View {
                     Text("Connect")
                         .frame(maxWidth: .infinity, alignment: .center)
                 }
+                .disabled(model.hostText.isEmpty || model.tcpPortText.isEmpty || model.udpPortText.isEmpty)
                 Button(role: .destructive, action: delete) {
                     Text("Delete Server")
                         .frame(maxWidth: .infinity, alignment: .center)
@@ -152,8 +114,52 @@ struct ServerDetailView: View {
             }
             ToolbarItem(placement: .confirmationAction) {
                 Button("Save server", action: save)
-                    .disabled(model.hostText.isEmpty)
+                    .disabled(model.hostText.isEmpty || model.tcpPortText.isEmpty || model.udpPortText.isEmpty)
             }
         }
     }
+
+    private func formTextField(
+        _ title: LocalizedStringKey,
+        text: Binding<String>,
+        keyboardType: UIKeyboardType = .default
+    ) -> some View {
+        LabeledContent {
+            TextField("", text: text)
+                .frame(maxWidth: .infinity, alignment: .trailing)
+                .multilineTextAlignment(.trailing)
+                .autocorrectionDisabled()
+                .textInputAutocapitalization(.never)
+                .keyboardType(keyboardType)
+                .accessibilityLabel(Text(title))
+        } label: {
+            Text(title)
+                .accessibilityHidden(true)
+        }
+    }
+
+    private func formPasswordField(
+        _ title: LocalizedStringKey,
+        text: Binding<String>,
+        isRevealed: Bool
+    ) -> some View {
+        LabeledContent {
+            Group {
+                if isRevealed {
+                    TextField("", text: text)
+                        .autocorrectionDisabled()
+                } else {
+                    SecureField("", text: text)
+                }
+            }
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .multilineTextAlignment(.trailing)
+            .textInputAutocapitalization(.never)
+            .accessibilityLabel(Text(title))
+        } label: {
+            Text(title)
+                .accessibilityHidden(true)
+        }
+    }
+    
 }

@@ -45,12 +45,18 @@ struct PreferencesView: View {
     private var generalSection: some View {
         Section("General") {
             VStack(alignment: .leading, spacing: 4) {
-                TextField("Nickname", text: Binding(
-                    get: { model.nicknameText },
-                    set: { model.nicknameChanged($0) }
-                ))
-                .multilineTextAlignment(.trailing)
-                .autocorrectionDisabled()
+                LabeledContent {
+                    TextField("", text: Binding(
+                        get: { model.nicknameText },
+                        set: { model.nicknameChanged($0) }
+                    ))
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+                    .multilineTextAlignment(.trailing)
+                    .autocorrectionDisabled()
+                    .accessibilityLabel(Text("Nickname"))
+                } label: {
+                    Text("Nickname")
+                }
                 PreferenceSubtitle("Name displayed in channel list")
             }
 
@@ -87,7 +93,7 @@ struct PreferencesView: View {
                         .font(.footnote)
                         .foregroundStyle(.secondary)
                 }
-                            }
+            }
             Toggle(isOn: Binding(get: { model.headsetTXToggle }, set: { model.headsetTxToggleChanged($0) })) {
                 VStack(alignment: .leading, spacing: 2) {
                     Text("Headset TX Toggle")

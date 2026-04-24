@@ -6,3 +6,5 @@ CMakeLists.txt.user
 TAGS
 .DS_STORE
 .build
+Client/iTeamTalk/TeamTalkKit/Vendor/TeamTalkNativeiOS.xcframework
+Client/iTeamTalk/TeamTalkKit/Vendor/TeamTalkNativemacOS.xcframework

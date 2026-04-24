@@ -23,6 +23,7 @@
 
 import TeamTalkKit
 import UIKit
+import SwiftUI
 
 enum ChanSort : Int {
     case ASCENDING = 0
@@ -109,3 +110,67 @@ func getDisplayName(_ user: User) -> String {
     
     return limitText(nickname)
 }
+
+
+func formTextField(
+    _ title: LocalizedStringKey,
+    text: Binding<String>,
+    keyboardType: UIKeyboardType = .default
+) -> some View {
+    LabeledContent {
+        TextField("", text: text)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .multilineTextAlignment(.trailing)
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .keyboardType(keyboardType)
+            .accessibilityLabel(Text(title))
+    } label: {
+        Text(title)
+            .accessibilityHidden(true)
+    }
+}
+
+func formPasswordField(
+    _ title: LocalizedStringKey,
+    text: Binding<String>,
+    isRevealed: Bool=false
+) -> some View {
+    LabeledContent {
+        Group {
+            if isRevealed {
+                TextField("", text: text)
+                    .autocorrectionDisabled()
+            } else {
+                SecureField("", text: text)
+            }
+        }
+        .frame(maxWidth: .infinity, alignment: .trailing)
+        .multilineTextAlignment(.trailing)
+        .textInputAutocapitalization(.never)
+        .accessibilityLabel(Text(title))
+    } label: {
+        Text(title)
+            .accessibilityHidden(true)
+    }
+}
+
+func formTextField(
+    _ title: LocalizedStringKey,
+    text: Binding<String>,
+    disabled: Bool = false
+) -> some View {
+    LabeledContent {
+        TextField("", text: text)
+            .frame(maxWidth: .infinity, alignment: .trailing)
+            .multilineTextAlignment(.trailing)
+            .autocorrectionDisabled()
+            .textInputAutocapitalization(.never)
+            .disabled(disabled)
+            .accessibilityLabel(Text(title))
+    } label: {
+        Text(title)
+            .accessibilityHidden(true)
+    }
+}
+

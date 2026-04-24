@@ -47,15 +47,10 @@ struct WebLoginView: View {
             }
 
             Section("Authentication") {
-                TextField("Username", text: $usernameText)
-                    .multilineTextAlignment(.trailing)
-                    .autocorrectionDisabled()
-                    .textInputAutocapitalization(.never)
-                    .disabled(hasStoredUsername)
+                formTextField("Username", text: $usernameText, disabled: hasStoredUsername)
 
                 if !hasStoredUsername {
-                    SecureField("Password", text: $passwordText)
-                        .textInputAutocapitalization(.never)
+                    formPasswordField("Password", text: $passwordText)
 
                     Button(action: validateWebLogin) {
                         Text("Authenticate")
