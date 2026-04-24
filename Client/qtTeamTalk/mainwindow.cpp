@@ -4277,8 +4277,8 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if(!b)return;
 
 #if defined(QT_TEXTTOSPEECH_LIB)
-    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT && ttSpeech == nullptr)
-        ttSpeech = new QTextToSpeech(this);
+    if (ttSettings->value(SETTINGS_TTS_ENGINE, SETTINGS_TTS_ENGINE_DEFAULT).toUInt() == TTSENGINE_QT)
+        startTTS();
     else
     {
         delete ttSpeech;
