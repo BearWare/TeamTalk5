@@ -167,3 +167,12 @@ void setChannelString(CExt e, Channel* c, const TTCHAR* str) {
             break;
     }
 }
+
+const char* getUserVersion(const User* u) {
+    static char buf[32];
+    int major = (u->uVersion >> 16) & 0xFF;
+    int minor = (u->uVersion >> 8) & 0xFF;
+    int build = u->uVersion & 0xFF;
+    sprintf(buf, "%d.%d.%d", major, minor, build);
+    return buf;
+}

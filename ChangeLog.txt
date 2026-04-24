@@ -11,7 +11,8 @@ Default Qt Client
 Android Client
 -
 iOS Client
--
+- Added User ID to User Properties dialog
+- Added Client Name and Version to User Properties dialog
 Server
 -
 

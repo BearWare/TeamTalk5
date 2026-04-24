@@ -26,7 +26,9 @@ import UIKit
 class UserDetailViewController : UITableViewController, TeamTalkEvent {
     
     @IBOutlet weak var navtitle: UINavigationItem!
+    var useridfield: UITextField?
     var usernamefield: UITextField?
+    var clientversionfield: UITextField?
     var voiceslider: UISlider?
     var voiceswitch: UISwitch?
     var mediaslider: UISlider?
@@ -65,9 +67,21 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
         addToTTMessages(self)
         
         // general items
+        let useridcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        useridfield = newTableCellTextField(useridcell, label: NSLocalizedString("User ID", comment: "user detail"), initial: "\(user.nUserID)")
+        useridfield?.isEnabled = false
+        general_items.append(useridcell)
+
         let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
         usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "user detail"), initial: getUser(user, strprop: USERNAME))
         general_items.append(usernamecell)
+        
+        let clientcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let clientname = getUser(user, strprop: CLIENTNAME)
+        let version = String(cString: getUserVersion(&user))
+        clientversionfield = newTableCellTextField(clientcell, label: NSLocalizedString("Client", comment: "user detail"), initial: "\(clientname) \(version)")
+        clientversionfield?.isEnabled = false
+        general_items.append(clientcell)
         
         // volume items
         let voicevolcell = UITableViewCell(style: .default, reuseIdentifier: nil)
