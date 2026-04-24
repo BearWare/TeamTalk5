@@ -1,0 +1,26 @@
+name: Android Dependency Submission
+
+on:
+  push:
+    branches: [ "master" ]
+
+permissions:
+  contents: write
+
+jobs:
+  dependency-submission:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v6
+
+    - name: Set up Java
+      uses: actions/setup-java@v5
+      with:
+        distribution: 'temurin'
+        java-version: '25'
+
+    - name: Generate and submit dependency graph
+      uses: gradle/actions/dependency-submission@v6
+      with:
+        build-root-directory: ${{github.workspace}}/Client/TeamTalkAndroid

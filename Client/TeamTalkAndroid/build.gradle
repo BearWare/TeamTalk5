@@ -52,6 +52,18 @@ android {
         }
     }
 
+    sourceSets {
+        main {
+            jniLibs.srcDirs = ['../../Library/TeamTalkJNI/libs']
+        }
+    }
+
+    packaging {
+        jniLibs {
+            excludes += ['**/libTeamTalk5Pro-jni.so']
+        }
+    }
+
     lint {
         disable 'MissingTranslation'
     }
@@ -68,13 +80,13 @@ dependencies {
     implementation libs.androidx.preference
     implementation libs.androidx.viewpager
     implementation libs.material
-    implementation files('libs/TeamTalk5.jar')
+    implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
 
     testImplementation libs.junit
-    testImplementation files('libs/TeamTalk5Test.jar')
+    testImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 
     androidTestImplementation libs.androidx.test.core
     androidTestImplementation libs.androidx.test.runner
     androidTestImplementation libs.androidx.test.rules
-    androidTestImplementation files('libs/TeamTalk5Test.jar')
+    androidTestImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 }

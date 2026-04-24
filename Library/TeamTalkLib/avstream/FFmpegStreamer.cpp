@@ -27,7 +27,6 @@
 #include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
-#include <ace/Recursive_Thread_Mutex.h>
 
 #if defined(__APPLE__)
 #include <mach/mach_time.h>
@@ -52,6 +51,7 @@ extern "C" {
 #include <cstddef>
 #include <cstdint>
 #include <cstdio>
+#include <mutex>
 
 
 constexpr auto DEBUG_FFMPEG = 0;
@@ -60,20 +60,11 @@ using namespace media;
 
 void InitAVConv()
 {
-    static bool ready = false;
-    if(!ready)
-    {
-        static ACE_Recursive_Thread_Mutex mtx;
-
-        wguard_t const g(mtx);
-
-        if (!ready)
-        {
-            av_log_set_level(DEBUG_FFMPEG ? AV_LOG_MAX_OFFSET : AV_LOG_QUIET);
-            avdevice_register_all();
-            ready = true;
-        }
-    }
+    static std::once_flag flag;
+    std::call_once(flag, []() {
+        av_log_set_level(DEBUG_FFMPEG ? AV_LOG_MAX_OFFSET : AV_LOG_QUIET);
+        avdevice_register_all();
+    });
 }
 
 bool OpenInput(const ACE_TString& filename,

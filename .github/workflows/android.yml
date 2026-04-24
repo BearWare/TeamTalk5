@@ -44,6 +44,11 @@ jobs:
         ndk-version: r29
         add-to-path: false
 
+    - name: Set up Gradle
+      uses: gradle/actions/setup-gradle@v6
+      with:
+        validate-wrappers: true
+
     - name: Update Ubuntu repository
       run: sudo apt-get update
 
@@ -70,11 +75,7 @@ jobs:
 
     - name: Build TeamTalk Android client
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
-      run: |
-        ln -s ${{github.workspace}}/Library/TeamTalkJNI/libs/TeamTalk5.jar ${{github.workspace}}/Client/TeamTalkAndroid/libs/TeamTalk5.jar
-        ln -s ${{github.workspace}}/Library/TeamTalkJNI/libs/TeamTalk5Test.jar ${{github.workspace}}/Client/TeamTalkAndroid/libs/TeamTalk5Test.jar
-        ln -s ${{github.workspace}}/Library/TeamTalkJNI/libs/${{ matrix.arch }}/libTeamTalk5-jni.so ${{github.workspace}}/Client/TeamTalkAndroid/src/main/jniLibs/${{ matrix.arch }}/libTeamTalk5-jni.so
-        ./gradlew build -x packageRelease
+      run: ./gradlew build -x packageRelease
 
     - name: Install TeamTalk SDK
       working-directory: ${{github.workspace}}/Build/build-release-${{ matrix.maketarget }}
