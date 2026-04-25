@@ -139,6 +139,9 @@ struct ChannelListView: View {
                 .onTapGesture {
                     model.selectRow(.user(user))
                 }
+                .accessibilityAction(named: "Show user details") {
+                    model.selectRow(.user(user))
+                }
                 .accessibilityAction(named: "Message this user") {
                     model.showTextMessages(userid: user.nUserID)
                 }
