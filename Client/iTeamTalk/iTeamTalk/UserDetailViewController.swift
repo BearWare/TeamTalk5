@@ -26,9 +26,6 @@ import UIKit
 class UserDetailViewController : UITableViewController, TeamTalkEvent {
     
     @IBOutlet weak var navtitle: UINavigationItem!
-    var useridfield: UITextField?
-    var usernamefield: UITextField?
-    var clientversionfield: UITextField?
     var voiceslider: UISlider?
     var voiceswitch: UISwitch?
     var mediaslider: UISlider?
@@ -67,21 +64,24 @@ class UserDetailViewController : UITableViewController, TeamTalkEvent {
         addToTTMessages(self)
         
         // general items
-        let useridcell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        useridfield = newTableCellTextField(useridcell, label: NSLocalizedString("User ID", comment: "user detail"), initial: "\(user.nUserID)")
-        useridfield?.isEnabled = false
+        let useridcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        useridcell.textLabel?.text = NSLocalizedString("User ID", comment: "user detail")
+        useridcell.detailTextLabel?.text = "\(user.nUserID)"
+        useridcell.selectionStyle = .none
         general_items.append(useridcell)
 
-        let usernamecell = UITableViewCell(style: .default, reuseIdentifier: nil)
-        usernamefield = newTableCellTextField(usernamecell, label: NSLocalizedString("Username", comment: "user detail"), initial: getUser(user, strprop: USERNAME))
-        usernamefield?.isEnabled = false
+        let usernamecell = UITableViewCell(style: .value1, reuseIdentifier: nil)
+        usernamecell.textLabel?.text = NSLocalizedString("Username", comment: "user detail")
+        usernamecell.detailTextLabel?.text = getUser(user, strprop: USERNAME)
+        usernamecell.selectionStyle = .none
         general_items.append(usernamecell)
         
-        let clientcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        let clientcell = UITableViewCell(style: .value1, reuseIdentifier: nil)
         let clientname = getUser(user, strprop: CLIENTNAME)
         let version = String(cString: getUserVersion(&user))
-        clientversionfield = newTableCellTextField(clientcell, label: NSLocalizedString("Client", comment: "user detail"), initial: "\(clientname), \(version)")
-        clientversionfield?.isEnabled = false
+        clientcell.textLabel?.text = NSLocalizedString("Client", comment: "user detail")
+        clientcell.detailTextLabel?.text = "\(clientname), \(version)"
+        clientcell.selectionStyle = .none
         general_items.append(clientcell)
         
         // volume items
