@@ -2,6 +2,12 @@ plugins {
     alias(libs.plugins.android.application)
 }
 
+def ksFile = rootProject.file('keystore.properties')
+def ks = new Properties()
+if (ksFile.exists()) {
+    ksFile.withInputStream { ks.load(it) }
+}
+
 android {
     enableKotlin = false
     namespace = 'dk.bearware.gui'
@@ -21,10 +27,29 @@ android {
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }
 
+    if (ksFile.exists()) {
+        signingConfigs {
+            release {
+                storeFile = rootProject.file(ks['storeFile'])
+                storePassword = ks['storePassword']
+                keyAlias = ks['keyAlias']
+                keyPassword = ks['keyPassword']
+            }
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled = false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (ksFile.exists()) {
+                signingConfig = signingConfigs.release
+            }
+        }
+        debug {
+            if (ks['signDebug']?.toBoolean()) {
+                signingConfig = signingConfigs.release
+            }
         }
     }
 
