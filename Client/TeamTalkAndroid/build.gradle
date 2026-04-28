@@ -54,7 +54,7 @@ android {
 
     sourceSets {
         main {
-            jniLibs.srcDirs = ['../../Library/TeamTalkJNI/libs']
+            jniLibs.srcDirs = [layout.buildDirectory.dir('jniLibs-staging')]
         }
     }
 
@@ -67,6 +67,17 @@ android {
     lint {
         disable 'MissingTranslation'
     }
+}
+
+tasks.register('syncJniLibs', Sync) {
+    from('../../Library/TeamTalkJNI/libs') {
+        include 'arm64-v8a/**', 'armeabi-v7a/**', 'x86/**', 'x86_64/**'
+    }
+    into layout.buildDirectory.dir('jniLibs-staging')
+}
+
+afterEvaluate {
+    tasks.named('preBuild').configure { dependsOn 'syncJniLibs' }
 }
 
 dependencies {
