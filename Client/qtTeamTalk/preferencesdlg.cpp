@@ -257,7 +257,7 @@ void PreferencesDlg::initDevices()
                                              TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL).toInt();
             QString uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
             if(m_sounddevices[i].nDeviceID == deviceid &&
-               _Q(m_sounddevices[i].szDeviceID) == uid)
+               getSoundDeviceUID(m_sounddevices[i]) == uid)
             {
                 sndsys = m_sounddevices[i].nSoundSystem;
                 break;
@@ -921,16 +921,16 @@ void PreferencesDlg::slotSaveChanges()
         for(int i=0;i<m_sounddevices.size();i++)
         {
             if(inputid == m_sounddevices[i].nDeviceID)
-                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID, 
-                                     _Q(m_sounddevices[i].szDeviceID));
+                ttSettings->setValue(SETTINGS_SOUND_INPUTDEVICE_UID,
+                                     getSoundDeviceUID(m_sounddevices[i]));
         }
 
         ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, "");
         for(int i=0;i<m_sounddevices.size();i++)
         {
             if(outputid == m_sounddevices[i].nDeviceID)
-                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID, 
-                                     _Q(m_sounddevices[i].szDeviceID));
+                ttSettings->setValue(SETTINGS_SOUND_OUTPUTDEVICE_UID,
+                                     getSoundDeviceUID(m_sounddevices[i]));
         }
 
         // reinit sound device if anything has changed

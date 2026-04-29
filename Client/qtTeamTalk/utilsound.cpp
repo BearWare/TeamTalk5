@@ -113,13 +113,24 @@ bool getSoundDevice(const QString& devid, bool input, const QVector<SoundDevice>
 
     for (auto d : devs)
     {
-        if ( _Q(d.szDeviceID) == devid && ((input && d.nMaxInputChannels > 0) || (!input && d.nMaxOutputChannels > 0)))
+        if (getSoundDeviceUID(d) == devid && ((input && d.nMaxInputChannels > 0) || (!input && d.nMaxOutputChannels > 0)))
         {
             dev = d;
             return true;
         }
     }
     return false;
+}
+
+QString getSoundDeviceUID(const SoundDevice& dev)
+{
+    // Some sound backends (notably ALSA-on-PipeWire) report an empty
+    // szDeviceID, in which case fall back to the human-readable
+    // szDeviceName so that user-selected devices can still be re-resolved
+    // across launches.
+    if (!_Q(dev.szDeviceID).isEmpty())
+        return _Q(dev.szDeviceID);
+    return _Q(dev.szDeviceName);
 }
 
 int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
