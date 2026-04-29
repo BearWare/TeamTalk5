@@ -160,18 +160,35 @@ void CTeamTalkDlg::EnableVoiceActivation(BOOL bEnable,
     PlaySoundEvent(bEnable? on :  off);
 }
 
+#if defined(ENABLE_PRISM)
+PrismContext* g_prismContext = nullptr;
+PrismBackend* g_prismBackend = nullptr;
+#endif
+
 void CTeamTalkDlg::EnableSpeech(BOOL bEnable)
 {
-#if defined(ENABLE_TOLK)
-    if(g_bSpeech)
+#if defined(ENABLE_PRISM)
+    if (g_prismBackend)
     {
-        Tolk_Unload();
+        prism_backend_free(g_prismBackend);
+        g_prismBackend = nullptr;
+    }
+    if (g_prismContext)
+    {
+        prism_shutdown(g_prismContext);
+        g_prismContext = nullptr;
     }
 
-    if(bEnable)
+    if (bEnable)
     {
-        Tolk_Load();
-        Tolk_TrySAPI(true);
+        PrismConfig cfg = prism_config_init();
+        g_prismContext = prism_init(&cfg);
+        if (g_prismContext)
+        {
+            g_prismBackend = prism_registry_create_best(g_prismContext);
+            if (g_prismBackend)
+                prism_backend_initialize(g_prismBackend);
+        }
     }
 #endif
     g_bSpeech = bEnable;
@@ -2970,9 +2987,16 @@ void CTeamTalkDlg::Exit()
 
 	//Close TeamTalk DLLs
 	TT_CloseTeamTalk(ttInst);
-#if defined(ENABLE_TOLK)
-	if (Tolk_IsLoaded()) {
-		Tolk_Unload();
+#if defined(ENABLE_PRISM)
+	if (g_prismBackend)
+	{
+		prism_backend_free(g_prismBackend);
+		g_prismBackend = nullptr;
+	}
+	if (g_prismContext)
+	{
+		prism_shutdown(g_prismContext);
+		g_prismContext = nullptr;
 	}
 #endif
 	m_xmlSettings.SaveFile();

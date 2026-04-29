@@ -69,7 +69,7 @@ ubuntu:
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
 ubuntu22:
-	$(MAKE) UBUNTUDIR=$@ ubuntu
+	$(MAKE) UBUNTUDIR=$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENT_PRISM=OFF" ubuntu
 
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
@@ -198,8 +198,10 @@ depend-ubuntu24:
 		g++ \
 		junit4 \
 		libasound2-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \
@@ -243,8 +245,10 @@ depend-raspios12:
 		git \
 		junit4 \
 		libasound2-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \

@@ -38,8 +38,8 @@
 #include "HttpRequest.h"
 #include "PlaySoundThread.h"
 
-#if defined(ENABLE_TOLK)
-#include <Tolk.h>
+#if defined(ENABLE_PRISM)
+#include <prism.h>
 #endif
 
 #include <vector>
