@@ -16,7 +16,6 @@
 		251997FA1EBA5FEF003C94B1 /* voiceact_on.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 251997F91EBA5FEF003C94B1 /* voiceact_on.mp3 */; };
 		2537133A1BC97D1200A7ADB3 /* Settings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 253713391BC97D1200A7ADB3 /* Settings.bundle */; };
 		254B7A4D1B98BAA300BE0DEF /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */; };
-		598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */; };
 		254B7A541B98BAA300BE0DEF /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A531B98BAA300BE0DEF /* Images.xcassets */; };
 		254B7A571B98BAA300BE0DEF /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 254B7A551B98BAA300BE0DEF /* LaunchScreen.xib */; };
 		254B7A631B98BAA400BE0DEF /* iTeamTalkTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254B7A621B98BAA400BE0DEF /* iTeamTalkTests.swift */; };
@@ -41,6 +40,7 @@
 		25E4DC331BF7360D00EC5A8C /* serverlost.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC301BF7360D00EC5A8C /* serverlost.mp3 */; };
 		25E4DC341BF7360D00EC5A8C /* user_message.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 25E4DC311BF7360D00EC5A8C /* user_message.mp3 */; };
 		25FFC2DB25ABA07E000334DC /* UtilTT.swift in Sources */ = {isa = PBXBuildFile; fileRef = 25FFC2DA25ABA07E000334DC /* UtilTT.swift */; };
+		598F236865BD42938957BDE2 /* iTeamTalkApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */; };
 		CC0003000000000000000001 /* AudioCodecModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000001 /* AudioCodecModel.swift */; };
 		CC0003000000000000000002 /* ChannelDetailModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000002 /* ChannelDetailModel.swift */; };
 		CC0003000000000000000003 /* ChannelListModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC0002000000000000000003 /* ChannelListModel.swift */; };
@@ -102,7 +102,6 @@
 		254B7A471B98BAA300BE0DEF /* iTeamTalk.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = iTeamTalk.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		254B7A4B1B98BAA300BE0DEF /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		254B7A4C1B98BAA300BE0DEF /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkApp.swift; sourceTree = "<group>"; };
 		254B7A531B98BAA300BE0DEF /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		254B7A561B98BAA300BE0DEF /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
 		254B7A5C1B98BAA400BE0DEF /* iTeamTalkTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = iTeamTalkTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -144,6 +143,7 @@
 		25ED9FE4265AD5A400127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/LaunchScreen.strings; sourceTree = "<group>"; };
 		25ED9FE6265AD5A700127B0E /* ar */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ar; path = ar.lproj/Localizable.strings; sourceTree = "<group>"; };
 		25FFC2DA25ABA07E000334DC /* UtilTT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UtilTT.swift; sourceTree = "<group>"; };
+		C4F4B78C0EB54A24B439A96D /* iTeamTalkApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iTeamTalkApp.swift; sourceTree = "<group>"; };
 		CC0002000000000000000001 /* AudioCodecModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioCodecModel.swift; sourceTree = "<group>"; };
 		CC0002000000000000000002 /* ChannelDetailModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelDetailModel.swift; sourceTree = "<group>"; };
 		CC0002000000000000000003 /* ChannelListModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChannelListModel.swift; sourceTree = "<group>"; };
@@ -244,46 +244,6 @@
 			path = iTeamTalk;
 			sourceTree = "<group>";
 		};
-		CC000001000000000000000001 /* Models */ = {
-			isa = PBXGroup;
-			children = (
-				CC0002000000000000000001 /* AudioCodecModel.swift */,
-				CC0002000000000000000002 /* ChannelDetailModel.swift */,
-				CC0002000000000000000003 /* ChannelListModel.swift */,
-				CC0002000000000000000004 /* MainTabModel.swift */,
-				CC0002000000000000000005 /* PreferencesModel.swift */,
-				CC0002000000000000000006 /* ServerDetailModel.swift */,
-				CC0002000000000000000007 /* ServerListModel.swift */,
-				CC0002000000000000000008 /* SoundDevicesModel.swift */,
-				CC0002000000000000000009 /* TextMessageModel.swift */,
-				CC000200000000000000000A /* UserDetailModel.swift */,
-				CC000200000000000000000B /* WebLoginModel.swift */,
-			);
-			path = Models;
-			sourceTree = "<group>";
-		};
-		CC000001000000000000000002 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				CC0004000000000000000001 /* AudioCodecView.swift */,
-				CC0004000000000000000002 /* ChannelDetailView.swift */,
-				CC0004000000000000000003 /* ChannelListView.swift */,
-				CC0004000000000000000004 /* MainTabView.swift */,
-				CC0004000000000000000005 /* PreferencesView.swift */,
-				CC0004000000000000000006 /* PublicServerView.swift */,
-				CC0004000000000000000007 /* ServerDetailView.swift */,
-				CC0004000000000000000008 /* ServerListView.swift */,
-				CC0004000000000000000009 /* SoundDevicesView.swift */,
-				CC000400000000000000000A /* SoundEventsView.swift */,
-				CC000400000000000000000B /* SpeechListView.swift */,
-				CC000400000000000000000D /* TextMessageView.swift */,
-				CC000400000000000000000E /* TextToSpeechEventsView.swift */,
-				CC000400000000000000000F /* UserDetailView.swift */,
-				CC0004000000000000000010 /* WebLoginView.swift */,
-			);
-			path = Views;
-			sourceTree = "<group>";
-		};
 		254B7A4A1B98BAA300BE0DEF /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -337,6 +297,46 @@
 			name = Sounds;
 			sourceTree = "<group>";
 		};
+		CC000001000000000000000001 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				CC0002000000000000000001 /* AudioCodecModel.swift */,
+				CC0002000000000000000002 /* ChannelDetailModel.swift */,
+				CC0002000000000000000003 /* ChannelListModel.swift */,
+				CC0002000000000000000004 /* MainTabModel.swift */,
+				CC0002000000000000000005 /* PreferencesModel.swift */,
+				CC0002000000000000000006 /* ServerDetailModel.swift */,
+				CC0002000000000000000007 /* ServerListModel.swift */,
+				CC0002000000000000000008 /* SoundDevicesModel.swift */,
+				CC0002000000000000000009 /* TextMessageModel.swift */,
+				CC000200000000000000000A /* UserDetailModel.swift */,
+				CC000200000000000000000B /* WebLoginModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		CC000001000000000000000002 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				CC0004000000000000000001 /* AudioCodecView.swift */,
+				CC0004000000000000000002 /* ChannelDetailView.swift */,
+				CC0004000000000000000003 /* ChannelListView.swift */,
+				CC0004000000000000000004 /* MainTabView.swift */,
+				CC0004000000000000000005 /* PreferencesView.swift */,
+				CC0004000000000000000006 /* PublicServerView.swift */,
+				CC0004000000000000000007 /* ServerDetailView.swift */,
+				CC0004000000000000000008 /* ServerListView.swift */,
+				CC0004000000000000000009 /* SoundDevicesView.swift */,
+				CC000400000000000000000A /* SoundEventsView.swift */,
+				CC000400000000000000000B /* SpeechListView.swift */,
+				CC000400000000000000000D /* TextMessageView.swift */,
+				CC000400000000000000000E /* TextToSpeechEventsView.swift */,
+				CC000400000000000000000F /* UserDetailView.swift */,
+				CC0004000000000000000010 /* WebLoginView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -384,9 +384,10 @@
 		254B7A3F1B98BAA300BE0DEF /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftMigration = 0710;
 				LastSwiftUpdateCheck = 0710;
-				LastUpgradeCheck = 1220;
+				LastUpgradeCheck = 2640;
 				ORGANIZATIONNAME = BearWare.dk;
 				TargetAttributes = {
 					254B7A461B98BAA300BE0DEF = {
@@ -624,6 +625,7 @@
 				ENABLE_BITCODE = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -643,6 +645,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -684,6 +687,7 @@
 				ENABLE_BITCODE = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -695,6 +699,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -726,7 +731,7 @@
 					../../Library/TeamTalk_DLL/,
 				);
 				MARKETING_VERSION = 5.22;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscopiTeamTalk5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscop.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -758,7 +763,7 @@
 					../../Library/TeamTalk_DLL/,
 				);
 				MARKETING_VERSION = 5.22;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscopiTeamTalk5;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gruiachiscop.iTeamTalk5;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
