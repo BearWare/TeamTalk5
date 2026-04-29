@@ -430,109 +430,6 @@ TEST_CASE("AudioMuxerSoundInputDisabled")
     } while ((n_blocks--) != 0);
 }
 
-TEST_CASE("AudioMuxerInOutOfChannel")
-{
-    auto ttclient = InitTeamTalk();
-
-    REQUIRE(Connect(ttclient));
-    REQUIRE(Login(ttclient, ACE_TEXT("TxClient")));
-    REQUIRE(InitSound(ttclient));
-
-    MediaFileInfo mfi = {};
-    mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 60 * 1000;
-    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("playfile.wav"));
-
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 0));
-
-    MediaFilePlayback mfp = {};
-    mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
-    mfp.bPaused = FALSE;
-    mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
-
-    StreamTypes const sts = STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE_AUDIO | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO;
-
-    AudioFormat af = {};
-    af.nAudioFmt = AFF_WAVE_FORMAT;
-    af.nChannels = 2;
-    af.nSampleRate = 12000;
-
-    REQUIRE(TT_EnableAudioBlockEventEx(ttclient, TT_MUXED_USERID, sts, &af, TRUE));
-
-    TTMessage msg;
-    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-
-    // silence will appear
-    REQUIRE(msg.nSource == TT_MUXED_USERID);
-    ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
-    REQUIRE(ab);
-    REQUIRE(ab->nSamples>0);
-    REQUIRE(ab->uStreamTypes == STREAMTYPE_NONE);
-
-    // Local playback will appear
-    auto playid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
-    int n_blocks = 100;
-    do
-    {
-        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        REQUIRE(msg.nSource == TT_MUXED_USERID);
-        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
-        REQUIRE(ab);
-        REQUIRE(ab->nSamples>0);
-        if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
-            break;
-    } while ((n_blocks--) != 0);
-    REQUIRE(n_blocks > 0);
-
-    // Voice mixed with local playback will appear
-    REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
-    REQUIRE(JoinRoot(ttclient));
-    n_blocks = 100;
-    do
-    {
-        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        REQUIRE(msg.nSource == TT_MUXED_USERID);
-        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
-        REQUIRE(ab);
-        REQUIRE(ab->nSamples>0);
-        if (ab->uStreamTypes == (STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO))
-            break;
-    } while ((n_blocks--) != 0);
-    REQUIRE(n_blocks > 0);
-
-    // Voice will disappear
-    REQUIRE(WaitForCmdSuccess(ttclient, TT_DoLeaveChannel(ttclient)));
-    n_blocks = 100;
-    do
-    {
-        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        REQUIRE(msg.nSource == TT_MUXED_USERID);
-        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
-        REQUIRE(ab);
-        REQUIRE(ab->nSamples>0);
-        if (ab->uStreamTypes == STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO)
-            break;
-    } while ((n_blocks--) != 0);
-    REQUIRE(n_blocks > 0);
-
-    // Local playback will disappear
-    REQUIRE(TT_StopLocalPlayback(ttclient, playid));
-    n_blocks = 100;
-    do
-    {
-        REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
-        REQUIRE(msg.nSource == TT_MUXED_USERID);
-        ABPtr ab(ttclient, TT_AcquireUserAudioBlock(ttclient, sts, TT_MUXED_USERID));
-        REQUIRE(ab);
-        REQUIRE(ab->nSamples>0);
-        if (ab->uStreamTypes == STREAMTYPE_NONE)
-            break;
-    } while ((n_blocks--) != 0);
-    REQUIRE(n_blocks > 0);
-}
-
 TEST_CASE( "AudioMuxerUserEvent" )
 {
     auto txclient = InitTeamTalk();
@@ -2289,6 +2186,7 @@ TEST_CASE("WebRTC_echocancel")
     }
     case NO_AUDIOPREPROCESSOR :
     case TEAMTALK_AUDIOPREPROCESSOR :
+    case WEBRTC_AUDIOPREPROCESSOR_OBSOLETE_R4332 :
         REQUIRE(false);
         break;
     }

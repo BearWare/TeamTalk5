@@ -26,8 +26,8 @@
 
 #include "settings/ClientXML.h"
 
-#if defined(ENABLE_TOLK)
-#include <Tolk.h>
+#if defined(ENABLE_PRISM)
+#include <prism.h>
 #endif
 
 typedef struct

@@ -91,7 +91,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     customvideofmtdlg.h license.h bearwarelogindlg.h
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
-    utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
+    utilsound.h utilvideo.h utiltts.h prismworker.h utilui.h utilhotkey.h
     serverlogeventsmodel.h textmessagecontainer.h
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
     utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h
@@ -113,7 +113,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
-    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
+    utilsound.cpp utilvideo.cpp utiltts.cpp prismworker.cpp utilui.cpp utilhotkey.cpp
     serverlogeventsmodel.cpp textmessagecontainer.cpp
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
@@ -166,9 +166,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK "Build Qt TeamTalk client example" ON)
 
-  if (BUILD_TEAMTALK_CLIENT_TOLK)
-    list (APPEND TEAMTALK_LINK_FLAGS Tolk)
-    install (FILES ${TOLK_DLL_FILES} DESTINATION Client/qtTeamTalk)
+  if (BUILD_TEAMTALK_CLIENT_PRISM)
+    list (APPEND TEAMTALK_LINK_FLAGS Prism)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -260,10 +259,12 @@ if (Qt5_FOUND OR Qt6_FOUND)
       endif()
     endif()
 
-    if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
-    elseif (MSVC)
+    if (MSVC)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
+    endif()
+
+    if (BUILD_TEAMTALK_CLIENT_PRISM)
+      target_compile_definitions(${TEAMTALK_TARGET} PUBLIC ENABLE_PRISM)
     endif()
 
     # Build translations

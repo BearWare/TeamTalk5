@@ -1,11 +1,11 @@
 project (TeamTalkClients)
 
-if (MSVC)
+option (BUILD_TEAMTALK_CLIENT_PRISM "Build TeamTalk clients with Prism screen reader support" ON)
+if (BUILD_TEAMTALK_CLIENT_PRISM)
+  add_subdirectory (Prism)
+endif()
 
-  option (BUILD_TEAMTALK_CLIENT_TOLK "Build TeamTalk clients with Tolk" ON)
-  if (BUILD_TEAMTALK_CLIENT_TOLK)
-    add_subdirectory (Tolk)
-  endif()
+if (MSVC)
 
   add_subdirectory (TeamTalkClassic)
   if (CMAKE_CSharp_COMPILER)

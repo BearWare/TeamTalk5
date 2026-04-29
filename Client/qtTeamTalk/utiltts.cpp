@@ -16,6 +16,7 @@
  */
 
 #include "utiltts.h"
+#include "prismworker.h"
 #include "settings.h"
 #include "common.h"
 #include "appinfo.h"
@@ -40,6 +41,9 @@ extern QTextToSpeech* ttSpeech;
 #endif
 #if QT_VERSION >= QT_VERSION_CHECK(6,8,0)
 extern QObject* announcerObject;
+#endif
+#if defined(ENABLE_PRISM)
+extern PrismWorker* prismWorker;
 #endif
 
 extern NonDefaultSettings* ttSettings;
@@ -97,22 +101,26 @@ void addTextToSpeechMessage(const QString& msg)
         ttSpeech->say(msg);
 #endif
         break;
-    case TTSENGINE_TOLK:
-#if defined(ENABLE_TOLK)
-        Tolk_PreferSAPI(ttSettings->value(SETTINGS_TTS_SAPI, SETTINGS_TTS_SAPI_DEFAULT).toBool());
-        Tolk_TrySAPI(ttSettings->value(SETTINGS_TTS_TRY_SAPI, SETTINGS_TTS_TRY_SAPI_DEFAULT).toBool());
-        switch (ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt())
+    case TTSENGINE_PRISM:
+#if defined(ENABLE_PRISM)
+    {
+        if (prismWorker)
         {
+            bool interrupt = ttSettings->value(SETTINGS_TTS_INTERRUPT, SETTINGS_TTS_INTERRUPT_DEFAULT).toBool();
+            switch (ttSettings->value(SETTINGS_TTS_OUTPUT_MODE, SETTINGS_TTS_OUTPUT_MODE_DEFAULT).toInt())
+            {
             case TTS_OUTPUTMODE_BRAILLE:
-                Tolk_Braille(_W(msg));
+                QMetaObject::invokeMethod(prismWorker, "braille", Qt::QueuedConnection, Q_ARG(QString, msg));
                 break;
             case TTS_OUTPUTMODE_SPEECH:
-                Tolk_Speak(_W(msg));
+                QMetaObject::invokeMethod(prismWorker, "speak", Qt::QueuedConnection, Q_ARG(QString, msg), Q_ARG(bool, interrupt));
                 break;
             case TTS_OUTPUTMODE_SPEECHBRAILLE:
-                Tolk_Output(_W(msg));
+                QMetaObject::invokeMethod(prismWorker, "output", Qt::QueuedConnection, Q_ARG(QString, msg), Q_ARG(bool, interrupt));
                 break;
+            }
         }
+    }
 #endif
         break;
     case TTSENGINE_QTANNOUNCEMENT:
@@ -157,13 +165,28 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
 bool isScreenReaderActive()
 {
     bool SRActive = false;
-#if defined(ENABLE_TOLK)
-    bool tolkLoaded = Tolk_IsLoaded();
-    if (!tolkLoaded)
-        Tolk_Load();
-    SRActive = Tolk_DetectScreenReader() != nullptr;
-    if (!tolkLoaded)
-        Tolk_Unload();
+#if defined(ENABLE_PRISM)
+    PrismConfig cfg = prism_config_init();
+    PrismContext* ctx = prism_init(&cfg);
+    if (ctx)
+    {
+        size_t count = prism_registry_count(ctx);
+        for (size_t i = 0; i < count; i++)
+        {
+            PrismBackendId id = prism_registry_id_at(ctx, i);
+            PrismBackend* backend = prism_registry_get(ctx, id);
+            if (backend)
+            {
+                uint64_t features = prism_backend_get_features(backend);
+                if (features & PRISM_BACKEND_IS_SUPPORTED_AT_RUNTIME)
+                {
+                    SRActive = true;
+                    break;
+                }
+            }
+        }
+        prism_shutdown(ctx);
+    }
 #elif defined(Q_OS_LINUX)
     QDBusInterface interface("org.a11y.Bus", "/org/a11y/bus", "org.a11y.Status", QDBusConnection::sessionBus());
     if (interface.isValid())
