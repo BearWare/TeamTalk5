@@ -59,7 +59,7 @@ struct TextMessageView: View {
                         .focused($isComposing)
                         .frame(minHeight: 40, maxHeight: 96)
                         .textInputAutocapitalization(.sentences)
-                        .accessibilityLabel("Send empty message to close keyboard")
+                        .accessibilityLabel("Message)")
                         .onChange(of: model.composedText) { text in
                             sendOnReturnIfNeeded(text)
                         }
@@ -72,6 +72,7 @@ struct TextMessageView: View {
                             .allowsHitTesting(false)
                     }
                 }
+                .accessibilityElement(children: .combine)
 
                 Button("Send") {
                     if model.composedText.isEmpty {

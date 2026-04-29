@@ -22,7 +22,6 @@
  */
 
 import SwiftUI
-import UIKit
 
 struct MainTabView: View {
     @ObservedObject var model: MainTabModel
