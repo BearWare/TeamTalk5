@@ -59,7 +59,7 @@ struct TextMessageView: View {
                         .focused($isComposing)
                         .frame(minHeight: 40, maxHeight: 96)
                         .textInputAutocapitalization(.sentences)
-                        .accessibilityLabel("Message)")
+                        .accessibilityLabel("Message")
                         .onChange(of: model.composedText) { text in
                             sendOnReturnIfNeeded(text)
                         }
@@ -70,10 +70,9 @@ struct TextMessageView: View {
                             .padding(.horizontal, 5)
                             .padding(.vertical, 8)
                             .allowsHitTesting(false)
+                            .accessibilityHidden(true)
                     }
                 }
-                .accessibilityElement(children: .combine)
-
                 Button("Send") {
                     if model.composedText.isEmpty {
                         isComposing = false

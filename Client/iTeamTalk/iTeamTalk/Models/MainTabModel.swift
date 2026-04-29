@@ -310,7 +310,9 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
 
         case CLIENTEVENT_CMD_ERROR:
             if m.nSource == cmdid {
-                alertMessage = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+                fatalAlertMessage = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
+                reconnecttimer?.invalidate()
+                TeamTalkClient.shared.disconnect()
             }
 
         case CLIENTEVENT_CMD_USER_LOGGEDIN:

@@ -507,36 +507,35 @@ final class ChannelListModel: ObservableObject {
     // MARK: - Command completion
 
     func commandComplete(_ active_cmdid: INT32) {
-        guard let cmd = activeCommands[active_cmdid] else { return }
-
-        switch cmd {
-        case .loginCmd:
-            if TeamTalkClient.shared.isAuthorized {
-                if rejoinchannel.nChannelID > 0 {
-                    let passwd = chanpasswds[rejoinchannel.nChannelID]
-                        ?? TeamTalkString.channel(.password, from: rejoinchannel)
-                    if chanpasswds[rejoinchannel.nChannelID] == nil {
-                        chanpasswds[rejoinchannel.nChannelID] = passwd
+        if let cmd = activeCommands[active_cmdid] {
+            switch cmd {
+            case .loginCmd:
+                if TeamTalkClient.shared.isAuthorized {
+                    if rejoinchannel.nChannelID > 0 {
+                        let passwd = chanpasswds[rejoinchannel.nChannelID]
+                            ?? TeamTalkString.channel(.password, from: rejoinchannel)
+                        if chanpasswds[rejoinchannel.nChannelID] == nil {
+                            chanpasswds[rejoinchannel.nChannelID] = passwd
+                        }
+                        TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd)
+                        cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
+                        activeCommands[cmdid] = .joinCmd
+                    } else if !TeamTalkString.channel(.name, from: rejoinchannel).isEmpty {
+                        let passwd = TeamTalkString.channel(.password, from: rejoinchannel)
+                        TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd)
+                        cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
+                        activeCommands[cmdid] = .joinCmd
+                    } else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil
+                        || UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
+                        cmdid = TeamTalkClient.shared.joinChannel(id: TeamTalkClient.shared.rootChannelID)
+                        activeCommands[cmdid] = .joinCmd
                     }
-                    TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd)
-                    cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
-                    activeCommands[cmdid] = .joinCmd
-                } else if !TeamTalkString.channel(.name, from: rejoinchannel).isEmpty {
-                    let passwd = TeamTalkString.channel(.password, from: rejoinchannel)
-                    TeamTalkString.setChannel(.password, on: &rejoinchannel, to: passwd)
-                    cmdid = TeamTalkClient.shared.join(channel: &rejoinchannel)
-                    activeCommands[cmdid] = .joinCmd
-                } else if UserDefaults.standard.object(forKey: PREF_JOINROOTCHANNEL) == nil
-                    || UserDefaults.standard.bool(forKey: PREF_JOINROOTCHANNEL) {
-                    cmdid = TeamTalkClient.shared.joinChannel(id: TeamTalkClient.shared.rootChannelID)
-                    activeCommands[cmdid] = .joinCmd
                 }
+            case .kickCmd, .joinCmd, .banCmd, .moveCmd:
+                break
             }
-        case .kickCmd, .joinCmd, .banCmd, .moveCmd:
-            break
+            activeCommands.removeValue(forKey: active_cmdid)
         }
-
-        activeCommands.removeValue(forKey: active_cmdid)
         refreshChannelList()
     }
 
@@ -596,7 +595,7 @@ extension ChannelListModel: TeamTalkEvent {
             }
 
         case CLIENTEVENT_CMD_ERROR:
-            if activeCommands[m.nSource] != nil {
+            if let cmd = activeCommands[m.nSource], cmd != .loginCmd {
                 errorMessage = TeamTalkString.clientError(TeamTalkMessagePayload.clientError(from: m))
             }
 
