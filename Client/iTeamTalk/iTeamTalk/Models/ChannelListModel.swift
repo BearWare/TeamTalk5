@@ -179,8 +179,8 @@ final class ChannelListModel: ObservableObject {
         let isTalking = user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
             (TeamTalkClient.shared.myUserID == user.nUserID && TeamTalkClient.shared.isVoiceTransmitting)
         let iconName = isTalking
-            ? (female ? "woman_green.png" : "man_green.png")
-            : (female ? "woman_blue.png" : "man_blue.png")
+            ? (female ? "woman_green" : "man_green")
+            : (female ? "woman_blue" : "man_blue")
         let iconAccessibilityLabel = isTalking
             ? String(localized: "Talking", comment: "channel list")
             : String(localized: "Silent", comment: "channel list")
@@ -204,7 +204,7 @@ final class ChannelListModel: ObservableObject {
             : String(localized: "View", comment: "channel list")
 
         if curchannel.nChannelID == 0 {
-            let iconName = channel.bPassword != 0 ? "channel_pink.png" : "channel_orange.png"
+            let iconName = channel.bPassword != 0 ? "channel_pink" : "channel_orange"
             let iconLabel = channel.bPassword != 0
                 ? String(localized: "Password protected", comment: "channel list")
                 : String(localized: "No password", comment: "channel list")
@@ -225,7 +225,7 @@ final class ChannelListModel: ObservableObject {
             return ChannelDisplayDetails(
                 title: String(localized: "Parent channel", comment: "channel list"),
                 subtitle: subtitle,
-                iconName: "back_orange.png",
+                iconName: "back_orange",
                 iconAccessibilityLabel: String(localized: "Return to previous channel", comment: "channel list"),
                 actionTitle: actionTitle,
                 isParent: true
@@ -233,7 +233,7 @@ final class ChannelListModel: ObservableObject {
         }
 
         let userCount = getUsersCount(channel.nChannelID)
-        let iconName = channel.bPassword != 0 ? "channel_pink.png" : "channel_orange.png"
+        let iconName = channel.bPassword != 0 ? "channel_pink" : "channel_orange"
         let iconLabel = String(format: String(localized: "Channel. %d users", comment: "channel list"), userCount)
         return ChannelDisplayDetails(
             title: TeamTalkString.channel(.name, from: channel) + " (\(userCount))",
