@@ -88,7 +88,7 @@ final class ChannelDetailModel: ObservableObject {
 
     func joinChannelPressed() {
         if channel.bPassword == TRUE {
-            joinPassword = passwordText
+            //joinPassword = passwordText
             showingJoinAlert = true
         } else {
             cmdid = TeamTalkClient.shared.joinChannel(id: channel.nChannelID)
