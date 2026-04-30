@@ -277,7 +277,7 @@ final class ChannelListModel: ObservableObject {
     func joinNewChannel(_ channel: Channel) {
         if channel.bPassword == TRUE {
             joiningChannel = channel
-            joinPassword = TeamTalkString.channel(.password, from: channel)
+            //joinPassword = TeamTalkString.channel(.password, from: channel)
             showingJoinPasswordAlert = true
         } else {
             cmdid = TeamTalkClient.shared.joinChannel(id: channel.nChannelID)
