@@ -43,6 +43,7 @@ jobs:
       with:
         languages: c-cpp
         build-mode: manual
+        config-file: ./.github/codeql-config.yml
 
     - name: Set up Java
       uses: actions/setup-java@v5
