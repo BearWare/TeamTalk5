@@ -168,6 +168,8 @@ void initDefaultAudioCodec(AudioCodec& audiocodec)
         audiocodec.opus.bDTX = DEFAULT_OPUS_DTX;
         audiocodec.opus.bFEC = DEFAULT_OPUS_FEC;
         audiocodec.opus.nBitRate = DEFAULT_OPUS_BITRATE;
+        audiocodec.opus.bEnableDRED = DEFAULT_OPUS_DRED;
+        audiocodec.opus.bEnableOSCE = DEFAULT_OPUS_OSCE;
         break;
     default :
         audiocodec.nCodec = NO_CODEC;

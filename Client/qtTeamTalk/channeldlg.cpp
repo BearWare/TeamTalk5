@@ -163,6 +163,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
     ui.opus_txdelaySpinBox->setValue(DEFAULT_OPUS_DELAY);
     ui.opus_vbrCheckBox->setChecked(DEFAULT_OPUS_VBR);
     setCurrentItemData(ui.opus_framesizeComboBox, DEFAULT_OPUS_FRAMESIZE);
+    ui.opus_dredBox->setChecked(DEFAULT_OPUS_DRED);
+    ui.opus_osceBox->setChecked(DEFAULT_OPUS_OSCE);
     ui.opus_framesizeComboBox->setAccessibleName(QString("%1 %2 %3").arg(ui.label_6->text()).arg(ui.opus_framesizeComboBox->currentText()).arg(ui.label_10->text()));
 
     switch(type)
@@ -272,6 +274,8 @@ ChannelDlg::ChannelDlg(ChannelDlgType type, const Channel& chan, QWidget * paren
         ui.opus_dtxBox->setChecked(m_channel.audiocodec.opus.bDTX);
         ui.opus_txdelaySpinBox->setValue(m_channel.audiocodec.opus.nTxIntervalMSec);
         setCurrentItemData(ui.opus_framesizeComboBox, m_channel.audiocodec.opus.nFrameSizeMSec);
+        ui.opus_dredBox->setChecked(m_channel.audiocodec.opus.bEnableDRED);
+        ui.opus_osceBox->setChecked(m_channel.audiocodec.opus.bEnableOSCE);
         break;
     default :
         break;
@@ -372,6 +376,8 @@ Channel ChannelDlg::GetChannel() const
         newchannel.audiocodec.opus.bVBRConstraint = DEFAULT_OPUS_VBRCONSTRAINT;
         newchannel.audiocodec.opus.nTxIntervalMSec = ui.opus_txdelaySpinBox->value();
         newchannel.audiocodec.opus.nFrameSizeMSec = getCurrentItemData(ui.opus_framesizeComboBox).toInt();
+        newchannel.audiocodec.opus.bEnableDRED = ui.opus_dredBox->isChecked();
+        newchannel.audiocodec.opus.bEnableOSCE = ui.opus_osceBox->isChecked();
         break;
     default :
         break;

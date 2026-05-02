@@ -44,6 +44,8 @@ class AudioCodecViewController : UITableViewController {
     var opus_bitrateSlider: UISlider?
     var opus_bitrateCell : UITableViewCell?
     var opus_vbrSwitch : UISwitch?
+    var opus_dredSwitch : UISwitch?
+    var opus_osceSwitch : UISwitch?
     var opus_framesizeStepper: UIStepper?
     var opus_framesizeCell : UITableViewCell?
     var opus_txintervalStepper: UIStepper?
@@ -148,6 +150,14 @@ class AudioCodecViewController : UITableViewController {
         opus_dtxSwitch = newTableCellSwitch(opus_dtxcell, label: NSLocalizedString("DTX", comment:"codec detail"), initial: opuscodec.bDTX != 0)
         opus_items.append(opus_dtxcell)
         
+        let opus_dredcell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        opus_dredSwitch = newTableCellSwitch(opus_dredcell, label: NSLocalizedString("AI Packet Loss Recovery (DRED)", comment: "codec detail"), initial: opuscodec.bEnableDRED == TRUE)
+        opus_items.append(opus_dredcell)
+
+        let opus_oscecell = UITableViewCell(style: .default, reuseIdentifier: nil)
+        opus_osceSwitch = newTableCellSwitch(opus_oscecell, label: NSLocalizedString("AI Speech Enhancement (OSCE)", comment: "codec detail"), initial: opuscodec.bEnableOSCE == TRUE)
+        opus_items.append(opus_oscecell)
+
         opus_framesizeCell = UITableViewCell(style: .subtitle, reuseIdentifier: nil)
         opus_framesizeStepper = newTableCellStepper(opus_framesizeCell!, label: NSLocalizedString("Frame Size", comment:"codec detail"),
                                                     min: 0, max: Double(OPUS_REALMAX_FRAMESIZE), step: 5, initial: Double(opuscodec.nFrameSizeMSec))
@@ -221,6 +231,8 @@ class AudioCodecViewController : UITableViewController {
         opuscodec.nTxIntervalMSec = Int32(opus_txintervalStepper!.value)
         opuscodec.bDTX = (opus_dtxSwitch!.isOn ? TRUE : FALSE)
         opuscodec.bVBR = (opus_vbrSwitch!.isOn ? TRUE : FALSE)
+        opuscodec.bEnableDRED = (opus_dredSwitch!.isOn ? TRUE : FALSE)
+        opuscodec.bEnableOSCE = (opus_osceSwitch!.isOn ? TRUE : FALSE)
         opuscodec.nFrameSizeMSec = Int32(opus_framesizeStepper!.value)
     }
     

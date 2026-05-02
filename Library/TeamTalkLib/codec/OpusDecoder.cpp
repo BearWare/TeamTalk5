@@ -62,6 +62,15 @@ void OpusDecode::Reset()
     }
 }
 
+bool OpusDecode::SetComplexity(int complex)
+{
+    if (m_decoder == nullptr)
+        return false;
+
+    int const err = opus_decoder_ctl(m_decoder, OPUS_SET_COMPLEXITY(complex));
+    return err == OPUS_OK;
+}
+
 int OpusDecode::Decode(const char* input_buffer, int input_bufsize, 
                        short* output_buffer, int output_samples)
 {

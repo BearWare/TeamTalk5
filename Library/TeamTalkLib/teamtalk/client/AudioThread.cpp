@@ -131,7 +131,8 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
            !m_opus->SetDTX(codec.opus.dtx) ||
            !m_opus->SetBitrate(codec.opus.bitrate) ||
            !m_opus->SetVBR(codec.opus.vbr) ||
-           !m_opus->SetVBRConstraint(codec.opus.vbr_constraint))
+           !m_opus->SetVBRConstraint(codec.opus.vbr_constraint) ||
+           !m_opus->SetDREDDuration(codec.opus.enable_dred ? 100 : 0))
         {
             StopEncoder();
             return false;
