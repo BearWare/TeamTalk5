@@ -23,6 +23,7 @@
 
 import UIKit
 import Foundation
+import TeamTalkKit
 
 enum StatusMode : UInt {
     case STATUSMODE_AVAILABLE   = 0x00000000,
@@ -120,9 +121,6 @@ func getXMLPath(elementStack : [String]) -> String {
     return path
 }
 
-//shared TTInstance between all view controllers
-var ttInst : UnsafeMutableRawPointer? = nil
-
 // messages received but no read (blinking)
 var unreadmessages = Set<INT32>()
 
@@ -140,9 +138,9 @@ let DEFAULT_POPUP_TEXTMESSAGE = true
 let DEFAULT_LIMIT_TEXT = 25
 
 func userCacheID(user: User) -> String {
-    let username = getUser(user, strprop: USERNAME)
+    let username = TeamTalkString.user(.username, from: user)
     if username.hasSuffix(AppInfo.WEBLOGIN_BEARWARE_USERNAMEPOSTFIX) {
-        return username + "|" + getUser(user, strprop: CLIENTNAME)
+        return username + "|" + TeamTalkString.user(.clientName, from: user)
     }
     return ""
 }
@@ -169,17 +167,17 @@ class UserCached {
     }
     
     func sync(user: User) {
-        TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceMute ? TRUE : FALSE)
-        TT_SetUserMute(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaMute ? TRUE : FALSE)
-        TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceVolume)
-        TT_SetUserVolume(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaVolume)
-        TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_VOICE, voiceLeftSpeaker, voiceRightSpeaker)
-        TT_SetUserStereo(ttInst, user.nUserID, STREAMTYPE_MEDIAFILE_AUDIO, mediaLeftSpeaker, mediaRightSpeaker)
+        TeamTalkClient.shared.setUserMute(userID: user.nUserID, stream: STREAMTYPE_VOICE, muted: voiceMute)
+        TeamTalkClient.shared.setUserMute(userID: user.nUserID, stream: STREAMTYPE_MEDIAFILE_AUDIO, muted: mediaMute)
+        TeamTalkClient.shared.setUserVolume(userID: user.nUserID, stream: STREAMTYPE_VOICE, volume: voiceVolume)
+        TeamTalkClient.shared.setUserVolume(userID: user.nUserID, stream: STREAMTYPE_MEDIAFILE_AUDIO, volume: mediaVolume)
+        TeamTalkClient.shared.setUserStereo(userID: user.nUserID, stream: STREAMTYPE_VOICE, leftSpeaker: voiceLeftSpeaker, rightSpeaker: voiceRightSpeaker)
+        TeamTalkClient.shared.setUserStereo(userID: user.nUserID, stream: STREAMTYPE_MEDIAFILE_AUDIO, leftSpeaker: mediaLeftSpeaker, rightSpeaker: mediaRightSpeaker)
         if subscriptions != user.uLocalSubscriptions {
-            TT_DoUnsubscribe(ttInst, user.nUserID, user.uLocalSubscriptions ^ subscriptions)
-            TT_DoSubscribe(ttInst, user.nUserID, subscriptions)
+            TeamTalkClient.shared.unsubscribe(userID: user.nUserID, subscriptions: user.uLocalSubscriptions ^ subscriptions)
+            TeamTalkClient.shared.subscribe(userID: user.nUserID, subscriptions: subscriptions)
         }
-        TT_PumpMessage(ttInst, CLIENTEVENT_USER_STATECHANGE, user.nUserID)
+        TeamTalkClient.shared.pump(CLIENTEVENT_USER_STATECHANGE, source: user.nUserID)
     }
 }
 
@@ -201,7 +199,7 @@ func syncToUserCache(user: User) {
 
 var userCache = [String : UserCached]()
 
-let DEFAULT_NICKNAME = NSLocalizedString("Noname", comment: "default nickname")
+let DEFAULT_NICKNAME = String(localized: "Noname", comment: "default nickname")
 
 func within<T : Comparable>(_ min_v: T, max_v: T, value: T) -> T {
     if value < min_v {

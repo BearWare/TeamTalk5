@@ -26,6 +26,7 @@ import XCTest
 import iTeamTalk
 import AVFoundation
 import Foundation
+import TeamTalkKit
 
 class iTeamTalkTests: XCTestCase {
     
@@ -657,7 +658,7 @@ class iTeamTalkTests: XCTestCase {
         
         var msg = TTMessage()
         while waitForEvent(ttInst, e: CLIENTEVENT_CMD_PROCESSING, waittimeout: waittimeout, msg: &msg)  {
-            if msg.nSource == cmdid && getTTBOOL(&msg) == 0 {
+            if msg.nSource == cmdid && TTKitMessageActiveFlag(&msg) == 0 {
                 return true
             }
         }
