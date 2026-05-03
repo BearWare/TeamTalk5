@@ -1,4 +1,4 @@
 name: "TeamTalk5 CodeQL config"
 
 paths-ignore:
-  - Build/build-*
+  - Build/build-*/**
