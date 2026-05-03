@@ -2,7 +2,7 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.22.1, unreleased
+Version 5.23, unreleased
 Default Qt Client
 - Replaced Tolk with Prism for screen reader support
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
