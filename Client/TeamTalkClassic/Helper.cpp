@@ -644,8 +644,12 @@ extern BOOL g_bSpeech;
 
 void AddTextToSpeechMessage(const CString& szMsg)
 {
-#if defined(ENABLE_TOLK)
-    if(g_bSpeech)
-        Tolk_Output(szMsg);
+#if defined(ENABLE_PRISM)
+    extern PrismBackend* g_prismBackend;
+    if (g_bSpeech && g_prismBackend)
+    {
+        CStringA utf8(szMsg);
+        prism_backend_output(g_prismBackend, utf8, true);
+    }
 #endif
 }

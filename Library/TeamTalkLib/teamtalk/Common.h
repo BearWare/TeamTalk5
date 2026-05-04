@@ -492,12 +492,12 @@ namespace teamtalk {
 
     struct VideoCodec
     {
-        Codec codec;
+        Codec codec{CODEC_NO_CODEC};
         union
         {
             WebMVP8Codec webm_vp8;
         };
-        VideoCodec() : webm_vp8(), codec(CODEC_NO_CODEC)
+        VideoCodec() : webm_vp8()
         {
             
         }

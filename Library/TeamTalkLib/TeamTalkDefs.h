@@ -24,9 +24,9 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
-#define TEAMTALK_VERSION            "5.21.2.5188"
-#define TEAMTALK_RC_VERSION         5,21,2,5188
-#define TEAMTALK_RC_FILEVERSION     "5, 21, 2, 5188"
+#define TEAMTALK_VERSION            "5.23.0.5200"
+#define TEAMTALK_RC_VERSION         5,23,0,5200
+#define TEAMTALK_RC_FILEVERSION     "5, 23, 0, 5200"
 #define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
 #if defined(ENABLE_TEAMTALKPRO)
@@ -38,6 +38,7 @@
 #else
 #define TEAMTALK_LIB_NAME "TeamTalk5"
 #endif
+constexpr auto TEAMTALK_SDK_URL = "https://www.bearware.dk/teamtalksdk/tt5sdk.php?";
 
 constexpr auto TT_MAX_ID = 0xFFE;
 constexpr auto USER_TIMEOUT = 60; //secs before disconnecting users without keepalive (60 seconds)

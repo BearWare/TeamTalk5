@@ -1,21 +1,63 @@
-buildscript {
-    repositories {
-        google()
-        mavenCentral()
-    }
-
-    dependencies {
-        classpath 'com.android.tools.build:gradle:8.13.2'
-    }
+plugins {
+    alias(libs.plugins.android.application)
 }
 
-apply plugin: 'com.android.application'
+def ksFile = rootProject.file('keystore.properties')
+def ks = new Properties()
+if (ksFile.exists()) {
+    ksFile.withInputStream { ks.load(it) }
+}
 
 android {
+    enableKotlin = false
     namespace = 'dk.bearware.gui'
-    compileSdk = 36
-    buildToolsVersion = '36.1.0'
+    compileSdk {
+        version = release(37)
+    }
+    buildToolsVersion = '37.0.0'
     ndkVersion = '29.0.14206865'
+
+    defaultConfig {
+        applicationId = 'dk.bearware.gui'
+        minSdk = 21
+        targetSdk = 37
+        versionCode = 150
+        versionName = '5.22'
+
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    if (ksFile.exists()) {
+        signingConfigs {
+            release {
+                storeFile = rootProject.file(ks['storeFile'])
+                storePassword = ks['storePassword']
+                keyAlias = ks['keyAlias']
+                keyPassword = ks['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (ksFile.exists()) {
+                signingConfig = signingConfigs.release
+            }
+        }
+        debug {
+            if (ks['signDebug']?.toBoolean()) {
+                signingConfig = signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled = true
+    }
 
     buildFeatures {
         buildConfig = true
@@ -24,22 +66,6 @@ android {
 
     androidResources {
         generateLocaleConfig = true
-    }
-
-    defaultConfig {
-        applicationId = 'dk.bearware.gui'
-        minSdk = 21
-        targetSdk = 36
-        versionCode = 146
-        versionName = '5.21'
-
-        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
-    }
-
-    compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_17
-        targetCompatibility = JavaVersion.VERSION_17
-        coreLibraryDesugaringEnabled = true
     }
 
     splits {
@@ -51,16 +77,16 @@ android {
         }
     }
 
-    buildTypes {
-        release {
-            minifyEnabled = false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'teamtalk-proguard-rules.txt'
+    sourceSets {
+        main {
+            jniLibs.srcDirs = [layout.buildDirectory.dir('jniLibs-staging')]
         }
     }
 
-    repositories {
-        google()
-        mavenCentral()
+    packaging {
+        jniLibs {
+            excludes += ['**/libTeamTalk5Pro-jni.so']
+        }
     }
 
     lint {
@@ -68,30 +94,35 @@ android {
     }
 }
 
+tasks.register('syncJniLibs', Sync) {
+    from('../../Library/TeamTalkJNI/libs') {
+        include 'arm64-v8a/**', 'armeabi-v7a/**', 'x86/**', 'x86_64/**'
+    }
+    into layout.buildDirectory.dir('jniLibs-staging')
+}
+
+afterEvaluate {
+    tasks.named('preBuild').configure { dependsOn 'syncJniLibs' }
+}
+
 dependencies {
-    coreLibraryDesugaring 'com.android.tools:desugar_jdk_libs:2.1.5'
-    implementation 'com.google.code.gson:gson:2.13.2'
-    implementation 'androidx.annotation:annotation:1.9.1'
-    implementation 'androidx.appcompat:appcompat:1.7.1'
-    implementation 'androidx.core:core:1.17.0'
-    implementation 'androidx.fragment:fragment:1.8.9'
-    implementation 'androidx.media:media:1.7.1'
-    implementation 'androidx.preference:preference:1.2.1'
-    implementation 'androidx.viewpager:viewpager:1.1.0'
-    implementation 'com.google.android.material:material:1.13.0'
-    implementation files('libs/TeamTalk5.jar')
+    coreLibraryDesugaring libs.desugar.jdk.libs
+    implementation libs.gson
+    implementation libs.androidx.annotation
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.core
+    implementation libs.androidx.fragment
+    implementation libs.androidx.media
+    implementation libs.androidx.preference
+    implementation libs.androidx.viewpager
+    implementation libs.material
+    implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
 
-    // Required -- JUnit 4 framework
-    testImplementation 'junit:junit:4.13.2'
-    testImplementation files('libs/TeamTalk5Test.jar')
+    testImplementation libs.junit
+    testImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 
-    // Core library
-    androidTestImplementation 'androidx.test:core:1.7.0'
-
-    // AndroidJUnitRunner and JUnit Rules
-    androidTestImplementation 'androidx.test:runner:1.7.0'
-    androidTestImplementation 'androidx.test:rules:1.7.0'
-
-    // Assertions
-    androidTestImplementation files('libs/TeamTalk5Test.jar')
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 }

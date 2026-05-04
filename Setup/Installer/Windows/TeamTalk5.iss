@@ -97,9 +97,6 @@ Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\*"; Excludes: "vc_redist.x6
 Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\vc_redist.x64.exe"; DestDir: {tmp}; Components: client; Flags: deleteafterinstall; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "{#InstallDir}\Client\qtTeamTalk\nvdaControllerClient64.dll"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "{#InstallDir}\Client\qtTeamTalk\SAAPI64.dll"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
-Source: "{#InstallDir}\Client\qtTeamTalk\Tolk.dll"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Server\tt5srv.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
 
@@ -161,6 +158,10 @@ Root: HKCR; Subkey: ".tt"; ValueType: string; ValueData: "TeamTalk"; Flags: unin
 Root: HKCR; Subkey: "TeamTalk\DefaultIcon"; ValueType: none; ValueName: "InstallPath"; ValueData: "{app}"
 
 [InstallDelete]
+; Delete Tolk DLLs from previous installations
+Type: files; Name: "{app}\Tolk.dll"
+Type: files; Name: "{app}\nvdaControllerClient64.dll"
+Type: files; Name: "{app}\SAAPI64.dll"
 ; Delete pre version 5.17 language files
 Type: files; Name: "{app}\Languages\Bulgarian.qm"
 Type: files; Name: "{app}\Languages\Chinese_Simplified.qm"

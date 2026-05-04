@@ -82,7 +82,7 @@
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER           "display/voice-act-slider"
 #define SETTINGS_DISPLAY_VOICE_ACT_SLIDER_DEFAULT   true
 #define SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW      "display/chat-history-as-listview"
-#define SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT isScreenReaderActive()
+#define SETTINGS_DISPLAY_CHAT_HISTORY_LISTVIEW_DEFAULT false
 #define SETTINGS_DISPLAY_USERSCOUNT                 "display/userscount"
 #define SETTINGS_DISPLAY_USERSCOUNT_DEFAULT         true
 #define SETTINGS_DISPLAY_SHOWUSERNAME               "display/showusername"
@@ -413,14 +413,13 @@
 #define SETTINGS_TTS_RATE_DEFAULT                 0.0
 #define SETTINGS_TTS_VOLUME                         "texttospeech/tts-volume"
 #define SETTINGS_TTS_VOLUME_DEFAULT                 0.5
-#if defined(Q_OS_WIN)
-#define SETTINGS_TTS_SAPI                         "texttospeech/force-sapi"
-#define SETTINGS_TTS_SAPI_DEFAULT                 false
-#define SETTINGS_TTS_TRY_SAPI                         "texttospeech/try-sapi"
-#define SETTINGS_TTS_TRY_SAPI_DEFAULT                 true
-#define SETTINGS_TTS_OUTPUT_MODE                         "texttospeech/output-mode"
-#define SETTINGS_TTS_OUTPUT_MODE_DEFAULT                 TTS_OUTPUTMODE_SPEECHBRAILLE
-#elif defined(Q_OS_DARWIN)
+#define SETTINGS_TTS_PRISM_BACKEND                  "texttospeech/prism-backend"
+#define SETTINGS_TTS_PRISM_BACKEND_DEFAULT          0
+#define SETTINGS_TTS_OUTPUT_MODE                    "texttospeech/output-mode"
+#define SETTINGS_TTS_OUTPUT_MODE_DEFAULT            TTS_OUTPUTMODE_SPEECHBRAILLE
+#define SETTINGS_TTS_INTERRUPT                      "texttospeech/interrupt"
+#define SETTINGS_TTS_INTERRUPT_DEFAULT              false
+#if defined(Q_OS_DARWIN)
 #define SETTINGS_TTS_SPEAKLISTS                         "texttospeech/speak-lists"
 #define SETTINGS_TTS_SPEAKLISTS_DEFAULT                 isScreenReaderActive()
 #endif

@@ -171,6 +171,9 @@
 "Connection lost" = "Sambungan terputus";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Negara";
 
 /* View Title */
@@ -209,6 +212,9 @@
 
 /* server entry */
 "Encrypted" = "Encrypted";
+
+/* serverlist */
+"Enter Join Code" = "Enter Join Code";
 
 /* Dialog message */
 "Enter Password" = "Masukkan Kata Laluan";
@@ -270,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "Masuk saluran";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Masuk ke Saluran Utama";
@@ -374,6 +383,9 @@
 
 /* channel list */
 "No password" = "Tiada kata laluan";
+
+/* serverlist */
+"No server found" = "No server found";
 
 /* create channel */
 "No Voice Activation" = "Tiada Pengaktifan Suara";
@@ -626,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Matikan skrin ketika melekap telefon menghampiri telinga";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

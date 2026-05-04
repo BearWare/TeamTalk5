@@ -48,9 +48,11 @@
 #include "teamtalk/client/ClientUser.h"
 #include "teamtalk/TTAssert.h"
 
-#if defined(WIN32)
+#include "license/Trial.h"
+
 #include <ace/Init_ACE.h>
 
+#if defined(WIN32)
 #include "win32/AudioDeviceNotify.h"
 #include "win32/HotKey.h"
 #include "win32/Mixer.h"
@@ -101,6 +103,10 @@ using namespace std;
 using namespace std::placeholders;
 
 using clientnode_t = std::shared_ptr<ClientNode>;
+
+extern ACE_TString g_lpszRegName;
+extern ACE_TString g_lpszRegKey;
+extern bool g_LicenseValid;
 
 struct ClientInstance
 {
@@ -270,8 +276,8 @@ static std::mutex soundloops_mutex;
 static soundloops_t soundloops;
 
 #if defined(WIN32)
-BOOL APIENTRY DllMain(HANDLE hModule, 
-                      DWORD  ul_reason_for_call, 
+BOOL APIENTRY DllMain(HANDLE hModule,
+                      DWORD  ul_reason_for_call,
                       VOID* lpReserved)
 {
     int ret = 0;
@@ -322,6 +328,20 @@ void HOTKEY_USAGE(int num)
         HOTKEY_USAGE_COUNT += num;
     TTASSERT(HOTKEY_USAGE_COUNT>=0);
 }
+#else
+__attribute__((constructor))
+static void tt_lib_init()
+{
+    int ret = ACE::init();
+    TTASSERT(ret >= 0);
+}
+
+__attribute__((destructor))
+static void tt_lib_fini()
+{
+    int ret = ACE::fini();
+    TTASSERT(ret >= 0);
+}
 #endif
 
 static clientinst_t GetClient(TTInstance* pInstance)
@@ -363,6 +383,8 @@ TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg)
 {
     clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
 
+    LicenseCheck();
+
     std::lock_guard<std::mutex> g(clients_mutex);
     clients.push_back(inst);
 
@@ -384,6 +406,8 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
     clientinst_t const inst(new ClientInstance(new TTMsgQueue()));
+
+    LicenseCheck();
 
     std::lock_guard<std::mutex> const g(clients_mutex);
     clients.push_back(inst);
@@ -1273,9 +1297,18 @@ TEAMTALKDLL_API ClientFlags TT_GetFlags(IN TTInstance* lpTTInstance)
     return (ClientFlags)clientnode->GetFlags();
 }
 
-TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR  /*szRegName*/[TT_STRLEN],
-                                                IN const TTCHAR  /*szRegKey*/[TT_STRLEN])
+TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STRLEN],
+                                                IN const TTCHAR szRegKey[TT_STRLEN])
 {
+    if(!szRegName || !szRegKey)
+        return FALSE;
+
+    if (ACE_OS::strlen(szRegName) < REG_NAME_MIN)
+        return FALSE;
+
+    g_lpszRegName = szRegName;
+    g_lpszRegKey = szRegKey;
+
     return TRUE;
 }
 
@@ -3641,6 +3674,17 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
                                      OUT TTMessage* pMsg,
                                      IN const INT32* pnWaitMs)
 {
+    if (!g_LicenseValid)
+    {
+        pMsg->nClientEvent = CLIENTEVENT_INTERNAL_ERROR;
+        pMsg->nSource = 0;
+        pMsg->ttType = __CLIENTERRORMSG;
+        ACE_OS::strsncpy(pMsg->clienterrormsg.szErrorMsg,
+                         ACE_TEXT("TeamTalk SDK license has expired"),
+                         TT_STRLEN);
+        return TRUE;
+    }
+
     auto inst = GetClient(lpTTInstance);
     if(inst && (pMsg != nullptr))
     {

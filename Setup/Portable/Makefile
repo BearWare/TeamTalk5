@@ -1,4 +1,4 @@
-VERSION="v5.21.2.5188"
+VERSION="v5.23.0.5200"
 
 OUTPUT_DEST=./
 INSTALLDIR?=$(TEAMTALK_INSTALLDIR)
@@ -25,10 +25,6 @@ win32:
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
 	make OUTDIR=$(OUTDIR) license winserver winclient
-	cp $(INSTALLDIR)/Client/qtTeamTalk/dolapi32.dll $(OUTDIR)/Client/
-	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient32.dll $(OUTDIR)/Client/
-	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI32.dll $(OUTDIR)/Client/
-	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
 	make TT5DIST=$(TT5DIST) arczip
 
 win64:
@@ -37,9 +33,6 @@ win64:
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
 	make OUTDIR=$(OUTDIR) license winserver winclient
-	cp $(INSTALLDIR)/Client/qtTeamTalk/nvdaControllerClient64.dll $(OUTDIR)/Client/
-	cp $(INSTALLDIR)/Client/qtTeamTalk/SAAPI64.dll $(OUTDIR)/Client/
-	cp $(INSTALLDIR)/Client/qtTeamTalk/Tolk.dll $(OUTDIR)/Client/
 	make TT5DIST=$(TT5DIST) arczip
 
 win32pro:

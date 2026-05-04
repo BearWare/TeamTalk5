@@ -19,26 +19,26 @@ jobs:
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
 
-    runs-on: macos-latest
+    runs-on: macos-26
 
     steps:
     - name: Checkout
       uses: actions/checkout@v6
 
     - name: Install dependencies
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
+      working-directory: ${{github.workspace}}/Build
       run: make depend-mac
 
     - name: Build TeamTalk library
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build
-      run: make CMAKE_EXTRA="-DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      working-directory: ${{github.workspace}}/Build
+      run: make CMAKE_EXTRA="-G Ninja -DFEATURE_WEBRTC=OFF -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
 
     - name: Install TeamTalk SDK
-      working-directory: ${{runner.workspace}}/TeamTalk5/Build/build-${{ matrix.cmakearch }}
+      working-directory: ${{github.workspace}}/Build/build-${{ matrix.cmakearch }}
       run: cmake --build . --target install
 
     - name: Create architecture-specific library
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: >-
         libtool -static -o ${{runner.workspace}}/install-${{ matrix.cmakearch }}/Library/TeamTalk_DLL/libTeamTalk5-${{ matrix.cmakearch }}.a
         Library/TeamTalk_DLL/${{ matrix.cmakearch }}/libTeamTalk5.a
@@ -54,13 +54,16 @@ jobs:
         ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libssl.a
 
     - name: Upload architecture artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-ios-${{ matrix.cmakearch }}
         path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}
 
   lipo:
     needs: build
+    permissions:
+      security-events: write
+      packages: read
 
     runs-on: macos-latest
 
@@ -68,8 +71,14 @@ jobs:
     - name: Checkout
       uses: actions/checkout@v6
 
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v4
+      with:
+        languages: swift
+        build-mode: manual
+
     - name: Check for source changes
-      uses: dorny/paths-filter@v3
+      uses: dorny/paths-filter@v4
       id: changes
       with:
         filters: |
@@ -78,34 +87,40 @@ jobs:
             - 'Client/iTeamTalk/**'
 
     - name: Download ARM64 artifact
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: teamtalksdk-ios-arm64
 
     - name: Download x86_64 artifact
-      uses: actions/download-artifact@v7
+      uses: actions/download-artifact@v8
       with:
         name: teamtalksdk-ios-x86_64
 
     - name: Create universal binary
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: >-
         lipo Library/TeamTalk_DLL/libTeamTalk5-arm64.a
         Library/TeamTalk_DLL/libTeamTalk5-x86_64.a
-        -create -output ${{runner.workspace}}/TeamTalk5/Library/TeamTalk_DLL/libTeamTalk5.a
+        -create -output ${{github.workspace}}/Library/TeamTalk_DLL/libTeamTalk5.a
 
     - name: Upload universal library artifact
-      uses: actions/upload-artifact@v6
+      uses: actions/upload-artifact@v7
       with:
         name: teamtalksdk-ios-universal
-        path: ${{runner.workspace}}/TeamTalk5
+        path: ${{github.workspace}}
 
     - name: Build iTeamTalk client
       if: steps.changes.outputs.src == 'true'
-      working-directory: ${{runner.workspace}}/TeamTalk5
+      working-directory: ${{github.workspace}}
       run: >-
         xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
         CODE_SIGN_IDENTITY=-
         AD_HOC_CODE_SIGNING_ALLOWED=YES
         CODE_SIGN_STYLE=Automatic
         COMPILER_INDEX_STORE_ENABLE=NO
+
+    - name: Perform CodeQL Analysis
+      if: steps.changes.outputs.src == 'true'
+      uses: github/codeql-action/analyze@v4
+      with:
+        category: "/language:swift"

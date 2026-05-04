@@ -110,37 +110,33 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.action_updatechannel : {
+        int id = item.getItemId();
+        if (id == R.id.action_updatechannel) {
+            exchangeChannel(true);
+            if(channel.nChannelID > 0) {
+
+                updateCmdId = getClient().doUpdateChannel(channel);
+                if(updateCmdId < 0) {
+                    Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
+                                   Toast.LENGTH_LONG).show();
+                }
+            }
+            else {
                 exchangeChannel(true);
-                if(channel.nChannelID > 0) {
-                    
-                    updateCmdId = getClient().doUpdateChannel(channel);
-                    if(updateCmdId < 0) {
-                        Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
-                                       Toast.LENGTH_LONG).show();
-                    }
-                }
+
+                updateCmdId = getClient().doJoinChannel(channel);
+                if(updateCmdId > 0)
+                    getService().setJoinChannel(channel);
                 else {
-                    exchangeChannel(true);
-                    
-                    updateCmdId = getClient().doJoinChannel(channel);
-                    if(updateCmdId > 0)
-                        getService().setJoinChannel(channel);
-                    else {
-                        Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
-                                       Toast.LENGTH_LONG).show();
-                    }
+                    Toast.makeText(this, getResources().getString(R.string.text_con_cmderr),
+                                   Toast.LENGTH_LONG).show();
                 }
             }
-            break;
-            case android.R.id.home : {
-                setResult(RESULT_CANCELED);
-                finish();
-            }
-            break;
-            default :
-                return super.onOptionsItemSelected(item);
+        } else if (id == android.R.id.home) {
+            setResult(RESULT_CANCELED);
+            finish();
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         return true;
     }

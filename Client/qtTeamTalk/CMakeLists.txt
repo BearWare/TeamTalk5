@@ -1,3 +1,5 @@
+cmake_minimum_required(VERSION 3.16)
+
 if (CMAKE_VERSION VERSION_LESS "3.7.0")
   set(CMAKE_INCLUDE_CURRENT_DIR ON)
 endif()
@@ -27,10 +29,14 @@ endif()
 find_package (Qt6 COMPONENTS Widgets Xml Network Multimedia TextToSpeech)
 
 if (WIN32)
-  include_directories(${CMAKE_CURRENT_SOURCE_DIR}/3rdparty/WinToast)
-  set(WINTOAST_SOURCES
-    3rdparty/WinToast/wintoastlib.cpp 3rdparty/WinToast/wintoastlib.h
+  include(FetchContent)
+  FetchContent_Declare(
+    WinToast
+    GIT_REPOSITORY https://github.com/mohabouje/WinToast.git
+    GIT_TAG        v1.3.2
   )
+  set(WINTOASTLIB_BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+  FetchContent_MakeAvailable(WinToast)
 endif()
 
 if (Qt5_FOUND OR Qt6_FOUND)
@@ -85,7 +91,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     customvideofmtdlg.h license.h bearwarelogindlg.h
     audiopreprocessordlg.h ttseventsmodel.h
     statusbardlg.h statusbareventsmodel.h mycombobox.h
-    utilsound.h utilvideo.h utiltts.h utilui.h utilhotkey.h
+    utilsound.h utilvideo.h utiltts.h prismworker.h utilui.h utilhotkey.h
     serverlogeventsmodel.h textmessagecontainer.h
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
     utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h
@@ -107,7 +113,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     generatettfiledlg.cpp customvideofmtdlg.cpp
     bearwarelogindlg.cpp audiopreprocessordlg.cpp ttseventsmodel.cpp
     statusbardlg.cpp statusbareventsmodel.cpp mycombobox.cpp
-    utilsound.cpp utilvideo.cpp utiltts.cpp utilui.cpp utilhotkey.cpp
+    utilsound.cpp utilvideo.cpp utiltts.cpp prismworker.cpp utilui.cpp utilhotkey.cpp
     serverlogeventsmodel.cpp textmessagecontainer.cpp
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
@@ -125,9 +131,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
     resources.qrc mainwindow.rc
     )
 
-if (WIN32)
-  list(APPEND QTTEAMTALK_SOURCES ${WINTOAST_SOURCES})
-endif()
 
   if (Qt6_FOUND)
     set (TEAMTALK_LINK_FLAGS Qt6::Widgets Qt6::Xml Qt6::Network Qt6::Multimedia Qt6::TextToSpeech)
@@ -163,9 +166,8 @@ endif()
 
   option (BUILD_TEAMTALK_CLIENT_QTTEAMTALK "Build Qt TeamTalk client example" ON)
 
-  if (BUILD_TEAMTALK_CLIENT_TOLK)
-    list (APPEND TEAMTALK_LINK_FLAGS Tolk)
-    install (FILES ${TOLK_DLL_FILES} DESTINATION Client/qtTeamTalk)
+  if (BUILD_TEAMTALK_CLIENT_PRISM)
+    list (APPEND TEAMTALK_LINK_FLAGS Prism)
   endif()
 
   if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -196,12 +198,12 @@ endif()
 
           add_custom_target (QtTeamTalk5-windeploy-release ALL
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler ${QT_DEPLOY_ARGS} --no-opengl-sw --release --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           add_custom_target (QtTeamTalk5-windeploy-debug
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
-            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler --no-virtualkeyboard ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
+            COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
 
           # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
@@ -211,8 +213,8 @@ endif()
             find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
             find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
           else()
-            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3.dll)
-            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3.dll)
+            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
+            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
           endif()
           if (QT_OPENSSL_LIBCRYPTODLL_PATH-NOTFOUND OR QT_OPENSSL_LIBSSLDLL_PATH-NOTFOUND)
             message (WARNING "Cannot find OpenSSL 3.x DLLs for Qt deployed DLLs")
@@ -240,6 +242,10 @@ endif()
       add_executable (${TEAMTALK_TARGET} ${QTTEAMTALK_SOURCES})
     endif()
 
+    if (WIN32)
+      target_link_libraries (${TEAMTALK_TARGET} WinToast)
+    endif()
+
     if (BUILD_TEAMTALK_LIBRARY_DLL)
       target_include_directories (${TEAMTALK_TARGET} PUBLIC ./)
       target_link_libraries (${TEAMTALK_TARGET} ${TEAMTALK_LINK_FLAGS} TeamTalk5DLL)
@@ -253,10 +259,12 @@ endif()
       endif()
     endif()
 
-    if (BUILD_TEAMTALK_CLIENT_TOLK)
-      target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -DENABLE_TOLK -D_CRT_SECURE_NO_WARNINGS)
-    elseif (MSVC)
+    if (MSVC)
       target_compile_options(${TEAMTALK_TARGET} PUBLIC -DUNICODE -D_UNICODE -D_CRT_SECURE_NO_WARNINGS)
+    endif()
+
+    if (BUILD_TEAMTALK_CLIENT_PRISM)
+      target_compile_definitions(${TEAMTALK_TARGET} PUBLIC ENABLE_PRISM)
     endif()
 
     # Build translations

@@ -7,8 +7,14 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Leer";
 
+/* Class = "UIButton"; normalTitle = "Copy"; ObjectID = "0Zd-t9-MPI"; */
+"0Zd-t9-MPI.normalTitle" = "Copy";
+
 /* Class = "UIButton"; normalTitle = "Send"; ObjectID = "3NI-HT-A3N"; */
 "3NI-HT-A3N.normalTitle" = "Senden";
+
+/* Class = "UILabel"; text = "Join Code"; ObjectID = "3ZB-ZM-KqH"; */
+"3ZB-ZM-KqH.text" = "Join Code";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.accessibilityHint" = "Private Textnachricht senden";
@@ -193,6 +199,9 @@
 /* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Stimme wählen";
 
+/* Class = "UILabel"; text = "Blank"; ObjectID = "w2Q-QY-g8c"; */
+"w2Q-QY-g8c.text" = "Blank";
+
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w6E-jf-09e"; */
 "w6E-jf-09e.text" = "Leer";
 
@@ -210,6 +219,9 @@
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
 "WRa-tI-lpY.normalTitle" = "Benutzer kicken und sperren";
+
+/* Class = "UIButton"; normalTitle = "Enter Join Code"; ObjectID = "wxh-6H-4XJ"; */
+"wxh-6H-4XJ.normalTitle" = "Beitrittscode eingeben";
 
 /* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
 "XmQ-1z-cFv.title" = "Sound-Eingänge einrichten";

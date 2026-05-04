@@ -2,12 +2,44 @@
                  TeamTalk
 ----------------------------------------------
 
-Version 5.22, unreleased
+Version 5.23, unreleased
 Default Qt Client
-- Updated Qt to 6.10.0 on macOS
-- Updated Qt to 6.10.1 on Windows
+- Replaced Tolk with Prism for screen reader support
+- Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
+- Added screen reader support on Linux via Speech Dispatcher and Orca
+- First launch now asks all users whether to enable accessibility settings
+Android Client
+-
+iOS Client
+-
+Server
+-
+
+Version 5.22, 2026/04/06
+Default Qt Client
+- Ability to stream AAC, Vorbis, etc. on Windows
 - Option to disable sound device detection notifications in statusbar events
+- Ukrainian translation
+- Speak Client Statistics now refreshes network latency on Ctrl+T
+- Easy log on to server using Join Code
+- Fixed bug where the value of the Show chat history as list view instead of text edit setting was sometimes deleted
 - Fixed bug where only first resolved IP-address was used for connection attempt
+- Fixed bug where all servers with same name was deleted on server deletion
+- Updated Qt to 6.11 on Windows and macOS
+Android Client
+- Easy log on to server using Join Code
+- Fixed bug where TeamTalk would crash when entering TTS settings
+- Fixed bug where the initial volume of media files did not match the settings screen
+- Fixed using Bluetooth headset microphone on some Xiaomi firmwares
+iOS Client
+- Ukrainian translation
+- Easy log on to server using Join Code
+- Fixed bug where only first resolved IP-address was used for connection attempt
+Server
+- Ability to open TCP/UDP ports using UPnP
+- Fixed performance issue when removing bans
+
+Version 5.21.2, 2026/02/18
 Android Client
 - Changed client name display format from "<ClientName> version <Version>" to "<ClientName> <Version>"
 - Join last channel checkbox is now disabled by default in Server Properties Dialog
@@ -15,10 +47,6 @@ Android Client
 - Fixed bug where status messages would not be set at login
 - Fixed bug where join and leave events were not announced when focused on another channel
 - Fixed bug where only first resolved IP-address was used for connection attempt
-iOS Client
-- Fixed bug where only first resolved IP-address was used for connection attempt
-Server
--
 
 Version 5.21.1, 2025/11/13
 Server

@@ -1,5 +1,4 @@
-# Relative paths are not supported pre-2.8.1, target_link_libraries seems to require 3.0.2
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.15)
 
 project (TeamTalk5SDK)
 

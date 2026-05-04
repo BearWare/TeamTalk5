@@ -8,6 +8,7 @@
         <bind-ip></bind-ip>
         <tcpport>10443</tcpport>
         <udpport>10443</udpport>
+        <upnp>false</upnp>
         <certificate-file>ttservercert.pem</certificate-file>
         <privatekey-file>ttserverkey.pem</privatekey-file>
         <trusted-certificate>

@@ -10,6 +10,10 @@ add_feature_info(TOOLCHAIN_BUILD_EXTERNALPROJECTS TOOLCHAIN_BUILD_EXTERNALPROJEC
 
 set (TOOLCHAIN_BUILD_MAKEJOBS -j4 CACHE STRING "Maximum number of build jobs to pass to make-command")
 
+if (MSVC)
+  add_subdirectory(nasm)
+endif()
+
 option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ON)
 add_feature_info(TOOLCHAIN_OPENSSL TOOLCHAIN_OPENSSL "OpenSSL library is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_OPENSSL)
@@ -22,10 +26,16 @@ if (TOOLCHAIN_ACE)
   add_subdirectory(ace)
 endif()
 
-option (TOOLCHAIN_TINYXML "Build and link TinyXML from TeamTalk toolchain" ON)
-add_feature_info (TOOLCHAIN_TINYXML TOOLCHAIN_TINYXML "TinyXML is provided by TOOLCHAIN_INSTALL_PREFIX")
-if (TOOLCHAIN_TINYXML)
-  add_subdirectory(tinyxml)
+option (TOOLCHAIN_MINIUPNPC "Build and link miniupnpc from TeamTalk toolchain" ON)
+add_feature_info (TOOLCHAIN_MINIUPNPC TOOLCHAIN_MINIUPNPC "miniupnpc is provided by TOOLCHAIN_INSTALL_PREFIX")
+if (TOOLCHAIN_MINIUPNPC)
+  add_subdirectory(miniupnpc)
+endif()
+
+option (TOOLCHAIN_TINYXML2 "Build and link TinyXML2 from TeamTalk toolchain" ON)
+add_feature_info (TOOLCHAIN_TINYXML2 TOOLCHAIN_TINYXML2 "TinyXML2 is provided by TOOLCHAIN_INSTALL_PREFIX")
+if (TOOLCHAIN_TINYXML2)
+  add_subdirectory(tinyxml2)
 endif()
 
 option (TOOLCHAIN_ZLIB "Build and link ZLib from TeamTalk toolchain" ON)
@@ -38,6 +48,10 @@ option (TOOLCHAIN_CATCH2 "Build and link Catch2 from TeamTalk toolchain" ON)
 add_feature_info (TOOLCHAIN_CATCH2 TOOLCHAIN_CATCH2 "Catch2 is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_CATCH2)
   add_subdirectory(catch2)
+endif()
+
+if (MSVC)
+  add_subdirectory(bash)
 endif()
 
 option (TOOLCHAIN_LIBVPX "Build and link LibVPX from TeamTalk toolchain" ON)

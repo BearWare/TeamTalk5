@@ -29,6 +29,7 @@
 #include <algorithm>
 #include <set>
 using namespace std;
+using namespace tinyxml2;
 
 XMLLanguages::XMLLanguages()
 : XMLDocument("language", XML_LANGUAGE_VERSION)
@@ -39,13 +40,13 @@ XMLLanguages::~XMLLanguages()
 {
 }
 
-TiXmlElement* XMLLanguages::GetRootElement()
+tinyxml2::XMLElement* XMLLanguages::GetRootElement()
 {
-    TiXmlElement* root = m_xmlDocument.RootElement();
+    tinyxml2::XMLElement* root = m_xmlDocument.RootElement();
     if(!root)
     {
-        TiXmlElement newroot("languages");
-        newroot.SetAttribute("version", m_xmlversion.c_str());
+        tinyxml2::XMLElement* newroot = m_xmlDocument.NewElement("languages");
+        newroot->SetAttribute("version", m_xmlversion.c_str());
         m_xmlDocument.InsertEndChild(newroot);
         root = m_xmlDocument.RootElement();
     }
@@ -61,42 +62,42 @@ bool XMLLanguages::CreateFile(const std::string& szFileName)
         "</language>";
 
   m_xmlDocument.Parse(szXml.c_str());
-  return m_xmlDocument.SaveFile(szFileName.c_str()) && LoadFile(szFileName.c_str());
+  return m_xmlDocument.SaveFile(szFileName.c_str()) == XML_SUCCESS && LoadFile(szFileName.c_str());
 }
 
 void XMLLanguages::AddItem(int id, std::string szText)
 {
-    TiXmlElement* root = GetRootElement();
+    tinyxml2::XMLElement* root = GetRootElement();
     if(root)
     {
         //delete item if it already exists
         RemoveItem(id);
 
-        TiXmlElement newitem("item");
-        newitem.SetAttribute("id", i2str(id).c_str());
-        TiXmlText text(szText.c_str());
-        newitem.InsertEndChild(text);
+        tinyxml2::XMLElement* newitem = m_xmlDocument.NewElement("item");
+        newitem->SetAttribute("id", i2str(id).c_str());
+        tinyxml2::XMLText* text = m_xmlDocument.NewText(szText.c_str());
+        newitem->InsertEndChild(text);
         root->InsertEndChild(newitem);
     }
 }
 
 void XMLLanguages::RemoveItem(int id)
 {
-    TiXmlElement* item = GetItem(id);
-    TiXmlNode* parent;
+    tinyxml2::XMLElement* item = GetItem(id);
+    tinyxml2::XMLNode* parent;
     if(item && (parent = item->Parent()))
     {
-        parent->RemoveChild(item);
+        parent->DeleteChild(item);
     }
 }
 
-TiXmlElement* XMLLanguages::GetItem(int id)
+tinyxml2::XMLElement* XMLLanguages::GetItem(int id)
 {
-    TiXmlElement* root = m_xmlDocument.RootElement();
+    tinyxml2::XMLElement* root = m_xmlDocument.RootElement();
 
     if(root)
     {
-        TiXmlElement* child;
+        tinyxml2::XMLElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
             if(strcmp(child->Value(), "item") == 0 && i2str(id) == child->Attribute("id"))
@@ -109,10 +110,10 @@ TiXmlElement* XMLLanguages::GetItem(int id)
 std::string XMLLanguages::GetItemText(int id)
 {
     std::string text;
-    TiXmlElement* item = GetItem(id);
+    tinyxml2::XMLElement* item = GetItem(id);
     if(item)
     {
-        GetElementText(*item, text);
+        GetElementText(item, text);
     }
     else
     {
@@ -123,10 +124,10 @@ std::string XMLLanguages::GetItemText(int id)
 
 int XMLLanguages::GetFirstItem()
 {
-    TiXmlElement* root = GetRootElement();
+    tinyxml2::XMLElement* root = GetRootElement();
     if(root)
     {
-        TiXmlElement* child;
+        tinyxml2::XMLElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
             if(strcmp(child->Value(), "item") == 0)
@@ -140,11 +141,11 @@ int XMLLanguages::GetFirstItem()
 
 int XMLLanguages::GetNextItem(int curid)
 {
-    TiXmlElement* root = m_xmlDocument.RootElement();
+    tinyxml2::XMLElement* root = m_xmlDocument.RootElement();
     int id = -1;
     if(root)
     {
-        TiXmlElement* child;
+        tinyxml2::XMLElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
             if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id") && child->NextSiblingElement())
@@ -162,11 +163,11 @@ int XMLLanguages::GetNextItem(int curid)
 
 int XMLLanguages::GetPrevItem(int curid)
 {
-    TiXmlElement* root = m_xmlDocument.RootElement();
+    tinyxml2::XMLElement* root = m_xmlDocument.RootElement();
     int id = -1;
     if(root)
     {
-        TiXmlElement* child;
+        tinyxml2::XMLElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
             if(strcmp(child->Value(), "item") == 0 && i2str(curid) == child->Attribute("id") && child->PreviousSibling())
@@ -185,10 +186,10 @@ int XMLLanguages::GetPrevItem(int curid)
 void XMLLanguages::SortItems()
 {
     std::set<int> items;
-    TiXmlElement* root = m_xmlDocument.RootElement();
+    tinyxml2::XMLElement* root = m_xmlDocument.RootElement();
     if(root)
     {
-        TiXmlElement* child;
+        tinyxml2::XMLElement* child;
         for(child=root->FirstChildElement();child;child=child->NextSiblingElement())
         {
             if(strcmp(child->Value(), "item") == 0)

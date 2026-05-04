@@ -34,6 +34,7 @@ set (TTCLIENT_HEADERS
   ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.h
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.h
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.h
+  ${TEAMTALKLIB_ROOT}/license/Trial.h
   ${TEAMTALKLIB_ROOT}/myace/MyACE.h
   ${TEAMTALKLIB_ROOT}/myace/MyINet.h
   ${TEAMTALKLIB_ROOT}/myace/TimerHandler.h
@@ -75,6 +76,7 @@ set ( TTCLIENT_SOURCES
   ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.cpp
   ${TEAMTALKLIB_ROOT}/codec/BmpFile.cpp
   ${TEAMTALKLIB_ROOT}/codec/WaveFile.cpp
+  ${TEAMTALKLIB_ROOT}/license/Trial.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Channel.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/CodecCommon.cpp
   ${TEAMTALKLIB_ROOT}/teamtalk/Commands.cpp
@@ -102,10 +104,13 @@ set ( TTCLIENT_SOURCES
 list (APPEND TTCLIENT_SOURCES ${AVSTREAM_SOURCES} ${CODEC_SOURCES} ${SOUNDSYS_SOURCES})
 list (APPEND TTCLIENT_HEADERS ${AVSTREAM_HEADERS} ${CODEC_HEADERS} ${SOUNDSYS_HEADERS})
 
-if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin" OR ${CMAKE_SYSTEM_NAME} MATCHES "iOS")
+  list (APPEND TTCLIENT_SOURCES ${TEAMTALKLIB_ROOT}/license/TrialObjC.mm )
 
-  find_library(COCOA_LIBRARY Cocoa)
-  list (APPEND TTCLIENT_LINK_FLAGS ${COCOA_LIBRARY} )
+  if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
+    find_library(COCOA_LIBRARY Cocoa)
+    list (APPEND TTCLIENT_LINK_FLAGS ${COCOA_LIBRARY} )
+  endif()
 
 endif()
 

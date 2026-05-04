@@ -98,6 +98,7 @@ private:
     QSortFilterProxyModel* m_proxyModel;
 
     QNetworkAccessManager* m_httpsrvlist_manager = nullptr, *m_http_srvpublish_manager = nullptr;
+    QNetworkAccessManager* m_http_joincode_manager = nullptr, *m_http_genjoincode_manager = nullptr;
     std::unique_ptr<HostEncryption> m_setup_encryption;
     HostEntry m_hostentry;
 
@@ -124,6 +125,10 @@ private:
     void showExportMenu(); // Nouvelle méthode
     void publishServer();
     void publishServerRequest(QNetworkReply* reply);
+    void enterJoinCode();
+    void joincodeServerRequest(QNetworkReply* reply);
+    void generateJoinCode(const HostEntry& host);
+    void generateJoinCodeServerRequest(QNetworkReply* reply);
     bool getSelectedHost(HostEntryEx& host);
 
     void slotTreeContextMenu(const QPoint&);

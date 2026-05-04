@@ -171,6 +171,9 @@
 "Connection lost" = "Connexion perdue";
 
 /* server entry */
+"Copy" = "Copy";
+
+/* server entry */
 "Country" = "Pays";
 
 /* View Title */
@@ -209,6 +212,9 @@
 
 /* server entry */
 "Encrypted" = "Crypté";
+
+/* serverlist */
+"Enter Join Code" = "Entrer un code de connexion";
 
 /* Dialog message */
 "Enter Password" = "Entrez le mot de passe";
@@ -270,6 +276,9 @@
 
 /* channel list */
 "Join channel" = "Rejoindre le canal";
+
+/* server entry */
+"Join Code: %@" = "Join Code: %@";
 
 /* preferences */
 "Join Root Channel" = "Rejoindre le canal principal";
@@ -374,6 +383,9 @@
 
 /* channel list */
 "No password" = "Pas de mot de passe";
+
+/* serverlist */
+"No server found" = "Aucun serveur trouvé";
 
 /* create channel */
 "No Voice Activation" = "Pas d'activation vocale";
@@ -626,6 +638,9 @@
 
 /* preferences */
 "Turn off screen when holding phone near ear" = "Éteindre l'écran lorsque vous tenez le téléphone à l'oreille";
+
+/* serverlist */
+"Type Join Code" = "Type Join Code";
 
 /* text field hint
    text message */

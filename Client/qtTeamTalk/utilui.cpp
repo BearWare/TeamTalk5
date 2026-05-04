@@ -774,8 +774,8 @@ QString PasswordDialog::getPassword() const
 }
 
 #if defined(Q_OS_WIN)
-#include "3rdparty/WinToast/wintoastlib.h"
 #include <Windows.h>
+#include <wintoastlib.h>
 
 using namespace WinToastLib;
 
@@ -801,8 +801,8 @@ public:
         std::wcout << L"The user clicked on button #" << actionIndex << L" in this toast" << std::endl;
     }
 
-    void toastActivated(const char* arguments) const override {
-        std::wcout << L"The user clicked in this toast with arguments: " << arguments << std::endl;
+    void toastActivated(std::wstring response) const override {
+        std::wcout << L"The user clicked in this toast with response: " << response << std::endl;
     }
 
     void toastFailed() const override {
