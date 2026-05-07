@@ -74,6 +74,9 @@ ubuntu22:
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
+ubuntu26:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
+
 rasp:
 	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
                               -DTOOLCHAIN_OPENSSL=OFF" \
@@ -191,6 +194,37 @@ depend-ubuntu22:
 		wget
 
 depend-ubuntu24:
+	apt-get install \
+		autoconf \
+		cmake \
+		doxygen \
+		g++ \
+		junit4 \
+		libasound2-dev \
+		libglib2.0-dev \
+		libpcap-dev \
+		libpulse-dev \
+		libspeechd-dev \
+		libssl-dev \
+		libtool \
+		libxss-dev \
+		nasm \
+		ninja-build \
+		openjdk-25-jdk \
+		p7zip-full \
+		pkg-config \
+		python-is-python3 \
+		python3-pytest \
+		qt6-base-dev \
+		qt6-declarative-dev \
+		qt6-multimedia-dev \
+		qt6-speech-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		wget \
+		xz-utils
+
+depend-ubuntu26:
 	apt-get install \
 		autoconf \
 		cmake \
