@@ -59,7 +59,7 @@ struct ChannelListContainerView: View {
                 ? Text("Active")
                 : Text("Inactive"))
             .accessibilityAddTraits(.isButton)
-            .accessibilityAction {
+            .accessibilityAction(.magicTap) {
                 model.txBtnAccessibilityAction()
             }
         }
