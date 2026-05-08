@@ -29,8 +29,10 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       link_directories (../../Library/TeamTalk_DLL/${CMAKE_ANDROID_ARCH_ABI})
+      set (JNI_INSTALL_DIR Library/TeamTalkJNI/libs/${CMAKE_ANDROID_ARCH_ABI})
     else()
       link_directories (../../Library/TeamTalk_DLL)
+      set (JNI_INSTALL_DIR Library/TeamTalkJNI/libs)
     endif()
 
     option (BUILD_TEAMTALK_LIBRARY_JNI "Build TeamTalk 5 JNI DLL for TeamTalk 5 Standard Edition" ON)
@@ -69,7 +71,7 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         set_output_dir(TeamTalk5-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
       endif()
 
-      install (TARGETS TeamTalk5-jni DESTINATION Library/TeamTalkJNI)
+      install (TARGETS TeamTalk5-jni DESTINATION ${JNI_INSTALL_DIR})
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_JNIPRO)
@@ -97,7 +99,7 @@ if (JNI_FOUND OR ${CMAKE_SYSTEM_NAME} MATCHES "Android")
         set_output_dir(TeamTalk5Pro-jni "${CMAKE_CURRENT_SOURCE_DIR}/libs")
       endif()
 
-      install (TARGETS TeamTalk5Pro-jni DESTINATION Library/TeamTalkJNI)
+      install (TARGETS TeamTalk5Pro-jni DESTINATION ${JNI_INSTALL_DIR})
     endif()
 
 else()
