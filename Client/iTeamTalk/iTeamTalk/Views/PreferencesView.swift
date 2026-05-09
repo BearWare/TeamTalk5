@@ -213,13 +213,13 @@ struct PreferencesView: View {
                 step: 1,
                 displayValue: { model.voiceActivationValueText($0) }
             )*/
-            Slider(value: Binding(get: { model.masterVolumePercent}, set: { model.masterVolumeChanged($0)}), in: 0...100, step: 5) {
+            Slider(value: Binding(get: { model.masterVolumePercent}, set: { model.masterVolumeChanged($0)}), in: 0...100, step: 10) {
                 Text("Master volume")
             }
-            Slider(value: Binding(get: { model.mediaFileVolumePercent}, set: { model.mediafileVolumeChanged($0)}), in: 0...100, step: 5) {
+            Slider(value: Binding(get: { model.mediaFileVolumePercent}, set: { model.mediafileVolumeChanged($0)}), in: 0...100, step: 1) {
                 Text("media volume")
             }
-            Slider(value: Binding(get: { model.microphoneGainPercent}, set: { model.microphoneGainChanged($0)}), in: 0...100, step: 5) {
+            Slider(value: Binding(get: { model.microphoneGainPercent}, set: { model.microphoneGainChanged($0)}), in: 0...100, step: 10) {
                 Text("Microphone gain")
             }
             Slider(value: Binding(get: { model.voiceActivationLevel}, set: { model.voiceactlevelChanged($0)}), in: 0...Double(VOICEACT_DISABLED), step: 1) {

@@ -32,6 +32,9 @@ struct MainTabView: View {
     var body: some View {
         TabView {
             ChannelsTabView(mainModel: model, model: model.channelListModel, close: close)
+                .accessibilityAction(.magicTap) {
+                    model.channelListModel.txBtnAccessibilityAction()
+                }
             .tabItem {
                 Label("Channels", image: "channels")
             }
@@ -40,6 +43,9 @@ struct MainTabView: View {
             // Messages tab
             NavigationStack {
                 TextMessageView(model: model.channelChatModel)
+                    .accessibilityAction(.magicTap) {
+                        model.channelListModel.txBtnAccessibilityAction()
+                    }
             }
             .tabItem {
                 Label("Messages", image: "messages")
@@ -49,6 +55,9 @@ struct MainTabView: View {
             // Preferences tab
             NavigationStack {
                 PreferencesView(model: model.preferencesModel)
+                    .accessibilityAction(.magicTap) {
+                        model.channelListModel.txBtnAccessibilityAction()
+                    }
             }
             .tabItem {
                 Label("Preferences", image: "setup")

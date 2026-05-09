@@ -32,7 +32,6 @@ struct ChannelListContainerView: View {
     var body: some View {
         VStack(spacing: 0) {
             ChannelListView(model: model)
-
             Text("Talk")
                 .frame(maxWidth: .infinity)
                 .frame(height: 50)
