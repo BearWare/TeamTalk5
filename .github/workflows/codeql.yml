@@ -23,7 +23,6 @@ jobs:
       with:
         languages: python
         build-mode: none
-        config-file: ./.github/codeql-config.yml
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4

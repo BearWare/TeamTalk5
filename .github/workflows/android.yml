@@ -42,7 +42,6 @@ jobs:
       with:
         languages: java-kotlin
         build-mode: manual
-        config-file: ./.github/codeql-config.yml
 
     - name: Update Ubuntu repository
       run: sudo apt-get update
