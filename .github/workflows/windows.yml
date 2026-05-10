@@ -56,19 +56,13 @@ jobs:
         java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.arch }}
 
-    - name: Set up Python
-      uses: actions/setup-python@v6
-      with:
-        python-version: '3.14'
-        architecture: ${{ matrix.arch }}
-
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
         arch: '${{ matrix.qtarch }}'
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
-        setup-python: false
+        setup-python: true
 
     - name: Install Doxygen
       uses: ssciwr/doxygen-install@v2
