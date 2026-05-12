@@ -32,7 +32,6 @@
 #include <ace/Message_Block.h>
 #include <ace/Reactor.h>
 
-#include <cstddef>
 #include <cstring>
 #include <queue>
 #include <vector>
@@ -130,9 +129,7 @@ PacketHandler::~PacketHandler()
 
 bool PacketHandler::Open(const ACE_INET_Addr &addr)
 {
-    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET /* protocol_family */,
-                            0 /* protocol */, 1 /* reuse_addr */,
-                            addr.get_type() == AF_INET6 ? 1 : 0 /* ipv6_only */);
+    int ret = Socket().open(addr, ACE_PROTOCOL_FAMILY_INET, 0, 1);
 
     TTASSERT(reactor());
 
