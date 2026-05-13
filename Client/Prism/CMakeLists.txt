@@ -16,7 +16,7 @@ if (MSVC)
 
   ExternalProject_Add(prism-md-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.13.0
+    GIT_TAG           v0.14.0
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -35,7 +35,7 @@ if (MSVC)
 
   ExternalProject_Add(prism-mt-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.13.0
+    GIT_TAG           v0.14.0
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -119,7 +119,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-arm64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.13.0
+    GIT_TAG           v0.14.0
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -133,7 +133,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-x86_64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.13.0
+    GIT_TAG           v0.14.0
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -174,7 +174,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   ExternalProject_Add(prism-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.13.0
+    GIT_TAG           v0.14.0
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF

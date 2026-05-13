@@ -3,6 +3,7 @@
 build
 debug
 release
+keystore.properties
 local.properties
 *.iml
 *.jar

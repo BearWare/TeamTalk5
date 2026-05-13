@@ -12,24 +12,9 @@ jobs:
     permissions:
       security-events: write
       packages: read
-    strategy:
-      matrix:
-        include:
-          - name: Android armeabi-v7a
-            maketarget: android-armeabi-v7a
-            arch: armeabi-v7a
-          - name: Android arm64-v8a
-            maketarget: android-arm64-v8a
-            arch: arm64-v8a
-          - name: Android x86
-            maketarget: android-x86
-            arch: x86
-          - name: Android x86_64
-            maketarget: android-x64
-            arch: x86_64
 
     runs-on: ubuntu-24.04
-    name: ${{ matrix.name }}
+    name: Android
     steps:
     - name: Checkout
       uses: actions/checkout@v6
@@ -53,12 +38,10 @@ jobs:
         validate-wrappers: true
 
     - name: Initialize CodeQL
-      if: matrix.arch == 'arm64-v8a'
       uses: github/codeql-action/init@v4
       with:
         languages: java-kotlin
         build-mode: manual
-        config-file: ./.github/codeql-config.yml
 
     - name: Update Ubuntu repository
       run: sudo apt-get update
@@ -72,7 +55,7 @@ jobs:
 
     - name: Build TeamTalk library for Android
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-G Ninja -DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.maketarget }}" ${{ matrix.maketarget }}
+      run: make CMAKE_EXTRA="-G Ninja -DFEATURE_WEBRTC=OFF -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-android" CMAKE_BUILD_EXTRA="--target install" android-all
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
@@ -84,22 +67,34 @@ jobs:
         cmake --build build-host --target TeamTalk5ProTest
         cmake --build build-host --target TeamTalk5SrvTest
 
+    - name: Generate Android signing keystore
+      working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
+      run: |
+        keytool -genkeypair -v -keystore key.keystore -alias key -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=TeamTalk, OU=CI, O=TeamTalk, L=CI, ST=CI, C=US"
+        cat > keystore.properties <<EOF
+        storeFile=key.keystore
+        storePassword=android
+        keyAlias=key
+        keyPassword=android
+        EOF
+
     - name: Build TeamTalk Android client
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
-      run: ./gradlew build -x packageRelease
-
-    - name: Install TeamTalk SDK
-      working-directory: ${{github.workspace}}/Build/build-release-${{ matrix.maketarget }}
-      run: cmake --build . --target install
+      run: ./gradlew build
 
     - name: Upload TeamTalk SDK artifact
       uses: actions/upload-artifact@v7
       with:
-        name: teamtalksdk-${{ matrix.maketarget }}
-        path: ${{runner.workspace}}/install-${{ matrix.maketarget }}
+        name: teamtalksdk-android
+        path: ${{runner.workspace}}/install-android
+
+    - name: Upload TeamTalk Android APK artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: teamtalk-android-apk
+        path: ${{github.workspace}}/Client/TeamTalkAndroid/build/outputs/apk/**/*.apk
 
     - name: Perform CodeQL Analysis
-      if: matrix.arch == 'arm64-v8a'
       uses: github/codeql-action/analyze@v4
       with:
         category: "/language:java-kotlin"
