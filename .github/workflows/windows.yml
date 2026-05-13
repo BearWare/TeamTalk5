@@ -22,6 +22,7 @@ jobs:
       security-events: write
       packages: read
     strategy:
+      fail-fast: false
       matrix:
         arch: [x86, x64]
         include:
@@ -72,7 +73,7 @@ jobs:
     - name: Install Doxygen
       uses: ssciwr/doxygen-install@v2
       with:
-        version: '1.16.1'
+        version: '1.17.0'
 
     - name: Set up VSTest
       uses: darenm/Setup-VSTest@v1
@@ -116,7 +117,6 @@ jobs:
       with:
         languages: csharp
         build-mode: manual
-        config-file: ./.github/codeql-config.yml
 
     - name: Configure CMake for toolchain build
       working-directory: ${{runner.workspace}}
@@ -345,7 +345,7 @@ jobs:
         path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*-${{ matrix.portablearch }}
 
     - name: Perform CodeQL Analysis
-      if: matrix.arch == 'x64'
+      if: matrix.arch == 'x64' && !cancelled()
       uses: github/codeql-action/analyze@v4
       with:
         category: "/language:csharp"
