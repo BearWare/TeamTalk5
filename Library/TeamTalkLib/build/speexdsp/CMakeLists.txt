@@ -25,8 +25,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
@@ -48,8 +47,7 @@ if (MSVC)
         GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
         GIT_TAG           SpeexDSP-1.2.1
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git clean -fdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-VS2015-proj.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Upgrade-to-VS2019-and-Windows-10-SDK.patch
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
         CONFIGURE_COMMAND ""
