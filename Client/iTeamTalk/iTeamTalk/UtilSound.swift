@@ -23,6 +23,7 @@
 
 import Foundation
 import AVFoundation
+import TeamTalkKit
 
 func refVolume(_ percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
@@ -151,8 +152,8 @@ func getCategory(_ opt: AVAudioSession.CategoryOptions) -> String {
     if opt.contains(.mixWithOthers) {
         str += "mixWithOthers|"
     }
-    if opt.contains(.allowBluetooth) {
-        str += "allowBluetooth|"
+    if opt.contains(.allowBluetoothHFP) {
+        str += "allowBluetoothHFP|"
     }
     if opt.contains(.duckOthers) {
         str += "duckOthers|"
@@ -160,18 +161,14 @@ func getCategory(_ opt: AVAudioSession.CategoryOptions) -> String {
     if opt.contains(.interruptSpokenAudioAndMixWithOthers) {
         str += "interruptSpokenAudioAndMixWithOthers|"
     }
-    if #available(iOS 14.5, *) {
-        if opt.contains(.overrideMutedMicrophoneInterruption) {
-            str += "overrideMutedMicrophoneInterruption|"
-        }
+    if opt.contains(.overrideMutedMicrophoneInterruption) {
+        str += "overrideMutedMicrophoneInterruption|"
     }
-    if #available(iOS 10.0, *) {
-        if opt.contains(.allowAirPlay) {
-            str += "allowAirPlay|"
-        }
-        if opt.contains(.allowBluetoothA2DP) {
-            str += "allowBluetoothA2DP|"
-        }
+    if opt.contains(.allowAirPlay) {
+        str += "allowAirPlay|"
+    }
+    if opt.contains(.allowBluetoothA2DP) {
+        str += "allowBluetoothA2DP|"
     }
     return str
 }
@@ -198,8 +195,7 @@ func removeAudioPortDataSource(descr: AVAudioSessionPortDescription) {
 }
 
 func closeSoundDevices() {
-    TT_CloseSoundInputDevice(ttInst)
-    TT_CloseSoundOutputDevice(ttInst)
+    TeamTalkClient.shared.closeSoundDevices()
 }
 
 func setupSoundDevices() {
@@ -228,18 +224,13 @@ func setupSoundDevices() {
         // when switching output from Receiver and Bluetooth to 'speaker'.
         if speaker {
             catoptions = [ .defaultToSpeaker ]
-        }
-        else {
-            if #available(iOS 10.0, *) {
-                catoptions = [ .allowBluetoothHFP, .allowAirPlay, .allowBluetoothA2DP]
-                if #available(iOS 26.0, *) {
-                    catoptions.update(with: .bluetoothHighQualityRecording)
-                }
-                if a2dp {
-                    catoptions.remove(.allowBluetoothHFP)
-                }
-            } else {
-                catoptions = [ .allowBluetoothHFP ]
+        } else {
+            catoptions = [ .allowBluetoothHFP, .allowAirPlay, .allowBluetoothA2DP ]
+            if #available(iOS 26.0, *) {
+                catoptions.update(with: .bluetoothHighQualityRecording)
+            }
+            if a2dp {
+                catoptions.remove(.allowBluetoothHFP)
             }
         }
         // headset notifications, UIApplication.shared.beginReceivingRemoteControlEvents(),
@@ -252,14 +243,14 @@ func setupSoundDevices() {
 
         // Note that Voice Preprocessing IO will disable ability to select
         // stereo microphone sources
-        let sndid = preprocess ? TT_SOUNDDEVICE_ID_VOICEPREPROCESSINGIO : TT_SOUNDDEVICE_ID_REMOTEIO
-        if TT_InitSoundInputDevice(ttInst, sndid) == FALSE {
+        let sndid = preprocess ? TeamTalkSoundDeviceID.voiceProcessingIO : TeamTalkSoundDeviceID.remoteIO
+        if !TeamTalkClient.shared.initSoundInputDevice(id: sndid) {
             print("Failed to initialize sound input device: \(sndid)")
         }
         else {
             print("Using sound input device: \(sndid)")
         }
-        if TT_InitSoundOutputDevice(ttInst, sndid) == FALSE {
+        if !TeamTalkClient.shared.initSoundOutputDevice(id: sndid) {
             print("Failed to initialize sound output device: \(sndid)")
         }
         else {
@@ -268,29 +259,19 @@ func setupSoundDevices() {
         print("postset. Mode \(session.mode.rawValue), category \(session.category.rawValue), options \(getCategory(session.categoryOptions))")
         
         // enable stereo on all data sources that support it
-        if #available(iOS 14.0, *) {
-            if let availableInputs = session.availableInputs {
-                for input in availableInputs {
-                    // enable data source chosen by user (if any)
-                    if let dataSourceID = getAudioPortDataSource(descr: input) {
-                        if let dataSources = input.dataSources {
-                            for datasrc in dataSources {
-                                // enable stereo on selected audio input
-                                if datasrc.dataSourceID == dataSourceID {
-                                    if datasrc.supportedPolarPatterns != nil && datasrc.supportedPolarPatterns!.contains(.stereo) {
-                                        try datasrc.setPreferredPolarPattern(.stereo)
-                                        print("Setting \(datasrc.dataSourceName) to stereo")
-                                    } else {
-                                        print("No stereo on \(datasrc.dataSourceName)")
-                                    }
-                                }
-                                // switch to selected audio input
-                                if session.inputDataSource?.dataSourceID != dataSourceID {
-                                    try input.setPreferredDataSource(datasrc)
-                                }
-                            }
-                        }
+        for input in session.availableInputs ?? [] {
+            guard let dataSourceID = getAudioPortDataSource(descr: input) else { continue }
+            for datasrc in input.dataSources ?? [] {
+                if datasrc.dataSourceID == dataSourceID {
+                    if datasrc.supportedPolarPatterns?.contains(.stereo) == true {
+                        try datasrc.setPreferredPolarPattern(.stereo)
+                        print("Setting \(datasrc.dataSourceName) to stereo")
+                    } else {
+                        print("No stereo on \(datasrc.dataSourceName)")
                     }
+                }
+                if session.inputDataSource?.dataSourceID != dataSourceID {
+                    try input.setPreferredDataSource(datasrc)
                 }
             }
         }
@@ -322,4 +303,3 @@ func playSound(_ s: Sounds) {
         }
     }
 }
-
