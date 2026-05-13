@@ -9,7 +9,7 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_WEBRTC ${TOOLCHAIN_INSTALL_PREFIX}/webrtc)
 
 if (MSVC)
-  # WebRTC for Windows depends on "Windows 11 SDK (10.0.22621.0)". This
+  # WebRTC for Windows depends on "Windows 11 SDK (10.0.26100.0)". This
   # can be installed from Visual Studio Installer.
   #
   # WebRTC for Windows depends on "C++ Clang Compiler for Windows (18.1.8)".
@@ -69,14 +69,12 @@ if (MSVC)
       file(MAKE_DIRECTORY ${WEBRTC_FETCH_PATH})
       set (WEBRTC_DOWNLOAD_CMD ${CMAKE_CURRENT_BINARY_DIR}/depottools-win.bat)
       set (WEBRTC_PATCH_CMD cd ${WEBRTC_SOURCE_ROOT})
-      set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\libteamtalk-r6818.patch)
-      set (WEBRTC_PATCH_CMD3 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\0001-Add-support-for-Visual-Studio-2026.patch)
+      set (WEBRTC_PATCH_CMD2 CALL git apply ${CMAKE_CURRENT_LIST_DIR}\\0001-Add-teamtalk-static-lib.patch)
     else()
       message (WARNING "WebRTC is already downloaded to ${WEBRTC_SOURCE_ROOT}. Skipping new fetch and patching")
       set (WEBRTC_DOWNLOAD_CMD "")
       set (WEBRTC_PATCH_CMD "")
       set (WEBRTC_PATCH_CMD2 "")
-      set (WEBRTC_PATCH_CMD3 "")
     endif()
 
     configure_file(${CMAKE_CURRENT_LIST_DIR}/webrtc_cfg_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat)
@@ -87,7 +85,6 @@ if (MSVC)
       DOWNLOAD_COMMAND  ${WEBRTC_DOWNLOAD_CMD}
       PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
       COMMAND           ${WEBRTC_PATCH_CMD2}
-      COMMAND           ${WEBRTC_PATCH_CMD3}
       INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
       CONFIGURE_COMMAND ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
       COMMAND           cd ${WEBRTC_SOURCE_ROOT}
@@ -145,12 +142,16 @@ else()
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm)
       set (WEBRTC_CFG_EXTRA arm_use_neon=true)
+      set (WEBRTC_TARGET_ENV device)
     elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm64)
+      set (WEBRTC_TARGET_ENV device)
     elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH x86)
+      set (WEBRTC_TARGET_ENV simulator)
     elseif ("x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH x64)
+      set (WEBRTC_TARGET_ENV simulator)
     else()
       message(WARNING "Unknown iOS architecture")
     endif()
@@ -184,7 +185,7 @@ else()
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     set (WEBRTC_FETCH_PATH $ENV{HOME}/webrtc/${CMAKE_SYSTEM_NAME} CACHE FILEPATH "Root folder for WebRTC repository")
-    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_deb ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_linux ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   else()
       message(WARNING "Unknown platform for WebRTC")
@@ -229,9 +230,9 @@ else()
     if (NOT EXISTS ${WEBRTC_SOURCE_ROOT})
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
       set (WEBRTC_FETCH_CMD1 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && fetch --nohooks ${WEBRTC_REPO_NAME} && gclient sync --with_branch_heads --with_tags)
-      set (WEBRTC_FETCH_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/6818)
+      set (WEBRTC_FETCH_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/7778)
       set (WEBRTC_FETCH_CMD3 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && gclient sync -D)
-      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/libteamtalk-r6818.patch)
+      set (WEBRTC_PATCH_CMD1 cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-teamtalk-static-lib.patch)
     else()
       set (WEBRTC_FETCH_CMD1 true)
       set (WEBRTC_FETCH_CMD2 true)
