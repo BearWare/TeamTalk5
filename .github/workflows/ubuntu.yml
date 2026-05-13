@@ -3,8 +3,46 @@ name: Ubuntu
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/ubuntu.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/ttserverlog/**'
+      - 'Client/ttserverlogpy/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Library/TeamTalkPy/**'
+      - 'Server/**'
+      - 'Setup/Client/Linux/**'
+      - 'Setup/Client/Sounds/**'
+      - 'Setup/Portable/**'
+      - 'Setup/Server/Linux/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/ubuntu.yml'
+      - 'Build/**'
+      - 'Client/jSpamBot/**'
+      - 'Client/jTeamTalk/**'
+      - 'Client/qtTeamTalk/**'
+      - 'Client/ttserverlog/**'
+      - 'Client/ttserverlogpy/**'
+      - 'Documentation/**'
+      - 'env.sh'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
+      - 'Library/TeamTalkPy/**'
+      - 'Server/**'
+      - 'Setup/Client/Linux/**'
+      - 'Setup/Client/Sounds/**'
+      - 'Setup/Portable/**'
+      - 'Setup/Server/Linux/**'
 
 env:
   # TeamTalk unit test environment variables
@@ -16,7 +54,6 @@ env:
 
 jobs:
   build:
-    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-linux')"
     permissions:
       security-events: write
       packages: read
