@@ -9,7 +9,7 @@ Default Qt Client
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
 Android Client
--
+- Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 -
 Server
