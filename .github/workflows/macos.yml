@@ -40,6 +40,7 @@ env:
 
 jobs:
   build:
+    if: "!contains(github.event.head_commit.message || '', ':skip macos') && !contains(github.event.head_commit.message || '', ':skip all')"
     runs-on: macos-26
 
     steps:

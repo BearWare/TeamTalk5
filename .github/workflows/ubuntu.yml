@@ -54,6 +54,7 @@ env:
 
 jobs:
   build:
+    if: "!contains(github.event.head_commit.message || '', ':skip ubuntu') && !contains(github.event.head_commit.message || '', ':skip all')"
     permissions:
       security-events: write
       packages: read
