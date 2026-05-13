@@ -7,7 +7,8 @@ project (TeamTalk5SDK)
 #
 # Windows 32-bit
 # --------------
-# Open "x86 Native Tools Command Prompt for VS 2022" and change to
+# Open "x86 Native Tools Command Prompt for VS 2022" or
+# "x64_x86 Cross Tools Command Prompt for VS 2022" and change to
 # directory of TeamTalk5 checkout, e.g. C:\TeamTalk5
 #
 # Now configure an output directory, here teamtalk-win32, for

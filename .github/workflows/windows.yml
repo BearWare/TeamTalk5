@@ -32,7 +32,7 @@ jobs:
             portablearch: win32
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
-            vcvars: vcvars32.bat
+            vcvars: vcvarsamd64_x86.bat
           - arch: x64
             cmakeplatform: x64
             javaversion: 25
