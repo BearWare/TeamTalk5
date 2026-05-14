@@ -3,12 +3,26 @@ name: Android
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/android.yml'
+      - 'Build/**'
+      - 'Client/TeamTalkAndroid/**'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/android.yml'
+      - 'Build/**'
+      - 'Client/TeamTalkAndroid/**'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkJNI/**'
+      - 'Library/TeamTalkLib/**'
 
 jobs:
   build:
-    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-android')"
+    if: "!contains(github.event.head_commit.message || '', ':skip android') && !contains(github.event.head_commit.message || '', ':skip all')"
     permissions:
       security-events: write
       packages: read
