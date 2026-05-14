@@ -22,10 +22,8 @@ jobs:
       packages: read
     strategy:
       matrix:
-        os: [ubuntu-22.04, ubuntu-24.04]
+        os: [ubuntu-24.04]
         include:
-          - os: ubuntu-22.04
-            version: "22"
           - os: ubuntu-24.04
             version: "24"
     
@@ -38,7 +36,7 @@ jobs:
         submodules: true
 
     - name: Initialize CodeQL
-      if: matrix.os == 'ubuntu-24.04'
+      if: matrix.os == 'ubuntu-26.04'
       uses: github/codeql-action/init@v4
       with:
         languages: c-cpp
@@ -71,7 +69,7 @@ jobs:
         echo TEAMTALK_INSTALLDIR=${{runner.workspace}}/install>> $GITHUB_ENV
 
     - name: Run Java Server API tests (non-encrypted)
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-24.04'
       working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -79,7 +77,7 @@ jobs:
         WEBRTC: 0
 
     - name: Run Java Server API tests (encrypted)
-      if: matrix.os == 'ubuntu-24.04'
+      if: matrix.os == 'ubuntu-26.04'
       working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitsrv
       env:
@@ -137,7 +135,7 @@ jobs:
         Server/tt5prosrv -d -c Server/tt5srv.xml
 
     - name: Run Java unit tests with shared audio devices (non-encrypted)
-      if: matrix.os == 'ubuntu-24.04'
+      if: matrix.os == 'ubuntu-26.04'
       working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -158,7 +156,7 @@ jobs:
         Server/tt5prosrv -d -wd Server/
 
     - name: Run Java unit tests (encrypted)
-      if: matrix.os == 'ubuntu-22.04'
+      if: matrix.os == 'ubuntu-24.04'
       working-directory: ${{github.workspace}}/Library/TeamTalkJNI
       run: make runjunitpro
       env:
@@ -209,7 +207,7 @@ jobs:
         path: ${{github.workspace}}/Setup/Portable/teamtalkpro-*
 
     - name: Perform CodeQL Analysis
-      if: matrix.os == 'ubuntu-24.04'
+      if: matrix.os == 'ubuntu-26.04'
       uses: github/codeql-action/analyze@v4
       with:
         category: "/language:c-cpp"

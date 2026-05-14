@@ -68,10 +68,10 @@ ubuntu:
 	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
 	-DTOOLCHAIN_OPENSSL=OFF" generic
 
-ubuntu22:
-	$(MAKE) UBUNTUDIR=$@ CMAKE_EXTRA+="-DBUILD_TEAMTALK_CLIENT_PRISM=OFF" ubuntu
-
 ubuntu24:
+	$(MAKE) UBUNTUDIR=$@ ubuntu
+
+ubuntu26:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 rasp:
@@ -162,7 +162,7 @@ teamtalk-jar:
         -DBUILD_TEAMTALK_DOCUMENTATION=OFF" \
         buildlib
 
-depend-ubuntu22:
+depend-ubuntu24:
 	apt-get install \
 		autoconf \
 		cmake \
@@ -170,10 +170,10 @@ depend-ubuntu22:
 		g++ \
 		junit4 \
 		libasound2-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
-		libqt5texttospeech5-dev \
-		libqt5x11extras5-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \
@@ -184,13 +184,16 @@ depend-ubuntu22:
 		pkg-config \
 		python-is-python3 \
 		python3-pytest \
-		qtbase5-dev \
-		qtmultimedia5-dev \
-		qttools5-dev \
-		qttools5-dev-tools \
-		wget
+		qt6-base-dev \
+		qt6-declarative-dev \
+		qt6-multimedia-dev \
+		qt6-speech-dev \
+		qt6-tools-dev \
+		qt6-tools-dev-tools \
+		wget \
+		xz-utils
 
-depend-ubuntu24:
+depend-ubuntu26:
 	apt-get install \
 		autoconf \
 		cmake \

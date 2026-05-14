@@ -1,17 +1,17 @@
 services:
-  ubuntu22:
+  ubuntu24:
     build:
       context: .
-      dockerfile: Dockerfile_ubuntu22
+      dockerfile: Dockerfile_ubuntu24
     volumes:
       - ../..:/TeamTalk5:rw,z
     user: root
     working_dir: /TeamTalk5
 
-  ubuntu24:
+  ubuntu26:
     build:
       context: .
-      dockerfile: Dockerfile_ubuntu24
+      dockerfile: Dockerfile_ubuntu26
     volumes:
       - ../..:/TeamTalk5:rw,z
     user: root
