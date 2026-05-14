@@ -12,7 +12,7 @@ if (MSVC)
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.14.0
+      GIT_TAG           v3.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git reset --hard
@@ -56,7 +56,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.14.0
+      GIT_TAG           v3.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -102,7 +102,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.14.0
+      GIT_TAG           v3.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -138,7 +138,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.14.0
+      GIT_TAG           v3.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
@@ -179,7 +179,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(catch2-src
       GIT_REPOSITORY    https://github.com/catchorg/Catch2.git
-      GIT_TAG           v3.14.0
+      GIT_TAG           v3.15.0
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/catch2
