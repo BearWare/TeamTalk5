@@ -8,10 +8,14 @@ Default Qt Client
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Android Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 iOS Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Server
 -
 
