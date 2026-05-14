@@ -39,7 +39,7 @@ jobs:
             portablearch: win64
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech'
-            qtversion: '6.10.*'
+            qtversion: '6.11.1'
             vcvars: vcvars64.bat
 
     runs-on: windows-latest

@@ -8,6 +8,7 @@ Default Qt Client
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
+- Updated Qt to 6.11.1 on Windows and macOS
 Android Client
 -
 iOS Client
