@@ -128,10 +128,13 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
                          codec.opus.application) ||
            !m_opus->SetComplexity(codec.opus.complexity) ||
            !m_opus->SetFEC(codec.opus.fec) ||
+           !m_opus->SetPacketLossPerc(codec.opus.fec ? OPUS_DEFAULT_PACKET_LOSS_PERC : 0) ||
            !m_opus->SetDTX(codec.opus.dtx) ||
            !m_opus->SetBitrate(codec.opus.bitrate) ||
            !m_opus->SetVBR(codec.opus.vbr) ||
-           !m_opus->SetVBRConstraint(codec.opus.vbr_constraint))
+           !m_opus->SetVBRConstraint(codec.opus.vbr_constraint) ||
+           !m_opus->SetSignalVoice(codec.opus.application == OPUS_APPLICATION_VOIP) ||
+           !m_opus->SetLSBDepth(16))
         {
             StopEncoder();
             return false;
