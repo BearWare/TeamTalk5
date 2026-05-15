@@ -1,42 +1,42 @@
-From e7d4cf85222ab81f5dbb1db9d0a7e0580f19bd34 Mon Sep 17 00:00:00 2001
-From: "Bjoern D. Rasmussen" <contact@bearware.dk>
-Date: Fri, 12 Jan 2018 13:08:03 +0100
-Subject: [PATCH 1/2] VS2015 proj
+From fa845a1588adc4b1cbaace65c578a445acdbf65d Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Fri, 15 May 2026 18:23:45 +0900
+Subject: [PATCH] Add VS 2026 project
 
 ---
- win32/VS2015/libspeexdsp.sln                  | 271 ++++++++++++
- win32/VS2015/libspeexdsp/Makefile.am          |   8 +
- win32/VS2015/libspeexdsp/libspeexdsp.vcxproj  | 390 ++++++++++++++++++
+ win32/VS2026/libspeexdsp.sln                  | 271 ++++++++++++
+ win32/VS2026/libspeexdsp/Makefile.am          |   8 +
+ win32/VS2026/libspeexdsp/libspeexdsp.vcxproj  | 390 ++++++++++++++++++
  .../libspeexdsp/libspeexdsp.vcxproj.filters   | 125 ++++++
- win32/VS2015/tests/Makefile.am                |   8 +
- win32/VS2015/tests/testdenoise.vcxproj        | 305 ++++++++++++++
- .../VS2015/tests/testdenoise.vcxproj.filters  |  22 +
- win32/VS2015/tests/testecho.vcxproj           | 305 ++++++++++++++
- win32/VS2015/tests/testecho.vcxproj.filters   |  22 +
- win32/VS2015/tests/testresample.vcxproj       | 305 ++++++++++++++
- .../VS2015/tests/testresample.vcxproj.filters |  22 +
- 11 files changed, 1783 insertions(+)
- create mode 100644 win32/VS2015/libspeexdsp.sln
- create mode 100644 win32/VS2015/libspeexdsp/Makefile.am
- create mode 100644 win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
- create mode 100644 win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
- create mode 100644 win32/VS2015/tests/Makefile.am
- create mode 100644 win32/VS2015/tests/testdenoise.vcxproj
- create mode 100644 win32/VS2015/tests/testdenoise.vcxproj.filters
- create mode 100644 win32/VS2015/tests/testecho.vcxproj
- create mode 100644 win32/VS2015/tests/testecho.vcxproj.filters
- create mode 100644 win32/VS2015/tests/testresample.vcxproj
- create mode 100644 win32/VS2015/tests/testresample.vcxproj.filters
+ win32/VS2026/tests/Makefile.am                |   8 +
+ win32/VS2026/tests/testdenoise.vcxproj        | 306 ++++++++++++++
+ .../VS2026/tests/testdenoise.vcxproj.filters  |  22 +
+ win32/VS2026/tests/testecho.vcxproj           | 306 ++++++++++++++
+ win32/VS2026/tests/testecho.vcxproj.filters   |  22 +
+ win32/VS2026/tests/testresample.vcxproj       | 306 ++++++++++++++
+ .../VS2026/tests/testresample.vcxproj.filters |  22 +
+ 11 files changed, 1786 insertions(+)
+ create mode 100644 win32/VS2026/libspeexdsp.sln
+ create mode 100644 win32/VS2026/libspeexdsp/Makefile.am
+ create mode 100644 win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
+ create mode 100644 win32/VS2026/libspeexdsp/libspeexdsp.vcxproj.filters
+ create mode 100644 win32/VS2026/tests/Makefile.am
+ create mode 100644 win32/VS2026/tests/testdenoise.vcxproj
+ create mode 100644 win32/VS2026/tests/testdenoise.vcxproj.filters
+ create mode 100644 win32/VS2026/tests/testecho.vcxproj
+ create mode 100644 win32/VS2026/tests/testecho.vcxproj.filters
+ create mode 100644 win32/VS2026/tests/testresample.vcxproj
+ create mode 100644 win32/VS2026/tests/testresample.vcxproj.filters
 
-diff --git a/win32/VS2015/libspeexdsp.sln b/win32/VS2015/libspeexdsp.sln
+diff --git a/win32/VS2026/libspeexdsp.sln b/win32/VS2026/libspeexdsp.sln
 new file mode 100644
-index 0000000..d7eb7ad
+index 0000000..8b9540a
 --- /dev/null
-+++ b/win32/VS2015/libspeexdsp.sln
++++ b/win32/VS2026/libspeexdsp.sln
 @@ -0,0 +1,271 @@
 +Microsoft Visual Studio Solution File, Format Version 12.00
-+# Visual Studio 14
-+VisualStudioVersion = 14.0.25420.1
++# Visual Studio Version 18
++VisualStudioVersion = 18.0.11205.157
 +MinimumVisualStudioVersion = 10.0.40219.1
 +Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "testdenoise", "tests\testdenoise.vcxproj", "{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}"
 +EndProject
@@ -305,11 +305,11 @@ index 0000000..d7eb7ad
 +		HideSolutionNode = FALSE
 +	EndGlobalSection
 +EndGlobal
-diff --git a/win32/VS2015/libspeexdsp/Makefile.am b/win32/VS2015/libspeexdsp/Makefile.am
+diff --git a/win32/VS2026/libspeexdsp/Makefile.am b/win32/VS2026/libspeexdsp/Makefile.am
 new file mode 100644
-index 0000000..796fefc
+index 0000000..9f72976
 --- /dev/null
-+++ b/win32/VS2015/libspeexdsp/Makefile.am
++++ b/win32/VS2026/libspeexdsp/Makefile.am
 @@ -0,0 +1,8 @@
 +## Process this file with automake to produce Makefile.in. -*-Makefile-*-
 +
@@ -319,11 +319,11 @@ index 0000000..796fefc
 +EXTRA_DIST = libspeexdsp.vcproj
 +
 +
-diff --git a/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
+diff --git a/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
 new file mode 100644
-index 0000000..1b1e797
+index 0000000..f154a01
 --- /dev/null
-+++ b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj
++++ b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
 @@ -0,0 +1,390 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -364,53 +364,53 @@ index 0000000..1b1e797
 +  <PropertyGroup Label="Globals">
 +    <ProjectGuid>{03207781-0D1C-4DB3-A71D-45C608F28DBD}</ProjectGuid>
 +    <Keyword>Win32Proj</Keyword>
-+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
++    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|Win32'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|x64'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|Win32'" Label="Configuration">
 +    <ConfigurationType>DynamicLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'" Label="Configuration">
 +    <ConfigurationType>DynamicLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
 +    <ConfigurationType>StaticLibrary</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -716,11 +716,11 @@ index 0000000..1b1e797
 +  </ImportGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
+diff --git a/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj.filters b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj.filters
 new file mode 100644
-index 0000000..a0b38f6
+index 0000000..5ee1c62
 --- /dev/null
-+++ b/win32/VS2015/libspeexdsp/libspeexdsp.vcxproj.filters
++++ b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj.filters
 @@ -0,0 +1,125 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -848,11 +848,11 @@ index 0000000..a0b38f6
 +  </ItemGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/Makefile.am b/win32/VS2015/tests/Makefile.am
+diff --git a/win32/VS2026/tests/Makefile.am b/win32/VS2026/tests/Makefile.am
 new file mode 100644
-index 0000000..7fe63e6
+index 0000000..38caed8
 --- /dev/null
-+++ b/win32/VS2015/tests/Makefile.am
++++ b/win32/VS2026/tests/Makefile.am
 @@ -0,0 +1,8 @@
 +## Process this file with automake to produce Makefile.in. -*-Makefile-*-
 +
@@ -862,12 +862,12 @@ index 0000000..7fe63e6
 +EXTRA_DIST = testdenoise.vcproj testecho.vcproj testresample.vcproj
 +
 +
-diff --git a/win32/VS2015/tests/testdenoise.vcxproj b/win32/VS2015/tests/testdenoise.vcxproj
+diff --git a/win32/VS2026/tests/testdenoise.vcxproj b/win32/VS2026/tests/testdenoise.vcxproj
 new file mode 100644
-index 0000000..be94877
+index 0000000..f5c5fbc
 --- /dev/null
-+++ b/win32/VS2015/tests/testdenoise.vcxproj
-@@ -0,0 +1,305 @@
++++ b/win32/VS2026/tests/testdenoise.vcxproj
+@@ -0,0 +1,306 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 +  <ItemGroup Label="ProjectConfigurations">
@@ -899,40 +899,41 @@ index 0000000..be94877
 +  <PropertyGroup Label="Globals">
 +    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DA9}</ProjectGuid>
 +    <Keyword>Win32Proj</Keyword>
++    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -1174,11 +1175,11 @@ index 0000000..be94877
 +  </ImportGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/testdenoise.vcxproj.filters b/win32/VS2015/tests/testdenoise.vcxproj.filters
+diff --git a/win32/VS2026/tests/testdenoise.vcxproj.filters b/win32/VS2026/tests/testdenoise.vcxproj.filters
 new file mode 100644
-index 0000000..eb7aa87
+index 0000000..ee60742
 --- /dev/null
-+++ b/win32/VS2015/tests/testdenoise.vcxproj.filters
++++ b/win32/VS2026/tests/testdenoise.vcxproj.filters
 @@ -0,0 +1,22 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -1203,12 +1204,12 @@ index 0000000..eb7aa87
 +  </ItemGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/testecho.vcxproj b/win32/VS2015/tests/testecho.vcxproj
+diff --git a/win32/VS2026/tests/testecho.vcxproj b/win32/VS2026/tests/testecho.vcxproj
 new file mode 100644
-index 0000000..1df91db
+index 0000000..eebe386
 --- /dev/null
-+++ b/win32/VS2015/tests/testecho.vcxproj
-@@ -0,0 +1,305 @@
++++ b/win32/VS2026/tests/testecho.vcxproj
+@@ -0,0 +1,306 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 +  <ItemGroup Label="ProjectConfigurations">
@@ -1240,40 +1241,41 @@ index 0000000..1df91db
 +  <PropertyGroup Label="Globals">
 +    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DAA}</ProjectGuid>
 +    <Keyword>Win32Proj</Keyword>
++    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -1515,11 +1517,11 @@ index 0000000..1df91db
 +  </ImportGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/testecho.vcxproj.filters b/win32/VS2015/tests/testecho.vcxproj.filters
+diff --git a/win32/VS2026/tests/testecho.vcxproj.filters b/win32/VS2026/tests/testecho.vcxproj.filters
 new file mode 100644
-index 0000000..7dc6dcb
+index 0000000..0d5ce12
 --- /dev/null
-+++ b/win32/VS2015/tests/testecho.vcxproj.filters
++++ b/win32/VS2026/tests/testecho.vcxproj.filters
 @@ -0,0 +1,22 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -1544,12 +1546,12 @@ index 0000000..7dc6dcb
 +  </ItemGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/testresample.vcxproj b/win32/VS2015/tests/testresample.vcxproj
+diff --git a/win32/VS2026/tests/testresample.vcxproj b/win32/VS2026/tests/testresample.vcxproj
 new file mode 100644
-index 0000000..0d75d90
+index 0000000..da7675a
 --- /dev/null
-+++ b/win32/VS2015/tests/testresample.vcxproj
-@@ -0,0 +1,305 @@
++++ b/win32/VS2026/tests/testresample.vcxproj
+@@ -0,0 +1,306 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project DefaultTargets="Build" ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
 +  <ItemGroup Label="ProjectConfigurations">
@@ -1581,40 +1583,41 @@ index 0000000..0d75d90
 +  <PropertyGroup Label="Globals">
 +    <ProjectGuid>{961B8359-1393-4EF7-B8E0-67B6FE1C6DAB}</ProjectGuid>
 +    <Keyword>Win32Proj</Keyword>
++    <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_SSE|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +    <WholeProgramOptimization>true</WholeProgramOptimization>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
 +    <ConfigurationType>Application</ConfigurationType>
-+    <PlatformToolset>v140</PlatformToolset>
++    <PlatformToolset>v145</PlatformToolset>
 +    <CharacterSet>MultiByte</CharacterSet>
 +  </PropertyGroup>
 +  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
@@ -1856,11 +1859,11 @@ index 0000000..0d75d90
 +  </ImportGroup>
 +</Project>
 \ No newline at end of file
-diff --git a/win32/VS2015/tests/testresample.vcxproj.filters b/win32/VS2015/tests/testresample.vcxproj.filters
+diff --git a/win32/VS2026/tests/testresample.vcxproj.filters b/win32/VS2026/tests/testresample.vcxproj.filters
 new file mode 100644
-index 0000000..5f5b4d9
+index 0000000..9f81289
 --- /dev/null
-+++ b/win32/VS2015/tests/testresample.vcxproj.filters
++++ b/win32/VS2026/tests/testresample.vcxproj.filters
 @@ -0,0 +1,22 @@
 +﻿<?xml version="1.0" encoding="utf-8"?>
 +<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
@@ -1886,5 +1889,5 @@ index 0000000..5f5b4d9
 +</Project>
 \ No newline at end of file
 -- 
-2.51.0.windows.2
+2.54.0
 
