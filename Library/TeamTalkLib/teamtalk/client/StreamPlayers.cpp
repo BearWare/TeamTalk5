@@ -583,17 +583,38 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         }
         return true;
     }
-     //packet lost
-            MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
-        int fpp = GetAudioCodecFramesPerPacket(m_codec);
-        int decoffset = 0;
-        for (int i=0;i<fpp;i++)
-        {
-            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], framesize);
-            decoffset += framesize;
-        }
-        //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
-        return false;
+    //packet lost
+    MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
+
+    int const fpp = GetAudioCodecFramesPerPacket(m_codec);
+
+    const encframe* next = nullptr;
+    auto nextii = m_buffer.find(static_cast<uint16_t>(m_play_pkt_no + 1));
+    if (nextii != m_buffer.end() && !nextii->second.enc_frames.empty() &&
+        !nextii->second.enc_frame_sizes.empty() &&
+        nextii->second.stream_id == m_stream_id)
+        next = &nextii->second;
+
+    int decoffset = 0;
+    for (int i = 0; i < fpp; i++)
+    {
+        bool const fec = (next != nullptr) && (i == fpp - 1);
+        if (fec)
+            ret = m_decoder.Decode(next->enc_frames.data(), next->enc_frame_sizes[0],
+                                   &output_buffer[decoffset*channels], framesize, true);
+        else
+            ret = m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels],
+                                   framesize, false);
+        MYTRACE_COND(ret != framesize,
+                     ACE_TEXT("OPUS %s failed for #%d. Ret = %d\n"),
+                     fec ? ACE_TEXT("FEC decode") : ACE_TEXT("PLC"), m_userid, ret);
+        decoffset += framesize;
+    }
+    MYTRACE_COND(next != nullptr,
+                 ACE_TEXT("User #%d recovered packet %d via Opus FEC\n"),
+                 m_userid, m_play_pkt_no);
+    //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
+    return false;
    
 }
 #endif

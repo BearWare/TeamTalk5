@@ -37,8 +37,8 @@ public:
     void Close();
     void Reset();
 
-    int Decode(const char* input_buffer, int input_bufsize, 
-               short* output_buffer, int output_samples);
+    int Decode(const char* input_buffer, int input_bufsize,
+               short* output_buffer, int output_samples, bool fec = false);
 
 private:
     OpusDecoder* m_decoder;
