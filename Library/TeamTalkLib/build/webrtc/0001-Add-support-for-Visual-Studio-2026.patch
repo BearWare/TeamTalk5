@@ -1,27 +1,27 @@
-From b451a63117d8bdf6a1c57518b1e45798e7bd0963 Mon Sep 17 00:00:00 2001
+From 475de911477916388cc1d7ff0b8c545c978ee0c6 Mon Sep 17 00:00:00 2001
 From: hwangsihu <129564966+hwangsihu@users.noreply.github.com>
-Date: Thu, 4 Dec 2025 20:02:11 +0900
+Date: Fri, 27 Feb 2026 18:00:18 +0900
 Subject: [PATCH] Add support for Visual Studio 2026
 
 ---
- build/vs_toolchain.py | 22 +++++++++++++++-------
+ vs_toolchain.py | 22 +++++++++++++++-------
  1 file changed, 15 insertions(+), 7 deletions(-)
 
-diff --git a/build/vs_toolchain.py b/build/vs_toolchain.py
-index f3a6fc7de..ecb7102b6 100755
---- a/build/vs_toolchain.py
-+++ b/build/vs_toolchain.py
-@@ -49,7 +49,8 @@ json_data_file = os.path.join(script_dir, 'win_toolchain.json')
- # The first version is assumed by this script to be the one that is packaged,
+diff --git a/vs_toolchain.py b/vs_toolchain.py
+index d909f5b36..674d9f8d9 100755
+--- a/vs_toolchain.py
++++ b/vs_toolchain.py
+@@ -67,7 +67,8 @@ SDK_VERSION = '10.0.26100.0'
  # which makes a difference for the arm64 runtime.
+ # The second number is an alternate version number, only used in an error string
  MSVS_VERSIONS = collections.OrderedDict([
--    ('2022', '17.0'),  # Default and packaged version of Visual Studio.
+-    ('2022', '17.0'),  # The VS version in our packaged toolchain.
 +    ('2026', '18.0'),  # Default and packaged version of Visual Studio.
 +    ('2022', '17.0'),
      ('2019', '16.0'),
      ('2017', '15.0'),
  ])
-@@ -57,11 +58,16 @@ MSVS_VERSIONS = collections.OrderedDict([
+@@ -75,11 +76,16 @@ MSVS_VERSIONS = collections.OrderedDict([
  # List of preferred VC toolset version based on MSVS
  # Order is not relevant for this dictionary.
  MSVC_TOOLSET_VERSION = {
@@ -35,10 +35,10 @@ index f3a6fc7de..ecb7102b6 100755
 +    '2026': '18',
 +}
 +
- def _HostIsWindows():
-   """Returns True if running on a Windows host (including under cygwin)."""
-   return sys.platform in ('win32', 'cygwin')
-@@ -189,8 +195,9 @@ def GetVisualStudioVersion():
+ script_dir = os.path.dirname(os.path.realpath(__file__))
+ json_data_file = os.path.join(script_dir, 'win_toolchain.json')
+ 
+@@ -211,8 +217,9 @@ def GetVisualStudioVersion():
        program_files_path_variable = '%ProgramFiles%'
      else:
        program_files_path_variable = '%ProgramFiles(x86)%'
@@ -49,7 +49,7 @@ index f3a6fc7de..ecb7102b6 100755
      if path and any(
          os.path.exists(os.path.join(path, edition))
          for edition in ('Enterprise', 'Professional', 'Community', 'Preview',
-@@ -220,22 +227,23 @@ def DetectVisualStudioPath():
+@@ -242,22 +249,23 @@ def DetectVisualStudioPath():
      program_files_path_variable = '%ProgramFiles%'
    else:
      program_files_path_variable = '%ProgramFiles(x86)%'
@@ -79,5 +79,5 @@ index f3a6fc7de..ecb7102b6 100755
        return path
  
 -- 
-2.51.2.windows.1
+2.53.0.windows.1
 

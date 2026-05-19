@@ -1,0 +1,33 @@
+From acc9b36e412ba1341988b78931c1847f24af4288 Mon Sep 17 00:00:00 2001
+From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
+Date: Tue, 12 May 2026 19:56:31 +0900
+Subject: [PATCH] Add teamtalk static lib
+
+---
+ modules/audio_processing/BUILD.gn | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/modules/audio_processing/BUILD.gn b/modules/audio_processing/BUILD.gn
+index f1330d634d..5868746168 100644
+--- a/modules/audio_processing/BUILD.gn
++++ b/modules/audio_processing/BUILD.gn
+@@ -210,6 +210,16 @@ rtc_library("audio_processing") {
+   }
+ }
+ 
++static_library("teamtalk") {
++  complete_static_lib = true
++  configs -= [ "//build/config/compiler:thin_archive" ]
++  deps = [
++    ":audio_processing",
++    "../../api/audio:builtin_audio_processing_builder",
++    "../../api/environment:environment_factory",
++  ]
++}
++
+ rtc_library("residual_echo_detector") {
+   poisonous = [ "default_echo_detector" ]
+   configs += [ ":apm_debug_dump" ]
+-- 
+2.54.0
+

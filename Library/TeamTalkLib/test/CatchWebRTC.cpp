@@ -27,11 +27,8 @@
 #include "codec/WaveFile.h"
 
 #include <api/audio/audio_processing.h>
-#include <modules/audio_processing/agc/gain_control.h>
-#include <modules/audio_processing/audio_buffer.h>
-#include <modules/audio_processing/ns/noise_suppressor.h>
-#include <modules/audio_processing/gain_control_impl.h>
-#include <modules/audio_processing/ns/ns_config.h>
+#include <api/audio/builtin_audio_processing_builder.h>
+#include <api/environment/environment_factory.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -50,7 +47,6 @@ TEST_CASE("webrtc-audiobuf") {
     std::vector<short> in_buff(IN_SAMPLES * IN_CH);
     std::vector<short> out_buff(OUT_SAMPLES * OUT_CH);
     media::AudioFrame in_af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
-    media::AudioFrame out_af(media::AudioFormat(OUT_SR, OUT_CH), &out_buff[0], OUT_SAMPLES);
 
     WavePCMFile inwavfile;
     WavePCMFile outwavfile;
@@ -61,22 +57,27 @@ TEST_CASE("webrtc-audiobuf") {
 
     REQUIRE(inwavfile.AppendSamples(in_af.input_buffer, in_af.input_samples));
 
+    auto apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
+    REQUIRE(apm);
+    apm->Initialize();
+
     webrtc::StreamConfig in_cfg(IN_SR, IN_CH);
     webrtc::StreamConfig out_cfg(OUT_SR, OUT_CH);
-    webrtc::AudioBuffer in_ab(IN_SR, IN_CH, IN_SR, IN_CH, OUT_SR, OUT_CH);
 
     size_t in_index = 0;
     size_t out_index = 0;
-    while (in_index + in_cfg.num_frames() < IN_SAMPLES)
+    while (in_index + in_cfg.num_frames() <= static_cast<size_t>(IN_SAMPLES))
     {
-        in_ab.CopyFrom(&in_af.input_buffer[in_index * IN_CH], in_cfg);
-        in_index += in_cfg.num_frames();
+        REQUIRE(apm->ProcessStream(&in_buff[in_index * IN_CH],
+                                   in_cfg, out_cfg,
+                                   &out_buff[out_index * OUT_CH])
+                == webrtc::AudioProcessing::kNoError);
 
-        in_ab.CopyTo(out_cfg, &out_af.input_buffer[out_index]);
+        in_index += in_cfg.num_frames();
         out_index += out_cfg.num_frames();
     }
 
-    REQUIRE(outwavfile.AppendSamples(out_af.input_buffer, out_af.input_samples));
+    REQUIRE(outwavfile.AppendSamples(out_buff.data(), static_cast<int>(out_index)));
 }
 
 TEST_CASE("webrtc-noise") {
@@ -88,23 +89,25 @@ TEST_CASE("webrtc-noise") {
     int IN_CH = infile.GetChannels();
     REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), IN_SR, IN_CH));
 
+    webrtc::AudioProcessing::Config apm_cfg;
+    apm_cfg.noise_suppression.enabled = true;
+    apm_cfg.noise_suppression.level =
+        webrtc::AudioProcessing::Config::NoiseSuppression::kVeryHigh;
+
+    auto apm = webrtc::BuiltinAudioProcessingBuilder(apm_cfg)
+                   .Build(webrtc::CreateEnvironment());
+    REQUIRE(apm);
+    REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
+
     webrtc::StreamConfig const in_cfg(IN_SR, IN_CH);
-    webrtc::AudioBuffer in_ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
-    webrtc::AudioBuffer out_ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
-    std::vector<int16_t> in_buff(in_ab.num_frames() * IN_CH);
-    std::vector<int16_t> out_buff(in_ab.num_frames() * IN_CH);
+    std::vector<int16_t> in_buff(in_cfg.num_frames() * IN_CH);
+    std::vector<int16_t> out_buff(in_cfg.num_frames() * IN_CH);
 
-    webrtc::NsConfig nscfg;
-    nscfg.target_level = webrtc::NsConfig::SuppressionLevel::k21dB;
-    webrtc::NoiseSuppressor ns(nscfg, IN_SR, IN_CH);
-
-    while (infile.ReadSamples(in_buff.data(), in_ab.num_frames()) > 0)
+    while (infile.ReadSamples(in_buff.data(), in_cfg.num_frames()) > 0)
     {
-        in_ab.CopyFrom(in_buff.data(), in_cfg);
-        ns.Analyze(in_ab);
-        ns.Process(&in_ab);
-        in_ab.CopyTo(in_cfg, out_buff.data());
-        REQUIRE(outfile.AppendSamples(out_buff.data(), in_ab.num_frames()));
+        REQUIRE(apm->ProcessStream(in_buff.data(), in_cfg, in_cfg, out_buff.data())
+                == webrtc::AudioProcessing::kNoError);
+        REQUIRE(outfile.AppendSamples(out_buff.data(), in_cfg.num_frames()));
     }
 }
 
@@ -125,28 +128,31 @@ TEST_CASE("webrtc-agc")
 
     REQUIRE(rawfile.AppendSamples(in_buff.data(), IN_SAMPLES));
 
-    webrtc::AudioBuffer ab(IN_SR, IN_CH, IN_SR, IN_CH, IN_SR, IN_CH);
-    webrtc::StreamConfig const in_cfg(IN_SR, IN_CH);
-    std::vector<int16_t> agc_buff = in_buff;
-    webrtc::GainControlImpl gain;
-    gain.Initialize(IN_CH, IN_SR);
-    REQUIRE(gain.set_mode(webrtc::GainControl::kAdaptiveDigital) == webrtc::AudioProcessing::kNoError);
-    REQUIRE(gain.set_target_level_dbfs(30) == webrtc::AudioProcessing::kNoError);
-    int index = 0;
-    while (index + ab.num_frames() < IN_SAMPLES)
-    {
-        ab.CopyFrom(&in_buff[index * IN_CH], in_cfg);
-        ab.SplitIntoFrequencyBands();
-        REQUIRE(gain.AnalyzeCaptureAudio(ab) == webrtc::AudioProcessing::kNoError);
-        REQUIRE(gain.ProcessCaptureAudio(&ab, false) == webrtc::AudioProcessing::kNoError);
-        ab.MergeFrequencyBands();
-        ab.CopyTo(in_cfg, &agc_buff[index]);
-        index += ab.num_frames();
-    }
-    std::cout << "Compression gainDb: " << gain.compression_gain_db() << " "
-        << "limiter: " << gain.is_limiter_enabled() << std::endl;
+    webrtc::AudioProcessing::Config apm_cfg;
+    apm_cfg.gain_controller1.enabled = true;
+    apm_cfg.gain_controller1.mode =
+        webrtc::AudioProcessing::Config::GainController1::kAdaptiveDigital;
+    apm_cfg.gain_controller1.target_level_dbfs = 30;
+    apm_cfg.gain_controller1.analog_gain_controller.enabled = false;
 
-    REQUIRE(agcfile.AppendSamples(agc_buff.data(), IN_SAMPLES));
+    auto apm = webrtc::BuiltinAudioProcessingBuilder(apm_cfg)
+                   .Build(webrtc::CreateEnvironment());
+    REQUIRE(apm);
+    REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
+
+    webrtc::StreamConfig const in_cfg(IN_SR, IN_CH);
+    std::vector<int16_t> agc_buff(in_cfg.num_frames() * IN_CH);
+
+    int index = 0;
+    while (index + static_cast<int>(in_cfg.num_frames()) < IN_SAMPLES)
+    {
+        REQUIRE(apm->ProcessStream(&in_buff[index * IN_CH], in_cfg, in_cfg,
+                                   agc_buff.data())
+                == webrtc::AudioProcessing::kNoError);
+
+        REQUIRE(agcfile.AppendSamples(agc_buff.data(), in_cfg.num_frames()));
+        index += in_cfg.num_frames();
+    }
 }
 
 TEST_CASE("webrtc-apm")
@@ -169,9 +175,8 @@ TEST_CASE("webrtc-apm")
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames());
     std::vector<int16_t> apm_buff(af.channels * out_cfg.num_frames());
 
-    auto apm = webrtc::AudioProcessingBuilder().Create();
-
-    // first try gain_controller1
+    auto apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
+    REQUIRE(apm);
 
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.gain_controller1.enabled = true;
@@ -192,7 +197,6 @@ TEST_CASE("webrtc-apm")
     rawfile.Close();
     REQUIRE(rawfile.OpenFile(FILENAME, true));
 
-    // now try gain_controller2
     apm_cfg = webrtc::AudioProcessing::Config();
     apm_cfg.gain_controller2.enabled = true;
     apm_cfg.gain_controller2.fixed_digital.gain_db = 20;
@@ -228,7 +232,8 @@ TEST_CASE("webrtc-double-gain")
     std::vector<int16_t> in_buff(af.channels * in_cfg.num_frames());
     std::vector<int16_t> apm_buff(af.channels * out_cfg.num_frames());
 
-    auto apm = webrtc::AudioProcessingBuilder().Create();
+    auto apm = webrtc::BuiltinAudioProcessingBuilder().Build(webrtc::CreateEnvironment());
+    REQUIRE(apm);
 
     webrtc::AudioProcessing::Config apm_cfg;
     rawfile.Close();
@@ -251,7 +256,7 @@ TEST_CASE("webrtc-double-gain")
     }
     apmfile_gain1.Close();
     REQUIRE(apmfile_gain1.OpenFile(ACE_TEXT("apmfile_gain1.wav"), true));
-    
+
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 
     n = 0;
