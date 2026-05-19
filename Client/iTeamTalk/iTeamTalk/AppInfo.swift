@@ -21,6 +21,7 @@
  *
  */
 
+import TeamTalkKit
 import UIKit
 
 class AppInfo {
@@ -119,4 +120,9 @@ class AppInfo {
         return "https://www.bearware.dk/teamtalk/tt5servers.php?action=joincode&joincode=" + escJoincode +
         "&" + getDefaultUrlArgs()
     }
+}
+
+extension Notification.Name {
+    static let iTeamTalkOpenURL = Notification.Name("iTeamTalkOpenURL")
+    static let iTeamTalkRemoteControl = Notification.Name("iTeamTalkRemoteControl")
 }

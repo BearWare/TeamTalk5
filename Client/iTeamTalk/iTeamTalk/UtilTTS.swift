@@ -23,6 +23,7 @@
 
 import Foundation
 import AVFoundation
+import TeamTalkKit
 import UIKit
 
 // initialize TTS values globally
@@ -45,11 +46,7 @@ func newUtterance(_ utterance: String) {
         myUtterance.volume = (vol as AnyObject).floatValue!
     }
     if let voice = settings.string(forKey: PREF_TTSEVENT_VOICEID) {
-        if #available(iOS 9.0, *) {
-            myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
-        } else {
-            // Fallback on earlier versions
-        }
+        myUtterance.voice = AVSpeechSynthesisVoice(identifier: voice)
     }
     else if let lang = settings.string(forKey: PREF_TTSEVENT_VOICELANG) {
         myUtterance.voice = AVSpeechSynthesisVoice(language: lang)
@@ -65,12 +62,12 @@ func speakTextMessage(_ msgtype: TextMsgType, mymsg: MyTextMessage) {
     let tts_chan = settings.object(forKey: PREF_TTSEVENT_CHANTEXTMSG) != nil && settings.bool(forKey: PREF_TTSEVENT_CHANTEXTMSG) && msgtype == MSGTYPE_CHANNEL
     
     if tts_priv {
-        let ttsmsg = String(format: NSLocalizedString("Private text message from %@. %@", comment: "TTS EVENT"),
+        let ttsmsg = String(format: String(localized: "Private text message from %@. %@", comment: "TTS EVENT"),
             limitText(mymsg.nickname), mymsg.message)
         newUtterance(ttsmsg)
     }
     if tts_chan {
-        let ttsmsg = String(format: NSLocalizedString("Channel message from %@. %@", comment: "TTS EVENT"),
+        let ttsmsg = String(format: String(localized: "Channel message from %@. %@", comment: "TTS EVENT"),
             limitText(mymsg.nickname), mymsg.message)
         newUtterance(ttsmsg)
     }

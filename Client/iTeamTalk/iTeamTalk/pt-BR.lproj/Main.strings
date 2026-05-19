@@ -1,9 +1,6 @@
 /* Class = "UITabBarController"; title = "Main Tab Controller"; ObjectID = "07s-AR-tvQ"; */
 "07s-AR-tvQ.title" = "Guia principal de controles";
 
-/* Class = "UINavigationItem"; title = "Text Message"; ObjectID = "0EG-eF-WzS"; */
-"0EG-eF-WzS.title" = "Mensagem de texto";
-
 /* Class = "UILabel"; text = "Blank"; ObjectID = "0QA-gn-V1p"; */
 "0QA-gn-V1p.text" = "Vazio";
 
@@ -25,7 +22,7 @@
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
 "4RU-K7-Yga.normalTitle" = "Mensagens de usuário";
 
-/* Class = "UITableViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
+/* Class = "UIViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
 "5K7-Hd-4h7.title" = "Eventos de texto para fala";
 
 /* Class = "UIButton"; normalTitle = "Login"; ObjectID = "5YA-rx-tGz"; */
@@ -106,7 +103,7 @@
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "Login web BearWare.dk";
 
-/* Class = "UITableViewCell"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
+/* Class = "UIView"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
 "hqu-CX-Vn4.accessibilityHint" = "Duplo clique para expandir as opções deste canal.";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
@@ -121,7 +118,7 @@
 /* Class = "UILabel"; text = "Blank"; ObjectID = "kRp-LE-RFh"; */
 "kRp-LE-RFh.text" = "Vazio";
 
-/* Class = "UITableViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
+/* Class = "UIViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
 "Ksa-x9-2Mq.title" = "Configurar eventos de som";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
@@ -142,7 +139,7 @@
 /* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
 "N1w-a6-R3D.title" = "Propriedades do usuário";
 
-/* Class = "UITableViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
+/* Class = "UIViewController"; title = "Preferences"; ObjectID = "NA0-UK-wve"; */
 "NA0-UK-wve.title" = "Preferências";
 
 /* Class = "UILabel"; text = "Setup Sound Devices"; ObjectID = "ntU-ZP-sKb"; */
@@ -154,7 +151,7 @@
 /* Class = "UILabel"; text = "Show Official Servers"; ObjectID = "o2H-Vm-Vjd"; */
 "o2H-Vm-Vjd.text" = "Mostrar servidores oficiais";
 
-/* Class = "UITableViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
+/* Class = "UIViewController"; title = "BearWare.dk Web Login"; ObjectID = "o7z-cC-U4w"; */
 "o7z-cC-U4w.title" = "Login web BearWare.dk";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
@@ -163,7 +160,7 @@
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "Conectar";
 
-/* Class = "UITableViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
+/* Class = "UIViewController"; title = "Channel Detail"; ObjectID = "PhY-ED-cqF"; */
 "PhY-ED-cqF.title" = "Detalhes do canal";
 
 /* Class = "UINavigationItem"; title = "Server List"; ObjectID = "pQJ-c1-GEL"; */
@@ -196,7 +193,7 @@
 /* Class = "UITabBarItem"; title = "Preferences"; ObjectID = "vIN-Uc-3Ms"; */
 "vIN-Uc-3Ms.title" = "Preferências";
 
-/* Class = "UITableViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
+/* Class = "UIViewController"; title = "Select Voice"; ObjectID = "VWP-v4-bY8"; */
 "VWP-v4-bY8.title" = "Selecionar voz";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "w2Q-QY-g8c"; */
@@ -223,7 +220,7 @@
 /* Class = "UIButton"; normalTitle = "Enter Join Code"; ObjectID = "wxh-6H-4XJ"; */
 "wxh-6H-4XJ.normalTitle" = "Enter Join Code";
 
-/* Class = "UITableViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
+/* Class = "UIViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
 "XmQ-1z-cFv.title" = "Configurar dispositivos de entrada";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
