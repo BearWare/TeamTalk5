@@ -168,7 +168,7 @@ depend-ubuntu24:
 		cmake \
 		doxygen \
 		g++ \
-		junit4 \
+		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \
@@ -199,7 +199,7 @@ depend-ubuntu26:
 		cmake \
 		doxygen \
 		g++ \
-		junit4 \
+		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \
@@ -229,7 +229,7 @@ depend-ubuntu24-android:
 		autoconf \
 		cmake \
 		doxygen \
-		junit4 \
+		junit5 \
 		libtool \
 		nasm \
 		ninja-build \
@@ -246,7 +246,7 @@ depend-raspios12:
 		doxygen \
 		g++ \
 		git \
-		junit4 \
+		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \

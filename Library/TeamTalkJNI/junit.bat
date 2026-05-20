@@ -1,6 +1,6 @@
 set TEAMTALKJNI_HOME=%CD%
 set PATH=%PATH%;%TEAMTALKJNI_HOME%\..\TeamTalk_DLL;%TEAMTALKJNI_HOME%\libs;
-set CLASSPATH=%TEAMTALKJNI_HOME%\libs\junit4.jar;%TEAMTALKJNI_HOME%\libs\hamcrest-core.jar
+set JUNIT_JAR=%TEAMTALKJNI_HOME%\libs\junit-platform-console-standalone.jar
 
 @set JAVAPROP=-Djava.library.path=%TEAMTALKJNI_HOME%\libs
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.sndinputid=%INPUTDEVICEID%
@@ -19,14 +19,12 @@ set CLASSPATH=%TEAMTALKJNI_HOME%\libs\junit4.jar;%TEAMTALKJNI_HOME%\libs\hamcres
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.githubskip=%GITHUBSKIP%
 @set JAVAPROP=%JAVAPROP% -Ddk.bearware.debug=%GITHUBDEBUG%
 
-@REM :again
-@REM java.exe -cp %CLASSPATH% %JAVAPROP% SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#testVirtualSoundDevice
-@REM if %ERRORLEVEL% EQU 0 goto again
-
 REM %1 can be TeamTalkStdTestSuite TeamTalkProTestSuite TeamTalkServerTestSuite
-if %1 EQU TeamTalkStdTestSuite set CLASSPATH=%CLASSPATH%;%TEAMTALKJNI_HOME%\libs\TeamTalk5.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5Test.jar
-if %1 EQU TeamTalkProTestSuite set CLASSPATH=%CLASSPATH%;%TEAMTALKJNI_HOME%\libs\TeamTalk5Pro.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5ProTest.jar
-if %1 EQU TeamTalkServerTestSuite set CLASSPATH=%CLASSPATH%;%TEAMTALKJNI_HOME%\libs\TeamTalk5Pro.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5SrvTest.jar
+if %1 EQU TeamTalkStdTestSuite set CLASSPATH=%TEAMTALKJNI_HOME%\libs\TeamTalk5.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5Test.jar
+if %1 EQU TeamTalkProTestSuite set CLASSPATH=%TEAMTALKJNI_HOME%\libs\TeamTalk5Pro.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5ProTest.jar
+if %1 EQU TeamTalkServerTestSuite set CLASSPATH=%TEAMTALKJNI_HOME%\libs\TeamTalk5Pro.jar;%TEAMTALKJNI_HOME%\libs\TeamTalk5SrvTest.jar
 
 cd test
-java.exe -cp %CLASSPATH% %JAVAPROP% org.junit.runner.JUnitCore %1
+java.exe %JAVAPROP% -jar %JUNIT_JAR% --class-path %CLASSPATH% --select-class %1
+
+@REM java.exe %JAVAPROP% -jar %JUNIT_JAR% --class-path %CLASSPATH% --select-method %1#%2

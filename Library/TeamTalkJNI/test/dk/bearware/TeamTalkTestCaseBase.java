@@ -23,16 +23,10 @@
 
 package dk.bearware;
 
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.After;
-import org.junit.Rule;
-import org.junit.AssumptionViolatedException;
-import org.junit.runner.Description;
-import org.junit.rules.Stopwatch;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotEquals;
+import org.junit.jupiter.api.extension.ExtendWith;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.Vector;
 import java.io.FileOutputStream;
@@ -40,6 +34,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 
+@ExtendWith(TestTimingExtension.class)
 public abstract class TeamTalkTestCaseBase {
 
     public static boolean ENCRYPTED = false;
@@ -70,28 +65,6 @@ public abstract class TeamTalkTestCaseBase {
 
     public abstract TeamTalkBase newClientInstance();
 
-    @Rule
-    public Stopwatch stopwatch = new Stopwatch() {
-
-            @Override
-            protected void succeeded(long nanos, Description description) {
-            }
-
-            @Override
-            protected void failed(long nanos, Throwable e, Description description) {
-            }
-
-            @Override
-            protected void skipped(long nanos, AssumptionViolatedException e, Description description) {
-            }
-
-            @Override
-            protected void finished(long nanos, Description description) {
-                System.out.println(description + " Duration: " + (nanos / 1000000) + " msec");
-            }
-        };
-
-    @Before
     public void setUp() throws Exception {
 
         String prop = System.getProperty("dk.bearware.sndinputid");
@@ -145,7 +118,7 @@ public abstract class TeamTalkTestCaseBase {
         prop = System.getProperty("dk.bearware.debug");
         if (prop != null && !prop.isEmpty())
             this.DEBUG_OUTPUT = Integer.parseInt(prop) != 0;
-        
+
         if (TCPPORT == 0 && UDPPORT == 0) {
             if (this.ENCRYPTED) {
                 TCPPORT = Constants.DEFAULT_TCP_PORT_ENCRYPTED;
@@ -158,7 +131,6 @@ public abstract class TeamTalkTestCaseBase {
         }
     }
 
-    @After
     public void tearDown() throws Exception {
 
         for(TeamTalkBase ttclient : ttclients) {
@@ -192,7 +164,7 @@ public abstract class TeamTalkTestCaseBase {
     protected void initSound(TeamTalkBase ttclient, boolean duplex, int inputdeviceid, int outputdeviceid) {
 
         Vector<SoundDevice> devs = new Vector<SoundDevice>();
-        assertTrue("get sound devs", ttclient.getSoundDevices(devs));
+        assertTrue(ttclient.getSoundDevices(devs), "get sound devs");
 
         if ("0".equals(System.getProperty("dk.bearware.verbose")) == false) {
             System.out.println("---- Sound Devices ----");
@@ -202,7 +174,7 @@ public abstract class TeamTalkTestCaseBase {
 
         IntPtr indev = new IntPtr(), outdev = new IntPtr();
         if (inputdeviceid < 0 && outputdeviceid < 0)
-           assertTrue("get default devs", ttclient.getDefaultSoundDevices(indev, outdev));
+           assertTrue(ttclient.getDefaultSoundDevices(indev, outdev), "get default devs");
 
         if (inputdeviceid >= 0)
             indev.value = inputdeviceid;
@@ -210,11 +182,11 @@ public abstract class TeamTalkTestCaseBase {
             outdev.value = outputdeviceid;
 
         if(duplex) {
-            assertTrue("init duplex devs", ttclient.initSoundDuplexDevices(indev.value, outdev.value));
+            assertTrue(ttclient.initSoundDuplexDevices(indev.value, outdev.value), "init duplex devs");
         }
         else {
-            assertTrue("init input dev", ttclient.initSoundInputDevice(indev.value));
-            assertTrue("init output dev", ttclient.initSoundOutputDevice(outdev.value));
+            assertTrue(ttclient.initSoundInputDevice(indev.value), "init input dev");
+            assertTrue(ttclient.initSoundOutputDevice(outdev.value), "init output dev");
         }
 
         if ("0".equals(System.getProperty("dk.bearware.verbose")) == false) {
@@ -247,9 +219,9 @@ public abstract class TeamTalkTestCaseBase {
     protected static void connect(TeamTalkBase ttclient, String systemID,
                                   String hostaddr, int tcpport, int udpport, ServerInterleave server)
     {
-        assertTrue("connect call", ttclient.connectSysID(hostaddr, tcpport, udpport, 0, 0, ENCRYPTED, systemID));
+        assertTrue(ttclient.connectSysID(hostaddr, tcpport, udpport, 0, 0, ENCRYPTED, systemID), "connect call");
 
-        assertTrue("wait connect", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, DEF_WAIT, server));
+        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_SUCCESS, DEF_WAIT, server), "wait connect");
     }
 
     protected static void login(TeamTalkBase ttclient, String nick, String username, String passwd) {
@@ -264,16 +236,16 @@ public abstract class TeamTalkTestCaseBase {
                                 String passwd, String clientname, ServerInterleave server)
     {
         int cmdid = ttclient.doLoginEx(nick, username, passwd, clientname);
-        assertTrue("do login for " + username, cmdid > 0);
+        assertTrue(cmdid > 0, "do login for " + username);
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait login for " + username + " cmdid: " + cmdid, waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, server));
+        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, server), "wait login for " + username + " cmdid: " + cmdid);
 
         UserAccount account = msg.useraccount;
-        assertEquals("username set", username, account.szUsername);
+        assertEquals(username, account.szUsername, "username set");
         //Assert.AreEqual(passwd, account.szPassword, "password set");
-        assertTrue("Wait login complete for " + username, waitCmdComplete(ttclient, cmdid, DEF_WAIT));
-        assertTrue("Authorized for " + username, hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        assertTrue(waitCmdComplete(ttclient, cmdid, DEF_WAIT), "Wait login complete for " + username);
+        assertTrue(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED), "Authorized for " + username);
     }
 
     protected void resetServerProperties() {
@@ -303,15 +275,15 @@ public abstract class TeamTalkTestCaseBase {
         prop.szServerProtocolVersion = "";
         prop.szAccessToken = "";
         prop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_DEFAULT;
-        assertTrue("reset server properties", waitCmdSuccess(ttclient, ttclient.doUpdateServer(prop), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUpdateServer(prop), DEF_WAIT), "reset server properties");
 
         // reset bans
         int cmdid = ttclient.doListBans(0, 0, 10000);
-        assertTrue("do list bans", cmdid > 0);
+        assertTrue(cmdid > 0, "do list bans");
         removeBans(ttclient, cmdid);
 
         cmdid = ttclient.doListBans(ttclient.getRootChannelID(), 0, 10000);
-        assertTrue("do list root bans", cmdid > 0);
+        assertTrue(cmdid > 0, "do list root bans");
         removeBans(ttclient, cmdid);
 
         // erase user accounts
@@ -335,7 +307,7 @@ public abstract class TeamTalkTestCaseBase {
             if (account.szUsername.equals(ADMIN_USERNAME))
                 continue;
 
-            assertTrue("del account", waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT));
+            assertTrue(waitCmdSuccess(ttclient, ttclient.doDeleteUserAccount(account.szUsername), DEF_WAIT), "del account");
         }
 
         // reset root channel
@@ -343,12 +315,12 @@ public abstract class TeamTalkTestCaseBase {
         root.nChannelID = ttclient.getRootChannelID();
         root.uChannelType = ChannelType.CHANNEL_PERMANENT;
         root.nMaxUsers = prop.nMaxUsers;
-        assertTrue("reset root channel", waitCmdSuccess(ttclient, ttclient.doUpdateChannel(root), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doUpdateChannel(root), DEF_WAIT), "reset root channel");
 
         //delete all subchannels
-        assertTrue("delete all channels", waitCmdSuccess(ttclient, ttclient.doRemoveChannel(ttclient.getRootChannelID()), DEF_WAIT));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doRemoveChannel(ttclient.getRootChannelID()), DEF_WAIT), "delete all channels");
 
-        assertTrue("Disconnect", ttclient.disconnect());
+        assertTrue(ttclient.disconnect(), "Disconnect");
     }
 
     protected void removeBans(TeamTalkBase ttclient, int cmdid) {
@@ -368,7 +340,7 @@ public abstract class TeamTalkTestCaseBase {
         }
 
         for (BannedUser ban : bans) {
-            assertTrue("del ban", waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT));
+            assertTrue(waitCmdSuccess(ttclient, ttclient.doUnBanUserEx(ban), DEF_WAIT), "del ban");
         }
     }
 
@@ -382,8 +354,8 @@ public abstract class TeamTalkTestCaseBase {
         useraccount.szPassword = password;
         useraccount.uUserRights = userrights;
         useraccount.uUserType = UserType.USERTYPE_DEFAULT;
-        assertTrue("New user account ok", waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT));
-        assertTrue("Disconnect", ttclient.disconnect());
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doNewUserAccount(useraccount), DEF_WAIT), "New user account ok");
+        assertTrue(ttclient.disconnect(), "Disconnect");
     }
 
     protected static void joinRoot(TeamTalkBase ttclient) {
@@ -392,17 +364,17 @@ public abstract class TeamTalkTestCaseBase {
 
     protected static void joinRoot(TeamTalkBase ttclient, ServerInterleave server)
     {
-        assertTrue("Auth ok", hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED));
+        assertTrue(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_AUTHORIZED), "Auth ok");
 
-        assertTrue("root exists", ttclient.getRootChannelID() > 0);
+        assertTrue(ttclient.getRootChannelID() > 0, "root exists");
 
         int cmdid = ttclient.doJoinChannelByID(ttclient.getRootChannelID(), "");
 
-        assertTrue("do join root", cmdid > 0);
+        assertTrue(cmdid > 0, "do join root");
 
-        assertTrue("Wait join complete", waitCmdComplete(ttclient, cmdid, DEF_WAIT, server));
+        assertTrue(waitCmdComplete(ttclient, cmdid, DEF_WAIT, server), "Wait join complete");
 
-        assertEquals("In root channel", ttclient.getRootChannelID(), ttclient.getMyChannelID());
+        assertEquals(ttclient.getRootChannelID(), ttclient.getMyChannelID(), "In root channel");
     }
 
     protected static boolean waitForEvent(TeamTalkBase ttclient, int nClientEvent,
@@ -425,14 +397,14 @@ public abstract class TeamTalkTestCaseBase {
             // ClientEvent.CLIENTEVENT_NONE' which is default in
             // TTMessage. So set to something unsupported.
             tmp.nClientEvent = -1;
-            assertNotEquals("ClientEvent -1 is reserved", tmp.nClientEvent, nClientEvent);
+            assertNotEquals(tmp.nClientEvent, nClientEvent, "ClientEvent -1 is reserved");
 
             gotmsg = ttclient.getMessage(tmp, 0);
 
             interleave.interleave();
 
             if (gotmsg) {
-                
+
                 switch (tmp.nClientEvent) {
                 case ClientEvent.CLIENTEVENT_INTERNAL_ERROR :
                     switch (tmp.clienterrormsg.nErrorNo) {
@@ -455,11 +427,11 @@ public abstract class TeamTalkTestCaseBase {
         while (tmp.nClientEvent != nClientEvent && (System.currentTimeMillis() - start <= waittimeout || gotmsg));
 
         if (tmp.nClientEvent == nClientEvent) {
-            
+
             if (DEBUG_OUTPUT) {
                 System.out.println(System.currentTimeMillis() + " #" + ttclient.getMyUserID() + " Success: " + tmp.nClientEvent);
             }
-            
+
             msg.nClientEvent = tmp.nClientEvent;
             msg.ttType = tmp.ttType;
             msg.nSource = tmp.nSource;
@@ -483,7 +455,7 @@ public abstract class TeamTalkTestCaseBase {
             msg.nStreamType = tmp.nStreamType;
             msg.audioinputprogress = tmp.audioinputprogress;
             //if assert fails it's because the TTType isn't handled here
-            assertTrue("TTType unhandled: " + tmp.ttType, tmp.ttType <= TTType.__AUDIOINPUTPROGRESS);
+            assertTrue(tmp.ttType <= TTType.__AUDIOINPUTPROGRESS, "TTType unhandled: " + tmp.ttType);
         }
         else {
             if (DEBUG_OUTPUT) {
@@ -589,7 +561,7 @@ public abstract class TeamTalkTestCaseBase {
             if (ste.getMethodName().startsWith("test"))
                 return ste.getMethodName();
         }
-        assertTrue("no test method found", false);
+        assertTrue(false, "no test method found");
         return "";
     }
 
@@ -682,8 +654,8 @@ public abstract class TeamTalkTestCaseBase {
         SoundDevice indev = getSoundDevice(ttclient, inputdeviceid),
             outdev = getSoundDevice(ttclient, outputdeviceid);
 
-        assertTrue("indev set", indev != null);
-        assertTrue("outdev set", outdev != null);
+           assertTrue(indev != null, "indev set");
+           assertTrue(outdev != null, "outdev set");
 
         boolean inputsr = supportsInputSampleRate(indev, samplerate),
             outputsr = supportsOutputSampleRate(outdev, samplerate);

@@ -1,8 +1,7 @@
 TEAMTALK_ROOT=$(PWD)/../..
 
-#locations of 'hamcrest-core' and 'junit'
-HAMCRESTCORE_JAR ?= /usr/share/java/hamcrest-core.jar
-JUNIT_JAR ?= /usr/share/java/junit4.jar
+#location of 'junit'
+JUNIT_JAR ?= /usr/share/java/junit-platform-console-standalone.jar
 
 ifeq ($(shell uname),Darwin)
 SHARED_EXT := dylib
@@ -12,7 +11,7 @@ SHARED_EXT := so
 LIBPATHNAME=LD_LIBRARY_PATH
 endif
 
-CLASSPATH ?= .:$(HAMCRESTCORE_JAR):$(JUNIT_JAR)
+CLASSPATH ?= .:$(JUNIT_JAR)
 CLASSPATH_STD = $(CLASSPATH):$(PWD)/libs/TeamTalk5.jar:$(PWD)/libs/TeamTalk5Test.jar
 CLASSPATH_PRO = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5ProTest.jar
 CLASSPATH_SRV = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5SrvTest.jar
@@ -20,8 +19,6 @@ CLASSPATH_SRV = $(CLASSPATH):$(PWD)/libs/TeamTalk5Pro.jar:$(PWD)/libs/TeamTalk5S
 # DYLD_LIBRARY_PATH has been removed in Mac OS Sierra, so use
 # -Djava.library.path instead
 LIBPATH=$(TEAMTALK_ROOT)/Library/TeamTalk_DLL:$(TEAMTALK_ROOT)/Library/TeamTalkJNI/libs
-
-SRCTARGET=-source 1.7 -target 1.7
 
 # Override default settings in dk.bearware.TeamTalkTestCaseBase
 JAVAPROP=-Djava.library.path=$(LIBPATH)
@@ -98,19 +95,19 @@ macnativepro:
 	install_name_tool -change @rpath/libTeamTalk5Pro.dylib $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.dylib libs/libTeamTalk5Pro-jni.dylib
 
 runjunit:
-	cd test && java -cp "$(CLASSPATH_STD)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkStdTestSuite
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_STD)" --select-class TeamTalkStdTestSuite
 
 runjunitpro:
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkProTestSuite
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_PRO)" --select-class TeamTalkProTestSuite
 
 runjunitsrv:
-	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) org.junit.runner.JUnitCore TeamTalkServerTestSuite
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_SRV)" --select-class TeamTalkServerTestSuite
 
 testcase:
-	cd test && java -cp "$(CLASSPATH_STD)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkStdTestCase#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_STD)" --select-method TeamTalkStdTestSuite#$(TARGET)
 
 testcasepro:
-	cd test && java -cp "$(CLASSPATH_PRO)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkProTestCase#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_PRO)" --select-method TeamTalkProTestCase#$(TARGET)
 
 testcasesrv:
-	cd test && java -cp "$(CLASSPATH_SRV)" $(JAVAPROP) SingleJUnitTestRunner dk.bearware.TeamTalkServerTestCase#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_SRV)" --select-method TeamTalkServerTestCase#$(TARGET)
