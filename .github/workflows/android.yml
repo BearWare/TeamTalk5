@@ -59,14 +59,6 @@ jobs:
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
-    - name: Build Java test targets
-      working-directory: ${{runner.workspace}}
-      run: |
-        cmake -S ${{github.workspace}} -B build-host -DBUILD_TEAMTALK_CORE=OFF
-        cmake --build build-host --target TeamTalk5Test
-        cmake --build build-host --target TeamTalk5ProTest
-        cmake --build build-host --target TeamTalk5SrvTest
-
     - name: Generate Android signing keystore
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
       run: |

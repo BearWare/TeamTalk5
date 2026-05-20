@@ -223,80 +223,74 @@ if (Java_FOUND)
 
   # JUnit tests
 
-  if (MSVC)
-    ExternalProject_Add(hamcrest-core
-      URL                 https://repo1.maven.org/maven2/org/hamcrest/hamcrest/3.0/hamcrest-3.0.jar
-      DOWNLOAD_NO_EXTRACT TRUE
-      DOWNLOAD_NAME       hamcrest-core.jar
-      UPDATE_COMMAND      ""
-      INSTALL_COMMAND     ""
-      INSTALL_DIR         ""
-      CONFIGURE_COMMAND   ""
-      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/hamcrest-core.jar ${CMAKE_CURRENT_LIST_DIR}/libs/hamcrest-core.jar
-      )
+  find_jar (JUNIT-PLATFORM-CONSOLE-STANDALONE NAMES junit-platform-console-standalone
+    PATHS ENV JUNIT_HOME
+    DOC "Find JUnit Platform Console Standalone")
 
-    ExternalProject_Add(junit4
-      URL                 https://repo1.maven.org/maven2/junit/junit/4.13.2/junit-4.13.2.jar
+  if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
+      # JUnit 5 JAR URLs
+    set (JUNIT_PLATFORM_VERSION 1.9.3)
+
+    ExternalProject_Add(junit-platform-console-standalone-maven
+      URL                 https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_PLATFORM_VERSION}/junit-platform-console-standalone-${JUNIT_PLATFORM_VERSION}.jar
       DOWNLOAD_NO_EXTRACT TRUE
-      DOWNLOAD_NAME       junit4.jar
+      DOWNLOAD_NAME       junit-platform-console-standalone.jar
       UPDATE_COMMAND      ""
       INSTALL_COMMAND     ""
+      BUILD_BYPRODUCTS    ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
       INSTALL_DIR         ""
       CONFIGURE_COMMAND   ""
-      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit4.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit4.jar
-      DEPENDS             hamcrest-core
+      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit-platform-console-standalone.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
       )
-    ExternalProject_Get_Property(junit4 DOWNLOAD_DIR)
-    set (junit ${DOWNLOAD_DIR}/junit4.jar)
+    ExternalProject_Get_Property(junit-platform-console-standalone-maven BUILD_BYPRODUCTS)
+    set (JUNITJAR ${BUILD_BYPRODUCTS})
   else()
-    find_jar (junit NAMES junit4 junit
-      PATHS ENV JUNIT_HOME
-      DOC "Find JUnit")
-    set (JUNITJAR ${junit})
+    set (JUNITJAR ${JUNIT-PLATFORM-CONSOLE-STANDALONE})
   endif()
 
-  if (NOT junit)
-    message(WARNING "Cannot find JUnit jar. Skipping JUnit tests.")
-  else()
-    if (BUILD_TEAMTALK_LIBRARY_JAR)
-      add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${junit}
-        ENTRY_POINT org/junit/runner/JUnitCore
-        SOURCES test/dk/bearware/TeamTalkTestCase.java
-        test/dk/bearware/TeamTalkTestCaseBase.java
-        test/dk/bearware/TeamTalkStdTestCase.java
-        test/TeamTalkStdTestSuite.java
-        test/SingleJUnitTestRunner.java
-        OUTPUT_DIR libs)
-      if (MSVC)
-        add_dependencies(TeamTalk5Test junit4)
-      endif()
-      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5Test.jar DESTINATION Library/TeamTalkJNI/libs)
+  if (BUILD_TEAMTALK_LIBRARY_JAR)
+    add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${JUNITJAR}
+      ENTRY_POINT org/junit/platform/console/ConsoleLauncher
+      SOURCES test/dk/bearware/TeamTalkTestCase.java
+      test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkStdTestCase.java
+      test/dk/bearware/TestTimingExtension.java
+      test/TeamTalkStdTestSuite.java
+      test/SummaryTestExecutionListener.java
+      OUTPUT_DIR libs)
+    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
+      add_dependencies (TeamTalk5Test junit-platform-console-standalone-maven)
     endif()
-
-    if (BUILD_TEAMTALK_LIBRARY_JARPRO)
-      add_jar (TeamTalk5ProTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
-        ENTRY_POINT org/junit/runner/JUnitCore
-        SOURCES test/dk/bearware/TeamTalkTestCase.java
-        test/dk/bearware/TeamTalkTestCaseBase.java
-        test/dk/bearware/TeamTalkProTestCase.java
-        test/TeamTalkProTestSuite.java
-        test/SingleJUnitTestRunner.java
-        OUTPUT_DIR libs)
-      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5ProTest.jar DESTINATION Library/TeamTalkJNI/libs)
-
-      add_jar (TeamTalk5SrvTest INCLUDE_JARS TeamTalk5ProJAR ${junit}
-        ENTRY_POINT org/junit/runner/JUnitCore
-        SOURCES test/dk/bearware/TeamTalkTestCaseBase.java
-        test/dk/bearware/TeamTalkServerTestCase.java
-        test/TeamTalkServerTestSuite.java
-        test/SingleJUnitTestRunner.java
-        OUTPUT_DIR libs)
-      install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5SrvTest.jar DESTINATION Library/TeamTalkJNI/libs)
-
-      if (MSVC)
-        add_dependencies(TeamTalk5ProTest junit4)
-        add_dependencies(TeamTalk5SrvTest junit4)
-      endif()
-    endif(BUILD_TEAMTALK_LIBRARY_JARPRO)
+    install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5Test.jar DESTINATION Library/TeamTalkJNI/libs)
   endif()
+
+  if (BUILD_TEAMTALK_LIBRARY_JARPRO)
+    add_jar (TeamTalk5ProTest INCLUDE_JARS TeamTalk5ProJAR ${JUNITJAR}
+      ENTRY_POINT org/junit/platform/console/ConsoleLauncher
+      SOURCES test/dk/bearware/TeamTalkTestCase.java
+      test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkProTestCase.java
+      test/dk/bearware/TestTimingExtension.java
+      test/TeamTalkProTestSuite.java
+      test/SummaryTestExecutionListener.java
+      OUTPUT_DIR libs)
+    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
+      add_dependencies (TeamTalk5ProTest junit-platform-console-standalone-maven)
+    endif()
+    install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5ProTest.jar DESTINATION Library/TeamTalkJNI/libs)
+
+    add_jar (TeamTalk5SrvTest INCLUDE_JARS TeamTalk5ProJAR ${JUNITJAR}
+      ENTRY_POINT org/junit/platform/console/ConsoleLauncher
+      SOURCES test/dk/bearware/TeamTalkTestCaseBase.java
+      test/dk/bearware/TeamTalkServerTestCase.java
+      test/dk/bearware/TestTimingExtension.java
+      test/TeamTalkServerTestSuite.java
+      test/SummaryTestExecutionListener.java
+      OUTPUT_DIR libs)
+    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
+      add_dependencies (TeamTalk5SrvTest junit-platform-console-standalone-maven)
+    endif()
+    install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5SrvTest.jar DESTINATION Library/TeamTalkJNI/libs)
+
+  endif(BUILD_TEAMTALK_LIBRARY_JARPRO)
 endif()
