@@ -30,6 +30,9 @@ public:
 protected:
     void keyPressEvent(QKeyEvent* e) override;
     void currentChanged(const QModelIndex &current, const QModelIndex &previous) override;
+    void showEvent(QShowEvent* e) override;
+protected slots:
+    void ensureSelection();
 private:
     void moveColumnLeft();
     void moveColumnRight();
