@@ -8,13 +8,14 @@ Default Qt Client
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
+- Ubuntu 22 is no longer supported
 Android Client
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
 - Minimum supported iOS version is now 16.0
 Server
--
+- Ubuntu 22 is no longer supported
 
 Version 5.22, 2026/04/06
 Default Qt Client

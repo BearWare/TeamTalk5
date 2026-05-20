@@ -6,8 +6,7 @@ Video4Linux2 (V4L2) for video capture.
 
 Officially supported Linux distributions are the follow:
 
-- Debian 10, Raspbian 10, Ubuntu 22.04
-- Debian 12, Raspberry PI OS (Bookworm), Ubuntu 24.04
+- Raspberry PI OS (Bookworm), Ubuntu 24.04, Ubuntu 26.04
 
 Checkout the Dependencies sections to see what libraries must be
 installed to run TeamTalk 5.
@@ -50,18 +49,8 @@ using apt package manager. The follow two sections list the packages
 to install depending on your Linux distribution.
 
 
-Dependencies for Debian 10 / Raspbian 10 / Ubuntu 22.04
--------------------------------------------------------
-
-To install the packages run the following command as 'root':
-
-apt install libqt5x11extras5 libqt5widgets5 libqt5multimedia5 \
-  libqt5gui5 libqt5network5 libqt5xml5 libqt5core5a libqt5texttospeech5 \
-  libasound2 libpulse0 libxss1
-
-
-Dependencies for Debian 12 / Raspberry PI OS (Bookworm) / Ubuntu 24.04
-----------------------------------------------------------------------
+Dependencies for Raspberry PI OS (Bookworm) / Ubuntu 24.04 / Ubuntu 26.04
+-------------------------------------------------------------------------
 
 To install the packages run the following command as 'root':
 

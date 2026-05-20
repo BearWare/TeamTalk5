@@ -34,24 +34,23 @@ Projects wrapping the client and server binaries in the TeamTalk SDK.
   * A [Makefile](Build/Makefile) is available in [Build](Build) for
       quickly building for macOS, Ubuntu, Android, iOS and Raspberry Pi OS (Debian) e.g.:
       * `make -C Build depend-mac mac` requires [Homebrew](https://brew.sh)
-      * `sudo make -C Build depend-ubuntu22` followed by `make -C Build ubuntu22`
+      * `sudo make -C Build depend-ubuntu26` followed by `make -C Build ubuntu26`
   * A [docker-compose](Build/Docker/docker-compose.yml) file is available in [Build/Docker](Build/Docker)
       for quickly building for Linux distributions e.g.:
-      * `docker compose run --rm ubuntu22 make -C /TeamTalk5/Build ubuntu22`
-      * `docker compose run --rm ubuntu24 make -C /TeamTalk5/Build ubuntu24`
+      * `docker compose run --rm ubuntu26 make -C /TeamTalk5/Build ubuntu26`
       * `docker compose run --rm android make -C /TeamTalk5/Build android-all`
 * [**TeamTalk_DLL**](Library/TeamTalk_DLL) (dependency: **TeamTalkLib**)
   * TeamTalk 5 C-API DLL
   * C-API header files for TeamTalk 5 DLL
-    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/C-API)
+    * API [Documentation](https://bearware.dk/?page_id=415)
   * Build using TeamTalkLib or [download TeamTalk 5 SDK](https://bearware.dk/?page_id=419)
 * [**TeamTalk.NET**](Library/TeamTalk.NET) (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 .NET DLL wrapper for C-API TeamTalk 5 DLL (**TeamTalk_DLL**)
-    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/NET/)
+    * API [Documentation](https://bearware.dk/?page_id=415)
   * Requires DLL file from **TeamTalk_DLL** project, either 32-bit or 64-bit
 * [**TeamTalkJNI**](Library/TeamTalkJNI) (dependency: **TeamTalk_DLL**)
   * TeamTalk 5 JNI project with Java wrapper classes
-    * Preliminary API [Documentation](https://bearware.dk/teamtalksdk/v5.12a/docs/Java/)
+    * API [Documentation](https://bearware.dk/?page_id=415)
 * [**TeamTalkPy**](Library/TeamTalkPy) (dependency: **TeamTalk_DLL**)
   * Python wrappers for TeamTalk DLL
 * [**teamtalk_rust**](Library/teamtalk_rust) (dependency: **TeamTalk_DLL**)
