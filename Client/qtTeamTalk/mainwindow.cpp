@@ -161,7 +161,11 @@ MainWindow::MainWindow(const QString& cfgfile)
     {
         inipath = QDir::fromNativeSeparators(cfgfile);
         if(!QFile::exists(inipath))
-            QFile(inipath).open(QIODevice::WriteOnly);
+        {
+            QFile f(inipath);
+            if(!f.open(QIODevice::WriteOnly))
+                qWarning() << "Failed to create config file:" << inipath;
+        }
     }
 
     if(QFile::exists(inipath)) //first try same dir as executable
