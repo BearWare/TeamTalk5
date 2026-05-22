@@ -325,7 +325,7 @@ QStringList initSoundDevices(const SoundDevice& indev, const SoundDevice& outdev
     // disable WebRTC echo cancel if duplex mode is disabled
     if (preprocess.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR)
     {
-        preprocess.webrtc.echocanceller.bEnable &= duplex;
+        preprocess.webrtc.echocanceller.bEnable = preprocess.webrtc.echocanceller.bEnable && duplex;
     }
 
     TT_SetSoundInputPreprocessEx(ttInst, &preprocess);
