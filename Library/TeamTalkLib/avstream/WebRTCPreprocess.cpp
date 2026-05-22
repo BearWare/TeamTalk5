@@ -115,10 +115,14 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
         if (stats != nullptr)
         {
             auto wstats = apm.GetStatistics();
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
             voice_detected |= wstats.voice_detected.value_or(false);
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
         }
 
         in_index += in_cfg.num_frames();
@@ -128,10 +132,14 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
 
     if ((stats != nullptr) && n > 0)
     {
+#ifdef __clang__
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
+#endif
         stats->voice_detected = voice_detected;
+#ifdef __clang__
 #pragma clang diagnostic pop
+#endif
     }
 
     return infrm.input_samples;
