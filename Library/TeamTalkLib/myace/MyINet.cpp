@@ -78,13 +78,13 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
         if (curr->ai_family == AF_INET6)
         {
             addr.in6_.sin6_port = htons(port);
-            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in6_), sizeof(addr.in6_));
+            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in6_), static_cast<int>(sizeof(addr.in6_)));
         }
         else
 #endif
         {
             addr.in4_.sin_port = htons(port);
-            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in4_), sizeof(addr.in4_));
+            result.emplace_back(reinterpret_cast<const sockaddr_in*>(&addr.in4_), static_cast<int>(sizeof(addr.in4_)));
         }
     }
 
