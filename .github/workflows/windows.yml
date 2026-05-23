@@ -39,7 +39,7 @@ jobs:
             portablearch: win64
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech'
-            qtversion: '6.10.*'
+            qtversion: '6.11.1'
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
@@ -69,6 +69,7 @@ jobs:
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
         setup-python: false
+        aqtsource: 'aqtinstall@git+https://github.com/miurahr/aqtinstall.git@master'
 
     - name: Install Doxygen
       uses: ssciwr/doxygen-install@v2

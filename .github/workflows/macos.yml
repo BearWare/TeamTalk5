@@ -39,9 +39,10 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
-        version: '6.10.*'
+        version: '6.11.1'
         modules: 'qtmultimedia qtspeech'
         setup-python: false
+        aqtsource: 'aqtinstall@git+https://github.com/miurahr/aqtinstall.git@master'
 
     - name: Print env
       run: printenv | sort
