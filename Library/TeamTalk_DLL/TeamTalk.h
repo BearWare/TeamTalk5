@@ -343,7 +343,7 @@ extern "C" {
         /** @brief Same as #SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
         /** @brief PulseAudio API.
-         *  PulseAudio is typically used on Ubuntu 22. */
+         *  PulseAudio is typically used on Ubuntu and Raspberry Pi OS. */
         SOUNDSYSTEM_PULSEAUDIO = 10,
     } SoundSystem;
 

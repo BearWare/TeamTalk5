@@ -9,14 +9,14 @@ The following secions explain how to build TeamTalk binaries using CMake:
 * [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
   * Install the tools required to build TeamTalk on the host build platform:
     * [Windows](#install-teamtalk-dependencies-on-windows)
-    * [Ubuntu 22](#install-teamtalk-dependencies-on-ubuntu-22)
+    * [Ubuntu 26](#install-teamtalk-dependencies-on-ubuntu-26)
     * [Android on Ubuntu 22](#install-teamtalk-dependencies-for-android-on-ubuntu-22)
     * [macOS](#install-teamtalk-dependencies-on-macos)
     * [iOS on macOS](#install-teamtalk-dependencies-for-ios-on-macos)
 * [Build TeamTalk Binaries](#build-teamTalk-binaries)
   * Invoke CMake to start building the TeamTalk binaries on the host build platform:
     * [Windows](#build-teamtalk-binaries-for-windows)
-    * [Ubuntu 22](#build-teamtalk-binaries-for-ubuntu-22)
+    * [Ubuntu 26](#build-teamtalk-binaries-for-ubuntu-26)
     * [Android on Ubuntu 22](#build-teamtalk-binaries-for-android-on-ubuntu-22)
     * [macOS](#build-teamtalk-binaries-for-macos)
     * [iOS on macOS](#build-teamtalk-binaries-for-ios-on-macos)
@@ -59,20 +59,22 @@ manually.
     * Install to default location (`C:/Program Files/NASM`) or add to PATH
     * LibVPX requires *NASM*
     * NASM will be auto-downloaded if not found during CMake configuration
+* Install Windows 11 SDK (10.0.26100.0). This can be installed from
+  Visual Studio Installer.
 
 ### Install TeamTalk Dependencies on Ubuntu
 
-A Makefile is available for Ubuntu 22 and 24 to install all the dependencies
-required to build TeamTalk binaries.
-
-* To install build dependencies for Ubuntu 22 run the following in
-  TEAMTALK_ROOT:
-  * `sudo make -C Build depend-ubuntu22`
-    * `sudo` is required because `apt install` is called.
+A Makefile is available for Ubuntu 24 and 26 to install all the
+dependencies required to build TeamTalk binaries.
 
 * To install build dependencies for Ubuntu 24 run the following in
   TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu24`
+    * `sudo` is required because `apt install` is called.
+
+* To install build dependencies for Ubuntu 26 run the following in
+  TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu26`
     * `sudo` is required because `apt install` is called.
 
 ### Install TeamTalk Dependencies for Android on Ubuntu 24
@@ -142,16 +144,16 @@ it downloads its repository.
 When both `FEATURE_FFMPEG` and `FEATURE_MEDIAFOUNDATION` are enabled,
 FFmpeg is tried first and Media Foundation is used as fallback.
 
-### Build TeamTalk Binaries for Ubuntu 22
+### Build TeamTalk Binaries for Ubuntu 26
 
 Run the following command in TEAMTALK_ROOT:
 
-`make -C Build ubuntu22`
+`make -C Build ubuntu26`
 
 This will cause `make` to call CMake to generate a valid build
 configuration and afterwards build the binaries.
 
-### Build TeamTalk Binaries for Android on Ubuntu 22
+### Build TeamTalk Binaries for Android on Ubuntu 24
 
 Run the following command in TEAMTALK_ROOT:
 
