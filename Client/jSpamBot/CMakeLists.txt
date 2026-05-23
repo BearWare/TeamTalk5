@@ -10,7 +10,7 @@ if (Java_FOUND)
 
   option (BUILD_TEAMTALK_CLIENT_JSPAMBOT "Build TeamTalk Anti Spam Bot" ON)
 
-  set(CMAKE_JAVA_COMPILE_FLAGS "-source" "11" "-target" "11")
+  set(CMAKE_JAVA_COMPILE_FLAGS "--release" "11")
 
   set (JAVA_SOURCES
         src/main/java/Abuse.java

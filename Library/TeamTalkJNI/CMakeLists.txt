@@ -203,7 +203,7 @@ if (Java_FOUND)
     src/dk/bearware/WindowsHelper.java)
 
   # Minimum source/target is Java 1.8 in Java 20
-  set(CMAKE_JAVA_COMPILE_FLAGS "-source" "1.8" "-target" "1.8")
+  set(CMAKE_JAVA_COMPILE_FLAGS "--release" "8")
 
   if (BUILD_TEAMTALK_LIBRARY_JAR)
     add_jar (TeamTalk5JAR
