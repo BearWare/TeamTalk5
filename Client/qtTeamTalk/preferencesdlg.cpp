@@ -1363,6 +1363,7 @@ void PreferencesDlg::slotSoundEventToggled(const QModelIndex &index)
     {
         m_soundmodel->setSoundEvents(events | e);
         ui.soundeventsfile_groupbox->show();
+        playSoundEvent(e);
     }
 }
 
