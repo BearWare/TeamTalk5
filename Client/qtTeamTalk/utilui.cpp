@@ -544,18 +544,19 @@ QString getLanguageDisplayName(const QString &languageCode)
     return languageName;
 }
 
-QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat)
+QString getFormattedDateTime(QString original, QString inputFormat)
 {
-    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString.simplified(), inputFormat);
+    const QString s = original.simplified();
 
-    if (!originalDateTime.isValid()) {
-        return QString("Invalid DateTime");
-    }
+    QDateTime dt = QLocale::c().toDateTime(s, inputFormat);
 
-    QLocale userLocale = QLocale::system();
-    QString formattedDateTime = userLocale.toString(originalDateTime, getTimestampFormat());
+    if (!dt.isValid())
+        dt = QLocale::c().toDateTime(s, "MMM dd yyyy HH:mm:ss");
 
-    return formattedDateTime;
+    if (!dt.isValid())
+        return QStringLiteral("Invalid DateTime");
+
+    return QLocale::system().toString(dt, getTimestampFormat());
 }
 
 QString getTimestampFormat()
