@@ -514,6 +514,7 @@ OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsys
     {
     case CODEC_OPUS :
         b = m_decoder.Open(codec.opus.samplerate, codec.opus.channels);
+        m_decoder.SetComplexity(codec.opus.enable_osce ? 10 : 0);
         break;
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :

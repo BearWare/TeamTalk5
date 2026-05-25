@@ -328,6 +328,8 @@ public class AudioCodecActivity extends AppCompatActivity implements
             Spinner audchan = rootView.findViewById(R.id.opus_audchanSpin);
             CheckBox dtx = rootView.findViewById(R.id.opus_dtxCheckBox);
             CheckBox vbr = rootView.findViewById(R.id.opus_vbrCheckBox);
+            CheckBox dred = rootView.findViewById(R.id.opus_dredCheckBox);
+            CheckBox osce = rootView.findViewById(R.id.opus_osceCheckBox);
             SeekBar bitrate = rootView.findViewById(R.id.opus_bitrateSeekBar);
             final TextView bitrateText = rootView.findViewById(R.id.opus_brTextView);
             Spinner framesize = rootView.findViewById(R.id.opus_fsmsecSpin);
@@ -350,6 +352,8 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 opuscodec.nTxIntervalMSec = txinterval.getProgress() + TeamTalkConstants.OPUS_MIN_TXINTERVALMSEC;
                 opuscodec.nFrameSizeMSec = fsMap.getValue(framesize.getSelectedItemPosition(),
                                                           TeamTalkConstants.OPUS_DEFAULT_FRAMESIZEMSEC);
+                opuscodec.bEnableDRED = dred.isChecked();
+                opuscodec.bEnableOSCE = osce.isChecked();
             }
             else {
                 app.setAdapter(appMap);
@@ -360,6 +364,8 @@ public class AudioCodecActivity extends AppCompatActivity implements
                 
                 dtx.setChecked(opuscodec.bDTX);
                 vbr.setChecked(opuscodec.bVBR);
+                dred.setChecked(opuscodec.bEnableDRED);
+                osce.setChecked(opuscodec.bEnableOSCE);
                 
                 audchan.setAdapter(audMap);
                 audchan.setSelection(audMap.getIndex(opuscodec.nChannels, 0));
