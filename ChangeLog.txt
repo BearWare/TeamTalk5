@@ -19,6 +19,7 @@ iOS Client
 - Minimum supported iOS version is now 16.0
 Server
 - Ubuntu 22 is no longer supported
+- Replaced Java jSpamBot with new SpamBot tt5spambot/tt5spambotsvc
 
 Version 5.22, 2026/04/06
 Default Qt Client
