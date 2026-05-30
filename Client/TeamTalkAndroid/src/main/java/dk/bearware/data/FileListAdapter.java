@@ -45,6 +45,8 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.app.NotificationChannel;
+import androidx.core.app.NotificationCompat;
 
 import java.io.File;
 import java.util.Collections;
@@ -80,7 +82,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
         VIEW_TYPE_COUNT = 2;
 
     private static final String PROGRESS_NOTIFICATION_TAG = "file_transfer";
-
+    private static final String TRANSFER_NOTIFICATION_CHANNEL_ID = "TT_TRANSFERS";
     private final Context context;
     private final Activity activity;
     private final LayoutInflater inflater;
@@ -91,7 +93,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
     private TeamTalkBase ttClient;
     private Vector<RemoteFile> remoteFiles;
     private final Map<String, FileTransfer> downloads;
-    private final SparseArray<Notification.Builder> uploads;
+    private final SparseArray<NotificationCompat.Builder> uploads;
     private volatile int chanId;
     private volatile boolean needRefresh;
 
@@ -106,6 +108,15 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
         uploads = new SparseArray<>();
         chanId = 0;
         needRefresh = false;
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            NotificationChannel mChannel = new NotificationChannel(
+                    TRANSFER_NOTIFICATION_CHANNEL_ID,
+                    "File Transfers",
+                    NotificationManager.IMPORTANCE_LOW);
+            mChannel.setSound(null, null);
+            mChannel.enableVibration(false);
+            notificationManager.createNotificationChannel(mChannel);
+        }
     }
 
     public void update() {
@@ -409,7 +420,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
             }
         }
         else {
-            Notification.Builder progressNotification = uploads.get(transfer.nTransferID);
+            NotificationCompat.Builder progressNotification = uploads.get(transfer.nTransferID);
             switch (transfer.nStatus) {
             case FileTransferStatus.FILETRANSFER_ERROR:
                 if (progressNotification != null)
@@ -425,7 +436,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                 break;
             case FileTransferStatus.FILETRANSFER_ACTIVE:
                 if (progressNotification == null) {
-                    progressNotification = new Notification.Builder(context);
+                    progressNotification = new NotificationCompat.Builder(context, TRANSFER_NOTIFICATION_CHANNEL_ID);
                     Intent cancellationIntent = new Intent(context, TeamTalkService.class);
                     int id = transfer.nTransferID;
                     cancellationIntent.putExtra(TeamTalkService.CANCEL_TRANSFER, id);
@@ -433,6 +444,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                         .setContentTitle(context.getString(R.string.upload_progress_title, transfer.szRemoteFileName))
                         .setContentIntent(PendingIntent.getService(context, id, cancellationIntent, PendingIntent.FLAG_IMMUTABLE))
                         .setAutoCancel(true)
+                        .setOngoing(true)
                         .setShowWhen(false);
                     uploads.put(id, progressNotification);
                 }
@@ -443,6 +455,7 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
                     progressNotification.setSmallIcon(android.R.drawable.stat_sys_upload_done)
                         .setContentText(context.getString(R.string.complete))
                         .setProgress(0, 0, false)
+                        .setOngoing(false)
                         .setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), PendingIntent.FLAG_IMMUTABLE));
                     notificationManager.notify(PROGRESS_NOTIFICATION_TAG, transfer.nTransferID, progressNotification.build());
                     uploads.remove(transfer.nTransferID);
