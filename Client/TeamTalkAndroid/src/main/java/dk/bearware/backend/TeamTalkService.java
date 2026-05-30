@@ -442,6 +442,7 @@ public class TeamTalkService extends Service
 
                 switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
+                    if (inPhoneCall) {
                     if (voxSuspended)
                         enableVoiceActivation(true);
                     else if (txSuspended)
@@ -451,9 +452,12 @@ public class TeamTalkService extends Service
                         ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     inPhoneCall = false;
                     scheduleReconnectBluetoothScoAfterCall();
+                    }
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
-                    inPhoneCall = true;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    if (!inPhoneCall) {
+                        inPhoneCall = true;
                     if (!isMute()) {
                         ttclient.setSoundOutputMute(true);
                         currentMuteState = true;
@@ -468,7 +472,8 @@ public class TeamTalkService extends Service
                     }
                     myStatus = myself.nStatusMode;
                     if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
-                        ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                    }
                     break;
                 default:
                     break;
