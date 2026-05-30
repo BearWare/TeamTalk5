@@ -606,17 +606,7 @@ extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
             Uri uri = data.getData();
-            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), uri);
-            if (path != null) {
-                File localFile = new File(path);
-                if (localFile.canRead()) {
-                    startFileUpload(path);
-                } else {
-                    Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
-                }
-            } else {
-                new FileCopyingTask().execute(uri);
-            }
+            new FileCopyingTask().execute(uri);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
@@ -641,47 +631,71 @@ extends AppCompatActivity
         @Override
         protected String doInBackground(Uri... uris) {
             Uri uri = uris[0];
-            Cursor cursor = getContentResolver().query(uri, null, null, null, null);
-            int columnIndex = ((cursor != null) && cursor.moveToFirst()) ? cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME) : -1;
-            if (columnIndex >= 0) {
-                File transitFile = new File(getCacheDir(), cursor.getString(columnIndex));
-                cursor.close();
-                try {
-                    if (((!transitFile.exists()) || transitFile.delete()) && transitFile.createNewFile()) {
-                        transitFile.deleteOnExit();
-                    } else {
-                        return null;
-                    }
-                } catch (Exception ex) {
-                    return null;
-                }
-                try (InputStream src = getContentResolver().openInputStream(uri);
-                     FileOutputStream dest = new FileOutputStream(transitFile)) {
-                    byte[] buffer = new byte[1024];
-                    int read;
-                    while ((read = src.read(buffer)) > 0) {
-                        dest.write(buffer, 0, read);
-                    }
-                } catch (Exception ex) {
-                    return null;
-                }
-                return transitFile.getPath();
-            } else if (cursor != null) {
-                cursor.close();
+            String fileName = getFileName(uri);
+            if (fileName == null) {
+                fileName = "upload_" + System.currentTimeMillis();
             }
-            return null;
+
+            File transitFile = new File(getCacheDir(), fileName);
+
+            try (InputStream src = getContentResolver().openInputStream(uri);
+                 FileOutputStream dest = new FileOutputStream(transitFile)) {
+                if (src == null) {
+                    return null;
+                }
+                byte[] buffer = new byte[8192];
+                int read;
+                while ((read = src.read(buffer)) > 0) {
+                    dest.write(buffer, 0, read);
+                }
+                return transitFile.getAbsolutePath();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+                return null;
+            }
+        }
+
+        private String getFileName(Uri uri) {
+            String result = null;
+            if (uri.getScheme() != null && uri.getScheme().equals("content")) {
+                Cursor cursor = getContentResolver().query(uri, null, null, null, null);
+                try {
+                    if (cursor != null && cursor.moveToFirst()) {
+                        int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                        if (index >= 0) {
+                            result = cursor.getString(index);
+                        }
+                    }
+                } finally {
+                    if (cursor != null) {
+                        cursor.close();
+                    }
+                }
+            }
+            if (result == null) {
+                result = uri.getPath();
+                if (result != null) {
+                    int cut = result.lastIndexOf('/');
+                    if (cut != -1) {
+                        result = result.substring(cut + 1);
+                    }
+                }
+            }
+            return result;
         }
 
         @Override
         protected void onPostExecute(String path) {
-            if ((path != null) && !startFileUpload(path)) {
-                File transitFile = new File(path);
-                transitFile.delete();
+            if (path != null) {
+                File f = new File(path);
+                if (f.exists() && f.length() > 0) {
+                    startFileUpload(path);
+                } else {
+                    if (f.exists()) f.delete();
+                }
             }
         }
-
     }
-
 
     public void onAccuracyChanged(Sensor sensor, int accuracy) {
     }
