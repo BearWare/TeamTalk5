@@ -14,6 +14,7 @@ Default Qt Client
 - Ubuntu 22 is no longer supported
 Android Client
 - Minimum supported Android version is now 6.0 (Marshmallow)
+- Added popup menu actions in Files List tab
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
 - Minimum supported iOS version is now 16.0
