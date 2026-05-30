@@ -205,6 +205,7 @@
     <string name="title_section_noaudio">No Audio</string>
     <string name="opus_application">Application</string>
     <string name="button_tx">TX</string>
+    <string name="button_remove">Remove</string>
     <string name="action_cancel">Cancel download</string>
     <string name="action_downloadfile">Download file</string>
     <string name="action_removefile">Remove file</string>
