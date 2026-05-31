@@ -370,11 +370,17 @@ implements Comparator<RemoteFile>, ClientEventListener.OnFileTransferListener {
     }
 
     private void cancelTransfer(RemoteFile remoteFile) {
-        FileTransfer transfer = downloads.get(remoteFile.szFileName);
-        if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
-            downloadCancellationCleanup(transfer);
-            notifyDataSetChanged();
-        }
+        AlertDialog.Builder alert = new AlertDialog.Builder(context);
+        alert.setMessage(context.getString(R.string.cancel_transfer_confirmation, remoteFile.szFileName));
+        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
+            FileTransfer transfer = downloads.get(remoteFile.szFileName);
+            if (ttClient.cancelFileTransfer(transfer.nTransferID)) {
+                downloadCancellationCleanup(transfer);
+                notifyDataSetChanged();
+            }
+        });
+        alert.setNegativeButton(android.R.string.no, null);
+        alert.show();
     }
 
     @SuppressLint("NewApi") @SuppressWarnings("fallthrough")
