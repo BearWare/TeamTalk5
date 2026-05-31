@@ -67,15 +67,21 @@ jobs:
         cmake --build build-host --target TeamTalk5ProTest
         cmake --build build-host --target TeamTalk5SrvTest
 
-    - name: Generate Android signing keystore
+    - name: Set up Android signing keystore
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
+      env:
+        ANDROID_KEYSTORE_BASE64: ${{ secrets.ANDROID_KEYSTORE_BASE64 }}
+        ANDROID_KEYSTORE_PASSWORD: ${{ secrets.ANDROID_KEYSTORE_PASSWORD }}
+        ANDROID_KEY_ALIAS: ${{ secrets.ANDROID_KEY_ALIAS }}
+        ANDROID_KEY_PASSWORD: ${{ secrets.ANDROID_KEY_PASSWORD }}
       run: |
-        keytool -genkeypair -v -keystore key.keystore -alias key -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=TeamTalk, OU=CI, O=TeamTalk, L=CI, ST=CI, C=US"
+        echo "$ANDROID_KEYSTORE_BASE64" | base64 --decode > key.keystore
         cat > keystore.properties <<EOF
         storeFile=key.keystore
-        storePassword=android
-        keyAlias=key
-        keyPassword=android
+        storePassword=$ANDROID_KEYSTORE_PASSWORD
+        keyAlias=$ANDROID_KEY_ALIAS
+        keyPassword=$ANDROID_KEY_PASSWORD
+        signDebug=true
         EOF
 
     - name: Build TeamTalk Android client
