@@ -1,4 +1,4 @@
-/***********************************************************************************************************/
+﻿/***********************************************************************************************************/
 // XPTabCtrl.cpp : implementation file
 /////////////////////////////////////////////////////////////////////////////
 //    Compiler:    Visual C++, Service Pack 5, Windows NT 
@@ -22,7 +22,7 @@
 //    ------------
 //    THIS SOFTWARE IS FREE FOR PERSONAL USE OR FREEWARE APPLICATIONS.
 //    IF YOU USE THIS SOFTWARE IN COMMERCIAL OR SHAREWARE APPLICATIONS YOU
-//    ARE GENTLY ASKED TO DONATE �1 (ONE GB PUND) TO THE AUTHOR
+//    ARE GENTLY ASKED TO DONATE £1 (ONE GB PUND) TO THE AUTHOR
 /***********************************************************************************************************/
 #include "StdAfx.h"
 #include "XPTabCtrl.h"
