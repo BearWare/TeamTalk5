@@ -180,8 +180,8 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 int resampleoutput = CalcSamples(m_originalstream->samplerate,
                                                  m_originalstream->framesize, streamer->samplerate);
 
-                m_resample_buffers[key].resize(resampleoutput * streamer->channels);
-                m_callback_buffers[key].resize(streamer->framesize * streamer->channels);
+                m_resample_buffers[key].resize(size_t(resampleoutput) * streamer->channels);
+                m_callback_buffers[key].resize(size_t(streamer->framesize) * streamer->channels);
 
                 if (!m_resample_thread)
                 {
@@ -562,7 +562,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
         {
             assert(!m_orgstream);
             m_orgstream = streamer;
-            m_tmpbuffer.resize(streamer->channels * streamer->framesize);
+            m_tmpbuffer.resize(size_t(streamer->channels) * streamer->framesize);
         }
 
         outputstreamer_t GetOrigin()
@@ -598,7 +598,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             }
 
             m_resamplers[player] = resampler;
-            m_callbackbuffers[player].resize(streamer->channels * streamer->framesize);
+            m_callbackbuffers[player].resize(size_t(streamer->channels) * streamer->framesize);
             m_resambuffers[player] = std::make_shared<ACE_Message_Queue< ACE_NULL_SYNCH >>();
             m_resambuffers[player]->high_water_mark(1024*1024);
             m_resambuffers[player]->low_water_mark(1024*1024);

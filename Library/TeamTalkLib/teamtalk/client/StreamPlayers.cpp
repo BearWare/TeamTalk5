@@ -60,7 +60,7 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type, soundsystem::sounds
         input_channels = 2;
     int const input_samples = GetAudioCodecCbSamples(m_codec);
     if (m_resampler)
-        m_resample_buffer.resize(input_samples*input_channels);
+        m_resample_buffer.resize(size_t(input_samples)*input_channels);
 
     SetAudioBufferSize(GetAudioCodecCbMillis(m_codec) * 4);
 }

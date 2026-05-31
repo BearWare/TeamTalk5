@@ -68,7 +68,7 @@ namespace soundsystem {
     public:
         StreamCaller(const SoundStreamer& streamer, int channels) : m_interval(PCM16_SAMPLES_DURATION(streamer.framesize, streamer.samplerate)), m_start(GETTIMESTAMP())
         {
-            m_buffer.resize(channels * streamer.framesize, 0);            
+            m_buffer.resize(size_t(channels) * streamer.framesize, 0);
         }
 
         ~StreamCaller() override = default;
@@ -157,7 +157,7 @@ namespace soundsystem {
             , m_sndsys(sndsys)
             , m_streamer(streamer)
         {
-            m_inputbuffer.resize(streamer->input_channels * streamer->framesize, 0);
+            m_inputbuffer.resize(size_t(streamer->input_channels) * streamer->framesize, 0);
         }
 
         ~StreamDuplexCallback() override

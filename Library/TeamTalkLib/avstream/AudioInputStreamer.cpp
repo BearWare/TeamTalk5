@@ -162,8 +162,8 @@ bool AudioInputStreamer::ProcessResample()
         assert(frame.inputfmt == m_inputfmt);
         assert(m_resampler);
         int const osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
-        if (m_resamplebuffer.size() != osamples * GetMediaOutput().audio.channels)
-            m_resamplebuffer.resize(osamples * GetMediaOutput().audio.channels);
+        if (m_resamplebuffer.size() != size_t(osamples) * GetMediaOutput().audio.channels)
+            m_resamplebuffer.resize(size_t(osamples) * GetMediaOutput().audio.channels);
         ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, m_resamplebuffer.data(), osamples);
         assert(ret > 0);
         media::AudioFrame const resam_frame(GetMediaOutput().audio, m_resamplebuffer.data(), osamples);

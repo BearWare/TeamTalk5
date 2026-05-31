@@ -256,7 +256,7 @@ constexpr auto VOLUME_MIN = 0;
             , inputdeviceid(indevid)
             , outputdeviceid(outdevid)
             {
-                tmpOutputBuffer.resize(outchs * fs);
+                tmpOutputBuffer.resize(size_t(outchs) * fs);
             }
 
         virtual ~DuplexStreamer()

@@ -1310,7 +1310,7 @@ public class TeamTalkService extends Service
 
             try {
                 InputSource src = new InputSource(new StringReader(xml));
-                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+                DocumentBuilderFactory dbf = Utils.newSecureDocumentBuilderFactory();
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document document = db.parse(src);
                 XPathFactory factory = XPathFactory.newInstance();
