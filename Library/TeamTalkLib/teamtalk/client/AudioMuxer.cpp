@@ -829,7 +829,7 @@ void AudioMuxer::WriteAudio(int cb_samples, teamtalk::StreamTypes sts)
         int ret = 0;
         for(int i=0;i<cb_samples / m_inputformat.samples && ret >= 0;i++)
         {
-            ret = m_speexfile->Encode(&m_muxed_buffer[i * m_inputformat.GetTotalSamples()]);
+            ret = m_speexfile->Encode(&m_muxed_buffer[size_t(i) * m_inputformat.GetTotalSamples()]);
         }
     }
 #endif
@@ -839,7 +839,7 @@ void AudioMuxer::WriteAudio(int cb_samples, teamtalk::StreamTypes sts)
     {
         int ret = 0;
         for(int i=0;i<cb_samples/m_inputformat.samples && ret >= 0;i++)
-            ret = m_opusfile->Encode(&m_muxed_buffer[ i * m_inputformat.GetTotalSamples()], m_inputformat.samples, false);
+            ret = m_opusfile->Encode(&m_muxed_buffer[ size_t(i) * m_inputformat.GetTotalSamples()], m_inputformat.samples, false);
     }
 #endif
 

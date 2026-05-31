@@ -1729,7 +1729,7 @@ namespace teamtalk
             return false;
 
         uint16_t byte_pos = 0;
-        for(uint16_t i=0;i<blocks_n_sizes.size();i+=2)
+        for(size_t i=0;i<blocks_n_sizes.size();i+=2)
         {
             desktop_block bb;
             bb.block_data = reinterpret_cast<const char*>(&blockdata_ptr[byte_pos]);

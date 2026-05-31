@@ -894,7 +894,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                             ACE_TEXT("Cannot create resampler for sound output device"));
                 return;
             }
-            m_playback_buffer.resize(codec_samples * codec_channels);
+            m_playback_buffer.resize(size_t(codec_samples) * codec_channels);
         }
 
         // resample if output device already forced resampling or 
@@ -917,7 +917,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                     ACE_TEXT("Cannot create resampler for sound input device."));
                 return;
             }
-            m_capture_buffer.resize(codec_samples * codec_channels);
+            m_capture_buffer.resize(size_t(codec_samples) * codec_channels);
 
             samples = CalcSamples(codec_samplerate, codec_samples, samplerate);
         }
@@ -965,7 +965,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                     ACE_TEXT("Cannot create resampler for sound input device."));
                 return;
             }
-            m_capture_buffer.resize(codec_samples * codec_channels);
+            m_capture_buffer.resize(size_t(codec_samples) * codec_channels);
         }
         else
         {

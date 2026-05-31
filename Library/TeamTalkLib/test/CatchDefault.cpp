@@ -915,7 +915,7 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
 TEST_CASE("GenerateToneStereoWaveFile")
 {
     media::AudioFormat const fmt(32000, 2);
-    std::vector<short> buf(fmt.samplerate * fmt.channels);
+    std::vector<short> buf(size_t(fmt.samplerate) * fmt.channels);
     media::AudioFrame frm(fmt, buf.data(), 32000);
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(ACE_TEXT("stereo.wav"), fmt));
@@ -2513,7 +2513,7 @@ TEST_CASE("InjectAudioInputGain")
     REQUIRE(chan.audiocodec.nCodec == OPUS_CODEC);
     auto const N_FRAMES = 5;
     int const samples = PCM16_DURATION_SAMPLES(chan.audiocodec.opus.nTxIntervalMSec, chan.audiocodec.opus.nSampleRate) * N_FRAMES;
-    std::vector<short> buffer(samples * chan.audiocodec.opus.nChannels);
+    std::vector<short> buffer(size_t(samples) * chan.audiocodec.opus.nChannels);
     media::AudioFrame frm(media::AudioFormat(chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels), buffer.data(), samples);
     int const sampleindex = GenerateTone(frm, 0, 500);
 
@@ -3438,7 +3438,7 @@ static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilen
     OpusEncFile opusenc;
     REQUIRE(opusenc.Open(oggfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
 
-    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    std::vector<short> buf(size_t(mfi.audioFmt.nChannels) * FRAMESIZE);
     int samples = 0;
     while ((samples = wavfile.ReadSamples(buf.data(), FRAMESIZE)) > 0)
     {
@@ -3478,7 +3478,7 @@ TEST_CASE("OPUSFileEncDec")
                              mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
             REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
 
-            std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+            std::vector<short> buf(size_t(mfi.audioFmt.nChannels) * FRAMESIZE);
             int samples = 0;
             while ((samples = wavfile.ReadSamples(buf.data(), FRAMESIZE)) > 0)
             {
@@ -3874,7 +3874,7 @@ TEST_CASE("TTPlayFFmpegOpus")
 
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(ACE_TEXT("giana.wav"), odf.GetSampleRate(), odf.GetChannels()));
-    std::vector<short> buf(odf.GetSampleRate() * odf.GetChannels());
+    std::vector<short> buf(size_t(odf.GetSampleRate()) * odf.GetChannels());
     int samples;
     int framesize = 0;
     while ((samples = odf.Decode(buf.data(), odf.GetSampleRate())) > 0)

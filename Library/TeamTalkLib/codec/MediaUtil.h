@@ -35,7 +35,7 @@
 // Returns number of bytes from number of 'samples' with 'channels'
 constexpr auto PCM16_BYTES(int samples, int channels)
 {
-    return samples * channels * sizeof(short);
+    return size_t(samples) * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)

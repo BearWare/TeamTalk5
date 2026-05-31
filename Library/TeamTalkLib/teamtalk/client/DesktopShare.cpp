@@ -95,7 +95,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
             if((int)m_tmp_block.size() != width * height * m_pixel_size)
             {
                 char const def_color = DEFAULT_COLOR;
-                m_tmp_block.resize(width * height * m_pixel_size, def_color);
+                m_tmp_block.resize(size_t(width) * height * m_pixel_size, def_color);
             }
 
             for(int i=0;i<height;i++)
@@ -109,7 +109,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
                 byte_pos += GetHeight() * m_padding;
                 TTASSERT(byte_pos < size);
                 const char* byte_pos_ptr = &bmp_bits[byte_pos];
-                memcpy(&m_tmp_block[width*i*m_pixel_size], byte_pos_ptr, width * m_pixel_size);
+                memcpy(&m_tmp_block[size_t(width)*i*m_pixel_size], byte_pos_ptr, size_t(width) * m_pixel_size);
             }
 
             const int BLOCK_INDEX = w + (h * m_w_blocks);
@@ -294,7 +294,7 @@ void DesktopViewer::AddCompressedBlock(int block_no, const char* inbuf, int in_s
         byte_pos += GetHeight() * m_padding;
         TTASSERT(byte_pos < m_bitmap.size());
         char* byte_pos_ptr = &m_bitmap[byte_pos];
-        memcpy(byte_pos_ptr, &outbuf[width*i*m_pixel_size], width * m_pixel_size);
+        memcpy(byte_pos_ptr, &outbuf[size_t(width)*i*m_pixel_size], size_t(width) * m_pixel_size);
     }
 }
 
@@ -333,7 +333,7 @@ void DesktopViewer::AddDuplicateBlock(int src_block_no, int dest_block_no)
         TTASSERT(dest_byte_pos < m_bitmap.size());
         char* src_byte_pos_ptr = &m_bitmap[src_byte_pos];
         char* dest_byte_pos_ptr = &m_bitmap[dest_byte_pos];
-        memcpy(dest_byte_pos_ptr, src_byte_pos_ptr, width * m_pixel_size);
+        memcpy(dest_byte_pos_ptr, src_byte_pos_ptr, size_t(width) * m_pixel_size);
     }
 }
 

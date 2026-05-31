@@ -175,7 +175,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 
     if (cbsamples > 0)
     {
-        m_samples_buf.resize(cbsamples * channels);
+        m_samples_buf.resize(size_t(cbsamples) * channels);
         m_active = true;
     }
     MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
@@ -363,7 +363,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 for(size_t i=0;i<frame_sizes.size();i++)
                 {
                     ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
-                                         &m_samples_buf[framesize * channels * i],
+                                         &m_samples_buf[size_t(framesize) * channels * i],
                                          cb_samples);
                     assert(ret > 0);
                     decsamples += ret;
@@ -401,7 +401,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 for(int i=0;i<fpp;i++)
                 {
                     m_opus->Decode(nullptr, 0,
-                                   &m_samples_buf[cb_samples*channels*i],
+                                   &m_samples_buf[size_t(cb_samples)*channels*i],
                                    cb_samples);
                 }
             }
