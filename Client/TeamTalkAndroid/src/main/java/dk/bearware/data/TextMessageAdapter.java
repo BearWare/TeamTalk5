@@ -24,6 +24,8 @@
 package dk.bearware.data;
 
 import java.util.Vector;
+import java.util.ArrayList;
+import java.util.List;
 
 import dk.bearware.ServerProperties;
 import dk.bearware.TextMsgType;
@@ -31,6 +33,11 @@ import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
+import android.util.Patterns;
+import android.content.ClipboardManager;
+import android.content.ClipData;
 import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.view.LayoutInflater;
@@ -38,6 +45,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class TextMessageAdapter extends BaseAdapter {
 
@@ -175,6 +184,37 @@ public class TextMessageAdapter extends BaseAdapter {
                 name.setTextColor(text_color);
                 msgdate.setTextColor(text_color);
                 msgtext.setTextColor(text_color);
+
+                convertView.setOnClickListener(v -> copyToClipboard(v.getContext(), txtmsg.szMessage));
+                convertView.setOnLongClickListener(v -> {
+                    PopupMenu popup = new PopupMenu(v.getContext(), v);
+
+                    List<String> urls = extractUrls(txtmsg.szMessage);
+                    for (int i = 0; i < urls.size(); i++) {
+                        popup.getMenu().add(0, 1000 + i, 0, urls.get(i));
+                    }
+
+                    popup.getMenuInflater().inflate(R.menu.message_actions, popup.getMenu());
+                    popup.setOnMenuItemClickListener(item -> {
+                        if (item.getItemId() >= 1000) {
+                            openUrl(v.getContext(), urls.get(item.getItemId() - 1000));
+                            return true;
+                        } else if (item.getItemId() == R.id.action_copyname) {
+                            copyToClipboard(v.getContext(), txtmsg.szNickName);
+                            return true;
+                        } else if (item.getItemId() == R.id.action_copymessage) {
+                            copyToClipboard(v.getContext(), txtmsg.szMessage);
+                            return true;
+                        } else if (item.getItemId() == R.id.action_deletemessage) {
+                            messages.remove(txtmsg);
+                            notifyDataSetChanged();
+                            return true;
+                        }
+                        return false;
+                    });
+                    popup.show();
+                    return true;
+                });
                 break;
             }
             case MyTextMessage.MSGTYPE_SERVERPROP : {
@@ -234,6 +274,27 @@ public class TextMessageAdapter extends BaseAdapter {
         convertView.setAccessibilityDelegate(accessibilityAssistant);
         
         return convertView;
+    }
+
+    private List<String> extractUrls(String text) {
+        List<String> urls = new ArrayList<>();
+        if (text == null) return urls;
+        java.util.regex.Matcher matcher = Patterns.WEB_URL.matcher(text);
+        while (matcher.find()) {
+            urls.add(matcher.group());
+        }
+        return urls;
+    }
+
+    private void openUrl(Context context, String url) {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
+        context.startActivity(intent);
+    }
+
+    private void copyToClipboard(Context context, String text) {
+        ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
+        ClipData clip = ClipData.newPlainText("message", text);
+        if (cm != null) cm.setPrimaryClip(clip);
     }
 
     @Override
