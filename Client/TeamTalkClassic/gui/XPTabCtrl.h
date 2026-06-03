@@ -1,4 +1,4 @@
-/////////////////////////////////////////////////////////////////////////////
+﻿/////////////////////////////////////////////////////////////////////////////
 // XPTabCtrl.h : header file
 /////////////////////////////////////////////////////////////////////////////
 //    Compiler:    Visual C++, Service Pack 5, Windows NT 
@@ -22,7 +22,7 @@
 //    ------------
 //    THIS SOFTWARE IS FREE FOR PERSONAL USE OR FREEWARE APPLICATIONS.
 //    IF YOU USE THIS SOFTWARE IN COMMERCIAL OR SHAREWARE APPLICATIONS YOU
-//    ARE GENTLY ASKED TO DONATE �1 (ONE GB PUND) TO THE AUTHOR
+//    ARE GENTLY ASKED TO DONATE £1 (ONE GB PUND) TO THE AUTHOR
 /////////////////////////////////////////////////////////////////////////////
 
 #if !defined(AFX_XPTABCTRL_H__B39AA2D4_684D_11D8_97C8_0002A522F13C__INCLUDED_)
