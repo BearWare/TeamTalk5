@@ -204,7 +204,9 @@ extends AppCompatActivity
     Button webcamToggleButton;
     TextView webcamStatusText;
     boolean updatingWebcamControls;
+    boolean webcamControlsLoading;
     boolean pendingWebcamStartAfterPermission;
+    int webcamRefreshToken;
     final ArrayList<VideoCaptureDevice> webcamDevices = new ArrayList<>();
     final ArrayList<VideoFormat> webcamFormats = new ArrayList<>();
     final int[] webcamBitratesKbps = {128, 256, 384, 512, 768, 1024};
@@ -1116,36 +1118,53 @@ private EditText newmsg;
             return;
         }
 
-        updatingWebcamControls = true;
-        webcamDevices.clear();
-        webcamDevices.addAll(getService().getVideoCaptureDevices());
-
-        ArrayList<String> deviceLabels = new ArrayList<>();
-        String savedDeviceId = prefs.get(Preferences.PREF_VIDEOCAPTURE_DEVICE_ID, "");
-        int selectedDevice = 0;
-        for (int i = 0; i < webcamDevices.size(); i++) {
-            VideoCaptureDevice device = webcamDevices.get(i);
-            String label = (device.szDeviceName == null || device.szDeviceName.isEmpty()) ?
-                    getString(R.string.webcam_camera) + " " + (i + 1) :
-                    device.szDeviceName;
-            deviceLabels.add(label);
-            if (!savedDeviceId.isEmpty() && savedDeviceId.equals(device.szDeviceID)) {
-                selectedDevice = i;
-            }
-        }
-        if (deviceLabels.isEmpty()) {
-            deviceLabels.add(getString(R.string.webcam_no_cameras));
-        }
-        ArrayAdapter<String> deviceAdapter = new ArrayAdapter<>(
-                this, android.R.layout.simple_spinner_item, deviceLabels);
-        deviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        webcamDeviceSpinner.setAdapter(deviceAdapter);
-        webcamDeviceSpinner.setSelection(Math.min(selectedDevice, deviceLabels.size() - 1));
-
-        selectSavedVideoBitrate();
-        updateVideoCaptureFormatChoices(prefs.get(Preferences.PREF_VIDEOCAPTURE_FORMAT, ""));
-        updatingWebcamControls = false;
+        final int refreshToken = ++webcamRefreshToken;
+        webcamControlsLoading = true;
         updateVideoCaptureState();
+
+        new Thread(() -> {
+            Vector<VideoCaptureDevice> devices = getService() != null ?
+                    getService().getVideoCaptureDevices() :
+                    new Vector<>();
+
+            runOnUiThread(() -> {
+                if (isFinishing() || isDestroyed() || refreshToken != webcamRefreshToken || webcamDeviceSpinner == null) {
+                    return;
+                }
+
+                updatingWebcamControls = true;
+                webcamDevices.clear();
+                webcamDevices.addAll(devices);
+
+                ArrayList<String> deviceLabels = new ArrayList<>();
+                String savedDeviceId = prefs.get(Preferences.PREF_VIDEOCAPTURE_DEVICE_ID, "");
+                int selectedDevice = 0;
+                for (int i = 0; i < webcamDevices.size(); i++) {
+                    VideoCaptureDevice device = webcamDevices.get(i);
+                    String label = (device.szDeviceName == null || device.szDeviceName.isEmpty()) ?
+                            getString(R.string.webcam_camera) + " " + (i + 1) :
+                            device.szDeviceName;
+                    deviceLabels.add(label);
+                    if (!savedDeviceId.isEmpty() && savedDeviceId.equals(device.szDeviceID)) {
+                        selectedDevice = i;
+                    }
+                }
+                if (deviceLabels.isEmpty()) {
+                    deviceLabels.add(getString(R.string.webcam_no_cameras));
+                }
+                ArrayAdapter<String> deviceAdapter = new ArrayAdapter<>(
+                        this, android.R.layout.simple_spinner_item, deviceLabels);
+                deviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                webcamDeviceSpinner.setAdapter(deviceAdapter);
+                webcamDeviceSpinner.setSelection(Math.min(selectedDevice, deviceLabels.size() - 1));
+
+                selectSavedVideoBitrate();
+                updateVideoCaptureFormatChoices(prefs.get(Preferences.PREF_VIDEOCAPTURE_FORMAT, ""));
+                webcamControlsLoading = false;
+                updatingWebcamControls = false;
+                updateVideoCaptureState();
+            });
+        }, "tt-webcam-refresh").start();
     }
 
     private void updateVideoCaptureFormatChoices(String selectedFormat) {
@@ -1258,7 +1277,7 @@ private EditText newmsg;
         if (webcamToggleButton == null) {
             return;
         }
-        if (getService() == null) {
+        if (getService() == null || webcamControlsLoading) {
             webcamToggleButton.setEnabled(false);
             webcamDeviceSpinner.setEnabled(false);
             webcamFormatSpinner.setEnabled(false);
@@ -2178,7 +2197,7 @@ private EditText newmsg;
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         textmsgAdapter.setMyUserID(my_userid);
-        refreshVideoCaptureControls();
+        runOnUiThread(this::refreshVideoCaptureControls);
     }
 
     @Override
