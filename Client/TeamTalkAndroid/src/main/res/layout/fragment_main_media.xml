@@ -4,51 +4,10 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
 
-    <LinearLayout
-        android:id="@+id/webcam_controls"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="8dp">
-
-        <TextView
-            android:id="@+id/webcam_status_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/webcam_status_off"
-            android:textAppearance="?android:attr/textAppearanceSmall" />
-
-        <Spinner
-            android:id="@+id/webcam_device_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/webcam_camera" />
-
-        <Spinner
-            android:id="@+id/webcam_format_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/webcam_quality" />
-
-        <Spinner
-            android:id="@+id/webcam_bitrate_spinner"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/webcam_bitrate" />
-
-        <Button
-            android:id="@+id/webcam_toggle_button"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/webcam_start" />
-
-    </LinearLayout>
-
     <ExpandableListView
         android:id="@+id/media_elist_view"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="1" >
+        android:layout_height="match_parent" >
     </ExpandableListView>
 
 

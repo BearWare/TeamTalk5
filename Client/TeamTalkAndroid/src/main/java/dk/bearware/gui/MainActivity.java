@@ -309,6 +309,7 @@ extends AppCompatActivity
         mTabLayout.setupWithViewPager(mViewPager);
 
         setupButtons();
+        setupVideoCaptureControls();
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             final MediaPlayer mMediaPlayer;
@@ -1072,17 +1073,16 @@ private EditText newmsg;
 
             ExpandableListView mediaview = rootView.findViewById(R.id.media_elist_view);
             mediaview.setAdapter(mainActivity.getMediaAdapter());
-            mainActivity.setupVideoCaptureControls(rootView);
             return rootView;
         }
     }
 
-    private void setupVideoCaptureControls(View rootView) {
-        webcamStatusText = rootView.findViewById(R.id.webcam_status_text);
-        webcamDeviceSpinner = rootView.findViewById(R.id.webcam_device_spinner);
-        webcamFormatSpinner = rootView.findViewById(R.id.webcam_format_spinner);
-        webcamBitrateSpinner = rootView.findViewById(R.id.webcam_bitrate_spinner);
-        webcamToggleButton = rootView.findViewById(R.id.webcam_toggle_button);
+    private void setupVideoCaptureControls() {
+        webcamStatusText = findViewById(R.id.webcam_status_text);
+        webcamDeviceSpinner = findViewById(R.id.webcam_device_spinner);
+        webcamFormatSpinner = findViewById(R.id.webcam_format_spinner);
+        webcamBitrateSpinner = findViewById(R.id.webcam_bitrate_spinner);
+        webcamToggleButton = findViewById(R.id.webcam_toggle_button);
 
         ArrayList<String> bitrateLabels = new ArrayList<>();
         for (int bitrate : webcamBitratesKbps) {
