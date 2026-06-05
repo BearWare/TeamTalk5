@@ -225,6 +225,7 @@
     <string name="action_upload">Upload File</string>
     <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
+    <string name="action_status">Change Status</string>
     <string name="button_select_media_file">Browse</string>
     <string name="button_stream_media_file">Stream</string>
     <string name="button_msg">Message</string>
@@ -488,6 +489,11 @@
     <string name="action_revoke_operator">Revoke Operator</string>
     <string name="text_operator_password">Enter channel operator password</string>
     <string name="text_broadcast_message">Enter broadcast message</string>
+    <string name="text_status_message">Status message</string>
+    <string name="text_status_mode">Status mode</string>
+    <string name="status_mode_available">Available</string>
+    <string name="status_mode_away">Away</string>
+    <string name="status_mode_question">Question</string>
     <string name="online_users">Online Users</string>
 
 
