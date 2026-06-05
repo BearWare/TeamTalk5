@@ -81,6 +81,7 @@ import dk.bearware.Channel;
 import dk.bearware.ClientErrorMsg;
 import dk.bearware.ClientEvent;
 import dk.bearware.ClientFlag;
+import dk.bearware.Codec;
 import dk.bearware.EncryptionContext;
 import dk.bearware.FileTransfer;
 import dk.bearware.FileTransferStatus;
@@ -99,6 +100,9 @@ import dk.bearware.TextMsgType;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
+import dk.bearware.VideoCaptureDevice;
+import dk.bearware.VideoCodec;
+import dk.bearware.VideoFormat;
 import dk.bearware.WebRTCConstants;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.License;
@@ -172,6 +176,9 @@ public class TeamTalkService extends Service
     Handler reconnectHandler = new Handler();
     Runnable reconnectTimer = this::reconnect;
     private Runnable reconnectBluetoothScoAfterCall;
+    private String selectedVideoCaptureDeviceId = "";
+    private VideoFormat selectedVideoCaptureFormat;
+    private int selectedVideoCaptureBitrate = 256;
 
     TeamTalkBase ttclient;
     ServerEntry ttserver;
@@ -195,8 +202,10 @@ public class TeamTalkService extends Service
 
         syncToUserCache();
 
-        if(ttclient != null)
+        if(ttclient != null) {
+            stopVideoCaptureTransmission();
             ttclient.disconnect();
+        }
 
         displayNotification(false);
         joinchannel = null;
@@ -370,8 +379,10 @@ public class TeamTalkService extends Service
         disablePhoneCallReaction();
         unwatchBluetoothHeadset();
 
-        if (ttclient != null)
+        if (ttclient != null) {
+            stopVideoCaptureTransmission(false);
             ttclient.closeTeamTalk();
+        }
 
         super.onDestroy();
         mediaSession.release();
@@ -383,6 +394,17 @@ public class TeamTalkService extends Service
         return (mychannel != null) ?
             String.format("%s / %s", ttserver.servername, mychannel.szName) :
             ttserver.servername;
+    }
+
+    private int getTeamTalkForegroundServiceType() {
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.Q) {
+            return 0;
+        }
+        int type = ServiceInfo.FOREGROUND_SERVICE_TYPE_MICROPHONE;
+        if (isVideoCaptureTransmissionEnabled() || isVideoCaptureDeviceReady()) {
+            type |= ServiceInfo.FOREGROUND_SERVICE_TYPE_CAMERA;
+        }
+        return type;
     }
 
     @SuppressLint("NewApi")
@@ -410,12 +432,12 @@ public class TeamTalkService extends Service
                     .setContentText(getNotificationText())
                     .setShowWhen(false)
                     .build();
-                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, ServiceInfo.FOREGROUND_SERVICE_TYPE_MANIFEST);
+                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, getTeamTalkForegroundServiceType());
             } else {
                 widget = new NotificationCompat.Builder(this, widget)
                     .setContentText(getNotificationText())
                     .build();
-                notificationManager.notify(UI_WIDGET_ID, widget);
+                ServiceCompat.startForeground(this, UI_WIDGET_ID, widget, getTeamTalkForegroundServiceType());
             }
         } else if (widget != null) {
             ServiceCompat.stopForeground(this, ServiceCompat.STOP_FOREGROUND_REMOVE);
@@ -623,6 +645,109 @@ public class TeamTalkService extends Service
         return (ttclient.getFlags() & (ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED | ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE)) != 0;
     }
 
+    public Vector<VideoCaptureDevice> getVideoCaptureDevices() {
+        Vector<VideoCaptureDevice> devices = new Vector<>();
+        TeamTalkBase.getVideoCaptureDevices(devices);
+        return devices;
+    }
+
+    public boolean isVideoCaptureTransmissionEnabled() {
+        return (ttclient.getFlags() & ClientFlag.CLIENT_TX_VIDEOCAPTURE) != 0;
+    }
+
+    public boolean isVideoCaptureDeviceReady() {
+        return (ttclient.getFlags() & ClientFlag.CLIENT_VIDEOCAPTURE_READY) != 0;
+    }
+
+    public boolean startVideoCaptureTransmission(String deviceId, VideoFormat format, int bitrateKbps) {
+        if (TextUtils.isEmpty(deviceId) || format == null) {
+            return false;
+        }
+
+        UserAccount account = new UserAccount();
+        if (ttclient.getMyUserAccount(account) &&
+                (account.uUserRights & UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE) == 0) {
+            return false;
+        }
+
+        selectedVideoCaptureDeviceId = deviceId;
+        selectedVideoCaptureFormat = copyVideoFormat(format);
+        selectedVideoCaptureBitrate = Math.max(32, bitrateKbps);
+
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
+        prefs.edit()
+                .putString(Preferences.PREF_VIDEOCAPTURE_DEVICE_ID, selectedVideoCaptureDeviceId)
+                .putString(Preferences.PREF_VIDEOCAPTURE_FORMAT, encodeVideoFormat(selectedVideoCaptureFormat))
+                .putInt(Preferences.PREF_VIDEOCAPTURE_BITRATE, selectedVideoCaptureBitrate)
+                .apply();
+
+        if (isVideoCaptureTransmissionEnabled()) {
+            ttclient.stopVideoCaptureTransmission();
+        }
+        if (isVideoCaptureDeviceReady()) {
+            ttclient.closeVideoCaptureDevice();
+        }
+
+        if (!ttclient.initVideoCaptureDevice(selectedVideoCaptureDeviceId, selectedVideoCaptureFormat)) {
+            return false;
+        }
+
+        VideoCodec codec = new VideoCodec();
+        codec.nCodec = Codec.WEBM_VP8_CODEC;
+        codec.webm_vp8.nRcTargetBitrate = selectedVideoCaptureBitrate;
+        if (!ttclient.startVideoCaptureTransmission(codec)) {
+            ttclient.closeVideoCaptureDevice();
+            return false;
+        }
+
+        displayNotification(true);
+        return true;
+    }
+
+    public void stopVideoCaptureTransmission() {
+        stopVideoCaptureTransmission(true);
+    }
+
+    private void stopVideoCaptureTransmission(boolean updateNotification) {
+        if (ttclient == null) {
+            return;
+        }
+        if (isVideoCaptureTransmissionEnabled()) {
+            ttclient.stopVideoCaptureTransmission();
+        }
+        if (isVideoCaptureDeviceReady()) {
+            ttclient.closeVideoCaptureDevice();
+        }
+        if (updateNotification && widget != null) {
+            displayNotification(true);
+        }
+    }
+
+    private VideoFormat copyVideoFormat(VideoFormat source) {
+        VideoFormat copy = new VideoFormat();
+        copy.nWidth = source.nWidth;
+        copy.nHeight = source.nHeight;
+        copy.nFPS_Numerator = source.nFPS_Numerator;
+        copy.nFPS_Denominator = source.nFPS_Denominator;
+        copy.picFourCC = source.picFourCC;
+        return copy;
+    }
+
+    public static String encodeVideoFormat(VideoFormat format) {
+        if (format == null) {
+            return "";
+        }
+        return format.nWidth + "x" + format.nHeight + "@" +
+                format.nFPS_Numerator + "/" + format.nFPS_Denominator + ":" + format.picFourCC;
+    }
+
+    public static int getVideoFormatFps(VideoFormat format) {
+        if (format == null || format.nFPS_Denominator == 0) {
+            return 0;
+        }
+        return Math.max(1, Math.round(format.nFPS_Numerator / (float) format.nFPS_Denominator));
+    }
+
     public void setMute(boolean state) {
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 
@@ -694,6 +819,7 @@ public class TeamTalkService extends Service
 
         syncToUserCache();
 
+        stopVideoCaptureTransmission();
         ttclient.disconnect();
 
         if (!setupEncryption())
@@ -906,6 +1032,7 @@ public class TeamTalkService extends Service
     public void onConnectionLost() {
         
         Log.i(TAG, "Connection lost to " + ttserver.ipaddr + ":" + ttserver.tcpport);
+        stopVideoCaptureTransmission();
         
         activecmds.clear();
         

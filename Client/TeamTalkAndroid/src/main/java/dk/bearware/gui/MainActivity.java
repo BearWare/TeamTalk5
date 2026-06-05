@@ -67,6 +67,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -77,6 +78,7 @@ import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.SeekBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -120,6 +122,8 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
+import dk.bearware.VideoCaptureDevice;
+import dk.bearware.VideoFormat;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -194,6 +198,16 @@ extends AppCompatActivity
     FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
     MediaAdapter mediaAdapter;
+    Spinner webcamDeviceSpinner;
+    Spinner webcamFormatSpinner;
+    Spinner webcamBitrateSpinner;
+    Button webcamToggleButton;
+    TextView webcamStatusText;
+    boolean updatingWebcamControls;
+    boolean pendingWebcamStartAfterPermission;
+    final ArrayList<VideoCaptureDevice> webcamDevices = new ArrayList<>();
+    final ArrayList<VideoFormat> webcamFormats = new ArrayList<>();
+    final int[] webcamBitratesKbps = {128, 256, 384, 512, 768, 1024};
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
@@ -1058,8 +1072,210 @@ private EditText newmsg;
 
             ExpandableListView mediaview = rootView.findViewById(R.id.media_elist_view);
             mediaview.setAdapter(mainActivity.getMediaAdapter());
+            mainActivity.setupVideoCaptureControls(rootView);
             return rootView;
         }
+    }
+
+    private void setupVideoCaptureControls(View rootView) {
+        webcamStatusText = rootView.findViewById(R.id.webcam_status_text);
+        webcamDeviceSpinner = rootView.findViewById(R.id.webcam_device_spinner);
+        webcamFormatSpinner = rootView.findViewById(R.id.webcam_format_spinner);
+        webcamBitrateSpinner = rootView.findViewById(R.id.webcam_bitrate_spinner);
+        webcamToggleButton = rootView.findViewById(R.id.webcam_toggle_button);
+
+        ArrayList<String> bitrateLabels = new ArrayList<>();
+        for (int bitrate : webcamBitratesKbps) {
+            bitrateLabels.add(bitrate + " kbps");
+        }
+        ArrayAdapter<String> bitrateAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, bitrateLabels);
+        bitrateAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        webcamBitrateSpinner.setAdapter(bitrateAdapter);
+
+        webcamDeviceSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                if (!updatingWebcamControls) {
+                    updateVideoCaptureFormatChoices(null);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+            }
+        });
+        webcamToggleButton.setOnClickListener(v -> toggleVideoCaptureTransmission());
+
+        refreshVideoCaptureControls();
+        updateVideoCaptureState();
+    }
+
+    private void refreshVideoCaptureControls() {
+        if (webcamDeviceSpinner == null || getService() == null) {
+            return;
+        }
+
+        updatingWebcamControls = true;
+        webcamDevices.clear();
+        webcamDevices.addAll(getService().getVideoCaptureDevices());
+
+        ArrayList<String> deviceLabels = new ArrayList<>();
+        String savedDeviceId = prefs.get(Preferences.PREF_VIDEOCAPTURE_DEVICE_ID, "");
+        int selectedDevice = 0;
+        for (int i = 0; i < webcamDevices.size(); i++) {
+            VideoCaptureDevice device = webcamDevices.get(i);
+            String label = (device.szDeviceName == null || device.szDeviceName.isEmpty()) ?
+                    getString(R.string.webcam_camera) + " " + (i + 1) :
+                    device.szDeviceName;
+            deviceLabels.add(label);
+            if (!savedDeviceId.isEmpty() && savedDeviceId.equals(device.szDeviceID)) {
+                selectedDevice = i;
+            }
+        }
+        if (deviceLabels.isEmpty()) {
+            deviceLabels.add(getString(R.string.webcam_no_cameras));
+        }
+        ArrayAdapter<String> deviceAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, deviceLabels);
+        deviceAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        webcamDeviceSpinner.setAdapter(deviceAdapter);
+        webcamDeviceSpinner.setSelection(Math.min(selectedDevice, deviceLabels.size() - 1));
+
+        selectSavedVideoBitrate();
+        updateVideoCaptureFormatChoices(prefs.get(Preferences.PREF_VIDEOCAPTURE_FORMAT, ""));
+        updatingWebcamControls = false;
+        updateVideoCaptureState();
+    }
+
+    private void updateVideoCaptureFormatChoices(String selectedFormat) {
+        if (webcamFormatSpinner == null) {
+            return;
+        }
+        webcamFormats.clear();
+        ArrayList<String> formatLabels = new ArrayList<>();
+        int deviceIndex = webcamDeviceSpinner == null ? -1 : webcamDeviceSpinner.getSelectedItemPosition();
+        if (deviceIndex >= 0 && deviceIndex < webcamDevices.size()) {
+            VideoCaptureDevice device = webcamDevices.get(deviceIndex);
+            if (device.videoFormats != null) {
+                for (VideoFormat format : device.videoFormats) {
+                    if (format == null || format.nWidth <= 0 || format.nHeight <= 0) {
+                        continue;
+                    }
+                    webcamFormats.add(format);
+                    int fps = TeamTalkService.getVideoFormatFps(format);
+                    formatLabels.add(format.nWidth + " x " + format.nHeight +
+                            (fps > 0 ? " @ " + fps + " fps" : ""));
+                }
+            }
+        }
+
+        int selectedIndex = chooseVideoFormatIndex(selectedFormat);
+        if (formatLabels.isEmpty()) {
+            formatLabels.add(getString(R.string.webcam_no_formats));
+        }
+        ArrayAdapter<String> formatAdapter = new ArrayAdapter<>(
+                this, android.R.layout.simple_spinner_item, formatLabels);
+        formatAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        webcamFormatSpinner.setAdapter(formatAdapter);
+        webcamFormatSpinner.setSelection(Math.min(selectedIndex, formatLabels.size() - 1));
+        updateVideoCaptureState();
+    }
+
+    private int chooseVideoFormatIndex(String selectedFormat) {
+        int fallbackIndex = 0;
+        int fallbackPixels = Integer.MAX_VALUE;
+        for (int i = 0; i < webcamFormats.size(); i++) {
+            VideoFormat format = webcamFormats.get(i);
+            if (!selectedFormat.isEmpty() &&
+                    TeamTalkService.encodeVideoFormat(format).equals(selectedFormat)) {
+                return i;
+            }
+            int pixels = format.nWidth * format.nHeight;
+            if (pixels >= 320 * 240 && pixels <= 640 * 480 && pixels < fallbackPixels) {
+                fallbackPixels = pixels;
+                fallbackIndex = i;
+            }
+        }
+        return fallbackIndex;
+    }
+
+    private void selectSavedVideoBitrate() {
+        int savedBitrate = prefs.get(Preferences.PREF_VIDEOCAPTURE_BITRATE, 256);
+        int selected = 1;
+        for (int i = 0; i < webcamBitratesKbps.length; i++) {
+            if (webcamBitratesKbps[i] == savedBitrate) {
+                selected = i;
+                break;
+            }
+        }
+        webcamBitrateSpinner.setSelection(selected);
+    }
+
+    private void toggleVideoCaptureTransmission() {
+        if (getService().isVideoCaptureTransmissionEnabled()) {
+            getService().stopVideoCaptureTransmission();
+            Toast.makeText(this, R.string.webcam_stopped, Toast.LENGTH_SHORT).show();
+            updateVideoCaptureState();
+            return;
+        }
+
+        pendingWebcamStartAfterPermission = true;
+        if (Permissions.CAMERA.request(this)) {
+            pendingWebcamStartAfterPermission = false;
+            startSelectedVideoCaptureTransmission();
+        }
+    }
+
+    private void startSelectedVideoCaptureTransmission() {
+        UserAccount account = new UserAccount();
+        if (getClient().getMyUserAccount(account) &&
+                (account.uUserRights & UserRight.USERRIGHT_TRANSMIT_VIDEOCAPTURE) == 0) {
+            Toast.makeText(this, R.string.webcam_transmit_right_missing, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        int deviceIndex = webcamDeviceSpinner.getSelectedItemPosition();
+        int formatIndex = webcamFormatSpinner.getSelectedItemPosition();
+        int bitrateIndex = webcamBitrateSpinner.getSelectedItemPosition();
+        if (deviceIndex < 0 || deviceIndex >= webcamDevices.size() ||
+                formatIndex < 0 || formatIndex >= webcamFormats.size()) {
+            Toast.makeText(this, R.string.webcam_start_failed, Toast.LENGTH_LONG).show();
+            return;
+        }
+
+        VideoCaptureDevice device = webcamDevices.get(deviceIndex);
+        VideoFormat format = webcamFormats.get(formatIndex);
+        int bitrate = webcamBitratesKbps[Math.max(0, Math.min(bitrateIndex, webcamBitratesKbps.length - 1))];
+        boolean started = getService().startVideoCaptureTransmission(device.szDeviceID, format, bitrate);
+        if (!started) {
+            Toast.makeText(this, R.string.webcam_start_failed, Toast.LENGTH_LONG).show();
+        }
+        updateVideoCaptureState();
+    }
+
+    private void updateVideoCaptureState() {
+        if (webcamToggleButton == null) {
+            return;
+        }
+        if (getService() == null) {
+            webcamToggleButton.setEnabled(false);
+            webcamDeviceSpinner.setEnabled(false);
+            webcamFormatSpinner.setEnabled(false);
+            webcamBitrateSpinner.setEnabled(false);
+            webcamStatusText.setText(R.string.webcam_status_off);
+            return;
+        }
+        boolean transmitting = getService().isVideoCaptureTransmissionEnabled();
+        boolean hasCamera = !webcamDevices.isEmpty();
+        boolean hasFormat = !webcamFormats.isEmpty();
+        webcamToggleButton.setText(transmitting ? R.string.webcam_stop : R.string.webcam_start);
+        webcamToggleButton.setEnabled(transmitting || (hasCamera && hasFormat));
+        webcamDeviceSpinner.setEnabled(!transmitting && hasCamera);
+        webcamFormatSpinner.setEnabled(!transmitting && hasFormat);
+        webcamBitrateSpinner.setEnabled(!transmitting);
+        webcamStatusText.setText(transmitting ? R.string.webcam_status_transmitting :
+                (hasCamera && hasFormat ? R.string.webcam_status_ready : R.string.webcam_status_off));
     }
 
     public static class FilesSectionFragment extends ListFragment {
@@ -1927,6 +2143,15 @@ private EditText newmsg;
                 if ((Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU) || areMediaPermissionsComplete())
                     fileSelectionStart();
                 break;
+            case CAMERA:
+                if (webcamDevices.isEmpty()) {
+                    refreshVideoCaptureControls();
+                }
+                if (pendingWebcamStartAfterPermission) {
+                    pendingWebcamStartAfterPermission = false;
+                    startSelectedVideoCaptureTransmission();
+                }
+                break;
             case WAKE_LOCK:
                 wakeLock.acquire();
                 break;
@@ -1953,6 +2178,7 @@ private EditText newmsg;
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         textmsgAdapter.setMyUserID(my_userid);
+        refreshVideoCaptureControls();
     }
 
     @Override
@@ -2263,6 +2489,7 @@ private EditText newmsg;
 
     @Override
     public void onConnectionLost() {
+        updateVideoCaptureState();
         if(sounds.get(SOUND_SERVERLOST) != 0) {
             audioIcons.play(sounds.get(SOUND_SERVERLOST), 1.0f, 1.0f, 0, 0, 1.0f);
         }
@@ -2271,6 +2498,10 @@ private EditText newmsg;
     @Override
     public void onUserStateChange(User user) {
         users.put(user.nUserID, user);
+
+        if (user.nUserID == getClient().getMyUserID()) {
+            updateVideoCaptureState();
+        }
         
         if (curchannel != null && user.nChannelID == curchannel.nChannelID) {
             accessibilityAssistant.lockEvents();

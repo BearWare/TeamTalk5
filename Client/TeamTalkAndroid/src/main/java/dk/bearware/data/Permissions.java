@@ -45,6 +45,7 @@ import dk.bearware.gui.R;
 public enum Permissions {
 
     RECORD_AUDIO(Manifest.permission.RECORD_AUDIO, R.string.permission_audioinput),
+    CAMERA(Manifest.permission.CAMERA, R.string.permission_camera),
     MODIFY_AUDIO_SETTINGS(Manifest.permission.MODIFY_AUDIO_SETTINGS, R.string.permission_audiomodify),
     INTERNET(Manifest.permission.INTERNET, R.string.permission_internet),
     VIBRATE(Manifest.permission.VIBRATE, R.string.permission_vibrate),
