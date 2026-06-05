@@ -8,14 +8,20 @@ Default Qt Client
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 - Play sound event when enabled one
 - Fixed compilation time display on Linux (Qt5)
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 - Minimum supported iOS version is now 16.0
 Server
 - Ubuntu 22 is no longer supported

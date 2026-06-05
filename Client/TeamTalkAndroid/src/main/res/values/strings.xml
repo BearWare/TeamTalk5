@@ -381,6 +381,8 @@
     <string name="text_txinterval">Transmit interval</string>
     <string name="text_framesize">Frame size</string>
     <string name="text_vbr">Variable Bitrate</string>
+    <string name="text_opus_dred">Enable AI packet loss recovery (DRED)</string>
+    <string name="text_opus_osce">Enable AI speech enhancement (OSCE)</string>
     <string name="text_quality">Quality</string>
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>
