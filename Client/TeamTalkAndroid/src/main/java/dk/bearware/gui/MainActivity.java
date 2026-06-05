@@ -1108,8 +1108,6 @@ private EditText newmsg;
             }
         });
         webcamToggleButton.setOnClickListener(v -> toggleVideoCaptureTransmission());
-
-        refreshVideoCaptureControls();
         updateVideoCaptureState();
     }
 
@@ -1232,6 +1230,11 @@ private EditText newmsg;
     }
 
     private void toggleVideoCaptureTransmission() {
+        if (webcamDevices.isEmpty() || webcamFormats.isEmpty()) {
+            refreshVideoCaptureControls();
+            return;
+        }
+
         if (getService().isVideoCaptureTransmissionEnabled()) {
             getService().stopVideoCaptureTransmission();
             Toast.makeText(this, R.string.webcam_stopped, Toast.LENGTH_SHORT).show();
@@ -1289,7 +1292,7 @@ private EditText newmsg;
         boolean hasCamera = !webcamDevices.isEmpty();
         boolean hasFormat = !webcamFormats.isEmpty();
         webcamToggleButton.setText(transmitting ? R.string.webcam_stop : R.string.webcam_start);
-        webcamToggleButton.setEnabled(transmitting || (hasCamera && hasFormat));
+        webcamToggleButton.setEnabled(transmitting || !webcamControlsLoading);
         webcamDeviceSpinner.setEnabled(!transmitting && hasCamera);
         webcamFormatSpinner.setEnabled(!transmitting && hasFormat);
         webcamBitrateSpinner.setEnabled(!transmitting);
@@ -2197,7 +2200,6 @@ private EditText newmsg;
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         textmsgAdapter.setMyUserID(my_userid);
-        runOnUiThread(this::refreshVideoCaptureControls);
     }
 
     @Override
