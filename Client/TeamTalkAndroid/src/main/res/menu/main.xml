@@ -9,7 +9,7 @@
         android:title="@string/action_settings"/>
 
     <item
-        android:id="@+id/action_status"
+        android:id="@+id/action_statusnick"
         android:orderInCategory="101"
         app:showAsAction="never"
         android:title="@string/action_status"/>

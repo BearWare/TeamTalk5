@@ -382,7 +382,7 @@ extends AppCompatActivity
         } else if (itemId == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
             startActivity(intent);
-        } else if (itemId == R.id.action_status) {
+        } else if (itemId == R.id.action_statusnick) {
             showChangeNicknameStatusDialog();
         } else if (itemId == R.id.action_online_users) {
             Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
@@ -515,22 +515,14 @@ extends AppCompatActivity
         ServerEntry serverEntry = getService().getServerEntry();
         if (serverEntry != null && !TextUtils.isEmpty(serverEntry.nickname))
             return serverEntry.nickname;
-
-        if (myself != null && !TextUtils.isEmpty(myself.szNickname))
-            return myself.szNickname;
-
-        return prefs.get(Preferences.PREF_GENERAL_NICKNAME, "");
+        return "";
     }
 
     private String getCurrentStatusMessage(User myself) {
         ServerEntry serverEntry = getService().getServerEntry();
         if (serverEntry != null && !TextUtils.isEmpty(serverEntry.statusmsg))
             return serverEntry.statusmsg;
-
-        if (myself != null && !TextUtils.isEmpty(myself.szStatusMsg))
-            return myself.szStatusMsg;
-
-        return prefs.get(Preferences.PREF_GENERAL_STATUSMSG, "");
+        return "";
     }
 
     private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
