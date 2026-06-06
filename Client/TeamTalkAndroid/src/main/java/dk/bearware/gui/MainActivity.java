@@ -500,7 +500,7 @@ extends AppCompatActivity
         layout.addView(modeGroup);
 
         new AlertDialog.Builder(this)
-                .setTitle(R.string.action_status)
+                .setTitle(R.string.action_statusnick)
                 .setView(layout)
                 .setPositiveButton(android.R.string.ok, (dialog, which) ->
                         applyNicknameStatusChange(
