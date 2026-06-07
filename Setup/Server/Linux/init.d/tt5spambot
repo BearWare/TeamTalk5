@@ -1,0 +1,48 @@
+#!/bin/sh
+### BEGIN INIT INFO
+# Provides:          tt5spambot
+# Required-Start:    $local_fs $remote_fs $network tt5proserver
+# Required-Stop:     $local_fs $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:
+# Short-Description: Start/stop TeamTalk 5 SpamBot
+# Description:       Setup variables BIN, WORKDIR, PIDFILE and USER
+#                    before running this script
+### END INIT INFO
+
+# Location of TeamTalk 5 SpamBot binary
+BIN=/home/tt/tt5spambot/tt5spambot
+# Working directory where tt5spambot.xml and tt5spambot.log will be written to
+WORKDIR=/home/tt/tt5spambot
+# File containing the PID of the TeamTalk SpamBot daemon
+PIDFILE=/home/tt/tt5spambot/tt5spambot.pid
+# The TeamTalk SpamBot should be launched by this user account
+USER=tt
+
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+	log_daemon_msg "Starting TeamTalk SpamBot " "tt5spambot"
+	start-stop-daemon --start --quiet --oknodo --background \
+	--chdir "$WORKDIR" --pidfile "$PIDFILE" --make-pidfile \
+	--user "$USER" --chuid "$USER" \
+	--exec "$BIN" -- -wd "$WORKDIR" -nd
+	log_end_msg $?
+	;;
+    stop)
+        log_daemon_msg "Stopping TeamTalk SpamBot"
+	test -f $PIDFILE && kill `cat $PIDFILE` && rm $PIDFILE
+	log_end_msg $?
+	;;
+    restart)
+	$0 stop || exit 1
+	$0 start || exit 1
+	;;
+    *)
+	echo "Usage: /etc/init.d/tt5spambot {start|stop|restart}"
+	exit 1
+	;;
+esac
+
+exit 0
