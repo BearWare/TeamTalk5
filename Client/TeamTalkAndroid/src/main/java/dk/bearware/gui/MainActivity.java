@@ -2231,9 +2231,9 @@ private EditText newmsg;
 
             setMyChannel(channel);
         }
-    accessibilityAssistant.lockEvents();
-    textmsgAdapter.notifyDataSetChanged();
-    accessibilityAssistant.unlockEvents();
+        accessibilityAssistant.lockEvents();
+        textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
