@@ -612,7 +612,7 @@ extends AppCompatActivity
                 if (localFile.canRead()) {
                     startFileUpload(path);
                 } else {
-                    Toast.makeText(this, getString(R.string.upload_failed, path), Toast.LENGTH_LONG).show();
+                    new FileCopyingTask().execute(uri);
                 }
             } else {
                 new FileCopyingTask().execute(uri);
