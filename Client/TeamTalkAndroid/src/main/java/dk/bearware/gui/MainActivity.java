@@ -430,11 +430,11 @@ extends AppCompatActivity
                 TeamTalkConstants.STATUSMODE_AWAY,
                 TeamTalkConstants.STATUSMODE_QUESTION
         };
-        final int[] checkedItem = {0};
+        int checkedItem = 0;
         int currentMode = myself.nStatusMode & TeamTalkConstants.STATUSMODE_MODE;
         for (int i = 0; i < modeValues.length; i++) {
             if (modeValues[i] == currentMode) {
-                checkedItem[0] = i;
+                checkedItem = i;
                 break;
             }
         }
@@ -488,25 +488,21 @@ extends AppCompatActivity
         questionButton.setText(R.string.status_mode_question);
         modeGroup.addView(questionButton);
 
-        modeGroup.check(modeGroup.getChildAt(checkedItem[0]).getId());
-        modeGroup.setOnCheckedChangeListener((group, checkedId) -> {
-            for (int i = 0; i < group.getChildCount(); i++) {
-                if (group.getChildAt(i).getId() == checkedId) {
-                    checkedItem[0] = i;
-                    break;
-                }
-            }
-        });
+        modeGroup.check(modeGroup.getChildAt(checkedItem).getId());
         layout.addView(modeGroup);
 
         new AlertDialog.Builder(this)
                 .setTitle(R.string.action_statusnick)
                 .setView(layout)
-                .setPositiveButton(android.R.string.ok, (dialog, which) ->
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    int selectedIndex = modeGroup.indexOfChild(
+                            modeGroup.findViewById(modeGroup.getCheckedRadioButtonId()));
+
                         applyNicknameStatusChange(
                                 nicknameInput.getText().toString(),
-                                modeValues[checkedItem[0]],
-                                statusMessageInput.getText().toString()))
+                                modeValues[selectedIndex],
+                                statusMessageInput.getText().toString());
+                })
                 .setNegativeButton(android.R.string.cancel, null)
                 .show();
     }
