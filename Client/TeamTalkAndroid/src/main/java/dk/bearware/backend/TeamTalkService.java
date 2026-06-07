@@ -1054,7 +1054,8 @@ public class TeamTalkService extends Service
         User olduser = users.get(user.nUserID);
 
         if (olduser != null) {
-            Utils.subscriptionLogChanged(getBaseContext(), olduser, user) .ifPresent(text -> getChatLogTextMsgs().add( MyTextMessage.createLogMsg( MyTextMessage.MSGTYPE_LOG_INFO, text)));
+            Utils.subscriptionLogChanged(getBaseContext(), olduser, user)
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
         }
 
         users.put(user.nUserID, user);
@@ -1185,8 +1186,9 @@ public class TeamTalkService extends Service
 
         Channel oldchannel = channels.get(channel.nChannelID);
 
-        if (oldchannel != null) {
-            Utils.transmitUsersLogChanged(getBaseContext(), oldchannel, channel, getUsers()) .ifPresent(text -> getChatLogTextMsgs().add( MyTextMessage.createLogMsg( MyTextMessage.MSGTYPE_LOG_INFO, text)));
+        if (oldchannel != null && mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+            Utils.transmitUsersLogChanged(getBaseContext(), oldchannel, channel, getUsers())
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
         }
 
         channels.put(channel.nChannelID, channel);
