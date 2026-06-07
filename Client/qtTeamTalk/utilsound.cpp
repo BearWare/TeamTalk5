@@ -135,7 +135,7 @@ QString getSoundDeviceUID(const SoundDevice& dev)
 
 int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
 {
-    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
+    auto isend = indev.inputSampleRates + (sizeof(indev.inputSampleRates) / sizeof(indev.inputSampleRates[0]));
     auto isr = std::find_if(indev.inputSampleRates, isend,
         [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
     bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&

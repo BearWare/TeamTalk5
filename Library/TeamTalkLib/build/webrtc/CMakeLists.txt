@@ -91,8 +91,8 @@ if (MSVC)
       COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\debug
       COMMAND           CALL gn gen <INSTALL_DIR>\\lib\\release
       BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/webrtc_cfg_win.bat
-      COMMAND           CALL ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR>\\lib\\debug teamtalk
-      COMMAND           CALL ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR>\\lib\\release teamtalk
+      COMMAND           CALL ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR>\\lib\\debug teamtalk
+      COMMAND           CALL ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR>\\lib\\release teamtalk
       INSTALL_COMMAND   ${CMAKE_COMMAND} -E rm -rf ${WEBRTC_INSTALL_ROOT}/include
       COMMAND           ${CMAKE_CURRENT_BINARY_DIR}/webrtc_copy_win.bat
       BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/debug/obj/modules/audio_processing/teamtalk.lib
@@ -252,7 +252,7 @@ else()
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
@@ -268,7 +268,7 @@ else()
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec cp -r --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
@@ -284,7 +284,7 @@ else()
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-arm64
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
@@ -297,7 +297,7 @@ else()
         PATCH_COMMAND     ""
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}-intel
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec ditto \{\} <INSTALL_DIR>/include/\{\} \$<SEMICOLON>
@@ -327,7 +327,7 @@ else()
         PATCH_COMMAND     ${WEBRTC_PATCH_CMD}
         INSTALL_DIR       ${WEBRTC_INSTALL_ROOT}
         CONFIGURE_COMMAND ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && gn gen <INSTALL_DIR>
-        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja -v ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
+        BUILD_COMMAND     ${DEPOTTOOLS_EXPORT} && ninja ${TOOLCHAIN_BUILD_MAKEJOBS} -C <INSTALL_DIR> teamtalk
         INSTALL_COMMAND   cd ${WEBRTC_SOURCE_ROOT} && mkdir -p <INSTALL_DIR>/include
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.h" -exec cp --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
         COMMAND           cd ${WEBRTC_SOURCE_ROOT} && find . -type f -name "*.inc" -exec cp -r --parents \{\} <INSTALL_DIR>/include/ \$<SEMICOLON>
