@@ -606,17 +606,7 @@ extends AppCompatActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if ((requestCode == REQUEST_SELECT_FILE) && (resultCode == RESULT_OK)) {
             Uri uri = data.getData();
-            String path = AbsolutePathHelper.getRealPath(this.getBaseContext(), uri);
-            if (path != null) {
-                File localFile = new File(path);
-                if (localFile.canRead()) {
-                    startFileUpload(path);
-                } else {
-                    new FileCopyingTask().execute(uri);
-                }
-            } else {
-                new FileCopyingTask().execute(uri);
-            }
+            new FileCopyingTask().execute(uri);
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
