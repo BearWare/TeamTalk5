@@ -52,7 +52,6 @@ import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.AdapterView;
 import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.Toast;
@@ -267,8 +266,9 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             chanHidden.setChecked((channel.uChannelType & ChannelType.CHANNEL_HIDDEN) != 0);
             fixvol.setChecked(channel.audiocfg.bEnableAGC);
             fixvolume.setProgress((channel.audiocfg.nGainLevel - SoundLevel.SOUND_GAIN_MIN)/1000);
-fixvolLabel.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
-            fixvolume.setEnabled(channel.audiocfg.bEnableAGC); fixvolume.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
+            fixvolLabel.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
+            fixvolume.setEnabled(channel.audiocfg.bEnableAGC);
+            fixvolume.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
             voicemax.setProgress(channel.nTimeOutTimerVoiceMSec / 1000);
             voicemaxText.setText(channel.nTimeOutTimerVoiceMSec / 1000 + " " + getString(R.string.text_timeseconds));
             mediamax.setProgress(channel.nTimeOutTimerMediaFileMSec / 1000);
@@ -343,8 +343,9 @@ fixvolLabel.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE
         fixvol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-fixvolLabel.setVisibility(isChecked ? View.VISIBLE : View.GONE);
-                fixvolume.setEnabled(isChecked); fixvolume.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                fixvolLabel.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                fixvolume.setEnabled(isChecked);
+                fixvolume.setVisibility(isChecked ? View.VISIBLE : View.GONE);
             }
         });
 
