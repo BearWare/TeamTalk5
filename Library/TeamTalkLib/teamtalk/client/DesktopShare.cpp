@@ -92,7 +92,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
         {
             int const width = (w == m_w_blocks-1 && ((GetWidth() % m_block_width) != 0))? GetWidth() % m_block_width : m_block_width;
 
-            if((int)m_tmp_block.size() != width * height * m_pixel_size)
+            if(m_tmp_block.size() != size_t(width) * height * m_pixel_size)
             {
                 char const def_color = DEFAULT_COLOR;
                 m_tmp_block.resize(size_t(width) * height * m_pixel_size, def_color);
