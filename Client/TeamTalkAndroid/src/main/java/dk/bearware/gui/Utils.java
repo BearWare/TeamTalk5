@@ -517,13 +517,21 @@ public class Utils {
     
     public static DocumentBuilderFactory newSecureDocumentBuilderFactory() throws ParserConfigurationException {
         DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-        dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-        dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
+        trySetFeature(dbf, "http://apache.org/xml/features/disallow-doctype-decl", true);
+        trySetFeature(dbf, "http://xml.org/sax/features/external-general-entities", false);
+        trySetFeature(dbf, "http://xml.org/sax/features/external-parameter-entities", false);
+        trySetFeature(dbf, "http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
         dbf.setXIncludeAware(false);
         dbf.setExpandEntityReferences(false);
         return dbf;
+    }
+
+    private static void trySetFeature(DocumentBuilderFactory dbf, String feature, boolean value) {
+        try {
+            dbf.setFeature(feature, value);
+        }
+        catch (ParserConfigurationException e) {
+        }
     }
 
     public static Vector<ServerEntry> getXmlServerEntries(String xml) {
