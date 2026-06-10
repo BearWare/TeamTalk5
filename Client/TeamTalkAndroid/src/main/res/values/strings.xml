@@ -385,9 +385,8 @@
     <string name="text_fixvolume">Enable fixed audio volume for all users</string>
     <string name="text_fixvolumeslider">Volume</string>
     <string name="text_voicemediamax">Stream Timeout Timer</string>
-    <string name="text_voicemax">Voice stream max duration</string>
-    <string name="text_mediamax">Media file stream max duration</string>
-    <string name="text_timeseconds">Seconds</string>
+    <string name="text_voicemax">Voice stream max duration (MSec)</string>
+    <string name="text_mediamax">Media file stream max duration (MSec)</string>
     <string name="text_publicserver">Public server</string>
     <string name="text_localserver">Local server</string>
     <string name="text_officialserver">Official server</string>
