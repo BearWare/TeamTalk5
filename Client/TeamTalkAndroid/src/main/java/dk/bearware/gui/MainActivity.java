@@ -644,15 +644,9 @@ extends AppCompatActivity
             Cursor cursor = getContentResolver().query(uri, null, null, null, null);
             int columnIndex = ((cursor != null) && cursor.moveToFirst()) ? cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME) : -1;
             if (columnIndex >= 0) {
-                String displayName = cursor.getString(columnIndex);
+                File transitFile = new File(getCacheDir(), cursor.getString(columnIndex));
                 cursor.close();
-                File cacheDir = getCacheDir();
-                File transitFile = new File(cacheDir, new File(displayName).getName());
                 try {
-                    String cacheCanonical = cacheDir.getCanonicalPath() + File.separator;
-                    if (!transitFile.getCanonicalPath().startsWith(cacheCanonical)) {
-                        return null;
-                    }
                     if (((!transitFile.exists()) || transitFile.delete()) && transitFile.createNewFile()) {
                         transitFile.deleteOnExit();
                     } else {
