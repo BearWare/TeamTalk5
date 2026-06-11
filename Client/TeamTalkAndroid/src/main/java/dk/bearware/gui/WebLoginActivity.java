@@ -122,7 +122,7 @@ public class WebLoginActivity extends AppCompatActivity {
 
             try {
                 InputSource src = new InputSource(new StringReader(xml));
-                DocumentBuilderFactory dbf = Utils.newSecureDocumentBuilderFactory();
+                DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
                 DocumentBuilder db = dbf.newDocumentBuilder();
                 Document document = db.parse(src);
                 XPathFactory factory = XPathFactory.newInstance();
