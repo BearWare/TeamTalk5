@@ -23,13 +23,15 @@
 
 package dk.bearware;
 
-import org.junit.FixMethodOrder;
-import org.junit.Test;
-import org.junit.FixMethodOrder;
-import org.junit.runners.MethodSorters;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.Vector;
 import java.io.DataOutputStream;
@@ -41,7 +43,7 @@ import java.io.File;
 import java.util.Arrays;
 import java.net.InetAddress;
 
-@FixMethodOrder(MethodSorters.NAME_ASCENDING)
+@TestMethodOrder(MethodOrderer.MethodName.class)
 public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     public static final String CRYPTO_SERVER_CERT_FILE = "ttservercert.pem", CRYPTO_SERVER_KEY_FILE = "ttserverkey.pem";
@@ -61,11 +63,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase ttclient = new TeamTalk5Pro();
         ttclients.add(ttclient);
         // if (ENCRYPTED) {
-        //     assertTrue("Set encryption context", ttclient.setEncryptionContext(new EncryptionContext()));
+        //     assertTrue(ttclient.setEncryptionContext(new EncryptionContext()), "Set encryption context");
         // }
         return ttclient;
     }
 
+    @BeforeEach
     public void setUp() throws Exception {
         super.setUp();
 
@@ -90,6 +93,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
     }
 
+    @AfterEach
     public void tearDown() throws Exception {
         super.tearDown();
 
@@ -196,7 +200,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                     lpClientErrorMsg.szErrorMsg = "Hell no!";
                     break;
                 default :
-                    assertTrue("User type not set", false);
+                    assertTrue(false, "User type not set");
                     break;
                 }
 
@@ -224,7 +228,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
                     lpClientErrorMsg.szErrorMsg = "Hell no!";
                     break;
                 default :
-                    assertTrue("User type not set", false);
+                    assertTrue(false, "User type not set");
                     break;
                 }
             }
@@ -431,18 +435,18 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         ServerInterleave interleave = new RunServer(server);
 
         int cmdid = client1.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
-        assertTrue("Login client", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client");
 
         TTMessage msg = new TTMessage();
         //check that the client gets back the same user account we created in the server
-        assertTrue("wait login", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, interleave));
-        assertEquals("Account identity", useraccount.szUsername, msg.useraccount.szUsername);
-        assertEquals("Account type", useraccount.uUserType, msg.useraccount.uUserType);
-        assertEquals("Account rights", useraccount.uUserRights, msg.useraccount.uUserRights);
-        assertEquals("Account note", useraccount.szNote, msg.useraccount.szNote);
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, msg, interleave), "wait login");
+        assertEquals(useraccount.szUsername, msg.useraccount.szUsername, "Account identity");
+        assertEquals(useraccount.uUserType, msg.useraccount.uUserType, "Account type");
+        assertEquals(useraccount.uUserRights, msg.useraccount.uUserRights, "Account rights");
+        assertEquals(useraccount.szNote, msg.useraccount.szNote, "Account note");
 
-        assertTrue("wait success", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
-        assertEquals("Login success", cmdid, msg.nSource);
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success");
+        assertEquals(cmdid, msg.nSource, "Login success");
     }
 
     @Test
@@ -469,19 +473,19 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             UserRight.USERRIGHT_TRANSMIT_VOICE;
 
         cmdid = client1.doNewUserAccount(useraccount);
-        assertTrue("New account cmd", cmdid > 0);
+        assertTrue(cmdid > 0, "New account cmd");
 
         int n_accounts = useraccounts.size();
 
         waitCmdSuccess(client1, cmdid, 1000, interleave);
 
-        assertEquals("One more account", useraccounts.size(), n_accounts + 1);
+        assertEquals(useraccounts.size(), n_accounts + 1, "One more account");
 
         UserAccount srv_ua = getUserAccount(useraccount.szUsername);
-        assertEquals("Account identity", srv_ua.szUsername, useraccount.szUsername);
-        assertEquals("Account type", srv_ua.uUserType, useraccount.uUserType);
-        assertEquals("Account rights", srv_ua.uUserRights, useraccount.uUserRights);
-        assertEquals("Account note", srv_ua.szNote, useraccount.szNote);
+        assertEquals(srv_ua.szUsername, useraccount.szUsername, "Account identity");
+        assertEquals(srv_ua.uUserType, useraccount.uUserType, "Account type");
+        assertEquals(srv_ua.uUserRights, useraccount.uUserRights, "Account rights");
+        assertEquals(srv_ua.szNote, useraccount.szNote, "Account note");
     }
 
     @Test
@@ -508,21 +512,21 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client2);
 
         int cmdid = client1.doLogin(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
-        assertTrue("Login client1", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client1");
 
         cmdid = client2.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
-        assertTrue("Login client2", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client2");
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
-        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success1");
+        assertTrue(waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success2");
 
         int n_accounts = useraccounts.size();
         cmdid = client1.doDeleteUserAccount(ADMIN_USERNAME);
 
         waitCmdSuccess(client1, cmdid, 1000, interleave);
 
-        assertEquals("One less account", useraccounts.size(), n_accounts - 1);
+        assertEquals(useraccounts.size(), n_accounts - 1, "One less account");
 
         cmdid = client2.doDeleteUserAccount(ADMIN_USERNAME);
 
@@ -552,33 +556,33 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client2);
 
         int cmdid = client1.doLogin(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
-        assertTrue("Login client1", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client1");
 
         cmdid = client2.doLogin(getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
-        assertTrue("Login client2", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client2");
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
-        assertTrue("wait success2", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success1");
+        assertTrue(waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success2");
 
         int n_banned = banned_ipaddr.size();
         cmdid = client1.doBanUser(client2.getMyUserID(), 0);
 
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success1");
 
-        assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
+        assertEquals(n_banned + 1, banned_ipaddr.size(), "Banned user");
 
         cmdid = client1.doUnBanUser(banned_ipaddr.get(0), 0);
 
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success1");
 
-        assertEquals("Banned user", n_banned, banned_ipaddr.size());
+        assertEquals(n_banned, banned_ipaddr.size(), "Banned user");
 
         cmdid = client1.doBanIPAddress("11.22.33.44", 0);
 
-        assertTrue("wait success1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success1");
 
-        assertEquals("Banned user", n_banned + 1, banned_ipaddr.size());
+        assertEquals(n_banned + 1, banned_ipaddr.size(), "Banned user");
 
     }
 
@@ -593,15 +597,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client, "foobar");
 
         int cmdid = client.doLoginEx(getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD, "myclientname");
-        assertTrue("Login client", cmdid > 0);
+        assertTrue(cmdid > 0, "Login client");
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait success", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SUCCESS, DEF_WAIT, msg, interleave), "wait success");
 
         User user = new User();
-        assertTrue("Get user", client.getUser(client.getMyUserID(), user));
+        assertTrue(client.getUser(client.getMyUserID(), user), "Get user");
 
-        assertEquals("clientname set", "myclientname", user.szClientName);
+        assertEquals("myclientname", user.szClientName, "clientname set");
 
     }
 
@@ -613,7 +617,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         final TeamTalkBase client = newClientInstance();
 
-        assertTrue("Connect", client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED));
+        assertTrue(client.connect(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED), "Connect");
 
         waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_ERROR, 1000, interleave);
     }
@@ -656,23 +660,23 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         int cmdid = client1.doJoinChannel(chan);
 
-        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave), "join channel");
 
         cmdid = client2.doJoinChannelByID(client2.getRootChannelID(), "");
 
-        assertTrue("join channel", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave), "join channel");
 
         cmdid = client1.doPing();
 
-        assertTrue("drain client1", waitCmdComplete(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdComplete(client1, cmdid, DEF_WAIT, interleave), "drain client1");
 
         cmdid = client2.doMoveUser(client1.getMyUserID(), client2.getMyChannelID());
 
-        assertTrue("move user", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave), "move user");
 
-        assertTrue("wait move", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_JOINED, DEF_WAIT, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_JOINED, DEF_WAIT, interleave), "wait move");
 
-        assertEquals("same channel", client1.getMyChannelID(), client2.getMyChannelID());
+        assertEquals(client1.getMyChannelID(), client2.getMyChannelID(), "same channel");
     }
 
     @Test
@@ -704,7 +708,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         connect(server, client2);
         int cmdid = client1.doMoveUser(client2.getMyUserID(), client1.getMyChannelID());
-        assertTrue("move user", waitCmdError(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdError(client1, cmdid, DEF_WAIT, interleave), "move user");
     }
 
     @Test
@@ -736,50 +740,50 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec = new AudioCodec(true);
         chan.audiocfg = new AudioConfig(true);
 
-        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.makeChannel(chan), "Make sub channel");
 
         interleave.interleave();
 
         chan.szName = "foo2";
-        assertEquals("Update sub channel", ClientError.CMDERR_SUCCESS, server.updateChannel(chan));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.updateChannel(chan), "Update sub channel");
 
         interleave.interleave();
 
-        assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID), "Remove sub channel");
 
         interleave.interleave();
     }
 
     void compareChannels(Channel chan1, Channel chan2, boolean joincheck) {
-        assertEquals("parent", chan1.nParentID, chan2.nParentID);
-        assertEquals("name", chan1.szName, chan2.szName);
-        assertEquals("chan type", chan1.uChannelType, chan2.uChannelType);
-        assertEquals("password", chan1.szPassword, chan2.szPassword);
-        assertEquals("opassword", chan1.szOpPassword, chan2.szOpPassword);
-        assertEquals("topic", chan1.szTopic, chan2.szTopic);
-        assertEquals("userdata", chan1.nUserData, chan2.nUserData);
+        assertEquals(chan1.nParentID, chan2.nParentID, "parent");
+        assertEquals(chan1.szName, chan2.szName, "name");
+        assertEquals(chan1.uChannelType, chan2.uChannelType, "chan type");
+        assertEquals(chan1.szPassword, chan2.szPassword, "password");
+        assertEquals(chan1.szOpPassword, chan2.szOpPassword, "opassword");
+        assertEquals(chan1.szTopic, chan2.szTopic, "topic");
+        assertEquals(chan1.nUserData, chan2.nUserData, "userdata");
         if (joincheck) {
-            assertEquals("diskquota", chan1.nDiskQuota, chan2.nDiskQuota);
-            assertEquals("maxusers", chan1.nMaxUsers, chan2.nMaxUsers);
+            assertEquals(chan1.nDiskQuota, chan2.nDiskQuota, "diskquota");
+            assertEquals(chan1.nMaxUsers, chan2.nMaxUsers, "maxusers");
         }
-        assertEquals("transmit queue delay", chan1.nTransmitUsersQueueDelayMSec, chan2.nTransmitUsersQueueDelayMSec);
-        assertEquals("transmitUsers", chan1.transmitUsers, chan2.transmitUsers);
-        assertEquals("tot voice", chan1.nTimeOutTimerVoiceMSec, chan2.nTimeOutTimerVoiceMSec);
-        assertEquals("tot mf", chan1.nTimeOutTimerMediaFileMSec, chan2.nTimeOutTimerMediaFileMSec);
-        assertEquals("agc", chan1.audiocfg.bEnableAGC, chan2.audiocfg.bEnableAGC);
-        assertEquals("gain", chan1.audiocfg.nGainLevel, chan2.audiocfg.nGainLevel);
-        assertEquals("codec", chan1.audiocodec.nCodec, chan2.audiocodec.nCodec);
-        assertEquals("samplerate", chan1.audiocodec.opus.nSampleRate, chan2.audiocodec.opus.nSampleRate);
-        assertEquals("channels", chan1.audiocodec.opus.nChannels, chan2.audiocodec.opus.nChannels);
-        assertEquals("app", chan1.audiocodec.opus.nApplication, chan2.audiocodec.opus.nApplication);
-        assertEquals("complex", chan1.audiocodec.opus.nComplexity, chan2.audiocodec.opus.nComplexity);
-        assertEquals("fec", chan1.audiocodec.opus.bFEC, chan2.audiocodec.opus.bFEC);
-        assertEquals("dtx", chan1.audiocodec.opus.bDTX, chan2.audiocodec.opus.bDTX);
-        assertEquals("br", chan1.audiocodec.opus.nBitRate, chan2.audiocodec.opus.nBitRate);
-        assertEquals("vbr", chan1.audiocodec.opus.bVBR, chan2.audiocodec.opus.bVBR);
-        assertEquals("constrai", chan1.audiocodec.opus.bVBRConstraint, chan2.audiocodec.opus.bVBRConstraint);
-        assertEquals("txinterval", chan1.audiocodec.opus.nTxIntervalMSec, chan2.audiocodec.opus.nTxIntervalMSec);
-        assertEquals("framesize", chan1.audiocodec.opus.nFrameSizeMSec, chan2.audiocodec.opus.nFrameSizeMSec);
+        assertEquals(chan1.nTransmitUsersQueueDelayMSec, chan2.nTransmitUsersQueueDelayMSec, "transmit queue delay");
+        assertArrayEquals(chan1.transmitUsers, chan2.transmitUsers, "transmitUsers");
+        assertEquals(chan1.nTimeOutTimerVoiceMSec, chan2.nTimeOutTimerVoiceMSec, "tot voice");
+        assertEquals(chan1.nTimeOutTimerMediaFileMSec, chan2.nTimeOutTimerMediaFileMSec, "tot mf");
+        assertEquals(chan1.audiocfg.bEnableAGC, chan2.audiocfg.bEnableAGC, "agc");
+        assertEquals(chan1.audiocfg.nGainLevel, chan2.audiocfg.nGainLevel, "gain");
+        assertEquals(chan1.audiocodec.nCodec, chan2.audiocodec.nCodec, "codec");
+        assertEquals(chan1.audiocodec.opus.nSampleRate, chan2.audiocodec.opus.nSampleRate, "samplerate");
+        assertEquals(chan1.audiocodec.opus.nChannels, chan2.audiocodec.opus.nChannels, "channels");
+        assertEquals(chan1.audiocodec.opus.nApplication, chan2.audiocodec.opus.nApplication, "app");
+        assertEquals(chan1.audiocodec.opus.nComplexity, chan2.audiocodec.opus.nComplexity, "complex");
+        assertEquals(chan1.audiocodec.opus.bFEC, chan2.audiocodec.opus.bFEC, "fec");
+        assertEquals(chan1.audiocodec.opus.bDTX, chan2.audiocodec.opus.bDTX, "dtx");
+        assertEquals(chan1.audiocodec.opus.nBitRate, chan2.audiocodec.opus.nBitRate, "br");
+        assertEquals(chan1.audiocodec.opus.bVBR, chan2.audiocodec.opus.bVBR, "vbr");
+        assertEquals(chan1.audiocodec.opus.bVBRConstraint, chan2.audiocodec.opus.bVBRConstraint, "constrai");
+        assertEquals(chan1.audiocodec.opus.nTxIntervalMSec, chan2.audiocodec.opus.nTxIntervalMSec, "txinterval");
+        assertEquals(chan1.audiocodec.opus.nFrameSizeMSec, chan2.audiocodec.opus.nFrameSizeMSec, "framesize");
     }
 
     @Test
@@ -819,30 +823,30 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         TTMessage msg = new TTMessage();
         int cmdid = admin.doMakeChannel(chan);
-        assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave), "new channel");
         compareChannels(chan, msg.channel, true);
-        assertTrue("done", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdComplete(admin, cmdid, DEF_WAIT, interleave), "done");
 
-        assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave), "Remove channel");
 
         cmdid = admin.doJoinChannel(chan);
-        assertTrue("new join channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave), "new join channel");
         compareChannels(chan, msg.channel, false);
-        assertTrue("done join", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdComplete(admin, cmdid, DEF_WAIT, interleave), "done join");
 
-        assertTrue("Remove channel", waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doRemoveChannel(msg.channel.nChannelID), DEF_WAIT, interleave), "Remove channel");
 
         Channel chan2 = buildDefaultChannel(admin, getTestMethodName()+"123", Codec.SPEEX_CODEC);
         cmdid = admin.doMakeChannel(chan2);
-        assertTrue("new channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave));
-        assertTrue("done", waitCmdComplete(admin, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, msg, interleave), "new channel");
+        assertTrue(waitCmdComplete(admin, cmdid, DEF_WAIT, interleave), "done");
         chan.nChannelID = msg.channel.nChannelID;
         chan.uChannelType &= ~ChannelType.CHANNEL_HIDDEN;
         cmdid = admin.doUpdateChannel(chan);
-        assertTrue("update channel", waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(admin, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, msg, interleave), "update channel");
         compareChannels(chan, msg.channel, true);
 
-        assertTrue("Remove chan2", waitCmdSuccess(admin, admin.doRemoveChannel(chan.nChannelID), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doRemoveChannel(chan.nChannelID), DEF_WAIT, interleave), "Remove chan2");
     }
 
     @Test
@@ -871,7 +875,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client2, NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
 
         int cmdid = client2.doKickUser(client1.getMyUserID(), client1.getMyChannelID());
-        assertTrue("kick success", waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client2, cmdid, DEF_WAIT, interleave), "kick success");
 
         Channel chan = new Channel();
         chan.nChannelID = 2;
@@ -881,23 +885,23 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec = new AudioCodec(true);
         chan.audiocfg = new AudioConfig(true);
 
-        assertEquals("Make sub channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.makeChannel(chan), "Make sub channel");
 
         waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, interleave);
 
         cmdid = client1.doJoinChannelByID(chan.nChannelID, "");
-        assertTrue("Join new channel", cmdid>0);
+        assertTrue(cmdid>0, "Join new channel");
 
-        assertTrue("join channel", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave), "join channel");
 
-        assertEquals("Remove sub channel", ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.removeChannel(chan.nChannelID), "Remove sub channel");
 
-        assertTrue("remove channel event", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE,
-                                                        DEF_WAIT, new TTMessage(), interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_CHANNEL_REMOVE,
+                                DEF_WAIT, new TTMessage(), interleave), "remove channel event");
 
-        assertEquals("No channel", 0, client1.getMyChannelID());
+        assertEquals(0, client1.getMyChannelID(), "No channel");
 
-        assertTrue("Kick cmd", client2.doKickUser(client1.getMyUserID(), 0)>0);
+        assertTrue(client2.doKickUser(client1.getMyUserID(), 0)>0, "Kick cmd");
 
         interleave.interleave();
     }
@@ -932,20 +936,20 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         textmsg.nChannelID = 0;
         textmsg.szMessage = "this is my message";
 
-        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+        assertEquals(0, server.sendTextMessage(textmsg), "send message");
 
         TTMessage msg = new TTMessage();
-        assertTrue("wait text msg", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave), "wait text msg");
 
-        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
-        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+        assertEquals(textmsg.nFromUserID, msg.textmessage.nFromUserID, "from id");
+        assertEquals(textmsg.szMessage, msg.textmessage.szMessage, "msg content");
 
         // custom message
 
         textmsg.nMsgType = TextMsgType.MSGTYPE_CUSTOM;
         textmsg.nToUserID = client1.getMyUserID();
 
-        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+        assertEquals(0, server.sendTextMessage(textmsg), "send message");
 
         // channel message
 
@@ -953,24 +957,24 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         textmsg.nChannelID = client1.getMyChannelID();
         textmsg.nToUserID = 0;
 
-        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+        assertEquals(0, server.sendTextMessage(textmsg), "send message");
 
-        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave), "wait text msg");
 
-        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
-        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+        assertEquals(textmsg.nFromUserID, msg.textmessage.nFromUserID, "from id");
+        assertEquals(textmsg.szMessage, msg.textmessage.szMessage, "msg content");
 
         // broadcast mesage
         textmsg.nMsgType = TextMsgType.MSGTYPE_BROADCAST;
         textmsg.nChannelID = 0;
         textmsg.nToUserID = 0;
 
-        assertEquals("send message", 0, server.sendTextMessage(textmsg));
+        assertEquals(0, server.sendTextMessage(textmsg), "send message");
 
         assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
 
-        assertEquals("from id", textmsg.nFromUserID, msg.textmessage.nFromUserID);
-        assertEquals("msg content", textmsg.szMessage, msg.textmessage.szMessage);
+        assertEquals(textmsg.nFromUserID, msg.textmessage.nFromUserID, "from id");
+        assertEquals(textmsg.szMessage, msg.textmessage.szMessage, "msg content");
     }
 
     @Test
@@ -994,19 +998,19 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         joinRoot(server, client1);
 
         int cmdid = client1.doChangeNickname("This is crap");
-        assertTrue("Issue change nickname", cmdid>0);
+        assertTrue(cmdid>0, "Issue change nickname");
 
         TTMessage msg = new TTMessage();
-        assertTrue("Change nick error", waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave));
+        assertTrue(waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave), "Change nick error");
 
-        assertEquals("Error message", 4567, msg.clienterrormsg.nErrorNo);
+        assertEquals(4567, msg.clienterrormsg.nErrorNo, "Error message");
 
         cmdid = client1.doChangeStatus(45, "This is also crap");
-        assertTrue("Issue change status", cmdid>0);
+        assertTrue(cmdid>0, "Issue change status");
 
         msg = new TTMessage();
-        assertTrue("Change status error", waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave));
-        assertEquals("Error message", 4568, msg.clienterrormsg.nErrorNo);
+        assertTrue(waitCmdError(client1, cmdid, DEF_WAIT, msg, interleave), "Change status error");
+        assertEquals(4568, msg.clienterrormsg.nErrorNo, "Error message");
     }
 
     private void uploadDownloadTest(TeamTalkSrv server, UserAccount ua,
@@ -1042,34 +1046,34 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             dataOut.close();
         }
         catch(IOException e) {
-            assertTrue("Failed to create file.txt: " + e, false);
+            assertTrue(false, "Failed to create file.txt: " + e);
         }
 
         int cmdid = client1.doSendFile(client1.getMyChannelID(), uploadfilename);
-        assertTrue("upload issued", cmdid>0);
+        assertTrue(cmdid>0, "upload issued");
 
         TTMessage msg = new TTMessage();
-        assertTrue("Send success", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave), "Send success");
 
-        assertTrue("file upload done", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave), "file upload done");
 
         RemoteFile fileinfo = msg.remotefile;
 
         cmdid = client1.doRecvFile(client1.getMyChannelID(), fileinfo.nFileID, downloadfilename);
-        assertTrue("download issued", cmdid>0);
+        assertTrue(cmdid>0, "download issued");
 
-        assertTrue("download success", waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, cmdid, DEF_WAIT, interleave), "download success");
 
-        assertTrue("file download begin event", waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave));
-        assertEquals("file download begin", FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus);
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave), "file download begin event");
+        assertEquals(FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus, "file download begin");
 
-        assertTrue("file download end event", waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_FILETRANSFER, DEF_WAIT, msg, interleave), "file download end event");
 
-        assertEquals("file download finished", FileTransferStatus.FILETRANSFER_FINISHED, msg.filetransfer.nStatus);
+        assertEquals(FileTransferStatus.FILETRANSFER_FINISHED, msg.filetransfer.nStatus, "file download finished");
         cmdid = client1.doDeleteFile(client1.getMyChannelID(), fileinfo.nFileID);
-        assertTrue("delete issued", cmdid>0);
+        assertTrue(cmdid>0, "delete issued");
 
-        assertTrue("file rm", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_REMOVE, DEF_WAIT, msg, interleave), "file rm");
 
         try {
             DataInputStream uploaded = new DataInputStream(new FileInputStream(uploadfilename));
@@ -1079,11 +1083,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             while(inup > 0 || indown > 0) {
                 inup = uploaded.read(upbuff);
                 indown = downloaded.read(downbuff);
-                assertTrue("uploaded same as downloaded", Arrays.equals(upbuff, downbuff));
+                assertTrue(Arrays.equals(upbuff, downbuff), "uploaded same as downloaded");
             }
         }
         catch(IOException e) {
-            assertTrue("Failed to compare file" + e, false);
+            assertTrue(false, "Failed to compare file" + e);
         }
     }
 
@@ -1129,13 +1133,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         connect(server, client1);
         login(server, client1, NICKNAME, ua.szUsername, ua.szPassword);
         Channel chan = buildDefaultChannel(client1, getTestMethodName() + client1.getMyUserID());
-        assertTrue("client1 join channel", waitCmdSuccess(client1, client1.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, client1.doJoinChannel(chan), DEF_WAIT, interleave), "client1 join channel");
 
         TeamTalkBase client2 = newClientInstance();
         connect(server, client2);
         login(server, client2, NICKNAME, ua.szUsername, ua.szPassword);
         chan = buildDefaultChannel(client2, getTestMethodName() + client2.getMyUserID());
-        assertTrue("client2 join channel", waitCmdSuccess(client2, client2.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client2, client2.doJoinChannel(chan), DEF_WAIT, interleave), "client2 join channel");
 
         String uploadfilename = getTestMethodName() + ".txt";
         try {
@@ -1145,26 +1149,26 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             dataOut.close();
         }
         catch(IOException e) {
-            assertTrue("Failed to create file.txt: " + e, false);
+            assertTrue(false, "Failed to create file.txt: " + e);
         }
 
         int cmdid = client1.doSendFile(client2.getMyChannelID(), uploadfilename);
-        assertTrue("upload issued to client2 channel", cmdid>0);
+        assertTrue(cmdid>0, "upload issued to client2 channel");
 
         TTMessage msg = new TTMessage();
-        assertTrue("Send outside channel failed", waitCmdError(client1, cmdid, DEF_WAIT, interleave));
+        assertTrue(waitCmdError(client1, cmdid, DEF_WAIT, interleave), "Send outside channel failed");
 
         cmdid = client2.doSendFile(client2.getMyChannelID(), uploadfilename);
-        assertTrue("upload issued to client2 channel", cmdid>0);
+        assertTrue(cmdid>0, "upload issued to client2 channel");
 
-        assertTrue("file upload done", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave));
+        assertTrue(waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, DEF_WAIT, msg, interleave), "file upload done");
 
         RemoteFile fileinfo = msg.remotefile;
 
-        assertFalse("file upload not available to client1", waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, 0, msg, interleave));
+        assertFalse(waitForEvent(client1, ClientEvent.CLIENTEVENT_CMD_FILE_NEW, 0, msg, interleave), "file upload not available to client1");
 
         cmdid = client1.doRecvFile(client2.getMyChannelID(), fileinfo.nFileID, uploadfilename);
-        assertEquals("file not found", -1, cmdid);
+        assertEquals(-1, cmdid, "file not found");
     }
 
     @Test
@@ -1297,17 +1301,17 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client, NICKNAME, USERNAME, PASSWORD);
 
         Channel chan = buildDefaultChannel(client, "Some channel");
-        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave), "join channel");
 
-        assertTrue("vox", client.enableVoiceTransmission(true));
+        assertTrue(client.enableVoiceTransmission(true), "vox");
 
-        assertTrue("enable aud cb", admin.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+        assertTrue(admin.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true), "enable aud cb");
 
-        assertFalse("no voice audioblock", waitForEvent(admin, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave));
+        assertFalse(waitForEvent(admin, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave), "no voice audioblock");
 
         assertTrue(waitCmdSuccess(admin, admin.doSubscribe(client.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_VOICE), DEF_WAIT, interleave));
 
-        assertTrue("voice audioblock", waitForEvent(admin, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
+        assertTrue(waitForEvent(admin, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave), "voice audioblock");
 
     }
 
@@ -1336,28 +1340,28 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         Channel chan = buildDefaultChannel(client, "Classroom channel");
         chan.uChannelType |= ChannelType.CHANNEL_CLASSROOM;
-        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave), "join channel");
 
-        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+        assertTrue(client.getChannel(client.getMyChannelID(), chan), "get new chan");
 
-        assertTrue("subscribe voice", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
-                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                            Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave), "subscribe voice");
 
         assertTrue(client.enableVoiceTransmission(true));
 
-        assertTrue("enable aud cb", client.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true));
+        assertTrue(client.enableAudioBlockEvent(client.getMyUserID(), StreamType.STREAMTYPE_VOICE, true), "enable aud cb");
 
-        assertFalse("no voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave));
+        assertFalse(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave), "no voice audioblock");
 
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] = StreamType.STREAMTYPE_VOICE;
 
-        assertTrue("update channel", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave), "update channel");
 
-        assertEquals("Tx user ID set", client.getMyUserID(), chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX]);
-        assertEquals("Tx streamtype set", StreamType.STREAMTYPE_VOICE, chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX]);
+        assertEquals(client.getMyUserID(), chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX], "Tx user ID set");
+        assertEquals(StreamType.STREAMTYPE_VOICE, chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX], "Tx streamtype set");
 
-        assertTrue("voice audioblock", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave));
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave), "voice audioblock");
 
         // check that cannot send channel-text message in classroom channel
         TextMessage textmsg = new TextMessage();
@@ -1366,33 +1370,33 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         textmsg.nToUserID = 0;
         textmsg.szMessage = "Some message";
 
-        assertTrue("cannot send chanmsg", waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave), "cannot send chanmsg");
 
         // unblock classroom channel for channel message
-        assertTrue("get updated chan", client.getChannel(client.getMyChannelID(), chan));
+        assertTrue(client.getChannel(client.getMyChannelID(), chan), "get updated chan");
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= StreamType.STREAMTYPE_CHANNELMSG;
-        assertTrue("update channel", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave), "update channel");
 
-        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave), "can send chanmsg");
 
         // check that we can block channel message in channel
         chan = buildDefaultChannel(client, "Default channel");
-        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave), "join channel");
         textmsg.nChannelID = client.getMyChannelID();
 
-        assertTrue("get chan", client.getChannel(client.getMyChannelID(), chan));
-        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        assertTrue(client.getChannel(client.getMyChannelID(), chan), "get chan");
+        assertTrue(waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave), "can send chanmsg");
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = client.getMyUserID();
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= StreamType.STREAMTYPE_CHANNELMSG;
-        assertTrue("block chanmsg", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
-        assertTrue("cannot send chanmsg", waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave), "block chanmsg");
+        assertTrue(waitCmdError(client, client.doTextMessage(textmsg), DEF_WAIT, interleave), "cannot send chanmsg");
 
         // unblock channel message type
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_USERID_INDEX] = 0;
         chan.transmitUsers[0][Constants.TT_TRANSMITUSERS_STREAMTYPE_INDEX] = StreamType.STREAMTYPE_NONE;
-        assertTrue("unblock chanmsg", waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave));
-        assertTrue("can send chanmsg", waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateChannel(chan), DEF_WAIT, interleave), "unblock chanmsg");
+        assertTrue(waitCmdSuccess(client, client.doTextMessage(textmsg), DEF_WAIT, interleave), "can send chanmsg");
     }
 
     @Test
@@ -1414,35 +1418,35 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client, NICKNAME, USERNAME, PASSWORD);
 
         ClientKeepAlive ka = new ClientKeepAlive();
-        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+        assertTrue(client.getClientKeepAlive(ka), "get keepalive");
 
         ServerProperties srvprop = new ServerProperties();
         assertTrue(client.getServerProperties(srvprop));
 
-        assertEquals("tcp ping is half of user timeout (default)", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+        assertEquals(srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec, "tcp ping is half of user timeout (default)");
 
         srvprop.nUserTimeout = 4;
         assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
 
         assertTrue(client.getServerProperties(srvprop));
 
-        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+        assertTrue(client.getClientKeepAlive(ka), "get keepalive");
 
-        assertEquals("tcp ping is half of user timeout, 4 sec", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+        assertEquals(srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec, "tcp ping is half of user timeout, 4 sec");
 
         ka.nUdpKeepAliveIntervalMSec = 1;
 
-        assertTrue("set UDP keepalive", client.setClientKeepAlive(ka));
+        assertTrue(client.setClientKeepAlive(ka), "set UDP keepalive");
 
         assertFalse(waitForEvent(client, ClientEvent.CLIENTEVENT_NONE, 100, interleave));
 
         ka.nTcpKeepAliveIntervalMSec = 1;
 
-        assertTrue("set TCP keepalive", client.setClientKeepAlive(ka));
+        assertTrue(client.setClientKeepAlive(ka), "set TCP keepalive");
 
-        assertTrue("get keepalive", client.getClientKeepAlive(ka));
+        assertTrue(client.getClientKeepAlive(ka), "get keepalive");
 
-        assertEquals("ka.nTcpKeepAliveIntervalMSec is read-only", srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec);
+        assertEquals(srvprop.nUserTimeout * 1000 / 2, ka.nTcpKeepAliveIntervalMSec, "ka.nTcpKeepAliveIntervalMSec is read-only");
     }
 
     @Test
@@ -1476,13 +1480,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.szCAFile = CRYPTO_CA_FILE;
         context.bVerifyPeer = true;
         context.nVerifyDepth = 0;
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "Set client encryption context");
 
-        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-        assertTrue("connect failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+        assertTrue(client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID), "connect call");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave), "connect failed");
 
-        assertTrue("Stop server", server.stopServer());
-        assertTrue("Disconnect client", client.disconnect());
+        assertTrue(server.stopServer(), "Stop server");
+        assertTrue(client.disconnect(), "Disconnect client");
 
         // now run server with peer verification, i.e. client has
         // certificate and private key
@@ -1494,21 +1498,21 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         srvcontext.bVerifyPeer = true;
         srvcontext.bVerifyClientOnce = true;
         srvcontext.nVerifyDepth = 0;
-        assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+        assertTrue(server.setEncryptionContext(srvcontext), "set server encryption context");
 
         // here we specify client's private key and certificate (for
         // server verification)
         context.szCertificateFile = CRYPTO_CLIENT_CERT_FILE;
         context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "Set client encryption context");
 
-        assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+        assertTrue(server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED), "Start server");
 
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
 
-        assertTrue("Stop server", server.stopServer());
-        assertTrue("Disconnect client", client.disconnect());
+        assertTrue(server.stopServer(), "Stop server");
+        assertTrue(client.disconnect(), "Disconnect client");
 
         // Now disable server's peer verification but make client
         // verify server's certificate
@@ -1518,15 +1522,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         srvcontext.bVerifyPeer = false;
         srvcontext.bVerifyClientOnce = false;
         srvcontext.nVerifyDepth = 0;
-        assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+        assertTrue(server.setEncryptionContext(srvcontext), "set server encryption context");
 
         context = new EncryptionContext();
         context.szCAFile = CRYPTO_CA_FILE;
         context.bVerifyPeer = true;
         context.nVerifyDepth = 0;
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "Set client encryption context");
 
-        assertTrue("Start server", server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED));
+        assertTrue(server.startServer(SERVERBINDIP, TCPPORT, UDPPORT, ENCRYPTED), "Start server");
 
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
@@ -1572,11 +1576,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.szPrivateKeyFile = CRYPTO_CLIENT_KEY_FILE;
         context.bVerifyPeer = true;
         context.nVerifyDepth = 0;
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "Set client encryption context");
 
-        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
-        assertTrue("connect failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+        assertTrue(client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID), "connect call");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave), "wait crypt error");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave), "connect failed");
     }
 
     @Test
@@ -1615,7 +1619,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.bVerifyPeer = true;
         context.nVerifyDepth = 1;
 
-        assertTrue("Set client encryption context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "Set client encryption context");
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
     }
@@ -1655,10 +1659,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.bVerifyPeer = true;
         context.nVerifyDepth = 1;
 
-        assertTrue("set context", client.setEncryptionContext(context));
-        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
-        assertTrue("connection failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+        assertTrue(client.setEncryptionContext(context), "set context");
+        assertTrue(client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID), "connect call");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave), "wait crypt error");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave), "connection failed");
     }
 
     @Test
@@ -1699,7 +1703,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.bVerifyPeer = true;
         context.nVerifyDepth = 1;
 
-        assertTrue("set context", client.setEncryptionContext(context));
+        assertTrue(client.setEncryptionContext(context), "set context");
         connect(server, client);
         login(server, client, NICKNAME, USERNAME, PASSWORD);
     }
@@ -1743,10 +1747,10 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         context.bVerifyPeer = true;
         context.nVerifyDepth = 1;
 
-        assertTrue("set context", client.setEncryptionContext(context));
-        assertTrue("connect call", client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID));
-        assertTrue("wait crypt error", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave));
-        assertTrue("connection failed", waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave));
+        assertTrue(client.setEncryptionContext(context), "set context");
+        assertTrue(client.connectSysID(IPADDR, TCPPORT, UDPPORT, 0, 0, ENCRYPTED, SYSTEMID), "connect call");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_CRYPT_ERROR, DEF_WAIT, interleave), "wait crypt error");
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CON_FAILED, DEF_WAIT, interleave), "connection failed");
     }
 
     @Test
@@ -1799,8 +1803,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, admin, ADMIN + getTestMethodName(), ADMIN, ADMIN);
 
         UserAccount adminaccount = new UserAccount();
-        assertTrue("get account", admin.getMyUserAccount(adminaccount));
-        assertEquals("admin has hidden chan rights", UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS, adminaccount.uUserRights & UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS);
+        assertTrue(admin.getMyUserAccount(adminaccount), "get account");
+        assertEquals(UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS, adminaccount.uUserRights & UserRight.USERRIGHT_VIEW_HIDDEN_CHANNELS, "admin has hidden chan rights");
 
         TeamTalkBase view_none = newClientInstance();
         connect(server, view_none);
@@ -1827,25 +1831,25 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
 
         Channel hidden = buildDefaultChannel(admin, "Hidden channel");
         hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN | ChannelType.CHANNEL_PERMANENT);
-        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave), "admin make hidden channel");
 
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
 
         int hidden_id = admin.getChannelIDFromPath(hidden.szName);
-        assertTrue("Got hidden channel in admin", hidden_id > 0);
+        assertTrue(hidden_id > 0, "Got hidden channel in admin");
 
         // check hidden channel visibility
         Channel chan = new Channel();
-        assertTrue(ADMIN + " can see hidden channel", admin.getChannel(hidden_id, chan));
-        assertFalse(VIEW_NONE + " cannot see hidden channel", view_none.getChannel(hidden_id, chan));
-        assertFalse(VIEW_ALL_USERS + " cannot see hidden channel", view_all_users.getChannel(hidden_id, chan));
-        assertTrue(VIEW_HIDDEN_CHANNELS + " can see hidden channel", view_hidden_channels.getChannel(hidden_id, chan));
-        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see hidden channel", view_all_users_hidden_channels.getChannel(hidden_id, chan));
+        assertTrue(admin.getChannel(hidden_id, chan), ADMIN + " can see hidden channel");
+        assertFalse(view_none.getChannel(hidden_id, chan), VIEW_NONE + " cannot see hidden channel");
+        assertFalse(view_all_users.getChannel(hidden_id, chan), VIEW_ALL_USERS + " cannot see hidden channel");
+        assertTrue(view_hidden_channels.getChannel(hidden_id, chan), VIEW_HIDDEN_CHANNELS + " can see hidden channel");
+        assertTrue(view_all_users_hidden_channels.getChannel(hidden_id, chan), VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see hidden channel");
 
         // check initial login with hidden channels
         for (TeamTalkBase client : clients) {
-            assertTrue("logout/login", waitCmdComplete(client, client.doLogout(), DEF_WAIT, interleave));
+            assertTrue(waitCmdComplete(client, client.doLogout(), DEF_WAIT, interleave), "logout/login");
         }
         login(server, admin, ADMIN + getTestMethodName(), ADMIN, ADMIN);
         login(server, view_none, VIEW_NONE + getTestMethodName(), VIEW_NONE, VIEW_NONE);
@@ -1854,84 +1858,84 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, view_all_users_hidden_channels, VIEW_ALL_USERS_HIDDEN_CHANNELS + getTestMethodName(), VIEW_ALL_USERS_HIDDEN_CHANNELS, VIEW_ALL_USERS_HIDDEN_CHANNELS);
 
         // check user in hidden channel visibility
-        assertTrue("admin join hidden", waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave), "admin join hidden");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
         User user = new User();
-        assertTrue(ADMIN + " can see user in channel", admin.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
-        assertFalse(VIEW_NONE + " cannot see user inside/outside channel", view_none.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_ALL_USERS + " cannot see user in hidden channel", view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
-        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see user in hidden channel", view_hidden_channels.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user in hidden channel", view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
+        assertTrue(admin.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id, ADMIN + " can see user in channel");
+        assertFalse(view_none.getUser(admin.getMyUserID(), user), VIEW_NONE + " cannot see user inside/outside channel");
+        assertTrue(view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0, VIEW_ALL_USERS + " cannot see user in hidden channel");
+        assertFalse(view_hidden_channels.getUser(admin.getMyUserID(), user), VIEW_HIDDEN_CHANNELS + " cannot see user in hidden channel");
+        assertTrue(view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id, VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user in hidden channel");
 
         // check user leave hidden channel visibility
-        assertTrue("admin leave hidden channel", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave), "admin leave hidden channel");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue(ADMIN + " can see user", admin.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
-        assertFalse(VIEW_NONE + " cannot see user", view_none.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_ALL_USERS + " see user", view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
-        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see user", view_hidden_channels.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user", view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == 0);
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
+        assertTrue(admin.getUser(admin.getMyUserID(), user) && user.nChannelID == 0, ADMIN + " can see user");
+        assertFalse(view_none.getUser(admin.getMyUserID(), user), VIEW_NONE + " cannot see user");
+        assertTrue(view_all_users.getUser(admin.getMyUserID(), user) && user.nChannelID == 0, VIEW_ALL_USERS + " see user");
+        assertFalse(view_hidden_channels.getUser(admin.getMyUserID(), user), VIEW_HIDDEN_CHANNELS + " cannot see user");
+        assertTrue(view_all_users_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == 0, VIEW_ALL_USERS_HIDDEN_CHANNELS + " can see user");
 
         // check USERRIGHT_VIEW_HIDDEN_CHANNELS when joining hidden channel
-        assertTrue(VIEW_HIDDEN_CHANNELS + " join hidden channel", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
-        assertTrue(VIEW_HIDDEN_CHANNELS + " can see self", view_hidden_channels.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id);
-        assertTrue("admin join hidden channel", waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave), VIEW_HIDDEN_CHANNELS + " join hidden channel");
+        assertTrue(view_hidden_channels.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id, VIEW_HIDDEN_CHANNELS + " can see self");
+        assertTrue(waitCmdSuccess(admin, admin.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave), "admin join hidden channel");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue(VIEW_HIDDEN_CHANNELS + " can see admin in hidden channel", view_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id);
-        assertTrue("admin leave hidden channel", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
+        assertTrue(view_hidden_channels.getUser(admin.getMyUserID(), user) && user.nChannelID == hidden_id, VIEW_HIDDEN_CHANNELS + " can see admin in hidden channel");
+        assertTrue(waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave), "admin leave hidden channel");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertFalse(VIEW_HIDDEN_CHANNELS + " cannot see admin", view_hidden_channels.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_HIDDEN_CHANNELS + "leave hidden channel", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doLeaveChannel(), DEF_WAIT, interleave));
-        assertTrue(VIEW_HIDDEN_CHANNELS + " join hidden channel again", waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave));
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
+        assertFalse(view_hidden_channels.getUser(admin.getMyUserID(), user), VIEW_HIDDEN_CHANNELS + " cannot see admin");
+        assertTrue(waitCmdSuccess(view_hidden_channels, view_hidden_channels.doLeaveChannel(), DEF_WAIT, interleave), VIEW_HIDDEN_CHANNELS + "leave hidden channel");
+        assertTrue(waitCmdSuccess(view_hidden_channels, view_hidden_channels.doJoinChannelByID(hidden_id, ""), DEF_WAIT, interleave), VIEW_HIDDEN_CHANNELS + " join hidden channel again");
 
         // check USERRIGHT_NONE can join hidden channel
-        assertTrue(VIEW_NONE + " join hidden", waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave), VIEW_NONE + " join hidden");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertFalse(VIEW_NONE + " cannot see admin", view_none.getUser(admin.getMyUserID(), user));
-        assertTrue(VIEW_NONE + " can see self", view_none.getUser(view_none.getMyUserID(), user) && user.nChannelID == hidden_id);
-        assertTrue(VIEW_NONE + " can see " + view_hidden_channels, view_none.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id);
-        assertTrue(VIEW_NONE + "leave hidden channel", waitCmdSuccess(view_none, view_none.doLeaveChannel(), DEF_WAIT, interleave));
-        assertFalse(VIEW_NONE + " cannot see hidden channel", view_none.getChannel(hidden_id, chan));
-        assertFalse(VIEW_NONE + " cannot see " + view_hidden_channels, view_none.getUser(view_hidden_channels.getMyUserID(), user));
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
+        assertFalse(view_none.getUser(admin.getMyUserID(), user), VIEW_NONE + " cannot see admin");
+        assertTrue(view_none.getUser(view_none.getMyUserID(), user) && user.nChannelID == hidden_id, VIEW_NONE + " can see self");
+        assertTrue(view_none.getUser(view_hidden_channels.getMyUserID(), user) && user.nChannelID == hidden_id, VIEW_NONE + " can see " + view_hidden_channels);
+        assertTrue(waitCmdSuccess(view_none, view_none.doLeaveChannel(), DEF_WAIT, interleave), VIEW_NONE + "leave hidden channel");
+        assertFalse(view_none.getChannel(hidden_id, chan), VIEW_NONE + " cannot see hidden channel");
+        assertFalse(view_none.getUser(view_hidden_channels.getMyUserID(), user), VIEW_NONE + " cannot see " + view_hidden_channels);
 
         // check removal of hidden channel
-        assertTrue(VIEW_NONE + " join hidden", waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave));
-        assertTrue("admin remove hidden channel", waitCmdSuccess(admin, admin.doRemoveChannel(hidden_id), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(view_none, view_none.doJoinChannel(hidden), DEF_WAIT, interleave), VIEW_NONE + " join hidden");
+        assertTrue(waitCmdSuccess(admin, admin.doRemoveChannel(hidden_id), DEF_WAIT, interleave), "admin remove hidden channel");
         for (TeamTalkBase client : clients)
-            assertTrue("sync " + client.getMyUserID(), waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue(VIEW_NONE + " kicked from hidden channel", view_none.getMyChannelID() == 0);
+            assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "sync " + client.getMyUserID());
+        assertTrue(view_none.getMyChannelID() == 0, VIEW_NONE + " kicked from hidden channel");
 
         // check CHANNEL_HIDDEN cannot be toggled
-        assertTrue("get root chan", admin.getChannel(admin.getRootChannelID(), chan));
+        assertTrue(admin.getChannel(admin.getRootChannelID(), chan), "get root chan");
         chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
-        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave), "cannot set hidden on existing channel");
         chan = buildDefaultChannel(admin, "Foo");
-        assertTrue("admin make new channel", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave), "admin make new channel");
         int foo_id = admin.getChannelIDFromPath(chan.szName);
-        assertTrue("Got new channel in admin", admin.getChannel(foo_id, chan));
+        assertTrue(admin.getChannel(foo_id, chan), "Got new channel in admin");
         chan.uChannelType |= ChannelType.CHANNEL_HIDDEN;
-        assertTrue("cannot set hidden on existing channel", waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave), "cannot set hidden on existing channel");
 
         // check CHANNEL_HIDDEN cannot contain subchannel
         hidden = buildDefaultChannel(admin, "Hidden channel");
         hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN | ChannelType.CHANNEL_PERMANENT);
-        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doMakeChannel(hidden), DEF_WAIT, interleave), "admin make hidden channel");
         hidden_id = admin.getChannelIDFromPath(hidden.szName);
-        assertTrue("Got hidden channel in admin", hidden_id > 0);
+        assertTrue(hidden_id > 0, "Got hidden channel in admin");
         hidden.nParentID = hidden_id;
-        assertTrue("cannot create hidden subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave), "cannot create hidden subchannel in hidden channel");
         hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
-        assertTrue("cannot create subchannel in hidden channel", waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave), "cannot create subchannel in hidden channel");
 
         // test login after hidden channel has been created
         hidden = buildDefaultChannel(admin, "Hidden channel 2");
         hidden.uChannelType |= (ChannelType.CHANNEL_HIDDEN);
-        assertTrue("admin make hidden channel", waitCmdSuccess(admin, admin.doJoinChannel(hidden), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doJoinChannel(hidden), DEF_WAIT, interleave), "admin make hidden channel");
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         useraccount = new UserAccount();
         useraccount.szUsername = USERNAME;
@@ -1945,23 +1949,23 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, ttclient, USERNAME + getTestMethodName(), USERNAME, PASSWORD);
         joinRoot(server, ttclient);
         user = new User();
-        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
-        assertEquals("no chan specified", 0, user.nChannelID);
+        assertTrue(ttclient.getUser(admin.getMyUserID(), user), "get admin");
+        assertEquals(0, user.nChannelID, "no chan specified");
         hidden.uChannelType = ChannelType.CHANNEL_DEFAULT;
-        assertTrue("join hidden", waitCmdSuccess(ttclient, ttclient.doJoinChannel(hidden), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(ttclient, ttclient.doJoinChannel(hidden), DEF_WAIT, interleave), "join hidden");
         user = new User();
-        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
-        assertEquals("chan specified", ttclient.getMyChannelID(), user.nChannelID);
-        assertTrue("admin change status", waitCmdSuccess(admin, admin.doChangeStatus(9, "hest"), DEF_WAIT, interleave));
-        assertTrue("sync", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave));
+        assertTrue(ttclient.getUser(admin.getMyUserID(), user), "get admin");
+        assertEquals(ttclient.getMyChannelID(), user.nChannelID, "chan specified");
+        assertTrue(waitCmdSuccess(admin, admin.doChangeStatus(9, "hest"), DEF_WAIT, interleave), "admin change status");
+        assertTrue(waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave), "sync");
         user = new User();
-        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
-        assertEquals("admin state update for ttclient", 9, user.nStatusMode);
-        assertTrue("admin leave", waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave));
-        assertTrue("sync", waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave));
+        assertTrue(ttclient.getUser(admin.getMyUserID(), user), "get admin");
+        assertEquals(9, user.nStatusMode, "admin state update for ttclient");
+        assertTrue(waitCmdSuccess(admin, admin.doLeaveChannel(), DEF_WAIT, interleave), "admin leave");
+        assertTrue(waitCmdComplete(ttclient, ttclient.doPing(), DEF_WAIT, interleave), "sync");
         user = new User();
-        assertTrue("get admin", ttclient.getUser(admin.getMyUserID(), user));
-        assertEquals("no chan specified", 0, user.nChannelID);
+        assertTrue(ttclient.getUser(admin.getMyUserID(), user), "get admin");
+        assertEquals(0, user.nChannelID, "no chan specified");
     }
 
     @Test
@@ -1983,27 +1987,27 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkBase client = newClientInstance();
         connect(server, client);
         ServerProperties srvprop = new ServerProperties();
-        assertTrue("get serverprop", client.getServerProperties(srvprop));
-        assertEquals("log mask none", ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents);
+        assertTrue(client.getServerProperties(srvprop), "get serverprop");
+        assertEquals(ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents, "log mask none");
         login(server, client, NICKNAME, USERNAME, PASSWORD);
 
-        assertEquals("one connected log event", 1, logevents.size());
+        assertEquals(1, logevents.size(), "one connected log event");
 
-        assertTrue("get serverprop after login", client.getServerProperties(srvprop));
+        assertTrue(client.getServerProperties(srvprop), "get serverprop after login");
         srvprop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_NONE;
-        assertTrue("update server", waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave), "update server");
 
-        assertTrue("get server properties again", client.getServerProperties(srvprop));
-        assertEquals("log mask none", ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents);
+        assertTrue(client.getServerProperties(srvprop), "get server properties again");
+        assertEquals(ServerLogEvent.SERVERLOGEVENT_NONE, srvprop.uServerLogEvents, "log mask none");
 
         connect(server, newClientInstance());
-        assertEquals("still one log event", 1, logevents.size());
+        assertEquals(1, logevents.size(), "still one log event");
 
         srvprop.uServerLogEvents = ServerLogEvent.SERVERLOGEVENT_USER_CONNECTED;
-        assertTrue("update server", waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateServer(srvprop), DEF_WAIT, interleave), "update server");
 
         connect(server, newClientInstance());
-        assertEquals("now two log events", 2, logevents.size());
+        assertEquals(2, logevents.size(), "now two log events");
     }
 
     @Test
@@ -2036,13 +2040,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
             txtmsg.nToUserID = client2.getMyUserID();
             txtmsg.szMessage = "My text message";
             txtmsg.bMore = i < 56;
-            assertTrue("send text message #" + i, waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
+            assertTrue(waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave), "send text message #" + i);
         }
 
         TTMessage msg = new TTMessage();
         for (int i=0;i<57;++i) {
-            assertTrue("message event", waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave));
-            assertEquals("message more", i < 56, msg.textmessage.bMore);
+            assertTrue(waitForEvent(client2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, msg, interleave), "message event");
+            assertEquals(i < 56, msg.textmessage.bMore, "message more");
         }
     }
 
@@ -2081,11 +2085,11 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         txtmsg.nToUserID = client2.getMyUserID();
         txtmsg.szMessage = "My text message";
 
-        assertTrue("send text message with rights", waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave), "send text message with rights");
 
         txtmsg.nToUserID = client1.getMyUserID();
 
-        assertTrue("send text message without rights", waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave), "send text message without rights");
     }
 
     @Test
@@ -2125,8 +2129,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         txtmsg.nChannelID = client1.getMyChannelID();
         txtmsg.szMessage = "My text message";
 
-        assertTrue("send text message with rights", waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave));
-        assertTrue("send text message without rights", waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client1, client1.doTextMessage(txtmsg), DEF_WAIT, interleave), "send text message with rights");
+        assertTrue(waitCmdError(client2, client2.doTextMessage(txtmsg), DEF_WAIT, interleave), "send text message without rights");
     }
 
     @Test
@@ -2146,7 +2150,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.szPassword = "password";
         chan.szOpPassword = "oppassword";
 
-        assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave), "perm chan");
 
         int permid = admin.getChannelIDFromPath(getTestMethodName());
 
@@ -2161,29 +2165,29 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
 
         Channel tmp = new Channel();
-        assertTrue("get chan", client.getChannel(permid, tmp));
-        assertEquals("No chan password", "", tmp.szPassword);
-        assertEquals("No chan oppassword", "", tmp.szOpPassword);
+        assertTrue(client.getChannel(permid, tmp), "get chan");
+        assertEquals("", tmp.szPassword, "No chan password");
+        assertEquals("", tmp.szOpPassword, "No chan oppassword");
 
-        assertTrue("disconnect", client.disconnect());
+        assertTrue(client.disconnect(), "disconnect");
 
         useraccount.autoOperatorChannels[0] = permid;
 
         connect(server, client);
         login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
-        assertTrue("get chan", client.getChannel(permid, tmp));
-        assertEquals("Chan password", "password", tmp.szPassword);
-        assertEquals("Chan oppassword", "oppassword", tmp.szOpPassword);
+        assertTrue(client.getChannel(permid, tmp), "get chan");
+        assertEquals("password", tmp.szPassword, "Chan password");
+        assertEquals("oppassword", tmp.szOpPassword, "Chan oppassword");
 
-        assertTrue("get admin chan", admin.getChannel(permid, chan));
+        assertTrue(admin.getChannel(permid, chan), "get admin chan");
         chan.szPassword = "foo";
         chan.szOpPassword = "foo2";
-        assertTrue("updateperm chan", waitCmdSuccess(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doUpdateChannel(chan), DEF_WAIT, interleave), "updateperm chan");
 
-        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue("get chan", client.getChannel(permid, tmp));
-        assertEquals("Client see chan password", "foo", tmp.szPassword);
-        assertEquals("Client see oppassword", "foo2", tmp.szOpPassword);
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "update client");
+        assertTrue(client.getChannel(permid, tmp), "get chan");
+        assertEquals("foo", tmp.szPassword, "Client see chan password");
+        assertEquals("foo2", tmp.szOpPassword, "Client see oppassword");
     }
 
     @Test
@@ -2204,7 +2208,7 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.szPassword = "password";
         chan.szOpPassword = "oppassword";
 
-        assertTrue("perm chan", waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doMakeChannel(chan), DEF_WAIT, interleave), "perm chan");
 
         int permid = admin.getChannelIDFromPath(getTestMethodName());
 
@@ -2230,36 +2234,36 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client2, getTestMethodName(), noopuseraccount.szUsername, noopuseraccount.szPassword);
 
         Channel tmp = new Channel();
-        assertTrue("get chan", client.getChannel(permid, tmp));
+        assertTrue(client.getChannel(permid, tmp), "get chan");
 
         // test auto-op can update channels not joined
         tmp.szPassword = "foo";
-        assertTrue("updateperm chan", waitCmdSuccess(client, client.doUpdateChannel(tmp), DEF_WAIT, interleave));
-        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doUpdateChannel(tmp), DEF_WAIT, interleave), "updateperm chan");
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "update client");
 
         tmp = new Channel();
-        assertTrue("get chan", client.getChannel(permid, tmp));
+        assertTrue(client.getChannel(permid, tmp), "get chan");
 
-        assertEquals("Client updated chan password", "foo", tmp.szPassword);
+        assertEquals("foo", tmp.szPassword, "Client updated chan password");
 
         // test auto-op can kick from channels not joined
-        assertTrue("admin join", waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave));
-        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue("update client2", waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave));
-        assertTrue("cannot kick", waitCmdError(client2, client2.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
-        assertTrue("kick from chan", waitCmdSuccess(client, client.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave), "admin join");
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "update client");
+        assertTrue(waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave), "update client2");
+        assertTrue(waitCmdError(client2, client2.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave), "cannot kick");
+        assertTrue(waitCmdSuccess(client, client.doKickUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave), "kick from chan");
 
         // test auto-op can ban from channels not joined
-        assertTrue("admin join", waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave));
-        assertTrue("update client", waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave));
-        assertTrue("update client2", waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave));
-        assertTrue("cannot ban from chan", waitCmdError(client2, client2.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(admin, admin.doJoinChannelByID(permid, "foo"), DEF_WAIT, interleave), "admin join");
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "update client");
+        assertTrue(waitCmdComplete(client2, client2.doPing(), DEF_WAIT, interleave), "update client2");
+        assertTrue(waitCmdError(client2, client2.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave), "cannot ban from chan");
         // ServerCallback in this test class overrides ban outcome
-        // assertTrue("ban from chan", waitCmdSuccess(client, client.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave));
+        // assertTrue(waitCmdSuccess(client, client.doBanUser(admin.getMyUserID(), admin.getMyChannelID()), DEF_WAIT, interleave), "ban from chan");
 
         // test auto-op can list bans
-        assertTrue("update client", waitCmdSuccess(client, client.doListBans(permid, 0, 100), DEF_WAIT, interleave));
-        assertTrue("update client2", waitCmdError(client2, client2.doListBans(permid, 0, 100), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doListBans(permid, 0, 100), DEF_WAIT, interleave), "update client");
+        assertTrue(waitCmdError(client2, client2.doListBans(permid, 0, 100), DEF_WAIT, interleave), "update client2");
     }
 
     @Test
@@ -2284,49 +2288,49 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.audiocodec.opus.nTxIntervalMSec = 10;
         chan.nTimeOutTimerVoiceMSec = 50;
         chan.nTimeOutTimerMediaFileMSec = 50;
-        assertTrue("join channel", waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doJoinChannel(chan), DEF_WAIT, interleave), "join channel");
 
-        assertTrue("get new chan", client.getChannel(client.getMyChannelID(), chan));
+        assertTrue(client.getChannel(client.getMyChannelID(), chan), "get new chan");
 
-        assertTrue("subscribe voice", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
-                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave));
-        assertTrue("subscribe mf", waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
-                                                                             Subscription.SUBSCRIBE_MEDIAFILE), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                                Subscription.SUBSCRIBE_VOICE), DEF_WAIT, interleave), "subscribe voice");
+        assertTrue(waitCmdSuccess(client, client.doSubscribe(client.getMyUserID(),
+                                                                             Subscription.SUBSCRIBE_MEDIAFILE), DEF_WAIT, interleave), "subscribe mf");
 
         TTMessage msg = new TTMessage();
 
-        assertTrue("vox", client.enableVoiceTransmission(true));
+        assertTrue(client.enableVoiceTransmission(true), "vox");
 
-        assertTrue("User state changed to voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is talking", UserState.USERSTATE_VOICE, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to voice");
+        assertEquals(UserState.USERSTATE_VOICE, msg.user.uUserState, "User is talking");
 
-        assertTrue("User state changed to not voice", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is not talking", UserState.USERSTATE_NONE, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to not voice");
+        assertEquals(UserState.USERSTATE_NONE, msg.user.uUserState, "User is not talking");
 
-        assertTrue("vox disable", client.enableVoiceTransmission(false));
+        assertTrue(client.enableVoiceTransmission(false), "vox disable");
 
-        assertTrue("vox new stream", client.enableVoiceTransmission(true));
+        assertTrue(client.enableVoiceTransmission(true), "vox new stream");
 
-        assertTrue("User state changed to voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is talking on new stream", UserState.USERSTATE_VOICE, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to voice on new stream");
+        assertEquals(UserState.USERSTATE_VOICE, msg.user.uUserState, "User is talking on new stream");
 
-        assertTrue("User state changed to not voice on new stream", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is not talking on new stream", UserState.USERSTATE_NONE, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to not voice on new stream");
+        assertEquals(UserState.USERSTATE_NONE, msg.user.uUserState, "User is not talking on new stream");
 
         MediaFileInfo mfi = new MediaFileInfo();
         mfi.szFileName = STORAGEFOLDER + File.separator + "tot.wav";
         mfi.audioFmt = new AudioFormat(AudioFileFormat.AFF_WAVE_FORMAT, 48000, 2);
         mfi.uDurationMSec = 3 * 1000;
 
-        assertTrue("Write media file", TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600));
+        assertTrue(TeamTalkBase.DBG_WriteAudioFileTone(mfi, 600), "Write media file");
 
-        assertTrue("Start stream file", client.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()));
+        assertTrue(client.startStreamingMediaFileToChannel(mfi.szFileName, new VideoCodec()), "Start stream file");
 
-        assertTrue("User state changed to media file", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is streaming", UserState.USERSTATE_MEDIAFILE_AUDIO, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to media file");
+        assertEquals(UserState.USERSTATE_MEDIAFILE_AUDIO, msg.user.uUserState, "User is streaming");
 
-        assertTrue("User state changed to not streaming", waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg));
-        assertEquals("User is not streaming", UserState.USERSTATE_NONE, msg.user.uUserState);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, msg), "User state changed to not streaming");
+        assertEquals(UserState.USERSTATE_NONE, msg.user.uUserState, "User is not streaming");
 
         client.stopStreamingMediaFileToChannel();
     }
@@ -2358,13 +2362,13 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         login(server, client, getTestMethodName(), useraccount.szUsername, useraccount.szPassword);
 
         ServerProperties properties = new ServerProperties();
-        assertTrue("get props", client.getServerProperties(properties));
+        assertTrue(client.getServerProperties(properties), "get props");
         properties.szServerName = properties.szServerName + "some more";
-        assertEquals("update properties", ClientError.CMDERR_SUCCESS, server.updateServer(properties));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.updateServer(properties), "update properties");
         TTMessage msg = new TTMessage();
-        assertTrue("update event", waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, msg, interleave));
-        assertEquals("update properties client", properties.szServerName, msg.serverproperties.szServerName);
-        assertTrue("log event", log.srvupdateevent);
+        assertTrue(waitForEvent(client, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, msg, interleave), "update event");
+        assertEquals(properties.szServerName, msg.serverproperties.szServerName, "update properties client");
+        assertTrue(log.srvupdateevent, "log event");
     }
 
     // @Test
@@ -2409,12 +2413,12 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         TeamTalkSrv server = new TeamTalk5Srv(cmdcallback, logger);
         if (ENCRYPTED) {
             if (srvcontext == null)
-                assertTrue("Set context", server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE));
+                assertTrue(server.setEncryptionContext(CRYPTO_SERVER_CERT2_FILE, CRYPTO_SERVER_KEY2_FILE), "Set context");
             else
-                assertTrue("set server encryption context", server.setEncryptionContext(srvcontext));
+                assertTrue(server.setEncryptionContext(srvcontext), "set server encryption context");
         }
-        assertEquals("File storage", ClientError.CMDERR_SUCCESS,
-                     server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA));
+        assertEquals(ClientError.CMDERR_SUCCESS,
+                 server.setChannelFilesRoot(FILESTORAGE_FOLDER, MAX_DISKUSAGE, DEFAULT_CHANNEL_QUOTA), "File storage");
 
         Channel chan = new Channel();
         chan.nChannelID = 1;
@@ -2424,15 +2428,15 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         chan.audiocfg = new AudioConfig(true);
         chan.nDiskQuota = DEFAULT_CHANNEL_QUOTA;
 
-        assertEquals("Make root channel", ClientError.CMDERR_SUCCESS, server.makeChannel(chan));
+        assertEquals(ClientError.CMDERR_SUCCESS, server.makeChannel(chan), "Make root channel");
 
         if (bindip.isEmpty())
             bindip = SERVERBINDIP;
 
         if(systemid.isEmpty())
-            assertTrue("Start server", server.startServer(bindip, TCPPORT, UDPPORT, ENCRYPTED));
+            assertTrue(server.startServer(bindip, TCPPORT, UDPPORT, ENCRYPTED), "Start server");
         else
-            assertTrue("Start server", server.startServerSysID(bindip, TCPPORT, UDPPORT, ENCRYPTED, systemid));
+            assertTrue(server.startServerSysID(bindip, TCPPORT, UDPPORT, ENCRYPTED, systemid), "Start server");
 
         servers.add(server);
 
