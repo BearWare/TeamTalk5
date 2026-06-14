@@ -33,6 +33,7 @@ import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
 import dk.bearware.User;
 import dk.bearware.UserAccount;
+import dk.bearware.SoundLevel;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkService;
@@ -46,9 +47,13 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View.OnClickListener;
+import android.widget.SeekBar;
+import android.widget.TextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.Toast;
 
 public class ChannelPropActivity
@@ -185,6 +190,11 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
         CheckBox chanNoVoiceAct = findViewById(R.id.chan_novoiceact);
         CheckBox chanNoAudioRec = findViewById(R.id.chan_noaudiorecord);
         CheckBox chanHidden = findViewById(R.id.chan_hidden);
+        CheckBox fixvol = findViewById(R.id.fixvolumeCheckBox);
+        TextView fixvolLabel = findViewById(R.id.fixvolumeLabel);
+        SeekBar fixvolume = findViewById(R.id.fixvolumeSeekBar);
+        EditText voiceMaxEditText = findViewById(R.id.voice_maxEditText);
+        EditText mediaMaxEditText = findViewById(R.id.media_maxEditText);
 
         if (store) {
             channel.szName = chanName.getText().toString();
@@ -202,7 +212,17 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
                 Log.e(TAG, "Invalid input for channel's disk quota");
             }
             channel.nDiskQuota *= 1024;
-            
+            try {
+                channel.nTimeOutTimerVoiceMSec = Integer.parseInt(voiceMaxEditText.getText().toString());
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid input for voice timeout");
+            }
+            try {
+                channel.nTimeOutTimerMediaFileMSec = Integer.parseInt(mediaMaxEditText.getText().toString());
+            } catch (NumberFormatException e) {
+                Log.e(TAG, "Invalid input for media timeout");
+            }
+
             if(chanPermanent.isChecked())
                 channel.uChannelType |= ChannelType.CHANNEL_PERMANENT;
             else
@@ -231,6 +251,8 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
                 channel.uChannelType |= ChannelType.CHANNEL_HIDDEN;
             else
                 channel.uChannelType &= ~ChannelType.CHANNEL_HIDDEN;
+            channel.audiocfg.bEnableAGC = fixvol.isChecked();
+            channel.audiocfg.nGainLevel = (fixvolume.getProgress() * 1000) + SoundLevel.SOUND_GAIN_MIN;
         }
         else {
             chanName.setFocusable(channel.nParentID > 0);
@@ -248,6 +270,13 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             chanNoVoiceAct.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_VOICEACTIVATION) != 0);
             chanNoAudioRec.setChecked((channel.uChannelType & ChannelType.CHANNEL_NO_RECORDING) != 0);
             chanHidden.setChecked((channel.uChannelType & ChannelType.CHANNEL_HIDDEN) != 0);
+            fixvol.setChecked(channel.audiocfg.bEnableAGC);
+            fixvolume.setProgress((channel.audiocfg.nGainLevel - SoundLevel.SOUND_GAIN_MIN)/1000);
+            fixvolLabel.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
+            fixvolume.setEnabled(channel.audiocfg.bEnableAGC);
+            fixvolume.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
+            voiceMaxEditText.setText(Integer.toString(channel.nTimeOutTimerVoiceMSec));
+            mediaMaxEditText.setText(Integer.toString(channel.nTimeOutTimerMediaFileMSec));
         }
     }
 
@@ -280,6 +309,21 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
         }
 
         exchangeChannel(false);
+
+        CheckBox fixvol = findViewById(R.id.fixvolumeCheckBox);
+        TextView fixvolLabel = findViewById(R.id.fixvolumeLabel);
+        SeekBar fixvolume = findViewById(R.id.fixvolumeSeekBar);
+
+        fixvolume.setMax((SoundLevel.SOUND_GAIN_MAX - SoundLevel.SOUND_GAIN_MIN) / 1000);
+
+        fixvol.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                fixvolLabel.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+                fixvolume.setEnabled(isChecked);
+                fixvolume.setVisibility(isChecked ? View.VISIBLE : View.GONE);
+            }
+        });
 
         Button codec_btn = findViewById(R.id.setup_audcodec_btn);
 //        Button audcfg_btn = (Button) findViewById(R.id.setup_audcfg_btn);
