@@ -258,8 +258,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number"
-            android:hint="@string/text_voicemax"
+            android:inputType="numberDecimal"
+            android:hint="@string/text_seconds"
             android:importantForAutofill="no" />
 
     </LinearLayout>
@@ -281,8 +281,8 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="number"
-            android:hint="@string/text_mediamax"
+            android:inputType="numberDecimal"
+            android:hint="@string/text_seconds"
             android:importantForAutofill="no" />
 
     </LinearLayout>

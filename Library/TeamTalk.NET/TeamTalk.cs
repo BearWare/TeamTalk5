@@ -1583,7 +1583,7 @@ namespace BearWare
         {
             if (set_defaults)
             {
-                bEnableAGC = true;
+                bEnableAGC = AudioConfigConstants.DEFAULT_AGC_ENABLE;
                 nGainLevel = AudioConfigConstants.DEFAULT_AGC_GAINLEVEL;
             }
             else
@@ -1596,7 +1596,8 @@ namespace BearWare
 
     public struct AudioConfigConstants
     {
-        public const int DEFAULT_AGC_GAINLEVEL = 8000;
+        public const bool DEFAULT_AGC_ENABLE = false;
+        public const int DEFAULT_AGC_GAINLEVEL = 9600;
         public const int DEFAULT_AGC_INC_MAXDB = 12;
     }
 

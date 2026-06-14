@@ -213,12 +213,12 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             }
             channel.nDiskQuota *= 1024;
             try {
-                channel.nTimeOutTimerVoiceMSec = Integer.parseInt(voiceMaxEditText.getText().toString());
+                channel.nTimeOutTimerVoiceMSec = (int) (Double.parseDouble(voiceMaxEditText.getText().toString()) * 1000);
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid input for voice timeout");
             }
             try {
-                channel.nTimeOutTimerMediaFileMSec = Integer.parseInt(mediaMaxEditText.getText().toString());
+                channel.nTimeOutTimerMediaFileMSec = (int) (Double.parseDouble(mediaMaxEditText.getText().toString()) * 1000);
             } catch (NumberFormatException e) {
                 Log.e(TAG, "Invalid input for media timeout");
             }
@@ -275,8 +275,8 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
             fixvolLabel.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
             fixvolume.setEnabled(channel.audiocfg.bEnableAGC);
             fixvolume.setVisibility(channel.audiocfg.bEnableAGC ? View.VISIBLE : View.GONE);
-            voiceMaxEditText.setText(Integer.toString(channel.nTimeOutTimerVoiceMSec));
-            mediaMaxEditText.setText(Integer.toString(channel.nTimeOutTimerMediaFileMSec));
+            voiceMaxEditText.setText(Double.toString(channel.nTimeOutTimerVoiceMSec / 1000.));
+            mediaMaxEditText.setText(Double.toString(channel.nTimeOutTimerMediaFileMSec / 1000.));
         }
     }
 
