@@ -322,7 +322,6 @@
     <string name="pref_title_last_channel">Letzter Raum</string>
 
     <string name="channel_password_prompt">Raumpasswort eingeben</string>
-    <string name="button_download">Download</string>
     <string name="download_succeeded">Datei %1$s wurde erfolgreich heruntergeladen und in %2$s gespeichert</string>
     <string name="download_failed">Fehler beim Herunterladen von %1$s</string>
     <string name="upload_succeeded">Datei %1$s wurde erfolgreich hochgeladen</string>

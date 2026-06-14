@@ -211,7 +211,6 @@
     <string name="pref_title_last_channel">Ultimo canale unito</string>
 
     <string name="channel_password_prompt">Immettere la password del canale</string>
-    <string name="button_download">Scarica</string>
     <string name="download_succeeded">Il file %1$s è stato scaricato e salvato con successo in %2$s</string>
     <string name="download_failed">Impossibile scaricare il file %1$s</string>
     <string name="upload_succeeded">Il file %1$s è stato caricato correttamente</string>

@@ -200,7 +200,6 @@
   <string name="pref_title_channel_password">Kanal Parolası</string>
   <string name="pref_title_last_channel">Son Katılınan Kanal</string>
     <string name="channel_password_prompt">Kanal parolasını girin</string>
-  <string name="button_download">İndir</string>
   <string name="download_succeeded">%1$s dosyası başarıyla indirildi ve %2$s konumuna kaydedildi</string>
   <string name="download_failed">%1$s dosyasını indirme başarısız</string>
   <string name="upload_succeeded">%1$s dosyası başarıyla yüklendi</string>
