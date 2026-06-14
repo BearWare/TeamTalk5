@@ -13,6 +13,7 @@ Default Qt Client
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
+- Added popup support, coppy message, and proper multiple links support for messages
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
