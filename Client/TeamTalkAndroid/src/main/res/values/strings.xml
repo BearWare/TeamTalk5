@@ -225,9 +225,10 @@
     <string name="action_upload">Upload File</string>
     <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
-    <string name="action_copyname">Copy name</string>
-    <string name="action_copymessage">Copy message</string>
-    <string name="action_deletemessage">Delete from history</string>
+    <string name="action_copyname">Copy Name</string>
+    <string name="action_copymessage">Copy Content Only</string>
+    <string name="action_deletemessage">Delete</string>
+    <string name="action_clear">Clear</string>
     <string name="text_no_browser">No app found to open this link</string>
     <string name="button_select_media_file">Browse</string>
     <string name="button_stream_media_file">Stream</string>

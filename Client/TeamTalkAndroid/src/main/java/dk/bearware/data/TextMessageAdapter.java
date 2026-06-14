@@ -210,6 +210,12 @@ public class TextMessageAdapter extends BaseAdapter {
                             return true;
                         } else if (item.getItemId() == R.id.action_deletemessage) {
                             messages.remove(txtmsg);
+                            copyToMessagesView();
+                            notifyDataSetChanged();
+                            return true;
+                        } else if (item.getItemId() == R.id.action_clear) {
+                            messages.clear();
+                            copyToMessagesView();
                             notifyDataSetChanged();
                             return true;
                         }
