@@ -217,7 +217,6 @@
     <string name="pref_title_last_channel">Dernier canal rejoint</string>
 
     <string name="channel_password_prompt">Entrez le mot de passe du canal</string>
-    <string name="button_download">Télécharger</string>
     <string name="download_succeeded">Le fichier %1$s a été correctement téléchargé et enregistré dans %2$s</string>
     <string name="download_failed">Échec du téléchargement du fichier %1$s</string>
     <string name="upload_succeeded">Le fichier %1$s a été correctement téléversé</string>

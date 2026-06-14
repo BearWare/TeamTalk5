@@ -322,7 +322,6 @@
     <string name="pref_title_last_channel">آخرین کانالی که به آن پیوستید</string>
 
     <string name="channel_password_prompt">گذرواژه</string>
-    <string name="button_download">دانلود</string>
     <string name="download_succeeded">فایل %1$s با موفقیت در %2$s ذخیره شد</string>
     <string name="download_failed">فایل %1$s دانلود نشد</string>
     <string name="upload_succeeded">فایل %1$s با موفقیت آپلود شد</string>

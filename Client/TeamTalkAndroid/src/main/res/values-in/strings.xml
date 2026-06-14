@@ -214,7 +214,6 @@
     <string name="pref_title_last_channel">Ingat saluran terakhir</string>
 
     <string name="channel_password_prompt">Masukan kata sandi saluran</string>
-    <string name="button_download">Unduh</string>
     <string name="download_succeeded">File %1$s telah berhasil diunduh dan disimpan ke %2$s</string>
     <string name="download_failed">Gagal untuk mengunduh file %1$s</string>
     <string name="upload_succeeded">File %1$s berhasil diunggah</string>

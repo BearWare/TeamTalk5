@@ -147,7 +147,6 @@
     <string name="pref_title_last_channel">Ostatnio używany kanał</string>
 
     <string name="channel_password_prompt">Wprowadź hasło kanału</string>
-    <string name="button_download">Pobierz</string>
     <string name="download_succeeded">Plik %1$s został pomyślnie pobrany i zapisany w %2$s</string>
     <string name="download_failed">Nieudało się pobrać pliku %1$s</string>
     <string name="upload_succeeded">Plik %1$s został pomyślnie wysłany</string>

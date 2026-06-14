@@ -321,7 +321,6 @@
 		<string name="default_port" translatable="false">10333</string>
 
 		<string name="channel_password_prompt">Введіть пароль каналу</string>
-		<string name="button_download">Завантажити</string>
 		<string name="download_succeeded">Файл %1$s успішно завантажено і збережено в %2$s</string>
 		<string name="download_failed">Не вдалося завантажити файл %1$s</string>
 		<string name="upload_succeeded">Файл %1$s успішно вивантажено</string>
