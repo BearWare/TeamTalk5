@@ -223,30 +223,22 @@ if (Java_FOUND)
 
   # JUnit tests
 
-  find_jar (JUNIT-PLATFORM-CONSOLE-STANDALONE NAMES junit-platform-console-standalone
-    PATHS ENV JUNIT_HOME
-    DOC "Find JUnit Platform Console Standalone")
+  # JUnit is always downloaded from Maven
+  set (JUNIT_PLATFORM_VERSION 6.1.0)
 
-  if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
-      # JUnit 5 JAR URLs
-    set (JUNIT_PLATFORM_VERSION 1.9.3)
-
-    ExternalProject_Add(junit-platform-console-standalone-maven
-      URL                 https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_PLATFORM_VERSION}/junit-platform-console-standalone-${JUNIT_PLATFORM_VERSION}.jar
-      DOWNLOAD_NO_EXTRACT TRUE
-      DOWNLOAD_NAME       junit-platform-console-standalone.jar
-      UPDATE_COMMAND      ""
-      INSTALL_COMMAND     ""
-      BUILD_BYPRODUCTS    ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
-      INSTALL_DIR         ""
-      CONFIGURE_COMMAND   ""
-      BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit-platform-console-standalone.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
-      )
-    ExternalProject_Get_Property(junit-platform-console-standalone-maven BUILD_BYPRODUCTS)
-    set (JUNITJAR ${BUILD_BYPRODUCTS})
-  else()
-    set (JUNITJAR ${JUNIT-PLATFORM-CONSOLE-STANDALONE})
-  endif()
+  ExternalProject_Add(junit-platform-console-standalone-maven
+    URL                 https://repo1.maven.org/maven2/org/junit/platform/junit-platform-console-standalone/${JUNIT_PLATFORM_VERSION}/junit-platform-console-standalone-${JUNIT_PLATFORM_VERSION}.jar
+    DOWNLOAD_NO_EXTRACT TRUE
+    DOWNLOAD_NAME       junit-platform-console-standalone.jar
+    UPDATE_COMMAND      ""
+    INSTALL_COMMAND     ""
+    BUILD_BYPRODUCTS    ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
+    INSTALL_DIR         ""
+    CONFIGURE_COMMAND   ""
+    BUILD_COMMAND       ${CMAKE_COMMAND} -E copy <DOWNLOAD_DIR>/junit-platform-console-standalone.jar ${CMAKE_CURRENT_LIST_DIR}/libs/junit-platform-console-standalone.jar
+    )
+  ExternalProject_Get_Property(junit-platform-console-standalone-maven BUILD_BYPRODUCTS)
+  set (JUNITJAR ${BUILD_BYPRODUCTS})
 
   if (BUILD_TEAMTALK_LIBRARY_JAR)
     add_jar (TeamTalk5Test INCLUDE_JARS TeamTalk5JAR ${JUNITJAR}
@@ -258,9 +250,7 @@ if (Java_FOUND)
       test/TeamTalkStdTestSuite.java
       test/SummaryTestExecutionListener.java
       OUTPUT_DIR libs)
-    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
-      add_dependencies (TeamTalk5Test junit-platform-console-standalone-maven)
-    endif()
+    add_dependencies (TeamTalk5Test junit-platform-console-standalone-maven)
     install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5Test.jar DESTINATION Library/TeamTalkJNI/libs)
   endif()
 
@@ -274,9 +264,7 @@ if (Java_FOUND)
       test/TeamTalkProTestSuite.java
       test/SummaryTestExecutionListener.java
       OUTPUT_DIR libs)
-    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
-      add_dependencies (TeamTalk5ProTest junit-platform-console-standalone-maven)
-    endif()
+    add_dependencies (TeamTalk5ProTest junit-platform-console-standalone-maven)
     install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5ProTest.jar DESTINATION Library/TeamTalkJNI/libs)
 
     add_jar (TeamTalk5SrvTest INCLUDE_JARS TeamTalk5ProJAR ${JUNITJAR}
@@ -287,9 +275,7 @@ if (Java_FOUND)
       test/TeamTalkServerTestSuite.java
       test/SummaryTestExecutionListener.java
       OUTPUT_DIR libs)
-    if (NOT JUNIT-PLATFORM-CONSOLE-STANDALONE)
-      add_dependencies (TeamTalk5SrvTest junit-platform-console-standalone-maven)
-    endif()
+    add_dependencies (TeamTalk5SrvTest junit-platform-console-standalone-maven)
     install (FILES ${CMAKE_CURRENT_LIST_DIR}/libs/TeamTalk5SrvTest.jar DESTINATION Library/TeamTalkJNI/libs)
 
   endif(BUILD_TEAMTALK_LIBRARY_JARPRO)

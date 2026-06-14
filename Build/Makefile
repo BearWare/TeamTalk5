@@ -168,7 +168,6 @@ depend-ubuntu24:
 		cmake \
 		doxygen \
 		g++ \
-		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \
@@ -199,7 +198,6 @@ depend-ubuntu26:
 		cmake \
 		doxygen \
 		g++ \
-		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \
@@ -245,7 +243,6 @@ depend-raspios12:
 		doxygen \
 		g++ \
 		git \
-		junit5 \
 		libasound2-dev \
 		libglib2.0-dev \
 		libpcap-dev \
