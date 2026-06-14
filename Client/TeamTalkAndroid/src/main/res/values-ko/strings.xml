@@ -256,7 +256,6 @@
     <string name="pref_title_last_channel">마지막으로 입장한 채널 기억</string>
 
     <string name="channel_password_prompt">채널 암호 입력</string>
-    <string name="button_download">다운로드</string>
     <string name="download_succeeded">%1$s 파일이 %2$s에 다운로드됨</string>
     <string name="download_failed">%1$s 파일 다운로드 실패</string>
     <string name="upload_succeeded">%1$s 파일 업로드 성공</string>
