@@ -32,6 +32,7 @@ import dk.bearware.TextMsgType;
 import dk.bearware.gui.AccessibilityAssistant;
 import dk.bearware.gui.R;
 
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -45,10 +46,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
 
 public class TextMessageAdapter extends BaseAdapter {
+
+    private static final int URL_MENU_ITEM_BASE = 1000;
 
     private Vector<MyTextMessage> messages, // reference to TeamTalkService's messages (modified by other thread)
             messagesUpdateView; // copy of 'this.message' after update
@@ -191,13 +194,13 @@ public class TextMessageAdapter extends BaseAdapter {
 
                     List<String> urls = extractUrls(txtmsg.szMessage);
                     for (int i = 0; i < urls.size(); i++) {
-                        popup.getMenu().add(0, 1000 + i, 0, urls.get(i));
+                        popup.getMenu().add(0, URL_MENU_ITEM_BASE + i, 0, urls.get(i));
                     }
 
                     popup.getMenuInflater().inflate(R.menu.message_actions, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
-                        if (item.getItemId() >= 1000) {
-                            openUrl(v.getContext(), urls.get(item.getItemId() - 1000));
+                        if (item.getItemId() >= URL_MENU_ITEM_BASE) {
+                            openUrl(v.getContext(), urls.get(item.getItemId() - URL_MENU_ITEM_BASE));
                             return true;
                         } else if (item.getItemId() == R.id.action_copyname) {
                             copyToClipboard(v.getContext(), txtmsg.szNickName);
@@ -287,8 +290,15 @@ public class TextMessageAdapter extends BaseAdapter {
     }
 
     private void openUrl(Context context, String url) {
+        if (!url.matches("(?i)^[a-z][a-z0-9+.-]*://.*")) {
+            url = "http://" + url;
+        }
         Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(url));
-        context.startActivity(intent);
+        try {
+            context.startActivity(intent);
+        } catch (ActivityNotFoundException e) {
+            Toast.makeText(context, R.string.text_no_browser, Toast.LENGTH_LONG).show();
+        }
     }
 
     private void copyToClipboard(Context context, String text) {
