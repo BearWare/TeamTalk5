@@ -417,8 +417,22 @@
     <string name="text_desktop_session">Desktop session</string>
     <string name="text_webcam_session">Webcam session</string>
     <string name="text_mediafile_session">Media file session</string>
+    <string name="webcam_bitrate">Webcam bitrate</string>
+    <string name="webcam_camera">Webcam camera</string>
+    <string name="webcam_no_cameras">No cameras found</string>
+    <string name="webcam_no_formats">No camera formats found</string>
+    <string name="webcam_quality">Webcam quality</string>
+    <string name="webcam_start">Start webcam</string>
+    <string name="webcam_start_failed">Failed to start webcam transmission</string>
+    <string name="webcam_status_off">Webcam is off</string>
+    <string name="webcam_status_ready">Select webcam settings and start transmission</string>
+    <string name="webcam_status_transmitting">Webcam is transmitting</string>
+    <string name="webcam_stop">Stop webcam</string>
+    <string name="webcam_stopped">Webcam transmission stopped</string>
+    <string name="webcam_transmit_right_missing">This account cannot transmit webcam video on this server</string>
 
     <string name="permission_audioinput">Audio recording and playback will be unavailable</string>
+    <string name="permission_camera">Webcam transmission will be unavailable</string>
     <string name="permission_audiomodify">Audio recording and playback will be unavailable</string>
     <string name="permission_filerx">Download files will be unavailable</string>
     <string name="permission_filetx">Upload and importing files will be unavailable</string>

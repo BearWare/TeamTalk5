@@ -54,4 +54,8 @@ public class Preferences {
             PREF_SUB_VIDCAP = "sub_video_checkbox",
             PREF_SUB_DESKTOP = "sub_desktop_checkbox",
             PREF_SUB_MEDIAFILE = "sub_mediafile_checkbox";
+    public static final String
+            PREF_VIDEOCAPTURE_DEVICE_ID = "videocapture_device_id",
+            PREF_VIDEOCAPTURE_FORMAT = "videocapture_format",
+            PREF_VIDEOCAPTURE_BITRATE = "videocapture_bitrate";
 }

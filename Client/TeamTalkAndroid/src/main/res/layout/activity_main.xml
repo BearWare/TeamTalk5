@@ -132,6 +132,48 @@
 	            android:src="@drawable/mic_green" />
 
 	    </GridLayout>
+
+        <LinearLayout
+            android:id="@+id/webcam_controls"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_toStartOf="@+id/transmit_voice"
+            android:layout_marginEnd="8dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/webcam_status_text"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/webcam_status_off"
+                android:textAppearance="?android:attr/textAppearanceSmall" />
+
+            <Spinner
+                android:id="@+id/webcam_device_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/webcam_camera" />
+
+            <Spinner
+                android:id="@+id/webcam_format_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/webcam_quality" />
+
+            <Spinner
+                android:id="@+id/webcam_bitrate_spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/webcam_bitrate" />
+
+            <Button
+                android:id="@+id/webcam_toggle_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/webcam_start" />
+
+        </LinearLayout>
 	    
 	    <Button
 	        android:id="@+id/transmit_voice"
