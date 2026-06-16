@@ -120,6 +120,7 @@ import dk.bearware.User;
 import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
+import dk.bearware.UserType;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -1292,6 +1293,7 @@ private EditText newmsg;
                 
                 boolean selected = userIDS.contains(user.nUserID);
                 boolean isOperator = getClient().isChannelOperator(user.nUserID, user.nChannelID);
+                boolean isAdmin = (user.uUserType & UserType.USERTYPE_ADMIN) != 0;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
@@ -1307,7 +1309,8 @@ private EditText newmsg;
                 String speaking = talking ? getString(R.string.user_state_now_speaking, name) : name;
                 String gender = female ? " 👩 " : neutral ? " 🧑 " : " 👨 ";
                 String op = isOperator ? getString(R.string.user_state_operator) : "";
-                nickname.setContentDescription(move + speaking + gender + op);
+                String admin = isAdmin ? getString(R.string.user_state_admin) : "";
+                nickname.setContentDescription(move + " " + speaking + gender + op + " " + admin);
 
                 if (talking) {
                     if (female) {
