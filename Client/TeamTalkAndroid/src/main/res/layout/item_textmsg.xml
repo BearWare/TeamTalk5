@@ -7,7 +7,6 @@
 
     <TextView
         android:id="@+id/msg_text"
-        android:autoLink="web|email|phone"
         android:layout_marginStart="5dp"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
