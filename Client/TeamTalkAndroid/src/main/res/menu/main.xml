@@ -9,6 +9,12 @@
         android:title="@string/action_settings"/>
 
     <item
+        android:id="@+id/action_statusnick"
+        android:orderInCategory="101"
+        app:showAsAction="never"
+        android:title="@string/action_statusnick"/>
+
+    <item
         android:id="@+id/action_newchannel"
         app:showAsAction="ifRoom|withText"
         android:title="@string/action_new_channel"/>

@@ -31,6 +31,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.hardware.Sensor;
@@ -47,6 +48,7 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.os.PowerManager.WakeLock;
+import android.text.TextUtils;
 import android.os.Vibrator;
 import android.provider.OpenableColumns;
 import android.text.InputType;
@@ -73,9 +75,12 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -173,7 +178,6 @@ extends AppCompatActivity
     TabLayout mTabLayout;
 
     public static final String TAG = "bearware";
-
     private static final String MSG_NOTIFICATION_CHANNEL_ID = "TT_PM";
 
     public final int REQUEST_EDITCHANNEL = 1,
@@ -379,6 +383,8 @@ extends AppCompatActivity
         } else if (itemId == R.id.action_settings) {
             Intent intent = new Intent(MainActivity.this, PreferencesActivity.class);
             startActivity(intent);
+        } else if (itemId == R.id.action_statusnick) {
+            showChangeNicknameStatusDialog();
         } else if (itemId == R.id.action_online_users) {
             Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
             startActivity(intent);
@@ -411,6 +417,133 @@ extends AppCompatActivity
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void showChangeNicknameStatusDialog() {
+        User myself = getService().getUsers().get(getClient().getMyUserID());
+        if (myself == null) {
+            Toast.makeText(this, R.string.text_con_cmderr, Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        final int[] modeValues = {
+                TeamTalkConstants.STATUSMODE_AVAILABLE,
+                TeamTalkConstants.STATUSMODE_AWAY,
+                TeamTalkConstants.STATUSMODE_QUESTION
+        };
+        int checkedItem = 0;
+        int currentMode = myself.nStatusMode & TeamTalkConstants.STATUSMODE_MODE;
+        for (int i = 0; i < modeValues.length; i++) {
+            if (modeValues[i] == currentMode) {
+                checkedItem = i;
+                break;
+            }
+        }
+
+        LinearLayout layout = new LinearLayout(this);
+        layout.setOrientation(LinearLayout.VERTICAL);
+        int padding = (int) (getResources().getDisplayMetrics().density * 20);
+        layout.setPadding(padding, padding / 2, padding, 0);
+
+        TextView nicknameLabel = new TextView(this);
+        nicknameLabel.setText(R.string.pref_title_nickname);
+        layout.addView(nicknameLabel);
+
+        EditText nicknameInput = new EditText(this);
+        nicknameInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        nicknameInput.setSingleLine();
+        nicknameInput.setText(getCurrentNickname(myself));
+        nicknameInput.setSelection(nicknameInput.getText().length());
+        layout.addView(nicknameInput);
+
+        TextView messageLabel = new TextView(this);
+        messageLabel.setText(R.string.text_status_message);
+        layout.addView(messageLabel);
+
+        EditText statusMessageInput = new EditText(this);
+        statusMessageInput.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+        statusMessageInput.setSingleLine();
+        statusMessageInput.setText(getCurrentStatusMessage(myself));
+        statusMessageInput.setSelection(statusMessageInput.getText().length());
+        layout.addView(statusMessageInput);
+
+        TextView modeLabel = new TextView(this);
+        modeLabel.setText(R.string.text_status_mode);
+        layout.addView(modeLabel);
+
+        RadioGroup modeGroup = new RadioGroup(this);
+        modeGroup.setOrientation(RadioGroup.VERTICAL);
+
+        RadioButton availableButton = new RadioButton(this);
+        availableButton.setId(View.generateViewId());
+        availableButton.setText(R.string.status_mode_available);
+        modeGroup.addView(availableButton);
+
+        RadioButton awayButton = new RadioButton(this);
+        awayButton.setId(View.generateViewId());
+        awayButton.setText(R.string.status_mode_away);
+        modeGroup.addView(awayButton);
+
+        RadioButton questionButton = new RadioButton(this);
+        questionButton.setId(View.generateViewId());
+        questionButton.setText(R.string.status_mode_question);
+        modeGroup.addView(questionButton);
+
+        modeGroup.check(modeGroup.getChildAt(checkedItem).getId());
+        layout.addView(modeGroup);
+
+        new AlertDialog.Builder(this)
+                .setTitle(R.string.action_statusnick)
+                .setView(layout)
+                .setPositiveButton(android.R.string.ok, (dialog, which) -> {
+                    int selectedIndex = modeGroup.indexOfChild(
+                            modeGroup.findViewById(modeGroup.getCheckedRadioButtonId()));
+
+                        applyNicknameStatusChange(
+                                nicknameInput.getText().toString(),
+                                modeValues[selectedIndex],
+                                statusMessageInput.getText().toString());
+                })
+                .setNegativeButton(android.R.string.cancel, null)
+                .show();
+    }
+
+    private String getCurrentNickname(User myself) {
+        ServerEntry serverEntry = getService().getServerEntry();
+        if (serverEntry != null && !TextUtils.isEmpty(serverEntry.nickname))
+            return serverEntry.nickname;
+        return "";
+    }
+
+    private String getCurrentStatusMessage(User myself) {
+        ServerEntry serverEntry = getService().getServerEntry();
+        if (serverEntry != null && !TextUtils.isEmpty(serverEntry.statusmsg))
+            return serverEntry.statusmsg;
+        return "";
+    }
+
+    private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
+        User myself = getService().getUsers().get(getClient().getMyUserID());
+        if (myself == null)
+            return;
+
+        updateCurrentServerEntry(nickname, statusMessage);
+
+        if (!TextUtils.equals(nickname, myself.szNickname))
+            getClient().doChangeNickname(nickname);
+
+        int statusMode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_MODE) | mode;
+        getClient().doChangeStatus(statusMode, statusMessage);
+    }
+
+    private void updateCurrentServerEntry(String nickname, String statusMessage) {
+        ServerEntry serverEntry = getService().getServerEntry();
+        if (serverEntry == null)
+            return;
+
+        serverEntry.nickname = nickname;
+        serverEntry.statusmsg = statusMessage;
+        getService().setServerEntry(serverEntry);
     }
 
     @Override
