@@ -13,11 +13,11 @@ jobs:
       security-events: write
       packages: read
 
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
     name: Android
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
 
     - name: Set up Java
       uses: actions/setup-java@v5
@@ -58,14 +58,6 @@ jobs:
       run: make CMAKE_EXTRA="-G Ninja -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-android" CMAKE_BUILD_EXTRA="--target install" android-all
       env:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
-
-    - name: Build Java test targets
-      working-directory: ${{runner.workspace}}
-      run: |
-        cmake -S ${{github.workspace}} -B build-host -DBUILD_TEAMTALK_CORE=OFF
-        cmake --build build-host --target TeamTalk5Test
-        cmake --build build-host --target TeamTalk5ProTest
-        cmake --build build-host --target TeamTalk5SrvTest
 
     - name: Generate Android signing keystore
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid

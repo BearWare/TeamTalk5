@@ -225,6 +225,7 @@
     <string name="action_upload">Upload File</string>
     <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
+    <string name="action_statusnick">Change Nickname and Status</string>
     <string name="action_copyname">Copy Name</string>
     <string name="action_copymessage">Copy Content Only</string>
     <string name="action_deletemessage">Delete</string>
@@ -468,6 +469,7 @@
     <string name="pref_summary_gender">Check for female icon</string>
     <string name="user_state_away">Away</string>
     <string name="user_state_operator">Channel operator</string>
+    <string name="user_state_admin">Administrator</string>
     <string name="user_state_selected">Selected for move </string>
     <string name="pref_title_userloggedin_icon">User logged in</string>
     <string name="pref_summary_userloggedin_icon">Play sound when an user logs in</string>
@@ -493,6 +495,11 @@
     <string name="action_revoke_operator">Revoke Operator</string>
     <string name="text_operator_password">Enter channel operator password</string>
     <string name="text_broadcast_message">Enter broadcast message</string>
+    <string name="text_status_message">Status message</string>
+    <string name="text_status_mode">Status mode</string>
+    <string name="status_mode_available">Available</string>
+    <string name="status_mode_away">Away</string>
+    <string name="status_mode_question">Question</string>
     <string name="online_users">Online Users</string>
 
 

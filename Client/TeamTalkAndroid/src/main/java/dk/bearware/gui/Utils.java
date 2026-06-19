@@ -68,7 +68,6 @@ import java.util.Vector;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.parsers.ParserConfigurationException;
 
 import dk.bearware.AudioCodec;
 import dk.bearware.Channel;
@@ -515,23 +514,12 @@ public class Utils {
         return result.toString();
     }
     
-    public static DocumentBuilderFactory newSecureDocumentBuilderFactory() throws ParserConfigurationException {
-        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-        dbf.setFeature("http://apache.org/xml/features/disallow-doctype-decl", true);
-        dbf.setFeature("http://xml.org/sax/features/external-general-entities", false);
-        dbf.setFeature("http://xml.org/sax/features/external-parameter-entities", false);
-        dbf.setFeature("http://apache.org/xml/features/nonvalidating/load-external-dtd", false);
-        dbf.setXIncludeAware(false);
-        dbf.setExpandEntityReferences(false);
-        return dbf;
-    }
-
     public static Vector<ServerEntry> getXmlServerEntries(String xml) {
         Vector<ServerEntry> servers = new Vector<>();
+        DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder dBuilder;
         Document doc;
         try {
-            DocumentBuilderFactory dbFactory = newSecureDocumentBuilderFactory();
             dBuilder = dbFactory.newDocumentBuilder();
             doc = dBuilder.parse(new InputSource(new StringReader(xml)));
         }

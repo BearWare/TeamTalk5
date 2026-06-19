@@ -10,7 +10,7 @@ RUN apt-get install -y \
 		doxygen \
 		g++ \
 		git \
-		junit4 \
+		junit5 \
 		libasound2-dev \
 		libpcap-dev \
 		libpulse-dev \

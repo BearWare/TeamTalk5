@@ -735,7 +735,7 @@ public class ServerListActivity extends AppCompatActivity
 
             if (!xml.isEmpty()) {
                 try {
-                    DocumentBuilderFactory dbFactory = Utils.newSecureDocumentBuilderFactory();
+                    DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
                     DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
                     Document doc = dBuilder.parse(new InputSource(new StringReader(xml)));
                     doc.getDocumentElement().normalize();
