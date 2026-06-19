@@ -168,6 +168,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
                 sent = sent && ttclient.doTextMessage(m) > 0;
                 service.getUserTextMsgs(userid).add(m);
             }
+            MyTextMessage.merge(service.getUserTextMsgs(userid));
             if (sent) {
                 send_msg.setText("");
                 adapter.notifyDataSetChanged();

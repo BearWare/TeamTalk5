@@ -766,9 +766,7 @@ public class TeamTalkService extends Service
     public Vector<MyTextMessage> getChatLogTextMsgs() {
         if (chatlogtxtmsgs.size() > HISTORY_CHATLOG_MSG_MAX)
             chatlogtxtmsgs.remove(0);
-        int c = chatlogtxtmsgs.size();
         MyTextMessage.merge(chatlogtxtmsgs);
-        Log.d(TAG, "Messages changed from " + c + " to " + chatlogtxtmsgs.size());
         return chatlogtxtmsgs;
     }
 
@@ -1169,19 +1167,19 @@ public class TeamTalkService extends Service
         MyTextMessage newmsg = new MyTextMessage(textmessage, 
                                                  user == null? "" : Utils.getDisplayName(getBaseContext(), user));
 
+        Vector<MyTextMessage> msgs = null;
         switch(textmessage.nMsgType) {
-            case TextMsgType.MSGTYPE_USER : {
-                getUserTextMsgs(textmessage.nFromUserID).add(newmsg);
+            case TextMsgType.MSGTYPE_USER :
+                msgs = getUserTextMsgs(textmessage.nFromUserID);
                 break;
-            }
-            case TextMsgType.MSGTYPE_BROADCAST : {
-                getChatLogTextMsgs().add(newmsg);
+            case TextMsgType.MSGTYPE_BROADCAST :
+            case TextMsgType.MSGTYPE_CHANNEL :
+                msgs = getChatLogTextMsgs();
                 break;
-            }
-            case TextMsgType.MSGTYPE_CHANNEL : {
-                getChatLogTextMsgs().add(newmsg);
-                break;
-            }
+        }
+        if (msgs != null) {
+            msgs.add(newmsg);
+            MyTextMessage.merge(msgs);
         }
     }
 

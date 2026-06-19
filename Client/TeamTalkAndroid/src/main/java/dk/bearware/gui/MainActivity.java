@@ -199,6 +199,7 @@ extends AppCompatActivity
     ChannelListAdapter channelsAdapter;
     FileListAdapter filesAdapter;
     TextMessageAdapter textmsgAdapter;
+    final Map<Integer, Vector<MyTextMessage>> txtmsgMergeBuffer = new HashMap<>();
     MediaAdapter mediaAdapter;
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
@@ -2258,6 +2259,7 @@ private EditText newmsg;
     public void onCmdUserTextMessage(TextMessage textmessage) {
         User sender;
         String name;
+        MyTextMessage completemsg = MyTextMessage.mergeMessage(txtmsgMergeBuffer, new MyTextMessage(textmessage, ""));
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL :
 
@@ -2265,20 +2267,23 @@ private EditText newmsg;
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
 
+            if (completemsg == null)
+                break;
+
             if (textmessage.nFromUserID != getService().getTTInstance().getMyUserID()) {
                 if (sounds.get(SOUND_CHANMSG) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_message_checkbox", false)) {
                     sender = getService().getUsers().get(textmessage.nFromUserID);
                     name = Utils.getDisplayName(getBaseContext(), sender);
-                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", completemsg.szMessage));
                 }
             }
             else if (textmessage.nFromUserID == getService().getTTInstance().getMyUserID()) {
                 if (sounds.get(SOUND_CHANMSGSENT) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSGSENT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_message_sent_checkbox", false)) {
-                    ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, textmessage.szMessage));
+                    ttsWrapper.speak(getString(R.string.text_tts_channel_message_sent, completemsg.szMessage));
                 }
             }
             Log.d(TAG, "Channel message in " + this.hashCode());
@@ -2287,17 +2292,23 @@ private EditText newmsg;
             accessibilityAssistant.lockEvents();
             textmsgAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
-            
+
+            if (completemsg == null)
+                break;
+
             if (sounds.get(SOUND_BCASTMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_BCASTMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             if (ttsWrapper != null && prefs.get("broadcast_message_checkbox", false)) {
                 sender = getService().getUsers().get(textmessage.nFromUserID);
                 name = Utils.getDisplayName(getBaseContext(), sender);
-                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", completemsg.szMessage));
             }
             Log.d(TAG, "Broadcast message in " + this.hashCode());
             break;
         case TextMsgType.MSGTYPE_USER :
+            if (completemsg == null)
+                break;
+
             if (sounds.get(SOUND_USERMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_USERMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             
@@ -2305,7 +2316,7 @@ private EditText newmsg;
             name = Utils.getDisplayName(getBaseContext(), sender);
             String senderName = (sender != null) ? name : "";
             if (ttsWrapper != null && prefs.get("private_message_checkbox", false))
-                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
+                ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, completemsg.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);

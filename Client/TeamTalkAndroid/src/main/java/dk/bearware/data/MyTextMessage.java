@@ -96,6 +96,30 @@ public class MyTextMessage extends TextMessage {
         return result;
     }
 
+    public static MyTextMessage mergeMessage(Map<Integer, Vector<MyTextMessage>> pending, MyTextMessage msg) {
+        int key = (msg.nMsgType << 16) | msg.nFromUserID;
+        Vector<MyTextMessage> parts = pending.get(key);
+        if (msg.bMore) {
+            if (parts == null) {
+                parts = new Vector<>();
+                pending.put(key, parts);
+            }
+            parts.add(msg);
+            if (parts.size() > 1000)
+                pending.remove(key);
+            return null;
+        }
+        if (parts != null) {
+            StringBuilder content = new StringBuilder();
+            for (MyTextMessage part : parts)
+                content.append(part.szMessage);
+            content.append(msg.szMessage);
+            msg.szMessage = content.toString();
+            pending.remove(key);
+        }
+        return msg;
+    }
+
     public static void merge(Vector<MyTextMessage> msgs) {
         Map<Integer, Vector<MyTextMessage> > mergemsgs = new HashMap<>();
         Vector<MyTextMessage> removemsgs = new Vector<>();
