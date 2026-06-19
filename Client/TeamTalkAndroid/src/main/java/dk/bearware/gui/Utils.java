@@ -328,6 +328,73 @@ public class Utils {
         return map;
     }
 
+    public static Optional<String> transmitUsersLogChanged(Context context, Channel oldchan, Channel updchan, Map<Integer, User> users) {
+
+        Set<Integer> allUserIds = new HashSet<>();
+        Map<Integer, Integer> oldTransmitUsers = Utils.transmitUsersToMap(oldchan.transmitUsers);
+        Map<Integer, Integer> newTransmitUsers = Utils.transmitUsersToMap(updchan.transmitUsers);
+
+        allUserIds.addAll(oldTransmitUsers.keySet());
+        allUserIds.addAll(newTransmitUsers.keySet());
+
+        for (int userId : allUserIds) {
+
+            int oldValue = oldTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+            int newValue = newTransmitUsers.getOrDefault(userId, StreamType.STREAMTYPE_NONE);
+
+            String name;
+
+            if (userId == 0) continue;
+
+            if (userId == Constants.TT_CLASSROOM_FREEFORALL)
+                name = context.getResources().getString(R.string.text_tts_transmit_name_everyone);
+            else {
+                User u = users.get(userId);
+                if (u != null && u.nChannelID == oldchan.nChannelID)
+                    name = Utils.getDisplayName(context, u);
+                else
+                    continue;
+            }
+
+            int result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_CHANNELMSG);
+
+            if (result < 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_off));
+            else if (result > 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_channel_msg_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VOICE);
+
+            if (result < 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_off));
+            else if (result > 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_voice_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_VIDEOCAPTURE);
+
+            if (result < 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_off));
+            else if (result > 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_vid_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_DESKTOP);
+
+            if (result < 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_off));
+            else if (result > 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_desk_transmit_on));
+
+            result = Utils.transmitUsersToggled(updchan, oldValue, newValue, StreamType.STREAMTYPE_MEDIAFILE);
+
+            if (result < 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_off));
+            else if (result > 0)
+                return Optional.of(name + " " + context.getResources().getString(R.string.text_tts_media_transmit_on));
+        }
+
+        return Optional.empty();
+    }
+
     public static Optional<String> ttsTransmitUsersToggled(Context context, Channel oldchan, Channel updchan, Map<Integer, User> users) {
 
         SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
@@ -431,6 +498,90 @@ public class Utils {
                 context.getResources().getString(id),
                 (isOn ? context.getResources().getString(R.string.text_tts_subscribe_on) :
                         context.getResources().getString(R.string.text_tts_subscribe_off)));
+    }
+
+    public static Optional<String> subscriptionLogChanged(Context context, User oldUser, User newUser) {
+        Optional<Boolean> isOn;
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_USER_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_user_msg_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_CHANNEL_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_channel_msg_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_BROADCAST_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_broadcast_msg_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_VOICE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_voice_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_VIDEOCAPTURE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_vid_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_DESKTOP)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_desk_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_MEDIAFILE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_media_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_USER_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_user_msg_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_CHANNEL_MSG)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_channel_msg_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_VOICE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_voice_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_VIDEOCAPTURE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_vid_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_DESKTOP)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_desk_changed,
+                    newUser, isOn.get()));
+        }
+
+        if ((isOn = subscriptionChanged(oldUser, newUser, Subscription.SUBSCRIBE_INTERCEPT_MEDIAFILE)).isPresent()) {
+            return Optional.of(ttsGenerateSubscriptionText(context,
+                    R.string.text_tts_subscription_intercept_media_changed,
+                    newUser, isOn.get()));
+        }
+
+        return Optional.empty();
     }
 
     public static Optional<String> ttsSubscriptionChanged(Context context, User oldUser, User newUser) {

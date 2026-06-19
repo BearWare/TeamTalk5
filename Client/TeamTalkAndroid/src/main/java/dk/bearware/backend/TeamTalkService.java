@@ -1055,6 +1055,14 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdUserUpdate(User user) {
+
+        User olduser = users.get(user.nUserID);
+
+        if (olduser != null) {
+            Utils.subscriptionLogChanged(getBaseContext(), olduser, user)
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
+        }
+
         users.put(user.nUserID, user);
     }
 
@@ -1180,6 +1188,14 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
+
+        Channel oldchannel = channels.get(channel.nChannelID);
+
+        if (oldchannel != null && mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+            Utils.transmitUsersLogChanged(getBaseContext(), oldchannel, channel, getUsers())
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
+        }
+
         channels.put(channel.nChannelID, channel);
 
         if (mychannel != null && mychannel.nChannelID == channel.nChannelID) {

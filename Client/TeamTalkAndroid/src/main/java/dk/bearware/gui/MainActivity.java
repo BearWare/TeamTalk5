@@ -2149,6 +2149,9 @@ private EditText newmsg;
         subscriptionChange(user);
 
         users.put(user.nUserID, user);
+        accessibilityAssistant.lockEvents();
+        textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
@@ -2358,6 +2361,9 @@ private EditText newmsg;
 
             setMyChannel(channel);
         }
+        accessibilityAssistant.lockEvents();
+        textmsgAdapter.notifyDataSetChanged();
+        accessibilityAssistant.unlockEvents();
     }
 
     @Override
