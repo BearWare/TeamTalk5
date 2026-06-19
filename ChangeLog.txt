@@ -13,6 +13,13 @@ Default Qt Client
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
+- Added popup support, coppy message, and proper multiple links support for messages
+- Fixed the bug where it was not possible to upload all types of files
+- Added the missing subscription and transmission changes to the chat list
+- Added popup menu and click actions in Files List tab
+- Fixed notifications of uploading files progress was not working
+- Fixed the bug where teamtalk sounds were not properly muted in outgoing calls
+- Added status mode support
 - Announce who is administrator
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
