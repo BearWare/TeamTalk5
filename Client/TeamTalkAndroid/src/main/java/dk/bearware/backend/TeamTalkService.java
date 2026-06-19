@@ -442,33 +442,38 @@ public class TeamTalkService extends Service
 
                 switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
-                    if (voxSuspended)
-                        enableVoiceActivation(true);
-                    else if (txSuspended)
-                        enableVoiceTransmission(true);
-                    setMute(permanentMuteState);
-                    if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
-                        ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
-                    inPhoneCall = false;
-                    scheduleReconnectBluetoothScoAfterCall();
+                    if (inPhoneCall) {
+                        if (voxSuspended)
+                            enableVoiceActivation(true);
+                        else if (txSuspended)
+                            enableVoiceTransmission(true);
+                        setMute(permanentMuteState);
+                        if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
+                            ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                        inPhoneCall = false;
+                        scheduleReconnectBluetoothScoAfterCall();
+                    }
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
-                    inPhoneCall = true;
-                    if (!isMute()) {
-                        ttclient.setSoundOutputMute(true);
-                        currentMuteState = true;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    if (!inPhoneCall) {
+                        inPhoneCall = true;
+                        if (!isMute()) {
+                            ttclient.setSoundOutputMute(true);
+                            currentMuteState = true;
+                        }
+                        if (isVoiceActivationEnabled()) {
+                            voxSuspended = true;
+                            enableVoiceActivation(false);
+                        }
+                        else if (isVoiceTransmissionEnabled()) {
+                            txSuspended = true;
+                            enableVoiceTransmission(false);
+                        }
+                        myStatus = myself.nStatusMode;
+                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     }
-                    if (isVoiceActivationEnabled()) {
-                        voxSuspended = true;
-                        enableVoiceActivation(false);
-                    }
-                    else if (isVoiceTransmissionEnabled()) {
-                        txSuspended = true;
-                        enableVoiceTransmission(false);
-                    }
-                    myStatus = myself.nStatusMode;
-                    if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
-                        ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     break;
                 default:
                     break;
