@@ -10,7 +10,7 @@ media = "1.8.0"
 preference = "1.2.1"
 viewpager = "1.1.0"
 material = "1.14.0"
-junit = "4.13.2"
+junitJupiter = "5.9.3"
 testCore = "1.7.0"
 testRunner = "1.7.0"
 testRules = "1.7.0"
@@ -26,7 +26,7 @@ androidx-media = { group = "androidx.media", name = "media", version.ref = "medi
 androidx-preference = { group = "androidx.preference", name = "preference", version.ref = "preference" }
 androidx-viewpager = { group = "androidx.viewpager", name = "viewpager", version.ref = "viewpager" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
-junit = { group = "junit", name = "junit", version.ref = "junit" }
+junit-jupiter-api = { group = "org.junit.jupiter", name = "junit-jupiter-api", version.ref = "junitJupiter" }
 androidx-test-core = { group = "androidx.test", name = "core", version.ref = "testCore" }
 androidx-test-runner = { group = "androidx.test", name = "runner", version.ref = "testRunner" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "testRules" }

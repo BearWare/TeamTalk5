@@ -29,10 +29,12 @@ import androidx.test.rule.GrantPermissionRule;
 
 import org.junit.Rule;
 import org.junit.Test;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import org.junit.Before;
+import org.junit.After;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.io.File;
 import java.util.Vector;
@@ -58,6 +60,7 @@ public class TeamTalkAndroidOnlyTest extends TeamTalkTestCaseBase {
             Manifest.permission.WAKE_LOCK,
             Manifest.permission.READ_PHONE_STATE);
 
+    @Before
     public void setUp() throws Exception {
         ADMIN_USERNAME = "admin";
         ADMIN_PASSWORD = "admin";
@@ -73,6 +76,11 @@ public class TeamTalkAndroidOnlyTest extends TeamTalkTestCaseBase {
 
         File filepath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
         STORAGEFOLDER = filepath.toString();
+    }
+
+    @After
+    public void tearDown() throws Exception {
+        super.tearDown();
     }
 
     @Test
@@ -427,7 +435,7 @@ public class TeamTalkAndroidOnlyTest extends TeamTalkTestCaseBase {
             waitForEvent(simclients.elementAt(0), ClientEvent.CLIENTEVENT_NONE, 5000);
 
             for (TeamTalkBase ttclient : clients) {
-                assertFalse("No snd input error", waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 0));
+                assertFalse(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_INTERNAL_ERROR, 0), "No snd input error");
             }
         }
     }

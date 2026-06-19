@@ -87,6 +87,11 @@ android {
         jniLibs {
             excludes += ['**/libTeamTalk5Pro-jni.so']
         }
+        pickFirsts = [
+                // Ignore duplicate files in junit-platform-commons-1.9.3.jar and junit-jupiter-api-5.9.3.jar
+                'META-INF/LICENSE.md',
+                'META-INF/LICENSE-notice.md'
+        ]
     }
 
     lint {
@@ -118,11 +123,12 @@ dependencies {
     implementation libs.material
     implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
 
-    testImplementation libs.junit
+    testImplementation libs.junit.jupiter.api
     testImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 
     androidTestImplementation libs.androidx.test.core
     androidTestImplementation libs.androidx.test.runner
     androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation libs.junit.jupiter.api
     androidTestImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 }
