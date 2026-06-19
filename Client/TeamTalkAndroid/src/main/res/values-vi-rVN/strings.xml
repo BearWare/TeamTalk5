@@ -323,7 +323,6 @@
     <string name="default_port" translatable="false">10333</string>
 
     <string name="channel_password_prompt">Nhập mật khẩu kênh</string>
-    <string name="button_download">Tải xuống</string>
     <string name="download_succeeded">Tệp %1$s đã được tải xuống và lưu thành công vào %2$s</string>
     <string name="download_failed">Không thể tải xuống tệp %1$s</string>
     <string name="upload_succeeded">Tệp %1$s đã được tải lên thành công</string>

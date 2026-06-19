@@ -317,7 +317,6 @@
     <string name="pref_title_channel_password">Пароль Канала</string>
 
     <string name="channel_password_prompt">Введите пароль канала</string>
-    <string name="button_download">Загрузить</string>
     <string name="download_succeeded">Файл %1$s успешно загружен и сохранен в %2$s</string>
     <string name="download_failed">Не удалось загрузить файл %1$s</string>
     <string name="upload_succeeded">Файл %1$s успешно выложен</string>

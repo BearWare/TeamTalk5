@@ -328,7 +328,6 @@
     <string name="default_port" translatable="false">10333</string>
 
     <string name="channel_password_prompt">输入频道密码</string>
-    <string name="button_download">下载</string>
     <string name="download_succeeded">文件 %1$s 已成功下载并保存至%2$s</string>
     <string name="download_failed">无法下载文件 %1$s</string>
     <string name="upload_succeeded">文件 %1$s 已成功上传</string>

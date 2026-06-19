@@ -188,7 +188,6 @@
     <string name="pref_title_last_channel">Último canal que você entrou</string>
 
     <string name="channel_password_prompt">Escreva a senha do canal</string>
-    <string name="button_download">Baixar</string>
     <string name="download_succeeded">Download do arquivo %1$sconcluído. Salvo em %2$s</string>
     <string name="download_failed">Falha ao baixar o arquivo %1$s</string>
     <string name="upload_succeeded">Arquivo %1$s enviado com sucesso.</string>

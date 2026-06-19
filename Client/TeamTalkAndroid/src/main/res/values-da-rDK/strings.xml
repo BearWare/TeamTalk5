@@ -211,7 +211,6 @@
     <string name="pref_title_last_channel">Senest tilsluttede kanal</string>
 
     <string name="channel_password_prompt">Intast Kanaladgangskode</string>
-    <string name="button_download">Download</string>
     <string name="download_succeeded">Filen %1$s er blevet hentet og gemt i %2$s</string>
     <string name="download_failed">Kunne ikke hente filen %1$s</string>
     <string name="upload_succeeded">Filen %1$s blev uploaded</string>
