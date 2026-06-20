@@ -261,8 +261,12 @@
     <string name="user_prop_title_ipaddress">IP Address:</string>
     <string name="user_prop_title_voice_volume">Voice Volume</string>
     <string name="user_prop_title_mute_voice">Mute Voice</string>
+    <string name="user_prop_title_mute_voice_left">Mute Left Voice</string>
+    <string name="user_prop_title_mute_voice_right">Mute Right Voice</string>
     <string name="user_prop_title_media_volume">Media File Volume</string>
     <string name="user_prop_title_mute_media">Mute Media File</string>
+    <string name="user_prop_title_mute_media_left">Mute Left Media File</string>
+    <string name="user_prop_title_mute_media_right">Mute Right Media File</string>
     <string name="user_prop_title_subscribe_txtmsg">Subscribe to user messages</string>
     <string name="user_prop_title_subscribe_chanmsg">Subscribe to channel messages</string>
     <string name="user_prop_title_subscribe_bcastmsg">Subscribe to broadcast messages</string>
