@@ -51,8 +51,6 @@ import android.widget.PopupMenu;
 
 public class TextMessageAdapter extends BaseAdapter {
 
-    private static final int URL_MENU_ITEM_BASE = 1000;
-
     private Vector<MyTextMessage> messages, // reference to TeamTalkService's messages (modified by other thread)
             messagesUpdateView; // copy of 'this.message' after update
     
@@ -193,14 +191,14 @@ public class TextMessageAdapter extends BaseAdapter {
                     PopupMenu popup = new PopupMenu(v.getContext(), v);
 
                     List<String> urls = extractUrls(txtmsg.szMessage);
-                    for (int i = 0; i < urls.size(); i++) {
-                        popup.getMenu().add(0, URL_MENU_ITEM_BASE + i, 0, urls.get(i));
+                    for (String url : urls) {
+                        popup.getMenu().add(0, 0, 0, url);
                     }
 
                     popup.getMenuInflater().inflate(R.menu.message_actions, popup.getMenu());
                     popup.setOnMenuItemClickListener(item -> {
-                        if (item.getItemId() >= URL_MENU_ITEM_BASE) {
-                            openUrl(v.getContext(), urls.get(item.getItemId() - URL_MENU_ITEM_BASE));
+                        if (item.getItemId() == 0) {
+                            openUrl(v.getContext(), item.getTitle().toString());
                             return true;
                         } else if (item.getItemId() == R.id.action_copyname) {
                             copyToClipboard(v.getContext(), txtmsg.szNickName);
