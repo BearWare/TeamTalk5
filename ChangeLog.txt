@@ -13,6 +13,7 @@ Default Qt Client
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
+- Added mute left and mute right for voice and media files in user properties dialog
 - Added popup support, coppy message, and proper multiple links support for messages
 - Fixed the bug where it was not possible to upload all types of files
 - Added the missing subscription and transmission changes to the chat list
