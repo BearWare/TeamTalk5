@@ -14,6 +14,7 @@
     <string name="title_activity_channel_prop">Channel Properties</string>
     <string name="title_activity_user_prop">User Properties</string>
     <string name="title_activity_text_message">Text Message</string>
+    <string name="text_user_typing_title">%1$s is typing...</string>
     <string name="title_activity_preferences">Preferences</string>
     <string name="title_activity_stream_media">Stream media file to channel</string>
     <string name="action_createchannel">Create</string>
@@ -54,6 +55,8 @@
     <string name="pref_summary_vox_audio_icon">Play sound when voice activation button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
+    <string name="pref_title_typing_icon">User Typing Sound</string>
+    <string name="pref_summary_typing_icon">Play sound when user is typing a private message</string>
     <string name="pref_title_intercept_audio_icon">Intercept sound</string>
     <string name="pref_summary_intercept_audio_icon">Play sound when intercept starts or ends</string>
     <string name="pref_title_private_message_audio_icon">Private message</string>
@@ -124,6 +127,8 @@
     <string name="pref_summary_subscription_desk">Announce subscription of desktop sessions</string>
     <string name="pref_title_subscription_media">Media stream subscription</string>
     <string name="pref_summary_subscription_media">Announce subscription of media streams</string>
+    <string name="pref_title_typing">User typing</string>
+    <string name="pref_summary_typing">Announce when user is typing a private message</string>
     <string name="pref_title_subscription_intercept_user_msg">User messages intercept</string>
     <string name="pref_summary_subscription_intercept_user_msg">Announce intercept of user messages</string>
     <string name="pref_title_subscription_intercept_channel_msg">Channel messages intercept</string>
@@ -486,6 +491,7 @@
     <string name="pref_title_channel_message_sent">Sent channel messages</string>
     <string name="pref_summary_channel_message_sent">Announce channel messages sent</string>
     <string name="text_tts_channel_message_sent">Channel message sent: %1$s</string>
+    <string name="text_tts_user_typing">%1$s is typing...</string>
     <string name="pref_summary_official_servers">Include official servers in server list</string>
     <string name="pref_title_official_servers">Show official servers</string>
     <string name="pref_summary_unofficial_servers">Include unofficial servers in server list</string>

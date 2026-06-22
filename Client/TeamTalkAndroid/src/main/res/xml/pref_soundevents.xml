@@ -45,6 +45,12 @@
         />
     <CheckBoxPreference
         android:defaultValue="true"
+        android:key="typing_icon"
+        android:title="@string/pref_title_typing_icon"
+        android:summary="@string/pref_summary_typing_icon"
+        />
+    <CheckBoxPreference
+        android:defaultValue="true"
         android:key="private_message_audio_icon"
         android:title="@string/pref_title_private_message_audio_icon"
         android:summary="@string/pref_summary_private_message_audio_icon"

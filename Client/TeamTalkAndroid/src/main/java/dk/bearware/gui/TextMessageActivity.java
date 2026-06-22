@@ -60,7 +60,10 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
     TeamTalkConnection mConnection;
     TextMessageAdapter adapter;
     AccessibilityAssistant accessibilityAssistant;
-
+    private long lastTypingTime = 0;
+    private android.os.Handler typingHandler = new android.os.Handler();
+    private Runnable stopTypingRunnable = () -> sendTypingStatus(false);
+    private Runnable remoteTypingTimeoutRunnable = () -> updateTitle(false);
     TeamTalkService getService() {
         return mConnection.getService();
     }
@@ -165,6 +168,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             if (sent) {
                 send_msg.setText("");
                 adapter.notifyDataSetChanged();
+                sendTypingStatus(false);
             }
             else {
                 Toast.makeText(TextMessageActivity.this,
@@ -174,7 +178,20 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         });
         
         service.getEventHandler().registerOnCmdUserTextMessage(this, true);
-        
+
+        send_msg.addTextChangedListener(new android.text.TextWatcher() {
+            @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
+            @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (System.currentTimeMillis() - lastTypingTime > 2000) {
+                    sendTypingStatus(true);
+                    lastTypingTime = System.currentTimeMillis();
+                }
+                typingHandler.removeCallbacks(stopTypingRunnable);
+                typingHandler.postDelayed(stopTypingRunnable, 6000);
+            }
+            @Override public void afterTextChanged(android.text.Editable s) {}
+        });
+
         updateTitle();
     }
 
@@ -184,24 +201,53 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
     }
 
     void updateTitle() {
+        updateTitle(false);
+    }
+
+    void updateTitle(boolean isTyping) {
         String title = getResources().getString(R.string.title_activity_text_message);
         int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
-        
+        typingHandler.removeCallbacks(remoteTypingTimeoutRunnable);
+        if (isTyping) {
+            typingHandler.postDelayed(remoteTypingTimeoutRunnable, 9000);
+        }
         User user = getService().getUsers().get(userid);
         if(user != null) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            setTitle(title + " - " + name);
+            if (isTyping) {
+                setTitle(getString(R.string.text_user_typing_title, name));
+            } else {
+                setTitle(title + " - " + name);
+            }
         }
     }
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
         int userid = TextMessageActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
-        if(adapter != null && textmessage.nFromUserID == userid &&
-                textmessage.nMsgType == TextMsgType.MSGTYPE_USER) {
+        
+        if (textmessage.nFromUserID == userid && textmessage.nMsgType == TextMsgType.MSGTYPE_CUSTOM) {
+            if (textmessage.szMessage.startsWith("typing\r\n")) {
+                updateTitle(textmessage.szMessage.endsWith("1"));
+            }
+            return;
+        }
+
+        if(adapter != null && textmessage.nFromUserID == userid && textmessage.nMsgType == TextMsgType.MSGTYPE_USER) {
+            updateTitle(false);
             accessibilityAssistant.lockEvents();
             adapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
+    }
+
+    private void sendTypingStatus(boolean typing) {
+        TextMessage msg = new TextMessage();
+        msg.nMsgType = TextMsgType.MSGTYPE_CUSTOM;
+        msg.nToUserID = getIntent().getExtras().getInt(EXTRA_USERID);
+        msg.nChannelID = 0;
+        msg.nFromUserID = getService().getTTInstance().getMyUserID();
+        msg.szMessage = "typing\r\n" + (typing ? "1" : "0");
+        getService().getTTInstance().doTextMessage(msg);
     }
 }

@@ -230,7 +230,8 @@ extends AppCompatActivity
               SOUND_USERLOGGEDOFF = 17,
               SOUND_INTERCEPTON = 18,
               SOUND_INTERCEPTOFF = 19,
-              SOUND_CHANMSGSENT = 20;
+              SOUND_TYPING = 20,
+              SOUND_CHANMSGSENT = 21;
     
     SparseIntArray sounds = new SparseIntArray();
 
@@ -603,6 +604,9 @@ extends AppCompatActivity
         if (prefs.get("voiceact_triggered_icon", true)) {
             sounds.put(SOUND_VOXON, audioIcons.load(ctx, R.raw.voiceact_on, 1));
             sounds.put(SOUND_VOXOFF, audioIcons.load(ctx, R.raw.voiceact_off, 1));
+        }
+        if (prefs.get("typing_icon", true)) {
+            sounds.put(SOUND_TYPING, audioIcons.load(ctx, R.raw.typing, 1));
         }
         if (prefs.get("intercept_audio_icon", true)) {
             sounds.put(SOUND_INTERCEPTON, audioIcons.load(ctx, R.raw.intercept, 1));
@@ -2211,6 +2215,8 @@ private EditText newmsg;
 
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
+        User sender;
+        String name;
         switch (textmessage.nMsgType) {
         case TextMsgType.MSGTYPE_CHANNEL :
 
@@ -2222,8 +2228,8 @@ private EditText newmsg;
                 if (sounds.get(SOUND_CHANMSG) != 0)
                     audioIcons.play(sounds.get(SOUND_CHANMSG), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_message_checkbox", false)) {
-                    User sender = getService().getUsers().get(textmessage.nFromUserID);
-                    String name = Utils.getDisplayName(getBaseContext(), sender);
+                    sender = getService().getUsers().get(textmessage.nFromUserID);
+                    name = Utils.getDisplayName(getBaseContext(), sender);
                     ttsWrapper.speak(getString(R.string.text_tts_channel_message, (sender != null) ? name : "", textmessage.szMessage));
                 }
             }
@@ -2244,8 +2250,8 @@ private EditText newmsg;
             if (sounds.get(SOUND_BCASTMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_BCASTMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             if (ttsWrapper != null && prefs.get("broadcast_message_checkbox", false)) {
-                User sender = getService().getUsers().get(textmessage.nFromUserID);
-                String name = Utils.getDisplayName(getBaseContext(), sender);
+                sender = getService().getUsers().get(textmessage.nFromUserID);
+                name = Utils.getDisplayName(getBaseContext(), sender);
                 ttsWrapper.speak(getString(R.string.text_tts_broadcast_message, (sender != null) ? name : "", textmessage.szMessage));
             }
             Log.d(TAG, "Broadcast message in " + this.hashCode());
@@ -2254,8 +2260,8 @@ private EditText newmsg;
             if (sounds.get(SOUND_USERMSG) != 0)
                 audioIcons.play(sounds.get(SOUND_USERMSG), 1.0f, 1.0f, 0, 0, 1.0f);
             
-            User sender = getService().getUsers().get(textmessage.nFromUserID);
-            String name = Utils.getDisplayName(getBaseContext(), sender);
+            sender = getService().getUsers().get(textmessage.nFromUserID);
+            name = Utils.getDisplayName(getBaseContext(), sender);
             String senderName = (sender != null) ? name : "";
             if (ttsWrapper != null && prefs.get("private_message_checkbox", false))
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, textmessage.szMessage));
@@ -2278,7 +2284,19 @@ private EditText newmsg;
             notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification);
             break;
         case TextMsgType.MSGTYPE_CUSTOM:
-        default:
+            if (textmessage.szMessage.startsWith("typing\r\n")) {
+                boolean isTyping = textmessage.szMessage.endsWith("1");
+                if (isTyping) {
+                    if (sounds.get(SOUND_TYPING) != 0)
+                        audioIcons.play(sounds.get(SOUND_TYPING), 1.0f, 1.0f, 0, 0, 1.0f);
+
+                    if (ttsWrapper != null && prefs.get("typing_checkbox", false)) {
+                        sender = getService().getUsers().get(textmessage.nFromUserID);
+                        name = Utils.getDisplayName(getBaseContext(), sender);
+                        ttsWrapper.speak(getString(R.string.text_tts_user_typing, name));
+                    }
+                }
+            }
             break;
         }
     }
