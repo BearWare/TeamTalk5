@@ -27,9 +27,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Menu;
@@ -60,16 +57,11 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
     
     public static final String EXTRA_USERID = "userid";
     
-    public static final String TYPING_CMD_PREFIX = "typing\r\n";
-    private static final int TYPING_UPDATE_INTERVAL = 2000;
-    private static final int TYPING_STOP_DELAY = 7000;
-    private static final int REMOTE_TYPING_DELAY = 10000;
-
     TeamTalkConnection mConnection;
     TextMessageAdapter adapter;
     AccessibilityAssistant accessibilityAssistant;
     private long lastTypingTime = 0;
-    private Handler typingHandler = new Handler();
+    private android.os.Handler typingHandler = new android.os.Handler();
     private Runnable stopTypingRunnable = () -> sendTypingStatus(false);
     private Runnable remoteTypingTimeoutRunnable = () -> updateTitle(false);
     TeamTalkService getService() {
@@ -188,22 +180,17 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         
         service.getEventHandler().registerOnCmdUserTextMessage(this, true);
 
-        send_msg.addTextChangedListener(new TextWatcher() {
+        send_msg.addTextChangedListener(new android.text.TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
-                typingHandler.removeCallbacks(stopTypingRunnable);
-                if (s.length() == 0) {
-                    sendTypingStatus(false);
-                    lastTypingTime = 0;
-                    return;
-                }
-                if (System.currentTimeMillis() - lastTypingTime > TYPING_UPDATE_INTERVAL) {
+                if (System.currentTimeMillis() - lastTypingTime > 2000) {
                     sendTypingStatus(true);
                     lastTypingTime = System.currentTimeMillis();
                 }
-                typingHandler.postDelayed(stopTypingRunnable, TYPING_STOP_DELAY);
+                typingHandler.removeCallbacks(stopTypingRunnable);
+                typingHandler.postDelayed(stopTypingRunnable, 7000);
             }
-            @Override public void afterTextChanged(Editable s) {}
+            @Override public void afterTextChanged(android.text.Editable s) {}
         });
 
         updateTitle();
@@ -223,7 +210,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         int userid = this.getIntent().getExtras().getInt(EXTRA_USERID);
         typingHandler.removeCallbacks(remoteTypingTimeoutRunnable);
         if (isTyping) {
-            typingHandler.postDelayed(remoteTypingTimeoutRunnable, REMOTE_TYPING_DELAY);
+            typingHandler.postDelayed(remoteTypingTimeoutRunnable, 9000);
         }
         User user = getService().getUsers().get(userid);
         if(user != null) {
@@ -241,7 +228,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         int userid = TextMessageActivity.this.getIntent().getExtras().getInt(EXTRA_USERID);
         
         if (textmessage.nFromUserID == userid && textmessage.nMsgType == TextMsgType.MSGTYPE_CUSTOM) {
-            if (textmessage.szMessage.startsWith(TYPING_CMD_PREFIX)) {
+            if (textmessage.szMessage.startsWith("typing\r\n")) {
                 updateTitle(textmessage.szMessage.endsWith("1"));
             }
             return;
@@ -261,7 +248,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         msg.nToUserID = getIntent().getExtras().getInt(EXTRA_USERID);
         msg.nChannelID = 0;
         msg.nFromUserID = getService().getTTInstance().getMyUserID();
-        msg.szMessage = TYPING_CMD_PREFIX + (typing ? "1" : "0");
+        msg.szMessage = "typing\r\n" + (typing ? "1" : "0");
         getService().getTTInstance().doTextMessage(msg);
     }
 }

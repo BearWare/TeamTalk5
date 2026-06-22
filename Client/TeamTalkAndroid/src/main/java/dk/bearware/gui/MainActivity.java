@@ -2284,7 +2284,7 @@ private EditText newmsg;
             notificationManager.notify(MESSAGE_NOTIFICATION_TAG, textmessage.nFromUserID, notification);
             break;
         case TextMsgType.MSGTYPE_CUSTOM:
-            if (textmessage.szMessage.startsWith(TextMessageActivity.TYPING_CMD_PREFIX)) {
+            if (textmessage.szMessage.startsWith("typing\r\n")) {
                 boolean isTyping = textmessage.szMessage.endsWith("1");
                 if (isTyping) {
                     if (sounds.get(SOUND_TYPING) != 0)
