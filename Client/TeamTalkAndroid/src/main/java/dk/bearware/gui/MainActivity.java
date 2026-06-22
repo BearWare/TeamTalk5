@@ -416,6 +416,7 @@ extends AppCompatActivity
         }
         return true;
     }
+
     private void showChangeNicknameStatusDialog() {
         User myself = getService().getUsers().get(getClient().getMyUserID());
         if (myself == null) {
@@ -431,17 +432,15 @@ extends AppCompatActivity
 
         int currentMode = myself.nStatusMode & TeamTalkConstants.STATUSMODE_MODE;
 
-        View layout = getLayoutInflater().inflate(
-                R.layout.dialog_change_nickname_status, null);
-
+        View layout = getLayoutInflater().inflate(R.layout.dialog_change_nickname_status, null);
         EditText nicknameInput = layout.findViewById(R.id.nickname_input);
         EditText statusMessageInput = layout.findViewById(R.id.status_message_input);
         RadioGroup modeGroup = layout.findViewById(R.id.mode_group);
 
-        nicknameInput.setText(getCurrentNickname(myself));
+        ServerEntry serverEntry = getService().getServerEntry();
+        nicknameInput.setText(serverEntry.nickname);
         nicknameInput.setSelection(nicknameInput.getText().length());
-
-        statusMessageInput.setText(getCurrentStatusMessage(myself));
+        statusMessageInput.setText(serverEntry.statusmsg);
         statusMessageInput.setSelection(statusMessageInput.getText().length());
 
         for (int i = 0; i < modeValues.length; i++) {
@@ -468,42 +467,29 @@ extends AppCompatActivity
         alert.setNegativeButton(android.R.string.cancel, null);
         alert.show();
     }
-    private String getCurrentNickname(User myself) {
-        ServerEntry serverEntry = getService().getServerEntry();
-        if (serverEntry != null && !TextUtils.isEmpty(serverEntry.nickname))
-            return serverEntry.nickname;
-        return "";
-    }
-
-    private String getCurrentStatusMessage(User myself) {
-        ServerEntry serverEntry = getService().getServerEntry();
-        if (serverEntry != null && !TextUtils.isEmpty(serverEntry.statusmsg))
-            return serverEntry.statusmsg;
-        return "";
-    }
 
     private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
         User myself = getService().getUsers().get(getClient().getMyUserID());
-        if (myself == null)
-            return;
-
-        updateCurrentServerEntry(nickname, statusMessage);
-
-        if (!TextUtils.equals(nickname, myself.szNickname))
-            getClient().doChangeNickname(nickname);
-
-        int statusMode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_MODE) | mode;
-        getClient().doChangeStatus(statusMode, statusMessage);
-    }
-
-    private void updateCurrentServerEntry(String nickname, String statusMessage) {
         ServerEntry serverEntry = getService().getServerEntry();
-        if (serverEntry == null)
+        if (myself == null)
             return;
 
         serverEntry.nickname = nickname;
         serverEntry.statusmsg = statusMessage;
         getService().setServerEntry(serverEntry);
+
+        if (TextUtils.isEmpty(nickname)) {
+            nickname = prefs.get(Preferences.PREF_GENERAL_NICKNAME, "");
+        }
+
+        if (TextUtils.isEmpty(statusMessage)) {
+            statusMessage = prefs.get(Preferences.PREF_GENERAL_STATUSMSG, "");
+        }
+
+        int statusMode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_MODE) | mode;
+
+        getClient().doChangeNickname(nickname);
+        getClient().doChangeStatus(statusMode, statusMessage);
     }
 
     @Override
