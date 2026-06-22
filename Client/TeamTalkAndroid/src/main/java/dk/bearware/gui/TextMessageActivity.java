@@ -168,6 +168,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             if (sent) {
                 send_msg.setText("");
                 adapter.notifyDataSetChanged();
+                typingHandler.removeCallbacks(stopTypingRunnable);
                 sendTypingStatus(false);
             }
             else {
@@ -187,7 +188,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
                     lastTypingTime = System.currentTimeMillis();
                 }
                 typingHandler.removeCallbacks(stopTypingRunnable);
-                typingHandler.postDelayed(stopTypingRunnable, 6000);
+                typingHandler.postDelayed(stopTypingRunnable, 7000);
             }
             @Override public void afterTextChanged(android.text.Editable s) {}
         });
