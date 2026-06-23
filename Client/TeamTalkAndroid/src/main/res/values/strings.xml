@@ -55,7 +55,7 @@
     <string name="pref_summary_vox_audio_icon">Play sound when voice activation button is pressed</string>
     <string name="pref_title_vox_triggered_icon">Voice activation triggered</string>
     <string name="pref_summary_vox_triggered_icon">Play sound when voice activation is triggered</string>
-    <string name="pref_title_typing_icon">User Typing Sound</string>
+    <string name="pref_title_typing_icon">User typing sound</string>
     <string name="pref_summary_typing_icon">Play sound when user is typing a private message</string>
     <string name="pref_title_intercept_audio_icon">Intercept sound</string>
     <string name="pref_summary_intercept_audio_icon">Play sound when intercept starts or ends</string>
