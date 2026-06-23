@@ -103,6 +103,10 @@
     <string name="pref_summary_server_login">Announce name of user logging in</string>
     <string name="pref_title_server_logout">User logs out of the server</string>
     <string name="pref_summary_server_logout">Announce name of user logging out</string>
+    <string name="pref_title_all_channel_join">Users joins any channels</string>
+    <string name="pref_summary_all_channel_join">Announce names of the users joining any channels</string>
+    <string name="pref_title_all_channel_leave">Users leaves any channels</string>
+    <string name="pref_summary_all_channel_leave">Announce names of the users leaving any channel</string>
     <string name="pref_title_channel_join">User joins the channel</string>
     <string name="pref_summary_channel_join">Announce name of the user joining the channel</string>
     <string name="pref_title_channel_leave">User leaves the channel</string>
@@ -171,6 +175,9 @@
 
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>
+    <string name="text_tts_user_joined_other_channel">%1$s has joined channel %2$s</string>
+    <string name="text_tts_user_left_other_channel">%1$s has left channel %2$s</string>
+    <string name="text_root_chan">root</string>
     <string name="text_tts_joined_chan">has joined the channel</string>
     <string name="text_tts_left_chan">has left the channel</string>
     <string name="text_tts_private_message">Private message from %1$s - %2$s</string>
