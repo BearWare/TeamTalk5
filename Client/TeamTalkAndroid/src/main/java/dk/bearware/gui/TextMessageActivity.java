@@ -27,6 +27,9 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.inputmethod.InputMethodManager;
 import android.view.Menu;
@@ -61,7 +64,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
     TextMessageAdapter adapter;
     AccessibilityAssistant accessibilityAssistant;
     private long lastTypingTime = 0;
-    private android.os.Handler typingHandler = new android.os.Handler();
+    private Handler typingHandler = new Handler();
     private Runnable stopTypingRunnable = () -> sendTypingStatus(false);
     private Runnable remoteTypingTimeoutRunnable = () -> updateTitle(false);
     TeamTalkService getService() {
@@ -180,7 +183,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         
         service.getEventHandler().registerOnCmdUserTextMessage(this, true);
 
-        send_msg.addTextChangedListener(new android.text.TextWatcher() {
+        send_msg.addTextChangedListener(new TextWatcher() {
             @Override public void beforeTextChanged(CharSequence s, int start, int count, int after) {}
             @Override public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (System.currentTimeMillis() - lastTypingTime > 2000) {
@@ -190,7 +193,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
                 typingHandler.removeCallbacks(stopTypingRunnable);
                 typingHandler.postDelayed(stopTypingRunnable, 7000);
             }
-            @Override public void afterTextChanged(android.text.Editable s) {}
+            @Override public void afterTextChanged(Editable s) {}
         });
 
         updateTitle();
