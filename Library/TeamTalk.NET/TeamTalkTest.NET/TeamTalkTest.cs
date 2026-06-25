@@ -338,13 +338,13 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, ref msg), "user state change");
 
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE), "user state has voice");
 
             Assert.IsTrue(ttclient.EnableVoiceTransmission(false), "voice tx disable");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, ref msg), "user state change");
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.IsFalse(user.uUserState.HasFlag(UserState.USERSTATE_VOICE), "user state has no voice");
 
             Assert.IsTrue(ttclient.EnableVoiceActivation(true), "Enable voice act");
@@ -354,7 +354,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_VOICEACTIVATED), "voice act flag");
             Assert.IsTrue(ttclient.Flags.HasFlag(ClientFlag.CLIENT_SNDINPUT_VOICEACTIVE), "voice active flag");
 
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE), "user state has voice");
 
             Assert.IsTrue(ttclient.SetUserAudioStreamBufferSize(user.nUserID, StreamType.STREAMTYPE_VOICE, 3000));
@@ -391,7 +391,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 2000, ref msg), "user state change");
 
-            User user = (User)msg.DataToObject();
+            User user = msg.user;
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE), "user state has voice");
 
             Assert.IsTrue(ttclient.SetUserMediaStorageDir(ttclient.GetMyUserID(), MEDIAFOLDER, "", AudioFileFormat.AFF_WAVE_FORMAT),
@@ -399,7 +399,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 1000, ref msg), "Record media file event");
 
-            MediaFileInfo fileinfo = (MediaFileInfo)msg.DataToObject();
+            MediaFileInfo fileinfo = msg.mediafileinfo;
             Assert.AreEqual(ttclient.GetMyUserID(), user.nUserID, "Self record voice");
             Assert.IsTrue(fileinfo.nStatus == MediaFileStatus.MFS_STARTED, "Started recording");
 
@@ -430,7 +430,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE), "Voice active");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 3000, ref msg), "Record media file event stop");
-            fileinfo = (MediaFileInfo)msg.DataToObject();
+            fileinfo = msg.mediafileinfo;
 
             Assert.IsTrue(fileinfo.nStatus == MediaFileStatus.MFS_FINISHED, "Ended recording");
 
@@ -583,7 +583,7 @@ namespace TeamTalkTest.NET
             TTMessage msg = new TTMessage();
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, DEF_WAIT, ref msg), "wait for state change, playback");
-            User user = (User)msg.DataToObject();
+            User user = msg.user;
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_MEDIAFILE_AUDIO), "media playback");
 
             WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, 5000);
@@ -644,7 +644,7 @@ namespace TeamTalkTest.NET
                 switch (msg.nClientEvent)
                 {
                     case ClientEvent.CLIENTEVENT_USER_STATECHANGE:
-                        user = (User)msg.DataToObject();
+                        user = msg.user;
                         audio |= user.uUserState.HasFlag(UserState.USERSTATE_MEDIAFILE_AUDIO);
                         video |= user.uUserState.HasFlag(UserState.USERSTATE_MEDIAFILE_VIDEO);
                         break;
@@ -733,11 +733,11 @@ namespace TeamTalkTest.NET
 
             TTMessage msg = new TTMessage();
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-            int remain = (int)msg.DataToObject();
+            int remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -771,18 +771,18 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, 3000, ref msg), "get close msg");
             Assert.AreEqual(msg.nSource, ttclient.GetMyUserID(), "desktop window from same source");
-            Assert.AreEqual(0, (int)msg.DataToObject(), "desktop session is 0");
+            Assert.AreEqual(0, msg.nStreamID, "desktop session is 0");
 
 
             tx = ttclient.SendDesktopWindow(wnd, BitmapFormat.BMP_RGB32);
             Assert.IsTrue(tx > 0, "tx bitmap");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-            remain = (int)msg.DataToObject();
+            remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -850,11 +850,11 @@ namespace TeamTalkTest.NET
 
                 TTMessage msg = new TTMessage();
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-                int remain = (int)msg.DataToObject();
+                int remain = msg.nBytesRemain;
                 while (remain > 0)
                 {
                     Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 2000, ref msg), "tx bmp started");
-                    remain = (int)msg.DataToObject();
+                    remain = msg.nBytesRemain;
                 }
 
                 Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "Desktop tx ended");
@@ -894,11 +894,11 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(tx > 0, "send desktop as 8bpp");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 20000, ref msg), "tx bmp started");
-            remain = (int)msg.DataToObject();
+            remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 10000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -909,11 +909,11 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(tx > 0, "send desktop as 16bpp");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 20000, ref msg), "tx bmp started");
-            remain = (int)msg.DataToObject();
+            remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 10000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -924,11 +924,11 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(tx > 0, "send desktop as 24bpp");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 20000, ref msg), "tx bmp started");
-            remain = (int)msg.DataToObject();
+            remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 10000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -939,11 +939,11 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(tx > 0, "send desktop as 32bpp");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 20000, ref msg), "tx bmp started");
-            remain = (int)msg.DataToObject();
+            remain = msg.nBytesRemain;
             while (remain > 0)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER, 10000, ref msg), "tx bmp started");
-                remain = (int)msg.DataToObject();
+                remain = msg.nBytesRemain;
             }
 
             Assert.IsFalse(ttclient.Flags.HasFlag(ClientFlag.CLIENT_TX_DESKTOP), "tx desktop done");
@@ -986,7 +986,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_DESKTOPCURSOR, 2000, ref msg), "receive desktop cursor");
 
             Assert.AreEqual(ttclient.GetMyUserID(), msg.nSource, "pos from origin");
-            DesktopInput dskinput = (DesktopInput)msg.DataToObject();
+            DesktopInput dskinput = msg.desktopinput;
             Assert.AreEqual(POSX, dskinput.uMousePosX);
             Assert.AreEqual(POSY, dskinput.uMousePosY);
 
@@ -1005,7 +1005,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient2.SendDesktopInput(ttclient.GetMyUserID(), trans_inputs), "send input");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, 2000, ref msg), "get desktop inputs");
-            inputs[0] = (DesktopInput)msg.DataToObject();
+            inputs[0] = msg.desktopinput;
             Assert.IsTrue(WindowsHelper.DesktopInputKeyTranslate(TTKeyTranslate.TTKEY_TTKEYCODE_TO_WINKEYCODE, inputs, out trans_inputs) > 0, "translate to");
             Assert.AreEqual(POSX, trans_inputs[0].uMousePosX, "same x");
             Assert.AreEqual(POSY, trans_inputs[0].uMousePosY, "same y");
@@ -1037,7 +1037,7 @@ namespace TeamTalkTest.NET
             TTMessage msg = new TTMessage();
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CON_MAX_PAYLOAD_UPDATED, 1000, ref msg), "payload");
 
-            int payload = (int)msg.DataToObject();
+            int payload = msg.nPayloadSize;
             Assert.IsTrue(payload > 0, "payload up");
 
             ClientStatistics stats = new ClientStatistics();
@@ -1067,7 +1067,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.DoQueryServerStats()>0);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_SERVERSTATISTICS, DEF_WAIT, ref msg));
 
-            ServerStatistics stats = (ServerStatistics)msg.DataToObject();
+            ServerStatistics stats = msg.serverstatistics;
             Assert.IsTrue(stats.nTotalBytesRX > 0);
         }
 
@@ -1123,23 +1123,23 @@ namespace TeamTalkTest.NET
             TTMessage msg = new TTMessage();
             while (WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_UPDATE, DEF_WAIT, ref msg))
             {
-                if (((User)msg.DataToObject()).nUserID == ttclient.GetMyUserID())
+                if (msg.user.nUserID == ttclient.GetMyUserID())
                     break;
             }
-            Assert.AreEqual(ttclient.GetMyUserID(), ((User)msg.DataToObject()).nUserID, "me updated nick");
-            Assert.AreEqual(newnick, ((User)msg.DataToObject()).szNickname, "me updated nick");
+            Assert.AreEqual(ttclient.GetMyUserID(), msg.user.nUserID, "me updated nick");
+            Assert.AreEqual(newnick, msg.user.szNickname, "me updated nick");
 
             int mode = 34343;
             string newstatus = "New Status";
             cmdid = ttclient.DoChangeStatus(mode, newstatus);
             while (WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_USER_UPDATE, DEF_WAIT, ref msg))
             {
-                if (((User)msg.DataToObject()).nUserID == ttclient.GetMyUserID())
+                if (msg.user.nUserID == ttclient.GetMyUserID())
                     break;
             }
-            Assert.AreEqual(ttclient.GetMyUserID(), ((User)msg.DataToObject()).nUserID, "me updated status");
-            Assert.AreEqual(newstatus, ((User)msg.DataToObject()).szStatusMsg, "me updated status");
-            Assert.AreEqual(mode, ((User)msg.DataToObject()).nStatusMode, "me updated status");
+            Assert.AreEqual(ttclient.GetMyUserID(), msg.user.nUserID, "me updated status");
+            Assert.AreEqual(newstatus, msg.user.szStatusMsg, "me updated status");
+            Assert.AreEqual(mode, msg.user.nStatusMode, "me updated status");
         }
 
         [TestMethod]
@@ -1197,7 +1197,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdSuccess(ttclient, cmdid, DEF_WAIT), "send tx msg to userid");
 
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, ref msg), "recv text msg");
-            TextMessage recv_txtmsg = (TextMessage)msg.DataToObject();
+            TextMessage recv_txtmsg = msg.textmessage;
 
             Assert.AreEqual(txtmsg.nMsgType, recv_txtmsg.nMsgType);
             Assert.AreEqual(txtmsg.nChannelID, recv_txtmsg.nChannelID);
@@ -1211,7 +1211,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdSuccess(ttclient, cmdid, DEF_WAIT), "send custom tx msg to userid");
 
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_USER_TEXTMSG, DEF_WAIT, ref msg), "recv custom text msg");
-            recv_txtmsg = (TextMessage)msg.DataToObject();
+            recv_txtmsg = msg.textmessage;
 
             Assert.AreEqual(txtmsg.nMsgType, recv_txtmsg.nMsgType);
             Assert.AreEqual(txtmsg.nChannelID, recv_txtmsg.nChannelID);
@@ -1254,7 +1254,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient.DoTextMessage(txtmsg);
             Assert.IsTrue(cmdid > 0, "text msg issued");
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_ERROR, DEF_WAIT, ref msg), "protocol error");
-            ClientErrorMsg errmsg = (ClientErrorMsg)msg.DataToObject();
+            ClientErrorMsg errmsg = msg.clienterrormsg;
             Assert.AreEqual((int)ClientError.CMDERR_INCOMPATIBLE_PROTOCOLS, errmsg.nErrorNo);
         }
 
@@ -1387,7 +1387,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, ref msg));
 
-            Channel chan2 = (Channel)msg.DataToObject();
+            Channel chan2 = msg.channel;
 
             Assert.AreEqual(chan.szPassword, chan2.szPassword);
 
@@ -1488,7 +1488,7 @@ namespace TeamTalkTest.NET
                             cmdsuccess = msg.nSource == cmdid;
                         break;
                     case ClientEvent.CLIENTEVENT_FILETRANSFER:
-                        FileTransfer tmp = (FileTransfer)msg.DataToObject();
+                        FileTransfer tmp = msg.filetransfer;
                         switch (tmp.nStatus)
                         {
                             case FileTransferStatus.FILETRANSFER_ACTIVE:
@@ -1502,7 +1502,7 @@ namespace TeamTalkTest.NET
                         break;
                     case ClientEvent.CLIENTEVENT_CMD_FILE_NEW:
                         newfile = true;
-                        file = (RemoteFile)msg.DataToObject();
+                        file = msg.remotefile;
                         break;
                 }
             }
@@ -1550,7 +1550,7 @@ namespace TeamTalkTest.NET
                         break;
                     case ClientEvent.CLIENTEVENT_FILETRANSFER:
 
-                        FileTransfer tmp = (FileTransfer)msg.DataToObject();
+                        FileTransfer tmp = msg.filetransfer;
                         switch (tmp.nStatus)
                         {
                             case FileTransferStatus.FILETRANSFER_ACTIVE:
@@ -1587,7 +1587,7 @@ namespace TeamTalkTest.NET
                     case ClientEvent.CLIENTEVENT_CMD_SUCCESS:
                         break;
                     case ClientEvent.CLIENTEVENT_FILETRANSFER:
-                        rxactive = (FileTransfer)msg.DataToObject();
+                        rxactive = msg.filetransfer;
                         break;
                 }
             }
@@ -1603,14 +1603,14 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdSuccess(ttclient, cmdid, DEF_WAIT), "reg upload success");
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_FILETRANSFER, 10000, ref msg), "File transfer active");
-            tx = (FileTransfer)msg.DataToObject();
+            tx = msg.filetransfer;
             Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, tx.nStatus);
             Assert.IsFalse(tx.bInbound, "Upload bound");
             Assert.AreEqual(ttclient.GetMyChannelID(), tx.nChannelID);
             Assert.AreEqual(UPLOADFILE, tx.szLocalFilePath);
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_FILETRANSFER, 2000, ref msg), "File transfer active");
-            tx = (FileTransfer)msg.DataToObject();
+            tx = msg.filetransfer;
             Assert.IsFalse(tx.bInbound);
             Assert.AreEqual(ttclient.GetMyChannelID(), tx.nChannelID);
             Assert.AreEqual(UPLOADFILE, tx.szLocalFilePath);
@@ -1660,7 +1660,7 @@ namespace TeamTalkTest.NET
 
             cmdid = ttclient2.DoMakeChannel(chan);
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, ref msg), "add chan");
-            Channel chan2 = (Channel)msg.DataToObject();
+            Channel chan2 = msg.channel;
             Channel permChan = chan2;
 
             Assert.AreEqual(chan.nParentID, chan2.nParentID);
@@ -1705,7 +1705,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient.DoJoinChannel(chan);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, ref msg), "join complete");
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
-            chan2 = (Channel)msg.DataToObject();
+            chan2 = msg.channel;
 
             Assert.AreEqual(chan.nParentID, chan2.nParentID);
             Assert.AreEqual(chan.uChannelType, chan2.uChannelType);
@@ -1741,7 +1741,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient.DoUpdateChannel(chan);
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, ref msg), "update complete");
-            chan2 = (Channel)msg.DataToObject();
+            chan2 = msg.channel;
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
 
             Assert.AreEqual(chan.nParentID, chan2.nParentID);
@@ -1894,7 +1894,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(cmdid > 0, "login issued");
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, ref msg), "login complete");
             Assert.IsTrue(WaitCmdSuccess(ttclient2, cmdid, DEF_WAIT));
-            prop2 = (ServerProperties)msg.DataToObject();
+            prop2 = msg.serverproperties;
             Assert.IsTrue(ttclient2.GetServerProperties(ref org_prop));
 
             Assert.AreEqual(prop.nMaxDesktopTxPerSecond, prop2.nMaxDesktopTxPerSecond);
@@ -1946,7 +1946,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient2.DoUpdateServer(prop);
             Assert.IsTrue(cmdid > 0, "issued srv upd");
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, ref msg), "srv upd");
-            prop2 = (ServerProperties)msg.DataToObject();
+            prop2 = msg.serverproperties;
 
             Assert.AreEqual(prop.nMaxDesktopTxPerSecond, prop2.nMaxDesktopTxPerSecond);
             Assert.AreEqual(prop.nMaxLoginsPerIPAddress, prop2.nMaxLoginsPerIPAddress);
@@ -1977,7 +1977,7 @@ namespace TeamTalkTest.NET
             cmdid = ttclient2.DoUpdateServer(org_prop);
             Assert.IsTrue(cmdid > 0, "issued srv upd");
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_CMD_SERVER_UPDATE, DEF_WAIT, ref msg), "srv upd to original");
-            prop2 = (ServerProperties)msg.DataToObject();
+            prop2 = msg.serverproperties;
             Assert.AreEqual(org_prop.nMaxDesktopTxPerSecond, prop2.nMaxDesktopTxPerSecond);
             Assert.AreEqual(org_prop.nMaxLoginsPerIPAddress, prop2.nMaxLoginsPerIPAddress);
             Assert.AreEqual(org_prop.nMaxMediaFileTxPerSecond, prop2.nMaxMediaFileTxPerSecond);
@@ -2147,9 +2147,9 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoJoinChannel(chan), DEF_WAIT));
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoSendFile(ttclient2.GetMyChannelID(), UPLOADFILE), DEF_WAIT));
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_FILETRANSFER, 20000, ref msg));
-            Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, ((FileTransfer)msg.DataToObject()).nStatus);
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus);
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_FILETRANSFER, 20000, ref msg));
-            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, ((FileTransfer)msg.DataToObject()).nStatus);
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, msg.filetransfer.nStatus);
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoLogout(), DEF_WAIT));
 
             //USERRIGHT_DOWNLOAD_FILES
@@ -2166,9 +2166,9 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient2.GetChannelFiles(ttclient2.GetMyChannelID(), out files));
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoRecvFile(files[0].nChannelID, files[0].nFileID, DOWNLOADFILE), DEF_WAIT));
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_FILETRANSFER, 20000, ref msg));
-            Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, ((FileTransfer)msg.DataToObject()).nStatus);
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_ACTIVE, msg.filetransfer.nStatus);
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_FILETRANSFER, 20000, ref msg));
-            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, ((FileTransfer)msg.DataToObject()).nStatus);
+            Assert.AreEqual(FileTransferStatus.FILETRANSFER_FINISHED, msg.filetransfer.nStatus);
 
             Assert.IsTrue(WaitCmdSuccess(ttclient2, ttclient2.DoLogout(), DEF_WAIT));
 
@@ -2392,7 +2392,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue((cmdid = ttclient.DoJoinChannel(chan))>0);
             
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, ref msg));
-            chan = (Channel)msg.DataToObject();
+            chan = msg.channel;
 
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
 
@@ -2410,24 +2410,24 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue((cmdid = ttclient.DoUpdateChannel(chan)) > 0);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, ref msg));
-            chan = (Channel)msg.DataToObject();
+            chan = msg.channel;
 
             Assert.AreEqual(ttclient.ChannelID, ttclient2.ChannelID);
             Assert.IsTrue(chan.GetTransmitStreamTypes(ttclient.UserID) == StreamType.STREAMTYPE_VOICE, "get transmitUsers");
 
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 30000, ref msg), "voice");
 
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.AreEqual(ttclient.UserID, user.nUserID);
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE));
 
             chan.RemoveTransmitUser(ttclient.UserID, StreamType.STREAMTYPE_VOICE);
             Assert.IsTrue((cmdid = ttclient.DoUpdateChannel(chan)) > 0);
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_UPDATE, DEF_WAIT, ref msg));
-            chan = (Channel)msg.DataToObject();
+            chan = msg.channel;
 
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 10000, ref msg), "no voice");
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.AreEqual(ttclient.UserID, user.nUserID);
             Assert.IsFalse(user.uUserState.HasFlag(UserState.USERSTATE_VOICE));
         }
@@ -2468,7 +2468,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue((cmdid = ttclient.DoJoinChannel(chan)) > 0);
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_CHANNEL_NEW, DEF_WAIT, ref msg));
-            chan = (Channel)msg.DataToObject();
+            chan = msg.channel;
 
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT));
 
@@ -2487,7 +2487,7 @@ namespace TeamTalkTest.NET
             Assert.IsTrue(ttclient.EnableVoiceTransmission(true));
             Assert.IsTrue(WaitForEvent(ttclient2, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 500, ref msg), "voice");
 
-            user = (User)msg.DataToObject();
+            user = msg.user;
             Assert.AreEqual(ttclient.UserID, user.nUserID);
             Assert.IsTrue(user.uUserState.HasFlag(UserState.USERSTATE_VOICE));
         }
@@ -2661,7 +2661,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 1000, ref msg), "Record media file event");
 
-            MediaFileInfo fileinfo = (MediaFileInfo)msg.DataToObject();
+            MediaFileInfo fileinfo = msg.mediafileinfo;
             Assert.AreEqual(ttclient.GetMyUserID(), msg.nSource, "Self record voice");
             Assert.IsTrue(fileinfo.nStatus == MediaFileStatus.MFS_STARTED, "Started recording");
 
@@ -2669,7 +2669,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_RECORD_MEDIAFILE, 5000, ref msg), "Record media file event 2");
 
-            fileinfo = (MediaFileInfo)msg.DataToObject();
+            fileinfo = msg.mediafileinfo;
             Assert.AreEqual(ttclient.GetMyUserID(), msg.nSource, "Self record voice");
             Assert.IsTrue(fileinfo.nStatus == MediaFileStatus.MFS_FINISHED, "Started recording");
 
@@ -2720,7 +2720,7 @@ namespace TeamTalkTest.NET
 
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, ref msg));
 
-            Assert.IsTrue((StreamType)msg.DataToObject() == StreamType.STREAMTYPE_VOICE);
+            Assert.IsTrue(msg.nStreamType == StreamType.STREAMTYPE_VOICE);
             
             AudioBlock block = ttclient.AcquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, ttclient.UserID);
 
@@ -2739,7 +2739,7 @@ namespace TeamTalkTest.NET
             while (n_voice_blocks < 100 || n_mfa_blocks < 100)
             {
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, ref msg));
-                switch((StreamType)msg.DataToObject())
+                switch(msg.nStreamType)
                 {
                     case StreamType.STREAMTYPE_VOICE :
                         n_voice_blocks++;
@@ -2894,7 +2894,7 @@ namespace TeamTalkTest.NET
 
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, 1000, ref msg));
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 1000, ref msg));
-                Assert.IsTrue(((User)msg.DataToObject()).uUserState.HasFlag(UserState.USERSTATE_VOICE));
+                Assert.IsTrue((msg.user).uUserState.HasFlag(UserState.USERSTATE_VOICE));
 
                 do
                 {
@@ -2908,7 +2908,7 @@ namespace TeamTalkTest.NET
                 Assert.IsTrue(ttclient.EnableVoiceTransmission(false));
 
                 Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_STATECHANGE, 1000, ref msg));
-                Assert.IsFalse(((User)msg.DataToObject()).uUserState.HasFlag(UserState.USERSTATE_VOICE));
+                Assert.IsFalse((msg.user).uUserState.HasFlag(UserState.USERSTATE_VOICE));
 
                 WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_NONE, SILENCE_DURATION);
 
@@ -2989,7 +2989,7 @@ namespace TeamTalkTest.NET
             TTMessage msg = new TTMessage();
             Assert.IsTrue(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_MYSELF_LOGGEDIN, DEF_WAIT, ref msg), "wait login");
 
-            UserAccount account = (UserAccount)msg.DataToObject();
+            UserAccount account = msg.useraccount;
             Assert.AreEqual(username, account.szUsername, "username set");
             //Assert.AreEqual(passwd, account.szPassword, "password set");
             Assert.IsTrue(WaitCmdComplete(ttclient, cmdid, DEF_WAIT), "Wait login complete");
@@ -3058,7 +3058,7 @@ namespace TeamTalkTest.NET
 
             while (WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_CMD_PROCESSING, waittimeout, ref msg))
             {
-                if (msg.nSource == cmdid && (bool)msg.DataToObject() == false)
+                if (msg.nSource == cmdid && msg.bActive == false)
                     return true;
             }
             return false;
