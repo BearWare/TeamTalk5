@@ -2148,6 +2148,12 @@ private EditText newmsg;
                 channelsAdapter.notifyDataSetChanged();
             }
         }
+        else if (user.nUserID != getClient().getMyUserID() && ttsWrapper != null && prefs.get("all_channel_join_checkbox", false)) {
+            String name = Utils.getDisplayName(getBaseContext(), user);
+            Channel targetChan = getService().getChannels().get(user.nChannelID);
+            String chanName = (targetChan.nParentID == 0) ? getString(R.string.text_root_chan) : targetChan.szName;
+            ttsWrapper.speak(getString(R.string.text_tts_user_joined_other_channel, name, chanName));
+        }
         else if (isVisibleChannel(user.nChannelID)) {
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
@@ -2191,6 +2197,12 @@ private EditText newmsg;
                 }
             }
             accessibilityAssistant.unlockEvents();
+        }
+        else if (user.nUserID != getClient().getMyUserID() && ttsWrapper != null && prefs.get("all_channel_leave_checkbox", false)) {
+            String name = Utils.getDisplayName(getBaseContext(), user);
+            Channel targetChan = getService().getChannels().get(channelid);
+            String chanName = (targetChan.nParentID == 0) ? getString(R.string.text_root_chan) : targetChan.szName;
+            ttsWrapper.speak(getString(R.string.text_tts_user_left_other_channel, name, chanName));
         }
         else if (isVisibleChannel(channelid)) {
             accessibilityAssistant.lockEvents();
