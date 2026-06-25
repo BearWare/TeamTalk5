@@ -233,6 +233,16 @@
     <string name="action_move">Move Here</string>
     <string name="action_select">Select For Move</string>
     <string name="action_deselect">Deselect For Move</string>
+    <string name="action_allowvoice">Allow voice transmission for everyone</string>
+    <string name="action_disallowvoice">Disallow voice transmission for everyone</string>
+    <string name="action_allowvideo">Allow video transmission for everyone</string>
+    <string name="action_disallowvideo">Disallow video transmission for everyone</string>
+    <string name="action_allowdesktop">Allow desktop transmission for everyone</string>
+    <string name="action_disallowdesktop">Disallow desktop transmission for everyone</string>
+    <string name="action_allowmedia">Allow media files transmission for everyone</string>
+    <string name="action_disallowmedia">Disallow media files transmission for everyone</string>
+    <string name="action_allowchanmsg">Allow channel text messages for everyone</string>
+    <string name="action_disallowchanmsg">Disallow channel text messages for everyone</string>
     <string name="action_exportsrv">Export server</string>
     <string name="action_editsrv">Edit server</string>
     <string name="action_removesrv">Remove server</string>

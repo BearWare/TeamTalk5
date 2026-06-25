@@ -109,12 +109,15 @@ import java.util.Optional;
 import java.util.Vector;
 
 import dk.bearware.Channel;
+import dk.bearware.ChannelType;
 import dk.bearware.ClientFlag;
 import dk.bearware.ClientStatistics;
+import dk.bearware.Constants;
 import dk.bearware.RemoteFile;
 import dk.bearware.ServerProperties;
 import dk.bearware.SoundDeviceConstants;
 import dk.bearware.SoundLevel;
+import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.TextMessage;
@@ -1528,24 +1531,29 @@ private EditText newmsg;
     @Override
     public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
         Object item = channelsAdapter.getItem(position);
+
+        UserAccount myuseraccount = new UserAccount();
+        getClient().getMyUserAccount(myuseraccount);
+
+        User everyone = new User();
+        everyone.nUserID = Constants.TT_CLASSROOM_FREEFORALL;
+
+        boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != UserRight.USERRIGHT_NONE;
+        boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+        boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != UserRight.USERRIGHT_NONE;
+        boolean modifyRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MODIFY_CHANNELS) != UserRight.USERRIGHT_NONE;
+        int myuserid = getClient().getMyUserID();
+
         if (item instanceof User) {
             selectedUser = (User) item;
-            UserAccount myuseraccount = new UserAccount();
-            getClient().getMyUserAccount(myuseraccount);
-
-            boolean banRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) != UserRight.USERRIGHT_NONE;
-            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
-            boolean kickRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != UserRight.USERRIGHT_NONE;
             // operator of a channel can also kick users
-            int myuserid = getClient().getMyUserID();
             boolean operatorRight = getClient().isChannelOperator(myuserid, selectedUser.nChannelID);
-
             PopupMenu userActions = new PopupMenu(this, v);
             userActions.setOnMenuItemClickListener(this);
             userActions.inflate(R.menu.user_actions);
-            userActions.getMenu().findItem(R.id.action_kickchan).setEnabled(kickRight | operatorRight).setVisible(kickRight | operatorRight);
+            userActions.getMenu().findItem(R.id.action_kickchan).setEnabled(kickRight || operatorRight).setVisible(kickRight || operatorRight);
             userActions.getMenu().findItem(R.id.action_kicksrv).setEnabled(kickRight).setVisible(kickRight);
-            userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight | operatorRight).setVisible(banRight | operatorRight);
+            userActions.getMenu().findItem(R.id.action_banchan).setEnabled(banRight || operatorRight).setVisible(banRight || operatorRight);
             userActions.getMenu().findItem(R.id.action_bansrv).setEnabled(banRight).setVisible(banRight);
             userActions.getMenu().findItem(R.id.action_makeop).setTitle(getClient().isChannelOperator(selectedUser.nUserID , selectedUser.nChannelID) ? R.string.action_revoke_operator : R.string.action_make_operator);
             userActions.getMenu().findItem(R.id.action_select).setTitle(userIDS.contains(selectedUser.nUserID) ? R.string.action_deselect : R.string.action_select);
@@ -1555,14 +1563,24 @@ private EditText newmsg;
         }
         if (item instanceof Channel) {
             selectedChannel = (Channel) item;
-            UserAccount myuseraccount = new UserAccount();
-            getClient().getMyUserAccount(myuseraccount);
-
-            boolean moveRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_MOVE_USERS) != UserRight.USERRIGHT_NONE;
+            boolean operatorRight = getClient().isChannelOperator(myuserid, selectedChannel.nChannelID);
+            boolean isClassroom = (selectedChannel.uChannelType & ChannelType.CHANNEL_CLASSROOM) != 0;
             PopupMenu channelActions = new PopupMenu(this, v);
             channelActions.setOnMenuItemClickListener(this);
             channelActions.inflate(R.menu.channel_actions);
+            channelActions.getMenu().findItem(R.id.action_edit).setEnabled(modifyRight || operatorRight).setVisible(modifyRight || operatorRight);
             channelActions.getMenu().findItem(R.id.action_move).setEnabled(moveRight && !userIDS.isEmpty()).setVisible(moveRight && !userIDS.isEmpty());
+            channelActions.getMenu().findItem(R.id.action_remove).setEnabled(modifyRight).setVisible(modifyRight);
+            channelActions.getMenu().findItem(R.id.action_allowvoice).setEnabled(isClassroom && (modifyRight || operatorRight)).setVisible(isClassroom && (modifyRight || operatorRight));
+            channelActions.getMenu().findItem(R.id.action_allowvoice).setTitle(Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_VOICE) ? R.string.action_disallowvoice : R.string.action_allowvoice);
+            channelActions.getMenu().findItem(R.id.action_allowvideo).setEnabled(isClassroom && (modifyRight || operatorRight)).setVisible(isClassroom && (modifyRight || operatorRight));
+            channelActions.getMenu().findItem(R.id.action_allowvideo).setTitle(Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_VIDEOCAPTURE) ? R.string.action_disallowvideo : R.string.action_allowvideo);
+            channelActions.getMenu().findItem(R.id.action_allowdesktop).setEnabled(isClassroom && (modifyRight || operatorRight)).setVisible(isClassroom && (modifyRight || operatorRight));
+            channelActions.getMenu().findItem(R.id.action_allowdesktop).setTitle(Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_DESKTOP) ? R.string.action_disallowdesktop : R.string.action_allowdesktop);
+            channelActions.getMenu().findItem(R.id.action_allowmedia).setEnabled(isClassroom && (modifyRight || operatorRight)).setVisible(isClassroom && (modifyRight || operatorRight));
+            channelActions.getMenu().findItem(R.id.action_allowmedia).setTitle(Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_MEDIAFILE) ? R.string.action_disallowmedia : R.string.action_allowmedia);
+            channelActions.getMenu().findItem(R.id.action_allowchanmsg).setEnabled(isClassroom && (modifyRight || operatorRight)).setVisible(isClassroom && (modifyRight || operatorRight));
+            channelActions.getMenu().findItem(R.id.action_allowchanmsg).setTitle(Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_CHANNELMSG) ? R.string.action_disallowchanmsg : R.string.action_allowchanmsg);
             channelActions.show();
             return true;
         }
@@ -1572,6 +1590,13 @@ private EditText newmsg;
     @Override
     public boolean onMenuItemClick(MenuItem item) {
         AlertDialog.Builder alert = new AlertDialog.Builder(this);
+
+        UserAccount myuseraccount = new UserAccount();
+        getClient().getMyUserAccount(myuseraccount);
+
+        User everyone = new User();
+        everyone.nUserID = Constants.TT_CLASSROOM_FREEFORALL;
+
         int itemId = item.getItemId();
         if (itemId == R.id.action_banchan) {
             alert.setMessage(getString(R.string.ban_confirmation, selectedUser.szNickname));
@@ -1609,8 +1634,6 @@ private EditText newmsg;
             alert.setNegativeButton(android.R.string.no, null);
             alert.show();
         } else if (itemId == R.id.action_makeop) {
-            UserAccount myuseraccount = new UserAccount();
-            getClient().getMyUserAccount(myuseraccount);
             if ((myuseraccount.uUserRights & UserRight.USERRIGHT_OPERATOR_ENABLE) != UserRight.USERRIGHT_NONE) {
                 getClient().doChannelOp(selectedUser.nUserID, selectedUser.nChannelID, !getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID));
             } else {
@@ -1637,6 +1660,26 @@ private EditText newmsg;
             accessibilityAssistant.lockEvents();
             channelsAdapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
+        } else if (itemId == R.id.action_allowvoice) {
+            boolean allowed = Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_VOICE);
+            Utils.toggleTransmitUsers(everyone, selectedChannel, StreamType.STREAMTYPE_VOICE, !allowed);
+            getClient().doUpdateChannel(selectedChannel);
+        } else if (itemId == R.id.action_allowvideo) {
+            boolean allowed = Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_VIDEOCAPTURE);
+            Utils.toggleTransmitUsers(everyone, selectedChannel, StreamType.STREAMTYPE_VIDEOCAPTURE, !allowed);
+            getClient().doUpdateChannel(selectedChannel);
+        } else if (itemId == R.id.action_allowdesktop) {
+            boolean allowed = Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_DESKTOP);
+            Utils.toggleTransmitUsers(everyone, selectedChannel, StreamType.STREAMTYPE_DESKTOP, !allowed);
+            getClient().doUpdateChannel(selectedChannel);
+        } else if (itemId == R.id.action_allowmedia) {
+            boolean allowed = Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_MEDIAFILE);
+            Utils.toggleTransmitUsers(everyone, selectedChannel, StreamType.STREAMTYPE_MEDIAFILE, !allowed);
+            getClient().doUpdateChannel(selectedChannel);
+        } else if (itemId == R.id.action_allowchanmsg) {
+            boolean allowed = Utils.isTransmitAllowed(everyone, selectedChannel, StreamType.STREAMTYPE_CHANNELMSG);
+            Utils.toggleTransmitUsers(everyone, selectedChannel, StreamType.STREAMTYPE_CHANNELMSG, !allowed);
+            getClient().doUpdateChannel(selectedChannel);
         } else if (itemId == R.id.action_remove) {
             alert.setMessage(getString(R.string.channel_remove_confirmation, selectedChannel.szName));
             alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
