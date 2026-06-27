@@ -65,9 +65,6 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.AdapterView;
-import android.widget.AdapterView.OnItemClickListener;
-import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -146,8 +143,6 @@ import dk.bearware.utils.PrefsHelper;
 public class MainActivity
 extends AppCompatActivity
         implements TeamTalkConnectionListener,
-        OnItemClickListener,
-        OnItemLongClickListener,
         OnMenuItemClickListener,
         SensorEventListener,
         OnVoiceTransmissionToggleListener,
@@ -1033,8 +1028,6 @@ extends AppCompatActivity
 
             ListView channelsList = rootView.findViewById(R.id.listChannels);
             channelsList.setAdapter(mainActivity.getChannelsAdapter());
-            channelsList.setOnItemClickListener(mainActivity);
-            channelsList.setOnItemLongClickListener(mainActivity);
 
             return rootView;
         }
@@ -1427,6 +1420,10 @@ private EditText newmsg;
                 sndmsg.setOnClickListener(listener);
                 sndmsg.setAccessibilityDelegate(accessibilityAssistant);
             }
+            final Object rowItem = item;
+            convertView.setOnClickListener(view -> onChannelItemClick(rowItem));
+            convertView.setOnLongClickListener(view -> onChannelItemLongClick(rowItem, view));
+
             convertView.setAccessibilityDelegate(accessibilityAssistant);
             return convertView;
         }
@@ -1508,10 +1505,7 @@ private EditText newmsg;
 
     }
 
-    @Override
-    public void onItemClick(AdapterView< ? > l, View v, int position, long id) {
-
-        Object item = channelsAdapter.getItem(position);
+    private void onChannelItemClick(Object item) {
         if(item instanceof User user) {
             Intent intent = new Intent(this, UserPropActivity.class);
             // TODO: check 'curchannel' for null
@@ -1528,10 +1522,7 @@ private EditText newmsg;
     User selectedUser;
     List<Integer> userIDS = new ArrayList<>();
 
-    @Override
-    public boolean onItemLongClick(AdapterView< ? > l, View v, int position, long id) {
-        Object item = channelsAdapter.getItem(position);
-
+    private boolean onChannelItemLongClick(Object item, View v) {
         UserAccount myuseraccount = new UserAccount();
         getClient().getMyUserAccount(myuseraccount);
 
