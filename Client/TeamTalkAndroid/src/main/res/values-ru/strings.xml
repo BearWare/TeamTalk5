@@ -15,6 +15,7 @@
     <string name="title_activity_channel_prop">Свойства Канала</string>
     <string name="title_activity_user_prop">Свойства Пользователя</string>
     <string name="title_activity_text_message">Текстовое Сообщение</string>
+    <string name="text_user_typing_title">%1$s печатает...</string>
     <string name="title_activity_preferences">Настройки</string>
     <string name="title_activity_stream_media">Трансляция медиафайла в канале</string>
     <string name="action_createchannel">Создать</string>
@@ -54,7 +55,9 @@
     <string name="pref_summary_vox_audio_icon">Звуковое оповещение о нажатии кнопки голосовой активации</string>
     <string name="pref_title_vox_triggered_icon">Срабатывание голосовой активации</string>
     <string name="pref_summary_vox_triggered_icon">Звуковое оповещение о включении / выключении передачи при голосовой активации</string>
-    <string name="pref_title_intercept_audio_icon">Звуковой сигнал перехвата</string>
+    <string name="pref_title_typing_icon">Звуковая индикация печати пользователя</string>
+    <string name="pref_summary_typing_icon">Воспроизводить звук когда пользователь печатает личное сообщение</string>
+    <string name="pref_title_intercept_audio_icon">Звуковая индикация перехвата</string>
     <string name="pref_summary_intercept_audio_icon">Звуковое оповещение о начале и завершении перехвата</string>
     <string name="pref_title_private_message_audio_icon">Личное сообщение</string>
     <string name="pref_summary_private_message_audio_icon">Звуковое оповещение о приходе личного сообщения</string>
@@ -100,10 +103,14 @@
     <string name="pref_summary_server_login">Объявлять имя входящего пользователя</string>
     <string name="pref_title_server_logout">Уход пользователя с сервера</string>
     <string name="pref_summary_server_logout">Объявлять имя уходящего пользователя</string>
-    <string name="pref_title_channel_join">Подключение пользователя к каналу</string>
-    <string name="pref_summary_channel_join">Объявлять имя подключающегося пользователя</string>
-    <string name="pref_title_channel_leave">Отключение пользователя от канала</string>
-    <string name="pref_summary_channel_leave">Объявлять имя пользователя, покидающего канал</string>
+    <string name="pref_title_all_channel_join">Подключение пользователей к другим каналам</string>
+    <string name="pref_summary_all_channel_join">Объявлять имена пользователей, подключающихся к другим каналам</string>
+    <string name="pref_title_all_channel_leave">Отключение пользователей от других каналов</string>
+    <string name="pref_summary_all_channel_leave">Объявлять имена пользователей, покидающих другие каналы</string>
+    <string name="pref_title_channel_join">Подключение пользователей к текущему каналу</string>
+    <string name="pref_summary_channel_join">Объявлять имена пользователей, подключающихся к текущему каналу</string>
+    <string name="pref_title_channel_leave">Отключение пользователей от текущего канала</string>
+    <string name="pref_summary_channel_leave">Объявлять имена пользователей, покидающих текущий канал</string>
     <string name="pref_title_private_message">Личные сообщения</string>
     <string name="pref_summary_private_message">Озвучивать личные сообщения</string>
     <string name="pref_title_channel_message">Сообщения канала</string>
@@ -124,6 +131,8 @@
     <string name="pref_summary_subscription_desk">Объявлять подписку на сессии рабочего стола</string>
     <string name="pref_title_subscription_media">Подписка на медиатрансляцию</string>
     <string name="pref_summary_subscription_media">Объявлять подписку на медиатрансляцию</string>
+    <string name="pref_title_typing">Пользователь печатает</string>
+    <string name="pref_summary_typing">Объявлять когда пользователь печатает личное сообщение</string>
     <string name="pref_title_subscription_intercept_user_msg">Перехват пользовательских сообщений</string>
     <string name="pref_summary_subscription_intercept_user_msg">Объявлять перехват пользовательских сообщений</string>
     <string name="pref_title_subscription_intercept_channel_msg">Перехват сообщений канала</string>
@@ -166,6 +175,9 @@
 
     <string name="text_tts_loggedin">вошел</string>
     <string name="text_tts_loggedout">ушел</string>
+    <string name="text_tts_user_joined_other_channel">%1$s присоединился к каналу %2$s</string>
+    <string name="text_tts_user_left_other_channel">%1$s покинул канал %2$s</string>
+    <string name="text_root_chan">корневой</string>
     <string name="text_tts_joined_chan">присоединился к каналу</string>
     <string name="text_tts_left_chan">покинул канал</string>
     <string name="text_tts_private_message">Личное сообщение от %1$s - %2$s</string>
@@ -203,6 +215,9 @@
     
     <string name="button_tx">Речь</string>
     <string name="button_remove">Удалить</string>
+    <string name="action_cancel">Отменить загрузку</string>
+    <string name="action_downloadfile">Загрузить файл</string>
+    <string name="action_removefile">Удалить файл</string>
     <string name="action_banchan">Запретить вход в текущий канал</string>
     <string name="action_bansrv">Запретить вход на сервер</string>
     <string name="action_edit">Редактировать Свойства</string>
@@ -215,12 +230,28 @@
     <string name="action_move">Переместить Сюда</string>
     <string name="action_select">Выбрать Для Перемещения</string>
     <string name="action_deselect">Отменить Выбор</string>
+    <string name="action_allowvoice">Разрешить трансляцию голоса всем</string>
+    <string name="action_disallowvoice">Запретить трансляцию голоса всем</string>
+    <string name="action_allowvideo">Разрешить трансляцию видео всем</string>
+    <string name="action_disallowvideo">Запретить трансляцию видео всем</string>
+    <string name="action_allowdesktop">Разрешить трансляцию рабочего стола всем</string>
+    <string name="action_disallowdesktop">Запретить трансляцию рабочего стола всем</string>
+    <string name="action_allowmedia">Разрешить трансляцию медиафайлов всем</string>
+    <string name="action_disallowmedia">Запретить трансляцию медиафайлов всем</string>
+    <string name="action_allowchanmsg">Разрешить текстовые сообщения в каналах всем</string>
+    <string name="action_disallowchanmsg">Запретить текстовые сообщения в каналах всем</string>
     <string name="action_exportsrv">Экспортировать сервер</string>
     <string name="action_editsrv">Редактировать сервер</string>
     <string name="action_removesrv">Удалить сервер</string>
     <string name="action_upload">Выложить файл</string>
     <string name="action_broadcast">Широковещательное сообщение</string>
     <string name="action_stream">Трансляция медиафайла</string>
+    <string name="action_statusnick">Изменить Псевдоним и Состояние</string>
+    <string name="action_copyname">Копировать Имя</string>
+    <string name="action_copymessage">Копировать Только Содержание</string>
+    <string name="action_deletemessage">Удалить</string>
+    <string name="action_clear">Очистить</string>
+    <string name="text_no_browser">Не найдено ни одного приложения чтобы открыть эту ссылку</string>
     <string name="button_select_media_file">Просмотр</string>
     <string name="button_stream_media_file">Трансляция</string>
     <string name="button_msg">Сообщение</string>
@@ -248,8 +279,12 @@
     <string name="user_prop_title_ipaddress">IP Адрес:</string>
     <string name="user_prop_title_voice_volume">Громкость Голоса</string>
     <string name="user_prop_title_mute_voice">Выключить Голос</string>
+    <string name="user_prop_title_mute_voice_left">Выключить Голос в Левом Канале</string>
+    <string name="user_prop_title_mute_voice_right">Выключить Голос в Правом Канале</string>
     <string name="user_prop_title_media_volume">Громкость Проигрывания Медиафайлов</string>
     <string name="user_prop_title_mute_media">Выключить Проигрывание Медиафайлов</string>
+    <string name="user_prop_title_mute_media_left">Выключить Проигрывание Медиафайлов в Левом Канале</string>
+    <string name="user_prop_title_mute_media_right">Выключить Проигрывание Медиафайлов в Правом Канале</string>
     <string name="user_prop_title_subscribe_txtmsg">Сообщения пользователя</string>
     <string name="user_prop_title_subscribe_chanmsg">Сообщения канала</string>
     <string name="user_prop_title_subscribe_bcastmsg">Сетевые сообщения</string>
@@ -298,6 +333,11 @@
     <string name="action_refresh">Обновить Список</string>
     <string name="action_import_serverlist">Импортировать из Файла</string>
     <string name="action_export_serverlist">Экспортировать список серверов</string>
+    <string name="action_enter_joincode">Введите Код Присоединения</string>
+    <string name="text_specify_joincode">Код Присоединения к серверу</string>
+    <string name="err_enter_joincode">Неверный Код Присоединения к серверу</string>
+    <string name="pref_title_joincode">Код Присоединения для Облегченной Регистрации</string>
+    <string name="text_joincode">Код Присоединения</string>
     <string name="serverlist_export_confirmation">Список серверов сохранен в %1$s</string>
     <string name="server_export_confirmation">Сервер экспортирован в %1$s</string>
 
@@ -333,6 +373,7 @@
     <string name="transfer_stopped">Закачка остановлена</string>
     <string name="complete">Готово</string>
     <string name="remote_file_exists">Файл %1$s уже лежит на сервере в этом канале</string>
+    <string name="cancel_transfer_confirmation">Вы действительно хотите отменить загрузку %1$s?</string>
     <string name="remote_file_remove_confirmation">Вы действительно намерены удалить файл %1$s с сервера?</string>
     <string name="server_remove_confirmation">Вы действительно намерены удалить %1$s из списка серверов?</string>
     <string name="channel_remove_confirmation">Вы действительно намерены удалить канал %1$s?</string>
@@ -451,6 +492,7 @@
     <string name="pref_summary_gender">Отображать как женский</string>
     <string name="user_state_away">Отсутствует</string>
     <string name="user_state_operator">Оператор канала</string>
+    <string name="user_state_admin">Администратор</string>
     <string name="user_state_selected">Выбран для перемещения </string>
     <string name="pref_title_userloggedin_icon">Вход пользователя</string>
     <string name="pref_summary_userloggedin_icon">Звуковое оповещение о входе пользователя</string>
@@ -461,6 +503,7 @@
     <string name="pref_title_channel_message_sent">Отправка сообщений в канале</string>
     <string name="pref_summary_channel_message_sent">Объявление об отправке сообщений для всех в текущем канале</string>
     <string name="text_tts_channel_message_sent">Отправлено сообщение в канале: %1$s</string>
+    <string name="text_tts_user_typing">%1$s печатает...</string>
     <string name="pref_summary_official_servers">Включать официальные серверы в список серверов</string>
     <string name="pref_title_official_servers">Показывать официальные серверы</string>
     <string name="pref_summary_unofficial_servers">Включать неофициальные серверы в список серверов</string>
@@ -476,6 +519,11 @@
     <string name="action_revoke_operator">Отозвать права Оператора</string>
     <string name="text_operator_password">Введите пароль оператора канала</string>
     <string name="text_broadcast_message">Введите широковещательное сообщение</string>
+    <string name="text_status_message">Сообщение о состоянии</string>
+    <string name="text_status_mode">Текущее состояния</string>
+    <string name="status_mode_available">Доступен</string>
+    <string name="status_mode_away">Отсутствует</string>
+    <string name="status_mode_question">Вопрос</string>
     <string name="online_users">Активные Пользователи</string>
 
     <string name="online_user_info_nickname">Псевдоним</string>
@@ -485,4 +533,5 @@
     <string name="online_user_info_channel">Канал</string>
     <string name="online_user_info_ip">IP адрес</string>
     <string name="online_user_info_client">Клиент</string>
+    <string name="text_copy">Копировать</string>
 </resources>
