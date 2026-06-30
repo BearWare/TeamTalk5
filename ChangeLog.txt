@@ -14,6 +14,18 @@ Default Qt Client
 - Ubuntu 22 is no longer supported
 Android Client
 - Announce who is administrator
+- Indication when a user is typing a private message
+- Ability to use Text-To-Speech to announce users joining and leaving other channels
+- Subscription and transmission changes are now shown in the chat list
+- Ability to allow or disallow voice, video, desktop, media files and channel messages transmission for everyone in classroom channels
+- Ability to mute left or right channel of a user's voice and media files
+- Ability to change status mode along with nickname and status message
+- Ability to copy a user's name, copy message content, delete a message and clear the chat history
+- Ability to open links in chat messages
+- Redesigned file sharing screen and file transfers
+- Fixed bug where not all selected files could be uploaded
+- Fixed bug where sounds were not muted during outgoing calls
+- Fixed channel list items not being exposed as clickable for accessibility services
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
