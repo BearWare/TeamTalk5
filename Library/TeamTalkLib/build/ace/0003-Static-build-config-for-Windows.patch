@@ -1,7 +1,7 @@
-From 94c34f9a6cdd0abdd460cf4c7375504cdad5c2bd Mon Sep 17 00:00:00 2001
+From b5b1ef0757b2b0b83851b36948ad9f2ead766e45 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Sun, 23 Jul 2023 21:13:56 +0200
-Subject: [PATCH] Static build config for Windows
+Subject: [PATCH 3/3] Static build config for Windows
 
 ---
  ACE/ace/config.h                            | 16 ++++++++++++++++
@@ -12,7 +12,7 @@ Subject: [PATCH] Static build config for Windows
 
 diff --git a/ACE/ace/config.h b/ACE/ace/config.h
 new file mode 100755
-index 00000000000..d2e751ddaaa
+index 0000000000..d2e751ddaa
 --- /dev/null
 +++ b/ACE/ace/config.h
 @@ -0,0 +1,16 @@
@@ -34,7 +34,7 @@ index 00000000000..d2e751ddaaa
 +#include "ace/config-win32.h"
 diff --git a/ACE/include/makeinclude/platform_macros.GNU b/ACE/include/makeinclude/platform_macros.GNU
 new file mode 100755
-index 00000000000..7c337f909f1
+index 0000000000..7c337f909f
 --- /dev/null
 +++ b/ACE/include/makeinclude/platform_macros.GNU
 @@ -0,0 +1,6 @@
@@ -45,5 +45,5 @@ index 00000000000..7c337f909f1
 +
 +include $(ACE_ROOT)/include/makeinclude/platform_win32_msvc.GNU
 -- 
-2.39.2 (Apple Git-143)
+2.54.0.windows.1
 
