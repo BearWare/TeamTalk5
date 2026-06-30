@@ -1597,7 +1597,7 @@ namespace BearWare
     public struct AudioConfigConstants
     {
         public const bool DEFAULT_AGC_ENABLE = false;
-        public const int DEFAULT_AGC_GAINLEVEL = 9600;
+        public const int DEFAULT_AGC_GAINLEVEL = 8000;
         public const int DEFAULT_AGC_INC_MAXDB = 12;
     }
 

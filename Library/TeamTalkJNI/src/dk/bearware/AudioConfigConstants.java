@@ -26,5 +26,5 @@ package dk.bearware;
 public interface AudioConfigConstants {
 
     public static final boolean DEFAULT_AGC_ENABLE = false;
-    public static final int DEFAULT_AGC_GAINLEVEL = 9600;
+    public static final int DEFAULT_AGC_GAINLEVEL = 8000;
 }
