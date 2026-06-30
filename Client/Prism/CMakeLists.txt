@@ -16,7 +16,7 @@ if (MSVC)
 
   ExternalProject_Add(prism-md-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.14.4
+    GIT_TAG           v0.16.7
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -28,14 +28,13 @@ if (MSVC)
     INSTALL_DIR       ${PRISM_INSTALL_DIR_MD}
     INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
     COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
-    COMMAND           ${CMAKE_COMMAND} -E copy_if_different <BINARY_DIR>/ZDSR.lib <BINARY_DIR>/BoyCtrl.lib <BINARY_DIR>/PCTalker.lib <BINARY_DIR>/PrismOrcaBridge.lib <BINARY_DIR>/PrismSpeechDispatcherBridge.lib <INSTALL_DIR>/lib/
     BUILD_BYPRODUCTS  ${PRISM_INSTALL_DIR_MD}/lib/prismd.lib
                       ${PRISM_STATIC_LIB_MD}
   )
 
   ExternalProject_Add(prism-mt-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.14.4
+    GIT_TAG           v0.16.7
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -48,7 +47,6 @@ if (MSVC)
     INSTALL_DIR       ${PRISM_INSTALL_DIR_MT}
     INSTALL_COMMAND   ${CMAKE_COMMAND} --build . --target install --config Debug
     COMMAND           ${CMAKE_COMMAND} --build . --target install --config Release
-    COMMAND           ${CMAKE_COMMAND} -E copy_if_different <BINARY_DIR>/ZDSR.lib <BINARY_DIR>/BoyCtrl.lib <BINARY_DIR>/PCTalker.lib <BINARY_DIR>/PrismOrcaBridge.lib <BINARY_DIR>/PrismSpeechDispatcherBridge.lib <INSTALL_DIR>/lib/
     BUILD_BYPRODUCTS  ${PRISM_INSTALL_DIR_MT}/lib/prismd.lib
                       ${PRISM_STATIC_LIB_MT}
   )
@@ -63,7 +61,7 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MD}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MD})
 
-  foreach (implib ZDSR BoyCtrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
     add_library(Prism_${implib} SHARED IMPORTED GLOBAL)
     add_dependencies(Prism_${implib} prism-md-src)
     set_target_properties(Prism_${implib} PROPERTIES
@@ -72,11 +70,11 @@ if (MSVC)
 
   target_link_libraries(Prism INTERFACE
     rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    Prism_ZDSR Prism_BoyCtrl Prism_PCTalker Prism_PrismOrcaBridge Prism_PrismSpeechDispatcherBridge)
+    Prism_ZDSR Prism_byctrl Prism_PCTalker Prism_PrismOrcaBridge Prism_PrismSpeechDispatcherBridge)
   target_link_options(Prism INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:Prism>"
     /delayload:ZDSRAPI_x64.dll
-    /delayload:BoyCtrl-x64.dll /delayload:PCTKUSR.dll
+    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
     /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
 
   file(MAKE_DIRECTORY ${PRISM_INSTALL_DIR_MT}/include)
@@ -89,7 +87,7 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MT}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MT})
 
-  foreach (implib ZDSR BoyCtrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
     add_library(PrismMT_${implib} SHARED IMPORTED GLOBAL)
     add_dependencies(PrismMT_${implib} prism-mt-src)
     set_target_properties(PrismMT_${implib} PROPERTIES
@@ -98,11 +96,11 @@ if (MSVC)
 
   target_link_libraries(PrismMT INTERFACE
     rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    PrismMT_ZDSR PrismMT_BoyCtrl PrismMT_PCTalker PrismMT_PrismOrcaBridge PrismMT_PrismSpeechDispatcherBridge)
+    PrismMT_ZDSR PrismMT_byctrl PrismMT_PCTalker PrismMT_PrismOrcaBridge PrismMT_PrismSpeechDispatcherBridge)
   target_link_options(PrismMT INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:PrismMT>"
     /delayload:ZDSRAPI_x64.dll
-    /delayload:BoyCtrl-x64.dll /delayload:PCTKUSR.dll
+    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
     /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -119,7 +117,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-arm64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.14.4
+    GIT_TAG           v0.16.7
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -133,7 +131,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-x86_64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.14.4
+    GIT_TAG           v0.16.7
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -174,7 +172,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   ExternalProject_Add(prism-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.14.4
+    GIT_TAG           v0.16.7
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
