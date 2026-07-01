@@ -46,5 +46,6 @@
         <file>images/webcam.png</file>
         <file>images/webcam_start.png</file>
         <file>images/webcam_stop.png</file>
-    </qresource>
+        <file>aac/ui/aac-highcontrast.qss</file>
+</qresource>
 </RCC>
