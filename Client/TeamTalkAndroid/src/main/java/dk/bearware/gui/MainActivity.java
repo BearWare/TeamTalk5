@@ -124,6 +124,11 @@ import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
 import dk.bearware.UserType;
+import dk.bearware.VideoCodec;
+import dk.bearware.MediaFileStatus;
+import dk.bearware.MediaFileInfo;
+import dk.bearware.MediaFilePlayback;
+import dk.bearware.MediaFilePlaybackConstants;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -317,19 +322,25 @@ extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         UserAccount myuseraccount = new UserAccount();
         getClient().getMyUserAccount(myuseraccount);
-
+        MediaFileInfo mfi = getService().currentMediaFileInfo;
+        int flags = getClient().getFlags();
+        boolean isPaused = (mfi.nStatus == MediaFileStatus.MFS_PAUSED);
+        boolean isStreaming = (flags & ClientFlag.CLIENT_STREAM_AUDIO) == ClientFlag.CLIENT_STREAM_AUDIO || (flags & ClientFlag.CLIENT_STREAM_VIDEO) == ClientFlag.CLIENT_STREAM_VIDEO;
         boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != UserRight.USERRIGHT_NONE;
         boolean broadcastRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = curchannel != null && getClient().getMyChannelID() != curchannel.nChannelID && curchannel.nMaxUsers > 0;
         boolean isLeaveable = getClient().getMyChannelID() > 0;
         boolean isMyChannel = curchannel != null && getClient().getMyChannelID() == curchannel.nChannelID;
+        menu.findItem(R.id.action_pause).setEnabled(isStreaming).setVisible(isStreaming);
+        menu.findItem(R.id.action_pause).setTitle(isPaused ? R.string.action_resume : R.string.action_pause);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
         menu.findItem(R.id.action_leave).setEnabled(isLeaveable).setVisible(isLeaveable);
         menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_broadcast).setEnabled(broadcastRight).setVisible(broadcastRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
+        menu.findItem(R.id.action_stream).setTitle(isStreaming ? R.string.action_stop : R.string.action_stream);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -365,6 +376,13 @@ extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, StreamMediaActivity.class);
                 startActivity(intent);
             }
+        } else if (itemId == R.id.action_pause) {
+            MediaFileInfo mfi = getService().currentMediaFileInfo;
+            MediaFilePlayback pb = new MediaFilePlayback();
+            VideoCodec vc = new VideoCodec();
+            pb.uOffsetMSec = MediaFilePlaybackConstants.TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            pb.bPaused = (mfi.nStatus == MediaFileStatus.MFS_PLAYING);
+            getClient().updateStreamingMediaFileToChannel(pb, vc);
         } else if (itemId == R.id.action_edit) {
             if (curchannel != null)
                 editChannelProperties(curchannel);

@@ -13,6 +13,7 @@ Default Qt Client
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
+- Ability to pause and resume media file streams
 - Announce who is administrator
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
