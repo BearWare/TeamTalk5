@@ -320,6 +320,10 @@ namespace teamtalk {
                 codec.opus.frames_per_packet = codec_type[11];
             else
                 codec.opus.frames_per_packet = 1;
+            if (codec_type.size() > 12)
+                codec.opus.enable_dred = (codec_type[12] != 0);
+            if (codec_type.size() > 13)
+                codec.opus.enable_osce = (codec_type[13] != 0);
             return true;
         case CODEC_WEBM_VP8 :
             break;
@@ -699,6 +703,8 @@ namespace teamtalk {
             codec_prop.push_back(static_cast<int>(codec.opus.vbr_constraint));
             codec_prop.push_back(codec.opus.frame_size);
             codec_prop.push_back(codec.opus.frames_per_packet);
+            codec_prop.push_back(static_cast<int>(codec.opus.enable_dred));
+            codec_prop.push_back(static_cast<int>(codec.opus.enable_osce));
             break;
         default :
             codec_prop.push_back(CODEC_NO_CODEC);

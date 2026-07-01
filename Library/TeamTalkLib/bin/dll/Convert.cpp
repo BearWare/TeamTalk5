@@ -856,6 +856,8 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         // clamp to max bitrate
         int const maxbitrate = GetAudioCodecMaxPacketBitrate(result);
         result.opus.bitrate = std::min(result.opus.bitrate, maxbitrate);
+        result.opus.enable_dred = (codec.opus.bEnableDRED != 0);
+        result.opus.enable_osce = (codec.opus.bEnableOSCE != 0);
 
         VALID_INT_CODEC(result, result.opus);
 
@@ -914,6 +916,8 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         result.opus.nFrameSizeMSec = OpusGetCbMSec(codec.opus.samplerate,
                                                    codec.opus.frame_size);
         result.opus.nTxIntervalMSec = teamtalk::GetAudioCodecCbMillis(codec);
+        result.opus.bEnableDRED = static_cast<TTBOOL>(codec.opus.enable_dred);
+        result.opus.bEnableOSCE = static_cast<TTBOOL>(codec.opus.enable_osce);
 
         VALID_EXT_CODEC(result, result.opus);
         return teamtalk::ValidAudioCodec(codec);
