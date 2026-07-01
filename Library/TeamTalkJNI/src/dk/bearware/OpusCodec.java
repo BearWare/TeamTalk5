@@ -36,6 +36,8 @@ public class OpusCodec
     public boolean bVBRConstraint;
     public int nTxIntervalMSec;
     public int nFrameSizeMSec;
+    public boolean bEnableDRED;
+    public boolean bEnableOSCE;
     
     public OpusCodec() {}
     public OpusCodec(boolean set_defaults) {

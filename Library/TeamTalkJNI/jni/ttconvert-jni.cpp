@@ -777,6 +777,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         jfieldID fid_vbrc = env->GetFieldID(cls_opus, "bVBRConstraint", "Z");
         jfieldID fid_txmsec = env->GetFieldID(cls_opus, "nTxIntervalMSec", "I");
         jfieldID fid_frmmsec = env->GetFieldID(cls_opus, "nFrameSizeMSec", "I");
+        jfieldID fid_dred = env->GetFieldID(cls_opus, "bEnableDRED", "Z");
+        jfieldID fid_osce = env->GetFieldID(cls_opus, "bEnableOSCE", "Z");
 
         assert(fid_opus);
         assert(fid_sr);
@@ -790,6 +792,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         assert(fid_vbrc);
         assert(fid_txmsec);
         assert(fid_frmmsec);
+        assert(fid_dred);
+        assert(fid_osce);
 
         if(conv == N2J)
         {
@@ -806,6 +810,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             env->SetBooleanField(newObj, fid_vbrc, codec.opus.bVBRConstraint);
             env->SetIntField(newObj, fid_txmsec, codec.opus.nTxIntervalMSec);
             env->SetIntField(newObj, fid_frmmsec, codec.opus.nFrameSizeMSec);
+            env->SetBooleanField(newObj, fid_dred, codec.opus.bEnableDRED);
+            env->SetBooleanField(newObj, fid_osce, codec.opus.bEnableOSCE);
             env->SetObjectField(lpAudioCodec, fid_opus, newObj);
         }
         else
@@ -822,6 +828,8 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
             codec.opus.bVBRConstraint = env->GetBooleanField(opus_obj, fid_vbrc);
             codec.opus.nTxIntervalMSec = env->GetIntField(opus_obj, fid_txmsec);
             codec.opus.nFrameSizeMSec = env->GetIntField(opus_obj, fid_frmmsec);
+            codec.opus.bEnableDRED = env->GetBooleanField(opus_obj, fid_dred);
+            codec.opus.bEnableOSCE = env->GetBooleanField(opus_obj, fid_osce);
         }
     }
     break;
