@@ -750,21 +750,23 @@ public class TeamTalkService extends Service
     public int HISTORY_USER_MSG_MAX = 100;
 
     public Vector<MyTextMessage> getUserTextMsgs(int userid) {
-        Vector<MyTextMessage> msgs;
-        if(usertxtmsgs.get(userid) == null) {
-            msgs = new Vector<>();
+        Vector<MyTextMessage> msgs = usertxtmsgs.get(userid);
+        if (msgs == null) {
+            msgs = new Vector<MyTextMessage>();
             usertxtmsgs.put(userid, msgs);
         }
-        msgs = usertxtmsgs.get(userid);
-        if(msgs.size() > HISTORY_USER_MSG_MAX)
+        if (msgs.size() > HISTORY_USER_MSG_MAX)
             msgs.remove(0);
+
+        MyTextMessage.merge(msgs);
+
         return msgs;
     }
 
     public Vector<MyTextMessage> getChatLogTextMsgs() {
-        if(chatlogtxtmsgs.size()>HISTORY_CHATLOG_MSG_MAX)
+        if (chatlogtxtmsgs.size() > HISTORY_CHATLOG_MSG_MAX)
             chatlogtxtmsgs.remove(0);
-
+        MyTextMessage.merge(chatlogtxtmsgs);
         return chatlogtxtmsgs;
     }
 
@@ -1165,19 +1167,19 @@ public class TeamTalkService extends Service
         MyTextMessage newmsg = new MyTextMessage(textmessage, 
                                                  user == null? "" : Utils.getDisplayName(getBaseContext(), user));
 
+        Vector<MyTextMessage> msgs = null;
         switch(textmessage.nMsgType) {
-            case TextMsgType.MSGTYPE_USER : {
-                getUserTextMsgs(textmessage.nFromUserID).add(newmsg);
+            case TextMsgType.MSGTYPE_USER :
+                msgs = getUserTextMsgs(textmessage.nFromUserID);
                 break;
-            }
-            case TextMsgType.MSGTYPE_BROADCAST : {
-                getChatLogTextMsgs().add(newmsg);
+            case TextMsgType.MSGTYPE_BROADCAST :
+            case TextMsgType.MSGTYPE_CHANNEL :
+                msgs = getChatLogTextMsgs();
                 break;
-            }
-            case TextMsgType.MSGTYPE_CHANNEL : {
-                getChatLogTextMsgs().add(newmsg);
-                break;
-            }
+        }
+        if (msgs != null) {
+            msgs.add(newmsg);
+            MyTextMessage.merge(msgs);
         }
     }
 
