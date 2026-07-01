@@ -47,6 +47,7 @@
 #if defined(ENABLE_OPUS)
 #include "avstream/OpusFileStreamer.h"
 #include "codec/OpusDecoder.h"
+#include "codec/OpusEncoder.h"
 #endif
 
 #if defined(ENABLE_FFMPEG)
@@ -72,6 +73,7 @@
 
 #include <cerrno>
 #include <chrono>
+#include <cmath>
 #include <condition_variable>
 #include <cstdint>
 #include <cstdio>
@@ -3890,6 +3892,61 @@ TEST_CASE("TTPlayFFmpegOpus")
     REQUIRE(std::abs(int(mfi.uDurationMSec - odf.GetDurationMSec())) < PCM16_SAMPLES_DURATION(framesize, odf.GetSampleRate()));
     REQUIRE(TT_GetMediaFileInfo(filename, &mfi));
     REQUIRE(mfi.uDurationMSec == odf.GetDurationMSec());
+}
+#endif
+
+#if defined(ENABLE_OPUS)
+TEST_CASE("OpusDREDOSCEEncDec")
+{
+#if defined(OPUS_SET_DRED_DURATION_REQUEST)
+    const int SAMPLERATE = 48000;
+    const int CHANNELS = 1;
+    const int FRAMESIZE = SAMPLERATE * 20 / 1000;
+    const int FRAMES = 50;
+    const int MAXENCBYTES = 0xFFF;
+    const double PI = 3.14159265358979323846;
+
+    std::vector<short> input(size_t(FRAMESIZE) * CHANNELS * FRAMES);
+    for (size_t i = 0; i < input.size(); ++i)
+        input[i] = static_cast<short>(16000.0 * std::sin(2.0 * PI * 440.0 * double(i) / SAMPLERATE));
+
+    auto encodeAll = [&](int dred_duration_10ms, std::vector<std::vector<char>>& packets)
+    {
+        OpusEncode enc;
+        REQUIRE(enc.Open(SAMPLERATE, CHANNELS, OPUS_APPLICATION_VOIP));
+        REQUIRE(enc.SetComplexity(10));
+        REQUIRE(enc.SetDREDDuration(dred_duration_10ms));
+
+        int total = 0;
+        for (int f = 0; f < FRAMES; ++f)
+        {
+            std::vector<char> out(MAXENCBYTES);
+            int const bytes = enc.Encode(&input[size_t(f) * FRAMESIZE * CHANNELS], FRAMESIZE,
+                                         out.data(), int(out.size()));
+            REQUIRE(bytes > 0);
+            out.resize(bytes);
+            total += bytes;
+            packets.push_back(std::move(out));
+        }
+        return total;
+    };
+
+    std::vector<std::vector<char>> nodredpackets, dredpackets;
+    int const nodredbytes = encodeAll(0, nodredpackets);
+    int const dredbytes = encodeAll(100, dredpackets);
+    REQUIRE(dredbytes > nodredbytes);
+
+    for (int complexity : {0, 10})
+    {
+        OpusDecode dec;
+        REQUIRE(dec.Open(SAMPLERATE, CHANNELS));
+        REQUIRE(dec.SetComplexity(complexity));
+
+        std::vector<short> out(size_t(FRAMESIZE) * CHANNELS);
+        for (auto& packet : dredpackets)
+            REQUIRE(dec.Decode(packet.data(), int(packet.size()), out.data(), FRAMESIZE) == FRAMESIZE);
+    }
+#endif
 }
 #endif
 
