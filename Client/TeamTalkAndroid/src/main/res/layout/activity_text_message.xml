@@ -43,6 +43,14 @@
             android:layout_height="wrap_content"
             android:layout_weight="0.1"
             android:text="@string/button_send" />
+
+        <TextView
+            android:id="@+id/usermsg_disable"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="@string/err_usermsg_disable"/>
+
     </LinearLayout>
 
 </LinearLayout>
