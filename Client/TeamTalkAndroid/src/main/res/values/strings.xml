@@ -249,6 +249,9 @@
     <string name="action_upload">Upload File</string>
     <string name="action_broadcast">Broadcast Message</string>
     <string name="action_stream">Stream a media file</string>
+    <string name="action_stop">Stop stream</string>
+    <string name="action_pause">Pause stream</string>
+    <string name="action_resume">Resume stream</string>
     <string name="action_statusnick">Change Nickname and Status</string>
     <string name="action_copyname">Copy Name</string>
     <string name="action_copymessage">Copy Content Only</string>
