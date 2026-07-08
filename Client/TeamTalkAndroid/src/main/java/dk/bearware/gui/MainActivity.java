@@ -1078,7 +1078,7 @@ private EditText newmsg;
                 return false;
             });
             ListView chatlog = rootView.findViewById(R.id.channel_im_listview);
-            chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
             chatlog.setAdapter(mainActivity.getTextMessagesAdapter());
 
             Button sendBtn = rootView.findViewById(R.id.channel_im_sendbtn);
