@@ -143,7 +143,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
                                          ttclient.getMyUserID());
         
         ListView lv = findViewById(R.id.user_im_listview);
-        lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+        lv.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         lv.setAdapter(adapter);
         adapter.notifyDataSetChanged();
         
