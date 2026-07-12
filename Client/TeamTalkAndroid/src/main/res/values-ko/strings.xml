@@ -14,6 +14,7 @@
     <string name="title_activity_channel_prop">채널 속성</string>
     <string name="title_activity_user_prop">사용자 속성</string>
     <string name="title_activity_text_message">메시지</string>
+    <string name="text_user_typing_title">%1$s, 입력 중...</string>
     <string name="title_activity_preferences">설정</string>
     <string name="title_activity_stream_media">채널에 미디어 파일 스트리밍</string>
     <string name="action_createchannel">만들기</string>
@@ -52,6 +53,8 @@
     <string name="pref_summary_vox_audio_icon">말하기를 활성화/비활성화하면 효과음 재생</string>
     <string name="pref_title_vox_triggered_icon">말하기 감지됨</string>
     <string name="pref_summary_vox_triggered_icon">말하기가 감지되면 효과음 재생</string>
+    <string name="pref_title_typing_icon">사용자 입력 중</string>
+    <string name="pref_summary_typing_icon">사용자가 개인 메시지를 입력 중이면 효과음 재생</string>
     <string name="pref_summary_intercept_audio_icon">가로채기가 시작 또는 중지되면 효과음 재생</string>
     <string name="pref_title_private_message_audio_icon">개인 메시지 수신</string>
     <string name="pref_summary_private_message_audio_icon">개인 메시지가 수신되면 효과음 재생</string>
@@ -96,10 +99,14 @@
     <string name="pref_summary_server_login">사용자가 로그인하면 알림</string>
     <string name="pref_title_server_logout">서버 로그아웃</string>
     <string name="pref_summary_server_logout">사용자가 로그아웃하면 알림</string>
-    <string name="pref_title_channel_join">채널 입장</string>
-    <string name="pref_summary_channel_join">사용자가 채널에 입장하면 알림</string>
-    <string name="pref_title_channel_leave">채널 퇴장</string>
-    <string name="pref_summary_channel_leave">사용자가 채널에서 퇴장하면 알림</string>
+    <string name="pref_title_all_channel_join">다른 채널 입장</string>
+    <string name="pref_summary_all_channel_join">사용자가 다른 채널에 입장하면 알림</string>
+    <string name="pref_title_all_channel_leave">다른 채널 퇴장</string>
+    <string name="pref_summary_all_channel_leave">사용자가 다른 채널에서 퇴장하면 알림</string>
+    <string name="pref_title_channel_join">현재 채널 입장</string>
+    <string name="pref_summary_channel_join">사용자가 현재 채널에 입장하면 알림</string>
+    <string name="pref_title_channel_leave">현재 채널 퇴장</string>
+    <string name="pref_summary_channel_leave">사용자가 현재 채널에서 퇴장하면 알림</string>
     <string name="pref_title_private_message">개인 메시지</string>
     <string name="pref_summary_private_message">개인 메시지 알림</string>
     <string name="pref_title_channel_message">채널 메시지</string>
@@ -126,6 +133,9 @@
 
     <string name="text_tts_loggedin">로그인함</string>
     <string name="text_tts_loggedout">로그아웃함</string>
+    <string name="text_tts_user_joined_other_channel">%1$s, %2$s 채널에 입장함</string>
+    <string name="text_tts_user_left_other_channel">%1$s, %2$s 채널에서 퇴장함</string>
+    <string name="text_root_chan">최상위</string>
     <string name="text_tts_joined_chan">채널에 입장함</string>
     <string name="text_tts_left_chan">채널에서 퇴장함</string>
     <string name="text_tts_private_message">%1$s의 개인 메시지 - %2$s</string>
@@ -142,6 +152,9 @@
 
     <string name="button_tx">말하기</string>
     <string name="button_remove">삭제</string>
+    <string name="action_cancel">다운로드 취소</string>
+    <string name="action_downloadfile">파일 다운로드</string>
+    <string name="action_removefile">파일 삭제</string>
     <string name="action_banchan">채널에서 차단</string>
     <string name="action_bansrv">서버에서 차단</string>
     <string name="action_edit">채널 편집</string>
@@ -152,12 +165,31 @@
     <string name="action_move">이동</string>
     <string name="action_select">이동할 대상에 추가</string>
     <string name="action_deselect">이동할 대상에서 제거</string>
+    <string name="action_allowvoice">모든 사용자에게 말하기 전송 허용</string>
+    <string name="action_disallowvoice">모든 사용자에게 말하기 전송 금지</string>
+    <string name="action_allowvideo">모든 사용자에게 동영상 전송 허용</string>
+    <string name="action_disallowvideo">모든 사용자에게 동영상 전송 금지</string>
+    <string name="action_allowdesktop">모든 사용자에게 화면 공유 전송 허용</string>
+    <string name="action_disallowdesktop">모든 사용자에게 화면 공유 전송 금지</string>
+    <string name="action_allowmedia">모든 사용자에게 미디어 파일 전송 허용</string>
+    <string name="action_disallowmedia">모든 사용자에게 미디어 파일 전송 금지</string>
+    <string name="action_allowchanmsg">모든 사용자에게 텍스트 메시지 전송 허용</string>
+    <string name="action_disallowchanmsg">모든 사용자에게 텍스트 메시지 전송 금지</string>
     <string name="action_exportsrv">내보내기</string>
     <string name="action_editsrv">편집</string>
     <string name="action_removesrv">삭제</string>
     <string name="action_upload">파일 업로드</string>
     <string name="action_broadcast">방송</string>
     <string name="action_stream">미디어 파일 스트리밍</string>
+    <string name="action_stop">스트리밍 중지</string>
+    <string name="action_pause">스트리밍 일시 중지</string>
+    <string name="action_resume">스트리밍 재개</string>
+    <string name="action_statusnick">대화명 및 상태 변경</string>
+    <string name="action_copyname">이름 복사</string>
+    <string name="action_copymessage">내용만 복사</string>
+    <string name="action_deletemessage">삭제</string>
+    <string name="action_clear">지우기</string>
+    <string name="text_no_browser">이 링크를 열 수 있는 앱이 없습니다</string>
     <string name="button_select_media_file">찾아보기</string>
     <string name="button_stream_media_file">시작</string>
     <string name="button_msg">메시지</string>
@@ -186,8 +218,12 @@
     <string name="user_prop_title_ipaddress">IP 주소:</string>
     <string name="user_prop_title_voice_volume">말하기 음량</string>
     <string name="user_prop_title_mute_voice">말하기 음소거</string>
+    <string name="user_prop_title_mute_voice_left">왼쪽 말하기 음소거</string>
+    <string name="user_prop_title_mute_voice_right">오른쪽 말하기 음소거</string>
     <string name="user_prop_title_media_volume">미디어 파일 음량</string>
     <string name="user_prop_title_mute_media">미디어 파일 음소거</string>
+    <string name="user_prop_title_mute_media_left">왼쪽 미디어 파일 음소거</string>
+    <string name="user_prop_title_mute_media_right">오른쪽 미디어 파일 음소거</string>
     <string name="user_prop_title_subscribe_txtmsg">개인 메시지 수신</string>
     <string name="user_prop_title_subscribe_chanmsg">채널 메시지 수신</string>
     <string name="user_prop_title_subscribe_bcastmsg">방송 메시지 수신</string>
@@ -272,6 +308,7 @@
     <string name="transfer_stopped">중지됨</string>
     <string name="complete">완료</string>
     <string name="remote_file_exists">%1$s라는 이름의 파일이 이미 채널에 존재함</string>
+    <string name="cancel_transfer_confirmation">%1$s 파일 다운로드를 취소할까요?</string>
     <string name="remote_file_remove_confirmation">%1$s 파일을 서버에서 삭제할까요?</string>
     <string name="server_remove_confirmation">%1$s 서버를 삭제할까요?</string>
     <string name="channel_remove_confirmation">%1$s 채널을 삭제할까요?</string>
@@ -392,6 +429,7 @@
     <string name="pref_summary_gender">체크하면 여성 아이콘 사용</string>
     <string name="user_state_away">자리비움</string>
     <string name="user_state_operator">채널 관리자</string>
+    <string name="user_state_admin">서버 관리자</string>
     <string name="user_state_selected">"(이동할 대상) "</string>
     <string name="pref_title_userloggedin_icon">서버 로그인</string>
     <string name="pref_summary_userloggedin_icon">사용자가 서버에 로그인하면 효과음 재생</string>
@@ -402,6 +440,7 @@
     <string name="pref_title_channel_message_sent">보낸 채널 메시지</string>
     <string name="pref_summary_channel_message_sent">보낸 채널 메시지 읽기</string>
     <string name="text_tts_channel_message_sent">채널 메시지 보냄: %1$s</string>
+    <string name="text_tts_user_typing">%1$s, 입력 중...</string>
     <string name="pref_summary_official_servers">서버 목록에서 공식 서버 보기</string>
     <string name="pref_title_official_servers">공식 서버 포함</string>
     <string name="pref_summary_unofficial_servers">서버 목록에서 비공식 서버 보기</string>
@@ -446,6 +485,11 @@
     <string name="text_tts_media_transmit_off">미디어 파일 송신 비활성화됨</string>
     <string name="text_tts_media_transmit_on">미디어 파일 송신 활성화됨</string>
     <string name="text_broadcast_message">방송할 메시지 입력</string>
+    <string name="text_status_message">상태 메시지</string>
+    <string name="text_status_mode">상태 모드</string>
+    <string name="status_mode_available">사용 가능</string>
+    <string name="status_mode_away">자리비움</string>
+    <string name="status_mode_question">질문 모드</string>
     <string name="action_leave">나가기</string>
     <string name="action_edituser">사용자 속성</string>
     <string name="pref_title_intercept_audio_icon">가로채기</string>
@@ -463,6 +507,8 @@
     <string name="pref_summary_subscription_desk">화면 공유 수신 상태 업데이트 알림</string>
     <string name="pref_title_subscription_media">미디어 파일</string>
     <string name="pref_summary_subscription_media">미디어 파일 수신 상태 업데이트 알림</string>
+    <string name="pref_title_typing">사용자 입력 중</string>
+    <string name="pref_summary_typing">사용자가 개인 메시지를 입력 중이면 알림</string>
     <string name="pref_title_subscription_intercept_user_msg">개인 메시지 가로채기</string>
     <string name="pref_summary_subscription_intercept_user_msg">개인 메시지 가로채기 수신 상태 업데이트 알림</string>
     <string name="pref_title_subscription_intercept_channel_msg">채널 메시지 가로채기</string>
