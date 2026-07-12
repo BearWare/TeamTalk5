@@ -3982,7 +3982,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
         <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
-        <translation type="unfinished"></translation>
+        <translation>화면 낭독기 사용에 권장되는 설정으로 접근성 옵션을 활성화할까요?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
@@ -6317,22 +6317,22 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="576"/>
         <source>PulseAudio / PipeWire</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio / PipeWire</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Prism</source>
-        <translation type="unfinished"></translation>
+        <translation>Prism</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1487"/>
         <source>Backend</source>
-        <translation type="unfinished"></translation>
+        <translation>백엔드</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1494"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>자동</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1652"/>
