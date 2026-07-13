@@ -445,6 +445,8 @@
     <string name="err_user_not_found">User not found</string>
     <string name="err_openfile_failed">Server failed to open file</string>
     <string name="err_filesharing_disabled">Server does not allow file transfers</string>
+    <string name="err_usermsg_disable">Sending private messages disabled for you</string>
+    <string name="err_chanmsg_disable">Sending channel messages disabled for you</string>
     <string name="err_channel_has_users">Channel is not empty</string>
 
     <string name="private_message_notification">New message from user %1$s</string>
