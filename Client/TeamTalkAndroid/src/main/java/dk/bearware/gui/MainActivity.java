@@ -90,6 +90,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.ListFragment;
 import androidx.viewpager.widget.ViewPager;
+import androidx.activity.OnBackPressedCallback;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -310,6 +311,12 @@ extends AppCompatActivity
             mMediaPlayer.setOnCompletionListener(mediaPlayer -> mMediaPlayer.release());
             mMediaPlayer.start();
         }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
     }
 
     @Override
@@ -405,34 +412,41 @@ extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
             startActivity(intent);
         } else if (itemId == android.R.id.home) {
-            int currentPage = mViewPager.getCurrentItem();
-            Channel parentChannel = ((currentPage == SectionsPagerAdapter.CHANNELS_PAGE)
-                                     && (curchannel != null)
-                                     ) ?
-                getService().getChannels().get(curchannel.nParentID) :
-                null;
-            if (currentPage != SectionsPagerAdapter.CHANNELS_PAGE) {
-                mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
-            } else if ((curchannel != null)) {
-                setCurrentChannel(parentChannel);
-                channelsAdapter.notifyDataSetChanged();
-            }
-            else if (filesAdapter.getActiveTransfersCount() > 0) {
-                alert.setMessage(R.string.disconnect_alert);
-                alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
-                    filesAdapter.cancelAllTransfers();
-                    finish();
-                });
-                alert.setNegativeButton(android.R.string.cancel, null);
-                alert.show();
-            }
-            else {
-                finish();
-            }
+            handleBackNavigation();
         } else {
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void handleBackNavigation() {
+        // 1. Switch to the channels tab if not already
+        if (mViewPager.getCurrentItem() != SectionsPagerAdapter.CHANNELS_PAGE) {
+            mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
+        } 
+        
+        // 2. Navigate upward safely
+        else if (curchannel != null) {
+            setCurrentChannel(getService().getChannels().get(curchannel.nParentID));
+            channelsAdapter.notifyDataSetChanged();
+        } 
+        
+        // 3. Check for active file transfers
+        else if (filesAdapter.getActiveTransfersCount() > 0) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage(R.string.disconnect_alert);
+            alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+                filesAdapter.cancelAllTransfers();
+                finish();
+            });
+            alert.setNegativeButton(android.R.string.cancel, null);
+            alert.show();
+        } 
+        
+        // 4. Otherwise, exit
+        else {
+            finish();
+        }
     }
 
     private void showChangeNicknameStatusDialog() {
