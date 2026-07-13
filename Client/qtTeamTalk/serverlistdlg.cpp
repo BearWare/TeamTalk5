@@ -971,8 +971,6 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     const QString country = "country";
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
-    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
-    const auto selectedHost = m_model->getServers()[srcIndex.row()];
     QAction* connectServ = menu.addAction(tr("&Connect"));
     QAction* delServ = menu.addAction(tr("&Delete"));
     QAction* editServ = menu.addAction(tr("&Edit"));
@@ -981,12 +979,14 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     QAction* publishServ = menu.addAction(tr("&Publish Publicly"));
     QAction* genTTServ = menu.addAction(tr("&Generate .tt file"));
     QAction* publishJoinCode = menu.addAction(tr("Generate &Join Code"));
+    auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
     connectServ->setEnabled(srcIndex.isValid());
-    delServ->setEnabled(srcIndex.isValid() && selectedHost.srvtype == SERVERTYPE_LOCAL);
+    delServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     editServ->setEnabled(srcIndex.isValid());
     dupServ->setEnabled(srcIndex.isValid());
     genTTServ->setEnabled(srcIndex.isValid());
-    publishServ->setEnabled(srcIndex.isValid() && selectedHost.srvtype == SERVERTYPE_LOCAL);
+    publishJoinCode->setEnabled(srcIndex.isValid());
+    publishServ->setEnabled(srcIndex.isValid() && m_model->getServers()[srcIndex.row()].srvtype == SERVERTYPE_LOCAL);
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
@@ -1027,7 +1027,10 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
         else if (action == publishServ)
             publishServer();
         else if (action == publishJoinCode)
+        {
+            const auto selectedHost = m_model->getServers()[srcIndex.row()];
             generateJoinCode(selectedHost);
+        }
     }
 }
 
