@@ -3448,6 +3448,62 @@ static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilen
     wavfile.Close();
 }
 
+TEST_CASE("OPUSHeaderToPacket")
+{
+    for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
+    {
+        for (auto CHANNELS : {1, 2})
+        {
+            ACE_TCHAR opusfilename[TT_STRLEN];
+            ACE_OS::snprintf(opusfilename, TT_STRLEN, ACE_TEXT("opusheader_%d_%dch.ogg"),
+                             SAMPLERATE, CHANNELS);
+
+            {
+                OpusFile opusfile;
+                REQUIRE(opusfile.NewFile(opusfilename, CHANNELS, SAMPLERATE, SAMPLERATE / 50));
+            }
+
+            OggFile oggfile;
+            REQUIRE(oggfile.Open(opusfilename));
+            ogg_page og;
+            REQUIRE(oggfile.ReadOggPage(og) == 1);
+
+            OggInput oggin;
+            REQUIRE(oggin.Open(og));
+            REQUIRE(oggin.PutPage(og) == 0);
+            ogg_packet op = {};
+            REQUIRE(oggin.GetPacket(op) == 1);
+            REQUIRE(op.b_o_s != 0);
+
+            const int PRESKIP = 3840;
+            const std::vector<unsigned char> expected = {
+                'O', 'p', 'u', 's', 'H', 'e', 'a', 'd',
+                1,
+                (unsigned char)CHANNELS,
+                (unsigned char)(PRESKIP & 0xFF),
+                (unsigned char)((PRESKIP >> 8) & 0xFF),
+                (unsigned char)(SAMPLERATE & 0xFF),
+                (unsigned char)((SAMPLERATE >> 8) & 0xFF),
+                (unsigned char)((SAMPLERATE >> 16) & 0xFF),
+                (unsigned char)((SAMPLERATE >> 24) & 0xFF),
+                0, 0,
+                0,
+            };
+
+            REQUIRE(op.bytes == (long)expected.size());
+            REQUIRE(std::memcmp(op.packet, expected.data(), expected.size()) == 0);
+
+            OpusHeader header = {};
+            REQUIRE(opus_header_parse(op.packet, op.bytes, &header) == 1);
+            REQUIRE(header.channels == CHANNELS);
+            REQUIRE(header.input_sample_rate == SAMPLERATE);
+            REQUIRE(header.preskip == PRESKIP);
+            REQUIRE(header.gain == 0);
+            REQUIRE(header.channel_mapping == 0);
+        }
+    }
+}
+
 TEST_CASE("OPUSFileEncDec")
 {
     for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
