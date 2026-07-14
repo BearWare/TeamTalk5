@@ -19,7 +19,7 @@ if (MSVC)
     if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-8_0_5
+        GIT_TAG           ACE+TAO-8_0_6
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -27,9 +27,8 @@ if (MSVC)
         COMMAND           git clean -ffdx
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_6
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -59,7 +58,7 @@ if (MSVC)
     else()
       ExternalProject_Add(ACE-src
         GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-8_0_5
+        GIT_TAG           ACE+TAO-8_0_6
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
@@ -67,9 +66,8 @@ if (MSVC)
         COMMAND           git clean -ffdx
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
+        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_6
         PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
         CONFIGURE_COMMAND ""
         BUILD_IN_SOURCE   TRUE
@@ -137,7 +135,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -151,14 +149,13 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git reset --hard
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -239,7 +236,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       UPDATE_COMMAND    ""
@@ -253,12 +250,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
       PATCH_COMMAND     git reset --hard
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
@@ -333,7 +329,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -345,12 +341,11 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git reset --hard
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
@@ -418,7 +413,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     ExternalProject_Add(MPC
       GIT_REPOSITORY    https://github.com/DOCGroup/MPC.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/MPC
       CONFIGURE_COMMAND ""
@@ -444,13 +439,12 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
 
     ExternalProject_Add(ACE-src
       GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-      GIT_TAG           ACE+TAO-8_0_5
+      GIT_TAG           ACE+TAO-8_0_6
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
       PATCH_COMMAND     git reset --hard
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
       CONFIGURE_COMMAND echo "shared_libs=0" > <SOURCE_DIR>/ACE/include/makeinclude/platform_macros.GNU
