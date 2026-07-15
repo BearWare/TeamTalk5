@@ -353,7 +353,7 @@ extends AppCompatActivity
             if (curchannel != null)
                 joinChannel(curchannel);
         } else if (itemId == R.id.action_leave) {
-            leaveChannel();
+            getClient().doLeaveChannel();
         } else if (itemId == R.id.action_upload) {
             if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) ?
                 requestMediaPermissions() :
@@ -913,13 +913,6 @@ extends AppCompatActivity
     private void editChannelProperties(Channel channel) {
         Intent intent = new Intent(this, ChannelPropActivity.class);
         startActivityForResult(intent.putExtra(ChannelPropActivity.EXTRA_CHANNELID, channel.nChannelID), REQUEST_EDITCHANNEL);
-    }
-
-    private void leaveChannel() {
-        getClient().doLeaveChannel();
-        accessibilityAssistant.lockEvents();
-        channelsAdapter.notifyDataSetChanged();
-        accessibilityAssistant.unlockEvents();
     }
 
     private void joinChannelUnsafe(Channel channel, String passwd) {
@@ -2222,10 +2215,11 @@ private EditText newmsg;
         if(user.nUserID == getClient().getMyUserID()) {
             //myself left current channel
             
-            textmsgAdapter.notifyDataSetChanged();
-
-            setCurrentChannel(null);
             setMyChannel(null);
+            accessibilityAssistant.lockEvents();
+            channelsAdapter.notifyDataSetChanged();
+            textmsgAdapter.notifyDataSetChanged();
+            accessibilityAssistant.unlockEvents();
         }
         else if(curchannel != null && channelid == curchannel.nChannelID){
             //other user left current channel
