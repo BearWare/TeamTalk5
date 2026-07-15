@@ -15,6 +15,7 @@ Default Qt Client
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator
+- Announce who is streaming media file
 - Indication when a user is typing a private message
 - Ability to use Text-To-Speech to announce users joining and leaving other channels
 - Subscription and transmission changes are now shown in the chat list
