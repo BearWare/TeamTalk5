@@ -41,6 +41,7 @@ enum
     COLUMN_INDEX_SERVERNAME,
     COLUMN_INDEX_USERCOUNT,
     COLUMN_INDEX_COUNTRY,
+    COLUMN_INDEX_MOTD,
     COLUMN_COUNT,
 };
 
@@ -93,6 +94,7 @@ QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, i
             case COLUMN_INDEX_SERVERNAME: return tr("Name");
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
             case COLUMN_INDEX_COUNTRY: return tr("Country");
+            case COLUMN_INDEX_MOTD: return tr("MOTD");
         }
     }
     return QVariant();
@@ -116,6 +118,8 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return getServers()[index.row()].usercount;
         case COLUMN_INDEX_COUNTRY :
             return getServers()[index.row()].country;
+        case COLUMN_INDEX_MOTD :
+            return getServers()[index.row()].motd;
         }
         break;
     case Qt::AccessibleTextRole :
@@ -138,12 +142,14 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
                 srvtype = tr("Unofficial server");
                 break;
             }
-            return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
+            return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_MOTD, index.internalId()), Qt::DisplayRole).toString()));
         }
         if (index.column() == COLUMN_INDEX_USERCOUNT && getServerType(srv) != SERVERTYPE_LOCAL)
             return data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString();
         if (index.column() == COLUMN_INDEX_COUNTRY && getServerType(srv) != SERVERTYPE_LOCAL)
             return data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString();
+        if (index.column() == COLUMN_INDEX_MOTD && getServerType(srv) != SERVERTYPE_LOCAL)
+            return data(createIndex(index.row(), COLUMN_INDEX_MOTD, index.internalId()), Qt::DisplayRole).toString();
     }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
@@ -220,10 +226,11 @@ const QVector<HostEntryEx>& ServerListModel::getServers() const
     return m_servercache;
 }
 
-void ServerListModel::setServerFilter(ServerTypes srvtypes, const QRegularExpression& regex, int n_users)
+void ServerListModel::setServerFilter(ServerTypes srvtypes, const QRegularExpression& name_regex, const QRegularExpression& country_regex, int n_users)
 {
     m_srvtypes = srvtypes;
-    m_name_regex = regex;
+    m_name_regex = name_regex;
+    m_country_regex = country_regex;
     m_nusers = n_users;
     filterServers();
 }
@@ -241,6 +248,7 @@ void ServerListModel::filterServers()
             auto hosts = m_servers[ServerType(srvtype)];
             hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return entry.usercount < m_nusers && (entry.srvtype & SERVERTYPE_LOCAL) != SERVERTYPE_LOCAL; }), hosts.end());
             hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return !m_name_regex.match(entry.name).hasMatch(); }), hosts.end());
+            hosts.erase(std::remove_if(hosts.begin(), hosts.end(), [&](const HostEntryEx& entry) { return !m_country_regex.match(entry.country).hasMatch(); }), hosts.end());
             m_servercache.append(hosts);
         }
     }
@@ -279,6 +287,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
 
     ui.filterusersSpinBox->setValue(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT).toInt());
     ui.filternameEdit->setText(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT).toString());
+    ui.filtercountryEdit->setText(ttSettings->value(SETTINGS_DISPLAY_SERVERLISTFILTER_COUNTRY, SETTINGS_DISPLAY_SERVERLISTFILTER_COUNTRY_DEFAULT).toString());
     ui.officialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_OFFICIALSERVERS, SETTINGS_DISPLAY_OFFICIALSERVERS_DEFAULT).toBool());
     ui.unofficialserverChkBox->setChecked(ttSettings->value(SETTINGS_DISPLAY_UNOFFICIALSERVERS, SETTINGS_DISPLAY_UNOFFICIALSERVERS_DEFAULT).toBool());
 
@@ -291,6 +300,7 @@ ServerListDlg::ServerListDlg(QWidget * parent/* = 0*/)
     connect(ui.unofficialserverChkBox, &QCheckBox::clicked, this, &ServerListDlg::refreshServerList);
 
     connect(ui.filternameEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
+    connect(ui.filtercountryEdit, &QLineEdit::textChanged, this, &ServerListDlg::applyServerListFilter);
     connect(ui.filterusersSpinBox, static_cast<void (QSpinBox::*)(int)>(&QSpinBox::valueChanged), this, &ServerListDlg::applyServerListFilter);
     connect(ui.serverTableView, &QAbstractItemView::doubleClicked, this, &ServerListDlg::slotConnect);
     ui.serverTableView->setContextMenuPolicy(Qt::CustomContextMenu);
@@ -505,8 +515,9 @@ void ServerListDlg::applyServerListFilter()
     if (ui.unofficialserverChkBox->isChecked())
         typefilter |= SERVERTYPE_UNOFFICIAL;
 
-    m_model->setServerFilter(typefilter, QRegularExpression(ui.filternameEdit->text(), QRegularExpression::CaseInsensitiveOption), ui.filterusersSpinBox->value());
+    m_model->setServerFilter(typefilter, QRegularExpression(ui.filternameEdit->text(), QRegularExpression::CaseInsensitiveOption), QRegularExpression(ui.filtercountryEdit->text(), QRegularExpression::CaseInsensitiveOption), ui.filterusersSpinBox->value());
     ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLISTFILTER_NAME, ui.filternameEdit->text(), SETTINGS_DISPLAY_SERVERLISTFILTER_NAME_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLISTFILTER_COUNTRY, ui.filtercountryEdit->text(), SETTINGS_DISPLAY_SERVERLISTFILTER_COUNTRY_DEFAULT);
     ttSettings->setValueOrClear(SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT, ui.filterusersSpinBox->value(), SETTINGS_DISPLAY_SERVERLISTFILTER_USERSCOUNT_DEFAULT);
 }
 
