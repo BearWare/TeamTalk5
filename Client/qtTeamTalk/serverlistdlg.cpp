@@ -41,6 +41,7 @@ enum
     COLUMN_INDEX_SERVERNAME,
     COLUMN_INDEX_USERCOUNT,
     COLUMN_INDEX_COUNTRY,
+    COLUMN_INDEX_MOTD,
     COLUMN_COUNT,
 };
 
@@ -93,6 +94,7 @@ QVariant ServerListModel::headerData(int section, Qt::Orientation orientation, i
             case COLUMN_INDEX_SERVERNAME: return tr("Name");
             case COLUMN_INDEX_USERCOUNT: return tr("Users");
             case COLUMN_INDEX_COUNTRY: return tr("Country");
+            case COLUMN_INDEX_MOTD: return tr("MOTD");
         }
     }
     return QVariant();
@@ -116,6 +118,8 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
             return getServers()[index.row()].usercount;
         case COLUMN_INDEX_COUNTRY :
             return getServers()[index.row()].country;
+        case COLUMN_INDEX_MOTD :
+            return getServers()[index.row()].motd;
         }
         break;
     case Qt::AccessibleTextRole :
@@ -138,12 +142,14 @@ QVariant ServerListModel::data(const QModelIndex & index, int role /*= Qt::Displ
                 srvtype = tr("Unofficial server");
                 break;
             }
-            return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(srv.motd));
+            return QString(tr("%1, Name: %2, Users: %3, Country: %4, MOTD: %5").arg(srvtype).arg(srv.name).arg(data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString()).arg(data(createIndex(index.row(), COLUMN_INDEX_MOTD, index.internalId()), Qt::DisplayRole).toString()));
         }
         if (index.column() == COLUMN_INDEX_USERCOUNT && getServerType(srv) != SERVERTYPE_LOCAL)
             return data(createIndex(index.row(), COLUMN_INDEX_USERCOUNT, index.internalId()), Qt::DisplayRole).toString();
         if (index.column() == COLUMN_INDEX_COUNTRY && getServerType(srv) != SERVERTYPE_LOCAL)
             return data(createIndex(index.row(), COLUMN_INDEX_COUNTRY, index.internalId()), Qt::DisplayRole).toString();
+        if (index.column() == COLUMN_INDEX_MOTD && getServerType(srv) != SERVERTYPE_LOCAL)
+            return data(createIndex(index.row(), COLUMN_INDEX_MOTD, index.internalId()), Qt::DisplayRole).toString();
     }
     case Qt::ToolTipRole :
         return getServers()[index.row()].motd;
