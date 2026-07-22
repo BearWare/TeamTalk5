@@ -10,6 +10,7 @@ Default Qt Client
 - First launch now asks all users whether to enable accessibility settings
 - Play sound event when enabled one
 - Fixed compilation time display on Linux (Qt5)
+- Fixed a crash in server list
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
