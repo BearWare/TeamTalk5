@@ -41,6 +41,19 @@
            <widget class="QLineEdit" name="filternameEdit"/>
           </item>
           <item>
+           <widget class="QLabel" name="label_10">
+            <property name="text">
+             <string>Country</string>
+            </property>
+            <property name="buddy">
+             <cstring>filtercountryEdit</cstring>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="filtercountryEdit"/>
+          </item>
+          <item>
            <widget class="QLabel" name="label_9">
             <property name="text">
              <string>Users</string>
