@@ -3987,7 +3987,7 @@ Bu ayarlar uygulanmalı mı?</translation>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
         <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
-        <translation type="unfinished"></translation>
+        <translation>Ekran okuyucu kullanımına ilişkin önerilen ayarlarla erişilebilirlik seçeneklerini etkinleştirmek ister misiniz?</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
@@ -6316,22 +6316,22 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../preferencesdlg.cpp" line="576"/>
         <source>PulseAudio / PipeWire</source>
-        <translation type="unfinished"></translation>
+        <translation>PulseAudio / PipeWire</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="623"/>
         <source>Prism</source>
-        <translation type="unfinished"></translation>
+        <translation>Prism</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1487"/>
         <source>Backend</source>
-        <translation type="unfinished"></translation>
+        <translation>Backend</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1494"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>otomatik</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1652"/>
