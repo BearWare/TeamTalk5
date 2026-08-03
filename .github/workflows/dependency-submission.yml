@@ -21,6 +21,6 @@ jobs:
         java-version: '25'
 
     - name: Generate and submit dependency graph
-      uses: gradle/actions/dependency-submission@v6
+      uses: gradle/actions/dependency-submission@v6.2.0
       with:
         build-root-directory: ${{github.workspace}}/Client/TeamTalkAndroid
