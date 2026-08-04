@@ -105,7 +105,7 @@ jobs:
 
     - name: Initialize CodeQL
       if: matrix.arch == 'x64'
-      uses: github/codeql-action/init@v4
+      uses: github/codeql-action/init@v4.37.4
       with:
         languages: csharp
         build-mode: manual
@@ -338,6 +338,6 @@ jobs:
 
     - name: Perform CodeQL Analysis
       if: matrix.arch == 'x64' && !cancelled()
-      uses: github/codeql-action/analyze@v4
+      uses: github/codeql-action/analyze@v4.37.4
       with:
         category: "/language:csharp"
