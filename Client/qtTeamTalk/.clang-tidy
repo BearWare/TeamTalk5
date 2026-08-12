@@ -28,8 +28,6 @@ CheckOptions:
     value:           CamelCase
   - key:             readability-identifier-naming.FunctionCase
     value:           camelBack
-  - key:             readability-identifier-naming.ConstantCase
-    value:           UPPER_CASE
   - key:             readability-identifier-naming.ConstexprFunctionCase
     value:           UPPER_CASE
   - key:             readability-identifier-naming.ConstexprMethodCase
