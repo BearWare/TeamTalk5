@@ -12,6 +12,7 @@ Default Qt Client
 - Fixed compilation time display on Linux (Qt5)
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
+- Fixed crash issue when invoking context menu in Server List dialog
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator
