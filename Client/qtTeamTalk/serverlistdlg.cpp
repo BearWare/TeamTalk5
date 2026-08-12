@@ -972,7 +972,7 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     sortCountry->setChecked((ttSettings->value(SETTINGS_DISPLAY_SERVERLIST_SORT, SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT).toString() == country)?true:false);
     sortMenu->addAction(sortCountry);
     auto srcIndex = m_proxyModel->mapToSource(ui.serverTableView->currentIndex());
-    const auto selectedHost = m_model->getServers()[srcIndex.row()];
+    const auto selectedHost = srcIndex.isValid() ? m_model->getServers()[srcIndex.row()] : HostEntryEx();
     QAction* connectServ = menu.addAction(tr("&Connect"));
     QAction* delServ = menu.addAction(tr("&Delete"));
     QAction* editServ = menu.addAction(tr("&Edit"));
@@ -987,6 +987,7 @@ void ServerListDlg::slotTreeContextMenu(const QPoint& /*point*/)
     dupServ->setEnabled(srcIndex.isValid());
     genTTServ->setEnabled(srcIndex.isValid());
     publishServ->setEnabled(srcIndex.isValid() && selectedHost.srvtype == SERVERTYPE_LOCAL);
+    publishJoinCode->setEnabled(srcIndex.isValid());
     if (QAction* action = menu.exec(QCursor::pos()))
     {
         auto sortToggle = m_proxyModel->sortOrder() == Qt::AscendingOrder ? Qt::DescendingOrder : Qt::AscendingOrder;
