@@ -104,11 +104,11 @@
     <string name="pref_title_server_logout">خروج از سرور</string>
     <string name="pref_summary_server_logout">اعلام نام کاربرانی که از سرور خارج میشوند</string>
     <string name="pref_title_all_channel_join">پیوستن به سایر کانالها</string>
-    <string name="pref_summary_all_channel_join">اعلام نام کاربرانی که وارد سایر کانال‌ها میشوند</string>
+    <string name="pref_summary_all_channel_join">اعلام نام کاربرانی که به سایر کانال‌ها میپیوندند</string>
     <string name="pref_title_all_channel_leave">خروج از سایر کانالها</string>
     <string name="pref_summary_all_channel_leave">اعلام نام کاربرانی که سایر کانال‌ها را ترک میکنند</string>
     <string name="pref_title_channel_join">پیوستن به کانال فعلی</string>
-    <string name="pref_summary_channel_join">اعلام نام کاربرانی که وارد کانال فعلی میشوند</string>
+    <string name="pref_summary_channel_join">اعلام نام کاربرانی که به کانال فعلی میپیوندند</string>
     <string name="pref_title_channel_leave">خروج از کانال فعلی</string>
     <string name="pref_summary_channel_leave">اعلام نام کاربرانی که کانال فعلی را ترک میکنند</string>
     <string name="pref_title_private_message">پیام خصوصی</string>
@@ -175,10 +175,10 @@
 
     <string name="text_tts_loggedin">وارد سرور شد</string>
     <string name="text_tts_loggedout">از سرور خارج شد</string>
-    <string name="text_tts_user_joined_other_channel">%1$s وارد کانال %2$s شد</string>
+    <string name="text_tts_user_joined_other_channel">%1$s به کانال %2$s پیوست</string>
     <string name="text_tts_user_left_other_channel">%1$s کانال %2$s را ترک کرد</string>
     <string name="text_root_chan">لابی</string>
-    <string name="text_tts_joined_chan">وارد کانال شد</string>
+    <string name="text_tts_joined_chan">به کانال پیوست</string>
     <string name="text_tts_left_chan">کانال را ترک کرد</string>
     <string name="text_tts_private_message">پیام خصوصی از %1$s - %2$s</string>
     <string name="text_tts_channel_message">پیام کانال از %1$s - %2$s</string>
@@ -312,7 +312,7 @@
     <string name="user_prop_title_transmit_chanmsg">اجازۀ ارسال پیام در کانال</string>
 
     <string name="label_connection">اتصال:</string>
-    <string name="stat_online">در دسترس</string>
+    <string name="stat_online">آنلاین</string>
     <string name="stat_offline">آفلاین</string>
     <string name="stat_connecting">در حال اتصال</string>
     <string name="stat_unauthorized">مجاز نیست</string>
@@ -529,7 +529,7 @@
     <string name="text_broadcast_message">پیام همگانی را بنویسید</string>
     <string name="text_status_message">پیام وضعیت</string>
     <string name="text_status_mode">حالت وضعیت</string>
-    <string name="status_mode_available">آنلاین</string>
+    <string name="status_mode_available">در دسترس</string>
     <string name="status_mode_away">دور</string>
     <string name="status_mode_question">پرسش</string>
     <string name="online_users">کاربران آنلاین</string>
