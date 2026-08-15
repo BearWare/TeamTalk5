@@ -1536,7 +1536,7 @@ namespace teamtalk
                     blocknums_single_input.push_back(dbi->first);
                     for(;ii!=dbi->second.end();ii++)
                         blocknums_single_input.push_back(*ii);
-                    blocknums_single_input.push_back(0xFFF);
+                    blocknums_single_input.push_back(BLOCKNO_INDEX_DUPLICATE);
 #ifdef _DEBUG
                     single_blocks += dbi->second.size();
                     single_entries++;
@@ -1792,22 +1792,22 @@ namespace teamtalk
             std::vector<uint16_t> blocknums_single;
             ConvertFromUInt12Array(u8_info_ptr, info_size, blocknums_single);
 
-            uint16_t block_no = 0xFFF;
+            uint16_t block_no = BLOCKNO_INDEX_DUPLICATE;
             std::set<uint16_t> blocknums;
             for(unsigned short i : blocknums_single)
             {
-                if(block_no == 0xFFF)
+                if(block_no == BLOCKNO_INDEX_DUPLICATE)
                     block_no = i;
-                else if(i == 0xFFF)
+                else if(i == BLOCKNO_INDEX_DUPLICATE)
                 {
-                    assert(block_no != 0xFFF);
+                    assert(block_no != BLOCKNO_INDEX_DUPLICATE);
                     assert(blocknums.size());
                     auto const ii = dup_blocks.find(block_no);
                     if(ii != dup_blocks.end())
                         ii->second.insert(blocknums.begin(), blocknums.end());
                     else
                         dup_blocks[block_no] = blocknums;
-                    block_no = 0xFFF;
+                    block_no = BLOCKNO_INDEX_DUPLICATE;
                     blocknums.clear();
                 }
                 else
