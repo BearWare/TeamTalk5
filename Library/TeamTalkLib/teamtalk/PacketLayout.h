@@ -874,7 +874,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         
         static constexpr uint16_t INVALID_PACKET_INDEX = -1;
         static constexpr uint16_t BLOCKNO_INDEX_MAX = 0xFFF;
-        static constexpr uint16_t BLOCKNUMS_MAX = 0x1000; // uint12 limit
+        static constexpr uint16_t BLOCKNUMS_MAX = 0xFFE; // 0xFFF is reserved
         static constexpr uint16_t WIDTH_MAX = 0xFFFF, HEIGHT_MAX = 0xFFFF; // uint16
 
     private:

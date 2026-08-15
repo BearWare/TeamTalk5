@@ -1392,7 +1392,7 @@ namespace teamtalk
             auto ii = blocks.begin();
             while(ii != blocks.end())
             {
-                assert(ii->first < BLOCKNUMS_MAX);
+                assert(ii->first <= BLOCKNUMS_MAX);
                 blocknums_sizes_input.push_back(ii->first); //block no
                 blocknums_sizes_input.push_back(ii->second.block_size); //block size
 
@@ -1457,7 +1457,7 @@ namespace teamtalk
             auto ii = fragments.begin();
             while(ii != fragments.end())
             {
-                assert(ii->block_no < BLOCKNUMS_MAX);
+                assert(ii->block_no <= BLOCKNUMS_MAX);
                 frags_info_ptr = SET2_UINT12_PTR(frags_info_ptr, ii->block_no, ii->frag_size);
                 frags_info_ptr = SET_UINT4_PTR(frags_info_ptr, ii->frag_no, ii->frag_cnt);
 
@@ -1516,7 +1516,7 @@ namespace teamtalk
             for(;dbi!=dup_blocks.end();dbi++)
             {
                 assert(dbi->second.size());
-                assert(dbi->first < BLOCKNUMS_MAX);
+                assert(dbi->first <= BLOCKNUMS_MAX);
 
                 auto ii = dbi->second.begin();
                 if(IsBlockRange(dbi->second))
