@@ -56,7 +56,8 @@ DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 
 bool DesktopSession::IsValid() const
 {
-    return GetBlocksCount() > 0 && GetBlocksCount() <= DesktopPacket::BLOCKNUMS_MAX &&
+    // 0xFFF terminates duplicate-block lists and cannot be used as a block index.
+    return GetBlocksCount() > 0 && GetBlocksCount() < DesktopPacket::BLOCKNUMS_MAX &&
            GetWidth() <= DesktopPacket::WIDTH_MAX && GetHeight() <= DesktopPacket::HEIGHT_MAX;
 }
 

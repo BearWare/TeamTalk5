@@ -36,6 +36,7 @@
 #include "settings/Settings.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/DesktopSession.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
 #include "teamtalk/client/Client.h"
@@ -126,6 +127,29 @@ TEST_CASE( "Init TT", "" )
     TTInstance* ttinst = nullptr;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
     REQUIRE( TT_CloseTeamTalk(ttinst) );
+}
+
+TEST_CASE("DesktopSession block limit")
+{
+    auto verify_block_limit = [](teamtalk::RGBMode rgb_mode, int block_width, int block_height)
+    {
+        auto const max_session = teamtalk::MakeDesktopSession(block_width * 63,
+                                                              block_height * 65,
+                                                              rgb_mode);
+        REQUIRE(max_session.GetBlocksCount() == 4095);
+        REQUIRE(max_session.IsValid());
+
+        auto const oversized_session = teamtalk::MakeDesktopSession(block_width * 64,
+                                                                    block_height * 64,
+                                                                    rgb_mode);
+        REQUIRE(oversized_session.GetBlocksCount() == 4096);
+        REQUIRE_FALSE(oversized_session.IsValid());
+    };
+
+    verify_block_limit(teamtalk::BMP_RGB8_PALETTE, RGB8_BLOCK_PIXEL_W, RGB8_BLOCK_PIXEL_H);
+    verify_block_limit(teamtalk::BMP_RGB16_555, RGB16_BLOCK_PIXEL_W, RGB16_BLOCK_PIXEL_H);
+    verify_block_limit(teamtalk::BMP_RGB24, RGB24_BLOCK_PIXEL_W, RGB24_BLOCK_PIXEL_H);
+    verify_block_limit(teamtalk::BMP_RGB32, RGB32_BLOCK_PIXEL_W, RGB32_BLOCK_PIXEL_H);
 }
 
 #if defined(ENABLE_OGG) && defined(ENABLE_SPEEX)
