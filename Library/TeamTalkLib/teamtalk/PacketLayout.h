@@ -873,7 +873,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         const char* GetBlock(uint16_t block_no, uint16_t& length) const;
         
         static constexpr uint16_t INVALID_PACKET_INDEX = -1;
-        static constexpr uint16_t BLOCKNO_INDEX_MAX = 0xFFF;
+        static constexpr uint16_t BLOCKNO_INDEX_DUPLICATE = 0xFFF;
         static constexpr uint16_t BLOCKNUMS_MAX = 0x1000; // uint12 limit
         static constexpr uint16_t WIDTH_MAX = 0xFFFF, HEIGHT_MAX = 0xFFFF; // uint16
 
