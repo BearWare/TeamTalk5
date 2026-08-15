@@ -14,6 +14,7 @@
     <string name="title_activity_channel_prop">تنظیمات کانال</string>
     <string name="title_activity_user_prop">تنظیمات کاربر</string>
     <string name="title_activity_text_message">پیام</string>
+    <string name="text_user_typing_title">%1$s در حال نوشتن...</string>
     <string name="title_activity_preferences">تنظیمات</string>
     <string name="title_activity_stream_media">استریم فایل</string>
     <string name="action_createchannel">ایجاد</string>
@@ -26,12 +27,12 @@
     <string name="text_cmderr_login">دستور ورود اجرا نشد</string>
     <string name="text_cmd_loggedin">به سرور پیوستید</string>
     <string name="text_cmd_joinchan">به کانال پیوستید:</string>
-    <string name="text_cmd_leftchan">از کانال رفتید:</string>
+    <string name="text_cmd_leftchan">کانال را ترک کردید:</string>
     <string name="text_cmd_joinroot">به لابی پیوستید</string>
-    <string name="text_cmd_leftroot">از لابی رفتید</string>
+    <string name="text_cmd_leftroot">لابی را ترک کردید</string>
     <string name="text_cmd_userjoinchan">به کانال پیوست</string>
-    <string name="text_cmd_userleftchan">از کانال رفت</string>
-    <string name="text_cmd_userloggedout">از سرور رفت</string>
+    <string name="text_cmd_userleftchan">کانال را ترک کرد</string>
+    <string name="text_cmd_userloggedout">از سرور خارج شد</string>
     <string name="text_cmd_userloggedin">وارد سرور شد</string>
     <string name="pref_cat_subscriptions">اشتراک‌ها</string>
     <string name="pref_cat_connection_general">عمومی</string>
@@ -54,6 +55,8 @@
     <string name="pref_summary_vox_audio_icon">بازخورد صوتی هنگام فشار دادن کلید فعال‌سازی خودکار صدا</string>
     <string name="pref_title_vox_triggered_icon">فعال شدن خودکار صدا</string>
     <string name="pref_summary_vox_triggered_icon">بازخورد صوتی هنگام فعال شدن خودکار صدا</string>
+    <string name="pref_title_typing_icon">صدای نوشتن پیام</string>
+    <string name="pref_summary_typing_icon">بازخورد صوتی هنگام نوشتن پیام خصوصی توسط کاربر</string>
     <string name="pref_title_intercept_audio_icon">صدای شنود‌شدن</string>
     <string name="pref_summary_intercept_audio_icon">بازخورد صوتی هنگام آغاز یا پایان شنود</string>
     <string name="pref_title_private_message_audio_icon">پیام خصوصی</string>
@@ -100,10 +103,14 @@
     <string name="pref_summary_server_login">اعلام نام کاربرانی که وارد سرور میشوند</string>
     <string name="pref_title_server_logout">خروج از سرور</string>
     <string name="pref_summary_server_logout">اعلام نام کاربرانی که از سرور خارج میشوند</string>
-    <string name="pref_title_channel_join">پیوستن به کانال</string>
-    <string name="pref_summary_channel_join">اعلام نام کاربرانی که وارد کانال میشوند</string>
-    <string name="pref_title_channel_leave">خروج از کانال</string>
-    <string name="pref_summary_channel_leave">اعلام نام کاربرانی که از کانال میروند</string>
+    <string name="pref_title_all_channel_join">پیوستن به سایر کانالها</string>
+    <string name="pref_summary_all_channel_join">اعلام نام کاربرانی که به سایر کانال‌ها میپیوندند</string>
+    <string name="pref_title_all_channel_leave">خروج از سایر کانالها</string>
+    <string name="pref_summary_all_channel_leave">اعلام نام کاربرانی که سایر کانال‌ها را ترک میکنند</string>
+    <string name="pref_title_channel_join">پیوستن به کانال فعلی</string>
+    <string name="pref_summary_channel_join">اعلام نام کاربرانی که به کانال فعلی میپیوندند</string>
+    <string name="pref_title_channel_leave">خروج از کانال فعلی</string>
+    <string name="pref_summary_channel_leave">اعلام نام کاربرانی که کانال فعلی را ترک میکنند</string>
     <string name="pref_title_private_message">پیام خصوصی</string>
     <string name="pref_summary_private_message">اعلام پیام‌های خصوصی</string>
     <string name="pref_title_channel_message">پیام کانال</string>
@@ -124,6 +131,8 @@
     <string name="pref_summary_subscription_desk">اعلام وضعیت اشتراک دسکتاپ</string>
     <string name="pref_title_subscription_media">اشتراک استریم</string>
     <string name="pref_summary_subscription_media">اعلام وضعیت اشتراک استریم</string>
+    <string name="pref_title_typing">نوشتن پیام خصوصی</string>
+    <string name="pref_summary_typing">اعلام نام کاربری که در حال نوشتن پیام خصوصی است</string>
     <string name="pref_title_subscription_intercept_user_msg">شنود پیام‌های خصوصی</string>
     <string name="pref_summary_subscription_intercept_user_msg">اعلام وضعیت شنود پیام‌های خصوصی</string>
     <string name="pref_title_subscription_intercept_channel_msg">شنود پیام‌های کانال</string>
@@ -165,9 +174,12 @@
     <string name="pref_summary_voice_processing_checkbox">حذف اکو و تنظیم خودکار میکروفون</string>
 
     <string name="text_tts_loggedin">وارد سرور شد</string>
-    <string name="text_tts_loggedout">از سرور رفت</string>
-    <string name="text_tts_joined_chan">وارد کانال شد</string>
-    <string name="text_tts_left_chan">از کانال رفت</string>
+    <string name="text_tts_loggedout">از سرور خارج شد</string>
+    <string name="text_tts_user_joined_other_channel">%1$s به کانال %2$s پیوست</string>
+    <string name="text_tts_user_left_other_channel">%1$s کانال %2$s را ترک کرد</string>
+    <string name="text_root_chan">لابی</string>
+    <string name="text_tts_joined_chan">به کانال پیوست</string>
+    <string name="text_tts_left_chan">کانال را ترک کرد</string>
     <string name="text_tts_private_message">پیام خصوصی از %1$s - %2$s</string>
     <string name="text_tts_channel_message">پیام کانال از %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">پیام همگانی از %1$s - %2$s</string>
@@ -204,9 +216,11 @@
     <string name="title_section_speexvbr">Speex VBR</string>
     <string name="title_section_noaudio">بدون صدا</string>
     <string name="opus_application">اپلیکیشن</string>
-
     <string name="button_tx">میکروفون</string>
     <string name="button_remove">حذف</string>
+    <string name="action_cancel">لغو دانلود</string>
+    <string name="action_downloadfile">دانلود فایل</string>
+    <string name="action_removefile">حذف فایل</string>
     <string name="action_banchan">ممنوعیت از کانال</string>
     <string name="action_bansrv">ممنوعیت از سرور</string>
     <string name="action_edit">ویرایش کانال</string>
@@ -219,12 +233,31 @@
     <string name="action_move">انتقال به اینجا</string>
     <string name="action_select">انتخاب برای انتقال</string>
     <string name="action_deselect">لغو انتخاب برای انتقال</string>
+    <string name="action_allowvoice">اجازۀ صحبت به همه</string>
+    <string name="action_disallowvoice">لغو اجازۀ صحبت برای همه</string>
+    <string name="action_allowvideo">اجازۀ اشتراک‌گذاری ویدیو به همه</string>
+    <string name="action_disallowvideo">لغو اجازۀ اشتراک‌گذاری ویدیو برای همه</string>
+    <string name="action_allowdesktop">اجازۀ اشتراک‌گذاری دسکتاپ به همه</string>
+    <string name="action_disallowdesktop">لغو اجازۀ اشتراک‌گذاری دسکتاپ برای همه</string>
+    <string name="action_allowmedia">اجازۀ استریم فایل به همه</string>
+    <string name="action_disallowmedia">لغو اجازۀ استریم فایل برای همه</string>
+    <string name="action_allowchanmsg">اجازۀ ارسال پیام در کانال به همه</string>
+    <string name="action_disallowchanmsg">لغو اجازۀ ارسال پیام در کانال برای همه</string>
     <string name="action_exportsrv">ذخیرۀ سرور</string>
     <string name="action_editsrv">ویرایش سرور</string>
     <string name="action_removesrv">حذف سرور</string>
     <string name="action_upload">آپلود</string>
     <string name="action_broadcast">پیام همگانی</string>
     <string name="action_stream">استریم فایل</string>
+    <string name="action_stop">توقفِ استریم</string>
+    <string name="action_pause">مکثِ استریم</string>
+    <string name="action_resume">ادامۀ استریم</string>
+    <string name="action_statusnick">تغییر نام مستعار و وضعیت</string>
+    <string name="action_copyname">کپی نام</string>
+    <string name="action_copymessage">فقط کپی محتوا</string>
+    <string name="action_deletemessage">حذف</string>
+    <string name="action_clear">پاک کردن</string>
+    <string name="text_no_browser">برنامه‌ای برای باز کردن این لینک پیدا نشد</string>
     <string name="button_select_media_file">انتخاب فایل</string>
     <string name="button_stream_media_file">استریم</string>
     <string name="button_msg">پیام</string>
@@ -241,7 +274,7 @@
     <string name="channel_prop_title_nointerrupt">صحبت کردن به صورت نوبت به نوبت</string>
     <string name="channel_prop_title_classroom">کلاس درس</string>
     <string name="channel_prop_title_oprecvonly">فقط اپراتور ببیند و بشنود</string>
-    <string name="channel_prop_title_novoiceact">غیرفعال‌کردن فعالسازی خودکار صدا</string>
+    <string name="channel_prop_title_novoiceact">غیرفعال‌کردن ارسال خودکار صدا</string>
     <string name="channel_prop_title_noaudiorecord">غیرفعال‌کردن امکان ضبط صدا</string>
 
 
@@ -253,8 +286,12 @@
     <string name="user_prop_title_ipaddress">آدرس آیْپی</string>
     <string name="user_prop_title_voice_volume">صدا</string>
     <string name="user_prop_title_mute_voice">قطع صدا</string>
+    <string name="user_prop_title_mute_voice_left">قطع صدا از چپ</string>
+    <string name="user_prop_title_mute_voice_right">قطع صدا از راست</string>
     <string name="user_prop_title_media_volume">صدای استریم</string>
     <string name="user_prop_title_mute_media">قطع صدای استریم</string>
+    <string name="user_prop_title_mute_media_left">قطع صدای استریم از چپ</string>
+    <string name="user_prop_title_mute_media_right">قطع صدای استریم از راست</string>
     <string name="user_prop_title_subscribe_txtmsg">دریافت پیام‌های خصوصی</string>
     <string name="user_prop_title_subscribe_chanmsg">دریافت پیام‌های کانال</string>
     <string name="user_prop_title_subscribe_bcastmsg">دریافت پیام‌های همگانی</string>
@@ -303,6 +340,11 @@
     <string name="action_refresh">تازه‌سازی</string>
     <string name="action_import_serverlist">وارد کردن از فایل tt</string>
     <string name="action_export_serverlist">ذخیرۀ سرور‌ها</string>
+    <string name="action_enter_joincode">وارد کردن کد ورود</string>
+    <string name="text_specify_joincode">کد ورود به سرور</string>
+    <string name="err_enter_joincode">کد ورود به سرور صحیح نیست</string>
+    <string name="pref_title_joincode">کد ورود برای ورود آسان</string>
+    <string name="text_joincode">کد ورود</string>
     <string name="serverlist_export_confirmation">سرور‌ها در %1$s ذخیره شدند</string>
     <string name="server_export_confirmation">سرور در %1$s با موفقیت ذخیره شد</string>
 
@@ -320,6 +362,7 @@
     <string name="pref_title_channel">کانال</string>
     <string name="pref_title_channel_password">گذرواژۀ کانال</string>
     <string name="pref_title_last_channel">آخرین کانالی که به آن پیوستید</string>
+    <string name="default_port" translatable="false">10333</string>
 
     <string name="channel_password_prompt">گذرواژه</string>
     <string name="download_succeeded">فایل %1$s با موفقیت در %2$s ذخیره شد</string>
@@ -338,7 +381,8 @@
     <string name="transfer_stopped">انتقال متوقف شد</string>
     <string name="complete">کامل شد</string>
     <string name="remote_file_exists">فایلی با نام %1$s قبلا در این کانال آپلود شده است</string>
-    <string name="remote_file_remove_confirmation">آیا مایل به حذف فایل %1$s از این کانال هستید؟؟</string>
+    <string name="cancel_transfer_confirmation">آیا مایل به لغو دانلود %1$s هستید?</string>
+    <string name="remote_file_remove_confirmation">آیا مایل به حذف فایل %1$s از این کانال هستید؟</string>
     <string name="server_remove_confirmation">آیا مایل به حذف سرور %1$s از فهرست سرور‌ها هستید؟</string>
     <string name="channel_remove_confirmation">آیا مایل به حذف کانال %1$s هستید؟</string>
     <string name="ban_confirmation">آیا مایل به محروم‌کردن %1$s هستید؟</string>
@@ -354,7 +398,7 @@
     <string name="mediavolume">صدای استریم</string>
     <string name="mastervolume">اسپیکر</string>
     <string name="micgain">میکروفون</string>
-    <string name="voxlevel">سطح فعالسازی خودکار صدا</string>
+    <string name="voxlevel">سطح ارسال خودکار صدا</string>
     <string name="speaker_mute">قطع اسپیکر</string>
     <string name="speaker_unmute">صدا‌دار‌کردن اسپیکر</string>
     <string name="speaker_volume_description">اسپیکر %1$s</string>
@@ -411,19 +455,19 @@
     <string name="text_webcam_session">نشست وب‌کم</string>
     <string name="text_mediafile_session">نشست فایل</string>
 
-    <string name="permission_audioinput">خطای ضبط و پخش</string>
-    <string name="permission_audiomodify">خطای ضبط و پخش</string>
-    <string name="permission_filerx">خطای دانلود فایل‌ها</string>
-    <string name="permission_filetx">خطای دانلود و وارد‌کردن فایل‌ها</string>
-    <string name="permission_imagetx">خطای آپلود تصاویر</string>
-    <string name="permission_videotx">خطای آپلود و پخش ویدیو</string>
-    <string name="permission_audiotx">خطای آپلود و استریم فایل‌های صوتی</string>
-    <string name="permission_internet">خطای ارتباط با سرور</string>
-    <string name="permission_vibrate">خطای بازخورد لرزشی هنگام روشن‌کردن میکروفون</string>
+    <string name="permission_audioinput">ضبط و پخش صدا در دسترس نخواهد بود</string>
+    <string name="permission_audiomodify">ضبط و پخش صدا در دسترس نخواهد بود</string>
+    <string name="permission_filerx">دانلود فایل‌ها در دسترس نخواهد بود</string>
+    <string name="permission_filetx">آپلود و وارد کردن فایل‌ها در دسترس نخواهد بود</string>
+    <string name="permission_imagetx">آپلود تصاویر در دسترس نخواهد بود</string>
+    <string name="permission_videotx">فایل‌های ویدیویی برای آپلود و استریم در دسترس نخواهند بود</string>
+    <string name="permission_audiotx">فایل‌های صوتی برای آپلود و استریم در دسترس نخواهند بود</string>
+    <string name="permission_internet">کلاینت قادر به اتصال به سرور‌ها نخواهد بود</string>
+    <string name="permission_vibrate">بازخورد لرزشی هنگام روشن‌کردن میکروفون در دسترس نخواهد بود</string>
     <string name="permission_wake_lock">با کاهش روشنایی صفحه، ممکن است اتصال به سرور قطع شود</string>
-    <string name="permission_read_phone_state">خطای تشخیص تماس‌های تلفنی</string>
-    <string name="permission_bluetooth">خطای استفاده از میکروفون هدست بلوتوث</string>
-    <string name="permission_post_notifications">خطای دریافت اعلان‌های تیم‌تاک</string>
+    <string name="permission_read_phone_state">تشخیص تماس‌های تلفنی غیرممکن خواهد بود</string>
+    <string name="permission_bluetooth">استفاده از میکروفون هدست بلوتوث غیرممکن خواهد بود</string>
+    <string name="permission_post_notifications">تیم‌تاک نمیتواند اعلانی ارسال کند</string>
 
     <string name="title_activity_web_login">فعالیت ورود از طریق وب</string>
     <string name="weblogin_prop_title_bearwareid">نام کاربری</string>
@@ -445,7 +489,7 @@
     <string name="diskquotalab">فضای آپلود:</string>
     <string name="bwidlab">نام کاربری:</string>
     <string name="bwpswlab">گذرواژه:</string>
-    <string name="ttversion">نسخۀ</string>
+    <string name="ttversion">نسخۀ برنامه</string>
     <string name="ttdllversion">نسخۀ ساخت</string>
     <string name="pref_cat_about">در‌باره</string>
     <string name="pref_title_contrib">توسعه‌دهندگان</string>
@@ -456,6 +500,7 @@
     <string name="pref_summary_gender">برای آیکن مؤنث تیک بزنید</string>
     <string name="user_state_away">دور</string>
     <string name="user_state_operator">اپراتور کانال</string>
+    <string name="user_state_admin">مدیر</string>
     <string name="user_state_selected">برای انتقال انتخاب شد</string>
     <string name="pref_title_userloggedin_icon">ورود به سرور</string>
     <string name="pref_summary_userloggedin_icon">بازخورد صوتی هنگام ورود کاربران به سرور</string>
@@ -466,6 +511,7 @@
     <string name="pref_title_channel_message_sent">پیام‌های کانال</string>
     <string name="pref_summary_channel_message_sent">اعلام پیام‌هایی که توسط شما در کانال ارسال میشوند</string>
     <string name="text_tts_channel_message_sent">ارسال شد: %1$s</string>
+    <string name="text_tts_user_typing">%1$s در حال نوشتن...</string>
     <string name="pref_summary_official_servers">نمایش سرور‌های رسمی در فهرست سرور‌ها</string>
     <string name="pref_title_official_servers">سرور‌های رسمی</string>
     <string name="pref_summary_unofficial_servers">نمایش سرور‌های غیررسمی در فهرست سرور‌ها</string>
@@ -481,6 +527,11 @@
     <string name="action_revoke_operator">برداشتن از اپراتور</string>
     <string name="text_operator_password">گذرواژۀ اپراتور</string>
     <string name="text_broadcast_message">پیام همگانی را بنویسید</string>
+    <string name="text_status_message">پیام وضعیت</string>
+    <string name="text_status_mode">حالت وضعیت</string>
+    <string name="status_mode_available">در دسترس</string>
+    <string name="status_mode_away">دور</string>
+    <string name="status_mode_question">پرسش</string>
     <string name="online_users">کاربران آنلاین</string>
 
 
@@ -491,4 +542,5 @@
     <string name="online_user_info_channel">کانال</string>
     <string name="online_user_info_ip">آدرس آیْپی</string>
     <string name="online_user_info_client">نام کلاینت</string>
+    <string name="text_copy">کپی</string>
 </resources>
