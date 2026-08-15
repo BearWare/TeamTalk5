@@ -56,7 +56,7 @@ DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 
 bool DesktopSession::IsValid() const
 {
-    return GetBlocksCount() > 0 && GetBlocksCount() - 1 <= DesktopPacket::BLOCKNUMS_MAX &&
+    return GetBlocksCount() > 0 && GetBlocksCount() <= DesktopPacket::BLOCKNUMS_MAX &&
            GetWidth() <= DesktopPacket::WIDTH_MAX && GetHeight() <= DesktopPacket::HEIGHT_MAX;
 }
 
