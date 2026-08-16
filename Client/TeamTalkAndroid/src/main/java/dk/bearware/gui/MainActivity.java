@@ -1396,7 +1396,8 @@ private EditText newmsg;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
                 boolean male = !female && !neutral;
-                boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
+                boolean isAway =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
+                boolean isStreaming = (user.nStatusMode & TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE) != 0;
                 int icon_resource;
                 
                 if(user.nUserID == getService().getTTInstance().getMyUserID()) {
@@ -1405,10 +1406,12 @@ private EditText newmsg;
 
                 String move = selected ? getString(R.string.user_state_selected) : "";
                 String speaking = talking ? getString(R.string.user_state_now_speaking, name) : name;
-                String gender = female ? " 👩 " : neutral ? " 🧑 " : " 👨 ";
+                String gender = female ? getString(R.string.user_state_female) : neutral ? getString(R.string.user_state_neutral) : getString(R.string.user_state_male);
                 String op = isOperator ? getString(R.string.user_state_operator) : "";
                 String admin = isAdmin ? getString(R.string.user_state_admin) : "";
-                nickname.setContentDescription(move + " " + speaking + gender + op + " " + admin);
+                String away = isAway ? getString(R.string.user_state_away) : "";
+                String streaming = isStreaming ? getString(R.string.user_state_streaming) : "";
+                nickname.setContentDescription(move + " " + speaking + " " + gender + " " + op + " " + admin);
 
                 if (talking) {
                     if (female) {
@@ -1418,13 +1421,13 @@ private EditText newmsg;
                     }
                 } else {
                     if (female) {
-                        icon_resource = away ? R.drawable.woman_orange : R.drawable.woman_blue;
+                        icon_resource = isAway ? R.drawable.woman_orange : R.drawable.woman_blue;
                     } else {
-                        icon_resource = away ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
+                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
                     }
                 }
 
-                status.setContentDescription(away ? getString(R.string.user_state_away) + " " + user.szStatusMsg : null);
+                status.setContentDescription(away + " " + streaming + " " + user.szStatusMsg);
 
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
