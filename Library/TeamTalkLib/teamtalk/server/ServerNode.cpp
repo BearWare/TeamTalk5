@@ -3466,9 +3466,6 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
-    if (index < 0 || count < 0)
-        return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
-
     std::vector<BannedUser> bans;
     if (banchan)
     {
