@@ -104,10 +104,10 @@ runjunitsrv:
 	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_SRV)" --select-class TeamTalkServerTestSuite
 
 testcase:
-	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_STD)" --select-method TeamTalkStdTestSuite#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_STD)" --select-method dk.bearware.TeamTalkStdTestCase#$(TARGET)
 
 testcasepro:
-	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_PRO)" --select-method TeamTalkProTestCase#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_PRO)" --select-method dk.bearware.TeamTalkProTestCase#$(TARGET)
 
 testcasesrv:
-	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_SRV)" --select-method TeamTalkServerTestCase#$(TARGET)
+	cd test && java $(JAVAPROP) -jar "$(JUNIT_JAR)" --class-path "$(CLASSPATH_SRV)" --select-method dk.bearware.TeamTalkServerTestCase#$(TARGET)
