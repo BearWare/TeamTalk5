@@ -929,6 +929,9 @@ ErrorMsg ServerUser::HandleListServerBans(const mstrings_t& properties)
     GetProperty(properties, TT_INDEX, index);
     GetProperty(properties, TT_COUNT, count);
 
+    if (index < 0 || count < 0)
+        return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
+
     //ban if admin
     return m_servernode.UserListServerBans(GetUserID(), chanid, index, count);
 }
