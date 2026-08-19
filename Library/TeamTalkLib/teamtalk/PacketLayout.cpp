@@ -88,7 +88,15 @@ namespace teamtalk
                 target.push_back(v1);
                 i += 2;
             }
-            else assert(0);
+            else
+            {
+                // A single trailing byte cannot hold a 12-bit value. This
+                // branch used to leave 'i' unchanged, so a field length of
+                // 1 modulo 3 looped forever wherever assert() is compiled
+                // out. Stop instead of spinning.
+                assert(0);
+                break;
+            }
         }
     }
 
@@ -96,7 +104,11 @@ namespace teamtalk
                          std::vector<uint16_t>& output)
     {
         uint16_t const field_size = READFIELD_SIZE(ptr);
-        if(field_size == 0u)
+        // Two 12-bit values pack into three bytes, so a valid array ends on a
+        // whole pair or on a two byte tail. One byte left over cannot be
+        // decoded, which makes the field malformed. ReadUInt16Array already
+        // rejects its own bad lengths the same way.
+        if((field_size == 0u) || ((field_size % 3) == 1))
             return false;
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
         ConvertFromUInt12Array(field_ptr, field_size, output);
