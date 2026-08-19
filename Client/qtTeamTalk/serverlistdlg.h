@@ -67,7 +67,7 @@ public:
     void addServer(const HostEntryEx& host, ServerType srvtype);
     void clearServers();
     const QVector<HostEntryEx>& getServers() const;
-    void setServerFilter(ServerTypes srvtypes, const QRegularExpression& regex, int n_users);
+    void setServerFilter(ServerTypes srvtypes, const QRegularExpression& name_regex, const QRegularExpression& country_regex, int n_users);
     ServerType getServerType(const HostEntryEx& host) const;
 private:
     void filterServers();
@@ -77,6 +77,7 @@ private:
     // server filter variables
     ServerTypes m_srvtypes = ~0;
     QRegularExpression m_name_regex;
+    QRegularExpression m_country_regex;
     int m_nusers = 0;
 };
 
