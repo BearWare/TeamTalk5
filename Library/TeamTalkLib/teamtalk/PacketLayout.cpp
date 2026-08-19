@@ -1744,8 +1744,19 @@ namespace teamtalk
         for(size_t i=0;i<blocks_n_sizes.size();i+=2)
         {
             desktop_block bb;
-            bb.block_data = reinterpret_cast<const char*>(&blockdata_ptr[byte_pos]);
             bb.block_size = blocks_n_sizes[i+1];
+
+            // The declared block sizes come off the wire, so they can add up
+            // to more than the payload actually holds. Without this the block
+            // pointer runs past the receive buffer. GetBlockFragments() below
+            // already does the same check. byte_pos is uint16_t and can wrap
+            // once the declared total passes 65535, so this has to be checked
+            // per block rather than on the total afterwards.
+            assert(byte_pos + bb.block_size <= blockdata_len);
+            if(byte_pos + bb.block_size > blockdata_len) //buffer overflow check
+                return false;
+
+            bb.block_data = reinterpret_cast<const char*>(&blockdata_ptr[byte_pos]);
 
             byte_pos += bb.block_size;
 
