@@ -37,6 +37,7 @@
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/DesktopSession.h"
+#include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
 #include "teamtalk/client/Client.h"
@@ -127,6 +128,71 @@ TEST_CASE( "Init TT", "" )
     TTInstance* ttinst = nullptr;
     REQUIRE( (ttinst = TT_InitTeamTalkPoll()) );
     REQUIRE( TT_CloseTeamTalk(ttinst) );
+}
+
+TEST_CASE("DesktopPacket duplicate block round-trip")
+{
+    // A duplicate entry whose block numbers are not contiguous takes the
+    // single-list branch in DesktopPacket::DesktopPacket(), which terminates
+    // each entry with 0xFFF. A contiguous set takes the range branch instead
+    // and never writes that value, which is why a uniform bitmap does not
+    // show this.
+    auto round_trip = [](const std::set<uint16_t>& duplicates)
+    {
+        const uint16_t SRC_USERID = 1, WIDTH = 1024, HEIGHT = 768;
+        const uint16_t SOURCE_BLOCK = 10;
+        const uint8_t SESSION_ID = 1;
+
+        teamtalk::map_block_t blocks;
+        teamtalk::block_frags_t fragments;
+        teamtalk::mmap_dup_blocks_t dup_blocks;
+        dup_blocks.insert(std::make_pair(SOURCE_BLOCK, duplicates));
+
+        teamtalk::DesktopPacket packet(SRC_USERID, 0, SESSION_ID, WIDTH, HEIGHT,
+                                       teamtalk::BMP_RGB32, 0, 1, blocks,
+                                       fragments, dup_blocks);
+
+        int buffers = 0;
+        const iovec* vv = packet.GetPacket(buffers);
+        std::vector<char> raw;
+        for (int i = 0; i < buffers; ++i)
+            raw.insert(raw.end(), reinterpret_cast<const char*>(vv[i].iov_base),
+                       reinterpret_cast<const char*>(vv[i].iov_base) + vv[i].iov_len);
+
+        teamtalk::DesktopPacket received(&raw[0], uint16_t(raw.size()));
+        teamtalk::map_dup_blocks_t decoded;
+        received.GetDuplicateBlocks(decoded);
+
+        std::set<uint16_t> out;
+        auto const ii = decoded.find(SOURCE_BLOCK);
+        if (ii != decoded.end())
+            out = ii->second;
+        return out;
+    };
+
+    SECTION("highest usable block number survives")
+    {
+        // 0xFFE is the highest block number a session may produce once 4096
+        // block sessions are rejected.
+        std::set<uint16_t> const sent = { 20, 30, 0xFFE };
+        REQUIRE(round_trip(sent) == sent);
+    }
+
+    SECTION("the reserved block number does not survive")
+    {
+        // This is why 0xFFF has to stay reserved. The decoder reads it as the
+        // end of the duplicate list, flushes the entry early and drops the
+        // block, so the receiving DesktopCache ends up with fewer blocks than
+        // the session dimensions require. That mismatch is the assertion in
+        // DesktopCache.cpp line 342.
+        //
+        // If the encoding is ever changed so that every 12-bit block number is
+        // usable, this section should be inverted to require that 0xFFF also
+        // survives.
+        std::set<uint16_t> const sent = { 20, 30, 0xFFF };
+        std::set<uint16_t> const expected_loss = { 20, 30 };
+        REQUIRE(round_trip(sent) == expected_loss);
+    }
 }
 
 TEST_CASE("DesktopSession block limit")
