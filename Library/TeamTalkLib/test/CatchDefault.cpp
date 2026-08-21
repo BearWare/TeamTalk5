@@ -36,6 +36,7 @@
 #include "settings/Settings.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
 #include "teamtalk/client/Client.h"
@@ -120,6 +121,71 @@ public:
 
 /* Known bugs */
 #define TEAMTALK_KNOWN_BUGS 0
+
+static std::vector<char> FlattenPacket(const teamtalk::FieldPacket& packet,
+                                       std::vector<size_t>& offsets)
+{
+    int buffers = 0;
+    const iovec* packet_buffers = packet.GetPacket(buffers);
+    std::vector<char> result;
+    offsets.clear();
+    for(int i = 0; i < buffers; ++i)
+    {
+        offsets.push_back(result.size());
+        const auto* begin = static_cast<const char*>(packet_buffers[i].iov_base);
+        result.insert(result.end(), begin, begin + packet_buffers[i].iov_len);
+    }
+    return result;
+}
+
+TEST_CASE("Reject incomplete desktop packet ranges", "[packet]")
+{
+    using namespace teamtalk;
+
+    SECTION("duplicate block range missing its high value")
+    {
+        mmap_dup_blocks_t input_ranges;
+        input_ranges.emplace(4, std::set<uint16_t>{5, 6});
+        DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, map_block_t{},
+                             block_frags_t{}, input_ranges);
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
+        auto* range_field = reinterpret_cast<uint8_t*>(bytes.data()) +
+                            offsets.back();
+        const auto range_type = READFIELD_TYPE(range_field);
+        REQUIRE(READFIELD_SIZE(range_field) == 5);
+        WRITEFIELD_TYPE(range_field, range_type, 3);
+        bytes.resize(offsets.back() + FIELDVALUE_PREFIX + 3);
+
+        DesktopPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        map_dup_blocks_t output_ranges;
+        CHECK_FALSE(malformed.GetDuplicateBlocks(output_ranges));
+        CHECK(output_ranges.empty());
+    }
+
+    SECTION("acknowledgement range missing its high value")
+    {
+        DesktopAckPacket packet(1, 2, 3, 4, 5, std::set<uint16_t>{},
+                                packet_range_t{{6, 7}});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
+        auto* range_field = reinterpret_cast<uint8_t*>(bytes.data()) +
+                            offsets.back();
+        const auto range_type = READFIELD_TYPE(range_field);
+        REQUIRE(READFIELD_SIZE(range_field) == 4);
+        WRITEFIELD_TYPE(range_field, range_type, 2);
+        bytes.resize(offsets.back() + FIELDVALUE_PREFIX + 2);
+
+        DesktopAckPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        std::set<uint16_t> packets;
+        CHECK_FALSE(malformed.GetPacketsAcked(packets));
+        CHECK(packets.empty());
+    }
+}
 
 TEST_CASE( "Init TT", "" )
 {
