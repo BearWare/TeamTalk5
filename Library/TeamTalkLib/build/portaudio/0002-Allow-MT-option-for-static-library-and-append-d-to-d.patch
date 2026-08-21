@@ -1,4 +1,4 @@
-From 4cc0de83e9d5b25bbe8b7685627009c66b9a719e Mon Sep 17 00:00:00 2001
+From 87b05283cc01abf224fa8c483e6bfe86ea526caa Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 5 Nov 2025 21:06:56 +0100
 Subject: [PATCH 2/2] Allow /MT option for static library and append 'd' to

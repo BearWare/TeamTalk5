@@ -1,4 +1,4 @@
-From 4a4d5ff09a93239acee931c3c0c78ccf73c60699 Mon Sep 17 00:00:00 2001
+From 20f1626377cdee791af4ef6df5c028f74eafd0bb Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 5 Nov 2025 20:29:14 +0100
 Subject: [PATCH 1/2] Add 'uniqueID' to PaDeviceInfo that identifies sound
