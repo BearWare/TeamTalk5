@@ -183,6 +183,8 @@ public class TeamTalkService extends Service
     CountDownTimer eventTimer;
     SparseArray<CmdComplete> activecmds = new SparseArray<>();
 
+    private boolean synchronizing = false;
+
     Map<Integer, Channel> channels = new HashMap<>();
     Map<Integer, RemoteFile> remoteFiles = new HashMap<>();
     Map<Integer, FileTransfer> fileTransfers = new HashMap<>();
@@ -193,6 +195,7 @@ public class TeamTalkService extends Service
 
     public void resetState() {
         reconnectHandler.removeCallbacks(reconnectTimer);
+        synchronizing = false;
         disablePhoneCallReaction();
 
         syncToUserCache();
@@ -827,7 +830,7 @@ public class TeamTalkService extends Service
         getChatLogTextMsgs().add(msg);
     }
 
-    private void loginComplete() {
+    private boolean loginComplete() {
         if (joinchannel == null) {
 
             // join channel specified in ServerEntry
@@ -860,7 +863,9 @@ public class TeamTalkService extends Service
         if(joinchannel != null) {
             int cmdid = ttclient.doJoinChannel(joinchannel);
             activecmds.put(cmdid, CmdComplete.CMD_COMPLETE_JOIN);
+            return true;
         }
+        return false;
     }
 
     private void setupAudioPreprocessor() {
@@ -882,8 +887,11 @@ public class TeamTalkService extends Service
 
     @Override
     public void onConnectSuccess() {
-        
+
         assert (ttserver != null);
+
+
+        synchronizing = true;
 
         if (Utils.isWebLogin(ttserver.username)) {
             new WebLoginAccessToken().execute();
@@ -913,9 +921,9 @@ public class TeamTalkService extends Service
 
     @Override
     public void onConnectionLost() {
-        
+
         Log.i(TAG, "Connection lost to " + ttserver.ipaddr + ":" + ttserver.tcpport);
-        
+
         activecmds.clear();
         
         Toast.makeText(this, getResources().getString(R.string.text_con_lost),
@@ -930,11 +938,17 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdError(int cmdId, ClientErrorMsg errmsg) {
-        
+
+
         Utils.notifyError(this, errmsg);
-        
-        if(activecmds.get(cmdId) == CmdComplete.CMD_COMPLETE_LOGIN) {
-            
+
+        CmdComplete cmd = activecmds.get(cmdId);
+        if (cmd == CmdComplete.CMD_COMPLETE_LOGIN || cmd == CmdComplete.CMD_COMPLETE_JOIN) {
+            synchronizing = false;
+        }
+
+        if(cmd == CmdComplete.CMD_COMPLETE_LOGIN) {
+
             //don't try to reconnect if we get a server login error
             reconnectHandler.removeCallbacks(reconnectTimer);
         }
@@ -955,6 +969,7 @@ public class TeamTalkService extends Service
     @Override
     public void onCmdProcessing(int cmdId, boolean complete) {
 
+
         if (!complete) {
             switch (activecmds.get(cmdId, CMD_COMPLETE_NONE)) {
                 case CMD_COMPLETE_LOGIN:
@@ -968,13 +983,19 @@ public class TeamTalkService extends Service
         }
         else {
             switch (activecmds.get(cmdId, CMD_COMPLETE_NONE)) {
-                case CMD_COMPLETE_LOGIN : {
-                    loginComplete();
-                }
-                break;
+                case CMD_COMPLETE_LOGIN :
+                    synchronizing = loginComplete();
+                    break;
+                case CMD_COMPLETE_JOIN :
+                    synchronizing = false;
+                    break;
             }
             activecmds.delete(cmdId);
         }
+    }
+
+    public boolean isSynchronizing() {
+        return synchronizing;
     }
 
     @Override
@@ -1072,7 +1093,8 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdUserJoinedChannel(User user) {
-        users.put(user.nUserID, user);        
+        users.put(user.nUserID, user);
+
         if (ttserver.rememberLastChannel && (user.nUserID == ttclient.getMyUserID()) && (joinchannel != null)) {
             ttserver.channel = ttclient.getChannelPath(joinchannel.nChannelID);
             ttserver.chanpasswd = joinchannel.szPassword;
@@ -1165,8 +1187,9 @@ public class TeamTalkService extends Service
     @Override
     public void onCmdUserTextMessage(TextMessage textmessage) {
 
+
         User user = getUsers().get(textmessage.nFromUserID);
-        MyTextMessage newmsg = new MyTextMessage(textmessage, 
+        MyTextMessage newmsg = new MyTextMessage(textmessage,
                                                  user == null? "" : Utils.getDisplayName(getBaseContext(), user));
 
         Vector<MyTextMessage> msgs = null;
@@ -1192,6 +1215,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
+
 
         Channel oldchannel = channels.get(channel.nChannelID);
 

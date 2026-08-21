@@ -2120,6 +2120,9 @@ private EditText newmsg;
         textmsgAdapter.notifyDataSetChanged();
         accessibilityAssistant.unlockEvents();
 
+        if (getService().isSynchronizing())
+            return;
+
         if (sounds.get(SOUND_USERLOGGEDIN) != 0)
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_login_checkbox", false)) {
@@ -2189,7 +2192,7 @@ private EditText newmsg;
                 accessibilityAssistant.lockEvents();
                 textmsgAdapter.notifyDataSetChanged();
                 channelsAdapter.notifyDataSetChanged();
-                if (getClient().getMyChannelID() == user.nChannelID) {
+                if (getClient().getMyChannelID() == user.nChannelID && !getService().isSynchronizing()) {
                     if (sounds.get(SOUND_USERJOIN) != 0)
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && prefs.get("channel_join_checkbox", false)) {
@@ -2204,7 +2207,7 @@ private EditText newmsg;
                 channelsAdapter.notifyDataSetChanged();
             }
         }
-        else if (user.nUserID != getClient().getMyUserID() && ttsWrapper != null && prefs.get("all_channel_join_checkbox", false)) {
+        else if (user.nUserID != getClient().getMyUserID() && !getService().isSynchronizing() && ttsWrapper != null && prefs.get("all_channel_join_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
             Channel targetChan = getService().getChannels().get(user.nChannelID);
             String chanName = (targetChan.nParentID == 0) ? getString(R.string.text_root_chan) : targetChan.szName;
@@ -2420,8 +2423,8 @@ private EditText newmsg;
     @Override
     public void onCmdFileNew(RemoteFile remotefile) {
         filesAdapter.update();
-        
-        if(activecmds.size() == 0 && getClient().getMyChannelID() == remotefile.nChannelID) {
+
+        if(activecmds.size() == 0 && !getService().isSynchronizing() && getClient().getMyChannelID() == remotefile.nChannelID) {
             if(sounds.get(SOUND_FILESUPDATE) != 0) {
                 audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
             }
@@ -2431,8 +2434,8 @@ private EditText newmsg;
     @Override
     public void onCmdFileRemove(RemoteFile remotefile) {
         filesAdapter.update();
-        
-        if(activecmds.size() == 0 && getClient().getMyChannelID() == remotefile.nChannelID) {
+
+        if(activecmds.size() == 0 && !getService().isSynchronizing() && getClient().getMyChannelID() == remotefile.nChannelID) {
             if(sounds.get(SOUND_FILESUPDATE) != 0) {
                 audioIcons.play(sounds.get(SOUND_FILESUPDATE), 1.0f, 1.0f, 0, 0, 1.0f);
             }
