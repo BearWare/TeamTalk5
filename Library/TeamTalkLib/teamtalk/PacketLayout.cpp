@@ -1831,6 +1831,7 @@ namespace teamtalk
             // step. GetBlocks() guards its own array the same way.
             if((blocknums_range.size() % 3) != 0u)
                 return false;
+            assert(blocknums_range.size() % 3 == 0);
 
             for(size_t i=0;i<blocknums_range.size();i+=3)
             {
@@ -2003,9 +2004,9 @@ namespace teamtalk
         // length but still yields field_size/2 values, which can be odd, so the
         // count has to be checked at run time and not only with assert(), which
         // is compiled out of a release server.
-        assert(packetnums.size() % 2 == 0);
         if((packetnums.size() % 2) != 0u)
-            return true;
+            return false;
+        assert(packetnums.size() % 2 == 0);
         //insert ranges
         for(size_t i=0;i<packetnums.size();i+=2)
         {
