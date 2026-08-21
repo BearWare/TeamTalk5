@@ -47,6 +47,7 @@
 #if defined(ENABLE_OPUS)
 #include "avstream/OpusFileStreamer.h"
 #include "codec/OpusDecoder.h"
+#include "codec/OpusEncoder.h"
 #endif
 
 #if defined(ENABLE_FFMPEG)
@@ -3639,6 +3640,88 @@ TEST_CASE("OPUSFileSeek")
     duration_msec = PCM16_SAMPLES_DURATION(frames * FRAMESIZE, SAMPLERATE);
     REQUIRE(duration_msec == mfi.uDurationMSec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
+}
+
+TEST_CASE("OpusFECRecovery")
+{
+    const int SAMPLERATE = 48000;
+    const int CHANNELS = 1;
+    const int FRAMESIZE = SAMPLERATE * 20 / 1000;
+    const int N_FRAMES = 12;
+    const int LOST_FRAME = 4;
+
+    OpusEncode enc;
+    REQUIRE(enc.Open(SAMPLERATE, CHANNELS, OPUS_APPLICATION_VOIP));
+    REQUIRE(enc.SetBitrate(16000));
+    REQUIRE(enc.SetComplexity(10));
+    REQUIRE(enc.SetFEC(true));
+    REQUIRE(enc.SetPacketLossPerc(50));
+    REQUIRE(enc.SetSignalVoice(true));
+    REQUIRE(enc.SetLSBDepth(16));
+    REQUIRE(enc.SetDTX(false));
+    REQUIRE(enc.SetVBR(true));
+
+    std::vector<short> input(FRAMESIZE * N_FRAMES);
+    for (int f = 0; f < N_FRAMES; ++f)
+    {
+        int period = 60 + f * 8;
+        int half = period / 2;
+        for (int s = 0; s < FRAMESIZE; ++s)
+        {
+            int phase = s % period;
+            int tri = (phase < half) ? phase : (period - phase);
+            input[f * FRAMESIZE + s] = static_cast<short>((tri - half / 2) * 400);
+        }
+    }
+
+    std::vector<std::vector<char>> packets(N_FRAMES);
+    for (int i = 0; i < N_FRAMES; ++i)
+    {
+        std::vector<char> buf(4000);
+        int ret = enc.Encode(&input[i * FRAMESIZE], FRAMESIZE, buf.data(), int(buf.size()));
+        REQUIRE(ret > 0);
+        buf.resize(ret);
+        packets[i] = std::move(buf);
+    }
+
+    OpusDecode decPLC, decFEC;
+    REQUIRE(decPLC.Open(SAMPLERATE, CHANNELS));
+    REQUIRE(decFEC.Open(SAMPLERATE, CHANNELS));
+
+    std::vector<short> outPLC(FRAMESIZE), outFEC(FRAMESIZE), warm(FRAMESIZE);
+
+    for (int i = 0; i < LOST_FRAME; ++i)
+    {
+        REQUIRE(decPLC.Decode(packets[i].data(), int(packets[i].size()), warm.data(), FRAMESIZE) == FRAMESIZE);
+        REQUIRE(decFEC.Decode(packets[i].data(), int(packets[i].size()), warm.data(), FRAMESIZE) == FRAMESIZE);
+    }
+
+    int retPLC = decPLC.Decode(nullptr, 0, outPLC.data(), FRAMESIZE, false);
+    int retFEC = decFEC.Decode(packets[LOST_FRAME + 1].data(),
+                               int(packets[LOST_FRAME + 1].size()),
+                               outFEC.data(), FRAMESIZE, true);
+    REQUIRE(retPLC == FRAMESIZE);
+    REQUIRE(retFEC == FRAMESIZE);
+
+    long long fecEnergy = 0;
+    for (short s : outFEC) fecEnergy += (s < 0 ? -int(s) : int(s));
+    REQUIRE(fecEnergy > 0);
+
+    bool differs = false;
+    for (int i = 0; i < FRAMESIZE; ++i)
+        if (outPLC[i] != outFEC[i]) { differs = true; break; }
+    REQUIRE(differs);
+
+    const short* truth = &input[LOST_FRAME * FRAMESIZE];
+    long long ssePLC = 0, sseFEC = 0;
+    for (int i = 0; i < FRAMESIZE; ++i)
+    {
+        long long dP = outPLC[i] - truth[i];
+        long long dF = outFEC[i] - truth[i];
+        ssePLC += dP * dP;
+        sseFEC += dF * dF;
+    }
+    REQUIRE(sseFEC < ssePLC);
 }
 
 TEST_CASE("OPUSStreamer")
