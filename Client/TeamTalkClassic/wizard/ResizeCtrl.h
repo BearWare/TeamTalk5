@@ -1,4 +1,4 @@
-// ResizeCtrl.h: interface for the CResizeCtrl class.
+ï»¿// ResizeCtrl.h: interface for the CResizeCtrl class.
 //
 //
 // Written by Herbert Menke (h.menke@gmx.de)
@@ -38,13 +38,13 @@ struct CResizeInfo
 {
     int ctlID;  // Specifies the identifier of the control 
     int left;   // Specifies the  change in the position of the left edge 
-    // of the object relative to the total change in the parent window’s width. 
+    // of the object relative to the total change in the parent windowâ€™s width. 
     int top;    // Specifies the  change in the position of the top 
-    // of the object relative to the total change in the parent window’s height.
+    // of the object relative to the total change in the parent windowâ€™s height.
     int width;  // Specifies the  change in the width of the object 
-    // relative to the total change in the parent window’s width.
+    // relative to the total change in the parent windowâ€™s width.
     int height; // Specifies the  change in the height of the object 
-    // relative to the total change in the parent window’s height.
+    // relative to the total change in the parent windowâ€™s height.
 };
 
 class CResizeCtrl
@@ -73,19 +73,19 @@ public:
 
     //
     // left   - Specifies the change in the position of the left edge 
-    //          of the object relative to the total change in the parent window’s width. 
+    //          of the object relative to the total change in the parent windowâ€™s width. 
     //          For example: suppose that left is 50 and the width of the window increases by 200 pixels. 
     //          Then the left edge of the object moves right by 100 pixels (50% of 200).
     // top    - Specifies the change in the top position
-    //          of the object relative to the total change in the parent window’s height.
+    //          of the object relative to the total change in the parent windowâ€™s height.
     // width  - Specifies the  change in the width of the object 
-    //          relative to the total change in the parent window’s width.
+    //          relative to the total change in the parent windowâ€™s width.
     //          For example: suppose that width is zero. Then the width of the object does not change, 
     //                       regardless of how much the width of the parent window changes.
     //                       suppose that width is 100 and the width of the window decreases by 50 pixels. 
     //                       Then the width of the object also decreases by 50 pixels (100% of 50).
     // height - Specifies the  change in the height of the object 
-    //          relative to the total change in the parent window’s height.
+    //          relative to the total change in the parent windowâ€™s height.
 
     BOOL Add( HWND hWndCtl,  int left, int top, int width, int height );
     BOOL Add( int ctlID,     int left, int top, int width, int height );
