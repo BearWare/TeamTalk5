@@ -184,6 +184,19 @@ namespace teamtalk {
         return GetValue(prefixRoot, path, std::string(defaultvalue?"true":"false")) == "true";
     }
 
+    void XMLDocument::SetBearWareWebLogin(const std::string& username, const std::string& token)
+    {
+        SetValue("bearware-weblogin/bearwareid", username);
+        SetValue("bearware-weblogin/bearwaretoken", token);
+    }
+
+    bool XMLDocument::GetBearWareWebLogin(std::string& username, std::string& token)
+    {
+        username = GetValue(true, "bearware-weblogin/bearwareid", "");
+        token = GetValue(true, "bearware-weblogin/bearwaretoken", "");
+        return (!username.empty()) && (!token.empty());
+    }
+
     bool XMLDocument::LoadFile(const std::string& filename)
     {
         if(m_xmlDocument.LoadFile(filename.c_str()) == XML_SUCCESS)
