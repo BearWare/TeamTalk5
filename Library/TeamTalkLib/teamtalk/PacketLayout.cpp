@@ -816,12 +816,8 @@ namespace teamtalk
         if(ptr == nullptr)
             return v_frm_sizes;
 
-        uint16_t const length = READFIELD_SIZE(ptr);
-        ptr = READFIELD_DATAPTR(ptr);
-
-        const auto* frm_sizes = ptr;
-
-        ConvertFromUInt12Array(frm_sizes, length, v_frm_sizes);
+        if(!ReadUInt12Array(ptr, FIELDTYPE_ENCFRAMESIZES, v_frm_sizes))
+            v_frm_sizes.clear();
 
         return v_frm_sizes;
     }
@@ -1720,9 +1716,6 @@ namespace teamtalk
         if(blocknums_ptr == nullptr)
             return false;
 
-        uint16_t const blocknums_len = READFIELD_SIZE(blocknums_ptr);
-        blocknums_ptr = READFIELD_DATAPTR(blocknums_ptr);
-
         const uint8_t* blockdata_ptr = FindField(FIELDTYPE_BLOCKS_DATA);
         if(blockdata_ptr == nullptr)
             return false;
@@ -1732,9 +1725,9 @@ namespace teamtalk
 
         
         std::vector<uint16_t> blocks_n_sizes;
-        const auto* blocks_array = blocknums_ptr;
-
-        ConvertFromUInt12Array(blocks_array, blocknums_len, blocks_n_sizes);
+        if(!ReadUInt12Array(blocknums_ptr, FIELDTYPE_BLOCKNUMS_AND_SIZES,
+                            blocks_n_sizes))
+            return false;
 
         assert(blocks_n_sizes.size() % 2 == 0);
         if((blocks_n_sizes.size() % 2) != 0u)
@@ -1752,9 +1745,9 @@ namespace teamtalk
             // already does the same check. byte_pos is uint16_t and can wrap
             // once the declared total passes 65535, so this has to be checked
             // per block rather than on the total afterwards.
-            assert(byte_pos + bb.block_size <= blockdata_len);
             if(byte_pos + bb.block_size > blockdata_len) //buffer overflow check
                 return false;
+            assert(byte_pos + bb.block_size <= blockdata_len);
 
             bb.block_data = reinterpret_cast<const char*>(&blockdata_ptr[byte_pos]);
 
@@ -1808,12 +1801,10 @@ namespace teamtalk
         const uint8_t* info_ptr = FindField(FIELDTYPE_BLOCK_DUP);
         if(info_ptr != nullptr)
         {
-            uint16_t const info_size = READFIELD_SIZE(info_ptr);
-            info_ptr = READFIELD_DATAPTR(info_ptr);
-
-            const auto* u8_info_ptr = info_ptr;
             std::vector<uint16_t> blocknums_single;
-            ConvertFromUInt12Array(u8_info_ptr, info_size, blocknums_single);
+            if(!ReadUInt12Array(info_ptr, FIELDTYPE_BLOCK_DUP,
+                                blocknums_single))
+                return false;
 
             uint16_t block_no = 0xFFF;
             std::set<uint16_t> blocknums;
@@ -1841,12 +1832,10 @@ namespace teamtalk
         info_ptr = FindField(FIELDTYPE_BLOCK_DUP_RANGE);
         if(info_ptr != nullptr)
         {
-            uint16_t const info_size = READFIELD_SIZE(info_ptr);
-            info_ptr = READFIELD_DATAPTR(info_ptr);
-
-            const auto* u8_info_ptr = info_ptr;
             std::vector<uint16_t> blocknums_range;
-            ConvertFromUInt12Array(u8_info_ptr, info_size, blocknums_range);
+            if(!ReadUInt12Array(info_ptr, FIELDTYPE_BLOCK_DUP_RANGE,
+                                blocknums_range))
+                return false;
 
             for(size_t i=0;i<blocknums_range.size();i+=3)
             {
