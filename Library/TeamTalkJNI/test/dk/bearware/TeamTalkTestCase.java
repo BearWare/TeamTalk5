@@ -319,6 +319,87 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
         wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
 
         assertFalse(ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0, "send desktop window");
+
+        final int BLOCKWIDTH = 51, BLOCKHEIGHT = 20, BLOCKWIDTH_BYTES = BLOCKWIDTH * 4;
+        final int BLOCKS_X = 64, BLOCKS_Y = 64;
+        wnd.nWidth = BLOCKWIDTH * BLOCKS_X;
+        wnd.nHeight = BLOCKHEIGHT * BLOCKS_Y;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        assertFalse(ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0, "send desktop window");
+    }
+
+    @Test
+    public void testSendDesktopWindowMaximum() {
+
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                         UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
+        makeUserAccount(NICKNAME, USERNAME, PASSWORD, USERRIGHTS);
+
+        TeamTalkBase ttclient = newClientInstance();
+        connect(ttclient);
+        login(ttclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(ttclient);
+
+        TeamTalkBase rxclient = newClientInstance();
+        connect(rxclient);
+        login(rxclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(rxclient);
+
+        final int BLOCKWIDTH = 51, BLOCKHEIGHT = 20, BLOCKWIDTH_BYTES = BLOCKWIDTH * 4;
+        final int BLOCKS_X = 105, BLOCKS_Y = 39;
+        DesktopWindow wnd = new DesktopWindow();
+        wnd.nWidth = BLOCKWIDTH * BLOCKS_X;
+        wnd.nHeight = BLOCKHEIGHT * BLOCKS_Y;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        for (int i=0;i<wnd.frameBuffer.length;i+=BLOCKWIDTH_BYTES) {
+            int block_x = (i / BLOCKWIDTH_BYTES) % BLOCKS_X;
+            int block_y = (i / (BLOCKS_X * BLOCKWIDTH_BYTES)) / BLOCKHEIGHT;
+            int blockno = BLOCKS_X * block_y + block_x;
+            // wnd.frameBuffer[i] = (byte)((blockno >> 24) & 0xff);
+            // wnd.frameBuffer[i+1] = (byte)((blockno >> 16) & 0xff);
+            // wnd.frameBuffer[i+2] = (byte)((blockno >> 8) & 0xff);
+            wnd.frameBuffer[i+3] = (byte)(blockno & 0xff); // ensure 4096/256 duplicate blocks
+        }
+
+        assertTrue(ttclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0, "Send desktop window for RGB " + wnd.bmpFormat);
+
+        TTMessage msg = new TTMessage();
+
+        while(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER,
+                           DEF_WAIT, msg) && msg.nBytesRemain > 0) {
+        }
+
+        assertTrue(msg.nBytesRemain == 0, "All bytes transferred for RGB " + wnd.bmpFormat);
+
+        assertFalse(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_TX_DESKTOP), "No tx desktop flag for RGB " + wnd.bmpFormat);
+
+        assertTrue(hasFlag(ttclient.getFlags(), ClientFlag.CLIENT_DESKTOP_ACTIVE), "Desktop active for RGB " + wnd.bmpFormat);
+
+        boolean sameBitmap = false;
+        while (waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg)) {
+            DesktopWindow wnd2 = rxclient.acquireUserDesktopWindow(msg.nSource);
+            assertEquals(wnd.nWidth, wnd2.nWidth, "width for RGB " + wnd.bmpFormat);
+            assertEquals(wnd.nHeight, wnd2.nHeight, "height for RGB " + wnd.bmpFormat);
+            assertEquals(wnd.frameBuffer.length, wnd2.frameBuffer.length, "length for RGB " + wnd.bmpFormat);
+
+            boolean same = true;
+            for (int i=0;i<wnd.frameBuffer.length && same;++i) {
+                same &= wnd.frameBuffer[i] == wnd2.frameBuffer[i];
+            }
+            sameBitmap = same;
+            if (same)
+                break;
+        }
+        assertTrue(sameBitmap, "Same bitmap for RGB " + wnd.bmpFormat);
+
+        assertTrue(ttclient.closeDesktopWindow(), "Close desktop");
     }
 
     @Test
