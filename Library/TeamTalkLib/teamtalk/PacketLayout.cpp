@@ -100,16 +100,21 @@ namespace teamtalk
         }
     }
 
-    static bool ReadUInt12Array(const uint8_t* ptr, uint8_t  /*field_type*/, 
+    static bool ReadUInt12Array(const uint8_t* ptr, uint8_t field_type,
                          std::vector<uint16_t>& output)
     {
-        uint16_t const field_size = READFIELD_SIZE(ptr);
+        assert(field_type == READFIELD_TYPE(ptr));
+        if (field_type != READFIELD_TYPE(ptr))
+            return false;
+
         // Two 12-bit values pack into three bytes, so a valid array ends on a
         // whole pair or on a two byte tail. One byte left over cannot be
         // decoded, which makes the field malformed. ReadUInt16Array already
         // rejects its own bad lengths the same way.
+        uint16_t const field_size = READFIELD_SIZE(ptr);
         if((field_size == 0u) || ((field_size % 3) == 1))
             return false;
+
         const uint8_t* field_ptr = READFIELD_DATAPTR(ptr);
         ConvertFromUInt12Array(field_ptr, field_size, output);
         return true;
@@ -140,9 +145,13 @@ namespace teamtalk
         out_iovec.push_back(v);
     }
 
-    static bool ReadUInt16Array(const uint8_t* ptr, uint8_t  /*field_type*/, 
+    static bool ReadUInt16Array(const uint8_t* ptr, uint8_t  field_type,
                          std::vector<uint16_t>& output)
     {
+        assert(field_type == READFIELD_TYPE(ptr));
+        if (field_type != READFIELD_TYPE(ptr))
+            return false;
+
         uint16_t const field_size = READFIELD_SIZE(ptr);
         if((field_size == 0u) || ((field_size % 2) != 0))
             return false;
@@ -1747,7 +1756,6 @@ namespace teamtalk
             // per block rather than on the total afterwards.
             if(byte_pos + bb.block_size > blockdata_len) //buffer overflow check
                 return false;
-            assert(byte_pos + bb.block_size <= blockdata_len);
 
             bb.block_data = reinterpret_cast<const char*>(&blockdata_ptr[byte_pos]);
 
