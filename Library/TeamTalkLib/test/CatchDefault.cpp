@@ -138,6 +138,52 @@ static std::vector<char> FlattenPacket(const teamtalk::FieldPacket& packet,
     return result;
 }
 
+TEST_CASE("Reject malformed 12-bit packet arrays", "[packet]")
+{
+    using namespace teamtalk;
+
+    SECTION("one-byte remainder in encoded audio frame sizes")
+    {
+        const char audio[] = {0};
+        AudioPacket packet(PACKET_KIND_VOICE, 1, 2, 3, 4, audio,
+                           sizeof(audio), std::vector<uint16_t>{1});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        auto* fields = reinterpret_cast<uint8_t*>(bytes.data()) +
+                       TT_CHANNEL_HEADER_SIZE;
+        auto* frame_sizes = const_cast<uint8_t*>(FINDFIELD_TYPE(
+            fields, AudioPacket::FIELDTYPE_ENCFRAMESIZES,
+            bytes.size() - TT_CHANNEL_HEADER_SIZE));
+        REQUIRE(frame_sizes != nullptr);
+
+        const auto field_offset = static_cast<size_t>(
+            frame_sizes - reinterpret_cast<uint8_t*>(bytes.data()));
+        WRITEFIELD_TYPE(frame_sizes, AudioPacket::FIELDTYPE_ENCFRAMESIZES, 1);
+        bytes.resize(field_offset + FIELDVALUE_PREFIX + 1);
+
+        AudioPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        CHECK(malformed.GetEncodedFrameSizes().empty());
+    }
+
+    SECTION("declared block size exceeds block data")
+    {
+        const char block_data[] = {1, 2};
+        map_block_t input_blocks = {
+            {7, desktop_block{block_data, uint16_t(sizeof(block_data))}}
+        };
+        DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, input_blocks,
+                             block_frags_t{}, mmap_dup_blocks_t{});
+        auto* block_info = reinterpret_cast<uint8_t*>(bytes.data()) + offsets[2];
+        REQUIRE(READFIELD_SIZE(block_info) == 3);
+        SET2_UINT12_PTR(READFIELD_DATAPTR(block_info), 7, 3);
+
+        DesktopPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        map_block_t output_blocks;
+        CHECK_FALSE(malformed.GetBlocks(output_blocks));
+        CHECK(output_blocks.empty());
+    }
+}
+      
 TEST_CASE("Reject incomplete desktop packet ranges", "[packet]")
 {
     using namespace teamtalk;
