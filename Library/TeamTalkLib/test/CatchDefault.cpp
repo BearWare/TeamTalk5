@@ -173,6 +173,10 @@ TEST_CASE("Reject malformed 12-bit packet arrays", "[packet]")
         };
         DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, input_blocks,
                              block_frags_t{}, mmap_dup_blocks_t{});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
         auto* block_info = reinterpret_cast<uint8_t*>(bytes.data()) + offsets[2];
         REQUIRE(READFIELD_SIZE(block_info) == 3);
         SET2_UINT12_PTR(READFIELD_DATAPTR(block_info), 7, 3);
