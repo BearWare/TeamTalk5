@@ -18,6 +18,7 @@
 #include "serverdlg.h"
 #include "ui_serverdlg.h"
 #include "appinfo.h"
+#include "channeltypedlg.h"
 #include "encryptionsetupdlg.h"
 #include "settings.h"
 
@@ -31,8 +32,9 @@ extern NonDefaultSettings* ttSettings;
 ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     : QDialog(parent)
     , ui(new Ui::ServerDlg)
-    , m_type(type)
     , m_hostentry(host)
+    , m_chantype(host.chantype)
+    , m_type(type)
 {
     ui->setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -53,6 +55,15 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
             this, &ServerDlg::slotToggledWebLogin);
     connect(ui->lastChanChkBox, &QCheckBox::toggled,
             this, &ServerDlg::slotToggledLastChannel);
+    connect(ui->chantypeButton, &QAbstractButton::clicked, this, [&]()
+    {
+        ChannelTypeDlg dlg(m_chantype, this);
+        if (dlg.exec() == QDialog::Accepted)
+        {
+            m_chantype = dlg.channelType();
+            updateChannelTypeText();
+        }
+    });
     connect(ui->passwordChkBox, &QAbstractButton::clicked,
             this, [&](bool checked) { ui->passwordEdit->setEchoMode(checked ? QLineEdit::Normal : QLineEdit::Password); } );
     connect(ui->chanpasswordChkBox, &QAbstractButton::clicked,
@@ -87,6 +98,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
         ui->lastChanChkBox->setEnabled(false);
         ui->channelEdit->setReadOnly(true);
         ui->chanpasswdEdit->setReadOnly(true);
+        ui->chantypeButton->setEnabled(false);
         ui->connectSrvBox->setEnabled(false);
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
         ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
@@ -107,6 +119,7 @@ ServerDlg::ServerDlg(ServerDlgType type, const HostEntry& host, QWidget *parent)
     ui->lastChanChkBox->setChecked(m_hostentry.lastChan);
     ui->channelEdit->setText(m_hostentry.channel);
     ui->chanpasswdEdit->setText(m_hostentry.chanpasswd);
+    updateChannelTypeText();
     ui->joinCodeEdit->setText(host.joincode);
     if (host.joincode.isEmpty())
         ui->joincodeGroupBox->hide();
@@ -133,6 +146,7 @@ HostEntry ServerDlg::GetHostEntry() const
     newhostentry.lastChan = ui->lastChanChkBox->isChecked();
     newhostentry.channel = ui->channelEdit->text();
     newhostentry.chanpasswd = ui->chanpasswdEdit->text();
+    newhostentry.chantype = m_chantype;
 
     return newhostentry;
 }
@@ -145,6 +159,11 @@ bool ServerDlg::connectToServer() const
 void ServerDlg::generateEntryName()
 {
     ui->nameEdit->setText(GetHostEntry().generateEntryName());
+}
+
+void ServerDlg::updateChannelTypeText()
+{
+    ui->chantypeButton->setText(ChannelTypeDlg::channelTypeText(m_chantype));
 }
 
 void ServerDlg::accept()
@@ -195,6 +214,8 @@ void ServerDlg::slotToggledLastChannel()
     ui->chanpsw_label->setVisible(!ui->lastChanChkBox->isChecked());
     ui->chanpasswdEdit->setVisible(!ui->lastChanChkBox->isChecked());
     ui->chanpasswordChkBox->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->chantypeLabel->setVisible(!ui->lastChanChkBox->isChecked());
+    ui->chantypeButton->setVisible(!ui->lastChanChkBox->isChecked());
 }
 
 bool ServerDlg::isServerNameUnique(const QString& serverName)

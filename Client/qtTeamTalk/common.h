@@ -98,6 +98,7 @@ struct HostEntry
     bool lastChan = false;
     QString channel;
     QString chanpasswd;
+    ChannelTypes chantype = CHANNEL_DEFAULT;
     //tt-file specific
     Gender gender = GENDER_NONE;
     hotkey_t hotkey;

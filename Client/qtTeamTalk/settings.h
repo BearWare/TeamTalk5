@@ -568,6 +568,7 @@
 #define SETTINGS_LATESTHOST_STATUSMSG                "latesthosts/%1_status-message"
 #define SETTINGS_LATESTHOST_CHANNEL                 "latesthosts/%1_channel"
 #define SETTINGS_LATESTHOST_CHANNELPASSWD           "latesthosts/%1_chanpassword"
+#define SETTINGS_LATESTHOST_CHANNELTYPE             "latesthosts/%1_channel-type"
 
 #define SETTINGS_SERVERENTRIES_NAME                 "serverentries/%1_name"
 #define SETTINGS_SERVERENTRIES_HOSTADDR             "serverentries/%1_hostaddr"
@@ -585,6 +586,7 @@
 #define SETTINGS_SERVERENTRIES_LASTCHANNEL              "serverentries/%1_join-last-channel"
 #define SETTINGS_SERVERENTRIES_CHANNEL              "serverentries/%1_channel"
 #define SETTINGS_SERVERENTRIES_CHANNELPASSWD        "serverentries/%1_chanpassword"
+#define SETTINGS_SERVERENTRIES_CHANNELTYPE          "serverentries/%1_channel-type"
 
 #define SETTINGS_DESKTOPACCESS_HOSTADDR             "desktopaccess/%1_hostaddr"
 #define SETTINGS_DESKTOPACCESS_TCPPORT              "desktopaccess/%1_tcpport"

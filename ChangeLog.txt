@@ -13,6 +13,7 @@ Default Qt Client
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
 - Fixed crash issue when invoking context menu in Server List dialog
+- Channel types can now be specified in .tt files
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator
