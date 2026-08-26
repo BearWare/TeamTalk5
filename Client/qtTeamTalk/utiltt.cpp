@@ -121,6 +121,16 @@ bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
     return false;
 }
 
+void getChannelTransmitUsers(const Channel& chan, QMap<int, StreamTypes>& transmitUsers)
+{
+    for (int i = 0; i < TT_TRANSMITUSERS_MAX &&
+                    chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX]; ++i)
+    {
+        transmitUsers[chan.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX]] =
+            chan.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX];
+    }
+}
+
 void setTransmitUsers(const QSet<int>& users, INT32* dest_array,
                       INT32 max_elements)
 {

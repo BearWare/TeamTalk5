@@ -236,6 +236,15 @@ void ChannelsTree::getTransmitUsers(int channelid,
         return;
     Q_ASSERT(parent->data(COLUMN_ITEM, Qt::UserRole).toInt() == channelid);
 
+    auto channel = m_channels.find(channelid);
+    if (channel != m_channels.end() &&
+        channelid != TT_GetMyChannelID(ttInst) &&
+        (channel->uChannelType & CHANNEL_CLASSROOM))
+    {
+        getChannelTransmitUsers(channel.value(), transmitUsers);
+        return;
+    }
+
     transmitUsers[TT_CLASSROOM_FREEFORALL] = STREAMTYPE_NONE;
     if (parent->checkState(COLUMN_CHANMSG) == Qt::Checked)
         transmitUsers[TT_CLASSROOM_FREEFORALL] |= STREAMTYPE_CHANNELMSG;
