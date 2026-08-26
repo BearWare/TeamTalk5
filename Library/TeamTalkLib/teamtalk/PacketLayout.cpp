@@ -1845,6 +1845,14 @@ namespace teamtalk
                                 blocknums_range))
                 return false;
 
+            // Each range entry is three values: a source block and a low/high
+            // pair. The values come off the wire, so the count can be anything;
+            // without this the loop below reads past the vector on the last
+            // step. GetBlocks() guards its own array the same way.
+            if((blocknums_range.size() % 3) != 0u)
+                return false;
+            assert(blocknums_range.size() % 3 == 0);
+
             for(size_t i=0;i<blocknums_range.size();i+=3)
             {
                 std::set<uint16_t> blocknums;
@@ -2012,6 +2020,12 @@ namespace teamtalk
         packetnums.clear();
 
         ReadUInt16Array(ptr, FIELDTYPE_PACKETRANGE_ACK, packetnums);
+        // Each range is a low/high pair. ReadUInt16Array requires an even byte
+        // length but still yields field_size/2 values, which can be odd, so the
+        // count has to be checked at run time and not only with assert(), which
+        // is compiled out of a release server.
+        if((packetnums.size() % 2) != 0u)
+            return false;
         assert(packetnums.size() % 2 == 0);
         //insert ranges
         for(size_t i=0;i<packetnums.size();i+=2)
