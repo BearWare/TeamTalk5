@@ -16,6 +16,7 @@ Default Qt Client
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator
+- Announce who is streaming media file
 - Indication when a user is typing a private message
 - Ability to use Text-To-Speech to announce users joining and leaving other channels
 - Subscription and transmission changes are now shown in the chat list
@@ -33,6 +34,7 @@ iOS Client
 - User interface has been redesigned using a more modern UI toolkit
 - Minimum supported iOS version is now 16.0
 Server
+- Fixed crash issue when sharing large desktops
 - Ubuntu 22 is no longer supported
 
 Version 5.22, 2026/04/06

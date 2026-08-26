@@ -14,6 +14,7 @@
     <string name="title_activity_channel_prop">Propiedades del canal</string>
     <string name="title_activity_user_prop">Propiedades del usuario</string>
     <string name="title_activity_text_message">Mensaje de texto</string>
+    <string name="text_user_typing_title">%1$s está escribiendo...</string>
     <string name="title_activity_preferences">Preferencias</string>
     <string name="title_activity_stream_media">Transmitir medio al canal</string>
     <string name="action_createchannel">Crear canal</string>
@@ -54,6 +55,8 @@
     <string name="pref_summary_vox_audio_icon">Reproducir sonido cuando se presiona el botón de activación por voz</string>
     <string name="pref_title_vox_triggered_icon">Activación por voz activada</string>
     <string name="pref_summary_vox_triggered_icon">Reproducir  sonido cuando se inicia la activación por voz</string>
+    <string name="pref_title_typing_icon">Sonido cuando un usuario está escribiendo</string>
+    <string name="pref_summary_typing_icon">Reproducir un sonido cuando un usuario está escribiendo un mensaje privado</string>
     <string name="pref_title_intercept_audio_icon">Sonido de intercección</string>
     <string name="pref_summary_intercept_audio_icon">"Reproducir sonido cuando la intercección comienza o termina"</string>
     <string name="pref_title_private_message_audio_icon">Mensaje privado</string>
@@ -100,6 +103,10 @@
     <string name="pref_summary_server_login">Anuncia el nombre del usuario que ha entrado al servidor</string>
     <string name="pref_title_server_logout">El usuario sale del servidor</string>
     <string name="pref_summary_server_logout">Anuncia el nombre del usuario que ha salido del servidor</string>
+    <string name="pref_title_all_channel_join">Usuarios que se unen a otros canales</string>
+    <string name="pref_summary_all_channel_join">Anunciar el nombre de los usuarios que se unen a otros canales</string>
+    <string name="pref_title_all_channel_leave">Usuarios que salen de otros canales</string>
+    <string name="pref_summary_all_channel_leave">Anunciar el nombre de los usuarios que salen de otros canales</string>
     <string name="pref_title_channel_join">El usuario se une al canal</string>
     <string name="pref_summary_channel_join">Anuncia el nombre del usuario que se ha unido al canal</string>
     <string name="pref_title_channel_leave">El usuario sale del canal</string>
@@ -124,6 +131,8 @@
     <string name="pref_summary_subscription_desk">Anuncia el cambio de suscripción a sesiones de escritorio</string>
     <string name="pref_title_subscription_media">Suscripción a la transmisión de medios</string>
     <string name="pref_summary_subscription_media">Anuncia el cambio en la suscripción de medios</string>
+    <string name="pref_title_typing">Usuario escribiendo</string>
+    <string name="pref_summary_typing">Anunciar cuando un usuario está escribiendo un mensaje privado</string>
     <string name="pref_title_subscription_intercept_user_msg">Intercepción de mensajes privados</string>
     <string name="pref_summary_subscription_intercept_user_msg">Anuncia el cambio  de intercepción de mensajes privados</string>
     <string name="pref_title_subscription_intercept_channel_msg">Intercepción de mensajes del canal</string>
@@ -166,6 +175,9 @@
 
     <string name="text_tts_loggedin">Ha entrado</string>
     <string name="text_tts_loggedout">Ha salido</string>
+    <string name="text_tts_user_joined_other_channel">%1$s se ha unido al canal %2$s</string>
+    <string name="text_tts_user_left_other_channel">%1$s ha salido del canal %2$s</string>
+    <string name="text_root_chan">raíz</string>
     <string name="text_tts_joined_chan">Se ha unido al canal</string>
     <string name="text_tts_left_chan">Ha salido del canal</string>
     <string name="text_tts_private_message">Mensaje privado de %1$s - %2$s</string>
@@ -223,6 +235,14 @@
     <string name="action_editsrv">Editar servidor</string>
     <string name="action_removesrv">Eliminar servidor</string>
     <string name="action_upload">Cargar archivo</string>
+    <string name="action_stop">Detener transmisión de medio</string>
+    <string name="action_pause">Pausar transmisión de medio</string>
+    <string name="action_resume">Reanudar transmisión de medio</string>
+    <string name="action_statusnick">Cambiar apodo y estado</string>
+    <string name="action_copyname">Copiar nombre</string>
+    <string name="action_copymessage">Copiar mensaje</string>
+    <string name="action_deletemessage">Eliminar mensaje</string>
+    <string name="action_clear">Eliminar todos los mensajes</string>
     <string name="action_broadcast">Mensaje de difusión</string>
     <string name="action_stream">Transmitir medio</string>
     <string name="button_select_media_file">Examinar</string>
@@ -253,8 +273,12 @@
     <string name="user_prop_title_ipaddress">Dirección IP:</string>
     <string name="user_prop_title_voice_volume">Volumen de voz</string>
     <string name="user_prop_title_mute_voice">Silenciar voz</string>
+    <string name="user_prop_title_mute_voice_left">Silenciar canal de voz izquierdo</string>
+    <string name="user_prop_title_mute_voice_right">Silenciar canal de voz derecho</string>
     <string name="user_prop_title_media_volume">Volumen de medios</string>
     <string name="user_prop_title_mute_media">Silenciar medios</string>
+    <string name="user_prop_title_mute_media_left">Silenciar medios izquierda</string>
+    <string name="user_prop_title_mute_media_right">Silenciar medios derecha</string>
     <string name="user_prop_title_subscribe_txtmsg">Suscripción de mensajes privados</string>
     <string name="user_prop_title_subscribe_chanmsg">Suscripción de mensajes del canal</string>
     <string name="user_prop_title_subscribe_bcastmsg">Suscripción de mensajes de difusión</string>
@@ -278,7 +302,7 @@
    <string name="stat_online">En línea</string>
     <string name="stat_offline">Desconectado</string>
     <string name="stat_connecting">Conexión</string>
-    <string name="stat_unauthorized">No autorizado</string>
+    <string name="stat_unauthorized">Desconectado</string>
     <string name="label_ping">Ping:</string>
     <string name="label_rxtx">RX/TX:</string>
     <string name="default_">Por defecto</string>
@@ -303,11 +327,11 @@
     <string name="action_refresh">Actualizar la lista de servidores</string>
     <string name="action_import_serverlist">Importar desde un archivo .tt</string>
     <string name="action_export_serverlist">Exportar lista de servidores a un archivo .tt</string>
-    <string name="action_enter_joincode">Ingrese el código de unión</string>
-    <string name="text_specify_joincode">Introduzca el código de acceso al servidor</string>
+    <string name="action_enter_joincode">Unirse al servidor con código de invitación</string>
+    <string name="text_specify_joincode">Escriba o pegue el código de acceso al servidor</string>
     <string name="err_enter_joincode">Código de acceso al servidor incorrecto</string>
     <string name="pref_title_joincode">Código de acceso para inicio de sesión fácil</string>
-    <string name="text_joincode">Código de acceso</string>
+    <string name="text_joincode">Código de invitación</string>
     <string name="serverlist_export_confirmation">La lista de servidores ha sido exportada a %1$s</string>
     <string name="server_export_confirmation">El servidor ha sido exportado a %1$s</string>
 
@@ -461,6 +485,7 @@
     <string name="pref_summary_gender">Seleccionar para género femenino</string>
     <string name="user_state_away">Ausente -</string>
     <string name="user_state_operator">Operador del canal -</string>
+    <string name="user_state_admin">Administrador</string>
     <string name="user_state_selected">Seleccionado para mover -</string>
     <string name="pref_title_userloggedin_icon">Usuario conectado</string>
     <string name="pref_summary_userloggedin_icon">Reproducir sonido cuando un usuario entra al servidor</string>
@@ -471,6 +496,7 @@
     <string name="pref_title_channel_message_sent">Mensajes enviados al canal</string>
     <string name="pref_summary_channel_message_sent">Anunciar mensajes enviados en el canal</string>
     <string name="text_tts_channel_message_sent">Mensaje enviado al canal: %1$s</string>
+    <string name="text_tts_user_typing">%1$s está escribiendo...</string>
     <string name="pref_summary_official_servers">Incluir servidores oficiales en la lista de servidores</string>
     <string name="pref_title_official_servers">Mostrar servidores oficiales</string>
     <string name="pref_summary_unofficial_servers">Incluir servidores no oficiales en la lista de servidores</string>
@@ -485,7 +511,12 @@
     <string name="action_make_operator">Conceder operador</string>
     <string name="action_revoke_operator">Quitar operador</string>
     <string name="text_operator_password">Ingrese la contraseña del operador del canal</string>
-    <string name="text_broadcast_message">Mensaje a difundir</string>
+    <string name="text_broadcast_message">Escriba el mensaje a difundir</string>
+    <string name="text_status_message">Mensaje de estado</string>
+    <string name="text_status_mode">Modo de estado</string>
+    <string name="status_mode_available">Disponible</string>
+    <string name="status_mode_away">Ausente</string>
+    <string name="status_mode_question">Pregunta</string>
     <string name="online_users">Usuarios en línea</string>
 
 
