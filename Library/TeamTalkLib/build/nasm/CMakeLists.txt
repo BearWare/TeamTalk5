@@ -12,10 +12,10 @@ if (MSVC AND TOOLCHAIN_BUILD_EXTERNALPROJECTS)
 
   if(NOT NASM_EXECUTABLE)
     ExternalProject_Add(nasm-bin
-      URL               https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
-      URL_HASH          SHA256=e0ba5157007abc7b1a65118a96657a961ddf55f7e3f632ee035366dfce039ca4
+      URL               https://www.nasm.us/pub/nasm/releasebuilds/3.02/win64/nasm-3.02-win64.zip
+      URL_HASH          SHA256=161D0BFAFF53C2F9E9F3E69FD0672323EBABAFD1268976A5CEC11BE92A19AEE7
       DOWNLOAD_DIR      ${CMAKE_CURRENT_BINARY_DIR}/nasm
-      SOURCE_DIR        ${CMAKE_CURRENT_BINARY_DIR}/nasm/nasm-3.01
+      SOURCE_DIR        ${CMAKE_CURRENT_BINARY_DIR}/nasm/nasm-3.02
       CONFIGURE_COMMAND ""
       BUILD_COMMAND     ""
       INSTALL_COMMAND   ""
