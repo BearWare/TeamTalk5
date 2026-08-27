@@ -1,4 +1,4 @@
-From 68962f47920a158d9d1d1c569d20899ddde2b29d Mon Sep 17 00:00:00 2001
+From 4231b0a9de77671115a629a45722223ce71c73b2 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Wed, 17 Dec 2025 22:37:47 +0100
 Subject: [PATCH] Enable Runtime Library option /MT for MSVC
@@ -8,7 +8,7 @@ Subject: [PATCH] Enable Runtime Library option /MT for MSVC
  1 file changed, 2 insertions(+)
 
 diff --git a/src/CMakeLists.txt b/src/CMakeLists.txt
-index 11089ff5..60da4c02 100644
+index 886605f1..6ce41560 100644
 --- a/src/CMakeLists.txt
 +++ b/src/CMakeLists.txt
 @@ -368,6 +368,7 @@ set_target_properties(Catch2 PROPERTIES
@@ -28,5 +28,5 @@ index 11089ff5..60da4c02 100644
  set_target_properties(Catch2WithMain PROPERTIES DEBUG_POSTFIX "d")
  
 -- 
-2.53.0.windows.1
+2.55.0.windows.3
 
