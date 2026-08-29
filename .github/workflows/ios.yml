@@ -3,12 +3,24 @@ name: iOS
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'Build/**'
+      - 'Client/iTeamTalk/**'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkLib/**'
   pull_request:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/ios.yml'
+      - 'Build/**'
+      - 'Client/iTeamTalk/**'
+      - 'Library/TeamTalk_DLL/**'
+      - 'Library/TeamTalkLib/**'
 
 jobs:
   build:
-    if: "!startsWith(github.head_ref, 'debug') || startsWith(github.head_ref, 'debug-ios')"
+    if: "!contains(github.event.head_commit.message || '', ':skip ios') && !contains(github.event.head_commit.message || '', ':skip all')"
     strategy:
       matrix:
         include:
