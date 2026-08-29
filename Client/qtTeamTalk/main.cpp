@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#include "mainwindow.h"
+#include "aac/ui/MainWindow.h"
 #include "license.h"
 #include "appinfo.h"
 
@@ -332,3 +332,4 @@ int main(int argc, char* argv[])
     TT_CloseTeamTalk(ttInst);
     return ret;
 }
+
