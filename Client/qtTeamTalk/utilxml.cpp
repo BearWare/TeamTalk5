@@ -18,16 +18,6 @@
 #include "utilxml.h"
 #include "appinfo.h"
 
-namespace
-{
-constexpr UINT32 CHANNELTYPE_MASK = CHANNEL_PERMANENT |
-                                    CHANNEL_SOLO_TRANSMIT |
-                                    CHANNEL_CLASSROOM |
-                                    CHANNEL_OPERATOR_RECVONLY |
-                                    CHANNEL_NO_VOICEACTIVATION |
-                                    CHANNEL_NO_RECORDING |
-                                    CHANNEL_HIDDEN;
-}
 
 void processTrustedXML(const QDomElement& hostElement, HostEntry& entry)
 {
@@ -91,7 +81,7 @@ void processJoinXML(const QDomElement& hostElement, HostEntry& entry)
         {
             bool ok = false;
             UINT32 chantype = tmp.text().toUInt(&ok);
-            if (ok && !(chantype & ~CHANNELTYPE_MASK))
+            if (ok && !(chantype & ~CHANNELTYPE_ALL))
                 entry.chantype = static_cast<ChannelTypes>(chantype);
         }
     }
