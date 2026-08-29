@@ -1265,23 +1265,6 @@ namespace teamtalk{
     }
     /********** </serverbans> ************/
 
-    /******** <bearware-weblogin> *********/
-    void ServerXML::SetBearWareWebLogin(const std::string& username,
-                                        const std::string& token)
-    {
-        SetValue("bearware-weblogin/bearwareid", username);
-        SetValue("bearware-weblogin/bearwaretoken", token);
-    }
-
-    bool ServerXML::GetBearWareWebLogin(std::string& username,
-                                        std::string& token)
-    {
-        username = GetValue(true, "bearware-weblogin/bearwareid", "");
-        token = GetValue(true, "bearware-weblogin/bearwaretoken", "");
-        return (!username.empty()) && (!token.empty());
-    }
-    /******** </bearware-weblogin> *********/
-
     /******* <users> ******/
     void ServerXML::AddNewUser(const UserAccount& user)
     {

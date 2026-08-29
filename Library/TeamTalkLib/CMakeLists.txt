@@ -367,7 +367,68 @@ if (BUILD_TEAMTALK_SERVER_SRVEXEPRO)
 
 endif()
 
+###############
+# tt5spambot  #
+###############
+
+include (ttspambot)
+
+option (BUILD_TEAMTALK_SERVER_SPAMBOT "Build TeamTalk SpamBot client" ON)
+add_feature_info (BUILD_TEAMTALK_SERVER_SPAMBOT BUILD_TEAMTALK_SERVER_SPAMBOT "Build TeamTalk SpamBot executable [tt5spambot.exe | tt5spambot ] in Server")
+
+if (BUILD_TEAMTALK_SERVER_SPAMBOT AND BUILD_TEAMTALK_LIBRARY_DLLPRO)
+
+  add_executable (tt5spambot ${TTSPAMBOT_SOURCES} ${TTSPAMBOT_HEADERS})
+
+  target_include_directories (tt5spambot PRIVATE ${TTSPAMBOT_INCLUDE_DIR})
+
+  target_compile_options (tt5spambot PRIVATE ${TTSPAMBOT_COMPILE_FLAGS} ${COMPILE_FLAGS})
+
+  target_link_libraries (tt5spambot PRIVATE TeamTalk5ProDLL ${TTSPAMBOT_LINK_FLAGS} ${LINK_LIBS})
+
+  set_output_dir (tt5spambot ${TEAMTALK_ROOT}/Server)
+
+  install (TARGETS tt5spambot DESTINATION Server)
+
+  if (MSVC)
+    set_property (TARGET tt5spambot PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
+  endif()
+
+endif()
+
 if (MSVC)
+
+  ##################
+  # tt5spambotsvc  #
+  ##################
+  option (BUILD_TEAMTALK_SERVER_SPAMBOTSVC "Build TeamTalk SpamBot service" ON)
+  add_feature_info (BUILD_TEAMTALK_SERVER_SPAMBOTSVC BUILD_TEAMTALK_SERVER_SPAMBOTSVC "Build TeamTalk SpamBot service executable [tt5spambotsvc.exe] in Server")
+
+  if (BUILD_TEAMTALK_SERVER_SPAMBOTSVC AND BUILD_TEAMTALK_LIBRARY_DLLPRO)
+    add_executable (tt5spambotsvc ${TTSPAMBOT_SOURCES} ${TTSPAMBOT_HEADERS})
+
+    target_include_directories (tt5spambotsvc PRIVATE ${TTSPAMBOT_INCLUDE_DIR})
+
+    target_compile_options (tt5spambotsvc PRIVATE ${TTSPAMBOT_COMPILE_FLAGS} ${COMPILE_FLAGS}
+      -DBUILD_NT_SERVICE)
+
+    target_link_libraries (tt5spambotsvc PRIVATE TeamTalk5ProDLL ${TTSPAMBOT_LINK_FLAGS} ${LINK_LIBS})
+
+    set_output_dir (tt5spambotsvc ${TEAMTALK_ROOT}/Server)
+
+    set_property (TARGET tt5spambotsvc PROPERTY VS_DEBUGGER_WORKING_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/../../Server")
+
+    file (TO_NATIVE_PATH "${TEAMTALK_ROOT}/Server/tt5spambotsvc.exe" TT5SPAMBOTSVC_EXE_PATH)
+
+    add_custom_command (TARGET tt5spambotsvc
+      POST_BUILD
+      COMMAND mt
+      ARGS -manifest tt5svc.exe.manifest "-outputresource:${TT5SPAMBOTSVC_EXE_PATH};#1"
+      WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}/build)
+
+    install (TARGETS tt5spambotsvc DESTINATION Server)
+
+  endif()
 
   ##############
   # tt5svc.exe #

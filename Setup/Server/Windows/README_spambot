@@ -1,0 +1,167 @@
+TeamTalk 5 SpamBot for Windows
+-------------------------------------------------------
+
+The TeamTalk 5 SpamBot is a Pro-only moderation client that connects
+to a TeamTalk Pro Server as a user account and watches for spam. It
+can filter bad words in nicknames, status messages, channel names,
+topics and text messages, detect login/join/kick floods from a single
+IP address, ban known VPN networks, and consult AbuseIPDB for IP
+reputation.
+
+The SpamBot ships as a separate executable that authenticates with
+BearWare.dk WebLogin, just like tt5prosrv. Without a valid Pro
+WebLogin token the SpamBot will refuse to start.
+
+The following sections explain how to:
+
+- Run the Setup Wizard
+- Configure BearWare.dk WebLogin
+- Provide a Bad Words Dictionary
+- Provide a VPN IP List
+- Enable AbuseIPDB Integration
+- Start the SpamBot
+- Install the SpamBot as a Windows Service
+
+
+Run the Setup Wizard
+--------------------
+
+Open a command prompt in the SpamBot installation folder and run:
+
+> tt5spambot.exe -wizard
+
+The wizard walks through every configuration option and writes the
+result to tt5spambot.xml in the current directory. The wizard can be
+re-run at any time to adjust settings.
+
+The wizard asks for:
+
+- Server host address (default localhost), TCP and UDP port (default
+  10333), and whether to use an encrypted connection (default no).
+- Username, password and nickname (default "SpamBot") that the bot
+  uses to log on to the target server. The account must exist on the
+  Pro Server and should have ban/kick rights.
+- Status message and gender (1=Male, 2=Female, 3=Neutral).
+- Initial channel path. Leave it empty to let the server's
+  UserAccount.szInitChannel decide which channel the bot joins.
+- Toggles for each anti-spam feature: bad word filtering, abuse
+  detection, VPN IP blocking, AbuseIPDB lookup and AbuseIPDB
+  auto-report.
+- Reconnect policy: maximum number of attempts (0 = retry forever)
+  and the delay in seconds between attempts (default 10).
+
+
+Configure BearWare.dk WebLogin
+------------------------------
+
+The SpamBot is gated by the same BearWare.dk WebLogin used by
+tt5prosrv. The first time tt5spambot starts it will prompt for your
+BearWare.dk username and password and offer to store the resulting
+access token in tt5spambot.xml so subsequent runs are non-interactive.
+
+The token can also be primed from the command line:
+
+> tt5spambot.exe -weblogin user@bearware.dk:password
+
+Once a token is stored the SpamBot will reuse it on startup. If the
+password of the WebLogin account changes the stored token becomes
+invalid and the SpamBot will prompt again.
+
+If you already have a token (for example issued for another tool) you
+can use it directly:
+
+> tt5spambot.exe -tokenlogin user@bearware.dk:abcdef0123456789
+
+
+Provide a Bad Words Dictionary
+------------------------------
+
+Bad word filtering loads every file in the configured directory whose
+name matches the pattern "badwords*.txt". The language each file
+covers is derived from its filename:
+
+- badwords.txt              -> default language
+- badwords_french.txt       -> french
+- badwords_<lang>.txt       -> <lang>
+
+Each file is a CSV list (one or more lines, each containing
+comma-separated words). The Pro Portable package ships with
+badwords.txt and badwords_french.txt as a starting point. Edit them
+or drop additional badwords_<lang>.txt files alongside as needed.
+
+In the wizard the "Directory to scan for badwords*.txt files" prompt
+defaults to the current working directory. Use an absolute path if
+the bot is launched from elsewhere (for example as a Windows
+service).
+
+
+Provide a VPN IP List
+---------------------
+
+The SpamBot can ban networks known to host VPN exit nodes by reading
+a plain text file with one IP-address or CIDR network per line. There
+is no default path and the feature is disabled until you point the
+wizard at a file.
+
+A maintained list of VPN ranges is published by X4BNet:
+
+  https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/vpn/ipv4.txt
+
+Download it to a writable location with PowerShell, for example:
+
+> Invoke-WebRequest -Uri https://raw.githubusercontent.com/X4BNet/lists_vpn/main/output/vpn/ipv4.txt `
+                   -OutFile C:\TeamTalk\SpamBot\vpnips.txt
+
+Then specify "C:\TeamTalk\SpamBot\vpnips.txt" when the wizard asks
+for the VPN IP list file path. The list is large and updated often;
+schedule a Task Scheduler entry to refresh it daily.
+
+
+Enable AbuseIPDB Integration
+----------------------------
+
+AbuseIPDB integration has two independent toggles:
+
+- IP reputation lookup: each incoming login is checked against
+  AbuseIPDB; users whose IP exceeds the configured thresholds are
+  kicked.
+- Auto-report: users that the SpamBot bans for abuse are submitted
+  back to AbuseIPDB as confirmed spammers.
+
+Both features share a single API key, prompted only when at least one
+of them is enabled. Sign up at https://www.abuseipdb.com to obtain a
+key. The lookup thresholds (minimum total reports, distinct users and
+confidence score) default to 2.
+
+
+Start the SpamBot
+-----------------
+
+Once configured, start the SpamBot in the foreground with:
+
+> tt5spambot.exe -nd -verbose
+
+For convenience the included tt5spambot_console.bat script runs the
+wizard first and then starts the bot in foreground.
+
+
+Install the SpamBot as a Windows Service
+----------------------------------------
+
+The Pro Portable package also includes the NT service binary
+tt5spambotsvc.exe along with helper batch scripts.
+
+To install run as Administrator:
+
+> tt5spambotsvc_install.bat
+
+The installer launches the wizard, registers the service, configures
+it to start automatically and sets a service dependency on tt5prosvc
+so the Pro Server is started first. After the wizard finishes the
+batch will offer to start the service immediately.
+
+To uninstall run as Administrator:
+
+> tt5spambotsvc_uninstall.bat
+
+Email contact@bearware.dk for additional support.
