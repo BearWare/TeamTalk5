@@ -81,8 +81,8 @@ void processJoinXML(const QDomElement& hostElement, HostEntry& entry)
         {
             bool ok = false;
             UINT32 chantype = tmp.text().toUInt(&ok);
-            if (ok && !(chantype & ~CHANNELTYPE_ALL))
-                entry.chantype = static_cast<ChannelTypes>(chantype);
+            if (ok)
+                entry.chantype = static_cast<ChannelTypes>(chantype & CHANNELTYPE_ALL);
         }
     }
 }
