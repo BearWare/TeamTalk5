@@ -200,9 +200,6 @@ channels_t getParentChannels(int channelid, const channels_t& channels);
 users_t getChannelUsers(int channelid, const users_t& users, const channels_t& channels, bool recursive = false);
 bool isFreeForAll(StreamTypes stream_type, const int transmitUsers[][2],
                   int max_userids = TT_TRANSMITUSERS_MAX);
-// Copies chan.transmitUsers as-is. The stream types are only allow-masks in
-// a CHANNEL_CLASSROOM; in other channels they are deny-masks.
-void getChannelTransmitUsers(const Channel& chan, QMap<int, StreamTypes>& transmitUsers);
 void setTransmitUsers(const QSet<int>& users, INT32* dest_array, INT32 max_elements);
 
 void initDefaultAudioCodec(AudioCodec& codec);
