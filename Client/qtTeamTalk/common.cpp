@@ -178,6 +178,7 @@ void setServerEntry(int index, const HostEntry& host)
         ttSettings->setValue(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index), host.lastChan);
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index), host.channel);
     ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNELPASSWD : SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index), host.chanpasswd);
+    ttSettings->setValue(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNELTYPE : SETTINGS_SERVERENTRIES_CHANNELTYPE)).arg(index), host.chantype);
 }
 
 bool getServerEntry(int index, HostEntry& host, bool latesthost)
@@ -197,6 +198,7 @@ bool getServerEntry(int index, HostEntry& host, bool latesthost)
     host.statusmsg = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_STATUSMSG : SETTINGS_SERVERENTRIES_STATUSMSG)).arg(index)).toString();
     host.channel = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index)).toString();
     host.chanpasswd = ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_CHANNELPASSWD : SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index)).toString();
+    host.chantype = static_cast<ChannelTypes>(ttSettings->value(QString((latesthost ? SETTINGS_LATESTHOST_CHANNELTYPE : SETTINGS_SERVERENTRIES_CHANNELTYPE)).arg(index), CHANNEL_DEFAULT).toUInt());
     if (!host.latesthost)
         host.lastChan = ttSettings->value(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index)).toBool();
     host.latesthost = latesthost;
@@ -229,6 +231,7 @@ void deleteServerEntry(const HostEntry& host)
             ttSettings->remove(QString(SETTINGS_SERVERENTRIES_LASTCHANNEL).arg(index));
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNEL : SETTINGS_SERVERENTRIES_CHANNEL)).arg(index));
         ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNELPASSWD : SETTINGS_SERVERENTRIES_CHANNELPASSWD)).arg(index));
+        ttSettings->remove(QString((host.latesthost ? SETTINGS_LATESTHOST_CHANNELTYPE : SETTINGS_SERVERENTRIES_CHANNELTYPE)).arg(index));
         index++;
         tmp = HostEntry();
     }

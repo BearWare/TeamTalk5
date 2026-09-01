@@ -18,6 +18,7 @@
 #include "utilxml.h"
 #include "appinfo.h"
 
+
 void processTrustedXML(const QDomElement& hostElement, HostEntry& entry)
 {
     QDomElement trusted = hostElement.firstChildElement("trusted-certificate");
@@ -75,6 +76,14 @@ void processJoinXML(const QDomElement& hostElement, HostEntry& entry)
         tmp = join.firstChildElement("join-last-channel");
         if (!tmp.isNull())
             entry.lastChan = tmp.text() == "true";
+        tmp = join.firstChildElement("channel-type");
+        if (!tmp.isNull())
+        {
+            bool ok = false;
+            UINT32 chantype = tmp.text().toUInt(&ok);
+            if (ok)
+                entry.chantype = static_cast<ChannelTypes>(chantype & CHANNELTYPE_ALL);
+        }
     }
 }
 
@@ -303,6 +312,13 @@ QByteArray generateTTFile(const HostEntry& entry)
         QDomElement joinlast = doc.createElement("join-last-channel");
         joinlast.appendChild(doc.createTextNode(entry.lastChan ? "true" : "false"));
         join.appendChild(joinlast);
+
+        if (entry.chantype != CHANNEL_DEFAULT)
+        {
+            QDomElement chantype = doc.createElement("channel-type");
+            chantype.appendChild(doc.createTextNode(QString::number(entry.chantype)));
+            join.appendChild(chantype);
+        }
 
         host.appendChild(join);
     }
