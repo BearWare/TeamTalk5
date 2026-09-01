@@ -9,11 +9,12 @@ Default Qt Client
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - First launch now asks all users whether to enable accessibility settings
 - Play sound event when enabled one
-- Fixed compilation time display on Linux (Qt5)
+- Channel types can now be specified in .tt files
 - Updated Qt to 6.11.1 on Windows and macOS
 - Ubuntu 22 is no longer supported
+- Fixed compilation time display on Linux (Qt5)
 - Fixed crash issue when invoking context menu in Server List dialog
-- Channel types can now be specified in .tt files
+- Fixed classroom transmission permissions being cleared when changed from another channel
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator

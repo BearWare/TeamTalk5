@@ -758,19 +758,36 @@ QPixmap ChannelsTree::getUserIcon(const User& user, const Channel& chan, const Q
 void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem* item)
 {
     bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
+    bool mychannel = chan.nChannelID == TT_GetMyChannelID(ttInst);
+    bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chan.nChannelID);
+    modifychan |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == USERTYPE_ADMIN;
+    modifychan |= (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
     //set speaker or webcam icon
-    if (chan.nChannelID == TT_GetMyChannelID(ttInst))
+    if (mychannel || modifychan)
     {
-        item->setIcon(COLUMN_CHANMSG, anim ? QIcon(QString::fromUtf8(":/images/images/message_blue.png")) : QIcon());
-        item->setIcon(COLUMN_VOICE, anim ? QIcon(QString::fromUtf8(":/images/images/speaker.png")) : QIcon());
-        item->setIcon(COLUMN_VIDEO, anim ? QIcon(QString::fromUtf8(":/images/images/webcam.png")) : QIcon());
-        item->setIcon(COLUMN_DESKTOP, anim ? QIcon(QString::fromUtf8(":/images/images/desktoptx.png")) : QIcon());
-        item->setIcon(COLUMN_MEDIAFILE, anim ? QIcon(QString::fromUtf8(":/images/images/streammedia.png")) : QIcon());
+        if (mychannel)
+        {
+            item->setIcon(COLUMN_CHANMSG, anim ? QIcon(QString::fromUtf8(":/images/images/message_blue.png")) : QIcon());
+            item->setIcon(COLUMN_VOICE, anim ? QIcon(QString::fromUtf8(":/images/images/speaker.png")) : QIcon());
+            item->setIcon(COLUMN_VIDEO, anim ? QIcon(QString::fromUtf8(":/images/images/webcam.png")) : QIcon());
+            item->setIcon(COLUMN_DESKTOP, anim ? QIcon(QString::fromUtf8(":/images/images/desktoptx.png")) : QIcon());
+            item->setIcon(COLUMN_MEDIAFILE, anim ? QIcon(QString::fromUtf8(":/images/images/streammedia.png")) : QIcon());
+        }
+        else
+        {
+            if (!item->icon(COLUMN_CHANMSG).isNull())
+                item->setIcon(COLUMN_CHANMSG, QIcon());
+            if (!item->icon(COLUMN_VOICE).isNull())
+                item->setIcon(COLUMN_VOICE, QIcon());
+            if (!item->icon(COLUMN_VIDEO).isNull())
+                item->setIcon(COLUMN_VIDEO, QIcon());
+            if (!item->icon(COLUMN_DESKTOP).isNull())
+                item->setIcon(COLUMN_DESKTOP, QIcon());
+            if (!item->icon(COLUMN_MEDIAFILE).isNull())
+                item->setIcon(COLUMN_MEDIAFILE, QIcon());
+        }
 
-        bool opadmin = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), chan.nChannelID);
-        opadmin |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == USERTYPE_ADMIN;
-
-        if (opadmin && (chan.uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
+        if (modifychan && (chan.uChannelType & CHANNEL_CLASSROOM)) // free for all in non-classroom
         {
             item->setCheckState(COLUMN_CHANMSG,
                                 isFreeForAll(STREAMTYPE_CHANNELMSG, chan.transmitUsers)?
@@ -845,12 +862,12 @@ void ChannelsTree::setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem*
 void ChannelsTree::setUserTransmitUser(const User& user, const Channel& chan, QTreeWidgetItem* item)
 {
     bool anim = ttSettings->value(SETTINGS_DISPLAY_ANIM, SETTINGS_DISPLAY_ANIM_DEFAULT).toBool();
+    bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
+    modifychan |= (TT_GetMyUserType(ttInst) & USERTYPE_ADMIN) == USERTYPE_ADMIN;
+    modifychan |= (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
     //set checkboxes if it's a CHANNEL_CLASSROOM
-    if (chan.nChannelID == TT_GetMyChannelID(ttInst))
+    if (chan.nChannelID == TT_GetMyChannelID(ttInst) || modifychan)
     {
-        bool modifychan = TT_IsChannelOperator(ttInst, TT_GetMyUserID(ttInst), user.nChannelID);
-        modifychan |= (TT_GetMyUserRights(ttInst) & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_MODIFY_CHANNELS;
-
         bool txchanmsg = userCanChanMessage(user.nUserID, chan);
         bool txvoice = userCanVoiceTx(user.nUserID, chan);
         bool txvideo = userCanVideoTx(user.nUserID, chan);
