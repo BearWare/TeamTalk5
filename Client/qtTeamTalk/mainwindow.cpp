@@ -1996,6 +1996,7 @@ void MainWindow::cmdCompleteLoggedIn(int myuserid)
         Channel chan = {};
         chan.nParentID = parentid;
         chan.nMaxUsers = m_srvprop.nMaxUsers;
+        chan.uChannelType = m_host.chantype;
         initDefaultAudioCodec(chan.audiocodec);
 
         chan.audiocfg.bEnableAGC = DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE;
