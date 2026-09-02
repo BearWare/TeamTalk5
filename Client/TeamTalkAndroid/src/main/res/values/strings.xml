@@ -497,7 +497,6 @@
     <string name="pref_title_libraries">Third Party Libraries</string>
     <string name="channel_prop_title_hiddenchannel">Hidden</string>
     <string name="pref_title_gender">Gender</string>
-    <string name="pref_summary_gender">Check for female icon</string>
     <string name="user_state_away">Away</string>
     <string name="user_state_streaming">Streaming media file</string>
     <string name="user_state_female">Female</string>

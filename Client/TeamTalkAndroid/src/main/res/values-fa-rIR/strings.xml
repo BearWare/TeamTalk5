@@ -497,7 +497,6 @@
     <string name="pref_title_libraries">کتابخانه‌های شخص ثالث</string>
     <string name="channel_prop_title_hiddenchannel">مخفی</string>
     <string name="pref_title_gender">جنسیت</string>
-    <string name="pref_summary_gender">برای آیکن مؤنث تیک بزنید</string>
     <string name="user_state_away">دور</string>
     <string name="user_state_streaming">در حال استریم</string>
     <string name="user_state_female">زن</string>

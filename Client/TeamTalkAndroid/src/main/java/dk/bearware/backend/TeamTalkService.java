@@ -993,8 +993,7 @@ public class TeamTalkService extends Service
             statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
         }
 
-        if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
-            statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+        statusmode |= Utils.getGenderStatusMode(prefs);
 
         ttclient.doChangeStatus(statusmode, statusmsg);
     }
