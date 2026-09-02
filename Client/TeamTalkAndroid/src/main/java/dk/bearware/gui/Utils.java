@@ -55,6 +55,7 @@ import java.io.BufferedReader;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -813,43 +814,68 @@ public class Utils {
     }
 
     public static boolean saveServers(Vector<ServerEntry> servers, String path) {
+        try (FileOutputStream fos = new FileOutputStream(path)) {
+            return saveServers(servers, fos);
+        }
+        catch(Exception e) {
+            Log.d(TAG, "Unable to save file " + path,  e);
+            return false;
+        }
+    }
+
+    public static boolean saveServers(Vector<ServerEntry> servers, OutputStream outputStream) {
         try {
-            FileOutputStream fos = new FileOutputStream(path);
             XmlSerializer serializer = Xml.newSerializer();
-            serializer.setOutput(fos, "UTF-8");
+            serializer.setOutput(outputStream, "UTF-8");
             serializer.startDocument(null, Boolean.TRUE);
             serializer.setFeature("http://xmlpull.org/v1/doc/features.html#indent-output", true);
             serializer.startTag(null, "teamtalk").attribute(null, "version", "5.0");
             for (ServerEntry server : servers) {
                 serializer.startTag(null, "host");
-                serializer.startTag(null, "name").text(server.servername).endTag(null, "name");
-                serializer.startTag(null, "address").text(server.ipaddr).endTag(null, "address");
-                serializer.startTag(null, "tcpport").text(String.valueOf(server.tcpport)).endTag(null, "tcpport");
-                serializer.startTag(null, "udpport").text(String.valueOf(server.udpport)).endTag(null, "udpport");
-                serializer.startTag(null, "encrypted").text(String.valueOf(server.encrypted)).endTag(null, "encrypted");
+                writeTextElement(serializer, "name", server.servername);
+                writeTextElement(serializer, "address", server.ipaddr);
+                writeTextElement(serializer, "tcpport", String.valueOf(server.tcpport));
+                writeTextElement(serializer, "udpport", String.valueOf(server.udpport));
+                writeTextElement(serializer, "encrypted", String.valueOf(server.encrypted));
+                if (!server.joincode.isEmpty())
+                    writeTextElement(serializer, "joincode", server.joincode);
+
+                if (!server.cacert.isEmpty() || !server.clientcert.isEmpty() ||
+                        !server.clientcertkey.isEmpty() || server.verifypeer) {
+                    serializer.startTag(null, "trusted-certificate");
+                    writeTextElement(serializer, "certificate-authority-pem", server.cacert);
+                    writeTextElement(serializer, "client-certificate-pem", server.clientcert);
+                    writeTextElement(serializer, "client-private-key-pem", server.clientcertkey);
+                    writeTextElement(serializer, "verify-peer", String.valueOf(server.verifypeer));
+                    serializer.endTag(null, "trusted-certificate");
+                }
+
                 serializer.startTag(null, "auth");
-                serializer.startTag(null, "username").text(server.username).endTag(null, "username");
-                serializer.startTag(null, "password").text(server.password).endTag(null, "password");
-                serializer.startTag(null, "nickname").text(server.nickname).endTag(null, "nickname");
-                serializer.startTag(null, "statusmsg").text(server.statusmsg).endTag(null, "statusmsg");
+                writeTextElement(serializer, "username", server.username);
+                writeTextElement(serializer, "password", server.password);
+                writeTextElement(serializer, "nickname", server.nickname);
+                writeTextElement(serializer, "statusmsg", server.statusmsg);
                 serializer.endTag(null, "auth");
                 serializer.startTag(null, "join");
-                serializer.startTag(null, "join-last-channel").text(String.valueOf(server.rememberLastChannel)).endTag(null, "join-last-channel");
-                serializer.startTag(null, "channel").text(server.channel).endTag(null, "channel");
-                serializer.startTag(null, "password").text(server.chanpasswd).endTag(null, "password");
+                writeTextElement(serializer, "join-last-channel", String.valueOf(server.rememberLastChannel));
+                writeTextElement(serializer, "channel", server.channel);
+                writeTextElement(serializer, "password", server.chanpasswd);
                 serializer.endTag(null, "join");
                 serializer.endTag(null, "host");
             }
             serializer.endTag(null, "teamtalk");
             serializer.endDocument();
             serializer.flush();
-            fos.close();
         }
         catch(Exception e) {
-            Log.d(TAG, "Unable to save file " + path,  e);
+            Log.d(TAG, "Unable to save servers",  e);
             return false;
         }
         return true;
+    }
+
+    private static void writeTextElement(XmlSerializer serializer, String name, String value) throws IOException {
+        serializer.startTag(null, name).text(value == null ? "" : value).endTag(null, name);
     }
 
     public static int refVolume(double percent)

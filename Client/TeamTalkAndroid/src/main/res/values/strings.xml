@@ -372,6 +372,7 @@
     <string name="alert_file_override">File %1$s already exists. Override it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
     <string name="err_file_write">Cannot write file %1$s</string>
+    <string name="err_file_import">Cannot import server list from %1$s</string>
     <string name="err_channel_remove">Cannot delete channel %1$s</string>
     <string name="err_download_path">Download path %1$s is unavailable</string>
     <string name="download_progress">%1$d%% downloaded</string>
