@@ -27,9 +27,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -948,7 +950,20 @@ public class ServerListActivity extends AppCompatActivity
         }
 
         int msgId = success ? pendingExportSuccessMsgId : R.string.err_file_write;
-        showToast(getString(msgId, uri.toString()));
+        showToast(getString(msgId, getDisplayName(uri)));
+    }
+
+    private String getDisplayName(Uri uri) {
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (index >= 0)
+                    return cursor.getString(index);
+            }
+        }
+        catch (Exception ignored) {
+        }
+        return uri.toString();
     }
 
     private void showToast(String message) {
