@@ -2340,7 +2340,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1736"/>
         <source>&amp;Join Channel</source>
-        <translation>&amp;ورود به کانال</translation>
+        <translation>&amp;پیوستن به کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1739"/>
@@ -3409,7 +3409,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2013"/>
         <source>Cannot join channel %1</source>
-        <translation>خطای ورود به %1</translation>
+        <translation>خطای پیوستن به %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2098"/>
@@ -3496,7 +3496,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2269"/>
         <source>Join channel error</source>
-        <translation>خطای ورود به کانال</translation>
+        <translation>خطای پیوستن به کانال</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2283"/>
@@ -3586,7 +3586,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2334"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation>شما در این کانال نیستید, بنابراین نمیتوانید از آن خارج شوید.</translation>
+        <translation>شما در این کانال نیستید, بنابراین نمیتوانید آن را ترک کنید.</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2336"/>
@@ -3689,13 +3689,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="3206"/>
         <location filename="../mainwindow.cpp" line="3218"/>
         <source>Left classroom channel %1</source>
-        <translation>از کلاس درس %1 رفتید</translation>
+        <translation>کلاس درس %1 را ترک کردید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3210"/>
         <location filename="../mainwindow.cpp" line="3222"/>
         <source>Left channel %1</source>
-        <translation>از %1 رفتید</translation>
+        <translation>%1 را ترک کردید</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4934"/>
@@ -4034,7 +4034,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="884"/>
         <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
-        <translation type="unfinished"></translation>
+        <translation>آیا مایلید گزینه های دسترسپذیری را با تنظیمات پیشنهادی برای استفاده از صفحه خوان فعال کنید؟</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1074"/>
@@ -5626,7 +5626,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="908"/>
         <source>Join root channel upon connection</source>
-        <translation>ورود به لابی در هنگام اتصال</translation>
+        <translation>پیوستن به لابی در هنگام اتصال</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="915"/>
@@ -5728,7 +5728,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1931"/>
         <source>Speak selected item in lists</source>
-        <translation type="unfinished"></translation>
+        <translation>خواندن مورد انتخاب‌شده در لیستها</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="2203"/>
@@ -6233,17 +6233,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="517"/>
         <source>Join only</source>
-        <translation>فقط ورود به کانال</translation>
+        <translation>فقط پیوستن به کانال</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="518"/>
         <source>Leave only</source>
-        <translation>فقط خروج از کانال</translation>
+        <translation>فقط ترکِ کانال</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="519"/>
         <source>Join or leave</source>
-        <translation>هم ورود به کانال و هم خروج از آن</translation>
+        <translation>هم پیوستن به کانال و هم ترکِ آن</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="523"/>
@@ -6361,12 +6361,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="1487"/>
         <source>Backend</source>
-        <translation type="unfinished"></translation>
+        <translation>موتور گفتار</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1494"/>
         <source>Auto</source>
-        <translation type="unfinished"></translation>
+        <translation>خودکار</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1652"/>
@@ -6707,7 +6707,7 @@ Should these settings be applied?</source>
         <location filename="../serverdlg.ui" line="242"/>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>ورود به کانالی خاص پس از اتصال</translation>
+        <translation>پیوستن به کانالی خاص پس از احراز هویت (اختیاری)</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="251"/>
@@ -6722,12 +6722,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="302"/>
         <source>Join Code for Easy Login</source>
-        <translation type="unfinished"></translation>
+        <translation>کد پیوستن برای ورود آسان</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="308"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>کد پیوستن</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="331"/>
@@ -6855,7 +6855,7 @@ Should these settings be applied?</source>
         <location filename="../serverlistdlg.cpp" line="831"/>
         <location filename="../serverlistdlg.cpp" line="853"/>
         <source>Enter Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>وارد کردن کد پیوستن</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="141"/>
@@ -6992,35 +6992,35 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="811"/>
         <source>Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>کد پیوستن</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="832"/>
         <location filename="../serverlistdlg.cpp" line="893"/>
         <source>Failed to get server information.</source>
-        <translation type="unfinished"></translation>
+        <translation>اطلاعات سرور دریافت نشد</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="854"/>
         <source>Join Code incorrect</source>
-        <translation type="unfinished"></translation>
+        <translation>کد پیوستن صحیح نیست</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="860"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation type="unfinished"></translation>
+        <translation>این کار اطلاعات ورود به سرور را منتشر میکند تا دیگران بتوانند با استفاده از یک کد تولیدشده به آن بپیوندند. مایلید ادامه دهید؟</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="865"/>
         <location filename="../serverlistdlg.cpp" line="892"/>
         <location filename="../serverlistdlg.cpp" line="909"/>
         <source>Generate Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>تولید کد پیوستن</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="910"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation type="unfinished"></translation>
+        <translation>برای اتصال به سرور، کد پیوستن زیر را وارد کنید</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="949"/>
@@ -7080,7 +7080,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="983"/>
         <source>Generate &amp;Join Code</source>
-        <translation type="unfinished"></translation>
+        <translation>تولید کد پیوستن</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="1037"/>
@@ -7209,7 +7209,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="143"/>
         <source>User login caused encryption error</source>
-        <translation type="unfinished"></translation>
+        <translation>ورود کاربر موجب بروز خطای رمزگذاری شد</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="149"/>
@@ -7274,7 +7274,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="111"/>
         <source>User joined channel</source>
-        <translation>ورود کاربر به سایر کانالها</translation>
+        <translation>پیوستن کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="113"/>
@@ -7309,7 +7309,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation type="unfinished"></translation>
+        <translation>استریم فایل توسط کاربر</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -7696,12 +7696,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="109"/>
         <source>User joined channel</source>
-        <translation>ورود به کانال</translation>
+        <translation>پیوستن به کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="111"/>
         <source>User left channel</source>
-        <translation>خروج از کانال</translation>
+        <translation>ترکِ کانال</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
@@ -7953,7 +7953,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="117"/>
         <source>User joined current channel</source>
-        <translation>ورود کاربر به این کانال</translation>
+        <translation>پیوستن کاربر به این کانال</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
@@ -7968,7 +7968,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
         <source>Sound device detected</source>
-        <translation type="unfinished"></translation>
+        <translation>شناسایی دستگاه صوتی</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="196"/>
@@ -7998,7 +7998,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="113"/>
         <source>User joined channel</source>
-        <translation>ورود کاربر به سایر کانالها</translation>
+        <translation>پیوستن کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="115"/>
@@ -8373,7 +8373,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="131"/>
         <source>User joined current channel</source>
-        <translation>ورود کاربر به کانال فعلی</translation>
+        <translation>پیوستن کاربر به کانال فعلی</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
@@ -8443,7 +8443,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="127"/>
         <source>User joined channel</source>
-        <translation>ورود کاربر به سایر کانالها</translation>
+        <translation>پیوستن کاربر به سایر کانالها</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="129"/>
@@ -8678,7 +8678,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.ui" line="116"/>
         <location filename="../useraccountdlg.ui" line="119"/>
         <source>User should automatically join this channel after login</source>
-        <translation>کاربر پس از ورود به سِروِر بطور خودکار وارد این کانال میشود</translation>
+        <translation>کاربر پس از ورود به سِروِر بطور خودکار به این کانال میپیوندد</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="166"/>
@@ -8713,7 +8713,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="229"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>کاربر هنگام ورود به این کانالها بطور خودکار اپراتور میشود</translation>
+        <translation>کاربر هنگام پیوستن به این کانالها بطور خودکار اپراتور میشود</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="242"/>
@@ -9513,7 +9513,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="442"/>
         <source>{user} left channel {channel}</source>
-        <translation>{user} از {channel} رفت</translation>
+        <translation>{user} {channel} را ترک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="444"/>
@@ -9523,7 +9523,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="446"/>
         <source>{user} left channel</source>
-        <translation>{user} از کانال رفت</translation>
+        <translation>{user} کانال را ترک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="448"/>
@@ -9636,7 +9636,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="57"/>
         <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربری که از کانال رفته است</translation>
+        <translation>نام مستعار کاربری که کانال را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="57"/>
@@ -9647,7 +9647,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="57"/>
         <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s username who left channel</source>
-        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
+        <translation>نامِ کاربریِ کاربری که کانال را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9875,7 +9875,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="479"/>
         <source>{user} left channel {channel}</source>
-        <translation>{user} از {channel} رفت</translation>
+        <translation>{user} {channel} را ترک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="481"/>
@@ -9885,7 +9885,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="483"/>
         <source>{user} left channel</source>
-        <translation>{user} از کانال رفت</translation>
+        <translation>{user} کانال را ترک کرد</translation>
     </message>
     <message>
         <location filename="../settings.h" line="485"/>
@@ -9999,7 +9999,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
         <source>User&apos;s nickname who left channel</source>
-        <translation>نام مستعار کاربری که از کانال رفته است</translation>
+        <translation>نام مستعار کاربری که کانال را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="202"/>
@@ -10010,7 +10010,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
         <source>User&apos;s username who left channel</source>
-        <translation>نامِ کاربریِ کاربری که از کانال رفته است</translation>
+        <translation>نامِ کاربریِ کاربری که کانال را ترک کرده است</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="205"/>
