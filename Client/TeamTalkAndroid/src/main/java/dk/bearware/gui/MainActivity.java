@@ -267,6 +267,7 @@ extends AppCompatActivity
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_main);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         String serverName = getIntent().getStringExtra(ServerEntry.KEY_SERVERNAME);
         if ((serverName != null) && !serverName.isEmpty())

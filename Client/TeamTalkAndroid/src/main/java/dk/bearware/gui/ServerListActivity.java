@@ -122,6 +122,7 @@ public class ServerListActivity extends AppCompatActivity
 
         setContentView(R.layout.activity_server_list);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         initializeViews();
         setupRecyclerView();

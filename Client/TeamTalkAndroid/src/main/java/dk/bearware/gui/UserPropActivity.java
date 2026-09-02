@@ -73,6 +73,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_user_prop);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

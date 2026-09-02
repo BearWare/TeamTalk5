@@ -77,6 +77,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_text_message);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 

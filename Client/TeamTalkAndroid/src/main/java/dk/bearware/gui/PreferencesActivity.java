@@ -99,6 +99,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         super.onCreate(savedInstanceState);
         mConnection = new TeamTalkConnection(this);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        getDelegate().setSupportActionBar(AccessibilityHelper.installToolbar(this));
     }
 
     @Override

@@ -31,6 +31,7 @@ Android Client
 - Fixed bug where not all selected files could be uploaded
 - Fixed bug where sounds were not muted during outgoing calls
 - Fixed channel list items not being exposed as clickable for accessibility services
+- Fixed screen readers reaching the action bar only after every other control on the screen
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit

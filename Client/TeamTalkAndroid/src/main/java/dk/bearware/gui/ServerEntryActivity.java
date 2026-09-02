@@ -80,6 +80,7 @@ public class ServerEntryActivity extends AppCompatActivity
         binding = ActivityServerEntryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         
