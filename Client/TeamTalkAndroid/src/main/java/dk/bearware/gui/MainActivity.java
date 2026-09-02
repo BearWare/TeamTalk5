@@ -1082,6 +1082,15 @@ private EditText newmsg;
             chatlog.setAdapter(mainActivity.getTextMessagesAdapter());
 
             Button sendBtn = rootView.findViewById(R.id.channel_im_sendbtn);
+            TextView chanMsgDisableText = rootView.findViewById(R.id.chanmsg_disable);
+            UserAccount myuseraccount = new UserAccount();
+            mainActivity.getClient().getMyUserAccount(myuseraccount);
+            boolean channelmsgRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_CHANNEL) != UserRight.USERRIGHT_NONE;
+            newmsg.setEnabled(channelmsgRight);
+            newmsg.setVisibility(channelmsgRight ? View.VISIBLE : View.GONE);
+            sendBtn.setEnabled(channelmsgRight);
+            sendBtn.setVisibility(channelmsgRight ? View.VISIBLE : View.GONE);
+            chanMsgDisableText.setVisibility(channelmsgRight ? View.GONE : View.VISIBLE);
             sendBtn.setOnClickListener(arg0 -> sendMsgToChannel());
             return rootView;
         }
