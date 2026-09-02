@@ -765,6 +765,17 @@ public class Utils {
                             entry.statusmsg = statusmsgnode.item(0).getTextContent();
                     }
                 }
+                //process <clientsetup>
+                NodeList clientsetuplist = hostelement.getElementsByTagName("clientsetup");
+                if (clientsetuplist.getLength() > 0) {
+                    Node clientsetupnode = clientsetuplist.item(0);
+                    if (clientsetupnode.getNodeType() == Node.ELEMENT_NODE) {
+                        Element clientsetupelement = (Element) clientsetupnode;
+                        NodeList nicknamenode = clientsetupelement.getElementsByTagName("nickname");
+                        if (nicknamenode.getLength() > 0)
+                            entry.nickname = nicknamenode.item(0).getTextContent();
+                    }
+                }
                 //process <join>
                 NodeList joinlist = hostelement.getElementsByTagName("join");
                 if (joinlist.getLength() > 0) {
@@ -857,10 +868,16 @@ public class Utils {
                 writeTextElement(serializer, "statusmsg", server.statusmsg);
                 serializer.endTag(null, "auth");
                 serializer.startTag(null, "join");
-                writeTextElement(serializer, "join-last-channel", String.valueOf(server.rememberLastChannel));
                 writeTextElement(serializer, "channel", server.channel);
                 writeTextElement(serializer, "password", server.chanpasswd);
+                writeTextElement(serializer, "join-last-channel", String.valueOf(server.rememberLastChannel));
                 serializer.endTag(null, "join");
+
+                if (!server.nickname.isEmpty()) {
+                    serializer.startTag(null, "clientsetup");
+                    writeTextElement(serializer, "nickname", server.nickname);
+                    serializer.endTag(null, "clientsetup");
+                }
                 serializer.endTag(null, "host");
             }
             serializer.endTag(null, "teamtalk");
