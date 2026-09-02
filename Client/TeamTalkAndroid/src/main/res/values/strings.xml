@@ -254,6 +254,7 @@
     <string name="action_resume">Resume stream</string>
     <string name="action_statusnick">Change Nickname and Status</string>
     <string name="action_copyname">Copy Name</string>
+    <string name="action_copyall">Copy All</string>
     <string name="action_copymessage">Copy Content Only</string>
     <string name="action_deletemessage">Delete</string>
     <string name="action_clear">Clear</string>
