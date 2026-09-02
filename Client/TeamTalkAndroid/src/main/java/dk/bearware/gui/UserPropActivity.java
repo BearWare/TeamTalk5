@@ -82,6 +82,7 @@ public class UserPropActivity extends AppCompatActivity implements TeamTalkConne
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.user_prop, menu);
+        MenuActionsHelper.addMenuActions(this, menu);
         return true;
     }
 
