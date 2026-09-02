@@ -1317,6 +1317,28 @@ private EditText newmsg;
                         if (convertView == null ||
                                 convertView.findViewById(R.id.parentname) == null)
                             convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
+
+                        TextView parentname = convertView.findViewById(R.id.parentname);
+                        TextView parenttopic = convertView.findViewById(R.id.chantopic);
+                        TextView parentpopulation = convertView.findViewById(R.id.population);
+
+                        String parentchanname;
+                        if (channel.nParentID == 0) {
+                            // show server name as channel name for root channel
+                            ServerProperties srvprop = new ServerProperties();
+                            getClient().getServerProperties(srvprop);
+                            parentchanname = srvprop.szServerName;
+                        }
+                        else {
+                            parentchanname = channel.szName;
+                        }
+                        parentname.setText(parentchanname);
+                        parentname.setContentDescription(getString(R.string.text_parent_channel, parentchanname));
+                        parenttopic.setText(channel.szTopic);
+
+                        int parentusers = Utils.getUsers(channel.nChannelID, getService().getUsers()).size();
+                        parentpopulation.setText((parentusers > 0) ? String.format(Locale.ROOT, "(%d)", parentusers) : "");
+
                         break;
 
                     case CHANNEL_VIEW_TYPE :
