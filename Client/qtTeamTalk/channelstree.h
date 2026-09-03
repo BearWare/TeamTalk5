@@ -79,6 +79,9 @@ private:
     typedef QSet<int> uservideo_t;
     channels_t m_channels;
     users_t m_users; //contains all users (also those not in channels)
+    // users whose join-event was received before their channel item existed.
+    // Maps user ID to the channel ID which the user joined.
+    QMap<int, int> m_pendingusers;
     int m_last_talker_id;
     statistics_t m_stats;
     uservideo_t m_videousers;
@@ -97,8 +100,11 @@ private:
     QPixmap getUserIcon(const User& user, const Channel& chan, const QTreeWidgetItem* item) const;
     void setChannelTransmitUsers(const Channel& chan, QTreeWidgetItem* item);
     void setUserTransmitUser(const User& user, const Channel& chan, QTreeWidgetItem* item);
-    /* return the "should be" index. Not the current index */
+    /* return the "should be" index. Not the current index.
+     * Returns -1 if 'parent' is nullptr */
     int getUserIndex(const QTreeWidgetItem* parent, const QString& name) const;
+    /* insert users whose join-event arrived before 'channelid' had an item */
+    void joinPendingUsers(int channelid);
     /* return the "should be" index. Not the current index */
     int getChannelIndex(const QTreeWidgetItem* item) const;
     void updateChannelItem(int channelid);

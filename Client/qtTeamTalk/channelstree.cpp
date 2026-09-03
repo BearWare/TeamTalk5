@@ -275,6 +275,7 @@ void ChannelsTree::resetChannels()
     delete topLevelItem(0);
     m_channels.clear();
     m_users.clear();   
+    m_pendingusers.clear();
     m_videousers.clear();
     m_desktopaccess_users.clear();
     m_blinkhand_users.clear();
@@ -1007,7 +1008,9 @@ QTreeWidgetItem* ChannelsTree::getUserItem(int userid) const
 
 int ChannelsTree::getUserIndex(const QTreeWidgetItem* parent, const QString& name) const
 {
-    Q_ASSERT(parent);
+    if(!parent)
+        return -1;
+
     int count = parent->childCount();
     int i;
     for(i=0;i<count;i++)
@@ -1487,6 +1490,35 @@ void ChannelsTree::slotAddChannel(const Channel& chan)
         item->setExpanded(ttSettings->value(SETTINGS_DISPLAY_CHANEXP, SETTINGS_DISPLAY_CHANEXP_DEFAULT).toBool());
         updateChannelItem(chan.nChannelID);
     }
+
+    joinPendingUsers(chan.nChannelID);
+}
+
+void ChannelsTree::joinPendingUsers(int channelid)
+{
+    if(m_pendingusers.isEmpty())
+        return;
+
+    QVector<int> userids;
+    for(auto i=m_pendingusers.cbegin();i!=m_pendingusers.cend();++i)
+    {
+        if(i.value() == channelid)
+            userids.push_back(i.key());
+    }
+
+    for(int userid : userids)
+    {
+        m_pendingusers.remove(userid);
+        // don't insert the user twice if it already got an item
+        if(getUserItem(userid))
+            continue;
+        users_t::const_iterator ite = m_users.constFind(userid);
+        if(ite != m_users.constEnd())
+        {
+            User user = *ite;
+            slotUserJoin(channelid, user);
+        }
+    }
 }
 
 void ChannelsTree::slotUpdateChannel(const Channel& chan)
@@ -1523,6 +1555,7 @@ void ChannelsTree::slotUserLoggedOut(const User& user)
     m_blinkchalk_users.remove(user.nUserID);
     m_desktopaccess_users.remove(user.nUserID);
     m_videousers.remove(user.nUserID);
+    m_pendingusers.remove(user.nUserID);
 
     Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
     m_users.remove(user.nUserID);
@@ -1552,11 +1585,14 @@ void ChannelsTree::slotUserUpdate(const User& user)
         if(item->data(COLUMN_ITEM, Qt::DisplayRole).toString() != name)
         {
             QTreeWidgetItem* parent = item->parent();
-            bool selected = this->currentItem() == item;
-            parent->removeChild(item);
-            parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
-            if (selected)
-               this->setCurrentItem(item);
+            if(parent)
+            {
+                bool selected = this->currentItem() == item;
+                parent->removeChild(item);
+                parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
+                if (selected)
+                    this->setCurrentItem(item);
+            }
         }
         //clear blinking request user (if enabled)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
@@ -1571,7 +1607,16 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
     m_users.insert(user.nUserID, user);
 
     QTreeWidgetItem* parent = getChannelItem(channelid), *item;
-    Q_ASSERT(parent);
+    if(!parent)
+    {
+        // The channel doesn't have an item yet. This happens when the join-event
+        // is processed before the channel has been added to the tree, e.g. while
+        // the tree is being rebuilt after a reconnect. Remember the user and
+        // insert it when the channel shows up in slotAddChannel().
+        m_pendingusers.insert(user.nUserID, channelid);
+        return;
+    }
+    m_pendingusers.remove(user.nUserID);
 
     int i = getUserIndex(parent, getDisplayName(user));
     if(i == 0)
@@ -1607,6 +1652,7 @@ void ChannelsTree::slotUserLeft(int channelid, const User& user)
     m_blinkhand_users.remove(user.nUserID);
     m_blinkchalk_users.remove(user.nUserID);
     m_desktopaccess_users.remove(user.nUserID);
+    m_pendingusers.remove(user.nUserID);
     delete getUserItem(user.nUserID);
     m_users.insert(user.nUserID, user);
 
