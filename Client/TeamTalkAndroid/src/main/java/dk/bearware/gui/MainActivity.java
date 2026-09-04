@@ -1882,9 +1882,9 @@ private EditText newmsg;
         masterSeekBar.setOnSeekBarChangeListener(volListener);
         micSeekBar.setOnSeekBarChangeListener(volListener);
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && accessibilityAssistant.isServiceActive()) {
-            tx_btn.setOnClickListener(txButtonListener);
-        }
+        // The touch listener consumes the event, so performClick() only runs for an
+        // accessibility click. Attaching here covers a service started after onCreate().
+        tx_btn.setOnClickListener(txButtonListener);
 
         ImageButton speakerBtn = findViewById(R.id.speakerBtn);
         speakerBtn.setOnClickListener(v -> {
