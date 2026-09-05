@@ -462,6 +462,10 @@ if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
   target_compile_options (catchtt PRIVATE
     ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
 
+  if (MSVC)
+    target_compile_options (catchtt PRIVATE /utf-8)
+  endif()
+
   target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
     ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML2_LINK_FLAGS})
 
