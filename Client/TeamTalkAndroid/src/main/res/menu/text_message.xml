@@ -2,4 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="dk.bearware.gui.TextMessageActivity" >
 
+    <item
+        android:id="@+id/action_copyall"
+        android:title="@string/action_copyall"/>
+
 </menu>

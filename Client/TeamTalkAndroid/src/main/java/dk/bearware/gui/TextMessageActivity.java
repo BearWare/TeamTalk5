@@ -24,6 +24,8 @@
 package dk.bearware.gui;
 
 import android.app.Activity;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -97,6 +99,10 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
         if(id == R.id.action_settings) {
+            return true;
+        }
+        else if (id == R.id.action_copyall) {
+            copyAllMessagesToClipboard();
             return true;
         }
         else if (id == android.R.id.home) {
@@ -244,6 +250,15 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
             adapter.notifyDataSetChanged();
             accessibilityAssistant.unlockEvents();
         }
+    }
+
+    private void copyAllMessagesToClipboard() {
+        if (adapter == null)
+            return;
+
+        ClipboardManager cm = (ClipboardManager) getSystemService(Context.CLIPBOARD_SERVICE);
+        if (cm != null)
+            cm.setPrimaryClip(ClipData.newPlainText("messages", adapter.getAllMessagesText()));
     }
 
     private void sendTypingStatus(boolean typing) {
