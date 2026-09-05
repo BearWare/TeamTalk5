@@ -424,6 +424,7 @@
     <string name="text_officialserver">Official server</string>
     <string name="text_unofficialserver">Unofficial server</string>
     <string name="text_passwdprot">Password protected</string>
+    <string name="text_parent_channel">Parent channel</string>
     <string name="text_translator">Translated by Bjørn Damstedt Rasmussen</string>
     <string name="desktop_image">Desktop image</string>
     <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
