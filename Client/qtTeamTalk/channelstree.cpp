@@ -1524,14 +1524,19 @@ void ChannelsTree::slotUserLoggedOut(const User& user)
     m_desktopaccess_users.remove(user.nUserID);
     m_videousers.remove(user.nUserID);
 
-    Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
+    if(m_users.find(user.nUserID) == m_users.end())
+        return;
+
     m_users.remove(user.nUserID);
 }
 
 void ChannelsTree::slotUserUpdate(const User& user)
 {
-    Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
-    User oldUser = m_users[user.nUserID];
+    users_t::const_iterator known = m_users.constFind(user.nUserID);
+    if(known == m_users.constEnd())
+        return;
+
+    User oldUser = *known;
     m_users.insert(user.nUserID, user);
 
     //ignore user if not in channel
@@ -1552,11 +1557,14 @@ void ChannelsTree::slotUserUpdate(const User& user)
         if(item->data(COLUMN_ITEM, Qt::DisplayRole).toString() != name)
         {
             QTreeWidgetItem* parent = item->parent();
-            bool selected = this->currentItem() == item;
-            parent->removeChild(item);
-            parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
-            if (selected)
-               this->setCurrentItem(item);
+            if(parent)
+            {
+                bool selected = this->currentItem() == item;
+                parent->removeChild(item);
+                parent->insertChild(getUserIndex(parent, getDisplayName(user)), item);
+                if (selected)
+                    this->setCurrentItem(item);
+            }
         }
         //clear blinking request user (if enabled)
         if(user.uLocalSubscriptions & SUBSCRIBE_DESKTOPINPUT)
@@ -1568,10 +1576,11 @@ void ChannelsTree::slotUserUpdate(const User& user)
 
 void ChannelsTree::slotUserJoin(int channelid, const User& user)
 {
-    m_users.insert(user.nUserID, user);
-
     QTreeWidgetItem* parent = getChannelItem(channelid), *item;
-    Q_ASSERT(parent);
+    if(!parent)
+        return;
+
+    m_users.insert(user.nUserID, user);
 
     int i = getUserIndex(parent, getDisplayName(user));
     if(i == 0)
@@ -1602,7 +1611,9 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
 
 void ChannelsTree::slotUserLeft(int channelid, const User& user)
 {
-    Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
+    if(m_users.find(user.nUserID) == m_users.end())
+        return;
+
     m_stats.remove(user.nUserID);
     m_blinkhand_users.remove(user.nUserID);
     m_blinkchalk_users.remove(user.nUserID);
