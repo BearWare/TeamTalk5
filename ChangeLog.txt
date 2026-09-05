@@ -26,6 +26,7 @@ Android Client
 - Ability to mute left or right channel of a user's voice and media files
 - Ability to change status mode along with nickname and status message
 - Gender can now be set to neutral in addition to male and female
+- Neutral gender now has its own user icon
 - Ability to copy a user's name, copy message content, delete a message and clear the chat history
 - Ability to open links in chat messages
 - Redesigned file sharing screen and file transfers
