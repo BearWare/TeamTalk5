@@ -1395,7 +1395,6 @@ private EditText newmsg;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
-                boolean male = !female && !neutral;
                 boolean isAway =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
                 boolean isStreaming = (user.nStatusMode & TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE) != 0;
                 int icon_resource;
@@ -1416,14 +1415,18 @@ private EditText newmsg;
                 if (talking) {
                     if (female) {
                         icon_resource = R.drawable.woman_green;
+                    } else if (neutral) {
+                        icon_resource = R.drawable.neutral_green;
                     } else {
-                        icon_resource = R.drawable.man_green; // male or neutral
+                        icon_resource = R.drawable.man_green;
                     }
                 } else {
                     if (female) {
                         icon_resource = isAway ? R.drawable.woman_orange : R.drawable.woman_blue;
+                    } else if (neutral) {
+                        icon_resource = isAway ? R.drawable.neutral_orange : R.drawable.neutral_blue;
                     } else {
-                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
+                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue;
                     }
                 }
 
