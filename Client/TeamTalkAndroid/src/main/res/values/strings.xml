@@ -77,7 +77,7 @@
     <string name="pref_summary_userleft_icon">Play sound when a user leaves the current channel</string>
     <string name="pref_header_connection">Connection</string>
     <string name="pref_title_auto_join_root">Join root channel upon connection</string>
-    <string name="pref_summary_auto_join_root">Automatically join root channel after connecting to server</string>
+    <string name="pref_summary_auto_join_root">Automatically join the root channel after connecting to the server</string>
     <string name="pref_title_sub_txtmsg">Text Messages</string>
     <string name="pref_summary_sub_txtmsg">Subscribe to text messages from users</string>
     <string name="pref_title_sub_chanmsg">Channel Messages</string>
@@ -160,16 +160,16 @@
     <string name="pref_title_show_usernames">Show usernames</string>
     <string name="pref_summary_show_usernames">Show usernames instead of nicknames</string>
     <string name="pref_title_move_talking">Move talking users to top</string>
-    <string name="pref_summary_move_talking">Move talking users to the top of users list</string>
+    <string name="pref_summary_move_talking">Move talking users to the top of the user list</string>
     <string name="pref_title_bearwareid">BearWare.dk WebLogin</string>
-    <string name="pref_summary_bearwareid">Setup BearWare.dk WebLogin</string>
+    <string name="pref_summary_bearwareid">Set up BearWare.dk WebLogin</string>
 
     <string name="pref_title_mediafile_volume">Media file volume</string>
     <string name="pref_summary_mediafile_volume">Media file vs. voice volume</string>
     <string name="pref_title_speakerphone_checkbox">Enable speaker phone</string>
     <string name="pref_summary_speakerphone_checkbox">Switch from earpiece to speakers</string>
-    <string name="pref_title_bluetooth_headset_checkbox">Use bluetooth headset microphone</string>
-    <string name="pref_summary_bluetooth_headset_checkbox">When bluetooth headset is connected use its microphone</string>
+    <string name="pref_title_bluetooth_headset_checkbox">Use Bluetooth headset microphone</string>
+    <string name="pref_summary_bluetooth_headset_checkbox">When a Bluetooth headset is connected, use its microphone</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
 
