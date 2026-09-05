@@ -1395,7 +1395,6 @@ private EditText newmsg;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
-                boolean male = !female && !neutral;
                 boolean isAway =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
                 boolean isStreaming = (user.nStatusMode & TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE) != 0;
                 int icon_resource;
