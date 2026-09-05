@@ -15,6 +15,7 @@
         android:id="@+id/nickname_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionNext"
         android:inputType="textCapSentences"
         android:singleLine="true" />
 
@@ -29,6 +30,7 @@
         android:id="@+id/status_message_input"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:imeOptions="actionDone"
         android:inputType="textCapSentences"
         android:singleLine="true" />
 

@@ -30,6 +30,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -483,7 +484,15 @@ extends AppCompatActivity
         });
 
         alert.setNegativeButton(android.R.string.cancel, null);
-        alert.show();
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+        statusMessageInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
