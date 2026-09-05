@@ -369,7 +369,7 @@
     <string name="download_failed">Failed to download file %1$s</string>
     <string name="upload_succeeded">File %1$s has been successfully uploaded</string>
     <string name="upload_failed">Failed to upload file %1$s</string>
-    <string name="alert_file_override">File %1$s already exists. Override it?</string>
+    <string name="alert_file_override">File %1$s already exists. Overwrite it?</string>
     <string name="err_file_delete">Cannot delete file %1$s</string>
     <string name="err_file_write">Cannot write file %1$s</string>
     <string name="err_channel_remove">Cannot delete channel %1$s</string>
@@ -426,7 +426,7 @@
     <string name="text_passwdprot">Password protected</string>
     <string name="text_translator">Translated by Bjørn Damstedt Rasmussen</string>
     <string name="desktop_image">Desktop image</string>
-    <string name="channel_change_alert">All active transfers will be stopped when switching a channel</string>
+    <string name="channel_change_alert">All active transfers will be stopped when switching channels</string>
     <string name="disconnect_alert">All active transfers will be stopped when leaving the server</string>
 
     <string name="err_invalid_username">Invalid username</string>
@@ -457,14 +457,14 @@
 
     <string name="permission_audioinput">Audio recording and playback will be unavailable</string>
     <string name="permission_audiomodify">Audio recording and playback will be unavailable</string>
-    <string name="permission_filerx">Download files will be unavailable</string>
-    <string name="permission_filetx">Upload and importing files will be unavailable</string>
-    <string name="permission_imagetx">Images upload will be unavailable</string>
+    <string name="permission_filerx">Downloading files will be unavailable</string>
+    <string name="permission_filetx">Uploading and importing files will be unavailable</string>
+    <string name="permission_imagetx">Uploading images will be unavailable</string>
     <string name="permission_videotx">Video files will not be available for upload and streaming</string>
     <string name="permission_audiotx">Audio files will not be available for upload and streaming</string>
-    <string name="permission_internet">Client will be unable to connect to servers</string>
-    <string name="permission_vibrate">Vibrate during push-to-talk will be unavailable</string>
-    <string name="permission_wake_lock">Server connection can be lost when screen dims out</string>
+    <string name="permission_internet">The client will be unable to connect to servers</string>
+    <string name="permission_vibrate">Vibration during push-to-talk will be unavailable</string>
+    <string name="permission_wake_lock">The server connection can be lost when the screen dims</string>
     <string name="permission_read_phone_state">Incoming phone call detection will be impossible</string>
     <string name="permission_bluetooth">Bluetooth headset microphone usage will be impossible</string>
     <string name="permission_post_notifications">TeamTalk will not be able to send notifications</string>
@@ -485,7 +485,7 @@
     <string name="chanpswlab">Channel\'s password:</string>
     <string name="chantopiclab">Channel\'s topic:</string>
     <string name="chanoppswlab">Operator\'s password:</string>
-    <string name="maxuserslab">Number of maximal users:</string>
+    <string name="maxuserslab">Maximum number of users:</string>
     <string name="diskquotalab">Disk quota:</string>
     <string name="bwidlab">Username:</string>
     <string name="bwpswlab">Password:</string>
