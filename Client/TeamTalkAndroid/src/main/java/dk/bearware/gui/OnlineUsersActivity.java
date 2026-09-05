@@ -95,6 +95,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_online_users);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         onlineUsersList = findViewById(R.id.online_users_list);
         adapter = new OnlineUserAdapter(this, onlineUsers);

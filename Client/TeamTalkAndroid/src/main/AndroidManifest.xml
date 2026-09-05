@@ -50,6 +50,7 @@
 
         <activity
             android:name=".ServerListActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:icon="@drawable/teamtalk_blue"
             android:launchMode="singleTop"
             android:exported="true">
@@ -70,12 +71,14 @@
 
         <activity
             android:name=".ServerEntryActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_server_entry"
             android:exported="false">
         </activity>
 
         <activity
             android:name=".MainActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:configChanges="orientation|screenSize"
             android:label="@string/title_activity_main"
             android:launchMode="singleTop"
@@ -85,12 +88,14 @@
 
         <activity
             android:name=".ChannelPropActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_channel_prop"
             android:exported="false">
         </activity>
 
         <activity
             android:name=".StreamMediaActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_stream_media"
             android:exported="false">
         </activity>
@@ -104,12 +109,14 @@
 
         <activity
             android:name=".UserPropActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_user_prop"
             android:exported="false">
         </activity>
 
         <activity
             android:name=".TextMessageActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_text_message"
             android:parentActivityName=".MainActivity"
             android:exported="false">
@@ -120,6 +127,7 @@
 
         <activity
             android:name=".PreferencesActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/title_activity_preferences"
             android:exported="false">
         </activity>
@@ -132,6 +140,7 @@
 
         <activity
             android:name=".OnlineUsersActivity"
+            android:theme="@style/AppTheme.NoActionBar"
             android:label="@string/online_users"
             android:parentActivityName=".MainActivity">
             <meta-data

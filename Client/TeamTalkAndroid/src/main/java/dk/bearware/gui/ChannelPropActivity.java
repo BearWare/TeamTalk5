@@ -91,6 +91,7 @@ implements TeamTalkConnectionListener, ClientEventListener.OnCmdErrorListener, C
         mConnection = new TeamTalkConnection(this);
         setContentView(R.layout.activity_channel_prop);
         EdgeToEdgeHelper.enableEdgeToEdge(this);
+        setSupportActionBar(AccessibilityHelper.installToolbar(this));
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);        
     }
