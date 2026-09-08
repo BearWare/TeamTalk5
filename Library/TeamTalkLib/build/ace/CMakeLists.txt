@@ -226,13 +226,13 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
-  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}" OR "arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
-    set (ACE_CPPFLAGS -fembed-bitcode -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
-    set (ACE_TARGET HARDWARE)
-    set (ACE_EXPORT export ACE_ROOT=<SOURCE_DIR>/ACE)
-  else()
+  if (TEAMTALK_IOS_SIMULATOR)
     set (ACE_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
     set (ACE_TARGET SIMULATOR)
+    set (ACE_EXPORT export ACE_ROOT=<SOURCE_DIR>/ACE)
+  else()
+    set (ACE_CPPFLAGS -fembed-bitcode -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    set (ACE_TARGET HARDWARE)
     set (ACE_EXPORT export ACE_ROOT=<SOURCE_DIR>/ACE)
   endif()
 
