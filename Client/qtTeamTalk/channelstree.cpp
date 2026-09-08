@@ -1524,6 +1524,7 @@ void ChannelsTree::slotUserLoggedOut(const User& user)
     m_desktopaccess_users.remove(user.nUserID);
     m_videousers.remove(user.nUserID);
 
+    Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
     if(m_users.find(user.nUserID) == m_users.end())
         return;
 
@@ -1533,6 +1534,7 @@ void ChannelsTree::slotUserLoggedOut(const User& user)
 void ChannelsTree::slotUserUpdate(const User& user)
 {
     users_t::const_iterator known = m_users.constFind(user.nUserID);
+    Q_ASSERT(known != m_users.constEnd());
     if(known == m_users.constEnd())
         return;
 
@@ -1557,6 +1559,7 @@ void ChannelsTree::slotUserUpdate(const User& user)
         if(item->data(COLUMN_ITEM, Qt::DisplayRole).toString() != name)
         {
             QTreeWidgetItem* parent = item->parent();
+            Q_ASSERT(parent);
             if(parent)
             {
                 bool selected = this->currentItem() == item;
@@ -1577,6 +1580,7 @@ void ChannelsTree::slotUserUpdate(const User& user)
 void ChannelsTree::slotUserJoin(int channelid, const User& user)
 {
     QTreeWidgetItem* parent = getChannelItem(channelid), *item;
+    Q_ASSERT(parent);
     if(!parent)
         return;
 
@@ -1611,6 +1615,7 @@ void ChannelsTree::slotUserJoin(int channelid, const User& user)
 
 void ChannelsTree::slotUserLeft(int channelid, const User& user)
 {
+    Q_ASSERT(m_users.find(user.nUserID) != m_users.end());
     if(m_users.find(user.nUserID) == m_users.end())
         return;
 
