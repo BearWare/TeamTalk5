@@ -454,7 +454,6 @@
     <string name="pref_title_libraries">Thư viện bên thứ ba</string>
     <string name="channel_prop_title_hiddenchannel">Ẩn</string>
     <string name="pref_title_gender">Giới tính</string>
-    <string name="pref_summary_gender">Kiểm tra nữ</string>
     <string name="user_state_away">Đang chờ</string>
     <string name="user_state_operator">Quản trị viên kênh</string>
     <string name="user_state_selected">Đã chọn để di chuyển </string>
