@@ -177,8 +177,23 @@ Run the following command in TEAMTALK_ROOT:
 
 `make -C Build ios-all`
 
-This will build TeamTalk binaries for architectures *armv7*,
-*arm64*, *i386* and *x64*.
+This will build TeamTalk binaries for iOS device architecture *arm64* and iOS
+simulator architectures *x64* and *arm64-simulator*.
+
+The first iOS build may download WebRTC into `$HOME/webrtc/iOS`, which is a
+large checkout. The per-architecture static archives are written to
+`Library/TeamTalk_DLL` as `libTeamTalk5-arm64.a`,
+`libTeamTalk5-x86_64.a` and `libTeamTalk5-arm64-simulator.a`.
+`ios-all` now also produces `libTeamTalk5-simulator.a` by combining the two
+simulator archives.
+When creating an XCFramework, combine only simulator archives with `lipo`
+(`x86_64` and `arm64-simulator`). Do not combine the `arm64-simulator` archive
+with the `arm64` device archive, even though both report the same CPU
+architecture.
+
+See `Client/iTeamTalk/README-iOS-XCFramework.md` for the full procedure that
+turns these archives into the `TeamTalkNativeiOS` / `TeamTalkNativemacOS`
+XCFrameworks used by the `TeamTalkKit` Swift package.
 
 
 ## Toolchain Toggles for TeamTalk Build Targets

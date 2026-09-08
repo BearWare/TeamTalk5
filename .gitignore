@@ -8,3 +8,4 @@ TAGS
 .build
 Client/iTeamTalk/TeamTalkKit/Vendor/TeamTalkNativeiOS.xcframework
 Client/iTeamTalk/TeamTalkKit/Vendor/TeamTalkNativemacOS.xcframework
+Client/iTeamTalk/TeamTalkKit/.swiftpm/

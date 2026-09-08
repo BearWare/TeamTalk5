@@ -139,18 +139,28 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
-  if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+  set (LIBVPX_CONFIGURE_ENV)
+
+  if (TEAMTALK_IOS_SIMULATOR)
+    set (LIBVPX_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
+    if ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+      set (LIBVPX_TARGET x86-iphonesimulator-gcc)
+    elseif ("x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+      set (LIBVPX_TARGET x86_64-iphonesimulator-gcc)
+    elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
+      set (LIBVPX_CPPFLAGS "-arch arm64 -isysroot ${CMAKE_OSX_SYSROOT} -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET}")
+      set (LIBVPX_TARGET generic-gnu)
+      set (LIBVPX_CONFIGURE_ENV ${CMAKE_COMMAND} -E env
+        CC=clang
+        CXX=clang++
+        "LDFLAGS=${LIBVPX_CPPFLAGS}")
+    endif()
+  elseif ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
     set (LIBVPX_CPPFLAGS -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
     set (LIBVPX_TARGET armv7-darwin-gcc)
   elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
     set (LIBVPX_CPPFLAGS -miphoneos-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
     set (LIBVPX_TARGET arm64-darwin-gcc)
-  elseif ("i386" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
-    set (LIBVPX_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
-    set (LIBVPX_TARGET x86-iphonesimulator-gcc)
-  elseif ("x86_64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
-    set (LIBVPX_CPPFLAGS -mios-simulator-version-min=${CMAKE_OSX_DEPLOYMENT_TARGET})
-    set (LIBVPX_TARGET x86_64-iphonesimulator-gcc)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -160,7 +170,8 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       UPDATE_COMMAND    ""
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX}/libvpx
-      CONFIGURE_COMMAND <SOURCE_DIR>/configure --extra-cflags=${LIBVPX_CPPFLAGS}
+      CONFIGURE_COMMAND ${LIBVPX_CONFIGURE_ENV} <SOURCE_DIR>/configure
+      "--extra-cflags=${LIBVPX_CPPFLAGS}"
       --prefix=<INSTALL_DIR> --target=${LIBVPX_TARGET}
       --disable-examples --disable-docs --disable-unit-tests
       BUILD_COMMAND     make ${TOOLCHAIN_BUILD_MAKEJOBS}
