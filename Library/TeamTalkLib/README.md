@@ -191,6 +191,10 @@ When creating an XCFramework, combine only simulator archives with `lipo`
 with the `arm64` device archive, even though both report the same CPU
 architecture.
 
+See `Client/iTeamTalk/README-iOS-XCFramework.md` for the full procedure that
+turns these archives into the `TeamTalkNativeiOS` / `TeamTalkNativemacOS`
+XCFrameworks used by the `TeamTalkKit` Swift package.
+
 
 ## Toolchain Toggles for TeamTalk Build Targets
 
