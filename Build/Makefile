@@ -117,7 +117,7 @@ ios-x64:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=x86_64 lipo-arch
 
-ios-all: ios-arm64 ios-x64 ios-arm64-simulator lipo lipo-simulator
+ios-all: ios-arm64 ios-x64 ios-arm64-simulator
 
 lipo-arch: teamtalk-env
 	test -d "$(INSTALLDIR)"
@@ -149,7 +149,7 @@ lipo-arch: teamtalk-env
 	$(INSTALLDIR)/$(ARCH)/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
-lipo: teamtalk-env
+lipo: teamtalk-env ios-arm64 ios-x64
 	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-arm64.a \
 	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.a
@@ -158,14 +158,14 @@ lipo: teamtalk-env
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-arm64.a \
 	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.a
 
-lipo-simulator: teamtalk-env
+lipo-simulator: teamtalk-env ios-x64 ios-arm64-simulator
 	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-arm64-simulator.a \
-	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-simulator.a
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.a
 
 	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-x86_64.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-arm64-simulator.a \
-	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-simulator.a
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.a
 
 xcodeswap-apps:
 	@echo "Changing to /Applications/Xcode.app/Contents/Developer"
