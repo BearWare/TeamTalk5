@@ -482,7 +482,6 @@
     <string name="pref_title_libraries">Librerías de terceros</string>
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
     <string name="pref_title_gender">Género</string>
-    <string name="pref_summary_gender">Seleccionar para género femenino</string>
     <string name="user_state_away">Ausente -</string>
     <string name="user_state_operator">Operador del canal -</string>
     <string name="user_state_admin">Administrador</string>

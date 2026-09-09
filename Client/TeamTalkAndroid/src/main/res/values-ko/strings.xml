@@ -426,7 +426,6 @@
     <string name="pref_title_libraries">서드파티 라이브러리</string>
     <string name="channel_prop_title_hiddenchannel">숨김</string>
     <string name="pref_title_gender">성별</string>
-    <string name="pref_summary_gender">체크하면 여성 아이콘 사용</string>
     <string name="user_state_away">자리비움</string>
     <string name="user_state_operator">채널 관리자</string>
     <string name="user_state_admin">서버 관리자</string>

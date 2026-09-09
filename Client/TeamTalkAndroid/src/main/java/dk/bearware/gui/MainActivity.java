@@ -30,6 +30,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -484,7 +485,15 @@ extends AppCompatActivity
         });
 
         alert.setNegativeButton(android.R.string.cancel, null);
-        alert.show();
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+        statusMessageInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
@@ -959,6 +968,7 @@ extends AppCompatActivity
             alert.setMessage(R.string.channel_password_prompt);
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
+            input.setImeOptions(EditorInfo.IME_ACTION_DONE);
             input.setText(channel.szPassword);
             input.requestFocus();
             alert.setView(input);
@@ -971,9 +981,16 @@ extends AppCompatActivity
                 InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(input.getWindowToken(), 0);
             });
-			final AlertDialog dialog = alert.create();
+            final AlertDialog dialog = alert.create();
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             dialog.show();
+            input.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                    return true;
+                }
+                return false;
+            });
         }
         else {
             joinChannel(channel, "");
@@ -1318,6 +1335,15 @@ private EditText newmsg;
                         if (convertView == null ||
                                 convertView.findViewById(R.id.parentname) == null)
                             convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
+
+                        TextView parenttopic = convertView.findViewById(R.id.chantopic);
+                        TextView parentpopulation = convertView.findViewById(R.id.population);
+
+                        parenttopic.setText(channel.szTopic);
+
+                        int parentusers = Utils.getUsers(channel.nChannelID, getService().getUsers()).size();
+                        parentpopulation.setText((parentusers > 0) ? String.format(Locale.ROOT, "(%d)", parentusers) : "");
+
                         break;
 
                     case CHANNEL_VIEW_TYPE :
@@ -1396,7 +1422,6 @@ private EditText newmsg;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
-                boolean male = !female && !neutral;
                 boolean isAway =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
                 boolean isStreaming = (user.nStatusMode & TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE) != 0;
                 int icon_resource;
@@ -1417,14 +1442,18 @@ private EditText newmsg;
                 if (talking) {
                     if (female) {
                         icon_resource = R.drawable.woman_green;
+                    } else if (neutral) {
+                        icon_resource = R.drawable.neutral_green;
                     } else {
-                        icon_resource = R.drawable.man_green; // male or neutral
+                        icon_resource = R.drawable.man_green;
                     }
                 } else {
                     if (female) {
                         icon_resource = isAway ? R.drawable.woman_orange : R.drawable.woman_blue;
+                    } else if (neutral) {
+                        icon_resource = isAway ? R.drawable.neutral_orange : R.drawable.neutral_blue;
                     } else {
-                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
+                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue;
                     }
                 }
 
@@ -1883,9 +1912,9 @@ private EditText newmsg;
         masterSeekBar.setOnSeekBarChangeListener(volListener);
         micSeekBar.setOnSeekBarChangeListener(volListener);
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && accessibilityAssistant.isServiceActive()) {
-            tx_btn.setOnClickListener(txButtonListener);
-        }
+        // The touch listener consumes the event, so performClick() only runs for an
+        // accessibility click. Attaching here covers a service started after onCreate().
+        tx_btn.setOnClickListener(txButtonListener);
 
         ImageButton speakerBtn = findViewById(R.id.speakerBtn);
         speakerBtn.setOnClickListener(v -> {

@@ -32,8 +32,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp" 
                 android:singleLine="true"
-                android:text=".."
-                tools:ignore="HardcodedText" />
+                android:text="@string/text_parent_channel" />
 
             <TextView
                 android:id="@+id/population"
