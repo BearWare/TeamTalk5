@@ -173,23 +173,35 @@ configuration and afterwards build the binaries.
 
 ### Build TeamTalk Binaries for iOS on macOS
 
-Run the following command in TEAMTALK_ROOT:
+To build TeamTalk libraries for iOS hardware devices run the following
+command in TEAMTALK_ROOT:
 
-`make -C Build ios-all`
+`make -C Build lipo`
 
-This will build TeamTalk binaries for iOS device architecture *arm64* and iOS
-simulator architectures *x64* and *arm64-simulator*.
+This will build TeamTalk binaries for iOS device architectures *arm64*
+and iOS simulator architectures
+*x64*. I.e. `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5.a` will
+be a universal binary that contains *arm64* iOS device architecture
+and *x64* iOS simulator architecture.
 
-The first iOS build may download WebRTC into `$HOME/webrtc/iOS`, which is a
-large checkout. The per-architecture static archives are written to
-`Library/TeamTalk_DLL` as `libTeamTalk5-arm64.a`,
-`libTeamTalk5-x86_64.a` and `libTeamTalk5-arm64-simulator.a`.
-`ios-all` now also produces `libTeamTalk5-simulator.a` by combining the two
-simulator archives.
-When creating an XCFramework, combine only simulator archives with `lipo`
-(`x86_64` and `arm64-simulator`). Do not combine the `arm64-simulator` archive
-with the `arm64` device archive, even though both report the same CPU
-architecture.
+To build TeamTalk libraries for iOS simulators run the following
+command in TEAMTALK_ROOT:
+
+`make -C Build lipo-simulator`
+
+This will build TeamTalk binaries for iOS simulator architectures *arm64* and
+*x64*. I.e. `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5-simulator.a` will
+be a universal binary that contains *arm64* iOS simulator architecture
+and *x64* iOS simulator architecture.
+
+The `lipo` tool merges architectures into a single (so-called
+universal) binary, however, iOS device *arm64* architecture cannot be
+combined with iOS simulator *arm64* architecture. Therefore when
+building `libTeamTalk5.a` you have to select either iOS device or iOS
+simulator target.
+
+Note that the first iOS build may download WebRTC into
+`$HOME/webrtc/iOS`, which is a large checkout.
 
 See `Client/iTeamTalk/README-iOS-XCFramework.md` for the full procedure that
 turns these archives into the `TeamTalkNativeiOS` / `TeamTalkNativemacOS`

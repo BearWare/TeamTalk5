@@ -31,30 +31,41 @@ This document is the procedure for producing them.
 
 All commands are run from `TEAMTALK_ROOT` (the repository root).
 
-### iOS (device + simulator)
+### iOS (arm64 device + x64 simulator)
 
 ```sh
-make -C Build ios-all
+make -C Build lipo
 ```
 
-`ios-all` runs three sub-builds and two `lipo` steps and writes the results
-to `Library/TeamTalk_DLL/`:
+`lipo` runs two sub-builds and writes the results to
+`Library/TeamTalk_DLL/`:
 
 | Archive                              | Platform / arch                    | SDK               |
 | ------------------------------------ | ---------------------------------- | ----------------- |
-| `libTeamTalk5-arm64.a`               | iOS **device** arm64              | `iphoneos`        |
-| `libTeamTalk5-x86_64.a`              | iOS **simulator** x86_64 (Intel)  | `iphonesimulator` |
-| `libTeamTalk5-arm64-simulator.a`     | iOS **simulator** arm64 (Apple Si)| `iphonesimulator` |
-| `libTeamTalk5-simulator.a`           | fat: x86_64 + arm64 **simulator** | —                 |
-| `libTeamTalk5.a`                     | legacy fat: x86_64 sim + arm64 dev| —                 |
+| `libTeamTalk5-arm64.a`               | iOS **device** arm64               | `iphoneos`        |
+| `libTeamTalk5-x86_64-simulator.a`    | iOS **simulator** x86_64 (Intel)   | `iphonesimulator` |
+| `libTeamTalk5.a`                     | iOS: x86_64 sim + arm64 device     | both              |
 
 Each also has a `libTeamTalk5Pro-*.a` counterpart (Professional Edition, which
 additionally exposes the server API in `TeamTalkSrv.h`).
 
-Use `libTeamTalk5-arm64.a` for the device and `libTeamTalk5-simulator.a` for
-the simulator. **Do not** use `libTeamTalk5.a` for the XCFramework — it mixes
-a device slice and a simulator slice under the same `arm64`/`x86_64` names and
-`xcodebuild -create-xcframework` will reject it.
+### iOS (arm64 simulator and x64 simulator)
+
+```sh
+make -C Build lipo-simulator
+```
+
+`lipo-simulator` runs two sub-builds and writes the results to
+`Library/TeamTalk_DLL/`:
+
+| Archive                              | Platform / arch                    | SDK               |
+| ------------------------------------ | ---------------------------------- | ----------------- |
+| `libTeamTalk5-x86_64-simulator.a`    | iOS **simulator** x86_64 (Intel)   | `iphonesimulator` |
+| `libTeamTalk5-arm64-simulator.a`     | iOS **simulator** arm64 (Apple Si) | `iphonesimulator` |
+| `libTeamTalk5-simulator.a`           | iOS: x86_64 sim + arm64 sim        | `iphonesimulator` |
+
+Each also has a `libTeamTalk5Pro-*.a` counterpart (Professional Edition, which
+additionally exposes the server API in `TeamTalkSrv.h`).
 
 ### macOS
 
@@ -62,10 +73,11 @@ a device slice and a simulator slice under the same `arm64`/`x86_64` names and
 make -C Build mac
 ```
 
-This builds a universal (`arm64;x86_64`) archive into `Library/TeamTalk_DLL/`
-as `libTeamTalk5.a` / `libTeamTalk5Pro.a`. If you have just run `ios-all`,
-run `mac` into a clean checkout or move the iOS archives aside first, because
-both write the same `libTeamTalk5.a` filename.
+This builds a universal (`arm64;x86_64`) archive into
+`Library/TeamTalk_DLL/` as `libTeamTalk5.a` / `libTeamTalk5Pro.a`. If
+you have just run `lipo` or `lipo-simulator`, run `mac` into a clean
+checkout or move the iOS archives aside first, because both write the
+same `libTeamTalk5.a` filename.
 
 ## 2. Assemble the XCFrameworks
 
