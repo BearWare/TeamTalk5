@@ -12,8 +12,4 @@
         android:id="@+id/action_deletemessage"
         android:title="@string/action_deletemessage"/>
 
-    <item
-        android:id="@+id/action_clear"
-        android:title="@string/action_clear"/>
-
 </menu>
