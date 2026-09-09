@@ -224,6 +224,7 @@ public class ServerEntryActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.server_entry, menu);
+        MenuActionsHelper.addMenuActions(this, menu);
         return true;
     }
 
