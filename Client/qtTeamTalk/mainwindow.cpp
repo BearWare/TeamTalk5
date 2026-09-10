@@ -2151,8 +2151,6 @@ void MainWindow::disconnectFromServer()
         addServerEntry(m_host);
     }
 
-    TT_Disconnect(ttInst);
-
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
@@ -2161,6 +2159,12 @@ void MainWindow::disconnectFromServer()
         if (ui.channelsWidget->getUser(uid, u) && !userCacheID(u).isEmpty())
             m_usercache[userCacheID(u)] = UserCached(u);
     }
+
+    TT_Disconnect(ttInst);
+
+    TTMessage msg;
+    INT32 wait_ms = 0;
+    while(TT_GetMessage(ttInst, &msg, &wait_ms));
 
     ui.channelsWidget->resetChannels();
     ui.videogridWidget->resetGrid();
