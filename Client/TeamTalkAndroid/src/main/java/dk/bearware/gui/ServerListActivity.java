@@ -27,11 +27,11 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.database.Cursor;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.preference.PreferenceManager;
+import android.provider.OpenableColumns;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
@@ -62,9 +62,9 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.InputSource;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -103,6 +103,8 @@ public class ServerListActivity extends AppCompatActivity
     private EditText searchEditText;
     private TextView emptyView;
     private ExecutorService executorService;
+    private Vector<ServerEntry> pendingExportEntries;
+    private int pendingExportSuccessMsgId;
     
     private final Vector<ServerEntry> servers = new Vector<>();
 
@@ -112,6 +114,7 @@ public class ServerListActivity extends AppCompatActivity
     private static final int REQUEST_NEWSERVER = 2;
     private static final int REQUEST_IMPORT_SERVERLIST = 3;
     private static final int REQUEST_JOINCODE = 4;
+    private static final int REQUEST_EXPORT_SERVERLIST = 5;
     private static final String POSITION_NAME = "pos";
 
     @Override
@@ -325,7 +328,10 @@ public class ServerListActivity extends AppCompatActivity
                     catch (Exception ex) {
                     }
                     Vector<ServerEntry> entries = Utils.getXmlServerEntries(xml.toString());
-                    if (entries != null) {
+                    if (entries.isEmpty()) {
+                        showToast(getString(R.string.err_file_import, data.getData().toString()));
+                    }
+                    else {
                         for (ServerEntry entry : entries) {
                             entry.servertype = ServerEntry.ServerType.LOCAL;
                         }
@@ -338,6 +344,12 @@ public class ServerListActivity extends AppCompatActivity
                 break;
             case REQUEST_JOINCODE:
                 enterJoinCode();
+                break;
+            case REQUEST_EXPORT_SERVERLIST:
+                if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+                    performExport(data.getData());
+                }
+                pendingExportEntries = null;
                 break;
         }
     }
@@ -358,13 +370,9 @@ public class ServerListActivity extends AppCompatActivity
         } else if (itemId == R.id.action_refreshserverlist) {
             refreshServerList();
         } else if (itemId == R.id.action_import_serverlist) {
-            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) || Permissions.READ_EXTERNAL_STORAGE.request(this)) {
-                fileSelectionStart();
-            }
+            fileSelectionStart();
         } else if (itemId == R.id.action_export_serverlist) {
-            if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                exportServers();
-            }
+            exportServers();
         } else if (itemId == R.id.action_enter_joincode) {
             enterJoinCode();
         } else if (itemId == R.id.action_settings) {
@@ -393,9 +401,7 @@ public class ServerListActivity extends AppCompatActivity
         serverActions.setOnMenuItemClickListener(item -> {
             int itemId = item.getItemId();
             if (itemId == R.id.action_exportsrv) {
-                if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || Permissions.WRITE_EXTERNAL_STORAGE.request(this)) {
-                    exportServer(entry);
-                }
+                exportServer(entry);
                 return true;
             } else if (itemId == R.id.action_editsrv) {
                 Intent intent = new Intent(this, ServerEntryActivity.class);
@@ -554,10 +560,7 @@ public class ServerListActivity extends AppCompatActivity
                 ViewCompat.addAccessibilityAction(itemView,
                     getString(R.string.action_exportsrv), 
                     (view, arguments) -> {
-                        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) || 
-                            Permissions.WRITE_EXTERNAL_STORAGE.request(ServerListActivity.this)) {
-                            exportServer(entry);
-                        }
+                        exportServer(entry);
                         return true;
                     });
                     
@@ -618,7 +621,9 @@ public class ServerListActivity extends AppCompatActivity
             ServerEntry.KEY_SERVERNAME, ServerEntry.KEY_IPADDR, ServerEntry.KEY_TCPPORT,
             ServerEntry.KEY_UDPPORT, ServerEntry.KEY_ENCRYPTED, ServerEntry.KEY_USERNAME,
             ServerEntry.KEY_PASSWORD, ServerEntry.KEY_NICKNAME, ServerEntry.KEY_STATUSMSG, ServerEntry.KEY_REMEMBER_LAST_CHANNEL,
-            ServerEntry.KEY_CHANNEL, ServerEntry.KEY_CHANPASSWD
+            ServerEntry.KEY_CHANNEL, ServerEntry.KEY_CHANPASSWD, ServerEntry.KEY_CACERT,
+            ServerEntry.KEY_CLIENTCERT, ServerEntry.KEY_CLIENTCERTKEY, ServerEntry.KEY_VERIFYPEER,
+            ServerEntry.KEY_JOINCODE
         };
         
         for (String key : keys) {
@@ -649,6 +654,11 @@ public class ServerListActivity extends AppCompatActivity
         edit.putBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, server.rememberLastChannel);
         edit.putString(index + ServerEntry.KEY_CHANNEL, server.channel);
         edit.putString(index + ServerEntry.KEY_CHANPASSWD, server.chanpasswd);
+        edit.putString(index + ServerEntry.KEY_CACERT, server.cacert);
+        edit.putString(index + ServerEntry.KEY_CLIENTCERT, server.clientcert);
+        edit.putString(index + ServerEntry.KEY_CLIENTCERTKEY, server.clientcertkey);
+        edit.putBoolean(index + ServerEntry.KEY_VERIFYPEER, server.verifypeer);
+        edit.putString(index + ServerEntry.KEY_JOINCODE, server.joincode);
     }
 
     private void loadLocalServers() {
@@ -678,6 +688,11 @@ public class ServerListActivity extends AppCompatActivity
         entry.rememberLastChannel = pref.getBoolean(index + ServerEntry.KEY_REMEMBER_LAST_CHANNEL, true);
         entry.channel = pref.getString(index + ServerEntry.KEY_CHANNEL, "");
         entry.chanpasswd = pref.getString(index + ServerEntry.KEY_CHANPASSWD, "");
+        entry.cacert = pref.getString(index + ServerEntry.KEY_CACERT, "");
+        entry.clientcert = pref.getString(index + ServerEntry.KEY_CLIENTCERT, "");
+        entry.clientcertkey = pref.getString(index + ServerEntry.KEY_CLIENTCERTKEY, "");
+        entry.verifypeer = pref.getBoolean(index + ServerEntry.KEY_VERIFYPEER, false);
+        entry.joincode = pref.getString(index + ServerEntry.KEY_JOINCODE, "");
         return entry;
     }
 
@@ -878,7 +893,7 @@ public class ServerListActivity extends AppCompatActivity
     }
 
     private void fileSelectionStart() {
-        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent intent = new Intent(Intent.ACTION_OPEN_DOCUMENT);
         intent.addCategory(Intent.CATEGORY_OPENABLE);
         intent.setType("*/*");
         Intent i = Intent.createChooser(intent, "File");
@@ -886,19 +901,12 @@ public class ServerListActivity extends AppCompatActivity
     }
 
     private void exportServers() {
-        Vector<ServerEntry> localServers = getLocalServers();
-        File ttFile = createExportFile("tt5servers.tt");
-        if (ttFile != null) {
-            exportToFile(localServers, ttFile, R.string.serverlist_export_confirmation);
-        }
+        startExport(getLocalServers(), "tt5servers.tt", R.string.serverlist_export_confirmation);
     }
 
     private void exportServer(ServerEntry entry) {
         Vector<ServerEntry> singleServer = new Vector<>(Collections.singletonList(entry));
-        File ttFile = createExportFile(entry.servername + "_server.tt");
-        if (ttFile != null) {
-            exportToFile(singleServer, ttFile, R.string.server_export_confirmation);
-        }
+        startExport(singleServer, getSafeExportFileName(entry.servername + "_server.tt"), R.string.server_export_confirmation);
     }
 
     private Vector<ServerEntry> getLocalServers() {
@@ -913,42 +921,49 @@ public class ServerListActivity extends AppCompatActivity
         return localServers;
     }
 
-    private File createExportFile(String fileName) {
-        File dirPath = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-        if (dirPath.mkdirs() || dirPath.isDirectory()) {
-            return new File(dirPath, fileName);
-        }
-        return null;
+    private void startExport(Vector<ServerEntry> entries, String fileName, int successMsgId) {
+        pendingExportEntries = entries;
+        pendingExportSuccessMsgId = successMsgId;
+
+        Intent intent = new Intent(Intent.ACTION_CREATE_DOCUMENT);
+        intent.addCategory(Intent.CATEGORY_OPENABLE);
+        intent.setType("application/xml");
+        intent.putExtra(Intent.EXTRA_TITLE, fileName);
+        startActivityForResult(intent, REQUEST_EXPORT_SERVERLIST);
     }
 
-    private void exportToFile(Vector<ServerEntry> entries, File ttFile, int successMsgId) {
-        final String filePath = ttFile.getAbsolutePath();
-        
-        if (ttFile.exists()) {
-            showFileOverrideDialog(entries, ttFile, filePath, successMsgId);
-        } else {
-            performExport(entries, filePath, successMsgId);
-        }
+    private String getSafeExportFileName(String fileName) {
+        return fileName.replaceAll("[\\\\/:*?\"<>|]", "_");
     }
 
-    private void showFileOverrideDialog(Vector<ServerEntry> entries, File ttFile, String filePath, int successMsgId) {
-        AlertDialog.Builder alert = new AlertDialog.Builder(this);
-        alert.setMessage(getString(R.string.alert_file_override, filePath));
-        alert.setPositiveButton(android.R.string.yes, (dialog, whichButton) -> {
-            if (ttFile.delete()) {
-                performExport(entries, filePath, successMsgId);
-            } else {
-                showToast(getString(R.string.err_file_delete, filePath));
+    private void performExport(Uri uri) {
+        boolean success = false;
+        if (pendingExportEntries != null) {
+            try (OutputStream outputStream = getContentResolver().openOutputStream(uri)) {
+                if (outputStream != null) {
+                    success = Utils.saveServers(pendingExportEntries, outputStream);
+                }
             }
-        });
-        alert.setNegativeButton(android.R.string.no, null);
-        alert.show();
+            catch (Exception e) {
+                Log.d(TAG, "Unable to save file " + uri, e);
+            }
+        }
+
+        int msgId = success ? pendingExportSuccessMsgId : R.string.err_file_write;
+        showToast(getString(msgId, getDisplayName(uri)));
     }
 
-    private void performExport(Vector<ServerEntry> entries, String filePath, int successMsgId) {
-        boolean success = Utils.saveServers(entries, filePath);
-        int msgId = success ? successMsgId : R.string.err_file_write;
-        showToast(getString(msgId, filePath));
+    private String getDisplayName(Uri uri) {
+        try (Cursor cursor = getContentResolver().query(uri, null, null, null, null)) {
+            if (cursor != null && cursor.moveToFirst()) {
+                int index = cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME);
+                if (index >= 0)
+                    return cursor.getString(index);
+            }
+        }
+        catch (Exception ignored) {
+        }
+        return uri.toString();
     }
 
     private void showToast(String message) {
