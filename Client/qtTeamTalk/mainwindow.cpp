@@ -2123,6 +2123,14 @@ void MainWindow::connectToServer()
                localtcpport, localudpport, m_host.encrypted);
 }
 
+void MainWindow::drainTTMessages()
+{
+    TTMessage msg;
+    int wait_ms = 0;
+    while(TT_GetMessage(ttInst, &msg, &wait_ms))
+        processTTMessage(msg);
+}
+
 void MainWindow::disconnectFromServer()
 {
     if (!timerExists(TIMER_RECONNECT))
@@ -2151,6 +2159,8 @@ void MainWindow::disconnectFromServer()
         addServerEntry(m_host);
     }
 
+    TT_Disconnect(ttInst);
+
     // sync user settings to cache
     auto users = ui.channelsWidget->getUsers();
     for (int uid : users)
@@ -2160,11 +2170,7 @@ void MainWindow::disconnectFromServer()
             m_usercache[userCacheID(u)] = UserCached(u);
     }
 
-    TT_Disconnect(ttInst);
-
-    TTMessage msg;
-    INT32 wait_ms = 0;
-    while(TT_GetMessage(ttInst, &msg, &wait_ms));
+    drainTTMessages();
 
     ui.channelsWidget->resetChannels();
     ui.videogridWidget->resetGrid();
@@ -2492,12 +2498,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
     switch(*ite)
     {
     case TIMER_PROCESS_TTEVENT :
-    {
-        TTMessage msg;
-        int wait_ms = 0;
-        while(TT_GetMessage(ttInst, &msg, &wait_ms))
-            processTTMessage(msg);
-    }
+        drainTTMessages();
     break;
     case TIMER_ONE_SECOND :
         if(TT_GetFlags(ttInst) & CLIENT_CONNECTED)
