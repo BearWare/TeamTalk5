@@ -3459,6 +3459,44 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testAdminLoginDelayExemption() {
+        String ADMINUSERNAME = "tt_admin_delay";
+        String PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN;
+
+        TeamTalkBase ttadmin = newClientInstance();
+        connect(ttadmin);
+        login(ttadmin, ADMIN_NICKNAME + " - " + getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        ServerProperties srvprop = new ServerProperties();
+        assertTrue(ttadmin.getServerProperties(srvprop));
+        int orgValue = srvprop.nLoginDelayMSec;
+
+        try {
+            srvprop.nLoginDelayMSec = 60000;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+
+            UserAccount adminAccount = new UserAccount();
+            adminAccount.szUsername = ADMINUSERNAME;
+            adminAccount.szPassword = PASSWORD;
+            adminAccount.uUserType = UserType.USERTYPE_ADMIN;
+            adminAccount.uUserRights = USERRIGHTS;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(adminAccount), DEF_WAIT), "create admin account");
+
+            TeamTalkBase ttadmin1 = newClientInstance();
+            TeamTalkBase ttadmin2 = newClientInstance();
+            connect(ttadmin1);
+            login(ttadmin1, NICKNAME, ADMINUSERNAME, PASSWORD);
+            connect(ttadmin2);
+            login(ttadmin2, NICKNAME, ADMINUSERNAME, PASSWORD);
+        }
+        finally {
+            srvprop.nLoginDelayMSec = orgValue;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+        }
+    }
+
+    @Test
     public void testLoginAttempts() {
 
         TeamTalkBase ttadmin = newClientInstance();

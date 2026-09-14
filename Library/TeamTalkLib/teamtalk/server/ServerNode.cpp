@@ -2672,7 +2672,8 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     {
     case TT_CMDERR_SUCCESS :
     {
-        if (LoginsExceeded(*user))
+        // Administrators are exempt from the per-IP login delay.
+        if ((useraccount.usertype & USERTYPE_ADMIN) == 0 && LoginsExceeded(*user))
             return TT_CMDERR_COMMAND_FLOOD;
         break;
     }
