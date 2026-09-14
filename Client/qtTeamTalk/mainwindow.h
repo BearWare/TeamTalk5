@@ -212,6 +212,7 @@ private:
     int m_relayvoice_userid = 0, m_relaymediafile_userid = 0;
 
     void processTTMessage(const TTMessage& msg);
+    void drainTTMessages();
     void addStatusMsg(StatusBarEvent event, const QString& msg);
     void connectToServer();
     void disconnectFromServer();
