@@ -1675,15 +1675,11 @@ void MainWindow::clienteventSoundDeviceChange(ClientEvent clientevent, const Sou
     if (devid.isEmpty())
         return;
 
-    // sound systems without a device ID use the device name as UID, so accept both
-    auto devname = _Q(snddev.szDeviceName);
-    auto matches = [&](const QString& uid) { return uid.size() && (uid == devid || uid == devname); };
-
     bool defaultinput = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT;
     bool defaultoutput = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT;
-    bool selected = matches(ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString()) ||
-                    matches(ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString());
-    bool inuse = matches(getSoundDeviceUID(m_devin)) || matches(getSoundDeviceUID(m_devout));
+    bool selected = devid == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString() ||
+                    devid == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
+    bool inuse = devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout);
 
     bool restart = false;
     switch (clientevent)
