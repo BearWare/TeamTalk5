@@ -57,6 +57,9 @@ enum CommandComplete
     CMD_COMPLETE_PING
 };
 
+// Windows reports a burst of endpoint notifications per plug or unplug
+#define SOUNDDEVICE_CHANGE_DELAY 500
+
 enum TimerEvent
 {
     TIMER_PROCESS_TTEVENT = 1,
@@ -68,6 +71,7 @@ enum TimerEvent
     TIMER_SEND_DESKTOPWINDOW,
     TIMER_APP_UPDATE,
     TIMER_CHANGE_MEDIAFILE_POSITION,
+    TIMER_SOUNDDEVICE_CHANGE,
 };
 
 enum MainTab
@@ -483,8 +487,7 @@ private:
     void clienteventDesktopWindowTransfer(int source, int bytesremain);
     void clienteventUserRecordMediaFile(int source, const MediaFileInfo& mediafileinfo);
     void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
-    void clienteventSoundDeviceAdded(const SoundDevice& snddev);
-    void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
+    void clienteventSoundDeviceChange(ClientEvent clientevent, const SoundDevice& snddev);
     MediaFilePlayback m_mfp = {};
     VideoCodec m_mfp_videocodec = {};
     std::optional<MediaFileInfo> m_mfi;
