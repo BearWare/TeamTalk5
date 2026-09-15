@@ -1686,7 +1686,7 @@ private EditText newmsg;
                 alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> getClient().doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), !getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID))));
                 alert.setNegativeButton(android.R.string.no, null);
                 alert.setView(input);
-                alert.show();
+                DialogHelper.showWithImeSubmit(alert, input);
             }
         } else if (itemId == R.id.action_move) {
             for (Integer userID : userIDS) {
