@@ -2648,8 +2648,9 @@ void MainWindow::timerEvent(QTimerEvent *event)
         killLocalTimer(TIMER_CHANGE_MEDIAFILE_POSITION);
         break;
     case TIMER_SOUNDDEVICE_CHANGE :
-        // leave the timer running so sound devices are not restarted while
-        // the user is testing them in the preferences dialog
+        // TT_RestartSoundSystem() fails while a sound loopback test holds a
+        // stream, so keep the timer running and pick up the new device list
+        // once the test in the preferences dialog is done
         if (!QApplication::activeModalWidget())
         {
             killLocalTimer(TIMER_SOUNDDEVICE_CHANGE);
