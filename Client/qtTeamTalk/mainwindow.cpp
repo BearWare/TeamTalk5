@@ -1669,19 +1669,61 @@ void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
     }
 }
 
-void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
+void MainWindow::clienteventSoundDeviceChange(ClientEvent clientevent, const SoundDevice& snddev)
 {
-    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
-}
-
-void MainWindow::clienteventSoundDeviceRemoved(const SoundDevice& snddev)
-{
-    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
-
     auto devid = getSoundDeviceUID(snddev);
-    if (devid.size() && (devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout)))
+    if (devid.isEmpty())
+        return;
+
+    bool defaultinput = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT;
+    bool defaultoutput = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT;
+    bool selected = devid == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString() ||
+                    devid == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
+    bool inuse = devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout);
+
+    bool restart = false;
+    switch (clientevent)
     {
-        initSound();
+    case CLIENTEVENT_SOUNDDEVICE_ADDED :
+        // the device the user selected is back, e.g. headset plugged in again
+        restart = selected;
+        if (!restart)
+            addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_REMOVED :
+        addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
+        restart = inuse;
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_UNPLUGGED :
+        qDebug() << "Unplugged sound device: " << _Q(snddev.szDeviceName);
+        restart = inuse;
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT :
+        qDebug() << "New default sound input device: " << _Q(snddev.szDeviceName);
+        restart = defaultinput;
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT :
+        qDebug() << "New default sound output device: " << _Q(snddev.szDeviceName);
+        restart = defaultoutput;
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE :
+        qDebug() << "New default communication input sound device: " << _Q(snddev.szDeviceName);
+        restart = defaultinput;
+        break;
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE :
+        qDebug() << "New default communication output sound device: " << _Q(snddev.szDeviceName);
+        restart = defaultoutput;
+        break;
+    default :
+        break;
+    }
+
+    // a single plug or unplug gives a burst of notifications, so wait for
+    // the sound devices to settle before reinitializing
+    if (restart)
+    {
+        killLocalTimer(TIMER_SOUNDDEVICE_CHANGE);
+        m_timers[startTimer(SOUNDDEVICE_CHANGE_DELAY)] = TIMER_SOUNDDEVICE_CHANGE;
     }
 }
 
@@ -1866,43 +1908,14 @@ void MainWindow::processTTMessage(const TTMessage& msg)
         hotkeyToggle((HotKeyID)msg.nSource, (bool)msg.bActive);
         break;
     case CLIENTEVENT_SOUNDDEVICE_ADDED :
-        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        clienteventSoundDeviceAdded(msg.sounddevice);
-        break;
     case CLIENTEVENT_SOUNDDEVICE_REMOVED :
+    case CLIENTEVENT_SOUNDDEVICE_UNPLUGGED :
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT :
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT :
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE :
+    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE :
         Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        clienteventSoundDeviceRemoved(msg.sounddevice);
-        break;
-    case CLIENTEVENT_SOUNDDEVICE_UNPLUGGED:
-        qDebug() << "Unplugged sound device: " << _Q(msg.sounddevice.szDeviceName);
-        break;
-    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT:
-        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        qDebug() << "New default sound input device: " << _Q(msg.sounddevice.szDeviceName);
-        if (ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
-            initSound();
-        }
-        break;
-    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT:
-        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        qDebug() << "New default sound output device: " << _Q(msg.sounddevice.szDeviceName);
-        if (ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
-            initSound();
-        }
-        break;
-    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_INPUT_COMDEVICE:
-        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        qDebug() << "New default communication input sound device: " << _Q(msg.sounddevice.szDeviceName);
-        if (ttSettings->value(SETTINGS_SOUND_INPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
-            initSound();
-        }
-        break;
-    case CLIENTEVENT_SOUNDDEVICE_NEW_DEFAULT_OUTPUT_COMDEVICE:
-        Q_ASSERT(msg.ttType == __SOUNDDEVICE);
-        qDebug() << "New default communication output sound device: " << _Q(msg.sounddevice.szDeviceName);
-        if (ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE, SOUNDDEVICEID_DEFAULT).toInt() == SOUNDDEVICEID_DEFAULT) {
-            initSound();
-        }
+        clienteventSoundDeviceChange(msg.nClientEvent, msg.sounddevice);
         break;
     default :
         qDebug() << "Unknown message type" << msg.nClientEvent;
@@ -2629,6 +2642,16 @@ void MainWindow::timerEvent(QTimerEvent *event)
     case TIMER_CHANGE_MEDIAFILE_POSITION :
         setMediaFilePosition();
         killLocalTimer(TIMER_CHANGE_MEDIAFILE_POSITION);
+        break;
+    case TIMER_SOUNDDEVICE_CHANGE :
+        // TT_RestartSoundSystem() fails while a sound loopback test holds a
+        // stream, so keep the timer running and pick up the new device list
+        // once the test in the preferences dialog is done
+        if (!QApplication::activeModalWidget())
+        {
+            killLocalTimer(TIMER_SOUNDDEVICE_CHANGE);
+            initSound();
+        }
         break;
     default :
         Q_ASSERT(0);
