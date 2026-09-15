@@ -503,7 +503,6 @@
     <string name="user_state_female">Femenino</string>
     <string name="user_state_neutral">Neutro</string>
     <string name="user_state_male">Masculino</string>
-    <string name="user_state_away">Ausente -</string>
     <string name="user_state_operator">Operador del canal -</string>
     <string name="user_state_admin">Administrador</string>
     <string name="user_state_selected">Seleccionado para mover -</string>
