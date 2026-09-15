@@ -25,7 +25,6 @@
 #include <QFileOpenEvent>
 #include <QPalette>
 #include <QSettings>
-#include <QStyleFactory>
 #include <QUrl>
 #include <QtPlugin>
 
@@ -51,7 +50,6 @@ public:
         QSettings settings("HKEY_CURRENT_USER\\Software\\Microsoft\\Windows\\CurrentVersion\\Themes\\Personalize", QSettings::NativeFormat);
         if (settings.value("AppsUseLightTheme", -1).toUInt() == 0)
         {
-            setStyle(QStyleFactory::create("Fusion"));
             QPalette darkPalette;
             QColor darkColor = QColor(45, 45, 45);
             QColor disabledColor = QColor(127, 127, 127);
