@@ -202,13 +202,12 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             if (!nickname.equals(myself.szNickname)) {
                 getClient().doChangeNickname(nickname);
             }
-            int statusmode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_FEMALE);
+            int statusmode = (myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_GENDER_MASK);
             String statusmsg = getService().getServerEntry().statusmsg;
             if (TextUtils.isEmpty(statusmsg)) {
                 statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
             }
-            if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
-                statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+            statusmode |= Utils.getGenderStatusMode(prefs);
             getClient().doChangeStatus(statusmode, statusmsg);
         }
         
@@ -341,6 +340,12 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
+
+            // The gender preference used to be a male/female checkbox, so migrate
+            // it before the list preference reads its value.
+            Utils.migrateGenderPreference(
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getBaseContext()));
+
             addPreferencesFromResource(R.xml.pref_general);
 
             // Bind the summaries of EditText/List/Dialog/Ringtone preferences
@@ -349,6 +354,7 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_NICKNAME));
             bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_STATUSMSG));
+            bindPreferenceSummaryToValue(findPreference(Preferences.PREF_GENERAL_GENDER));
 
             Preference bearwareLogin = findPreference(Preferences.PREF_GENERAL_BEARWARE_CHECKED);
             bearwareLogin.setOnPreferenceChangeListener((preference, o) -> {

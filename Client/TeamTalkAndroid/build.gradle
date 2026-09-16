@@ -21,7 +21,7 @@ android {
         applicationId = 'dk.bearware.gui'
         minSdk = 23
         targetSdk = 37
-        versionCode = 151
+        versionCode = 152
         versionName = '5.23'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'

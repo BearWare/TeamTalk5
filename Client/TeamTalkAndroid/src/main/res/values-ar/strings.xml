@@ -330,7 +330,6 @@
     <string name="pref_title_libraries">مكتبات الطرف الثالث</string>
     <string name="channel_prop_title_hiddenchannel">مخفي</string>
     <string name="pref_title_gender">الجنس</string>
-    <string name="pref_summary_gender">حددي هاذا الخيار اذا كنتِ انثى</string>
     <string name="user_state_away">Away بعيد</string>
     <string name="pref_title_userloggedin_icon">سجل دخول</string>
     <string name="pref_summary_userloggedin_icon">تشغيل الصوت عندما يقوم مستخدم بتسجيل الدخول</string>

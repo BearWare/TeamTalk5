@@ -329,7 +329,6 @@
     <string name="pref_title_libraries">Tredjeparts biblioteker</string>
     <string name="channel_prop_title_hiddenchannel">Skjult</string>
     <string name="pref_title_gender">Køn</string>
-    <string name="pref_summary_gender">Marker for kvindeikon</string>
     <string name="user_state_away">Ikke tilstede</string>
     <string name="pref_title_userloggedin_icon">Bruger loggede på</string>
     <string name="pref_summary_userloggedin_icon">Afspil en lyd når en bruger logger på</string>
