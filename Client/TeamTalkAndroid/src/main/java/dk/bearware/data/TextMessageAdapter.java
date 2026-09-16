@@ -305,6 +305,16 @@ public class TextMessageAdapter extends BaseAdapter {
         }
     }
 
+    public String getAllMessagesText() {
+        StringBuilder text = new StringBuilder();
+        for (MyTextMessage msg : getMessages()) {
+            if (text.length() > 0)
+                text.append(System.lineSeparator());
+            text.append(msg.time).append(" ").append(msg.szNickName).append(": ").append(msg.szMessage);
+        }
+        return text.toString();
+    }
+
     private void copyToClipboard(Context context, String text) {
         ClipboardManager cm = (ClipboardManager) context.getSystemService(Context.CLIPBOARD_SERVICE);
         ClipData clip = ClipData.newPlainText("message", text);
