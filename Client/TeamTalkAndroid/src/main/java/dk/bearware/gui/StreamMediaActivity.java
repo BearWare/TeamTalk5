@@ -80,6 +80,7 @@ extends AppCompatActivity implements TeamTalkConnectionListener {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.text_message, menu);
+        MenuActionsHelper.addMenuActions(this, menu);
         return true;
     }
 
