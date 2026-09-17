@@ -27,6 +27,10 @@
 #include <fstream>
 #include <string>
 
+namespace teamtalk {
+    class XMLDocument;
+}
+
 std::string PrintGetString(const std::string& input);
 std::string PrintGetPassword(const std::string& input);
 bool PrintGetBool(bool value);
@@ -45,4 +49,5 @@ enum WebLoginResult
 };
 WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid);
 WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token);
+bool LoginBearWare(teamtalk::XMLDocument& xmlSettings);
 #endif
