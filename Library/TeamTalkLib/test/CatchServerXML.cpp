@@ -324,7 +324,6 @@ TEST_CASE("ServerXML login delay legacy and invalid values")
     REQUIRE(xml.CreateFile(path));
     UserAccount account;
     account.username = ACE_TEXT("login-delay");
-    account.passwd = ACE_TEXT("test");
     account.usertype = USERTYPE_DEFAULT;
     account.abuse.login_delay = 1000;
     xml.AddNewUser(account);

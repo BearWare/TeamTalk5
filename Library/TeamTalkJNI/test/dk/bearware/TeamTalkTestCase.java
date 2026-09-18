@@ -3461,7 +3461,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     @Test
     public void testAccountLoginDelayExemption() {
         String ADMINUSERNAME = "tt_admin_delay";
-        String PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        String PASSWORD = java.util.UUID.randomUUID().toString(), NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN;
 
         TeamTalkBase ttadmin = newClientInstance();
@@ -3538,7 +3538,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             assertTrue(waitCmdSuccess(admin, admin.doUpdateServer(props), DEF_WAIT));
             UserAccount account = new UserAccount();
             account.szUsername = "tt_override_delay";
-            account.szPassword = "tt_test";
+            account.szPassword = java.util.UUID.randomUUID().toString();
             account.uUserType = UserType.USERTYPE_DEFAULT;
             account.uUserRights = UserRight.USERRIGHT_MULTI_LOGIN;
             account.abusePrevent.nLoginDelayMSec = 3000;

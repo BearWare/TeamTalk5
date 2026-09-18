@@ -65,8 +65,3 @@ compatibility. The final SDK release/version assignment belongs to the maintaine
   and `ServerXML login delay legacy and invalid values`.
 - JNI/JUnit: `testLoginDelay`, `testAccountLoginDelayExemption`, and
   `testAccountLoginDelayOverride`.
-- Standalone protocol tests (Python standard library only):
-  `python Library/TeamTalkPy/test_login_delay.py --server /absolute/path/to/tt5srv`.
-  These create disposable loopback-only servers with random passwords and clean
-  up their processes and temporary configurations. They do not use an existing
-  server or open audio devices.
