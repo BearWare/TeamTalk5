@@ -38,11 +38,14 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import dk.bearware.TeamTalkBase;
+import dk.bearware.UserAccount;
+import dk.bearware.UserRight;
 import dk.bearware.TextMessage;
 import dk.bearware.TextMsgType;
 import dk.bearware.User;
@@ -149,6 +152,15 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         
         Button send_btn = this.findViewById(R.id.user_im_sendbtn);
         final EditText send_msg = this.findViewById(R.id.user_im_edittext);
+        TextView userMsgDisableText = this.findViewById(R.id.usermsg_disable);
+        UserAccount myuseraccount = new UserAccount();
+        ttclient.getMyUserAccount(myuseraccount);
+        boolean usermsgRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_USER) != UserRight.USERRIGHT_NONE;
+        send_msg.setEnabled(usermsgRight);
+        send_msg.setVisibility(usermsgRight ? View.VISIBLE : View.GONE);
+        send_btn.setEnabled(usermsgRight);
+        send_btn.setVisibility(usermsgRight ? View.VISIBLE : View.GONE);
+        userMsgDisableText.setVisibility(usermsgRight ? View.GONE : View.VISIBLE);
         send_btn.setOnClickListener(v -> {
             String newmsg = send_msg.getText().toString();
             if(newmsg.isEmpty())
