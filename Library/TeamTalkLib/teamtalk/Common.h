@@ -225,6 +225,8 @@ namespace teamtalk {
     {
         int n_cmds = 0;
         int cmd_msec = 0;
+        // 0 inherits the server delay, -1 disables it, positive values override it.
+        int login_delay = 0;
         Abuse() = default;
 
         std::vector<int> ToParam() const
@@ -232,6 +234,7 @@ namespace teamtalk {
             std::vector<int> flood;
             flood.push_back(n_cmds);
             flood.push_back(cmd_msec);
+            flood.push_back(login_delay);
             return flood;
         }
         void FromParam(const std::vector<int>& flood)
@@ -241,6 +244,7 @@ namespace teamtalk {
                 n_cmds = flood[0];
                 cmd_msec = flood[1];
             }
+            login_delay = flood.size() >= 3 ? flood[2] : 0;
         }
     };
 

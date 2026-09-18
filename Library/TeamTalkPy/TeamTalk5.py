@@ -624,7 +624,8 @@ class UserType(UINT32):
 class AbusePrevention(Structure):
     _fields_ = [
     ("nCommandsLimit", INT32),
-    ("nCommandsIntervalMSec", INT32)
+    ("nCommandsIntervalMSec", INT32),
+    ("nLoginDelayMSec", INT32) # 0: server default; -1: disabled; positive: milliseconds
     ]
     def __init__(self):
         assert(DBG_SIZEOF(TTType.ABUSEPREVENTION) == ctypes.sizeof(AbusePrevention))

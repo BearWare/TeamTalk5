@@ -220,6 +220,7 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         admin.audiobpslimit = 128000;
         admin.abuse.n_cmds = 10;
         admin.abuse.cmd_msec = 1000;
+        admin.abuse.login_delay = -1;
         admin.auto_op_channels.insert(1);
         admin.auto_op_channels.insert(2);
         xml.AddNewUser(admin);
@@ -245,6 +246,7 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         special.audiobpslimit = 0;
         special.abuse.n_cmds = 5;
         special.abuse.cmd_msec = 500;
+        special.abuse.login_delay = 5000;
         xml.AddNewUser(special);
 
         REQUIRE(xml.SaveFile());
@@ -266,6 +268,7 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         REQUIRE(adminRead.audiobpslimit == 128000);
         REQUIRE(adminRead.abuse.n_cmds == 10);
         REQUIRE(adminRead.abuse.cmd_msec == 1000);
+        REQUIRE(adminRead.abuse.login_delay == -1);
         REQUIRE(adminRead.auto_op_channels.contains(1));
         REQUIRE(adminRead.auto_op_channels.contains(2));
 
@@ -278,6 +281,7 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         REQUIRE(guestRead.note == ACE_TEXT("Guest user"));
         REQUIRE(guestRead.init_channel == ACE_TEXT("/lobby/"));
         REQUIRE(guestRead.audiobpslimit == 64000);
+        REQUIRE(guestRead.abuse.login_delay == 0);
 
         UserAccount specialRead;
         REQUIRE(xml.GetUser("special_user", specialRead));
@@ -287,6 +291,7 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0);
         REQUIRE(specialRead.abuse.n_cmds == 5);
         REQUIRE(specialRead.abuse.cmd_msec == 500);
+        REQUIRE(specialRead.abuse.login_delay == 5000);
 
         UserAccount nonexistent;
         REQUIRE_FALSE(xml.GetUser("nonexistent", nonexistent));
@@ -296,6 +301,48 @@ TEST_CASE("ServerXML User Accounts Write/Read")
     }
 
     RemoveFile(xmlFile);
+}
+
+TEST_CASE("Account login delay wire defaults")
+{
+    Abuse abuse;
+    REQUIRE(abuse.login_delay == 0);
+    abuse.FromParam({10, 1000, -1});
+    REQUIRE(abuse.login_delay == -1);
+    REQUIRE(abuse.ToParam() == std::vector<int>{10, 1000, -1});
+    abuse.FromParam({20, 2000});
+    REQUIRE(abuse.login_delay == 0);
+    abuse.FromParam({20, 2000, 5000});
+    REQUIRE(abuse.login_delay == 5000);
+}
+
+TEST_CASE("ServerXML login delay legacy and invalid values")
+{
+    std::string const path = GetTempFilePath("test_login_delay.xml");
+    RemoveFile(path);
+    ServerXML xml("teamtalk");
+    REQUIRE(xml.CreateFile(path));
+    UserAccount account;
+    account.username = ACE_TEXT("login-delay");
+    account.passwd = ACE_TEXT("test");
+    account.usertype = USERTYPE_DEFAULT;
+    account.abuse.login_delay = 1000;
+    xml.AddNewUser(account);
+    auto* abuse = xml.GetRootElement()->FirstChildElement("users")->FirstChildElement("user")
+        ->FirstChildElement("abuse-prevention");
+    auto* delay = abuse->FirstChildElement("login-delay-msec");
+    for (auto text : {"-2", "-1oops", "2147483648", "invalid", ""})
+    {
+        delay->SetText(text);
+        account.abuse.login_delay = -1;
+        REQUIRE(xml.GetUser("login-delay", account));
+        REQUIRE(account.abuse.login_delay == 0);
+    }
+    abuse->DeleteChild(delay);
+    account.abuse.login_delay = -1;
+    REQUIRE(xml.GetUser("login-delay", account));
+    REQUIRE(account.abuse.login_delay == 0);
+    RemoveFile(path);
 }
 
 TEST_CASE("ServerXML Bans Write/Read")

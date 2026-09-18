@@ -125,7 +125,7 @@ namespace teamtalk {
         void CheckKeepAlive();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
-        bool LoginsExceeded(const ServerUser& user);
+        bool LoginsExceeded(const ServerUser& user, const UserAccount& account);
 
         //send udp packet
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
@@ -274,7 +274,7 @@ namespace teamtalk {
         ErrorMsg UserUnBan(int userid, const BannedUser& ban);
         ErrorMsg UserListServerBans(int userid, int chanid, int index, int count);
         ErrorMsg UserListUserAccounts(int userid, int index, int count);
-        ErrorMsg UserNewUserAccount(int userid, const UserAccount& regusr);
+        ErrorMsg UserNewUserAccount(int userid, UserAccount regusr, bool preserveLoginDelay);
         ErrorMsg UserDeleteUserAccount(int userid, const ACE_TString& username);
         ErrorMsg UserTextMessage(const TextMessage& msg);
 
@@ -353,8 +353,16 @@ namespace teamtalk {
 
         //failed login attempts
         mapiptime_t m_failedlogins;
-        // last login (ip->time)
-        std::map<ACE_TString, ACE_Time_Value> m_logindelay;
+        // Inherited limits share an IP bucket. Explicit overrides use an
+        // account/IP bucket, so one account cannot change another's delay.
+        // The bool distinguishes an anonymous override from the default bucket.
+        using logindelaykey_t = std::pair<ACE_TString, std::pair<bool, ACE_TString>>;
+        struct LoginDelay
+        {
+            ACE_Time_Value last_attempt;
+            ACE_Time_Value expires;
+        };
+        std::map<logindelaykey_t, LoginDelay> m_logindelay;
         
         //user id incrementer
         int m_userid_counter = 0;

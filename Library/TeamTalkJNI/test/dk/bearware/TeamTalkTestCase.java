@@ -3459,7 +3459,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
-    public void testAdminLoginDelayExemption() {
+    public void testAccountLoginDelayExemption() {
         String ADMINUSERNAME = "tt_admin_delay";
         String PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
         int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_MULTI_LOGIN;
@@ -3481,6 +3481,7 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             adminAccount.szPassword = PASSWORD;
             adminAccount.uUserType = UserType.USERTYPE_ADMIN;
             adminAccount.uUserRights = USERRIGHTS;
+            adminAccount.abusePrevent.nLoginDelayMSec = -1;
             assertTrue(waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(adminAccount), DEF_WAIT), "create admin account");
 
             TeamTalkBase ttadmin1 = newClientInstance();
@@ -3489,10 +3490,93 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             login(ttadmin1, NICKNAME, ADMINUSERNAME, PASSWORD);
             connect(ttadmin2);
             login(ttadmin2, NICKNAME, ADMINUSERNAME, PASSWORD);
+
+            // Exempt accounts must not poison the shared IP bucket.
+            adminAccount.szUsername = "tt_inherit_delay";
+            adminAccount.uUserType = UserType.USERTYPE_DEFAULT;
+            adminAccount.abusePrevent.nLoginDelayMSec = 0;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(adminAccount), DEF_WAIT));
+            TeamTalkBase ordinary = newClientInstance();
+            connect(ordinary);
+            login(ordinary, NICKNAME, adminAccount.szUsername, PASSWORD);
+
+            // Administrators without an explicit exemption inherit the limit too.
+            adminAccount.szUsername = "tt_admin_inherit_delay";
+            adminAccount.uUserType = UserType.USERTYPE_ADMIN;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(adminAccount), DEF_WAIT));
+            TeamTalkBase inheritedAdmin = newClientInstance();
+            connect(inheritedAdmin);
+            TTMessage error = new TTMessage();
+            assertTrue(waitCmdError(inheritedAdmin, inheritedAdmin.doLogin(NICKNAME, adminAccount.szUsername, PASSWORD), DEF_WAIT, error));
+            assertEquals(ClientError.CMDERR_COMMAND_FLOOD, error.clienterrormsg.nErrorNo);
+
+            adminAccount.szUsername = "tt_exempt_delay";
+            adminAccount.uUserType = UserType.USERTYPE_DEFAULT;
+            adminAccount.abusePrevent.nLoginDelayMSec = -1;
+            assertTrue(waitCmdSuccess(ttadmin, ttadmin.doNewUserAccount(adminAccount), DEF_WAIT));
+            login(inheritedAdmin, NICKNAME, adminAccount.szUsername, PASSWORD);
+            assertTrue(waitCmdSuccess(inheritedAdmin, inheritedAdmin.doLogout(), DEF_WAIT));
+            login(inheritedAdmin, NICKNAME, adminAccount.szUsername, PASSWORD);
         }
         finally {
             srvprop.nLoginDelayMSec = orgValue;
             assertTrue(waitCmdSuccess(ttadmin, ttadmin.doUpdateServer(srvprop), DEF_WAIT));
+        }
+    }
+
+    @Test
+    public void testAccountLoginDelayOverride() throws InterruptedException {
+        TeamTalkBase admin = newClientInstance();
+        connect(admin);
+        login(admin, ADMIN_NICKNAME, ADMIN_USERNAME, ADMIN_PASSWORD);
+        ServerProperties props = new ServerProperties();
+        assertTrue(admin.getServerProperties(props));
+        int original = props.nLoginDelayMSec;
+        try {
+            // Account limits must work with the server-wide delay disabled.
+            props.nLoginDelayMSec = 0;
+            assertTrue(waitCmdSuccess(admin, admin.doUpdateServer(props), DEF_WAIT));
+            UserAccount account = new UserAccount();
+            account.szUsername = "tt_override_delay";
+            account.szPassword = "tt_test";
+            account.uUserType = UserType.USERTYPE_DEFAULT;
+            account.uUserRights = UserRight.USERRIGHT_MULTI_LOGIN;
+            account.abusePrevent.nLoginDelayMSec = 3000;
+            assertTrue(waitCmdSuccess(admin, admin.doNewUserAccount(account), DEF_WAIT));
+            TeamTalkBase client = newClientInstance();
+            connect(client);
+            login(client, "delay test", account.szUsername, account.szPassword);
+            UserAccount readBack = new UserAccount();
+            assertTrue(client.getMyUserAccount(readBack));
+            assertEquals(3000, readBack.abusePrevent.nLoginDelayMSec);
+            assertTrue(waitCmdSuccess(client, client.doLogout(), DEF_WAIT));
+            // Cross the one-second cleanup timer: the override must survive it.
+            Thread.sleep(1500);
+            TTMessage error = new TTMessage();
+            assertTrue(waitCmdError(client, client.doLogin("delay test", account.szUsername, account.szPassword), DEF_WAIT, error));
+            assertEquals(ClientError.CMDERR_COMMAND_FLOOD, error.clienterrormsg.nErrorNo);
+            Thread.sleep(3200);
+            login(client, "delay test", account.szUsername, account.szPassword);
+
+            // A short override must not inherit another account's long IP delay.
+            props.nLoginDelayMSec = 60000;
+            assertTrue(waitCmdSuccess(admin, admin.doUpdateServer(props), DEF_WAIT));
+            account.szUsername = "tt_short_delay";
+            account.abusePrevent.nLoginDelayMSec = 100;
+            assertTrue(waitCmdSuccess(admin, admin.doNewUserAccount(account), DEF_WAIT));
+            assertTrue(waitCmdSuccess(client, client.doLogout(), DEF_WAIT));
+            login(client, "short delay test", account.szUsername, account.szPassword);
+            assertTrue(waitCmdSuccess(client, client.doLogout(), DEF_WAIT));
+            Thread.sleep(500);
+            login(client, "short delay test", account.szUsername, account.szPassword);
+
+            account.abusePrevent.nLoginDelayMSec = -2;
+            assertTrue(waitCmdError(admin, admin.doNewUserAccount(account), DEF_WAIT, error));
+            assertEquals(ClientError.CMDERR_INVALID_ACCOUNT, error.clienterrormsg.nErrorNo);
+        }
+        finally {
+            props.nLoginDelayMSec = original;
+            assertTrue(waitCmdSuccess(admin, admin.doUpdateServer(props), DEF_WAIT));
         }
     }
 
