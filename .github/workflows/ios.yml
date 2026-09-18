@@ -15,9 +15,15 @@ jobs:
           - name: iOS arm64
             cmakearch: arm64
             cmakesysroot: iphoneos
+            outputarch: arm64
+          - name: iOS arm64-simulator
+            cmakearch: arm64
+            cmakesysroot: iphonesimulator
+            outputarch: arm64-simulator
           - name: iOS x86_64
             cmakearch: x86_64
             cmakesysroot: iphonesimulator
+            outputarch: x86_64-simulator
 
     runs-on: macos-26
 
@@ -31,33 +37,33 @@ jobs:
 
     - name: Build TeamTalk library
       working-directory: ${{github.workspace}}/Build
-      run: make CMAKE_EXTRA="-G Ninja -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.cmakearch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.cmakearch }}" BUILDDIR=build-${{ matrix.cmakearch }} ios-build
+      run: make CMAKE_EXTRA="-G Ninja -DWEBRTC_FETCH_PATH=${{runner.workspace}}/webrtc -DCMAKE_OSX_ARCHITECTURES=${{ matrix.cmakearch }} -DCMAKE_OSX_SYSROOT=${{ matrix.cmakesysroot }} -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/toolchain-${{ matrix.outputarch }} -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-${{ matrix.outputarch }}" BUILDDIR=build-${{ matrix.outputarch }} ios-build
 
     - name: Install TeamTalk SDK
-      working-directory: ${{github.workspace}}/Build/build-${{ matrix.cmakearch }}
+      working-directory: ${{github.workspace}}/Build/build-${{ matrix.outputarch }}
       run: cmake --build . --target install
 
     - name: Create architecture-specific library
       working-directory: ${{github.workspace}}
       run: >-
-        libtool -static -o ${{runner.workspace}}/install-${{ matrix.cmakearch }}/Library/TeamTalk_DLL/libTeamTalk5-${{ matrix.cmakearch }}.a
-        Library/TeamTalk_DLL/${{ matrix.cmakearch }}/libTeamTalk5.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/speex/lib/libspeex.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/speexdsp/lib/libspeexdsp.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/opus/lib/libopus.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/libvpx/lib/libvpx.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_SSL.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_INet.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/ace/lib/libACE_INet_SSL.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libcrypto.a
-        ${{runner.workspace}}/toolchain-${{ matrix.cmakearch }}/openssl/lib/libssl.a
+        libtool -static -o ${{runner.workspace}}/install-${{ matrix.outputarch }}/Library/TeamTalk_DLL/libTeamTalk5-${{ matrix.outputarch }}.a
+        Library/TeamTalk_DLL/${{ matrix.outputarch }}/libTeamTalk5.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/speex/lib/libspeex.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/speexdsp/lib/libspeexdsp.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/opus/lib/libopus.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/libvpx/lib/libvpx.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE_SSL.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE_INet.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE_INet_SSL.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/openssl/lib/libcrypto.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/openssl/lib/libssl.a
 
     - name: Upload architecture artifact
       uses: actions/upload-artifact@v7
       with:
-        name: teamtalksdk-ios-${{ matrix.cmakearch }}
-        path: ${{runner.workspace}}/install-${{ matrix.cmakearch }}
+        name: teamtalksdk-ios-${{ matrix.outputarch }}
+        path: ${{runner.workspace}}/install-${{ matrix.outputarch }}
 
   lipo:
     needs: build
@@ -91,17 +97,29 @@ jobs:
       with:
         name: teamtalksdk-ios-arm64
 
-    - name: Download x86_64 artifact
+    - name: Download x86_64 simulator artifact
       uses: actions/download-artifact@v8
       with:
-        name: teamtalksdk-ios-x86_64
+        name: teamtalksdk-ios-x86_64-simulator
+
+    - name: Download arm64 simulator artifact
+      uses: actions/download-artifact@v8
+      with:
+        name: teamtalksdk-ios-arm64-simulator
 
     - name: Create universal binary
       working-directory: ${{github.workspace}}
       run: >-
         lipo Library/TeamTalk_DLL/libTeamTalk5-arm64.a
-        Library/TeamTalk_DLL/libTeamTalk5-x86_64.a
+        Library/TeamTalk_DLL/libTeamTalk5-x86_64-simulator.a
         -create -output ${{github.workspace}}/Library/TeamTalk_DLL/libTeamTalk5.a
+
+    - name: Create simulator binary
+      working-directory: ${{github.workspace}}
+      run: >-
+        lipo Library/TeamTalk_DLL/libTeamTalk5-arm64-simulator.a
+        Library/TeamTalk_DLL/libTeamTalk5-x86_64-simulator.a
+        -create -output ${{github.workspace}}/Library/TeamTalk_DLL/libTeamTalk5-simulator.a
 
     - name: Upload universal library artifact
       uses: actions/upload-artifact@v7

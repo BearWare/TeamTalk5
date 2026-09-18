@@ -214,11 +214,14 @@
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
-    <string name="title_section_noaudio">No Audio</string>
+    <string name="title_section_noaudio">Sin audio</string>
     <string name="opus_application">Aplicación</string>
 
     <string name="button_tx">Transmitir</string>
     <string name="button_remove">Eliminar</string>
+    <string name="action_cancel">Cancelar descarga</string>
+    <string name="action_downloadfile">Descargar archivo</string>
+    <string name="action_removefile">Eliminar archivo</string>
     <string name="action_banchan">Banear del canal</string>
     <string name="action_bansrv">Banear del servidor</string>
     <string name="action_edit">Editar canal</string>
@@ -231,6 +234,16 @@
     <string name="action_move">Mover aquí</string>
     <string name="action_select">Seleccionar para mover</string>
     <string name="action_deselect">Deseleccionar para mover</string>
+    <string name="action_allowvoice">Permitir la transmisión de voz para todos</string>
+    <string name="action_disallowvoice">No permitir la transmisión de voz para todos</string>
+    <string name="action_allowvideo">Permitir la transmisión de vídeo para todos</string>
+    <string name="action_disallowvideo">No permitir la transmisión de vídeo para todos</string>
+    <string name="action_allowdesktop">Permitir la transmisión de escritorio para todos</string>
+    <string name="action_disallowdesktop">No permitir la transmisión de escritorio para todos</string>
+    <string name="action_allowmedia">	Permitir la transmisión de medios para todos</string>
+    <string name="action_disallowmedia">No permitir la transmisión de medios para todos</string>
+    <string name="action_allowchanmsg">Permitir los mensajes de texto del canal para todos</string>
+    <string name="action_disallowchanmsg">No permitir los mensajes de texto del canal para todos</string>
     <string name="action_exportsrv">Exportar servidor</string>
     <string name="action_editsrv">Editar servidor</string>
     <string name="action_removesrv">Eliminar servidor</string>
@@ -243,6 +256,7 @@
     <string name="action_copymessage">Copiar mensaje</string>
     <string name="action_deletemessage">Eliminar mensaje</string>
     <string name="action_clear">Eliminar todos los mensajes</string>
+    <string name="text_no_browser">No se encontró ninguna aplicación para abrir este enlace</string>
     <string name="action_broadcast">Mensaje de difusión</string>
     <string name="action_stream">Transmitir medio</string>
     <string name="button_select_media_file">Examinar</string>
@@ -409,6 +423,8 @@
     <string name="text_officialserver">Servidor oficial</string>
     <string name="text_unofficialserver">Servidor no oficial</string>
     <string name="text_passwdprot">Privado, </string>
+    <string name="text_parent_channel">Canal superior</string>
+
     <string name="text_translator">Traducido por Damián Echevarría.</string>
     <string name="desktop_image">Imagen de escritorio</string>
     <string name="channel_change_alert">Todas las transferencias activas se detendrán al salir del canal</string>
@@ -481,8 +497,12 @@
     <string name="pref_title_translator">Traductor</string>
     <string name="pref_title_libraries">Librerías de terceros</string>
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
-    <string name="pref_title_gender">Género</string>
-    <string name="user_state_away">Ausente -</string>
+    <string name="pref_title_gender">Establecer género</string>
+    <string name="user_state_away">Ausente</string>
+    <string name="user_state_streaming">Transmitiendo medio</string>
+    <string name="user_state_female">Femenino</string>
+    <string name="user_state_neutral">Neutro</string>
+    <string name="user_state_male">Masculino</string>
     <string name="user_state_operator">Operador del canal -</string>
     <string name="user_state_admin">Administrador</string>
     <string name="user_state_selected">Seleccionado para mover -</string>
