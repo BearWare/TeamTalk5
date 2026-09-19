@@ -1923,7 +1923,7 @@ namespace BearWare
         /** @brief Number of msec before an IP-address can make
          * another login attempt. If less than this amount then
          * TeamTalkBase.DoLogin() will result in
-         * #BearWare.ClientError.CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * #BearWare.ClientError.CMDERR_COMMAND_FLOOD. Zero means
          * disabled.
          * 
          * Also checkout @c nMaxLoginAttempts and @c
@@ -2083,6 +2083,9 @@ namespace BearWare
         public int nCommandsLimit;
         /** @brief Commands within given interval. */
         public int nCommandsIntervalMSec;
+        /** @brief 0 inherits the server login delay, -1 disables it,
+         * positive values are milliseconds. Requires matching updated native SDK. */
+        public int nLoginDelayMSec;
     }
 
     /** 

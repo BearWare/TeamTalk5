@@ -125,7 +125,7 @@ namespace teamtalk {
         void CheckKeepAlive();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
-        bool LoginsExceeded(const ServerUser& user);
+        bool LoginsExceeded(const ACE_TString& ipaddr, const UserAccount& account);
 
         //send udp packet
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
@@ -274,7 +274,7 @@ namespace teamtalk {
         ErrorMsg UserUnBan(int userid, const BannedUser& ban);
         ErrorMsg UserListServerBans(int userid, int chanid, int index, int count);
         ErrorMsg UserListUserAccounts(int userid, int index, int count);
-        ErrorMsg UserNewUserAccount(int userid, const UserAccount& regusr);
+        ErrorMsg UserNewUserAccount(int userid, UserAccount regusr, bool preserveLoginDelay);
         ErrorMsg UserDeleteUserAccount(int userid, const ACE_TString& username);
         ErrorMsg UserTextMessage(const TextMessage& msg);
 
@@ -353,8 +353,15 @@ namespace teamtalk {
 
         //failed login attempts
         mapiptime_t m_failedlogins;
-        // last login (ip->time)
-        std::map<ACE_TString, ACE_Time_Value> m_logindelay;
+        struct LoginDelay
+        {
+            ACE_Time_Value last_attempt;
+            ACE_Time_Value expires;
+        };
+        // Inherited delays share an IP counter, as in the server-wide setting.
+        std::map<ACE_TString, LoginDelay> m_logindelay;
+        // Custom delays have separate (IP, username) counters, including guest accounts.
+        std::map<std::pair<ACE_TString, ACE_TString>, LoginDelay> m_accountlogindelay;
         
         //user id incrementer
         int m_userid_counter = 0;

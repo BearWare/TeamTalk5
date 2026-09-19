@@ -563,8 +563,15 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         ACE_Time_Value const now = ACE_OS::gettimeofday();
         for (auto it = m_logindelay.begin();it != m_logindelay.end();)
         {
-            if (now > it->second + ToTimeValue(m_properties.logindelay * 2))
+            if (now > it->second.expires)
                 m_logindelay.erase(it++);
+            else
+                ++it;
+        }
+        for (auto it = m_accountlogindelay.begin(); it != m_accountlogindelay.end();)
+        {
+            if (now > it->second.expires)
+                m_accountlogindelay.erase(it++);
             else
                 ++it;
         }
@@ -1008,6 +1015,7 @@ void ServerNode::StopServer(bool docallback)
     TTASSERT(m_admins.empty());
     m_failedlogins.clear();
     m_logindelay.clear();
+    m_accountlogindelay.clear();
     m_filetransfers.clear();
     m_updUserIPs.clear();
 
@@ -1286,29 +1294,32 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
     }
 }
 
-bool ServerNode::LoginsExceeded(const ServerUser& user)
+bool ServerNode::LoginsExceeded(const ACE_TString& ipaddr, const UserAccount& account)
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    if (m_properties.logindelay == 0)
+    if (account.abuse.login_delay == -1)
         return false;
+
+    int delay = m_properties.logindelay;
+    if (account.abuse.login_delay > 0)
+        delay = account.abuse.login_delay;
+    if (delay <= 0)
+        return false;
+
+    LoginDelay* loginDelay;
+    if (account.abuse.login_delay > 0)
+        loginDelay = &m_accountlogindelay[{ipaddr, account.username}];
+    else
+        loginDelay = &m_logindelay[ipaddr];
 
     ACE_Time_Value const now = ACE_OS::gettimeofday();
-    if (!m_logindelay.contains(user.GetIpAddress()))
-    {
-        m_logindelay[user.GetIpAddress()] = now;
-        return false;
-    }
-
-    ACE_Time_Value const delay = ToTimeValue(m_properties.logindelay);
-    if (m_logindelay[user.GetIpAddress()] + delay > now)
-    {
-        m_logindelay[user.GetIpAddress()] = now;
-        return true;
-    }
-    m_logindelay[user.GetIpAddress()] = now;
-    
-    return false;
+    ACE_Time_Value const interval = ToTimeValue(delay);
+    bool const blocked = loginDelay->last_attempt + interval > now;
+    // Retain the existing sliding penalty: even a rejected attempt renews it.
+    loginDelay->last_attempt = now;
+    loginDelay->expires = now + interval;
+    return blocked;
 }
 
 int ServerNode::SendPacket(const FieldPacket& packet,
@@ -2672,7 +2683,9 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     {
     case TT_CMDERR_SUCCESS :
     {
-        if (LoginsExceeded(*user))
+        // The authenticated account is not assigned to ServerUser until all
+        // login checks pass. SetUserAccount() would authorize the user here.
+        if (LoginsExceeded(user->GetIpAddress(), useraccount))
             return TT_CMDERR_COMMAND_FLOOD;
         break;
     }
@@ -3502,13 +3515,26 @@ ErrorMsg ServerNode::UserListUserAccounts(int userid, int index, int count)
     return ret;
 }
 
-ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
+ErrorMsg ServerNode::UserNewUserAccount(int userid, UserAccount regusr, bool preserveLoginDelay)
 {
     GUARD_OBJ(this, Lock());
 
     serveruser_t const user = GetUser(userid, nullptr);
     if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
+
+    if (regusr.abuse.login_delay < -1)
+        return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
+
+    // Older clients only send the first two cmdflood values. Do not erase
+    // an override when they edit an account; an explicit third zero resets it.
+    if (preserveLoginDelay && (user->GetUserType() & USERTYPE_ADMIN))
+    {
+        UserAccount previous;
+        previous.username = regusr.username;
+        if (m_srvguard->GetUserAccount(*user, previous).Success())
+            regusr.abuse.login_delay = previous.abuse.login_delay;
+    }
 
     // allow anonymous account
     // if(regusr.username.empty())

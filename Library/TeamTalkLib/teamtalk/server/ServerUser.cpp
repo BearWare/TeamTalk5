@@ -30,6 +30,7 @@
 
 #include <cstdio>
 #include <queue>
+#include <string>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -869,7 +870,33 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
     }
 
-    return m_servernode.UserNewUserAccount(GetUserID(), account);
+    // Legacy clients omit the third cmdflood value. Preserve their stored override.
+    ACE_TString flood;
+    GetProperty(properties, TT_CMDFLOOD, flood);
+    auto comma = flood.find(',');
+    if (comma != ACE_TString::npos)
+        comma = flood.find(',', comma + 1);
+    bool const hasLoginDelay = comma != ACE_TString::npos;
+    if (hasLoginDelay)
+    {
+        // Unlike the legacy array reader, stoi rejects integer overflow.
+        std::basic_string<ACE_TCHAR> const values(flood.c_str());
+        auto token = values.substr(comma + 1);
+        token = token.substr(0, token.find(','));
+        try
+        {
+            size_t parsed = 0;
+            int const delay = std::stoi(token, &parsed);
+            if (parsed != token.length() || delay < -1)
+                return TT_CMDERR_INVALID_ACCOUNT;
+            account.abuse.login_delay = delay;
+        }
+        catch (const std::exception&)
+        {
+            return TT_CMDERR_INVALID_ACCOUNT;
+        }
+    }
+    return m_servernode.UserNewUserAccount(GetUserID(), account, !hasLoginDelay);
 }
 
 ErrorMsg ServerUser::HandleDeleteUserAccount(const mstrings_t& properties)
