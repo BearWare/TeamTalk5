@@ -1409,21 +1409,10 @@ namespace teamtalk{
         {
             GetInteger(abuseElement, "commands-limit", user.abuse.n_cmds);
             GetInteger(abuseElement, "commands-interval-msec", user.abuse.cmd_msec);
-            std::string delay;
-            if (GetString(abuseElement, "login-delay-msec", delay))
-            {
-                try
-                {
-                    size_t end = 0;
-                    int const value = std::stoi(delay, &end);
-                    if (end == delay.length() && value >= -1)
-                        user.abuse.login_delay = value;
-                }
-                catch (const std::exception&)
-                {
-                    // Invalid settings inherit the server limit, never exempt.
-                }
-            }
+            // Invalid settings inherit the server limit, never exempt.
+            if (!GetInteger(abuseElement, "login-delay-msec", user.abuse.login_delay, true) ||
+                user.abuse.login_delay < -1)
+                user.abuse.login_delay = 0;
         }
 
         return b;

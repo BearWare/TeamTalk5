@@ -125,7 +125,7 @@ namespace teamtalk {
         void CheckKeepAlive();
         int GetActiveFileTransfers(int& uploads, int& downloads);
         bool IsEncrypted() const;
-        bool LoginsExceeded(const ServerUser& user, const UserAccount& account);
+        bool LoginsExceeded(const ACE_TString& ipaddr, const UserAccount& account);
 
         //send udp packet
         int SendPacket(const FieldPacket& packet, const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr);
@@ -353,16 +353,15 @@ namespace teamtalk {
 
         //failed login attempts
         mapiptime_t m_failedlogins;
-        // Inherited limits share an IP bucket. Explicit overrides use an
-        // account/IP bucket, so one account cannot change another's delay.
-        // The bool distinguishes an anonymous override from the default bucket.
-        using logindelaykey_t = std::pair<ACE_TString, std::pair<bool, ACE_TString>>;
         struct LoginDelay
         {
             ACE_Time_Value last_attempt;
             ACE_Time_Value expires;
         };
-        std::map<logindelaykey_t, LoginDelay> m_logindelay;
+        // Inherited delays share an IP counter, as in the server-wide setting.
+        std::map<ACE_TString, LoginDelay> m_logindelay;
+        // Custom delays have separate (IP, username) counters, including guest accounts.
+        std::map<std::pair<ACE_TString, ACE_TString>, LoginDelay> m_accountlogindelay;
         
         //user id incrementer
         int m_userid_counter = 0;

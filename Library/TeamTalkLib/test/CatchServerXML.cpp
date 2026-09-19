@@ -24,9 +24,11 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "bin/ttsrv/ServerXML.h"
+#include "bin/ttsrv/ServerGuard.h"
 #include "myace/MyACE.h"
 
 #include <cstdio>
+#include <stdexcept>
 #include <string>
 #include <vector>
 
@@ -330,18 +332,92 @@ TEST_CASE("ServerXML login delay legacy and invalid values")
     auto* abuse = xml.GetRootElement()->FirstChildElement("users")->FirstChildElement("user")
         ->FirstChildElement("abuse-prevention");
     auto* delay = abuse->FirstChildElement("login-delay-msec");
-    for (auto text : {"-2", "-1oops", "2147483648", "invalid", ""})
+    for (auto text : {"-2", "-1oops", "2147483648", "4294967295", "-4294967297", "invalid", ""})
     {
         delay->SetText(text);
         account.abuse.login_delay = -1;
         REQUIRE(xml.GetUser("login-delay", account));
         REQUIRE(account.abuse.login_delay == 0);
     }
+    for (int value : {-1, 0, 1000, 2147483647})
+    {
+        delay->SetText(value);
+        REQUIRE(xml.GetUser("login-delay", account));
+        REQUIRE(account.abuse.login_delay == value);
+    }
     abuse->DeleteChild(delay);
     account.abuse.login_delay = -1;
     REQUIRE(xml.GetUser("login-delay", account));
     REQUIRE(account.abuse.login_delay == 0);
     RemoveFile(path);
+}
+
+TEST_CASE("XML strict integer reading preserves legacy behavior")
+{
+    struct IntegerXML : teamtalk::XMLDocument
+    {
+        IntegerXML() : teamtalk::XMLDocument("teamtalk", "1.0") {}
+        using teamtalk::XMLDocument::GetInteger;
+    } xml;
+    tinyxml2::XMLDocument document;
+    REQUIRE(document.Parse("<settings><delay>-1oops</delay></settings>") == tinyxml2::XML_SUCCESS);
+    auto* settings = document.RootElement();
+    int value = 42;
+    REQUIRE_FALSE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == 42);
+    REQUIRE_FALSE(xml.GetInteger(settings, "missing", value, true));
+    REQUIRE(value == 42);
+    REQUIRE(xml.GetInteger(settings, "delay", value));
+    REQUIRE(value == -1);
+    settings->FirstChildElement("delay")->SetText("2147483648");
+    REQUIRE_FALSE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == -1);
+    REQUIRE_THROWS_AS(xml.GetInteger(settings, "delay", value), std::out_of_range);
+    settings->FirstChildElement("delay")->SetText("invalid");
+    REQUIRE_FALSE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == -1);
+    REQUIRE_THROWS_AS(xml.GetInteger(settings, "delay", value), std::invalid_argument);
+    settings->FirstChildElement("delay")->SetText("1000");
+    REQUIRE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == 1000);
+    settings->FirstChildElement("delay")->SetText("-1");
+    REQUIRE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == -1);
+    for (auto text : {" 1000", "1000 ", "\n 1000\n"})
+    {
+        settings->FirstChildElement("delay")->SetText(text);
+        REQUIRE(xml.GetInteger(settings, "delay", value, true));
+        REQUIRE(value == 1000);
+    }
+    settings->FirstChildElement("delay")->SetText("-1 oops");
+    REQUIRE_FALSE(xml.GetInteger(settings, "delay", value, true));
+    REQUIRE(value == 1000);
+}
+
+TEST_CASE("ServerNode clears all login delay counters on stop")
+{
+    ACE_Reactor reactor;
+    ServerXML xml("teamtalk");
+    ServerGuard listener(xml);
+    ServerNode server(ACE_TEXT("test"), &reactor, &reactor, &reactor, &listener);
+    GUARD_OBJ(&server, server.Lock());
+
+    ServerSettings settings;
+    settings.logindelay = 60000;
+    server.SetServerProperties(settings);
+    UserAccount inherited;
+    UserAccount overridden;
+    overridden.username = ACE_TEXT("limited");
+    overridden.abuse.login_delay = 60000;
+    ACE_TString const ip = ACE_TEXT("127.0.0.1");
+
+    REQUIRE_FALSE(server.LoginsExceeded(ip, inherited));
+    REQUIRE_FALSE(server.LoginsExceeded(ip, overridden));
+    REQUIRE(server.LoginsExceeded(ip, inherited));
+    REQUIRE(server.LoginsExceeded(ip, overridden));
+    server.StopServer(false);
+    REQUIRE_FALSE(server.LoginsExceeded(ip, inherited));
+    REQUIRE_FALSE(server.LoginsExceeded(ip, overridden));
 }
 
 TEST_CASE("ServerXML Bans Write/Read")

@@ -29,8 +29,8 @@
 #include "teamtalk/TTAssert.h"
 
 #include <cstdio>
-#include <limits>
 #include <queue>
+#include <string>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -870,32 +870,31 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
     }
 
-    // Check the new field before narrowing to int. The legacy array parser
-    // tolerates malformed integers, which must not turn an overflow into -1
-    // (an exemption) or silently reset an existing override.
+    // Legacy clients omit the third cmdflood value. Preserve their stored override.
     ACE_TString flood;
     GetProperty(properties, TT_CMDFLOOD, flood);
     auto comma = flood.find(',');
-    comma = comma == ACE_TString::npos ? comma : flood.find(',', comma + 1);
+    if (comma != ACE_TString::npos)
+        comma = flood.find(',', comma + 1);
     bool const hasLoginDelay = comma != ACE_TString::npos;
     if (hasLoginDelay)
     {
-        auto const end = flood.find(',', comma + 1);
-        ACE_TString const token = flood.substr(comma + 1, end == ACE_TString::npos ? end : end - comma - 1);
-        bool const negative = !token.empty() && token[0] == '-';
-        size_t pos = negative ? 1 : 0;
-        if (pos == token.length())
-            return TT_CMDERR_INVALID_ACCOUNT;
-        int delay = 0;
-        int const limit = negative ? 1 : std::numeric_limits<int>::max();
-        for (; pos < token.length(); ++pos)
+        // Unlike the legacy array reader, stoi rejects integer overflow.
+        std::basic_string<ACE_TCHAR> const values(flood.c_str());
+        auto token = values.substr(comma + 1);
+        token = token.substr(0, token.find(','));
+        try
         {
-            int const digit = token[pos] - '0';
-            if (digit < 0 || digit > 9 || delay > (limit - digit) / 10 || digit > limit)
+            size_t parsed = 0;
+            int const delay = std::stoi(token, &parsed);
+            if (parsed != token.length() || delay < -1)
                 return TT_CMDERR_INVALID_ACCOUNT;
-            delay = delay * 10 + digit;
+            account.abuse.login_delay = delay;
         }
-        account.abuse.login_delay = negative ? -delay : delay;
+        catch (const std::exception&)
+        {
+            return TT_CMDERR_INVALID_ACCOUNT;
+        }
     }
     return m_servernode.UserNewUserAccount(GetUserID(), account, !hasLoginDelay);
 }

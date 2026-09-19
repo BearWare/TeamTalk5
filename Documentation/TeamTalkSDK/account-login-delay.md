@@ -21,10 +21,14 @@ Each positive override has a separate account/IP counter, shared by all clients
 using that account from the same IP. An override replaces the default; the
 default is not an additional minimum. Multiple accounts with overrides have
 independent allowances. Exempt accounts do not create or refresh these counters.
+For web logins, the counter uses the authenticated username even when its settings
+come from the shared `bearware` account.
 
 The check happens after successful authentication and applies to both new TCP
 connections and logout/login on an existing connection. An attempt made before
 the interval expires returns `CMDERR_COMMAND_FLOOD` and renews the interval.
+The authenticated account is passed to the delay check before `SetUserAccount()`
+authorizes the connection. A rejected login does not acquire that account's rights.
 Changing a delay affects the next attempt; it does not disconnect logged-in users.
 Increasing a delay cannot retroactively recover already-expired counter history;
 the first attempt after history has expired starts a new interval.
@@ -62,6 +66,8 @@ compatibility. The final SDK release/version assignment belongs to the maintaine
 ## Regression tests
 
 - Catch2: `ServerXML User Accounts Write/Read`, `Account login delay wire defaults`,
-  and `ServerXML login delay legacy and invalid values`.
+  `ServerXML login delay legacy and invalid values`, and
+  `XML strict integer reading preserves legacy behavior`. `ServerNode clears all
+  login delay counters on stop` checks in-process counter reset without opening sockets.
 - JNI/JUnit: `testLoginDelay`, `testAccountLoginDelayExemption`, and
   `testAccountLoginDelayOverride`.

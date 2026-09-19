@@ -192,8 +192,12 @@ UserAccount UserAccountDlg::getUserAccount() const
     }
 
     newUser.nAudioCodecBpsLimit = ui->audmaxbpsSpinBox->value() * 1000;
-    newUser.abusePrevent.nLoginDelayMSec = ui->defaultLoginDelayCheckBox->isChecked()
-        ? 0 : (ui->loginDelaySpinBox->value() == 0 ? -1 : ui->loginDelaySpinBox->value());
+    if (ui->defaultLoginDelayCheckBox->isChecked())
+        newUser.abusePrevent.nLoginDelayMSec = 0;
+    else if (ui->loginDelaySpinBox->value() == 0)
+        newUser.abusePrevent.nLoginDelayMSec = -1;
+    else
+        newUser.abusePrevent.nLoginDelayMSec = ui->loginDelaySpinBox->value();
 
     return newUser;
 }

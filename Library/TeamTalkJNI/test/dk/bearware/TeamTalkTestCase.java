@@ -3509,6 +3509,9 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
             TTMessage error = new TTMessage();
             assertTrue(waitCmdError(inheritedAdmin, inheritedAdmin.doLogin(NICKNAME, adminAccount.szUsername, PASSWORD), DEF_WAIT, error));
             assertEquals(ClientError.CMDERR_COMMAND_FLOOD, error.clienterrormsg.nErrorNo);
+            // A rejected login must not grant the account's administrator rights.
+            assertTrue(waitCmdError(inheritedAdmin, inheritedAdmin.doListUserAccounts(0, 10), DEF_WAIT, error));
+            assertEquals(ClientError.CMDERR_NOT_LOGGEDIN, error.clienterrormsg.nErrorNo);
 
             adminAccount.szUsername = "tt_exempt_delay";
             adminAccount.uUserType = UserType.USERTYPE_DEFAULT;

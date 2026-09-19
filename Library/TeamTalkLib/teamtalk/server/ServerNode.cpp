@@ -568,6 +568,13 @@ int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
             else
                 ++it;
         }
+        for (auto it = m_accountlogindelay.begin(); it != m_accountlogindelay.end();)
+        {
+            if (now > it->second.expires)
+                m_accountlogindelay.erase(it++);
+            else
+                ++it;
+        }
         break;
     }
     case TIMERSRV_DESKTOPACKPACKET_ID :
@@ -1008,6 +1015,7 @@ void ServerNode::StopServer(bool docallback)
     TTASSERT(m_admins.empty());
     m_failedlogins.clear();
     m_logindelay.clear();
+    m_accountlogindelay.clear();
     m_filetransfers.clear();
     m_updUserIPs.clear();
 
@@ -1286,23 +1294,31 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
     }
 }
 
-bool ServerNode::LoginsExceeded(const ServerUser& user, const UserAccount& account)
+bool ServerNode::LoginsExceeded(const ACE_TString& ipaddr, const UserAccount& account)
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    int const delay = account.abuse.login_delay == -1 ? 0 :
-        (account.abuse.login_delay > 0 ? account.abuse.login_delay : m_properties.logindelay);
+    if (account.abuse.login_delay == -1)
+        return false;
+
+    int delay = m_properties.logindelay;
+    if (account.abuse.login_delay > 0)
+        delay = account.abuse.login_delay;
     if (delay <= 0)
         return false;
 
+    LoginDelay* loginDelay;
+    if (account.abuse.login_delay > 0)
+        loginDelay = &m_accountlogindelay[{ipaddr, account.username}];
+    else
+        loginDelay = &m_logindelay[ipaddr];
+
     ACE_Time_Value const now = ACE_OS::gettimeofday();
-    bool const has_override = account.abuse.login_delay > 0;
-    logindelaykey_t const key{user.GetIpAddress(), {has_override, has_override ? account.username : ACE_TString()}};
-    auto const it = m_logindelay.find(key);
     ACE_Time_Value const interval = ToTimeValue(delay);
-    bool const blocked = it != m_logindelay.end() && it->second.last_attempt + interval > now;
+    bool const blocked = loginDelay->last_attempt + interval > now;
     // Retain the existing sliding penalty: even a rejected attempt renews it.
-    m_logindelay[key] = {now, now + interval};
+    loginDelay->last_attempt = now;
+    loginDelay->expires = now + interval;
     return blocked;
 }
 
@@ -2667,7 +2683,9 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     {
     case TT_CMDERR_SUCCESS :
     {
-        if (LoginsExceeded(*user, useraccount))
+        // The authenticated account is not assigned to ServerUser until all
+        // login checks pass. SetUserAccount() would authorize the user here.
+        if (LoginsExceeded(user->GetIpAddress(), useraccount))
             return TT_CMDERR_COMMAND_FLOOD;
         break;
     }
