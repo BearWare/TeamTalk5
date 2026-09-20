@@ -7981,10 +7981,8 @@ void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 
 void MainWindow::speakClientStats()
 {
-    ClientStatistics stats = {};
-    TT_GetClientStatistics(ttInst, &stats);
     QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
-    if (stats.nUdpPingTimeMs >= 0)
-        strstats += QString(", PING: %3").arg(stats.nUdpPingTimeMs);
+    if (m_clientstats.nUdpPingTimeMs >= 0)
+        strstats += QString(", PING: %3").arg(m_clientstats.nUdpPingTimeMs);
     addTextToSpeechMessage(strstats);
 }
