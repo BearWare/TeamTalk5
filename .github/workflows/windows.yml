@@ -158,7 +158,9 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath`) do set VSINSTALLPATH=%%i
+        if not defined VSINSTALLPATH set VSINSTALLPATH=C:\Program Files\Microsoft Visual Studio\18\Enterprise
+        call "%VSINSTALLPATH%\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output --parallel --config Release --target install
         echo ${{github.workspace}}\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{github.workspace}}\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
@@ -345,7 +347,9 @@ jobs:
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath`) do set VSINSTALLPATH=%%i
+        if not defined VSINSTALLPATH set VSINSTALLPATH=C:\Program Files\Microsoft Visual Studio\18\Enterprise
+        call "%VSINSTALLPATH%\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output-developer --parallel --config Debug
 
     - name: Upload Inno Setup installer artifact
