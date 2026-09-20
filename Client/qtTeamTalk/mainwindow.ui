@@ -1759,7 +1759,7 @@
     <string>Enable Voice &amp;Activation</string>
    </property>
    <property name="shortcut">
-    <string>Ctrl+Shift+A</string>
+    <string>Ctrl + Shift + A</string>
    </property>
   </action>
   <action name="actionChangeNickname">

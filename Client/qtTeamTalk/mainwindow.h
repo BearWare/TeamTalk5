@@ -90,6 +90,7 @@ public:
     ~MainWindow();
 
     void loadSettings();
+    QList<QAction*> shortcutActions() const;
 
     bool parseArgs(const QStringList& args);
 #if defined(Q_OS_LINUX)
@@ -162,8 +163,6 @@ private:
     UserAccount m_myuseraccount;
     //ping and tx/rx information
     ClientStatistics m_clientstats;
-    //tx/rx of the last second, as shown in the status bar
-    float m_rxbytes = 0, m_txbytes = 0;
     //last channel that were joined by the client
     Channel m_last_channel;
     //server properties
@@ -264,6 +263,9 @@ private:
     void setMediaFilePosition();
     void setMediaFileTabProgress(const MediaFileInfo& mfi);
     void loadHotKeys();
+    void initializeActionShortcuts();
+    void updateActionShortcutTexts();
+    void setShortcuts();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
     void pttHotKey(bool active);

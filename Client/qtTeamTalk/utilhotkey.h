@@ -20,6 +20,7 @@
 
 #include "common.h"
 #include <QMap>
+#include <QKeySequence>
 
 enum HotKeyID
 {
@@ -41,6 +42,7 @@ enum HotKeyID
 
 typedef qulonglong Hotkeys;
 typedef QMap<HotKeyID, hotkey_t> hotkeys_t;
+typedef QMap<QString, QKeySequence> actionshortcuts_t;
 
 #if defined(Q_OS_DARWIN)
 #define MAC_HOTKEY_SIZE 2
@@ -56,5 +58,13 @@ void saveHotKeySettings(HotKeyID hotkeyid, const hotkey_t& hotkey);
 bool loadHotKeySettings(HotKeyID hotkeyid, hotkey_t& hotkey);
 
 void deleteHotKeySettings(HotKeyID hotkeyid);
+
+QString getActionShortcutSetting(const QString& actionName);
+
+bool loadActionShortcut(const QString& actionName, QKeySequence& shortcut);
+
+void saveActionShortcut(const QString& actionName, const QKeySequence& shortcut);
+
+void deleteActionShortcut(const QString& actionName);
 
 #endif
