@@ -37,7 +37,7 @@ index ee612a1..bac2f10 100644
  		{E972C52F-9E85-4D65-B19C-031E511E9DB4}.Release|win32.Build.0 = Release|Win32
  		{E972C52F-9E85-4D65-B19C-031E511E9DB4}.Release|x64.ActiveCfg = Release|x64
 diff --git a/win32/VS2026/libspeex/libspeex.vcxproj b/win32/VS2026/libspeex/libspeex.vcxproj
-index 285fffb..562271a 100644
+index 285fffb..93eb16e 100644
 --- a/win32/VS2026/libspeex/libspeex.vcxproj
 +++ b/win32/VS2026/libspeex/libspeex.vcxproj
 @@ -17,6 +17,14 @@
@@ -101,31 +101,27 @@ index 285fffb..562271a 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
      <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
      <IntDir>Debug\</IntDir>
-@@ -324,23 +357,47 @@
+@@ -324,6 +357,47 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug_WM5_PPC_ARM|x64'">
      <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
    </PropertyGroup>
--  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 +  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-     <ClCompile>
-       <Optimization>Disabled</Optimization>
-       <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
--      <MinimalRebuild>true</MinimalRebuild>
-       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
--      <PrecompiledHeader />
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
 +      <PrecompiledHeader>
 +      </PrecompiledHeader>
-       <WarningLevel>Level4</WarningLevel>
--      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <WarningLevel>Level4</WarningLevel>
 +      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-       <CompileAs>CompileAsC</CompileAs>
-     </ClCompile>
-     <Lib>
-       <OutputFile>$(OutDir)libspeexd.lib</OutputFile>
-     </Lib>
-   </ItemDefinitionGroup>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(OutDir)libspeexd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
 +  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|ARM64'">
 +    <ClCompile>
 +      <Optimization>Full</Optimization>
@@ -150,6 +146,6 @@ index 285fffb..562271a 100644
 +      <OutputFile>$(OutDir)libspeex_sse2.lib</OutputFile>
 +    </Lib>
 +  </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
      <ClCompile>
        <Optimization>Disabled</Optimization>

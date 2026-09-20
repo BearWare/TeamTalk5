@@ -45,7 +45,9 @@ jobs:
             runson: windows-latest
           - arch: arm64
             cmakeplatform: ARM64
-            javaversion: 25
+            # Temurin doesn't publish a Windows/aarch64 build of JDK 25 yet
+            # (only up to 23.0.2), unlike x64 which does have one.
+            javaversion: 21
             portablearch: winarm64
             qthost: windows_arm64
             qtarch: win64_msvc2022_arm64

@@ -1,5 +1,5 @@
 diff --git a/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
-index 66642e6..8adeae3 100644
+index 66642e6..10d116d 100644
 --- a/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
 +++ b/win32/VS2026/libspeexdsp/libspeexdsp.vcxproj
 @@ -1,6 +1,14 @@
@@ -63,31 +63,27 @@ index 66642e6..8adeae3 100644
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
      <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
      <IntDir>Debug\</IntDir>
-@@ -153,23 +186,47 @@
+@@ -153,6 +186,47 @@
    <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release_Dynamic_SSE|x64'">
      <OutDir>..\..\..\lib\$(PlatformName)</OutDir>
    </PropertyGroup>
--  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
 +  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|ARM64'">
-     <ClCompile>
-       <Optimization>Disabled</Optimization>
-       <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
-       <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
--      <MinimalRebuild>true</MinimalRebuild>
-       <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
-       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
--      <PrecompiledHeader />
++    <ClCompile>
++      <Optimization>Disabled</Optimization>
++      <AdditionalIncludeDirectories>..\..\..\include;..\..;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
++      <PreprocessorDefinitions>WIN32;_DEBUG;_LIB;HAVE_CONFIG_H;%(PreprocessorDefinitions)</PreprocessorDefinitions>
++      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
++      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
 +      <PrecompiledHeader>
 +      </PrecompiledHeader>
-       <WarningLevel>Level3</WarningLevel>
--      <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
++      <WarningLevel>Level3</WarningLevel>
 +      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
-       <CompileAs>CompileAsC</CompileAs>
-     </ClCompile>
-     <Lib>
-       <OutputFile>$(Outdir)libspeexdspd.lib</OutputFile>
-     </Lib>
-   </ItemDefinitionGroup>
++      <CompileAs>CompileAsC</CompileAs>
++    </ClCompile>
++    <Lib>
++      <OutputFile>$(Outdir)libspeexdspd.lib</OutputFile>
++    </Lib>
++  </ItemDefinitionGroup>
 +  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release_Static_SSE|ARM64'">
 +    <ClCompile>
 +      <Optimization>Full</Optimization>
@@ -112,6 +108,6 @@ index 66642e6..8adeae3 100644
 +      <OutputFile>$(Outdir)libspeexdsp_sse.lib</OutputFile>
 +    </Lib>
 +  </ItemDefinitionGroup>
-   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
      <ClCompile>
        <Optimization>Disabled</Optimization>
