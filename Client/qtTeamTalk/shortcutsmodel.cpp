@@ -184,8 +184,7 @@ void ShortcutsModel::setActions(const QList<QAction*>& actions)
             entry.displayName = action->text();
         entry.displayName.remove('&');
         entry.displayName = entry.displayName.trimmed();
-        if (entry.displayName.isEmpty() ||
-            entry.displayName == QStringLiteral("-"))
+        if (entry.displayName.isEmpty())
             continue;
 
         const QVariant defaultShortcut =

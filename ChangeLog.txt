@@ -17,6 +17,7 @@ Default Qt Client
 - Fixed compilation time display on Linux (Qt5)
 - Fixed crash issue when invoking context menu in Server List dialog
 - Fixed classroom transmission permissions being cleared when changed from another channel
+- Fixed shortcut keys display order on Linux
 Android Client
 - Ability to pause and resume media file streams
 - Announce who is administrator

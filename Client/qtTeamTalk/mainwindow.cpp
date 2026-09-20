@@ -689,7 +689,7 @@ QList<QAction*> MainWindow::shortcutActions() const
             text = action->text();
         text.remove('&');
         text = text.trimmed();
-        if (text.isEmpty() || text == QStringLiteral("-"))
+        if (text.isEmpty())
             return;
 
         result.push_back(action);
