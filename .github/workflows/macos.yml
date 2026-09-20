@@ -51,6 +51,11 @@ jobs:
       working-directory: ${{github.workspace}}/Build
       run: make depend-mac
 
+    - name: Install Doxygen
+      uses: ssciwr/doxygen-install@v2
+      with:
+        version: '1.17.0'
+
     - name: Build TeamTalk toolchain, libraries and apps
       working-directory: ${{github.workspace}}
       shell: bash
