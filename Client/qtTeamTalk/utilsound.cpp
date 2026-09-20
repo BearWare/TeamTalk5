@@ -208,9 +208,11 @@ int getSoundInputFromUID(int inputid, const QString& uid)
 
     SoundDevice dev;
     if (getSoundDevice(uid, true, inputdev, dev))
-        inputid = dev.nDeviceID;
+        return dev.nDeviceID;
 
-    return inputid;
+    // the selected device is gone and its ID now belongs to another device,
+    // so fall back to the default rather than opening whatever took its place
+    return getDefaultSndInputDevice();
 }
 
 int getSoundOutputFromUID(int outputid, const QString& uid)
@@ -222,8 +224,9 @@ int getSoundOutputFromUID(int outputid, const QString& uid)
 
     SoundDevice dev;
     if (getSoundDevice(uid, false, outputdev, dev))
-        outputid = dev.nDeviceID;
-    return outputid;
+        return dev.nDeviceID;
+
+    return getDefaultSndOutputDevice();
 }
 
 int getSelectedSndInputDevice()
