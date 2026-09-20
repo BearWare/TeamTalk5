@@ -47,7 +47,10 @@ void PrismWorker::initialize(quint64 backendId)
     PrismConfig cfg = prism_config_init();
     m_context = prism_init(&cfg);
     if (!m_context)
+    {
+        qWarning() << "Failed to create a Prism context";
         return;
+    }
 
     PrismBackendId id = static_cast<PrismBackendId>(backendId);
     if (id != PRISM_BACKEND_INVALID)
