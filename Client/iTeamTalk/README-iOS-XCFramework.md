@@ -70,12 +70,18 @@ additionally exposes the server API in `TeamTalkSrv.h`).
 ### macOS
 
 ```sh
-make -C Build mac
+make -C Build mac-lib
 ```
 
-This builds a universal (`arm64;x86_64`) archive into
-`Library/TeamTalk_DLL/` as `libTeamTalk5.a` / `libTeamTalk5Pro.a`. If
-you have just run `lipo` or `lipo-simulator`, run `mac` into a clean
+Plain `make -C Build mac` will **not** produce what the XCFramework step
+below needs: `BUILD_TEAMTALK_LIBRARY_LIB` defaults to `OFF` and
+`BUILD_TEAMTALK_LIBRARY_DLL` to `ON` (see
+`Library/TeamTalkLib/CMakeLists.txt`), so `mac` only ever builds
+`libTeamTalk5.dylib`, never the static `libTeamTalk5.a` this document
+assembles into an XCFramework. `mac-lib` sets those flags the other way,
+building a universal (`arm64;x86_64`) static archive into
+`Library/TeamTalk_DLL/` as `libTeamTalk5.a` / `libTeamTalk5Pro.a`. If you
+have just run `lipo` or `lipo-simulator`, run `mac-lib` into a clean
 checkout or move the iOS archives aside first, because both write the
 same `libTeamTalk5.a` filename.
 
