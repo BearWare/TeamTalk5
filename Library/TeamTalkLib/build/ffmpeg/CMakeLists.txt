@@ -350,7 +350,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
 
 elseif (MSVC)
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
+  if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    set(FFMPEG_ARCH aarch64)
+    set(FFMPEG_TARGET_OS win64)
+  elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
     set(FFMPEG_ARCH x86_64)
     set(FFMPEG_TARGET_OS win64)
   else()
@@ -360,6 +363,23 @@ elseif (MSVC)
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
     set(FFMPEG_INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_FFMPEG})
+
+    # ARM64 needs gas-preprocessor.pl to translate the GNU-syntax NEON
+    # assembly in ffmpeg's source into something armasm64.exe (MSVC's ARM64
+    # assembler) can consume. Harmless to fetch for x86/x64 too, since
+    # ffmpeg's configure only looks for it when targeting arm/aarch64.
+    ExternalProject_Add(gaspreprocessor-src
+      URL                 https://raw.githubusercontent.com/FFmpeg/gas-preprocessor/ca93666a02f978ac0801e2ae26eee5a385137fd3/gas-preprocessor.pl
+      URL_HASH            SHA256=7124d70cdecba7c5612f9a71fbf3f28514dd9c2ca3022f58ad793f88bb925fcf
+      DOWNLOAD_NO_EXTRACT  TRUE
+      DOWNLOAD_DIR         ${CMAKE_CURRENT_BINARY_DIR}/gaspreprocessor
+      SOURCE_DIR           ${CMAKE_CURRENT_BINARY_DIR}/gaspreprocessor
+      CONFIGURE_COMMAND    ""
+      BUILD_COMMAND        ${BASH_EXE_PATH} -c "chmod +x ${CMAKE_CURRENT_BINARY_DIR}/gaspreprocessor/gas-preprocessor.pl"
+      INSTALL_COMMAND      ""
+      )
+    file(TO_NATIVE_PATH ${CMAKE_CURRENT_BINARY_DIR}/gaspreprocessor GASPREPROCESSOR_DIR_NATIVE)
+
     configure_file(${CMAKE_CURRENT_LIST_DIR}/build-ffmpeg-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-ffmpeg-win.bat @ONLY)
 
     ExternalProject_Add(ffmpeg-src
@@ -381,7 +401,7 @@ elseif (MSVC)
       <INSTALL_DIR>/lib/swresample.lib
       <INSTALL_DIR>/lib/swscale.lib
       <INSTALL_DIR>/lib/avutil.lib
-      DEPENDS           ${NASM_TARGET}
+      DEPENDS           ${NASM_TARGET} gaspreprocessor-src
       )
     ExternalProject_Get_Property(ffmpeg-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
