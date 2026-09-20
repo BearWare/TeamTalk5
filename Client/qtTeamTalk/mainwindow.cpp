@@ -24,6 +24,7 @@
 #include "userinfodlg.h"
 #include "bannedusersdlg.h"
 #include "useraccountsdlg.h"
+#include "profilesdlg.h"
 #include "keycompdlg.h"
 #include "textmessagedlg.h"
 #include "filetransferdlg.h"
@@ -2505,12 +2506,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             ClientStatistics stats;
             TT_GetClientStatistics(ttInst, &stats);
-            float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-            float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
+            m_rxbytes = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
+            m_txbytes = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
+            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
@@ -4103,112 +4104,8 @@ void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
-    QString inipath = ttSettings->fileName();
-
-    // check if we are creating a new profile from a profile
-    if(ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString().size())
-    {
-        inipath.remove(QRegularExpression(".\\d{1,2}$"));
-    }
-
-    // load existing profiles
-    QMap<QString, QString> profiles;
-    QStringList profilenames;
-    const int MAX_PROFILES = 16;
-    int freeno = -1;
-    for (int i = 1;i <= MAX_PROFILES;i++)
-    {
-        QString inifile = QString("%1.%2").arg(inipath).arg(i);
-        if(QFile::exists(inifile))
-        {
-            QSettings settings(inifile, QSettings::IniFormat, this);
-            QString name = settings.value(SETTINGS_GENERAL_PROFILENAME).toString();
-            profilenames.push_back(name);
-            profiles[name] = inifile;
-        }
-        else if(freeno < 0)
-            freeno = i;
-    }
-    
-
-    const QString newprofile = tr("New Profile"), delprofile = tr("Delete Profile"), curprofile = tr("Current Profile");
-    if(profiles.size() < MAX_PROFILES)
-        profilenames.push_back(newprofile);
-    if(profiles.size() > 0)
-        profilenames.push_back(delprofile);
-    profilenames.push_back(curprofile);
-
-    bool ok = false;
-    QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&OK"));
-    inputDialog.setCancelButtonText(tr("&Cancel"));
-    inputDialog.setComboBoxItems(profilenames);
-    inputDialog.setComboBoxEditable(false);
-    inputDialog.setWindowTitle(tr("New Client Instance"));
-    inputDialog.setLabelText(tr("Select profile"));
-    ok = inputDialog.exec();
-    QString choice = inputDialog.textValue();
-
-    if (ok)
-    {
-        QStringList args;
-
-        if(choice == delprofile)
-        {
-            profilenames.removeAll(newprofile);
-            profilenames.removeAll(delprofile);
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setComboBoxItems(profilenames);
-            inputDialog.setComboBoxEditable(false);
-            inputDialog.setWindowTitle(tr("New Client Instance"));
-            inputDialog.setLabelText(tr("Delete profile"));
-            ok = inputDialog.exec();
-            QString choice = inputDialog.textValue();
-            if(ok && ttSettings->fileName() != profiles[choice])
-                QFile::remove(profiles[choice]);
-            return;
-        }
-        else if(choice == newprofile)
-        {
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setInputMode(QInputDialog::TextInput);
-            inputDialog.setTextValue(QString("Profile %1").arg(freeno));
-            inputDialog.setWindowTitle(tr("New Profile"));
-            inputDialog.setLabelText(tr("Profile name"));
-            ok = inputDialog.exec();
-            QString newname = inputDialog.textValue();
-            if(ok && newname.size())
-            {
-                inipath = QString("%1.%2").arg(inipath).arg(freeno);
-                QSettings settings(inipath, QSettings::IniFormat, this);
-                settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
-            }
-            else return;
-        }
-        else if (choice == curprofile)
-        {
-            inipath = ttSettings->fileName();
-            args.push_back("-noconnect");
-        }
-        else 
-        {
-            inipath = profiles[choice];
-        }
-
-        QString path = QApplication::applicationFilePath();
-        args.push_back(QString("-cfg"));
-        args.push_back(inipath);
-
-#if defined(_DEBUG)
-        QProcess::startDetached(path, args);
-#else
-        QProcess::startDetached(path, args, QApplication::applicationDirPath());
-#endif
-    }
+    ProfilesDlg dlg(this);
+    dlg.exec();
 }
 
 void MainWindow::slotClientConnect(bool /*checked =false */)
@@ -8084,13 +7981,8 @@ void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 
 void MainWindow::speakClientStats()
 {
-    ClientStatistics stats = {};
-    TT_GetClientStatistics(ttInst, &stats);
-    float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-    float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
-    int ping = stats.nUdpPingTimeMs;
-    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
-    if (ping >= 0)
-        strstats += QString(", PING: %3").arg(ping);
+    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
+    if (m_clientstats.nUdpPingTimeMs >= 0)
+        strstats += QString(", PING: %3").arg(m_clientstats.nUdpPingTimeMs);
     addTextToSpeechMessage(strstats);
 }
