@@ -19,6 +19,8 @@
 
 #if defined(ENABLE_PRISM)
 
+#include <QDebug>
+
 PrismWorker::PrismWorker(QObject* parent)
     : QObject(parent)
 {
@@ -53,26 +55,46 @@ void PrismWorker::initialize(quint64 backendId)
     else
         m_backend = prism_registry_create_best(m_context);
 
-    if (m_backend)
-        prism_backend_initialize(m_backend);
+    if (!m_backend)
+    {
+        qWarning() << "Prism has no usable backend";
+        return;
+    }
+
+    // prism_registry_create_best() initializes the backend it picks, so an
+    // already initialized backend is a success here, not a failure
+    PrismError err = prism_backend_initialize(m_backend);
+    if (err != PRISM_OK && err != PRISM_ERROR_ALREADY_INITIALIZED)
+    {
+        qWarning() << "Prism backend" << prism_backend_name(m_backend)
+                   << "failed to initialize:" << prism_error_string(err);
+        prism_backend_free(m_backend);
+        m_backend = nullptr;
+    }
 }
 
 void PrismWorker::speak(const QString& text, bool interrupt)
 {
     if (m_backend)
-        prism_backend_speak(m_backend, text.toUtf8().constData(), interrupt);
+        warnOnError("speak", prism_backend_speak(m_backend, text.toUtf8().constData(), interrupt));
 }
 
 void PrismWorker::braille(const QString& text)
 {
     if (m_backend)
-        prism_backend_braille(m_backend, text.toUtf8().constData());
+        warnOnError("braille", prism_backend_braille(m_backend, text.toUtf8().constData()));
 }
 
 void PrismWorker::output(const QString& text, bool interrupt)
 {
     if (m_backend)
-        prism_backend_output(m_backend, text.toUtf8().constData(), interrupt);
+        warnOnError("output", prism_backend_output(m_backend, text.toUtf8().constData(), interrupt));
+}
+
+void PrismWorker::warnOnError(const char* call, PrismError err)
+{
+    if (err != PRISM_OK)
+        qWarning() << "Prism" << call << "failed:" << prism_error_string(err);
 }
 
 void PrismWorker::shutdown()
