@@ -102,7 +102,14 @@ if (FEATURE_MEDIAFOUNDATION)
   list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/MFTransform.cpp)
   list (APPEND AVSTREAM_SOURCES ${TEAMTALKLIB_ROOT}/avstream/VideoCapture.cpp)
   list (APPEND AVSTREAM_LINK_FLAGS mf mfplat mfreadwrite mfuuid shlwapi propsys)
-  list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0601 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN7
+  # ARM64 Windows never existed before Windows 10, and winnt.h's ARM64
+  # interlocked intrinsics (ReadAcquire8 etc) aren't declared under an
+  # older WINVER, so targeting Win7 there breaks the build.
+  if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0A00 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN10
+  else()
+    list (APPEND AVSTREAM_COMPILE_FLAGS -DWINVER=0x0601 -DENABLE_MEDIAFOUNDATION) # WINVER=_WIN32_WINNT_WIN7
+  endif()
 endif()
 
 if (FEATURE_OPUSTOOLS AND FEATURE_OPUS)

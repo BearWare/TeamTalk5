@@ -31,8 +31,41 @@ if (MSVC)
     -D_CRT_NONSTDC_NO_DEPRECATE
     -D_WINSOCK_DEPRECATED_NO_WARNINGS)
 
+  # ACE's config-win32-common.h only skips its "assume AMD64" fallback
+  # when _ARM64_, _ARM_, or _AMD64_ is already defined:
+  #   #if !defined (_AMD64_) && !defined(_ARM_) && !defined(_ARM64_)
+  #   #  define _AMD64_
+  #   #endif
+  # MPC-generated projects (ACE's own build) pass -D_ARM64_ explicitly,
+  # but a plain CMake project doesn't, so on ARM64 this silently
+  # self-defines _AMD64_, which makes winnt.h's interlocked-intrinsic
+  # wrappers (ReadAcquire8, InterlockedExchangeAdd64, etc) take the
+  # wrong branch and fail with C3861 "identifier not found". Passing
+  # -D_ARM64_ ourselves (matching what MPC does) avoids that.
+  if (CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64")
+    list (APPEND COMPILE_FLAGS -D_ARM64_)
+  endif()
+
   # Use for building TeamTalk toolchain
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v145")
+  set (PLATFORMTOOLSET "/property:PlatformToolset=v145" CACHE STRING "MSBuild PlatformToolset property for vendored Windows toolchain builds")
+
+  # Visual Studio product version (e.g. 17 = VS2022, 18 = VS2026) used by
+  # libvpx's own configure to pick which VS generator/toolset to target
+  # (its arm64-win64-vsNN / x86_64-win64-vsNN / x86-win32-vsNN targets).
+  # Override to match whatever PLATFORMTOOLSET above is actually installed.
+  set (LIBVPX_VS_VER "18" CACHE STRING "Visual Studio product version for libvpx's vsNN build targets")
+
+  # Target architecture for the vendored Windows toolchain builds (msbuild
+  # /p:Platform, OpenSSL/libvpx Configure targets, etc). CMAKE_VS_PLATFORM_NAME
+  # reflects the -A flag passed to CMake and must be used instead of
+  # CMAKE_SIZEOF_VOID_P, since ARM64 Windows is also a 64-bit pointer size.
+  if (CMAKE_VS_PLATFORM_NAME STREQUAL "ARM64")
+    set (TEAMTALK_WIN_ARCH arm64 CACHE INTERNAL "Target architecture for vendored Windows toolchain builds")
+  elseif (CMAKE_VS_PLATFORM_NAME STREQUAL "x64" OR (NOT CMAKE_VS_PLATFORM_NAME AND CMAKE_SIZEOF_VOID_P EQUAL 8))
+    set (TEAMTALK_WIN_ARCH x64 CACHE INTERNAL "Target architecture for vendored Windows toolchain builds")
+  else()
+    set (TEAMTALK_WIN_ARCH win32 CACHE INTERNAL "Target architecture for vendored Windows toolchain builds")
+  endif()
 
 else()
   set (COMPILE_FLAGS -Wno-deprecated-declarations)

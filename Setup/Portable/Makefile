@@ -35,6 +35,14 @@ win64:
 	make OUTDIR=$(OUTDIR) license winserver winclient
 	make TT5DIST=$(TT5DIST) arczip
 
+winarm64:
+	$(eval TT5DIST=TeamTalk_$(VERSION)_Portable-winarm64)
+	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
+	rm -rf $(OUTDIR)
+	mkdir -p $(OUTDIR)
+	make OUTDIR=$(OUTDIR) license winserver winclient
+	make TT5DIST=$(TT5DIST) arczip
+
 win32pro:
 	$(eval TT5DIST=teamtalkpro-$(VERSION)-win32)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
@@ -45,6 +53,14 @@ win32pro:
 
 win64pro:
 	$(eval TT5DIST=teamtalkpro-$(VERSION)-win64)
+	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
+	rm -rf $(OUTDIR)
+	mkdir -p $(OUTDIR)
+	make OUTDIR=$(OUTDIR) winserverpro
+	make TT5DIST=$(TT5DIST) arczip
+
+winarm64pro:
+	$(eval TT5DIST=teamtalkpro-$(VERSION)-winarm64)
 	$(eval OUTDIR=$(OUTPUT_DEST)/$(TT5DIST))
 	rm -rf $(OUTDIR)
 	mkdir -p $(OUTDIR)
