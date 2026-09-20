@@ -25,6 +25,7 @@
 
 #include "bin/ttsrv/ServerXML.h"
 #include "bin/ttsrv/ServerGuard.h"
+#include "teamtalk/Commands.h"
 #include "myace/MyACE.h"
 
 #include <cstdio>
@@ -309,13 +310,30 @@ TEST_CASE("Account login delay wire defaults")
 {
     Abuse abuse;
     REQUIRE(abuse.login_delay == 0);
-    abuse.FromParam({10, 1000, -1});
-    REQUIRE(abuse.login_delay == -1);
-    REQUIRE(abuse.ToParam() == std::vector<int>{10, 1000, -1});
-    abuse.FromParam({20, 2000});
-    REQUIRE(abuse.login_delay == 0);
-    abuse.FromParam({20, 2000, 5000});
-    REQUIRE(abuse.login_delay == 5000);
+    abuse.login_delay = Abuse::LOGIN_DELAY_DISABLED;
+    abuse.FromParam({10, 1000});
+    REQUIRE(abuse.ToParam() == std::vector<int>{10, 1000});
+    REQUIRE(abuse.login_delay == Abuse::LOGIN_DELAY_DISABLED);
+
+    UserAccount account;
+    mstrings_t properties;
+    properties[TT_CMDFLOOD] = ACE_TEXT("10,1000");
+    properties[TT_LOGINDELAY] = ACE_TEXT("5000");
+    REQUIRE(GetProperties(properties, account));
+    REQUIRE(account.abuse.n_cmds == 10);
+    REQUIRE(account.abuse.cmd_msec == 1000);
+    REQUIRE(account.abuse.login_delay == 5000);
+
+    for (auto text : {ACE_TEXT("-2"), ACE_TEXT("-"), ACE_TEXT("-1oops"),
+                      ACE_TEXT("2147483648"), ACE_TEXT("4294967295"), ACE_TEXT("")})
+    {
+        properties[TT_LOGINDELAY] = text;
+        REQUIRE_FALSE(GetProperties(properties, account));
+        REQUIRE(account.abuse.login_delay == 5000);
+    }
+    properties.erase(TT_LOGINDELAY);
+    REQUIRE(GetProperties(properties, account));
+    REQUIRE(account.abuse.login_delay == 5000);
 }
 
 TEST_CASE("ServerXML login delay legacy and invalid values")

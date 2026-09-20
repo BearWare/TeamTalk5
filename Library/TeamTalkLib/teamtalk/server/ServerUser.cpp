@@ -862,7 +862,8 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERNAME, account.username);
     GET_PROP_OR_RETURN(properties, TT_PASSWORD, account.passwd);
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
-    GetProperties(properties, account);
+    if (!GetProperties(properties, account))
+        return TT_CMDERR_INVALID_ACCOUNT;
 
     if (!VersionSameOrLater(GetStreamProtocol(), ACE_TEXT("5.13")))
     {
@@ -870,32 +871,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
     }
 
-    // Legacy clients omit the third cmdflood value. Preserve their stored override.
-    ACE_TString flood;
-    GetProperty(properties, TT_CMDFLOOD, flood);
-    auto comma = flood.find(',');
-    if (comma != ACE_TString::npos)
-        comma = flood.find(',', comma + 1);
-    bool const hasLoginDelay = comma != ACE_TString::npos;
-    if (hasLoginDelay)
-    {
-        // Unlike the legacy array reader, stoi rejects integer overflow.
-        std::basic_string<ACE_TCHAR> const values(flood.c_str());
-        auto token = values.substr(comma + 1);
-        token = token.substr(0, token.find(','));
-        try
-        {
-            size_t parsed = 0;
-            int const delay = std::stoi(token, &parsed);
-            if (parsed != token.length() || delay < -1)
-                return TT_CMDERR_INVALID_ACCOUNT;
-            account.abuse.login_delay = delay;
-        }
-        catch (const std::exception&)
-        {
-            return TT_CMDERR_INVALID_ACCOUNT;
-        }
-    }
+    bool const hasLoginDelay = properties.find(TT_LOGINDELAY) != properties.end();
     return m_servernode.UserNewUserAccount(GetUserID(), account, !hasLoginDelay);
 }
 
@@ -1322,6 +1298,7 @@ static void AppendUserAccount(const UserAccount& useraccount, ACE_TString& comma
         AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.ToParam(), command);
+    AppendProperty(TT_LOGINDELAY, useraccount.abuse.login_delay, command);
     AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
     AppendProperty(TT_LASTLOGINTIME, useraccount.lastlogin, command);
 }

@@ -223,6 +223,7 @@ namespace teamtalk {
 
     struct Abuse
     {
+        static constexpr int LOGIN_DELAY_DISABLED = -1;
         int n_cmds = 0;
         int cmd_msec = 0;
         // 0 inherits the server delay, -1 disables it, positive values override it.
@@ -234,7 +235,6 @@ namespace teamtalk {
             std::vector<int> flood;
             flood.push_back(n_cmds);
             flood.push_back(cmd_msec);
-            flood.push_back(login_delay);
             return flood;
         }
         void FromParam(const std::vector<int>& flood)
@@ -244,7 +244,6 @@ namespace teamtalk {
                 n_cmds = flood[0];
                 cmd_msec = flood[1];
             }
-            login_delay = flood.size() >= 3 ? flood[2] : 0;
         }
     };
 

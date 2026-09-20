@@ -1411,7 +1411,7 @@ namespace teamtalk{
             GetInteger(abuseElement, "commands-interval-msec", user.abuse.cmd_msec);
             // Invalid settings inherit the server limit, never exempt.
             if (!GetInteger(abuseElement, "login-delay-msec", user.abuse.login_delay, true) ||
-                user.abuse.login_delay < -1)
+                user.abuse.login_delay < teamtalk::Abuse::LOGIN_DELAY_DISABLED)
                 user.abuse.login_delay = 0;
         }
 

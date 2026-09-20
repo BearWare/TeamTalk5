@@ -286,9 +286,9 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
     {
         cout << "Login delay in milliseconds (0 = server default, -1 = disabled): ";
         user.abuse.login_delay = PrintGetInt(user.abuse.login_delay);
-        if (user.abuse.login_delay < -1)
+        if (user.abuse.login_delay < teamtalk::Abuse::LOGIN_DELAY_DISABLED)
             cout << "Use -1, 0, or a positive number of milliseconds." << endl;
-    } while (user.abuse.login_delay < -1);
+    } while (user.abuse.login_delay < teamtalk::Abuse::LOGIN_DELAY_DISABLED);
 
     xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
     xmlSettings.AddNewUser(user);

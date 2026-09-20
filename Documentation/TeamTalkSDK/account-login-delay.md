@@ -42,11 +42,13 @@ and positive values for milliseconds. This differs intentionally from
 `ServerProperties.nLoginDelayMSec`, whose zero means disabled. Zero-initialized
 account structures therefore preserve the existing default behavior.
 
-On the wire, this is the optional third element of `cmdflood`:
-`[commandCount, commandIntervalMSec, accountLoginDelayMSec]`.
-Old peers ignore the third element. The standalone server preserves an existing
-override when an older account editor omits it. An explicit third zero resets
-the account to inheritance. Older servers do not enforce account overrides.
+On the wire, accounts use the existing `logindelay` property. `cmdflood` retains
+its two command-flood values: `[commandCount, commandIntervalMSec]`. Account
+parsing handles the login delay alongside the other account properties and
+rejects malformed, overflowing, or below-`-1` values before updating an account.
+The standalone server preserves an existing override when an older account
+editor omits `logindelay`. Explicit `logindelay=0` resets the account to
+inheritance. Older servers do not enforce account overrides.
 
 XML stores `login-delay-msec` inside each user's `abuse-prevention` element.
 Missing or invalid XML values inherit the server default. The server wizard

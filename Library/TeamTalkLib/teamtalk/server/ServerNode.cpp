@@ -1298,7 +1298,7 @@ bool ServerNode::LoginsExceeded(const ACE_TString& ipaddr, const UserAccount& ac
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    if (account.abuse.login_delay == -1)
+    if (account.abuse.login_delay == Abuse::LOGIN_DELAY_DISABLED)
         return false;
 
     int delay = m_properties.logindelay;
@@ -3523,11 +3523,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, UserAccount regusr, bool pre
     if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    if (regusr.abuse.login_delay < -1)
-        return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
-
-    // Older clients only send the first two cmdflood values. Do not erase
-    // an override when they edit an account; an explicit third zero resets it.
+    // Older clients omit logindelay. Keep their stored override when editing.
     if (preserveLoginDelay && (user->GetUserType() & USERTYPE_ADMIN))
     {
         UserAccount previous;
