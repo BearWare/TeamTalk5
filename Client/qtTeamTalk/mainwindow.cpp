@@ -2617,12 +2617,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             ClientStatistics stats;
             TT_GetClientStatistics(ttInst, &stats);
-            float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-            float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
+            m_rxbytes = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
+            m_txbytes = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
+            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
@@ -8095,13 +8095,8 @@ void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 
 void MainWindow::speakClientStats()
 {
-    ClientStatistics stats = {};
-    TT_GetClientStatistics(ttInst, &stats);
-    float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-    float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
-    int ping = stats.nUdpPingTimeMs;
-    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
-    if (ping >= 0)
-        strstats += QString(", PING: %3").arg(ping);
+    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
+    if (m_clientstats.nUdpPingTimeMs >= 0)
+        strstats += QString(", PING: %3").arg(m_clientstats.nUdpPingTimeMs);
     addTextToSpeechMessage(strstats);
 }
