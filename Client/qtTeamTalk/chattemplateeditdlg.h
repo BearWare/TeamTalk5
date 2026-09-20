@@ -15,33 +15,32 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STATUSBARDLG_H
-#define STATUSBARDLG_H
+#ifndef CHATTEMPLATEEDITDLG_H
+#define CHATTEMPLATEEDITDLG_H
 
-#include "ui_statusbardlg.h"
+#include "ui_chattemplateeditdlg.h"
 #include "utilui.h"
 
-class StatusBarDlg : public QDialog
+class ChatTemplateEditDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    StatusBarDlg(QWidget* parent, StatusBarEvents events);
+    ChatTemplateEditDlg(ChatTemplates templateId, QWidget* parent = nullptr);
+
+    QString getMessage() const { return ui.CTMsgEdit->text(); }
 
 private:
-    void slotAccept();
+    void insertVariable();
+    void slotRestoreDefault();
 
 private:
-    Ui::StatusBarDlg ui;
-    class StatusBarEventsModel* m_statusbarmodel = nullptr;
-    void slotStatusBarEventToggled(const QModelIndex &index);
-    void slotEditEvent();
-    void statusBarRestoreAllDefaultMessage();
-    void slotStatusBarEnableAll(bool checked);
-    void slotStatusBarClearAll(bool checked);
-    void slotStatusBarRevert(bool checked);
-    void slotTableContextMenu(const QPoint& point);
-    StatusBarEvents m_events;
+    Ui::ChatTemplateEditDlg ui;
+    QMenu* m_CTVarMenu;
+    ChatTemplates m_templateId;
+
+protected:
+    void keyPressEvent(QKeyEvent* event) override;
 };
 
 #endif
