@@ -46,14 +46,29 @@ if (MSVC)
     list (APPEND COMPILE_FLAGS -D_ARM64_)
   endif()
 
-  # Use for building TeamTalk toolchain
-  set (PLATFORMTOOLSET "/property:PlatformToolset=v145" CACHE STRING "MSBuild PlatformToolset property for vendored Windows toolchain builds")
+  # Use for building TeamTalk toolchain. Derived from whichever Visual
+  # Studio CMake itself picked (CMAKE_VS_PLATFORM_TOOLSET, e.g. "v143" for
+  # VS2022 vs "v145" for VS2026) rather than hardcoded, since CI runners for
+  # different host architectures don't all have the same VS version
+  # installed (e.g. windows-11-arm currently ships VS2022, not VS2026).
+  if (CMAKE_VS_PLATFORM_TOOLSET)
+    set (_teamtalk_default_toolset "${CMAKE_VS_PLATFORM_TOOLSET}")
+  else()
+    set (_teamtalk_default_toolset "v145")
+  endif()
+  set (PLATFORMTOOLSET "/property:PlatformToolset=${_teamtalk_default_toolset}" CACHE STRING "MSBuild PlatformToolset property for vendored Windows toolchain builds")
 
   # Visual Studio product version (e.g. 17 = VS2022, 18 = VS2026) used by
   # libvpx's own configure to pick which VS generator/toolset to target
   # (its arm64-win64-vsNN / x86_64-win64-vsNN / x86-win32-vsNN targets).
-  # Override to match whatever PLATFORMTOOLSET above is actually installed.
-  set (LIBVPX_VS_VER "18" CACHE STRING "Visual Studio product version for libvpx's vsNN build targets")
+  # Derived from CMAKE_GENERATOR ("Visual Studio <NN> <year>") to match
+  # PLATFORMTOOLSET above rather than assuming a fixed VS version.
+  if (CMAKE_GENERATOR MATCHES "Visual Studio ([0-9]+) ")
+    set (_teamtalk_default_vsver "${CMAKE_MATCH_1}")
+  else()
+    set (_teamtalk_default_vsver "18")
+  endif()
+  set (LIBVPX_VS_VER "${_teamtalk_default_vsver}" CACHE STRING "Visual Studio product version for libvpx's vsNN build targets")
 
   # Target architecture for the vendored Windows toolchain builds (msbuild
   # /p:Platform, OpenSSL/libvpx Configure targets, etc). CMAKE_VS_PLATFORM_NAME
