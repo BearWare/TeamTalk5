@@ -379,6 +379,7 @@
 #define SETTINGS_SHORTCUTS_VIDEOTX                  "shortcuts/video-tx"
 #define SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES      "shortcuts/reinit-sounddevs"
 #define SETTINGS_SHORTCUTS_SHOWHIDEWINDOW           "shortcuts/show-hide-window"
+#define SETTINGS_SHORTCUTS_ACTION                   "shortcuts/actions/%1"
 
 #define SETTINGS_VIDCAP_DEVICEID                    "videocapture/deviceid"
 #define SETTINGS_VIDCAP_RESOLUTION                  "videocapture/resolution"

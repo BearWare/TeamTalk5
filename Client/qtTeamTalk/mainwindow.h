@@ -90,6 +90,7 @@ public:
     ~MainWindow();
 
     void loadSettings();
+    QList<QAction*> shortcutActions() const;
 
     bool parseArgs(const QStringList& args);
 #if defined(Q_OS_LINUX)
@@ -264,6 +265,9 @@ private:
     void setMediaFilePosition();
     void setMediaFileTabProgress(const MediaFileInfo& mfi);
     void loadHotKeys();
+    void initializeActionShortcuts();
+    void updateActionShortcutTexts();
+    void setShortcuts();
     void enableHotKey(HotKeyID id, const hotkey_t& hk);
     void disableHotKey(HotKeyID id);
     void pttHotKey(bool active);

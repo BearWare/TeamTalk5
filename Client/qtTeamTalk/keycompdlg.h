@@ -20,6 +20,7 @@
 
 #include <QList>
 #include <QSet>
+#include <QKeySequence>
 
 #include "utilhotkey.h"
 #include "ui_keycomp.h"
@@ -30,9 +31,11 @@ class KeyCompDlg : public QDialog
 
 public:
     KeyCompDlg(HotKeyID hkID, QWidget * parent = 0);
+    KeyCompDlg(const QString& actionName, QWidget * parent = 0);
     ~KeyCompDlg();
 
     hotkey_t m_hotkey;
+    QKeySequence m_keysequence;
 
 protected:
 #if defined(Q_OS_WIN32)
@@ -44,15 +47,19 @@ protected:
     bool nativeEvent(const QByteArray& eventType, void* message,
                      qintptr* result) override;
 #endif /* QT_VERSION */
-    
-#elif defined(Q_OS_LINUX) || defined(Q_OS_DARWIN)
-    void keyPressEvent(QKeyEvent* event) override;
-    void keyReleaseEvent(QKeyEvent* event) override;
 #endif
 
+    void keyPressEvent(QKeyEvent* event) override;
+    void keyReleaseEvent(QKeyEvent* event) override;
+
 private:
+    void initialize(const QString& name);
+    bool captureActionShortcut(QKeyEvent* event);
+    bool releaseActionShortcut(QKeyEvent* event);
+
     Ui::KeyCompDlg ui;
     QSet<INT32> m_activekeys;
+    bool m_actionShortcut = false;
 };
 
 #endif
