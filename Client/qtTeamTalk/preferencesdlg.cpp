@@ -211,6 +211,15 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
     }
     m_shortcutsmodel->setActionShortcuts(m_actionShortcuts);
     ui.shortcutsTableView->setModel(m_shortcutsmodel);
+    for (int row = 0; row < m_shortcutsmodel->rowCount(); ++row)
+    {
+        if (m_shortcutsmodel->isGroupHeader(
+                m_shortcutsmodel->index(row, 0)))
+        {
+            ui.shortcutsTableView->setSpan(
+                row, 0, 1, m_shortcutsmodel->columnCount());
+        }
+    }
     connect(ui.shortcutsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::shortcutSetup);
     auto shortcutshdrsize = ttSettings->value(SETTINGS_DISPLAY_SHORTCUTSHEADER).toByteArray();
     if (shortcutshdrsize.size())
@@ -1591,6 +1600,9 @@ void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
 
 void PreferencesDlg::shortcutSetup(const QModelIndex &index)
 {
+    if (!index.isValid() || m_shortcutsmodel->isGroupHeader(index))
+        return;
+
     if (m_shortcutsmodel->isActionShortcut(index))
     {
         const QString actionName = m_shortcutsmodel->actionName(index);
