@@ -56,7 +56,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
 #endif
     connect(ui.preprocessorComboBox, QOverload<int>::of(&QComboBox::currentIndexChanged), this, &StreamMediaFileDlg::slotChangePreprocessor);
     connect(ui.preprocessButton, &QAbstractButton::clicked, this, &StreamMediaFileDlg::slotSetupPreprocessor);
-    connect(ui.playbackOffsetSlider, &QSlider::sliderMoved, this, &StreamMediaFileDlg::slotChangePlayOffset);
+    connect(ui.playbackOffsetSlider, &QAbstractSlider::actionTriggered, this,
+            [this] { slotChangePlayOffset(ui.playbackOffsetSlider->sliderPosition()); });
 
     // audio preprocessor
     ui.preprocessorComboBox->addItem(tr("No Audio Preprocessor"), NO_AUDIOPREPROCESSOR);

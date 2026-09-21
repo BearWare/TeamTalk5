@@ -303,8 +303,10 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotSendChannelMessage);
 
     /* Media-tab */
-    connect(ui.playbackOffsetSlider, &QSlider::sliderMoved,
-            this, &MainWindow::changeMediaFileOffset);
+    // actionTriggered covers keyboard and mouse alike, but unlike valueChanged it
+    // does not fire for the progress updates that move these sliders
+    connect(ui.playbackOffsetSlider, &QAbstractSlider::actionTriggered, this,
+            [this] { changeMediaFileOffset(ui.playbackOffsetSlider->sliderPosition()); });
     connect(ui.playMediaFileButton, &QAbstractButton::clicked, this, [&] {
         switch (m_mfi.value_or(MediaFileInfo()).nStatus)
         {
@@ -320,7 +322,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.stopMediaFileButton, &QAbstractButton::clicked, this,
             &MainWindow::stopStreamMediaFile);
     connect(ui.openMediaFileButton, &QAbstractButton::clicked, this, &MainWindow::openStreamMediaFileDlg);
-    connect(ui.mediaVolumeSlider, &QSlider::sliderMoved, this, &MainWindow::changeMediaFileVolume);
+    connect(ui.mediaVolumeSlider, &QAbstractSlider::actionTriggered, this,
+            [this] { changeMediaFileVolume(ui.mediaVolumeSlider->sliderPosition()); });
 
     /* Files-tab */
     connect(ui.uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
