@@ -17,7 +17,6 @@
 
 #include "shortcutsmodel.h"
 
-#include <QFont>
 #include <QSet>
 
 enum
@@ -73,34 +72,7 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
     if (!index.isValid() || index.row() < 0 || index.row() >= rowCount())
         return QVariant();
 
-    if (isGroupHeader(index))
-    {
-        const QString title = index.row() == globalHeaderRow()
-            ? tr("Global shortcuts")
-            : tr("Interface actions");
-
-        switch (role)
-        {
-        case Qt::DisplayRole:
-        case Qt::AccessibleTextRole:
-            return index.column() == COLUMN_NAME ? title : QVariant();
-
-        case Qt::FontRole:
-        {
-            QFont font;
-            font.setBold(true);
-            return font;
-        }
-
-        case Qt::TextAlignmentRole:
-            return int(Qt::AlignLeft | Qt::AlignVCenter);
-        }
-
-        return QVariant();
-    }
-
     const bool actionItem = isActionShortcut(index);
-    const int shortcut = shortcutIndex(index);
 
     switch (role)
     {
@@ -110,7 +82,7 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
         case COLUMN_NAME:
             return actionItem
                 ? actionDisplayName(index)
-                : getHotKeyName(m_shortcuts[shortcut]);
+                : getHotKeyName(m_shortcuts[index.row()]);
 
         case COLUMN_SHORTCUT:
             if (actionItem)
@@ -121,8 +93,8 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
                     : shortcut.toString(QKeySequence::NativeText);
             }
 
-            if (m_shortcutsselected.contains(m_shortcuts[shortcut]))
-                return getHotKeyText(m_shortcutsselected[m_shortcuts[shortcut]]);
+            if (m_shortcutsselected.contains(m_shortcuts[index.row()]))
+                return getHotKeyText(m_shortcutsselected[m_shortcuts[index.row()]]);
             return tr("None");
         }
         break;
@@ -144,7 +116,7 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
                 return actionShortcut(index).isEmpty()
                     ? Qt::Unchecked
                     : Qt::Checked;
-            return m_shortcutsselected.contains(m_shortcuts[shortcut])
+            return m_shortcutsselected.contains(m_shortcuts[index.row()])
                 ? Qt::Checked
                 : Qt::Unchecked;
         }
@@ -154,13 +126,8 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
     return QVariant();
 }
 
-Qt::ItemFlags ShortcutsModel::flags(const QModelIndex& index) const
+Qt::ItemFlags ShortcutsModel::flags(const QModelIndex& /*index*/) const
 {
-    if (!index.isValid())
-        return Qt::NoItemFlags;
-    if (isGroupHeader(index))
-        return Qt::ItemIsEnabled | Qt::ItemIsSelectable;
-
     return Qt::ItemIsEnabled | Qt::ItemIsSelectable |
            Qt::ItemIsUserCheckable | Qt::ItemIsEditable;
 }
@@ -181,19 +148,14 @@ QModelIndex ShortcutsModel::parent(const QModelIndex& /*index*/) const
 
 int ShortcutsModel::rowCount(const QModelIndex& /*parent*/) const
 {
-    return int(m_shortcuts.size() + m_actions.size() + 2);
+    return int(m_shortcuts.size() + m_actions.size());
 }
 
 void ShortcutsModel::setShortcuts(hotkeys_t active)
 {
+    beginResetModel();
     m_shortcutsselected = active;
-    if (!m_shortcuts.isEmpty())
-    {
-        emit dataChanged(index(firstShortcutRow(), COLUMN_NAME),
-                         index(actionsHeaderRow() - 1, COLUMN_SHORTCUT),
-                         {Qt::DisplayRole, Qt::AccessibleTextRole,
-                          Qt::CheckStateRole});
-    }
+    endResetModel();
 }
 
 const hotkeys_t& ShortcutsModel::getShortcuts()
@@ -222,8 +184,7 @@ void ShortcutsModel::setActions(const QList<QAction*>& actions)
             entry.displayName = action->text();
         entry.displayName.remove('&');
         entry.displayName = entry.displayName.trimmed();
-        if (entry.displayName.isEmpty() ||
-            entry.displayName == QStringLiteral("-"))
+        if (entry.displayName.isEmpty())
             continue;
 
         const QVariant defaultShortcut =
@@ -241,14 +202,9 @@ void ShortcutsModel::setActions(const QList<QAction*>& actions)
 
 void ShortcutsModel::setActionShortcuts(const actionshortcuts_t& shortcuts)
 {
+    beginResetModel();
     m_actionshortcuts = shortcuts;
-    if (!m_actions.isEmpty())
-    {
-        emit dataChanged(index(firstActionRow(), COLUMN_NAME),
-                         index(rowCount() - 1, COLUMN_SHORTCUT),
-                         {Qt::DisplayRole, Qt::AccessibleTextRole,
-                          Qt::CheckStateRole});
-    }
+    endResetModel();
 }
 
 const actionshortcuts_t& ShortcutsModel::getActionShortcuts() const
@@ -256,39 +212,31 @@ const actionshortcuts_t& ShortcutsModel::getActionShortcuts() const
     return m_actionshortcuts;
 }
 
-bool ShortcutsModel::isGroupHeader(const QModelIndex& index) const
-{
-    return index.isValid() &&
-           (index.row() == globalHeaderRow() ||
-            index.row() == actionsHeaderRow());
-}
-
 bool ShortcutsModel::isActionShortcut(const QModelIndex& index) const
 {
-    return index.isValid() && index.row() >= firstActionRow() &&
+    return index.isValid() && index.row() >= m_shortcuts.size() &&
            index.row() < rowCount();
 }
 
 HotKeyID ShortcutsModel::hotKeyId(const QModelIndex& index) const
 {
-    const int shortcut = shortcutIndex(index);
-    if (shortcut < 0)
+    if (!index.isValid() || isActionShortcut(index))
         return HOTKEY_NONE;
-    return m_shortcuts[shortcut];
+    return m_shortcuts[index.row()];
 }
 
 QString ShortcutsModel::actionName(const QModelIndex& index) const
 {
     if (!isActionShortcut(index))
         return QString();
-    return m_actions[actionIndex(index)].name;
+    return m_actions[index.row() - m_shortcuts.size()].name;
 }
 
 QString ShortcutsModel::actionDisplayName(const QModelIndex& index) const
 {
     if (!isActionShortcut(index))
         return QString();
-    return m_actions[actionIndex(index)].displayName;
+    return m_actions[index.row() - m_shortcuts.size()].displayName;
 }
 
 QKeySequence ShortcutsModel::actionShortcut(const QModelIndex& index) const
@@ -296,7 +244,7 @@ QKeySequence ShortcutsModel::actionShortcut(const QModelIndex& index) const
     if (!isActionShortcut(index))
         return QKeySequence();
 
-    const ActionEntry& entry = m_actions[actionIndex(index)];
+    const ActionEntry& entry = m_actions[index.row() - m_shortcuts.size()];
     if (m_actionshortcuts.contains(entry.name))
         return m_actionshortcuts.value(entry.name);
     return entry.defaultShortcut;
@@ -313,47 +261,12 @@ void ShortcutsModel::setActionShortcut(const QString& actionName,
                          index(row, COLUMN_SHORTCUT));
 }
 
-int ShortcutsModel::globalHeaderRow() const
-{
-    return 0;
-}
-
-int ShortcutsModel::firstShortcutRow() const
-{
-    return globalHeaderRow() + 1;
-}
-
-int ShortcutsModel::actionsHeaderRow() const
-{
-    return firstShortcutRow() + m_shortcuts.size();
-}
-
-int ShortcutsModel::firstActionRow() const
-{
-    return actionsHeaderRow() + 1;
-}
-
-int ShortcutsModel::shortcutIndex(const QModelIndex& index) const
-{
-    if (!index.isValid() || index.row() < firstShortcutRow() ||
-        index.row() >= actionsHeaderRow())
-        return -1;
-    return index.row() - firstShortcutRow();
-}
-
-int ShortcutsModel::actionIndex(const QModelIndex& index) const
-{
-    if (!isActionShortcut(index))
-        return -1;
-    return index.row() - firstActionRow();
-}
-
 int ShortcutsModel::actionRow(const QString& actionName) const
 {
     for (int i = 0; i < m_actions.size(); ++i)
     {
         if (m_actions[i].name == actionName)
-            return firstActionRow() + i;
+            return m_shortcuts.size() + i;
     }
     return -1;
 }

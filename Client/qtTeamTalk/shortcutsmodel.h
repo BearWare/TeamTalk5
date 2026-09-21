@@ -43,7 +43,6 @@ public:
     void setActions(const QList<QAction*>& actions);
     void setActionShortcuts(const actionshortcuts_t& shortcuts);
     const actionshortcuts_t& getActionShortcuts() const;
-    bool isGroupHeader(const QModelIndex& index) const;
     bool isActionShortcut(const QModelIndex& index) const;
     HotKeyID hotKeyId(const QModelIndex& index) const;
     QString actionName(const QModelIndex& index) const;
@@ -60,12 +59,6 @@ private:
         QKeySequence defaultShortcut;
     };
 
-    int globalHeaderRow() const;
-    int firstShortcutRow() const;
-    int actionsHeaderRow() const;
-    int firstActionRow() const;
-    int shortcutIndex(const QModelIndex& index) const;
-    int actionIndex(const QModelIndex& index) const;
     int actionRow(const QString& actionName) const;
 
     QVector<HotKeyID> m_shortcuts;
