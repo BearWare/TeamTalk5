@@ -23,6 +23,7 @@ enum
 {
     COLUMN_NAME = 0,
     COLUMN_SHORTCUT = 1,
+    COLUMN_SHORTCUT_TYPE = 2,
     COLUMN_COUNT,
 };
 
@@ -53,6 +54,7 @@ QVariant ShortcutsModel::headerData(int section, Qt::Orientation orientation,
             {
             case COLUMN_NAME: return tr("Action");
             case COLUMN_SHORTCUT: return tr("Shortcut");
+            case COLUMN_SHORTCUT_TYPE: return tr("Type");
             }
         }
         break;
@@ -96,15 +98,22 @@ QVariant ShortcutsModel::data(const QModelIndex& index, int role) const
             if (m_shortcutsselected.contains(m_shortcuts[index.row()]))
                 return getHotKeyText(m_shortcutsselected[m_shortcuts[index.row()]]);
             return tr("None");
+
+        case COLUMN_SHORTCUT_TYPE:
+            return actionItem
+                ? tr("Interface Shortcut")
+                : tr("Global Shortcut");
         }
         break;
 
     case Qt::AccessibleTextRole:
         if (index.column() == COLUMN_NAME)
         {
-            return QString("%1: %2")
+            return QString("%1: %2: %3")
                 .arg(data(index, Qt::DisplayRole).toString())
                 .arg(data(createIndex(index.row(), COLUMN_SHORTCUT),
+                          Qt::DisplayRole).toString())
+                .arg(data(createIndex(index.row(), COLUMN_SHORTCUT_TYPE),
                           Qt::DisplayRole).toString());
         }
         break;
