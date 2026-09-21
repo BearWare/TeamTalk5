@@ -162,6 +162,8 @@ private:
     UserAccount m_myuseraccount;
     //ping and tx/rx information
     ClientStatistics m_clientstats;
+    //tx/rx of the last second, as shown in the status bar
+    float m_rxbytes = 0, m_txbytes = 0;
     //last channel that were joined by the client
     Channel m_last_channel;
     //server properties
