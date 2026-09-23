@@ -41,7 +41,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -985,9 +984,7 @@ public class ServerListActivity extends AppCompatActivity
             InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(input.getWindowToken(), 0);
         });
-        final AlertDialog dialog = alert.create();
-        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        dialog.show();
+        DialogHelper.showWithImeSubmit(alert, input, true);
     }
 
     private void getServerFromJoinCode(String joincode) {
