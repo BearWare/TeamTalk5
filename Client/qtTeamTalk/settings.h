@@ -194,6 +194,8 @@
 #define SETTINGS_DISPLAY_SERVERLISTDLG_SIZE         "display/serverlist-dialog-size"
 #define SETTINGS_DISPLAY_USERACCOUNTS_HEADERSIZES     "display/useraccounts-header"
 #define SETTINGS_DISPLAY_USERACCOUNTSDLG_SIZE         "display/useraccounts-dialog-size"
+#define SETTINGS_DISPLAY_PROFILES_HEADERSIZES         "display/profiles-header"
+#define SETTINGS_DISPLAY_PROFILESDLG_SIZE             "display/profiles-dialog-size"
 #define SETTINGS_DISPLAY_USERACCOUNTDLG_USERRIGHTS_HEADERSIZES         "display/useraccount-userrights-header-sizes"
 #define SETTINGS_DISPLAY_SERVERLIST_SORT                            "display/server-list-sort"
 #define SETTINGS_DISPLAY_SERVERLIST_SORT_DEFAULT                            "default"
@@ -377,6 +379,7 @@
 #define SETTINGS_SHORTCUTS_VIDEOTX                  "shortcuts/video-tx"
 #define SETTINGS_SHORTCUTS_RESTARTSOUNDDEVICES      "shortcuts/reinit-sounddevs"
 #define SETTINGS_SHORTCUTS_SHOWHIDEWINDOW           "shortcuts/show-hide-window"
+#define SETTINGS_SHORTCUTS_ACTION                   "shortcuts/actions/%1"
 
 #define SETTINGS_VIDCAP_DEVICEID                    "videocapture/deviceid"
 #define SETTINGS_VIDCAP_RESOLUTION                  "videocapture/resolution"

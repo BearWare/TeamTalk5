@@ -24,6 +24,7 @@
 #include "userinfodlg.h"
 #include "bannedusersdlg.h"
 #include "useraccountsdlg.h"
+#include "profilesdlg.h"
 #include "keycompdlg.h"
 #include "textmessagedlg.h"
 #include "filetransferdlg.h"
@@ -73,6 +74,8 @@
 #include <QClipboard>
 #include <QSysInfo>
 #include <QThread>
+#include <QMenu>
+#include <QMenuBar>
 
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
@@ -238,6 +241,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 #else
     ui.actionExit->setShortcut(QKeySequence::Quit);
 #endif
+    initializeActionShortcuts();
 
     /* Volume controls */
     connect(ui.micSlider, &QAbstractSlider::valueChanged,
@@ -669,6 +673,105 @@ MainWindow::~MainWindow()
     delete ttSettings;
 }
 
+QList<QAction*> MainWindow::shortcutActions() const
+{
+    QList<QAction*> result;
+    QSet<QAction*> added;
+
+    const auto addAction = [&result, &added](QAction* action)
+    {
+        if (!action || action->isSeparator() || action->menu() ||
+            action->objectName().isEmpty() || added.contains(action))
+            return;
+
+        QString text = action->property("teamtalkShortcutText").toString();
+        if (text.isEmpty())
+            text = action->text();
+        text.remove('&');
+        text = text.trimmed();
+        if (text.isEmpty())
+            return;
+
+        result.push_back(action);
+        added.insert(action);
+    };
+
+    std::function<void(QMenu*)> addMenuActions;
+    addMenuActions = [&addAction, &addMenuActions](QMenu* menu)
+    {
+        if (!menu)
+            return;
+
+        for (QAction* action : menu->actions())
+        {
+            if (action && action->menu())
+                addMenuActions(action->menu());
+            else
+                addAction(action);
+        }
+    };
+
+    for (QAction* action : ui.menubar->actions())
+    {
+        if (action && action->menu())
+            addMenuActions(action->menu());
+    }
+
+    // Keep non-menu actions configurable, after the menu-ordered actions.
+    const QList<QAction*> actions = findChildren<QAction*>();
+    for (QAction* action : actions)
+        addAction(action);
+
+    return result;
+}
+
+void MainWindow::initializeActionShortcuts()
+{
+    const QList<QAction*> actions = shortcutActions();
+    for (QAction* action : actions)
+    {
+        if (!action->property("teamtalkDefaultShortcut").isValid())
+        {
+            action->setProperty("teamtalkDefaultShortcut",
+                                QVariant::fromValue(action->shortcut()));
+        }
+    }
+
+    updateActionShortcutTexts();
+}
+
+void MainWindow::updateActionShortcutTexts()
+{
+    const QList<QAction*> actions = findChildren<QAction*>();
+    for (QAction* action : actions)
+    {
+        if (!action || action->isSeparator() || action->objectName().isEmpty())
+            continue;
+
+        QString text = action->text();
+        text.remove('&');
+        text = text.trimmed();
+        if (!text.isEmpty() && text != QStringLiteral("-"))
+            action->setProperty("teamtalkShortcutText", text);
+    }
+}
+
+void MainWindow::setShortcuts()
+{
+    const QList<QAction*> actions = shortcutActions();
+    for (QAction* action : actions)
+    {
+        const QVariant defaultShortcut =
+            action->property("teamtalkDefaultShortcut");
+        if (defaultShortcut.isValid())
+            action->setShortcut(defaultShortcut.value<QKeySequence>());
+
+        QKeySequence shortcut;
+        if (loadActionShortcut(action->objectName(), shortcut))
+            action->setShortcut(shortcut);
+    }
+}
+
 void MainWindow::loadSettings()
 {
     migrateSettings();
@@ -679,7 +782,10 @@ void MainWindow::loadSettings()
         QLocale locale = QLocale::system();
         QString languageCode = locale.name();
         if (switchLanguage(languageCode))
+        {
             this->ui.retranslateUi(this);
+            updateActionShortcutTexts();
+        }
         QMessageBox answer;
         answer.setText(tr("%1 has detected your system language to be %2. Continue in %2?").arg(APPNAME_SHORT).arg(getLanguageDisplayName(languageCode)));
         QAbstractButton *YesButton = answer.addButton(tr("&Yes"), QMessageBox::YesRole);
@@ -724,13 +830,17 @@ void MainWindow::loadSettings()
     if (!lang.isEmpty())
     {
         if (switchLanguage(lang))
+        {
             this->ui.retranslateUi(this);
+            updateActionShortcutTexts();
+        }
         else
         {
             QString langPrefix = lang.section('_', 0, 0);
             if (switchLanguage(langPrefix))
             {
                 this->ui.retranslateUi(this);
+                updateActionShortcutTexts();
                 ttSettings->setValueOrClear(SETTINGS_DISPLAY_LANGUAGE, langPrefix, SETTINGS_DISPLAY_LANGUAGE_DEFAULT);
             }
             else
@@ -743,6 +853,8 @@ void MainWindow::loadSettings()
 
     for (auto c : m_chathistory)
         c->updateTranslation();
+
+    setShortcuts();
 
     initSound();
 
@@ -2505,12 +2617,12 @@ void MainWindow::timerEvent(QTimerEvent *event)
         {
             ClientStatistics stats;
             TT_GetClientStatistics(ttInst, &stats);
-            float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-            float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
+            m_rxbytes = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
+            m_txbytes = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
             int ping = stats.nUdpPingTimeMs;
             m_clientstats = stats;
 
-            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
+            QString status = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
 
             if(ping != -1)
                 m_pinglabel->setText(QString("PING: %1").arg(ping));
@@ -4103,112 +4215,8 @@ void MainWindow::toggleAllowStreamTypeForAll(bool checked, StreamType st)
 
 void MainWindow::slotClientNewInstance(bool /*checked=false*/)
 {
-    QString inipath = ttSettings->fileName();
-
-    // check if we are creating a new profile from a profile
-    if(ttSettings->value(SETTINGS_GENERAL_PROFILENAME).toString().size())
-    {
-        inipath.remove(QRegularExpression(".\\d{1,2}$"));
-    }
-
-    // load existing profiles
-    QMap<QString, QString> profiles;
-    QStringList profilenames;
-    const int MAX_PROFILES = 16;
-    int freeno = -1;
-    for (int i = 1;i <= MAX_PROFILES;i++)
-    {
-        QString inifile = QString("%1.%2").arg(inipath).arg(i);
-        if(QFile::exists(inifile))
-        {
-            QSettings settings(inifile, QSettings::IniFormat, this);
-            QString name = settings.value(SETTINGS_GENERAL_PROFILENAME).toString();
-            profilenames.push_back(name);
-            profiles[name] = inifile;
-        }
-        else if(freeno < 0)
-            freeno = i;
-    }
-    
-
-    const QString newprofile = tr("New Profile"), delprofile = tr("Delete Profile"), curprofile = tr("Current Profile");
-    if(profiles.size() < MAX_PROFILES)
-        profilenames.push_back(newprofile);
-    if(profiles.size() > 0)
-        profilenames.push_back(delprofile);
-    profilenames.push_back(curprofile);
-
-    bool ok = false;
-    QInputDialog inputDialog;
-    inputDialog.setOkButtonText(tr("&OK"));
-    inputDialog.setCancelButtonText(tr("&Cancel"));
-    inputDialog.setComboBoxItems(profilenames);
-    inputDialog.setComboBoxEditable(false);
-    inputDialog.setWindowTitle(tr("New Client Instance"));
-    inputDialog.setLabelText(tr("Select profile"));
-    ok = inputDialog.exec();
-    QString choice = inputDialog.textValue();
-
-    if (ok)
-    {
-        QStringList args;
-
-        if(choice == delprofile)
-        {
-            profilenames.removeAll(newprofile);
-            profilenames.removeAll(delprofile);
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setComboBoxItems(profilenames);
-            inputDialog.setComboBoxEditable(false);
-            inputDialog.setWindowTitle(tr("New Client Instance"));
-            inputDialog.setLabelText(tr("Delete profile"));
-            ok = inputDialog.exec();
-            QString choice = inputDialog.textValue();
-            if(ok && ttSettings->fileName() != profiles[choice])
-                QFile::remove(profiles[choice]);
-            return;
-        }
-        else if(choice == newprofile)
-        {
-            QInputDialog inputDialog;
-            inputDialog.setOkButtonText(tr("&OK"));
-            inputDialog.setCancelButtonText(tr("&Cancel"));
-            inputDialog.setInputMode(QInputDialog::TextInput);
-            inputDialog.setTextValue(QString("Profile %1").arg(freeno));
-            inputDialog.setWindowTitle(tr("New Profile"));
-            inputDialog.setLabelText(tr("Profile name"));
-            ok = inputDialog.exec();
-            QString newname = inputDialog.textValue();
-            if(ok && newname.size())
-            {
-                inipath = QString("%1.%2").arg(inipath).arg(freeno);
-                QSettings settings(inipath, QSettings::IniFormat, this);
-                settings.setValue(SETTINGS_GENERAL_PROFILENAME, newname);
-            }
-            else return;
-        }
-        else if (choice == curprofile)
-        {
-            inipath = ttSettings->fileName();
-            args.push_back("-noconnect");
-        }
-        else 
-        {
-            inipath = profiles[choice];
-        }
-
-        QString path = QApplication::applicationFilePath();
-        args.push_back(QString("-cfg"));
-        args.push_back(inipath);
-
-#if defined(_DEBUG)
-        QProcess::startDetached(path, args);
-#else
-        QProcess::startDetached(path, args, QApplication::applicationDirPath());
-#endif
-    }
+    ProfilesDlg dlg(this);
+    dlg.exec();
 }
 
 void MainWindow::slotClientConnect(bool /*checked =false */)
@@ -4240,7 +4248,7 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
 void MainWindow::slotClientPreferences(bool /*checked =false */)
 {
-    PreferencesDlg dlg(m_devin, m_devout, this);
+    PreferencesDlg dlg(m_devin, m_devout, shortcutActions(), this);
 
     //we need to be able to process local frames (userid 0),
     //so ensure these video frames are not being displayed elsewhere
@@ -4384,9 +4392,12 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     if (lang != ttSettings->value(SETTINGS_DISPLAY_LANGUAGE).toString())
     {
         ui.retranslateUi(this);
+        updateActionShortcutTexts();
         for (auto c : m_chathistory)
             c->updateTranslation();
     }
+
+    setShortcuts();
 
     double d = ttSettings->value(SETTINGS_SOUND_MEDIASTREAM_VOLUME,
                                  SETTINGS_SOUND_MEDIASTREAM_VOLUME_DEFAULT).toDouble();
@@ -8084,13 +8095,8 @@ void MainWindow::slotSpeakClientStats(bool /*checked = false*/)
 
 void MainWindow::speakClientStats()
 {
-    ClientStatistics stats = {};
-    TT_GetClientStatistics(ttInst, &stats);
-    float rx = float(stats.nUdpBytesRecv - m_clientstats.nUdpBytesRecv);
-    float tx = float(stats.nUdpBytesSent - m_clientstats.nUdpBytesSent);
-    int ping = stats.nUdpPingTimeMs;
-    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(rx)).arg(getFormattedSize(tx));
-    if (ping >= 0)
-        strstats += QString(", PING: %3").arg(ping);
+    QString strstats = QString("RX: %1, TX: %2").arg(getFormattedSize(m_rxbytes)).arg(getFormattedSize(m_txbytes));
+    if (m_clientstats.nUdpPingTimeMs >= 0)
+        strstats += QString(", PING: %3").arg(m_clientstats.nUdpPingTimeMs);
     addTextToSpeechMessage(strstats);
 }
