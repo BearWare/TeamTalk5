@@ -673,6 +673,64 @@ int SpeexEncFile::Encode(const short* samples, bool last/*=false*/)
 
 #if defined(ENABLE_OPUSTOOLS)
 
+static int opus_header_to_packet(const OpusHeader *h, unsigned char *packet, int len)
+{
+    if (len < 19)
+        return 0;
+
+    int pos = 0;
+    auto wb = [&](const void* src, int n) -> bool
+    {
+        if (pos > len - n)
+            return false;
+        memcpy(packet + pos, src, n);
+        pos += n;
+        return true;
+    };
+    auto w8 = [&](unsigned char v) { return wb(&v, 1); };
+    auto w16 = [&](ogg_uint16_t v) -> bool
+    {
+        unsigned char b[2] = { (unsigned char)(v & 0xFF), (unsigned char)((v >> 8) & 0xFF) };
+        return wb(b, 2);
+    };
+    auto w32 = [&](ogg_uint32_t v) -> bool
+    {
+        unsigned char b[4] = { (unsigned char)(v & 0xFF), (unsigned char)((v >> 8) & 0xFF),
+                               (unsigned char)((v >> 16) & 0xFF), (unsigned char)((v >> 24) & 0xFF) };
+        return wb(b, 4);
+    };
+
+    if (!wb("OpusHead", 8))
+        return 0;
+    if (!w8(1))
+        return 0;
+    if (!w8(h->channels))
+        return 0;
+    if (!w16(h->preskip))
+        return 0;
+    if (!w32(h->input_sample_rate))
+        return 0;
+    if (!w16(h->gain))
+        return 0;
+    if (!w8(h->channel_mapping))
+        return 0;
+
+    if (h->channel_mapping != 0)
+    {
+        if (!w8(h->nb_streams))
+            return 0;
+        if (!w8(h->nb_coupled))
+            return 0;
+        for (int i = 0; i < h->channels; i++)
+        {
+            if (!w8(h->stream_map[i]))
+                return 0;
+        }
+    }
+
+    return pos;
+}
+
 OpusFile::OpusFile()
 {
     Close();
