@@ -1,7 +1,7 @@
 option (BUILD_TEAMTALK_DOCUMENTATION_TEAMTALKSDK "Build documentation for TeamTalk SDK" ON)
 
 find_package (Doxygen)
-if (DOXYGEN_FOUND)
+if (DOXYGEN_FOUND AND BUILD_TEAMTALK_DOCUMENTATION_TEAMTALKSDK)
 
   add_custom_command (OUTPUT ${CMAKE_CURRENT_SOURCE_DIR}/C-API/index.html
     COMMAND ${DOXYGEN_EXECUTABLE} TeamTalk.dox
