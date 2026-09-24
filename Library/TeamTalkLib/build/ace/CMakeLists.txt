@@ -23,9 +23,7 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -ffdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
@@ -63,9 +61,7 @@ if (MSVC)
         GIT_SUBMODULES_RECURSE TRUE
         GIT_SHALLOW       TRUE
         UPDATE_COMMAND    ""
-        PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -ffdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
         COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
         COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
@@ -156,8 +152,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
       GIT_SHALLOW       TRUE
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git reset --hard
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
@@ -256,8 +251,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
       GIT_TAG           ACE+TAO-8_0_5
       GIT_SUBMODULES_RECURSE TRUE
       GIT_SHALLOW       TRUE
-      PATCH_COMMAND     git reset --hard
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
@@ -348,8 +342,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git reset --hard
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
       # Create 'platform_macros.GNU'
@@ -447,8 +440,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Android")
       GIT_TAG           ACE+TAO-8_0_5
       INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
       UPDATE_COMMAND    ""
-      PATCH_COMMAND     git reset --hard
-      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Make-CROSS_COMPILE-configurable-for-Android.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
       COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
       PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
