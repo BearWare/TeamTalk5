@@ -63,12 +63,15 @@ extern QTextToSpeech* ttSpeech;
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
-PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget * parent/* = 0*/)
+PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
+                               const QList<QAction*>& actions,
+                               QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 , m_devin(devin)
 , m_devout(devout)
 , m_uservideo(nullptr)
 , m_sndloop(nullptr)
+, m_actions(actions)
 {
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
@@ -196,6 +199,17 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget 
 
     //keyboard shortcuts
     m_shortcutsmodel = new ShortcutsModel(this);
+    m_shortcutsmodel->setActions(m_actions);
+    for (QAction* action : m_actions)
+    {
+        if (!action || action->objectName().isEmpty())
+            continue;
+
+        QKeySequence shortcut;
+        if (loadActionShortcut(action->objectName(), shortcut))
+            m_actionShortcuts.insert(action->objectName(), shortcut);
+    }
+    m_shortcutsmodel->setActionShortcuts(m_actionShortcuts);
     ui.shortcutsTableView->setModel(m_shortcutsmodel);
     connect(ui.shortcutsTableView, &QAbstractItemView::doubleClicked, this, &PreferencesDlg::shortcutSetup);
     auto shortcutshdrsize = ttSettings->value(SETTINGS_DISPLAY_SHORTCUTSHEADER).toByteArray();
@@ -644,6 +658,7 @@ void PreferencesDlg::initTTSEventsTab()
 void PreferencesDlg::initShortcutsTab()
 {
     m_shortcutsmodel->setShortcuts(m_hotkeys);
+    m_shortcutsmodel->setActionShortcuts(m_actionShortcuts);
 }
 
 void PreferencesDlg::initVideoCaptureTab()
@@ -998,6 +1013,14 @@ void PreferencesDlg::slotSaveChanges()
             activeHotkeys |= it.key();
         }
         ttSettings->setValueOrClear(SETTINGS_SHORTCUTS_ACTIVEHKS, activeHotkeys, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT);
+
+        m_actionShortcuts = m_shortcutsmodel->getActionShortcuts();
+        for (auto it = m_actionShortcuts.constBegin();
+             it != m_actionShortcuts.constEnd(); ++it)
+        {
+            saveActionShortcut(it.key(), it.value());
+        }
+
         ttSettings->setValue(SETTINGS_DISPLAY_SHORTCUTSHEADER, ui.shortcutsTableView->horizontalHeader()->saveState());
     }
     if(m_modtab.find(VIDCAP_TAB) != m_modtab.end())
@@ -1568,8 +1591,31 @@ void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
 
 void PreferencesDlg::shortcutSetup(const QModelIndex &index)
 {
+    if (m_shortcutsmodel->isActionShortcut(index))
+    {
+        const QString actionName = m_shortcutsmodel->actionName(index);
+        const QKeySequence current = m_shortcutsmodel->actionShortcut(index);
+
+        if (!current.isEmpty())
+        {
+            m_shortcutsmodel->setActionShortcut(actionName, QKeySequence());
+        }
+        else
+        {
+            KeyCompDlg dlg(m_shortcutsmodel->actionDisplayName(index), this);
+            if (!dlg.exec() || dlg.m_keysequence.isEmpty())
+                return;
+
+            m_shortcutsmodel->setActionShortcut(actionName,
+                                                dlg.m_keysequence);
+        }
+
+        m_actionShortcuts = m_shortcutsmodel->getActionShortcuts();
+        return;
+    }
+
     auto hks = m_shortcutsmodel->getShortcuts();
-    HotKeyID hk = static_cast<HotKeyID>(index.internalId());
+    HotKeyID hk = m_shortcutsmodel->hotKeyId(index);
     if (hks.contains(hk))
     {
         m_hotkeys.remove(hk);

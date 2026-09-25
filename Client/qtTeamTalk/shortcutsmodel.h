@@ -22,6 +22,9 @@
 #include <QAbstractTableModel>
 #include <QVector>
 #include <QTreeView>
+#include <QAction>
+#include <QPointer>
+#include <QKeySequence>
 
 class ShortcutsModel : public QAbstractTableModel
 {
@@ -37,10 +40,31 @@ public:
     int rowCount ( const QModelIndex & parent = QModelIndex() ) const override;
     void setShortcuts(hotkeys_t active);
     const hotkeys_t& getShortcuts();
+    void setActions(const QList<QAction*>& actions);
+    void setActionShortcuts(const actionshortcuts_t& shortcuts);
+    const actionshortcuts_t& getActionShortcuts() const;
+    bool isActionShortcut(const QModelIndex& index) const;
+    HotKeyID hotKeyId(const QModelIndex& index) const;
+    QString actionName(const QModelIndex& index) const;
+    QString actionDisplayName(const QModelIndex& index) const;
+    QKeySequence actionShortcut(const QModelIndex& index) const;
+    void setActionShortcut(const QString& actionName, const QKeySequence& shortcut);
 
 private:
+    struct ActionEntry
+    {
+        QPointer<QAction> action;
+        QString name;
+        QString displayName;
+        QKeySequence defaultShortcut;
+    };
+
+    int actionRow(const QString& actionName) const;
+
     QVector<HotKeyID> m_shortcuts;
     hotkeys_t m_shortcutsselected;
+    QVector<ActionEntry> m_actions;
+    actionshortcuts_t m_actionshortcuts;
 };
 
 #endif // SHORTCUTSMODEL_H
