@@ -41,6 +41,8 @@ extern NonDefaultSettings* ttSettings;
 #define CHATTEXTITEM_TIMESTAMP_ROLE  (Qt::UserRole + 1)
 #define CHATTEXTITEM_SENDER_ROLE     (Qt::UserRole + 2)
 #define CHATTEXTITEM_CONTENT_ROLE    (Qt::UserRole + 3)
+#define CHATTEXTITEM_MESSAGE_ROLE    (Qt::UserRole + 4)
+#define CHATTEXTITEM_REPLY_SENDER_ROLE (Qt::UserRole + 5)
 
 ChatTextList::ChatTextList(QWidget *parent)
 : QListWidget(parent)
@@ -78,6 +80,12 @@ ChatTextList::ChatTextList(QWidget *parent)
     connect(m_clear, &QShortcut::activated, this, [this]
     {
         menuAction(CLEAR);
+    });
+    m_reply = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_R), this);
+    m_reply->setContext(Qt::WidgetShortcut);
+    connect(m_reply, &QShortcut::activated, this, [this]
+    {
+        menuAction(REPLY);
     });
 }
 
@@ -203,6 +211,8 @@ QString ChatTextList::addTextMessage(const MyTextMessage& msg)
     item->setData(CHATTEXTITEM_TIMESTAMP_ROLE, dt);
     item->setData(CHATTEXTITEM_SENDER_ROLE, (TT_GetMyUserID(ttInst) == msg.nFromUserID)?tr("You"):getDisplayName(user));
     item->setData(CHATTEXTITEM_CONTENT_ROLE, content);
+    item->setData(CHATTEXTITEM_MESSAGE_ROLE, true);
+    item->setData(CHATTEXTITEM_REPLY_SENDER_ROLE, getDisplayName(user));
 
     if (TT_GetMyUserID(ttInst) == msg.nFromUserID)
         item->setForeground(Qt::darkGray);
@@ -388,6 +398,9 @@ void ChatTextList::contextMenuEvent(QContextMenuEvent *event)
 
     if (item)
     {
+        setCurrentItem(item);
+        if (item->data(CHATTEXTITEM_MESSAGE_ROLE).toBool())
+            add(tr("&Reply"), QKeySequence(Qt::CTRL | Qt::Key_R), REPLY);
         add(tr("&Copy"), QKeySequence::Copy, COPY);
         add(tr("C&opy Content Only"), QKeySequence(Qt::CTRL | Qt::SHIFT | Qt::Key_C), COPYCONTENT);
         add(tr("View &Details..."), QKeySequence(Qt::CTRL | Qt::Key_Return), VIEWDETAILS);
@@ -406,6 +419,12 @@ void ChatTextList::menuAction(MenuAction ma)
 
     switch (ma)
     {
+
+    case REPLY :
+        if (item && item->data(CHATTEXTITEM_MESSAGE_ROLE).toBool())
+            emit replyRequested(item->data(CHATTEXTITEM_REPLY_SENDER_ROLE).toString(),
+                                item->data(CHATTEXTITEM_CONTENT_ROLE).toString());
+        break;
 
     case COPY :
         if (item)
