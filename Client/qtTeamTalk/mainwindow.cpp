@@ -2944,9 +2944,7 @@ void MainWindow::setupChatHistory()
         ui.chatTab->setTabOrder(ui.msgEdit, ui.sendButton);
         m_chathistory[TAB_CHAT] = chat;
         connect(chat, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.msgEdit->setText(makeReplyText(sender, content) + ui.msgEdit->text());
-            ui.msgEdit->setFocus();
-            ui.msgEdit->setCursorPosition(ui.msgEdit->text().size());
+            setReplyText(ui.msgEdit, sender, content);
         });
         delete ui.chatEdit;
         ui.chatEdit = nullptr;
@@ -2960,9 +2958,7 @@ void MainWindow::setupChatHistory()
         ui.videoTab->setTabOrder(ui.videomsgEdit, ui.videosendButton);
         m_chathistory[TAB_VIDEO] = video;
         connect(video, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.videomsgEdit->setText(makeReplyText(sender, content) + ui.videomsgEdit->text());
-            ui.videomsgEdit->setFocus();
-            ui.videomsgEdit->setCursorPosition(ui.videomsgEdit->text().size());
+            setReplyText(ui.videomsgEdit, sender, content);
         });
         delete ui.videochatEdit;
         ui.videochatEdit = nullptr;
@@ -2976,9 +2972,7 @@ void MainWindow::setupChatHistory()
         ui.desktopTab->setTabOrder(ui.desktopmsgEdit, ui.desktopsendButton);
         m_chathistory[TAB_DESKTOP] = desktop;
         connect(desktop, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.desktopmsgEdit->setText(makeReplyText(sender, content) + ui.desktopmsgEdit->text());
-            ui.desktopmsgEdit->setFocus();
-            ui.desktopmsgEdit->setCursorPosition(ui.desktopmsgEdit->text().size());
+            setReplyText(ui.desktopmsgEdit, sender, content);
         });
         delete ui.desktopchatEdit;
         ui.desktopchatEdit = nullptr;
@@ -2989,19 +2983,13 @@ void MainWindow::setupChatHistory()
         m_chathistory[TAB_VIDEO] = ui.videochatEdit;
         m_chathistory[TAB_DESKTOP] = ui.desktopchatEdit;
         connect(ui.chatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.msgEdit->setText(makeReplyText(sender, content) + ui.msgEdit->text());
-            ui.msgEdit->setFocus();
-            ui.msgEdit->setCursorPosition(ui.msgEdit->text().size());
+            setReplyText(ui.msgEdit, sender, content);
         });
         connect(ui.videochatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.videomsgEdit->setText(makeReplyText(sender, content) + ui.videomsgEdit->text());
-            ui.videomsgEdit->setFocus();
-            ui.videomsgEdit->setCursorPosition(ui.videomsgEdit->text().size());
+            setReplyText(ui.videomsgEdit, sender, content);
         });
         connect(ui.desktopchatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.desktopmsgEdit->setText(makeReplyText(sender, content) + ui.desktopmsgEdit->text());
-            ui.desktopmsgEdit->setFocus();
-            ui.desktopmsgEdit->setCursorPosition(ui.desktopmsgEdit->text().size());
+            setReplyText(ui.desktopmsgEdit, sender, content);
         });
     }
 }

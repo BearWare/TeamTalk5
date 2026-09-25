@@ -29,6 +29,8 @@
 #include <QLocale>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPlainTextEdit>
+#include <QTextCursor>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -408,6 +410,32 @@ textmessages_t sendTextMessage(const TextMessage& msg, const QString& content)
 QString makeReplyText(const QString& sender, const QString& content)
 {
     return QString("> %1: %2 | ").arg(sender, content.simplified());
+}
+
+static QString replaceReplyText(QObject* edit, const QString& text, const QString& sender, const QString& content)
+{
+    const QString previousPrefix = edit->property("replyPrefix").toString();
+    QString draft = text;
+    if (!previousPrefix.isEmpty() && draft.startsWith(previousPrefix))
+        draft.remove(0, previousPrefix.size());
+
+    const QString prefix = makeReplyText(sender, content);
+    edit->setProperty("replyPrefix", prefix);
+    return prefix + draft;
+}
+
+void setReplyText(QLineEdit* edit, const QString& sender, const QString& content)
+{
+    edit->setText(replaceReplyText(edit, edit->text(), sender, content));
+    edit->setFocus();
+    edit->setCursorPosition(edit->text().size());
+}
+
+void setReplyText(QPlainTextEdit* edit, const QString& sender, const QString& content)
+{
+    edit->setPlainText(replaceReplyText(edit, edit->toPlainText(), sender, content));
+    edit->moveCursor(QTextCursor::End);
+    edit->setFocus();
 }
 
 RestoreIndex::RestoreIndex(QAbstractItemView* view)

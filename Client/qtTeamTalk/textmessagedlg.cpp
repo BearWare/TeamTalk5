@@ -67,9 +67,7 @@ void TextMessageDlg::init(const User& user)
         m_history = chat;
         ui.horizontalLayout_2->addWidget(chat);
         connect(chat, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.newmsgTextEdit->setPlainText(makeReplyText(sender, content) + ui.newmsgTextEdit->toPlainText());
-            ui.newmsgTextEdit->moveCursor(QTextCursor::End);
-            ui.newmsgTextEdit->setFocus();
+            setReplyText(ui.newmsgTextEdit, sender, content);
         });
         delete ui.historyTextEdit;
         ui.historyTextEdit = nullptr;
@@ -81,9 +79,7 @@ void TextMessageDlg::init(const User& user)
             emit clearUserTextMessages(m_userid);
         });
         connect(ui.historyTextEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
-            ui.newmsgTextEdit->setPlainText(makeReplyText(sender, content) + ui.newmsgTextEdit->toPlainText());
-            ui.newmsgTextEdit->moveCursor(QTextCursor::End);
-            ui.newmsgTextEdit->setFocus();
+            setReplyText(ui.newmsgTextEdit, sender, content);
         });
     }
 

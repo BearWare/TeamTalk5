@@ -33,6 +33,9 @@
 
 #include <functional>
 
+class QLineEdit;
+class QPlainTextEdit;
+
 void migrateSettings();
 
 enum DoubleClickChannelAction
@@ -173,6 +176,8 @@ QString getDisplayName(const User& user);
 
 textmessages_t sendTextMessage(const TextMessage& msg, const QString& content);
 QString makeReplyText(const QString& sender, const QString& content);
+void setReplyText(QLineEdit* edit, const QString& sender, const QString& content);
+void setReplyText(QPlainTextEdit* edit, const QString& sender, const QString& content);
 
 class RestoreIndex
 {
