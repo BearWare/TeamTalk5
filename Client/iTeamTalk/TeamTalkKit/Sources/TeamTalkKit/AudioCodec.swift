@@ -1,6 +1,11 @@
 import Foundation
 import TeamTalkC
 
+/// The raw `AudioCodec` C struct is effectively a tagged union: `nCodec`
+/// says which codec is configured, and only the matching Opus/Speex/SpeexVBR
+/// fields are meaningful. This namespace's `make*`/`*Codec(from:)`/`set*`
+/// functions are the safe way to construct one and read/write its active
+/// codec-specific view, instead of reaching into the raw fields directly.
 public enum TeamTalkAudioCodec {
     public static func makeAudioCodec(_ codec: Codec) -> AudioCodec {
         TTKitMakeAudioCodec(codec)
