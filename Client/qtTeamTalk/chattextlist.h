@@ -44,6 +44,9 @@ public:
     void clearHistory();
     void copyAllHistory();
 
+signals:
+    void replyRequested(const QString& sender, const QString& content);
+
 private:
     static QString getTimeStamp(const QDateTime& tm);
     QString getTextMessagePrefix(const TextMessage& msg, const User& user);
@@ -55,8 +58,10 @@ private:
     QShortcut *m_details  = nullptr;
     QShortcut *m_copyAll  = nullptr;    
     QShortcut *m_clear    = nullptr;
+    QShortcut *m_reply    = nullptr;
     enum MenuAction
     {
+        REPLY,
         COPY,
         COPYCONTENT,
         VIEWDETAILS,

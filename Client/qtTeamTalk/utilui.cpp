@@ -405,6 +405,11 @@ textmessages_t sendTextMessage(const TextMessage& msg, const QString& content)
     return sent ? messages : textmessages_t();
 }
 
+QString makeReplyText(const QString& sender, const QString& content)
+{
+    return QString("> %1: %2 | ").arg(sender, content.simplified());
+}
+
 RestoreIndex::RestoreIndex(QAbstractItemView* view)
     : m_view(view)
 {

@@ -172,6 +172,7 @@ QString limitText(const QString& text);
 QString getDisplayName(const User& user);
 
 textmessages_t sendTextMessage(const TextMessage& msg, const QString& content);
+QString makeReplyText(const QString& sender, const QString& content);
 
 class RestoreIndex
 {
