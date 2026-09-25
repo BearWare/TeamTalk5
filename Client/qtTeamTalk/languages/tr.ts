@@ -45,7 +45,41 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation type="unfinished"></translation>
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+&lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
+p, li { white-space: pre-wrap; }
+&lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;katkılar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;katkılar&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, geliştirici&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, geliştirici&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Çevirmenler&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, Çince Basitleştirilmiş&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, Fransızca&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, Almanca&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Abolfazl Saeidifar, Farsça&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, Lehçe&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, Brezilya Portekizcesi&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş ve Engin Albayrak, Türkçe&lt;/p&gt;
+&lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;Kütüphaneler&lt;/span&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk aşağıdaki kütüphaneleri kullanır:&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.dre.vanderbilt.edu/~schmidt/ACE.html&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;ACE&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://ffmpeg.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;FFmpeg&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OGG&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.openssl.org&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OpenSSL&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;OPUS-tools&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://portaudio.com/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;PortAudio&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://qt.io&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Qt&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Speex&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://xiph.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;SpeexDSP&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;http://www.grinninglizard.com/tinyxml/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;TinyXML&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
@@ -819,92 +853,92 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeltypedlg.cpp" line="27"/>
         <source>Permanent channel (stored on server)</source>
-        <translation type="unfinished">Kalıcı kanal (sunucuda depolanır)</translation>
+        <translation>Kalıcı kanal (sunucuda depolanır)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="28"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation type="unfinished">Kesinti yok (eşzamanlı ses aktarımı yok)</translation>
+        <translation>Kesinti yok (eşzamanlı ses aktarımı yok)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="29"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation type="unfinished">Sınıf (Yönetici denetimli iletimler)</translation>
+        <translation>Sınıf (Yönetici denetimli iletimler)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="30"/>
         <source>Operator receive only (only operators see and hear users)</source>
-        <translation type="unfinished"></translation>
+        <translation>Yalnızca operatör alır (yalnızca operatörler kullanıcıları görür ve duyar)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="31"/>
         <source>No voice activation (only Push-to-Talk allowed)</source>
-        <translation type="unfinished">Ses etkinleştirme yok (yalnızca bas konuşa izin verilir)</translation>
+        <translation>Ses etkinleştirme yok (yalnızca bas konuşa izin verilir)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="32"/>
         <source>No audio recording allowed</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses kaydına izin verilmiyor</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="33"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation type="unfinished">Gizli kanal (görünmez ve yalnızca adıyla bilinir)</translation>
+        <translation>Gizli kanal (görünmez ve yalnızca adıyla bilinir)</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="35"/>
         <source>Channel Type</source>
-        <translation type="unfinished"></translation>
+        <translation>Kanal Tipi</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="36"/>
         <source>Select the channel types used when creating a missing channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksik bir kanal oluştururken kullanılan kanal türlerini seçin</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="39"/>
         <source>Select one or more channel types. Clear all options for a default channel.</source>
-        <translation type="unfinished"></translation>
+        <translation>Bir veya daha fazla kanal türünü seçin. Varsayılan bir kanal için tüm seçenekleri temizleyin.</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="87"/>
         <source>Permanent</source>
-        <translation type="unfinished"></translation>
+        <translation>Kalıcı</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="89"/>
         <source>No interruptions</source>
-        <translation type="unfinished"></translation>
+        <translation>Kesinti yok</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="91"/>
         <source>Classroom</source>
-        <translation type="unfinished">Sınıf</translation>
+        <translation>Sınıf</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="93"/>
         <source>Operator receive only</source>
-        <translation type="unfinished"></translation>
+        <translation>Yalnızca operatör alır</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="95"/>
         <source>No voice activation</source>
-        <translation type="unfinished"></translation>
+        <translation>Ses aktivasyonu yok</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="97"/>
         <source>No recording</source>
-        <translation type="unfinished"></translation>
+        <translation>Kayıt yok</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="99"/>
         <source>Hidden</source>
-        <translation type="unfinished">Gizli</translation>
+        <translation>Gizli</translation>
     </message>
     <message>
         <location filename="../channeltypedlg.cpp" line="100"/>
         <source>Default</source>
-        <translation type="unfinished">Varsayılan</translation>
+        <translation>Varsayılan</translation>
     </message>
 </context>
 <context>
@@ -6484,91 +6518,91 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
         <location filename="../profiles.ui" line="27"/>
         <location filename="../profiles.ui" line="33"/>
         <source>Profiles</source>
-        <translation type="unfinished"></translation>
+        <translation>Profiller</translation>
     </message>
     <message>
         <location filename="../profiles.ui" line="70"/>
         <source>&amp;New Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Yeni &amp;Profil</translation>
     </message>
     <message>
         <location filename="../profiles.ui" line="77"/>
         <source>Use &amp;Current Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Mevcut Profili Kullan</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
         <location filename="../profilesdlg.cpp" line="135"/>
         <source>New Profile</source>
-        <translation type="unfinished">Yeni Profil</translation>
+        <translation>Yeni Profil</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
         <source>Maximum number of profiles reached.</source>
-        <translation type="unfinished"></translation>
+        <translation>en fazla profil sayısına ulaşıldı.</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="131"/>
         <location filename="../profilesdlg.cpp" line="181"/>
         <source>&amp;OK</source>
-        <translation type="unfinished">&amp;Tamam</translation>
+        <translation>&amp;Tamam</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="132"/>
         <location filename="../profilesdlg.cpp" line="182"/>
         <source>&amp;Cancel</source>
-        <translation type="unfinished">İ&amp;ptal</translation>
+        <translation>İ&amp;ptal</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="134"/>
         <source>Profile %1</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil %1</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="136"/>
         <location filename="../profilesdlg.cpp" line="186"/>
         <source>Profile name</source>
-        <translation type="unfinished">Profil adı</translation>
+        <translation>Profil adı</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="185"/>
         <source>Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili Düzenle</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="213"/>
         <source>Are you sure you want to delete profile &quot;%1&quot;?</source>
-        <translation type="unfinished"></translation>
+        <translation>&quot;%1&quot; profilini silmek istediğinizden emin misiniz?</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="214"/>
         <source>&amp;Yes</source>
-        <translation type="unfinished">&amp;Evet</translation>
+        <translation>&amp;Evet</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="215"/>
         <source>&amp;No</source>
-        <translation type="unfinished">&amp;Hayır</translation>
+        <translation>&amp;Hayır</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="218"/>
         <source>Delete profile</source>
-        <translation type="unfinished">Profili sil</translation>
+        <translation>Profili sil</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="255"/>
         <source>&amp;Open Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili A&amp;ç</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="256"/>
         <source>&amp;Edit Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili Dü&amp;zenle</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="257"/>
         <source>&amp;Delete Profile</source>
-        <translation type="unfinished"></translation>
+        <translation>Profili Si&amp;l</translation>
     </message>
 </context>
 <context>
@@ -6576,7 +6610,7 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../profilesmodel.cpp" line="34"/>
         <source>Profile Name</source>
-        <translation type="unfinished"></translation>
+        <translation>Profil Adı</translation>
     </message>
 </context>
 <context>
@@ -6808,17 +6842,17 @@ Aşağıdaki sayfadan indirebilirsiniz:<byte value="xd"/>
     <message>
         <location filename="../serverdlg.ui" line="299"/>
         <source>Channel type</source>
-        <translation type="unfinished">Kanal türü</translation>
+        <translation>Kanal türü</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="309"/>
         <source>Select the channel types used when creating a missing channel</source>
-        <translation type="unfinished"></translation>
+        <translation>Eksik bir kanal oluştururken kullanılan kanal türlerini seçin</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="312"/>
         <source>Default</source>
-        <translation type="unfinished">Varsayılan</translation>
+        <translation>Varsayılan</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="322"/>
@@ -7275,7 +7309,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../serverlistdlg.cpp" line="97"/>
         <source>MOTD</source>
-        <translation type="unfinished"></translation>
+        <translation>günün iletisi</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="134"/>
@@ -7772,7 +7806,7 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../shortcutsmodel.cpp" line="57"/>
         <source>Type</source>
-        <translation type="unfinished">tür</translation>
+        <translation>tür</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="94"/>
@@ -7783,12 +7817,12 @@ Sunucunuzun kaydını iptal etmek için yayınlanan kullanıcı hesabını silin
     <message>
         <location filename="../shortcutsmodel.cpp" line="104"/>
         <source>Interface Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Arayüz Kısayolu</translation>
     </message>
     <message>
         <location filename="../shortcutsmodel.cpp" line="105"/>
         <source>Global Shortcut</source>
-        <translation type="unfinished"></translation>
+        <translation>Genel Kısayol</translation>
     </message>
 </context>
 <context>
