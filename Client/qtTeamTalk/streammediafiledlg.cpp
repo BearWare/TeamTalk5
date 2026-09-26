@@ -68,6 +68,8 @@ StreamMediaFileDlg::StreamMediaFileDlg(QWidget* parent/* = 0*/)
     setCurrentItemData(ui.preprocessorComboBox, apt);
 
     ui.playbackOffsetSlider->setMaximum(MEDIAFILE_SLIDER_MAXIMUM);
+    ui.playbackOffsetSlider->setSingleStep(MEDIAFILE_SLIDER_MAXIMUM / 100);
+    ui.playbackOffsetSlider->setPageStep(MEDIAFILE_SLIDER_MAXIMUM / 10);
 
     m_videocodec.nCodec = Codec(ttSettings->value(SETTINGS_STREAMMEDIA_CODEC, DEFAULT_VIDEO_CODEC).toInt());
     switch(m_videocodec.nCodec)

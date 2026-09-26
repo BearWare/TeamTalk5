@@ -232,6 +232,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
     ui.playbackOffsetSlider->setMaximum(MEDIAFILE_SLIDER_MAXIMUM);
+    ui.playbackOffsetSlider->setSingleStep(MEDIAFILE_SLIDER_MAXIMUM / 100);
+    ui.playbackOffsetSlider->setPageStep(MEDIAFILE_SLIDER_MAXIMUM / 10);
 
 
 #if defined(Q_OS_WIN32)
@@ -6557,6 +6559,12 @@ void MainWindow::slotUpdateMediaTabUI()
         ui.mediaVolumeLabel->setText(tr("%1 %").arg(100));
         break;
     }
+
+    // the range differs per preprocessor, so step by proportion rather than a
+    // fixed amount
+    int volrange = ui.mediaVolumeSlider->maximum() - ui.mediaVolumeSlider->minimum();
+    ui.mediaVolumeSlider->setSingleStep(volrange / 100);
+    ui.mediaVolumeSlider->setPageStep(volrange / 10);
 
     ui.openMediaFileButton->setEnabled(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED);
 }
