@@ -22,20 +22,18 @@ if (MSVC)
   set (WEBRTC_SOURCE_ROOT ${WEBRTC_FETCH_PATH}/src)
   file(TO_NATIVE_PATH ${WEBRTC_SOURCE_ROOT} WEBRTC_SOURCE_ROOT_NATIVE)
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX})
-      set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/x64)
-    else()
-      set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/x64)
-    endif()
+  if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    set (WEBRTC_ARCH arm64)
+  elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
     set (WEBRTC_ARCH x64)
   else()
-    if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX})
-      set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/x86)
-    else()
-      set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/x86)
-    endif()
     set (WEBRTC_ARCH x86)
+  endif()
+
+  if (IS_ABSOLUTE ${TOOLCHAIN_INSTALL_PREFIX})
+    set (WEBRTC_INSTALL_ROOT ${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/${WEBRTC_ARCH})
+  else()
+    set (WEBRTC_INSTALL_ROOT ${CMAKE_CURRENT_BINARY_DIR}/${TOOLCHAIN_INSTALL_PREFIX_WEBRTC}/${WEBRTC_ARCH})
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
@@ -104,29 +102,16 @@ if (MSVC)
     file(MAKE_DIRECTORY ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
   endif()
 
-  if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-    add_library(webrtc STATIC IMPORTED GLOBAL)
-    if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-      add_dependencies(webrtc webrtc-src)
-    endif()
-    target_include_directories (webrtc INTERFACE
-      ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      IMPORTED_LOCATION_DEBUG ${WEBRTC_INSTALL_ROOT}/lib/debug/obj/modules/audio_processing/teamtalk.lib
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/lib/release/obj/modules/audio_processing/teamtalk.lib)
-  else()
-    add_library(webrtc STATIC IMPORTED GLOBAL)
-    if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-      add_dependencies(webrtc webrtc-src)
-    endif()
-    target_include_directories (webrtc INTERFACE
-      ${WEBRTC_INSTALL_ROOT}/include
-      ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
-    set_target_properties(webrtc PROPERTIES
-      IMPORTED_LOCATION_DEBUG ${WEBRTC_INSTALL_ROOT}/lib/debug/obj/modules/audio_processing/teamtalk.lib
-      IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/lib/release/obj/modules/audio_processing/teamtalk.lib)
+  add_library(webrtc STATIC IMPORTED GLOBAL)
+  if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
+    add_dependencies(webrtc webrtc-src)
   endif()
+  target_include_directories (webrtc INTERFACE
+    ${WEBRTC_INSTALL_ROOT}/include
+    ${WEBRTC_INSTALL_ROOT}/include/third_party/abseil-cpp)
+  set_target_properties(webrtc PROPERTIES
+    IMPORTED_LOCATION_DEBUG ${WEBRTC_INSTALL_ROOT}/lib/debug/obj/modules/audio_processing/teamtalk.lib
+    IMPORTED_LOCATION ${WEBRTC_INSTALL_ROOT}/lib/release/obj/modules/audio_processing/teamtalk.lib)
 
 else()
 

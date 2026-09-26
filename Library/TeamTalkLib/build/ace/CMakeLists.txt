@@ -16,87 +16,53 @@ if (MSVC)
 
     configure_file(${CMAKE_CURRENT_LIST_DIR}/build_win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat @ONLY)
 
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      ExternalProject_Add(ACE-src
-        GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-8_0_5
-        GIT_SUBMODULES_RECURSE TRUE
-        GIT_SHALLOW       TRUE
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -ffdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
-        COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:ACE /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 ace\\ace.sln -target:SSL /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
-        DEPENDS           openssl-src
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/ACEsd.lib
-                          <INSTALL_DIR>/lib/ACEs.lib
-                          <INSTALL_DIR>/lib/ACE_SSLsd.lib
-                          <INSTALL_DIR>/lib/ACE_SSLs.lib
-                          <INSTALL_DIR>/lib/ACE_INetsd.lib
-                          <INSTALL_DIR>/lib/ACE_INets.lib
-                          <INSTALL_DIR>/lib/ACE_INet_SSLsd.lib
-                          <INSTALL_DIR>/lib/ACE_INet_SSLs.lib
-        )
-      ExternalProject_Get_Property(ACE-src INSTALL_DIR)
+    if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+      set (ACE_MSBUILD_PLATFORM ARM64)
+    elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
+      set (ACE_MSBUILD_PLATFORM x64)
     else()
-      ExternalProject_Add(ACE-src
-        GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
-        GIT_TAG           ACE+TAO-8_0_5
-        GIT_SUBMODULES_RECURSE TRUE
-        GIT_SHALLOW       TRUE
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git reset --hard
-        COMMAND           git clean -ffdx
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
-        COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
-        COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
-        COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:ACE /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 ace\\ace.sln -target:SSL /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet /property:Configuration=Release
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
-        DEPENDS           openssl-src
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/ACEsd.lib
-                          <INSTALL_DIR>/lib/ACEs.lib
-                          <INSTALL_DIR>/lib/ACE_SSLsd.lib
-                          <INSTALL_DIR>/lib/ACE_SSLs.lib
-                          <INSTALL_DIR>/lib/ACE_INetsd.lib
-                          <INSTALL_DIR>/lib/ACE_INets.lib
-                          <INSTALL_DIR>/lib/ACE_INet_SSLsd.lib
-                          <INSTALL_DIR>/lib/ACE_INet_SSLs.lib
-        )
-      ExternalProject_Get_Property(ACE-src INSTALL_DIR)
+      set (ACE_MSBUILD_PLATFORM win32)
     endif()
+
+    ExternalProject_Add(ACE-src
+      GIT_REPOSITORY    https://github.com/DOCGroup/ACE_TAO.git
+      GIT_TAG           ACE+TAO-8_0_5
+      GIT_SUBMODULES_RECURSE TRUE
+      GIT_SHALLOW       TRUE
+      UPDATE_COMMAND    ""
+      PATCH_COMMAND     git reset --hard
+      COMMAND           git clean -ffdx
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0002-Enable-SNI-for-TLS.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0003-Static-build-config-for-Windows.patch
+      COMMAND           git apply ${CMAKE_CURRENT_LIST_DIR}/0004-Fix-memory-leak-in-ACE-HTTPS-Session_T.patch
+      COMMAND           git submodule add https://github.com/DOCGroup/MPC.git ACE/MPC
+      COMMAND           git -C ACE/MPC checkout ACE+TAO-8_0_5
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/ace
+      CONFIGURE_COMMAND ""
+      BUILD_IN_SOURCE   TRUE
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build_win.bat
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} ace\\ace.sln -target:ACE /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} ace\\ace.sln -target:ACE /property:Configuration=Release
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} ace\\ace.sln -target:SSL /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} ace\\ace.sln -target:SSL /property:Configuration=Release
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} protocols\\protocols.sln -target:INet /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} protocols\\protocols.sln -target:INet /property:Configuration=Release
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} protocols\\protocols.sln -target:INet_SSL /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${ACE_MSBUILD_PLATFORM} protocols\\protocols.sln -target:INet_SSL /property:Configuration=Release
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_ACE}
+      INSTALL_COMMAND   cd <SOURCE_DIR>
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\install.bat <INSTALL_DIR>
+      DEPENDS           openssl-src
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/ACEsd.lib
+                        <INSTALL_DIR>/lib/ACEs.lib
+                        <INSTALL_DIR>/lib/ACE_SSLsd.lib
+                        <INSTALL_DIR>/lib/ACE_SSLs.lib
+                        <INSTALL_DIR>/lib/ACE_INetsd.lib
+                        <INSTALL_DIR>/lib/ACE_INets.lib
+                        <INSTALL_DIR>/lib/ACE_INet_SSLsd.lib
+                        <INSTALL_DIR>/lib/ACE_INet_SSLs.lib
+      )
+    ExternalProject_Get_Property(ACE-src INSTALL_DIR)
 
     # Autogenerated paths must be created prior for
     # INTERFACE_INCLUDE_DIRECTORIES to work (target_include_directories ... INTERFACE ...)

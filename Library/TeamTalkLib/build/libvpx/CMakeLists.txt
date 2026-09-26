@@ -19,49 +19,32 @@ if (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-      set (LIBVPX_WIN_TARGET x86_64-win64-vs18)
-      configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat @ONLY)
-
-      ExternalProject_Add(libvpx-src
-        GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-        GIT_TAG           e9efe034e
-        UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win64.bat
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>/build-${LIBVPX_WIN_TARGET}
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat x64 <INSTALL_DIR>
-        BUILD_IN_SOURCE   TRUE
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
-                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
-        DEPENDS           ${NASM_TARGET}
-        )
+    if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+      set (LIBVPX_WIN_TARGET arm64-win64-vs${LIBVPX_VS_VER})
+    elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
+      set (LIBVPX_WIN_TARGET x86_64-win64-vs${LIBVPX_VS_VER})
     else()
-      set (LIBVPX_WIN_TARGET x86-win32-vs18)
-      configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat @ONLY)
-
-      ExternalProject_Add(libvpx-src
-        GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
-        GIT_TAG           e9efe034e
-        UPDATE_COMMAND    ""
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
-        CONFIGURE_COMMAND ""
-        BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win32.bat
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
-        INSTALL_COMMAND   cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>/build-${LIBVPX_WIN_TARGET}
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat win32 <INSTALL_DIR>
-        BUILD_IN_SOURCE   TRUE
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
-                          <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
-        DEPENDS           ${NASM_TARGET}
-        )
+      set (LIBVPX_WIN_TARGET x86-win32-vs${LIBVPX_VS_VER})
     endif()
+    configure_file(${CMAKE_CURRENT_LIST_DIR}/build-libvpx-win.bat_sample ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win.bat @ONLY)
+
+    ExternalProject_Add(libvpx-src
+      GIT_REPOSITORY    https://github.com/webmproject/libvpx.git
+      GIT_TAG           e9efe034e
+      UPDATE_COMMAND    ""
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/libvpx
+      CONFIGURE_COMMAND ""
+      BUILD_COMMAND     ${CMAKE_CURRENT_BINARY_DIR}/build-libvpx-win.bat
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_LIBVPX}
+      INSTALL_COMMAND   cd <SOURCE_DIR>
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+      COMMAND           cd <SOURCE_DIR>/build-${LIBVPX_WIN_TARGET}
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat ${CMAKE_VS_PLATFORM_NAME} <INSTALL_DIR>
+      BUILD_IN_SOURCE   TRUE
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Debug/vpxmtd.lib
+                        <INSTALL_DIR>/${CMAKE_VS_PLATFORM_NAME}/Release/vpxmt.lib
+      DEPENDS           ${NASM_TARGET}
+      )
     ExternalProject_Get_Property(libvpx-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()

@@ -19,49 +19,34 @@ if (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-      ExternalProject_Add(speexdsp-src
-        GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-        GIT_TAG           SpeexDSP-1.2.1
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
-        INSTALL_COMMAND   cd <SOURCE_DIR>/include
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdspd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdsp_sse.lib
-        )
-      ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+    if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+      set (SPEEXDSP_MSBUILD_PLATFORM ARM64)
+    elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
+      set (SPEEXDSP_MSBUILD_PLATFORM x64)
     else()
-
-      ExternalProject_Add(speexdsp-src
-        GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
-        GIT_TAG           SpeexDSP-1.2.1
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
-        INSTALL_COMMAND   cd <SOURCE_DIR>/include
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdspd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdsp_sse.lib
-        )
-      ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
+      set (SPEEXDSP_MSBUILD_PLATFORM win32)
     endif()
+
+    ExternalProject_Add(speexdsp-src
+      GIT_REPOSITORY    https://github.com/xiph/speexdsp.git
+      GIT_TAG           SpeexDSP-1.2.1
+      UPDATE_COMMAND    ""
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
+      COMMAND           git apply --ignore-whitespace ${CMAKE_CURRENT_LIST_DIR}/0002-Add-ARM64-Debug-Release-configurations.patch
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speexdsp
+      CONFIGURE_COMMAND ""
+      BUILD_IN_SOURCE   TRUE
+      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${SPEEXDSP_MSBUILD_PLATFORM} win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${SPEEXDSP_MSBUILD_PLATFORM} win32\\VS2026\\libspeexdsp\\libspeexdsp.vcxproj /property:Configuration=Release_Static_SSE
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP}
+      INSTALL_COMMAND   cd <SOURCE_DIR>/include
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+      COMMAND           cd <SOURCE_DIR>
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdspd.lib
+                        <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexdsp_sse.lib
+      )
+    ExternalProject_Get_Property(speexdsp-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEXDSP})
