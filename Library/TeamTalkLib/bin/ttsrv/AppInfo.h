@@ -21,7 +21,22 @@
  *
  */
 
-#if defined(ENABLE_TEAMTALKPRO)
+#if defined(BUILD_SPAMBOT)
+
+#define TEAMTALK_SETTINGSFILE "tt5spambot.xml"
+#define TEAMTALK_LOGFILE "tt5spambot.log"
+
+#if defined(BUILD_NT_SERVICE)
+#define TEAMTALK_NAME "TeamTalk SpamBot NT Service"
+#define TEAMTALK_EXE "tt5spambotsvc"
+#else
+#define TEAMTALK_NAME "TeamTalk SpamBot"
+#define TEAMTALK_EXE "tt5spambot"
+#endif /* BUILD_NT_SERVICE */
+
+#define TEAMTALK_DESCRIPTION "TeamTalk SpamBot Moderation Client"
+
+#elif defined(ENABLE_TEAMTALKPRO)
 
 #define TEAMTALK_SETTINGSFILE "tt5prosrv.xml"
 #define TEAMTALK_LOGFILE "tt5prosrv.log"
