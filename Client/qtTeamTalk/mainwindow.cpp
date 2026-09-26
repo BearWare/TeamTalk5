@@ -1672,21 +1672,20 @@ void MainWindow::clienteventUserAudioBlock(int source, StreamTypes streamtypes)
 
 void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
 {
+    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
+
     auto devid = getSoundDeviceUID(snddev);
     // the device the user selected is back, e.g. a headset plugged in again
     if (devid.size() && (devid == ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString() ||
                          devid == ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString()))
     {
         initSound();
-        return;
     }
-
-    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("New sound device available: %1. Refresh sound devices to discover new device.").arg(_Q(snddev.szDeviceName)));
 }
 
 void MainWindow::clienteventSoundDeviceUnplugged(const SoundDevice& snddev)
 {
-    qDebug() << "Unplugged sound device: " << _Q(snddev.szDeviceName);
+    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
 
     auto devid = getSoundDeviceUID(snddev);
     if (devid.size() && (devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout)))
