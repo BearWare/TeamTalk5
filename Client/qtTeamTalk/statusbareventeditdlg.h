@@ -15,33 +15,29 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-#ifndef STATUSBARDLG_H
-#define STATUSBARDLG_H
+#ifndef STATUSBAREVENTEDITDLG_H
+#define STATUSBAREVENTEDITDLG_H
 
-#include "ui_statusbardlg.h"
+#include "ui_statusbareventeditdlg.h"
 #include "utilui.h"
 
-class StatusBarDlg : public QDialog
+class StatusBarEventEditDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    StatusBarDlg(QWidget* parent, StatusBarEvents events);
+    StatusBarEventEditDlg(StatusBarEvents eventId, QWidget* parent = nullptr);
+
+    QString getMessage() const { return ui.SBMsgEdit->text(); }
 
 private:
-    void slotAccept();
+    void insertVariable();
+    void slotRestoreDefault();
 
 private:
-    Ui::StatusBarDlg ui;
-    class StatusBarEventsModel* m_statusbarmodel = nullptr;
-    void slotStatusBarEventToggled(const QModelIndex &index);
-    void slotEditEvent();
-    void statusBarRestoreAllDefaultMessage();
-    void slotStatusBarEnableAll(bool checked);
-    void slotStatusBarClearAll(bool checked);
-    void slotStatusBarRevert(bool checked);
-    void slotTableContextMenu(const QPoint& point);
-    StatusBarEvents m_events;
+    Ui::StatusBarEventEditDlg ui;
+    QMenu* m_SBVarMenu;
+    StatusBarEvents m_eventId;
 };
 
 #endif
