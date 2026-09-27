@@ -21,6 +21,7 @@
 #include "common.h"
 
 #include <QPlainTextEdit>
+#include <QShortcut>
 
 class ChatTextHistory
 {
@@ -57,10 +58,14 @@ public:
     void updateTranslation() override;
 signals:
     void clearHistory();
+    void replyRequested(const QString& sender, const QString& content);
 private:
     static QString getTimeStamp(const QDateTime& tm);
     void limitText();
     QString currentUrl(const QTextCursor& cursor) const;
+    void addMessageData(int startBlock, const QString& sender, const QString& content);
+    void replyToMessage(const QTextCursor& cursor);
+    QShortcut* m_reply = nullptr;
 
 protected:
     void mouseMoveEvent(QMouseEvent *e) override;

@@ -30,5 +30,6 @@ QString getMediaAudioDescription(const AudioFormat& audioFmt);
 QString getMediaVideoDescription(const VideoFormat& videoFmt);
 
 void setMediaFileProgress(QSlider* slider, const MediaFileInfo& mfi);
+void setMediaFileSliderSteps(QSlider* slider, quint32 duration_msec);
 
 #endif // UTILMEDIA_H
