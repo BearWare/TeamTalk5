@@ -1595,14 +1595,6 @@
    <addaction name="separator"/>
    <addaction name="actionToggleQuestionMode"/>
   </widget>
-  <action name="actionServerList">
-   <property name="text">
-    <string>&amp;Server List</string>
-   </property>
-   <property name="shortcut">
-    <string>F3</string>
-   </property>
-  </action>
   <action name="actionConnect">
    <property name="checkable">
     <bool>true</bool>
@@ -1999,25 +1991,6 @@
     <string>Ctrl+Shift+V</string>
    </property>
   </action>
-  <action name="actionStreamAudioFileToChannel">
-   <property name="checkable">
-    <bool>true</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Stream Audio File to Channel</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+W</string>
-   </property>
-  </action>
-  <action name="actionStreamAudioFileToUser">
-   <property name="text">
-    <string>Stream Audio &amp;File to User</string>
-   </property>
-   <property name="shortcut">
-    <string>Ctrl+Shift+W</string>
-   </property>
-  </action>
   <action name="actionMediaStorage">
    <property name="checkable">
     <bool>true</bool>
@@ -2377,14 +2350,6 @@
     <string>Ctrl+7</string>
    </property>
   </action>
-  <action name="actionDesktopAccessDeny">
-   <property name="checkable">
-    <bool>false</bool>
-   </property>
-   <property name="text">
-    <string>&amp;Deny</string>
-   </property>
-  </action>
   <action name="actionMediaFile">
    <property name="checkable">
     <bool>true</bool>
@@ -2561,11 +2526,6 @@
    </property>
    <property name="shortcut">
     <string>Ctrl+F6</string>
-   </property>
-  </action>
-  <action name="action">
-   <property name="text">
-    <string notr="true">-</string>
    </property>
   </action>
   <action name="actionRelayVoiceStream">

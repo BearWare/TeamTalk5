@@ -540,5 +540,10 @@
     <string name="status_mode_away">Absent</string>
     <string name="status_mode_question">Question</string>
     <string name="text_copy">Copier</string>
+    <string name="text_parent_channel">Canal Parent</string>
+    <string name="user_state_streaming">Diffuse un fichier média</string>
+    <string name="user_state_female">Femme</string>
+    <string name="user_state_neutral">Neutre</string>
+    <string name="user_state_male">Homme</string>
 
 </resources>
