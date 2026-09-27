@@ -1685,7 +1685,7 @@ void MainWindow::clienteventSoundDeviceAdded(const SoundDevice& snddev)
 
 void MainWindow::clienteventSoundDeviceUnplugged(const SoundDevice& snddev)
 {
-    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device removed: %1.").arg(_Q(snddev.szDeviceName)));
+    addStatusMsg(STATUSBAR_SOUND_DEVICE_DETECTED, tr("Sound device unplugged: %1.").arg(_Q(snddev.szDeviceName)));
 
     auto devid = getSoundDeviceUID(snddev);
     if (devid.size() && (devid == getSoundDeviceUID(m_devin) || devid == getSoundDeviceUID(m_devout)))
