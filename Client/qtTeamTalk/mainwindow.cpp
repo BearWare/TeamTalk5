@@ -306,8 +306,10 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotSendChannelMessage);
 
     /* Media-tab */
-    connect(ui.playbackOffsetSlider, &QSlider::sliderMoved,
-            this, &MainWindow::changeMediaFileOffset);
+    // actionTriggered covers keyboard and mouse alike, but unlike valueChanged it
+    // does not fire for the progress updates that move these sliders
+    connect(ui.playbackOffsetSlider, &QAbstractSlider::actionTriggered, this,
+            [this] { changeMediaFileOffset(ui.playbackOffsetSlider->sliderPosition()); });
     connect(ui.playMediaFileButton, &QAbstractButton::clicked, this, [&] {
         switch (m_mfi.value_or(MediaFileInfo()).nStatus)
         {
@@ -323,7 +325,8 @@ MainWindow::MainWindow(const QString& cfgfile)
     connect(ui.stopMediaFileButton, &QAbstractButton::clicked, this,
             &MainWindow::stopStreamMediaFile);
     connect(ui.openMediaFileButton, &QAbstractButton::clicked, this, &MainWindow::openStreamMediaFileDlg);
-    connect(ui.mediaVolumeSlider, &QSlider::sliderMoved, this, &MainWindow::changeMediaFileVolume);
+    connect(ui.mediaVolumeSlider, &QAbstractSlider::actionTriggered, this,
+            [this] { changeMediaFileVolume(ui.mediaVolumeSlider->sliderPosition()); });
 
     /* Files-tab */
     connect(ui.uploadButton, &QAbstractButton::clicked, this, &MainWindow::slotChannelsUploadFile);
@@ -5746,6 +5749,7 @@ void MainWindow::setMediaFilePosition()
 void MainWindow::setMediaFileTabProgress(const MediaFileInfo& mfi)
 {
     ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(mfi.uDurationMSec)));
+    setMediaFileSliderSteps(ui.playbackOffsetSlider, mfi.uDurationMSec);
     if (!timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
     {
         ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
@@ -6668,6 +6672,12 @@ void MainWindow::slotUpdateMediaTabUI()
         ui.mediaVolumeLabel->setText(tr("%1 %").arg(100));
         break;
     }
+
+    // the range differs per preprocessor, so step by proportion rather than a
+    // fixed amount
+    int volrange = ui.mediaVolumeSlider->maximum() - ui.mediaVolumeSlider->minimum();
+    ui.mediaVolumeSlider->setSingleStep(volrange / 100);
+    ui.mediaVolumeSlider->setPageStep(volrange / 10);
 
     ui.openMediaFileButton->setEnabled(TT_GetFlags(ttInst) & CLIENT_AUTHORIZED);
 }
