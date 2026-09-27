@@ -232,8 +232,6 @@ MainWindow::MainWindow(const QString& cfgfile)
     ui.statusbar->addPermanentWidget(m_pinglabel);
     ui.statusbar->addPermanentWidget(m_pttlabel);
     ui.playbackOffsetSlider->setMaximum(MEDIAFILE_SLIDER_MAXIMUM);
-    ui.playbackOffsetSlider->setSingleStep(MEDIAFILE_SLIDER_MAXIMUM / 100);
-    ui.playbackOffsetSlider->setPageStep(MEDIAFILE_SLIDER_MAXIMUM / 10);
 
 
 #if defined(Q_OS_WIN32)
@@ -5637,6 +5635,7 @@ void MainWindow::setMediaFilePosition()
 void MainWindow::setMediaFileTabProgress(const MediaFileInfo& mfi)
 {
     ui.mediaDurationLabel->setText(tr("Duration: %1").arg(durationToString(mfi.uDurationMSec)));
+    setMediaFileSliderSteps(ui.playbackOffsetSlider, mfi.uDurationMSec);
     if (!timerExists(TIMER_CHANGE_MEDIAFILE_POSITION))
     {
         ui.playbackTimeLabel->setText(durationToString(mfi.uElapsedMSec));
