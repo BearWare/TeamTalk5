@@ -31,17 +31,13 @@ import android.widget.EditText;
 
 public class DialogHelper {
     public static void showWithImeSubmit(AlertDialog.Builder alert, EditText input) {
-        showWithImeSubmit(alert, input, false);
-    }
-
-    public static void showWithImeSubmit(AlertDialog.Builder alert, EditText input, boolean showKeyboard) {
         // The keyboard reads the IME options when it opens, and the listener
         // needs a created dialog to reach its buttons, so the dialog is shown
         // here rather than by the caller
         input.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        input.requestFocus();
         AlertDialog dialog = alert.create();
-        if (showKeyboard)
-            dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         dialog.show();
         input.setOnEditorActionListener((v, actionId, event) -> {
             if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {

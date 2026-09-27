@@ -973,7 +973,6 @@ public class ServerListActivity extends AppCompatActivity
         alert.setMessage(R.string.text_specify_joincode);
         final EditText input = new EditText(this);
         input.setInputType(InputType.TYPE_CLASS_TEXT);
-        input.requestFocus();
         alert.setView(input);
         alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
             InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
@@ -984,7 +983,7 @@ public class ServerListActivity extends AppCompatActivity
             InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             im.hideSoftInputFromWindow(input.getWindowToken(), 0);
         });
-        DialogHelper.showWithImeSubmit(alert, input, true);
+        DialogHelper.showWithImeSubmit(alert, input);
     }
 
     private void getServerFromJoinCode(String joincode) {
