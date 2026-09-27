@@ -4,6 +4,7 @@
 
 Version 5.23, unreleased
 Default Qt Client
+- Ability to reply to chat messages from the message history
 - Redesigned profiles dialog
 - Replaced Tolk with Prism for screen reader support
 - Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)

@@ -2946,6 +2946,9 @@ void MainWindow::setupChatHistory()
         ui.chatTab->setTabOrder(chat, ui.msgEdit);
         ui.chatTab->setTabOrder(ui.msgEdit, ui.sendButton);
         m_chathistory[TAB_CHAT] = chat;
+        connect(chat, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.msgEdit, sender, content);
+        });
         delete ui.chatEdit;
         ui.chatEdit = nullptr;
 
@@ -2957,6 +2960,9 @@ void MainWindow::setupChatHistory()
         ui.videoTab->setTabOrder(video, ui.videomsgEdit);
         ui.videoTab->setTabOrder(ui.videomsgEdit, ui.videosendButton);
         m_chathistory[TAB_VIDEO] = video;
+        connect(video, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.videomsgEdit, sender, content);
+        });
         delete ui.videochatEdit;
         ui.videochatEdit = nullptr;
 
@@ -2968,6 +2974,9 @@ void MainWindow::setupChatHistory()
         ui.desktopTab->setTabOrder(desktop, ui.desktopmsgEdit);
         ui.desktopTab->setTabOrder(ui.desktopmsgEdit, ui.desktopsendButton);
         m_chathistory[TAB_DESKTOP] = desktop;
+        connect(desktop, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.desktopmsgEdit, sender, content);
+        });
         delete ui.desktopchatEdit;
         ui.desktopchatEdit = nullptr;
     }
@@ -2976,6 +2985,15 @@ void MainWindow::setupChatHistory()
         m_chathistory[TAB_CHAT] = ui.chatEdit;
         m_chathistory[TAB_VIDEO] = ui.videochatEdit;
         m_chathistory[TAB_DESKTOP] = ui.desktopchatEdit;
+        connect(ui.chatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.msgEdit, sender, content);
+        });
+        connect(ui.videochatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.videomsgEdit, sender, content);
+        });
+        connect(ui.desktopchatEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.desktopmsgEdit, sender, content);
+        });
     }
 }
 
