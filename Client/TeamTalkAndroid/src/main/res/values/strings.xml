@@ -172,6 +172,12 @@
     <string name="pref_summary_bluetooth_headset_checkbox">When a Bluetooth headset is connected, use its microphone</string>
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
+    <string name="pref_title_microphone">Microphone</string>
+    <string name="pref_microphone_automatic">Automatic</string>
+    <string name="pref_microphone_builtin">Phone microphone</string>
+    <string name="pref_microphone_wired">Wired headset</string>
+    <string name="pref_microphone_unavailable">Not connected</string>
+    <string name="pref_summary_microphone_unsupported">Requires Android 12 or later</string>
 
     <string name="text_tts_loggedin">has logged in</string>
     <string name="text_tts_loggedout">has logged out</string>
