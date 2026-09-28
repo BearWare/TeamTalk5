@@ -138,6 +138,16 @@ linuxserverpro:
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5proserver.service $(OUTDIR)/server/systemd/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/README_pro.md $(OUTDIR)/server/systemd/README.md
 	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/README_professional $(OUTDIR)/README
+	mkdir -p $(OUTDIR)/server/spambot
+	cp $(INSTALLDIR)/Server/tt5spambot $(OUTDIR)/server/spambot/
+	strip $(OUTDIR)/server/spambot/tt5spambot
+	mkdir -p $(OUTDIR)/server/spambot/init.d
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/init.d/tt5spambot $(OUTDIR)/server/spambot/init.d/
+	mkdir -p $(OUTDIR)/server/spambot/systemd
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/systemd/tt5spambot.service $(OUTDIR)/server/spambot/systemd/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/spambot/badwords.txt $(OUTDIR)/server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/spambot/badwords_french.txt $(OUTDIR)/server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/README_spambot $(OUTDIR)/server/spambot/README
 
 winserver:
 	@echo "########## Copying server ##########"
@@ -157,6 +167,15 @@ winserverpro:
 	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/tt5prosvc_install.bat $(OUTDIR)/Server/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/tt5prosvc_uninstall.bat $(OUTDIR)/Server/
 	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/README_professional $(OUTDIR)/README.txt
+	mkdir -p $(OUTDIR)/Server/spambot
+	cp $(INSTALLDIR)/Server/tt5spambot.exe $(OUTDIR)/Server/spambot/
+	cp $(INSTALLDIR)/Server/tt5spambotsvc.exe $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/tt5spambot_console.bat $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/tt5spambotsvc_install.bat $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/tt5spambotsvc_uninstall.bat $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/spambot/badwords.txt $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Linux/spambot/badwords_french.txt $(OUTDIR)/Server/spambot/
+	cp $(TEAMTALK_ROOT)/Setup/Server/Windows/README_spambot $(OUTDIR)/Server/spambot/README.txt
 
 winclient:
 	mkdir -p $(OUTDIR)/Client

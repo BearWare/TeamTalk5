@@ -73,6 +73,9 @@ namespace teamtalk {
         void SetValueBool(const std::string& path, bool value);
         bool GetValueBool(bool prefixRoot, const std::string& path, bool defaultvalue);
 
+        void SetBearWareWebLogin(const std::string& username, const std::string& token);
+        bool GetBearWareWebLogin(std::string& username, std::string& token);
+
     protected:
         virtual bool UpdateFile();
         tinyxml2::XMLDocument m_xmlDocument;

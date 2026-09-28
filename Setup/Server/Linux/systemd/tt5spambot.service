@@ -1,0 +1,30 @@
+# TeamTalk 5 SpamBot systemd unit
+#
+# To start this service you must have configured a user and group
+# both of the name 'teamtalk'. In addition a SpamBot configuration
+# file must be located in /etc/teamtalk/tt5spambot.xml. The user
+# 'teamtalk' must have read/write access to this file. Likewise
+# for the SpamBot log file which will be located in
+# /var/log/teamtalk/tt5spambot.log
+#
+# The Pro server is required for the SpamBot to authenticate. The
+# After= and Wants= directives ensure tt5proserver is started first.
+#
+
+[Unit]
+Description=TeamTalk 5 SpamBot daemon
+After=network.target tt5proserver.service
+Wants=tt5proserver.service
+
+[Service]
+ExecStart=/usr/bin/tt5spambot -nd -c /etc/teamtalk/tt5spambot.xml -l /var/log/teamtalk/tt5spambot.log
+Type=simple
+User=teamtalk
+Group=teamtalk
+StandardOutput=syslog
+StandardError=syslog
+Restart=on-failure
+RestartSec=10
+
+[Install]
+WantedBy=multi-user.target

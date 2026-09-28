@@ -33,17 +33,21 @@
 
 #include <ace/Dirent_Selector.h>
 #include <ace/INet/HTTP_Status.h>
+#include <ace/Log_Msg.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cstdint>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <thread>
 
 #if defined(WIN32)
 #include <windows.h>
 #else
+#include <sys/stat.h>
 #include <termios.h>
 #include <unistd.h>
 #endif
@@ -246,6 +250,88 @@ WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TStrin
         }
         return WEBLOGIN_FAILED;
     }
+}
+
+bool LoginBearWare(teamtalk::XMLDocument& xmlSettings)
+{
+    std::string bwidUtf8;
+    std::string tokenUtf8;
+    xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
+    ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
+    ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
+    static auto sleepTimeSec = 1ul;
+    while (token.empty())
+    {
+        cout << TEAMTALK_NAME << " requires a BearWare.dk WebLogin" << endl;
+        cout << "that is authorized for use." << endl;
+        cout << endl;
+        cout << "Please provide your credentials for BearWare.dk WebLogin." << endl;
+        cout << endl;
+        cout << "Type username: ";
+        bwid = LocalToUnicode(PrintGetString(UnicodeToLocal(bwid).c_str()).c_str());
+        cout << "Type password: ";
+        ACE_TString const passwd = LocalToUnicode(PrintGetPassword("").c_str());
+        ACE_TString newtoken;
+        ACE_TString loginid;
+        switch (LoginBearWareAccount(bwid, passwd, newtoken, loginid))
+        {
+        case WEBLOGIN_SUCCESS :
+            cout << endl << "Login successful." << endl << endl;
+            cout << "To avoid providing your credentials every time the application is" << endl;
+            cout << "started, it is recommended to store your access token in the" << endl;
+            cout << "configuration file." << endl << endl;
+            cout << "Store access token in " << xmlSettings.GetFileName() << "? ";
+            if (PrintGetBool(true))
+            {
+                xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
+                xmlSettings.SaveFile();
+#if !defined(WIN32)
+                chmod(xmlSettings.GetFileName().c_str(), S_IRUSR | S_IWUSR);
+                std::cout << "Changed file permissions to 600 on " << xmlSettings.GetFileName() << std::endl;
+#endif
+                std::cout << "The token will be valid as long as you do not change the password of your" << std::endl;
+                std::cout << "BearWare.dk WebLogin account." << std::endl;
+            }
+            bwid = loginid;
+            token = newtoken.c_str();
+            break;
+        case WEBLOGIN_SERVER_UNAVAILABLE :
+        case WEBLOGIN_SERVER_INCOMPATIBLE :
+            cout << "Unable to contact BearWare.dk WebLogin" << endl;
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            break;
+        case WEBLOGIN_FAILED :
+            cout << "Login failed. Please try again." << endl;
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            break;
+        }
+    }
+
+    ACE_TString msg = ACE_TEXT("Authenticating ") + bwid;
+    ACE_DEBUG((LM_INFO, ACE_TEXT("%s\n"), msg.c_str()));
+    switch (AuthBearWareAccount(bwid, token))
+    {
+    case WEBLOGIN_FAILED :
+        msg = ACE_TEXT("Failed to authenticate BearWare.dk WebLogin: ") + bwid;
+        ACE_DEBUG((LM_ERROR, ACE_TEXT("%s\n"), msg.c_str()));
+        cout << "Reset BearWare.dk WebLogin credentials ";
+        if (PrintGetBool(true))
+        {
+            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
+            xmlSettings.SaveFile();
+        }
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        return false;
+    case WEBLOGIN_SERVER_UNAVAILABLE :
+    case WEBLOGIN_SERVER_INCOMPATIBLE :
+        ACE_DEBUG((LM_WARNING, ACE_TEXT("BearWare.dk WebLogin is currently unavailable. Continuing...\n")));
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        break;
+    case WEBLOGIN_SUCCESS :
+        break;
+    }
+
+    return true;
 }
 
 #endif
