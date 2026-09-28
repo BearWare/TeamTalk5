@@ -2,7 +2,7 @@
 agp = "9.4.0"
 desugar = "2.1.5"
 gson = "2.14.0"
-annotation = "1.10.0"
+annotation = "1.11.0"
 appcompat = "1.8.0"
 core = "1.19.0"
 fragment = "1.9.0"
