@@ -3188,7 +3188,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource OpenSSL error number. Refer to <openssl/err.h>
          * - #TTMessage.ttType #__CLIENTERRORMSG
-         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
+         * - @c TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
          * error description based on OpenSSL's ERR_error_string_n(). */
         CLIENTEVENT_CON_CRYPT_ERROR = CLIENTEVENT_NONE + 15,
         /** 
@@ -3226,7 +3226,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource Ignored
          * - #TTMessage.ttType #__INT32
-         * - #TTMessage.nPayloadSize Placed in union of #TTMessage. The
+         * - @c TTMessage.nPayloadSize Placed in union of #TTMessage. The
          * maximum size in bytes of the payload data which is put in
          * UDP packets. 0 means the max payload query failed.  @see
          * TT_QueryMaxPayload() */
@@ -3242,7 +3242,7 @@ extern "C" {
          * - #TTMessage.nSource Command ID being processed (returned by
          * TT_Do* commands)
          * - #TTMessage.ttType #__TTBOOL
-         * - #TTMessage.bActive Placed in union of #TTMessage. Is TRUE if
+         * - @c TTMessage.bActive Placed in union of #TTMessage. Is TRUE if
          * command ID started processing and FALSE if the command has
          * finished processing. */
         CLIENTEVENT_CMD_PROCESSING = CLIENTEVENT_NONE + 200,
@@ -3258,7 +3258,7 @@ extern "C" {
          * - #TTMessage.nSource The command ID returned from the TT_Do*
          * commands.
          * - #TTMessage.ttType #__CLIENTERRORMSG
-         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
+         * - @c TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
          * error description. */
         CLIENTEVENT_CMD_ERROR = CLIENTEVENT_NONE + 210,
         /**
@@ -3290,7 +3290,7 @@ extern "C" {
          * - #TTMessage.nSource The client instance's user ID, i.e. what can now 
          * be retrieved through TT_GetMyUserID().
          * - #TTMessage.ttType #__USERACCOUNT
-         * - #TTMessage.useraccount Placed in union of #TTMessage.
+         * - @c TTMessage.useraccount Placed in union of #TTMessage.
          * @see TT_DoLogin */
         CLIENTEVENT_CMD_MYSELF_LOGGEDIN = CLIENTEVENT_NONE + 230,
         /** 
@@ -3311,7 +3311,7 @@ extern "C" {
          * instance was kicked from a channel. Otherwise kicked from
          * server.
          * - #TTMessage.ttType #__USER if kicked by a user otherwise #__NONE.
-         * - #TTMessage.user Placed in union of #TTMessage if @a ttType
+         * - @c TTMessage.user Placed in union of #TTMessage if @a ttType
          * equals #__USER otherwise #__NONE. */
         CLIENTEVENT_CMD_MYSELF_KICKED = CLIENTEVENT_NONE + 250,
         /**
@@ -3320,7 +3320,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USER
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_DoLogin
          * @see TT_GetUser To retrieve user.
@@ -3335,7 +3335,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USER
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_DoLogout
          * @see TT_Disconnect
@@ -3347,7 +3347,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USER
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user. */
         CLIENTEVENT_CMD_USER_UPDATE = CLIENTEVENT_NONE + 280,
@@ -3357,7 +3357,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USER
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user. */
         CLIENTEVENT_CMD_USER_JOINED = CLIENTEVENT_NONE + 290,
@@ -3367,7 +3367,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource Channel ID of previous channel.
          * - #TTMessage.ttType #__USER
-         * - #TTMessage.user Placed in union of #TTMessage. */
+         * - @c TTMessage.user Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USER_LEFT = CLIENTEVENT_NONE + 300,
         /** 
          * @brief A user has sent a text-message.
@@ -3375,7 +3375,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__TEXTMESSAGE
-         * - #TTMessage.textmessage Placed in union of #TTMessage.
+         * - @c TTMessage.textmessage Placed in union of #TTMessage.
          *
          * @see TT_GetUser To retrieve user.
          * @see TT_DoTextMessage() to send text message. */
@@ -3386,7 +3386,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__CHANNEL
-         * - #TTMessage.channel Placed in union of #TTMessage.
+         * - @c TTMessage.channel Placed in union of #TTMessage.
          *
          * @see TT_GetChannel To retrieve channel. */
         CLIENTEVENT_CMD_CHANNEL_NEW = CLIENTEVENT_NONE + 320,
@@ -3396,7 +3396,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__CHANNEL
-         * - #TTMessage.channel Placed in union of #TTMessage.
+         * - @c TTMessage.channel Placed in union of #TTMessage.
          *
          * @see TT_GetChannel To retrieve channel. */
         CLIENTEVENT_CMD_CHANNEL_UPDATE = CLIENTEVENT_NONE + 330,
@@ -3409,7 +3409,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__CHANNEL
-         * - #TTMessage.channel Placed in union of #TTMessage. */
+         * - @c TTMessage.channel Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_CHANNEL_REMOVE = CLIENTEVENT_NONE + 340,
         /** 
          * @brief Server has updated its settings (server name, MOTD,
@@ -3420,7 +3420,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__SERVERPROPERTIES
-         * - #TTMessage.serverproperties Placed in union of #TTMessage. */
+         * - @c TTMessage.serverproperties Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_SERVER_UPDATE = CLIENTEVENT_NONE + 350,
         /** 
          * @brief Server statistics available.
@@ -3430,7 +3430,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__SERVERSTATISTICS
-         * - #TTMessage.serverstatistics Placed in union of #TTMessage. */
+         * - @c TTMessage.serverstatistics Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_SERVERSTATISTICS = CLIENTEVENT_NONE + 360,
         /** 
          * @brief A new file is added to a channel. 
@@ -3441,7 +3441,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__REMOTEFILE
-         * - #TTMessage.remotefile Placed in union of #TTMessage.
+         * - @c TTMessage.remotefile Placed in union of #TTMessage.
          *
          * @see TT_GetChannelFile To retrieve file. */
         CLIENTEVENT_CMD_FILE_NEW = CLIENTEVENT_NONE + 370,
@@ -3451,7 +3451,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__REMOTEFILE
-         * - #TTMessage.remotefile Placed in union of #TTMessage. */
+         * - @c TTMessage.remotefile Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_FILE_REMOVE = CLIENTEVENT_NONE + 380,
         /** 
          * @brief A user account has been received from the server.
@@ -3461,7 +3461,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USERACCOUNT
-         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+         * - @c TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USERACCOUNT = CLIENTEVENT_NONE + 390,
         /** 
          * @brief A banned user has been received from the server.
@@ -3471,7 +3471,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__BANNEDUSER
-         * - #TTMessage.banneduser Placed in union of #TTMessage. */
+         * - @c TTMessage.banneduser Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_BANNEDUSER  = CLIENTEVENT_NONE + 400,
         /** 
          * @brief A user account has been created.
@@ -3481,7 +3481,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USERACCOUNT
-         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+         * - @c TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USERACCOUNT_NEW = CLIENTEVENT_NONE + 410,
         /** 
          * @brief A user account has been removed.
@@ -3491,7 +3491,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USERACCOUNT
-         * - #TTMessage.useraccount Placed in union of #TTMessage. */
+         * - @c TTMessage.useraccount Placed in union of #TTMessage. */
         CLIENTEVENT_CMD_USERACCOUNT_REMOVE = CLIENTEVENT_NONE + 420,
         /**
          * @brief A user state has changed.
@@ -3510,7 +3510,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__USER.
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_SetUserStoppedTalkingDelay */
         CLIENTEVENT_USER_STATECHANGE = CLIENTEVENT_NONE + 500,
@@ -3523,7 +3523,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource User's ID.
          * - #TTMessage.ttType #__INT32
-         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of
+         * - @c TTMessage.nStreamID Placed in union of #TTMessage. The ID of
          * the video stream currently active for this user. If stream
          * ID becomes 0 it means the current stream has been
          * closed.  */
@@ -3537,7 +3537,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource User's ID.
          * - #TTMessage.ttType #__INT32
-         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of
+         * - @c TTMessage.nStreamID Placed in union of #TTMessage. The ID of
          * the video stream currently active for this user. If stream
          * ID becomes 0 it means the current stream has been
          * closed.  */
@@ -3552,7 +3552,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource The user's ID.
          * - #TTMessage.ttType #__INT32
-         * - #TTMessage.nStreamID Placed in union of #TTMessage. The ID of the
+         * - @c TTMessage.nStreamID Placed in union of #TTMessage. The ID of the
          * desktop window's session. If this ID changes it means the
          * user has started a new session. If the session ID becomes 0
          * it means the desktop session has been closed by the user.
@@ -3567,7 +3567,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource The user ID of the owner of the mouse cursor.
          * - #TTMessage.ttType #__DESKTOPINPUT
-         * - #TTMessage.desktopinput Placed in union of #TTMessage. Contains 
+         * - @c TTMessage.desktopinput Placed in union of #TTMessage. Contains 
          * the coordinates of the mouse cursor. */
         CLIENTEVENT_USER_DESKTOPCURSOR = CLIENTEVENT_NONE + 540,
         /**
@@ -3592,7 +3592,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource User ID
          * - #TTMessage.ttType #__DESKTOPINPUT
-         * - #TTMessage.desktopinput Placed in union of #TTMessage. */
+         * - @c TTMessage.desktopinput Placed in union of #TTMessage. */
         CLIENTEVENT_USER_DESKTOPINPUT = CLIENTEVENT_NONE + 550,
         /** 
          * @brief A media file recording has changed status.
@@ -3604,7 +3604,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource The user's ID.
          * - #TTMessage.ttType #__MEDIAFILEINFO
-         * - #TTMessage.mediafileinfo Placed in union of
+         * - @c TTMessage.mediafileinfo Placed in union of
          * #TTMessage. Properties for the media file currently being
          * recorded */
         CLIENTEVENT_USER_RECORD_MEDIAFILE = CLIENTEVENT_NONE + 560,
@@ -3624,7 +3624,7 @@ extern "C" {
          * - #TTMessage.nSource The user ID. @see TT_LOCAL_USERID
          * @see TT_MUTEX_USERID
          * - #TTMessage.ttType #__STREAMTYPE
-         * - #TTMessage.nStreamType Placed in union of #TTMessage */
+         * - @c TTMessage.nStreamType Placed in union of #TTMessage */
         CLIENTEVENT_USER_AUDIOBLOCK = CLIENTEVENT_NONE + 570,
         /** 
          * @brief An internal error occurred in the client instance.
@@ -3638,7 +3638,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__CLIENTERRORMSG
-         * - #TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
+         * - @c TTMessage.clienterrormsg Placed in union of #TTMessage. Contains
          * information on what caused an error. */
         CLIENTEVENT_INTERNAL_ERROR = CLIENTEVENT_NONE + 1000,
         /** 
@@ -3647,7 +3647,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__TTBOOL
-         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE if voice
+         * - @c TTMessage.bActive Placed in union of #TTMessage. TRUE if voice
          * is being transmitted due to voice level high than
          * activation level.
          *
@@ -3662,7 +3662,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource The hotkey ID passed to TT_HotKey_Register().
          * - #TTMessage.ttType #__TTBOOL
-         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE when
+         * - @c TTMessage.bActive Placed in union of #TTMessage. TRUE when
          * hotkey is active and FALSE when it becomes inactive.
          *
          * @see TT_HotKey_Register
@@ -3684,7 +3684,7 @@ extern "C" {
          * - #TTMessage.nSource The virtual key code. Look here for a list of virtual
          * key codes: http://msdn.microsoft.com/en-us/library/ms645540(VS.85).aspx
          * - #TTMessage.ttType #__TTBOOL
-         * - #TTMessage.bActive Placed in union of #TTMessage. TRUE when key
+         * - @c TTMessage.bActive Placed in union of #TTMessage. TRUE when key
          * is down and FALSE when released.
          * @see TT_HotKey_InstallTestHook */
         CLIENTEVENT_HOTKEY_TEST = CLIENTEVENT_NONE + 1030,
@@ -3701,7 +3701,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__FILETRANSFER
-         * - #TTMessage.filetransfer Placed in union of #TTMessage. Properties 
+         * - @c TTMessage.filetransfer Placed in union of #TTMessage. Properties 
          * and status information about the file transfer.
          *
          * @see TT_GetFileTransferInfo To retrieve #FileTransfer. */
@@ -3718,7 +3718,7 @@ extern "C" {
          * becomes 0 it means the desktop session has been closed and/or
          * cancelled.
          * - #TTMessage.ttType #__INT32
-         * - #TTMessage.nBytesRemain Placed in union of #TTMessage. The number of
+         * - @c TTMessage.nBytesRemain Placed in union of #TTMessage. The number of
          * bytes remaining before transmission of last desktop window
          * completes. When remaining bytes is 0 TT_SendDesktopWindow()
          * can be called again. */
@@ -3733,7 +3733,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0
          * - #TTMessage.ttType #__MEDIAFILEINFO
-         * - #TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
+         * - @c TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
          * properties and status information about the media file 
          * being streamed. */
         CLIENTEVENT_STREAM_MEDIAFILE = CLIENTEVENT_NONE + 1060,
@@ -3746,7 +3746,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource Session ID returned by TT_InitLocalPlayback()
          * - #TTMessage.ttType #__MEDIAFILEINFO
-         * - #TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
+         * - @c TTMessage.mediafileinfo Placed in union of #TTMessage. Contains
          * properties and status information about the media file
          * being played.
          */
@@ -3769,7 +3769,7 @@ extern "C" {
          * The stream ID will appear in #AudioBlock's @c nStreamID
          * on the receiving side.
          * - #TTMessage.ttType #__AUDIOINPUTPROGRESS
-         * - #TTMessage.audioinputprogress Placed in union of #TTMessage.
+         * - @c TTMessage.audioinputprogress Placed in union of #TTMessage.
          * Tells how much audio remains in queue. The queue should 
          * be refilled as long as the audio input should remain active.
          */
@@ -3791,7 +3791,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource Stream ID. This can be mapped to #AudioBlock.
          * - #TTMessage.ttType #__USER.
-         * - #TTMessage.user Placed in union of #TTMessage.
+         * - @c TTMessage.user Placed in union of #TTMessage.
          *
          * @see TT_SetUserJitterControl */
         CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET = CLIENTEVENT_NONE + 1090,
@@ -3804,7 +3804,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3822,7 +3822,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3840,7 +3840,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3857,7 +3857,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3874,7 +3874,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3893,7 +3893,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
@@ -3912,7 +3912,7 @@ extern "C" {
          * Attribute values in #TTMessage:
          * - #TTMessage.nSource 0.
          * - #TTMessage.ttType #__SOUNDDEVICE.
-         * - #TTMessage.sounddevice Placed in union of #TTMessage.
+         * - @c TTMessage.sounddevice Placed in union of #TTMessage.
          *
          * Only @c szDeviceName and @c szDeviceID of #SoundDevice will
          * be set.
