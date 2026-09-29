@@ -25,12 +25,23 @@
 #include <QRegularExpression>
 #include <QRegularExpressionMatch>
 #include <QSyntaxHighlighter>
+#include <QTextBlock>
 #include <QTextCursor>
 #include <QUrl>
 #include <QMessageBox>
 
 extern TTInstance* ttInst;
 extern NonDefaultSettings* ttSettings;
+
+class ChatMessageBlockData : public QTextBlockUserData
+{
+public:
+    ChatMessageBlockData(const QString& sender, const QString& content)
+        : sender(sender), content(content) {}
+
+    QString sender;
+    QString content;
+};
 
 QString urlFound(const QString& text, int& index, int& length)
 {
@@ -132,6 +143,12 @@ ChatTextEdit::ChatTextEdit(QWidget * parent/* = 0*/)
                             Qt::TextInteractionFlag::TextBrowserInteraction |
                             Qt::TextInteractionFlag::TextSelectableByKeyboard |
                             Qt::TextInteractionFlag::TextSelectableByMouse);
+    m_reply = new QShortcut(QKeySequence(Qt::CTRL | Qt::Key_R), this);
+    m_reply->setContext(Qt::WidgetShortcut);
+    connect(m_reply, &QShortcut::activated, this, [this]
+    {
+        replyToMessage(textCursor());
+    });
 }
    
 QString ChatTextEdit::getTimeStamp(const QDateTime& tm)
@@ -234,6 +251,8 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
 
     QString dt = getTimeStamp(msg.receiveTime);
     QString line = dt;
+    QString sender = getDisplayName(user);
+    int startBlock = document()->isEmpty() ? 0 : document()->blockCount();
 
     line += QString("%1\r\n%2").arg(getTextMessagePrefix(msg, user)).arg(msg.moreMessage);
 
@@ -269,9 +288,28 @@ QString ChatTextEdit::addTextMessage(const MyTextMessage& msg)
         appendPlainText(line);
     }
 
+    addMessageData(startBlock, sender, msg.moreMessage);
+
     limitText();
 
     return line;
+}
+
+void ChatTextEdit::addMessageData(int startBlock, const QString& sender, const QString& content)
+{
+    QTextBlock block = document()->findBlockByNumber(startBlock);
+    while (block.isValid())
+    {
+        block.setUserData(new ChatMessageBlockData(sender, content));
+        block = block.next();
+    }
+}
+
+void ChatTextEdit::replyToMessage(const QTextCursor& cursor)
+{
+    auto data = dynamic_cast<ChatMessageBlockData*>(cursor.block().userData());
+    if (data)
+        emit replyRequested(data->sender, data->content);
 }
 
 void ChatTextEdit::addLogMessage(const QString& msg)
@@ -391,10 +429,21 @@ void ChatTextEdit::keyPressEvent(QKeyEvent* e)
 void ChatTextEdit::contextMenuEvent(QContextMenuEvent *event)
 {
     QMenu *menu = createStandardContextMenu();
+    QTextCursor cursor = cursorForPosition(event->pos());
+    auto messageData = dynamic_cast<ChatMessageBlockData*>(cursor.block().userData());
+    QAction* replyMenu = nullptr;
+    if (messageData)
+    {
+        menu->addSeparator();
+        replyMenu = menu->addAction(tr("&Reply"));
+        replyMenu->setShortcut(QKeySequence(Qt::CTRL | Qt::Key_R));
+    }
     menu->addSeparator();
     auto clearMenu = menu->addAction(tr("&Clear"), this, &QPlainTextEdit::clear);
     QAction* chosen = menu->exec(event->globalPos());
-    if (clearMenu == chosen)
+    if (replyMenu == chosen)
+        replyToMessage(cursor);
+    else if (clearMenu == chosen)
     {
         emit clearHistory();
     }

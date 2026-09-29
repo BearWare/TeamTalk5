@@ -1284,12 +1284,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextEdit</name>
     <message>
-        <location filename="../chattextedit.cpp" line="294"/>
+        <location filename="../chattextedit.cpp" line="332"/>
         <source>History</source>
         <translation>Lịch sử</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="395"/>
+        <location filename="../chattextedit.cpp" line="438"/>
+        <source>&amp;Reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattextedit.cpp" line="442"/>
         <source>&amp;Clear</source>
         <translation>Xóa bỏ</translation>
     </message>
@@ -1297,80 +1302,85 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextList</name>
     <message>
-        <location filename="../chattextlist.cpp" line="236"/>
+        <location filename="../chattextlist.cpp" line="246"/>
         <source>History</source>
         <translation>Lịch sử</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="122"/>
+        <location filename="../chattextlist.cpp" line="130"/>
         <source>Server Name: %1</source>
         <translation>Tên máy chủ: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="121"/>
-        <location filename="../chattextlist.cpp" line="132"/>
+        <location filename="../chattextlist.cpp" line="129"/>
+        <location filename="../chattextlist.cpp" line="140"/>
         <source>Server</source>
         <translation>Máy chủ</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="133"/>
+        <location filename="../chattextlist.cpp" line="141"/>
         <source>Message of the Day: %1</source>
         <translation>Tin nhắn trong ngày: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="153"/>
+        <location filename="../chattextlist.cpp" line="161"/>
         <source>Joined channel %1</source>
         <translation>Đã tham gia kênh %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="152"/>
-        <location filename="../chattextlist.cpp" line="161"/>
-        <location filename="../chattextlist.cpp" line="168"/>
+        <location filename="../chattextlist.cpp" line="160"/>
+        <location filename="../chattextlist.cpp" line="169"/>
+        <location filename="../chattextlist.cpp" line="176"/>
         <source>Channel</source>
         <translation>Kênh</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="162"/>
+        <location filename="../chattextlist.cpp" line="170"/>
         <source>Topic: %1</source>
         <translation>Chủ đề: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="169"/>
+        <location filename="../chattextlist.cpp" line="177"/>
         <source>Disk quota: %1</source>
         <translation>Hạn mức ổ đĩa: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="204"/>
+        <location filename="../chattextlist.cpp" line="212"/>
         <source>You</source>
         <translation>Bạn</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="219"/>
+        <location filename="../chattextlist.cpp" line="229"/>
         <source>System</source>
         <translation>Hệ thống</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="391"/>
+        <location filename="../chattextlist.cpp" line="403"/>
+        <source>&amp;Reply</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
+        <location filename="../chattextlist.cpp" line="404"/>
         <source>&amp;Copy</source>
         <translation>&amp;Sao chép</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="392"/>
+        <location filename="../chattextlist.cpp" line="405"/>
         <source>C&amp;opy Content Only</source>
         <translation>Sao chép chỉ nội dung</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="393"/>
+        <location filename="../chattextlist.cpp" line="406"/>
         <source>View &amp;Details...</source>
         <translation>Xem Chi tiết...</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="397"/>
+        <location filename="../chattextlist.cpp" line="410"/>
         <source>Copy &amp;All</source>
         <translation>Sao chép Tất cả</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="398"/>
+        <location filename="../chattextlist.cpp" line="411"/>
         <source>C&amp;lear</source>
         <translation>Xóa</translation>
     </message>
@@ -2100,27 +2110,27 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="684"/>
+        <location filename="../utilui.cpp" line="717"/>
         <source>Username:</source>
         <translation>Tên người dùng:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="689"/>
+        <location filename="../utilui.cpp" line="722"/>
         <source>Password:</source>
         <translation>Mật khẩu:</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="695"/>
+        <location filename="../utilui.cpp" line="728"/>
         <source>Show password</source>
         <translation>Hiện mật khẩu</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="700"/>
+        <location filename="../utilui.cpp" line="733"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="701"/>
+        <location filename="../utilui.cpp" line="734"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Hủy</translation>
     </message>
@@ -2150,7 +2160,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="224"/>
         <location filename="../mainwindow.ui" line="249"/>
         <location filename="../mainwindow.ui" line="252"/>
-        <location filename="../mainwindow.cpp" line="3540"/>
+        <location filename="../mainwindow.cpp" line="3561"/>
         <source>Microphone gain</source>
         <translation>Âm lượng Microphone</translation>
     </message>
@@ -2183,7 +2193,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="760"/>
         <location filename="../mainwindow.ui" line="1962"/>
-        <location filename="../mainwindow.cpp" line="7647"/>
+        <location filename="../mainwindow.cpp" line="7675"/>
         <source>&amp;Video</source>
         <translation>Video</translation>
     </message>
@@ -2241,13 +2251,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1032"/>
-        <location filename="../mainwindow.cpp" line="7655"/>
+        <location filename="../mainwindow.cpp" line="7683"/>
         <source>&amp;Desktops</source>
         <translation>Màn hình</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="399"/>
-        <location filename="../mainwindow.cpp" line="3407"/>
+        <location filename="../mainwindow.cpp" line="3428"/>
         <source>&amp;Files</source>
         <translation>Tệp</translation>
     </message>
@@ -2356,7 +2366,7 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1647"/>
-        <location filename="../mainwindow.cpp" line="2808"/>
+        <location filename="../mainwindow.cpp" line="2811"/>
         <source>&amp;Exit</source>
         <translation>Thoát</translation>
     </message>
@@ -3281,420 +3291,420 @@ p, li { white-space: pre-wrap; }
         <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1101"/>
-        <location filename="../mainwindow.cpp" line="2920"/>
+        <location filename="../mainwindow.cpp" line="1104"/>
+        <location filename="../mainwindow.cpp" line="2923"/>
         <source>Firewall exception</source>
         <translation>Ngoại lệ tường lửa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1102"/>
+        <location filename="../mainwindow.cpp" line="1105"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
         <translation>Không thể xóa %1 khỏi các ngoại lệ của Tường lửa Windows.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1118"/>
+        <location filename="../mainwindow.cpp" line="1121"/>
         <source>Startup arguments</source>
         <translation>Tham số khởi động</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1119"/>
+        <location filename="../mainwindow.cpp" line="1122"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
         <translation>Tham số chương trình &quot;%1&quot; không được nhận dạng.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1180"/>
+        <location filename="../mainwindow.cpp" line="1183"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
         <translation>Không thể kết nối đến %1 Cổng TCP %2 cổng UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="848"/>
+        <location filename="../mainwindow.cpp" line="851"/>
         <source>Translate</source>
         <translation>Dịch</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="965"/>
+        <location filename="../mainwindow.cpp" line="968"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
         <translation>Gói âm thanh %1 không tồn tại. Bạn có muốn sử dụng gói âm thanh mặc định không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1196"/>
-        <location filename="../mainwindow.cpp" line="1200"/>
+        <location filename="../mainwindow.cpp" line="1199"/>
+        <location filename="../mainwindow.cpp" line="1203"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
         <translation>Mất kết nối đến %1 Cổng TCP %2 Cổng UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1372"/>
-        <location filename="../mainwindow.cpp" line="1373"/>
-        <location filename="../mainwindow.cpp" line="1411"/>
-        <location filename="../mainwindow.cpp" line="1412"/>
-        <location filename="../mainwindow.cpp" line="3279"/>
-        <location filename="../mainwindow.cpp" line="3333"/>
-        <location filename="../mainwindow.cpp" line="5214"/>
-        <location filename="../mainwindow.cpp" line="6221"/>
+        <location filename="../mainwindow.cpp" line="1375"/>
+        <location filename="../mainwindow.cpp" line="1376"/>
+        <location filename="../mainwindow.cpp" line="1414"/>
+        <location filename="../mainwindow.cpp" line="1415"/>
+        <location filename="../mainwindow.cpp" line="3300"/>
+        <location filename="../mainwindow.cpp" line="3354"/>
+        <location filename="../mainwindow.cpp" line="5235"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>root</source>
         <translation>root</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1221"/>
         <location filename="../mainwindow.cpp" line="1224"/>
+        <location filename="../mainwindow.cpp" line="1227"/>
         <source>Kicked from server</source>
         <translation>Đã bị Kick khỏi máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1222"/>
+        <location filename="../mainwindow.cpp" line="1225"/>
         <source>You have been kicked from server by %1</source>
         <translation>Bạn đã bị kick khỏi máy chủ bởi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1225"/>
+        <location filename="../mainwindow.cpp" line="1228"/>
         <source>You have been kicked from server by unknown user</source>
         <translation>Bạn đã bị kick khỏi máy chủ bởi một người dùng không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1241"/>
         <location filename="../mainwindow.cpp" line="1244"/>
+        <location filename="../mainwindow.cpp" line="1247"/>
         <source>Kicked from channel</source>
         <translation>Đã bị Kick khỏi kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1242"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>You have been kicked from channel by %1</source>
         <translation>Bạn đã bị kick khỏi kênh bởi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1245"/>
+        <location filename="../mainwindow.cpp" line="1248"/>
         <source>You have been kicked from channel by unknown user</source>
         <translation>Bạn đã bị kick khỏi kênh bởi một người dùng không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1504"/>
-        <location filename="../mainwindow.cpp" line="5792"/>
+        <location filename="../mainwindow.cpp" line="1507"/>
+        <location filename="../mainwindow.cpp" line="5814"/>
         <source>Failed to download file %1</source>
         <translation>Không thể tải xuống tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1508"/>
-        <location filename="../mainwindow.cpp" line="6753"/>
+        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="6781"/>
         <source>Failed to upload file %1</source>
         <translation>Không thể tải lên tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1521"/>
+        <location filename="../mainwindow.cpp" line="1524"/>
         <source>Failed to initialize sound input device</source>
         <translation>Không thể khởi động thiết bị âm thanh đầu vào</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1523"/>
+        <location filename="../mainwindow.cpp" line="1526"/>
         <source>Failed to initialize sound output device</source>
         <translation>Không thể khởi động thiết bị âm thanh đầu ra</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1525"/>
+        <location filename="../mainwindow.cpp" line="1528"/>
         <source>Failed to initialize audio codec</source>
         <translation>Không thể khởi tạo codec âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1532"/>
+        <location filename="../mainwindow.cpp" line="1535"/>
         <source>Internal message queue overloaded</source>
         <translation>Hàng đợi tin nhắn nội bộ bị quá tải</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1538"/>
+        <location filename="../mainwindow.cpp" line="1541"/>
         <source>Internal Error</source>
         <translation>Lỗi nội bộ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1564"/>
+        <location filename="../mainwindow.cpp" line="1567"/>
         <source>Streaming from %1 started</source>
         <translation>%1 đã bắt đầu phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1588"/>
+        <location filename="../mainwindow.cpp" line="1591"/>
         <source>Error streaming media file to channel</source>
         <translation>Lỗi khi phát tệp phương tiện tới kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1592"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Started streaming media file to channel</source>
         <translation>Đã bắt đầu phát tệp phương tiện tới kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1595"/>
+        <location filename="../mainwindow.cpp" line="1598"/>
         <source>Finished streaming media file to channel</source>
         <translation>Đã hoàn thành phát tệp phương tiện tới kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1602"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Aborted streaming media file to channel</source>
         <translation>Đã hủy phát tệp phương tiện tới kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1653"/>
-        <location filename="../mainwindow.cpp" line="1681"/>
+        <location filename="../mainwindow.cpp" line="1656"/>
+        <location filename="../mainwindow.cpp" line="1684"/>
         <source>New video session from %1</source>
         <translation>Phiên video mới từ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1706"/>
+        <location filename="../mainwindow.cpp" line="1709"/>
         <source>New desktop session from %1</source>
         <translation>Phiên chia sẻ màn hình mới từ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1733"/>
+        <location filename="../mainwindow.cpp" line="1736"/>
         <source>Your desktop session was cancelled</source>
         <translation>Phiên chia sẻ màn hình của bạn đã bị hủy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1744"/>
+        <location filename="../mainwindow.cpp" line="1747"/>
         <source>Writing audio file %1 for %2</source>
         <translation>Ghi tệp âm thanh %1 cho %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1749"/>
+        <location filename="../mainwindow.cpp" line="1752"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>Không thể ghi tệp âm thanh %1 cho %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1754"/>
+        <location filename="../mainwindow.cpp" line="1757"/>
         <source>Finished writing to audio file %1</source>
         <translation>Đã ghi xong vào tệp âm thanh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1758"/>
+        <location filename="../mainwindow.cpp" line="1761"/>
         <source>Aborted audio file %1</source>
         <translation>Tệp %1 đã bị hủy bỏ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2150"/>
+        <location filename="../mainwindow.cpp" line="2153"/>
         <source>Banned Users in Channel %1</source>
         <translation>Người dùng đã bị cấm trong Kênh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2126"/>
+        <location filename="../mainwindow.cpp" line="2129"/>
         <source>Cannot join channel %1</source>
         <translation>Không thể tham gia kênh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Using sound input: %1</source>
         <translation>Sử dụng âm thanh đầu vào: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2211"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Using sound output: %2</source>
         <translation>Sử dụng âm thanh đầu ra: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2228"/>
+        <location filename="../mainwindow.cpp" line="2231"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
         <translation>Đang kết nối đến  %1 Cổng TCP %2 Cổng UDP %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2036"/>
-        <location filename="../mainwindow.cpp" line="2037"/>
+        <location filename="../mainwindow.cpp" line="2039"/>
+        <location filename="../mainwindow.cpp" line="2040"/>
         <source>Connected to %1</source>
         <translation>Đã kết nối đến %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2349"/>
-        <location filename="../mainwindow.cpp" line="3463"/>
+        <location filename="../mainwindow.cpp" line="2352"/>
+        <location filename="../mainwindow.cpp" line="3484"/>
         <source>Error</source>
         <translation>Lỗi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2355"/>
+        <location filename="../mainwindow.cpp" line="2358"/>
         <source>Syntax error</source>
         <translation>Lỗi cú pháp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2357"/>
+        <location filename="../mainwindow.cpp" line="2360"/>
         <source>Unknown command</source>
         <translation>Lệnh không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2359"/>
+        <location filename="../mainwindow.cpp" line="2362"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
         <translation>Máy chủ sử dụng giao thức không tương thích với phiên bản máy khách</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2361"/>
+        <location filename="../mainwindow.cpp" line="2364"/>
         <source>Unknown audio codec</source>
         <translation>Codec âm thanh không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2363"/>
+        <location filename="../mainwindow.cpp" line="2366"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>Máy khách này không tương thích với máy chủ nên không thể thực hiện hành động.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2366"/>
+        <location filename="../mainwindow.cpp" line="2369"/>
         <source>The username is invalid</source>
         <translation>Tên người dùng không hợp lệ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="813"/>
-        <location filename="../mainwindow.cpp" line="4592"/>
-        <location filename="../mainwindow.cpp" line="6030"/>
-        <location filename="../mainwindow.cpp" line="6344"/>
+        <location filename="../mainwindow.cpp" line="816"/>
+        <location filename="../mainwindow.cpp" line="4613"/>
+        <location filename="../mainwindow.cpp" line="6052"/>
+        <location filename="../mainwindow.cpp" line="6366"/>
         <source>&amp;OK</source>
         <translation>OK</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1464"/>
-        <location filename="../mainwindow.cpp" line="1483"/>
-        <location filename="../mainwindow.cpp" line="6976"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
+        <location filename="../mainwindow.cpp" line="1486"/>
+        <location filename="../mainwindow.cpp" line="7004"/>
         <source>You</source>
         <translation>Bạn</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2372"/>
-        <location filename="../mainwindow.cpp" line="2405"/>
-        <location filename="../mainwindow.cpp" line="2412"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
+        <location filename="../mainwindow.cpp" line="2408"/>
+        <location filename="../mainwindow.cpp" line="2415"/>
         <source>Login error</source>
         <translation>Lỗi đăng nhập</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2392"/>
+        <location filename="../mainwindow.cpp" line="2395"/>
         <source>Join channel error</source>
         <translation>Lỗi khi tham gia kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2406"/>
+        <location filename="../mainwindow.cpp" line="2409"/>
         <source>Banned from server</source>
         <translation>Đã bị chặn khỏi máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2410"/>
+        <location filename="../mainwindow.cpp" line="2413"/>
         <source>Command not authorized</source>
         <translation>Lệnh không được ủy quyền</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2413"/>
+        <location filename="../mainwindow.cpp" line="2416"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>Đã vượt quá số lượng người dùng tối đa trên máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2415"/>
+        <location filename="../mainwindow.cpp" line="2418"/>
         <source>Maximum disk usage exceeded</source>
         <translation>Đã vượt quá mức sử dụng đĩa tối đa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2417"/>
+        <location filename="../mainwindow.cpp" line="2420"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>Đã vượt quá số lượng người dùng tối đa trong kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2419"/>
+        <location filename="../mainwindow.cpp" line="2422"/>
         <source>Incorrect channel operator password</source>
         <translation>Mật khẩu quản lý kênh không chính xác</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2425"/>
+        <location filename="../mainwindow.cpp" line="2428"/>
         <source>The maximum number of channels has been exceeded</source>
         <translation>Đã vượt quá số lượng kênh tối đa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2427"/>
+        <location filename="../mainwindow.cpp" line="2430"/>
         <source>Command flooding prevented by server</source>
         <translation>Ngăn chặn quá tải lệnh từ máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2433"/>
+        <location filename="../mainwindow.cpp" line="2436"/>
         <source>Already logged in</source>
         <translation>Đã đăng nhập</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2435"/>
+        <location filename="../mainwindow.cpp" line="2438"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>Không thể thực hiện hành động vì máy khách hiện chưa đăng nhập</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2438"/>
+        <location filename="../mainwindow.cpp" line="2441"/>
         <source>Cannot join the same channel twice</source>
         <translation>Không thể tham gia cùng một kênh hai lần</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2440"/>
+        <location filename="../mainwindow.cpp" line="2443"/>
         <source>Channel already exists</source>
         <translation>Kênh đã tồn tại</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2446"/>
+        <location filename="../mainwindow.cpp" line="2449"/>
         <source>User not found</source>
         <translation>Không tìm thấy người dùng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2449"/>
+        <location filename="../mainwindow.cpp" line="2452"/>
         <source>Server failed to open file</source>
         <translation>Máy chủ không mở được tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2451"/>
+        <location filename="../mainwindow.cpp" line="2454"/>
         <source>The login service is currently unavailable</source>
         <translation>Đăng nhập hiện không khả dụng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2453"/>
+        <location filename="../mainwindow.cpp" line="2456"/>
         <source>This channel cannot be hidden</source>
         <translation>Không thể ẩn kênh này</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2455"/>
+        <location filename="../mainwindow.cpp" line="2458"/>
         <source>Channel not found</source>
         <translation>Không tìm thấy kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2457"/>
+        <location filename="../mainwindow.cpp" line="2460"/>
         <source>Cannot leave channel because not in channel.</source>
         <translation>Không thể rời khỏi kênh vì không ở trong kênh.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2459"/>
+        <location filename="../mainwindow.cpp" line="2462"/>
         <source>Banned user not found</source>
         <translation>Không tìm thấy người dùng đã bị chặn</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2461"/>
+        <location filename="../mainwindow.cpp" line="2464"/>
         <source>File transfer not found</source>
         <translation>Không tìm thấy tệp đã gửi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2463"/>
+        <location filename="../mainwindow.cpp" line="2466"/>
         <source>User account not found</source>
         <translation>Không tìm thấy tài khoản người dùng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2465"/>
+        <location filename="../mainwindow.cpp" line="2468"/>
         <source>File not found</source>
         <translation>Không tìm thấy tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2467"/>
+        <location filename="../mainwindow.cpp" line="2470"/>
         <source>File already exists</source>
         <translation>Tệp đã tồn tại</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2469"/>
+        <location filename="../mainwindow.cpp" line="2472"/>
         <source>File sharing is disabled</source>
         <translation>Đã tắt tính năng gửi tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2471"/>
+        <location filename="../mainwindow.cpp" line="2474"/>
         <source>Channel has active users</source>
         <translation>Kênh có người dùng đang hoạt động</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2476"/>
+        <location filename="../mainwindow.cpp" line="2479"/>
         <source>Unknown error occured</source>
         <translation>Đã xảy ra lỗi không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2483"/>
+        <location filename="../mainwindow.cpp" line="2486"/>
         <source>The server reported an error:</source>
         <translation>Thông báo lỗi từ máy chủ:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4468"/>
+        <location filename="../mainwindow.cpp" line="4489"/>
         <source>No Sound Device</source>
         <translation>Không có thiết bị âm thanh</translation>
     </message>
@@ -3704,861 +3714,861 @@ p, li { white-space: pre-wrap; }
         <translation>Làm mới lại thiết bị âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="791"/>
-        <location filename="../mainwindow.cpp" line="966"/>
-        <location filename="../mainwindow.cpp" line="997"/>
-        <location filename="../mainwindow.cpp" line="2909"/>
-        <location filename="../mainwindow.cpp" line="4556"/>
-        <location filename="../mainwindow.cpp" line="5370"/>
-        <location filename="../mainwindow.cpp" line="5806"/>
-        <location filename="../mainwindow.cpp" line="6081"/>
-        <location filename="../mainwindow.cpp" line="6310"/>
-        <location filename="../mainwindow.cpp" line="6330"/>
-        <location filename="../mainwindow.cpp" line="6720"/>
-        <location filename="../mainwindow.cpp" line="7762"/>
-        <location filename="../mainwindow.cpp" line="7848"/>
-        <location filename="../mainwindow.cpp" line="7872"/>
+        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="969"/>
+        <location filename="../mainwindow.cpp" line="1000"/>
+        <location filename="../mainwindow.cpp" line="2912"/>
+        <location filename="../mainwindow.cpp" line="4577"/>
+        <location filename="../mainwindow.cpp" line="5391"/>
+        <location filename="../mainwindow.cpp" line="5828"/>
+        <location filename="../mainwindow.cpp" line="6103"/>
+        <location filename="../mainwindow.cpp" line="6332"/>
+        <location filename="../mainwindow.cpp" line="6352"/>
+        <location filename="../mainwindow.cpp" line="6748"/>
+        <location filename="../mainwindow.cpp" line="7790"/>
+        <location filename="../mainwindow.cpp" line="7876"/>
+        <location filename="../mainwindow.cpp" line="7900"/>
         <source>&amp;Yes</source>
         <translation>Có</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="792"/>
-        <location filename="../mainwindow.cpp" line="967"/>
-        <location filename="../mainwindow.cpp" line="998"/>
-        <location filename="../mainwindow.cpp" line="2910"/>
-        <location filename="../mainwindow.cpp" line="4557"/>
-        <location filename="../mainwindow.cpp" line="5371"/>
-        <location filename="../mainwindow.cpp" line="5807"/>
-        <location filename="../mainwindow.cpp" line="6082"/>
-        <location filename="../mainwindow.cpp" line="6311"/>
-        <location filename="../mainwindow.cpp" line="6331"/>
-        <location filename="../mainwindow.cpp" line="6721"/>
-        <location filename="../mainwindow.cpp" line="7763"/>
-        <location filename="../mainwindow.cpp" line="7849"/>
-        <location filename="../mainwindow.cpp" line="7873"/>
+        <location filename="../mainwindow.cpp" line="795"/>
+        <location filename="../mainwindow.cpp" line="970"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
+        <location filename="../mainwindow.cpp" line="2913"/>
+        <location filename="../mainwindow.cpp" line="4578"/>
+        <location filename="../mainwindow.cpp" line="5392"/>
+        <location filename="../mainwindow.cpp" line="5829"/>
+        <location filename="../mainwindow.cpp" line="6104"/>
+        <location filename="../mainwindow.cpp" line="6333"/>
+        <location filename="../mainwindow.cpp" line="6353"/>
+        <location filename="../mainwindow.cpp" line="6749"/>
+        <location filename="../mainwindow.cpp" line="7791"/>
+        <location filename="../mainwindow.cpp" line="7877"/>
+        <location filename="../mainwindow.cpp" line="7901"/>
         <source>&amp;No</source>
         <translation>Không</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3270"/>
-        <location filename="../mainwindow.cpp" line="3282"/>
+        <location filename="../mainwindow.cpp" line="3291"/>
+        <location filename="../mainwindow.cpp" line="3303"/>
         <source>Joined classroom channel %1</source>
         <translation>Đã tham gia kênh lớp học %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3324"/>
-        <location filename="../mainwindow.cpp" line="3336"/>
+        <location filename="../mainwindow.cpp" line="3345"/>
+        <location filename="../mainwindow.cpp" line="3357"/>
         <source>Left classroom channel %1</source>
         <translation>Rời khỏi kênh lớp học %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3328"/>
-        <location filename="../mainwindow.cpp" line="3340"/>
+        <location filename="../mainwindow.cpp" line="3349"/>
+        <location filename="../mainwindow.cpp" line="3361"/>
         <source>Left channel %1</source>
         <translation>Rời khỏi kênh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4951"/>
+        <location filename="../mainwindow.cpp" line="4972"/>
         <source>Voice for %1 disabled</source>
         <translation>Giọng nói của %1 đã bị vô hiệu hóa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4953"/>
+        <location filename="../mainwindow.cpp" line="4974"/>
         <source>Voice for %1 enabled</source>
         <translation>Giọng nói của %1 đã được kích hoạt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4970"/>
+        <location filename="../mainwindow.cpp" line="4991"/>
         <source>Media files for %1 disabled</source>
         <translation>Tệp phương tiện của %1 đã bị vô hiệu hóa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4972"/>
+        <location filename="../mainwindow.cpp" line="4993"/>
         <source>Media files for %1 enabled</source>
         <translation>Tệp phương tiện của %1 đã được kích hoạt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4988"/>
+        <location filename="../mainwindow.cpp" line="5009"/>
         <source>Master volume disabled</source>
         <translation>Đã tắt âm lượng chính</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4993"/>
+        <location filename="../mainwindow.cpp" line="5014"/>
         <source>Master volume enabled</source>
         <translation>Đã bật âm lượng chính</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5125"/>
+        <location filename="../mainwindow.cpp" line="5146"/>
         <source>Voice volume for %1 increased to %2%</source>
         <translation>Âm lượng giọng nói của %1 đã tăng lên %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5138"/>
+        <location filename="../mainwindow.cpp" line="5159"/>
         <source>Voice volume for %1 decreased to %2%</source>
         <translation>Âm lượng giọng nói của %1 giảm xuống %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5151"/>
+        <location filename="../mainwindow.cpp" line="5172"/>
         <source>Media files volume for %1 increased to %2%</source>
         <translation>Âm lượng tệp phương tiện của %1 đã tăng lên %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5164"/>
+        <location filename="../mainwindow.cpp" line="5185"/>
         <source>Media files volume for %1 decreased to %2%</source>
         <translation>Âm lượng tệp phương tiện của %1 giảm xuống %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5183"/>
+        <location filename="../mainwindow.cpp" line="5204"/>
         <source>%1 selected for move</source>
         <translation>%1 đã được chọn để di chuyển</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5215"/>
-        <location filename="../mainwindow.cpp" line="5219"/>
+        <location filename="../mainwindow.cpp" line="5236"/>
+        <location filename="../mainwindow.cpp" line="5240"/>
         <source>Selected users has been moved to channel %1</source>
         <translation>Người dùng đã chọn đã được chuyển đến kênh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5810"/>
+        <location filename="../mainwindow.cpp" line="5832"/>
         <source>Delete %1 files</source>
         <translation>Xóa tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2342"/>
-        <location filename="../mainwindow.cpp" line="2343"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Server configuration saved</source>
         <translation>Đã lưu cấu hình máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5848"/>
+        <location filename="../mainwindow.cpp" line="5870"/>
         <source>Specify User Account</source>
         <translation>Chỉ định tài khoản người dùng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5895"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
         <source>Ascending</source>
         <translation>tăng dần</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5895"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
         <source>Descending</source>
         <translation>giảm dần</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5897"/>
+        <location filename="../mainwindow.cpp" line="5919"/>
         <source>&amp;Name (%1)</source>
         <translation>Tên (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5903"/>
+        <location filename="../mainwindow.cpp" line="5925"/>
         <source>&amp;Size (%1)</source>
         <translation>Dung lượng (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5909"/>
+        <location filename="../mainwindow.cpp" line="5931"/>
         <source>&amp;Owner (%1)</source>
         <translation>Người sở hữu (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5915"/>
+        <location filename="../mainwindow.cpp" line="5937"/>
         <source>&amp;Upload Date (%1)</source>
         <translation>Ngày tải lên (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6168"/>
+        <location filename="../mainwindow.cpp" line="6190"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation>Quản trị viên</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6168"/>
-        <source>Administrator</source>
-        <comment>For male and neutral</comment>
-        <translation>Quản trị viên</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6172"/>
-        <source>User</source>
-        <comment>For female</comment>
-        <translation>Người dùng</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6172"/>
-        <source>User</source>
-        <comment>For male and neutral</comment>
-        <translation>Người dùng</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6179"/>
-        <source>Selected for move</source>
-        <comment>For female</comment>
-        <translation>Đã được chọn để di chuyển</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6179"/>
-        <source>Selected for move</source>
-        <comment>For male and neutral</comment>
-        <translation>Đã được chọn để di chuyển</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6182"/>
-        <source>Channel operator</source>
-        <comment>For female</comment>
-        <translation>Người quản lý kênh</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="6182"/>
-        <source>Channel operator</source>
-        <comment>For male and neutral</comment>
-        <translation>Người quản lý kênh</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
+        <source>Administrator</source>
+        <comment>For male and neutral</comment>
+        <translation>Quản trị viên</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6194"/>
+        <source>User</source>
+        <comment>For female</comment>
+        <translation>Người dùng</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6194"/>
+        <source>User</source>
+        <comment>For male and neutral</comment>
+        <translation>Người dùng</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6201"/>
+        <source>Selected for move</source>
+        <comment>For female</comment>
+        <translation>Đã được chọn để di chuyển</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6201"/>
+        <source>Selected for move</source>
+        <comment>For male and neutral</comment>
+        <translation>Đã được chọn để di chuyển</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6204"/>
+        <source>Channel operator</source>
+        <comment>For female</comment>
+        <translation>Người quản lý kênh</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6204"/>
+        <source>Channel operator</source>
+        <comment>For male and neutral</comment>
+        <translation>Người quản lý kênh</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="6212"/>
         <source>Available</source>
         <comment>For female</comment>
         <translation>Trực tuyến</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6190"/>
+        <location filename="../mainwindow.cpp" line="6212"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
         <translation>trực tuyến</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6215"/>
         <source>Away</source>
         <comment>For female</comment>
         <translation>Vắng mặt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6215"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
         <translation>Vắng mặt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6561"/>
+        <location filename="../mainwindow.cpp" line="6583"/>
         <source>Resume Stream</source>
         <translation>Tiếp tục Phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6618"/>
-        <location filename="../mainwindow.cpp" line="6636"/>
+        <location filename="../mainwindow.cpp" line="6640"/>
+        <location filename="../mainwindow.cpp" line="6658"/>
         <source>&amp;Play</source>
         <translation>&amp;Phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6623"/>
+        <location filename="../mainwindow.cpp" line="6645"/>
         <source>&amp;Pause</source>
         <translation>&amp;Tạm dừng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5748"/>
-        <location filename="../mainwindow.cpp" line="6638"/>
+        <location filename="../mainwindow.cpp" line="5769"/>
+        <location filename="../mainwindow.cpp" line="6660"/>
         <source>Duration: %1</source>
         <translation>Thời lượng: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6628"/>
-        <location filename="../mainwindow.cpp" line="6641"/>
+        <location filename="../mainwindow.cpp" line="6650"/>
+        <location filename="../mainwindow.cpp" line="6663"/>
         <source>Audio format: %1</source>
         <translation>Định dạng âm thanh: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6629"/>
-        <location filename="../mainwindow.cpp" line="6642"/>
+        <location filename="../mainwindow.cpp" line="6651"/>
+        <location filename="../mainwindow.cpp" line="6664"/>
         <source>Video format: %1</source>
         <translation>Định dạng video: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6646"/>
+        <location filename="../mainwindow.cpp" line="6668"/>
         <source>File name: %1</source>
         <translation>Tên tệp: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6655"/>
-        <location filename="../mainwindow.cpp" line="6661"/>
-        <location filename="../mainwindow.cpp" line="6668"/>
+        <location filename="../mainwindow.cpp" line="6677"/>
+        <location filename="../mainwindow.cpp" line="6683"/>
+        <location filename="../mainwindow.cpp" line="6690"/>
         <source>%1 %</source>
         <translation>%1 %</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7649"/>
+        <location filename="../mainwindow.cpp" line="7677"/>
         <source>&amp;Video (%1)</source>
         <translation>Video (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7657"/>
+        <location filename="../mainwindow.cpp" line="7685"/>
         <source>&amp;Desktops (%1)</source>
         <translation>Chia sẻ màn hình (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7847"/>
+        <location filename="../mainwindow.cpp" line="7875"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Đã có phiên bản mới của %1: %2. Bạn có muốn mở trang tải xuống ngay bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7852"/>
+        <location filename="../mainwindow.cpp" line="7880"/>
         <source>New version available</source>
         <translation>Phiên bản mới có sẵn</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7871"/>
+        <location filename="../mainwindow.cpp" line="7899"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
         <translation>Đã có phiên bản beta mới của %1: %2. Bạn có muốn mở trang tải xuống ngay bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7876"/>
+        <location filename="../mainwindow.cpp" line="7904"/>
         <source>New beta version available</source>
         <translation>Phiên bản beta mới có sẵn</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7985"/>
+        <location filename="../mainwindow.cpp" line="8013"/>
         <source>No available voices found for Text-To-Speech</source>
         <translation>Không tìm thấy giọng nói khả dụng nào cho Chuyển văn bản thành giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2806"/>
+        <location filename="../mainwindow.cpp" line="2809"/>
         <source>&amp;Restore</source>
         <translation>Khôi phục</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1213"/>
+        <location filename="../mainwindow.cpp" line="1216"/>
         <source>Kicked from server by %1</source>
         <translation>Đã bị kick khỏi máy chủ bởi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1216"/>
+        <location filename="../mainwindow.cpp" line="1219"/>
         <source>Kicked from server by unknown user</source>
         <translation>Đã bị kick khỏi máy chủ bởi một người dùng không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1233"/>
+        <location filename="../mainwindow.cpp" line="1236"/>
         <source>Kicked from channel by %1</source>
         <translation>Đã bị kick khỏi kênh bởi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1236"/>
+        <location filename="../mainwindow.cpp" line="1239"/>
         <source>Kicked from channel by unknown user</source>
         <translation>Đã bị kick khỏi kênh bởi một người dùng không xác định</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="814"/>
-        <location filename="../mainwindow.cpp" line="4593"/>
-        <location filename="../mainwindow.cpp" line="6031"/>
-        <location filename="../mainwindow.cpp" line="6345"/>
+        <location filename="../mainwindow.cpp" line="817"/>
+        <location filename="../mainwindow.cpp" line="4614"/>
+        <location filename="../mainwindow.cpp" line="6053"/>
+        <location filename="../mainwindow.cpp" line="6367"/>
         <source>&amp;Cancel</source>
         <translation>Hủy</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="790"/>
+        <location filename="../mainwindow.cpp" line="793"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
         <translation>%1 đã phát hiện ngôn ngữ hệ thống của bạn là %2. Tiếp tục bằng %2?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="797"/>
         <source>Language configuration</source>
         <translation>Cấu hình ngôn ngữ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="817"/>
+        <location filename="../mainwindow.cpp" line="820"/>
         <source>Choose language</source>
         <translation>Chọn ngôn ngữ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="818"/>
+        <location filename="../mainwindow.cpp" line="821"/>
         <source>Select the language will be use by %1</source>
         <translation>Chọn ngôn ngữ sẽ được %1 sử dụng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="996"/>
+        <location filename="../mainwindow.cpp" line="999"/>
         <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
         <translation type="unfinished"></translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1186"/>
-        <location filename="../mainwindow.cpp" line="1187"/>
+        <location filename="../mainwindow.cpp" line="1189"/>
+        <location filename="../mainwindow.cpp" line="1190"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
         <translation>Kết nối không thành công do lỗi 0x%1: %2.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1256"/>
+        <location filename="../mainwindow.cpp" line="1259"/>
         <source>Welcome</source>
         <translation>Chào mừng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1256"/>
+        <location filename="../mainwindow.cpp" line="1259"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
         <translation>Chào mừng đến với %1.
 Tin nhắn trong ngày: %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1527"/>
+        <location filename="../mainwindow.cpp" line="1530"/>
         <source>Audio preprocessor failed to initialize</source>
         <translation>Không thể khởi tạo bộ sử lý âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1529"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>An audio effect could not be applied on the sound device</source>
         <translation>Không thể áp dụng hiệu ứng âm thanh trên thiết bị âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1786"/>
+        <location filename="../mainwindow.cpp" line="1789"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
         <translation>Đã có thiết bị âm thanh mới: %1. hãy làm mới lại thiết bị âm thanh để sử dụng thiết bị mới.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1791"/>
+        <location filename="../mainwindow.cpp" line="1794"/>
         <source>Sound device removed: %1.</source>
         <translation>Đã loại bỏ thiết bị âm thanh: %1.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2221"/>
+        <location filename="../mainwindow.cpp" line="2224"/>
         <source>Failed to setup encryption settings</source>
         <translation>Không thể thiết lập cài đặt mã hóa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2250"/>
-        <location filename="../mainwindow.cpp" line="2251"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from %1</source>
         <translation>Đã ngắt kết nối khỏi %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2250"/>
-        <location filename="../mainwindow.cpp" line="2251"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from server</source>
         <translation>Đã ngắt kết nối khỏi máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2296"/>
-        <location filename="../mainwindow.cpp" line="2297"/>
+        <location filename="../mainwindow.cpp" line="2299"/>
+        <location filename="../mainwindow.cpp" line="2300"/>
         <source>Files in channel</source>
         <translation>Tệp trong kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2372"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <source>Incorrect username or password. Try again.</source>
         <translation>Sai tên người dùng hoặc mật khẩu. Thử lại.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2392"/>
+        <location filename="../mainwindow.cpp" line="2395"/>
         <source>Incorrect channel password. Try again.</source>
         <translation>Sai mật khẩu kênh. Thử lại.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2408"/>
+        <location filename="../mainwindow.cpp" line="2411"/>
         <source>Banned from channel</source>
         <translation>Bị chặn khỏi kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2421"/>
+        <location filename="../mainwindow.cpp" line="2424"/>
         <source>Maximum number of logins per IP-address exceeded</source>
         <translation>Đã vượt quá số lần đăng nhập tối đa trên mỗi địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2423"/>
+        <location filename="../mainwindow.cpp" line="2426"/>
         <source>Maximum bitrate for audio codec exceeded</source>
         <translation>Đã vượt quá bitrate tối đa cho audio codec</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2429"/>
+        <location filename="../mainwindow.cpp" line="2432"/>
         <source>Maximum number of file transfers exceeded</source>
         <translation>Đã vượt quá số lần chuyển tệp tối đa</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2599"/>
+        <location filename="../mainwindow.cpp" line="2602"/>
         <source>Voice transmission failed</source>
         <translation>Truyền giọng nói không thành công</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2703"/>
+        <location filename="../mainwindow.cpp" line="2706"/>
         <source>Trying to reconnect to %1 port %2</source>
         <translation>Đang thử kết nối lại với %1 cổng %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2908"/>
+        <location filename="../mainwindow.cpp" line="2911"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
         <translation>Bạn có muốn thêm %1 vào danh sách ngoại lệ Tường lửa của Windows không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2921"/>
+        <location filename="../mainwindow.cpp" line="2924"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
         <translation>Không thể thêm %1 vào ngoại lệ Tường lửa của Windows.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2994"/>
+        <location filename="../mainwindow.cpp" line="3015"/>
         <source>Private messages</source>
         <translation>Tin nhắn riêng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2999"/>
-        <location filename="../mainwindow.cpp" line="6986"/>
+        <location filename="../mainwindow.cpp" line="3020"/>
+        <location filename="../mainwindow.cpp" line="7014"/>
         <source>Channel messages</source>
         <translation>tin nhắn kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3004"/>
+        <location filename="../mainwindow.cpp" line="3025"/>
         <source>Broadcast messages</source>
         <translation>Tin nhắn thông báo</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3009"/>
-        <location filename="../mainwindow.cpp" line="6999"/>
+        <location filename="../mainwindow.cpp" line="3030"/>
+        <location filename="../mainwindow.cpp" line="7027"/>
         <source>Voice</source>
         <translation>Giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3014"/>
-        <location filename="../mainwindow.cpp" line="7012"/>
+        <location filename="../mainwindow.cpp" line="3035"/>
+        <location filename="../mainwindow.cpp" line="7040"/>
         <source>Video</source>
         <translation>Video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3024"/>
+        <location filename="../mainwindow.cpp" line="3045"/>
         <source>Desktop input</source>
         <translation>Truy cập máy tính</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3029"/>
-        <location filename="../mainwindow.cpp" line="7038"/>
+        <location filename="../mainwindow.cpp" line="3050"/>
+        <location filename="../mainwindow.cpp" line="7066"/>
         <source>Media files</source>
         <translation>Tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3034"/>
+        <location filename="../mainwindow.cpp" line="3055"/>
         <source>Intercept private messages</source>
         <translation>Chặn tin nhắn riêng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3039"/>
+        <location filename="../mainwindow.cpp" line="3060"/>
         <source>Intercept channel messages</source>
         <translation>Chặn tin nhắn kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3044"/>
+        <location filename="../mainwindow.cpp" line="3065"/>
         <source>Intercept voice</source>
         <translation>Chặn giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3049"/>
+        <location filename="../mainwindow.cpp" line="3070"/>
         <source>Intercept video capture</source>
         <translation>Chặn video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3054"/>
+        <location filename="../mainwindow.cpp" line="3075"/>
         <source>Intercept desktop</source>
         <translation>Chặn chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3059"/>
+        <location filename="../mainwindow.cpp" line="3080"/>
         <source>Intercept media files</source>
         <translation>Chặn tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3224"/>
+        <location filename="../mainwindow.cpp" line="3245"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 đang yêu cầu quyền truy cập chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3230"/>
-        <location filename="../mainwindow.cpp" line="5071"/>
+        <location filename="../mainwindow.cpp" line="3251"/>
+        <location filename="../mainwindow.cpp" line="5092"/>
         <source>%1 granted desktop access</source>
         <translation>%1 đã được cấp quyền chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3236"/>
+        <location filename="../mainwindow.cpp" line="3257"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 đã rút lại quyền truy cập chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3274"/>
-        <location filename="../mainwindow.cpp" line="3286"/>
+        <location filename="../mainwindow.cpp" line="3295"/>
+        <location filename="../mainwindow.cpp" line="3307"/>
         <source>Joined channel %1</source>
         <translation>Đã tham gia kênh %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3402"/>
-        <location filename="../mainwindow.cpp" line="3403"/>
+        <location filename="../mainwindow.cpp" line="3423"/>
+        <location filename="../mainwindow.cpp" line="3424"/>
         <source>Files in channel: %1</source>
         <translation>Tệp trong kênh: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3463"/>
+        <location filename="../mainwindow.cpp" line="3484"/>
         <source>Failed to start recording</source>
         <translation>Không thể bắt đầu ghi âm</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3467"/>
+        <location filename="../mainwindow.cpp" line="3488"/>
         <source>Recording to file: %1</source>
         <translation>Đang ghi vào tệp: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3521"/>
+        <location filename="../mainwindow.cpp" line="3542"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>Micro được điều khiển theo kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5590"/>
+        <location filename="../mainwindow.cpp" line="5611"/>
         <source>Failed to stream media file %1</source>
         <translation>Không thể phát tệp phương tiện %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4555"/>
+        <location filename="../mainwindow.cpp" line="4576"/>
         <source>Are you sure you want to quit %1</source>
         <translation>Bạn có chắc chắn muốn thoát %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4560"/>
+        <location filename="../mainwindow.cpp" line="4581"/>
         <source>Exit %1</source>
         <translation>Thoát %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3972"/>
+        <location filename="../mainwindow.cpp" line="3993"/>
         <source>Enable HotKey</source>
         <translation>Bật phím nóng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3973"/>
+        <location filename="../mainwindow.cpp" line="3994"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>Không thể đăng ký phím nóng. Vui lòng thử tổ hợp phím khác.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3978"/>
+        <location filename="../mainwindow.cpp" line="3999"/>
         <source>Push To Talk: </source>
         <translation>Nhấn để nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4153"/>
+        <location filename="../mainwindow.cpp" line="4174"/>
         <source>Text messages blocked by channel operator</source>
         <translation>Tin nhắn bị chặn bởi người quản lý kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4157"/>
+        <location filename="../mainwindow.cpp" line="4178"/>
         <source>Voice transmission blocked by channel operator</source>
         <translation>Truyền giọng nói bị chặn bởi người quản lý kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4161"/>
+        <location filename="../mainwindow.cpp" line="4182"/>
         <source>Media file transmission blocked by channel operator</source>
         <translation>Tệp phương tiện bị chặn bởi người quản lý kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4165"/>
+        <location filename="../mainwindow.cpp" line="4186"/>
         <source>Video transmission blocked by channel operator</source>
         <translation>Video bị chặn bởi người quản lý kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4169"/>
+        <location filename="../mainwindow.cpp" line="4190"/>
         <source>Desktop transmission blocked by channel operator</source>
         <translation>Chia sẻ màn hình bị chặn bởi người quản lý kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4599"/>
+        <location filename="../mainwindow.cpp" line="4620"/>
         <source>Specify new nickname for current server</source>
         <translation>Chỉ định tên hiển thị mới cho máy chủ hiện tại</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4601"/>
+        <location filename="../mainwindow.cpp" line="4622"/>
         <source>Specify new nickname</source>
         <translation>Chỉ định tên hiển thị mới</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4708"/>
+        <location filename="../mainwindow.cpp" line="4729"/>
         <source>Push-To-Talk enabled</source>
         <translation>Đã bật nhấn dữ để nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4714"/>
+        <location filename="../mainwindow.cpp" line="4735"/>
         <source>Push-To-Talk disabled</source>
         <translation>Đã tắt nhấn dữ để nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4732"/>
+        <location filename="../mainwindow.cpp" line="4753"/>
         <source>Voice activation enabled</source>
         <translation>Đã bật kích hoạt bằng giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4732"/>
+        <location filename="../mainwindow.cpp" line="4753"/>
         <source>Voice activation disabled</source>
         <translation>Đã tắt kích hoạt bằng giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4739"/>
+        <location filename="../mainwindow.cpp" line="4760"/>
         <source>Failed to enable voice activation</source>
         <translation>Lỗi khi bật kích hoạt bằng giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4765"/>
-        <location filename="../mainwindow.cpp" line="7061"/>
+        <location filename="../mainwindow.cpp" line="4786"/>
+        <location filename="../mainwindow.cpp" line="7089"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
         <translation>Thiết bị video chưa được định cấu hình đúng cách. Hãy kiểm tra lại thiết lập trong &apos;Tùy chọn&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4790"/>
+        <location filename="../mainwindow.cpp" line="4811"/>
         <source>Video transmission enabled</source>
         <translation>Đã bật video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4811"/>
+        <location filename="../mainwindow.cpp" line="4832"/>
         <source>Video transmission disabled</source>
         <translation>Đã tắt video</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4861"/>
+        <location filename="../mainwindow.cpp" line="4882"/>
         <source>Desktop sharing enabled</source>
         <translation>Đã bật chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4884"/>
+        <location filename="../mainwindow.cpp" line="4905"/>
         <source>Desktop sharing disabled</source>
         <translation>Đã tắt chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4908"/>
+        <location filename="../mainwindow.cpp" line="4929"/>
         <source>Sound events enabled</source>
         <translation>Đã bật thông báo sự kiện bằng âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4913"/>
+        <location filename="../mainwindow.cpp" line="4934"/>
         <source>Sound events disabled</source>
         <translation>Đã tắt thông báo sự kiện bằng âm thanh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5276"/>
+        <location filename="../mainwindow.cpp" line="5297"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
         <translation>Để chuyển tiếp luồng giọng nói từ kênh khác, bạn phải bật đăng ký &quot;Chặn Giọng nói&quot;.
 Bạn có muốn làm điều này bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5296"/>
+        <location filename="../mainwindow.cpp" line="5317"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
         <translation>Để chuyển tiếp luồng phát tệp phương tiện từ kênh khác, bạn phải bật đăng ký &quot;Chặn phát tệp phương tiện&quot;.
 Bạn có muốn làm điều này bây giờ không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5725"/>
+        <location filename="../mainwindow.cpp" line="5746"/>
         <source>Failed to change volume of the stream</source>
         <translation>Không thể thay đổi âm lượng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5741"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Failed to change playback position</source>
         <translation>Không thể thay đổi vị trí phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6561"/>
+        <location filename="../mainwindow.cpp" line="6583"/>
         <source>&amp;Pause Stream</source>
         <translation>&amp;Tạm ngừng Phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5656"/>
+        <location filename="../mainwindow.cpp" line="5677"/>
         <source>Failed to resume the stream</source>
         <translation>Không thể tiếp tục phát</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5670"/>
+        <location filename="../mainwindow.cpp" line="5691"/>
         <source>Failed to pause the stream</source>
         <translation>Không thể tạm dừng luồng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5848"/>
-        <location filename="../mainwindow.cpp" line="5871"/>
+        <location filename="../mainwindow.cpp" line="5870"/>
+        <location filename="../mainwindow.cpp" line="5893"/>
         <source>Share channel</source>
         <translation>Chia sẻ kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5871"/>
+        <location filename="../mainwindow.cpp" line="5893"/>
         <source>Type password of channel:</source>
         <translation>Nhập mật khẩu của kênh:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5886"/>
-        <location filename="../mainwindow.cpp" line="5887"/>
+        <location filename="../mainwindow.cpp" line="5908"/>
+        <location filename="../mainwindow.cpp" line="5909"/>
         <source>Link copied to clipboard</source>
         <translation>Liên kết đã được sao chép vào bộ nhớ tạm</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5894"/>
+        <location filename="../mainwindow.cpp" line="5916"/>
         <source>Sort By...</source>
         <translation>Sắp xếp theo...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6244"/>
+        <location filename="../mainwindow.cpp" line="6266"/>
         <source>%1 users</source>
         <translation>%1 người dùng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6309"/>
+        <location filename="../mainwindow.cpp" line="6331"/>
         <source>Are you sure you want to kick yourself?</source>
         <translation>Bạn có chắc là bạn muốn kick chính mình không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6329"/>
+        <location filename="../mainwindow.cpp" line="6351"/>
         <source>Are you sure you want to kick and ban yourself?</source>
         <translation>Bạn có chắc chắn là bạn muốn kick và chặn chính mình không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6348"/>
+        <location filename="../mainwindow.cpp" line="6370"/>
         <source>Ban user #%1</source>
         <translation>Chặn người dùng #%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6352"/>
+        <location filename="../mainwindow.cpp" line="6374"/>
         <source>Ban User From Server</source>
         <translation>Chặn người dùng khỏi máy chủ</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6378"/>
+        <location filename="../mainwindow.cpp" line="6400"/>
         <source>Ban IP-address</source>
         <translation>Chặn địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6378"/>
+        <location filename="../mainwindow.cpp" line="6400"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
         <translation>Địa chỉ IP (&apos;/&apos; cho mạng con, ví dụ: 192.168.0.0/16)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6719"/>
+        <location filename="../mainwindow.cpp" line="6747"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
         <translation>Tệp %1 đã tồn tại trên máy chủ. Bạn có muốn thay thế nó không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6724"/>
+        <location filename="../mainwindow.cpp" line="6752"/>
         <source>File exists</source>
         <translation>Tệp đã tồn tại</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6731"/>
+        <location filename="../mainwindow.cpp" line="6759"/>
         <source>Failed to delete existing file %1</source>
         <translation>Không thể xóa tệp hiện có %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6743"/>
+        <location filename="../mainwindow.cpp" line="6771"/>
         <source>You do not have permission to replace the file %1</source>
         <translation>Bạn không có quyền thay thế tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6974"/>
+        <location filename="../mainwindow.cpp" line="7002"/>
         <source>Everyone</source>
         <translation>Mọi người</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7025"/>
+        <location filename="../mainwindow.cpp" line="7053"/>
         <source>Desktop windows</source>
         <translation>Cửa sổ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7761"/>
+        <location filename="../mainwindow.cpp" line="7789"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation>Tệp %1 chứa thông tin thiết lập %2.
 Bạn có muốn áp dụng những cài đặt này không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7859"/>
+        <location filename="../mainwindow.cpp" line="7887"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -4567,7 +4577,7 @@ Bạn có thể tải xuống từ trang bên dưới:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7883"/>
+        <location filename="../mainwindow.cpp" line="7911"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
@@ -4576,235 +4586,235 @@ Bạn có thể tải xuống từ trang bên dưới:
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7892"/>
+        <location filename="../mainwindow.cpp" line="7920"/>
         <source>Check for Update</source>
         <translation>Kiểm tra cập nhật</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7892"/>
+        <location filename="../mainwindow.cpp" line="7920"/>
         <source>%1 is up to date.</source>
         <translation>%1 đã được cập nhật.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7967"/>
+        <location filename="../mainwindow.cpp" line="7995"/>
         <source>Language %1 not found for Text-To-Speech</source>
         <translation>Không tìm thấy ngôn ngữ %1 cho Chuyển văn bản thành giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7980"/>
+        <location filename="../mainwindow.cpp" line="8008"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
         <translation>Không tìm thấy giọng nói %1 cho Chuyển văn bản thành giọng nói. Đang chuyển sang %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4776"/>
+        <location filename="../mainwindow.cpp" line="4797"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>Không thể định cấu hình mã hóa video. Hãy kiểm tra lại thiết lập trong &apos;Tùy chọn&apos;</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3084"/>
-        <location filename="../mainwindow.cpp" line="6988"/>
-        <location filename="../mainwindow.cpp" line="7001"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
-        <location filename="../mainwindow.cpp" line="7027"/>
-        <location filename="../mainwindow.cpp" line="7040"/>
+        <location filename="../mainwindow.cpp" line="3105"/>
+        <location filename="../mainwindow.cpp" line="7016"/>
+        <location filename="../mainwindow.cpp" line="7029"/>
+        <location filename="../mainwindow.cpp" line="7042"/>
+        <location filename="../mainwindow.cpp" line="7055"/>
+        <location filename="../mainwindow.cpp" line="7068"/>
         <source>Enabled</source>
         <translation>Đã bật</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3093"/>
-        <location filename="../mainwindow.cpp" line="6990"/>
-        <location filename="../mainwindow.cpp" line="7003"/>
-        <location filename="../mainwindow.cpp" line="7016"/>
-        <location filename="../mainwindow.cpp" line="7029"/>
-        <location filename="../mainwindow.cpp" line="7042"/>
+        <location filename="../mainwindow.cpp" line="3114"/>
+        <location filename="../mainwindow.cpp" line="7018"/>
+        <location filename="../mainwindow.cpp" line="7031"/>
+        <location filename="../mainwindow.cpp" line="7044"/>
+        <location filename="../mainwindow.cpp" line="7057"/>
+        <location filename="../mainwindow.cpp" line="7070"/>
         <source>Disabled</source>
         <translation>Đã tắt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4828"/>
+        <location filename="../mainwindow.cpp" line="4849"/>
         <source>Failed to open X11 display.</source>
         <translation>Không thể mở màn hình X11.</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4847"/>
+        <location filename="../mainwindow.cpp" line="4868"/>
         <source>Failed to start desktop sharing</source>
         <translation>Không thể bắt đầu chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4893"/>
+        <location filename="../mainwindow.cpp" line="4914"/>
         <source>Text-To-Speech enabled</source>
         <translation>Đã bật tính năng Chuyển văn bản thành giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4898"/>
+        <location filename="../mainwindow.cpp" line="4919"/>
         <source>Text-To-Speech disabled</source>
         <translation>Đã tắt tính năng chuyển văn bản thành giọng nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5329"/>
-        <location filename="../mainwindow.cpp" line="5342"/>
+        <location filename="../mainwindow.cpp" line="5350"/>
+        <location filename="../mainwindow.cpp" line="5363"/>
         <source>Failed to issue command to create channel</source>
         <translation>Không thể thực hiện lệnh tạo kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5356"/>
+        <location filename="../mainwindow.cpp" line="5377"/>
         <source>Failed to issue command to update channel</source>
         <translation>Không thể thực hiện lệnh cập nhật kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5369"/>
+        <location filename="../mainwindow.cpp" line="5390"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
         <translation>Bạn có chắc chắn muốn xóa kênh &quot;%1&quot; không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5381"/>
+        <location filename="../mainwindow.cpp" line="5402"/>
         <source>Failed to issue command to delete channel</source>
         <translation>Không thể thực hiện lệnh xóa kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5403"/>
-        <location filename="../mainwindow.cpp" line="6294"/>
+        <location filename="../mainwindow.cpp" line="5424"/>
+        <location filename="../mainwindow.cpp" line="6316"/>
         <source>Specify password</source>
         <translation>Chỉ định mật khẩu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5418"/>
+        <location filename="../mainwindow.cpp" line="5439"/>
         <source>Failed to issue command to join channel</source>
         <translation>Không thể thực hiện lệnh tham gia kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5519"/>
+        <location filename="../mainwindow.cpp" line="5540"/>
         <source>Nobody is active in this channel</source>
         <translation>Không có ai đang hoạt động trong kênh này</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="569"/>
-        <location filename="../mainwindow.cpp" line="5762"/>
+        <location filename="../mainwindow.cpp" line="5784"/>
         <source>Open File</source>
         <translation>Mở tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5783"/>
+        <location filename="../mainwindow.cpp" line="5805"/>
         <source>Save File</source>
         <translation>Lưu tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5813"/>
+        <location filename="../mainwindow.cpp" line="5835"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
         <translation>Bạn có chắc chắn muốn xóa &quot;%1&quot; không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5822"/>
+        <location filename="../mainwindow.cpp" line="5844"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>Bạn có chắc chắn muốn xóa tệp %1 không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6034"/>
+        <location filename="../mainwindow.cpp" line="6056"/>
         <source>Message to broadcast:</source>
         <translation>Tin nhắn để thông báo:</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6080"/>
+        <location filename="../mainwindow.cpp" line="6102"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>Bạn có chắc chắn muốn xóa những thiết lập hiện tại của mình không?</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6095"/>
+        <location filename="../mainwindow.cpp" line="6117"/>
         <source>Cannot find %1</source>
         <translation>Không thể tìm thấy %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6102"/>
+        <location filename="../mainwindow.cpp" line="6124"/>
         <source>Cannot remove %1</source>
         <translation>Không thể xóa %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6109"/>
+        <location filename="../mainwindow.cpp" line="6131"/>
         <source>Failed to copy %1 to %2</source>
         <translation>Không thể sao chép %1 sang %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5476"/>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="5497"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Talking</source>
         <translation>Đang nói</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Mute</source>
         <translation>Tắt tiếng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5487"/>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="5508"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Streaming</source>
         <translation>Đang phát trực tiếp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Mute media file</source>
         <translation>Tắt tiếng tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5498"/>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="5519"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Webcam</source>
         <translation>Webcam</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3019"/>
-        <location filename="../mainwindow.cpp" line="5509"/>
-        <location filename="../mainwindow.cpp" line="6164"/>
+        <location filename="../mainwindow.cpp" line="3040"/>
+        <location filename="../mainwindow.cpp" line="5530"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Desktop</source>
         <translation>Chia sẻ màn hình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6196"/>
+        <location filename="../mainwindow.cpp" line="6218"/>
         <source>Question</source>
         <translation>Câu hỏi</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6221"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Channel</source>
         <translation>Kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6221"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Password protected</source>
         <translation>Được bảo vệ bằng mật khẩu</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6221"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Classroom</source>
         <translation>Lớp học</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6221"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Hidden</source>
         <translation>Ẩn</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6240"/>
+        <location filename="../mainwindow.cpp" line="6262"/>
         <source>Topic: %1</source>
         <translation>Chủ đề: %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6247"/>
+        <location filename="../mainwindow.cpp" line="6269"/>
         <source>%1 files</source>
         <translation>Các tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6341"/>
+        <location filename="../mainwindow.cpp" line="6363"/>
         <source>IP-address</source>
         <translation>Địa chỉ IP</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6341"/>
+        <location filename="../mainwindow.cpp" line="6363"/>
         <source>Username</source>
         <translation>Tên người dùng</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6350"/>
+        <location filename="../mainwindow.cpp" line="6372"/>
         <source>Ban User From Channel</source>
         <translation>Chặn người dùng khỏi kênh</translation>
     </message>
@@ -4814,148 +4824,148 @@ Bạn có thể tải xuống từ trang bên dưới:
         <translation>Rời khỏi kênh</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6922"/>
+        <location filename="../mainwindow.cpp" line="6950"/>
         <source>The maximum number of users who can transmit is %1</source>
         <translation>Số lượng người dùng tối đa có thể truyền là %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7060"/>
+        <location filename="../mainwindow.cpp" line="7088"/>
         <source>Start Webcam</source>
         <translation>Bật Webcam</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7082"/>
-        <location filename="../mainwindow.cpp" line="7134"/>
+        <location filename="../mainwindow.cpp" line="7110"/>
+        <location filename="../mainwindow.cpp" line="7162"/>
         <source>Myself</source>
         <translation>Chính mình</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3413"/>
+        <location filename="../mainwindow.cpp" line="3434"/>
         <source>&amp;Files (%1)</source>
         <translation>Các tệp (%1)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7480"/>
-        <location filename="../mainwindow.cpp" line="7485"/>
-        <location filename="../mainwindow.cpp" line="7491"/>
-        <location filename="../mainwindow.cpp" line="7496"/>
-        <location filename="../mainwindow.cpp" line="7502"/>
-        <location filename="../mainwindow.cpp" line="7507"/>
+        <location filename="../mainwindow.cpp" line="7508"/>
         <location filename="../mainwindow.cpp" line="7513"/>
-        <location filename="../mainwindow.cpp" line="7518"/>
+        <location filename="../mainwindow.cpp" line="7519"/>
         <location filename="../mainwindow.cpp" line="7524"/>
-        <location filename="../mainwindow.cpp" line="7529"/>
+        <location filename="../mainwindow.cpp" line="7530"/>
         <location filename="../mainwindow.cpp" line="7535"/>
-        <location filename="../mainwindow.cpp" line="7540"/>
-        <location filename="../mainwindow.cpp" line="7548"/>
-        <location filename="../mainwindow.cpp" line="7553"/>
-        <location filename="../mainwindow.cpp" line="7558"/>
+        <location filename="../mainwindow.cpp" line="7541"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7552"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
         <location filename="../mainwindow.cpp" line="7563"/>
         <location filename="../mainwindow.cpp" line="7568"/>
-        <location filename="../mainwindow.cpp" line="7573"/>
-        <location filename="../mainwindow.cpp" line="7578"/>
-        <location filename="../mainwindow.cpp" line="7583"/>
-        <location filename="../mainwindow.cpp" line="7588"/>
-        <location filename="../mainwindow.cpp" line="7593"/>
-        <location filename="../mainwindow.cpp" line="7598"/>
-        <location filename="../mainwindow.cpp" line="7603"/>
-        <location filename="../mainwindow.cpp" line="7608"/>
-        <location filename="../mainwindow.cpp" line="7613"/>
-        <location filename="../mainwindow.cpp" line="7618"/>
-        <location filename="../mainwindow.cpp" line="7623"/>
+        <location filename="../mainwindow.cpp" line="7576"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7586"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7596"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7606"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7616"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7626"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7636"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7646"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
         <translation>%1 đã thay đổi đăng ký &quot;%2&quot; thành: %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7484"/>
-        <location filename="../mainwindow.cpp" line="7485"/>
-        <location filename="../mainwindow.cpp" line="7495"/>
-        <location filename="../mainwindow.cpp" line="7496"/>
-        <location filename="../mainwindow.cpp" line="7506"/>
-        <location filename="../mainwindow.cpp" line="7507"/>
-        <location filename="../mainwindow.cpp" line="7517"/>
-        <location filename="../mainwindow.cpp" line="7518"/>
-        <location filename="../mainwindow.cpp" line="7528"/>
-        <location filename="../mainwindow.cpp" line="7529"/>
-        <location filename="../mainwindow.cpp" line="7539"/>
-        <location filename="../mainwindow.cpp" line="7540"/>
-        <location filename="../mainwindow.cpp" line="7552"/>
-        <location filename="../mainwindow.cpp" line="7553"/>
-        <location filename="../mainwindow.cpp" line="7562"/>
-        <location filename="../mainwindow.cpp" line="7563"/>
-        <location filename="../mainwindow.cpp" line="7572"/>
-        <location filename="../mainwindow.cpp" line="7573"/>
-        <location filename="../mainwindow.cpp" line="7582"/>
-        <location filename="../mainwindow.cpp" line="7583"/>
-        <location filename="../mainwindow.cpp" line="7592"/>
-        <location filename="../mainwindow.cpp" line="7593"/>
-        <location filename="../mainwindow.cpp" line="7602"/>
-        <location filename="../mainwindow.cpp" line="7603"/>
-        <location filename="../mainwindow.cpp" line="7612"/>
-        <location filename="../mainwindow.cpp" line="7613"/>
-        <location filename="../mainwindow.cpp" line="7622"/>
-        <location filename="../mainwindow.cpp" line="7623"/>
+        <location filename="../mainwindow.cpp" line="7512"/>
+        <location filename="../mainwindow.cpp" line="7513"/>
+        <location filename="../mainwindow.cpp" line="7523"/>
+        <location filename="../mainwindow.cpp" line="7524"/>
+        <location filename="../mainwindow.cpp" line="7534"/>
+        <location filename="../mainwindow.cpp" line="7535"/>
+        <location filename="../mainwindow.cpp" line="7545"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7556"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
+        <location filename="../mainwindow.cpp" line="7567"/>
+        <location filename="../mainwindow.cpp" line="7568"/>
+        <location filename="../mainwindow.cpp" line="7580"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7590"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7600"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7610"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7620"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7630"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7640"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7650"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>On</source>
         <translation>Bật</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7484"/>
-        <location filename="../mainwindow.cpp" line="7485"/>
-        <location filename="../mainwindow.cpp" line="7495"/>
-        <location filename="../mainwindow.cpp" line="7496"/>
-        <location filename="../mainwindow.cpp" line="7506"/>
-        <location filename="../mainwindow.cpp" line="7507"/>
-        <location filename="../mainwindow.cpp" line="7517"/>
-        <location filename="../mainwindow.cpp" line="7518"/>
-        <location filename="../mainwindow.cpp" line="7528"/>
-        <location filename="../mainwindow.cpp" line="7529"/>
-        <location filename="../mainwindow.cpp" line="7539"/>
-        <location filename="../mainwindow.cpp" line="7540"/>
-        <location filename="../mainwindow.cpp" line="7552"/>
-        <location filename="../mainwindow.cpp" line="7553"/>
-        <location filename="../mainwindow.cpp" line="7562"/>
-        <location filename="../mainwindow.cpp" line="7563"/>
-        <location filename="../mainwindow.cpp" line="7572"/>
-        <location filename="../mainwindow.cpp" line="7573"/>
-        <location filename="../mainwindow.cpp" line="7582"/>
-        <location filename="../mainwindow.cpp" line="7583"/>
-        <location filename="../mainwindow.cpp" line="7592"/>
-        <location filename="../mainwindow.cpp" line="7593"/>
-        <location filename="../mainwindow.cpp" line="7602"/>
-        <location filename="../mainwindow.cpp" line="7603"/>
-        <location filename="../mainwindow.cpp" line="7612"/>
-        <location filename="../mainwindow.cpp" line="7613"/>
-        <location filename="../mainwindow.cpp" line="7622"/>
-        <location filename="../mainwindow.cpp" line="7623"/>
+        <location filename="../mainwindow.cpp" line="7512"/>
+        <location filename="../mainwindow.cpp" line="7513"/>
+        <location filename="../mainwindow.cpp" line="7523"/>
+        <location filename="../mainwindow.cpp" line="7524"/>
+        <location filename="../mainwindow.cpp" line="7534"/>
+        <location filename="../mainwindow.cpp" line="7535"/>
+        <location filename="../mainwindow.cpp" line="7545"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7556"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
+        <location filename="../mainwindow.cpp" line="7567"/>
+        <location filename="../mainwindow.cpp" line="7568"/>
+        <location filename="../mainwindow.cpp" line="7580"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7590"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7600"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7610"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7620"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7630"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7640"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7650"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>Off</source>
         <translation>Tắt</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7721"/>
-        <location filename="../mainwindow.cpp" line="7730"/>
-        <location filename="../mainwindow.cpp" line="7740"/>
-        <location filename="../mainwindow.cpp" line="7751"/>
+        <location filename="../mainwindow.cpp" line="7749"/>
+        <location filename="../mainwindow.cpp" line="7758"/>
+        <location filename="../mainwindow.cpp" line="7768"/>
+        <location filename="../mainwindow.cpp" line="7779"/>
         <source>Load File</source>
         <translation>Tải tệp</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7722"/>
-        <location filename="../mainwindow.cpp" line="7731"/>
+        <location filename="../mainwindow.cpp" line="7750"/>
+        <location filename="../mainwindow.cpp" line="7759"/>
         <source>Failed to load file %1</source>
         <translation>Không tải được tệp %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7741"/>
+        <location filename="../mainwindow.cpp" line="7769"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
         <translation>Tệp &quot;%1&quot; không tương thích với %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7752"/>
+        <location filename="../mainwindow.cpp" line="7780"/>
         <source>Failed to extract host-information from %1</source>
         <translation>Không thể trích xuất thông tin máy chủ từ %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7766"/>
+        <location filename="../mainwindow.cpp" line="7794"/>
         <source>Load %1 File</source>
         <translation>Tải tệp %1</translation>
     </message>
@@ -5108,28 +5118,28 @@ Bạn có thể tải xuống từ trang bên dưới:
 <context>
     <name>MessageDetailsDlg</name>
     <message>
-        <location filename="../chattextlist.cpp" line="450"/>
-        <location filename="../chattextlist.cpp" line="451"/>
+        <location filename="../chattextlist.cpp" line="469"/>
+        <location filename="../chattextlist.cpp" line="470"/>
         <source>Message Details</source>
         <translation>Chi tiết tin nhắn</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="455"/>
+        <location filename="../chattextlist.cpp" line="474"/>
         <source>Sent: %1</source>
         <translation>Đã gửi: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="457"/>
+        <location filename="../chattextlist.cpp" line="476"/>
         <source>By: %1</source>
         <translation>Bởi: %1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="461"/>
+        <location filename="../chattextlist.cpp" line="480"/>
         <source>Content:</source>
         <translation>Nội dung:</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="470"/>
+        <location filename="../chattextlist.cpp" line="489"/>
         <source>&amp;Close</source>
         <translation>&amp;Đóng</translation>
     </message>
@@ -5346,22 +5356,22 @@ Bạn có thể tải xuống từ trang bên dưới:
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="740"/>
+        <location filename="../utilui.cpp" line="773"/>
         <source>Password</source>
         <translation>Mật khẩu</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="746"/>
+        <location filename="../utilui.cpp" line="779"/>
         <source>Show password</source>
         <translation>Hiện mật khẩu</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="751"/>
+        <location filename="../utilui.cpp" line="784"/>
         <source>&amp;OK</source>
         <translation>&amp;OK</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="752"/>
+        <location filename="../utilui.cpp" line="785"/>
         <source>&amp;Cancel</source>
         <translation>&amp;Hủy</translation>
     </message>
@@ -6703,33 +6713,33 @@ Bạn có thể tải xuống từ trang bên dưới:
         <translation>Phím nóng không xác định</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="30"/>
+        <location filename="../utilmedia.cpp" line="32"/>
         <source>Stereo</source>
         <translation>Stereo</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="32"/>
+        <location filename="../utilmedia.cpp" line="34"/>
         <source>Mono</source>
         <translation>Mono</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="34"/>
+        <location filename="../utilmedia.cpp" line="36"/>
         <source>%1 audio channels</source>
         <translation>%1 kênh âm thanh</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="36"/>
+        <location filename="../utilmedia.cpp" line="38"/>
         <source>%1 Hz, %2</source>
         <translation>%1 Hz, %2</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="39"/>
-        <location filename="../utilmedia.cpp" line="49"/>
+        <location filename="../utilmedia.cpp" line="41"/>
+        <location filename="../utilmedia.cpp" line="51"/>
         <source>Unknown format</source>
         <translation>Định dạng không xác định</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="47"/>
+        <location filename="../utilmedia.cpp" line="49"/>
         <source>%1x%2 %3 FPS</source>
         <translation>%1x%2 %3 FPS</translation>
     </message>
@@ -8333,7 +8343,7 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
-        <location filename="../streammediafiledlg.cpp" line="181"/>
+        <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>Clear history</source>
         <translation>Xóa lịch sử</translation>
     </message>
@@ -8379,10 +8389,10 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     </message>
     <message>
         <location filename="../streammediafile.ui" line="287"/>
-        <location filename="../streammediafiledlg.cpp" line="267"/>
-        <location filename="../streammediafiledlg.cpp" line="292"/>
-        <location filename="../streammediafiledlg.cpp" line="375"/>
-        <location filename="../streammediafiledlg.cpp" line="408"/>
+        <location filename="../streammediafiledlg.cpp" line="269"/>
+        <location filename="../streammediafiledlg.cpp" line="294"/>
+        <location filename="../streammediafiledlg.cpp" line="377"/>
+        <location filename="../streammediafiledlg.cpp" line="410"/>
         <source>&amp;Play</source>
         <translation>Phát</translation>
     </message>
@@ -8403,9 +8413,9 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Kiểm tra trình phát</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="264"/>
-        <location filename="../streammediafiledlg.cpp" line="278"/>
-        <location filename="../streammediafiledlg.cpp" line="316"/>
+        <location filename="../streammediafiledlg.cpp" line="266"/>
+        <location filename="../streammediafiledlg.cpp" line="280"/>
+        <location filename="../streammediafiledlg.cpp" line="318"/>
         <source>Play</source>
         <translation>Phát</translation>
     </message>
@@ -8441,83 +8451,83 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Đang phát đến kênh</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="62"/>
+        <location filename="../streammediafiledlg.cpp" line="63"/>
         <source>No Audio Preprocessor</source>
         <translation>Không có bộ xử lý âm thanh</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="63"/>
+        <location filename="../streammediafiledlg.cpp" line="64"/>
         <source>TeamTalk Audio Preprocessor</source>
         <translation>Bộ xử lý âm thanh TeamTalk</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="64"/>
+        <location filename="../streammediafiledlg.cpp" line="65"/>
         <source>Speex DSP Audio Preprocessor</source>
         <translation>Bộ xử lý âm thanh Speex DSP</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="82"/>
+        <location filename="../streammediafiledlg.cpp" line="83"/>
         <source>No video</source>
         <translation>Không có video</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="135"/>
+        <location filename="../streammediafiledlg.cpp" line="136"/>
         <source>Open Media File</source>
         <translation>Mở tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="137"/>
+        <location filename="../streammediafiledlg.cpp" line="138"/>
         <source>Media files %1</source>
         <translation>Tệp phương tiện %1</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="176"/>
+        <location filename="../streammediafiledlg.cpp" line="177"/>
         <source>Are you sure you want to clear stream history?</source>
         <translation>Bạn có chắc chắn muốn xóa lịch sử phát không?</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="177"/>
+        <location filename="../streammediafiledlg.cpp" line="178"/>
         <source>&amp;Yes</source>
         <translation>Có</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="178"/>
+        <location filename="../streammediafiledlg.cpp" line="179"/>
         <source>&amp;No</source>
         <translation>Không</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="264"/>
-        <location filename="../streammediafiledlg.cpp" line="278"/>
-        <location filename="../streammediafiledlg.cpp" line="316"/>
+        <location filename="../streammediafiledlg.cpp" line="266"/>
+        <location filename="../streammediafiledlg.cpp" line="280"/>
+        <location filename="../streammediafiledlg.cpp" line="318"/>
         <source>Failed to play media file</source>
         <translation>Lỗi khi phát tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="281"/>
-        <location filename="../streammediafiledlg.cpp" line="370"/>
-        <location filename="../streammediafiledlg.cpp" line="403"/>
+        <location filename="../streammediafiledlg.cpp" line="283"/>
+        <location filename="../streammediafiledlg.cpp" line="372"/>
+        <location filename="../streammediafiledlg.cpp" line="405"/>
         <source>&amp;Pause</source>
         <translation>Tạm dừng</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="324"/>
+        <location filename="../streammediafiledlg.cpp" line="326"/>
         <source>Stream</source>
         <translation>Phát</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="324"/>
+        <location filename="../streammediafiledlg.cpp" line="326"/>
         <source>Failed to stream media file</source>
         <translation>Lỗi khi phát tệp phương tiện</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="349"/>
-        <location filename="../streammediafiledlg.cpp" line="354"/>
+        <location filename="../streammediafiledlg.cpp" line="351"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Audio Preprocessor</source>
         <translation>Bộ xử lý âm thanh</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="349"/>
-        <location filename="../streammediafiledlg.cpp" line="354"/>
+        <location filename="../streammediafiledlg.cpp" line="351"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Failed to activate audio preprocessor</source>
         <translation>Lỗi khi kích hoạt bộ xử lý âm thanh</translation>
     </message>
@@ -8754,7 +8764,7 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
     <name>TextMessageDlg</name>
     <message>
         <location filename="../textmessage.ui" line="14"/>
-        <location filename="../textmessagedlg.cpp" line="108"/>
+        <location filename="../textmessagedlg.cpp" line="114"/>
         <source>Messages</source>
         <translation>Tin nhắn</translation>
     </message>
@@ -8774,9 +8784,9 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Đóng</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="153"/>
-        <location filename="../textmessagedlg.cpp" line="211"/>
-        <location filename="../textmessagedlg.cpp" line="254"/>
+        <location filename="../textmessagedlg.cpp" line="159"/>
+        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="260"/>
         <source>New message</source>
         <translation>Tin nhắn mới</translation>
     </message>
@@ -8786,12 +8796,12 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Gửi</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="109"/>
+        <location filename="../textmessagedlg.cpp" line="115"/>
         <source>Private chat with %1</source>
         <translation>Trò chuyện riêng với %1</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="233"/>
+        <location filename="../textmessagedlg.cpp" line="239"/>
         <source>New message - remote user typing.</source>
         <translation>Tin nhắn mới - người dùng từ xa đang gõ.</translation>
     </message>
@@ -10112,70 +10122,68 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <translation>Hạn mức ổ đĩa: {quota}</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who logged in</source>
         <translation>Tên hiện thị của người dùng đã đăng nhập</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
-        <location filename="../utilui.cpp" line="200"/>
         <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="202"/>
+        <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="204"/>
         <source>Server&apos;s name from which event was emited</source>
         <translation>Tên máy chủ nơi sự kiện được phát ra</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who logged in</source>
         <translation>Tên người dùng đã đăng nhập</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s nickname who logged out</source>
         <translation>Tên hiện thị của người dùng đã đăng xuất</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s username who logged out</source>
         <translation>Tên người dùng đã đăng xuất</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="205"/>
         <source>User&apos;s nickname who joined channel</source>
         <translation>Tên hiện thị của người dùng đã tham gia kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
+        <location filename="../utilui.cpp" line="203"/>
         <source>Channel&apos;s name joined by user</source>
         <translation>Tên kênh người dùng đã tham gia</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="205"/>
         <source>User&apos;s username who joined channel</source>
         <translation>Tên người dùng đã tham gia kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
+        <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s nickname who left channel</source>
         <translation>Tên hiện thị của người dùng đã rời kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
+        <location filename="../utilui.cpp" line="204"/>
         <source>Channel&apos;s name left by user</source>
         <translation>Tên kênh người dùng đã rời</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
+        <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s username who left channel</source>
         <translation>Tên người dùng đã rời kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10193,12 +10201,12 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>User concerns by change</source>
         <translation>User concerns by change</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10211,12 +10219,12 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription type</source>
         <translation>Loại đăng ký</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10229,12 +10237,12 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription state</source>
         <translation>Trạng thái đăng ký</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10247,12 +10255,12 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription change</source>
         <translation>Thay đổi đăng ký</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10265,134 +10273,136 @@ Xóa tài khoản người dùng đã xuất bản để hủy đăng ký máy c
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>User&apos;s username concerns by change</source>
         <translation>Tên người dùng liên quan đến thay đổi</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="219"/>
-        <location filename="../utilui.cpp" line="220"/>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>Transmission type</source>
         <translation>Loại truyền</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="219"/>
-        <location filename="../utilui.cpp" line="220"/>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>Transmission state</source>
         <translation>Trạng thái truyền</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="219"/>
-        <location filename="../utilui.cpp" line="220"/>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>Classroom transmission authorization change</source>
         <translation>Thay đổi ủy quyền truyền tải lớp học</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
-        <location filename="../utilui.cpp" line="225"/>
+        <location filename="../utilui.cpp" line="226"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>File name</source>
         <translation>Tên tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>User&apos;s nickname who added the file</source>
         <translation>Tên hiện thị của người dùng đã thêm tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>File size</source>
         <translation>Dung lượng tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>User&apos;s username who added the file</source>
         <translation>Tên người dùng đã thêm tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="225"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>User&apos;s nickname who removed the file</source>
         <translation>Tên hiện thị của người dùng đã xóa tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="225"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>User&apos;s username who removed the file</source>
         <translation>Tên người dùng đã xóa tệp</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="239"/>
         <source>Message date</source>
         <translation>Ngày nhắn tin</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
+        <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
         <source>Sender&apos;s nickname</source>
         <translation>Tên hiển thị của người gửi</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="239"/>
         <source>Message content</source>
         <translation>Nội dung tin nhắn</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="238"/>
-        <location filename="../utilui.cpp" line="239"/>
         <location filename="../utilui.cpp" line="240"/>
         <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Date</source>
         <translation>Ngày</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="240"/>
         <source>Server name</source>
         <translation>Tên máy chủ</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="239"/>
+        <location filename="../utilui.cpp" line="241"/>
         <source>Server&apos;s Message of the Day</source>
         <translation>Tin nhắn cập nhật trong ngày của máy chủ</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Path</source>
         <translation>Đường dẫn kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Name</source>
         <translation>Tên kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Topic</source>
         <translation>Chủ đề kênh</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Disk Quota</source>
         <translation>Hạn mức ổ đĩa</translation>
     </message>
