@@ -2,6 +2,8 @@
 
 #include <QObject>
 
+#include <algorithm>
+
 QString durationToString(quint32 duration_msec, bool include_msec/* = true*/)
 {
     quint32 hours = duration_msec / (60 * 60 * 1000);
@@ -57,4 +59,19 @@ void setMediaFileProgress(QSlider* slider, const MediaFileInfo& mfi)
         int value = int(percent * double(slider->maximum()));
         slider->setValue(value);
     }
+}
+
+void setMediaFileSliderSteps(QSlider* slider, quint32 duration_msec)
+{
+    if (duration_msec == 0)
+        return;
+
+    // step by a fixed duration regardless of file length, i.e. 250 msec per
+    // arrow key and 1 second per page key
+    auto msecToSteps = [&](quint32 msec)
+    {
+        return std::max(1, int(qint64(slider->maximum()) * msec / duration_msec));
+    };
+    slider->setSingleStep(msecToSteps(250));
+    slider->setPageStep(msecToSteps(1000));
 }
