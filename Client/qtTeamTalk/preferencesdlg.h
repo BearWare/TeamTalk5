@@ -26,13 +26,15 @@
 
 #include <QSet>
 #include <QLineEdit>
+#include <QAction>
 
 class PreferencesDlg : public QDialog
 {
     Q_OBJECT
 
 public:
-    PreferencesDlg(SoundDevice& devin, SoundDevice& devout, QWidget * parent = 0);
+    PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
+                   const QList<QAction*>& actions, QWidget * parent = 0);
     ~PreferencesDlg();
 
     enum
@@ -130,6 +132,8 @@ private:
     void shortcutSetup(const QModelIndex &index);
     class ShortcutsModel* m_shortcutsmodel = nullptr;
     hotkeys_t m_hotkeys;
+    QList<QAction*> m_actions;
+    actionshortcuts_t m_actionShortcuts;
 
     //video tab
     void initVideoCaptureTab();

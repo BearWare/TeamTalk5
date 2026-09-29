@@ -66,6 +66,9 @@ void TextMessageDlg::init(const User& user)
         auto chat = new ChatTextList(ui.groupBox);
         m_history = chat;
         ui.horizontalLayout_2->addWidget(chat);
+        connect(chat, &ChatTextList::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.newmsgTextEdit, sender, content);
+        });
         delete ui.historyTextEdit;
         ui.historyTextEdit = nullptr;
     }
@@ -74,6 +77,9 @@ void TextMessageDlg::init(const User& user)
         m_history = ui.historyTextEdit;
         connect(ui.historyTextEdit, &ChatTextEdit::clearHistory, [&]() {
             emit clearUserTextMessages(m_userid);
+        });
+        connect(ui.historyTextEdit, &ChatTextEdit::replyRequested, this, [this](const QString& sender, const QString& content) {
+            setReplyText(ui.newmsgTextEdit, sender, content);
         });
     }
 

@@ -81,11 +81,12 @@ struct ServerListView: View {
                         model.showServerDetail(for: server)
                     }
                     .swipeActions(edge: .trailing) {
-                        Button(role: .destructive) {
-                            model.deleteServer(server)
+                        Button {
+                            model.serverPendingDeletion = server
                         } label: {
                             Label("Delete", systemImage: "trash")
                         }
+                        .tint(.red)
                     }
                     /*.accessibilityAction(named: "Connect to server") {
                         model.connect(to: server)
@@ -147,6 +148,20 @@ struct ServerListView: View {
             } message: {
                 Text(model.errorMessage ?? "")
             }
+            .alert("Delete Server",
+                isPresented: Binding(
+                    get: { model.serverPendingDeletion != nil },
+                    set: { if !$0 { model.serverPendingDeletion = nil } }
+                ),
+                presenting: model.serverPendingDeletion
+            ) { server in
+                Button("Delete", role: .destructive) {
+                    model.deleteServer(server)
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: { server in
+                Text("Delete \"\(server.name)\" from the server list?")
+            }
             .onAppear {
                 model.onAppear()
             }
@@ -204,6 +219,7 @@ struct ServerListView: View {
 
 private struct ServerDetailSheetView: View {
     @Environment(\.dismiss) private var dismiss
+    @State private var showDeleteAlert = false
     let detailModel: ServerDetailModel
     let listModel: ServerListModel
 
@@ -220,8 +236,7 @@ private struct ServerDetailSheetView: View {
                     listModel.connect(to: detailModel.server)
                 },
                 delete: {
-                    listModel.deleteServer(detailModel.server)
-                    dismiss()
+                    showDeleteAlert = true
                 },
                 save: {
                     detailModel.apply(to: detailModel.server)
@@ -229,7 +244,15 @@ private struct ServerDetailSheetView: View {
                     dismiss()
                 }
             )
-
+            .alert("Delete Server", isPresented: $showDeleteAlert) {
+                Button("Delete", role: .destructive) {
+                    listModel.deleteServer(detailModel.server)
+                    dismiss()
+                }
+                Button("Cancel", role: .cancel) {}
+            } message: {
+                Text("Delete \"\(detailModel.server.name)\" from the server list?")
+            }
         }
     }
 }
