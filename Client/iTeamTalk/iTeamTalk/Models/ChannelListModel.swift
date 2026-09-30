@@ -176,11 +176,11 @@ final class ChannelListModel: ObservableObject {
 
     func userDetails(_ user: User) -> ChannelUserDetails {
         let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
+        let neutral = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_NEUTRAL.rawValue) != 0
         let isTalking = user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
             (TeamTalkClient.shared.myUserID == user.nUserID && TeamTalkClient.shared.isVoiceTransmitting)
-        let iconName = isTalking
-            ? (female ? "woman_green" : "man_green")
-            : (female ? "woman_blue" : "man_blue")
+        let icon = female ? "woman" : neutral ? "neutral" : "man"
+        let iconName = icon + (isTalking ? "_green" : "_blue")
         let iconAccessibilityLabel = isTalking
             ? String(localized: "Talking", comment: "channel list")
             : String(localized: "Silent", comment: "channel list")

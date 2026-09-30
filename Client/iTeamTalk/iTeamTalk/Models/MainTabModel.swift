@@ -385,8 +385,9 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
                 server.chanpasswd.removeAll()
             }
             let settings = UserDefaults.standard
-            if settings.integer(forKey: PREF_GENERAL_GENDER) != 0 {
-                TeamTalkClient.shared.changeStatus(mode: INT32(StatusMode.STATUSMODE_FEMALE.rawValue))
+            let gender = genderStatusMode(settings.integer(forKey: PREF_GENERAL_GENDER))
+            if gender != .STATUSMODE_AVAILABLE {
+                TeamTalkClient.shared.changeStatus(mode: INT32(gender.rawValue))
             }
         default:
             break

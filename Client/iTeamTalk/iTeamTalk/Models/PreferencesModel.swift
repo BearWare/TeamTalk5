@@ -28,6 +28,15 @@ import UIKit
 
 let PREF_GENERAL_NICKNAME = "nickname_preference"
 let PREF_GENERAL_GENDER = "gender_preference"
+
+/// Status mode for PREF_GENERAL_GENDER: 0 is male, 1 is female and 2 is neutral
+func genderStatusMode(_ index: Int) -> StatusMode {
+    switch index {
+    case 1: return .STATUSMODE_FEMALE
+    case 2: return .STATUSMODE_NEUTRAL
+    default: return .STATUSMODE_AVAILABLE
+    }
+}
 let PREF_GENERAL_BEARWARE_ID = "general_bearwareid_preference"
 let PREF_GENERAL_BEARWARE_TOKEN = "general_bearwaretoken_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
@@ -209,8 +218,7 @@ final class PreferencesModel: ObservableObject {
         genderIndex = index
         UserDefaults.standard.set(index, forKey: PREF_GENERAL_GENDER)
 
-        let gender = index != 0 ? StatusMode.STATUSMODE_FEMALE : StatusMode.STATUSMODE_AVAILABLE
-        TeamTalkClient.shared.changeStatus(mode: INT32(gender.rawValue))
+        TeamTalkClient.shared.changeStatus(mode: INT32(genderStatusMode(index).rawValue))
     }
 
     func pttlockChanged(_ enabled: Bool) {
