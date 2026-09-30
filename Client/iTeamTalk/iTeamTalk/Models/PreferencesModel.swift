@@ -123,6 +123,7 @@ final class PreferencesModel: ObservableObject {
     @Published var masterVolumePercent: Double
     @Published var mediaFileVolumePercent: Double
     @Published var microphoneGainPercent: Double
+    @Published var micGainSetByChannel = false
     @Published var voiceActivationLevel: Double
     @Published var ttsRate: Double
     @Published var ttsVolume: Double
@@ -299,9 +300,10 @@ final class PreferencesModel: ObservableObject {
     func microphoneGainChanged(_ percent: Double) {
         let roundedPercent = Double(Int(percent / 10.0) * 10)
         microphoneGainPercent = roundedPercent
-        let vol = refVolume(roundedPercent)
-        TeamTalkClient.shared.setSoundInputGainLevel(INT32(vol))
         UserDefaults.standard.set(Int(roundedPercent), forKey: PREF_MICROPHONE_GAIN)
+        if !micGainSetByChannel {
+            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(roundedPercent)))
+        }
     }
 
     func voiceactlevelChanged(_ levelValue: Double) {
@@ -362,10 +364,21 @@ extension PreferencesModel: TeamTalkEvent {
         switch m.nClientEvent {
         case CLIENTEVENT_CMD_USER_JOINED:
             users.insert(TeamTalkMessagePayload.user(from: m).nUserID)
+            updateMicGainSetByChannel()
         case CLIENTEVENT_CMD_USER_LEFT:
             users.remove(TeamTalkMessagePayload.user(from: m).nUserID)
+            updateMicGainSetByChannel()
+        case CLIENTEVENT_CMD_CHANNEL_UPDATE, CLIENTEVENT_CON_LOST:
+            updateMicGainSetByChannel()
         default:
             break
+        }
+    }
+
+    private func updateMicGainSetByChannel() {
+        let chanid = TeamTalkClient.shared.myChannelID
+        micGainSetByChannel = chanid > 0 && TeamTalkClient.shared.withChannel(id: chanid) {
+            $0.audiocfg.bEnableAGC == TRUE
         }
     }
 }

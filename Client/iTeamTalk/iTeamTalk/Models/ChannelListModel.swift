@@ -700,6 +700,7 @@ extension ChannelListModel: TeamTalkEvent {
             if user.nUserID == TeamTalkClient.shared.myUserID {
                 mychannel = Channel()
                 rejoinchannel = Channel()
+                updateAudioConfig()
             }
             if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.left_CHAN)
