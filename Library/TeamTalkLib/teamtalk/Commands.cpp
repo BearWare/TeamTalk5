@@ -30,6 +30,8 @@
 
 #include <ace/OS.h>
 #include <ctime>
+#include <exception>
+#include <string>
 
 namespace teamtalk {
 
@@ -375,7 +377,7 @@ namespace teamtalk {
         return false;
     }
 
-    void GetProperties(const mstrings_t& properties, UserAccount& useraccount)
+    bool GetProperties(const mstrings_t& properties, UserAccount& useraccount)
     {
         GetProperty(properties, TT_USERNAME, useraccount.username);
         GetProperty(properties, TT_PASSWORD, useraccount.passwd);
@@ -392,6 +394,25 @@ namespace teamtalk {
         std::vector<int> flood;
         if(GetProperty(properties, TT_CMDFLOOD, flood))
             useraccount.abuse.FromParam(flood);
+        ACE_TString loginDelay;
+        if (GetProperty(properties, TT_LOGINDELAY, loginDelay))
+        {
+            // Do not narrow the generic 64-bit property parser to int: an
+            // overflowing value could otherwise become the disabled sentinel.
+            try
+            {
+                size_t parsed = 0;
+                int const delay = std::stoi(loginDelay.c_str(), &parsed);
+                if (parsed != loginDelay.length() || delay < Abuse::LOGIN_DELAY_DISABLED)
+                    return false;
+                useraccount.abuse.login_delay = delay;
+            }
+            catch (const std::exception&)
+            {
+                return false;
+            }
+        }
+        return true;
     }
 
     ACE_TString PrepareString(const ACE_TString& str)

@@ -344,7 +344,7 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
                      ACE_Time_Value& tv);
 
-    void GetProperties(const mstrings_t& properties, UserAccount& useraccount);
+    bool GetProperties(const mstrings_t& properties, UserAccount& useraccount);
 
     ACE_TString PrepareIntegerArray(const std::vector<int>& array);
 
