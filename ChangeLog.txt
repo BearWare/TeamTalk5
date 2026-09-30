@@ -4,36 +4,37 @@
 
 Version 5.23, unreleased
 Default Qt Client
-- Ability to reply to chat messages from the message history
-- Redesigned profiles dialog
 - Replaced Tolk with Prism for screen reader support
-- Screen reader backend can now be selected in Preferences (e.g. NVDA, JAWS, SAPI, UIA, Orca)
+- Screen reader backend can now be selected in Preferences dialog (e.g. NVDA, JAWS, SAPI, UIA, Orca)
 - Added screen reader support on Linux via Speech Dispatcher and Orca
+- Simplified changing profile with Profiles dialog
 - First launch now asks all users whether to enable accessibility settings
-- Play sound event when enabled one
+- Play sound event when the sound event is enabled
 - Channel types can now be specified in .tt files
+- Ability to reply to chat messages from the message history
 - Ability to customize all shortcuts
-- Updated Qt to 6.11.1 on Windows and macOS
-- Ubuntu 22 is no longer supported
+- Ability to forward/rewind media stream using keyboard
 - Fixed compilation time display on Linux (Qt5)
 - Fixed crash issue when invoking context menu in Server List dialog
 - Fixed classroom transmission permissions being cleared when changed from another channel
 - Fixed shortcut keys display order on Linux
+- Updated Qt to 6.11.2 on Windows and macOS
+- Ubuntu 22 is no longer supported
 Android Client
-- Ability to pause and resume media file streams
 - Announce who is administrator
 - Announce who is streaming media file
 - Indication when a user is typing a private message
-- Ability to use Text-To-Speech to announce users joining and leaving other channels
 - Subscription and transmission changes are now shown in the chat list
+- Gender can now be set to neutral in addition to male and female
+- Neutral gender now has its own user icon
+- Redesigned file sharing screen and file transfers
+- Ability to pause and resume media file streams
+- Ability to use Text-To-Speech to announce users joining and leaving other channels
 - Ability to allow or disallow voice, video, desktop, media files and channel messages transmission for everyone in classroom channels
 - Ability to mute left or right channel of a user's voice and media files
 - Ability to change status mode along with nickname and status message
-- Gender can now be set to neutral in addition to male and female
-- Neutral gender now has its own user icon
 - Ability to copy a user's name, copy message content, delete a message and clear the chat history
 - Ability to open links in chat messages
-- Redesigned file sharing screen and file transfers
 - Fixed bug where not all selected files could be uploaded
 - Fixed bug where sounds were not muted during outgoing calls
 - Fixed channel list items not being exposed as clickable for accessibility services
@@ -41,6 +42,8 @@ Android Client
 - Minimum supported Android version is now 6.0 (Marshmallow)
 iOS Client
 - User interface has been redesigned using a more modern UI toolkit
+- Confirmation before deleting a server
+- Fixed joining hidden channel from server list
 - Minimum supported iOS version is now 16.0
 Server
 - Fixed crash issue when sharing large desktops
