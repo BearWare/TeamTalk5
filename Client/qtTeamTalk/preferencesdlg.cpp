@@ -57,9 +57,6 @@
 
 extern TTInstance* ttInst;
 extern NonDefaultSettings* ttSettings;
-#if defined(QT_TEXTTOSPEECH_LIB)
-extern QTextToSpeech* ttSpeech;
-#endif
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
@@ -1479,20 +1476,20 @@ void PreferencesDlg::slotUpdateTTSTab()
 #if defined(Q_OS_DARWIN)
         ui.ttsSpeakListsChkBox->show();
 #endif
-        delete ttSpeech;
-        ttSpeech = new QTextToSpeech(this);
+        delete m_ttSpeech;
+        m_ttSpeech = new QTextToSpeech(this);
 
         ui.ttsVoiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.ttsVoiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         ui.ttsLocaleComboBox->clear();
-        foreach (const QLocale &locale, ttSpeech->availableLocales())
+        foreach (const QLocale &locale, m_ttSpeech->availableLocales())
         {
             ui.ttsLocaleComboBox->addItem(locale.nativeLanguageName(), locale.nativeLanguageName());
         }
         ui.ttsLocaleComboBox->model()->sort(0);
         setCurrentItemData(ui.ttsLocaleComboBox, ttSettings->value(SETTINGS_TTS_LOCALE));
         ui.ttsVoiceComboBox->clear();
-        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        foreach (const QVoice &voice, m_ttSpeech->availableVoices())
         {
             ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
         }
@@ -1569,17 +1566,17 @@ void PreferencesDlg::slotUpdateTTSTab()
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
 {
 #if defined(QT_TEXTTOSPEECH_LIB)
-    QVector<QLocale> locales = ttSpeech->availableLocales();
+    QVector<QLocale> locales = m_ttSpeech->availableLocales();
     auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
        return l.nativeLanguageName() == locale;
     });
 
     if (selLocale != locales.end())
     {
-        ttSpeech->setLocale(*selLocale);
+        m_ttSpeech->setLocale(*selLocale);
 
         ui.ttsVoiceComboBox->clear();
-        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        foreach (const QVoice &voice, m_ttSpeech->availableVoices())
         {
             ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
         }
