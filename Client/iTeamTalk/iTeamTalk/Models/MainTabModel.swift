@@ -365,14 +365,14 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
         switch cmd {
         case .loginCmd:
             if !server.channel.isEmpty {
-                var tokens = server.channel.components(separatedBy: "/")
+                var tokens = server.channel.components(separatedBy: "/").filter { !$0.isEmpty }
                 let chanid = TeamTalkClient.shared.channelID(fromPath: server.channel)
                 if chanid > 0 {
                     channelListModel.rejoinchannel.nChannelID = chanid
                     TeamTalkString.setChannel(.password, on: &channelListModel.rejoinchannel, to: server.chanpasswd)
                 } else if tokens.count > 0 {
                     let channame = tokens.removeLast()
-                    let chanpath = tokens.map { "/" + $0 }.joined()
+                    let chanpath = "/" + tokens.joined(separator: "/")
                     let parentid = TeamTalkClient.shared.channelID(fromPath: chanpath)
                     if parentid > 0 {
                         channelListModel.rejoinchannel.nParentID = parentid
