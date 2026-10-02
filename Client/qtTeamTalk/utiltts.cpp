@@ -22,6 +22,8 @@
 #include "appinfo.h"
 #include "utilui.h"
 
+#include <QElapsedTimer>
+
 #if defined(QT_TEXTTOSPEECH_LIB)
 #include <QTextToSpeech>
 #endif
@@ -162,8 +164,17 @@ void addTextToSpeechMessage(TextToSpeechEvent event, const QString& msg)
     }
 }
 
+constexpr qint64 SCREENREADER_PROBE_CACHE_MSEC = 2000;
+
 bool isScreenReaderActive()
 {
+    // Probing runtime availability can cost a COM lookup, a D-Bus query or a
+    // process enumeration, and this is reached for every name the UI shows
+    static QElapsedTimer probed;
+    static bool cached = false;
+    if (probed.isValid() && !probed.hasExpired(SCREENREADER_PROBE_CACHE_MSEC))
+        return cached;
+
     bool SRActive = false;
 #if defined(ENABLE_PRISM)
     PrismConfig cfg = prism_config_init();
@@ -171,18 +182,14 @@ bool isScreenReaderActive()
     if (ctx)
     {
         size_t count = prism_registry_count(ctx);
-        for (size_t i = 0; i < count; i++)
+        for (size_t i = 0; i < count && !SRActive; i++)
         {
             PrismBackendId id = prism_registry_id_at(ctx, i);
-            PrismBackend* backend = prism_registry_get(ctx, id);
+            PrismBackend* backend = prism_registry_create(ctx, id);
             if (backend)
             {
-                uint64_t features = prism_backend_get_features(backend);
-                if (features & PRISM_BACKEND_IS_SUPPORTED_AT_RUNTIME)
-                {
-                    SRActive = true;
-                    break;
-                }
+                SRActive = (prism_backend_get_features(backend) & PRISM_BACKEND_IS_SUPPORTED_AT_RUNTIME) != 0;
+                prism_backend_free(backend);
             }
         }
         prism_shutdown(ctx);
@@ -194,6 +201,8 @@ bool isScreenReaderActive()
         SRActive = interface.property("IsEnabled").toBool();
     }
 #endif
+    cached = SRActive;
+    probed.restart();
     return SRActive;
 }
 

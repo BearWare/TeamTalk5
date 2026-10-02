@@ -491,6 +491,7 @@ private:
     void clienteventUserAudioBlock(int source, StreamTypes streamtypes);
     void clienteventSoundDeviceAdded(const SoundDevice& snddev);
     void clienteventSoundDeviceRemoved(const SoundDevice& snddev);
+    void clienteventSoundDeviceUnplugged(const SoundDevice& snddev);
     MediaFilePlayback m_mfp = {};
     VideoCodec m_mfp_videocodec = {};
     std::optional<MediaFileInfo> m_mfi;
