@@ -18,7 +18,7 @@ Default Qt Client
 - Fixed crash issue when invoking context menu in Server List dialog
 - Fixed classroom transmission permissions being cleared when changed from another channel
 - Fixed shortcut keys display order on Linux
-- Updated Qt to 6.11.2 on Windows and macOS
+- Updated Qt to 6.12.0 on Windows and macOS
 - Ubuntu 22 is no longer supported
 Android Client
 - Announce who is administrator
