@@ -69,10 +69,11 @@ struct PreferencesView: View {
                     )) {
                         Text("Male").tag(0)
                         Text("Female").tag(1)
+                        Text("Neutral").tag(2)
                     }
                     .pickerStyle(.segmented)
                 }
-                PreferenceSubtitle("Show male or female icon")
+                PreferenceSubtitle("Show male, female or neutral icon")
             }
 
             NavigationLink {
