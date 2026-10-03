@@ -34,13 +34,9 @@ private:
 private:
     Ui::ChatTemplatesDlg ui;
     class ChatTemplatesModel* m_chattemplatesmodel = nullptr;
-    void chatTemplateSelected(const QModelIndex &index);
-    void insertVariable();
-    void saveCurrentTemplate();
-    void chatTemplatesRestoreDefaultTemplate();
+    void slotEditTemplate();
     void chatTemplatesRestoreAllDefaultTemplate();
-    QMenu* m_CTVarMenu;
-    QModelIndex m_currentIndex;
+    void slotTableContextMenu(const QPoint& point);
 
 protected:
     void keyPressEvent ( QKeyEvent * event ) override;

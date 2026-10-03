@@ -40,53 +40,6 @@
        </widget>
       </item>
       <item>
-       <widget class="QGroupBox" name="sbmsg_groupbox">
-        <property name="title">
-         <string>Status Bar Message</string>
-        </property>
-        <layout class="QVBoxLayout" name="verticalLayout_16">
-         <item>
-          <layout class="QHBoxLayout" name="horizontalLayout_29">
-           <item>
-            <widget class="QLabel" name="SBMsgLabel">
-             <property name="text">
-              <string>Message</string>
-             </property>
-             <property name="buddy">
-              <cstring>SBMsgEdit</cstring>
-             </property>
-            </widget>
-           </item>
-           <item>
-            <widget class="QLineEdit" name="SBMsgEdit"/>
-           </item>
-          </layout>
-         </item>
-         <item>
-          <widget class="QPushButton" name="SBVarButton">
-           <property name="text">
-            <string>&amp;Variables...</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="SBDefValButton">
-           <property name="text">
-            <string>Reset to Default Value</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="SBDefAllValButton">
-           <property name="text">
-            <string>Reset All to Default Value</string>
-           </property>
-          </widget>
-         </item>
-        </layout>
-       </widget>
-      </item>
-      <item>
        <layout class="QHBoxLayout" name="horizontalLayout">
         <item>
          <widget class="QPushButton" name="statusBarEnableallButton">
@@ -132,6 +85,26 @@
          <widget class="QPushButton" name="statusBarRevertButton">
           <property name="text">
            <string>&amp;Revert</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <spacer name="horizontalSpacer_26">
+          <property name="orientation">
+           <enum>Qt::Horizontal</enum>
+          </property>
+          <property name="sizeHint" stdset="0">
+           <size>
+            <width>40</width>
+            <height>20</height>
+           </size>
+          </property>
+         </spacer>
+        </item>
+        <item>
+         <widget class="QPushButton" name="SBDefAllValButton">
+          <property name="text">
+           <string>Reset All to Default Value</string>
           </property>
          </widget>
         </item>
