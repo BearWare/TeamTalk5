@@ -63,21 +63,36 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MD}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MD})
 
-  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  # ZDSR and byctrl are closed-source, vendor-prebuilt screen-reader SDKs
+  # that only ship x64 binaries (ZDSRAPI_x64.dll, byctrl-x64.dll) - no
+  # ARM64 build exists upstream, so skip linking them there. Everything
+  # else (PCTalker, PrismOrcaBridge, PrismSpeechDispatcherBridge) is
+  # built from source by Prism itself and works on any architecture.
+  if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    set (PRISM_IMPLIBS PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  else()
+    set (PRISM_IMPLIBS ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  endif()
+
+  foreach (implib ${PRISM_IMPLIBS})
     add_library(Prism_${implib} SHARED IMPORTED GLOBAL)
     add_dependencies(Prism_${implib} prism-md-src)
     set_target_properties(Prism_${implib} PROPERTIES
       IMPORTED_IMPLIB ${PRISM_INSTALL_DIR_MD}/lib/${implib}.lib)
   endforeach()
 
+  list (TRANSFORM PRISM_IMPLIBS PREPEND Prism_)
   target_link_libraries(Prism INTERFACE
     rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    Prism_ZDSR Prism_byctrl Prism_PCTalker Prism_PrismOrcaBridge Prism_PrismSpeechDispatcherBridge)
+    ${PRISM_IMPLIBS})
   target_link_options(Prism INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:Prism>"
-    /delayload:ZDSRAPI_x64.dll
-    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
+    /delayload:PCTKUSR.dll
     /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
+  if (NOT TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    target_link_options(Prism INTERFACE
+      /delayload:ZDSRAPI_x64.dll /delayload:byctrl-x64.dll)
+  endif()
 
   file(MAKE_DIRECTORY ${PRISM_INSTALL_DIR_MT}/include)
 
@@ -89,21 +104,31 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MT}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MT})
 
-  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    set (PRISMMT_IMPLIBS PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  else()
+    set (PRISMMT_IMPLIBS ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
+  endif()
+
+  foreach (implib ${PRISMMT_IMPLIBS})
     add_library(PrismMT_${implib} SHARED IMPORTED GLOBAL)
     add_dependencies(PrismMT_${implib} prism-mt-src)
     set_target_properties(PrismMT_${implib} PROPERTIES
       IMPORTED_IMPLIB ${PRISM_INSTALL_DIR_MT}/lib/${implib}.lib)
   endforeach()
 
+  list (TRANSFORM PRISMMT_IMPLIBS PREPEND PrismMT_)
   target_link_libraries(PrismMT INTERFACE
     rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    PrismMT_ZDSR PrismMT_byctrl PrismMT_PCTalker PrismMT_PrismOrcaBridge PrismMT_PrismSpeechDispatcherBridge)
+    ${PRISMMT_IMPLIBS})
   target_link_options(PrismMT INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:PrismMT>"
-    /delayload:ZDSRAPI_x64.dll
-    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
+    /delayload:PCTKUSR.dll
     /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
+  if (NOT TEAMTALK_WIN_ARCH STREQUAL "arm64")
+    target_link_options(PrismMT INTERFACE
+      /delayload:ZDSRAPI_x64.dll /delayload:byctrl-x64.dll)
+  endif()
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 

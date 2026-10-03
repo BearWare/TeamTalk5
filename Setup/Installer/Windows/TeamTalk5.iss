@@ -10,6 +10,12 @@
   #define InstallDir BaseDir + "\Build\install\x64"
 #endif
 
+; Target architecture for the 64-bit VC++ redistributable / DLL naming
+; convention. Override with /DArch=arm64 to build a native ARM64 installer.
+#ifndef Arch
+  #define Arch "x64"
+#endif
+
 #define GetAppVersion GetVersionNumbersString(InstallDir + "\Client\qtTeamTalk\TeamTalk5.exe")
 
 [Setup]
@@ -24,12 +30,20 @@ AppUpdatesURL=http://www.bearware.dk
 DefaultDirName={autopf}\TeamTalk5
 DefaultGroupName=TeamTalk 5
 AllowNoIcons=yes
+#if Arch == "arm64"
+OutputBaseFilename=TeamTalk_v{#GetAppVersion}_Setup_arm64
+#else
 OutputBaseFilename=TeamTalk_v{#GetAppVersion}_Setup
+#endif
 SetupIconFile={#BaseDir}\Client\qtTeamTalk\images\teamtalk.ico
 Compression=lzma2/ultra64
 SolidCompression=yes
 LicenseFile=License.txt
+#if Arch == "arm64"
+ArchitecturesInstallIn64BitMode=arm64
+#else
 ArchitecturesInstallIn64BitMode=x64compatible
+#endif
 
 [Types]
 Name: "i_client"; Description: "{cm:Client}"
@@ -92,9 +106,9 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Name: "quicklaunchicon"; Description: "{cm:CreateQuickLaunchIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-;x64
-Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\*"; Excludes: "vc_redist.x64.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion recursesubdirs; Check: Is64BitInstallMode;
-Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\vc_redist.x64.exe"; DestDir: {tmp}; Components: client; Flags: deleteafterinstall; Check: Is64BitInstallMode;
+;x64 / arm64
+Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\*"; Excludes: "vc_redist.{#Arch}.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion recursesubdirs; Check: Is64BitInstallMode;
+Source: "{#InstallDir}\Client\qtTeamTalk\windeployqt\vc_redist.{#Arch}.exe"; DestDir: {tmp}; Components: client; Flags: deleteafterinstall; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Client\qtTeamTalk\TeamTalk5.exe"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Library\TeamTalk_DLL\TeamTalk5.dll"; DestDir: "{app}"; Components: client; Flags: ignoreversion; Check: Is64BitInstallMode;
 Source: "{#InstallDir}\Server\tt5svc.exe"; DestDir: "{app}"; Components: server; Flags: ignoreversion; Check: Is64BitInstallMode;
@@ -127,7 +141,7 @@ Name: "{group}\TeamTalk 5 NT Service\Uninstall TeamTalk NT Service"; Filename: "
 Name: "{group}\TeamTalk 5 Console Server"; Filename: "{app}\tt5srv_console.bat"; WorkingDir: "{app}"; Components: server;
 
 [Run]
-Filename: "{tmp}\vc_redist.x64.exe"; Parameters: "/install /quiet /norestart"; Components: client; Check: NeedsVCRedist;
+Filename: "{tmp}\vc_redist.{#Arch}.exe"; Parameters: "/install /quiet /norestart"; Components: client; Check: NeedsVCRedist;
 Filename: "{app}\TeamTalk5.exe"; Description: "{cm:LaunchProgram,TeamTalk}"; WorkingDir: "{app}"; Parameters: ""; Components: client; Flags: postinstall nowait skipifsilent
 
 [Registry]
@@ -201,11 +215,11 @@ var
 begin
   Result := False;
 
-  if RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Installed', Installed) then
+  if RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\{#Arch}', 'Installed', Installed) then
   begin
     if Installed = 1 then
     begin
-      if RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\x64', 'Major', Major) then
+      if RegQueryDWordValue(HKLM, 'SOFTWARE\Microsoft\VisualStudio\14.0\VC\Runtimes\{#Arch}', 'Major', Major) then
       begin
         if (Major >= 14) then
           Result := True;

@@ -19,49 +19,40 @@ if (MSVC)
   endif()
 
   if (TOOLCHAIN_BUILD_EXTERNALPROJECTS)
-    if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-
-      ExternalProject_Add(speex-src
-        GIT_REPOSITORY    https://github.com/xiph/speex.git
-        GIT_TAG           Speex-1.2.1
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=x64 win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
-        INSTALL_COMMAND   cd <SOURCE_DIR>/include
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib
-        )
-      ExternalProject_Get_Property(speex-src INSTALL_DIR)
+    if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
+      set (SPEEX_MSBUILD_PLATFORM ARM64)
+      # ARM64 has no SSE. Use the plain (unvectorized) Release configuration,
+      # which the ARM64-specific patch below wires up to produce the same
+      # libspeex_sse2.lib output name the rest of the build expects.
+      set (SPEEX_RELEASE_CONFIGURATION Release)
+    elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
+      set (SPEEX_MSBUILD_PLATFORM x64)
+      set (SPEEX_RELEASE_CONFIGURATION Release_SSE2)
     else()
-
-      ExternalProject_Add(speex-src
-        GIT_REPOSITORY    https://github.com/xiph/speex.git
-        GIT_TAG           Speex-1.2.1
-        UPDATE_COMMAND    ""
-        PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
-        PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
-        CONFIGURE_COMMAND ""
-        BUILD_IN_SOURCE   TRUE
-        BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
-        COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=win32 win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Release_SSE2
-        INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
-        INSTALL_COMMAND   cd <SOURCE_DIR>/include
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
-        COMMAND           cd <SOURCE_DIR>
-        COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
-        BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
-                          <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib
-        )
-      ExternalProject_Get_Property(speex-src INSTALL_DIR)
+      set (SPEEX_MSBUILD_PLATFORM win32)
+      set (SPEEX_RELEASE_CONFIGURATION Release_SSE2)
     endif()
+
+    ExternalProject_Add(speex-src
+      GIT_REPOSITORY    https://github.com/xiph/speex.git
+      GIT_TAG           Speex-1.2.1
+      UPDATE_COMMAND    ""
+      PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-VS-2026-project.patch
+      COMMAND           git apply --ignore-whitespace ${CMAKE_CURRENT_LIST_DIR}/0002-Add-ARM64-Debug-Release-configurations.patch
+      PREFIX            ${TOOLCHAIN_BUILD_PREFIX}/speex
+      CONFIGURE_COMMAND ""
+      BUILD_IN_SOURCE   TRUE
+      BUILD_COMMAND     msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${SPEEX_MSBUILD_PLATFORM} win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=Debug
+      COMMAND           msbuild -maxCpuCount ${PLATFORMTOOLSET} /p:Platform=${SPEEX_MSBUILD_PLATFORM} win32\\VS2026\\libspeex\\libspeex.sln -target:libspeex /property:Configuration=${SPEEX_RELEASE_CONFIGURATION}
+      INSTALL_DIR       ${TOOLCHAIN_INSTALL_PREFIX_SPEEX}
+      INSTALL_COMMAND   cd <SOURCE_DIR>/include
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_headers.bat <INSTALL_DIR>
+      COMMAND           cd <SOURCE_DIR>
+      COMMAND           ${CMAKE_CURRENT_LIST_DIR}\\..\\install_libs.bat lib <INSTALL_DIR>
+      BUILD_BYPRODUCTS  <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeexd.lib
+                        <INSTALL_DIR>/lib/${CMAKE_VS_PLATFORM_NAME}/libspeex_sse2.lib
+      )
+    ExternalProject_Get_Property(speex-src INSTALL_DIR)
     file(MAKE_DIRECTORY ${INSTALL_DIR}/include)
   else()
     set (INSTALL_DIR ${TOOLCHAIN_INSTALL_PREFIX_SPEEX})

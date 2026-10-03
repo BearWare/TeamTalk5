@@ -24,7 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        arch: [x86, x64]
+        arch: [x86, x64, arm64]
         include:
           - arch: x86
             cmakeplatform: Win32
@@ -33,6 +33,7 @@ jobs:
             qtarch: win32_msvc2019
             qtversion: '5.15.*'
             vcvars: vcvars32.bat
+            runson: windows-latest
           - arch: x64
             cmakeplatform: x64
             javaversion: 25
@@ -41,8 +42,39 @@ jobs:
             qtmodules: 'qtmultimedia qtspeech'
             qtversion: '6.11.1'
             vcvars: vcvars64.bat
+            runson: windows-latest
+          - arch: arm64
+            cmakeplatform: ARM64
+            # Temurin doesn't publish a Windows/aarch64 build of JDK 25 yet
+            # (only up to 23.0.2), unlike x64 which does have one.
+            javaversion: 21
+            portablearch: winarm64
+            qthost: windows_arm64
+            qtarch: win64_msvc2022_arm64
+            qtmodules: 'qtmultimedia qtspeech'
+            qtversion: '6.11.1'
+            vcvars: vcvarsarm64.bat
+            runson: windows-11-arm
+            # Classic .NET Framework (used by CMake's CSharp language support
+            # here) has no native ARM64 JIT, so these assemblies would run
+            # under x64 emulation and fail to P/Invoke the native ARM64
+            # TeamTalk5.dll. Skip building/testing them on this job.
+            #
+            # TeamTalkClassic (the MFC client) has hand-written x86 inline
+            # assembly (gui/XPTabCtrl.cpp) behind __USE_MASM__; MSVC's
+            # __asm has never supported any 64-bit target, so this is
+            # skipped here rather than touched.
+            cmakeextra: >-
+              -DBUILD_TEAMTALK_LIBRARY_DLL_DOTNET=OFF
+              -DBUILD_TEAMTALK_LIBRARY_DLLPRO_DOTNET=OFF
+              -DBUILD_TEAMTALK_LIBRARY_UNITTEST_DOTNET=OFF
+              -DBUILD_TEAMTALK_LIBRARY_UNITTEST_DOTNET_PRO=OFF
+              -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
+              -DBUILD_TEAMTALK_CLIENT_TTSERVERLOG_DOTNET=OFF
+              -DBUILD_TEAMTALK_SERVER_TEAMTALKSERVER_DOTNET=OFF
+              -DBUILD_TEAMTALK_CLIENT_TEAMTALKCLASSIC=OFF
 
-    runs-on: windows-latest
+    runs-on: ${{ matrix.runson }}
     steps:
     - name: Checkout
       uses: actions/checkout@v7
@@ -65,6 +97,7 @@ jobs:
     - name: Install Qt
       uses: jurplel/install-qt-action@v4
       with:
+        host: '${{ matrix.qthost }}'
         arch: '${{ matrix.qtarch }}'
         version: '${{ matrix.qtversion }}'
         modules: '${{ matrix.qtmodules }}'
@@ -119,12 +152,15 @@ jobs:
         -DFEATURE_WEBRTC=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
+        ${{ matrix.cmakeextra }}
 
     - name: Build and install TeamTalk
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath`) do set VSINSTALLPATH=%%i
+        if not defined VSINSTALLPATH set VSINSTALLPATH=C:\Program Files\Microsoft Visual Studio\18\Enterprise
+        call "%VSINSTALLPATH%\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output --parallel --config Release --target install
         echo ${{github.workspace}}\Library\TeamTalk_DLL>> %GITHUB_PATH%
         echo ${{github.workspace}}\Library\TeamTalkJNI\libs>> %GITHUB_PATH%
@@ -219,6 +255,7 @@ jobs:
         tt5prosvc.exe -u
 
     - name: Run .NET unit tests (non-encrypted)
+      if: matrix.arch != 'arm64'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -253,6 +290,7 @@ jobs:
         tt5prosvc.exe -s
 
     - name: Run .NET unit tests (encrypted)
+      if: matrix.arch != 'arm64'
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
@@ -285,11 +323,11 @@ jobs:
         make ${{ matrix.portablearch }} ${{ matrix.portablearch }}pro
 
     - name: Compile Inno Setup installer
-      if: matrix.arch == 'x64'
+      if: matrix.arch == 'x64' || matrix.arch == 'arm64'
       working-directory: ${{github.workspace}}/Setup/Installer/Windows
       shell: cmd
       run: |
-        iscc /DBaseDir="${{github.workspace}}" /DInstallDir="${{runner.workspace}}\install-teamtalk" TeamTalk5.iss
+        iscc /DBaseDir="${{github.workspace}}" /DInstallDir="${{runner.workspace}}\install-teamtalk" /DArch=${{ matrix.arch }} TeamTalk5.iss
         move Output\*.exe ${{runner.workspace}}\
 
     - name: Configure CMake for prebuilt toolchain
@@ -302,17 +340,20 @@ jobs:
         -DTOOLCHAIN_BUILD_EXTERNALPROJECTS=OFF
         -DBUILD_TEAMTALK_CLIENT_TEAMTALKAPP_DOTNET=OFF
         -DTOOLCHAIN_INSTALL_PREFIX=${{runner.workspace}}/install-toolchain
+        ${{ matrix.cmakeextra }}
         -DCMAKE_INSTALL_PREFIX=${{runner.workspace}}/install-teamtalk
 
     - name: Build debug TeamTalk using prebuilt toolchain
       working-directory: ${{runner.workspace}}
       shell: cmd
       run: |
-        call "C:\Program Files\Microsoft Visual Studio\18\Enterprise\VC\Auxiliary\Build\${{ matrix.vcvars }}"
+        for /f "usebackq tokens=*" %%i in (`"%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -property installationPath`) do set VSINSTALLPATH=%%i
+        if not defined VSINSTALLPATH set VSINSTALLPATH=C:\Program Files\Microsoft Visual Studio\18\Enterprise
+        call "%VSINSTALLPATH%\VC\Auxiliary\Build\${{ matrix.vcvars }}"
         cmake --build output-developer --parallel --config Debug
 
     - name: Upload Inno Setup installer artifact
-      if: matrix.arch == 'x64'
+      if: matrix.arch == 'x64' || matrix.arch == 'arm64'
       uses: actions/upload-artifact@v7
       with:
         name: teamtalk-installer-windows-${{ matrix.arch }}
