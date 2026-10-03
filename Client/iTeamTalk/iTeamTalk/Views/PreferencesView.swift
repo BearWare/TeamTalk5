@@ -199,12 +199,15 @@ struct PreferencesView: View {
             )
             sliderWithSubtitle(
                 title: "Microphone Gain",
-                subtitle: Text(verbatim: model.percentSubtitle(model.microphoneGainPercent)),
+                subtitle: model.micGainSetByChannel
+                    ? Text("Set by the channel's volume leveling")
+                    : Text(verbatim: model.percentSubtitle(model.microphoneGainPercent)),
                 value: Binding(get: { model.microphoneGainPercent }, set: { model.microphoneGainChanged($0) }),
                 range: 0...100,
                 step: 10,
                 displayValue: { model.percentSubtitle($0) }
             )
+            .disabled(model.micGainSetByChannel)
             sliderWithSubtitle(
                 title: "Voice Activation Level",
                 subtitle: Text(verbatim: model.voiceActivationSubtitle(model.voiceActivationLevel)),
