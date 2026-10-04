@@ -91,6 +91,7 @@ jobs:
           src:
             - 'Library/TeamTalk_DLL/**'
             - 'Client/iTeamTalk/**'
+            - '.github/workflows/ios.yml'
 
     - name: Download ARM64 artifact
       uses: actions/download-artifact@v8
@@ -132,6 +133,8 @@ jobs:
       working-directory: ${{github.workspace}}
       run: >-
         xcodebuild -project Client/iTeamTalk/iTeamTalk.xcodeproj
+        -scheme iTeamTalk
+        -destination 'generic/platform=iOS'
         CODE_SIGN_IDENTITY=-
         AD_HOC_CODE_SIGNING_ALLOWED=YES
         CODE_SIGN_STYLE=Automatic
