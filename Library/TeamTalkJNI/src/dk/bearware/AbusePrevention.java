@@ -26,5 +26,7 @@ package dk.bearware;
 public class AbusePrevention {
     public int nCommandsLimit = 0;
     public int nCommandsIntervalMSec = 0;
+    /** 0 inherits the server login delay, -1 disables it, positive values are milliseconds. */
+    public int nLoginDelayMSec = 0;
     public AbusePrevention() {}
 }

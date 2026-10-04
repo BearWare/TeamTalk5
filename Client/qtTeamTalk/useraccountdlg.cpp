@@ -110,6 +110,12 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
     if (type != USER_READONLY)
         connect(ui->userrightsTableView, &QAbstractItemView::doubleClicked, this, &UserAccountDlg::toggleUserRights);
 
+    connect(ui->defaultLoginDelayCheckBox, &QCheckBox::toggled, this,
+            [this, type](bool useDefault) {
+                ui->loginDelaySpinBox->setEnabled(type == USER_READONLY || !useDefault);
+                ui->loginDelaySpinBox->setSpecialValueText(useDefault ? tr("Server default") : tr("Disabled"));
+            });
+
     switch(type)
     {
     case USER_CREATE :
@@ -142,6 +148,8 @@ UserAccountDlg::UserAccountDlg(UserAccountDlgType type, const UserAccount& usera
         ui->rmopBtn->setEnabled(false);
         ui->audmaxbpsSpinBox->setReadOnly(true);
         ui->limitcmdComboBox->setEnabled(false);
+        ui->defaultLoginDelayCheckBox->setEnabled(false);
+        ui->loginDelaySpinBox->setReadOnly(true);
         ui->buttonBox->setStandardButtons(QDialogButtonBox::Close);
         ui->buttonBox->button(QDialogButtonBox::Close)->setText(tr("&Close"));
         break;
@@ -184,6 +192,12 @@ UserAccount UserAccountDlg::getUserAccount() const
     }
 
     newUser.nAudioCodecBpsLimit = ui->audmaxbpsSpinBox->value() * 1000;
+    if (ui->defaultLoginDelayCheckBox->isChecked())
+        newUser.abusePrevent.nLoginDelayMSec = 0;
+    else if (ui->loginDelaySpinBox->value() == 0)
+        newUser.abusePrevent.nLoginDelayMSec = -1;
+    else
+        newUser.abusePrevent.nLoginDelayMSec = ui->loginDelaySpinBox->value();
 
     return newUser;
 }
@@ -388,6 +402,11 @@ void UserAccountDlg::showUserAccount(const UserAccount& useraccount)
     ui->audmaxbpsSpinBox->setValue(useraccount.nAudioCodecBpsLimit / 1000);
 
     m_useraccount.abusePrevent = useraccount.abusePrevent;
+    bool const useDefaultDelay = useraccount.abusePrevent.nLoginDelayMSec == 0;
+    ui->defaultLoginDelayCheckBox->setChecked(useDefaultDelay);
+    ui->loginDelaySpinBox->setValue(qMax(0, useraccount.abusePrevent.nLoginDelayMSec));
+    ui->loginDelaySpinBox->setEnabled(m_type == USER_READONLY || !useDefaultDelay);
+    ui->loginDelaySpinBox->setSpecialValueText(useDefaultDelay ? tr("Server default") : tr("Disabled"));
     int i = -1;  // Default value for index
     switch(useraccount.abusePrevent.nCommandsLimit)
     {

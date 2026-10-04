@@ -86,7 +86,10 @@ namespace teamtalk {
 
         bool GetBoolean(const tinyxml2::XMLElement* parent, const std::string& szName, bool& bValue) const;
         bool GetString(const tinyxml2::XMLElement* parent, const std::string& szName, std::string& szValue) const;
-        bool GetInteger(const tinyxml2::XMLElement* parent, const std::string& szName, int& nValue) const;
+        // Strict mode permits surrounding XML whitespace. Invalid/out-of-range values
+        // or other trailing text return false, leaving nValue unchanged.
+        // Non-strict mode retains stoi's exceptions and prefix parsing.
+        bool GetInteger(const tinyxml2::XMLElement* parent, const std::string& szName, int& nValue, bool strict = false) const;
         bool GetInteger(const tinyxml2::XMLElement* parent, const std::string& szName, int64_t& nValue) const;
 
         tinyxml2::XMLElement* AppendElement(tinyxml2::XMLElement* parent, const char* name);

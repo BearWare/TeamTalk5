@@ -1841,7 +1841,7 @@ extern "C" {
         /** @brief Number of msec before an IP-address can make
          * another login attempt. If less than this amount then
          * TT_DoLogin() will result in
-         * #CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED. Zero means
+         * #CMDERR_COMMAND_FLOOD. Zero means
          * disabled.
          * 
          * Also checkout @c nMaxLoginAttempts and @c
@@ -2002,6 +2002,18 @@ extern "C" {
         INT32 nCommandsLimit;
         /** @brief Commands within given interval. */
         INT32 nCommandsIntervalMSec;
+        /** @brief Override ServerProperties.nLoginDelayMSec for this account.
+         * Zero inherits the server setting, -1 disables the delay, and a
+         * positive value specifies milliseconds. Applies to administrators
+         * too. Authentication and other abuse limits are still enforced.
+         * Inheriting accounts share the server's per-IP limit. Positive
+         * overrides are tracked per account and IP address. Disabled accounts
+         * do not affect other accounts' login-delay counters.
+         * A rejected login returns #CMDERR_COMMAND_FLOOD.
+         *
+         * This field requires matching updated SDK binaries and bindings;
+         * it changes the layout of AbusePrevention and UserAccount. */
+        INT32 nLoginDelayMSec;
     } AbusePrevention;
 
     /** 
