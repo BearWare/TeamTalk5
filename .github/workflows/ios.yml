@@ -58,6 +58,7 @@ jobs:
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE_INet_SSL.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/openssl/lib/libcrypto.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/openssl/lib/libssl.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/webrtc/obj/modules/audio_processing/libteamtalk.a
 
     - name: Upload architecture artifact
       uses: actions/upload-artifact@v7
