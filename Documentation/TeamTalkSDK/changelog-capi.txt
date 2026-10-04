@@ -4,6 +4,9 @@
  * This section contains the list of new features and API changes
  * in TeamTalk SDK releases.
  *
+ * @ref v523arelease
+ * - @ref v523abugfix
+ *
  * @ref v522arelease
  * - @ref v522afeatures
  *   - @ref v522affmpeg
@@ -269,6 +272,16 @@
  *   - @ref chp2p
  *   - @ref chcelt
  * - @ref v40aapi
+ *
+ * <hr>
+ *
+ * @section v523arelease TeamTalk 5 SDK v. 5.23a release, October 3rd 2026
+ *
+ * @subsection v523abugfix Bug fixes in v5.23a
+ *
+ * - Crash issue fixed when sharing large desktop of certain dimensions
+ * - Crash issue fixed when listing negative number of bans
+ * - Fixed missing IPv6 support on Android
  *
  * <hr>
  *

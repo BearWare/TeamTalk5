@@ -56,7 +56,13 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
     hints.ai_socktype = SOCK_STREAM; // ensure no duplicate IP-addresses
 
     addrinfo* res = nullptr;
+#if defined(__ANDROID__)
+    // ACE's config-android.h defines ACE_LACKS_GETADDRINFO, which turns
+    // ACE_OS::getaddrinfo() into an IPv4-only emulation
+    const int addrinfoerror = ::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
+#else
     const int addrinfoerror = ACE_OS::getaddrinfo(UnicodeToUtf8(host).c_str(), nullptr, &hints, &res);
+#endif
     if (addrinfoerror != 0)
     {
         MYTRACE(ACE_TEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
@@ -88,7 +94,11 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
         }
     }
 
+#if defined(__ANDROID__)
+    ::freeaddrinfo(res);
+#else
     ACE_OS::freeaddrinfo(res);
+#endif
 
     return result;
 }
