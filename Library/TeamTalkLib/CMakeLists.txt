@@ -50,7 +50,7 @@ if (MSVC)
   # Studio CMake itself picked (CMAKE_VS_PLATFORM_TOOLSET, e.g. "v143" for
   # VS2022 vs "v145" for VS2026) rather than hardcoded, since CI runners for
   # different host architectures don't all have the same VS version
-  # installed (e.g. windows-11-arm currently ships VS2022, not VS2026).
+  # installed (windows-11-arm moved from VS2022 to VS2026 in September 2026).
   if (CMAKE_VS_PLATFORM_TOOLSET)
     set (_teamtalk_default_toolset "${CMAKE_VS_PLATFORM_TOOLSET}")
   else()

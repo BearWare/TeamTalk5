@@ -16,6 +16,15 @@ if (MSVC)
 
     if (TEAMTALK_WIN_ARCH STREQUAL "arm64")
       set(OPENSSL_TARGET VC-WIN64-ARM)
+      # MSVC 14.51 (VS2026) miscompiles OpenSSL for ARM64 at /O2:
+      # tls_parse_all_extensions() calls __chkstk before saving its return
+      # address, so the TLS handshake ends in an access violation (seen as
+      # tt5prosrv.exe/tt5prosvc.exe crashing at startup when authenticating
+      # the BearWare.dk WebLogin). MSVC 14.44 (VS2022) is not affected.
+      # Building OpenSSL with /O1 avoids it. Set to an empty string to get
+      # OpenSSL's default optimisation back.
+      set(OPENSSL_WIN_ARM64_CFLAGS "-O1" CACHE STRING "Extra compiler flags for OpenSSL on Windows ARM64")
+      set(OPENSSL_EXTRA_CFLAGS ${OPENSSL_WIN_ARM64_CFLAGS})
     elseif (TEAMTALK_WIN_ARCH STREQUAL "x64")
       set(OPENSSL_TARGET VC-WIN64A)
     else()
