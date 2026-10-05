@@ -14,13 +14,13 @@
 "3ZB-ZM-KqH.text" = "加入码";
 
 /* Class = "UIButton"; accessibilityHint = "Send private text message"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityHint" = "发送私人消息";
+"4RU-K7-Yga.accessibilityHint" = "发送私信";
 
 /* Class = "UIButton"; accessibilityLabel = "Text Messaging"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.accessibilityLabel" = "消息";
+"4RU-K7-Yga.accessibilityLabel" = "文字消息";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "4RU-K7-Yga"; */
-"4RU-K7-Yga.normalTitle" = "用户消息";
+"4RU-K7-Yga.normalTitle" = "私信用户";
 
 /* Class = "UIViewController"; title = "Text To Speech Events"; ObjectID = "5K7-Hd-4h7"; */
 "5K7-Hd-4h7.title" = "文字转语音事件";
@@ -29,7 +29,7 @@
 "5YA-rx-tGz.normalTitle" = "登录";
 
 /* Class = "UINavigationItem"; title = "Text-to-Speech Voice"; ObjectID = "79c-sV-yxb"; */
-"79c-sV-yxb.title" = "文字转语音";
+"79c-sV-yxb.title" = "朗读语音";
 
 /* Class = "UIButton"; normalTitle = "Create Web Login ID"; ObjectID = "8Ls-H9-lri"; */
 "8Ls-H9-lri.normalTitle" = "创建 Web 登录 ID";
@@ -44,7 +44,7 @@
 "aX2-rZ-yEl.title" = "频道";
 
 /* Class = "UIButton"; normalTitle = "Use Speex VBR Codec"; ObjectID = "b6N-H7-SIe"; */
-"b6N-H7-SIe.normalTitle" = "Speex 可变速率编解码器";
+"b6N-H7-SIe.normalTitle" = "使用 Speex VBR 编解码器";
 
 /* Class = "UILabel"; text = "Speech"; ObjectID = "B8t-mo-k8g"; */
 "B8t-mo-k8g.text" = "语音";
@@ -59,28 +59,28 @@
 "BLM-fs-qcG.title" = "返回";
 
 /* Class = "UILabel"; text = "Setup Sound Events"; ObjectID = "bua-Pf-Vpn"; */
-"bua-Pf-Vpn.text" = "设置声音事件";
+"bua-Pf-Vpn.text" = "设置提示音";
 
 /* Class = "UIButton"; normalTitle = "Use Speex Codec"; ObjectID = "cGm-Jp-0zI"; */
-"cGm-Jp-0zI.normalTitle" = "Speex 编解码器";
+"cGm-Jp-0zI.normalTitle" = "使用 Speex 编解码器";
 
 /* Class = "UIButton"; normalTitle = "Join this channel"; ObjectID = "ch0-Xf-hyX"; */
-"ch0-Xf-hyX.normalTitle" = "加入频道";
+"ch0-Xf-hyX.normalTitle" = "加入此频道";
 
 /* Class = "UINavigationItem"; title = "Connecting to Server"; ObjectID = "dcU-Nq-ioW"; */
-"dcU-Nq-ioW.title" = "连接";
+"dcU-Nq-ioW.title" = "正在连接服务器";
 
 /* Class = "UIButton"; accessibilityLabel = "Private text messaging"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.accessibilityLabel" = "私人消息";
+"DHN-DJ-cUp.accessibilityLabel" = "私信";
 
 /* Class = "UIButton"; normalTitle = "Message user"; ObjectID = "DHN-DJ-cUp"; */
-"DHN-DJ-cUp.normalTitle" = "用户消息";
+"DHN-DJ-cUp.normalTitle" = "私信用户";
 
 /* Class = "UILabel"; text = "Blank"; ObjectID = "EHj-xt-HhD"; */
 "EHj-xt-HhD.text" = "空白";
 
 /* Class = "UILabel"; text = "Choose events to playback"; ObjectID = "eJb-Cn-ciJ"; */
-"eJb-Cn-ciJ.text" = "选择播报的事件";
+"eJb-Cn-ciJ.text" = "选择要播放的事件";
 
 /* Class = "UILabel"; text = "Show Unofficial Servers"; ObjectID = "feN-jH-qaq"; */
 "feN-jH-qaq.text" = "显示非官方服务器";
@@ -92,19 +92,19 @@
 "gA8-TJ-0RU.title" = "聊天频道";
 
 /* Class = "UILabel"; text = "Limit types of servers to show"; ObjectID = "GeK-hh-gst"; */
-"GeK-hh-gst.text" = "在服务器列表中显示公共服务器";
+"GeK-hh-gst.text" = "限制显示的服务器类型";
 
 /* Class = "UILabel"; text = "Title"; ObjectID = "GFy-mN-epU"; */
 "GFy-mN-epU.text" = "标题";
 
 /* Class = "UILabel"; text = "Filter Server List"; ObjectID = "gPj-u1-dPn"; */
-"gPj-u1-dPn.text" = "显示公共服务器";
+"gPj-u1-dPn.text" = "筛选服务器列表";
 
 /* Class = "UILabel"; text = "BearWare.dk Web Login"; ObjectID = "Hcv-zz-riB"; */
 "Hcv-zz-riB.text" = "BearWare.dk Web 登录";
 
 /* Class = "UIView"; accessibilityHint = "Double tap to expand options for this channel."; ObjectID = "hqu-CX-Vn4"; */
-"hqu-CX-Vn4.accessibilityHint" = "双击展开频道选项";
+"hqu-CX-Vn4.accessibilityHint" = "双击展开此频道的选项。";
 
 /* Class = "UITabBarItem"; title = "Messages"; ObjectID = "j1c-gJ-hO8"; */
 "j1c-gJ-hO8.title" = "消息";
@@ -119,10 +119,10 @@
 "kRp-LE-RFh.text" = "空白";
 
 /* Class = "UIViewController"; title = "Setup Sound Events"; ObjectID = "Ksa-x9-2Mq"; */
-"Ksa-x9-2Mq.title" = "选择声音事件";
+"Ksa-x9-2Mq.title" = "设置提示音";
 
 /* Class = "UILabel"; text = "Choose sounds events to play"; ObjectID = "KsW-VX-Rtb"; */
-"KsW-VX-Rtb.text" = "选择播放声音的事件";
+"KsW-VX-Rtb.text" = "选择要播放的提示音";
 
 /* Class = "UIButton"; normalTitle = "Join Channel"; ObjectID = "l6D-Hs-MdG"; */
 "l6D-Hs-MdG.normalTitle" = "加入频道";
@@ -134,7 +134,7 @@
 "m1N-Js-NXn.normalTitle" = "删除服务器";
 
 /* Class = "UINavigationItem"; title = "Server Entry"; ObjectID = "Me4-OJ-iZH"; */
-"Me4-OJ-iZH.title" = "服务器信息";
+"Me4-OJ-iZH.title" = "服务器条目";
 
 /* Class = "UINavigationItem"; title = "User Properties"; ObjectID = "N1w-a6-R3D"; */
 "N1w-a6-R3D.title" = "用户属性";
@@ -155,7 +155,7 @@
 "o7z-cC-U4w.title" = "BearWare.dk Web 登录";
 
 /* Class = "UIButton"; accessibilityLabel = "Connect button"; ObjectID = "PaV-2Q-pt4"; */
-"PaV-2Q-pt4.accessibilityLabel" = "连接";
+"PaV-2Q-pt4.accessibilityLabel" = "连接按钮";
 
 /* Class = "UIButton"; normalTitle = "Connect"; ObjectID = "PaV-2Q-pt4"; */
 "PaV-2Q-pt4.normalTitle" = "连接";
@@ -167,16 +167,16 @@
 "pQJ-c1-GEL.title" = "服务器列表";
 
 /* Class = "UILabel"; text = "Setup Announcements"; ObjectID = "Q0w-pu-giG"; */
-"Q0w-pu-giG.text" = "设置播报事件";
+"Q0w-pu-giG.text" = "设置播报";
 
 /* Class = "UILabel"; text = "Choose input and output devices"; ObjectID = "qgW-1i-aGQ"; */
 "qgW-1i-aGQ.text" = "选择输入和输出设备";
 
 /* Class = "UIButton"; normalTitle = "Use No Audio"; ObjectID = "rNU-2J-hMO"; */
-"rNU-2J-hMO.normalTitle" = "无声";
+"rNU-2J-hMO.normalTitle" = "不使用音频";
 
 /* Class = "UIButton"; normalTitle = "Use OPUS Codec"; ObjectID = "Rrg-2O-NzF"; */
-"Rrg-2O-NzF.normalTitle" = "OPUS 编解码器";
+"Rrg-2O-NzF.normalTitle" = "使用 OPUS 编解码器";
 
 /* Class = "UILabel"; text = "Login ID from BearWare.dk"; ObjectID = "SmF-8J-cWK"; */
 "SmF-8J-cWK.text" = "BearWare.dk 的登录 ID";
@@ -212,16 +212,16 @@
 "WCf-u5-KkQ.text" = "空白";
 
 /* Class = "UIButton"; normalTitle = "Kick User"; ObjectID = "WFB-kl-uoS"; */
-"WFB-kl-uoS.normalTitle" = "踢出";
+"WFB-kl-uoS.normalTitle" = "踢出用户";
 
 /* Class = "UIButton"; normalTitle = "Kick and Ban User"; ObjectID = "WRa-tI-lpY"; */
-"WRa-tI-lpY.normalTitle" = "踢出并禁止";
+"WRa-tI-lpY.normalTitle" = "踢出并封禁用户";
 
 /* Class = "UIButton"; normalTitle = "Enter Join Code"; ObjectID = "wxh-6H-4XJ"; */
 "wxh-6H-4XJ.normalTitle" = "输入加入码";
 
 /* Class = "UIViewController"; title = "Setup Sound Devices"; ObjectID = "XmQ-1z-cFv"; */
-"XmQ-1z-cFv.title" = "设置声音设备";
+"XmQ-1z-cFv.title" = "设置声音输入";
 
 /* Class = "UIBarButtonItem"; title = "Disconnect"; ObjectID = "Y9o-rs-HCe"; */
 "Y9o-rs-HCe.title" = "断开连接";
