@@ -342,6 +342,8 @@
     <string name="action_export_serverlist">Export server list</string>
     <string name="action_enter_joincode">Enter Join Code</string>
     <string name="text_specify_joincode">Server Join Code</string>
+    <string name="title_save_server">Save Server</string>
+    <string name="text_save_server">Save this server to the server list?</string>
     <string name="err_enter_joincode">Incorrect Join Code for server</string>
     <string name="pref_title_joincode">Join Code for Easy Login</string>
     <string name="text_joincode">Join Code</string>

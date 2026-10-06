@@ -96,6 +96,7 @@ public class ServerListActivity extends AppCompatActivity
 
     private TeamTalkConnection mConnection;
     private ServerEntry serverentry;
+    private ServerEntry unsavedServer;
 
     private ServerListAdapter adapter;
     private RecyclerView recyclerView;
@@ -180,6 +181,11 @@ public class ServerListActivity extends AppCompatActivity
         Uri uri = intent.getData();
         if (uri != null) {
             loadServerFromUri(uri);
+            intent.setData(null);
+        }
+        else if (unsavedServer != null && serverentry == null) {
+            offerSaveServer(unsavedServer);
+            unsavedServer = null;
         }
 
         if (mConnection.isBound()) {
@@ -817,6 +823,8 @@ public class ServerListActivity extends AppCompatActivity
     @Override
     public void onCmdMyselfLoggedIn(int my_userid, UserAccount useraccount) {
         if (serverentry != null) {
+            if (!isInServerList(serverentry))
+                unsavedServer = serverentry;
             Intent intent = new Intent(getBaseContext(), MainActivity.class);
             startActivity(intent.putExtra(ServerEntry.KEY_SERVERNAME, serverentry.servername));
 
@@ -965,6 +973,39 @@ public class ServerListActivity extends AppCompatActivity
         });
         alert.setNegativeButton(android.R.string.no, null);
         alert.show();
+    }
+
+    private boolean isInServerList(ServerEntry entry) {
+        synchronized (servers) {
+            for (ServerEntry s : servers) {
+                if (s.ipaddr.equals(entry.ipaddr) && s.tcpport == entry.tcpport && s.username.equals(entry.username))
+                    return true;
+            }
+        }
+        return false;
+    }
+
+    private void offerSaveServer(ServerEntry entry) {
+        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+        alert.setTitle(R.string.title_save_server);
+        alert.setMessage(R.string.text_save_server);
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        input.setText(entry.servername);
+        input.selectAll();
+        alert.setView(input);
+        alert.setPositiveButton(R.string.action_save, (dialog, whichButton) -> {
+            String name = input.getText().toString().trim();
+            if (!name.isEmpty())
+                entry.servername = name;
+            entry.servertype = ServerEntry.ServerType.LOCAL;
+            servers.add(entry);
+            Collections.sort(servers, this);
+            adapter.updateServers();
+            saveServers();
+        });
+        alert.setNegativeButton(android.R.string.cancel, null);
+        DialogHelper.showWithImeSubmit(alert, input);
     }
 
     private void enterJoinCode() {
