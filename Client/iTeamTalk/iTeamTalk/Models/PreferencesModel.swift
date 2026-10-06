@@ -157,7 +157,10 @@ final class PreferencesModel: ObservableObject {
         }
         mediaFileVolumePercent = Double(mediaVolume * 100)
 
-        microphoneGainPercent = Double(refVolumeToPercent(Int(TeamTalkClient.shared.soundInputGainLevel)))
+        let micGain = settings.object(forKey: PREF_MICROPHONE_GAIN) != nil
+            ? settings.integer(forKey: PREF_MICROPHONE_GAIN)
+            : refVolumeToPercent(Int(SOUND_GAIN_DEFAULT.rawValue))
+        microphoneGainPercent = Double(micGain)
 
         var voiceActivation = VOICEACT_DISABLED
         if settings.object(forKey: PREF_VOICEACTIVATION) != nil {
@@ -302,7 +305,7 @@ final class PreferencesModel: ObservableObject {
         microphoneGainPercent = roundedPercent
         UserDefaults.standard.set(Int(roundedPercent), forKey: PREF_MICROPHONE_GAIN)
         if !micGainSetByChannel {
-            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(roundedPercent)))
+            applyMicrophoneGain()
         }
     }
 
