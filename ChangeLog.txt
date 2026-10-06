@@ -1,8 +1,17 @@
 ----------------------------------------------
                  TeamTalk
 ----------------------------------------------
+Version 5.24, unreleased
+Desktop Client
+-
+Android Client
+-
+iOS Client
+-
+Server
+-
 
-Version 5.23, unreleased
+Version 5.23, 2026/10/03
 Default Qt Client
 - Replaced Tolk with Prism for screen reader support
 - Screen reader backend can now be selected in Preferences dialog (e.g. NVDA, JAWS, SAPI, UIA, Orca)
@@ -35,6 +44,7 @@ Android Client
 - Ability to change status mode along with nickname and status message
 - Ability to copy a user's name, copy message content, delete a message and clear the chat history
 - Ability to open links in chat messages
+- Ability to connect to IPv6 servers
 - Fixed bug where not all selected files could be uploaded
 - Fixed bug where sounds were not muted during outgoing calls
 - Fixed channel list items not being exposed as clickable for accessibility services
