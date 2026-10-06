@@ -27,8 +27,10 @@
 #include "myace/MyACE.h"
 
 #include <algorithm>
+#include <atomic>
 #include <cassert>
 #include <memory>
+#include <mutex>
 #include <vector>
 
 #import <AVFoundation/AVFoundation.h>
@@ -43,6 +45,14 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
 static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
                                     const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
                                     UInt32 numFrames, AudioBufferList *buffers);
+
+static OSStatus VPIOInputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
+                                  const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
+                                  UInt32 numFrames, AudioBufferList *buffers);
+
+static OSStatus VPIOOutputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
+                                   const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
+                                   UInt32 numFrames, AudioBufferList *buffers);
 
 namespace soundsystem {
 
@@ -138,6 +148,16 @@ namespace soundsystem {
                          int inputdeviceid, int outputdeviceid) 
             : DuplexStreamer(d, sg, fs, sr, inchs, outchs, out_sndsys, inputdeviceid, outputdeviceid)
             , recorder(nil), player(nil) {}
+    };
+
+    // Echo cancellation requires recording and playback to go through
+    // the same Voice-Processing I/O unit (separate units stopped
+    // working in iOS 26), so the input and output streamer share it.
+    struct SharedVPIO
+    {
+        AudioUnit unit = nil;
+        std::atomic<AUInputStreamer*> input{nullptr};
+        std::atomic<AUOutputStreamer*> output{nullptr};
     };
 
 #if TARGET_IPHONE_SIMULATOR
@@ -472,10 +492,128 @@ assert(status == noErr);
         }
 
 
-        inputstreamer_t NewStream(StreamCapture* capture, int inputdeviceid, 
+        // Voice-Processing I/O unit with both recording and playback enabled
+        AudioUnit NewSharedVPIO(int samplerate, int channels)
+        {
+            AudioUnit audioUnit = NewInput(VOICEPROCESSINGIO_DEVICE_ID, samplerate, channels);
+            if(audioUnit == nil)
+                return nil;
+
+            // play back in the same format as recording
+            AudioStreamBasicDescription format = {};
+            UInt32 size = sizeof(format);
+            UInt32 flag = 1;
+            AURenderCallbackStruct inputCallback = { VPIOInputCallback, &m_vpio };
+            AURenderCallbackStruct outputCallback = { VPIOOutputCallback, &m_vpio };
+
+            OSStatus status;
+            status = AudioUnitGetProperty(audioUnit, kAudioUnitProperty_StreamFormat,
+                                          kAudioUnitScope_Output, kInputBus, &format, &size);
+            if(status != noErr)
+                goto fail;
+            status = AudioUnitSetProperty(audioUnit, kAudioOutputUnitProperty_EnableIO,
+                                          kAudioUnitScope_Output, kOutputBus, &flag, sizeof(flag));
+            if(status != noErr)
+                goto fail;
+            status = AudioUnitSetProperty(audioUnit, kAudioUnitProperty_StreamFormat,
+                                          kAudioUnitScope_Input, kOutputBus, &format, sizeof(format));
+            if(status != noErr)
+                goto fail;
+            status = AudioUnitSetProperty(audioUnit, kAudioOutputUnitProperty_SetInputCallback,
+                                          kAudioUnitScope_Output, kInputBus,
+                                          &inputCallback, sizeof(inputCallback));
+            if(status != noErr)
+                goto fail;
+            status = AudioUnitSetProperty(audioUnit, kAudioUnitProperty_SetRenderCallback,
+                                          kAudioUnitScope_Input, kOutputBus,
+                                          &outputCallback, sizeof(outputCallback));
+            if(status != noErr)
+                goto fail;
+            status = AudioUnitInitialize(audioUnit);
+            if(status != noErr)
+                goto fail;
+
+            return audioUnit;
+
+        fail:
+            MYTRACE(ACE_TEXT("Failed to create shared voice-processing unit, status %d\n"), (int)status);
+            AudioComponentInstanceDispose(audioUnit);
+            return nil;
+        }
+
+        // Get the shared voice-processing unit. Returns nil if it uses a
+        // different format.
+        AudioUnit SharedVPIOUnit(int samplerate, int channels)
+        {
+            if(m_vpio.unit == nil)
+            {
+                m_vpio.unit = NewSharedVPIO(samplerate, channels);
+                m_vpio_samplerate = samplerate;
+                m_vpio_channels = channels;
+            }
+            else if(samplerate != m_vpio_samplerate || channels != m_vpio_channels)
+                return nil;
+            return m_vpio.unit;
+        }
+
+        bool IsSharedVPIO(AudioUnit audioUnit) const
+        {
+            return audioUnit != nil && audioUnit == m_vpio.unit;
+        }
+
+        // Run the shared voice-processing unit while recording or playing
+        bool UpdateSharedVPIO()
+        {
+            std::lock_guard<std::recursive_mutex> g(m_vpio_mutex);
+            AUInputStreamer* input = m_vpio.input;
+            AUOutputStreamer* output = m_vpio.output;
+            if((input && input->recording) || (output && output->playing))
+                return AudioOutputUnitStart(m_vpio.unit) == noErr;
+            return AudioOutputUnitStop(m_vpio.unit) == noErr;
+        }
+
+        void DetachSharedVPIO(SoundStreamer* streamer)
+        {
+            std::lock_guard<std::recursive_mutex> g(m_vpio_mutex);
+
+            // stopping waits for active callbacks to return
+            AudioOutputUnitStop(m_vpio.unit);
+            if(m_vpio.input == streamer)
+                m_vpio.input = nullptr;
+            if(m_vpio.output == streamer)
+                m_vpio.output = nullptr;
+
+            if(m_vpio.input || m_vpio.output)
+            {
+                UpdateSharedVPIO();
+                return;
+            }
+
+            AudioUnitUninitialize(m_vpio.unit);
+            AudioComponentInstanceDispose(m_vpio.unit);
+            m_vpio.unit = nil;
+        }
+
+        inputstreamer_t NewStream(StreamCapture* capture, int inputdeviceid,
                                   int sndgrpid, int samplerate, int channels,
                                   int framesize)
         {
+            if(inputdeviceid == VOICEPROCESSINGIO_DEVICE_ID)
+            {
+                std::lock_guard<std::recursive_mutex> g(m_vpio_mutex);
+                AudioUnit sharedUnit;
+                if(m_vpio.input == nullptr && (sharedUnit = SharedVPIOUnit(samplerate, channels)))
+                {
+                    inputstreamer_t streamer(new AUInputStreamer(capture, sndgrpid,
+                                                                 framesize, samplerate,
+                                                                 channels, SOUND_API_AUDIOUNIT,
+                                                                 inputdeviceid));
+                    streamer->audunit = sharedUnit;
+                    m_vpio.input = streamer.get();
+                    return streamer;
+                }
+            }
+
             AudioUnit audioUnit = NewInput(inputdeviceid, samplerate, channels);
             if(audioUnit == nil)
                 return inputstreamer_t();
@@ -524,6 +662,12 @@ assert(status == noErr);
 
         bool StartStream(inputstreamer_t streamer)
         {
+            if(IsSharedVPIO(streamer->audunit))
+            {
+                streamer->recording = true;
+                return UpdateSharedVPIO();
+            }
+
             OSStatus status;
             assert(streamer->audunit);
             status = AudioOutputUnitStart(streamer->audunit);
@@ -534,6 +678,13 @@ assert(status == noErr);
 
         void CloseStream(inputstreamer_t streamer)
         {
+            if(IsSharedVPIO(streamer->audunit))
+            {
+                streamer->recording = false;
+                DetachSharedVPIO(streamer.get());
+                return;
+            }
+
             OSStatus status;
 
             assert(streamer->audunit);
@@ -560,6 +711,17 @@ assert(status == noErr);
                                                            channels, SOUND_API_AUDIOUNIT,
                                                            outputdeviceid));
             streamer->playing = false;
+
+            if(outputdeviceid == VOICEPROCESSINGIO_DEVICE_ID)
+            {
+                std::lock_guard<std::recursive_mutex> g(m_vpio_mutex);
+                if(m_vpio.output == nullptr &&
+                   (streamer->audunit = SharedVPIOUnit(samplerate, channels)))
+                {
+                    m_vpio.output = streamer.get();
+                    return streamer;
+                }
+            }
 
             if (!NewStreamer(outputdeviceid, streamer))
                 return outputstreamer_t();
@@ -610,6 +772,13 @@ assert(status == noErr);
 
         void CloseStream(outputstreamer_t streamer)
         {
+            if(IsSharedVPIO(streamer->audunit))
+            {
+                streamer->playing = false;
+                DetachSharedVPIO(streamer.get());
+                return;
+            }
+
             if (streamer->audunit)
             {
                 // close streamer's audio unit instance
@@ -626,6 +795,9 @@ assert(status == noErr);
         bool StartStream(outputstreamer_t streamer)
         {
             streamer->playing = true;
+            if(IsSharedVPIO(streamer->audunit))
+                return UpdateSharedVPIO();
+
             if (streamer->audunit)
             {
                 OSStatus status;
@@ -644,6 +816,8 @@ assert(status == noErr);
         bool StopStream(outputstreamer_t streamer)
         {
             streamer->playing = false;
+            if(IsSharedVPIO(streamer->audunit))
+                return UpdateSharedVPIO();
 
             if (streamer->audunit)
             {
@@ -681,6 +855,11 @@ assert(status == noErr);
         {
             return true;
         }
+
+    private:
+        SharedVPIO m_vpio;
+        int m_vpio_samplerate = 0, m_vpio_channels = 0;
+        std::recursive_mutex m_vpio_mutex;
     };
 
     soundsystem_t getAudUnit()
@@ -827,5 +1006,33 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
             return noErr;
         }
     }
+    return noErr;
+}
+
+static OSStatus VPIOInputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
+                                  const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
+                                  UInt32 numFrames, AudioBufferList *buffers)
+{
+    auto vpio = reinterpret_cast<soundsystem::SharedVPIO*>(userData);
+    AUInputStreamer* streamer = vpio->input;
+    if(streamer == nullptr || !streamer->recording)
+        return noErr;
+
+    return AudioInputCallback(streamer, actionFlags, audioTimeStamp, busNumber, numFrames, buffers);
+}
+
+static OSStatus VPIOOutputCallback(void *userData, AudioUnitRenderActionFlags *actionFlags,
+                                   const AudioTimeStamp *audioTimeStamp, UInt32 busNumber,
+                                   UInt32 numFrames, AudioBufferList *buffers)
+{
+    auto vpio = reinterpret_cast<soundsystem::SharedVPIO*>(userData);
+    AUOutputStreamer* streamer = vpio->output;
+    if(streamer && streamer->playing)
+        return AudioOutputCallback(streamer, actionFlags, audioTimeStamp, busNumber, numFrames, buffers);
+
+    // unit is running for recording only
+    for(UInt32 i = 0; i < buffers->mNumberBuffers; ++i)
+        ACE_OS::memset(buffers->mBuffers[i].mData, 0, buffers->mBuffers[i].mDataByteSize);
+    *actionFlags |= kAudioUnitRenderAction_OutputIsSilence;
     return noErr;
 }
