@@ -32,8 +32,8 @@
 #include <ace/Time_Value.h>
 
 #include <cassert>
-#include <mutex>
 #include <cstdint>
+#include <mutex>
 
 using namespace teamtalk;
 

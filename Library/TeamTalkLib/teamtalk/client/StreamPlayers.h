@@ -56,14 +56,14 @@ constexpr auto STOPPED_TALKING_DELAY = 500; //msec
 
 namespace teamtalk {
 
-    struct encframe
+    struct EncFrame
     {
         std::vector<char> enc_frames;
         std::vector<uint16_t> enc_frame_sizes;
         uint32_t timestamp = 0;
         int stream_id = 0;
 
-        encframe() = default;
+        EncFrame() = default;
         void Reset()
         {
             timestamp = 0;
@@ -91,7 +91,7 @@ namespace teamtalk {
                                     short* output_buffer, int n_samples) override;
 
         bool PlayBuffer(short* output_buffer, int n_samples);
-        virtual bool DecodeFrame(const encframe& enc_frame,
+        virtual bool DecodeFrame(const EncFrame& enc_frame,
                                  short* output_buffer, int n_samples) = 0;
 
         uint32_t GetLastPlaytime() const { return m_last_playback; }
@@ -144,7 +144,7 @@ namespace teamtalk {
         int m_audiopacket_lost = 0;
 
         //received frames
-        using enc_frames_t = std::map<uint16_t, encframe, W16LessComp>;
+        using enc_frames_t = std::map<uint16_t, EncFrame, W16LessComp>;
         enc_frames_t m_buffer;
         int m_buffer_msec = 0;
         //current packet number being played
@@ -168,7 +168,7 @@ namespace teamtalk {
                     audio_resampler_t resampler);
         ~SpeexPlayer() override;
 
-        bool DecodeFrame(const encframe& enc_frame,
+        bool DecodeFrame(const EncFrame& enc_frame,
                          short* output_buffer, int n_samples) override;
 
     protected:
@@ -186,7 +186,7 @@ namespace teamtalk {
                    audio_resampler_t resampler);
         ~OpusPlayer() override;
 
-        bool DecodeFrame(const encframe& enc_frame,
+        bool DecodeFrame(const EncFrame& enc_frame,
                          short* output_buffer, int n_samples) override;
 
     protected:
@@ -238,11 +238,11 @@ namespace teamtalk {
         //local time stamp of latest packet to arrive
         uint32_t m_local_timestamp = 0;
 
-        struct enc_frame
+        struct EncFrame
         {
             std::vector<char> enc_data;
             uint32_t packet_no = 0;
-            enc_frame() = default;
+            EncFrame() = default;
         };
 
         //packetno -> video fragments (sorted by UINT32 wrap)
@@ -250,7 +250,7 @@ namespace teamtalk {
         reassm_queue_t m_video_fragments;
 
         //timestamp -> enc video frame (sorted by UINT32 wrap)
-        using video_frames_t = std::map<uint32_t, enc_frame, W32LessComp >;
+        using video_frames_t = std::map<uint32_t, EncFrame, W32LessComp >;
         video_frames_t m_video_frames;
 
         VpxDecoder m_decoder;

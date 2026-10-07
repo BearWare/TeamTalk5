@@ -31,8 +31,10 @@
 #include <ace/FILE_IO.h>
 #include <ace/Sched_Params.h>
 
+#include <array>
 #include <cstddef>
 #include <ctime>
+#include <utility>
 
 enum
 {
@@ -72,9 +74,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         case CODEC_SPEEX_VBR :
         {
 #if defined(ENABLE_SPEEX)
-            SpeexFile* spx_file = nullptr;
-            ACE_NEW(spx_file, SpeexFile());
-            m_speexfile = speexfile_t(spx_file);
+            m_speexfile = std::make_shared<SpeexFile>();
             if(!m_speexfile->Open(filename, GetSpeexBandMode(m_codec), vbr))
             {
                 ACE_TString const error = ACE_TEXT("Failed to open Speex file ") + filename;
@@ -88,9 +88,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 #if defined(ENABLE_OPUSTOOLS)
         case CODEC_OPUS :
         {
-            OpusFile* opus_file = nullptr;
-            ACE_NEW(opus_file, OpusFile());
-            m_opusfile = opusfile_t(opus_file);
+            m_opusfile = std::make_shared<OpusFile>();
             int const framesize = GetAudioCodecFrameSize(m_codec);
             if (!m_opusfile->NewFile(filename, channels, samplerate, framesize))
             {
@@ -175,7 +173,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 
     if (cbsamples > 0)
     {
-        m_samples_buf.resize(size_t(cbsamples) * channels);
+        m_samples_buf.resize(static_cast<size_t>(cbsamples) * channels);
         m_active = true;
     }
     MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
@@ -188,9 +186,9 @@ VoiceLog::~VoiceLog()
 
 void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 {
-    TTASSERT(packet.GetStreamID() == m_streamid);
+    TTASSERT(std::cmp_equal(packet.GetStreamID(), m_streamid));
     TTASSERT(!packet.HasFragments());
-    if (packet.GetStreamID() != m_streamid || packet.HasFragments())
+    if (std::cmp_not_equal(packet.GetStreamID(), m_streamid) || packet.HasFragments())
         return;
 
     wguard_t const g(m_mutex);
@@ -359,11 +357,11 @@ void VoiceLog::WriteAudio(int packet_no)
                 int const channels = GetAudioCodecChannels(m_codec);
                 int const framesize = GetAudioCodecFrameSize(m_codec);
                 int decsamples = 0;
-                int ret;
+                int ret = 0;
                 for(size_t i=0;i<frame_sizes.size();i++)
                 {
                     ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
-                                         &m_samples_buf[size_t(framesize) * channels * i],
+                                         &m_samples_buf[static_cast<size_t>(framesize) * channels * i],
                                          cb_samples);
                     assert(ret > 0);
                     decsamples += ret;
@@ -401,7 +399,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 for(int i=0;i<fpp;i++)
                 {
                     m_opus->Decode(nullptr, 0,
-                                   &m_samples_buf[size_t(cb_samples)*channels*i],
+                                   &m_samples_buf[static_cast<size_t>(cb_samples)*channels*i],
                                    cb_samples);
                 }
             }
@@ -430,7 +428,7 @@ void VoiceLog::WriteSilence(int msecs)
     m_samples_buf.assign(m_samples_buf.size(), 0);
 
     int const samplerate = GetAudioCodecSampleRate(m_codec);
-    int samples = (int)(((msecs / 1000) * samplerate) + (((double)(msecs % 1000)/1000.0) * samplerate));
+    int samples = PCM16_DURATION_SAMPLES(msecs, samplerate);
 
     media::AudioFormat const fmt = GetAudioCodecAudioFormat(m_codec);
     int const cbsamples = GetAudioCodecCbSamples(m_codec);
@@ -482,7 +480,7 @@ VoiceLogFile VoiceLog::GetVoiceLogFile()
 int VoiceLog::GetDuration()
 {
     if(m_wavfile && m_wavfile->GetSampleRate()>0)
-        return m_wavfile->GetSamplesCount() * 1000 / m_wavfile->GetSampleRate();
+        return PCM16_SAMPLES_DURATION(m_wavfile->GetSamplesCount(), m_wavfile->GetSampleRate());
     return 0;
 }
 
@@ -554,8 +552,8 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     ACE_Time_Value const tv = ACE_OS::gettimeofday();
     ACE_Date_Time const dt(tv);
-    const int STR_SIZE = 512;
-    ACE_TCHAR buf[STR_SIZE];
+    constexpr int STR_SIZE = 512;
+    std::array<ACE_TCHAR, STR_SIZE> buf;
     ACE_TString const username = from_user.GetUsername();
     int const userid = from_user.GetUserID();
 
@@ -569,18 +567,17 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
     ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
     ACE_UINT32 const counter = from_user.IncVoiceLogCounter();
-    ACE_TCHAR str_count[100];
-    ACE_OS::snprintf(str_count, 100, ACE_TEXT("%09u"), counter);
-    ReplaceAll(var, ACE_TEXT("%counter%"), str_count);
+    std::array<ACE_TCHAR, 100> str_count;
+    ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
+    ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());
 
     time_t const now = time(nullptr);
     struct tm* ttt = localtime(&now);
 #ifdef ACE_WIN32
-    wcsftime(buf, STR_SIZE-1, var.c_str(), ttt);
+    wcsftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
 #else
-    ACE_OS::strftime(buf, STR_SIZE-1, var.c_str(), ttt);
+    ACE_OS::strftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
 #endif
-    buf[STR_SIZE-1] = 0;
 
     // if(username.length())
     //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
@@ -589,7 +586,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
-    ACE_TString filename = buf;
+    ACE_TString filename = buf.data();
     int mp3bitrate = 0;
     AudioFileFormat aff = AFF_WAVE_FORMAT;
     switch(from_user.GetAudioFileFormat())
@@ -632,11 +629,9 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     ACE_TString const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
 
-    VoiceLog* newlog = nullptr;
-    ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
-                             codec, aff, stream_id,
-                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay())));
-    voicelog_t log (newlog);
+    voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
+                                                codec, aff, stream_id,
+                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
 
     bool const active = log->IsActive();
     if(active)

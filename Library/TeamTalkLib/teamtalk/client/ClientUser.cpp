@@ -30,22 +30,22 @@
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Commands.h"
+#include "teamtalk/TTAssert.h"
 #include "teamtalk/client/ClientChannel.h"
 #include "teamtalk/client/DesktopShare.h"
 #include "teamtalk/client/StreamPlayers.h"
 #include "teamtalk/client/VoiceLogger.h"
-#include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
 #include <ace/Time_Value.h>
 
 #include <algorithm>
 #include <cassert>
-#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <deque>
 #include <list>
+#include <memory>
 #include <set>
 #include <utility>
 #include <vector>
@@ -498,14 +498,14 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
         //                      (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
 
-        audiopacket_t const queuedVoicePacket(new VoicePacket(audpkt));
+        audiopacket_t const queuedVoicePacket = std::make_shared<VoicePacket>(audpkt);
 
         m_jitterbuffer.push(queuedVoicePacket);
 
         // start timer to dequeue the buffered packets
         if ((jitter_delay > 0) && (!m_clientnode->TimerExists(USER_TIMER_JITTER_BUFFER_ID, GetUserID())))
         {
-            ACE_Time_Value const tm(jitter_delay / 1000, (jitter_delay % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(jitter_delay);
             // Set up a single shot timer (interval = 0)
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_JITTER_BUFFER_ID, GetUserID(), 0, tm);
             TTASSERT(timerid >= 0);
@@ -538,7 +538,9 @@ void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
                 voice_logger.AddVoicePacket(*this, *chan, *reassem_pkt);
         }
         else
+        {
             voice_logger.AddVoicePacket(*this, *chan, audpkt);
+        }
     }
 
     // MYTRACE(ACE_TEXT("Added audio packet #%d, TS: %u, Local TS: %u\n"),
@@ -617,9 +619,7 @@ void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
             (!m_vidcap_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
-        WebMPlayer* webm_player = nullptr;
-        ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
-        m_vidcap_player = webm_player_t(webm_player);
+        m_vidcap_player = std::make_shared<WebMPlayer>(GetUserID(), p.GetStreamID());
         new_vidframe = m_vidcap_player->AddPacket(p);
         m_listener->OnUserStateChange(*this);
     }
@@ -667,9 +667,7 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
             (!m_videofile_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
-        WebMPlayer* webm_player = nullptr;
-        ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
-        m_videofile_player = webm_player_t(webm_player);
+        m_videofile_player = std::make_shared<WebMPlayer>(GetUserID(), p.GetStreamID());
         new_vidframe = m_videofile_player->AddPacket(p);
         stream_id = m_videofile_player->GetStreamID();
 
@@ -705,7 +703,9 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
             }
         }
         else
+        {
             m_listener->OnUserMediaFileVideoFrame(GetUserID(), stream_id);
+        }
     }
 
     m_stats.mediafile_video_packets_recv += m_videofile_player->GetVideoPacketRecv(true);
@@ -724,8 +724,8 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         return;
 
     uint8_t session_id = 0;
-    uint16_t pkt_index;
-    uint16_t pkt_count;
+    uint16_t pkt_index = 0;
+    uint16_t pkt_count = 0;
     if(!p.GetUpdateProperties(&session_id, &pkt_index, &pkt_count) &&
        !p.GetSessionProperties(&session_id, nullptr, nullptr, nullptr, &pkt_index,
                                &pkt_count))
@@ -736,7 +736,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     if(W32_LT(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set)
     {
         MYTRACE(ACE_TEXT("Dropped old desktop packet: %d:%u\n"),
-                (int)session_id, p.GetTime());
+                static_cast<int>(session_id), p.GetTime());
         return;
     }
 
@@ -757,26 +757,21 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 
     if (!m_desktop)
     {
-        uint16_t width;
-        uint16_t height;
+        uint16_t width = 0;
+        uint16_t height = 0;
         uint8_t bmp_mode = 0;
         if(!p.GetSessionProperties(nullptr, &width, &height, &bmp_mode,
                                    nullptr, nullptr))
         {
             RemoveObsoleteDesktopPackets(p, m_desktop_queue);
 
-            DesktopPacket* ptmp = nullptr;
-            ACE_NEW(ptmp, DesktopPacket(p));
-            m_desktop_queue.push_back(desktoppacket_t(ptmp));
+            m_desktop_queue.push_back(std::make_shared<DesktopPacket>(p));
             return;
         }
 
         DesktopWindow const wnd(session_id, width, height,
-                          (RGBMode)bmp_mode, DESKTOPPROTOCOL_ZLIB_1);
-
-        DesktopViewer* viewer = nullptr;
-        ACE_NEW(viewer, DesktopViewer(wnd));
-        m_desktop = desktop_viewer_t(viewer);
+                          static_cast<RGBMode>(bmp_mode), DESKTOPPROTOCOL_ZLIB_1);
+        m_desktop = std::make_shared<DesktopViewer>(wnd);
 
         if(m_desktop->GetBlocksCount() == 0)
         {
@@ -817,7 +812,9 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
             m_desktop_packets_expected = pkt_count;
         }
         else
+        {
             return;
+        }
     }
 
     TTASSERT(GetLastTimeStamp(p) == p.GetTime());
@@ -853,9 +850,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     p.GetBlockFragments(fragments);
     if(!fragments.empty())
     {
-        DesktopPacket* p_cache = nullptr;
-        ACE_NEW(p_cache, DesktopPacket(p));
-        desktoppacket_t const packet_ptr(p_cache);
+        desktoppacket_t const packet_ptr = std::make_shared<DesktopPacket>(p);
 
         auto fi = fragments.begin();
         while(fi != fragments.end())
@@ -886,12 +881,12 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 
         map_blocks_t blocks;
         ReassembleDesktopBlocks(m_block_fragments, blocks);
-        updated_window |= (bool)!blocks.empty();
+        updated_window |= !blocks.empty();
         auto bi = blocks.begin();
         while(bi != blocks.end())
         {
             m_desktop->AddCompressedBlock(bi->first, bi->second.data(),
-                int(bi->second.size()));
+                static_cast<int>(bi->second.size()));
             bi++;
         }
     }
@@ -959,8 +954,8 @@ void ClientUser::AddPacket(const DesktopCursorPacket& p,
     bool is_set = false;
     uint32_t const tm = GetLastTimeStamp(p, &is_set);
 
-    int16_t x;
-    int16_t y;
+    uint16_t x = 0;
+    uint16_t y = 0;
 
     if(p.GetSessionCursor(nullptr, nullptr, &x, &y) &&
        (W32_GT(p.GetTime(), tm) || !is_set))
@@ -994,7 +989,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         W8_LT(packetno, m_desktop_input_rx_pktno))
     {
         MYTRACE(ACE_TEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
-                (int)p.GetSessionID(), p.GetTime(), packetno);
+                static_cast<int>(p.GetSessionID()), p.GetTime(), packetno);
         return;
     }
     
@@ -1007,25 +1002,22 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         if((*ii)->GetPacketNo() == packetno) //already have packet
         {
             MYTRACE(ACE_TEXT("Duplicate desktop input. Pkt: %d\n"),
-                    int(packetno));
+                    static_cast<int>(packetno));
             return;
         }
         ii++;
     }
 
-    DesktopInputPacket* new_pkt = nullptr;
-    ACE_NEW(new_pkt, DesktopInputPacket(p));
-    desktopinput_pkt_t const pkt(new_pkt);
-    m_desktop_input_rx.insert(ii, pkt);
+    m_desktop_input_rx.insert(ii, std::make_shared<DesktopInputPacket>(p));
 
     MYTRACE(ACE_TEXT("DesktopInput in queue: "));
     ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
     {
-       MYTRACE(ACE_TEXT("%u, "), (ACE_UINT32)(*ii)->GetPacketNo());
+       MYTRACE(ACE_TEXT("%u, "), static_cast<ACE_UINT32>((*ii)->GetPacketNo()));
        ii++;
     }
-    MYTRACE(ACE_TEXT(". Next: %d\n"), int(m_desktop_input_rx_pktno));
+    MYTRACE(ACE_TEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));
 
     if(m_desktop_input_rx.size() > DESKTOPINPUT_QUEUE_MAX_SIZE)
     {
@@ -1081,12 +1073,12 @@ void ClientUser::SetPlaybackStoppedDelay(StreamType stream_type, int msec)
     {
     case STREAMTYPE_VOICE :
         if (m_voice_player)
-            m_voice_player->SetStoppedTalkingDelay((uint32_t)msec);
+            m_voice_player->SetStoppedTalkingDelay(static_cast<uint32_t>(msec));
         m_voice_stopped_delay = msec;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
         if (m_audiofile_player)
-            m_audiofile_player->SetStoppedTalkingDelay((uint32_t)msec);
+            m_audiofile_player->SetStoppedTalkingDelay(static_cast<uint32_t>(msec));
         m_audiofile_stopped_delay = msec;
         break;
     default :
@@ -1273,12 +1265,12 @@ void ClientUser::GetStereo(StreamType stream_type, bool& left, bool& right) cons
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        left = (bool)(m_voice_stereo & STEREO_LEFT);
-        right = (bool)(m_voice_stereo & STEREO_RIGHT);
+        left = static_cast<bool>(m_voice_stereo & STEREO_LEFT);
+        right = static_cast<bool>(m_voice_stereo & STEREO_RIGHT);
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        left = (bool)(m_audiofile_stereo & STEREO_LEFT);
-        right = (bool)(m_audiofile_stereo & STEREO_RIGHT);
+        left = static_cast<bool>(m_audiofile_stereo & STEREO_LEFT);
+        right = static_cast<bool>(m_audiofile_stereo & STEREO_RIGHT);
         break;
     default :
         TTASSERT(0);
@@ -1410,30 +1402,20 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     auto audiofunc = [this](auto && PH1, auto && PH2, auto && PH3) { m_clientnode->AudioUserCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2), std::forward<decltype(PH3)>(PH3)); };
 
-    AudioPlayer* audio_player = nullptr;
+    audio_player_t audio_player;
     switch(codec.codec)
     {
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX :
-        ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
-                                   audiofunc, codec, resampler),
-                        audio_player_t());
-        break;
-#endif
-#if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX_VBR :
-        ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
-                                   audiofunc, codec, resampler), audio_player_t());
+        audio_player = std::make_shared<SpeexPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                     audiofunc, codec, resampler);
         break;
 #endif
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
-        ACE_NEW_RETURN(audio_player,
-                       OpusPlayer(GetUserID(), stream_type, m_soundsystem,
-                                  audiofunc, codec, resampler),
-                       audio_player_t());
+        audio_player = std::make_shared<OpusPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                    audiofunc, codec, resampler);
         break;
 #endif
     default:
@@ -1441,11 +1423,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
                 GetUserID(), codec.codec);
         return {};
     }
-
-    if(audio_player == nullptr)
-        return {};
-
-    audio_player_t ret(audio_player);
 
     //only launch in duplex mode if it's "my" channel
     m_snd_duplexmode = (GetChannel() && GetChannel()->GetChannelID() == m_clientnode->GetChannelID());
@@ -1456,13 +1433,13 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     {
         MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player);
+        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player.get());
     }
     else
     {
         MYTRACE(ACE_TEXT("Launching player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->OpenOutputStream(audio_player, sndprop.outputdeviceid,
+        success = m_soundsystem->OpenOutputStream(audio_player.get(), sndprop.outputdeviceid,
                                                   sndprop.soundgroupid, output_samplerate,
                                                   output_channels, output_samples);
     }
@@ -1472,7 +1449,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     if (success)
     {
         // don't make sense to use auto position on duplex but just ignore return value
-        m_soundsystem->SetAutoPositioning(audio_player, true);
+        m_soundsystem->SetAutoPositioning(audio_player.get(), true);
         if (m_soundsystem->IsAutoPositioning(sndprop.soundgroupid))
             m_soundsystem->AutoPositionPlayers(sndprop.soundgroupid, false);
     }
@@ -1484,7 +1461,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         return {};
     }
 
-    return ret;
+    return audio_player;
 }
 
 bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,
@@ -1506,7 +1483,7 @@ bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,
         int const msec = GetAudioCodecCbMillis(codec);
         if(msec>0)
         {
-            ACE_Time_Value const tm(msec/1000, (msec % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(msec);
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_VOICE_PLAYBACK_ID,
                                                         GetUserID(), 0, tm, tm);
             TTASSERT(timerid >= 0);
@@ -1535,7 +1512,7 @@ bool ClientUser::LaunchAudioFilePlayer(const teamtalk::AudioCodec& codec,
         int const msec = GetAudioCodecCbMillis(codec);
         if(msec>0)
         {
-            ACE_Time_Value const tm(msec/1000, (msec % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(msec);
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID,
                                                         GetUserID(), 0, tm, tm);
             TTASSERT(timerid >= 0);
