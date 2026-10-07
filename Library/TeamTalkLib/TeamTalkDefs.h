@@ -24,10 +24,10 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
-#define TEAMTALK_VERSION            "5.23.0.5209"
-#define TEAMTALK_RC_VERSION         5,23,0,5209
-#define TEAMTALK_RC_FILEVERSION     "5, 23, 0, 5209"
-#define TEAMTALK_VERSION_POSTFIX    ""
+#define TEAMTALK_VERSION            "5.23.1.5210"
+#define TEAMTALK_RC_VERSION         5,23,1,5210
+#define TEAMTALK_RC_FILEVERSION     "5, 23, 1, 5210"
+#define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
 #if defined(ENABLE_TEAMTALKPRO)
 #define TEAMTALK_LIB_NAME "TeamTalk5Pro"
