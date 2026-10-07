@@ -38,7 +38,7 @@
     <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Texto a voz</string>
     <string name="pref_cat_tts_events">Eventos de texto a voz</string>
-    <string name="pref_cat_tts_transmission">Eventos de  transmisión</string>
+    <string name="pref_cat_tts_transmission">Eventos de transmisión</string>
     <string name="pref_cat_tts_subscription">Eventos de suscripción</string>
     <string name="pref_header_general">General</string>
     <string name="pref_title_nickname">Apodo</string>
@@ -57,12 +57,12 @@
     <string name="pref_summary_vox_triggered_icon">Reproducir  sonido cuando se inicia la activación por voz</string>
     <string name="pref_title_typing_icon">Sonido cuando un usuario está escribiendo</string>
     <string name="pref_summary_typing_icon">Reproducir un sonido cuando un usuario está escribiendo un mensaje privado</string>
-    <string name="pref_title_intercept_audio_icon">Sonido de intercección</string>
-    <string name="pref_summary_intercept_audio_icon">"Reproducir sonido cuando la intercección comienza o termina"</string>
+    <string name="pref_title_intercept_audio_icon">Sonido de intercepción</string>
+    <string name="pref_summary_intercept_audio_icon">Reproducir sonido cuando la intercepción comienza o termina</string>
     <string name="pref_title_private_message_audio_icon">Mensaje privado</string>
     <string name="pref_summary_private_message_audio_icon">Reproducir sonido cuando se reciba un mensaje privado</string>
-    <string name="pref_title_channel_message_audio_icon">Mensaje en el  canal </string>
-    <string name="pref_summary_channel_message_audio_icon">Reproducir el sonido cuando se reciba un mensaje en el  canal</string>
+    <string name="pref_title_channel_message_audio_icon">Mensaje en el canal</string>
+    <string name="pref_summary_channel_message_audio_icon">Reproducir el sonido cuando se reciba un mensaje en el canal</string>
     <string name="pref_title_broadcast_message_audio_icon">Mensaje de difusión</string>
     <string name="pref_summary_broadcast_message_audio_icon">Reproducir  sonido cuando se reciba un mensaje de difusión</string>
     <string name="pref_title_server_lost_audio_icon">Conexión del servidor perdida</string>
@@ -93,7 +93,7 @@
     <string name="pref_title_sub_mediafile">Archivos multimedia</string>
     <string name="pref_summary_sub_mediafile">Suscribirse a las transmisiones de medios</string>
     <string name="pref_header_tts">Texto a voz</string>
-    <string name="pref_title_speech_engine">Selección de motor de  voz</string>
+    <string name="pref_title_speech_engine">Selección de motor de voz</string>
     <string name="pref_summary_speech_engine">Selecciona uno de los sintetizadores de voz instalados, diferente de la configuración del sistema</string>
     <string name="pref_title_a11y_volume">Usar volumen de accesibilidad</string>
     <string name="pref_summary_a11y_volume">Reproduce la voz desde el volumen de accesibilidad</string>
@@ -112,9 +112,9 @@
     <string name="pref_title_channel_leave">El usuario sale del canal</string>
     <string name="pref_summary_channel_leave">Anuncia el nombre del usuario que ha salido del canal</string>
     <string name="pref_title_private_message">Mensajes privados</string>
-    <string name="pref_summary_private_message">Anunciar al resivir mensajes privados</string>
+    <string name="pref_summary_private_message">Anunciar al recibir mensajes privados</string>
     <string name="pref_title_channel_message">Mensajes del canal recibidos</string>
-    <string name="pref_summary_channel_message">anunciar al recibir un mensaje en el canal</string>
+    <string name="pref_summary_channel_message">Anunciar al recibir un mensaje en el canal</string>
     <string name="pref_title_broadcast_message">Mensajes de difusión</string>
     <string name="pref_summary_broadcast_message">Anuncia los mensajes de difusión</string>
     <string name="pref_title_subscription_user_msg">Suscripción a mensajes  privados</string>
@@ -122,7 +122,7 @@
     <string name="pref_title_subscription_channel_msg">Suscripción a mensajes del canal</string>
     <string name="pref_summary_subscription_channel_msg">Anuncia el cambio de suscripción a mensajes del canal</string>
     <string name="pref_title_subscription_broadcast_msg">Suscripción de mensajes de difusión</string>
-    <string name="pref_summary_subscription_broadcast_msg">Anuncia el camvio de suscripción a mensajes de difusión</string>
+    <string name="pref_summary_subscription_broadcast_msg">Anuncia el cambio de suscripción a mensajes de difusión</string>
     <string name="pref_title_subscription_voice">Suscripción de voz</string>
     <string name="pref_summary_subscription_voice">Anuncia el cambio de Suscripción de voz</string>
     <string name="pref_title_subscription_vid">Suscripción de video</string>
@@ -138,18 +138,18 @@
     <string name="pref_title_subscription_intercept_channel_msg">Intercepción de mensajes del canal</string>
     <string name="pref_summary_subscription_intercept_channel_msg">Anuncia intercepción de mensajes del canal</string>
     <string name="pref_title_subscription_intercept_voice">Intercepción de voz</string>
-    <string name="pref_summary_subscription_intercept_voice">Anuncia el cambio en  la intersección de voz</string>
+    <string name="pref_summary_subscription_intercept_voice">Anuncia el cambio en la intercepción de voz</string>
     <string name="pref_title_subscription_intercept_vid">Intercepción  de video</string>
     <string name="pref_summary_subscription_intercept_vid">Anuncia el cambio en la intercepción de video</string>
-    <string name="pref_title_subscription_intercept_desk">Intercepción de sesiónes de escritorio</string>
-    <string name="pref_summary_subscription_intercept_desk">Anuncia el cambio en la intersección de las sesiones de escritorio</string>
+    <string name="pref_title_subscription_intercept_desk">Intercepción de sesiones de escritorio</string>
+    <string name="pref_summary_subscription_intercept_desk">Anuncia el cambio en la intercepción de las sesiones de escritorio</string>
     <string name="pref_title_subscription_intercept_media">Intercepción de medios</string>
-    <string name="pref_summary_subscription_intercept_media">Anuncia el cambio en la intersección de medios</string>
+    <string name="pref_summary_subscription_intercept_media">Anuncia el cambio en la intercepción de medios</string>
     <string name="pref_title_transmit_voice">Conmutar transmisión de voz activada o desactivada</string>
     <string name="pref_summary_transmit_voice">Anuncia el cambio de transmisión de voz</string>
     <string name="pref_title_transmit_vid">Conmutar transmisión de video</string>
     <string name="pref_summary_transmit_vid">Anuncia el cambio de transmisión de video</string>
-    <string name="pref_title_transmit_desk">conmutar la Transmisión de la sesión de escritorio</string>
+    <string name="pref_title_transmit_desk">Conmutar la transmisión de la sesión de escritorio</string>
     <string name="pref_summary_transmit_desk">Anuncia la transmisión de sesiones de escritorio</string>
     <string name="pref_title_transmit_media">Transmisión de medios activada/desactivada</string>
     <string name="pref_summary_transmit_media">Anuncia el cambio de transmisión de medios</string>
@@ -240,7 +240,7 @@
     <string name="action_disallowvideo">No permitir la transmisión de vídeo para todos</string>
     <string name="action_allowdesktop">Permitir la transmisión de escritorio para todos</string>
     <string name="action_disallowdesktop">No permitir la transmisión de escritorio para todos</string>
-    <string name="action_allowmedia">	Permitir la transmisión de medios para todos</string>
+    <string name="action_allowmedia">Permitir la transmisión de medios para todos</string>
     <string name="action_disallowmedia">No permitir la transmisión de medios para todos</string>
     <string name="action_allowchanmsg">Permitir los mensajes de texto del canal para todos</string>
     <string name="action_disallowchanmsg">No permitir los mensajes de texto del canal para todos</string>
@@ -423,7 +423,7 @@
     <string name="text_officialserver">Servidor oficial</string>
     <string name="text_unofficialserver">Servidor no oficial</string>
     <string name="text_passwdprot">Privado, </string>
-    <string name="text_parent_channel">Canal superior</string>
+    <string name="text_parent_channel">Canal superior.</string>
 
     <string name="text_translator">Traducido por Damián Echevarría.</string>
     <string name="desktop_image">Imagen de escritorio</string>
@@ -449,7 +449,7 @@
     <string name="err_channel_has_users">El canal no está vacío</string>
 
     <string name="private_message_notification">Nuevo mensaje privado de %1$s</string>
-    <string name="private_message_notification_hint">Hpulsa para leer y responder</string>
+    <string name="private_message_notification_hint">Pulsa para leer y responder</string>
     <string name="user_state_now_speaking">%1$s 🎤, </string>
     <string name="text_waitstream">Esperando la transmisión de video</string>
     <string name="text_desktop_session">Sesión de escritorio</string>
@@ -497,12 +497,12 @@
     <string name="pref_title_translator">Traductor</string>
     <string name="pref_title_libraries">Librerías de terceros</string>
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
-    <string name="pref_title_gender">Establecer género</string>
+    <string name="pref_title_gender">Establecer género.</string>
     <string name="user_state_away">Ausente</string>
     <string name="user_state_streaming">Transmitiendo medio</string>
-    <string name="user_state_female">Femenino</string>
-    <string name="user_state_neutral">Neutro</string>
-    <string name="user_state_male">Masculino</string>
+    <string name="user_state_female">Femenino,</string>
+    <string name="user_state_neutral">Neutro,</string>
+    <string name="user_state_male">Masculino,</string>
     <string name="user_state_operator">Operador del canal -</string>
     <string name="user_state_admin">Administrador</string>
     <string name="user_state_selected">Seleccionado para mover -</string>
