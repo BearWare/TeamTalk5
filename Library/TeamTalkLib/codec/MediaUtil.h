@@ -35,7 +35,7 @@
 // Returns number of bytes from number of 'samples' with 'channels'
 constexpr auto PCM16_BYTES(int samples, int channels)
 {
-    return size_t(samples) * channels * sizeof(short);
+    return static_cast<size_t>(samples) * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
@@ -50,7 +50,7 @@ constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
 // Returns number of samples from 'duration' msec at given 'samplerate'
 constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
 {
-    return (duration / 1000) * samplerate + ((duration % 1000) ? ((samplerate * (duration % 1000)) / 1000) : 0);
+    return ((duration / 1000) * samplerate) + (((duration % 1000) != 0) ? ((samplerate * (duration % 1000)) / 1000) : 0);
 }
 
 constexpr auto RGB32_BYTES(int w, int h)

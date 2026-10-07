@@ -4276,8 +4276,8 @@ extern "C" {
      *
      * @return Returns TRUE if the event has been scheduled. */
     TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
-                                          ClientEvent nClientEvent,
-                                          INT32 nIdentifier);
+                                          IN ClientEvent nClientEvent,
+                                          IN INT32 nIdentifier);
 
     /**
      * @brief Get a bitmask describing the client's current state.

@@ -29,11 +29,12 @@
 
 #include <ace/Message_Block.h>
 
-#include <cstdint>
-#include <cassert>
 #include <algorithm>
-#include <cstring>
+#include <cassert>
 #include <cstddef>
+#include <cstdint>
+#include <cstring>
+#include <memory>
 #include <utility>
 #include <vector>
 
@@ -60,7 +61,7 @@ AudioPlayer::AudioPlayer(int userid, StreamType stream_type, soundsystem::sounds
         input_channels = 2;
     int const input_samples = GetAudioCodecCbSamples(m_codec);
     if (m_resampler)
-        m_resample_buffer.resize(size_t(input_samples)*input_channels);
+        m_resample_buffer.resize(static_cast<size_t>(input_samples)*input_channels);
 
     SetAudioBufferSize(GetAudioCodecCbMillis(m_codec) * 4);
 }
@@ -81,7 +82,9 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
     audiopacket_t ptr_audpkt; //ensures a reassembled packet gets deleted
 
     if(!new_audpkt.HasFragments())
+    {
         audpkt = &new_audpkt;
+    }
     else
     {
         wguard_t const g(m_mutex);
@@ -103,7 +106,7 @@ audiopacket_t AudioPlayer::QueuePacket(const AudioPacket& new_audpkt)
             CleanUpAudioFragments(playing_pkt_no-1);
 
         //copy packet and queue it
-        audiopacket_t const q_audpkt(new AudioPacket(new_audpkt));
+        audiopacket_t const q_audpkt = std::make_shared<AudioPacket>(new_audpkt);
         auto ii=m_audfragments.find(packetno);
         if(ii != m_audfragments.end())
             ii->second[fragno] = q_audpkt;
@@ -141,10 +144,13 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     {
         if (PACKETNO_GEQ(too_old_packet_no, ii->first))
         {
-            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"), int(ii->first));
+            MYTRACE(ACE_TEXT("Packet #%d wasn't reassembled, ejected!\n"), static_cast<int>(ii->first));
             m_audfragments.erase(ii++);
         }
-        else ii++;
+        else
+        {
+            ii++;
+        }
     }
 }
 
@@ -269,10 +275,10 @@ int AudioPlayer::GetBufferedAudioMSec()
     int const codec_msec = GetAudioCodecCbMillis(m_codec);
     if ((m_stream_id != 0) && (!m_buffer.empty()) && (codec_msec != 0))
     {
-        int16_t n_packets = (int16_t)(m_buffer.rbegin()->first - m_play_pkt_no);
+        int16_t n_packets = static_cast<int16_t>(m_buffer.rbegin()->first - m_play_pkt_no);
         return codec_msec * (++n_packets);
     }
-    return int(m_buffer.size()) * codec_msec;
+    return static_cast<int>(m_buffer.size()) * codec_msec;
 }
 
 void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
@@ -313,7 +319,9 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
                      m_userid, SumFrameSizes(m_buffer[pkt_no].enc_frame_sizes), enc_len);
 
         if(SumFrameSizes(m_buffer[pkt_no].enc_frame_sizes) == enc_len)
+        {
             m_buffer[pkt_no].enc_frames.assign(enc_data, enc_data+enc_len);
+        }
         else
         {
             m_buffer.erase(pkt_no);
@@ -330,7 +338,9 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
             m_buffer[pkt_no].enc_frame_sizes.assign(frames_per_packet, encfrmsize);
         }
         else
+        {
             m_buffer[pkt_no].enc_frame_sizes.push_back(enc_len);
+        }
     }
     m_buffer[pkt_no].timestamp = packet.GetTime();
     TTASSERT(packet.GetStreamID());
@@ -341,7 +351,7 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     {
         MYTRACE(ACE_TEXT("User #%d, removing pkt_no %d to limit buffer to %d msec, cur buffer is %d msec. Play pkt %d\n"),
                 m_userid, m_buffer.begin()->first, m_buffer_msec, 
-                GetBufferedAudioMSec(), (int)m_play_pkt_no);
+                GetBufferedAudioMSec(), static_cast<int>(m_play_pkt_no));
         m_buffer.erase(m_buffer.begin());
         //update next packet to be played
         if(!m_buffer.empty())
@@ -471,7 +481,7 @@ void SpeexPlayer::Reset()
     m_decoder.Reset();
 }
 
-bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
+bool SpeexPlayer::DecodeFrame(const EncFrame& enc_frame,
                               short* output_buffer, int /*n_samples*/)
 {
     if(!enc_frame.enc_frames.empty()) //packet available
@@ -495,7 +505,7 @@ bool SpeexPlayer::DecodeFrame(const encframe& enc_frame,
      //packet lost
     MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), m_userid, m_play_pkt_no);
     std::vector<int> frm_sizes(GetAudioCodecFramesPerPacket(m_codec), 0);
-    m_decoder.DecodeMultiple(NULL, frm_sizes, output_buffer);
+    m_decoder.DecodeMultiple(nullptr, frm_sizes, output_buffer);
     //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
     return false;
 }
@@ -536,7 +546,7 @@ void OpusPlayer::Reset()
     m_decoder.Reset();
 }
 
-bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
+bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
                              short* output_buffer, int n_samples)
 {
     MYTRACE_COND(enc_frame.stream_id && enc_frame.stream_id != m_stream_id,
@@ -589,7 +599,7 @@ bool OpusPlayer::DecodeFrame(const encframe& enc_frame,
         int decoffset = 0;
         for (int i=0;i<fpp;i++)
         {
-            m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels], framesize);
+            m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
             decoffset += framesize;
         }
         //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
@@ -614,8 +624,8 @@ WebMPlayer::WebMPlayer(int userid, int stream_id)
 WebMPlayer::~WebMPlayer()
 {
     MYTRACE(ACE_TEXT("~WebMPlayer() - #%d stream id %d. Fragments: %u, frames: %u\n"),
-            m_userid, m_videostream_id, (unsigned)m_video_fragments.size(), 
-            (unsigned)m_video_frames.size());
+            m_userid, m_videostream_id, static_cast<unsigned>(m_video_fragments.size()), 
+            static_cast<unsigned>(m_video_frames.size()));
 }
 
 bool WebMPlayer::AddPacket(const VideoPacket& packet,
@@ -630,8 +640,8 @@ bool WebMPlayer::AddPacket(const VideoPacket& packet,
     assert(packet.GetStreamID() == m_videostream_id);
     if(!m_decoder_ready)
     {
-        uint16_t w;
-        uint16_t h;
+        uint16_t w = 0;
+        uint16_t h = 0;
         if(packet.GetStreamID(&m_packet_no, nullptr, nullptr, &w, &h) == 0u)
             return false;
         if(!m_decoder.Open(w, h))
@@ -671,7 +681,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
         if(data == nullptr)
             return;
 
-        enc_frame new_frame;
+        EncFrame new_frame;
         new_frame.enc_data.assign(data, data+frame_size);
         new_frame.packet_no = packet_no;
         m_video_frames[packet.GetTime()] = new_frame;
@@ -683,7 +693,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
         auto const ii = m_video_fragments.find(packet_no);
         if(ii != m_video_fragments.end())
         {
-            enc_frame new_frame;
+            EncFrame new_frame;
             new_frame.packet_no = packet_no;
             if(ReassembleVideoPackets(ii->second, packet, new_frame.enc_data))
             {
@@ -728,10 +738,12 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
             {
                 m_packet_no = next_pkt->second.packet_no;
                 MYTRACE(ACE_TEXT("Packet no. now moved to %u, %u is too old. Video frame queue holds %d packets\n"), 
-                        m_packet_no, next_pkt->first, (unsigned)m_video_frames.size()); 
+                        m_packet_no, next_pkt->first, static_cast<unsigned>(m_video_frames.size())); 
             }
-            else break;
-
+            else
+            {
+                break;
+            }
             next_pkt++;
         }
     }
@@ -763,15 +775,15 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
     //         ACE::crc32(&ii->second.enc_data[0], ii->second.enc_data.size()));
 
     int const ret = m_decoder.PushDecoder(ii->second.enc_data.data(), 
-                                    int(ii->second.enc_data.size()));
+                                    static_cast<int>(ii->second.enc_data.size()));
 
     switch(ret)
     {
     case VPX_CODEC_UNSUP_BITSTREAM :
     {
         //restart decoder
-        int w;
-        int h;
+        int w = 0;
+        int h = 0;
         w = m_decoder.GetConfig().w;
         h = m_decoder.GetConfig().h;
 
@@ -840,7 +852,7 @@ void WebMPlayer::DumpFragments()
             MYTRACE(ACE_TEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 
                     ACE_TEXT(" holds ") ACE_UINT32_FORMAT_SPECIFIER
                     ACE_TEXT(" fragments of ") ACE_UINT32_FORMAT_SPECIFIER
-                    ACE_TEXT("\n"), i, (uint32_t)ii->second.size(),
+                    ACE_TEXT("\n"), i, static_cast<uint32_t>(ii->second.size()),
                     ii->second.begin()->second->GetFragmentCount());
         else
             MYTRACE(ACE_TEXT("\tPacket #") ACE_UINT32_FORMAT_SPECIFIER 

@@ -12,6 +12,7 @@ Checks: >
     llvm-*,
     -llvm-header-guard,
     misc-*,
+    -misc-const-correctness,
     -misc-header-guard,
     -misc-non-private-member-variables-in-classes,
     modernize-*,
@@ -23,6 +24,7 @@ Checks: >
     readability-*,
     -readability-braces-around-statements,
     -readability-identifier-length,
+    -readability-isolate-declaration,
     -readability-uppercase-literal-suffix,
     -readability-use-concise-preprocessor-directives,
 

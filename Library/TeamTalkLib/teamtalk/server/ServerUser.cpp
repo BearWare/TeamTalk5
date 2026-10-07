@@ -69,7 +69,7 @@ bool ServerUser::ReceiveData(const char* data, int len)
 {
     TTASSERT(len>0);
 
-    if((m_filetransfer.get() != nullptr) && m_filetransfer->active && m_filetransfer->inbound)
+    if((m_filetransfer != nullptr) && m_filetransfer->active && m_filetransfer->inbound)
     {
         bool bContinue = true;
         HandleBinaryFileWrite(data, len, bContinue);
@@ -93,7 +93,7 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
     }
 
     //fill with more commands?
-    if((m_filetransfer.get() != nullptr) && m_filetransfer->active && !m_filetransfer->inbound)
+    if((m_filetransfer != nullptr) && m_filetransfer->active && !m_filetransfer->inbound)
     {
         if (m_filetransfer->file.Tell() < m_filetransfer->filesize)
         {
@@ -109,7 +109,7 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
     {
         ACE_Time_Value tm = ACE_Time_Value::zero;
 
-        if(QueueStreamData(msg_queue, m_sendbuf.c_str(), (int)m_sendbuf.length(), &tm) < 0)
+        if(QueueStreamData(msg_queue, m_sendbuf.c_str(), static_cast<int>(m_sendbuf.length()), &tm) < 0)
         {
             MYTRACE(ACE_TEXT("Forcing disconnect of #%d %s. Buffer full\n"),
                     GetUserID(), GetNickname().c_str());
@@ -573,7 +573,7 @@ ErrorMsg ServerUser::HandleMessage(const mstrings_t& properties)
     case TTBroadcastMsg :
         break;
     }
-    txtmsg.msgType = (MsgType)m;
+    txtmsg.msgType = static_cast<MsgType>(m);
     txtmsg.from_userid = GetUserID();
 
     return m_servernode.UserTextMessage(txtmsg);
@@ -1089,14 +1089,14 @@ void ServerUser::AddSubscriptions(const ServerUser& user, Subscriptions subscrib
 {
 #ifdef _DEBUG
     MYTRACE(ACE_TEXT("Added subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>((int)(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 
     Subscriptions const cur_subscriptions = GetSubscriptions(user);
@@ -1128,14 +1128,14 @@ void ServerUser::ClearSubscriptions(const ServerUser& user, Subscriptions subscr
 
 #ifdef _DEBUG
     MYTRACE(ACE_TEXT("Cleared subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>((int)(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>((int)(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 }
 
@@ -1206,7 +1206,9 @@ void ServerUser::HandleBinaryFileWrite(const char* buff, int len, bool& bContinu
 void ServerUser::DoError(const ErrorMsg& cmderr)
 {
     if(cmderr.Success())
+    {
         DoOk();
+    }
     else if (cmderr.errorno == TT_CMDERR_IGNORE)
     {
         //special case for 'ping' and file transfers
@@ -1457,7 +1459,9 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
     AppendProperty(TT_CHANNEL, channel.GetChannelPath(), command);
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     if(channel.IsRootChannel())
+    {
         AppendProperty(TT_PARENTID, 0, command);
+    }
     else
     {
         AppendProperty(TT_PARENTID, channel.GetParentChannel()->GetChannelID(), command);
@@ -1829,7 +1833,7 @@ void ServerUser::DoFileReady()
 
     ACE_TString command = SERVER_FILE_READY;
     AppendProperty(TT_TRANSFERID, m_filetransfer->transferid, command);
-    AppendProperty(TT_FILESIZE, ACE_INT64(m_filetransfer->filesize), command);
+    AppendProperty(TT_FILESIZE, static_cast<ACE_INT64>(m_filetransfer->filesize), command);
     command += EOL;
 
     TransmitCommand(command);
@@ -1900,7 +1904,7 @@ void ServerUser::DoServerStats()
     AppendProperty(TT_USERSPEAK, stats.userspeak, command);
     AppendProperty(TT_FILESTX, stats.files_bytessent, command);
     AppendProperty(TT_FILESRX, stats.files_bytesreceived, command);
-    AppendProperty(TT_UPTIME, (ACE_INT64)msec, command);
+    AppendProperty(TT_UPTIME, static_cast<ACE_INT64>(msec), command);
     command += EOL;
 
     TransmitCommand(command);
@@ -1953,10 +1957,10 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
     if (!m_desktop_cache)
     {
         uint8_t session_id = 0;
-        uint16_t width;
-        uint16_t height;
-        uint16_t pkt_index;
-        uint16_t pkt_count;
+        uint16_t width = 0;
+        uint16_t height = 0;
+        uint16_t pkt_index = 0;
+        uint16_t pkt_count = 0;
         uint8_t bmp_mode = 0;
         if(!packet.GetSessionProperties(&session_id, &width, &height, &bmp_mode,
             &pkt_index, &pkt_count))
@@ -1969,12 +1973,12 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
             ACE_NEW_RETURN(p, DesktopPacket(packet), false);
             m_desktop_queue.push_back(desktoppacket_t(p));
             MYTRACE(ACE_TEXT("Queued packet #%d due to missing header - size %d\n"), 
-                    p->GetPacketIndex(), (int)m_desktop_queue.size());
+                    p->GetPacketIndex(), static_cast<int>(m_desktop_queue.size()));
             return true;
         }
 
         //ok, we can start new session
-        DesktopWindow const wnd(session_id, width, height, (RGBMode)bmp_mode,
+        DesktopWindow const wnd(session_id, width, height, static_cast<RGBMode>(bmp_mode),
                           DESKTOPPROTOCOL_ZLIB_1);
         DesktopCache* dcache = nullptr;
         ACE_NEW_RETURN(dcache, DesktopCache(GetUserID(), wnd, 
@@ -2173,7 +2177,7 @@ void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
         if (bytes > 0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
-            ret = QueueStreamData(msg_queue, m_filetransfer->readbuffer.data(), int(bytes), &tm);
+            ret = QueueStreamData(msg_queue, m_filetransfer->readbuffer.data(), static_cast<int>(bytes), &tm);
             if(ret<0)
             {
                 m_filetransfer->file.Seek(m_filetransfer->file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
@@ -2183,7 +2187,9 @@ void ServerUser::SendFile(ACE_Message_Queue_Base& msg_queue)
                 break;
         }
         else
+        {
             break;
+        }
     }
 }
 

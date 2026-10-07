@@ -45,11 +45,8 @@ namespace soundsystem
 
     struct PaStreamer
     {
-        PaStream* stream;
-        PaStreamer() : stream(nullptr)
-        {
-            
-        }
+        PaStream* stream{nullptr};
+        PaStreamer() = default;
         virtual ~PaStreamer()
         {
             MYTRACE(ACE_TEXT("~PaStreamer()\n"));
@@ -62,7 +59,7 @@ namespace soundsystem
         }
         uint32_t DurationSamplesMSec(int samplerate) const
         {
-            return uint32_t(PCM16_SAMPLES_DURATION(m_processedsamples, samplerate));
+            return static_cast<uint32_t>(PCM16_SAMPLES_DURATION(m_processedsamples, samplerate));
         }
         bool Tick(int samples)
         {

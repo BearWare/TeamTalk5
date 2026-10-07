@@ -33,6 +33,7 @@
 
 #include <cstddef>
 #include <ctime>
+#include <utility>
 
 enum
 {
@@ -175,7 +176,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 
     if (cbsamples > 0)
     {
-        m_samples_buf.resize(size_t(cbsamples) * channels);
+        m_samples_buf.resize(static_cast<size_t>(cbsamples) * channels);
         m_active = true;
     }
     MYTRACE(ACE_TEXT("VoiceLog started: %s\n"), this->GetFileName().c_str());
@@ -188,9 +189,9 @@ VoiceLog::~VoiceLog()
 
 void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 {
-    TTASSERT(packet.GetStreamID() == m_streamid);
+    TTASSERT(std::cmp_equal(packet.GetStreamID(), m_streamid));
     TTASSERT(!packet.HasFragments());
-    if (packet.GetStreamID() != m_streamid || packet.HasFragments())
+    if (std::cmp_not_equal(packet.GetStreamID(), m_streamid) || packet.HasFragments())
         return;
 
     wguard_t const g(m_mutex);
@@ -359,11 +360,11 @@ void VoiceLog::WriteAudio(int packet_no)
                 int const channels = GetAudioCodecChannels(m_codec);
                 int const framesize = GetAudioCodecFrameSize(m_codec);
                 int decsamples = 0;
-                int ret;
+                int ret = 0;
                 for(size_t i=0;i<frame_sizes.size();i++)
                 {
                     ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
-                                         &m_samples_buf[size_t(framesize) * channels * i],
+                                         &m_samples_buf[static_cast<size_t>(framesize) * channels * i],
                                          cb_samples);
                     assert(ret > 0);
                     decsamples += ret;
@@ -401,7 +402,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 for(int i=0;i<fpp;i++)
                 {
                     m_opus->Decode(nullptr, 0,
-                                   &m_samples_buf[size_t(cb_samples)*channels*i],
+                                   &m_samples_buf[static_cast<size_t>(cb_samples)*channels*i],
                                    cb_samples);
                 }
             }
@@ -430,7 +431,7 @@ void VoiceLog::WriteSilence(int msecs)
     m_samples_buf.assign(m_samples_buf.size(), 0);
 
     int const samplerate = GetAudioCodecSampleRate(m_codec);
-    int samples = (int)(((msecs / 1000) * samplerate) + (((double)(msecs % 1000)/1000.0) * samplerate));
+    int samples = static_cast<int>(((msecs / 1000) * samplerate) + ((static_cast<double>(msecs % 1000)/1000.0) * samplerate));
 
     media::AudioFormat const fmt = GetAudioCodecAudioFormat(m_codec);
     int const cbsamples = GetAudioCodecCbSamples(m_codec);

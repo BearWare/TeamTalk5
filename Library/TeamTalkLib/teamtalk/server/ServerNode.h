@@ -44,13 +44,11 @@
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/SString.h>
-#include <ace/Thread.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
 #endif
 
-#include <cstddef>
 #include <map>
 #include <memory>
 #include <set>

@@ -57,8 +57,8 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
         return false;
 
     uint8_t session_id = 0;
-    uint16_t pkt_index;
-    uint16_t pkt_count;
+    uint16_t pkt_index = 0;
+    uint16_t pkt_count = 0;
     if(!packet.GetUpdateProperties(&session_id, &pkt_index, &pkt_count) &&
        !packet.GetSessionProperties(&session_id, nullptr, nullptr, nullptr, &pkt_index, 
                                     &pkt_count))
@@ -103,7 +103,9 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
         m_expected_packets[pkt_index] = true;
     }
     else
+    {
         return false;
+    }
 
     //store packet in list of updates
     auto dui = m_block_updates.find(packet_time);
@@ -159,7 +161,7 @@ bool DesktopCache::GetMissingPackets(uint32_t upd_time,
     for(size_t i=0;i<m_expected_packets.size();i++)
     {
         if(!m_expected_packets[i])
-            missing_packets.insert((uint16_t)i);
+            missing_packets.insert(static_cast<uint16_t>(i));
     }
     return true;
 }
@@ -173,7 +175,7 @@ bool DesktopCache::GetReceivedPackets(uint32_t upd_time,
     for(size_t i=0;i<m_expected_packets.size();i++)
     {
         if(m_expected_packets[i])
-            recv_packets.insert((uint16_t)i);
+            recv_packets.insert(static_cast<uint16_t>(i));
     }
     return true;
 }
@@ -264,7 +266,7 @@ bool DesktopCache::GetDesktopPackets(uint32_t last_upd_time,
     auto ldi = new_packets.begin();
     for(;ldi != new_packets.end();ldi++)
     {
-        (*ldi)->UpdatePacketCount((uint16_t)new_packets.size());
+        (*ldi)->UpdatePacketCount(static_cast<uint16_t>(new_packets.size()));
         packets.push_back(*ldi);
     }
 
@@ -346,7 +348,7 @@ void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)
 {
     auto ii = m_updated_blocks.find(update_ref_time);
     TTASSERT(ii != m_updated_blocks.end());
-    if(ii == m_updated_blocks.end() || m_updated_blocks.size() <= (size_t)count)
+    if(ii == m_updated_blocks.end() || m_updated_blocks.size() <= static_cast<size_t>(count))
         return;
 
     int survive_count = 0;
@@ -368,13 +370,13 @@ void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)
                             m_updated_blocks.erase(ii--);
         }
     }
-    while(m_updated_blocks.size()>(size_t)count);
+    while(m_updated_blocks.size()>static_cast<size_t>(count));
 
     //erase updates 'update_ref_time' -> m_updated_blocks.end()
     ii = m_updated_blocks.end();
     ii--;
     TTASSERT(!m_updated_blocks.empty());
-    while(ii->first != update_ref_time && m_updated_blocks.size()>(size_t)count)
+    while(ii->first != update_ref_time && m_updated_blocks.size()>static_cast<size_t>(count))
     {
         if(survive_count < count && W32_LT(ii->first, update_ref_time))
             survive_count++;
@@ -420,7 +422,7 @@ bool InsertFragment(uint16_t blockno, uint8_t fragno,
         assert(packet.GetTime() == (*ii)->GetTime());
         block_frags_t frags;
         (*ii)->GetBlockFragments(frags);
-        assert(frags.size());
+        assert(!frags.empty());
         auto bfi = frags.begin();
         while(bfi != frags.end())
         {
@@ -453,7 +455,7 @@ bool BlockComplete(uint16_t blockno, const desktoppackets_t& packets)
 
     block_frags_t frags;
     (*packets.begin())->GetBlockFragments(frags);
-    assert(frags.size());
+    assert(!frags.empty());
     auto ii=frags.begin();
     while(ii != frags.end())
     {

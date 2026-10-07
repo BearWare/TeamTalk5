@@ -23,8 +23,8 @@
 
 #include "TimerHandler.h"
 #include <ace/Basic_Types.h>
-#include <ace/Time_Value.h>
 #include <ace/Event_Handler.h>
+#include <ace/Time_Value.h>
 
 TimerHandler::TimerHandler(TimerListener& listener, ACE_UINT32 timer_event_id, long userdata)
 : m_listener(listener), m_timer_event_id(timer_event_id), m_userdata(userdata)

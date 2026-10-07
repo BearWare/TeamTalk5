@@ -27,7 +27,6 @@
 #include "teamtalk/TTAssert.h"
 
 #include <cerrno>
-#include <cstddef>
 #include <cstdint>
 #include <utility>
 
@@ -139,7 +138,9 @@ void FileNode::UpdateBytesTransferred()
     if(m_binarymode)
     {
         if(m_transfer.inbound)
+        {
             m_transfer.transferred = m_file.Tell();
+        }
         else
         {
 #if defined(ENABLE_ENCRYPTION)
@@ -155,7 +156,9 @@ void FileNode::UpdateBytesTransferred()
                     m_transfer.transferred = m_def_stream->sent_;
                 }
                 else
+                {
                     return;
+                }
             }
         }
     }
@@ -273,9 +276,9 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
     int optlen = sizeof(size);
     int ret = 0;
 
-    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, (char*)&size, optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen);
     TTASSERT(ret == 0);
-    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, (char*)&size, optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen);
     TTASSERT(ret == 0);
 }
 #endif /* ENABLE_ENCRYPTION */
@@ -287,9 +290,9 @@ void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
     int optlen = sizeof(size);
     int ret = 0;
 
-    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, (char*)&size, optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen);
     TTASSERT(ret == 0);
-    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, (char*)&size, optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen);
     TTASSERT(ret == 0);
 }
 
@@ -391,7 +394,7 @@ bool FileNode::OnSend(ACE_Message_Queue_Base& msg_queue)
     {
         ACE_Time_Value tm = ACE_Time_Value::zero;
         if (QueueStreamData(msg_queue, m_sendbuffer.c_str(), 
-                            (int)m_sendbuffer.length(), &tm) < 0)
+                            static_cast<int>(m_sendbuffer.length()), &tm) < 0)
         {
             TTASSERT(0);
             return false;
@@ -577,7 +580,7 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
         if (bytes > 0)
         {
             ACE_Time_Value tm = ACE_Time_Value::zero;
-            ret = QueueStreamData(msg_queue, m_filebuffer.data(), int(bytes), &tm);
+            ret = QueueStreamData(msg_queue, m_filebuffer.data(), static_cast<int>(bytes), &tm);
             if(ret<0)
             {
                 m_file.Seek(m_file.Tell() - bytes, std::ios_base::beg);    //rewind since we didn't send
@@ -591,7 +594,9 @@ void FileNode::SendFile(ACE_Message_Queue_Base& msg_queue)
             }
         }
         else
+        {
             break;
+        }
     }
 
     UpdateBytesTransferred();

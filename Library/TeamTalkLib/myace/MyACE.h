@@ -165,20 +165,20 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
             ACE_OS::sleep(0);            \
     } while(0)
 
-constexpr auto W32_GEQ(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) >= 0); }
-constexpr auto W32_GT(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) > 0); }
-constexpr auto W32_LEQ(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) <= 0); }
-constexpr auto W32_LT(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) < 0); }
+constexpr auto W32_GEQ(ACE_UINT32 a, ACE_UINT32 b) { return (static_cast<ACE_INT32>(a-b) >= 0); }
+constexpr auto W32_GT(ACE_UINT32 a, ACE_UINT32 b) { return (static_cast<ACE_INT32>(a-b) > 0); }
+constexpr auto W32_LEQ(ACE_UINT32 a, ACE_UINT32 b) { return (static_cast<ACE_INT32>(a-b) <= 0); }
+constexpr auto W32_LT(ACE_UINT32 a, ACE_UINT32 b) { return (static_cast<ACE_INT32>(a-b) < 0); }
 
-constexpr auto W16_GEQ(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) >= 0); }
-constexpr auto W16_GT(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) > 0); }
-constexpr auto W16_LEQ(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) <= 0); }
-constexpr auto W16_LT(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) < 0); }
+constexpr auto W16_GEQ(ACE_UINT16 a, ACE_UINT16 b) { return (static_cast<ACE_INT16>(a-b) >= 0); }
+constexpr auto W16_GT(ACE_UINT16 a, ACE_UINT16 b) { return (static_cast<ACE_INT16>(a-b) > 0); }
+constexpr auto W16_LEQ(ACE_UINT16 a, ACE_UINT16 b) { return (static_cast<ACE_INT16>(a-b) <= 0); }
+constexpr auto W16_LT(ACE_UINT16 a, ACE_UINT16 b) { return (static_cast<ACE_INT16>(a-b) < 0); }
 
-constexpr auto W8_GEQ(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) >= 0); }
-constexpr auto W8_GT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) > 0); }
-constexpr auto W8_LEQ(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) <= 0); }
-constexpr auto W8_LT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) < 0); }
+constexpr auto W8_GEQ(ACE_UINT8 a, ACE_UINT8 b) { return (static_cast<ACE_INT8>(a-b) >= 0); }
+constexpr auto W8_GT(ACE_UINT8 a, ACE_UINT8 b) { return (static_cast<ACE_INT8>(a-b) > 0); }
+constexpr auto W8_LEQ(ACE_UINT8 a, ACE_UINT8 b) { return (static_cast<ACE_INT8>(a-b) <= 0); }
+constexpr auto W8_LT(ACE_UINT8 a, ACE_UINT8 b) { return (static_cast<ACE_INT8>(a-b) < 0); }
 
 struct W32LessComp
 {

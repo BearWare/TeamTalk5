@@ -23,10 +23,10 @@
 
 #include "Commands.h"
 
+#include "TTAssert.h"
 #include "TeamTalkDefs.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
-#include "TTAssert.h"
 
 #include <ace/OS.h>
 #include <ctime>
@@ -197,7 +197,7 @@ namespace teamtalk {
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = ACE_UINT32(String2I(tmp));
+            value = static_cast<ACE_UINT32>(String2I(tmp));
             return true;
         }
         return false;
@@ -242,7 +242,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
-                vec.push_back(int(String2I(token)));
+                vec.push_back(static_cast<int>(String2I(token)));
                 i = value.find(',', offset);
 
             }
@@ -250,7 +250,7 @@ namespace teamtalk {
             {
                 token = value.substr(offset, value.length()-offset);
                 offset = i+1;
-                vec.push_back(int(String2I(token)));
+                vec.push_back(static_cast<int>(String2I(token)));
             }
             return true;
         }
@@ -275,7 +275,7 @@ namespace teamtalk {
         if(!GetProperty(properties, prop, codec_type) || codec_type.empty())
             return false;
 
-        codec.codec = (Codec)codec_type[0];
+        codec.codec = static_cast<Codec>(codec_type[0]);
         switch(codec.codec)
         {
         case CODEC_NO_CODEC :
@@ -362,7 +362,7 @@ namespace teamtalk {
         ACE_INT64 gmttime = 0;
         if (GetProperty(properties, prop, gmttime))
         {
-            auto const gmt_tm = time_t(gmttime);
+            auto const gmt_tm = static_cast<time_t>(gmttime);
             struct tm* local = std::localtime(&gmt_tm);
             if (local != nullptr)
             {
@@ -433,7 +433,7 @@ namespace teamtalk {
             resultstr.clear();
             while( (pos1 = tmpstr.find(search[j], pos1)) != ACE_TString::npos)
             {
-                int i = (int)pos1;
+                int i = static_cast<int>(pos1);
                 int slashes = 0;
                 while(i >= 0 && tmpstr[i--] == '\\')slashes++;
                 if(slashes % 2 != 0) //odd number of \ means the character should be escaped
@@ -454,7 +454,7 @@ namespace teamtalk {
     ACE_TString PrepareIntegerArray(const std::vector<int>& array)
     {
         ACE_TString s;
-        for(int i=0;i<(int)array.size()-1;i++)
+        for(int i=0;i<static_cast<int>(array.size())-1;i++)
         {
             s = s + I2String(array[i]) + ACE_TEXT(",");
         }
@@ -464,7 +464,9 @@ namespace teamtalk {
             res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
         }
         else
+        {
             res = ACE_TEXT("[]");
+        }
 
         return res;
     }
@@ -474,7 +476,7 @@ namespace teamtalk {
         ACE_TString s;
         int index = 0;
         std::set<int>::const_iterator ite;
-        for(ite=myset.begin();index++<(int)myset.size()-1;ite++)
+        for(ite=myset.begin();index++<static_cast<int>(myset.size())-1;ite++)
         {
             s = s + I2String(*ite) + ACE_TEXT(",");
         }
@@ -568,14 +570,18 @@ namespace teamtalk {
                     offset++;
                     */
                     if(input[offset] == '\\')
+                    {
                         offset += 2;
+                    }
                     else if(input[offset] == '"')
                     {
                         found = true;
                         offset++;
                     }
                     else
+                    {
                         offset++;
+                    }
                 }
 
                 if(!found)
@@ -626,7 +632,7 @@ namespace teamtalk {
             }
         }
 
-        return bSyntaxError? -1 : (int)properties.size();
+        return bSyntaxError? -1 : static_cast<int>(properties.size());
     }
 
     void AppendProperty(const ACE_TString& prop, 
