@@ -87,7 +87,7 @@ namespace teamtalk {
     {
         ACE_TString systemid;
         ACE_TString version;
-        bool autosave = false;;
+        bool autosave = false;
         ACE_TString motd;
         ACE_TString servername;
         int maxusers = 0;
@@ -351,48 +351,48 @@ namespace teamtalk {
 
     struct SpeexCodec
     {
-        int bandmode;
-        int quality;
-        int frames_per_packet;
-        bool sim_stereo;
+        int bandmode = 0;
+        int quality = 0;
+        int frames_per_packet = 0;
+        bool sim_stereo = false;
     };
     
     struct SpeexVBRCodec
     {
-        int bandmode;
-        int vbr_quality;
-        int bitrate;
-        int max_bitrate;
-        bool dtx;
-        int frames_per_packet;
-        bool sim_stereo;
+        int bandmode = 0;
+        int vbr_quality = 0;
+        int bitrate = 0;
+        int max_bitrate = 0;
+        bool dtx = false;
+        int frames_per_packet = 0;
+        bool sim_stereo = false;
     };
 
     struct OpusCodec
     {
-        int samplerate;
-        int channels;
-        int application;
-        int complexity;
-        bool fec;
-        bool dtx;
-        int bitrate;
-        bool vbr;
-        bool vbr_constraint;
-        int frame_size;
-        int frames_per_packet;
+        int samplerate = 0;
+        int channels = 0;
+        int application = 0;
+        int complexity = 0;
+        bool fec = false;
+        bool dtx = false;
+        int bitrate = 0;
+        bool vbr = false;
+        bool vbr_constraint = false;
+        int frame_size = 0;
+        int frames_per_packet = 0;
     };
 
     struct AudioCodec
     {
-        Codec codec;
+        Codec codec = CODEC_NO_CODEC;
         union
         {
             SpeexCodec speex;
             SpeexVBRCodec speex_vbr;
             OpusCodec opus;
         };
-        AudioCodec() : codec(CODEC_NO_CODEC)
+        AudioCodec()
         {
             //ensure that codecs can be compared using memcmp
             memset(this, 0, sizeof(AudioCodec));
@@ -425,8 +425,7 @@ namespace teamtalk {
     {
         bool enable_agc{false};
         int gain_level{0};
-        AudioConfig()
-             { }
+        AudioConfig() = default;
     };
 
     struct SpeexDSP
@@ -438,7 +437,7 @@ namespace teamtalk {
         int agc_maxgaindb = 0;
         bool enable_denoise = false;
         int maxnoisesuppressdb = 0;
-        bool enable_aec = 0;
+        bool enable_aec = false;
         int aec_suppress_level = 0;
         int aec_suppress_active = 0;
 
@@ -486,8 +485,8 @@ namespace teamtalk {
 
     struct WebMVP8Codec
     {
-        int rc_target_bitrate; /* 0 = 256 kbit/sec */
-        unsigned long encode_deadline; /* 0 = VPX_DL_BEST_QUALITY */
+        int rc_target_bitrate = 0; /* 0 = 256 kbit/sec */
+        unsigned long encode_deadline = 0; /* 0 = VPX_DL_BEST_QUALITY */
     };
 
     struct VideoCodec
@@ -534,18 +533,12 @@ namespace teamtalk {
 
     struct DesktopWindow
     {
-        int session_id;
-        int width;
-        int height;
-        RGBMode rgb_mode;
-        DesktopProtocol desktop_protocol;
-        DesktopWindow()
-            : session_id(0)
-            , width(0)
-            , height(0)
-            , rgb_mode(BMP_NONE)
-            , desktop_protocol(DESKTOPPROTOCOL_NONE)
-        {}
+        int session_id = 0;
+        int width = 0;
+        int height = 0;
+        RGBMode rgb_mode = BMP_NONE;
+        DesktopProtocol desktop_protocol = DESKTOPPROTOCOL_NONE;
+        DesktopWindow() = default;
         DesktopWindow(int s_id, int w, int h, RGBMode mode, 
                       DesktopProtocol dskproto)
             : session_id(s_id)
@@ -713,8 +706,8 @@ namespace teamtalk {
 
 constexpr auto TRANSMITUSERS_FREEFORALL = 0xFFF;
 
-constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return ((int16_t)((a)-(b)) >= 0); }
-constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) > 0); }
-constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) >= 0); }
+static constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return static_cast<int16_t>(a-b) >= 0; }
+static constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return static_cast<int8_t>(a-b) > 0; }
+static constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return static_cast<int8_t>(a-b) >= 0; }
 } // namespace teamtalk
 #endif
