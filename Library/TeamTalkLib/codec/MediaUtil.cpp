@@ -29,7 +29,14 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <cstdint>
+#include <limits>
 #include <numbers>
+#include <span>
+#include <utility>
+
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 namespace media {
 
@@ -54,7 +61,7 @@ namespace media {
     {
         assert(input_buffer || input_samples == 0);
         assert(gain.denominator != 0);
-        SOFTGAIN(input_buffer, input_samples, inputfmt.channels,
+        SoftGain(input_buffer, input_samples, inputfmt.channels,
                  gain.numerator, gain.denominator);
         gain = Rational(1, 1);
     }    
@@ -217,11 +224,11 @@ ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
         out_samples += frm.output_samples;
     }
 
-    assert(in_samples <= 0xffffffff);
-    assert(out_samples <= 0xffffffff);
+    assert(std::cmp_less_equal(in_samples, 0xffffffff));
+    assert(std::cmp_less_equal(out_samples, 0xffffffff));
 
     media::AudioFrame frm(mbs[0]);
-    frm.input_samples = int(in_samples);
+    frm.input_samples = static_cast<int>(in_samples);
     assert(out_samples == 0);
     // frm.output_samples = int(out_samples);
 
@@ -316,20 +323,22 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
     return AudioFrameToMsgBlock(muxfrm);
 }
 
+constexpr int INT16MAX = std::numeric_limits<std::int16_t>::max();
+constexpr int INT16MIN = std::numeric_limits<std::int16_t>::min();
+
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
                  double volume /*= 8000*/, bool mute_left/* = false*/, bool mute_right/* = false*/)
 {
     for(int i = 0; i<audblock.input_samples; i++)
     {
-        double const t = (double)sample_index++ / audblock.inputfmt.samplerate;
-        int v = (int)(volume * std::sin((double)tone_freq * t * 2.0 * std::numbers::pi));
-        if(v>32767)
-            v = 32767;
-        else if(v < -32768)
-            v = -32768;
+        double const t = static_cast<double>(sample_index++) / audblock.inputfmt.samplerate;
+        int v = static_cast<int>(volume * std::sin(static_cast<double>(tone_freq) * t * 2.0 * std::numbers::pi));
+        v = static_cast<short>(std::clamp(v, INT16MIN, INT16MAX));
 
         if(audblock.inputfmt.channels == 1)
+        {
             audblock.input_buffer[i] = v;
+        }
         else
         {
             audblock.input_buffer[2 * i] = mute_left ? 0 : v;
@@ -338,3 +347,19 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
     }
     return sample_index;
 }
+
+
+void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain_numerator, int gain_denominator)
+{
+    assert(gain_denominator != 0);
+    if (gain_numerator == gain_denominator)
+        return;
+
+    for (auto& v : std::span(inputsamples, channels * n_samples))
+    {
+        int64_t g = (v * static_cast<int64_t>(gain_numerator)) / gain_denominator;
+        v = static_cast<short>(std::clamp(static_cast<int>(g), INT16MIN, INT16MAX));
+    }
+}
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTEND(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)

@@ -305,7 +305,7 @@ TEST_CASE("PlaybackJitter")
             REQUIRE(StartUserTimer(teamtalk::USER_TIMER_MASK, 0, 0, ACE_Time_Value()) >= 0);
         }
 
-        ~MyClientNode()
+        ~MyClientNode() override
         {
             while (m_users.size())
             {
@@ -317,7 +317,7 @@ TEST_CASE("PlaybackJitter")
             SuspendEventHandling(true);
         }
 
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override
         {
             REQUIRE(m_nextpacket != m_packets.end());
             auto data = &m_nextpacket->second[0];

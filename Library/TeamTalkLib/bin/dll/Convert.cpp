@@ -43,6 +43,8 @@
 
 #include <algorithm>
 #include <map>
+#include <math.h>
+
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html
 
@@ -775,7 +777,7 @@ if(!recursive)                                                             \
 
 bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
 {
-    switch((teamtalk::Codec)codec.nCodec)
+    switch(static_cast<teamtalk::Codec>(codec.nCodec))
     {
     case teamtalk::CODEC_NO_CODEC :
         result.codec = teamtalk::CODEC_NO_CODEC;
@@ -1145,15 +1147,15 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
         result.transmitUsers[i][TT_TRANSMITUSERS_USERID_INDEX] = *ii;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE).contains(*ii) != 0u)
+        if(static_cast<int>(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VOICE).contains(*ii)) != STREAMTYPE_NONE)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VOICE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VIDEOCAPTURE).contains(*ii) != 0u)
+        if(static_cast<int>(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_VIDEOCAPTURE).contains(*ii)) != STREAMTYPE_NONE)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_VIDEOCAPTURE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_DESKTOP).contains(*ii) != 0u)
+        if(static_cast<int>(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_DESKTOP).contains(*ii)) != STREAMTYPE_NONE)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_DESKTOP;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).contains(*ii) != 0u)
+        if(static_cast<int>(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_MEDIAFILE).contains(*ii)) != STREAMTYPE_NONE)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_MEDIAFILE;
-        if(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).contains(*ii) != 0u)
+        if(static_cast<int>(chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG).contains(*ii)) != STREAMTYPE_NONE)
             result.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] |= STREAMTYPE_CHANNELMSG;
     }
 
@@ -1198,13 +1200,13 @@ bool Convert(const Channel& channel, teamtalk::ChannelProp& chanprop)
             chanprop.transmitusers[teamtalk::STREAMTYPE_VIDEOCAPTURE].insert(userid);
         if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_DESKTOP) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_DESKTOP].insert(userid);
-        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_MEDIAFILE)) != 0)
+        if((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_MEDIAFILE) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_MEDIAFILE].insert(userid);
-        if ((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & (STREAMTYPE_CHANNELMSG)) != 0)
+        if ((channel.transmitUsers[i][TT_TRANSMITUSERS_STREAMTYPE_INDEX] & STREAMTYPE_CHANNELMSG) != 0)
             chanprop.transmitusers[teamtalk::STREAMTYPE_CHANNELMSG].insert(userid);
     }
 
-    for(int i : channel.transmitUsersQueue)
+    for(int const i : channel.transmitUsersQueue)
     {
         if(i != 0)
             chanprop.transmitqueue.push_back(i);
@@ -1274,9 +1276,9 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     result.nVolumeMediaFile = clientuser.GetVolume(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
     result.nStoppedDelayVoice = clientuser.GetPlaybackStoppedDelay(teamtalk::STREAMTYPE_VOICE);
     result.nStoppedDelayMediaFile = clientuser.GetPlaybackStoppedDelay(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
-    float x;
-    float y;
-    float z;
+    float x = NAN;
+    float y = NAN;
+    float z = NAN;
     clientuser.GetPosition(teamtalk::STREAMTYPE_VOICE, x, y, z);
     result.soundPositionVoice[0] = x;
     result.soundPositionVoice[1] = y;
@@ -1285,8 +1287,8 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
     result.soundPositionMediaFile[0] = x;
     result.soundPositionMediaFile[1] = y;
     result.soundPositionMediaFile[2] = z;
-    bool l;
-    bool r;
+    bool l = false;
+    bool r = false;
     clientuser.GetStereo(teamtalk::STREAMTYPE_VOICE, l, r);
     result.stereoPlaybackVoice[0] = static_cast<TTBOOL>(l);
     result.stereoPlaybackVoice[1] = static_cast<TTBOOL>(r);
@@ -1483,12 +1485,12 @@ void Convert(const teamtalk::BannedUser& banuser, BannedUser& result)
     ACE_OS::strsncpy(result.szUsername, banuser.username.c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szBanTime, teamtalk::DateToString( banuser.bantime ).c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szOwner, banuser.owner.c_str(), TT_STRLEN);
-    result.uBanTypes = BanTypes(banuser.bantype);
+    result.uBanTypes = static_cast<BanTypes>(banuser.bantype);
 }
 
 void Convert(const BannedUser& banuser, teamtalk::BannedUser& result)
 {
-    result.bantype = teamtalk::BanTypes(banuser.uBanTypes);
+    result.bantype = static_cast<teamtalk::BanTypes>(banuser.uBanTypes);
     result.chanpath = banuser.szChannelPath;
     result.ipaddr = banuser.szIPAddress;
     result.nickname = banuser.szNickname;
@@ -1500,7 +1502,7 @@ void Convert(const teamtalk::FileTransfer& transfer, FileTransfer& result)
 {
     ZERO_STRUCT(result);
 
-    result.nStatus = (FileTransferStatus)transfer.status;
+    result.nStatus = static_cast<FileTransferStatus>(transfer.status);
     ACE_OS::strsncpy(result.szLocalFilePath, transfer.localfile.c_str(), TT_STRLEN);
     result.nTransferID = transfer.transferid;
     result.nFileSize = transfer.filesize;
@@ -1560,7 +1562,7 @@ void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
 {
     ZERO_STRUCT(result);
 
-    result.nMsgType = (TextMsgType)txtmsg.msgType;
+    result.nMsgType = static_cast<TextMsgType>(txtmsg.msgType);
     ACE_OS::strsncpy(result.szMessage, txtmsg.content.c_str(), TT_STRLEN);
     result.nFromUserID = txtmsg.from_userid;
     ACE_OS::strsncpy(result.szFromUsername, txtmsg.from_username.c_str(), TT_STRLEN);
@@ -1571,7 +1573,7 @@ void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)
 
 void Convert(const TextMessage& txtmsg, teamtalk::TextMessage& result)
 {
-    result.msgType = (teamtalk::MsgType)txtmsg.nMsgType;
+    result.msgType = static_cast<teamtalk::MsgType>(txtmsg.nMsgType);
     result.from_userid = txtmsg.nFromUserID;
     result.to_userid = txtmsg.nToUserID;
     result.content = txtmsg.szMessage;
@@ -1590,7 +1592,9 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
         result.audioFmt.nSampleRate = mediaprop.audio.samplerate;
     }
     else
+    {
         result.audioFmt.nAudioFmt = AFF_NONE;
+    }
 
     if(mediaprop.video.IsValid())
     {
@@ -1601,7 +1605,9 @@ void Convert(const MediaFileProp& mediaprop, MediaFileInfo& result)
         result.videoFmt.nFPS_Denominator = mediaprop.video.fps_denominator;
     }
     else
+    {
         result.videoFmt.picFourCC = FOURCC_NONE;
+    }
     result.uDurationMSec = mediaprop.duration_ms;
     result.uElapsedMSec = mediaprop.elapsed_ms;
     ACE_OS::strsncpy(result.szFileName, mediaprop.filename.c_str(), TT_STRLEN);
@@ -1612,8 +1618,8 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
 {
     ZERO_STRUCT(result);
 
-    result.nStatus = (MediaFileStatus)status;
-    result.audioFmt.nAudioFmt = (AudioFileFormat)vlog.aff;
+    result.nStatus = static_cast<MediaFileStatus>(status);
+    result.audioFmt.nAudioFmt = static_cast<AudioFileFormat>(vlog.aff);
     result.audioFmt.nChannels = vlog.channels;
     result.audioFmt.nSampleRate = vlog.samplerate;
     result.uDurationMSec = vlog.duration;
@@ -1649,7 +1655,7 @@ void Convert(const VideoFormat& vidfmt, media::VideoFormat& result)
     result.height = vidfmt.nHeight;
     result.fps_numerator = vidfmt.nFPS_Numerator;
     result.fps_denominator = vidfmt.nFPS_Denominator;
-    result.fourcc = (media::FourCC)vidfmt.picFourCC;
+    result.fourcc = static_cast<media::FourCC>(vidfmt.picFourCC);
 }
 
 void Convert(const teamtalk::ClientUserStats& stats, UserStatistics& result)
@@ -1758,7 +1764,9 @@ void Convert(const std::set<int>& intset, int* int_array, int max_elements)
             ite++;
         }
         else
+        {
             int_array[i] = 0;
+        }
     }
 }
 
