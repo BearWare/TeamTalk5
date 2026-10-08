@@ -90,14 +90,14 @@ constexpr auto VOLUME_MIN = 0;
     struct DeviceInfo
     {
         ACE_TString devicename;
-        SoundAPI soundsystem;
-        int id;
+        SoundAPI soundsystem{SOUND_API_NOSOUND};
+        int id{SOUND_DEVICEID_INVALID};
         ACE_TString deviceid;
-        int wavedeviceid;
-        SoundDeviceFeatures features = 0;
-        int max_input_channels;
-        int max_output_channels;
-        int default_samplerate;
+        int wavedeviceid{-1};
+        SoundDeviceFeatures features{0};
+        int max_input_channels{0};
+        int max_output_channels{0};
+        int default_samplerate{0};
         std::set<int> input_samplerates;
         std::set<int> output_samplerates;
         std::set<int> input_channels;
@@ -153,7 +153,7 @@ constexpr auto VOLUME_MIN = 0;
             return *(--ii);
         }
 
-        DeviceInfo() : id(SOUND_DEVICEID_INVALID), default_samplerate(0), soundsystem(SOUND_API_NOSOUND), wavedeviceid(-1)
+        DeviceInfo()
         {
             max_input_channels = max_output_channels = 0;
         }
@@ -163,9 +163,9 @@ constexpr auto VOLUME_MIN = 0;
 
     struct SoundGroup
     {
-        int mastervolume;
-        bool muteall;
-        SoundGroup() : mastervolume(VOLUME_DEFAULT), muteall(false)
+        int mastervolume{VOLUME_DEFAULT};
+        bool muteall{false};
+        SoundGroup()
         {
         }
     };
@@ -256,7 +256,7 @@ constexpr auto VOLUME_MIN = 0;
             , inputdeviceid(indevid)
             , outputdeviceid(outdevid)
             {
-                tmpOutputBuffer.resize(size_t(outchs) * fs);
+                tmpOutputBuffer.resize(static_cast<size_t>(outchs) * fs);
             }
 
         virtual ~DuplexStreamer()
