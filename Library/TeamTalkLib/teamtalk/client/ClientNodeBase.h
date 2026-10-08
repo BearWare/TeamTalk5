@@ -49,8 +49,8 @@ constexpr auto USER_TIMER_START         = 0x00008000;
 constexpr auto USER_TIMER_USERID_MASK   = 0xFFFF0000; // ((userid << 16) | USER_TIMER_START) + TIMERID
 constexpr auto USER_TIMER_USERID_SHIFT  = 16;
 
-constexpr auto USER_TIMERID(int timerid, int userid) { return (((userid) << USER_TIMER_USERID_SHIFT) | (timerid)); }
-constexpr auto TIMER_USERID(int timerid) { return (((timerid) >> USER_TIMER_USERID_SHIFT) & 0xFFFF); }
+constexpr auto USER_TIMERID(int timerid, int userid) { return ((userid << USER_TIMER_USERID_SHIFT) | timerid); }
+constexpr auto TIMER_USERID(int timerid) { return ((timerid >> USER_TIMER_USERID_SHIFT) & 0xFFFF); }
 
 constexpr auto SOUNDDEVICE_IGNORE_ID    = (-1);
 
@@ -205,13 +205,13 @@ namespace teamtalk {
 #if defined(_DEBUG)
 
 #define ASSERT_CLIENTNODE_LOCKED(clientnode) do { /* NOLINT */ \
-    TTASSERT(clientnode->m_reactorlock_thr_id == ACE_Thread::self());   \
+    TTASSERT((clientnode)->m_reactorlock_thr_id == ACE_Thread::self());   \
     } while(0)
 
 #define GUARD_REACTOR(this_obj)                         \
-    guard_t g( this_obj->ReactorLock() );               \
+    guard_t g( (this_obj)->ReactorLock() );             \
     /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
-    this_obj->m_reactorlock_thr_id = ACE_Thread::self()
+    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 
 #define ASSERT_CLIENTNODE_LOCKED(...)    (void)0

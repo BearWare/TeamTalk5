@@ -77,9 +77,9 @@ constexpr auto MTU_QUERY_RETRY_COUNT = 20; //20 * 500ms = 10 seconds for MTU que
 #if defined(_DEBUG)
 
 #define GUARD_REACTOR(this_obj)                         \
-    guard_t g( this_obj->ReactorLock() );               \
+    guard_t g( (this_obj)->ReactorLock() );             \
     /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
-    this_obj->m_reactorlock_thr_id = ACE_Thread::self()
+    (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g(this_obj->ReactorLock())
