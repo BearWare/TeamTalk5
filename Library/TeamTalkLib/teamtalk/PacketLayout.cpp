@@ -1745,7 +1745,7 @@ namespace teamtalk
         uint16_t byte_pos = 0;
         for(size_t i=0;i<blocks_n_sizes.size();i+=2)
         {
-            desktop_block bb;
+            DesktopBlock bb;
             bb.block_size = blocks_n_sizes[i+1];
 
             // The declared block sizes come off the wire, so they can add up
@@ -1788,7 +1788,7 @@ namespace teamtalk
         uint16_t byte_pos = 0;
         for(uint16_t i=0;i<info_size;i+=4)
         {
-            block_fragment bf;
+            BlockFragment bf;
             u8_info_ptr = GET2_UINT12_PTR(u8_info_ptr, bf.block_no, bf.frag_size);
             u8_info_ptr = GET_UINT4_PTR(u8_info_ptr, bf.frag_no, bf.frag_cnt);
             assert(byte_pos+bf.frag_size<=data_size);

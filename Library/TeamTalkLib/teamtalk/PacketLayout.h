@@ -799,15 +799,15 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     using videopacket_t = std::shared_ptr< VideoPacket >;
     
     //desktop block with pointer to data
-    struct desktop_block
+    struct DesktopBlock
     {
         const char* block_data = nullptr;
         uint16_t block_size = 0;
     };
     //blockno -> block
-    using map_block_t = std::map< uint16_t, desktop_block >;
+    using map_block_t = std::map< uint16_t, DesktopBlock >;
     //a fragmented block
-    struct block_fragment
+    struct BlockFragment
     {
         uint16_t block_no = 0;
         uint8_t frag_no = 0;
@@ -816,7 +816,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t frag_size = 0;
     };
     //blockno -> fragment
-    using block_frags_t = std::list<block_fragment>;
+    using block_frags_t = std::list<BlockFragment>;
     //blockno -> set(block_nums)
     using map_dup_blocks_t = std::map< uint16_t, std::set<uint16_t> >;
     //blockno -> set(block_nums)

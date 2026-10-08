@@ -610,7 +610,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
 
         if(ii->second.size() <= max_chunk_size) //block is small enough
         {
-            desktop_block db;
+            DesktopBlock db;
             db.block_data = ii->second.data();
             db.block_size = uint16_t(ii->second.size());
 
@@ -625,7 +625,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
 
             for(uint8_t i=0;i<frag_cnt;i++)
             {
-                block_fragment bf;
+                BlockFragment bf;
                 bf.block_no = ii->first;
                 bf.frag_no = i;
                 bf.frag_cnt = frag_cnt;
