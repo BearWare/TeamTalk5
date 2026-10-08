@@ -918,20 +918,20 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     {
         //FIELDTYPE_BLOCKNUMS_AND_SIZES & FIELDTYPE_BLOCKS_DATA
         //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES & FIELDTYPE_BLOCKS_FRAG_DATA
-        return ((blocks_cnt)? (FIELDVALUE_PREFIX + (blocks_cnt) * 3) + FIELDVALUE_PREFIX : 0) + ((frags_cnt)? (FIELDVALUE_PREFIX + (frags_cnt) * 4) + FIELDVALUE_PREFIX : 0);
+        return (blocks_cnt? (FIELDVALUE_PREFIX + blocks_cnt * 3) + FIELDVALUE_PREFIX : 0) + (frags_cnt? (FIELDVALUE_PREFIX + frags_cnt * 4) + FIELDVALUE_PREFIX : 0);
     }
 
     template<typename T1, typename T2>
     constexpr auto DESKTOPPACKET_BLOCKUSAGE(T1 dup_blocks_cnt, T2  total_blocks)
     {
         //FIELDTYPE_BLOCK_DUP
-        return ((dup_blocks_cnt)? (FIELDVALUE_PREFIX + (((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) % 8) ? ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8 + 1) : ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8))) : 0);
+        return (dup_blocks_cnt? (FIELDVALUE_PREFIX + ((((dup_blocks_cnt * 2 + total_blocks) * 12) % 8) ? (((dup_blocks_cnt * 2 + total_blocks) * 12) / 8 + 1) : (((dup_blocks_cnt * 2 + total_blocks) * 12) / 8))) : 0);
     }
 
     template<typename T>
     constexpr auto DESKTOPPACKET_BLOCKRANGEUSAGE(T block_range_cnt) {
         //FIELDTYPE_BLOCK_DUP_RANGE
-        return ((block_range_cnt)? (FIELDVALUE_PREFIX + (((((block_range_cnt) * 3 * 12) % 8)? (((block_range_cnt) * 3 * 12) / 8 + 1) :     ((block_range_cnt) * 3 * 12) / 8))) : 0);
+        return (block_range_cnt? (FIELDVALUE_PREFIX + (((block_range_cnt * 3 * 12) % 8)? ((block_range_cnt * 3 * 12) / 8 + 1) :     (block_range_cnt * 3 * 12) / 8)) : 0);
     }
 
     
