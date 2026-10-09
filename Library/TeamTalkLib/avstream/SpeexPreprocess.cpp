@@ -226,18 +226,17 @@ bool SpeexPreprocess::EnableEchoCancel(bool enable)
         return true;
     }
     
-            if(m_preprocess_state)
+        if(m_preprocess_state != nullptr)
         {
-            int ret = speex_preprocess_ctl(m_preprocess_state, SPEEX_PREPROCESS_SET_ECHO_STATE, NULL);
+            int ret = speex_preprocess_ctl(m_preprocess_state, SPEEX_PREPROCESS_SET_ECHO_STATE, nullptr);
             assert(ret == 0);
         }
-        if(m_echo_state)
+        if(m_echo_state != nullptr)
         {
             speex_echo_state_destroy(m_echo_state);
-            m_echo_state = NULL;
+            m_echo_state = nullptr;
         }
-        return m_preprocess_state != NULL;
-   
+        return m_preprocess_state != nullptr;
 }
 
 bool SpeexPreprocess::IsEchoCancel() const

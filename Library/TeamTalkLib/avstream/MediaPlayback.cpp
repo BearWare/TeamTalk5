@@ -34,10 +34,10 @@
 #include <algorithm>
 #include <cassert>
 #include <cstring>
-#include <utility>
-#include <mutex>
 #include <functional>
 #include <memory>
+#include <mutex>
+#include <utility>
 #include <vector>
 
 using namespace std::placeholders;
@@ -59,7 +59,7 @@ MediaPlayback::~MediaPlayback()
 {
     bool wait = false;
     {
-        std::lock_guard<std::mutex> const g(m_mutex);
+        std::scoped_lock const g(m_mutex);
         wait = (m_status == MEDIASTREAM_FINISHED);
     }
 
@@ -74,7 +74,7 @@ MediaPlayback::~MediaPlayback()
 
     m_sndsys->CloseOutputStream(this);
 
-    std::lock_guard<std::mutex> const g(m_mutex);
+    std::scoped_lock const g(m_mutex);
     while (!m_audio_buffer.empty())
     {
         m_audio_buffer.front()->release();
@@ -112,7 +112,7 @@ bool MediaPlayback::OpenSoundSystem(int sndgrpid, int outputdeviceid, bool speex
     if (!inprop.HasAudio())
         return false;
 
-    int const inframesize = int(PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate));
+    int const inframesize = PCM16_DURATION_SAMPLES(PB_FRAMEDURATION_MSEC, inprop.audio.samplerate);
     int outframesize = inframesize;
     media::AudioFormat outformat(inprop.audio.samplerate, inprop.audio.channels);
 
@@ -231,7 +231,7 @@ bool MediaPlayback::MediaStreamVideoCallback(media::VideoFrame&  /*video_frame*/
 bool MediaPlayback::MediaStreamAudioCallback(media::AudioFrame&  /*audio_frame*/,
                                              ACE_Message_Block* mb_audio)
 {
-    std::lock_guard<std::mutex> const g(m_mutex);
+    std::scoped_lock const g(m_mutex);
     if (m_audio_buffer.size() > 10)
     {
         MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("Media Playback buffer full. Discarding audio frame.\n"));
@@ -252,7 +252,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         {
             if (!m_sndsys->StartStream(this))
             {
-                std::lock_guard<std::mutex> const g(m_mutex);
+                std::scoped_lock const g(m_mutex);
                 m_status = MEDIASTREAM_ERROR;
                 m_drained.set(true); // ensure we don't wait for 'finished'
             }
@@ -265,7 +265,7 @@ void MediaPlayback::MediaStreamStatusCallback(const MediaFileProp& mfp,
         break;
     }
 
-    std::lock_guard<std::mutex> const g(m_mutex);
+    std::scoped_lock const g(m_mutex);
     m_progress.emplace(status, mfp);
 }
 
@@ -288,7 +288,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
 
     ACE_Message_Block* mb = nullptr;
     {
-        std::lock_guard<std::mutex> const g(m_mutex);
+        std::scoped_lock const g(m_mutex);
 
         if (!m_audio_buffer.empty())
         {
@@ -398,7 +398,7 @@ void MediaPlayback::SubmitPreProgress()
     {
         progress = MediaFileProgress();
         {
-            std::lock_guard<std::mutex> const g(m_mutex);
+            std::scoped_lock const g(m_mutex);
             if (!m_progress.empty())
             {
                 switch (m_progress.front().status)
@@ -452,7 +452,7 @@ void MediaPlayback::SubmitPostProgress()
     {
         progress = MediaFileProgress();
         {
-            std::lock_guard<std::mutex> const g(m_mutex);
+            std::scoped_lock const g(m_mutex);
             if (!m_progress.empty())
             {
                 switch (m_progress.front().status)

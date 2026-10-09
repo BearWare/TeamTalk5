@@ -165,9 +165,7 @@ constexpr auto VOLUME_MIN = 0;
     {
         int mastervolume{VOLUME_DEFAULT};
         bool muteall{false};
-        SoundGroup()
-        {
-        }
+        SoundGroup() = default;
     };
 
     struct SoundStreamer

@@ -73,19 +73,19 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
     {
         int const max_channels = (inchans > outchans)? inchans : outchans;
         int const samples_total = input_samples_size * max_channels;
-        if(m_tmp_buffer.size() < (size_t)samples_total)
+        if(m_tmp_buffer.size() < static_cast<size_t>(samples_total))
             m_tmp_buffer.resize(samples_total);
     }
 
     int err = -1;
-    auto output_size = (spx_uint32_t)output_samples_size;
+    auto output_size = static_cast<spx_uint32_t>(output_samples_size);
     if (inchans == 2 && outchans == 1)//convert stereo to mono
     {
-        const auto mono_sample_count = (size_t)input_samples_size;
+        const auto mono_sample_count = static_cast<size_t>(input_samples_size);
         for(size_t i=0;i<mono_sample_count;i++)
-            m_tmp_buffer[i] = ((int)((input_samples[i*2] + input_samples[(i*2)+1]))) / 2;
+            m_tmp_buffer[i] = ((input_samples[i*2] + input_samples[(i*2)+1])) / 2;
 
-        auto input_size = spx_uint32_t(mono_sample_count);
+        auto input_size = static_cast<spx_uint32_t>(mono_sample_count);
         err = speex_resampler_process_int(m_state, 0, m_tmp_buffer.data(), 
                                           &input_size, output_samples, 
                                           &output_size);
@@ -102,7 +102,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
                                                       output_samples,
                                                       &output_size);
         assert(err == 0);
-        assert(input_samples_size == input_size);
+        assert(std::cmp_equal(input_samples_size, input_size));
     }
     else if(inchans == 1 && outchans == 2) //convert mono to stereo
     {
@@ -122,7 +122,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
     }
     else { assert(0); return 0; }
     
-    assert(output_size <= output_samples_size);
+    assert(std::cmp_less_equal(output_size, output_samples_size));
     if(std::cmp_less(output_size, output_samples_size))
     {
         FillOutput(outchans, output_samples, output_size, output_samples_size);

@@ -110,8 +110,8 @@ vidcap_devices_t V4L2Capture::GetDevices()
 {
     vidcap_devices_t devs;
 
-    const AVInputFormat * in_fmt = av_input_video_device_next(NULL);
-    const AVInputFormat *indev_fmt = NULL;
+    const AVInputFormat * in_fmt = av_input_video_device_next(nullptr);
+    const AVInputFormat *indev_fmt = nullptr;
     while(in_fmt != nullptr) {
         if (av_match_name("v4l2", in_fmt->name) != 0) {
             indev_fmt = in_fmt;

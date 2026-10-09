@@ -42,9 +42,9 @@
 
 uint32_t CalcSamples(int src_samplerate, uint32_t src_samples, int dest_samplerate)
 {
-    double samples = ((double)dest_samplerate / (double)src_samplerate) * (double)src_samples;
+    double samples = (static_cast<double>(dest_samplerate) / static_cast<double>(src_samplerate)) * static_cast<double>(src_samples);
     samples += .5;
-    return uint32_t(samples);
+    return static_cast<uint32_t>(samples);
 }
 
 AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::AudioFormat& outformat,
@@ -96,7 +96,7 @@ void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
     assert(informat.IsValid());
     assert(outformat.IsValid());
     int const output_samples_size = CalcSamples(informat.samplerate, input_samples_size, outformat.samplerate);
-    m_resampleoutput.resize(size_t(output_samples_size) * outformat.channels);
+    m_resampleoutput.resize(static_cast<size_t>(output_samples_size) * outformat.channels);
 
     m_input_samples_size = input_samples_size;
     m_output_samples_size = output_samples_size;
@@ -104,7 +104,7 @@ void AudioResampler::SetupFixedFrameSize(const media::AudioFormat& informat,
 
 short* AudioResampler::Resample(const short* input_samples, int* output_samples_size /*= nullptr*/)
 {
-    assert(m_resampleoutput.size());
+    assert(!m_resampleoutput.empty());
 
     int const outsamples = Resample(input_samples, m_input_samples_size, m_resampleoutput.data(), m_output_samples_size);
     if (output_samples_size != nullptr)

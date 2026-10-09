@@ -26,7 +26,6 @@
 #include <ace/Message_Block.h>
 #include <ace/SString.h>
 
-#include <cstddef>
 #include <functional>
 #include <memory>
 #include <assert.h>

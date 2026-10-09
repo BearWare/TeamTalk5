@@ -38,7 +38,7 @@
 
 using namespace soundsystem;
 
-constexpr auto CALLBACK_FRAMESIZE(int samplerate) { return (int)((samplerate) * 0.04); }
+static constexpr auto CALLBACK_FRAMESIZE(int samplerate) { return static_cast<int>(samplerate * 0.04); }
 
 SoundLoopback::SoundLoopback()
     : m_active(false)
@@ -279,7 +279,7 @@ bool SoundLoopback::StopTest()
 void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                                     const short* buffer, int samples)
 {
-    int const output_samples = int(m_preprocess_buffer_left.size());
+    int const output_samples = static_cast<int>(m_preprocess_buffer_left.size());
     int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
 
     const short* input_buffer = buffer;
@@ -333,7 +333,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
         }
         else if(output_channels == 2)
         {
-            assert((int)m_preprocess_buffer_right.size() == samples);
+            assert(std::cmp_equal(m_preprocess_buffer_right.size(), samples));
             SplitStereo(input_buffer, samples,
                         m_preprocess_buffer_left,
                         m_preprocess_buffer_right);
@@ -353,7 +353,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
             SOFTGAIN(m_preprocess_buffer_left.data(), output_samples,
                      output_channels, m_gainlevel, GAIN_NORMAL);
 
-        std::lock_guard<std::mutex> const g(m_mutex);
+        std::scoped_lock const g(m_mutex);
         m_buf_queue.push(m_preprocess_buffer_left);
     }
     else if(output_channels == 2)
@@ -368,7 +368,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
                      m_gainlevel, GAIN_NORMAL);
         SelectStereo(m_stereo, tmp_buf.data(), output_samples);
 
-        std::lock_guard<std::mutex> const g(m_mutex);
+        std::scoped_lock const g(m_mutex);
         m_buf_queue.push(tmp_buf);
     }
 }
@@ -376,7 +376,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
 bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer&  /*streamer*/,
                                    short* buffer, int samples)
 {
-    std::lock_guard<std::mutex> const g(m_mutex);
+    std::scoped_lock const g(m_mutex);
     int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
     if(!m_buf_queue.empty())
     {
@@ -402,7 +402,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
                                    const short* input_buffer,
                                    short* output_buffer, int samples)
 {
-    int const output_samples = int(m_preprocess_buffer_left.size());
+    int const output_samples = static_cast<int>(m_preprocess_buffer_left.size());
     int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
 
 #if defined(ENABLE_WEBRTC)

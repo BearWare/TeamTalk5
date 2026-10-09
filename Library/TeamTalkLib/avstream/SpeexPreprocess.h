@@ -49,11 +49,9 @@ struct SpeexAGC
 
 struct SpeexAEC
 {
-    int suppress_level;
-    int suppress_active;
-    SpeexAEC() : suppress_level(-40), suppress_active(-15)
-    {
-    }
+    int suppress_level{-40};
+    int suppress_active{-15};
+    SpeexAEC() { }
 };
 
 class SpeexPreprocess : NonCopyable

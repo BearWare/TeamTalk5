@@ -28,12 +28,10 @@
 
 #include <api/audio/audio_processing.h>
 #include <api/audio/audio_processing_statistics.h>
-#include <ace/SString.h>
 #include <ace/ace_wchar.h>
 
 #include <cassert>
 #include <cstdint>
-#include <string>
 
 constexpr auto DEBUG_WEBRTC = 0;
 
@@ -85,7 +83,7 @@ int WebRTCPreprocess(webrtc::AudioProcessing& apm, const media::AudioFrame& infr
     int in_index = 0;
     int out_index = 0;
     int n = 0;
-    while (in_index + int(in_cfg.num_frames()) <= infrm.input_samples)
+    while (in_index + static_cast<int>(in_cfg.num_frames()) <= infrm.input_samples)
     {
         int ret = 0;
 
