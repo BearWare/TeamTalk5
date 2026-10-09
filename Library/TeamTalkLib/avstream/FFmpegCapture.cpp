@@ -26,9 +26,9 @@
 #include <ace/Message_Block.h>
 #include <ace/SString.h>
 
+#include <assert.h>
 #include <functional>
 #include <memory>
-#include <assert.h>
 
 using namespace std::placeholders;
 using namespace vidcap;

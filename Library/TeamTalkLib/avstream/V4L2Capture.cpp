@@ -37,7 +37,6 @@ extern "C" {
 }
 
 #include <algorithm>
-#include <cstddef>
 #include <fcntl.h>
 #include <linux/videodev2.h>
 #include <sstream>

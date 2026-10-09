@@ -26,9 +26,9 @@
 #include "codec/MediaUtil.h"
 #include "myace/MyACE.h"
 
+#include <ace/ace_wchar.h>
 #include <api/audio/audio_processing.h>
 #include <api/audio/audio_processing_statistics.h>
-#include <ace/ace_wchar.h>
 
 #include <cassert>
 #include <cstdint>

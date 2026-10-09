@@ -24,7 +24,6 @@
 #include "SpeexPreprocess.h"
 
 #include <cassert>
-#include <cstddef>
 
 SpeexPreprocess::SpeexPreprocess()
 : m_preprocess_state(nullptr)

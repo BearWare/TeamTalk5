@@ -46,7 +46,7 @@ namespace soundsystem
     struct PaStreamer
     {
         PaStream* stream{nullptr};
-        PaStreamer() { }
+        PaStreamer() = default;
         virtual ~PaStreamer()
         {
             MYTRACE(ACE_TEXT("~PaStreamer()\n"));

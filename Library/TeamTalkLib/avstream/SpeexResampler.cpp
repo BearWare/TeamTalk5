@@ -83,7 +83,7 @@ int SpeexResampler::Resample(const short* input_samples, int input_samples_size,
     {
         const auto mono_sample_count = static_cast<size_t>(input_samples_size);
         for(size_t i=0;i<mono_sample_count;i++)
-            m_tmp_buffer[i] = ((input_samples[i*2] + input_samples[(i*2)+1])) / 2;
+            m_tmp_buffer[i] = (input_samples[i*2] + input_samples[(i*2)+1]) / 2;
 
         auto input_size = static_cast<spx_uint32_t>(mono_sample_count);
         err = speex_resampler_process_int(m_state, 0, m_tmp_buffer.data(), 

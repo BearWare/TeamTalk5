@@ -51,7 +51,7 @@ struct SpeexAEC
 {
     int suppress_level{-40};
     int suppress_active{-15};
-    SpeexAEC() { }
+    SpeexAEC() = default;
 };
 
 class SpeexPreprocess : NonCopyable
