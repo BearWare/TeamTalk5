@@ -54,7 +54,7 @@ static void ReplaceAll(std::string& target, const std::string& to_find, const st
 std::string String2Lower(const std::string& str)
 {
     std::string sstr = str;
-    std::ranges::transform(sstr, sstr.begin(), (int (*)(int))tolower);
+    std::ranges::transform(sstr, sstr.begin(), static_cast<int (*)(int)>(tolower));
   return sstr;
 }
 
@@ -62,8 +62,8 @@ bool StringCmpNoCase(const std::string& str1, const std::string& str2)
 {
     std::string tmp1 = str1;
     std::string tmp2 = str2;
-    std::ranges::transform(tmp1, tmp1.begin(), (int (*)(int))tolower);
-    std::ranges::transform(tmp2, tmp2.begin(), (int (*)(int))tolower);
+    std::ranges::transform(tmp1, tmp1.begin(), static_cast<int (*)(int)>(tolower));
+    std::ranges::transform(tmp2, tmp2.begin(), static_cast<int (*)(int)>(tolower));
     return tmp1 == tmp2;
 }
 
@@ -116,6 +116,6 @@ uint32_t GETTIMESTAMP()
     steady_clock::time_point const NOW = steady_clock::now();
     auto now_ms = time_point_cast<milliseconds>(NOW);
     auto duration = now_ms.time_since_epoch();
-    return uint32_t(duration.count());
+    return static_cast<uint32_t>(duration.count());
 }
 
