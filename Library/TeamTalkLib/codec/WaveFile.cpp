@@ -24,9 +24,9 @@
 #include "WaveFile.h"
 
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
-#include <cstddef>
 
 constexpr auto WAVEHEADERSIZE = 44;
 constexpr auto DEBUG_WAVEFILE = 0;
@@ -38,7 +38,7 @@ bool WriteWaveFileHeader(MyFile& file, const media::AudioFormat& fmt)
     waveformat.nChannels = fmt.channels;
     waveformat.nSamplesPerSec = fmt.samplerate;
     waveformat.nAvgBytesPerSec = PCM16_BYTES(fmt.samplerate, fmt.channels);
-    waveformat.nBlockAlign = uint16_t(PCM16_BYTES(1, fmt.channels));
+    waveformat.nBlockAlign = static_cast<uint16_t>(PCM16_BYTES(1, fmt.channels));
     waveformat.wBitsPerSample = 16;
     waveformat.cbSize = 0;
 
@@ -82,7 +82,7 @@ bool UpdateWaveFileHeader(MyFile& file)
     {
         assert(memcmp(riff, "RIFF", 4) == 0);
 
-        uint32_t wavedatasize = uint32_t(end) - 8 /* don't include RIFF and size field in total size */;
+        uint32_t wavedatasize = static_cast<uint32_t>(end) - 8 /* don't include RIFF and size field in total size */;
         uint32_t headersize = 0;
         if (file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4 &&
             file.Read(wavefmt, 8) == 8 /* past 'WAVEfmt ' */ &&
@@ -92,7 +92,7 @@ bool UpdateWaveFileHeader(MyFile& file)
         {
             assert(memcmp(wavefmt, "WAVEfmt ", 8) == 0);
             assert(memcmp(data, "data", 4) == 0);
-            wavedatasize = uint32_t(end - file.Tell());
+            wavedatasize = static_cast<uint32_t>(end - file.Tell());
             wavedatasize -= 4; // don't include size-field as part of data size
             if (file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4)
             {
@@ -209,7 +209,7 @@ int WavePCMFile::ReadSamples(short* buffer, int buffer_len)
 #endif
     auto pos2 = m_wavfile.Tell();
     assert(pos2-pos>=0);
-    return (int)(pos2-pos)/2/channels;
+    return static_cast<int>(pos2-pos)/2/channels;
 }
 
 bool WavePCMFile::WriteHeader(int samplerate, int channels)
@@ -309,7 +309,7 @@ int WavePCMFile::WriteData(const void* data, int len)
         m_wavfile.Write(reinterpret_cast<const char*>(data), len);
     auto pos2 = m_wavfile.Tell();
     auto val = (pos2 - pos);
-    return val <= 0 && len > 0 ? 0 : int(val);
+    return val <= 0 && len > 0 ? 0 : static_cast<int>(val);
 }
 
 bool WavePCMFile::AppendSamples(const short* buffer, int samples_len)
