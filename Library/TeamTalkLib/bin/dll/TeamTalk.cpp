@@ -32,21 +32,21 @@
 #include "avstream/SoundSystem.h"
 #include "avstream/SpeexPreprocess.h"
 #include "avstream/VideoCapture.h"
+#include "codec/MediaUtil.h"
+#include "codec/WaveFile.h"
+#include "myace/MyACE.h"
+#include "teamtalk/Channel.h"
+#include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/DesktopSession.h"
-#include "teamtalk/client/ClientChannel.h"
-#include "myace/MyACE.h"
-#include "codec/MediaUtil.h"
-#include "teamtalk/client/Client.h"
-#include "teamtalk/Channel.h"
-#include "codec/WaveFile.h"
-#include "teamtalk/Commands.h"
+#include "teamtalk/TTAssert.h"
 #include "teamtalk/client/AudioContainer.h"
+#include "teamtalk/client/Client.h"
+#include "teamtalk/client/ClientChannel.h"
 #include "teamtalk/client/ClientNode.h"
-#include "teamtalk/client/DesktopShare.h"
 #include "teamtalk/client/ClientNodeBase.h"
 #include "teamtalk/client/ClientUser.h"
-#include "teamtalk/TTAssert.h"
+#include "teamtalk/client/DesktopShare.h"
 
 #include "license/Trial.h"
 
@@ -80,7 +80,6 @@ HINSTANCE hInstance = NULL;
 #include <memory>
 #include <mutex>
 #include <map>
-#include <memory>
 #include <queue>
 #include <utility>
 
@@ -125,13 +124,13 @@ struct ClientInstance
             mb->release();
             return nullptr;
         }
-        std::lock_guard<std::mutex> const g(mutex_video);
+        std::scoped_lock const g(mutex_video);
         video_frames[vid_frame] = mb;
         return vid_frame;
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
     {
-        std::lock_guard<std::mutex> const g(mutex_video);
+        std::scoped_lock const g(mutex_video);
         auto const ii = video_frames.find(vid_frame);
         TTASSERT(ii != video_frames.end());
         if(ii != video_frames.end())
@@ -158,14 +157,14 @@ struct ClientInstance
         wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
-        std::lock_guard<std::mutex> const g(mutex_desktop);
+        std::scoped_lock const g(mutex_desktop);
         desktop_windows[wnd_frame] = mb;
         return wnd_frame;
     }
 
     bool RemoveDesktopWindow(DesktopWindow* desktop_wnd)
     {
-        std::lock_guard<std::mutex> const g(mutex_desktop);
+        std::scoped_lock const g(mutex_desktop);
         auto const ii = desktop_windows.find(desktop_wnd);
         if(ii != desktop_windows.end())
         {
@@ -189,14 +188,14 @@ struct ClientInstance
             mb->release();
             return nullptr;
         }
-        std::lock_guard<std::mutex> const g(mutex_audblocks);
+        std::scoped_lock const g(mutex_audblocks);
         audio_blocks[audblock] = mb;
         return audblock;
     }
 
     bool RemoveAudioBlock(AudioBlock* audblock)
     {
-        std::lock_guard<std::mutex> const g(mutex_audblocks);
+        std::scoped_lock const g(mutex_audblocks);
         auto const ii = audio_blocks.find(audblock);
         TTASSERT(ii != audio_blocks.end());
         if(ii != audio_blocks.end())
@@ -346,7 +345,7 @@ static void tt_lib_fini()
 
 static clientinst_t GetClient(TTInstance* pInstance)
 {
-    std::lock_guard<std::mutex> const g(clients_mutex);
+    std::scoped_lock const g(clients_mutex);
 
     for (auto c : clients)
     {
@@ -405,11 +404,11 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-    clientinst_t const inst(new ClientInstance(new TTMsgQueue()));
+    clientinst_t const inst = std::make_shared<ClientInstance>(new TTMsgQueue());
 
     LicenseCheck();
 
-    std::lock_guard<std::mutex> const g(clients_mutex);
+    std::scoped_lock const g(clients_mutex);
     clients.push_back(inst);
 
     return inst.get();
@@ -436,7 +435,7 @@ TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 
     TTASSERT(ret>=0);
 
-    std::lock_guard<std::mutex> const g(clients_mutex);
+    std::scoped_lock const g(clients_mutex);
     auto c = std::ranges::find(clients, inst);
     if (c != clients.end())
         clients.erase(c);
@@ -447,8 +446,8 @@ TEAMTALKDLL_API TTBOOL TT_CloseTeamTalk(IN TTInstance* lpTTInstance)
 TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevices(OUT INT32* lpnInputDeviceID, 
                                                  OUT INT32* lpnOutputDeviceID)
 {
-    int input;
-    int output;
+    int input = 0;
+    int output = 0;
     if(soundsystem::GetInstance()->GetDefaultDevices(input, output))
     {
         if(lpnInputDeviceID != nullptr)
@@ -467,9 +466,9 @@ TEAMTALKDLL_API TTBOOL TT_GetDefaultSoundDevicesEx(IN SoundSystem nSndSystem,
                                                    OUT INT32* lpnInputDeviceID, 
                                                    OUT INT32* lpnOutputDeviceID)
 {
-    int input;
-    int output;
-    if(soundsystem::GetInstance()->GetDefaultDevices((soundsystem::SoundAPI)nSndSystem, input, output))
+    int input = 0;
+    int output = 0;
+    if(soundsystem::GetInstance()->GetDefaultDevices(static_cast<soundsystem::SoundAPI>(nSndSystem), input, output))
     {
         if(lpnInputDeviceID != nullptr)
             *lpnInputDeviceID = input;
@@ -494,11 +493,11 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
     soundsystem::GetInstance()->GetSoundDevices(devices);
     if(pSoundDevices == nullptr)
     {
-        *lpnHowMany = (INT32)devices.size();
+        *lpnHowMany = static_cast<INT32>(devices.size());
         return TRUE;
     }
 
-    size_t const lessDevs = (size_t)*lpnHowMany < devices.size()?*lpnHowMany:devices.size();
+    size_t const lessDevs = static_cast<size_t>(*lpnHowMany) < devices.size()?*lpnHowMany:devices.size();
 
     for(size_t i=0;i<lessDevs;i++)
     {
@@ -510,7 +509,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         pSoundDevices[i].nMaxOutputChannels = devices[i].max_output_channels;
         pSoundDevices[i].nDefaultSampleRate = devices[i].default_samplerate;
         pSoundDevices[i].bSupports3D = (devices[i].features & SOUNDDEVICEFEATURE_3DPOSITION);
-        pSoundDevices[i].nSoundSystem = (SoundSystem)devices[i].soundsystem;
+        pSoundDevices[i].nSoundSystem = static_cast<SoundSystem>(devices[i].soundsystem);
         pSoundDevices[i].uSoundDeviceFeatures = devices[i].features;
 
         ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
@@ -527,7 +526,9 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
                 is++;
             }
             else
+            {
                 inputSampleRate = 0;
+            }
         }
 
         is = devices[i].output_samplerates.begin();
@@ -539,11 +540,13 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
                 is++;
             }
             else
+            {
                 outputSampleRate = 0;
+            }
         }
 
     }
-    *lpnHowMany = (INT32)lessDevs;
+    *lpnHowMany = static_cast<INT32>(lessDevs);
     return TRUE;
 }
 
@@ -605,7 +608,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
         case SPEEXDSP_AUDIOPREPROCESSOR :
 #if defined(ENABLE_SPEEXDSP)
             agc_enable = (lpAudioPreprocessor->speexdsp.bEnableAGC != 0);
-            agc.gain_level = (float)lpAudioPreprocessor->speexdsp.nGainLevel;
+            agc.gain_level = static_cast<float>(lpAudioPreprocessor->speexdsp.nGainLevel);
             agc.max_increment = lpAudioPreprocessor->speexdsp.nMaxIncDBSec;
             agc.max_decrement = lpAudioPreprocessor->speexdsp.nMaxDecDBSec;
             agc.max_gain = lpAudioPreprocessor->speexdsp.nMaxGainDB;
@@ -646,7 +649,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
         sndfeatures = teamtalk::GetSoundDeviceFeatures(effects);
     }
 
-    std::shared_ptr<SoundLoopback> const pSoundLoopBack(new SoundLoopback());
+    std::shared_ptr<SoundLoopback> const pSoundLoopBack = std::make_shared<SoundLoopback>();
 
     TTBOOL b = 0;
     if (bDuplexMode != 0)
@@ -692,7 +695,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
     }
     else
     {
-        std::lock_guard<std::mutex> const g(soundloops_mutex);
+        std::scoped_lock const g(soundloops_mutex);
         soundloops.insert(pSoundLoopBack);
     }
     return pSoundLoopBack.get();
@@ -701,7 +704,7 @@ TEAMTALKDLL_API TTSoundLoop* TT_StartSoundLoopbackTestEx(IN INT32 nInputDeviceID
 
 TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
 {
-    std::lock_guard<std::mutex> const g(soundloops_mutex);
+    std::scoped_lock const g(soundloops_mutex);
     auto i = std::ranges::find_if(soundloops,
                           [lpTTSoundLoop](const std::shared_ptr<SoundLoopback>& ptr)
                           {
@@ -709,7 +712,7 @@ TEAMTALKDLL_API TTBOOL TT_CloseSoundLoopbackTest(IN TTSoundLoop* lpTTSoundLoop)
                           });
     if (i != soundloops.end())
     {
-        TTBOOL const b = static_cast<TTBOOL>((*i)->StopTest());
+        auto const b = static_cast<TTBOOL>((*i)->StopTest());
         soundloops.erase(i);
         return b;
     }
@@ -982,8 +985,8 @@ TEAMTALKDLL_API TTBOOL TT_EnableAudioBlockEventEx(IN TTInstance* lpTTInstance,
     
     
     
-    return static_cast<TTBOOL>(clientnode->EnableAudioBlockCallback(nUserID, (teamtalk::StreamTypes)uStreamTypes,
-                                                fmt, bEnable != 0));
+    return static_cast<TTBOOL>(clientnode->EnableAudioBlockCallback(nUserID, static_cast<teamtalk::StreamTypes>(uStreamTypes),
+                                                                    fmt, bEnable != 0));
 }
 
 TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
@@ -1000,7 +1003,7 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
     }
     
             // end session
-        return clientnode->QueueAudioInput(media::AudioFrame(), 0);
+    return static_cast<TTBOOL>(clientnode->QueueAudioInput(media::AudioFrame(), 0));
    
 }
 
@@ -1096,10 +1099,10 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     vidcap_devices_t devs = videocapture->GetDevices();
     if(lpVideoDevices == nullptr)
     {
-        *lpnHowMany = (INT32)devs.size();
+        *lpnHowMany = static_cast<INT32>(devs.size());
         return TRUE;
     }
-    size_t const lessDevs = (size_t)*lpnHowMany < devs.size()?*lpnHowMany:devs.size();
+    size_t const lessDevs = static_cast<size_t>(*lpnHowMany) < devs.size()?*lpnHowMany:devs.size();
     for(size_t i=0;i<lessDevs;i++)
     {
         ACE_OS::strsncpy(lpVideoDevices[i].szCaptureAPI, 
@@ -1116,17 +1119,17 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
         size_t lessFormats = sizeof(lpVideoDevices->videoFormats)/sizeof(lpVideoDevices->videoFormats[0]);
         TTASSERT(lessFormats == TT_VIDEOFORMATS_MAX);
         lessFormats = lessFormats<devs[i].vidcapformats.size()?lessFormats:devs[i].vidcapformats.size();
-        lpVideoDevices[i].nVideoFormatsCount = (INT32)lessFormats;
+        lpVideoDevices[i].nVideoFormatsCount = static_cast<INT32>(lessFormats);
         for(size_t j=0;j<lessFormats;j++)
         {
             lpVideoDevices[i].videoFormats[j].nWidth = devs[i].vidcapformats[j].width;
             lpVideoDevices[i].videoFormats[j].nHeight = devs[i].vidcapformats[j].height;
             lpVideoDevices[i].videoFormats[j].nFPS_Numerator = devs[i].vidcapformats[j].fps_numerator;
             lpVideoDevices[i].videoFormats[j].nFPS_Denominator = devs[i].vidcapformats[j].fps_denominator;
-            lpVideoDevices[i].videoFormats[j].picFourCC = (FourCC)devs[i].vidcapformats[j].fourcc;
+            lpVideoDevices[i].videoFormats[j].picFourCC = static_cast<FourCC>(devs[i].vidcapformats[j].fourcc);
         }
     }
-    *lpnHowMany = (INT32)lessDevs;
+    *lpnHowMany = static_cast<INT32>(lessDevs);
     return TRUE;
 }
 
@@ -1294,13 +1297,13 @@ TEAMTALKDLL_API ClientFlags TT_GetFlags(IN TTInstance* lpTTInstance)
 {    
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, ::CLIENT_CLOSED);
-    return (ClientFlags)clientnode->GetFlags();
+    return static_cast<ClientFlags>(clientnode->GetFlags());
 }
 
 TEAMTALKDLL_API TTBOOL TT_SetLicenseInformation(IN const TTCHAR szRegName[TT_STRLEN],
                                                 IN const TTCHAR szRegKey[TT_STRLEN])
 {
-    if(!szRegName || !szRegKey)
+    if((szRegName == nullptr) || (szRegKey == nullptr))
         return FALSE;
 
     if (ACE_OS::strlen(szRegName) < REG_NAME_MIN)
@@ -1658,7 +1661,7 @@ TEAMTALKDLL_API TTBOOL TT_GetServerUsers(IN TTInstance* lpTTInstance,
     clientnode->GetUsers(userids);
     if(lpUsers == nullptr)
     {
-        *lpnHowMany = (INT32)userids.size();
+        *lpnHowMany = static_cast<INT32>(userids.size());
         return TRUE;
     }
     auto ite = userids.begin();
@@ -1809,7 +1812,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
 
         user->SetAudioFolder(szFolderPath);
         user->SetAudioFileVariables(szFileNameVars);
-        user->SetAudioFileFormat((teamtalk::AudioFileFormat)uAFF);
+        user->SetAudioFileFormat(static_cast<teamtalk::AudioFileFormat>(uAFF));
         user->SetRecordingCloseExtraDelay(nStopRecordingExtraDelayMSec);
         return TRUE;
     }
@@ -1828,7 +1831,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserAudioStreamBufferSize(IN TTInstance* lpTTInstan
     clientuser_t const user = clientnode->GetUser(nUserID);
     if(user)
     {
-        user->SetAudioStreamBufferSize((teamtalk::StreamType)uStreamType, nMSec);
+        user->SetAudioStreamBufferSize(static_cast<teamtalk::StreamType>(uStreamType), nMSec);
         return TRUE;
     }
     return FALSE;
@@ -1963,10 +1966,12 @@ TEAMTALKDLL_API TTBOOL TT_GetServerChannels(IN TTInstance* lpTTInstance,
     }
 
     if(lpChannels == nullptr)
-        *lpnHowMany = INT32(result.size());
+    {
+        *lpnHowMany = static_cast<INT32>(result.size());
+    }
     else
     {
-        int const nMin = (std::cmp_less(*lpnHowMany ,result.size()))? *lpnHowMany : INT32(result.size());
+        int const nMin = (std::cmp_less(*lpnHowMany ,result.size()))? *lpnHowMany : static_cast<INT32>(result.size());
         *lpnHowMany = nMin;
         for(int i=0;i<nMin;i++)
             Convert(result[i], lpChannels[i]);
@@ -2029,13 +2034,13 @@ TEAMTALKDLL_API TTBOOL TT_SetUserVolume(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    nVolume = std::max(nVolume, (INT32)SOUND_VOLUME_MIN);
-    nVolume = std::min(nVolume, (INT32)SOUND_VOLUME_MAX);
+    nVolume = std::max(nVolume, static_cast<INT32>(SOUND_VOLUME_MIN));
+    nVolume = std::min(nVolume, static_cast<INT32>(SOUND_VOLUME_MAX));
 
     clientuser_t const user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetVolume((teamtalk::StreamType)nStreamType, nVolume);
+        user->SetVolume(static_cast<teamtalk::StreamType>(nStreamType), nVolume);
         return TRUE;
     }
     return FALSE;
@@ -2052,7 +2057,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMute(IN TTInstance* lpTTInstance,
     clientuser_t const user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetMute((teamtalk::StreamType)nStreamType, bMute != 0);
+        user->SetMute(static_cast<teamtalk::StreamType>(nStreamType), bMute != 0);
         return TRUE;
     }
     return FALSE;
@@ -2069,7 +2074,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStoppedPlaybackDelay(IN TTInstance* lpTTInstanc
     clientuser_t const user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetPlaybackStoppedDelay((teamtalk::StreamType)nStreamType, nDelayMSec);
+        user->SetPlaybackStoppedDelay(static_cast<teamtalk::StreamType>(nStreamType), nDelayMSec);
         return TRUE;
     }
     return FALSE;
@@ -2092,7 +2097,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserJitterControl(IN TTInstance* lpTTInstance,
         {
             Convert(*lpJitterConfig, config);
         }
-        user->SetJitterControl((teamtalk::StreamType)nStreamType, config);
+        user->SetJitterControl(static_cast<teamtalk::StreamType>(nStreamType), config);
         return TRUE;
     }
     return FALSE;
@@ -2114,7 +2119,7 @@ TEAMTALKDLL_API TTBOOL TT_GetUserJitterControl(IN TTInstance* lpTTInstance,
     if (user)
     {
         teamtalk::JitterControlConfig config = {};
-        if (!user->GetJitterControl((teamtalk::StreamType)nStreamType, config))
+        if (!user->GetJitterControl(static_cast<teamtalk::StreamType>(nStreamType), config))
         {
             return FALSE;
         }
@@ -2140,7 +2145,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserPosition(IN TTInstance* lpTTInstance,
     clientuser_t const user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetPosition((teamtalk::StreamType)nStreamType, x, y, z);
+        user->SetPosition(static_cast<teamtalk::StreamType>(nStreamType), x, y, z);
         return TRUE;
     }
     return FALSE;
@@ -2158,7 +2163,7 @@ TEAMTALKDLL_API TTBOOL TT_SetUserStereo(IN TTInstance* lpTTInstance,
     clientuser_t const user = clientnode->GetUser(nUserID);
     if (user)
     {
-        user->SetStereo((teamtalk::StreamType)nStreamType, bLeftSpeaker != 0, bRightSpeaker != 0);
+        user->SetStereo(static_cast<teamtalk::StreamType>(nStreamType), bLeftSpeaker != 0, bRightSpeaker != 0);
         return TRUE;
     }
 
@@ -2355,7 +2360,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             teamtalk::DesktopSession const dst_session = 
                 teamtalk::MakeDesktopSession(src_wnd.nWidth,
                                              src_wnd.nHeight, 
-                                             (teamtalk::RGBMode)outputFormat);
+                                             static_cast<teamtalk::RGBMode>(outputFormat));
             if(src_session.GetBitmapSize() != dst_session.GetBitmapSize())
             {
                 optional_out_bmp.resize(dst_session.GetBitmapSize());
@@ -2364,12 +2369,12 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
                                                            optional_out_bmp, 
                                                            dst_session);
                 TTASSERT(optional_out_bmp.size() == bmp_write);
-                bmp_size = INT32(optional_out_bmp.size());
+                bmp_size = static_cast<INT32>(optional_out_bmp.size());
             }
             else
             {
                 TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
-                bmp_size = INT32(in_out_bmp.size());
+                bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
         break;
@@ -2391,7 +2396,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             teamtalk::DesktopSession const dst_session = 
                 teamtalk::MakeDesktopSession(src_wnd.nWidth,
                                              src_wnd.nHeight, 
-                                             (teamtalk::RGBMode)outputFormat);
+                                             static_cast<teamtalk::RGBMode>(outputFormat));
             if(src_session.GetBitmapSize() != dst_session.GetBitmapSize())
             {
                 optional_out_bmp.resize(dst_session.GetBitmapSize());
@@ -2400,12 +2405,12 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
                                                            optional_out_bmp, 
                                                            dst_session);
                 TTASSERT(optional_out_bmp.size() == bmp_write);
-                bmp_size = INT32(optional_out_bmp.size());
+                bmp_size = static_cast<INT32>(optional_out_bmp.size());
             }
             else
             {
                 TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
-                bmp_size = INT32(in_out_bmp.size());
+                bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
         break;
@@ -2415,14 +2420,14 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             teamtalk::DesktopSession const dst_session = 
                 teamtalk::MakeDesktopSession(src_wnd.nWidth,
                                              src_wnd.nHeight, 
-                                             (teamtalk::RGBMode)outputFormat);
+                                             static_cast<teamtalk::RGBMode>(outputFormat));
             optional_out_bmp.resize(dst_session.GetBitmapSize());
             size_t const bmp_write = teamtalk::ConvertBitmap(in_out_bmp, 
                                                        src_session, 
                                                        optional_out_bmp, 
                                                        dst_session);
             TTASSERT(optional_out_bmp.size() == bmp_write);
-            bmp_size = INT32(optional_out_bmp.size());
+            bmp_size = static_cast<INT32>(optional_out_bmp.size());
         }
         break;
         default :
@@ -2445,16 +2450,16 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             teamtalk::DesktopSession const dst_session = 
                 teamtalk::MakeDesktopSession(src_wnd.nWidth,
                                              src_wnd.nHeight,
-                                             (teamtalk::RGBMode)outputFormat);
+                                             static_cast<teamtalk::RGBMode>(outputFormat));
 
             size_t const bmp_write = teamtalk::ConvertBitmap(in_out_bmp,
                                                        src_session,
                                                        in_out_bmp,
                                                        dst_session);
-            TTASSERT(dst_session.GetBitmapSize() == bmp_write);
+            TTASSERT(std::cmp_equal(dst_session.GetBitmapSize(), bmp_write));
 
             in_out_bmp.resize(dst_session.GetBitmapSize());
-            bmp_size = INT32(in_out_bmp.size());
+            bmp_size = static_cast<INT32>(in_out_bmp.size());
         }
         break;
         case BMP_RGB24 : //RGB24 -> RGB24
@@ -2471,12 +2476,12 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
                                                            optional_out_bmp, 
                                                            dst_session);
                 TTASSERT(optional_out_bmp.size() == bmp_write);
-                bmp_size = INT32(optional_out_bmp.size());
+                bmp_size = static_cast<INT32>(optional_out_bmp.size());
             }
             else
             {
                 TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
-                bmp_size = INT32(in_out_bmp.size());
+                bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
         break;
@@ -2490,7 +2495,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             size_t const bmp_write = teamtalk::ConvertBitmap(in_out_bmp, src_session, 
                                                        optional_out_bmp, 
                                                        dst_session);
-            TTASSERT(dst_session.GetBitmapSize() == bmp_write);
+            TTASSERT(std::cmp_equal(dst_session.GetBitmapSize(), bmp_write));
             bmp_size = optional_out_bmp.size();
         }
         break;
@@ -2514,12 +2519,12 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             teamtalk::DesktopSession const dst_session = 
                 teamtalk::MakeDesktopSession(src_wnd.nWidth,
                                              src_wnd.nHeight, 
-                                             (teamtalk::RGBMode)outputFormat);
+                                             static_cast<teamtalk::RGBMode>(outputFormat));
             size_t const bmp_write = teamtalk::ConvertBitmap(in_out_bmp,
                                                        src_session, 
                                                        in_out_bmp,
                                                        dst_session);
-            TTASSERT(dst_session.GetBitmapSize() == bmp_write);
+            TTASSERT(std::cmp_equal(dst_session.GetBitmapSize(), bmp_write));
 
             in_out_bmp.resize(dst_session.GetBitmapSize());
             bmp_size = in_out_bmp.size();
@@ -2535,7 +2540,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
                                                        src_session, 
                                                        in_out_bmp,
                                                        dst_session);
-            TTASSERT(dst_session.GetBitmapSize() == bmp_write);
+            TTASSERT(std::cmp_equal(dst_session.GetBitmapSize(), bmp_write));
 
             in_out_bmp.resize(dst_session.GetBitmapSize());
             bmp_size = in_out_bmp.size();
@@ -2589,7 +2594,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
     }
     }
 
-    return int(bmp_size);
+    return static_cast<int>(bmp_size);
 }
 
 TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
@@ -2605,7 +2610,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
     teamtalk::DesktopSession const src_session = 
         teamtalk::MakeDesktopSession(lpDesktopWindow->nWidth, 
                                      lpDesktopWindow->nHeight, 
-                                     (teamtalk::RGBMode)lpDesktopWindow->bmpFormat,
+                                     static_cast<teamtalk::RGBMode>(lpDesktopWindow->bmpFormat),
                                      lpDesktopWindow->nBytesPerLine);
 
     MYTRACE_COND(src_session.GetBitmapSize() != lpDesktopWindow->nFrameBufferSize,
@@ -2620,36 +2625,36 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
     teamtalk::DesktopSession const dst_session = 
         teamtalk::MakeDesktopSession(lpDesktopWindow->nWidth, 
                                      lpDesktopWindow->nHeight, 
-                                     (teamtalk::RGBMode)destBmpFmt);
+                                     static_cast<teamtalk::RGBMode>(destBmpFmt));
 
     if(src_session.GetBitmapSize() == dst_session.GetBitmapSize())
         return clientnode->SendDesktopWindow(lpDesktopWindow->nWidth, 
                                               lpDesktopWindow->nHeight, 
-                                              (teamtalk::RGBMode)lpDesktopWindow->bmpFormat,
-                                              (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol, 
+                                              static_cast<teamtalk::RGBMode>(lpDesktopWindow->bmpFormat),
+                                              static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
                                               reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer),
                                               lpDesktopWindow->nFrameBufferSize);
     
             MYTRACE(ACE_TEXT("Warning: slow conversion of bitmap\n"));
         //FIXME: very inefficient!
-        vector<char> buf, tmp_buf;
+            vector<char> buf;
+            vector<char> tmp_buf;
         const char* ptr = reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer);
         buf.assign(ptr, ptr + lpDesktopWindow->nFrameBufferSize);
         if(ConvertBitmap(*lpDesktopWindow, destBmpFmt, buf, tmp_buf) <= 0)
             return -1;
 
-        if(tmp_buf.size())
+        if(!tmp_buf.empty() != 0u)
             return clientnode->SendDesktopWindow(dst_session.GetWidth(), 
                                                   dst_session.GetHeight(), 
                                                   dst_session.GetRGBMode(),
-                                                  (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
-                                                  &tmp_buf[0], int(tmp_buf.size()));
-        else
-            return clientnode->SendDesktopWindow(dst_session.GetWidth(), 
-                                                  dst_session.GetHeight(), 
-                                                  dst_session.GetRGBMode(),
-                                                  (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
-                                                  &buf[0], int(buf.size()));
+                                                  static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
+                                                  tmp_buf.data(), static_cast<int>(tmp_buf.size()));
+        return clientnode->SendDesktopWindow(dst_session.GetWidth(),
+                                             dst_session.GetHeight(),
+                                             dst_session.GetRGBMode(),
+                                             (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
+                                             &buf[0], int(buf.size()));
    
 }
 
@@ -3241,7 +3246,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
     DesktopWindow* lpDesktopWindow = inst->PushDesktopWindow(viewer->GetBitmapSize());
     lpDesktopWindow->nWidth = viewer->GetWidth();
     lpDesktopWindow->nHeight = viewer->GetHeight();
-    lpDesktopWindow->bmpFormat = (BitmapFormat)viewer->GetRGBMode();
+    lpDesktopWindow->bmpFormat = static_cast<BitmapFormat>(viewer->GetRGBMode());
     lpDesktopWindow->nSessionID = viewer->GetSessionID();
     lpDesktopWindow->nBytesPerLine = viewer->GetBytesPerLine();
     lpDesktopWindow->nProtocol = DESKTOPPROTOCOL_ZLIB_1;
@@ -3294,7 +3299,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
         return lpNewWindow;
     }
     
-            return NULL;
+    return nullptr;
    
 }
 
@@ -3305,7 +3310,7 @@ TEAMTALKDLL_API TTBOOL TT_ReleaseUserDesktopWindow(IN TTInstance* lpTTInstance,
     if (!inst)
         return FALSE;
 
-    return (TTBOOL)inst->RemoveDesktopWindow(lpDesktopWindow);
+    return static_cast<TTBOOL>(inst->RemoveDesktopWindow(lpDesktopWindow));
 }
 
 
@@ -3554,7 +3559,7 @@ TEAMTALKDLL_API TTBOOL TT_DBG_WriteAudioFileTone(IN const MediaFileInfo* lpMedia
     int sampleindex = 0;
     while(samples > 0)
     {
-        int const remain = (samples >= lpMediaFileInfo->audioFmt.nSampleRate)? lpMediaFileInfo->audioFmt.nSampleRate : int(samples);
+        int const remain = (samples >= lpMediaFileInfo->audioFmt.nSampleRate)? lpMediaFileInfo->audioFmt.nSampleRate : static_cast<int>(samples);
         media::AudioFrame frm(fmt, buffer.data(), remain);
         sampleindex = GenerateTone(frm, sampleindex, nFrequency);
         samples -= remain;
@@ -3581,16 +3586,16 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelFiles(IN TTInstance* lpTTInstance,
 
         if(lpRemoteFiles == nullptr)
         {
-            *lpnHowMany = (INT32)chan.files.size();
+            *lpnHowMany = static_cast<INT32>(chan.files.size());
             return TRUE;
         }
         
-        size_t const less = (size_t)*lpnHowMany < chan.files.size()? *lpnHowMany : chan.files.size();
+        size_t const less = static_cast<size_t>(*lpnHowMany) < chan.files.size()? *lpnHowMany : chan.files.size();
         for(size_t i=0;i<less;i++)
         {
             TT_GetChannelFile(lpTTInstance, nChannelID, chan.files[i].fileid, &lpRemoteFiles[i]);
         }
-        *lpnHowMany = (INT32)less;
+        *lpnHowMany = static_cast<INT32>(less);
         return TRUE;
     }
     return FALSE;
@@ -3849,7 +3854,7 @@ TEAMTALKDLL_API INT32 TT_DoBanUserEx(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
     teamtalk::BannedUser ban;
-    ban.bantype = teamtalk::BanTypes(uBanTypes);
+    ban.bantype = static_cast<teamtalk::BanTypes>(uBanTypes);
 
     return clientnode->DoBanUser(nUserID, ban);
 }
@@ -3953,8 +3958,8 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_KeyTranslate(TTKeyTranslate nTranslate,
     return count;
 }
 
-TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput*  lpDesktopInputs,
-                                              IN INT32 nDesktopInputCount)
+TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput*   /*lpDesktopInputs*/,
+                                              IN INT32  /*nDesktopInputCount*/)
 {
 #if defined(ACE_WIN32)
     std::vector<INPUT> inputs;
