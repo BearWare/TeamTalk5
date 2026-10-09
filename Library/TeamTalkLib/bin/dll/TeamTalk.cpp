@@ -1631,15 +1631,15 @@ TEAMTALKDLL_API INT32 TT_DoDeleteFile(IN TTInstance* lpTTInstance,
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetServerProperties(IN TTInstance* lpTTInstance,
-                                              OUT ServerProperties* lpProperties)
+                                              OUT ServerProperties* lpServerProperties)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     teamtalk::ServerInfo prop;
-    if(clientnode->GetServerInfo(prop) && (lpProperties != nullptr))
+    if(clientnode->GetServerInfo(prop) && (lpServerProperties != nullptr))
     {
-        Convert(prop, *lpProperties);
+        Convert(prop, *lpServerProperties);
         return TRUE;
     }
     return FALSE;
@@ -1893,15 +1893,15 @@ TEAMTALKDLL_API TTBOOL TT_GetUser(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTBOOL TT_GetUserStatistics(IN TTInstance* lpTTInstance,
                                             IN INT32 nUserID, 
-                                            OUT UserStatistics* lpStats)
+                                            OUT UserStatistics* lpUserStatistics)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
     clientuser_t const user = clientnode->GetUser(nUserID);
-    if((lpStats == nullptr) || !user)
+    if((lpUserStatistics == nullptr) || !user)
         return FALSE;
-    Convert(user->GetStatistics(), *lpStats);
+    Convert(user->GetStatistics(), *lpUserStatistics);
     return TRUE;
 }
 
@@ -3619,18 +3619,18 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelFile(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
                                               IN INT32 nTransferID, 
-                                              OUT FileTransfer* lpTransfer)
+                                              OUT FileTransfer* lpFileTransfer)
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
 
-    if(lpTransfer != nullptr)
+    if(lpFileTransfer != nullptr)
     {
         teamtalk::FileTransfer transfer;
         ACE_INT64 const transferred = 0;
         if(clientnode->GetTransferInfo(nTransferID, transfer))
         {
-            Convert(transfer, *lpTransfer);
+            Convert(transfer, *lpFileTransfer);
             return TRUE;
         }
     }

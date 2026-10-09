@@ -25,13 +25,13 @@
 
 #include "ServerMonitor.h"
 #include "TeamTalkDefs.h"
-#include <TeamTalkSrv.h>
+#include "license/Trial.h"
 #include "myace/MyACE.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/server/Server.h"
 #include "teamtalk/server/ServerNode.h"
-#include "license/Trial.h"
+#include <TeamTalkSrv.h>
 
 #include <ace/ACE.h>
 #include <ace/OS_Memory.h>
@@ -43,11 +43,10 @@
 #include <ace/Select_Reactor.h>
 
 #include <csignal>
-#include <cstddef>
 #include <iostream>
-#include <set>
 #include <map>
 #include <memory>
+#include <set>
 
 using teamtalk::ServerNode;
 
@@ -152,7 +151,7 @@ static void InitContext()
 {
 #if !defined(WIN32)
     //avoid SIGPIPE
-    static ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
+    static ACE_Sig_Action no_sigpipe (static_cast<ACE_SignalHandler>SIG_IGN);
     static ACE_Sig_Action original_action;
     no_sigpipe.register_action (SIGPIPE, &original_action);
 #endif
@@ -243,7 +242,7 @@ TEAMTALKDLL_API TTBOOL TTS_RunEventLoop(IN TTSInstance* lpTTSInstance,
         return static_cast<TTBOOL>(ttInst->tcpReactor.handle_events(&tv) > 0);
     }
     
-            return ttInst->tcpReactor.handle_events() > 0;
+    return static_cast<TTBOOL>(ttInst->tcpReactor.handle_events() > 0);
    
 }
 
