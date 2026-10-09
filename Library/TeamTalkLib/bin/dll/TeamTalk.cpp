@@ -21,7 +21,7 @@
  *
  */
 
-#include <ace/OS.h>
+#include <ace/OS.h> // NOLINT(llvm-include-order) Windows needs Windows.h
 #include <TeamTalk.h>
 
 #include "Convert.h"
@@ -242,7 +242,7 @@ struct ClientInstance
 
 #if !defined(WIN32)
         //avoid SIGPIPE
-        static ACE_Sig_Action no_sigpipe((ACE_SignalHandler)SIG_IGN);
+        static ACE_Sig_Action no_sigpipe(static_cast<ACE_SignalHandler>(SIG_IGN));
         static ACE_Sig_Action original_action;
         no_sigpipe.register_action(SIGPIPE, &original_action);
 #endif

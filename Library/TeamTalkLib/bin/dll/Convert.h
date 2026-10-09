@@ -32,14 +32,14 @@
 #include "codec/MediaUtil.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/client/Client.h"
 #include "teamtalk/client/ClientNode.h"
 #include "teamtalk/client/ClientUser.h"
-#include "teamtalk/client/Client.h"
 #include "teamtalk/client/VoiceLogger.h"
 
 #if defined(ENABLE_TEAMTALKPRO)
-#include "teamtalk/server/ServerUser.h"
 #include "teamtalk/server/ServerChannel.h"
+#include "teamtalk/server/ServerUser.h"
 #endif
 
 #if defined(ENABLE_WEBRTC)
