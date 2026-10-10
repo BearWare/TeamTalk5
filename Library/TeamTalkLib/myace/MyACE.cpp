@@ -623,7 +623,7 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 , m_line(line)
 {
     m_start = ACE_OS::gettimeofday();
-#if defined(WIN32)
+#if defined(WIN32) || defined(__ANDROID_API__)
     auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
 #else
     auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
@@ -635,7 +635,7 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 Profiler::~Profiler()
 {
     ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
-#if defined(WIN32)
+#if defined(WIN32) || defined(__ANDROID_API__)
     auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
 #else
     auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
