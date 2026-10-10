@@ -121,8 +121,16 @@ ServerProperties TTKitMessageServerProperties(const TTMessage* message) {
     return message->serverproperties;
 }
 
+ServerStatistics TTKitMessageServerStatistics(const TTMessage* message) {
+    return message->serverstatistics;
+}
+
 UserAccount TTKitMessageUserAccount(const TTMessage* message) {
     return message->useraccount;
+}
+
+BannedUser TTKitMessageBannedUser(const TTMessage* message) {
+    return message->banneduser;
 }
 
 ClientErrorMsg TTKitMessageClientError(const TTMessage* message) {
@@ -131,6 +139,14 @@ ClientErrorMsg TTKitMessageClientError(const TTMessage* message) {
 
 TextMessage TTKitMessageTextMessage(const TTMessage* message) {
     return message->textmessage;
+}
+
+RemoteFile TTKitMessageRemoteFile(const TTMessage* message) {
+    return message->remotefile;
+}
+
+FileTransfer TTKitMessageFileTransfer(const TTMessage* message) {
+    return message->filetransfer;
 }
 
 TTBOOL TTKitMessageActiveFlag(const TTMessage* message) {
@@ -175,6 +191,14 @@ const TTCHAR* TTKitGetServerPropertiesString(TTKitServerStringProperty property,
     switch (property) {
     case TTKitServerStringName:
         return serverProperties->szServerName;
+    case TTKitServerStringMessageOfTheDay:
+        return serverProperties->szMOTD;
+    case TTKitServerStringRawMessageOfTheDay:
+        return serverProperties->szMOTDRaw;
+    case TTKitServerStringVersion:
+        return serverProperties->szServerVersion;
+    case TTKitServerStringProtocolVersion:
+        return serverProperties->szServerProtocolVersion;
     case TTKitServerStringAccessToken:
         return serverProperties->szAccessToken;
     }
@@ -187,8 +211,58 @@ const TTCHAR* TTKitGetClientErrorMessageString(const ClientErrorMsg* clientError
 
 const TTCHAR* TTKitGetUserAccountString(TTKitUserAccountStringProperty property, const UserAccount* userAccount) {
     switch (property) {
+    case TTKitUserAccountStringUsername:
+        return userAccount->szUsername;
+    case TTKitUserAccountStringPassword:
+        return userAccount->szPassword;
     case TTKitUserAccountStringInitialChannel:
         return userAccount->szInitChannel;
+    case TTKitUserAccountStringNote:
+        return userAccount->szNote;
+    case TTKitUserAccountStringLastModified:
+        return userAccount->szLastModified;
+    case TTKitUserAccountStringLastLoginTime:
+        return userAccount->szLastLoginTime;
+    }
+    return "";
+}
+
+const TTCHAR* TTKitGetBannedUserString(TTKitBannedUserStringProperty property, const BannedUser* bannedUser) {
+    switch (property) {
+    case TTKitBannedUserStringIPAddress:
+        return bannedUser->szIPAddress;
+    case TTKitBannedUserStringChannelPath:
+        return bannedUser->szChannelPath;
+    case TTKitBannedUserStringBanTime:
+        return bannedUser->szBanTime;
+    case TTKitBannedUserStringNickname:
+        return bannedUser->szNickname;
+    case TTKitBannedUserStringUsername:
+        return bannedUser->szUsername;
+    case TTKitBannedUserStringOwner:
+        return bannedUser->szOwner;
+    }
+    return "";
+}
+
+const TTCHAR* TTKitGetRemoteFileString(TTKitRemoteFileStringProperty property, const RemoteFile* remoteFile) {
+    switch (property) {
+    case TTKitRemoteFileStringFileName:
+        return remoteFile->szFileName;
+    case TTKitRemoteFileStringUsername:
+        return remoteFile->szUsername;
+    case TTKitRemoteFileStringUploadTime:
+        return remoteFile->szUploadTime;
+    }
+    return "";
+}
+
+const TTCHAR* TTKitGetFileTransferString(TTKitFileTransferStringProperty property, const FileTransfer* fileTransfer) {
+    switch (property) {
+    case TTKitFileTransferStringLocalFilePath:
+        return fileTransfer->szLocalFilePath;
+    case TTKitFileTransferStringRemoteFileName:
+        return fileTransfer->szRemoteFileName;
     }
     return "";
 }
@@ -210,6 +284,147 @@ void TTKitSetChannelString(TTKitChannelStringProperty property, Channel* channel
     case TTKitChannelStringOperatorPassword:
         strncpy(channel->szOpPassword, string, TT_STRLEN);
         channel->szOpPassword[TT_STRLEN - 1] = '\0';
+        break;
+    }
+}
+
+INT32 TTKitGetChannelTransmitUserID(const Channel* channel, INT32 index) {
+    if (!channel || index < 0 || index >= TT_TRANSMITUSERS_MAX) {
+        return 0;
+    }
+    return channel->transmitUsers[index][0];
+}
+
+StreamTypes TTKitGetChannelTransmitUserStreamTypes(const Channel* channel, INT32 index) {
+    if (!channel || index < 0 || index >= TT_TRANSMITUSERS_MAX) {
+        return STREAMTYPE_NONE;
+    }
+    return (StreamTypes) channel->transmitUsers[index][1];
+}
+
+void TTKitSetChannelTransmitUser(Channel* channel, INT32 index, INT32 userID, StreamTypes streamTypes) {
+    if (!channel || index < 0 || index >= TT_TRANSMITUSERS_MAX) {
+        return;
+    }
+    channel->transmitUsers[index][0] = userID;
+    channel->transmitUsers[index][1] = (INT32) streamTypes;
+}
+
+INT32 TTKitGetChannelTransmitQueueUserID(const Channel* channel, INT32 index) {
+    if (!channel || index < 0 || index >= TT_TRANSMITQUEUE_MAX) {
+        return 0;
+    }
+    return channel->transmitUsersQueue[index];
+}
+
+void TTKitSetChannelTransmitQueueUser(Channel* channel, INT32 index, INT32 userID) {
+    if (!channel || index < 0 || index >= TT_TRANSMITQUEUE_MAX) {
+        return;
+    }
+    channel->transmitUsersQueue[index] = userID;
+}
+
+void TTKitSetServerPropertiesString(TTKitServerStringProperty property, ServerProperties* serverProperties, const TTCHAR* string) {
+    switch (property) {
+    case TTKitServerStringName:
+        strncpy(serverProperties->szServerName, string, TT_STRLEN);
+        serverProperties->szServerName[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitServerStringMessageOfTheDay:
+        strncpy(serverProperties->szMOTD, string, TT_STRLEN);
+        serverProperties->szMOTD[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitServerStringRawMessageOfTheDay:
+        strncpy(serverProperties->szMOTDRaw, string, TT_STRLEN);
+        serverProperties->szMOTDRaw[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitServerStringVersion:
+        strncpy(serverProperties->szServerVersion, string, TT_STRLEN);
+        serverProperties->szServerVersion[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitServerStringProtocolVersion:
+        strncpy(serverProperties->szServerProtocolVersion, string, TT_STRLEN);
+        serverProperties->szServerProtocolVersion[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitServerStringAccessToken:
+        strncpy(serverProperties->szAccessToken, string, TT_STRLEN);
+        serverProperties->szAccessToken[TT_STRLEN - 1] = '\0';
+        break;
+    }
+}
+
+void TTKitSetUserAccountString(TTKitUserAccountStringProperty property, UserAccount* userAccount, const TTCHAR* string) {
+    switch (property) {
+    case TTKitUserAccountStringUsername:
+        strncpy(userAccount->szUsername, string, TT_STRLEN);
+        userAccount->szUsername[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitUserAccountStringPassword:
+        strncpy(userAccount->szPassword, string, TT_STRLEN);
+        userAccount->szPassword[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitUserAccountStringInitialChannel:
+        strncpy(userAccount->szInitChannel, string, TT_STRLEN);
+        userAccount->szInitChannel[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitUserAccountStringNote:
+        strncpy(userAccount->szNote, string, TT_STRLEN);
+        userAccount->szNote[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitUserAccountStringLastModified:
+        strncpy(userAccount->szLastModified, string, TT_STRLEN);
+        userAccount->szLastModified[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitUserAccountStringLastLoginTime:
+        strncpy(userAccount->szLastLoginTime, string, TT_STRLEN);
+        userAccount->szLastLoginTime[TT_STRLEN - 1] = '\0';
+        break;
+    }
+}
+
+void TTKitSetUserAccountAutoOperatorChannels(UserAccount* userAccount, const INT32* channelIDs, INT32 count) {
+    for (INT32 i = 0; i < TT_CHANNELS_OPERATOR_MAX; ++i) {
+        userAccount->autoOperatorChannels[i] = 0;
+    }
+
+    INT32 upperBound = count < TT_CHANNELS_OPERATOR_MAX ? count : TT_CHANNELS_OPERATOR_MAX;
+    for (INT32 i = 0; i < upperBound; ++i) {
+        userAccount->autoOperatorChannels[i] = channelIDs[i];
+    }
+}
+
+INT32 TTKitGetUserAccountAutoOperatorChannel(const UserAccount* userAccount, INT32 index) {
+    if (index < 0 || index >= TT_CHANNELS_OPERATOR_MAX) {
+        return 0;
+    }
+    return userAccount->autoOperatorChannels[index];
+}
+
+void TTKitSetBannedUserString(TTKitBannedUserStringProperty property, BannedUser* bannedUser, const TTCHAR* string) {
+    switch (property) {
+    case TTKitBannedUserStringIPAddress:
+        strncpy(bannedUser->szIPAddress, string, TT_STRLEN);
+        bannedUser->szIPAddress[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitBannedUserStringChannelPath:
+        strncpy(bannedUser->szChannelPath, string, TT_STRLEN);
+        bannedUser->szChannelPath[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitBannedUserStringBanTime:
+        strncpy(bannedUser->szBanTime, string, TT_STRLEN);
+        bannedUser->szBanTime[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitBannedUserStringNickname:
+        strncpy(bannedUser->szNickname, string, TT_STRLEN);
+        bannedUser->szNickname[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitBannedUserStringUsername:
+        strncpy(bannedUser->szUsername, string, TT_STRLEN);
+        bannedUser->szUsername[TT_STRLEN - 1] = '\0';
+        break;
+    case TTKitBannedUserStringOwner:
+        strncpy(bannedUser->szOwner, string, TT_STRLEN);
+        bannedUser->szOwner[TT_STRLEN - 1] = '\0';
         break;
     }
 }
