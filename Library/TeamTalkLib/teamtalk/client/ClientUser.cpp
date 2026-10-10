@@ -965,8 +965,8 @@ void ClientUser::AddPacket(const DesktopCursorPacket& p,
     bool is_set = false;
     uint32_t const tm = GetLastTimeStamp(p, &is_set);
 
-    int16_t x = 0;
-    int16_t y = 0;
+    uint16_t x = 0;
+    uint16_t y = 0;
 
     if(p.GetSessionCursor(nullptr, nullptr, &x, &y) &&
        (W32_GT(p.GetTime(), tm) || !is_set))

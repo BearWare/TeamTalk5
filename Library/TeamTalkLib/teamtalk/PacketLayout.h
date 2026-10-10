@@ -43,6 +43,9 @@
 #include <utility>
 #include <vector>
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,readability-magic-numbers,misc-use-anonymous-namespace)
+
 /******************************
 *    TEAMTALK PACKET LAYOUT
 *******************************/
@@ -1012,7 +1015,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     {
     public:
         DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                            uint8_t session_id, int16_t x, int16_t y);
+                            uint8_t session_id, uint16_t x, uint16_t y);
 
         DesktopCursorPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                             iovec& decrypt_fields)
@@ -1022,8 +1025,8 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
         DesktopCursorPacket(const DesktopCursorPacket& packet);
 
-        bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id, 
-                              int16_t* x, int16_t* y) const;
+        bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id,
+                              uint16_t* x, uint16_t* y) const;
 
         uint8_t GetSessionID() const
         {
@@ -1032,16 +1035,16 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
             return streamid;
         }
 
-        int16_t GetX() const
+        uint16_t GetX() const
         {
-            int16_t v = 0;
+            uint16_t v = 0;
             GetSessionCursor(nullptr, nullptr, &v, nullptr);
             return v;
         }
         
-        int16_t GetY() const
+        uint16_t GetY() const
         {
-            int16_t v = 0;
+            uint16_t v = 0;
             GetSessionCursor(nullptr, nullptr, nullptr, &v);
             return v;
         }
@@ -1166,4 +1169,8 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     
 #endif
 } // namespace teamtalk
+
+// NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+
 #endif

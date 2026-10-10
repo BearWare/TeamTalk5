@@ -34,6 +34,7 @@
 #include <ace/FILE_Addr.h>
 #include <ace/FILE_Connector.h>
 #include <ace/Dirent_Selector.h>
+#include <ace/OS.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -2473,8 +2474,8 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
     //ignore cursor if it's not the current desktop session
     uint8_t session_id = 0;
     uint16_t dest_userid = 0;
-    int16_t x = 0;
-    int16_t y = 0;
+    uint16_t x = 0;
+    uint16_t y = 0;
     if(!packet.GetSessionCursor(&dest_userid, &session_id, &x, &y))
         return;
 

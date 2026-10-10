@@ -33,7 +33,10 @@
 #include <utility>
 #include <vector>
 
-// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,cppcoreguidelines-pro-type-reinterpret-cast)
+// NOLINTBEGIN(cppcoreguidelines-owning-memory,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTBEGIN(clang-analyzer-deadcode.DeadStores)
 
 namespace teamtalk
 {
@@ -307,11 +310,11 @@ namespace teamtalk
     uint16_t FieldPacket::GetPacketSize() const
     {
         int buffers = 0;
-        int size = 0;
+        std::size_t size = 0;
         const iovec* vv = GetPacket(buffers);
         for(int i=0;i<buffers;i++)
             size += vv[i].iov_len;
-        return size;
+        return static_cast<uint16_t>(size);
     }
 
     bool FieldPacket::ValidatePacket() const
@@ -490,14 +493,14 @@ namespace teamtalk
             if(GetPacketSize() == GetHdrSize(GetHdrType()))
                 return nullptr;
 
-            int size = static_cast<int>(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
+            std::size_t size = static_cast<int>(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
             size = m_iovec[0].iov_len - size;
             ptr = GetFieldsStart();
             ptr = FINDFIELD_TYPE(ptr, fieldtype, size);
         }
         if(m_iovec.size() > 1 && (ptr == nullptr))
         {
-            for(size_t i=1;i<m_iovec.size() && (ptr == nullptr);i++)
+            for(std::size_t i=1;i<m_iovec.size() && (ptr == nullptr);i++)
             {
                 ptr = FINDFIELD_TYPE(reinterpret_cast<uint8_t*>(m_iovec[i].iov_base), fieldtype, m_iovec[i].iov_len);
             }
@@ -2102,8 +2105,8 @@ namespace teamtalk
         return 0; //invalid ID
     }
 
-    DesktopCursorPacket::DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                                             uint8_t session_id, int16_t x, int16_t y)
+    DesktopCursorPacket::DesktopCursorPacket(uint16_t src_userid, uint32_t time,
+                                             uint8_t session_id, uint16_t x, uint16_t y)
                                 : FieldPacket(PACKETHDR_CHANNEL_ONLY,
                                               PACKET_KIND_DESKTOPCURSOR, 
                                               src_userid, time)
@@ -2152,8 +2155,8 @@ namespace teamtalk
 
     bool DesktopCursorPacket::GetSessionCursor(uint16_t* dest_userid, 
                                                uint8_t* session_id,
-                                               int16_t* x,
-                                               int16_t* y) const
+                                               uint16_t* x,
+                                               uint16_t* y) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_MY_CURSORPOS);
         if(ptr != nullptr)
@@ -2220,11 +2223,11 @@ namespace teamtalk
         //FIELDTYPE_REMOTE_INPUT
         //[sessionid(uint8_t), packetno(uint8_t), [[x(uint16_t), y(uint16_t), keycode(uint32_t), keystate(uint32_t)], ...
 
-        int const field_size = sizeof(uint8_t) + sizeof(uint8_t) + 
+        std::size_t const field_size = sizeof(uint8_t) + sizeof(uint8_t) +
                             ((sizeof(uint16_t) + sizeof(uint16_t) +
                             sizeof(uint32_t) + sizeof(uint32_t)) * static_cast<int>(inputs.size()));
 
-        int const alloc_size = FIELDVALUE_PREFIX + field_size;
+        std::size_t const alloc_size = FIELDVALUE_PREFIX + field_size;
 
         uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
@@ -2435,4 +2438,7 @@ namespace teamtalk
 
 } // namespace teamtalk
 
-// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTEND(clang-analyzer-deadcode.DeadStores)
+// NOLINTEND(cppcoreguidelines-owning-memory,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,cppcoreguidelines-pro-type-reinterpret-cast)
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
