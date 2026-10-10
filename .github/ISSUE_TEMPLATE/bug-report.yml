@@ -13,10 +13,9 @@ body:
       label: Application
       description: Which software is affected by the bug
       options:
-        - label: qtTeamTalk
-        - label: TeamTalkAndroid
-        - label: iTeamTalk
-        - label: TeamTalkClassic
+        - label: TeamTalk for Desktop
+        - label: TeamTalk for Android
+        - label: TeamTalk for iOS
         - label: TeamTalkServer
     validations:
       required: true
