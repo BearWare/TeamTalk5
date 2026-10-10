@@ -42,13 +42,13 @@ DesktopSession::DesktopSession(const DesktopWindow& wnd)
     Init();
 
     if(GetBitmapSize() != 0)
-        m_padding = ((GetWidth() * m_pixel_size + 3) & ~3) - GetWidth() * m_pixel_size;
+        m_padding = (((GetWidth() * m_pixel_size) + 3) & ~3) - (GetWidth() * m_pixel_size);
     TTASSERT((GetWidth() * m_pixel_size + m_padding) % 4 == 0);
 }
 
 DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 : m_wnd(wnd)
-, m_padding(0), m_bytes_per_line(bytes_per_line)
+, m_bytes_per_line(bytes_per_line)
 {
     Init();
     
@@ -424,14 +424,14 @@ static unsigned char COLOR_MATRIX[6] = {0x00, 0x33, 0x66, 0x99, 0xcc, 0xff};
 
 void BMPPalette::InitPalette()
 {
-  unsigned int palette_idx;
-  unsigned int r_idx;
-  unsigned int g_idx;
-  unsigned int b_idx;
+  unsigned int palette_idx = 0;
+  unsigned int r_idx = 0;
+  unsigned int g_idx = 0;
+  unsigned int b_idx = 0;
 
-  unsigned char r;
-  unsigned char g;
-  unsigned char b;
+  unsigned char r = 0;
+  unsigned char g = 0;
+  unsigned char b = 0;
 
   r = 0;
   g = 0;

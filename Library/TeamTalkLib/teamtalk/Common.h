@@ -417,7 +417,7 @@ namespace teamtalk {
         }
         bool operator!=(const AudioCodec& ch) const
         {
-            return (ch == *this) == false;
+            return (ch == *this) == false; // NOLINT(readability-simplify-boolean-expr) operator!= results in infinite recursion
         }
     };
 

@@ -33,9 +33,7 @@
 #include <ace/SString.h>
 #include <ace/Time_Value.h>
 
-#include <array>
 #include <cstddef>
-#include <cstdint>
 #include <map>
 #include <memory>
 #include <set>
@@ -253,7 +251,9 @@ namespace teamtalk {
                 }
             }
             else if(ite != m_mUsers.end())
+            {
                 user = (*ite).second;
+            }
 
             return user;
         }
