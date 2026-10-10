@@ -30,6 +30,7 @@
 #include <cassert>
 #include <cmath>
 #include <numbers>
+#include <utility>
 
 namespace media {
 
@@ -217,11 +218,11 @@ ACE_Message_Block* AudioFramesMerge(const std::vector<ACE_Message_Block*>& mbs)
         out_samples += frm.output_samples;
     }
 
-    assert(in_samples <= 0xffffffff);
-    assert(out_samples <= 0xffffffff);
+    assert(std::cmp_less_equal(in_samples, 0xffffffff));
+    assert(std::cmp_less_equal(out_samples, 0xffffffff));
 
     media::AudioFrame frm(mbs[0]);
-    frm.input_samples = int(in_samples);
+    frm.input_samples = static_cast<int>(in_samples);
     assert(out_samples == 0);
     // frm.output_samples = int(out_samples);
 
@@ -321,15 +322,17 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
 {
     for(int i = 0; i<audblock.input_samples; i++)
     {
-        double const t = (double)sample_index++ / audblock.inputfmt.samplerate;
-        int v = (int)(volume * std::sin((double)tone_freq * t * 2.0 * std::numbers::pi));
+        double const t = static_cast<double>(sample_index++) / audblock.inputfmt.samplerate;
+        int v = static_cast<int>(volume * std::sin(static_cast<double>(tone_freq) * t * 2.0 * std::numbers::pi));
         if(v>32767)
             v = 32767;
         else if(v < -32768)
             v = -32768;
 
         if(audblock.inputfmt.channels == 1)
+        {
             audblock.input_buffer[i] = v;
+        }
         else
         {
             audblock.input_buffer[2 * i] = mute_left ? 0 : v;

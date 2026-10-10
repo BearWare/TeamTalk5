@@ -126,9 +126,9 @@ namespace soundsystem {
         }
         if (volume != VOLUME_DEFAULT || mastervolume != VOLUME_DEFAULT)
         {
-            int volfac = volume * mastervolume;
-            int powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
-            return Rational(volfac, powdef);
+            int const volfac = volume * mastervolume;
+            int const powdef = VOLUME_DEFAULT * VOLUME_DEFAULT;
+            return {volfac, powdef};
         }
         return {1, 1};
     }

@@ -29,7 +29,6 @@
 
 #include <ace/Basic_Types.h>
 #include <ace/SString.h>
-#include <cstddef>
 #include <map>
 
 namespace teamtalk {

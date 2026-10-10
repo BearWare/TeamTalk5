@@ -30,11 +30,10 @@
 #include <ace/Time_Value.h>
 
 #include <cstdint>
-#include <set>
-#include <cstddef>
 #include <list>
 #include <map>
 #include <memory>
+#include <set>
 #include <vector>
 
 namespace teamtalk {
@@ -153,9 +152,9 @@ namespace teamtalk {
 
         bool ProcessDesktopAckPacket(const DesktopAckPacket& ack_packet);
 
-        int GetPacketSentSize() const { return (int)m_sent_pkts.size(); }
+        int GetPacketSentSize() const { return static_cast<int>(m_sent_pkts.size()); }
 
-        int GetPacketQueueSize() const { return (int)m_queued_pkts.size(); }
+        int GetPacketQueueSize() const { return static_cast<int>(m_queued_pkts.size()); }
 
         int GetRemainingPacketsCount() const { return GetPacketSentSize() + GetPacketQueueSize(); }
 

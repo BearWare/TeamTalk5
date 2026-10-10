@@ -100,14 +100,14 @@ int PacketQueue::QueuePacket(FieldPacket* packet)
 {
     ACE_Message_Block* mb = nullptr;
     ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(packet)), -1);
-    mb->copy((const char*)&packet, sizeof(packet));
+    mb->copy(reinterpret_cast<const char*>(&packet), sizeof(packet));
     ACE_Time_Value tv;
     return this->enqueue(mb, &tv);
 }
 
 int PacketQueue::PacketCount()
 {
-    return (int)this->message_count();
+    return static_cast<int>(this->message_count());
 }
 
 
@@ -174,7 +174,7 @@ int PacketHandler::handle_input(ACE_HANDLE /*fd*/)
     {
         packetlisteners_t::iterator ite;
         for(ite=m_setListeners.begin();ite != m_setListeners.end();ite++)
-            (*ite)->ReceivedPacket(this, m_buffer.data(), (int)ret, addr);
+            (*ite)->ReceivedPacket(this, m_buffer.data(), static_cast<int>(ret), addr);
     }
     else
     {

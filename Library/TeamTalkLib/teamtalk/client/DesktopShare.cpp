@@ -34,11 +34,11 @@
 #include <ace/ACE.h>
 #include <ace/SString.h>
 
+#include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
 #include <set>
-#include <cstddef>
-#include <cassert>
 #include <vector>
 
 using namespace teamtalk;
@@ -92,10 +92,10 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
         {
             int const width = (w == m_w_blocks-1 && ((GetWidth() % m_block_width) != 0))? GetWidth() % m_block_width : m_block_width;
 
-            if(m_tmp_block.size() != size_t(width) * height * m_pixel_size)
+            if(m_tmp_block.size() != static_cast<size_t>(width) * height * m_pixel_size)
             {
                 char const def_color = DEFAULT_COLOR;
-                m_tmp_block.resize(size_t(width) * height * m_pixel_size, def_color);
+                m_tmp_block.resize(static_cast<size_t>(width) * height * m_pixel_size, def_color);
             }
 
             for(int i=0;i<height;i++)
@@ -105,11 +105,11 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
                 TTASSERT(pixel_x < GetWidth());
                 TTASSERT(pixel_y < GetHeight());
 
-                int byte_pos = (pixel_x + pixel_y * GetWidth()) * m_pixel_size;
+                int byte_pos = (pixel_x + (pixel_y * GetWidth())) * m_pixel_size;
                 byte_pos += GetHeight() * m_padding;
                 TTASSERT(byte_pos < size);
                 const char* byte_pos_ptr = &bmp_bits[byte_pos];
-                memcpy(&m_tmp_block[size_t(width)*i*m_pixel_size], byte_pos_ptr, size_t(width) * m_pixel_size);
+                memcpy(&m_tmp_block[static_cast<size_t>(width)*i*m_pixel_size], byte_pos_ptr, static_cast<size_t>(width) * m_pixel_size);
             }
 
             const int BLOCK_INDEX = w + (h * m_w_blocks);
@@ -131,7 +131,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
     //MYTRACE(ACE_TEXT("Build packets thread new bmp done %u, duration %u. Dirty blocks: %u\n"), 
     //        tm, GETTIMESTAMP() - start_tm, m_dirty_blocknums.size());
 
-    int const n_dirty = int(m_dirty_blocknums.size());
+    int const n_dirty = static_cast<int>(m_dirty_blocknums.size());
     if(n_dirty != 0)
     {
         uint32_t const tmp = m_timestamp;
@@ -230,10 +230,10 @@ bool DesktopInitiator::CompressBlock(int block_no, std::vector<char>& outbuf)
 
     assert(ret == Z_OK);
 
-    strm.avail_in = (uInt)ii->second.size();
+    strm.avail_in = static_cast<uInt>(ii->second.size());
     strm.next_in = reinterpret_cast<Bytef*>(ii->second.data());
 
-    strm.avail_out = (uInt)outbuf.size();
+    strm.avail_out = static_cast<uInt>(outbuf.size());
     strm.next_out = reinterpret_cast<Bytef*>(outbuf.data());
 
     ret = deflate(&strm, Z_FINISH);
@@ -290,11 +290,11 @@ void DesktopViewer::AddCompressedBlock(int block_no, const char* inbuf, int in_s
         int const pixel_x = w * m_block_width;
         int const pixel_y = (h * m_block_height) + i;
 
-        int byte_pos = (pixel_x + pixel_y * GetWidth()) * m_pixel_size;
+        int byte_pos = (pixel_x + (pixel_y * GetWidth())) * m_pixel_size;
         byte_pos += GetHeight() * m_padding;
         TTASSERT(byte_pos < m_bitmap.size());
         char* byte_pos_ptr = &m_bitmap[byte_pos];
-        memcpy(byte_pos_ptr, &outbuf[size_t(width)*i*m_pixel_size], size_t(width) * m_pixel_size);
+        memcpy(byte_pos_ptr, &outbuf[static_cast<size_t>(width)*i*m_pixel_size], static_cast<size_t>(width) * m_pixel_size);
     }
 }
 
@@ -325,22 +325,24 @@ void DesktopViewer::AddDuplicateBlock(int src_block_no, int dest_block_no)
         int const dest_pixel_x = dest_w * m_block_width;
         int const dest_pixel_y = (dest_h * m_block_height) + i;
 
-        int src_byte_pos = (src_pixel_x + src_pixel_y * GetWidth()) * m_pixel_size;
-        int dest_byte_pos = (dest_pixel_x + dest_pixel_y * GetWidth()) * m_pixel_size;
+        int src_byte_pos = (src_pixel_x + (src_pixel_y * GetWidth())) * m_pixel_size;
+        int dest_byte_pos = (dest_pixel_x + (dest_pixel_y * GetWidth())) * m_pixel_size;
         src_byte_pos += GetHeight() * m_padding;
         dest_byte_pos += GetHeight() * m_padding;
         TTASSERT(src_byte_pos < m_bitmap.size());
         TTASSERT(dest_byte_pos < m_bitmap.size());
         char* src_byte_pos_ptr = &m_bitmap[src_byte_pos];
         char* dest_byte_pos_ptr = &m_bitmap[dest_byte_pos];
-        memcpy(dest_byte_pos_ptr, src_byte_pos_ptr, size_t(width) * m_pixel_size);
+        memcpy(dest_byte_pos_ptr, src_byte_pos_ptr, static_cast<size_t>(width) * m_pixel_size);
     }
 }
 
 void DesktopViewer::ResetBitmap(const std::vector<char>* bmp/* = 0*/)
 {
     if((bmp != nullptr) && bmp->size() == m_bitmap.size())
+    {
         m_bitmap =  *bmp;
+    }
     else
     {
         char const def_color = DEFAULT_COLOR;
@@ -361,10 +363,10 @@ bool DesktopViewer::DecompressBlock(const char* inbuf,
     if(ret != Z_OK)
         return false;
 
-    strm.avail_in = (uInt)in_size;
-    strm.total_in = (uInt)in_size;
+    strm.avail_in = static_cast<uInt>(in_size);
+    strm.total_in = static_cast<uInt>(in_size);
     strm.next_in = reinterpret_cast<Bytef*>(const_cast<char*>(inbuf));
-    strm.avail_out = (uInt)outbuf.size();
+    strm.avail_out = static_cast<uInt>(outbuf.size());
     strm.next_out = reinterpret_cast<Bytef*>(outbuf.data());
 
     ret = inflate(&strm, Z_FINISH);
@@ -386,11 +388,11 @@ void DesktopViewer::WriteBitmapToFile(const ACE_TString& filename)
     {
     case 4 :
         WriteBitmap(filename, media::VideoFormat(GetWidth(), GetHeight(), media::FOURCC_RGB32),
-                    m_bitmap.data(), int(m_bitmap.size()));
+                    m_bitmap.data(), static_cast<int>(m_bitmap.size()));
         break;
     case 3 :
         WriteBitmap(filename, media::VideoFormat(GetWidth(), GetHeight(), media::FOURCC_RGB24),
-            m_bitmap.data(), int(m_bitmap.size()));
+            m_bitmap.data(), static_cast<int>(m_bitmap.size()));
         break;
     }
 }
@@ -398,6 +400,6 @@ void DesktopViewer::WriteBitmapToFile(const ACE_TString& filename)
 const char* DesktopViewer::GetBitmap(int* size/* = 0*/) const
 {
     if(size != nullptr)
-        *size = (int)m_bitmap.size();
+        *size = static_cast<int>(m_bitmap.size());
     return m_bitmap.data();
 }

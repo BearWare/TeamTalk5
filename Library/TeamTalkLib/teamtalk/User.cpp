@@ -58,7 +58,7 @@ namespace teamtalk {
 
     void User::UpdateLastTimeStamp(const FieldPacket& pkt)
     {
-        UpdateLastTimeStamp((PacketKind)pkt.GetKind(), pkt.GetTime());
+        UpdateLastTimeStamp(static_cast<PacketKind>(pkt.GetKind()), pkt.GetTime());
     }
 
     ACE_UINT32 User::GetLastTimeStamp(bool* is_set/* = NULL*/) const
@@ -70,7 +70,7 @@ namespace teamtalk {
 
     ACE_UINT32 User::GetLastTimeStamp(const FieldPacket& pkt, bool* is_set/* = NULL*/) const
     {
-        return GetLastTimeStamp((PacketKind)pkt.GetKind(), is_set);
+        return GetLastTimeStamp(static_cast<PacketKind>(pkt.GetKind()), is_set);
     }
 
     ACE_UINT32 User::GetLastTimeStamp(PacketKind packet_kind, bool* is_set/* = NULL*/) const

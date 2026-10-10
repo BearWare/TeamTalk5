@@ -72,7 +72,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
     assert(BMPHDR_SIZE == sizeof(bmphdr));
 
     bmphdr.bfType        = 0x4d42;   // 'BM' WINDOWS_BITMAP_SIGNATURE
-    bmphdr.bfSize        = (((3 * fmt.width + 3) & ~3) * fmt.height)
+    bmphdr.bfSize        = ((((3 * fmt.width) + 3) & ~3) * fmt.height)
                            + BMPHDR_SIZE + BMIHEADER_SIZE;
     bmphdr.bfReserved1    = bmphdr.bfReserved2 = 0;
     bmphdr.bfOffBits      = BMPHDR_SIZE + BMIHEADER_SIZE;
@@ -96,7 +96,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
         return false;
     }
     bmiHeader.biCompression = 0; //BI_RGB;
-    bmiHeader.biSizeImage = (ACE_UINT32)size;
+    bmiHeader.biSizeImage = static_cast<ACE_UINT32>(size);
 
     MyFile bmpfile;
     if (!bmpfile.NewFile(filename))
@@ -150,8 +150,8 @@ std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat&
     if (bmiHeader.biSizeImage == 0)
     {
         if (bmpfile.Seek(0, std::ios_base::end)) {
-            bmiHeader.biSizeImage = uint32_t(bmpfile.Tell());
-            bmiHeader.biSizeImage -= uint32_t(startpos);
+            bmiHeader.biSizeImage = static_cast<uint32_t>(bmpfile.Tell());
+            bmiHeader.biSizeImage -= static_cast<uint32_t>(startpos);
         }
     }
     bmpfile.Seek(startpos, std::ios_base::beg);

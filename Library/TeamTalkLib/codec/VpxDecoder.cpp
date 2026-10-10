@@ -91,8 +91,7 @@ vpx_image_t* VpxDecoder::GetVpxImage()
         return img;
     }
     
-            m_iter = NULL;
-   
+    m_iter = nullptr;
 
     return nullptr;
 }
@@ -141,7 +140,7 @@ static inline uint8_t CLAMP(short v)
         return 255;
     if (v < 0)
         return 0;
-    return (uint8_t)v;
+    return static_cast<uint8_t>(v);
 }
 
 void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen)
@@ -157,17 +156,17 @@ void I420toRGB32(vpx_image_t* img, uint8_t* outbuf, int outlen)
         uint8_t* ptro2 = ptro;
         for (unsigned int j = 0; j < img->d_w; j += 2) 
         {
-            short pr;
-            short pg;
-            short pb;
-            short y;
-            short r;
-            short g;
-            short b;
+            short pr = 0;
+            short pg = 0;
+            short pb = 0;
+            short y = 0;
+            short r = 0;
+            short g = 0;
+            short b = 0;
 
-            pr = (-56992 + ptrv[j / 2] * 409) >> 8;
-            pg = (34784 - ptru[j / 2] * 100 - ptrv[j / 2] * 208) >> 8;
-            pb = (short)((-70688 + ptru[j / 2] * 516) >> 8);
+            pr = (-56992 + (ptrv[j / 2] * 409)) >> 8;
+            pg = (34784 - (ptru[j / 2] * 100) - (ptrv[j / 2] * 208)) >> 8;
+            pb = static_cast<short>((-70688 + (ptru[j / 2] * 516)) >> 8);
 
             y = 298*ptry[j] >> 8;
             r = y + pr;

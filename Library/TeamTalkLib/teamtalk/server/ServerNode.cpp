@@ -23,18 +23,18 @@
 
 #include "ServerNode.h"
 
-#include "TeamTalkDefs.h"
 #include "DesktopCache.h"
+#include "TeamTalkDefs.h"
 
-#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 
 #include <ace/FILE_IO.h>
 #include <ace/FILE_Addr.h>
-#include <ace/OS.h>
 #include <ace/FILE_Connector.h>
 #include <ace/Dirent_Selector.h>
+#include <ace/OS.h>
 
 #include <algorithm>
 #include <cstdint>
@@ -119,11 +119,11 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
             lastuser = u->GetNickname();
     }
     ACE_TString motd = m_properties.motd;
-    ReplaceAll(motd, ACE_TEXT("%users%"), I2String((int)users));
-    ReplaceAll(motd, ACE_TEXT("%admins%"), I2String((int)admins));
+    ReplaceAll(motd, ACE_TEXT("%users%"), I2String(static_cast<int>(users)));
+    ReplaceAll(motd, ACE_TEXT("%admins%"), I2String(static_cast<int>(admins)));
     ReplaceAll(motd, ACE_TEXT("%uptime%"), uptime);
-    ReplaceAll(motd, ACE_TEXT("%voicetx%"), I2String((ACE_INT64)(m_stats.total_bytessent / 1024)));
-    ReplaceAll(motd, ACE_TEXT("%voicerx%"), I2String((ACE_INT64)(m_stats.total_bytesreceived / 1024)));
+    ReplaceAll(motd, ACE_TEXT("%voicetx%"), I2String((m_stats.total_bytessent / 1024)));
+    ReplaceAll(motd, ACE_TEXT("%voicerx%"), I2String((m_stats.total_bytesreceived / 1024)));
     ReplaceAll(motd, ACE_TEXT("%lastuser%"), lastuser);
 
     return motd;
@@ -159,10 +159,10 @@ const ServerChannel::users_t& ServerNode::GetAdministrators()
 
 #if defined(_DEBUG)
     ServerChannel::users_t users;
-    for(auto i=m_mUsers.begin(); i != m_mUsers.end(); i++)
+    for(auto & m_mUser : m_mUsers)
     {
-        if(((*i).second->GetUserType() & USERTYPE_ADMIN) != 0u)
-            users.push_back((*i).second);
+        if((m_mUser.second->GetUserType() & USERTYPE_ADMIN) != 0u)
+            users.push_back(m_mUser.second);
     }
     TTASSERT(m_admins.size() == users.size());
 #endif
@@ -189,13 +189,13 @@ ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = fal
     ASSERT_SERVERNODE_LOCKED(this);
 
     ServerChannel::users_t users;
-    for(auto i=m_mUsers.begin(); i != m_mUsers.end(); i++)
+    for(auto & m_mUser : m_mUsers)
     {
-        if( (*i).second->IsAuthorized())
+        if( m_mUser.second->IsAuthorized())
         {
-            if(excludeAdmins && (((*i).second->GetUserType() & USERTYPE_ADMIN) != 0u))
+            if(excludeAdmins && ((m_mUser.second->GetUserType() & USERTYPE_ADMIN) != 0u))
                 continue;
-                            users.push_back((*i).second);
+            users.push_back(m_mUser.second);
         }
     }
     return users;
@@ -412,7 +412,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     do
     {
         ACE_OS::snprintf(newfilename, MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
-                         (unsigned int)dat_id++);
+                         static_cast<unsigned int>(dat_id++));
         local_filename = internalpath + newfilename;
     }
     while(ACE_OS::filesize(local_filename.c_str())>=0 && std::cmp_not_equal(dat_id , m_file_id_counter));
@@ -489,7 +489,9 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
             return err;
     }
     else
+    {
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    }
 
     if ((m_properties.logevents & SERVERLOGEVENT_FILE_DELETED) != 0u)
     {
@@ -695,7 +697,10 @@ bool ServerNode::SendDesktopAckPacket(int userid)
                                        recv_packets))
                 return false;
         }
-        else return false;
+        else
+        {
+            return false;
+        }
     }
     else
     {
@@ -929,21 +934,21 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
     if(!m_rootchannel)
         return false;
 
-    bool tcpport = m_properties.tcpaddrs.size() > 0;
-    bool udpport = m_properties.udpaddrs.size() > 0;
+    bool tcpport = !m_properties.tcpaddrs.empty();
+    bool udpport = !m_properties.udpaddrs.empty();
     for (const auto& a : m_properties.tcpaddrs)
     {
 #if defined(ENABLE_ENCRYPTION)
         if (encrypted)
         {
-            cryptacceptor_t const ca(new CryptAcceptor(a, m_tcp_reactor, ACE_NONBLOCK, this));
+            cryptacceptor_t const ca = std::make_shared<CryptAcceptor>(a, m_tcp_reactor, ACE_NONBLOCK, this);
             tcpport &= ca->acceptor().get_handle() != ACE_INVALID_HANDLE;
             m_crypt_acceptors.push_back(ca);
         }
         else
 #endif
         {
-            defaultacceptor_t const da(new DefaultAcceptor(a, m_tcp_reactor, ACE_NONBLOCK, this));
+            defaultacceptor_t const da = std::make_shared<DefaultAcceptor>(a, m_tcp_reactor, ACE_NONBLOCK, this);
             tcpport &= da->acceptor().get_handle() != ACE_INVALID_HANDLE;
             m_def_acceptors.push_back(da);
         }
@@ -951,7 +956,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
 
     for (const auto& a : m_properties.udpaddrs)
     {
-        packethandler_t const ph(new PacketHandler(m_udp_reactor));
+        packethandler_t const ph = std::make_shared<PacketHandler>(m_udp_reactor);
         udpport &= ph->Open(a);
         if (udpport)
             ph->AddListener(this);
@@ -1058,7 +1063,9 @@ int ServerNode::GetNewUserID()
     {
         auto const ite = m_mUsers.find(++m_userid_counter);
         if(ite == m_mUsers.end() && m_userid_counter < TT_MAX_ID)
+        {
             found = true;//found a free User ID
+        }
         else if(m_userid_counter >= TT_MAX_ID && !overflowed)
         {
             m_userid_counter = 1;
@@ -1137,7 +1144,7 @@ void ServerNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 
         int val = 1;
         int const ret = ACE_OS::setsockopt(handler.peer().get_handle(), SOL_SOCKET, 
-                                     SO_KEEPALIVE, (char*)&val, sizeof(val));
+                                     SO_KEEPALIVE, reinterpret_cast<char*>(&val), sizeof(val));
         TTASSERT(ret != -1);
 
         OnOpened(handler.get_handle(), user);
@@ -1168,7 +1175,7 @@ void ServerNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 
         int val = 1;
         int const ret = ACE_OS::setsockopt(handler.peer().get_handle(), SOL_SOCKET, 
-                                     SO_KEEPALIVE, (char*)&val, sizeof(val));
+                                     SO_KEEPALIVE, reinterpret_cast<char*>(&val), sizeof(val));
         TTASSERT(ret != -1);
 
         OnOpened(handler.get_handle(), user);
@@ -1266,7 +1273,7 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
     m_failedlogins[user.GetIpAddress()].push_back(ACE_OS::gettimeofday());
 
     if (m_properties.maxloginattempts > 0 && 
-        m_failedlogins[user.GetIpAddress()].size() >= (size_t)m_properties.maxloginattempts)
+        m_failedlogins[user.GetIpAddress()].size() >= static_cast<size_t>(m_properties.maxloginattempts))
     {
         BannedUser ban;
         ban.bantype = BANTYPE_IPADDR;
@@ -1315,7 +1322,7 @@ int ServerNode::SendPacket(const FieldPacket& packet,
                            const ACE_INET_Addr& remoteaddr,
                            const ACE_INET_Addr& localaddr)
 {
-    int buffers;
+    int buffers = 0;
     int ret = -1;
     const iovec* vv = packet.GetPacket(buffers);
     TTASSERT(packet.Finalized() || packet.GetKind() == PACKET_KIND_HELLO || packet.GetKind() == PACKET_KIND_KEEPALIVE);
@@ -1329,11 +1336,11 @@ int ServerNode::SendPacket(const FieldPacket& packet,
             if ((m_properties.txloss != 0) && ((m_stats.packets_sent % m_properties.txloss) == 0))
             {
                 ret = packet.GetPacketSize();
-                MYTRACE(ACE_TEXT("Simulated TX dropped packet. Kind %d\n"), int(packet.GetKind()));
+                MYTRACE(ACE_TEXT("Simulated TX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
             }
             else
             {
-                ret = int(ph->Socket().send(vv, buffers, remoteaddr));
+                ret = static_cast<int>(ph->Socket().send(vv, buffers, remoteaddr));
             }
             m_stats.packets_sent++;
         }
@@ -1478,7 +1485,7 @@ int ServerNode::SendPackets(const FieldPacket& packet,
         }
     }
 
-    return (int)sent;
+    return static_cast<int>(sent);
 }
 
 void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
@@ -1492,7 +1499,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
 
     if ((m_properties.rxloss != 0) && ((m_stats.packets_received % m_properties.rxloss) == 0))
     {
-        MYTRACE(ACE_TEXT("Simulated RX dropped packet. Kind %d\n"), int(packet.GetKind()));
+        MYTRACE(ACE_TEXT("Simulated RX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
         return;
     }
     
@@ -1678,7 +1685,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         break;
     default :
         MYTRACE(ACE_TEXT("Received an unknown packet %d from #%d\n"),
-                (int)packet.GetKind(), packet.GetSrcUserID());
+                static_cast<int>(packet.GetKind()), packet.GetSrcUserID());
         break;
     }
 }
@@ -1701,7 +1708,7 @@ void ServerNode::ReceivedHelloPacket(ServerUser& user,
     user.SetPacketProtocol(version);
 
     //send acknowledge packet
-    HelloPacket const ackpacket((uint16_t)0, packet.GetTime());
+    HelloPacket const ackpacket(static_cast<uint16_t>(0), packet.GetTime());
     SendPacket(ackpacket, user);
 }
 
@@ -1730,7 +1737,7 @@ void ServerNode::ReceivedKeepAlivePacket(ServerUser& user,
                 payload_data_size);
     }
 
-    KeepAlivePacket const reply((uint16_t)0, packet.GetTime());
+    KeepAlivePacket const reply(static_cast<uint16_t>(0), packet.GetTime());
     if(remoteaddr != user.GetUdpAddress())
     {
         user.SetUdpAddress(remoteaddr, localaddr);
@@ -1774,7 +1781,7 @@ serverchannel_t ServerNode::GetPacketChannel(ServerUser& user,
     }
 
     //update user's timestamp
-    user.UpdateLastTimeStamp((PacketKind)packet.GetKind(), packet.GetTime());
+    user.UpdateLastTimeStamp(static_cast<PacketKind>(packet.GetKind()), packet.GetTime());
 
     return chan;
 }
@@ -2467,8 +2474,8 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
     //ignore cursor if it's not the current desktop session
     uint8_t session_id = 0;
     uint16_t dest_userid = 0;
-    int16_t x;
-    int16_t y;
+    uint16_t x = 0;
+    uint16_t y = 0;
     if(!packet.GetSessionCursor(&dest_userid, &session_id, &x, &y))
         return;
 
@@ -2700,7 +2707,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         return ErrorMsg(TT_CMDERR_INVALID_ACCOUNT);
     }
 
-    int const user_count = int(GetAuthorizedUsers(false).size());
+    int const user_count = static_cast<int>(GetAuthorizedUsers(false).size());
     if(user_count+1 > m_properties.maxusers && 
        (useraccount.usertype & USERTYPE_ADMIN) == 0)
         return ErrorMsg(TT_CMDERR_MAX_SERVER_USERS_EXCEEDED); //user limit
@@ -2985,7 +2992,9 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     {
     }
     else if(chanprop.passwd != newchan->GetPassword())
+    {
         return ErrorMsg(TT_CMDERR_INCORRECT_CHANNEL_PASSWORD);
+    }
 
     serverchannel_t const oldchan = user->GetChannel();
 
@@ -3226,7 +3235,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
 
         return ErrorMsg(TT_CMDERR_SUCCESS);
     }
-    if(oppasswd.length())
+    if(!oppasswd.empty() != 0u)
         return ErrorMsg(TT_CMDERR_INCORRECT_OP_PASSWORD);
     return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 }
@@ -3476,7 +3485,7 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
         m_srvguard->GetUserBans(*user, bans);
     }
 
-    for(;index<std::min(count, int(bans.size()));++index)
+    for(;index<std::min(count, static_cast<int>(bans.size()));++index)
     {
         user->DoShowBan(bans[index]);
     }
@@ -3602,13 +3611,12 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //don't allow operator to change name of static channel
-        if ((chan->GetChannelType() & CHANNEL_PERMANENT) && chanprop.name != chan->GetName())
+        if (((chan->GetChannelType() & CHANNEL_PERMANENT) != 0u) && chanprop.name != chan->GetName())
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         return UpdateChannel(chanprop, user.get());
     }
-    else
-        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+    return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 }
 
 ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properties)
@@ -3837,7 +3845,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
         auto ii = chan->GetDesktopUsers().begin();
         for(;ii!=chan->GetDesktopUsers().end();ii++)
         {
-            if(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP).contains(*ii) != 0u)
+            if(static_cast<unsigned int>(chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP).contains(*ii)) != 0u)
             {
                 serveruser_t const src_user = GetUser(*ii, nullptr);
                 //TTASSERT(src_user); userid can be TRANSMITUSERS_FREEFORALL (0xFFF)
@@ -3887,7 +3895,9 @@ void ServerNode::CleanChannels(serverchannel_t& channel)
             channel = parent;
         }
         else
+        {
             break;
+        }
     }
 }
 

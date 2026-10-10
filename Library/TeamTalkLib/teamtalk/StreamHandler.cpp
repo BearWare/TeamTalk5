@@ -24,7 +24,6 @@
 #include "StreamHandler.h"
 
 #include <ace/Time_Value.h>
-
 #include <mutex>
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
@@ -46,7 +45,7 @@ static std::mutex ctxmtx;
 
 ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     TTASSERT(m_contexts.find(r) == m_contexts.end());
     
@@ -56,14 +55,14 @@ ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 
 void CryptStreamHandler::RemoveSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     m_contexts.erase(r);
 }
 
 ACE_SSL_Context* CryptStreamHandler::SSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     ACE_SSL_Context* c = ACE_SSL_Context::instance();
     if (m_contexts.contains(r))

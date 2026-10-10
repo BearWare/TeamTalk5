@@ -28,7 +28,6 @@
 #include <vpx/vp8cx.h>
 
 #include <cassert>
-#include <cstddef>
 #include <cstring>
 
 #define enc_interface vpx_codec_vp8_cx()
@@ -155,7 +154,7 @@ const char* VpxEncoder::GetEncodedData(int& len)
         switch(pkt->kind)
         {
         case VPX_CODEC_CX_FRAME_PKT :
-            len = int(pkt->data.frame.sz);
+            len = static_cast<int>(pkt->data.frame.sz);
             return reinterpret_cast<const char*>(pkt->data.frame.buf);
         break;
         case VPX_CODEC_STATS_PKT :
@@ -198,8 +197,8 @@ void RGB32toYUV420P(const unsigned char * rgb,
     unsigned char * vplane = nullptr;
     const unsigned char * rgbIndex = nullptr;
 
-    int x;
-    int y;
+    int x = 0;
+    int y = 0;
     unsigned char * yline = nullptr;
     unsigned char * uline = nullptr;
     unsigned char * vline = nullptr;

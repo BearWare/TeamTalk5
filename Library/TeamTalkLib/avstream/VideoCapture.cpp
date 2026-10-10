@@ -39,7 +39,7 @@ using videocapturedevice_t = vidcap::AVFCapture;
 
 #elif defined(ENABLE_V4L2)
 #include "V4L2Capture.h"
-typedef V4L2Capture videocapturedevice_t;
+using videocapturedevice_t = V4L2Capture;
 
 #else
 

@@ -27,15 +27,15 @@
 #include "SoundSystem.h"
 #include "AudioResampler.h"
 
-#include "myace/MyACE.h"
 #include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
 
-#include <ace/ace_wchar.h>
 #include <ace/Message_Block.h>
-#include <ace/OS_Memory.h>
-#include <ace/Time_Value.h>
 #include <ace/Message_Queue_T.h>
+#include <ace/OS_Memory.h>
 #include <ace/Synch_Traits.h>
+#include <ace/Time_Value.h>
+#include <ace/ace_wchar.h>
 
 #include <algorithm>
 #include <cassert>
@@ -64,7 +64,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         uint32_t MakeKey(const InputStreamer& streamer)
         {
-            assert(m_keysamplerates.size());
+            assert(!m_keysamplerates.empty());
             assert(streamer.channels <= 2);
             auto i = std::ranges::find(m_keysamplerates, streamer.samplerate);
             assert(i != m_keysamplerates.end());
@@ -180,7 +180,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 int resampleoutput = CalcSamples(m_originalstream->samplerate,
                                                  m_originalstream->framesize, streamer->samplerate);
 
-                m_resample_buffers[key].resize(size_t(resampleoutput) * streamer->channels);
+                m_resample_buffers[key].resize(static_cast<size_t>(resampleoutput) * streamer->channels);
                 m_callback_buffers[key].resize(size_t(streamer->framesize) * streamer->channels);
 
                 if (!m_resample_thread)
@@ -216,7 +216,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         void ActivateInputStreamer(inputstreamer_t streamer, bool active)
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             assert(m_inputstreams.find(streamer) != m_inputstreams.end());
 
             if (active)
@@ -227,13 +227,13 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         bool InputStreamsExists()
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             return !m_inputstreams.empty();
         }
 
         bool ActiveStreamsExists()
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             return !m_activestreams.empty();
         }
 
@@ -242,7 +242,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
         {
             assert((streamer.inputdeviceid & SOUND_DEVICE_SHARED_FLAG) == 0);
 
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
 
             MYTRACE_COND(DEBUG_RESAMPLER, ACE_TEXT("Original for %p samplerate %d, framesize %d, channels %d\n"),
                     streamer.recorder, streamer.samplerate,
@@ -270,7 +270,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
                 int const size = PCM16_BYTES(samples, streamer.channels);
                 ACE_NEW(mb, ACE_Message_Block(size));
                 if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
+                {
                     mb->release();
+                }
                 else
                 {
                     ACE_Time_Value tm = ACE_Time_Value::zero;
@@ -288,7 +290,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             while (m_samples_queue.dequeue(mb) >= 0)
             {
                 MBGuard const gmb(mb);
-                std::lock_guard<std::recursive_mutex> g(m_mutex);
+                std::scoped_lock g(m_mutex);
 
                 assert(mb->length() == PCM16_BYTES(m_originalstream->framesize, m_originalstream->channels));
                 for (const auto& i : m_resamplers)
@@ -303,7 +305,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     assert(rsbuf != m_resample_buffers.end());
                     short* rsbufptr = rsbuf->second.data();
                     assert(cbch);
-                    int rsframesize = int(rsbuf->second.size()) / cbch;
+                    int rsframesize = static_cast<int>(rsbuf->second.size()) / cbch;
                     assert(i.second);
                     int samples = i.second->Resample(reinterpret_cast<const short*>(mb->rd_ptr()),
                                                      m_originalstream->framesize,
@@ -343,7 +345,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         std::memcpy(&cbbufptr[cbpos], &rsbufptr[rspos], bytes);
 
                         cbpos += n_samples;
-                        rspos += int(n_samples);
+                        rspos += static_cast<int>(n_samples);
 
                         if (cbpos == m_callback_buffers[key].size())
                         {
@@ -422,7 +424,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             const size_t reqbytes = PCM16_BYTES(streamer.framesize, streamer.channels);
             memset(buffer, 0, reqbytes);
 
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
 
             MYTRACE_COND(DEBUG_SHAREDPLAYER_RESAMPLER,
                          ACE_TEXT("--------------------- Mixer inputs %d -----------------------------\n"),
@@ -475,7 +477,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         ACE_Message_Block* mb = nullptr;
                         ACE_NEW_NORETURN(mb, ACE_Message_Block(outputbytes));
                         if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) < 0)
+                        {
                             mb->release();
+                        }
                         else
                         {
                             ACE_Time_Value tv;
@@ -550,7 +554,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
                     else if (val < -32768)
                         buffer[i] = -32768;
                     else
-                        buffer[i] = short(val);
+                        buffer[i] = static_cast<short>(val);
                 }
 
             } // for-loop - streams
@@ -572,7 +576,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         bool AddOutputStreamer(outputstreamer_t streamer, StreamPlayer* player)
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
 
             assert(m_orgstream);
 
@@ -607,7 +611,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         void RemoveOutputStreamer(StreamPlayer* player)
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
 
             MYTRACE_COND(DEBUG_SHAREDPLAYER, ACE_TEXT("Removed player %p from SharedStreamPlayer %p\n"), player, this);
 
@@ -620,7 +624,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         void ActivatePlayer(StreamPlayer* player, bool active)
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             assert(m_outputs.find(player) != m_outputs.end());
             if (active)
             {
@@ -636,13 +640,13 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
         bool Empty()
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             return m_outputs.empty();
         }
 
         bool IsActive(StreamPlayer* player)
         {
-            std::lock_guard<std::recursive_mutex> g(m_mutex);
+            std::scoped_lock g(m_mutex);
             return m_active_outputs.contains(player);
         }
 

@@ -36,6 +36,7 @@
 #include <cstddef>
 #include <cstring>
 #include <ctime>
+#include <memory>
 
 #include <ace/OS.h>
 
@@ -205,8 +206,7 @@ clientchannel_t ClientNode::GetChannel(int channelid)
             return m_mychannel; //most likely scenario
         if(c->GetChannelID() == channelid)
             return c;
-        else
-            return c->GetSubChannel(channelid, true);//recursive (SLOW)
+        return c->GetSubChannel(channelid, true);//recursive (SLOW)
     }
     return {};
 }
@@ -457,7 +457,9 @@ int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
         break;
     case TIMER_STOP_STREAM_MEDIAFILE_ID :
         if (!m_mediafile_streamer)
+        {
             ret = -1;
+        }
         else if (m_mediafile_streamer->Completed())
         {
             StopStreamingMediaFile(false);
@@ -811,7 +813,7 @@ int ClientNode::TimerQueryMtu(int mtu_index)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    TTASSERT(mtu_index < MTU_QUERY_SIZES_COUNT);
+    TTASSERT(std::cmp_less(mtu_index, MTU_QUERY_SIZES_COUNT));
 
     if(m_mtu_packets.size() >= MTU_QUERY_RETRY_COUNT)
     {
@@ -884,8 +886,8 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
         {
             output_channels = outdev.GetSupportedOutputChannels(output_channels);
             samplerate = outdev.default_samplerate; // duplex callback should use output device's sample rate
-            media::AudioFormat infmt(samplerate, output_channels);
-            media::AudioFormat outfmt(codec_samplerate, codec_channels);
+            media::AudioFormat const infmt(samplerate, output_channels);
+            media::AudioFormat const outfmt(codec_samplerate, codec_channels);
             m_playback_resampler = MakeAudioResampler(infmt, outfmt);  //sample rate shared in dpx mode
             if (!m_playback_resampler)
             {
@@ -894,7 +896,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                                             ACE_TEXT("Cannot create resampler for sound output device"));
                 return;
             }
-            m_playback_buffer.resize(size_t(codec_samples) * codec_channels);
+            m_playback_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
         }
 
         // resample if output device already forced resampling or 
@@ -906,8 +908,8 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
 
         if (samplerate != codec_samplerate || input_channels != codec_channels)
         {
-            media::AudioFormat infmt(samplerate, input_channels);
-            media::AudioFormat outfmt(codec_samplerate, codec_channels);
+            media::AudioFormat const infmt(samplerate, input_channels);
+            media::AudioFormat const outfmt(codec_samplerate, codec_channels);
             m_capture_resampler = MakeAudioResampler(infmt, outfmt);
 
             if (!m_capture_resampler)
@@ -917,7 +919,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                     ACE_TEXT("Cannot create resampler for sound input device."));
                 return;
             }
-            m_capture_buffer.resize(size_t(codec_samples) * codec_channels);
+            m_capture_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
 
             samples = CalcSamples(codec_samplerate, codec_samples, samplerate);
         }
@@ -954,8 +956,8 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             //get callback size for new samplerate
             input_samples = CalcSamples(codec_samplerate, codec_samples,
                 input_samplerate);
-            media::AudioFormat infmt(input_samplerate, input_channels);
-            media::AudioFormat outfmt(codec_samplerate, codec_channels);
+            media::AudioFormat const infmt(input_samplerate, input_channels);
+            media::AudioFormat const outfmt(codec_samplerate, codec_channels);
             m_capture_resampler = MakeAudioResampler(infmt, outfmt);
 
             if(!m_capture_resampler)
@@ -965,7 +967,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                     ACE_TEXT("Cannot create resampler for sound input device."));
                 return;
             }
-            m_capture_buffer.resize(size_t(codec_samples) * codec_channels);
+            m_capture_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
         }
         else
         {
@@ -1040,7 +1042,7 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 
     if (m_soundprop.samples_delay_msec != 0u)
     {
-        int delay = int(GETTIMESTAMP() - m_soundprop.samples_delay_msec);
+        int delay = static_cast<int>(GETTIMESTAMP() - m_soundprop.samples_delay_msec);
         delay -= PCM16_SAMPLES_DURATION(audframe.input_samples, audframe.inputfmt.samplerate);
         m_clientstats.streamcapture_delay_msec = std::max(delay, 1); // put minimum 1 to indicate it was set
         m_soundprop.samples_delay_msec = 0;
@@ -1069,8 +1071,10 @@ void ClientNode::QueueVoiceFrame(media::AudioFrame& audframe,
         // don't touch 'mb_audio' after this
     }
     else
+    {
         m_voice_thread.QueueAudio(audframe);
     }
+}
 
 void ClientNode::SendVoicePacket(const VoicePacket& packet)
 {
@@ -1165,8 +1169,8 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         
         return;
     }
-    if((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
-            (m_flags & CLIENT_SNDINPUT_VOICEACTIVATED))
+    if ((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
+        ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u))
     {
         m_flags |= CLIENT_SNDINPUT_VOICEACTIVE;
         m_listener->OnVoiceActivated(true);
@@ -1266,7 +1270,9 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& /*streamer*/,
         capture_buffer = m_capture_buffer.data();
     }
     else
+    {
         capture_buffer = buffer;
+    }
 
     AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
                         const_cast<short*>(capture_buffer), codec_samples);
@@ -1300,7 +1306,9 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         capture_buffer = m_capture_buffer.data();
     }
     else
+    {
         capture_buffer = input_buffer;
+    }
 
     const short* playback_buffer = nullptr;
     if (m_playback_resampler)
@@ -1318,7 +1326,9 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         playback_buffer = m_playback_buffer.data();
     }
     else
+    {
         playback_buffer = output_buffer;
+    }
 
     AudioFrame audframe(AudioFormat(codec_samplerate, codec_channels),
                         const_cast<short*>(capture_buffer), codec_samples);
@@ -1648,7 +1658,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     clientchannel_t const chan = GetChannel(chanpacket.GetChannel());
     if (!chan)
     {
-        MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), int(packet.GetKind()));
+        MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), static_cast<int>(packet.GetKind()));
         return;
     }
     
@@ -1994,8 +2004,8 @@ void ClientNode::ReceivedKeepAliveReplyPacket(const KeepAlivePacket& packet,
                 if(MTU_QUERY_SIZES[i] > payload_size)
                     break;
             }
-            StartTimer(TIMER_QUERY_MTU_ID, long(i), ACE_Time_Value::zero,
-                        CLIENT_QUERY_MTU_INTERVAL);
+            StartTimer(TIMER_QUERY_MTU_ID, static_cast<long>(i), ACE_Time_Value::zero,
+                       CLIENT_QUERY_MTU_INTERVAL);
         }
         else
         {
@@ -2148,7 +2158,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 
     MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
             di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
-            (ACE_UINT32)di_pkt.GetPacketNo());
+            static_cast<ACE_UINT32>(di_pkt.GetPacketNo()));
     
     if (src_user)
         src_user->AddPacket(di_pkt, *chan);
@@ -2181,8 +2191,8 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
         return;
 
     MYTRACE(ACE_TEXT("Received desktop input ACK for user #%d, session %d, pkt %u. Remain: %u\n"),
-            ack_pkt.GetSrcUserID(), (int)session_id, (ACE_UINT32)packetno,
-            (ACE_UINT32)user->GetDesktopInputRtxQueue().size());
+            ack_pkt.GetSrcUserID(), static_cast<int>(session_id), static_cast<ACE_UINT32>(packetno),
+            static_cast<ACE_UINT32>(user->GetDesktopInputRtxQueue().size()));
 
     while((!user->GetDesktopInputRtxQueue().empty()) &&
           user->GetDesktopInputRtxQueue().front()->GetSessionID() == session_id &&
@@ -2198,7 +2208,9 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
         ACE_NEW_NORETURN(packet,
                          DesktopInputPacket(*tx_pkt));
         if(!QueuePacket(packet))
+        {
             delete packet;
+        }
         else
         {
             user->GetDesktopInputRtxQueue().push_back(tx_pkt);
@@ -2282,15 +2294,17 @@ void ClientNode::SendPackets()
                 GetVoiceLogger().AddVoicePacket(*m_local_voicelog, *m_mychannel, *audpkt);
 
             //if packet is too big we turn it into fragments (packet protocol 2)
-            audiopackets_t fragments = BuildAudioFragments(*audpkt, 
-                                                           m_mtu_data_size);
+            audiopackets_t const fragments = BuildAudioFragments(*audpkt,
+                                                                 m_mtu_data_size);
             if(!fragments.empty())
             {
                 for(const auto & fragment : fragments)
                     SendVoicePacket(*fragment);
             }
             else
+            {
                 SendVoicePacket(*audpkt);
+            }
         }
         break;
         case PACKET_KIND_MEDIAFILE_AUDIO :
@@ -2309,7 +2323,7 @@ void ClientNode::SendPackets()
             audpkt->SetChannel(m_mychannel->GetChannelID());
 
             //if packet is too big we turn it into fragments (packet protocol 2)
-            audiopackets_t fragments = BuildAudioFragments(*audpkt, 
+            audiopackets_t const fragments = BuildAudioFragments(*audpkt,
                                                            m_mtu_data_size);
             if(!fragments.empty())
             {
@@ -2317,7 +2331,9 @@ void ClientNode::SendPackets()
                     SendAudioFilePacket(*fragment);
             }
             else
+            {
                 SendAudioFilePacket(*audpkt);
+            }
         }
         break;
         case PACKET_KIND_VIDEO :
@@ -2684,10 +2700,10 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
     else
     {
         MYTRACE(ACE_TEXT("Failed to UDP packet kind %d of size %d\n"),
-                (int)packet.GetKind(), (int)packet.GetPacketSize());
+                static_cast<int>(packet.GetKind()), static_cast<int>(packet.GetPacketSize()));
     }
 
-    return (int)ret;
+    return static_cast<int>(ret);
 }
 
 bool ClientNode::InitSoundInputDevice(int inputdevice)
@@ -2942,7 +2958,7 @@ void ClientNode::SetVoiceActivationStoppedDelay(int msec)
 }
 int ClientNode::GetVoiceActivationStoppedDelay() const
 {
-    return (int)m_voice_thread.m_voiceact_delay.msec();
+    return static_cast<int>(m_voice_thread.m_voiceact_delay.msec());
 }
 
 bool ClientNode::EnableAutoPositioning(bool enable)
@@ -3003,11 +3019,13 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
     {
         if (enable)
         {
-            audiomuxer_t const newmuxer(new AudioMuxer(sts));
+            audiomuxer_t const newmuxer = std::make_shared<AudioMuxer>(sts);
             media::AudioInputFormat infmt;
 
             if (outfmt.IsValid())
+            {
                 infmt = media::AudioInputFormat(outfmt, PCM16_DURATION_SAMPLES(20, outfmt.samplerate));
+            }
             else if (m_mychannel)
             {
                 auto codec = m_mychannel->GetAudioCodec();
@@ -3423,7 +3441,7 @@ int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, 
     }
 
     MYTRACE(ACE_TEXT("Opened local media playback #%d for file %s. Active %d \n"),
-            m_mediaplayback_counter, filename.c_str(), int(m_mediaplayback_streams.size()));
+            m_mediaplayback_counter, filename.c_str(), static_cast<int>(m_mediaplayback_streams.size()));
 
     return m_mediaplayback_counter;
 }
@@ -3452,7 +3470,7 @@ bool ClientNode::UpdateMediaPlayback(int id, uint32_t offset, bool paused,
     case AUDIOPREPROCESSOR_SPEEXDSP:
     {
 #if defined(ENABLE_SPEEXDSP)
-        SpeexAGC const agc(float(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
+        SpeexAGC const agc(static_cast<float>(preprocessor.speexdsp.agc_gainlevel), preprocessor.speexdsp.agc_maxincdbsec,
                      preprocessor.speexdsp.agc_maxdecdbsec, preprocessor.speexdsp.agc_maxgaindb);
 
         if(!playback->SetupSpeexPreprocess(preprocessor.speexdsp.enable_agc, agc,
@@ -3661,18 +3679,18 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
     if((enc_data != nullptr) && ((m_flags & CLIENT_AUTHORIZED) != 0u) &&
        ((m_flags & CLIENT_TX_VIDEOCAPTURE) != 0u))
     {
-        auto w = (uint16_t)m_vidcap_thread.GetVideoFormat().width;
-        auto h = (uint16_t)m_vidcap_thread.GetVideoFormat().height;
+        auto w = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().width);
+        auto h = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().height);
         //max supported is uint16 * MAX_PAYLOAD_SIZE
-        videopackets_t packets = BuildVideoPackets(PACKET_KIND_VIDEO,
-                                                   m_myuserid, timestamp,
-                                                   m_mtu_data_size,
-                                                   m_vidcap_stream_id, 
-                                                   packet_no, &w, &h,
-                                                   enc_data, enc_len);
+        videopackets_t const packets = BuildVideoPackets(PACKET_KIND_VIDEO,
+                                                         m_myuserid, timestamp,
+                                                         m_mtu_data_size,
+                                                         m_vidcap_stream_id,
+                                                         packet_no, &w, &h,
+                                                         enc_data, enc_len);
 
         bool failed = false;
-        for(auto & packet : packets)
+        for(const auto & packet : packets)
         {
             if(failed || !QueuePacket(packet))
             {
@@ -3702,22 +3720,22 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
                                        ACE_UINT32 timestamp)
 {
     //max supported is uint16 * MAX_PAYLOAD_SIZE
-    auto w = (uint16_t)m_videofile_thread->GetVideoFormat().width;
-    auto h = (uint16_t)m_videofile_thread->GetVideoFormat().height;
-    videopackets_t packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
-                                               m_myuserid, timestamp,
-                                               m_mtu_data_size,
-                                               m_mediafile_stream_id, 
-                                               packet_no,
-                                               &w, &h,
-                                               enc_data, enc_len);
+    auto w = static_cast<uint16_t>(m_videofile_thread->GetVideoFormat().width);
+    auto h = static_cast<uint16_t>(m_videofile_thread->GetVideoFormat().height);
+    videopackets_t const packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
+                                                     m_myuserid, timestamp,
+                                                     m_mtu_data_size,
+                                                     m_mediafile_stream_id, 
+                                                     packet_no,
+                                                     &w, &h,
+                                                     enc_data, enc_len);
 
     // MYTRACE(ACE_TEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
     //         packet_no, (int)packets.size(), enc_len, 
     //         ACE::crc32(enc_data, enc_len));
 
     bool failed = false;
-    for(auto & packet : packets)
+    for(const auto & packet : packets)
     {
         if(failed || !QueuePacket(packet))
         {
@@ -3775,7 +3793,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     if((m_desktop->thr_count() != 0u) || m_desktop->HasDesktopPackets())
     {
         MYTRACE(ACE_TEXT("Ignored desktop updated. Thread active: %d, Desktop packets: %d\n"),
-                (int)m_desktop->thr_count(), (int)m_desktop->HasDesktopPackets());
+                static_cast<int>(m_desktop->thr_count()), static_cast<int>(m_desktop->HasDesktopPackets()));
         return -1;
     }
 
@@ -3929,7 +3947,7 @@ bool ClientNode::SendDesktopInput(int userid,
     if (!user)
         return false;
 
-    int const n_tx_queue = int(user->GetDesktopInputTxQueue().size() + user->GetDesktopInputRtxQueue().size());
+    int const n_tx_queue = static_cast<int>(user->GetDesktopInputTxQueue().size() + user->GetDesktopInputRtxQueue().size());
     TTASSERT(n_tx_queue <= DESKTOPINPUT_QUEUE_MAX_SIZE);
 
     TTASSERT(n_tx_queue == 0 ||
@@ -3967,7 +3985,7 @@ bool ClientNode::SendDesktopInput(int userid,
     }
 
     MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
-            (int)pkt->GetPacketNo(), (unsigned)inputs.size());
+            static_cast<int>(pkt->GetPacketNo()), static_cast<unsigned>(inputs.size()));
     //store for tx
     desktopinput_pkt_t const tx_pkt(rtx_pkt);
     user->GetDesktopInputTxQueue().push_back(tx_pkt);
@@ -3977,7 +3995,9 @@ bool ClientNode::SendDesktopInput(int userid,
        user->GetDesktopInputRtxQueue().empty())
     {
         if(!QueuePacket(pkt))
+        {
             delete pkt;
+        }
         else
         {
             //move from Tx queue to Rtx queue
@@ -3993,7 +4013,9 @@ bool ClientNode::SendDesktopInput(int userid,
                         CLIENT_DESKTOPINPUT_RTX_TIMEOUT);
     }
     else
+    {
         delete pkt;
+    }
 
     return true;
 }
@@ -4023,7 +4045,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     m_serverinfo.systemid = sysid;
     
     m_serverinfo.hostaddrs = DetermineHostAddress(hostaddr, tcpport);
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), int(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
+    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), static_cast<int>(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
     if (!m_serverinfo.hostaddrs.empty())
     {
         m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
@@ -4046,9 +4068,11 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                          const ACE_INET_Addr* localtcpaddr)
 {
     int ret = 0;
-    std::array<ACE_TCHAR, 128> remoteipaddr{}, localtcpipaddr{}, localudpipaddr{};
+    std::array<ACE_TCHAR, 128> remoteipaddr{};
+    std::array<ACE_TCHAR, 128> localtcpipaddr{};
+    std::array<ACE_TCHAR, 128> localudpipaddr{};
     hosttcpaddr.addr_to_string(remoteipaddr.data(), remoteipaddr.size());
-    localtcpaddr ? localtcpaddr->addr_to_string(localtcpipaddr.data(), localtcpipaddr.size())
+    (localtcpaddr != nullptr) ? localtcpaddr->addr_to_string(localtcpipaddr.data(), localtcpipaddr.size())
                  : m_localTcpAddr.addr_to_string(localtcpipaddr.data(), localtcpipaddr.size());
     m_localUdpAddr.addr_to_string(localudpipaddr.data(), localudpipaddr.size());
 
@@ -4227,7 +4251,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
             m_listener->OnChannelStreamMediaFile(mfp, MFS_ABORTED);
     }
 
-    ClientChannel::users_t users = chan.GetUsers();
+    ClientChannel::users_t const users = chan.GetUsers();
     for(const auto & user : users)
         user->ResetAllStreams();
 
@@ -4367,7 +4391,7 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     ACE_TString command = CLIENT_MESSAGE;
-    AppendProperty(TT_MSGTYPE, (int)msg.msgType, command);
+    AppendProperty(TT_MSGTYPE, static_cast<int>(msg.msgType), command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
     switch(msg.msgType)
     {
@@ -5088,7 +5112,7 @@ bool ClientNode::OnSend(ACE_Message_Queue_Base& msgqueue)
         ACE_Time_Value tm = ACE_Time_Value::zero;
         if((!m_sendbuffer.empty()) &&
            QueueStreamData(msgqueue, m_sendbuffer.c_str(), 
-                           (int)m_sendbuffer.length(), &tm)<0)
+                           static_cast<int>(m_sendbuffer.length()), &tm)<0)
         {
             return false;
         }
@@ -5211,9 +5235,11 @@ void ClientNode::HandleWelcome(const mstrings_t& properties)
         //now wait for UDP timer to complete connection
     }
     else if(m_listener != nullptr)
+    {
         m_listener->OnCommandError(m_current_cmdid,
                                    TT_CMDERR_INCOMPATIBLE_PROTOCOLS,
                                    GetErrorDescription(TT_CMDERR_INCOMPATIBLE_PROTOCOLS));
+    }
 }
 
 void ClientNode::HandleAccepted(const mstrings_t& properties)
@@ -5264,9 +5290,9 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
     if(!m_serverinfo.hostaddrs.empty())
     {
         int newtcpport = 0;
-        int tcpport = m_serverinfo.hostaddrs[0].get_port_number();
+        int const tcpport = m_serverinfo.hostaddrs[0].get_port_number();
         int newudpport = 0;
-        int udpport = m_serverinfo.udpaddr.get_port_number();
+        int const udpport = m_serverinfo.udpaddr.get_port_number();
         
         GetProperty(properties, TT_TCPPORT, newtcpport);
         MYTRACE_COND(newtcpport && newtcpport != tcpport,
@@ -5773,7 +5799,7 @@ void ClientNode::HandleTextMessage(const mstrings_t& properties)
     int msgtype = 0;
     TextMessage msg;
     GetProperty(properties, TT_MSGTYPE, msgtype);
-    msg.msgType = (MsgType)msgtype;
+    msg.msgType = static_cast<MsgType>(msgtype);
     GetProperty(properties, TT_USERID, msg.to_userid);
     GetProperty(properties, TT_SRCUSERID, msg.from_userid);
     GetProperty(properties, TT_CHANNELID, msg.channelid);
@@ -5960,8 +5986,8 @@ void ClientNode::HandleServerStats(const mstrings_t& properties)
 
     GetProperty(properties, TT_UPTIME, uptime);
     //not really stored as "start time"
-    serverstats.starttime = ACE_Time_Value((time_t)uptime / 1000, 
-                                             ((suseconds_t)uptime % 1000) * 1000);
+    serverstats.starttime = ACE_Time_Value(static_cast<time_t>(uptime) / 1000,
+                                             (static_cast<suseconds_t>(uptime) % 1000) * 1000);
 
     m_listener->OnServerStatistics(serverstats);
 }
@@ -6009,7 +6035,10 @@ void ClientNode::HandleAddFile(const mstrings_t& properties)
         if(m_listener != nullptr)
             m_listener->OnAddFile(*chan, remotefile);
     }
-    else TTASSERT(0);
+    else
+    {
+        TTASSERT(0);
+    }
 }
 
 void ClientNode::HandleRemoveFile(const mstrings_t& properties)
@@ -6031,6 +6060,9 @@ void ClientNode::HandleRemoveFile(const mstrings_t& properties)
         if(m_listener != nullptr)
             m_listener->OnRemoveFile(*chan, remotefile);
     }
-    else TTASSERT(0);
+    else
+    {
+        TTASSERT(0);
+    }
 }
 

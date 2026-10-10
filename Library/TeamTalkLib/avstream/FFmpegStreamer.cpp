@@ -76,8 +76,8 @@ bool OpenInput(const ACE_TString& filename,
                int& audio_stream_index,
                int& video_stream_index)
 {
-    const AVCodec *aud_dec;
-    const AVCodec *vid_dec;
+    const AVCodec *aud_dec = nullptr;
+    const AVCodec *vid_dec = nullptr;
 
     auto utf8name = UnicodeToUtf8(filename);
 
@@ -147,7 +147,7 @@ bool OpenInput(const ACE_TString& filename,
                                              -1, -1, &vid_dec, 0);
     if (video_stream_index >= 0) {
         const AVStream* vidstream = fmt_ctx->streams[video_stream_index];
-        if (vidstream->disposition & AV_DISPOSITION_ATTACHED_PIC)
+        if ((vidstream->disposition & AV_DISPOSITION_ATTACHED_PIC) != 0)
         {
             video_stream_index = -1;
         }
@@ -232,8 +232,8 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
     InitAVConv();
 
     AVFormatContext *fmt_ctx = nullptr;
-    AVCodecContext *aud_dec_ctx = NULL;
-    AVCodecContext *vid_dec_ctx = NULL;
+    AVCodecContext *aud_dec_ctx = nullptr;
+    AVCodecContext *vid_dec_ctx = nullptr;
     int audio_stream_index = -1;
     int video_stream_index = -1;
 
@@ -288,15 +288,15 @@ void FFmpegStreamer::Run()
     int video_stream_index = -1;
     AVInputFormat *in_fmt = nullptr;
     AVDictionary *options = nullptr;
-    AVCodecContext *aud_dec_ctx= NULL;
-    AVCodecContext *vid_dec_ctx = NULL;
+    AVCodecContext *aud_dec_ctx= nullptr;
+    AVCodecContext *vid_dec_ctx = nullptr;
 
-    AVFilterContext *aud_buffersink_ctx = NULL;
-    AVFilterContext *aud_buffersrc_ctx = NULL;
-    AVFilterContext *vid_buffersink_ctx = NULL;
-    AVFilterContext *vid_buffersrc_ctx = NULL;
-    AVFilterGraph *audio_filter_graph = NULL;
-    AVFilterGraph *video_filter_graph = NULL;
+    AVFilterContext *aud_buffersink_ctx = nullptr;
+    AVFilterContext *aud_buffersrc_ctx = nullptr;
+    AVFilterContext *vid_buffersink_ctx = nullptr;
+    AVFilterContext *vid_buffersrc_ctx = nullptr;
+    AVFilterGraph *audio_filter_graph = nullptr;
+    AVFilterGraph *video_filter_graph = nullptr;
     AVFrame* aud_frame = av_frame_alloc();
     AVFrame* vid_frame = av_frame_alloc();
     AVFrame* filt_frame = av_frame_alloc();
@@ -401,9 +401,9 @@ void FFmpegStreamer::Run()
                 ACE_UINT32(curvideotime));
 
         if (curaudiotime >= 0)
-            m_media_in.elapsed_ms = ACE_UINT32(curaudiotime);
+            m_media_in.elapsed_ms = static_cast<ACE_UINT32>(curaudiotime);
         else if (curvideotime >= 0)
-            m_media_in.elapsed_ms = ACE_UINT32(curvideotime);
+            m_media_in.elapsed_ms = static_cast<ACE_UINT32>(curvideotime);
 
         if (start_offset != MEDIASTREAMER_OFFSET_IGNORE)
             m_media_in.elapsed_ms += start_offset;
@@ -447,12 +447,12 @@ void FFmpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, audio_stream_index, difftime_sec / av_q2d(aud_stream->time_base),
                                   (offset_sec > curaudio_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE(ACE_TEXT("Seeked to audio position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to audio position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
                 }
             }
 
@@ -465,12 +465,12 @@ void FFmpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, video_stream_index, difftime_sec / av_q2d(vid_stream->time_base),
                                   (offset_sec > curvideo_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE(ACE_TEXT("Seeked to video position %u in %s\n"), ACE_UINT32(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to video position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
                 }
 
             }
@@ -644,7 +644,7 @@ int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     // initial frame may be -0.000072
     MYTRACE_COND(frame_sec < 0., ACE_TEXT("Audio frame time is less than 0: %g\n"), frame_sec);
     frame_sec = std::max(0., frame_sec);
-    auto frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
+    auto frame_timestamp = static_cast<ACE_UINT32>(frame_sec * 1000.0); //msec
 
     if (!IsSystemTime())
     {
@@ -691,7 +691,7 @@ int64_t FFmpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     double frame_sec = frame_tm * av_q2d(vid_stream->time_base);
     MYTRACE_COND(frame_sec < 0., ACE_TEXT("Video frame time is less than 0: %g\n"), frame_sec);
     frame_sec = std::max(0., frame_sec);
-    auto frame_timestamp = ACE_UINT32(frame_sec * 1000.0); //msec
+    auto frame_timestamp = static_cast<ACE_UINT32>(frame_sec * 1000.0); //msec
 
     if (!IsSystemTime())
     {
@@ -793,7 +793,7 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     /* buffer audio sink: to terminate the filter chain. */
 #if LIBAVUTIL_VERSION_MAJOR >= 60
     aud_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, abuffersink, "out");
-    if (!aud_buffersink_ctx) {
+    if (aud_buffersink_ctx == nullptr) {
         MYTRACE(ACE_TEXT("Cannot create audio buffer sink\n"));
         goto error;
     }
@@ -965,7 +965,7 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     /* buffer video sink: to terminate the filter chain. */
 #if LIBAVUTIL_VERSION_MAJOR >= 60
     vid_buffersink_ctx = avfilter_graph_alloc_filter(filter_graph, buffersink, "out");
-    if (!vid_buffersink_ctx) {
+    if (vid_buffersink_ctx == nullptr) {
         MYTRACE(ACE_TEXT("Cannot create buffer sink\n"));
         goto error;
     }

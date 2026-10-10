@@ -169,7 +169,7 @@ TEST_CASE("Reject malformed 12-bit packet arrays", "[packet]")
     {
         const char block_data[] = {1, 2};
         map_block_t input_blocks = {
-            {7, desktop_block{block_data, uint16_t(sizeof(block_data))}}
+            {7, DesktopBlock{block_data, uint16_t(sizeof(block_data))}}
         };
         DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, input_blocks,
                              block_frags_t{}, mmap_dup_blocks_t{});

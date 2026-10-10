@@ -72,7 +72,7 @@ void OpusFileStreamer::Run()
     }
 
     // max opus frame size is 120 msec
-    std::vector<short> framebuf(size_t(m_decoder.GetSampleRate()) * m_decoder.GetChannels());
+    std::vector<short> framebuf(static_cast<size_t>(m_decoder.GetSampleRate()) * m_decoder.GetChannels());
     std::vector<short> resample_framebuf;
 
     if (infmt != m_media_out.audio)
@@ -83,7 +83,7 @@ void OpusFileStreamer::Run()
             m_open.set(false);
             return;
         }
-        resample_framebuf.resize(size_t(m_media_out.audio.samplerate) * m_media_out.audio.channels);
+        resample_framebuf.resize(static_cast<size_t>(m_media_out.audio.samplerate) * m_media_out.audio.channels);
     }
 
     // setup the audio format of input file
@@ -174,7 +174,7 @@ void OpusFileStreamer::Run()
         bool submitted = false;
         if (m_resampler)
         {
-            assert(resample_framebuf.size());
+            assert(!resample_framebuf.empty());
             int const outsamples = m_resampler->Resample(framebuf.data(), framesize, resample_framebuf.data(), m_media_out.audio.samplerate);
             assert(outsamples > 0);
             auto resampleindex = CalcSamples(infmt.samplerate, sampleindex, m_media_out.audio.samplerate);

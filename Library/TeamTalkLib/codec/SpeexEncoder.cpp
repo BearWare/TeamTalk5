@@ -24,7 +24,6 @@
 #include "SpeexEncoder.h"
 
 #include <cassert>
-#include <cstddef>
 
 SpeexEncoder::SpeexEncoder()
 : m_encstate(nullptr)
@@ -101,7 +100,9 @@ bool SpeexEncoder::Initialize(int bandmode, int complexity, float vbr_quality,
             goto error;
     }
     else if(speex_encoder_ctl(m_encstate, SPEEX_SET_VBR_QUALITY, &vbr_quality) != 0)
+    {
         goto error;
+    }
 
     if(dtx && speex_encoder_ctl(m_encstate, SPEEX_SET_DTX, &dtx_enable) != 0)
         goto error;

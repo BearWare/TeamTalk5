@@ -372,10 +372,10 @@ void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen)
 
     int pos = 0;
     ACE_TString str;
-    for(size_t i=0;i<crypt_key.length() && keylen--;i+=2)
+    for(size_t i=0;i<crypt_key.length() && ((keylen--) != 0);i+=2)
     {
         str = crypt_key.substr(i, 2);
-        key[pos] = (uint8_t)ACE_OS::strtol(str.c_str(), nullptr, 16);
+        key[pos] = static_cast<uint8_t>(ACE_OS::strtol(str.c_str(), nullptr, 16));
         pos++;
     }
 }
@@ -386,7 +386,7 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     time_t const nMinutes = (value.sec()%3600) / 60;
     time_t const nSec = (value.sec()%60);
     ACE_TCHAR buf[512];
-    ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), (int)nHour, (int)nMinutes, (int)nSec);
+    ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
     return buf;
 }
 
@@ -623,7 +623,11 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 , m_line(line)
 {
     m_start = ACE_OS::gettimeofday();
-    auto const h = (ACE_UINT64)ACE_OS::thr_self();
+#if defined(WIN32) || defined(__ANDROID_API__)
+    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
                  m_name, (ACE_UINT32)0, m_filename, m_line, (unsigned)h);
 }
@@ -631,7 +635,11 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 Profiler::~Profiler()
 {
     ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
-    auto const h = (ACE_UINT64)ACE_OS::thr_self();
+#if defined(WIN32) || defined(__ANDROID_API__)
+    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE(ACE_TEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%X\n"),
-            m_name, (ACE_UINT32)tm.msec(), m_filename, m_line, (unsigned)h);
+            m_name, static_cast<ACE_UINT32>(tm.msec()), m_filename, m_line, static_cast<unsigned>(h));
 }
