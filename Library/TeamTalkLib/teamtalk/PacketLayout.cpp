@@ -33,6 +33,8 @@
 #include <utility>
 #include <vector>
 
+// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+
 namespace teamtalk
 {
     static void ConvertToUInt12Array(const std::vector<uint16_t>& source,
@@ -2420,3 +2422,4 @@ namespace teamtalk
 
 } // namespace teamtalk
 
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
