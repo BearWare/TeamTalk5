@@ -3958,10 +3958,10 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_KeyTranslate(TTKeyTranslate nTranslate,
     return count;
 }
 
-TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput*   /*lpDesktopInputs*/,
-                                              IN INT32  /*nDesktopInputCount*/)
+TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopInputs,
+                                              IN INT32 nDesktopInputCount)
 {
-#if defined(ACE_WIN32)
+#if defined(WIN32)
     std::vector<INPUT> inputs;
 
     for(int i=0;i<nDesktopInputCount;i++)
@@ -4083,6 +4083,8 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput*   /*lpDeskt
     }
 #else
     //TODO: Linux, key translate
+    ACE_UNUSED_ARG(lpDesktopInputs);
+    ACE_UNUSED_ARG(nDesktopInputCount);
 #endif
     return 0;
 }

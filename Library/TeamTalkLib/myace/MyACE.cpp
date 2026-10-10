@@ -623,7 +623,11 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 , m_line(line)
 {
     m_start = ACE_OS::gettimeofday();
+#if defined(WIN32)
     auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
                  m_name, (ACE_UINT32)0, m_filename, m_line, (unsigned)h);
 }
@@ -631,7 +635,11 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 Profiler::~Profiler()
 {
     ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
+#if defined(WIN32)
     auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE(ACE_TEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%X\n"),
             m_name, static_cast<ACE_UINT32>(tm.msec()), m_filename, m_line, static_cast<unsigned>(h));
 }

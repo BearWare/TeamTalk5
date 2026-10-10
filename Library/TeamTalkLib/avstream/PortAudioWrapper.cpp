@@ -266,13 +266,15 @@ void PortAudio::FillDevices(sounddevices_t& sounddevs)
     SetupDefaultCommunicationDevice(sounddevs);
 }
 
-void PortAudio::SetupDeviceFeatures(const PaDeviceInfo* /*devinfo*/, soundsystem::DeviceInfo& device)
+void PortAudio::SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::DeviceInfo& device)
 {
     device.features |= SOUNDDEVICEFEATURE_DUPLEXMODE;
 
 #if defined(WIN32) && defined(PORTAUDIO_TOOLCHAIN)
     if (devinfo->uniqueID)
         device.deviceid = Utf8ToUnicode(devinfo->uniqueID);
+#else
+    ACE_UNUSED_ARG(devinfo);
 #endif
 
 #if defined(WIN32)
