@@ -28,7 +28,6 @@
 #include "teamtalk/StreamHandler.h"
 
 #include <ace/Acceptor.h>
-#include <ace/Addr.h>
 #include <ace/INET_Addr.h>
 #include <ace/Reactor.h>
 #include <ace/SOCK_Acceptor.h>
