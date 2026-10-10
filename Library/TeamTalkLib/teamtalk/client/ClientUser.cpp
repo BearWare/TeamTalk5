@@ -30,22 +30,22 @@
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Commands.h"
+#include "teamtalk/TTAssert.h"
 #include "teamtalk/client/ClientChannel.h"
 #include "teamtalk/client/DesktopShare.h"
 #include "teamtalk/client/StreamPlayers.h"
 #include "teamtalk/client/VoiceLogger.h"
-#include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>
 #include <ace/Time_Value.h>
 
 #include <algorithm>
 #include <cassert>
-#include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <deque>
 #include <list>
+#include <memory>
 #include <set>
 #include <utility>
 #include <vector>
@@ -498,7 +498,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         //MYTRACE(ACE_TEXT("Enqueue Received voice packet. Start of stream %d, Already queueing %d \n"),
         //                      (audpkt.GetStreamID() != m_current_stream), (!m_jitterbuffer.empty()));
 
-        audiopacket_t const queuedVoicePacket(new VoicePacket(audpkt));
+        audiopacket_t const queuedVoicePacket = std::make_shared<VoicePacket>(audpkt);
 
         m_jitterbuffer.push(queuedVoicePacket);
 
@@ -538,7 +538,9 @@ void ClientUser::FeedVoicePacketToPlayer(const VoicePacket& audpkt)
                 voice_logger.AddVoicePacket(*this, *chan, *reassem_pkt);
         }
         else
+        {
             voice_logger.AddVoicePacket(*this, *chan, audpkt);
+        }
     }
 
     // MYTRACE(ACE_TEXT("Added audio packet #%d, TS: %u, Local TS: %u\n"),
@@ -705,7 +707,9 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
             }
         }
         else
+        {
             m_listener->OnUserMediaFileVideoFrame(GetUserID(), stream_id);
+        }
     }
 
     m_stats.mediafile_video_packets_recv += m_videofile_player->GetVideoPacketRecv(true);
@@ -724,8 +728,8 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         return;
 
     uint8_t session_id = 0;
-    uint16_t pkt_index;
-    uint16_t pkt_count;
+    uint16_t pkt_index = 0;
+    uint16_t pkt_count = 0;
     if(!p.GetUpdateProperties(&session_id, &pkt_index, &pkt_count) &&
        !p.GetSessionProperties(&session_id, nullptr, nullptr, nullptr, &pkt_index,
                                &pkt_count))
@@ -736,7 +740,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     if(W32_LT(p.GetTime(), GetLastTimeStamp(p, &is_set)) && is_set)
     {
         MYTRACE(ACE_TEXT("Dropped old desktop packet: %d:%u\n"),
-                (int)session_id, p.GetTime());
+                static_cast<int>(session_id), p.GetTime());
         return;
     }
 
@@ -757,8 +761,8 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 
     if (!m_desktop)
     {
-        uint16_t width;
-        uint16_t height;
+        uint16_t width = 0;
+        uint16_t height = 0;
         uint8_t bmp_mode = 0;
         if(!p.GetSessionProperties(nullptr, &width, &height, &bmp_mode,
                                    nullptr, nullptr))
@@ -772,7 +776,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         }
 
         DesktopWindow const wnd(session_id, width, height,
-                          (RGBMode)bmp_mode, DESKTOPPROTOCOL_ZLIB_1);
+                          static_cast<RGBMode>(bmp_mode), DESKTOPPROTOCOL_ZLIB_1);
 
         DesktopViewer* viewer = nullptr;
         ACE_NEW(viewer, DesktopViewer(wnd));
@@ -817,7 +821,9 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
             m_desktop_packets_expected = pkt_count;
         }
         else
+        {
             return;
+        }
     }
 
     TTASSERT(GetLastTimeStamp(p) == p.GetTime());
@@ -891,7 +897,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         while(bi != blocks.end())
         {
             m_desktop->AddCompressedBlock(bi->first, bi->second.data(),
-                int(bi->second.size()));
+                static_cast<int>(bi->second.size()));
             bi++;
         }
     }
@@ -959,8 +965,8 @@ void ClientUser::AddPacket(const DesktopCursorPacket& p,
     bool is_set = false;
     uint32_t const tm = GetLastTimeStamp(p, &is_set);
 
-    int16_t x;
-    int16_t y;
+    int16_t x = 0;
+    int16_t y = 0;
 
     if(p.GetSessionCursor(nullptr, nullptr, &x, &y) &&
        (W32_GT(p.GetTime(), tm) || !is_set))
@@ -994,7 +1000,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         W8_LT(packetno, m_desktop_input_rx_pktno))
     {
         MYTRACE(ACE_TEXT("Dropped desktop input rtx: %d:%u, pkt: %d\n"),
-                (int)p.GetSessionID(), p.GetTime(), packetno);
+                static_cast<int>(p.GetSessionID()), p.GetTime(), packetno);
         return;
     }
     
@@ -1007,7 +1013,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         if((*ii)->GetPacketNo() == packetno) //already have packet
         {
             MYTRACE(ACE_TEXT("Duplicate desktop input. Pkt: %d\n"),
-                    int(packetno));
+                    static_cast<int>(packetno));
             return;
         }
         ii++;
@@ -1022,10 +1028,10 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
     {
-       MYTRACE(ACE_TEXT("%u, "), (ACE_UINT32)(*ii)->GetPacketNo());
+       MYTRACE(ACE_TEXT("%u, "), static_cast<ACE_UINT32>((*ii)->GetPacketNo()));
        ii++;
     }
-    MYTRACE(ACE_TEXT(". Next: %d\n"), int(m_desktop_input_rx_pktno));
+    MYTRACE(ACE_TEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));
 
     if(m_desktop_input_rx.size() > DESKTOPINPUT_QUEUE_MAX_SIZE)
     {
@@ -1081,12 +1087,12 @@ void ClientUser::SetPlaybackStoppedDelay(StreamType stream_type, int msec)
     {
     case STREAMTYPE_VOICE :
         if (m_voice_player)
-            m_voice_player->SetStoppedTalkingDelay((uint32_t)msec);
+            m_voice_player->SetStoppedTalkingDelay(static_cast<uint32_t>(msec));
         m_voice_stopped_delay = msec;
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
         if (m_audiofile_player)
-            m_audiofile_player->SetStoppedTalkingDelay((uint32_t)msec);
+            m_audiofile_player->SetStoppedTalkingDelay(static_cast<uint32_t>(msec));
         m_audiofile_stopped_delay = msec;
         break;
     default :
@@ -1273,12 +1279,12 @@ void ClientUser::GetStereo(StreamType stream_type, bool& left, bool& right) cons
     switch(stream_type)
     {
     case STREAMTYPE_VOICE :
-        left = (bool)(m_voice_stereo & STEREO_LEFT);
-        right = (bool)(m_voice_stereo & STEREO_RIGHT);
+        left = static_cast<bool>(m_voice_stereo & STEREO_LEFT);
+        right = static_cast<bool>(m_voice_stereo & STEREO_RIGHT);
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        left = (bool)(m_audiofile_stereo & STEREO_LEFT);
-        right = (bool)(m_audiofile_stereo & STEREO_RIGHT);
+        left = static_cast<bool>(m_audiofile_stereo & STEREO_LEFT);
+        right = static_cast<bool>(m_audiofile_stereo & STEREO_RIGHT);
         break;
     default :
         TTASSERT(0);

@@ -3690,7 +3690,7 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                                          enc_data, enc_len);
 
         bool failed = false;
-        for(auto & packet : packets)
+        for(const auto & packet : packets)
         {
             if(failed || !QueuePacket(packet))
             {
@@ -3735,7 +3735,7 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
     //         ACE::crc32(enc_data, enc_len));
 
     bool failed = false;
-    for(auto & packet : packets)
+    for(const auto & packet : packets)
     {
         if(failed || !QueuePacket(packet))
         {
