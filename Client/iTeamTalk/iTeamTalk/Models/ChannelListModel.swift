@@ -550,10 +550,7 @@ final class ChannelListModel: ObservableObject {
             ap.webrtc.gaincontroller2.bEnable = TRUE
             TeamTalkClient.shared.setSoundInputPreprocess(&ap)
         } else {
-            var ap = TeamTalkAudioPreprocessor.makeTeamTalkPreprocessor()
-            TeamTalkClient.shared.setSoundInputPreprocess(&ap)
-            let vol = UserDefaults.standard.integer(forKey: PREF_MICROPHONE_GAIN)
-            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
+            applyMicrophoneGain()
         }
     }
 }
@@ -700,6 +697,7 @@ extension ChannelListModel: TeamTalkEvent {
             if user.nUserID == TeamTalkClient.shared.myUserID {
                 mychannel = Channel()
                 rejoinchannel = Channel()
+                updateAudioConfig()
             }
             if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.left_CHAN)

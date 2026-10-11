@@ -86,10 +86,7 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
                 TeamTalkClient.shared.setVoiceActivationLevel(INT32(voiceact))
             }
         }
-        if defaults.object(forKey: PREF_MICROPHONE_GAIN) != nil {
-            let vol = defaults.integer(forKey: PREF_MICROPHONE_GAIN)
-            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
-        }
+        applyMicrophoneGain()
 
         polltimer = Timer.scheduledTimer(
             timeInterval: 0.1,
