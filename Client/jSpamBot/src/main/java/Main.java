@@ -26,26 +26,48 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.ZoneId;
+import java.time.format.DateTimeFormatter;
 import java.util.Vector;
-import java.util.logging.FileHandler;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
+import java.util.logging.*;
 import javax.xml.xpath.XPathExpressionException;
 
 public class Main {
+
+    static Formatter formatter = new Formatter() {
+
+        private final DateTimeFormatter TS =
+                DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm:ss")
+                        .withZone(ZoneId.systemDefault());
+        @Override
+        public String format(LogRecord record) {
+            return TS.format(record.getInstant())
+                    + " "
+                    + record.getLoggerName()
+                    + " "
+                    + record.getLevel()
+                    + " "
+                    + formatMessage(record)
+                    + System.lineSeparator();
+        }
+    };
 
     public static void main(String[] args) throws IOException,
         InterruptedException, URISyntaxException, XPathExpressionException {
 
         System.out.println("TeamTalk 5 SpamBot for Java");
 
-        Logger logger = Logger.getLogger("dk.bearware");
+        TimeProvider time = Instant::now;
+
+        Logger logger = Logger.getLogger("");
         FileHandler fh = new FileHandler("spambot.log");
-        fh.setFormatter(new SimpleFormatter());
         logger.addHandler(fh);
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
+
+        for (Handler h : logger.getHandlers()) {
+            h.setFormatter(formatter);
+        }
 
         logger.info("Starting SpamBot");
 
@@ -87,15 +109,15 @@ public class Main {
 
         var sessions = new Vector<SpamBotSession>();
         var lastServers = new Vector<TeamTalkServer>();
-        var serverlistUpdateTimeout = Instant.now();
-        var connectionUpdateTimeout = Instant.now();
+        var serverlistUpdateTimeout = time.now();
+        var connectionUpdateTimeout = time.now();
         while (true) {
 
             // update list of spambot servers
-            if (Instant.now().isAfter(serverlistUpdateTimeout)) {
+            if (time.now().isAfter(serverlistUpdateTimeout)) {
                 logger.info("Updating server list...");
                 var servers = getServerList();
-                if (servers.size() == 0) {
+                if (servers.isEmpty()) {
                     try {
                         servers = new WebLogin(username, passwd, logger).getServerList();
                     }
@@ -112,13 +134,14 @@ public class Main {
                     sessions.clear();
                     for (var server : servers) {
                         try {
-                            TimeProvider time = Instant::now;
+                            var newLogger = Logger.getLogger(String.format("%s:%d", server.ipaddr, server.tcpport));
                             var spambot = new SpamBotSession(server,
                                                              new WebLogin(username, passwd, logger),
-                                                             new IPBan(time, bannetworks, Duration.ofSeconds(banDurationSeconds), logger),
+                                                             new IPBan(time, bannetworks, Duration.ofSeconds(banDurationSeconds), newLogger),
                                                              badwords,
                                                              new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmddurationSeconds)),
-                                                             abusedb, ipv4banprefix, ipv6banprefix, logger);
+                                                             abusedb, ipv4banprefix, ipv6banprefix,
+                                                             newLogger, time);
                             sessions.add(spambot);
                         }
                         catch (IOException e) {
@@ -128,18 +151,18 @@ public class Main {
                     lastServers = servers;
                 }
                 // get server list every minute
-                serverlistUpdateTimeout = Instant.now().plus(Duration.ofSeconds(60));
+                serverlistUpdateTimeout = time.now().plus(Duration.ofSeconds(60));
             }
 
             // initiate connection (if not already open)
-            if (Instant.now().isAfter(connectionUpdateTimeout)) {
+            if (time.now().isAfter(connectionUpdateTimeout)) {
                 logger.info("Updating connections...");
 
                 for (var session : sessions) {
                     session.runConnectionEventLoop();
                 }
                 // try connecting again every 5 minutes
-                connectionUpdateTimeout = Instant.now().plus(Duration.ofMinutes(5));
+                connectionUpdateTimeout = time.now().plus(Duration.ofMinutes(5));
             }
 
             // run event loop on all active sessions
@@ -157,13 +180,12 @@ public class Main {
     }
 
     static String getInput(String def) {
-        if(def.length()>0)
+        if(!def.isEmpty())
             System.out.print(" (" + def + "): ");
         else
             System.out.print(": ");
         String input = System.console().readLine();
-        System.out.println("Got");
-        if(input.length() == 0)
+        if(input.isEmpty())
             return def;
         return input;
     }
