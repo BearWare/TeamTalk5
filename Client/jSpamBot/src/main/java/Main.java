@@ -90,6 +90,7 @@ public class Main {
         int abuseIPDBDistinctUsers = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbdistinctusers", "2"));
         int abuseIPDBConfidenceScore = Integer.parseInt(System.getProperty("dk.bearware.abuseipdbconfidencescore", "2"));
         int banDurationSeconds = Integer.parseInt(System.getProperty("dk.bearware.bandurationsecs", "0"));
+        long runDurationSeconds = Long.parseLong(System.getProperty("dk.bearware.rundurationsecs", "0"));
 
         TeamTalk5.loadLibrary();
         String regname = System.getProperty("dk.bearware.regname", "");
@@ -111,7 +112,8 @@ public class Main {
         var lastServers = new Vector<TeamTalkServer>();
         var serverlistUpdateTimeout = time.now();
         var connectionUpdateTimeout = time.now();
-        while (true) {
+        var endTime = time.now().plusSeconds(runDurationSeconds);
+        while (runDurationSeconds == 0 || time.now().isBefore(endTime)) {
 
             // update list of spambot servers
             if (time.now().isAfter(serverlistUpdateTimeout)) {
