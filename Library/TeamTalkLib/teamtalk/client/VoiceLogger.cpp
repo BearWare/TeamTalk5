@@ -73,9 +73,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         case CODEC_SPEEX_VBR :
         {
 #if defined(ENABLE_SPEEX)
-            SpeexFile* spx_file = nullptr;
-            ACE_NEW(spx_file, SpeexFile());
-            m_speexfile = speexfile_t(spx_file);
+            m_speexfile = std::make_shared<SpeexFile>();
             if(!m_speexfile->Open(filename, GetSpeexBandMode(m_codec), vbr))
             {
                 ACE_TString const error = ACE_TEXT("Failed to open Speex file ") + filename;
@@ -89,9 +87,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
 #if defined(ENABLE_OPUSTOOLS)
         case CODEC_OPUS :
         {
-            OpusFile* opus_file = nullptr;
-            ACE_NEW(opus_file, OpusFile());
-            m_opusfile = opusfile_t(opus_file);
+            m_opusfile = std::make_shared<OpusFile>();
             int const framesize = GetAudioCodecFrameSize(m_codec);
             if (!m_opusfile->NewFile(filename, channels, samplerate, framesize))
             {
@@ -633,11 +629,9 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     ACE_TString const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
 
-    VoiceLog* newlog = nullptr;
-    ACE_NEW(newlog, VoiceLog(from_user.GetUserID(), filepath,
-                             codec, aff, stream_id,
-                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay())));
-    voicelog_t log (newlog);
+    voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
+                                                codec, aff, stream_id,
+                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
 
     bool const active = log->IsActive();
     if(active)

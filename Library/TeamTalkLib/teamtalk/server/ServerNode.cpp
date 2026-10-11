@@ -1126,9 +1126,7 @@ void ServerNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
     int const userid = GetNewUserID();
     if(userid != 0)
     {
-        ServerUser* ptr = nullptr;
-        ACE_NEW(ptr, ServerUser(userid, *this, handler.get_handle()));
-        serveruser_t user(ptr);
+        serveruser_t user = std::make_shared<ServerUser>(userid, *this, handler.get_handle());
 
         ACE_INET_Addr addr;
 #if defined(ENABLE_ENCRYPTION)
@@ -1159,9 +1157,7 @@ void ServerNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
     int const userid = GetNewUserID();
     if(userid != 0)
     {
-        ServerUser* ptr = nullptr;
-        ACE_NEW(ptr, ServerUser(userid, *this, handler.get_handle()));
-        serveruser_t user(ptr);
+        serveruser_t user = std::make_shared<ServerUser>(userid, *this, handler.get_handle());
 
         ACE_INET_Addr addr;
         handler.peer().get_remote_addr(addr);

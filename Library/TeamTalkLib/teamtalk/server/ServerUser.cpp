@@ -1969,9 +1969,8 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
             RemoveObsoleteDesktopPackets(packet, m_desktop_queue);
 
             //queue packet until we get its session properties
-            DesktopPacket* p = nullptr;
-            ACE_NEW_RETURN(p, DesktopPacket(packet), false);
-            m_desktop_queue.push_back(desktoppacket_t(p));
+            auto p = std::make_shared<DesktopPacket>(packet);
+            m_desktop_queue.push_back(p);
             MYTRACE(ACE_TEXT("Queued packet #%d due to missing header - size %d\n"), 
                     p->GetPacketIndex(), static_cast<int>(m_desktop_queue.size()));
             return true;
@@ -1980,12 +1979,8 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
         //ok, we can start new session
         DesktopWindow const wnd(session_id, width, height, static_cast<RGBMode>(bmp_mode),
                           DESKTOPPROTOCOL_ZLIB_1);
-        DesktopCache* dcache = nullptr;
-        ACE_NEW_RETURN(dcache, DesktopCache(GetUserID(), wnd, 
-                                            packet.GetTime()), 
-                       false);
 
-        m_desktop_cache = desktop_cache_t(dcache);
+        m_desktop_cache = std::make_shared<DesktopCache>(GetUserID(), wnd, packet.GetTime());
 
         MYTRACE_COND(m_desktop_cache->GetBlocksCount() == 0,
                      ACE_TEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
@@ -2030,12 +2025,8 @@ desktop_transmitter_t ServerUser::StartDesktopTransmitter(
     if(ii != m_user_desktop_tx.end())
         return {};
 
-    DesktopTransmitter* desktop_tx = nullptr;
-    ACE_NEW_RETURN(desktop_tx, DesktopTransmitter(desktop.GetSessionID(), 
-                                                  desktop.GetCurrentDesktopTime()),
-                   desktop_transmitter_t());
-
-    desktop_transmitter_t dtx(desktop_tx);
+    desktop_transmitter_t dtx = std::make_shared<DesktopTransmitter>(desktop.GetSessionID(),
+                                                                     desktop.GetCurrentDesktopTime());
 
     //place initial update in transmission queue
     desktoppackets_t packets;
@@ -2050,7 +2041,7 @@ desktop_transmitter_t ServerUser::StartDesktopTransmitter(
     for(;dpi != packets.end();dpi++)
     {
         (*dpi)->SetChannel(channel.GetChannelID());
-        desktop_tx->AddDesktopPacketToQueue(*dpi);
+        dtx->AddDesktopPacketToQueue(*dpi);
     }
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;
@@ -2085,17 +2076,14 @@ desktop_transmitter_t ServerUser::ResumeDesktopTransmitter(
                                   src_user.GetMaxPayloadSize(), packets))
         return {};
     
-    DesktopTransmitter* desktop_tx = nullptr;
-    ACE_NEW_RETURN(desktop_tx, DesktopTransmitter(desktop.GetSessionID(),
-                                                  desktop.GetCurrentDesktopTime()),
-                   desktop_transmitter_t());
-    dtx = desktop_transmitter_t(desktop_tx);
+    dtx = std::make_shared<DesktopTransmitter>(desktop.GetSessionID(),
+                                               desktop.GetCurrentDesktopTime());
 
     auto dpi = packets.begin();
     for(;dpi != packets.end();dpi++)
     {
         (*dpi)->SetChannel(channel.GetChannelID());
-        desktop_tx->AddDesktopPacketToQueue(*dpi);
+        dtx->AddDesktopPacketToQueue(*dpi);
     }
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;

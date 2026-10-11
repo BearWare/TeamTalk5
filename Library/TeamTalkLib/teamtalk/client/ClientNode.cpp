@@ -3772,12 +3772,9 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
         DesktopWindow const new_wnd(m_desktop_session_id, width, height, rgb, 
                               DESKTOPPROTOCOL_ZLIB_1);
 
-        DesktopInitiator* desktop = nullptr;
-        ACE_NEW_RETURN(desktop, DesktopInitiator(GetUserID(), new_wnd,
-                                                 m_mtu_data_size,
-                                                 m_mtu_max_payload_size),
-                                                 false);
-        m_desktop = desktop_initiator_t(desktop);
+        m_desktop = std::make_shared<DesktopInitiator>(GetUserID(), new_wnd,
+                                                       m_mtu_data_size,
+                                                       m_mtu_max_payload_size);
 
         m_flags |= CLIENT_DESKTOP_ACTIVE;
     }
@@ -5935,11 +5932,9 @@ void ClientNode::HandleFileAccepted(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
         if((m_crypt_stream != nullptr) && (!m_serverinfo.hostaddrs.empty()))
         {
-            FileNode* f_ptr = nullptr;
             auto *reactor = m_crypt_stream->reactor();
-            ACE_NEW(f_ptr, FileNode(*reactor, true, m_serverinfo.hostaddrs[0],
-                                    m_serverinfo, transfer, this));
-            ptr = filenode_t(f_ptr);
+            ptr = std::make_shared<FileNode>(*reactor, true, m_serverinfo.hostaddrs[0],
+                                             m_serverinfo, transfer, this);
         }
         else
 #endif
@@ -5948,9 +5943,8 @@ void ClientNode::HandleFileAccepted(const mstrings_t& properties)
             {
                 FileNode* f_ptr = nullptr;
                 auto *reactor = m_def_stream->reactor();
-                ACE_NEW(f_ptr, FileNode(*reactor, false, m_serverinfo.hostaddrs[0],
-                                        m_serverinfo, transfer, this));
-                ptr = filenode_t(f_ptr);
+                ptr = std::make_shared<FileNode>(*reactor, false, m_serverinfo.hostaddrs[0],
+                                                 m_serverinfo, transfer, this);
             }
         }
 

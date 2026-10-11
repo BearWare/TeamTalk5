@@ -115,9 +115,7 @@ bool DesktopCache::AddDesktopPacket(const DesktopPacket& packet)
         dui = m_block_updates.find(packet_time);
     }
     desktoppackets_t& update_packets = dui->second;
-    DesktopPacket* p = nullptr;
-    ACE_NEW_RETURN(p, DesktopPacket(packet), false);
-    update_packets.push_back(desktoppacket_t(p));
+    update_packets.push_back(std::make_shared<DesktopPacket>(packet));
 
     //check if all packets which are part of the update has arrived.
     if(update_packets.size() != pkt_count)

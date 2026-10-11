@@ -706,9 +706,7 @@ void WebMPlayer::ProcessVideoPacket(const VideoPacket& packet)
         
         if(store_fragment)
         {
-            VideoPacket* new_packet = nullptr;
-            ACE_NEW(new_packet, VideoPacket(packet));
-            m_video_fragments[packet_no][fragno] = videopacket_t(new_packet);
+            m_video_fragments[packet_no][fragno] = std::make_shared<VideoPacket>(packet);
         }
 
         if(m_video_fragments.size()>VPX_MAX_FRAG_PACKETS)

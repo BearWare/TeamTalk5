@@ -619,9 +619,7 @@ void ClientUser::AddVideoCapturePacket(const VideoCapturePacket& p,
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
             (!m_vidcap_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
-        WebMPlayer* webm_player = nullptr;
-        ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
-        m_vidcap_player = webm_player_t(webm_player);
+        m_vidcap_player = std::make_shared<WebMPlayer>(GetUserID(), p.GetStreamID());
         new_vidframe = m_vidcap_player->AddPacket(p);
         m_listener->OnUserStateChange(*this);
     }
@@ -669,9 +667,7 @@ void ClientUser::AddVideoFilePacket(const VideoFilePacket& p,
              W32_GEQ(p.GetTime(), GetLastTimeStamp(p))) ||
             (!m_videofile_player && W32_GEQ(p.GetTime(), GetLastTimeStamp(p))))
     {
-        WebMPlayer* webm_player = nullptr;
-        ACE_NEW(webm_player, WebMPlayer(GetUserID(), p.GetStreamID()));
-        m_videofile_player = webm_player_t(webm_player);
+        m_videofile_player = std::make_shared<WebMPlayer>(GetUserID(), p.GetStreamID());
         new_vidframe = m_videofile_player->AddPacket(p);
         stream_id = m_videofile_player->GetStreamID();
 
@@ -769,18 +765,13 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
         {
             RemoveObsoleteDesktopPackets(p, m_desktop_queue);
 
-            DesktopPacket* ptmp = nullptr;
-            ACE_NEW(ptmp, DesktopPacket(p));
-            m_desktop_queue.push_back(desktoppacket_t(ptmp));
+            m_desktop_queue.push_back(std::make_shared<DesktopPacket>(p));
             return;
         }
 
         DesktopWindow const wnd(session_id, width, height,
                           static_cast<RGBMode>(bmp_mode), DESKTOPPROTOCOL_ZLIB_1);
-
-        DesktopViewer* viewer = nullptr;
-        ACE_NEW(viewer, DesktopViewer(wnd));
-        m_desktop = desktop_viewer_t(viewer);
+        m_desktop = std::make_shared<DesktopViewer>(wnd);
 
         if(m_desktop->GetBlocksCount() == 0)
         {
@@ -1416,30 +1407,25 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
 
     auto audiofunc = [this](auto && PH1, auto && PH2, auto && PH3) { m_clientnode->AudioUserCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2), std::forward<decltype(PH3)>(PH3)); };
 
-    AudioPlayer* audio_player = nullptr;
+    audio_player_t audio_player;
     switch(codec.codec)
     {
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX :
-        ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
-                                   audiofunc, codec, resampler),
-                        audio_player_t());
+        audio_player = std::make_shared<SpeexPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                     audiofunc, codec, resampler);
         break;
 #endif
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX_VBR :
-        ACE_NEW_RETURN(audio_player,
-                       SpeexPlayer(GetUserID(), stream_type, m_soundsystem,
-                                   audiofunc, codec, resampler), audio_player_t());
+        audio_player = std::make_shared<SpeexPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                     audiofunc, codec, resampler);
         break;
 #endif
 #if defined(ENABLE_OPUS)
     case teamtalk::CODEC_OPUS :
-        ACE_NEW_RETURN(audio_player,
-                       OpusPlayer(GetUserID(), stream_type, m_soundsystem,
-                                  audiofunc, codec, resampler),
-                       audio_player_t());
+        audio_player = std::make_shared<OpusPlayer>(GetUserID(), stream_type, m_soundsystem,
+                                                    audiofunc, codec, resampler);
         break;
 #endif
     default:
@@ -1447,11 +1433,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
                 GetUserID(), codec.codec);
         return {};
     }
-
-    if(audio_player == nullptr)
-        return {};
-
-    audio_player_t ret(audio_player);
 
     //only launch in duplex mode if it's "my" channel
     m_snd_duplexmode = (GetChannel() && GetChannel()->GetChannelID() == m_clientnode->GetChannelID());
@@ -1462,13 +1443,13 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     {
         MYTRACE(ACE_TEXT("Launching duplex player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player);
+        success = m_soundsystem->AddDuplexOutputStream(m_clientnode, audio_player.get());
     }
     else
     {
         MYTRACE(ACE_TEXT("Launching player for #%d \"%s\", SampleRate %d, Channels %d, Callback %d\n"),
                 GetUserID(), GetNickname().c_str(), output_samplerate, output_channels, output_samples);
-        success = m_soundsystem->OpenOutputStream(audio_player, sndprop.outputdeviceid,
+        success = m_soundsystem->OpenOutputStream(audio_player.get(), sndprop.outputdeviceid,
                                                   sndprop.soundgroupid, output_samplerate,
                                                   output_channels, output_samples);
     }
@@ -1478,7 +1459,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     if (success)
     {
         // don't make sense to use auto position on duplex but just ignore return value
-        m_soundsystem->SetAutoPositioning(audio_player, true);
+        m_soundsystem->SetAutoPositioning(audio_player.get(), true);
         if (m_soundsystem->IsAutoPositioning(sndprop.soundgroupid))
             m_soundsystem->AutoPositionPlayers(sndprop.soundgroupid, false);
     }
@@ -1490,7 +1471,7 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
         return {};
     }
 
-    return ret;
+    return audio_player;
 }
 
 bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,

@@ -53,14 +53,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor));
+        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
         m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
-        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor));
+        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
         m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
@@ -81,7 +81,7 @@ FileNode::~FileNode()
 
 void FileNode::BeginTransfer()
 {
-    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1));
+    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1)); // NOLINT(cppcoreguidelines-owning-memory)
     TTASSERT(m_timerid>=0);
 }
 
@@ -276,9 +276,9 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
     int optlen = sizeof(size);
     int ret = 0;
 
-    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     TTASSERT(ret == 0);
-    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     TTASSERT(ret == 0);
 }
 #endif /* ENABLE_ENCRYPTION */
@@ -290,9 +290,9 @@ void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
     int optlen = sizeof(size);
     int ret = 0;
 
-    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_SNDBUF, reinterpret_cast<char*>(&size), optlen); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     TTASSERT(ret == 0);
-    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen);
+    ret = handler.peer().set_option(SOL_SOCKET, SO_RCVBUF, reinterpret_cast<char*>(&size), optlen); // NOLINT(cppcoreguidelines-pro-type-reinterpret-cast)
     TTASSERT(ret == 0);
 }
 
