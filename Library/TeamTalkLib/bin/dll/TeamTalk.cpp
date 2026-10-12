@@ -228,7 +228,7 @@ struct ClientInstance
         } mfinit;
 #endif
         
-        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eh.get());
+        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eventhandler.get());
 
 #if defined(WIN32)
         RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), true);
