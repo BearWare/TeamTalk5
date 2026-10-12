@@ -427,7 +427,7 @@ void VoiceLog::WriteSilence(int msecs)
     m_samples_buf.assign(m_samples_buf.size(), 0);
 
     int const samplerate = GetAudioCodecSampleRate(m_codec);
-    int samples = static_cast<int>(((msecs / 1000) * samplerate) + ((static_cast<double>(msecs % 1000)/1000.0) * samplerate));
+    int samples = PCM16_DURATION_SAMPLES(msecs, samplerate);
 
     media::AudioFormat const fmt = GetAudioCodecAudioFormat(m_codec);
     int const cbsamples = GetAudioCodecCbSamples(m_codec);
@@ -479,7 +479,7 @@ VoiceLogFile VoiceLog::GetVoiceLogFile()
 int VoiceLog::GetDuration()
 {
     if(m_wavfile && m_wavfile->GetSampleRate()>0)
-        return m_wavfile->GetSamplesCount() * 1000 / m_wavfile->GetSampleRate();
+        return PCM16_SAMPLES_DURATION(m_wavfile->GetSamplesCount(), m_wavfile->GetSampleRate());
     return 0;
 }
 
@@ -551,8 +551,8 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     ACE_Time_Value const tv = ACE_OS::gettimeofday();
     ACE_Date_Time const dt(tv);
-    const int STR_SIZE = 512;
-    ACE_TCHAR buf[STR_SIZE];
+    constexpr int STR_SIZE = 512;
+    std::array<ACE_TCHAR, STR_SIZE> buf;
     ACE_TString const username = from_user.GetUsername();
     int const userid = from_user.GetUserID();
 
@@ -566,18 +566,17 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
     ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
     ACE_UINT32 const counter = from_user.IncVoiceLogCounter();
-    ACE_TCHAR str_count[100];
-    ACE_OS::snprintf(str_count, 100, ACE_TEXT("%09u"), counter);
-    ReplaceAll(var, ACE_TEXT("%counter%"), str_count);
+    std::array<ACE_TCHAR, 100> str_count;
+    ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
+    ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());
 
     time_t const now = time(nullptr);
     struct tm* ttt = localtime(&now);
 #ifdef ACE_WIN32
-    wcsftime(buf, STR_SIZE-1, var.c_str(), ttt);
+    wcsftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
 #else
-    ACE_OS::strftime(buf, STR_SIZE-1, var.c_str(), ttt);
+    ACE_OS::strftime(buf.data(), STR_SIZE-1, var.c_str(), ttt);
 #endif
-    buf[STR_SIZE-1] = 0;
 
     // if(username.length())
     //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
@@ -586,7 +585,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
-    ACE_TString filename = buf;
+    ACE_TString filename = buf.data();
     int mp3bitrate = 0;
     AudioFileFormat aff = AFF_WAVE_FORMAT;
     switch(from_user.GetAudioFileFormat())

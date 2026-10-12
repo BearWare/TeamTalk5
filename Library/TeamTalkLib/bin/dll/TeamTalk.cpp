@@ -109,7 +109,7 @@ extern bool g_LicenseValid;
 
 struct ClientInstance
 {
-    std::shared_ptr<TTMsgQueue> eventhandler;
+    std::unique_ptr<TTMsgQueue> eventhandler;
     clientnode_t clientnode;
     std::mutex mutex_video;
     using video_frames_t = std::map<VideoFrame*, ACE_Message_Block*>;
@@ -208,7 +208,7 @@ struct ClientInstance
         return false;
     }
 
-    ClientInstance(TTMsgQueue* eh)
+    ClientInstance(std::unique_ptr<TTMsgQueue> eh) : eventhandler(std::move(eh))
     {
         MYTRACE(ACE_TEXT("ClientInstance() - %p\n"), this);
 
@@ -228,8 +228,7 @@ struct ClientInstance
         } mfinit;
 #endif
         
-        eventhandler.reset(eh);
-        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eh);
+        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eh.get());
 
 #if defined(WIN32)
         RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), true);
@@ -404,7 +403,7 @@ TEAMTALKDLL_API TTBOOL TT_SwapTeamTalkHWND(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalkPoll(void)
 {
-    clientinst_t const inst = std::make_shared<ClientInstance>(new TTMsgQueue());
+    clientinst_t const inst = std::make_shared<ClientInstance>(std::make_unique<TTMsgQueue>());
 
     LicenseCheck();
 

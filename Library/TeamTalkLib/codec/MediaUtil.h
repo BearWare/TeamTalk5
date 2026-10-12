@@ -32,6 +32,8 @@
 #include <cstring>
 #include <vector>
 
+constexpr auto ONE_SEC_MILLIS = 1000;
+
 // Returns number of bytes from number of 'samples' with 'channels'
 constexpr auto PCM16_BYTES(int samples, int channels)
 {
@@ -40,17 +42,17 @@ constexpr auto PCM16_BYTES(int samples, int channels)
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
 {
-    return ((bytes / channels / sizeof(short)) * 1000) / samplerate;
+    return ((bytes / channels / sizeof(short)) * ONE_SEC_MILLIS) / samplerate;
 }
 // Returns number of msec from number of 'samples' at given 'samplerate'
 constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
 {
-    return ((samples / samplerate) * 1000) + (((samples % samplerate) * 1000) / samplerate);
+    return ((samples / samplerate) * ONE_SEC_MILLIS) + (((samples % samplerate) * ONE_SEC_MILLIS) / samplerate);
 }
 // Returns number of samples from 'duration' msec at given 'samplerate'
 constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
 {
-    return ((duration / 1000) * samplerate) + (((duration % 1000) != 0) ? ((samplerate * (duration % 1000)) / 1000) : 0);
+    return ((duration / ONE_SEC_MILLIS) * samplerate) + (((duration % ONE_SEC_MILLIS) != 0) ? ((samplerate * (duration % ONE_SEC_MILLIS)) / ONE_SEC_MILLIS) : 0);
 }
 
 constexpr auto RGB32_BYTES(int w, int h)
