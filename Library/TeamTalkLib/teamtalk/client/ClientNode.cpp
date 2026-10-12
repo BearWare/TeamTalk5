@@ -62,8 +62,8 @@ constexpr auto LOCAL_MEDIAPLAYBACK_SESSIONID_MAX    = 16; // Max session id. Sho
                                                // use all on STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO
                                                // in EnableAudioBlockCallback()
 
-#define SIMULATE_RX_PACKETLOSS 0
-#define SIMULATE_TX_PACKETLOSS 0
+constexpr auto SIMULATE_RX_PACKETLOSS = 0;
+constexpr auto SIMULATE_TX_PACKETLOSS = 0;
 
 #if (SIMULATE_RX_PACKETLOSS || SIMULATE_TX_PACKETLOSS) && defined(NDEBUG)
 #error Packetloss in release mode
@@ -827,14 +827,9 @@ int ClientNode::TimerQueryMtu(int mtu_index)
         return -1;
     }
 
-    KeepAlivePacket* ka_pkt = nullptr;
-
     uint32_t const tm = GETTIMESTAMP();
-    ACE_NEW_RETURN(ka_pkt, KeepAlivePacket(GetUserID(), tm, 
-                                              MTU_QUERY_SIZES[mtu_index]), 0);
-
-    ka_mtu_packet_t const pkt(ka_pkt);
-
+    ka_mtu_packet_t const pkt = std::make_shared<KeepAlivePacket>(GetUserID(), tm,
+                                                                  MTU_QUERY_SIZES[mtu_index]);
     if(SendPacket(*pkt, m_serverinfo.udpaddr)>0)
         m_mtu_packets[tm] = pkt;
 
@@ -2953,8 +2948,7 @@ int ClientNode::GetVoiceActivationLevel() const
 }
 void ClientNode::SetVoiceActivationStoppedDelay(int msec)
 {
-    m_voice_thread.m_voiceact_delay = ACE_Time_Value(msec / 1000, 
-                                                     (msec % 1000) * 1000);
+    m_voice_thread.m_voiceact_delay = ToTimeValue(msec);
 }
 int ClientNode::GetVoiceActivationStoppedDelay() const
 {
@@ -3595,7 +3589,7 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
     m_vidcap.swap(session);
 
     //set max buffers for local video frames
-    int bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
+    std::size_t bytes = sizeof(media::VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= VIDEOCAPTURE_LOCAL_FRAMES_MAX;
     m_local_vidcapframes.high_water_mark(bytes);//room for one frame
     m_local_vidcapframes.low_water_mark(bytes);
@@ -3805,14 +3799,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
 
     if(ret > 0)
     {
-        DesktopTransmitter* dtx = nullptr;
-        ACE_NEW_NORETURN(dtx, DesktopTransmitter(m_desktop_session_id, tm));
-        if(dtx == nullptr)
-        {
-            CloseDesktopSession(false);
-            return -1;
-        }
-        m_desktop_tx = desktop_transmitter_t(dtx);
+        m_desktop_tx = std::make_shared<DesktopTransmitter>(m_desktop_session_id, tm);
 
         //TODO: find a better way to query for 'complete' instead of busy wait
         ACE_Time_Value const tm(0, 1000);
@@ -3840,12 +3827,7 @@ bool ClientNode::CloseDesktopWindow()
 
     if(session_id != 0u)
     {
-        DesktopNakTransmitter* nak_tx = nullptr;
-        ACE_NEW_RETURN(nak_tx, DesktopNakTransmitter(session_id,
-                                                     GETTIMESTAMP()),
-                       false);
-
-        m_desktop_nak_tx = desktop_nak_tx_t(nak_tx);
+        m_desktop_nak_tx = std::make_shared<DesktopNakTransmitter>(session_id, GETTIMESTAMP());
 
         //start timer to close session
         StartTimer(TIMER_DESKTOPNAKPACKET_TIMEOUT_ID, 0, 
@@ -4534,9 +4516,9 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     transfer.transferid = 0;
     transfer.userid = GetUserID();
 #if defined(ENABLE_ENCRYPTION)
-    uint8_t transferkey[TRANSFERKEY_SIZE];
-    RAND_bytes(transferkey, sizeof(transferkey));
-    transfer.transferkey = KeyToHexString(transferkey, TRANSFERKEY_SIZE);
+    std::array<uint8_t, TRANSFERKEY_SIZE> transferkey;
+    RAND_bytes(transferkey.data(), sizeof(transferkey));
+    transfer.transferkey = KeyToHexString(transferkey.data(), TRANSFERKEY_SIZE);
 #endif
     TTASSERT(GetUserID()>0);
 
@@ -4570,9 +4552,9 @@ int ClientNode::DoFileRecv(int channelid,
     transfer.transferid = 0;
     transfer.userid = GetUserID();
 #if defined(ENABLE_ENCRYPTION)
-    uint8_t transferkey[TRANSFERKEY_SIZE];
-    RAND_bytes(transferkey, sizeof(transferkey));
-    transfer.transferkey = KeyToHexString(transferkey, TRANSFERKEY_SIZE);
+    std::array<uint8_t, TRANSFERKEY_SIZE> transferkey;
+    RAND_bytes(transferkey.data(), sizeof(transferkey));
+    transfer.transferkey = KeyToHexString(transferkey.data(), TRANSFERKEY_SIZE);
 #endif
     TTASSERT(GetUserID()>0);
 
@@ -5980,8 +5962,7 @@ void ClientNode::HandleServerStats(const mstrings_t& properties)
 
     GetProperty(properties, TT_UPTIME, uptime);
     //not really stored as "start time"
-    serverstats.starttime = ACE_Time_Value(static_cast<time_t>(uptime) / 1000,
-                                             (static_cast<suseconds_t>(uptime) % 1000) * 1000);
+    serverstats.starttime = ToTimeValue(uptime);
 
     m_listener->OnServerStatistics(serverstats);
 }

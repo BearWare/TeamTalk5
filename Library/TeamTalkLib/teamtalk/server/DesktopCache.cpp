@@ -336,7 +336,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
     UpdateBlocksCRC(m_blocks, upd_block_nums, m_block_crcs, m_crc_blocks);
 
     //update which blocks have been updated in this round
-    TTASSERT(m_updated_blocks.find(m_current_desktop_time) == m_updated_blocks.end());
+    TTASSERT(!m_updated_blocks.contains(m_current_desktop_time));
     m_updated_blocks[m_current_desktop_time] = upd_block_nums;
 
     TTASSERT(m_blocks.size() == (size_t)GetBlocksCount());

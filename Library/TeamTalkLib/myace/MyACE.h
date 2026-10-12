@@ -92,7 +92,7 @@ ACE_TString FixFilePath(const ACE_TString& filepath);
 void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
 
 ACE_TString I2String(ACE_INT64 i);
-ACE_INT64 String2I(const ACE_TString& int_str, int base = 10);
+ACE_INT64 String2I(const ACE_TString& int_str, int base = 10, ACE_INT64 errorValue = 0);
 
 bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2);
 ACE_TString StringToLower(const ACE_TString& str);
@@ -101,7 +101,7 @@ strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 ACE_TString KeyToHexString(const unsigned char* key, int length);
 void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen);
 
-ACE_Time_Value ToTimeValue(int msec);
+ACE_Time_Value ToTimeValue(ACE_INT64 msec);
 
 ACE_TString UptimeHours(const ACE_Time_Value& value);
 

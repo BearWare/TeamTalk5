@@ -107,7 +107,7 @@ namespace teamtalk {
         bool SendData(ACE_Message_Queue_Base& msg_queue);
 
 #if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString GetAccessToken() const { return KeyToHexString(m_accesstoken, sizeof(m_accesstoken)); }
+        ACE_TString GetAccessToken() const { return KeyToHexString(m_accesstoken.data(), sizeof(m_accesstoken)); }
 #endif
         bool IsAuthorized() const { return (m_account.usertype & (USERTYPE_ADMIN | USERTYPE_DEFAULT)) != 0u; }
         void SetUserAccount(const UserAccount& account) { m_account = account; }
@@ -273,7 +273,7 @@ namespace teamtalk {
         ServerNode& m_servernode;
         ACE_HANDLE m_stream_handle = ACE_INVALID_HANDLE;
 #if defined(ENABLE_TEAMTALKPRO)
-        uint8_t m_accesstoken[CRYPTKEY_SIZE];
+        std::array<uint8_t, CRYPTKEY_SIZE> m_accesstoken;
 #endif
             
         int m_lastkeepalive = 0;

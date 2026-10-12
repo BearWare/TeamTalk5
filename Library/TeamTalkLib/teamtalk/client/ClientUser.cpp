@@ -1008,10 +1008,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
         ii++;
     }
 
-    DesktopInputPacket* new_pkt = nullptr;
-    ACE_NEW(new_pkt, DesktopInputPacket(p));
-    desktopinput_pkt_t const pkt(new_pkt);
-    m_desktop_input_rx.insert(ii, pkt);
+    m_desktop_input_rx.insert(ii, std::make_shared<DesktopInputPacket>(p));
 
     MYTRACE(ACE_TEXT("DesktopInput in queue: "));
     ii = m_desktop_input_rx.begin();
@@ -1410,11 +1407,6 @@ audio_player_t ClientUser::LaunchAudioPlayer(const teamtalk::AudioCodec& codec,
     {
 #if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX :
-        audio_player = std::make_shared<SpeexPlayer>(GetUserID(), stream_type, m_soundsystem,
-                                                     audiofunc, codec, resampler);
-        break;
-#endif
-#if defined(ENABLE_SPEEX)
     case teamtalk::CODEC_SPEEX_VBR :
         audio_player = std::make_shared<SpeexPlayer>(GetUserID(), stream_type, m_soundsystem,
                                                      audiofunc, codec, resampler);
@@ -1491,7 +1483,7 @@ bool ClientUser::LaunchVoicePlayer(const teamtalk::AudioCodec& codec,
         int const msec = GetAudioCodecCbMillis(codec);
         if(msec>0)
         {
-            ACE_Time_Value const tm(msec/1000, (msec % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(msec);
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_VOICE_PLAYBACK_ID,
                                                         GetUserID(), 0, tm, tm);
             TTASSERT(timerid >= 0);
@@ -1520,7 +1512,7 @@ bool ClientUser::LaunchAudioFilePlayer(const teamtalk::AudioCodec& codec,
         int const msec = GetAudioCodecCbMillis(codec);
         if(msec>0)
         {
-            ACE_Time_Value const tm(msec/1000, (msec % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(msec);
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_MEDIAFILE_AUDIO_PLAYBACK_ID,
                                                         GetUserID(), 0, tm, tm);
             TTASSERT(timerid >= 0);

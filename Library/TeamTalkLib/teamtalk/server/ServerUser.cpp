@@ -55,7 +55,7 @@ ServerUser::ServerUser(int userid,
     //TTASSERT(handler.get_handle() != ACE_INVALID_HANDLE);
 
 #if defined(ENABLE_TEAMTALKPRO)
-    RAND_bytes(m_accesstoken, sizeof(m_accesstoken));
+    RAND_bytes(m_accesstoken.data(), sizeof(m_accesstoken));
 #endif
 }
 
@@ -317,19 +317,19 @@ ErrorMsg ServerUser::HandleCommand(const ACE_TString& cmd, const mstrings_t& pro
     {
         if(IsAuthorized())
             return TT_CMDERR_ALREADY_LOGGEDIN;
-                    return HandleLogin(properties);
+        return HandleLogin(properties);
     }
     else if(cmd == CLIENT_LOGOUT)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleLogout(properties);
+        return HandleLogout(properties);
     }
     else if(cmd == CLIENT_CHANGENICK) 
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleChangeNick(properties);
+        return HandleChangeNick(properties);
     }
     else if(cmd == CLIENT_KEEPALIVE)
     {
@@ -339,116 +339,116 @@ ErrorMsg ServerUser::HandleCommand(const ACE_TString& cmd, const mstrings_t& pro
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleJoinChannel(properties);
+        return HandleJoinChannel(properties);
     }
     else if(cmd == CLIENT_LEAVECHANNEL)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleLeaveChannel(properties);
+        return HandleLeaveChannel(properties);
     }
     else if(cmd == CLIENT_CHANGESTATUS)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleChangeStatus(properties);
+        return HandleChangeStatus(properties);
     }
     else if(cmd == CLIENT_MESSAGE)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleMessage(properties);
+        return HandleMessage(properties);
     }
     else if(cmd == CLIENT_KICK)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleKick(properties);
+        return HandleKick(properties);
     }
     else if(cmd == CLIENT_MAKECHANNEL)
     { 
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
         
-            return HandleMakeChannel(properties); 
+        return HandleMakeChannel(properties);
     }
     else if(cmd == CLIENT_UPDATECHANNEL)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleUpdateChannel(properties); 
+        return HandleUpdateChannel(properties);
     }
     else if(cmd == CLIENT_REMOVECHANNEL)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleRemoveChannel(properties); 
+        return HandleRemoveChannel(properties);
     }
     else if(cmd == CLIENT_MOVEUSER)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleMoveUser(properties);
+        return HandleMoveUser(properties);
     }
     else if(cmd == CLIENT_UPDATESERVER)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleUpdateServer(properties);
+        return HandleUpdateServer(properties);
     }
     else if(cmd == CLIENT_SAVECONFIG)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleSaveConfig(properties);
+        return HandleSaveConfig(properties);
     }
     else if(cmd == CLIENT_CHANNELOP)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleChannelOp(properties);
+        return HandleChannelOp(properties);
     }
     else if(cmd == CLIENT_BAN)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleUserBan(properties);
+        return HandleUserBan(properties);
     }
     else if(cmd == CLIENT_UNBAN)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleUserUnban(properties);
+        return HandleUserUnban(properties);
     }
     else if(cmd == CLIENT_LISTBANS)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleListServerBans(properties);
+        return HandleListServerBans(properties);
     }
     else if(cmd == CLIENT_REGSENDFILE)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleRegSendFile(properties);
+        return HandleRegSendFile(properties);
     }
     else if(cmd == CLIENT_REGRECVFILE)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleRegRecvFile(properties);
+        return HandleRegRecvFile(properties);
     }
     else if(cmd == CLIENT_SENDFILE)
     {
         if(IsAuthorized())
             return TT_CMDERR_ALREADY_LOGGEDIN;
-                    return HandleSendFile(properties);
+        return HandleSendFile(properties);
     }
     else if(cmd == CLIENT_RECVFILE)
     {
         if(IsAuthorized())
             return TT_CMDERR_ALREADY_LOGGEDIN;
-                    return HandleRecvFile(properties);
+        return HandleRecvFile(properties);
     }
     else if(cmd == CLIENT_DELIVERFILE)
     {
@@ -458,43 +458,43 @@ ErrorMsg ServerUser::HandleCommand(const ACE_TString& cmd, const mstrings_t& pro
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleDeleteFile(properties);
+        return HandleDeleteFile(properties);
     }
     else if(cmd == CLIENT_SUBSCRIBE)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleSubscribe(properties);
+        return HandleSubscribe(properties);
     }
     else if(cmd == CLIENT_UNSUBSCRIBE)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleUnsubscribe(properties);
+        return HandleUnsubscribe(properties);
     }
     else if(cmd == CLIENT_LISTUSERACCOUNTS)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleListUserAccounts(properties);
+        return HandleListUserAccounts(properties);
     }
     else if(cmd == CLIENT_NEWUSERACCOUNT)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleNewUserAccount(properties);
+        return HandleNewUserAccount(properties);
     }
     else if(cmd == CLIENT_DELUSERACCOUNT)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleDeleteUserAccount(properties);
+        return HandleDeleteUserAccount(properties);
     }
     else if(cmd == CLIENT_QUERYSTATS)
     {
         if(!IsAuthorized())
             return TT_CMDERR_NOT_LOGGEDIN;
-                    return HandleQueryStats(properties);
+        return HandleQueryStats(properties);
     }
 
     return TT_CMDERR_UNKNOWN_COMMAND;

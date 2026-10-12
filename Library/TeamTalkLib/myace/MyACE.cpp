@@ -236,7 +236,7 @@ ACE_TString I2String(ACE_INT64 i)
 #endif /* UNICODE */
 }
 
-ACE_INT64 String2I(const ACE_TString& int_str, int base)
+ACE_INT64 String2I(const ACE_TString& int_str, int base, ACE_INT64 errorValue)
 {
     try
     {
@@ -244,7 +244,7 @@ ACE_INT64 String2I(const ACE_TString& int_str, int base)
     }
     catch(...)
     {
-        return 0;
+        return errorValue;
     }
 }
 
@@ -254,9 +254,10 @@ bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2)
         return false;
 
     for(size_t i=0;i<str1.length();i++)
+    {
         if(ACE_OS::ace_tolower(str1[i]) != ACE_OS::ace_tolower(str2[i]))
             return false;
-
+    }
     return true;
 }
 
@@ -341,29 +342,27 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)
     std::size_t const less = vec_chk.size() < vec_against.size()?vec_chk.size():vec_against.size();
     
     for(size_t i=0;i<less;i++)
+    {
         if(vec_chk[i] < vec_against[i])
             return false;
         else if(vec_chk[i] > vec_against[i])
             return true;
-
+    }
     return true;
 }
 
 ACE_TString KeyToHexString(const unsigned char* key, int length)
 {
-    ACE_TCHAR buf[3];
+    std::array<ACE_TCHAR, 3> buf;
     int const LEN = (2*length)+1;
-    auto* str = new ACE_TCHAR[LEN];
-    str[LEN-1] = '\0';
+    std::vector<ACE_TCHAR> str(LEN);
     for(int i=0;i<length;i++)
     {
         unsigned int const x = key[i];
-        ACE_OS::sprintf(buf, ACE_TEXT("%.2x"), x);
-        ACE_OS::sprintf(str+(i*2), ACE_TEXT("%s"), buf);
+        ACE_OS::sprintf(buf.data(), ACE_TEXT("%.2x"), x);
+        ACE_OS::sprintf(str.data()+(i*2), ACE_TEXT("%s"), buf.data());
     }
-    ACE_TString const s = str;
-    delete [] str;
-    return s;
+    return str.data();
 }
 
 void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen)
@@ -385,14 +384,15 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     time_t const nHour = value.sec()/3600;
     time_t const nMinutes = (value.sec()%3600) / 60;
     time_t const nSec = (value.sec()%60);
-    ACE_TCHAR buf[512];
-    ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
-    return buf;
+    std::array<ACE_TCHAR, 512> buf;
+    ACE_OS::snprintf(buf.data(), 512, ACE_TEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
+    return buf.data();
 }
 
-ACE_Time_Value ToTimeValue(int msec)
+ACE_Time_Value ToTimeValue(ACE_INT64 msec)
 {
-    return ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
+    constexpr auto ONE_SEC = 1000;
+    return ACE_Time_Value(msec / ONE_SEC, (msec % ONE_SEC) * ONE_SEC);
 }
 
 strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters)
@@ -515,6 +515,7 @@ bool ValidUtf8(const ACE_CString& utf8_str)
 */
 #endif
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 bool ValidUtf8(const ACE_CString& utf8_str)
 {
     //ensure there's no \0 in the string
@@ -615,6 +616,7 @@ ACE_CString LimitUtf8(const ACE_CString& utf8_str, std::size_t maxlen)
 
     return trimmed;
 }
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, 
                    bool p_start)

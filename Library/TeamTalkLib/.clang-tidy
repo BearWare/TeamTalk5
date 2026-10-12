@@ -24,7 +24,9 @@ Checks: >
     readability-*,
     -readability-braces-around-statements,
     -readability-identifier-length,
+    -readability-inconsistent-ifelse-braces,
     -readability-isolate-declaration,
+    -readability-magic-numbers,
     -readability-uppercase-literal-suffix,
     -readability-use-concise-preprocessor-directives,
 
