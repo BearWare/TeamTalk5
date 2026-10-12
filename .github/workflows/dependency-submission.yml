@@ -3,12 +3,16 @@ name: Android Dependency Submission
 on:
   push:
     branches: [ "master" ]
+    paths:
+      - '.github/workflows/dependency-submission.yml'
+      - 'Client/TeamTalkAndroid/**'
 
 permissions:
   contents: write
 
 jobs:
   dependency-submission:
+    if: "!contains(github.event.head_commit.message || '', ':skip all')"
     runs-on: ubuntu-latest
     steps:
     - name: Checkout
