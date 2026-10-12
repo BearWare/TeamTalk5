@@ -1621,7 +1621,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="108"/>
         <source>Update interval</source>
-        <translation>Czas odświeżania</translation>
+        <translation>Automatycznie odświeżaj udostępniany obraz</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="140"/>
@@ -1928,7 +1928,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="85"/>
         <source>Override client&apos;s predefined settings</source>
-        <translation>Zastąp predefiniowane ustawienia użytkownika</translation>
+        <translation>Zastąp ustawienia klienta ustawieniami z tego pliku</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="94"/>
@@ -2404,12 +2404,12 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="3251"/>
         <location filename="../mainwindow.cpp" line="5092"/>
         <source>%1 granted desktop access</source>
-        <translation>Przyznano dostęp do pulpitu użytkownikowi %1</translation>
+        <translation>Użytkownik %1 otrzymuje dostęp do pulpitu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>%1 retracted desktop access</source>
-        <translation>Odebrano dostęp do pulpitu użytkownikowi %1</translation>
+        <translation>%1 rezygnuje z dostępu do pulpitu</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3434"/>
@@ -2522,7 +2522,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="7646"/>
         <location filename="../mainwindow.cpp" line="7651"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 zmienił usługę „%2” na: %3</translation>
+        <translation>%1 ustawia usługę „%2” na: %3</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7512"/>
@@ -2719,7 +2719,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1567"/>
         <source>Streaming from %1 started</source>
-        <translation>Rozpoczęto strumieniowanie z %1</translation>
+        <translation>%1 rozpoczyna strumieniowanie</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1747"/>
@@ -4107,7 +4107,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../mainwindow.ui" line="1675"/>
         <source>&amp;Check for Update</source>
-        <translation>Sprawdź dostępność &amp;aktualizacji</translation>
+        <translation>Sprawdź &amp;aktualizacje</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1680"/>
@@ -4552,7 +4552,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../mainwindow.ui" line="2190"/>
         <source>&amp;Online Users</source>
-        <translation>&amp;Obecni użytkownicy</translation>
+        <translation>Zal&amp;ogowani użytkownicy</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2193"/>
@@ -5177,7 +5177,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../onlineusers.ui" line="14"/>
         <source>Online Users</source>
-        <translation>Obecni użytkownicy</translation>
+        <translation>Zalogowani użytkownicy</translation>
     </message>
     <message>
         <location filename="../onlineusers.ui" line="20"/>
@@ -5193,7 +5193,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../onlineusers.ui" line="48"/>
         <source>Keep disconnected users</source>
-        <translation>Zachowaj rozłączonych użytkowników</translation>
+        <translation>Pozostawiaj rozłączonych użytkowników na liście</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="165"/>
@@ -5713,7 +5713,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Setup text message templates</source>
-        <translation>Konfiguruj szablony wiadomości tekstowych</translation>
+        <translation>Używaj własnych szablonów wiadomości czatu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
@@ -5768,7 +5768,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../preferences.ui" line="908"/>
         <source>Join root channel upon connection</source>
-        <translation>Automatycznie dołącz do kanału głównego po połączeniu</translation>
+        <translation>Automatycznie łącz z głównym kanałem po połączeniu</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="915"/>
@@ -6843,7 +6843,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Last Joined Channel</source>
-        <translation>Ostatni odwiedzony kanał</translation>
+        <translation>Zapamiętuj ostatni kanał i dołączaj do niego po połączeniu</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="258"/>
@@ -7791,7 +7791,7 @@ Aby wyrejestrować serwer, usuń opublikowane konto użytkownika.</translation>
     <message>
         <location filename="../serverstats.ui" line="126"/>
         <source>Update interval</source>
-        <translation>Czas odświeżania</translation>
+        <translation>Automatycznie odświeżaj statystyki</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="136"/>
