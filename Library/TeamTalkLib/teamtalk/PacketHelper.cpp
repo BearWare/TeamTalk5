@@ -37,6 +37,7 @@
 #include <set>
 #include <vector>
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 constexpr auto MAX_PACKETS_ON_WIRE = 16;
 
 namespace teamtalk {
@@ -88,7 +89,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
     if(fragments >= 0xFF)
         return result;
 
-    AudioPacket* p = nullptr;
+    audiopacket_t p;
     uint8_t const stream_id = in_packet.GetStreamID();
 
     //WARNING: if FieldPacket is changed these additional fields must be 
@@ -101,26 +102,24 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
     {
         //only fragment 0 has framesize info
         std::vector<uint16_t> const frame_sizes = in_packet.GetEncodedFrameSizes();
-        ACE_NEW_RETURN(p, AudioPacket(in_packet.GetKind(),
-                                      in_packet.GetSrcUserID(), 
-                                      in_packet.GetTime(),
-                                      stream_id,
-                                      in_packet.GetPacketNumber(),
-                                      (uint8_t)0, &u8_fragments,
-                                      ptr, max_chunk_size,
-                                      &frame_sizes), 
-                                      result);
+        p = std::make_shared<AudioPacket>(in_packet.GetKind(),
+                                          in_packet.GetSrcUserID(),
+                                          in_packet.GetTime(),
+                                          stream_id,
+                                          in_packet.GetPacketNumber(),
+                                          (uint8_t)0, &u8_fragments,
+                                          ptr, max_chunk_size,
+                                          &frame_sizes);
     }
     else
     {
-        ACE_NEW_RETURN(p, AudioPacket(in_packet.GetKind(),
-                                      in_packet.GetSrcUserID(), 
-                                      in_packet.GetTime(),
-                                      stream_id,
-                                      in_packet.GetPacketNumber(),
-                                      (uint8_t)0, &u8_fragments,
-                                      ptr, max_chunk_size), 
-                                      result);
+        p = std::make_shared<AudioPacket>(in_packet.GetKind(),
+                                          in_packet.GetSrcUserID(),
+                                          in_packet.GetTime(),
+                                          stream_id,
+                                          in_packet.GetPacketNumber(),
+                                          (uint8_t)0, &u8_fragments,
+                                          ptr, max_chunk_size);
     }
     result.push_back(audiopacket_t(p));
 
@@ -135,16 +134,15 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
         uint16_t const copy_size = (copied + max_chunk_size > enc_size)?
             enc_size-copied : max_chunk_size;
 
-        ACE_NEW_RETURN(p, AudioPacket(in_packet.GetKind(),
-                                      in_packet.GetSrcUserID(), 
-                                      in_packet.GetTime(),
-                                      stream_id,
-                                      in_packet.GetPacketNumber(),
-                                      i, nullptr,
-                                      &ptr[copied], copy_size), 
-                                      result);
+        p = std::make_shared<AudioPacket>(in_packet.GetKind(),
+                                          in_packet.GetSrcUserID(),
+                                          in_packet.GetTime(),
+                                          stream_id,
+                                          in_packet.GetPacketNumber(),
+                                          i, nullptr,
+                                          &ptr[copied], copy_size);
         copied += copy_size;
-        result.push_back(audiopacket_t(p));
+        result.push_back(p);
 
         if(dest_userid != 0u)
             p->SetDestUser(dest_userid);
@@ -219,24 +217,22 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
 
     ii = fragments.find(0);
     const AudioPacket& frag0 = *ii->second;
-    AudioPacket* audpkt = nullptr;
+    audiopacket_t audpkt;
     if(!frame_sizes.empty())
-        ACE_NEW_RETURN(audpkt, AudioPacket(frag0.GetKind(),
-                                           frag0.GetSrcUserID(), //VBR
-                                           frag0.GetTime(), 
-                                           frag0.GetStreamID(), 
-                                           packet_no, 
-                                           buf.data(), uint16_t(buf.size()),
-                                           frame_sizes), 
-                                           audiopacket_t());
+        audpkt = std::make_shared<AudioPacket>(frag0.GetKind(),
+                                               frag0.GetSrcUserID(), //VBR
+                                               frag0.GetTime(),
+                                               frag0.GetStreamID(),
+                                               packet_no,
+                                               buf.data(), uint16_t(buf.size()),
+                                               frame_sizes);
     else
-        ACE_NEW_RETURN(audpkt, AudioPacket(frag0.GetKind(),
-                                           frag0.GetSrcUserID(), 
-                                           frag0.GetTime(), 
-                                           frag0.GetStreamID(), 
-                                           packet_no, 
-                                           buf.data(), uint16_t(buf.size())),
-                                           audiopacket_t());
+        audpkt = std::make_shared<AudioPacket>(frag0.GetKind(),
+                                               frag0.GetSrcUserID(),
+                                               frag0.GetTime(),
+                                               frag0.GetStreamID(),
+                                               packet_no,
+                                               buf.data(), uint16_t(buf.size()));
     //WARNING: if FieldPacket is changed these additional fields must be 
     //added here.
     uint16_t const dest_userid = frag0.GetDestUserID();
@@ -246,7 +242,7 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
     if(chanid != 0u)
         audpkt->SetChannel(chanid);
 
-    return audiopacket_t(audpkt);
+    return audpkt;
 }
 
 std::vector<uint16_t> GetAudioPacketFrameSizes(const AudioPacket& packet,
@@ -1307,3 +1303,5 @@ DesktopNakTransmitter::DesktopNakTransmitter(uint8_t session_id, uint32_t upd_ti
 }
 
 } //namespace teamtalk
+
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)

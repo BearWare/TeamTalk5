@@ -3954,20 +3954,10 @@ bool ClientNode::SendDesktopInput(int userid,
     pkt->SetChannel(chan->GetChannelID());
 
     //store packet for retransmission
-    DesktopInputPacket* rtx_pkt = nullptr;
-    ACE_NEW_NORETURN(rtx_pkt,
-                     DesktopInputPacket(*pkt));
-    if(rtx_pkt == nullptr)
-    {
-        delete pkt;
-        return false;
-    }
-
     MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
             static_cast<int>(pkt->GetPacketNo()), static_cast<unsigned>(inputs.size()));
-    //store for tx
-    desktopinput_pkt_t const tx_pkt(rtx_pkt);
-    user->GetDesktopInputTxQueue().push_back(tx_pkt);
+    auto rtx_pkt = std::make_shared<DesktopInputPacket>(*pkt);
+    user->GetDesktopInputTxQueue().push_back(rtx_pkt);
 
     //start RTX timer?
     if(user->GetDesktopInputTxQueue().size() == 1 &&
@@ -3980,7 +3970,7 @@ bool ClientNode::SendDesktopInput(int userid,
         else
         {
             //move from Tx queue to Rtx queue
-            user->GetDesktopInputRtxQueue().push_back(tx_pkt);
+            user->GetDesktopInputRtxQueue().push_back(rtx_pkt);
             user->GetDesktopInputTxQueue().pop_front();
         }
 
@@ -5034,7 +5024,7 @@ void ClientNode::OnClosed()
             {
                 std::array<char, MAX_STRING_LENGTH> sslerr_str;
                 ::ERR_error_string_n(ace_lasterr, sslerr_str.data(), sizeof(sslerr_str)-1);
-                MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str);
+                MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str.data());
                 m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str.data()));
             }
             m_listener->OnConnectFailed();

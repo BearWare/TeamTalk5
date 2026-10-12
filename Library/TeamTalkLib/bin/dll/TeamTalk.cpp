@@ -2635,27 +2635,26 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                               reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer),
                                               lpDesktopWindow->nFrameBufferSize);
     
-            MYTRACE(ACE_TEXT("Warning: slow conversion of bitmap\n"));
-        //FIXME: very inefficient!
-            vector<char> buf;
-            vector<char> tmp_buf;
-        const char* ptr = reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer);
-        buf.assign(ptr, ptr + lpDesktopWindow->nFrameBufferSize);
-        if(ConvertBitmap(*lpDesktopWindow, destBmpFmt, buf, tmp_buf) <= 0)
-            return -1;
+    MYTRACE(ACE_TEXT("Warning: slow conversion of bitmap\n"));
+    //FIXME: very inefficient!
+    vector<char> buf;
+    vector<char> tmp_buf;
+    const char* ptr = reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer);
+    buf.assign(ptr, ptr + lpDesktopWindow->nFrameBufferSize);
+    if(ConvertBitmap(*lpDesktopWindow, destBmpFmt, buf, tmp_buf) <= 0)
+        return -1;
 
-        if(!tmp_buf.empty() != 0u)
-            return clientnode->SendDesktopWindow(dst_session.GetWidth(), 
-                                                  dst_session.GetHeight(), 
-                                                  dst_session.GetRGBMode(),
-                                                  static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
-                                                  tmp_buf.data(), static_cast<int>(tmp_buf.size()));
+    if(!tmp_buf.empty() != 0u)
         return clientnode->SendDesktopWindow(dst_session.GetWidth(),
                                              dst_session.GetHeight(),
                                              dst_session.GetRGBMode(),
-                                             (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
-                                             &buf[0], int(buf.size()));
-   
+                                             static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
+                                             tmp_buf.data(), static_cast<int>(tmp_buf.size()));
+    return clientnode->SendDesktopWindow(dst_session.GetWidth(),
+                                         dst_session.GetHeight(),
+                                         dst_session.GetRGBMode(),
+                                         (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
+                                         &buf[0], static_cast<int>(buf.size()));
 }
 
 TEAMTALKDLL_API TTBOOL TT_CloseDesktopWindow(IN TTInstance* lpTTInstance)
@@ -3695,7 +3694,7 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
     {
         if((pnWaitMs != nullptr) && *pnWaitMs != -1)
         {
-            ACE_Time_Value tv(*pnWaitMs/1000, (*pnWaitMs % 1000) * 1000);
+            ACE_Time_Value tv = ToTimeValue(*pnWaitMs);
             tv += ACE_OS::gettimeofday();
             return inst->eventhandler->GetMessage(*pMsg, &tv);
         }

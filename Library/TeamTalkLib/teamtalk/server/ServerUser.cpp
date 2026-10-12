@@ -37,6 +37,8 @@
 
 using namespace teamtalk;
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-do-while)
+
 #define GET_PROP_OR_RETURN(properties, name, value)                     \
     do {                                                                \
         if(!GetProperty(properties, name, value))                       \
@@ -2194,3 +2196,5 @@ void ServerUser::CloseTransfer()
 
     m_filetransfer.reset();
 }
+
+// NOLINTEND(cppcoreguidelines-avoid-do-while)

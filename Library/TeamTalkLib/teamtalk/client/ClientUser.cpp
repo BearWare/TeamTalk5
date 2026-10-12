@@ -505,7 +505,7 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
         // start timer to dequeue the buffered packets
         if ((jitter_delay > 0) && (!m_clientnode->TimerExists(USER_TIMER_JITTER_BUFFER_ID, GetUserID())))
         {
-            ACE_Time_Value const tm(jitter_delay / 1000, (jitter_delay % 1000) * 1000);
+            ACE_Time_Value const tm = ToTimeValue(jitter_delay);
             // Set up a single shot timer (interval = 0)
             long const timerid = m_clientnode->StartUserTimer(USER_TIMER_JITTER_BUFFER_ID, GetUserID(), 0, tm);
             TTASSERT(timerid >= 0);
@@ -881,7 +881,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
 
         map_blocks_t blocks;
         ReassembleDesktopBlocks(m_block_fragments, blocks);
-        updated_window |= (bool)!blocks.empty();
+        updated_window |= !blocks.empty();
         auto bi = blocks.begin();
         while(bi != blocks.end())
         {
