@@ -428,14 +428,9 @@ bool InsertFragment(uint16_t blockno, uint8_t fragno,
             {
                 if(fragno < bfi->frag_no)
                 {
-                    DesktopPacket* p = nullptr;
-                    ACE_NEW_NORETURN(p, DesktopPacket(packet));
-                    if(p != nullptr)
-                    {
-                        packets.insert(ii, desktoppacket_t(p));
-                        assert(packets.size() <= bfi->frag_cnt);
-                        return true;
-                    }
+                    packets.insert(ii, std::make_shared<DesktopPacket>(packet));
+                    assert(packets.size() <= bfi->frag_cnt);
+                    return true;
                 }
             }
             bfi++;

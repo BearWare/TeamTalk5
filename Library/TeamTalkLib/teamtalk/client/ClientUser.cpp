@@ -850,9 +850,7 @@ void ClientUser::AddPacket(const DesktopPacket& p, const ClientChannel& chan)
     p.GetBlockFragments(fragments);
     if(!fragments.empty())
     {
-        DesktopPacket* p_cache = nullptr;
-        ACE_NEW(p_cache, DesktopPacket(p));
-        desktoppacket_t const packet_ptr(p_cache);
+        desktoppacket_t const packet_ptr = std::make_shared<DesktopPacket>(p);
 
         auto fi = fragments.begin();
         while(fi != fragments.end())

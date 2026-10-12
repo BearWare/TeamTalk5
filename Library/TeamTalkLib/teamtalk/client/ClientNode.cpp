@@ -5050,10 +5050,10 @@ void ClientNode::OnClosed()
             auto ace_lasterr = ACE_OS::last_error();
             if (encrypted && (ace_lasterr != 0))
             {
-                char sslerr_str[MAX_STRING_LENGTH] = "";
-                ::ERR_error_string_n(ace_lasterr, sslerr_str, sizeof(sslerr_str)-1);
+                std::array<char, MAX_STRING_LENGTH> sslerr_str;
+                ::ERR_error_string_n(ace_lasterr, sslerr_str.data(), sizeof(sslerr_str)-1);
                 MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str);
-                m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str));
+                m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str.data()));
             }
             m_listener->OnConnectFailed();
         }
