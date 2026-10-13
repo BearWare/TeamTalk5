@@ -604,8 +604,9 @@ constexpr auto DEBUG_RESAMPLER = 0;
             m_resamplers[player] = resampler;
             m_callbackbuffers[player].resize(size_t(streamer->channels) * streamer->framesize);
             m_resambuffers[player] = std::make_shared<ACE_Message_Queue< ACE_NULL_SYNCH >>();
-            m_resambuffers[player]->high_water_mark(1024*1024);
-            m_resambuffers[player]->low_water_mark(1024*1024);
+            constexpr auto ONEMBYTE = 1024 * 1024;
+            m_resambuffers[player]->high_water_mark(ONEMBYTE);
+            m_resambuffers[player]->low_water_mark(ONEMBYTE);
             return true;
         }
 
@@ -628,12 +629,12 @@ constexpr auto DEBUG_RESAMPLER = 0;
             assert(m_outputs.find(player) != m_outputs.end());
             if (active)
             {
-                assert(m_active_outputs.find(player) == m_active_outputs.end());
+                assert(!m_active_outputs.contains(player));
                 m_active_outputs.insert(player);
             }
             else
             {
-                assert(m_active_outputs.find(player) != m_active_outputs.end());
+                assert(m_active_outputs.contains(player));
                 m_active_outputs.erase(player);
             }
         }

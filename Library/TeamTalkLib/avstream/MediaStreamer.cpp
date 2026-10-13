@@ -342,7 +342,7 @@ bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bo
     {
         ACE_UINT32 const wait_ms = GetMinimumFrameDurationMSec();
         MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
-        ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
+        ACE_OS::sleep(ToTimeValue(wait_ms));
         return true;
     }
 
@@ -350,7 +350,7 @@ bool MediaStreamer::ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bo
     {
         ACE_UINT32 const wait_ms = GetMinimumFrameDurationMSec();
         MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... flushing frames\n"), wait_ms);
-        ACE_OS::sleep(ACE_Time_Value(wait_ms / 1000, (wait_ms % 1000) * 1000));
+        ACE_OS::sleep(ToTimeValue(wait_ms));
         return (m_audio_frames.message_count() != 0u) || (m_video_frames.message_count() != 0u);
     }
 

@@ -35,6 +35,9 @@
 #include <span>
 #include <utility>
 
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+
 namespace media {
 
     int AudioInputFormat::GetDurationMSec() const
@@ -348,14 +351,14 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
 
 void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain_numerator, int gain_denominator)
 {
+    assert(gain_denominator != 0);
     if (gain_numerator == gain_denominator)
         return;
 
-    const float factor = static_cast<float>(gain_numerator) / static_cast<float>(gain_denominator);
-    const std::size_t samples_total = channels * n_samples;
-    for (auto& v : std::span(inputsamples, samples_total))
+    for (auto& v : std::span(inputsamples, channels * n_samples))
     {
-        int g = static_cast<int>(v * factor);
-        v = static_cast<short>(std::clamp(g, INT16MIN, INT16MAX));
+        v = static_cast<short>(std::clamp((v * gain_numerator) / gain_denominator, INT16MIN, INT16MAX));
     }
 }
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTEND(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)

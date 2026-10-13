@@ -29,8 +29,6 @@
 TimerHandler::TimerHandler(TimerListener& listener, ACE_UINT32 timer_event_id, long userdata)
 : m_listener(listener), m_timer_event_id(timer_event_id), m_userdata(userdata)
 {
-    
-    
     //MYTRACE(ACE_TEXT("TimerHandler() %p ID %d \n"), this, m_timer_event_id);
 }
 

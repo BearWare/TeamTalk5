@@ -55,7 +55,7 @@ std::string String2Lower(const std::string& str)
 {
     std::string sstr = str;
     std::ranges::transform(sstr, sstr.begin(), static_cast<int (*)(int)>(tolower));
-  return sstr;
+    return sstr;
 }
 
 bool StringCmpNoCase(const std::string& str1, const std::string& str2)

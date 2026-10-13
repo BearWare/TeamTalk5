@@ -379,7 +379,7 @@ TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 #if defined(WIN32)
 TEAMTALKDLL_API TTInstance* TT_InitTeamTalk(IN HWND hWnd, IN UINT32 uMsg)
 {
-    clientinst_t inst(new ClientInstance(new TTMsgQueue(hWnd, uMsg)));
+    clientinst_t inst = std::make_shared<ClientInstance>(std::make_unique<TTMsgQueue>(hWnd, uMsg));
 
     LicenseCheck();
 
