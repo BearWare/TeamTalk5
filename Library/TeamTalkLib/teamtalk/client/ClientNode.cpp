@@ -31,6 +31,7 @@
 #include "teamtalk/TTAssert.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cerrno>
 #include <cstddef>

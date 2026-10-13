@@ -31,6 +31,7 @@
 #include <algorithm>
 #endif
 
+#include <array>
 #include <cassert>
 #include <cstdarg>
 #include <cstddef>

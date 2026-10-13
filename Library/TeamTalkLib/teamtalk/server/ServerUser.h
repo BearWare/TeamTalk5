@@ -40,6 +40,7 @@
 #include <ace/SString.h>
 #include <ace/Time_Value.h>
 
+#include <array>
 #include <cstdint>
 #include <map>
 #include <memory>

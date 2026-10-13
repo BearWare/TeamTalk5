@@ -31,6 +31,7 @@
 #include <ace/FILE_IO.h>
 #include <ace/Sched_Params.h>
 
+#include <array>
 #include <cstddef>
 #include <ctime>
 #include <utility>

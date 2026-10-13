@@ -33,6 +33,7 @@
 #include <ace/SString.h>
 #include <ace/Time_Value.h>
 
+#include <array>
 #include <cstddef>
 #include <map>
 #include <memory>
