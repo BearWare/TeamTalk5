@@ -308,7 +308,7 @@ constexpr int GAIN_MIN = 0;
     short* samplesbuffer = inputsamples;                        \
     if(samples_total % 4 == 0)                                  \
     {                                                           \
-        int v[4];                                               \
+        std::array<int, 4> v;                                   \
         for(int i=0;i<samples_total;i+=4)                       \
         {                                                       \
             v[0] = (int)(samplesbuffer[i] * factor);            \

@@ -98,8 +98,8 @@ bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2);
 ACE_TString StringToLower(const ACE_TString& str);
 strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 
-ACE_TString KeyToHexString(const unsigned char* key, int length);
-void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen);
+ACE_TString KeyToHexString(const unsigned char* key, std::size_t length);
+void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, std::size_t keylen);
 
 ACE_Time_Value ToTimeValue(ACE_INT64 msec);
 

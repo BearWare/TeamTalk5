@@ -42,7 +42,7 @@
 
 using namespace std::placeholders;
 
-constexpr auto DEBUG_MEDIAPLAYBACK = 0;;
+constexpr auto DEBUG_MEDIAPLAYBACK = false;
 
 MediaPlayback::MediaPlayback(int userdata, soundsystem::soundsystem_t sndsys,
                              mediaplayback_status_t statusfunc,
