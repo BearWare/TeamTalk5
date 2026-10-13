@@ -102,7 +102,7 @@ void SoftVolume(const OutputStreamer& streamer,
     }
     else
     {
-        SOFTGAIN(buffer, samples, streamer.channels, rational.numerator, rational.denominator);
+        SoftGain(buffer, samples, streamer.channels, rational.numerator, rational.denominator);
     }
 }
 

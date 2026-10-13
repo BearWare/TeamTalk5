@@ -350,7 +350,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
     {
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(m_preprocess_buffer_left.data(), output_samples,
+            SoftGain(m_preprocess_buffer_left.data(), output_samples,
                      output_channels, m_gainlevel, GAIN_NORMAL);
 
         std::scoped_lock const g(m_mutex);
@@ -364,7 +364,7 @@ void SoundLoopback::StreamCaptureCb(const soundsystem::InputStreamer& streamer,
 
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(tmp_buf.data(), output_samples, output_channels,
+            SoftGain(tmp_buf.data(), output_samples, output_channels,
                      m_gainlevel, GAIN_NORMAL);
         SelectStereo(m_stereo, tmp_buf.data(), output_samples);
 
@@ -465,7 +465,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 #endif
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(m_preprocess_buffer_left.data(), output_samples,
+            SoftGain(m_preprocess_buffer_left.data(), output_samples,
                      output_channels, m_gainlevel, GAIN_NORMAL);
 
         std::memcpy(output_buffer, m_preprocess_buffer_left.data(),
@@ -516,7 +516,7 @@ void SoundLoopback::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
 
         // TTAudioPreprocessor
         if (m_gainlevel != GAIN_NORMAL)
-            SOFTGAIN(output_buffer, output_samples, output_channels,
+            SoftGain(output_buffer, output_samples, output_channels,
                      m_gainlevel, GAIN_NORMAL);
         SelectStereo(m_stereo, output_buffer, output_samples);
     }

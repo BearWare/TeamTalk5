@@ -29,7 +29,10 @@
 #include <algorithm>
 #include <cassert>
 #include <cmath>
+#include <cstdint>
+#include <limits>
 #include <numbers>
+#include <span>
 #include <utility>
 
 namespace media {
@@ -55,7 +58,7 @@ namespace media {
     {
         assert(input_buffer || input_samples == 0);
         assert(gain.denominator != 0);
-        SOFTGAIN(input_buffer, input_samples, inputfmt.channels,
+        SoftGain(input_buffer, input_samples, inputfmt.channels,
                  gain.numerator, gain.denominator);
         gain = Rational(1, 1);
     }    
@@ -317,6 +320,9 @@ ACE_Message_Block* AudioFrameFromList(int samples_out, std::vector<ACE_Message_B
     return AudioFrameToMsgBlock(muxfrm);
 }
 
+constexpr int INT16MAX = std::numeric_limits<std::int16_t>::max();
+constexpr int INT16MIN = std::numeric_limits<std::int16_t>::min();
+
 int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
                  double volume /*= 8000*/, bool mute_left/* = false*/, bool mute_right/* = false*/)
 {
@@ -324,10 +330,7 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
     {
         double const t = static_cast<double>(sample_index++) / audblock.inputfmt.samplerate;
         int v = static_cast<int>(volume * std::sin(static_cast<double>(tone_freq) * t * 2.0 * std::numbers::pi));
-        if(v>32767)
-            v = 32767;
-        else if(v < -32768)
-            v = -32768;
+        v = static_cast<short>(std::clamp(v, INT16MIN, INT16MAX));
 
         if(audblock.inputfmt.channels == 1)
         {
@@ -340,4 +343,19 @@ int GenerateTone(media::AudioFrame& audblock, int sample_index, int tone_freq,
         }
     }
     return sample_index;
+}
+
+
+void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain_numerator, int gain_denominator)
+{
+    if (gain_numerator == gain_denominator)
+        return;
+
+    const float factor = static_cast<float>(gain_numerator) / static_cast<float>(gain_denominator);
+    const std::size_t samples_total = channels * n_samples;
+    for (auto& v : std::span(inputsamples, samples_total))
+    {
+        int g = static_cast<int>(v * factor);
+        v = static_cast<short>(std::clamp(g, INT16MIN, INT16MAX));
+    }
 }

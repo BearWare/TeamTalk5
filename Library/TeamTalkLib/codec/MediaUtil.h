@@ -300,47 +300,6 @@ constexpr int GAIN_MAX = 32000;
 constexpr int GAIN_NORMAL = 1000;
 constexpr int GAIN_MIN = 0;
 
-#define SOFTGAIN(inputsamples, n_samples, channels, gain_numerator, gain_denominator) do { \
-    if ((gain_numerator) == (gain_denominator))                     \
-        break;                                                  \
-    float factor = float(gain_numerator) / float(gain_denominator);   \
-    int samples_total = (channels) * (n_samples);               \
-    short* samplesbuffer = inputsamples;                        \
-    if(samples_total % 4 == 0)                                  \
-    {                                                           \
-        std::array<int, 4> v;                                   \
-        for(int i=0;i<samples_total;i+=4)                       \
-        {                                                       \
-            v[0] = (int)(samplesbuffer[i] * factor);            \
-            v[1] = (int)(samplesbuffer[i+1] * factor);          \
-            v[2] = (int)(samplesbuffer[i+2] * factor);          \
-            v[3] = (int)(samplesbuffer[i+3] * factor);          \
-            if(v[0] > 32767) v[0] = 32767;                      \
-            else if (v[0] < -32768) v[0] = -32768;              \
-            if(v[1] > 32767) v[1] = 32767;                      \
-            else if (v[1] < -32768) v[1] = -32768;              \
-            if(v[2] > 32767) v[2] = 32767;                      \
-            else if (v[2] < -32768) v[2] = -32768;              \
-            if(v[3] > 32767) v[3] = 32767;                      \
-            else if (v[3] < -32768) v[3] = -32768;              \
-            samplesbuffer[i] = (short)v[0];                     \
-            samplesbuffer[i+1] = (short)v[1];                   \
-            samplesbuffer[i+2] = (short)v[2];                   \
-            samplesbuffer[i+3] = (short)v[3];                   \
-        }                                                       \
-    }                                                           \
-    else                                                        \
-    {                                                           \
-        int v;                                                  \
-        for(int i=0;i<samples_total;i++)                        \
-        {                                                       \
-            v = (int)(samplesbuffer[i] * factor);               \
-            if(v > 32767) v = 32767;                            \
-            else if (v < -32768) v = -32768;                    \
-            samplesbuffer[i] = (short)v;                        \
-        }                                                       \
-    }                                                           \
-} while(0)
-
+void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain_numerator, int gain_denominator);
 
 #endif

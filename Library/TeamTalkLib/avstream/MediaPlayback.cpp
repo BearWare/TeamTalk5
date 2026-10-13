@@ -337,7 +337,7 @@ bool MediaPlayback::StreamPlayerCb(const soundsystem::OutputStreamer& streamer,
         }
 #endif
 
-        SOFTGAIN(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
+        SoftGain(buffer, streamer.framesize, streamer.channels, m_gainlevel, GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)
         if (m_preprocess_left && streamer.channels == 1)

@@ -478,7 +478,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     if(m_tone_frequency != 0u)
          m_tone_sample_index = GenerateTone(audblock, m_tone_sample_index, m_tone_frequency);
 
-    SOFTGAIN(audblock.input_buffer, audblock.input_samples,
+    SoftGain(audblock.input_buffer, audblock.input_samples,
              audblock.inputfmt.channels, m_gainlevel, GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)

@@ -231,7 +231,7 @@ struct ClientInstance
         clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eventhandler.get());
 
 #if defined(WIN32)
-        RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), true);
+        RegisterAudioDeviceChange(eventhandler.get(), std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), true);
 #endif
         
 #if defined(ENABLE_MINIDUMP)
