@@ -25,13 +25,18 @@
 
 #include "Common.h"
 
-#include <utility>
-#include <vector>
-#include <cstdint>
-#include <cstddef>
 #include <cassert>
+#include <cstddef>
+#include <cstdint>
 #include <cstring>
 #include <set>
+#include <utility>
+#include <vector>
+
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,cppcoreguidelines-pro-type-reinterpret-cast)
+// NOLINTBEGIN(cppcoreguidelines-owning-memory,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTBEGIN(clang-analyzer-deadcode.DeadStores)
 
 namespace teamtalk
 {
@@ -40,7 +45,7 @@ namespace teamtalk
     {
         std::vector<uint8_t>::size_type target_size = 0;
         if(source.size() % 2 == 1)
-            target_size = source.size() * 12 / 8 + 1;
+            target_size = (source.size() * 12 / 8) + 1;
         else
             target_size = source.size() * 12 / 8;
 
@@ -72,8 +77,8 @@ namespace teamtalk
 
         for(uint16_t i=0;i<source_size;)
         {
-            uint16_t v1;
-            uint16_t v2;
+            uint16_t v1 = 0;
+            uint16_t v2 = 0;
             const uint8_t* ptr = &source[i];
             if(source_size - i >= 3)
             {
@@ -129,7 +134,7 @@ namespace teamtalk
 
         //new field
         int alloc_size = 0;
-        alloc_size += FIELDVALUE_PREFIX + int(field_data.size());
+        alloc_size += FIELDVALUE_PREFIX + static_cast<int>(field_data.size());
 
         uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
@@ -176,7 +181,7 @@ namespace teamtalk
 
         //new field
         int alloc_size = 0;
-        alloc_size += FIELDVALUE_PREFIX + int(field_data.size());
+        alloc_size += FIELDVALUE_PREFIX + static_cast<int>(field_data.size());
 
         uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
@@ -282,7 +287,7 @@ namespace teamtalk
     void FieldPacket::SetDestUser(uint16_t userid)
     {
         assert(userid);
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
         assert(GetHdrType() == PACKETHDR_DEST_USER);
         uint8_t* ptr = &reinterpret_cast<uint8_t*>(m_iovec[0].iov_base)[PACKET_INDEX_DEST_USER];
         SET_UINT12(ptr, userid);
@@ -292,11 +297,11 @@ namespace teamtalk
     void FieldPacket::SetChannel(uint16_t channelid)
     {
         assert(channelid);
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
         uint8_t* ptr = &reinterpret_cast<uint8_t*>(m_iovec[0].iov_base)[PACKET_INDEX_KIND];
 
-        uint16_t src_userid;
-        uint16_t tmp;
+        uint16_t src_userid = 0;
+        uint16_t tmp = 0;
         GetSrcDest(src_userid, tmp);
         ptr = &ptr[PACKET_INDEX_SRC_DEST];
         SET2_UINT12(ptr, src_userid, channelid);
@@ -305,11 +310,11 @@ namespace teamtalk
     uint16_t FieldPacket::GetPacketSize() const
     {
         int buffers = 0;
-        int size = 0;
+        std::size_t size = 0;
         const iovec* vv = GetPacket(buffers);
         for(int i=0;i<buffers;i++)
             size += vv[i].iov_len;
-        return size;
+        return static_cast<uint16_t>(size);
     }
 
     bool FieldPacket::ValidatePacket() const
@@ -373,9 +378,11 @@ namespace teamtalk
             SET_UINT12(ptr, 0);
         }
         else
+        {
             packet_hdr[PACKET_INDEX_KIND] = kind;
+        }
 
-        SET2_UINT12(&packet_hdr[PACKET_INDEX_SRC_DEST], src_userid, (uint16_t)0);
+        SET2_UINT12(&packet_hdr[PACKET_INDEX_SRC_DEST], src_userid, static_cast<uint16_t>(0));
         SET_UINT32(&packet_hdr[PACKET_INDEX_TIME], time);
 
         iovec v;
@@ -411,7 +418,7 @@ namespace teamtalk
     }
 
     FieldPacket::FieldPacket(const char* packet, uint16_t packet_size)
-        : m_iovec(1), m_cleanup(false)
+        : m_iovec(1)
     {
         
         m_iovec[0].iov_base = const_cast<char*>(packet);
@@ -465,7 +472,7 @@ namespace teamtalk
         assert(m_iovec.size() == 1);
         m_iovec.push_back(decrypt_fields);
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size()-1));
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size()-1));
 #endif
     }
 
@@ -486,14 +493,14 @@ namespace teamtalk
             if(GetPacketSize() == GetHdrSize(GetHdrType()))
                 return nullptr;
 
-            int size = int(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
+            std::size_t size = static_cast<int>(GetFieldsStart() - reinterpret_cast<uint8_t*>(m_iovec[0].iov_base));
             size = m_iovec[0].iov_len - size;
             ptr = GetFieldsStart();
             ptr = FINDFIELD_TYPE(ptr, fieldtype, size);
         }
         if(m_iovec.size() > 1 && (ptr == nullptr))
         {
-            for(size_t i=1;i<m_iovec.size() && (ptr == nullptr);i++)
+            for(std::size_t i=1;i<m_iovec.size() && (ptr == nullptr);i++)
             {
                 ptr = FINDFIELD_TYPE(reinterpret_cast<uint8_t*>(m_iovec[i].iov_base), fieldtype, m_iovec[i].iov_len);
             }
@@ -508,7 +515,7 @@ namespace teamtalk
 
     const iovec* FieldPacket::GetPacket(int& buffers) const
     {
-        buffers = (int)m_iovec.size();
+        buffers = static_cast<int>(m_iovec.size());
         if(buffers != 0)
             return m_iovec.data();
         return nullptr;
@@ -520,7 +527,7 @@ namespace teamtalk
         std::vector<uint8_t> protocol(1);
         protocol[0] = TEAMTALK_PACKET_PROTOCOL;
 
-        int const alloc_size = int(FIELDVALUE_PREFIX + protocol.size()); //FIELDTYPE_PAYLOAD
+        int const alloc_size = static_cast<int>(FIELDVALUE_PREFIX + protocol.size()); //FIELDTYPE_PAYLOAD
 
         uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
@@ -531,10 +538,10 @@ namespace teamtalk
 
         ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PROTOCOL, protocol.data(), protocol.size());
 
-        v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
-        assert(v.iov_len == alloc_size);
+        v.iov_len = static_cast<u_long>(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
+        assert(std::cmp_equal(v.iov_len, alloc_size));
 
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
     }
@@ -569,10 +576,10 @@ namespace teamtalk
 
         ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_PAYLOAD, payload.data(), payload_size);
 
-        v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
-        assert(v.iov_len == alloc_size);
+        v.iov_len = static_cast<u_long>(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
+        assert(std::cmp_equal(v.iov_len, alloc_size));
 
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
     }
@@ -657,7 +664,7 @@ namespace teamtalk
                 enc_array_size = (enc_framesizes->size() * 12 / 8) + 1;
             else
                 enc_array_size = (enc_framesizes->size() * 12 / 8);
-            alloc_size += int(FIELDVALUE_PREFIX + enc_array_size);
+            alloc_size += static_cast<int>(FIELDVALUE_PREFIX + enc_array_size);
         }
 
         uint8_t* data_buf = nullptr;
@@ -705,8 +712,8 @@ namespace teamtalk
                                   enc_array.data(), enc_array.size());
         }
 
-        v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
-        assert(v.iov_len == alloc_size);
+        v.iov_len = static_cast<u_long>(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
+        assert(std::cmp_equal(v.iov_len, alloc_size));
 
         //CryptPacket will become incompatible if m_iovec[1] doesn't contain 
         //the part which needs to be encrypted
@@ -715,7 +722,7 @@ namespace teamtalk
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
     }
 
@@ -813,7 +820,10 @@ namespace teamtalk
             length = READFIELD_SIZE(ptr);
             ptr = READFIELD_DATAPTR(ptr);
         }
-        else length = 0;
+        else
+        {
+            length = 0;
+        }
         return reinterpret_cast<const char*>(ptr);
     }
 
@@ -919,13 +929,13 @@ namespace teamtalk
         if((width != nullptr) && (height != nullptr) && (fragmentcnt != nullptr)) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO;
-            field_size = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t) + (12+12) / 8;
+            field_size = sizeof(uint8_t) + sizeof(uint32_t) + sizeof(uint16_t) + ((12+12) / 8);
             assert(!fragmentno || *fragmentno == 0);
         }
         else if((width != nullptr) && (height != nullptr)) //FIELDTYPE_STREAMID_PKTNUM_VIDINFO
         {
             field_type = FIELDTYPE_STREAMID_PKTNUM_VIDINFO;
-            field_size = sizeof(uint8_t) + sizeof(uint32_t) + (12 + 12) / 8;
+            field_size = sizeof(uint8_t) + sizeof(uint32_t) + ((12 + 12) / 8);
             assert(!fragmentno && !fragmentcnt);
         }
         else if(fragmentcnt != nullptr) //FIELDTYPE_STREAMID_PKTNUM_FRAGCNT
@@ -1002,12 +1012,12 @@ namespace teamtalk
         //int x = ptr - reinterpret_cast<const uint8_t*>(v.iov_base) ;
         assert(ptr - reinterpret_cast<const uint8_t*>(v.iov_base) == alloc_size);
 
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
 
         return ptr; //callee must continue to write from this position
@@ -1025,8 +1035,8 @@ namespace teamtalk
         if(ptr == nullptr) return 0;
 
         uint8_t stream_id = 0;
-        uint16_t u16_1;
-        uint16_t u16_2;
+        uint16_t u16_1 = 0;
+        uint16_t u16_2 = 0;
         uint32_t u32 = 0;
 
         uint16_t const field_size = READFIELD_SIZE(ptr);
@@ -1035,7 +1045,7 @@ namespace teamtalk
         switch(field_type)
         {
         case FIELDTYPE_STREAMID_PKTNUM_VIDINFO :
-            if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + (12+12) / 8)
+            if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + ((12+12) / 8))
                 return 0;
             //invalid parameters for this field
             if((fragno != nullptr) || (fragcnt != nullptr))
@@ -1055,7 +1065,7 @@ namespace teamtalk
             break;
         case FIELDTYPE_STREAMID_PKTNUM_FRAGCNT_VIDINFO :
             if(field_size < sizeof(uint8_t) + sizeof(uint32_t) + 
-                sizeof(uint16_t) + (12+12) / 8)
+                sizeof(uint16_t) + ((12+12) / 8))
                 return 0;
             //stream id
             ptr = GET_UINT8_PTR(ptr, stream_id);
@@ -1156,7 +1166,7 @@ namespace teamtalk
 
     bool VideoPacket::GetVideoInfo(uint16_t& width, uint16_t& height) const
     {
-        return GetStreamID(0, 0, 0, &width, &height) != 0;
+        return GetStreamID(nullptr, nullptr, nullptr, &width, &height) != 0;
     }
 
     const char* VideoPacket::GetEncodedData(uint16_t& packet_bytes) const
@@ -1206,7 +1216,7 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        std::vector<uint8_t> streamid_field((size_t)field_size);
+        std::vector<uint8_t> streamid_field(static_cast<size_t>(field_size));
         uint8_t* field_ptr = streamid_field.data();
 
         field_ptr = SET_UINT8_PTR(field_ptr, stream_id);
@@ -1221,12 +1231,12 @@ namespace teamtalk
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
         
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
         uint16_t const fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
 
@@ -1245,7 +1255,9 @@ namespace teamtalk
         for(dbi=dup_blocks.begin();dbi!=dup_blocks.end();dbi++)
         {
             if(IsBlockRange(dbi->second))
+            {
                 range_blocks++;
+            }
             else
             {
                 single_blocks += dbi->second.size();
@@ -1253,9 +1265,9 @@ namespace teamtalk
             }
         }
         uint16_t fields = DESKTOPPACKET_SESSIONUSAGE(true);
-        fields += DESKTOPPACKET_DATAUSAGE(uint16_t(blocks.size()), uint16_t(fragments.size()));
-        fields += DESKTOPPACKET_BLOCKUSAGE(uint16_t(single_entries), uint16_t(single_blocks));
-        fields += DESKTOPPACKET_BLOCKRANGEUSAGE(uint16_t(range_blocks));
+        fields += DESKTOPPACKET_DATAUSAGE(static_cast<uint16_t>(blocks.size()), static_cast<uint16_t>(fragments.size()));
+        fields += DESKTOPPACKET_BLOCKUSAGE(static_cast<uint16_t>(single_entries), static_cast<uint16_t>(single_blocks));
+        fields += DESKTOPPACKET_BLOCKRANGEUSAGE(static_cast<uint16_t>(range_blocks));
 
         assert(fields + data_size == fieldsize_alloced + (uint16_t)v.iov_len);
         assert(GetPacketSize() <= MAX_PACKET_SIZE);
@@ -1285,7 +1297,7 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         v.iov_len = alloc_size;
 
-        std::vector<uint8_t> streamid_field((size_t)field_size);
+        std::vector<uint8_t> streamid_field(static_cast<size_t>(field_size));
         uint8_t* field_ptr = streamid_field.data();
 
         field_ptr = SET_UINT8_PTR(field_ptr, session_id);
@@ -1297,12 +1309,12 @@ namespace teamtalk
 
         assert(reinterpret_cast<uint8_t*>(v.iov_base) == data_buf - alloc_size);
 
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
         uint16_t const fieldsize_alloced = InitCommon(blocks, fragments, dup_blocks);
 
@@ -1321,15 +1333,17 @@ namespace teamtalk
         for(dbi=dup_blocks.begin();dbi!=dup_blocks.end();dbi++)
         {
             if(IsBlockRange(dbi->second))
+            {
                 range_blocks++;
+            }
             else
             {
-                single_blocks += uint16_t(dbi->second.size());
+                single_blocks += static_cast<uint16_t>(dbi->second.size());
                 single_entries++;
             }
         }
         uint16_t fields = DESKTOPPACKET_SESSIONUSAGE(false);
-        fields += DESKTOPPACKET_DATAUSAGE(uint16_t(blocks.size()), uint16_t(fragments.size()));
+        fields += DESKTOPPACKET_DATAUSAGE(static_cast<uint16_t>(blocks.size()), static_cast<uint16_t>(fragments.size()));
         fields += DESKTOPPACKET_BLOCKUSAGE(single_entries, single_blocks);
         fields += DESKTOPPACKET_BLOCKRANGEUSAGE(range_blocks);
 
@@ -1364,8 +1378,8 @@ namespace teamtalk
                 SET_UINT16(ptr, pkt_upd_count);
 #ifdef _DEBUG
                 uint8_t session_id = 0;
-                uint16_t pkt_index;
-                uint16_t pkt_count;
+                uint16_t pkt_index = 0;
+                uint16_t pkt_count = 0;
                 if(GetSessionProperties(&session_id, nullptr, nullptr, nullptr,
                                         &pkt_index, &pkt_count))
                     assert(pkt_count == pkt_upd_count);
@@ -1422,7 +1436,7 @@ namespace teamtalk
                                  blocknums_sizes_output);
 
             //FIELDTYPE_BLOCKNUMS_AND_SIZES
-            alloc_size += int(FIELDVALUE_PREFIX + blocknums_sizes_output.size());
+            alloc_size += static_cast<int>(FIELDVALUE_PREFIX + blocknums_sizes_output.size());
 
             //FIELDTYPE_BLOCKS_DATA
             alloc_size += FIELDVALUE_PREFIX + blocks_size;
@@ -1456,9 +1470,9 @@ namespace teamtalk
             m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-            m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+            m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
-            alloced += (uint16_t)v.iov_len;
+            alloced += static_cast<uint16_t>(v.iov_len);
         }
 
         if(!fragments.empty())
@@ -1484,7 +1498,7 @@ namespace teamtalk
 
 
             //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES
-            alloc_size += int(FIELDVALUE_PREFIX + frags_info_output.size());
+            alloc_size += static_cast<int>(FIELDVALUE_PREFIX + frags_info_output.size());
 
             //FIELDTYPE_BLOCKS_FRAG_DATA
             alloc_size += FIELDVALUE_PREFIX + frags_size;
@@ -1516,9 +1530,9 @@ namespace teamtalk
             m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-            m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+            m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
-            alloced += (uint16_t)v.iov_len;
+            alloced += static_cast<uint16_t>(v.iov_len);
         }
 
         if(!dup_blocks.empty())
@@ -1532,7 +1546,7 @@ namespace teamtalk
             auto dbi = dup_blocks.begin();
             for(;dbi!=dup_blocks.end();dbi++)
             {
-                assert(dbi->second.size());
+                assert(!dbi->second.empty());
                 assert(dbi->first < BLOCKNUMS_MAX);
 
                 auto ii = dbi->second.begin();
@@ -1569,7 +1583,7 @@ namespace teamtalk
                                      blocknums_single_output);
 
                 //FIELDTYPE_BLOCK_DUP
-                alloc_size += int(FIELDVALUE_PREFIX + blocknums_single_output.size());
+                alloc_size += static_cast<int>(FIELDVALUE_PREFIX + blocknums_single_output.size());
 
             }
             if(!blocknums_range_input.empty())
@@ -1578,7 +1592,7 @@ namespace teamtalk
                                      blocknums_range_output);
 
                 //FIELDTYPE_BLOCK_DUP_RANGE
-                alloc_size += int(FIELDVALUE_PREFIX + blocknums_range_output.size());
+                alloc_size += static_cast<int>(FIELDVALUE_PREFIX + blocknums_range_output.size());
             }
 
             uint8_t* data_buf = nullptr;
@@ -1614,9 +1628,9 @@ namespace teamtalk
             m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-            m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+            m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
-            alloced += (uint16_t)v.iov_len;
+            alloced += static_cast<uint16_t>(v.iov_len);
         }
         return alloced;
     }
@@ -1745,7 +1759,7 @@ namespace teamtalk
         uint16_t byte_pos = 0;
         for(size_t i=0;i<blocks_n_sizes.size();i+=2)
         {
-            desktop_block bb;
+            DesktopBlock bb;
             bb.block_size = blocks_n_sizes[i+1];
 
             // The declared block sizes come off the wire, so they can add up
@@ -1788,7 +1802,7 @@ namespace teamtalk
         uint16_t byte_pos = 0;
         for(uint16_t i=0;i<info_size;i+=4)
         {
-            block_fragment bf;
+            BlockFragment bf;
             u8_info_ptr = GET2_UINT12_PTR(u8_info_ptr, bf.block_no, bf.frag_size);
             u8_info_ptr = GET_UINT4_PTR(u8_info_ptr, bf.frag_no, bf.frag_cnt);
             assert(byte_pos+bf.frag_size<=data_size);
@@ -1819,11 +1833,13 @@ namespace teamtalk
             for(unsigned short i : blocknums_single)
             {
                 if(block_no == BLOCKNO_INDEX_DUPLICATE)
+                {
                     block_no = i;
+                }
                 else if(i == BLOCKNO_INDEX_DUPLICATE)
                 {
                     assert(block_no != BLOCKNO_INDEX_DUPLICATE);
-                    assert(blocknums.size());
+                    assert(!blocknums.empty());
                     auto const ii = dup_blocks.find(block_no);
                     if(ii != dup_blocks.end())
                         ii->second.insert(blocknums.begin(), blocknums.end());
@@ -1833,7 +1849,9 @@ namespace teamtalk
                     blocknums.clear();
                 }
                 else
+                {
                     blocknums.insert(i);
+                }
             }
             ok = true;
         }
@@ -1925,7 +1943,7 @@ namespace teamtalk
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
         InitCommon(packets_ack, packet_range_ack);
     }
@@ -1975,7 +1993,7 @@ namespace teamtalk
                                     m_iovec);
 
 #ifdef ENABLE_ENCRYPTION
-            m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+            m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
         }
 
@@ -1996,7 +2014,7 @@ namespace teamtalk
             WriteUInt16ArrayToIOVec(packetnums_input, FIELDTYPE_PACKETRANGE_ACK,
                                     m_iovec);
 #ifdef ENABLE_ENCRYPTION
-            m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+            m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
         }
     }
@@ -2054,15 +2072,15 @@ namespace teamtalk
         v.iov_base = reinterpret_cast<char*>(data_buf);
         ptr = WRITEFIELD_VALUE_U8(ptr, FIELDTYPE_SESSIONID_NAK, session_id);
 
-        v.iov_len = (u_long)(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
+        v.iov_len = static_cast<u_long>(ptr - reinterpret_cast<const uint8_t*>(v.iov_base));
         assert(v.iov_len == alloc_size);
 
-        assert(m_iovec.size());
+        assert(!m_iovec.empty());
 
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
     }
 
@@ -2087,8 +2105,8 @@ namespace teamtalk
         return 0; //invalid ID
     }
 
-    DesktopCursorPacket::DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                                             uint8_t session_id, int16_t x, int16_t y)
+    DesktopCursorPacket::DesktopCursorPacket(uint16_t src_userid, uint32_t time,
+                                             uint8_t session_id, uint16_t x, uint16_t y)
                                 : FieldPacket(PACKETHDR_CHANNEL_ONLY,
                                               PACKET_KIND_DESKTOPCURSOR, 
                                               src_userid, time)
@@ -2120,7 +2138,7 @@ namespace teamtalk
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
     }
 
@@ -2137,8 +2155,8 @@ namespace teamtalk
 
     bool DesktopCursorPacket::GetSessionCursor(uint16_t* dest_userid, 
                                                uint8_t* session_id,
-                                               int16_t* x,
-                                               int16_t* y) const
+                                               uint16_t* x,
+                                               uint16_t* y) const
     {
         const uint8_t* ptr = FindField(FIELDTYPE_MY_CURSORPOS);
         if(ptr != nullptr)
@@ -2205,11 +2223,11 @@ namespace teamtalk
         //FIELDTYPE_REMOTE_INPUT
         //[sessionid(uint8_t), packetno(uint8_t), [[x(uint16_t), y(uint16_t), keycode(uint32_t), keystate(uint32_t)], ...
 
-        int const field_size = sizeof(uint8_t) + sizeof(uint8_t) + 
+        std::size_t const field_size = sizeof(uint8_t) + sizeof(uint8_t) +
                             ((sizeof(uint16_t) + sizeof(uint16_t) +
-                            sizeof(uint32_t) + sizeof(uint32_t)) * int(inputs.size()));
+                            sizeof(uint32_t) + sizeof(uint32_t)) * static_cast<int>(inputs.size()));
 
-        int const alloc_size = FIELDVALUE_PREFIX + field_size;
+        std::size_t const alloc_size = FIELDVALUE_PREFIX + field_size;
 
         uint8_t* data_buf = nullptr;
         ACE_NEW(data_buf, uint8_t[alloc_size]);
@@ -2237,7 +2255,7 @@ namespace teamtalk
         m_iovec.push_back(v);
 
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
     }
 
@@ -2370,7 +2388,7 @@ namespace teamtalk
 
         m_iovec.push_back(v);
 #ifdef ENABLE_ENCRYPTION
-        m_crypt_sections.insert(uint8_t(m_iovec.size())-1);
+        m_crypt_sections.insert(static_cast<uint8_t>(m_iovec.size())-1);
 #endif
     }
 
@@ -2420,3 +2438,7 @@ namespace teamtalk
 
 } // namespace teamtalk
 
+// NOLINTEND(clang-analyzer-deadcode.DeadStores)
+// NOLINTEND(cppcoreguidelines-owning-memory,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,cppcoreguidelines-pro-type-reinterpret-cast)
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)

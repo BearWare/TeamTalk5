@@ -24,6 +24,9 @@
 #ifndef TTASSERT_H
 #define TTASSERT_H
 
+#include <ace/Reactor.h>
+#include <ace/Thread.h>
+
 #include <cassert>
 
 void tt_assert(const char* assertion, const char* file, int line);
@@ -42,21 +45,21 @@ void tt_assert(const char* assertion, const char* file, int line);
 #if defined(_DEBUG)
 
 //ensure that it's the thread owner of the reactor which is executing
-#define ASSERT_REACTOR_THREAD(reactor)                                  \
-    do { /* NOLINT */                                                   \
-        ACE_thread_t tid;                                               \
-        int ret = (reactor).owner(&tid);                                \
-        TTASSERT(ret >= 0);                                             \
-        TTASSERT(ACE_Thread::self() == tid);                            \
-    } while(0)
+constexpr void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
+{
+    ACE_thread_t tid {};
+    int ret = reactor.owner(&tid);
+    TTASSERT(ret >= 0);
+    TTASSERT(ACE_Thread::self() == tid);
+}
 
-#define ASSERT_NOT_REACTOR_THREAD(reactor)                              \
-    do { /* NOLINT */                                                   \
-        ACE_thread_t tid;                                               \
-        int ret = (reactor).owner(&tid);                                \
-        TTASSERT(ret >= 0);                                             \
-        TTASSERT(ACE_Thread::self() != tid);                            \
-    } while(0)
+constexpr void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
+{
+    ACE_thread_t tid {};
+    int ret = reactor.owner(&tid);
+    TTASSERT(ret >= 0);
+    TTASSERT(ACE_Thread::self() != tid);
+}
 
 #if defined(ACE_WIN32) /* Win32 cannot see who holds a lock */
 #define ASSERT_MUTEX_LOCKED(lock)                                       \
