@@ -357,7 +357,8 @@ void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain
 
     for (auto& v : std::span(inputsamples, channels * n_samples))
     {
-        v = static_cast<short>(std::clamp((v * gain_numerator) / gain_denominator, INT16MIN, INT16MAX));
+        int64_t g = (v * static_cast<int64_t>(gain_numerator)) / gain_denominator;
+        v = static_cast<short>(std::clamp(static_cast<int>(g), INT16MIN, INT16MAX));
     }
 }
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
