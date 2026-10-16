@@ -95,14 +95,6 @@ jobs:
         install: base-devel
         release: false
 
-    - name: Install NASM
-      working-directory: ${{runner.workspace}}
-      shell: cmd
-      run: |
-        curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
-        7z x nasm.zip
-        echo %CD%\nasm-3.01>> %GITHUB_PATH%
-
     - name: Initialize CodeQL
       if: matrix.arch == 'x64'
       uses: github/codeql-action/init@v4
