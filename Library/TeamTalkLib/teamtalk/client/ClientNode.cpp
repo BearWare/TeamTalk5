@@ -4841,6 +4841,7 @@ int ClientNode::DoNewUserAccount(const UserAccount& user)
     AppendProperty(TT_AUTOOPCHANNELS, user.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, user.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, user.abuse.ToParam(), command);
+    AppendProperty(TT_LOGINDELAY, user.abuse.login_delay, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 

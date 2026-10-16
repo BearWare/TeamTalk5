@@ -223,8 +223,11 @@ namespace teamtalk {
 
     struct Abuse
     {
+        static constexpr int LOGIN_DELAY_DISABLED = -1;
         int n_cmds = 0;
         int cmd_msec = 0;
+        // 0 inherits the server delay, -1 disables it, positive values override it.
+        int login_delay = 0;
         Abuse() = default;
 
         std::vector<int> ToParam() const

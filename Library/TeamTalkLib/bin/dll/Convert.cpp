@@ -1346,6 +1346,7 @@ void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)
     result.nAudioCodecBpsLimit = useraccount.audiobpslimit;
     result.abusePrevent.nCommandsLimit = useraccount.abuse.n_cmds;
     result.abusePrevent.nCommandsIntervalMSec = useraccount.abuse.cmd_msec;
+    result.abusePrevent.nLoginDelayMSec = useraccount.abuse.login_delay;
     ACE_OS::strsncpy(result.szLastModified, teamtalk::DateToString(useraccount.lastupdated).c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szLastLoginTime, teamtalk::DateToString(useraccount.lastlogin).c_str(), TT_STRLEN);
 }
@@ -1363,6 +1364,7 @@ void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)
     Convert(useraccount.autoOperatorChannels, TT_CHANNELS_OPERATOR_MAX, result.auto_op_channels);
     result.abuse.n_cmds = useraccount.abusePrevent.nCommandsLimit;
     result.abuse.cmd_msec = useraccount.abusePrevent.nCommandsIntervalMSec;
+    result.abuse.login_delay = useraccount.abusePrevent.nLoginDelayMSec;
 }
 
 void Convert(const teamtalk::ServerProperties& srvprop, ServerProperties& result)

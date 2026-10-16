@@ -30,6 +30,7 @@
 
 #include <cstdio>
 #include <queue>
+#include <string>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -861,7 +862,8 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERNAME, account.username);
     GET_PROP_OR_RETURN(properties, TT_PASSWORD, account.passwd);
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
-    GetProperties(properties, account);
+    if (!GetProperties(properties, account))
+        return TT_CMDERR_INVALID_ACCOUNT;
 
     if (!VersionSameOrLater(GetStreamProtocol(), ACE_TEXT("5.13")))
     {
@@ -869,7 +871,8 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
     }
 
-    return m_servernode.UserNewUserAccount(GetUserID(), account);
+    bool const hasLoginDelay = properties.find(TT_LOGINDELAY) != properties.end();
+    return m_servernode.UserNewUserAccount(GetUserID(), account, !hasLoginDelay);
 }
 
 ErrorMsg ServerUser::HandleDeleteUserAccount(const mstrings_t& properties)
@@ -1295,6 +1298,7 @@ static void AppendUserAccount(const UserAccount& useraccount, ACE_TString& comma
         AppendProperty(TT_AUTOOPCHANNELS, useraccount.auto_op_channels, command);
     AppendProperty(TT_AUDIOBPSLIMIT, useraccount.audiobpslimit, command);
     AppendProperty(TT_CMDFLOOD, useraccount.abuse.ToParam(), command);
+    AppendProperty(TT_LOGINDELAY, useraccount.abuse.login_delay, command);
     AppendProperty(TT_MODIFIEDTIME, useraccount.lastupdated, command);
     AppendProperty(TT_LASTLOGINTIME, useraccount.lastlogin, command);
 }

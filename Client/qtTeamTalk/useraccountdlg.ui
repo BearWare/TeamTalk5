@@ -392,6 +392,43 @@
             </item>
            </layout>
           </item>
+          <item>
+           <widget class="QCheckBox" name="defaultLoginDelayCheckBox">
+            <property name="text">
+             <string>Use server &amp;login delay</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="loginDelayLayout">
+            <item>
+             <widget class="QLabel" name="loginDelayLabel">
+              <property name="text">
+               <string>Login &amp;delay (milliseconds)</string>
+              </property>
+              <property name="buddy">
+               <cstring>loginDelaySpinBox</cstring>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QSpinBox" name="loginDelaySpinBox">
+              <property name="maximum">
+               <number>2147483647</number>
+              </property>
+              <property name="specialValueText">
+               <string>Disabled</string>
+              </property>
+              <property name="toolTip">
+               <string>Minimum interval between login attempts from the same IP address. Applies to this account, including administrators. Zero disables the delay when the server default is not selected. Requires a server supporting account login-delay overrides.</string>
+              </property>
+             </widget>
+            </item>
+           </layout>
+          </item>
          </layout>
         </widget>
        </item>
