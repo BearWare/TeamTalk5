@@ -96,10 +96,11 @@ extends AppCompatActivity implements TeamTalkConnectionListener, ClientEventList
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
-        if(id == R.id.action_settings) {
-            return true;
-        }
-        else if (id == android.R.id.home) {
+        if(id == R.id.action_copyall) {
+            adapter.copyAllMessages(this);
+        } else if (id == R.id.action_clear) {
+            adapter.clearAllMessages();
+        } else if (id == android.R.id.home) {
             InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
             View v = getCurrentFocus();
             if ((v != null) && imm.isActive())

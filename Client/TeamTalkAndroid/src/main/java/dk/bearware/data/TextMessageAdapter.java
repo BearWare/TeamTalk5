@@ -100,7 +100,21 @@ public class TextMessageAdapter extends BaseAdapter {
         loginfo_bg_color = def_bg_color;
         loginfo_text_color = def_text_color;
     }
-    
+
+    public void copyAllMessages(Context context) {
+        String allText = "";
+        for (MyTextMessage m : messages) {
+            allText += m.szNickName + ": " + m.szMessage + " - " + m.time.toString() + "\n";
+        }
+        copyToClipboard(context, allText);
+    }
+
+    public void clearAllMessages() {
+        messages.clear();
+        copyToMessagesView();
+        notifyDataSetChanged();
+    }
+
     public void setTextMessages(Vector<MyTextMessage> msgs) {
         this.messages = msgs;
         copyToMessagesView();
@@ -208,11 +222,6 @@ public class TextMessageAdapter extends BaseAdapter {
                             return true;
                         } else if (item.getItemId() == R.id.action_deletemessage) {
                             messages.remove(txtmsg);
-                            copyToMessagesView();
-                            notifyDataSetChanged();
-                            return true;
-                        } else if (item.getItemId() == R.id.action_clear) {
-                            messages.clear();
                             copyToMessagesView();
                             notifyDataSetChanged();
                             return true;

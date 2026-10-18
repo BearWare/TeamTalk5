@@ -1,5 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    tools:context="dk.bearware.gui.TextMessageActivity" >
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/action_copyall"
+        app:showAsAction="never"
+        android:title="@string/action_copyall"/>
+
+    <item
+        android:id="@+id/action_clear"
+        app:showAsAction="never"
+        android:title="@string/action_clear"/>
 
 </menu>
