@@ -61,6 +61,7 @@ p, li { white-space: pre-wrap; }
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;Steffen Schultz, niemiecki&lt;/p&gt;
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;Abolfazl Saeidifar, perski&lt;/p&gt;
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;Zvonimir Stanecic, polski&lt;/p&gt;
+&lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;DJ Graco, polski&lt;/p&gt;
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;João Carlos Ramos i JNylson, portugalski brazylijski&lt;/p&gt;
 &lt;p style=" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;Ozancan Karataş, turecki&lt;/p&gt;
 &lt;p style="-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;"&gt;&lt;br /&gt;&lt;/p&gt;
@@ -5510,7 +5511,7 @@ Możesz ją pobrać na poniższej stronie:
     <message>
         <location filename="../preferences.ui" line="704"/>
         <source>Show username instead of nickname</source>
-        <translation>Pokazuj nazwę użytkownika zamiast pseudonimu</translation>
+        <translation>Pokazuj nazwy użytkowników zamiast nicków</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="711"/>
@@ -5958,7 +5959,7 @@ Możesz ją pobrać na poniższej stronie:
         <location filename="../preferences.ui" line="968"/>
         <location filename="../preferences.ui" line="2005"/>
         <source>Video Capture</source>
-        <translation>Przechwytywanie wideo</translation>
+        <translation>Wideo</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1515"/>

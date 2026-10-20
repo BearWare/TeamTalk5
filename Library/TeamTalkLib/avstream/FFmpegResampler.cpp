@@ -33,7 +33,6 @@ extern "C" {
 }
 
 #include <cassert>
-#include <cstddef>
 #include <cstdint>
 
 #if !defined(SWR_CH_MAX)
@@ -92,7 +91,7 @@ int FFMPEGResampler::Resample(const short* input_samples, int input_samples_size
     const uint8_t* in_ptr[SWR_CH_MAX] = {};
     in_ptr[0] = (uint8_t*)input_samples;
     uint8_t* out_ptr[SWR_CH_MAX] = {};
-    out_ptr[0] = (uint8_t*)output_samples;
+    out_ptr[0] = reinterpret_cast<uint8_t*>(output_samples);
 
     int const ret = swr_convert(m_ctx,
                           out_ptr,

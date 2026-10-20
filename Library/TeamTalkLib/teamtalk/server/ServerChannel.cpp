@@ -24,9 +24,9 @@
 #include "ServerChannel.h"
 
 #include "ServerUser.h"
-#include "teamtalk/TTAssert.h"
-#include "teamtalk/Common.h"
 #include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/TTAssert.h"
 
 #include <algorithm>
 
@@ -61,7 +61,7 @@ void ServerChannel::Init()
     SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
 }
 
-constexpr auto STREAMKEY(int uid, int tx)
+static constexpr auto STREAMKEY(int uid, int tx)
 {
     return (uid << 16) | tx;
 }
@@ -95,8 +95,11 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         return false;
     }
 
-    if (newstreamid || (streamid == 0)) // !streamid handles SERVER_USERID
+    if (newstreamid || (streamid == 0))
+    {
+        // !streamid handles SERVER_USERID
         m_streamstart[streamkey] = ACE_OS::gettimeofday();
+    }
     else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
@@ -141,7 +144,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         
                     ClearFromTransmitQueue(head_userid);
             BlockAudioStream(head_userid);
-            if (modified)
+            if (modified != nullptr)
                 *modified = true;
             return CanTransmit(userid, txtype, streamid, modified);
        

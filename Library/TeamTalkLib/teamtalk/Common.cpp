@@ -34,7 +34,7 @@
 #include <cstdint>
 #include <regex>
 #include <string>
-#include <time.h>
+#include <ctime>
 #include <vector>
 
 namespace teamtalk
@@ -92,7 +92,9 @@ namespace teamtalk
             std::string const bannedip = ipaddr.c_str();
 #endif
             if (user.ipaddr.is_empty())
+            {
                 match = false; // do not report banned if user has no IP-address
+            }
             else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
             {
                 // check if network ban
@@ -124,8 +126,8 @@ namespace teamtalk
         ACE_Date_Time const date(tv);
         ACE_TCHAR buf[200];
         ACE_OS::sprintf(buf, ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"), 
-                        (int)date.year(), (int)date.month(), (int)date.day(), 
-                        (int)date.hour(), (int)date.minute());
+                        static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
+                        static_cast<int>(date.hour()), static_cast<int>(date.minute()));
         return buf;
     }
 

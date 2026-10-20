@@ -25,12 +25,13 @@
 #include "mystd/MyStd.h"
 
 #include <ace/ACE.h>
-#include <ace/OS.h>
+#include <ace/OS.h> // NOLINT(misc-include-cleaner)
 #if defined(UNICODE)
 #include <ace/UTF16_Encoding_Converter.h>
 #include <algorithm>
 #endif
 
+#include <array>
 #include <cassert>
 #include <cstdarg>
 #include <cstddef>
@@ -40,6 +41,9 @@
 #include <iostream>
 #include <string>
 #include <vector>
+
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,cppcoreguidelines-pro-bounds-array-to-pointer-decay)
+// NOLINTBEGIN(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 /*******************************************************************/
 /************************* Helper functions ************************/
@@ -236,7 +240,7 @@ ACE_TString I2String(ACE_INT64 i)
 #endif /* UNICODE */
 }
 
-ACE_INT64 String2I(const ACE_TString& int_str, int base)
+ACE_INT64 String2I(const ACE_TString& int_str, int base, ACE_INT64 errorValue)
 {
     try
     {
@@ -244,7 +248,7 @@ ACE_INT64 String2I(const ACE_TString& int_str, int base)
     }
     catch(...)
     {
-        return 0;
+        return errorValue;
     }
 }
 
@@ -254,9 +258,10 @@ bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2)
         return false;
 
     for(size_t i=0;i<str1.length();i++)
+    {
         if(ACE_OS::ace_tolower(str1[i]) != ACE_OS::ace_tolower(str2[i]))
             return false;
-
+    }
     return true;
 }
 
@@ -270,7 +275,7 @@ ACE_TString StringToLower(const ACE_TString& str)
 
 #if defined(_DEBUG)
 
-#define MYTRACE_TIMESTAMP 1
+constexpr bool MYTRACE_TIMESTAMP = true;
 
 #if defined(__ANDROID_API__)
 #include <android/log.h>
@@ -284,30 +289,33 @@ ACE_TString StringToLower(const ACE_TString& str)
 #include <windows.h>
 #endif
 
-void MYTRACE(const ACE_TCHAR* trace_str, ...)
+void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic-functions)
 {
     va_list args;
     va_start(args, trace_str);
 #if defined(__ANDROID_API__) || defined(WIN32) || defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
     const int MAX_TRACESTRLEN = 512;
 #else
-    const int MAX_TRACESTRLEN = 0x10000;
+    constexpr int MAX_TRACESTRLEN = 0x10000;
 #endif
     std::vector<ACE_TCHAR> str_buf(MAX_TRACESTRLEN);
     ACE_OS::strncpy(str_buf.data(), ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
-    ACE_TCHAR tmp_str[MAX_TRACESTRLEN] = ACE_TEXT("");
+    std::array<ACE_TCHAR, MAX_TRACESTRLEN> tmp_str;
     static ACE_UINT32 begin = GETTIMESTAMP();
     static ACE_UINT32 next;
     next = GETTIMESTAMP();
     int out_len = 0;
 
-#if (MYTRACE_TIMESTAMP)
-    ACE_OS::snprintf(tmp_str, MAX_TRACESTRLEN, ACE_TEXT("%08u: %s"), next - begin, trace_str);
-    out_len = ACE_OS::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, tmp_str, args);
-#else
-    out_len = ACE_OS::vsnprintf(&str_buf[0], MAX_TRACESTRLEN, trace_str, args);
-#endif
-    
+    if (MYTRACE_TIMESTAMP)
+    {
+        ACE_OS::snprintf(tmp_str.data(), MAX_TRACESTRLEN, ACE_TEXT("%08u: %s"), next - begin, trace_str);
+        out_len = ACE_OS::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, tmp_str.data(), args);
+    }
+    else
+    {
+        out_len = ACE_OS::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, trace_str, args);
+    }
+
 #if defined(__ANDROID_API__)
     __android_log_write(ANDROID_LOG_INFO, "bearware", &str_buf[0]);
 #elif defined(WIN32)
@@ -341,41 +349,40 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)
     std::size_t const less = vec_chk.size() < vec_against.size()?vec_chk.size():vec_against.size();
     
     for(size_t i=0;i<less;i++)
+    {
         if(vec_chk[i] < vec_against[i])
             return false;
-        else if(vec_chk[i] > vec_against[i])
+        if(vec_chk[i] > vec_against[i])
             return true;
-
+    }
     return true;
 }
 
-ACE_TString KeyToHexString(const unsigned char* key, int length)
+ACE_TString KeyToHexString(const unsigned char* key, std::size_t length)
 {
-    ACE_TCHAR buf[3];
-    int const LEN = (2*length)+1;
-    auto* str = new ACE_TCHAR[LEN];
-    str[LEN-1] = '\0';
-    for(int i=0;i<length;i++)
+    std::array<ACE_TCHAR, 3> buf;
+    std::size_t const LEN = (2*length)+1;
+    std::vector<ACE_TCHAR> str(LEN);
+    for(std::size_t i=0;i<length;i++)
     {
         unsigned int const x = key[i];
-        ACE_OS::sprintf(buf, ACE_TEXT("%.2x"), x);
-        ACE_OS::sprintf(str+(i*2), ACE_TEXT("%s"), buf);
+        ACE_OS::sprintf(buf.data(), ACE_TEXT("%.2x"), x);
+        ACE_OS::sprintf(&str[i*2], ACE_TEXT("%s"), buf.data());
     }
-    ACE_TString const s = str;
-    delete [] str;
-    return s;
+    return str.data();
 }
 
-void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen)
+void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, std::size_t keylen)
 {
     assert(!crypt_key.empty() && crypt_key.length() % 2 == 0);
 
     int pos = 0;
     ACE_TString str;
-    for(size_t i=0;i<crypt_key.length() && keylen--;i+=2)
+    for(size_t i=0;i<crypt_key.length() && ((keylen--) != 0);i+=2)
     {
         str = crypt_key.substr(i, 2);
-        key[pos] = (uint8_t)ACE_OS::strtol(str.c_str(), nullptr, 16);
+        constexpr auto HEXBASE = 16;
+        key[pos] = static_cast<uint8_t>(ACE_OS::strtol(str.c_str(), nullptr, HEXBASE));
         pos++;
     }
 }
@@ -385,14 +392,16 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     time_t const nHour = value.sec()/3600;
     time_t const nMinutes = (value.sec()%3600) / 60;
     time_t const nSec = (value.sec()%60);
-    ACE_TCHAR buf[512];
-    ACE_OS::snprintf(buf, 512, ACE_TEXT("%d:%.2d:%.2d"), (int)nHour, (int)nMinutes, (int)nSec);
-    return buf;
+    constexpr auto BUFLEN = 512;
+    std::array<ACE_TCHAR, BUFLEN> buf;
+    ACE_OS::snprintf(buf.data(), BUFLEN, ACE_TEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
+    return buf.data();
 }
 
-ACE_Time_Value ToTimeValue(int msec)
+ACE_Time_Value ToTimeValue(ACE_INT64 msec)
 {
-    return ACE_Time_Value(msec / 1000, (msec % 1000) * 1000);
+    constexpr auto ONE_SEC = 1000;
+    return ACE_Time_Value(msec / ONE_SEC, (msec % ONE_SEC) * ONE_SEC);
 }
 
 strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters)
@@ -515,6 +524,7 @@ bool ValidUtf8(const ACE_CString& utf8_str)
 */
 #endif
 
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 bool ValidUtf8(const ACE_CString& utf8_str)
 {
     //ensure there's no \0 in the string
@@ -606,7 +616,7 @@ ACE_CString LimitUtf8(const ACE_CString& utf8_str, std::size_t maxlen)
     while (length > maxlen && length > 0)
     {
         const auto *cp = trimmed.fast_rep() + length;
-        while (--cp >= trimmed.fast_rep() && (((*cp & 0b10000000) != 0) && ((*cp & 0b01000000) == 0)));
+        while (--cp >= trimmed.fast_rep() && (((*cp & 0b10000000) != 0) && ((*cp & 0b01000000) == 0))); // NOLINT(bugprone-inc-dec-in-conditions)
         length = cp - trimmed.fast_rep();
     }
 
@@ -615,6 +625,7 @@ ACE_CString LimitUtf8(const ACE_CString& utf8_str, std::size_t maxlen)
 
     return trimmed;
 }
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
 
 Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, 
                    bool p_start)
@@ -623,7 +634,11 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 , m_line(line)
 {
     m_start = ACE_OS::gettimeofday();
-    auto const h = (ACE_UINT64)ACE_OS::thr_self();
+#if defined(WIN32) || defined(__ANDROID_API__)
+    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
                  m_name, (ACE_UINT32)0, m_filename, m_line, (unsigned)h);
 }
@@ -631,7 +646,14 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 Profiler::~Profiler()
 {
     ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
-    auto const h = (ACE_UINT64)ACE_OS::thr_self();
+#if defined(WIN32) || defined(__ANDROID_API__)
+    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+#else
+    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+#endif
     MYTRACE(ACE_TEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%X\n"),
-            m_name, (ACE_UINT32)tm.msec(), m_filename, m_line, (unsigned)h);
+            m_name, static_cast<ACE_UINT32>(tm.msec()), m_filename, m_line, static_cast<unsigned>(h));
 }
+
+// NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)
+// NOLINTEND(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,cppcoreguidelines-pro-bounds-array-to-pointer-decay)
