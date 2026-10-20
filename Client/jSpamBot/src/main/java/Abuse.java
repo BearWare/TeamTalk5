@@ -26,6 +26,7 @@ import java.time.Instant;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Vector;
+import java.util.logging.Logger;
 
 public class Abuse {
 
@@ -36,13 +37,15 @@ public class Abuse {
     TimeProvider time;
     int ipJoinCount, ipLoginCount, ipKickCount;
     Duration banDuration;
+    Logger logger;
 
-    public Abuse(TimeProvider time, int ipJoinCount, int ipLoginCount, int ipKickCount, Duration banDuration) {
+    public Abuse(TimeProvider time, int ipJoinCount, int ipLoginCount, int ipKickCount, Duration banDuration, Logger log) {
         this.time = time;
         this.ipJoinCount = ipJoinCount;
         this.ipLoginCount = ipLoginCount;
         this.ipKickCount = ipKickCount;
         this.banDuration = banDuration;
+        this.logger = log;
     }
 
     private static void inc(TimeProvider time, Map< String, Vector<Instant> > ipmap, String ipaddr) {
@@ -52,16 +55,19 @@ public class Abuse {
 
     public void incLogin(String ipaddr) {
         inc(time, iplogins, ipaddr);
+        this.logger.info(String.format("%s now has %d logins", ipaddr, iplogins.get(ipaddr).size()));
     }
 
     public void incJoins(String ipaddr) {
         inc(time, ipjoins, ipaddr);
+        this.logger.info(String.format("%s now has %d joins", ipaddr, ipjoins.get(ipaddr).size()));
     }
 
     public void incKicks(String ipaddr) {
         inc(time, ipkicks, ipaddr);
+        this.logger.info(String.format("%s now has %d kicks", ipaddr, ipkicks.get(ipaddr).size()));
     }
-    
+
     private static void clean(TimeProvider time, Map< String, Vector<Instant> > history, Duration banDuration) {
         Vector<String> removeme = new Vector<>();
         for (String key : history.keySet()) {
