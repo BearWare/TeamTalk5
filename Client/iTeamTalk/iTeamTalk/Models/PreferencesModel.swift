@@ -28,6 +28,15 @@ import UIKit
 
 let PREF_GENERAL_NICKNAME = "nickname_preference"
 let PREF_GENERAL_GENDER = "gender_preference"
+
+/// Status mode for PREF_GENERAL_GENDER: 0 is male, 1 is female and 2 is neutral
+func genderStatusMode(_ index: Int) -> StatusMode {
+    switch index {
+    case 1: return .STATUSMODE_FEMALE
+    case 2: return .STATUSMODE_NEUTRAL
+    default: return .STATUSMODE_AVAILABLE
+    }
+}
 let PREF_GENERAL_BEARWARE_ID = "general_bearwareid_preference"
 let PREF_GENERAL_BEARWARE_TOKEN = "general_bearwaretoken_preference"
 let PREF_GENERAL_PTTLOCK = "general_pttlock_preference"
@@ -123,6 +132,7 @@ final class PreferencesModel: ObservableObject {
     @Published var masterVolumePercent: Double
     @Published var mediaFileVolumePercent: Double
     @Published var microphoneGainPercent: Double
+    @Published var micGainSetByChannel = false
     @Published var voiceActivationLevel: Double
     @Published var ttsRate: Double
     @Published var ttsVolume: Double
@@ -156,7 +166,10 @@ final class PreferencesModel: ObservableObject {
         }
         mediaFileVolumePercent = Double(mediaVolume * 100)
 
-        microphoneGainPercent = Double(refVolumeToPercent(Int(TeamTalkClient.shared.soundInputGainLevel)))
+        let micGain = settings.object(forKey: PREF_MICROPHONE_GAIN) != nil
+            ? settings.integer(forKey: PREF_MICROPHONE_GAIN)
+            : refVolumeToPercent(Int(SOUND_GAIN_DEFAULT.rawValue))
+        microphoneGainPercent = Double(micGain)
 
         var voiceActivation = VOICEACT_DISABLED
         if settings.object(forKey: PREF_VOICEACTIVATION) != nil {
@@ -209,8 +222,7 @@ final class PreferencesModel: ObservableObject {
         genderIndex = index
         UserDefaults.standard.set(index, forKey: PREF_GENERAL_GENDER)
 
-        let gender = index != 0 ? StatusMode.STATUSMODE_FEMALE : StatusMode.STATUSMODE_AVAILABLE
-        TeamTalkClient.shared.changeStatus(mode: INT32(gender.rawValue))
+        TeamTalkClient.shared.changeStatus(mode: INT32(genderStatusMode(index).rawValue))
     }
 
     func pttlockChanged(_ enabled: Bool) {
@@ -299,9 +311,10 @@ final class PreferencesModel: ObservableObject {
     func microphoneGainChanged(_ percent: Double) {
         let roundedPercent = Double(Int(percent / 10.0) * 10)
         microphoneGainPercent = roundedPercent
-        let vol = refVolume(roundedPercent)
-        TeamTalkClient.shared.setSoundInputGainLevel(INT32(vol))
         UserDefaults.standard.set(Int(roundedPercent), forKey: PREF_MICROPHONE_GAIN)
+        if !micGainSetByChannel {
+            applyMicrophoneGain()
+        }
     }
 
     func voiceactlevelChanged(_ levelValue: Double) {
@@ -362,10 +375,21 @@ extension PreferencesModel: TeamTalkEvent {
         switch m.nClientEvent {
         case CLIENTEVENT_CMD_USER_JOINED:
             users.insert(TeamTalkMessagePayload.user(from: m).nUserID)
+            updateMicGainSetByChannel()
         case CLIENTEVENT_CMD_USER_LEFT:
             users.remove(TeamTalkMessagePayload.user(from: m).nUserID)
+            updateMicGainSetByChannel()
+        case CLIENTEVENT_CMD_CHANNEL_UPDATE, CLIENTEVENT_CON_LOST:
+            updateMicGainSetByChannel()
         default:
             break
+        }
+    }
+
+    private func updateMicGainSetByChannel() {
+        let chanid = TeamTalkClient.shared.myChannelID
+        micGainSetByChannel = chanid > 0 && TeamTalkClient.shared.withChannel(id: chanid) {
+            $0.audiocfg.bEnableAGC == TRUE
         }
     }
 }

@@ -15,14 +15,14 @@ android {
         version = release(37)
     }
     buildToolsVersion = '37.0.0'
-    ndkVersion = '29.0.14206865'
+    ndkVersion = '30.0.16248370'
 
     defaultConfig {
         applicationId = 'dk.bearware.gui'
         minSdk = 23
         targetSdk = 37
-        versionCode = 150
-        versionName = '5.22'
+        versionCode = 154
+        versionName = '5.23'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }
@@ -87,6 +87,11 @@ android {
         jniLibs {
             excludes += ['**/libTeamTalk5Pro-jni.so']
         }
+        pickFirsts = [
+                // Ignore duplicate files in junit-platform-commons-1.9.3.jar and junit-jupiter-api-5.9.3.jar
+                'META-INF/LICENSE.md',
+                'META-INF/LICENSE-notice.md'
+        ]
     }
 
     lint {
@@ -118,11 +123,12 @@ dependencies {
     implementation libs.material
     implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
 
-    testImplementation libs.junit
+    testImplementation libs.junit.jupiter.api
     testImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 
     androidTestImplementation libs.androidx.test.core
     androidTestImplementation libs.androidx.test.runner
     androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation libs.junit.jupiter.api
     androidTestImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
 }

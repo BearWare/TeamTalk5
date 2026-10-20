@@ -17,16 +17,16 @@ env:
 jobs:
   build:
     if: "!startsWith(github.head_ref, 'debug')"
-    runs-on: ubuntu-24.04
+    runs-on: ubuntu-26.04
 
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         submodules: true
 
     - name: Set up Java
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6
       with:
         distribution: 'temurin'
         java-version: '25'
@@ -36,7 +36,7 @@ jobs:
 
     - name: Install dependencies
       working-directory: ${{github.workspace}}/Build
-      run: sudo make depend-ubuntu24
+      run: sudo make depend-ubuntu26
 
     - name: Install SmokeTest dependencies
       run: >-

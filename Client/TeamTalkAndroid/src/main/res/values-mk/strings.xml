@@ -178,7 +178,6 @@
     <string name="pref_title_last_channel">Последен приклучен на каналот</string>
 
     <string name="channel_password_prompt">Внесете ја лозинката од каналов</string>
-    <string name="button_download">Преземи</string>
     <string name="download_succeeded">Датотеката %1$s беше успешно преземена и сочувана во %2$s</string>
     <string name="download_failed">Неуспеа преземањето на датотеката %1$s</string>
     <string name="upload_succeeded">Датотеката %1$s беше успешно прикачена</string>

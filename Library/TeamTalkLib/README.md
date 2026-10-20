@@ -9,14 +9,14 @@ The following secions explain how to build TeamTalk binaries using CMake:
 * [Install TeamTalk Toolchain Dependencies](#install-teamTalk-toolchain-dependencies)
   * Install the tools required to build TeamTalk on the host build platform:
     * [Windows](#install-teamtalk-dependencies-on-windows)
-    * [Ubuntu 22](#install-teamtalk-dependencies-on-ubuntu-22)
+    * [Ubuntu 26](#install-teamtalk-dependencies-on-ubuntu-26)
     * [Android on Ubuntu 22](#install-teamtalk-dependencies-for-android-on-ubuntu-22)
     * [macOS](#install-teamtalk-dependencies-on-macos)
     * [iOS on macOS](#install-teamtalk-dependencies-for-ios-on-macos)
 * [Build TeamTalk Binaries](#build-teamTalk-binaries)
   * Invoke CMake to start building the TeamTalk binaries on the host build platform:
     * [Windows](#build-teamtalk-binaries-for-windows)
-    * [Ubuntu 22](#build-teamtalk-binaries-for-ubuntu-22)
+    * [Ubuntu 26](#build-teamtalk-binaries-for-ubuntu-26)
     * [Android on Ubuntu 22](#build-teamtalk-binaries-for-android-on-ubuntu-22)
     * [macOS](#build-teamtalk-binaries-for-macos)
     * [iOS on macOS](#build-teamtalk-binaries-for-ios-on-macos)
@@ -59,20 +59,22 @@ manually.
     * Install to default location (`C:/Program Files/NASM`) or add to PATH
     * LibVPX requires *NASM*
     * NASM will be auto-downloaded if not found during CMake configuration
+* Install Windows 11 SDK (10.0.26100.0). This can be installed from
+  Visual Studio Installer.
 
 ### Install TeamTalk Dependencies on Ubuntu
 
-A Makefile is available for Ubuntu 22 and 24 to install all the dependencies
-required to build TeamTalk binaries.
-
-* To install build dependencies for Ubuntu 22 run the following in
-  TEAMTALK_ROOT:
-  * `sudo make -C Build depend-ubuntu22`
-    * `sudo` is required because `apt install` is called.
+A Makefile is available for Ubuntu 24 and 26 to install all the
+dependencies required to build TeamTalk binaries.
 
 * To install build dependencies for Ubuntu 24 run the following in
   TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu24`
+    * `sudo` is required because `apt install` is called.
+
+* To install build dependencies for Ubuntu 26 run the following in
+  TEAMTALK_ROOT:
+  * `sudo make -C Build depend-ubuntu26`
     * `sudo` is required because `apt install` is called.
 
 ### Install TeamTalk Dependencies for Android on Ubuntu 24
@@ -83,7 +85,7 @@ Building for Android platform is supported on Ubuntu 24.
   following in TEAMTALK_ROOT:
   * `sudo make -C Build depend-ubuntu24-android`
     * `sudo` is required because `apt install` is called.
-* Download [Android NDK r29](https://developer.android.com/ndk) and
+* Download [Android NDK r30](https://developer.android.com/ndk) and
   unzip it. Make environment variable `ANDROID_NDK_HOME` point to the
   unzipped location.
 
@@ -142,16 +144,16 @@ it downloads its repository.
 When both `FEATURE_FFMPEG` and `FEATURE_MEDIAFOUNDATION` are enabled,
 FFmpeg is tried first and Media Foundation is used as fallback.
 
-### Build TeamTalk Binaries for Ubuntu 22
+### Build TeamTalk Binaries for Ubuntu 26
 
 Run the following command in TEAMTALK_ROOT:
 
-`make -C Build ubuntu22`
+`make -C Build ubuntu26`
 
 This will cause `make` to call CMake to generate a valid build
 configuration and afterwards build the binaries.
 
-### Build TeamTalk Binaries for Android on Ubuntu 22
+### Build TeamTalk Binaries for Android on Ubuntu 24
 
 Run the following command in TEAMTALK_ROOT:
 
@@ -171,12 +173,39 @@ configuration and afterwards build the binaries.
 
 ### Build TeamTalk Binaries for iOS on macOS
 
-Run the following command in TEAMTALK_ROOT:
+To build TeamTalk libraries for iOS hardware devices run the following
+command in TEAMTALK_ROOT:
 
-`make -C Build ios-all`
+`make -C Build lipo`
 
-This will build TeamTalk binaries for architectures *armv7*,
-*arm64*, *i386* and *x64*.
+This will build TeamTalk binaries for iOS device architectures *arm64*
+and iOS simulator architectures
+*x64*. I.e. `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5.a` will
+be a universal binary that contains *arm64* iOS device architecture
+and *x64* iOS simulator architecture.
+
+To build TeamTalk libraries for iOS simulators run the following
+command in TEAMTALK_ROOT:
+
+`make -C Build lipo-simulator`
+
+This will build TeamTalk binaries for iOS simulator architectures *arm64* and
+*x64*. I.e. `TEAMTALK_ROOT/Library/TeamTalk_DLL/libTeamTalk5-simulator.a` will
+be a universal binary that contains *arm64* iOS simulator architecture
+and *x64* iOS simulator architecture.
+
+The `lipo` tool merges architectures into a single (so-called
+universal) binary, however, iOS device *arm64* architecture cannot be
+combined with iOS simulator *arm64* architecture. Therefore when
+building `libTeamTalk5.a` you have to select either iOS device or iOS
+simulator target.
+
+Note that the first iOS build may download WebRTC into
+`$HOME/webrtc/iOS`, which is a large checkout.
+
+See `Client/iTeamTalk/README-iOS-XCFramework.md` for the full procedure that
+turns these archives into the `TeamTalkNativeiOS` / `TeamTalkNativemacOS`
+XCFrameworks used by the `TeamTalkKit` Swift package.
 
 
 ## Toolchain Toggles for TeamTalk Build Targets

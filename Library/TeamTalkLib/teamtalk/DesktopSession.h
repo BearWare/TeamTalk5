@@ -52,6 +52,7 @@ namespace teamtalk {
     class DesktopSession
     {
     public:
+        virtual ~DesktopSession() = default;
         DesktopSession(const DesktopWindow& wnd);
         DesktopSession(const DesktopWindow& wnd, int bytes_per_line);
 

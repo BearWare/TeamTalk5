@@ -1,4 +1,4 @@
-From 22cf931fa04810b941badefbc68ca3f46e47b7dd Mon Sep 17 00:00:00 2001
+From c62e36e1de8c45b8bbabca253c5b0388c4d95027 Mon Sep 17 00:00:00 2001
 From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
 Date: Fri, 24 Apr 2026 20:19:54 +0900
 Subject: [PATCH] Add PRISM_USE_STATIC_CRT option to select /MT(d) runtime
@@ -8,18 +8,18 @@ Subject: [PATCH] Add PRISM_USE_STATIC_CRT option to select /MT(d) runtime
  1 file changed, 5 insertions(+), 10 deletions(-)
 
 diff --git a/CMakeLists.txt b/CMakeLists.txt
-index 02e4e48..7ebf131 100644
+index e160b09..cd03fa8 100644
 --- a/CMakeLists.txt
 +++ b/CMakeLists.txt
-@@ -39,6 +39,7 @@ if(PRISM_ENABLE_VCPKG_SPECIFIC_OPTIONS)
-     OFF)
- endif()
+@@ -46,6 +46,7 @@ endif()
  option(PRISM_ENABLE_GDEXTENSION "Enable building of the Godot GDExtension" ON)
+ option(PRISM_ENABLE_POWER_MANAGEMENT
+        "Enable OS power-state-aware availability polling where supported." ON)
 +option(PRISM_USE_STATIC_CRT "Use /MT(d) static CRT on MSVC" OFF)
  option(PRISM_ENABLE_LEGACY_BACKENDS
         "Enable building of legacy backends which are dead or rarely used" OFF)
  if(PRISM_ENABLE_LEGACY_BACKENDS)
-@@ -63,16 +64,10 @@ if(WIN32)
+@@ -72,16 +73,10 @@ if(WIN32)
      set(CMAKE_MSVC_RUNTIME_LIBRARY
          "MultiThreadedDLL"
          CACHE STRING "Match godot-cpp non-debug CRT")
@@ -41,5 +41,5 @@ index 02e4e48..7ebf131 100644
  endif()
  function(add_import_library target def_file dll_name)
 -- 
-2.54.0.windows.1
+2.55.0.windows.2
 

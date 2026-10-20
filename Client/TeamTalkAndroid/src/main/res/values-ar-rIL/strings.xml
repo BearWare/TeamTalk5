@@ -174,7 +174,6 @@
     <string name="pref_title_last_channel">الأخير انضم للقناة</string>
 
     <string name="channel_password_prompt">يرجى إدخال كلمة المرور للقناة</string>
-    <string name="button_download">تحميل</string>
     <string name="download_succeeded">الملف %1$s تم التحميل بنجاحوحفظ في %2$s</string>
     <string name="download_failed">فشل في تحميل الملف %1$s</string>
     <string name="upload_succeeded">الملف %1$s تم رفعه بنجاح</string>

@@ -209,7 +209,6 @@
     <string name="pref_title_last_channel">Posljednji posjećeni kanal</string>
 
     <string name="channel_password_prompt">Upišite lozinku kanala</string>
-    <string name="button_download">Preuzmi</string>
     <string name="download_succeeded">Datoteka %1$s je uspješno preuzeta i spremljena u %2$s</string>
     <string name="download_failed">Nije bilo moguće preuzeti datoteku %1$s</string>
     <string name="upload_succeeded">Datoteka %1$s je bila uspješno otpremljena na poslužitelj</string>

@@ -149,6 +149,8 @@ public class TeamTalkService extends Service
 
     public static final String TAG = "bearware";
 
+    public MediaFileInfo currentMediaFileInfo = new MediaFileInfo();
+
     private static final int UI_WIDGET_ID = 1;
     private static final String UI_CHANNEL_ID = "TeamtalkConnection";
     /** Delay before re-connecting Bluetooth SCO after a phone call ends (system needs time to release SCO). */
@@ -442,33 +444,38 @@ public class TeamTalkService extends Service
 
                 switch (state) {
                 case TelephonyManager.CALL_STATE_IDLE:
-                    if (voxSuspended)
-                        enableVoiceActivation(true);
-                    else if (txSuspended)
-                        enableVoiceTransmission(true);
-                    setMute(permanentMuteState);
-                    if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
-                        ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
-                    inPhoneCall = false;
-                    scheduleReconnectBluetoothScoAfterCall();
+                    if (inPhoneCall) {
+                        if (voxSuspended)
+                            enableVoiceActivation(true);
+                        else if (txSuspended)
+                            enableVoiceTransmission(true);
+                        setMute(permanentMuteState);
+                        if ((myself != null) && ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0))
+                            ttclient.doChangeStatus(myself.nStatusMode & ~TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
+                        inPhoneCall = false;
+                        scheduleReconnectBluetoothScoAfterCall();
+                    }
                     break;
                 case TelephonyManager.CALL_STATE_RINGING:
-                    inPhoneCall = true;
-                    if (!isMute()) {
-                        ttclient.setSoundOutputMute(true);
-                        currentMuteState = true;
+                case TelephonyManager.CALL_STATE_OFFHOOK:
+                    if (!inPhoneCall) {
+                        inPhoneCall = true;
+                        if (!isMute()) {
+                            ttclient.setSoundOutputMute(true);
+                            currentMuteState = true;
+                        }
+                        if (isVoiceActivationEnabled()) {
+                            voxSuspended = true;
+                            enableVoiceActivation(false);
+                        }
+                        else if (isVoiceTransmissionEnabled()) {
+                            txSuspended = true;
+                            enableVoiceTransmission(false);
+                        }
+                        myStatus = myself.nStatusMode;
+                        if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
+                            ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     }
-                    if (isVoiceActivationEnabled()) {
-                        voxSuspended = true;
-                        enableVoiceActivation(false);
-                    }
-                    else if (isVoiceTransmissionEnabled()) {
-                        txSuspended = true;
-                        enableVoiceTransmission(false);
-                    }
-                    myStatus = myself.nStatusMode;
-                    if ((myStatus & TeamTalkConstants.STATUSMODE_AWAY) == 0)
-                        ttclient.doChangeStatus(myStatus | TeamTalkConstants.STATUSMODE_AWAY, myself.szStatusMsg);
                     break;
                 default:
                     break;
@@ -745,21 +752,23 @@ public class TeamTalkService extends Service
     public int HISTORY_USER_MSG_MAX = 100;
 
     public Vector<MyTextMessage> getUserTextMsgs(int userid) {
-        Vector<MyTextMessage> msgs;
-        if(usertxtmsgs.get(userid) == null) {
-            msgs = new Vector<>();
+        Vector<MyTextMessage> msgs = usertxtmsgs.get(userid);
+        if (msgs == null) {
+            msgs = new Vector<MyTextMessage>();
             usertxtmsgs.put(userid, msgs);
         }
-        msgs = usertxtmsgs.get(userid);
-        if(msgs.size() > HISTORY_USER_MSG_MAX)
+        if (msgs.size() > HISTORY_USER_MSG_MAX)
             msgs.remove(0);
+
+        MyTextMessage.merge(msgs);
+
         return msgs;
     }
 
     public Vector<MyTextMessage> getChatLogTextMsgs() {
-        if(chatlogtxtmsgs.size()>HISTORY_CHATLOG_MSG_MAX)
+        if (chatlogtxtmsgs.size() > HISTORY_CHATLOG_MSG_MAX)
             chatlogtxtmsgs.remove(0);
-
+        MyTextMessage.merge(chatlogtxtmsgs);
         return chatlogtxtmsgs;
     }
 
@@ -984,8 +993,7 @@ public class TeamTalkService extends Service
             statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
         }
 
-        if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
-            statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+        statusmode |= Utils.getGenderStatusMode(prefs);
 
         ttclient.doChangeStatus(statusmode, statusmsg);
     }
@@ -1050,6 +1058,14 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdUserUpdate(User user) {
+
+        User olduser = users.get(user.nUserID);
+
+        if (olduser != null) {
+            Utils.subscriptionLogChanged(getBaseContext(), olduser, user)
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
+        }
+
         users.put(user.nUserID, user);
     }
 
@@ -1152,19 +1168,19 @@ public class TeamTalkService extends Service
         MyTextMessage newmsg = new MyTextMessage(textmessage, 
                                                  user == null? "" : Utils.getDisplayName(getBaseContext(), user));
 
+        Vector<MyTextMessage> msgs = null;
         switch(textmessage.nMsgType) {
-            case TextMsgType.MSGTYPE_USER : {
-                getUserTextMsgs(textmessage.nFromUserID).add(newmsg);
+            case TextMsgType.MSGTYPE_USER :
+                msgs = getUserTextMsgs(textmessage.nFromUserID);
                 break;
-            }
-            case TextMsgType.MSGTYPE_BROADCAST : {
-                getChatLogTextMsgs().add(newmsg);
+            case TextMsgType.MSGTYPE_BROADCAST :
+            case TextMsgType.MSGTYPE_CHANNEL :
+                msgs = getChatLogTextMsgs();
                 break;
-            }
-            case TextMsgType.MSGTYPE_CHANNEL : {
-                getChatLogTextMsgs().add(newmsg);
-                break;
-            }
+        }
+        if (msgs != null) {
+            msgs.add(newmsg);
+            MyTextMessage.merge(msgs);
         }
     }
 
@@ -1175,6 +1191,14 @@ public class TeamTalkService extends Service
 
     @Override
     public void onCmdChannelUpdate(Channel channel) {
+
+        Channel oldchannel = channels.get(channel.nChannelID);
+
+        if (oldchannel != null && mychannel != null && mychannel.nChannelID == channel.nChannelID) {
+            Utils.transmitUsersLogChanged(getBaseContext(), oldchannel, channel, getUsers())
+                .ifPresent(text -> getChatLogTextMsgs().add(MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO, text)));
+        }
+
         channels.put(channel.nChannelID, channel);
 
         if (mychannel != null && mychannel.nChannelID == channel.nChannelID) {
@@ -1228,6 +1252,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
+        currentMediaFileInfo = mediafileinfo;
         User myself = users.get(ttclient.getMyUserID());
         if (myself == null) // event may have been generated before ttclient.disconnect() was called
             return;

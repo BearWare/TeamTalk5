@@ -168,7 +168,6 @@
     <string name="pref_title_last_channel">Laatst binnengegaan kanaal</string>
 
     <string name="channel_password_prompt">Voer kanaalwachtwoord in</string>
-    <string name="button_download">Downloaden</string>
     <string name="download_succeeded">File %1$s is succesvol gedownload en opgeslagen in %2$s</string>
     <string name="download_failed">Kon bestand %1$s niet downloaden</string>
     <string name="upload_succeeded">File %1$s is succesvol geupload</string>

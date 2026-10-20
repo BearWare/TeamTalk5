@@ -4,12 +4,12 @@ Here are the instructions on how to build the TeamTalk 5 Qt client.
 
 To try a compiled version of the this application go [here](http://bearware.dk/?page_id=327).
 
-## Build Qt-based TeamTalk 5 on Ubuntu 22
+## Build Qt-based TeamTalk 5 on Ubuntu 26
 
 In order to build the Qt-based TeamTalk client its build-dependencies
 must first be installed. Goto TEAMTALK_ROOT/Build and type:
 
-`# make depend-ubuntu22`
+`# make depend-ubuntu26`
 
 Afterwards run the following command to build:
 
@@ -24,7 +24,7 @@ from https://www.qt.io/
 Setup Qt Framework in environment variables so CMake can detect Qt
 Framework, e.g.:
 
-`# set QTDIR=c:\Qt\6.8.0\msvc2022_64`
+`# set QTDIR=c:\Qt\6.11.1\msvc2022_64`
 `# set PATH=%QTDIR%\bin;%PATH%`
 
 Now use CMake to generate project files:

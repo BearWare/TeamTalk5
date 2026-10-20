@@ -49,8 +49,10 @@ protected:
 private:
     Ui::ServerDlg *ui;
     HostEntry m_hostentry;
+    ChannelTypes m_chantype;
     ServerDlgType m_type;
     void generateEntryName();
+    void updateChannelTypeText();
     void slotToggledWebLogin();
     void slotToggledLastChannel();
     bool isServerNameUnique(const QString& serverName);

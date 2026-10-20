@@ -114,8 +114,8 @@ void GridWidget::RepositionWidgets()
 {
     int colums = (int)sqrt((double)m_activewidgets.size());
     int rows = (int)sqrt((double)m_activewidgets.size());
-    rows = (m_activewidgets.size() <= rows*colums)? rows : rows + 1;
-    colums = (m_activewidgets.size() <= rows*colums)? colums : colums + 1;
+    rows = (m_activewidgets.size() <= static_cast<qsizetype>(rows)*colums)? rows : rows + 1;
+    colums = (m_activewidgets.size() <= static_cast<qsizetype>(rows)*colums)? colums : colums + 1;
 
     if(m_grid->columnCount() > colums || m_grid->rowCount() > rows)
     {

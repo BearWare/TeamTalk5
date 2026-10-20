@@ -168,6 +168,14 @@ do {                                                            \
                              USERRIGHT_TEXTMESSAGE_USER |           \
                              USERRIGHT_TEXTMESSAGE_CHANNEL)
 
+constexpr ChannelTypes CHANNELTYPE_ALL  = CHANNEL_PERMANENT |
+                                          CHANNEL_SOLO_TRANSMIT |
+                                          CHANNEL_CLASSROOM |
+                                          CHANNEL_OPERATOR_RECVONLY |
+                                          CHANNEL_NO_VOICEACTIVATION |
+                                          CHANNEL_NO_RECORDING |
+                                          CHANNEL_HIDDEN;
+
 #define DEFAULT_MAX_STRING_LENGTH       50
 
 //whether to enable key-translation

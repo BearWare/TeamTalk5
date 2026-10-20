@@ -12,9 +12,9 @@ body:
     attributes:
       label: Application
       options:
-        - label: qtTeamTalk
-        - label: TeamTalkAndroid
-        - label: iTeamTalk
-        - label: TeamTalkServer
+        - label: TeamTalk for Desktop
+        - label: TeamTalk for Android
+        - label: TeamTalk for iOS
+        - label: TeamTalk Server
     validations:
       required: true

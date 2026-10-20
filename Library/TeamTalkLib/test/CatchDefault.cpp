@@ -36,6 +36,7 @@
 #include "settings/Settings.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
 #include "teamtalk/client/Client.h"
@@ -121,6 +122,121 @@ public:
 
 /* Known bugs */
 #define TEAMTALK_KNOWN_BUGS 0
+
+static std::vector<char> FlattenPacket(const teamtalk::FieldPacket& packet,
+                                       std::vector<size_t>& offsets)
+{
+    int buffers = 0;
+    const iovec* packet_buffers = packet.GetPacket(buffers);
+    std::vector<char> result;
+    offsets.clear();
+    for(int i = 0; i < buffers; ++i)
+    {
+        offsets.push_back(result.size());
+        const auto* begin = static_cast<const char*>(packet_buffers[i].iov_base);
+        result.insert(result.end(), begin, begin + packet_buffers[i].iov_len);
+    }
+    return result;
+}
+
+TEST_CASE("Reject malformed 12-bit packet arrays", "[packet]")
+{
+    using namespace teamtalk;
+
+    SECTION("one-byte remainder in encoded audio frame sizes")
+    {
+        const char audio[] = {0};
+        AudioPacket packet(PACKET_KIND_VOICE, 1, 2, 3, 4, audio,
+                           sizeof(audio), std::vector<uint16_t>{1});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        auto* fields = reinterpret_cast<uint8_t*>(bytes.data()) +
+                       TT_CHANNEL_HEADER_SIZE;
+        auto* frame_sizes = const_cast<uint8_t*>(FINDFIELD_TYPE(
+            fields, AudioPacket::FIELDTYPE_ENCFRAMESIZES,
+            bytes.size() - TT_CHANNEL_HEADER_SIZE));
+        REQUIRE(frame_sizes != nullptr);
+
+        const auto field_offset = static_cast<size_t>(
+            frame_sizes - reinterpret_cast<uint8_t*>(bytes.data()));
+        WRITEFIELD_TYPE(frame_sizes, AudioPacket::FIELDTYPE_ENCFRAMESIZES, 1);
+        bytes.resize(field_offset + FIELDVALUE_PREFIX + 1);
+
+        AudioPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        CHECK(malformed.GetEncodedFrameSizes().empty());
+    }
+
+    SECTION("declared block size exceeds block data")
+    {
+        const char block_data[] = {1, 2};
+        map_block_t input_blocks = {
+            {7, DesktopBlock{block_data, uint16_t(sizeof(block_data))}}
+        };
+        DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, input_blocks,
+                             block_frags_t{}, mmap_dup_blocks_t{});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
+        auto* block_info = reinterpret_cast<uint8_t*>(bytes.data()) + offsets[2];
+        REQUIRE(READFIELD_SIZE(block_info) == 3);
+        SET2_UINT12_PTR(READFIELD_DATAPTR(block_info), 7, 3);
+
+        DesktopPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        map_block_t output_blocks;
+        CHECK_FALSE(malformed.GetBlocks(output_blocks));
+        CHECK(output_blocks.empty());
+    }
+}
+      
+TEST_CASE("Reject incomplete desktop packet ranges", "[packet]")
+{
+    using namespace teamtalk;
+
+    SECTION("duplicate block range missing its high value")
+    {
+        mmap_dup_blocks_t input_ranges;
+        input_ranges.emplace(4, std::set<uint16_t>{5, 6});
+        DesktopPacket packet(1, 2, 3, 51, 20, 0, 0, 1, map_block_t{},
+                             block_frags_t{}, input_ranges);
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
+        auto* range_field = reinterpret_cast<uint8_t*>(bytes.data()) +
+                            offsets.back();
+        const auto range_type = READFIELD_TYPE(range_field);
+        REQUIRE(READFIELD_SIZE(range_field) == 5);
+        WRITEFIELD_TYPE(range_field, range_type, 3);
+        bytes.resize(offsets.back() + FIELDVALUE_PREFIX + 3);
+
+        DesktopPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        map_dup_blocks_t output_ranges;
+        CHECK_FALSE(malformed.GetDuplicateBlocks(output_ranges));
+        CHECK(output_ranges.empty());
+    }
+
+    SECTION("acknowledgement range missing its high value")
+    {
+        DesktopAckPacket packet(1, 2, 3, 4, 5, std::set<uint16_t>{},
+                                packet_range_t{{6, 7}});
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(packet, offsets);
+        REQUIRE(offsets.size() >= 3);
+
+        auto* range_field = reinterpret_cast<uint8_t*>(bytes.data()) +
+                            offsets.back();
+        const auto range_type = READFIELD_TYPE(range_field);
+        REQUIRE(READFIELD_SIZE(range_field) == 4);
+        WRITEFIELD_TYPE(range_field, range_type, 2);
+        bytes.resize(offsets.back() + FIELDVALUE_PREFIX + 2);
+
+        DesktopAckPacket malformed(bytes.data(), uint16_t(bytes.size()));
+        std::set<uint16_t> packets;
+        CHECK_FALSE(malformed.GetPacketsAcked(packets));
+        CHECK(packets.empty());
+    }
+}
 
 TEST_CASE( "Init TT", "" )
 {
@@ -916,7 +1032,7 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
 TEST_CASE("GenerateToneStereoWaveFile")
 {
     media::AudioFormat const fmt(32000, 2);
-    std::vector<short> buf(fmt.samplerate * fmt.channels);
+    std::vector<short> buf(size_t(fmt.samplerate) * fmt.channels);
     media::AudioFrame frm(fmt, buf.data(), 32000);
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(ACE_TEXT("stereo.wav"), fmt));
@@ -2514,7 +2630,7 @@ TEST_CASE("InjectAudioInputGain")
     REQUIRE(chan.audiocodec.nCodec == OPUS_CODEC);
     auto const N_FRAMES = 5;
     int const samples = PCM16_DURATION_SAMPLES(chan.audiocodec.opus.nTxIntervalMSec, chan.audiocodec.opus.nSampleRate) * N_FRAMES;
-    std::vector<short> buffer(samples * chan.audiocodec.opus.nChannels);
+    std::vector<short> buffer(size_t(samples) * chan.audiocodec.opus.nChannels);
     media::AudioFrame frm(media::AudioFormat(chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels), buffer.data(), samples);
     int const sampleindex = GenerateTone(frm, 0, 500);
 
@@ -3439,7 +3555,7 @@ static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilen
     OpusEncFile opusenc;
     REQUIRE(opusenc.Open(oggfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
 
-    std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+    std::vector<short> buf(size_t(mfi.audioFmt.nChannels) * FRAMESIZE);
     int samples = 0;
     while ((samples = wavfile.ReadSamples(buf.data(), FRAMESIZE)) > 0)
     {
@@ -3479,7 +3595,7 @@ TEST_CASE("OPUSFileEncDec")
                              mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
             REQUIRE(opusenc.Open(opusencfilename, mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
 
-            std::vector<short> buf(mfi.audioFmt.nChannels * FRAMESIZE);
+            std::vector<short> buf(size_t(mfi.audioFmt.nChannels) * FRAMESIZE);
             int samples = 0;
             while ((samples = wavfile.ReadSamples(buf.data(), FRAMESIZE)) > 0)
             {
@@ -3957,7 +4073,7 @@ TEST_CASE("TTPlayFFmpegOpus")
 
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(ACE_TEXT("giana.wav"), odf.GetSampleRate(), odf.GetChannels()));
-    std::vector<short> buf(odf.GetSampleRate() * odf.GetChannels());
+    std::vector<short> buf(size_t(odf.GetSampleRate()) * odf.GetChannels());
     int samples;
     int framesize = 0;
     while ((samples = odf.Decode(buf.data(), odf.GetSampleRate())) > 0)

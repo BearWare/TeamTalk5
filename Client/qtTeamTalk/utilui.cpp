@@ -29,6 +29,8 @@
 #include <QLocale>
 #include <QLabel>
 #include <QLineEdit>
+#include <QPlainTextEdit>
+#include <QTextCursor>
 #include <QCheckBox>
 #include <QPushButton>
 #include <QVBoxLayout>
@@ -405,6 +407,37 @@ textmessages_t sendTextMessage(const TextMessage& msg, const QString& content)
     return sent ? messages : textmessages_t();
 }
 
+QString makeReplyText(const QString& sender, const QString& content)
+{
+    return QString("> %1: %2 | ").arg(sender, content.simplified());
+}
+
+static QString replaceReplyText(QObject* edit, const QString& text, const QString& sender, const QString& content)
+{
+    const QString previousPrefix = edit->property("replyPrefix").toString();
+    QString draft = text;
+    if (!previousPrefix.isEmpty() && draft.startsWith(previousPrefix))
+        draft.remove(0, previousPrefix.size());
+
+    const QString prefix = makeReplyText(sender, content);
+    edit->setProperty("replyPrefix", prefix);
+    return prefix + draft;
+}
+
+void setReplyText(QLineEdit* edit, const QString& sender, const QString& content)
+{
+    edit->setText(replaceReplyText(edit, edit->text(), sender, content));
+    edit->setFocus();
+    edit->setCursorPosition(edit->text().size());
+}
+
+void setReplyText(QPlainTextEdit* edit, const QString& sender, const QString& content)
+{
+    edit->setPlainText(replaceReplyText(edit, edit->toPlainText(), sender, content));
+    edit->moveCursor(QTextCursor::End);
+    edit->setFocus();
+}
+
 RestoreIndex::RestoreIndex(QAbstractItemView* view)
     : m_view(view)
 {
@@ -544,18 +577,19 @@ QString getLanguageDisplayName(const QString &languageCode)
     return languageName;
 }
 
-QString getFormattedDateTime(QString originalDateTimeString, QString inputFormat)
+QString getFormattedDateTime(QString original, QString inputFormat)
 {
-    QDateTime originalDateTime = QDateTime::fromString(originalDateTimeString.simplified(), inputFormat);
+    const QString s = original.simplified();
 
-    if (!originalDateTime.isValid()) {
-        return QString("Invalid DateTime");
-    }
+    QDateTime dt = QLocale::c().toDateTime(s, inputFormat);
 
-    QLocale userLocale = QLocale::system();
-    QString formattedDateTime = userLocale.toString(originalDateTime, getTimestampFormat());
+    if (!dt.isValid())
+        dt = QLocale::c().toDateTime(s, "MMM dd yyyy HH:mm:ss");
 
-    return formattedDateTime;
+    if (!dt.isValid())
+        return QStringLiteral("Invalid DateTime");
+
+    return QLocale::system().toString(dt, getTimestampFormat());
 }
 
 QString getTimestampFormat()

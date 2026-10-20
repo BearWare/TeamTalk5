@@ -32,25 +32,27 @@
 #include <cstring>
 #include <vector>
 
+constexpr auto ONE_SEC_MILLIS = 1000;
+
 // Returns number of bytes from number of 'samples' with 'channels'
 constexpr auto PCM16_BYTES(int samples, int channels)
 {
-    return samples * channels * sizeof(short);
+    return static_cast<size_t>(samples) * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
 {
-    return ((bytes / channels / sizeof(short)) * 1000) / samplerate;
+    return ((bytes / channels / sizeof(short)) * ONE_SEC_MILLIS) / samplerate;
 }
 // Returns number of msec from number of 'samples' at given 'samplerate'
 constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
 {
-    return ((samples / samplerate) * 1000) + (((samples % samplerate) * 1000) / samplerate);
+    return ((samples / samplerate) * ONE_SEC_MILLIS) + (((samples % samplerate) * ONE_SEC_MILLIS) / samplerate);
 }
 // Returns number of samples from 'duration' msec at given 'samplerate'
 constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
 {
-    return (duration / 1000) * samplerate + ((duration % 1000) ? ((samplerate * (duration % 1000)) / 1000) : 0);
+    return ((duration / ONE_SEC_MILLIS) * samplerate) + (((duration % ONE_SEC_MILLIS) != 0) ? ((samplerate * (duration % ONE_SEC_MILLIS)) / ONE_SEC_MILLIS) : 0);
 }
 
 constexpr auto RGB32_BYTES(int w, int h)
@@ -298,47 +300,6 @@ constexpr int GAIN_MAX = 32000;
 constexpr int GAIN_NORMAL = 1000;
 constexpr int GAIN_MIN = 0;
 
-#define SOFTGAIN(inputsamples, n_samples, channels, gain_numerator, gain_denominator) do { \
-    if ((gain_numerator) == (gain_denominator))                     \
-        break;                                                  \
-    float factor = float(gain_numerator) / float(gain_denominator);   \
-    int samples_total = (channels) * (n_samples);               \
-    short* samplesbuffer = inputsamples;                        \
-    if(samples_total % 4 == 0)                                  \
-    {                                                           \
-        int v[4];                                               \
-        for(int i=0;i<samples_total;i+=4)                       \
-        {                                                       \
-            v[0] = (int)(samplesbuffer[i] * factor);            \
-            v[1] = (int)(samplesbuffer[i+1] * factor);          \
-            v[2] = (int)(samplesbuffer[i+2] * factor);          \
-            v[3] = (int)(samplesbuffer[i+3] * factor);          \
-            if(v[0] > 32767) v[0] = 32767;                      \
-            else if (v[0] < -32768) v[0] = -32768;              \
-            if(v[1] > 32767) v[1] = 32767;                      \
-            else if (v[1] < -32768) v[1] = -32768;              \
-            if(v[2] > 32767) v[2] = 32767;                      \
-            else if (v[2] < -32768) v[2] = -32768;              \
-            if(v[3] > 32767) v[3] = 32767;                      \
-            else if (v[3] < -32768) v[3] = -32768;              \
-            samplesbuffer[i] = (short)v[0];                     \
-            samplesbuffer[i+1] = (short)v[1];                   \
-            samplesbuffer[i+2] = (short)v[2];                   \
-            samplesbuffer[i+3] = (short)v[3];                   \
-        }                                                       \
-    }                                                           \
-    else                                                        \
-    {                                                           \
-        int v;                                                  \
-        for(int i=0;i<samples_total;i++)                        \
-        {                                                       \
-            v = (int)(samplesbuffer[i] * factor);               \
-            if(v > 32767) v = 32767;                            \
-            else if (v < -32768) v = -32768;                    \
-            samplesbuffer[i] = (short)v;                        \
-        }                                                       \
-    }                                                           \
-} while(0)
-
+void SoftGain(short* inputsamples, std::size_t n_samples, int channels, int gain_numerator, int gain_denominator);
 
 #endif

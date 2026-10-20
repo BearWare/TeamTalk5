@@ -42,6 +42,18 @@
 
     <CheckBoxPreference
         android:defaultValue="false"
+        android:key="all_channel_join_checkbox"
+        android:summary="@string/pref_summary_all_channel_join"
+        android:title="@string/pref_title_all_channel_join" />
+    
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="all_channel_leave_checkbox"
+        android:summary="@string/pref_summary_all_channel_leave"
+        android:title="@string/pref_title_all_channel_leave" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
         android:key="channel_join_checkbox"
         android:summary="@string/pref_summary_channel_join"
         android:title="@string/pref_title_channel_join" />
@@ -51,6 +63,12 @@
         android:key="channel_leave_checkbox"
         android:summary="@string/pref_summary_channel_leave"
         android:title="@string/pref_title_channel_leave" />
+
+    <CheckBoxPreference
+        android:defaultValue="false"
+        android:key="typing_checkbox"
+        android:summary="@string/pref_summary_typing"
+        android:title="@string/pref_title_typing" />
 
     <CheckBoxPreference
         android:defaultValue="false"

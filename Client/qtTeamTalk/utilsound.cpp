@@ -135,7 +135,7 @@ QString getSoundDeviceUID(const SoundDevice& dev)
 
 int getSoundDuplexSampleRate(const SoundDevice& indev, const SoundDevice& outdev)
 {
-    auto isend = indev.inputSampleRates + sizeof(indev.inputSampleRates);
+    auto isend = indev.inputSampleRates + (sizeof(indev.inputSampleRates) / sizeof(indev.inputSampleRates[0]));
     auto isr = std::find_if(indev.inputSampleRates, isend,
         [outdev](int sr) { return sr == outdev.nDefaultSampleRate; });
     bool duplexmode = (indev.uSoundDeviceFeatures & SOUNDDEVICEFEATURE_DUPLEXMODE) &&
@@ -325,7 +325,7 @@ QStringList initSoundDevices(const SoundDevice& indev, const SoundDevice& outdev
     // disable WebRTC echo cancel if duplex mode is disabled
     if (preprocess.nPreprocessor == WEBRTC_AUDIOPREPROCESSOR)
     {
-        preprocess.webrtc.echocanceller.bEnable &= duplex;
+        preprocess.webrtc.echocanceller.bEnable = preprocess.webrtc.echocanceller.bEnable && duplex;
     }
 
     TT_SetSoundInputPreprocessEx(ttInst, &preprocess);

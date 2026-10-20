@@ -77,8 +77,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   set (QTTEAMTALK_SOURCES
     mainwindow.h preferencesdlg.h uservideowidget.h
-    channelstree.h channeldlg.h userinfodlg.h bannedusersdlg.h
+    channelstree.h channeldlg.h channeltypedlg.h userinfodlg.h bannedusersdlg.h
     useraccountsdlg.h videogridwidget.h uservideodlg.h
+    profilesdlg.h profilesmodel.h
     serverpropertiesdlg.h keycompdlg.h serverlistdlg.h common.h
     textmessagedlg.h chattextedit.h filesmodel.h filetransferdlg.h
     filesview.h uservolumedlg.h changestatusdlg.h aboutdlg.h
@@ -99,8 +100,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.h chattemplatesdlg.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
-    channelstree.cpp channeldlg.cpp userinfodlg.cpp
+    channelstree.cpp channeldlg.cpp channeltypedlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
+    profilesdlg.cpp profilesmodel.cpp
     uservideodlg.cpp serverpropertiesdlg.cpp keycompdlg.cpp
     serverlistdlg.cpp common.cpp textmessagedlg.cpp chattextedit.cpp
     filesmodel.cpp filetransferdlg.cpp filesview.cpp
@@ -121,6 +123,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.cpp chattemplatesdlg.cpp
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
+    profiles.ui
     serverproperties.ui uservideo.ui keycomp.ui textmessage.ui
     filetransfer.ui uservolume.ui changestatus.ui about.ui
     serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui
@@ -205,29 +208,6 @@ if (Qt5_FOUND OR Qt6_FOUND)
             COMMAND ${CMAKE_COMMAND} -E remove_directory "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
             COMMAND ${WINDEPLOYQT_EXE_PATH} --no-quick-import --no-translations --no-system-d3d-compiler ${QT_DEPLOY_ARGS} --no-opengl-sw --debug --dir "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug" "$<TARGET_FILE_DIR:${TEAMTALK_TARGET}>/$<TARGET_FILE_NAME:${TEAMTALK_TARGET}>"
             DEPENDS ${TEAMTALK_TARGET})
-
-          # OpenSSL DLLs are not deployed by windeployqt.exe so we need to copy them manually.
-          # Qt Maintenance Tool is able to download and install Qt's OpenSSL binaries. These files
-          # will be located in <Qt install dir>/Tools/OpenSSL
-          if (${CMAKE_SIZEOF_VOID_P} EQUAL 8)
-            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
-            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3-x64.dll PATHS "C:/Program Files/OpenSSL/bin")
-          else()
-            find_file (QT_OPENSSL_LIBCRYPTODLL_PATH NAMES libcrypto-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
-            find_file (QT_OPENSSL_LIBSSLDLL_PATH NAMES libssl-3.dll PATHS "C:/Program Files (x86)/OpenSSL/bin")
-          endif()
-          if (QT_OPENSSL_LIBCRYPTODLL_PATH-NOTFOUND OR QT_OPENSSL_LIBSSLDLL_PATH-NOTFOUND)
-            message (WARNING "Cannot find OpenSSL 3.x DLLs for Qt deployed DLLs")
-          else()
-            message ("OpenSSL libcrypto.dll for Qt deployment found here: ${QT_OPENSSL_LIBCRYPTODLL_PATH}")
-            message ("OpenSSL libssl.dll for Qt deployment found here: ${QT_OPENSSL_LIBSSLDLL_PATH}")
-            add_custom_target (QtTeamTalk5-openssl-deploy-release ALL
-              COMMAND ${CMAKE_COMMAND} -E copy ${QT_OPENSSL_LIBCRYPTODLL_PATH} ${QT_OPENSSL_LIBSSLDLL_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt"
-              DEPENDS QtTeamTalk5-windeploy-release)
-            add_custom_target (QtTeamTalk5-openssl-deploy-debug ALL
-              COMMAND ${CMAKE_COMMAND} -E copy ${QT_OPENSSL_LIBCRYPTODLL_PATH} ${QT_OPENSSL_LIBSSLDLL_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/windeployqt-debug"
-              DEPENDS QtTeamTalk5-windeploy-debug)
-          endif()
 
           install (DIRECTORY windeployqt DESTINATION Client/qtTeamTalk/)
         endif()

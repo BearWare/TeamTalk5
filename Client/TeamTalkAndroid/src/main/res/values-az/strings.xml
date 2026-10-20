@@ -149,7 +149,6 @@
     <string name="pref_title_channel_password">Kanal Şifresi</string>
     <string name="pref_title_last_channel">Son kanala qatıldı</string>
     <string name="channel_password_prompt">Kanal Şifresini Girin</string>
-    <string name="button_download">İndir</string>
     <string name="download_succeeded">%1$s dosyası %2$s konumuna başarıyla indirildi ve qeyd edildi</string>
     <string name="download_failed">%1$s dosyası indirilirken bir sehf oldu</string>
     <string name="upload_succeeded">%1$s dosyası başarıyla qarşıya yüklendi</string>

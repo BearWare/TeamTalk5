@@ -47,7 +47,6 @@
 #include <cerrno>
 #include <cstddef>
 #include <cstdlib>
-#include <memory>
 #include <vector>
 
 template < typename STREAMHANDLER >

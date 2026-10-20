@@ -39,25 +39,25 @@ jobs:
             portablearch: win64
             qtarch: win64_msvc2022_64
             qtmodules: 'qtmultimedia qtspeech'
-            qtversion: '6.11.1'
+            qtversion: '6.12.0'
             vcvars: vcvars64.bat
 
     runs-on: windows-latest
     steps:
     - name: Checkout
-      uses: actions/checkout@v6
+      uses: actions/checkout@v7
       with:
         submodules: true
 
     - name: Set up Java
-      uses: actions/setup-java@v5
+      uses: actions/setup-java@v6
       with:
         distribution: 'temurin'
         java-version: '${{ matrix.javaversion }}'
         architecture: ${{ matrix.arch }}
 
     - name: Set up Python
-      uses: actions/setup-python@v6
+      uses: actions/setup-python@v7
       with:
         python-version: '3.14'
         architecture: ${{ matrix.arch }}
@@ -102,15 +102,6 @@ jobs:
         curl -L -o nasm.zip https://www.nasm.us/pub/nasm/releasebuilds/3.01/win64/nasm-3.01-win64.zip
         7z x nasm.zip
         echo %CD%\nasm-3.01>> %GITHUB_PATH%
-
-    - name: Download and install OpenSSL for Qt 5.15
-      if: matrix.arch == 'x86'
-      working-directory: ${{runner.workspace}}
-      shell: cmd
-      run: |
-        curl -fsSL -o Win32OpenSSL.exe https://slproweb.com/download/Win32OpenSSL-3_6_2.exe
-        start /wait Win32OpenSSL.exe /silent /sp- /suppressmsgboxes /DIR="C:\Program Files (x86)\OpenSSL"
-        echo C:\Program Files (x86)\OpenSSL\bin>> %GITHUB_PATH%
 
     - name: Initialize CodeQL
       if: matrix.arch == 'x64'

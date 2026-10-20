@@ -162,6 +162,9 @@ Root: HKCR; Subkey: "TeamTalk\DefaultIcon"; ValueType: none; ValueName: "Install
 Type: files; Name: "{app}\Tolk.dll"
 Type: files; Name: "{app}\nvdaControllerClient64.dll"
 Type: files; Name: "{app}\SAAPI64.dll"
+; Delete OpenSSL DLLs from previous installations (no longer deployed)
+Type: files; Name: "{app}\libcrypto-3-x64.dll"
+Type: files; Name: "{app}\libssl-3-x64.dll"
 ; Delete pre version 5.17 language files
 Type: files; Name: "{app}\Languages\Bulgarian.qm"
 Type: files; Name: "{app}\Languages\Chinese_Simplified.qm"

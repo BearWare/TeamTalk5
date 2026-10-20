@@ -86,10 +86,7 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
                 TeamTalkClient.shared.setVoiceActivationLevel(INT32(voiceact))
             }
         }
-        if defaults.object(forKey: PREF_MICROPHONE_GAIN) != nil {
-            let vol = defaults.integer(forKey: PREF_MICROPHONE_GAIN)
-            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
-        }
+        applyMicrophoneGain()
 
         polltimer = Timer.scheduledTimer(
             timeInterval: 0.1,
@@ -365,14 +362,14 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
         switch cmd {
         case .loginCmd:
             if !server.channel.isEmpty {
-                var tokens = server.channel.components(separatedBy: "/")
+                var tokens = server.channel.components(separatedBy: "/").filter { !$0.isEmpty }
                 let chanid = TeamTalkClient.shared.channelID(fromPath: server.channel)
                 if chanid > 0 {
                     channelListModel.rejoinchannel.nChannelID = chanid
                     TeamTalkString.setChannel(.password, on: &channelListModel.rejoinchannel, to: server.chanpasswd)
                 } else if tokens.count > 0 {
                     let channame = tokens.removeLast()
-                    let chanpath = tokens.map { "/" + $0 }.joined()
+                    let chanpath = "/" + tokens.joined(separator: "/")
                     let parentid = TeamTalkClient.shared.channelID(fromPath: chanpath)
                     if parentid > 0 {
                         channelListModel.rejoinchannel.nParentID = parentid
@@ -385,8 +382,9 @@ final class MainTabModel: ObservableObject, TeamTalkEvent {
                 server.chanpasswd.removeAll()
             }
             let settings = UserDefaults.standard
-            if settings.integer(forKey: PREF_GENERAL_GENDER) != 0 {
-                TeamTalkClient.shared.changeStatus(mode: INT32(StatusMode.STATUSMODE_FEMALE.rawValue))
+            let gender = genderStatusMode(settings.integer(forKey: PREF_GENERAL_GENDER))
+            if gender != .STATUSMODE_AVAILABLE {
+                TeamTalkClient.shared.changeStatus(mode: INT32(gender.rawValue))
             }
         default:
             break

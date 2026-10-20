@@ -105,7 +105,7 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
         m_speex = std::make_unique<SpeexEncoder>();
         if(!m_speex->Initialize(codec.speex_vbr.bandmode,
                                 DEFAULT_SPEEX_COMPLEXITY,
-                                (float)codec.speex_vbr.vbr_quality,
+                                static_cast<float>(codec.speex_vbr.vbr_quality),
                                 codec.speex_vbr.bitrate,
                                 codec.speex_vbr.max_bitrate,
                                 codec.speex_vbr.dtx))
@@ -292,11 +292,11 @@ bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preproce
         }
         
                     MYTRACE(ACE_TEXT("Initialized WebRTC: gain2=%d level=%g, denoise=%d suppress=%d, echo%d\n"),
-                    int(m_apm->GetConfig().gain_controller2.enabled),
-                    double(m_apm->GetConfig().gain_controller2.fixed_digital.gain_db),
-                    int(m_apm->GetConfig().noise_suppression.enabled),
-                    int(m_apm->GetConfig().noise_suppression.level),
-                    int(m_apm->GetConfig().echo_canceller.enabled));
+                    static_cast<int>(m_apm->GetConfig().gain_controller2.enabled),
+                    static_cast<double>(m_apm->GetConfig().gain_controller2.fixed_digital.gain_db),
+                    static_cast<int>(m_apm->GetConfig().noise_suppression.enabled),
+                    static_cast<int>(m_apm->GetConfig().noise_suppression.level),
+                    static_cast<int>(m_apm->GetConfig().echo_canceller.enabled));
        
         m_aps = std::make_unique<webrtc::AudioProcessingStats>();
         return true;
@@ -349,7 +349,7 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
     }
 
     SpeexAGC agc;
-    agc.gain_level = (float)speexdsp.agc_gainlevel;
+    agc.gain_level = static_cast<float>(speexdsp.agc_gainlevel);
     agc.max_increment = speexdsp.agc_maxincdbsec;
     agc.max_decrement = speexdsp.agc_maxdecdbsec;
     agc.max_gain = speexdsp.agc_maxgaindb;
@@ -397,7 +397,7 @@ bool AudioThread::UpdatePreprocess(const teamtalk::SpeexDSP& speexdsp)
         return false;
 
     MYTRACE(ACE_TEXT("Set audio cfg. AGC: %d, %d, %d, %d, %d. Denoise: %d, %d. AEC: %d, %d, %d.\n"),
-            static_cast<int>(speexdsp.enable_agc), (int)speexdsp.agc_gainlevel,
+            static_cast<int>(speexdsp.enable_agc), speexdsp.agc_gainlevel,
             speexdsp.agc_maxincdbsec, speexdsp.agc_maxdecdbsec,
             speexdsp.agc_maxgaindb, static_cast<int>(speexdsp.enable_denoise),
             speexdsp.maxnoisesuppressdb, static_cast<int>(speexdsp.enable_aec),
@@ -481,7 +481,7 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
     if(m_tone_frequency != 0u)
          m_tone_sample_index = GenerateTone(audblock, m_tone_sample_index, m_tone_frequency);
 
-    SOFTGAIN(audblock.input_buffer, audblock.input_samples,
+    SoftGain(audblock.input_buffer, audblock.input_samples,
              audblock.inputfmt.channels, m_gainlevel, GAIN_NORMAL);
 
 #if defined(ENABLE_SPEEXDSP)
@@ -629,7 +629,7 @@ void AudioThread::PreprocessSpeex(media::AudioFrame& audblock)
         if (m_preprocess_left->IsEchoCancel() &&
             audblock.outputfmt.channels == 1 && (audblock.output_buffer != nullptr))
         {
-            if(m_echobuf.size() != (size_t)audblock.input_samples)
+            if(m_echobuf.size() != static_cast<size_t>(audblock.input_samples))
                 m_echobuf.resize(audblock.input_samples);
 
             m_preprocess_left->EchoCancel(audblock.input_buffer,
@@ -699,7 +699,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
     int const framesize = GetAudioCodecFrameSize(m_codec);
     int nbBytes = 0;
     int n_processed = 0;
-    int ret;
+    int ret = 0;
     int const fpp = GetAudioCodecFramesPerPacket(m_codec);
     int enc_frm_size = 0;
 
@@ -708,7 +708,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
     if (framesize <= 0 || fpp <= 0)
         return nullptr;
 
-    enc_frm_size = int(m_encbuf.size()) / fpp;
+    enc_frm_size = static_cast<int>(m_encbuf.size()) / fpp;
 
     while(n_processed < audblock.input_samples)
     {
@@ -739,7 +739,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     int const fpp = GetAudioCodecFramesPerPacket(m_codec);
     int nbBytes = 0;
     int n_processed = 0;
-    int ret;
+    int ret = 0;
     int enc_frm_size = 0;
 
     assert(fpp);
@@ -747,7 +747,7 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     if (framesize <= 0 || fpp <= 0)
         return nullptr;
 
-    enc_frm_size = int(m_encbuf.size()) / fpp;
+    enc_frm_size = static_cast<int>(m_encbuf.size()) / fpp;
 
     while(n_processed < audblock.input_samples)
     {

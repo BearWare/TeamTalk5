@@ -84,7 +84,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="31"/>
         <source>Compiled on %1 using Qt %2 (Qt %3 used by this instance).</source>
-        <translation>编译于 %1 使用 Qt %2 (此实例使用 Qt %3)。</translation>
+        <translation>于 %1 使用 Qt %2 编译（当前实例使用 Qt %3）。</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="32"/>
@@ -94,12 +94,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../aboutdlg.cpp" line="34"/>
         <source>TeamTalk 64-bit DLL version %1.</source>
-        <translation>TeamTalk 64位 DLL 版本 %1.</translation>
+        <translation>TeamTalk 64 位 DLL 版本 %1。</translation>
     </message>
     <message>
         <location filename="../aboutdlg.cpp" line="36"/>
         <source>TeamTalk 32-bit DLL version %1.</source>
-        <translation>TeamTalk 32位 DLL 版本 %1.</translation>
+        <translation>TeamTalk 32 位 DLL 版本 %1。</translation>
     </message>
 </context>
 <context>
@@ -198,7 +198,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessordlg.cpp" line="62"/>
         <source>Speex DSP Audio Preprocessor</source>
-        <translation>Speex DSP音频预处理器</translation>
+        <translation>Speex DSP 音频预处理器</translation>
     </message>
 </context>
 <context>
@@ -207,7 +207,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../bannedusers.ui" line="14"/>
         <location filename="../bannedusers.ui" line="58"/>
         <source>Banned Users</source>
-        <translation>禁止用户</translation>
+        <translation>已封禁用户</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="219"/>
@@ -222,12 +222,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="269"/>
         <source>Ban IP-address</source>
-        <translation>禁止 IP 地址</translation>
+        <translation>封禁 IP 地址</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="270"/>
         <source>Ban Username</source>
-        <translation>禁止用户名</translation>
+        <translation>封禁用户名</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="328"/>
@@ -252,12 +252,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="337"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation>禁止类型(%1)(&amp;B)</translation>
+        <translation>封禁类型(%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="343"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation>禁止时间(%1)(&amp;B)</translation>
+        <translation>封禁时间(%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="349"/>
@@ -267,17 +267,17 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="354"/>
         <source>&amp;Move Selected User to Unbanned List</source>
-        <translation>移动选定用户至解禁列表(&amp;M)</translation>
+        <translation>将所选用户移至解封列表(&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="388"/>
         <source>&amp;Move Selected User to Banned List</source>
-        <translation>移动选定用户至禁止列表(&amp;M)</translation>
+        <translation>将所选用户移至封禁列表(&amp;M)</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="25"/>
         <source>Filter Banned Users</source>
-        <translation>过滤禁止用户</translation>
+        <translation>筛选已封禁用户</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="31"/>
@@ -292,22 +292,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="69"/>
         <source>Banned users</source>
-        <translation>禁止用户</translation>
+        <translation>已封禁用户</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="99"/>
         <source>Ban type</source>
-        <translation>禁止类型</translation>
+        <translation>封禁类型</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="106"/>
         <source>Enter an IP or an username to ban</source>
-        <translation>输入要禁止的 IP 或用户名</translation>
+        <translation>输入要封禁的 IP 或用户名</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="113"/>
         <source>Add to list of banned users</source>
-        <translation>添加至禁止用户列表</translation>
+        <translation>添加到封禁列表</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="116"/>
@@ -317,22 +317,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusers.ui" line="143"/>
         <source>Remove banned user</source>
-        <translation>移除禁止用户</translation>
+        <translation>解除封禁</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="153"/>
         <source>Put back to banned users</source>
-        <translation>放回被禁用户</translation>
+        <translation>重新封禁</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="178"/>
         <source>Unbanned Users</source>
-        <translation>取消禁止用户</translation>
+        <translation>已解封用户</translation>
     </message>
     <message>
         <location filename="../bannedusers.ui" line="189"/>
         <source>Unbanned users</source>
-        <translation>取消禁止用户</translation>
+        <translation>已解封用户</translation>
     </message>
 </context>
 <context>
@@ -350,12 +350,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="60"/>
         <source>Ban type</source>
-        <translation>禁止类型</translation>
+        <translation>封禁类型</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="61"/>
         <source>Ban Time</source>
-        <translation>禁止时间</translation>
+        <translation>封禁时间</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="62"/>
@@ -381,7 +381,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="94"/>
         <source>,IP</source>
-        <translation>IP</translation>
+        <translation>、IP</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="94"/>
@@ -391,7 +391,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="96"/>
         <source>,Channel</source>
-        <translation>频道</translation>
+        <translation>、频道</translation>
     </message>
 </context>
 <context>
@@ -399,7 +399,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="14"/>
         <source>Activate BearWare.dk Web Login</source>
-        <translation>BearWare.dk Web 登录</translation>
+        <translation>激活 BearWare.dk Web 登录</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="20"/>
@@ -409,7 +409,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="26"/>
         <source>A BearWare.dk Web Login is used to identify a TeamTalk user. A login ID can be created on the BearWare.dk web site.</source>
-        <translation>BearWare.dk Web 登陆用于认证 TeamTalk 用户。可在 BearWare.dk 网站创建登陆 ID。</translation>
+        <translation>BearWare.dk Web 登录用于识别 TeamTalk 用户。可在 BearWare.dk 网站上创建登录 ID。</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="51"/>
@@ -449,7 +449,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="117"/>
         <source>%1, your username &quot;%2&quot; has been validated.</source>
-        <translation>%1, 您的用户名 &quot;%2&quot; 已通过验证</translation>
+        <translation>%1，您的用户名“%2”已通过验证。</translation>
     </message>
 </context>
 <context>
@@ -472,7 +472,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../changestatus.ui" line="63"/>
         <source>Display file name in status message when streaming</source>
-        <translation>播放流媒体时在状态消息中显示文件名</translation>
+        <translation>向频道播放媒体文件时在状态消息中显示文件名</translation>
     </message>
     <message>
         <location filename="../changestatusdlg.cpp" line="31"/>
@@ -547,12 +547,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="100"/>
         <source>Operator password</source>
-        <translation>管理员密码</translation>
+        <translation>频道管理员密码</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="120"/>
         <source>Max users</source>
-        <translation>最大用户</translation>
+        <translation>最大用户数</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="146"/>
@@ -577,7 +577,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="190"/>
         <source>No interruptions (no simultaneous voice transmission)</source>
-        <translation>无中断（无同时语音传输）</translation>
+        <translation>禁止插话（同一时间仅一人发言）</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="197"/>
@@ -592,12 +592,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="209"/>
         <source>Classroom (operator-controlled transmissions)</source>
-        <translation>教室（管理员控制传输）</translation>
+        <translation>课堂（由频道管理员控制传输）</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="216"/>
         <source>Operator receive only (only operator see and hear users)</source>
-        <translation>仅管理员可见（只有管理员才能听到或看到）</translation>
+        <translation>仅频道管理员接收（只有频道管理员能看到和听到用户）</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="223"/>
@@ -607,12 +607,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="230"/>
         <source>No audio recording allowed (save to disk not allowed)</source>
-        <translation>不允许音频录制（不允许保存到磁盘）</translation>
+        <translation>禁止录音（不允许保存到磁盘）</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="237"/>
         <source>Hidden channel (invisible and only known by name)</source>
-        <translation>隐藏频道（不可见，仅通过名称进入）</translation>
+        <translation>隐藏频道（不可见，只能通过名称进入）</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="251"/>
@@ -687,12 +687,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="606"/>
         <source>Application</source>
-        <translation>应用程序</translation>
+        <translation>应用场景</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="673"/>
         <source>Audio channels</source>
-        <translation>音频声道</translation>
+        <translation>声道</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="703"/>
@@ -722,7 +722,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="824"/>
         <source>Enable fixed audio volume for all users</source>
-        <translation>为所有用户启用音量修复</translation>
+        <translation>为所有用户启用固定音量</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="833"/>
@@ -753,7 +753,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="952"/>
         <source>&amp;Join channel on exit</source>
-        <translation>退出时加入频道(&amp;J)</translation>
+        <translation>完成后加入频道(&amp;J)</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="38"/>
@@ -785,7 +785,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="116"/>
         <source>VoIP</source>
-        <translation>网络电话</translation>
+        <translation>语音通话</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="117"/>
@@ -800,7 +800,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="172"/>
         <source>Add channel on %1</source>
-        <translation>在 %1 上添加频道</translation>
+        <translation>在 %1 下添加频道</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="187"/>
@@ -810,7 +810,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="189"/>
         <source>Modify root channel</source>
-        <translation>修改跟频道</translation>
+        <translation>修改根频道</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="191"/>
@@ -825,7 +825,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="204"/>
         <source>View root channel information</source>
-        <translation>查看跟贫道信息</translation>
+        <translation>查看根频道信息</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="206"/>
@@ -849,207 +849,300 @@ p, li { white-space: pre-wrap; }
     </message>
 </context>
 <context>
-    <name>ChannelsTree</name>
+    <name>ChannelTypeDlg</name>
     <message>
-        <location filename="../channelstree.cpp" line="1172"/>
-        <source>Expanded</source>
-        <translation>已展开</translation>
+        <location filename="../channeltypedlg.cpp" line="27"/>
+        <source>Permanent channel (stored on server)</source>
+        <translation>永久频道（存储在服务器上）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1172"/>
-        <source>Collapsed</source>
-        <translation>已折叠</translation>
+        <location filename="../channeltypedlg.cpp" line="28"/>
+        <source>No interruptions (no simultaneous voice transmission)</source>
+        <translation>禁止插话（同一时间仅一人发言）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="829"/>
-        <source>Text message transmission allowed for everyone: %1</source>
-        <translation>允许所有人发送消息： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="29"/>
+        <source>Classroom (operator-controlled transmissions)</source>
+        <translation>课堂（由频道管理员控制传输）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="829"/>
-        <location filename="../channelstree.cpp" line="830"/>
-        <location filename="../channelstree.cpp" line="831"/>
-        <location filename="../channelstree.cpp" line="832"/>
-        <location filename="../channelstree.cpp" line="833"/>
-        <location filename="../channelstree.cpp" line="960"/>
-        <location filename="../channelstree.cpp" line="961"/>
-        <location filename="../channelstree.cpp" line="962"/>
-        <location filename="../channelstree.cpp" line="963"/>
-        <location filename="../channelstree.cpp" line="964"/>
-        <source>Yes</source>
-        <translation>是</translation>
+        <location filename="../channeltypedlg.cpp" line="30"/>
+        <source>Operator receive only (only operators see and hear users)</source>
+        <translation>仅频道管理员接收（只有频道管理员能看到和听到用户）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="829"/>
-        <location filename="../channelstree.cpp" line="830"/>
-        <location filename="../channelstree.cpp" line="831"/>
-        <location filename="../channelstree.cpp" line="832"/>
-        <location filename="../channelstree.cpp" line="833"/>
-        <location filename="../channelstree.cpp" line="960"/>
-        <location filename="../channelstree.cpp" line="961"/>
-        <location filename="../channelstree.cpp" line="962"/>
-        <location filename="../channelstree.cpp" line="963"/>
-        <location filename="../channelstree.cpp" line="964"/>
-        <source>No</source>
-        <translation>否</translation>
+        <location filename="../channeltypedlg.cpp" line="31"/>
+        <source>No voice activation (only Push-to-Talk allowed)</source>
+        <translation>禁止语音激活（仅允许按键说话）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="830"/>
-        <source>Voice transmission allowed for everyone: %1</source>
-        <translation>允许所有人传输语音： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="32"/>
+        <source>No audio recording allowed</source>
+        <translation>禁止录音</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="831"/>
-        <source>Video transmission allowed for everyone: %1</source>
-        <translation>允许所有人传输视频： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="33"/>
+        <source>Hidden channel (invisible and only known by name)</source>
+        <translation>隐藏频道（不可见，只能通过名称进入）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="832"/>
-        <source>Desktop transmission allowed for everyone: %1</source>
-        <translation>允许所有人传输桌面： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="35"/>
+        <source>Channel Type</source>
+        <translation>频道类型</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="833"/>
-        <source>Media files transmission allowed for everyone: %1</source>
-        <translation>允许所有人传输媒体文件： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="36"/>
+        <source>Select the channel types used when creating a missing channel</source>
+        <translation>选择自动创建不存在的频道时使用的频道类型</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="837"/>
-        <source>Text message transmission</source>
-        <translation>消息传输</translation>
+        <location filename="../channeltypedlg.cpp" line="39"/>
+        <source>Select one or more channel types. Clear all options for a default channel.</source>
+        <translation>可选择一个或多个频道类型。全部不选则为默认频道。</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="838"/>
-        <source>Voice transmission</source>
-        <translation>语音传输</translation>
+        <location filename="../channeltypedlg.cpp" line="87"/>
+        <source>Permanent</source>
+        <translation>永久</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="839"/>
-        <source>Video transmission</source>
-        <translation>视频传输</translation>
+        <location filename="../channeltypedlg.cpp" line="89"/>
+        <source>No interruptions</source>
+        <translation>禁止插话</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="840"/>
-        <source>Desktop transmission</source>
-        <translation>桌面传输</translation>
+        <location filename="../channeltypedlg.cpp" line="91"/>
+        <source>Classroom</source>
+        <translation>课堂</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="841"/>
-        <source>Media files transmission</source>
-        <translation>媒体文件传输</translation>
+        <location filename="../channeltypedlg.cpp" line="93"/>
+        <source>Operator receive only</source>
+        <translation>仅频道管理员接收</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="960"/>
-        <source>Text message transmission allowed: %1</source>
-        <translation>允许消息传输： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="95"/>
+        <source>No voice activation</source>
+        <translation>禁止语音激活</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="961"/>
-        <source>Voice transmission allowed: %1</source>
-        <translation>允许语音传输： %1</translation>
+        <location filename="../channeltypedlg.cpp" line="97"/>
+        <source>No recording</source>
+        <translation>禁止录音</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="962"/>
-        <source>Video transmission allowed: %1</source>
-        <translation>允许视频传输： %1</translation>
-    </message>
-    <message>
-        <location filename="../channelstree.cpp" line="963"/>
-        <source>Desktop transmission allowed: %1</source>
-        <translation>允许桌面传输： %1</translation>
-    </message>
-    <message>
-        <location filename="../channelstree.cpp" line="964"/>
-        <source>Media files transmission allowed: %1</source>
-        <translation>允许媒体文件传输： %1</translation>
-    </message>
-    <message>
-        <location filename="../channelstree.cpp" line="1144"/>
-        <location filename="../channelstree.cpp" line="1145"/>
+        <location filename="../channeltypedlg.cpp" line="99"/>
         <source>Hidden</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1157"/>
-        <location filename="../channelstree.cpp" line="1158"/>
+        <location filename="../channeltypedlg.cpp" line="100"/>
+        <source>Default</source>
+        <translation>默认</translation>
+    </message>
+</context>
+<context>
+    <name>ChannelsTree</name>
+    <message>
+        <location filename="../channelstree.cpp" line="1189"/>
+        <source>Expanded</source>
+        <translation>已展开</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1189"/>
+        <source>Collapsed</source>
+        <translation>已折叠</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="846"/>
+        <source>Text message transmission allowed for everyone: %1</source>
+        <translation>允许所有人发送文字消息：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="846"/>
+        <location filename="../channelstree.cpp" line="847"/>
+        <location filename="../channelstree.cpp" line="848"/>
+        <location filename="../channelstree.cpp" line="849"/>
+        <location filename="../channelstree.cpp" line="850"/>
+        <location filename="../channelstree.cpp" line="977"/>
+        <location filename="../channelstree.cpp" line="978"/>
+        <location filename="../channelstree.cpp" line="979"/>
+        <location filename="../channelstree.cpp" line="980"/>
+        <location filename="../channelstree.cpp" line="981"/>
+        <source>Yes</source>
+        <translation>是</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="846"/>
+        <location filename="../channelstree.cpp" line="847"/>
+        <location filename="../channelstree.cpp" line="848"/>
+        <location filename="../channelstree.cpp" line="849"/>
+        <location filename="../channelstree.cpp" line="850"/>
+        <location filename="../channelstree.cpp" line="977"/>
+        <location filename="../channelstree.cpp" line="978"/>
+        <location filename="../channelstree.cpp" line="979"/>
+        <location filename="../channelstree.cpp" line="980"/>
+        <location filename="../channelstree.cpp" line="981"/>
+        <source>No</source>
+        <translation>否</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="847"/>
+        <source>Voice transmission allowed for everyone: %1</source>
+        <translation>允许所有人传输语音：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="848"/>
+        <source>Video transmission allowed for everyone: %1</source>
+        <translation>允许所有人传输视频：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="849"/>
+        <source>Desktop transmission allowed for everyone: %1</source>
+        <translation>允许所有人传输桌面：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="850"/>
+        <source>Media files transmission allowed for everyone: %1</source>
+        <translation>允许所有人传输媒体文件：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="854"/>
+        <source>Text message transmission</source>
+        <translation>文字消息发送</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="855"/>
+        <source>Voice transmission</source>
+        <translation>语音传输</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="856"/>
+        <source>Video transmission</source>
+        <translation>视频传输</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="857"/>
+        <source>Desktop transmission</source>
+        <translation>桌面传输</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="858"/>
+        <source>Media files transmission</source>
+        <translation>媒体文件传输</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="977"/>
+        <source>Text message transmission allowed: %1</source>
+        <translation>允许发送文字消息：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="978"/>
+        <source>Voice transmission allowed: %1</source>
+        <translation>允许传输语音：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="979"/>
+        <source>Video transmission allowed: %1</source>
+        <translation>允许传输视频：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="980"/>
+        <source>Desktop transmission allowed: %1</source>
+        <translation>允许传输桌面：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="981"/>
+        <source>Media files transmission allowed: %1</source>
+        <translation>允许传输媒体文件：%1</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1161"/>
+        <location filename="../channelstree.cpp" line="1162"/>
+        <source>Hidden</source>
+        <translation>隐藏</translation>
+    </message>
+    <message>
+        <location filename="../channelstree.cpp" line="1174"/>
+        <location filename="../channelstree.cpp" line="1175"/>
         <source>Password protected</source>
         <translation>密码保护</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1236"/>
+        <location filename="../channelstree.cpp" line="1253"/>
         <source>Unread message</source>
         <translation>未读消息</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1240"/>
+        <location filename="../channelstree.cpp" line="1257"/>
         <source>Away</source>
         <translation>离开</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1243"/>
+        <location filename="../channelstree.cpp" line="1260"/>
         <source>Question</source>
         <translation>提问</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1247"/>
+        <location filename="../channelstree.cpp" line="1264"/>
         <source>Speaking</source>
         <translation>发言中</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1249"/>
+        <location filename="../channelstree.cpp" line="1266"/>
         <source>Streaming mediafile</source>
-        <translation>流媒体文件</translation>
+        <translation>正在播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1252"/>
+        <location filename="../channelstree.cpp" line="1269"/>
         <source>Streaming mediafile (Paused)</source>
-        <translation>流媒体文件（已暂停）</translation>
+        <translation>正在播放媒体文件（已暂停）</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1255"/>
+        <location filename="../channelstree.cpp" line="1272"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1257"/>
+        <location filename="../channelstree.cpp" line="1274"/>
         <source>Desktop sharing</source>
         <translation>桌面共享</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1315"/>
+        <location filename="../channelstree.cpp" line="1332"/>
         <source>Female</source>
         <translation>女</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1318"/>
+        <location filename="../channelstree.cpp" line="1335"/>
         <source>Male</source>
         <translation>男</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1321"/>
+        <location filename="../channelstree.cpp" line="1338"/>
         <source>Neutral</source>
         <translation>中性</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1330"/>
+        <location filename="../channelstree.cpp" line="1347"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation>管理员</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1334"/>
+        <location filename="../channelstree.cpp" line="1351"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
         <translation>管理员</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1344"/>
+        <location filename="../channelstree.cpp" line="1361"/>
         <source>Channel operator</source>
         <comment>For female</comment>
         <translation>频道管理员</translation>
     </message>
     <message>
-        <location filename="../channelstree.cpp" line="1348"/>
+        <location filename="../channelstree.cpp" line="1365"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
         <translation>频道管理员</translation>
@@ -1081,7 +1174,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.ui" line="65"/>
         <source>&amp;Variables...</source>
-        <translation>变量...(&amp;V)</translation>
+        <translation>变量(&amp;V)...</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.ui" line="72"/>
@@ -1154,7 +1247,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="238"/>
         <source>Private Message</source>
-        <translation>私人消息</translation>
+        <translation>私信</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="240"/>
@@ -1169,12 +1262,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="244"/>
         <source>Server Message of the day</source>
-        <translation>服务器每日消息</translation>
+        <translation>服务器每日公告</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="246"/>
         <source>Joined Channel</source>
-        <translation>加入频道</translation>
+        <translation>已加入频道</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="248"/>
@@ -1190,12 +1283,17 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextEdit</name>
     <message>
-        <location filename="../chattextedit.cpp" line="294"/>
+        <location filename="../chattextedit.cpp" line="332"/>
         <source>History</source>
         <translation>历史消息</translation>
     </message>
     <message>
-        <location filename="../chattextedit.cpp" line="395"/>
+        <location filename="../chattextedit.cpp" line="438"/>
+        <source>&amp;Reply</source>
+        <translation>回复(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../chattextedit.cpp" line="442"/>
         <source>&amp;Clear</source>
         <translation>清除(&amp;C)</translation>
     </message>
@@ -1203,82 +1301,87 @@ p, li { white-space: pre-wrap; }
 <context>
     <name>ChatTextList</name>
     <message>
-        <location filename="../chattextlist.cpp" line="236"/>
+        <location filename="../chattextlist.cpp" line="246"/>
         <source>History</source>
         <translation>历史消息</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="122"/>
+        <location filename="../chattextlist.cpp" line="130"/>
         <source>Server Name: %1</source>
-        <translation>服务器名称： %1</translation>
+        <translation>服务器名称：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="121"/>
-        <location filename="../chattextlist.cpp" line="132"/>
+        <location filename="../chattextlist.cpp" line="129"/>
+        <location filename="../chattextlist.cpp" line="140"/>
         <source>Server</source>
         <translation>服务器</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="133"/>
+        <location filename="../chattextlist.cpp" line="141"/>
         <source>Message of the Day: %1</source>
-        <translation>每日消息： %1</translation>
+        <translation>每日公告：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="153"/>
-        <source>Joined channel %1</source>
-        <translation>加入频道 %1</translation>
-    </message>
-    <message>
-        <location filename="../chattextlist.cpp" line="152"/>
         <location filename="../chattextlist.cpp" line="161"/>
-        <location filename="../chattextlist.cpp" line="168"/>
+        <source>Joined channel %1</source>
+        <translation>已加入频道 %1</translation>
+    </message>
+    <message>
+        <location filename="../chattextlist.cpp" line="160"/>
+        <location filename="../chattextlist.cpp" line="169"/>
+        <location filename="../chattextlist.cpp" line="176"/>
         <source>Channel</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="162"/>
+        <location filename="../chattextlist.cpp" line="170"/>
         <source>Topic: %1</source>
-        <translation>主题： %1</translation>
+        <translation>主题：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="169"/>
+        <location filename="../chattextlist.cpp" line="177"/>
         <source>Disk quota: %1</source>
-        <translation>磁盘配额： %1</translation>
+        <translation>磁盘配额：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="204"/>
+        <location filename="../chattextlist.cpp" line="212"/>
         <source>You</source>
         <translation>你</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="219"/>
+        <location filename="../chattextlist.cpp" line="229"/>
         <source>System</source>
         <translation>系统</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="391"/>
+        <location filename="../chattextlist.cpp" line="403"/>
+        <source>&amp;Reply</source>
+        <translation>回复(&amp;R)</translation>
+    </message>
+    <message>
+        <location filename="../chattextlist.cpp" line="404"/>
         <source>&amp;Copy</source>
         <translation>复制(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="392"/>
+        <location filename="../chattextlist.cpp" line="405"/>
         <source>C&amp;opy Content Only</source>
-        <translation>仅拷贝内容(&amp;O)</translation>
+        <translation>仅复制内容(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="393"/>
+        <location filename="../chattextlist.cpp" line="406"/>
         <source>View &amp;Details...</source>
-        <translation>查看详细信息...(&amp;D)</translation>
+        <translation>查看详细信息(&amp;D)...</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="397"/>
+        <location filename="../chattextlist.cpp" line="410"/>
         <source>Copy &amp;All</source>
         <translation>复制全部(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="398"/>
+        <location filename="../chattextlist.cpp" line="411"/>
         <source>C&amp;lear</source>
-        <translation>清除(&amp;l)</translation>
+        <translation>清除(&amp;L)</translation>
     </message>
 </context>
 <context>
@@ -1296,7 +1399,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../useraccountdlg.cpp" line="462"/>
         <source>Interval: </source>
-        <translation>间隔</translation>
+        <translation>间隔：</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="463"/>
@@ -1392,12 +1495,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="60"/>
         <source>Desktop Access Entry</source>
-        <translation>桌面访问入口</translation>
+        <translation>桌面访问条目</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="66"/>
         <source>Here it is possible to automatically give desktop access to a selected group of users on a server. This way it is not required to click &quot;Allow Desktop Access&quot; every time a user logs on.</source>
-        <translation>此处可以自动为服务器上的选定用户组授予桌面访问权限。这样，用户无需在每次登陆时点击“允许桌面访问”。</translation>
+        <translation>在这里可以自动为服务器上的指定用户授予桌面访问权限，这样就不必在用户每次登录时都点击“允许桌面访问”。</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="78"/>
@@ -1427,7 +1530,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="153"/>
         <source>Enable desktop access to users with username</source>
-        <translation>为下列用户名的用户提供桌面访问权限</translation>
+        <translation>为以下用户名的用户启用桌面访问</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="179"/>
@@ -1437,7 +1540,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopaccess.ui" line="186"/>
         <source>R&amp;emove</source>
-        <translation>移除(&amp;e)</translation>
+        <translation>移除(&amp;E)</translation>
     </message>
     <message>
         <location filename="../desktopaccess.ui" line="197"/>
@@ -1488,7 +1591,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopshare.ui" line="20"/>
         <source>Window to Share</source>
-        <translation>共享窗口</translation>
+        <translation>要共享的窗口</translation>
     </message>
     <message>
         <location filename="../desktopshare.ui" line="26"/>
@@ -1543,22 +1646,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../desktopsharedlg.cpp" line="156"/>
         <source>Low (8-bit colors)</source>
-        <translation>低（8位颜色）</translation>
+        <translation>低（8 位色）</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="157"/>
         <source>Medium (16-bit colors)</source>
-        <translation>中等（16位颜色）</translation>
+        <translation>中（16 位色）</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="158"/>
         <source>High (24-bit colors)</source>
-        <translation>高（24位颜色）</translation>
+        <translation>高（24 位色）</translation>
     </message>
     <message>
         <location filename="../desktopsharedlg.cpp" line="159"/>
         <source>Maximum (32-bit colors)</source>
-        <translation>最大（32位颜色）</translation>
+        <translation>最高（32 位色）</translation>
     </message>
 </context>
 <context>
@@ -1621,25 +1724,25 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.cpp" line="77"/>
         <location filename="../encryptionsetupdlg.cpp" line="120"/>
         <source>Issuer: %1</source>
-        <translation>颁发者： %1</translation>
+        <translation>颁发者：%1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="78"/>
         <location filename="../encryptionsetupdlg.cpp" line="121"/>
         <source>Subject: %1</source>
-        <translation>所有者： %1</translation>
+        <translation>使用者：%1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="79"/>
         <location filename="../encryptionsetupdlg.cpp" line="122"/>
         <source>Effective date: %1</source>
-        <translation>生效日期： %1</translation>
+        <translation>生效日期：%1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="80"/>
         <location filename="../encryptionsetupdlg.cpp" line="123"/>
         <source>Expiration date: %1</source>
-        <translation>到期日期： %1</translation>
+        <translation>到期日期：%1</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="92"/>
@@ -1674,12 +1777,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="163"/>
         <source>RSA encryption</source>
-        <translation>RSA加密</translation>
+        <translation>RSA 加密</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="165"/>
         <source>Private key: %1 bits</source>
-        <translation>私钥： %1 位</translation>
+        <translation>私钥：%1 位</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="177"/>
@@ -1728,12 +1831,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransfer.ui" line="79"/>
         <source>Destination:</source>
-        <translation>目的地：</translation>
+        <translation>目标位置：</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="109"/>
         <source>Transfer progress</source>
-        <translation>传送进度</translation>
+        <translation>传输进度</translation>
     </message>
     <message>
         <location filename="../filetransfer.ui" line="136"/>
@@ -1758,7 +1861,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="103"/>
         <source>%1/second, last second %2</source>
-        <translation>%1/秒， 前一秒 %2</translation>
+        <translation>%1/秒，最近一秒 %2</translation>
     </message>
     <message>
         <location filename="../filetransferdlg.cpp" line="130"/>
@@ -1768,7 +1871,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../filetransferdlg.cpp" line="155"/>
         <source>Unable to open &quot;%1&quot;. File does not have a default file association</source>
-        <translation>无法打开 &quot;%1&quot;，文件没有默认关联</translation>
+        <translation>无法打开“%1”，该文件没有关联的默认程序</translation>
     </message>
 </context>
 <context>
@@ -1895,7 +1998,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../generatettfile.ui" line="304"/>
         <source>Video Capture Settings</source>
-        <translation>视频捕获设置</translation>
+        <translation>视频采集设置</translation>
     </message>
     <message>
         <location filename="../generatettfile.ui" line="313"/>
@@ -1929,7 +2032,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../generatettfiledlg.cpp" line="66"/>
         <location filename="../generatettfiledlg.cpp" line="77"/>
         <source>Any</source>
-        <translation>任何</translation>
+        <translation>任意</translation>
     </message>
     <message>
         <location filename="../generatettfiledlg.cpp" line="154"/>
@@ -1958,7 +2061,7 @@ p, li { white-space: pre-wrap; }
     <name>KeyCompDlg</name>
     <message>
         <location filename="../keycomp.ui" line="20"/>
-        <location filename="../keycompdlg.cpp" line="54"/>
+        <location filename="../keycompdlg.cpp" line="66"/>
         <source>Key Combination</source>
         <translation>组合键</translation>
     </message>
@@ -1970,7 +2073,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="35"/>
         <source>Hold down the keys which should be used as a hot key. Modifier keys like Shift, Ctrl and Alt can be used in combination with other keys</source>
-        <translation>按下要用作热键的键。Shift， Ctrl 和 Alt 等修饰键可以与其他键组合使用</translation>
+        <translation>按住要用作热键的按键。Shift、Ctrl 和 Alt 等修饰键可以与其他键组合使用</translation>
     </message>
     <message>
         <location filename="../keycomp.ui" line="47"/>
@@ -1983,50 +2086,50 @@ p, li { white-space: pre-wrap; }
         <translation>当您释放所有键后，此对话框将关闭</translation>
     </message>
     <message>
-        <location filename="../keycompdlg.cpp" line="40"/>
+        <location filename="../keycompdlg.cpp" line="56"/>
         <source>Setup Hotkey: %1</source>
         <translation>设置热键：%1</translation>
     </message>
     <message>
-        <location filename="../keycompdlg.cpp" line="55"/>
+        <location filename="../keycompdlg.cpp" line="67"/>
         <source>Modifiers (Option, Control, Command and Shift) must be used in combination with other keys.</source>
-        <translation>键（Option，Control，Command 和 Shift）必须与其他键组合使用。</translation>
+        <translation>修饰键（Option、Control、Command 和 Shift）必须与其他键组合使用。</translation>
     </message>
     <message>
-        <location filename="../keycompdlg.cpp" line="237"/>
+        <location filename="../keycompdlg.cpp" line="314"/>
         <source>Invalid key combination</source>
         <translation>无效的组合键</translation>
     </message>
     <message>
-        <location filename="../keycompdlg.cpp" line="238"/>
+        <location filename="../keycompdlg.cpp" line="315"/>
         <source>macOS does not support only modifier keys, i.e. Cmd, Option and Shift must be used in combination with other non-modifier keys.</source>
-        <translation>macOS 不支持仅使用修饰键，即 Cmd，Option 和 Shift 必须与其他非修饰键结合使用。</translation>
+        <translation>macOS 不支持仅使用修饰键，即 Cmd、Option 和 Shift 必须与其他非修饰键组合使用。</translation>
     </message>
 </context>
 <context>
     <name>LoginInfoDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="683"/>
+        <location filename="../utilui.cpp" line="717"/>
         <source>Username:</source>
-        <translation>用户名</translation>
+        <translation>用户名：</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="688"/>
+        <location filename="../utilui.cpp" line="722"/>
         <source>Password:</source>
-        <translation>密码</translation>
+        <translation>密码：</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="694"/>
+        <location filename="../utilui.cpp" line="728"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="699"/>
+        <location filename="../utilui.cpp" line="733"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="700"/>
+        <location filename="../utilui.cpp" line="734"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -2050,13 +2153,13 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="202"/>
         <location filename="../mainwindow.ui" line="205"/>
         <source>Voice level</source>
-        <translation>语音级别</translation>
+        <translation>语音电平</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="224"/>
         <location filename="../mainwindow.ui" line="249"/>
         <location filename="../mainwindow.ui" line="252"/>
-        <location filename="../mainwindow.cpp" line="3418"/>
+        <location filename="../mainwindow.cpp" line="3561"/>
         <source>Microphone gain</source>
         <translation>麦克风增益</translation>
     </message>
@@ -2065,7 +2168,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="293"/>
         <location filename="../mainwindow.ui" line="296"/>
         <source>Voice activation level</source>
-        <translation>语音激活级别</translation>
+        <translation>语音激活阈值</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="370"/>
@@ -2077,7 +2180,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="386"/>
         <source>Send text message</source>
-        <translation>发送</translation>
+        <translation>发送文字消息</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="389"/>
@@ -2088,8 +2191,8 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="760"/>
-        <location filename="../mainwindow.ui" line="1970"/>
-        <location filename="../mainwindow.cpp" line="7619"/>
+        <location filename="../mainwindow.ui" line="1962"/>
+        <location filename="../mainwindow.cpp" line="7675"/>
         <source>&amp;Video</source>
         <translation>视频(&amp;V)</translation>
     </message>
@@ -2109,7 +2212,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="884"/>
         <location filename="../mainwindow.ui" line="887"/>
         <source>Remove User From Video Grid</source>
-        <translation>从视频网格中删除用户</translation>
+        <translation>从视频网格中移除用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="917"/>
@@ -2121,18 +2224,18 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.ui" line="1087"/>
         <location filename="../mainwindow.ui" line="1090"/>
         <source>Detach selected window</source>
-        <translation>分离选定的窗口</translation>
+        <translation>分离所选窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1123"/>
         <source>Put back removed window</source>
-        <translation>放回删除的窗口</translation>
+        <translation>恢复已移除的窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1159"/>
         <location filename="../mainwindow.ui" line="1162"/>
         <source>Remove selected window</source>
-        <translation>删除选定的窗口</translation>
+        <translation>移除所选窗口</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1198"/>
@@ -2147,13 +2250,13 @@ p, li { white-space: pre-wrap; }
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1032"/>
-        <location filename="../mainwindow.cpp" line="7627"/>
+        <location filename="../mainwindow.cpp" line="7683"/>
         <source>&amp;Desktops</source>
         <translation>桌面(&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="399"/>
-        <location filename="../mainwindow.cpp" line="3285"/>
+        <location filename="../mainwindow.cpp" line="3428"/>
         <source>&amp;Files</source>
         <translation>文件(&amp;F)</translation>
     </message>
@@ -2236,261 +2339,255 @@ p, li { white-space: pre-wrap; }
         <translation>帮助(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1600"/>
-        <source>&amp;Server List</source>
-        <translation>服务器列表(&amp;S)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="1603"/>
-        <location filename="../mainwindow.ui" line="1865"/>
+        <location filename="../mainwindow.ui" line="1857"/>
         <source>F3</source>
         <translation>F3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1615"/>
+        <location filename="../mainwindow.ui" line="1607"/>
         <source>&amp;Connect</source>
         <translation>连接(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1618"/>
+        <location filename="../mainwindow.ui" line="1610"/>
         <source>F2</source>
         <translation>F2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1647"/>
+        <location filename="../mainwindow.ui" line="1639"/>
         <source>&amp;Preferences</source>
         <translation>首选项(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1650"/>
+        <location filename="../mainwindow.ui" line="1642"/>
         <source>F4</source>
         <translation>F4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1655"/>
-        <location filename="../mainwindow.cpp" line="2686"/>
+        <location filename="../mainwindow.ui" line="1647"/>
+        <location filename="../mainwindow.cpp" line="2811"/>
         <source>&amp;Exit</source>
         <translation>退出(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1675"/>
+        <location filename="../mainwindow.ui" line="1667"/>
         <source>Enable &amp;Push To Talk</source>
-        <translation>启用案件说话(&amp;P)</translation>
+        <translation>启用按键说话(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1678"/>
+        <location filename="../mainwindow.ui" line="1670"/>
         <source>Ctrl+Shift+T</source>
         <translation>Ctrl+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1688"/>
+        <location filename="../mainwindow.ui" line="1680"/>
         <source>&amp;About</source>
         <translation>关于(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1696"/>
+        <location filename="../mainwindow.ui" line="1688"/>
         <source>&amp;Manual</source>
         <translation>用户手册(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1699"/>
+        <location filename="../mainwindow.ui" line="1691"/>
         <source>F1</source>
         <translation>F1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1704"/>
+        <location filename="../mainwindow.ui" line="1696"/>
         <source>Server &amp;Properties</source>
         <translation>服务器属性(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1707"/>
+        <location filename="../mainwindow.ui" line="1699"/>
         <source>F9</source>
         <translation>F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1712"/>
+        <location filename="../mainwindow.ui" line="1704"/>
         <source>&amp;Create Channel</source>
         <translation>创建频道(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1715"/>
+        <location filename="../mainwindow.ui" line="1707"/>
         <source>F7</source>
         <translation>F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1720"/>
+        <location filename="../mainwindow.ui" line="1712"/>
         <source>&amp;Update Channel</source>
         <translation>更新频道(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1723"/>
+        <location filename="../mainwindow.ui" line="1715"/>
         <source>Shift+F7</source>
         <translation>Shift+F7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1728"/>
+        <location filename="../mainwindow.ui" line="1720"/>
         <source>&amp;Delete Channel</source>
         <translation>删除频道(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1731"/>
+        <location filename="../mainwindow.ui" line="1723"/>
         <source>F8</source>
         <translation>F8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1736"/>
+        <location filename="../mainwindow.ui" line="1728"/>
         <source>&amp;Join Channel</source>
         <translation>加入频道(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1739"/>
+        <location filename="../mainwindow.ui" line="1731"/>
         <source>Ctrl+J</source>
         <translation>Ctrl+J</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1759"/>
+        <location filename="../mainwindow.ui" line="1751"/>
         <source>Enable Voice &amp;Activation</source>
         <translation>启用语音激活(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1762"/>
+        <location filename="../mainwindow.ui" line="1754"/>
         <source>Ctrl+Shift+A</source>
         <translation>Ctrl+Shift+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1767"/>
+        <location filename="../mainwindow.ui" line="1759"/>
         <source>Change &amp;Nickname</source>
         <translation>修改昵称(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1770"/>
+        <location filename="../mainwindow.ui" line="1762"/>
         <source>F5</source>
         <translation>F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1775"/>
+        <location filename="../mainwindow.ui" line="1767"/>
         <source>Change &amp;Status</source>
         <translation>更改状态(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1778"/>
+        <location filename="../mainwindow.ui" line="1770"/>
         <source>F6</source>
         <translation>F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1783"/>
+        <location filename="../mainwindow.ui" line="1775"/>
         <source>&amp;View User Information</source>
         <translation>查看用户信息(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1786"/>
+        <location filename="../mainwindow.ui" line="1778"/>
         <source>Ctrl+I</source>
         <translation>Ctrl+I</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1806"/>
+        <location filename="../mainwindow.ui" line="1798"/>
         <source>Mute &amp;All</source>
         <translation>全部静音(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1809"/>
+        <location filename="../mainwindow.ui" line="1801"/>
         <source>Ctrl+M</source>
         <translation>Ctrl+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1814"/>
+        <location filename="../mainwindow.ui" line="1806"/>
         <source>Up&amp;load File</source>
         <translation>上传文件(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1817"/>
+        <location filename="../mainwindow.ui" line="1809"/>
         <source>Shift+F5</source>
         <translation>Shift+F5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1822"/>
+        <location filename="../mainwindow.ui" line="1814"/>
         <source>D&amp;ownload File</source>
         <translation>下载文件(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1825"/>
+        <location filename="../mainwindow.ui" line="1817"/>
         <source>Shift+F6</source>
         <translation>Shift+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1830"/>
+        <location filename="../mainwindow.ui" line="1822"/>
         <source>Dele&amp;te File</source>
         <translation>删除文件(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1833"/>
+        <location filename="../mainwindow.ui" line="1825"/>
         <source>Shift+Del</source>
         <translation>Shift+Del</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1838"/>
+        <location filename="../mainwindow.ui" line="1830"/>
         <source>&amp;Banned Users</source>
-        <translation>禁止用户(&amp;b)</translation>
+        <translation>已封禁用户(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1841"/>
+        <location filename="../mainwindow.ui" line="1833"/>
         <source>Ctrl+Shift+B</source>
         <translation>Ctrl+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1846"/>
+        <location filename="../mainwindow.ui" line="1838"/>
         <source>&amp;User Accounts</source>
         <translation>用户账户(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1849"/>
+        <location filename="../mainwindow.ui" line="1841"/>
         <source>Ctrl+Shift+L</source>
         <translation>Ctrl+Shift+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1854"/>
+        <location filename="../mainwindow.ui" line="1846"/>
         <source>&amp;Save Configuration</source>
         <translation>保存配置(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1857"/>
+        <location filename="../mainwindow.ui" line="1849"/>
         <source>Ctrl+Shift+S</source>
         <translation>Ctrl+Shift+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1862"/>
+        <location filename="../mainwindow.ui" line="1854"/>
         <source>&amp;View Channel Info</source>
         <translation>查看频道信息(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1886"/>
+        <location filename="../mainwindow.ui" line="1878"/>
         <source>M&amp;essages</source>
-        <translation>私聊(&amp;M)</translation>
+        <translation>私信(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1889"/>
+        <location filename="../mainwindow.ui" line="1881"/>
         <source>Ctrl+E</source>
         <translation>Ctrl+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1894"/>
+        <location filename="../mainwindow.ui" line="1886"/>
         <source>Kick and &amp;Ban From Server</source>
-        <translation>从服务器踢出并禁止(&amp;B)</translation>
+        <translation>踢出服务器并封禁(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2350"/>
+        <location filename="../mainwindow.ui" line="2323"/>
         <source>Ctrl+Shift+R</source>
         <translation>Ctrl+Shift+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2459"/>
+        <location filename="../mainwindow.ui" line="2424"/>
         <source>Ctrl+Alt+Shift+M</source>
         <translation>Ctrl+Alt+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1906"/>
+        <location filename="../mainwindow.ui" line="1898"/>
         <source>&amp;Op</source>
-        <translation>设为频道管理员(&amp;O)</translation>
+        <translation>设为/取消频道管理员(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="526"/>
@@ -2500,7 +2597,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="534"/>
         <source>Playback</source>
-        <translation>回放</translation>
+        <translation>播放</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="544"/>
@@ -2540,12 +2637,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="656"/>
         <source>Elapsed</source>
-        <translation>经过</translation>
+        <translation>已播放</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="666"/>
         <source>Elapsed time</source>
-        <translation>经过时间</translation>
+        <translation>已播放时间</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="669"/>
@@ -2605,2344 +2702,2276 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1497"/>
         <source>Streaming to Channel</source>
-        <translation>流式传输到频道</translation>
+        <translation>向频道播放</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1626"/>
+        <location filename="../mainwindow.ui" line="1618"/>
         <source>&amp;Enable Echo Cancellation</source>
         <translation>启用回声消除(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1634"/>
+        <location filename="../mainwindow.ui" line="1626"/>
         <source>Enable &amp;Automatic Gain Control</source>
         <translation>启用自动增益控制(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1642"/>
+        <location filename="../mainwindow.ui" line="1634"/>
         <source>Enable &amp;Denoising</source>
         <translation>启用降噪(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1660"/>
+        <location filename="../mainwindow.ui" line="1652"/>
         <source>&amp;Speak Client Statistics</source>
         <translation>朗读客户端统计数据(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1663"/>
+        <location filename="../mainwindow.ui" line="1655"/>
         <source>Ctrl+T</source>
         <translation>Ctrl+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1683"/>
+        <location filename="../mainwindow.ui" line="1675"/>
         <source>&amp;Check for Update</source>
         <translation>检查更新(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1747"/>
+        <location filename="../mainwindow.ui" line="1739"/>
         <source>Ctrl+L</source>
         <translation>Ctrl+L</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1791"/>
+        <location filename="../mainwindow.ui" line="1783"/>
         <source>&amp;Speak User Information</source>
         <translation>朗读用户信息(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1794"/>
+        <location filename="../mainwindow.ui" line="1786"/>
         <source>Ctrl+G</source>
         <translation>Ctrl+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1870"/>
+        <location filename="../mainwindow.ui" line="1862"/>
         <source>&amp;Speak Channel Info</source>
         <translation>朗读频道信息(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1873"/>
+        <location filename="../mainwindow.ui" line="1865"/>
         <source>Ctrl+Alt+G</source>
         <translation>Ctrl+Alt+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1878"/>
+        <location filename="../mainwindow.ui" line="1870"/>
         <source>S&amp;peak Channel State</source>
-        <translation>正说话用户</translation>
+        <translation>朗读频道状态(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1881"/>
+        <location filename="../mainwindow.ui" line="1873"/>
         <source>Ctrl+Shift+G</source>
         <translation>Ctrl+Shift+G</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1909"/>
+        <location filename="../mainwindow.ui" line="1901"/>
         <source>Ctrl+O</source>
         <translation>Ctrl+O</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1914"/>
+        <location filename="../mainwindow.ui" line="1906"/>
         <source>&amp;Volume</source>
         <translation>音量(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1917"/>
+        <location filename="../mainwindow.ui" line="1909"/>
         <source>Ctrl+U</source>
         <translation>Ctrl+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1929"/>
+        <location filename="../mainwindow.ui" line="1921"/>
         <source>V&amp;oice</source>
         <translation>语音(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1932"/>
+        <location filename="../mainwindow.ui" line="1924"/>
         <source>Ctrl+4</source>
         <translation>Ctrl+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1944"/>
+        <location filename="../mainwindow.ui" line="1936"/>
         <source>&amp;User Messages</source>
-        <translation>用户消息(&amp;U)</translation>
+        <translation>私信(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1947"/>
+        <location filename="../mainwindow.ui" line="1939"/>
         <source>Ctrl+1</source>
         <translation>Ctrl+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1955"/>
+        <location filename="../mainwindow.ui" line="1947"/>
         <source>&amp;Channel Messages</source>
         <translation>频道消息(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1958"/>
+        <location filename="../mainwindow.ui" line="1950"/>
         <source>Ctrl+2</source>
         <translation>Ctrl+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1973"/>
+        <location filename="../mainwindow.ui" line="1965"/>
         <source>Ctrl+5</source>
         <translation>Ctrl+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1981"/>
+        <location filename="../mainwindow.ui" line="1973"/>
         <source>&amp;Broadcast Messages</source>
         <translation>广播消息(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1984"/>
+        <location filename="../mainwindow.ui" line="1976"/>
         <source>Ctrl+3</source>
         <translation>Ctrl+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1996"/>
+        <location filename="../mainwindow.ui" line="1988"/>
         <source>Enable &amp;Video Transmission</source>
         <translation>启用视频传输(&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1999"/>
+        <location filename="../mainwindow.ui" line="1991"/>
         <source>Ctrl+Shift+V</source>
         <translation>Ctrl+Shift+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2007"/>
-        <source>&amp;Stream Audio File to Channel</source>
-        <translation>将音频流传输到频道(&amp;S)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2010"/>
-        <source>Ctrl+W</source>
-        <translation>Ctrl+W</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2015"/>
-        <source>Stream Audio &amp;File to User</source>
-        <translation>将音频流传输到用户(&amp;F)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2018"/>
-        <source>Ctrl+Shift+W</source>
-        <translation>Ctrl+Shift+W</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2030"/>
+        <location filename="../mainwindow.ui" line="2003"/>
         <source>Record Conversations to &amp;Disk</source>
-        <translation>记录会话(&amp;D)</translation>
+        <translation>录制会话到磁盘(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2033"/>
+        <location filename="../mainwindow.ui" line="2006"/>
         <source>Specify a folder where audio from users will be stored</source>
         <translation>指定用于存储用户音频的文件夹</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2036"/>
+        <location filename="../mainwindow.ui" line="2009"/>
         <source>Ctrl+Alt+A</source>
         <translation>Ctrl+Alt+A</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2048"/>
+        <location filename="../mainwindow.ui" line="2021"/>
         <source>Intercept User Messages</source>
-        <translation>截取用户消息</translation>
+        <translation>监听私信</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2051"/>
+        <location filename="../mainwindow.ui" line="2024"/>
         <source>Ctrl+Shift+1</source>
         <translation>Ctrl+Shift+1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2059"/>
+        <location filename="../mainwindow.ui" line="2032"/>
         <source>Intercept Channel Messages</source>
-        <translation>截取频道消息</translation>
+        <translation>监听频道消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2062"/>
+        <location filename="../mainwindow.ui" line="2035"/>
         <source>Ctrl+Shift+2</source>
         <translation>Ctrl+Shift+2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2074"/>
+        <location filename="../mainwindow.ui" line="2047"/>
         <source>Intercept Voice</source>
-        <translation>截取语音</translation>
+        <translation>监听语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2077"/>
+        <location filename="../mainwindow.ui" line="2050"/>
         <source>Ctrl+Shift+4</source>
         <translation>Ctrl+Shift+4</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2089"/>
+        <location filename="../mainwindow.ui" line="2062"/>
         <source>Intercept Video</source>
-        <translation>截取视频</translation>
+        <translation>监听视频</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2092"/>
+        <location filename="../mainwindow.ui" line="2065"/>
         <source>Ctrl+Shift+5</source>
         <translation>Ctrl+Shift+5</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2097"/>
+        <location filename="../mainwindow.ui" line="2070"/>
         <source>&amp;Broadcast Message</source>
         <translation>广播消息(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2105"/>
+        <location filename="../mainwindow.ui" line="2078"/>
         <source>&amp;Increase Voice Volume</source>
         <translation>增加语音音量(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2113"/>
+        <location filename="../mainwindow.ui" line="2086"/>
         <source>&amp;Lower Voice Volume</source>
         <translation>降低语音音量(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2121"/>
+        <location filename="../mainwindow.ui" line="2094"/>
         <source>&amp;Store User(s) for Move</source>
-        <translation>存储待移动用户(&amp;S)</translation>
+        <translation>标记待移动用户(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2124"/>
+        <location filename="../mainwindow.ui" line="2097"/>
         <source>Ctrl+Alt+X</source>
         <translation>Ctrl+Alt+X</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2129"/>
+        <location filename="../mainwindow.ui" line="2102"/>
         <source>&amp;Move User(s)</source>
         <translation>移动用户(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2132"/>
+        <location filename="../mainwindow.ui" line="2105"/>
         <source>Ctrl+Alt+V</source>
         <translation>Ctrl+Alt+V</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2137"/>
+        <location filename="../mainwindow.ui" line="2110"/>
         <source>Move Users &amp;Dialog</source>
         <translation>移动用户对话框(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2140"/>
+        <location filename="../mainwindow.ui" line="2113"/>
         <source>Ctrl+Alt+M</source>
         <translation>Ctrl+Alt+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2149"/>
+        <location filename="../mainwindow.ui" line="2122"/>
         <source>&amp;BearWare.dk Website</source>
-        <translation>&amp;BearWare.dk 网站</translation>
+        <translation>BearWare.dk 网站(&amp;B)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2157"/>
+        <location filename="../mainwindow.ui" line="2130"/>
         <source>Allow V&amp;oice Transmission</source>
         <translation>允许语音传输(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2160"/>
+        <location filename="../mainwindow.ui" line="2133"/>
         <source>Ctrl+Alt+Q</source>
         <translation>Ctrl+Alt+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2168"/>
+        <location filename="../mainwindow.ui" line="2141"/>
         <source>Allow Video Transmission</source>
         <translation>允许视频传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2171"/>
+        <location filename="../mainwindow.ui" line="2144"/>
         <source>Ctrl+Alt+W</source>
         <translation>Ctrl+Alt+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2179"/>
+        <location filename="../mainwindow.ui" line="2152"/>
         <source>Allow All V&amp;oice Transmission</source>
         <translation>允许所有人传输语音(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2182"/>
+        <location filename="../mainwindow.ui" line="2155"/>
         <source>Ctrl+Alt+Shift+Q</source>
         <translation>Ctrl+Alt+Shift+Q</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2190"/>
+        <location filename="../mainwindow.ui" line="2163"/>
         <source>Allow All Video Transmission</source>
         <translation>允许所有人传输视频</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2193"/>
+        <location filename="../mainwindow.ui" line="2166"/>
         <source>Ctrl+Alt+Shift+W</source>
         <translation>Ctrl+Alt+Shift+W</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2198"/>
+        <location filename="../mainwindow.ui" line="2171"/>
         <source>Server S&amp;tatistics</source>
         <translation>服务器统计信息(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2201"/>
+        <location filename="../mainwindow.ui" line="2174"/>
         <source>Shift+F9</source>
         <translation>Shift+F9</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2206"/>
+        <location filename="../mainwindow.ui" line="2179"/>
         <source>&amp;New Client Instance</source>
         <translation>新建客户端实例(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2209"/>
+        <location filename="../mainwindow.ui" line="2182"/>
         <source>Ctrl+N</source>
         <translation>Ctrl+N</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2217"/>
+        <location filename="../mainwindow.ui" line="2190"/>
         <source>&amp;Online Users</source>
         <translation>在线用户(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2220"/>
+        <location filename="../mainwindow.ui" line="2193"/>
         <source>Ctrl+Shift+U</source>
         <translation>Ctrl+Shift+U</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2336"/>
+        <location filename="../mainwindow.ui" line="2309"/>
         <source>Pause/Resume Stream</source>
-        <translation>暂停/恢复流</translation>
+        <translation>暂停/继续播放</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2339"/>
+        <location filename="../mainwindow.ui" line="2312"/>
         <source>Ctrl+P</source>
         <translation>Ctrl+P</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2347"/>
+        <location filename="../mainwindow.ui" line="2320"/>
         <source>&amp;Generate tt:// URL to Clipboard</source>
-        <translation>生成 tt:// URL 到剪贴板(&amp;G)</translation>
+        <translation>生成 tt:// 链接并复制到剪贴板(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2557"/>
+        <location filename="../mainwindow.ui" line="2522"/>
         <source>Toggle &amp;Question Mode</source>
         <translation>切换提问模式(&amp;Q)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2563"/>
+        <location filename="../mainwindow.ui" line="2528"/>
         <source>Ctrl+F6</source>
         <translation>Ctrl+F6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2576"/>
+        <location filename="../mainwindow.ui" line="2536"/>
         <source>&amp;Relay Voice Stream</source>
         <translation>转播语音流(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2584"/>
+        <location filename="../mainwindow.ui" line="2544"/>
         <source>Relay Media &amp;File Stream</source>
         <translation>转播媒体文件流(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2560"/>
+        <location filename="../mainwindow.ui" line="2525"/>
         <source>Show blinking icon</source>
         <translation>显示闪烁的图标</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2232"/>
+        <location filename="../mainwindow.ui" line="2205"/>
         <source>Enable Desktop Sharing</source>
         <translation>启用桌面共享</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2235"/>
+        <location filename="../mainwindow.ui" line="2208"/>
         <source>Ctrl+Shift+D</source>
         <translation>Ctrl+Shift+D</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2243"/>
+        <location filename="../mainwindow.ui" line="2216"/>
         <source>Enable Text-To-Speech Events</source>
         <translation>启用文字转语音事件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2246"/>
+        <location filename="../mainwindow.ui" line="2219"/>
         <source>Ctrl+Alt+S</source>
         <translation>Ctrl+Alt+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2254"/>
+        <location filename="../mainwindow.ui" line="2227"/>
         <source>Enable Sound Events</source>
-        <translation>启用声音事件</translation>
+        <translation>启用提示音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2257"/>
+        <location filename="../mainwindow.ui" line="2230"/>
         <source>Ctrl+Alt+Z</source>
         <translation>Ctrl+Alt+Z</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2265"/>
+        <location filename="../mainwindow.ui" line="2238"/>
         <source>Allow Desktop Transmission</source>
         <translation>允许桌面传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2268"/>
+        <location filename="../mainwindow.ui" line="2241"/>
         <source>Ctrl+Alt+E</source>
         <translation>Ctrl+Alt+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2276"/>
+        <location filename="../mainwindow.ui" line="2249"/>
         <source>Allow All Desktop Transmission</source>
         <translation>允许所有人传输桌面</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2279"/>
+        <location filename="../mainwindow.ui" line="2252"/>
         <source>Ctrl+Alt+Shift+E</source>
         <translation>Ctrl+Alt+Shift+E</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2291"/>
+        <location filename="../mainwindow.ui" line="2264"/>
         <source>&amp;Desktop</source>
         <translation>桌面(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2294"/>
+        <location filename="../mainwindow.ui" line="2267"/>
         <source>Ctrl+6</source>
         <translation>Ctrl+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2306"/>
+        <location filename="../mainwindow.ui" line="2279"/>
         <source>Intercept Desktop</source>
-        <translation>截取桌面</translation>
+        <translation>监听桌面</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2309"/>
+        <location filename="../mainwindow.ui" line="2282"/>
         <source>Ctrl+Shift+6</source>
         <translation>Ctrl+Shift+6</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2321"/>
+        <location filename="../mainwindow.ui" line="2294"/>
         <source>Stream &amp;Media File to Channel</source>
-        <translation>播放流媒体文件</translation>
+        <translation>向频道播放媒体文件(&amp;M)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2324"/>
+        <location filename="../mainwindow.ui" line="2297"/>
         <source>Ctrl+S</source>
         <translation>Ctrl+S</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2362"/>
+        <location filename="../mainwindow.ui" line="2335"/>
         <source>Desktop Acce&amp;ss</source>
         <translation>桌面访问(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2374"/>
+        <location filename="../mainwindow.ui" line="2347"/>
         <source>Allow Desktop Access</source>
         <translation>允许桌面访问</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2377"/>
+        <location filename="../mainwindow.ui" line="2350"/>
         <source>Ctrl+7</source>
         <translation>Ctrl+7</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2385"/>
-        <source>&amp;Deny</source>
-        <translation>拒绝(&amp;D)</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.ui" line="2397"/>
+        <location filename="../mainwindow.ui" line="2362"/>
         <source>Media File Stream</source>
         <translation>媒体文件流</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2400"/>
+        <location filename="../mainwindow.ui" line="2365"/>
         <source>Ctrl+8</source>
         <translation>Ctrl+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2412"/>
+        <location filename="../mainwindow.ui" line="2377"/>
         <source>Intercept Media File Stream</source>
-        <translation>截取媒体文件流</translation>
+        <translation>监听媒体文件流</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2415"/>
+        <location filename="../mainwindow.ui" line="2380"/>
         <source>Ctrl+Shift+8</source>
         <translation>Ctrl+Shift+8</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2423"/>
+        <location filename="../mainwindow.ui" line="2388"/>
         <source>Allow Media File Transmission</source>
         <translation>允许媒体文件传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2426"/>
+        <location filename="../mainwindow.ui" line="2391"/>
         <source>Ctrl+Alt+R</source>
         <translation>Ctrl+Alt+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2434"/>
+        <location filename="../mainwindow.ui" line="2399"/>
         <source>Allow All Media File Transmission</source>
         <translation>允许所有人传输媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2437"/>
+        <location filename="../mainwindow.ui" line="2402"/>
         <source>Ctrl+Alt+Shift+R</source>
         <translation>Ctrl+Alt+Shift+R</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2445"/>
+        <location filename="../mainwindow.ui" line="2410"/>
         <source>Mu&amp;te Voice</source>
         <translation>语音静音(&amp;T)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2448"/>
+        <location filename="../mainwindow.ui" line="2413"/>
         <source>Ctrl+Shift+M</source>
         <translation>Ctrl+Shift+M</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2456"/>
+        <location filename="../mainwindow.ui" line="2421"/>
         <source>Mute Media File</source>
         <translation>媒体文件静音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2464"/>
+        <location filename="../mainwindow.ui" line="2429"/>
         <source>Kick From Channel</source>
-        <translation>从频道踢出</translation>
+        <translation>踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2467"/>
+        <location filename="../mainwindow.ui" line="2432"/>
         <source>Ctrl+K</source>
         <translation>Ctrl+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2472"/>
+        <location filename="../mainwindow.ui" line="2437"/>
         <source>Kick From Server</source>
-        <translation>从服务器踢出</translation>
+        <translation>踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2475"/>
+        <location filename="../mainwindow.ui" line="2440"/>
         <source>Ctrl+Alt+K</source>
         <translation>Ctrl+Alt+K</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2480"/>
+        <location filename="../mainwindow.ui" line="2445"/>
         <source>Increase Media File Volume</source>
         <translation>增加媒体文件音量</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2488"/>
+        <location filename="../mainwindow.ui" line="2453"/>
         <source>Lower Media File Volume</source>
         <translation>降低媒体文件音量</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2496"/>
+        <location filename="../mainwindow.ui" line="2461"/>
         <source>R&amp;eset Preferences to Default</source>
-        <translation>恢复默认设置(&amp;R)</translation>
+        <translation>恢复默认设置(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2501"/>
+        <location filename="../mainwindow.ui" line="2466"/>
         <source>Kick and Ban From &amp;Channel</source>
-        <translation>从频道踢出并禁止(&amp;C)</translation>
+        <translation>踢出频道并封禁(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2504"/>
+        <location filename="../mainwindow.ui" line="2469"/>
         <source>Ctrl+B</source>
         <translation>Ctrl+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2509"/>
+        <location filename="../mainwindow.ui" line="2474"/>
         <source>Banned Users From Channel</source>
-        <translation>频道已禁止用户</translation>
+        <translation>频道封禁用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2512"/>
+        <location filename="../mainwindow.ui" line="2477"/>
         <source>Ctrl+Alt+Shift+B</source>
         <translation>Ctrl+Alt+Shift+B</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2520"/>
+        <location filename="../mainwindow.ui" line="2485"/>
         <source>Allow Channel Text Messages</source>
         <translation>允许发送频道消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2523"/>
+        <location filename="../mainwindow.ui" line="2488"/>
         <source>Ctrl+Alt+T</source>
         <translation>Ctrl+Alt+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2531"/>
+        <location filename="../mainwindow.ui" line="2496"/>
         <source>Allow All Channel Text Messages</source>
         <translation>允许所有人发送频道消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2534"/>
+        <location filename="../mainwindow.ui" line="2499"/>
         <source>Ctrl+Alt+Shift+T</source>
         <translation>Ctrl+Alt+Shift+T</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2542"/>
+        <location filename="../mainwindow.ui" line="2507"/>
         <source>&amp;Hear Myself</source>
-        <translation>听自己(&amp;H)</translation>
+        <translation>收听自己(&amp;H)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2545"/>
+        <location filename="../mainwindow.ui" line="2510"/>
         <source>Ctrl+Shift+3</source>
         <translation>Ctrl+Shift+3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="985"/>
-        <location filename="../mainwindow.cpp" line="2798"/>
+        <location filename="../mainwindow.cpp" line="1104"/>
+        <location filename="../mainwindow.cpp" line="2923"/>
         <source>Firewall exception</source>
         <translation>防火墙例外</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="986"/>
+        <location filename="../mainwindow.cpp" line="1105"/>
         <source>Failed to remove %1 from Windows Firewall exceptions.</source>
-        <translation>无法从windows防火墙例外中删除 %1。</translation>
+        <translation>无法将 %1 从 Windows 防火墙例外中移除。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1002"/>
+        <location filename="../mainwindow.cpp" line="1121"/>
         <source>Startup arguments</source>
         <translation>启动参数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1003"/>
+        <location filename="../mainwindow.cpp" line="1122"/>
         <source>Program argument &quot;%1&quot; is unrecognized.</source>
-        <translation>无法识别程序参数 &quot;%1&quot;。</translation>
+        <translation>无法识别程序参数“%1”。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1064"/>
+        <location filename="../mainwindow.cpp" line="1183"/>
         <source>Failed to connect to %1 TCP port %2 UDP port %3</source>
-        <translation>无法连接到 %1 TCP 端口 %2 UDP 端口 %3</translation>
+        <translation>无法连接到 %1，TCP 端口 %2，UDP 端口 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="728"/>
+        <location filename="../mainwindow.cpp" line="851"/>
         <source>Translate</source>
         <translation>翻译</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="878"/>
-        <source>%1 has detected usage of a screenreader on your computer. Do you wish to enable accessibility options offered by %1 with recommended settings?</source>
-        <translation>%1 检测到您的计算机上使用了屏幕阅读器。您是否希望通过推荐设置启用 %1 提供的无障碍选项？</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="843"/>
+        <location filename="../mainwindow.cpp" line="968"/>
         <source>The sound pack %1 does not exist. Would you like to use the default sound pack?</source>
-        <translation>您的声音包 %1 不存在，您要使用默认声音包吗？</translation>
+        <translation>声音包 %1 不存在，是否使用默认声音包？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1080"/>
-        <location filename="../mainwindow.cpp" line="1084"/>
+        <location filename="../mainwindow.cpp" line="1199"/>
+        <location filename="../mainwindow.cpp" line="1203"/>
         <source>Connection lost to %1 TCP port %2 UDP port %3</source>
-        <translation>连接丢失 %1 TCP 端口 %2 UDP 端口 %3</translation>
+        <translation>与 %1 的连接已断开，TCP 端口 %2，UDP 端口 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1256"/>
-        <location filename="../mainwindow.cpp" line="1257"/>
-        <location filename="../mainwindow.cpp" line="1295"/>
-        <location filename="../mainwindow.cpp" line="1296"/>
-        <location filename="../mainwindow.cpp" line="3157"/>
-        <location filename="../mainwindow.cpp" line="3211"/>
-        <location filename="../mainwindow.cpp" line="5186"/>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="1375"/>
+        <location filename="../mainwindow.cpp" line="1376"/>
+        <location filename="../mainwindow.cpp" line="1414"/>
+        <location filename="../mainwindow.cpp" line="1415"/>
+        <location filename="../mainwindow.cpp" line="3300"/>
+        <location filename="../mainwindow.cpp" line="3354"/>
+        <location filename="../mainwindow.cpp" line="5235"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>root</source>
-        <translation>跟</translation>
+        <translation>根频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1105"/>
-        <location filename="../mainwindow.cpp" line="1108"/>
+        <location filename="../mainwindow.cpp" line="1224"/>
+        <location filename="../mainwindow.cpp" line="1227"/>
         <source>Kicked from server</source>
-        <translation>从服务器踢出</translation>
+        <translation>被踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1106"/>
+        <location filename="../mainwindow.cpp" line="1225"/>
         <source>You have been kicked from server by %1</source>
         <translation>您已被 %1 踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1109"/>
+        <location filename="../mainwindow.cpp" line="1228"/>
         <source>You have been kicked from server by unknown user</source>
         <translation>您已被未知用户踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1125"/>
-        <location filename="../mainwindow.cpp" line="1128"/>
+        <location filename="../mainwindow.cpp" line="1244"/>
+        <location filename="../mainwindow.cpp" line="1247"/>
         <source>Kicked from channel</source>
-        <translation>从频道踢出</translation>
+        <translation>被踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1126"/>
+        <location filename="../mainwindow.cpp" line="1245"/>
         <source>You have been kicked from channel by %1</source>
         <translation>您已被 %1 踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1129"/>
+        <location filename="../mainwindow.cpp" line="1248"/>
         <source>You have been kicked from channel by unknown user</source>
         <translation>您已被未知用户踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1388"/>
-        <location filename="../mainwindow.cpp" line="5764"/>
+        <location filename="../mainwindow.cpp" line="1507"/>
+        <location filename="../mainwindow.cpp" line="5814"/>
         <source>Failed to download file %1</source>
         <translation>无法下载文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1392"/>
-        <location filename="../mainwindow.cpp" line="6725"/>
+        <location filename="../mainwindow.cpp" line="1511"/>
+        <location filename="../mainwindow.cpp" line="6781"/>
         <source>Failed to upload file %1</source>
         <translation>无法上传文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1405"/>
+        <location filename="../mainwindow.cpp" line="1524"/>
         <source>Failed to initialize sound input device</source>
         <translation>无法初始化声音输入设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1407"/>
+        <location filename="../mainwindow.cpp" line="1526"/>
         <source>Failed to initialize sound output device</source>
         <translation>无法初始化声音输出设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1409"/>
+        <location filename="../mainwindow.cpp" line="1528"/>
         <source>Failed to initialize audio codec</source>
         <translation>无法初始化音频编解码器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1416"/>
+        <location filename="../mainwindow.cpp" line="1535"/>
         <source>Internal message queue overloaded</source>
         <translation>内部消息队列超载</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1422"/>
+        <location filename="../mainwindow.cpp" line="1541"/>
         <source>Internal Error</source>
         <translation>内部错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1448"/>
+        <location filename="../mainwindow.cpp" line="1567"/>
         <source>Streaming from %1 started</source>
-        <translation>开始从 %1 传输流媒体</translation>
+        <translation>%1 开始播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1472"/>
+        <location filename="../mainwindow.cpp" line="1591"/>
         <source>Error streaming media file to channel</source>
-        <translation>传输流媒体文件到频道时出错</translation>
+        <translation>向频道播放媒体文件时出错</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1476"/>
+        <location filename="../mainwindow.cpp" line="1595"/>
         <source>Started streaming media file to channel</source>
-        <translation>开始传输流媒体文件到频道</translation>
+        <translation>开始向频道播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1479"/>
+        <location filename="../mainwindow.cpp" line="1598"/>
         <source>Finished streaming media file to channel</source>
-        <translation>完成传输流媒体文件到频道</translation>
+        <translation>向频道播放媒体文件已完成</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1486"/>
+        <location filename="../mainwindow.cpp" line="1605"/>
         <source>Aborted streaming media file to channel</source>
-        <translation>终止传输流媒体文件到频道</translation>
+        <translation>已中止向频道播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1537"/>
-        <location filename="../mainwindow.cpp" line="1565"/>
+        <location filename="../mainwindow.cpp" line="1656"/>
+        <location filename="../mainwindow.cpp" line="1684"/>
         <source>New video session from %1</source>
-        <translation>%1 的视频会话</translation>
+        <translation>%1 的新视频会话</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1590"/>
+        <location filename="../mainwindow.cpp" line="1709"/>
         <source>New desktop session from %1</source>
         <translation>%1 的新桌面会话</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1617"/>
+        <location filename="../mainwindow.cpp" line="1736"/>
         <source>Your desktop session was cancelled</source>
         <translation>您的桌面会话已取消</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1628"/>
+        <location filename="../mainwindow.cpp" line="1747"/>
         <source>Writing audio file %1 for %2</source>
-        <translation>正为 %2 写入音频文件 %1</translation>
+        <translation>正在为 %2 写入音频文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1633"/>
+        <location filename="../mainwindow.cpp" line="1752"/>
         <source>Failed to write audio file %1 for %2</source>
         <translation>无法为 %2 写入音频文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1638"/>
+        <location filename="../mainwindow.cpp" line="1757"/>
         <source>Finished writing to audio file %1</source>
-        <translation>完成音频文件 %1</translation>
+        <translation>音频文件 %1 写入完成</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1642"/>
+        <location filename="../mainwindow.cpp" line="1761"/>
         <source>Aborted audio file %1</source>
-        <translation>终止音频文件 %1</translation>
+        <translation>已中止音频文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2033"/>
+        <location filename="../mainwindow.cpp" line="2153"/>
         <source>Banned Users in Channel %1</source>
-        <translation>频道 %1 中已禁止用户</translation>
+        <translation>频道 %1 的封禁用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2009"/>
+        <location filename="../mainwindow.cpp" line="2129"/>
         <source>Cannot join channel %1</source>
         <translation>无法加入频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Using sound input: %1</source>
-        <translation>使用声音输入 %1</translation>
+        <translation>使用声音输入设备：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2094"/>
+        <location filename="../mainwindow.cpp" line="2214"/>
         <source>Using sound output: %2</source>
-        <translation>使用声音输出 %2</translation>
+        <translation>使用声音输出设备：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2111"/>
+        <location filename="../mainwindow.cpp" line="2231"/>
         <source>Connecting to %1 TCP port %2 UDP port %3</source>
-        <translation>正在连接 %1 TCP 端口 %2 UDP 端口 %3</translation>
+        <translation>正在连接 %1，TCP 端口 %2，UDP 端口 %3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1920"/>
-        <location filename="../mainwindow.cpp" line="1921"/>
+        <location filename="../mainwindow.cpp" line="2039"/>
+        <location filename="../mainwindow.cpp" line="2040"/>
         <source>Connected to %1</source>
         <translation>已连接至 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2222"/>
-        <location filename="../mainwindow.cpp" line="3341"/>
+        <location filename="../mainwindow.cpp" line="2352"/>
+        <location filename="../mainwindow.cpp" line="3484"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2228"/>
+        <location filename="../mainwindow.cpp" line="2358"/>
         <source>Syntax error</source>
         <translation>语法错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2230"/>
+        <location filename="../mainwindow.cpp" line="2360"/>
         <source>Unknown command</source>
         <translation>未知命令</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2232"/>
+        <location filename="../mainwindow.cpp" line="2362"/>
         <source>The server uses a protocol which is incompatible with the client instance</source>
         <translation>服务器使用的协议与客户端实例不兼容</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2234"/>
+        <location filename="../mainwindow.cpp" line="2364"/>
         <source>Unknown audio codec</source>
         <translation>未知音频编解码器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2236"/>
+        <location filename="../mainwindow.cpp" line="2366"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
         <translation>此客户端与服务器不兼容，因此无法执行操作。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2239"/>
+        <location filename="../mainwindow.cpp" line="2369"/>
         <source>The username is invalid</source>
         <translation>用户名无效</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="697"/>
-        <location filename="../mainwindow.cpp" line="4133"/>
-        <location filename="../mainwindow.cpp" line="4151"/>
-        <location filename="../mainwindow.cpp" line="4166"/>
-        <location filename="../mainwindow.cpp" line="4564"/>
-        <location filename="../mainwindow.cpp" line="6002"/>
-        <location filename="../mainwindow.cpp" line="6316"/>
+        <location filename="../mainwindow.cpp" line="816"/>
+        <location filename="../mainwindow.cpp" line="4613"/>
+        <location filename="../mainwindow.cpp" line="6052"/>
+        <location filename="../mainwindow.cpp" line="6366"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1348"/>
-        <location filename="../mainwindow.cpp" line="1367"/>
-        <location filename="../mainwindow.cpp" line="6948"/>
+        <location filename="../mainwindow.cpp" line="1467"/>
+        <location filename="../mainwindow.cpp" line="1486"/>
+        <location filename="../mainwindow.cpp" line="7004"/>
         <source>You</source>
         <translation>你</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2245"/>
-        <location filename="../mainwindow.cpp" line="2278"/>
-        <location filename="../mainwindow.cpp" line="2285"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
+        <location filename="../mainwindow.cpp" line="2408"/>
+        <location filename="../mainwindow.cpp" line="2415"/>
         <source>Login error</source>
         <translation>登录错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2265"/>
+        <location filename="../mainwindow.cpp" line="2395"/>
         <source>Join channel error</source>
         <translation>加入频道错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2279"/>
+        <location filename="../mainwindow.cpp" line="2409"/>
         <source>Banned from server</source>
-        <translation>服务器禁止登录</translation>
+        <translation>已被服务器封禁</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2283"/>
+        <location filename="../mainwindow.cpp" line="2413"/>
         <source>Command not authorized</source>
         <translation>命令未授权</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2286"/>
+        <location filename="../mainwindow.cpp" line="2416"/>
         <source>Maximum number of users on server exceeded</source>
         <translation>已超出服务器最大用户数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2288"/>
+        <location filename="../mainwindow.cpp" line="2418"/>
         <source>Maximum disk usage exceeded</source>
         <translation>已超出最大磁盘使用量</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2290"/>
+        <location filename="../mainwindow.cpp" line="2420"/>
         <source>Maximum number of users in channel exceeded</source>
         <translation>已超出频道最大用户数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2292"/>
+        <location filename="../mainwindow.cpp" line="2422"/>
         <source>Incorrect channel operator password</source>
         <translation>频道管理员密码错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2298"/>
+        <location filename="../mainwindow.cpp" line="2428"/>
         <source>The maximum number of channels has been exceeded</source>
         <translation>已超出最大频道数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2300"/>
+        <location filename="../mainwindow.cpp" line="2430"/>
         <source>Command flooding prevented by server</source>
         <translation>服务器阻止了命令泛滥</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2306"/>
+        <location filename="../mainwindow.cpp" line="2436"/>
         <source>Already logged in</source>
         <translation>已登录</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2308"/>
+        <location filename="../mainwindow.cpp" line="2438"/>
         <source>Cannot perform action because client is currently not logged in</source>
         <translation>无法执行操作，因为客户端当前未登录</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2311"/>
+        <location filename="../mainwindow.cpp" line="2441"/>
         <source>Cannot join the same channel twice</source>
         <translation>不能两次加入同一频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2313"/>
+        <location filename="../mainwindow.cpp" line="2443"/>
         <source>Channel already exists</source>
         <translation>频道已存在</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2319"/>
+        <location filename="../mainwindow.cpp" line="2449"/>
         <source>User not found</source>
         <translation>找不到用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2322"/>
+        <location filename="../mainwindow.cpp" line="2452"/>
         <source>Server failed to open file</source>
         <translation>服务器无法打开文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2324"/>
+        <location filename="../mainwindow.cpp" line="2454"/>
         <source>The login service is currently unavailable</source>
-        <translation>登陆服务当前不可用</translation>
+        <translation>登录服务当前不可用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2326"/>
+        <location filename="../mainwindow.cpp" line="2456"/>
         <source>This channel cannot be hidden</source>
         <translation>此频道不能被隐藏</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2328"/>
+        <location filename="../mainwindow.cpp" line="2458"/>
         <source>Channel not found</source>
         <translation>找不到频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2330"/>
+        <location filename="../mainwindow.cpp" line="2460"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation>不能离开频道，因为不在频道。</translation>
+        <translation>无法离开频道，因为您不在该频道中。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2332"/>
+        <location filename="../mainwindow.cpp" line="2462"/>
         <source>Banned user not found</source>
-        <translation>找不到被禁止的用户</translation>
+        <translation>找不到被封禁的用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2334"/>
+        <location filename="../mainwindow.cpp" line="2464"/>
         <source>File transfer not found</source>
         <translation>未找到文件传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2336"/>
+        <location filename="../mainwindow.cpp" line="2466"/>
         <source>User account not found</source>
-        <translation>未找到用户帐户</translation>
+        <translation>未找到用户账户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2338"/>
+        <location filename="../mainwindow.cpp" line="2468"/>
         <source>File not found</source>
         <translation>找不到文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2340"/>
+        <location filename="../mainwindow.cpp" line="2470"/>
         <source>File already exists</source>
         <translation>文件已存在</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2342"/>
+        <location filename="../mainwindow.cpp" line="2472"/>
         <source>File sharing is disabled</source>
         <translation>文件共享已禁用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2344"/>
+        <location filename="../mainwindow.cpp" line="2474"/>
         <source>Channel has active users</source>
-        <translation>频道有活跃用户</translation>
+        <translation>频道中有活动用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2349"/>
+        <location filename="../mainwindow.cpp" line="2479"/>
         <source>Unknown error occured</source>
         <translation>发生未知错误</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2356"/>
+        <location filename="../mainwindow.cpp" line="2486"/>
         <source>The server reported an error:</source>
         <translation>服务器报告了一个错误：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4447"/>
+        <location filename="../mainwindow.cpp" line="4489"/>
         <source>No Sound Device</source>
         <translation>无声音设备</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="2589"/>
+        <location filename="../mainwindow.ui" line="2549"/>
         <source>&amp;Refresh Sound Devices</source>
         <translation>刷新声音设备(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="675"/>
-        <location filename="../mainwindow.cpp" line="844"/>
-        <location filename="../mainwindow.cpp" line="879"/>
-        <location filename="../mainwindow.cpp" line="2787"/>
-        <location filename="../mainwindow.cpp" line="4535"/>
-        <location filename="../mainwindow.cpp" line="5342"/>
-        <location filename="../mainwindow.cpp" line="5778"/>
-        <location filename="../mainwindow.cpp" line="6053"/>
-        <location filename="../mainwindow.cpp" line="6282"/>
-        <location filename="../mainwindow.cpp" line="6302"/>
-        <location filename="../mainwindow.cpp" line="6692"/>
-        <location filename="../mainwindow.cpp" line="7734"/>
-        <location filename="../mainwindow.cpp" line="7820"/>
-        <location filename="../mainwindow.cpp" line="7844"/>
+        <location filename="../mainwindow.cpp" line="794"/>
+        <location filename="../mainwindow.cpp" line="969"/>
+        <location filename="../mainwindow.cpp" line="1000"/>
+        <location filename="../mainwindow.cpp" line="2912"/>
+        <location filename="../mainwindow.cpp" line="4577"/>
+        <location filename="../mainwindow.cpp" line="5391"/>
+        <location filename="../mainwindow.cpp" line="5828"/>
+        <location filename="../mainwindow.cpp" line="6103"/>
+        <location filename="../mainwindow.cpp" line="6332"/>
+        <location filename="../mainwindow.cpp" line="6352"/>
+        <location filename="../mainwindow.cpp" line="6748"/>
+        <location filename="../mainwindow.cpp" line="7790"/>
+        <location filename="../mainwindow.cpp" line="7876"/>
+        <location filename="../mainwindow.cpp" line="7900"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="676"/>
-        <location filename="../mainwindow.cpp" line="845"/>
-        <location filename="../mainwindow.cpp" line="880"/>
-        <location filename="../mainwindow.cpp" line="2788"/>
-        <location filename="../mainwindow.cpp" line="4536"/>
-        <location filename="../mainwindow.cpp" line="5343"/>
-        <location filename="../mainwindow.cpp" line="5779"/>
-        <location filename="../mainwindow.cpp" line="6054"/>
-        <location filename="../mainwindow.cpp" line="6283"/>
-        <location filename="../mainwindow.cpp" line="6303"/>
-        <location filename="../mainwindow.cpp" line="6693"/>
-        <location filename="../mainwindow.cpp" line="7735"/>
-        <location filename="../mainwindow.cpp" line="7821"/>
-        <location filename="../mainwindow.cpp" line="7845"/>
+        <location filename="../mainwindow.cpp" line="795"/>
+        <location filename="../mainwindow.cpp" line="970"/>
+        <location filename="../mainwindow.cpp" line="1001"/>
+        <location filename="../mainwindow.cpp" line="2913"/>
+        <location filename="../mainwindow.cpp" line="4578"/>
+        <location filename="../mainwindow.cpp" line="5392"/>
+        <location filename="../mainwindow.cpp" line="5829"/>
+        <location filename="../mainwindow.cpp" line="6104"/>
+        <location filename="../mainwindow.cpp" line="6333"/>
+        <location filename="../mainwindow.cpp" line="6353"/>
+        <location filename="../mainwindow.cpp" line="6749"/>
+        <location filename="../mainwindow.cpp" line="7791"/>
+        <location filename="../mainwindow.cpp" line="7877"/>
+        <location filename="../mainwindow.cpp" line="7901"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3148"/>
-        <location filename="../mainwindow.cpp" line="3160"/>
+        <location filename="../mainwindow.cpp" line="3291"/>
+        <location filename="../mainwindow.cpp" line="3303"/>
         <source>Joined classroom channel %1</source>
-        <translation>加入教室频道 %1</translation>
+        <translation>已加入课堂频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3202"/>
-        <location filename="../mainwindow.cpp" line="3214"/>
+        <location filename="../mainwindow.cpp" line="3345"/>
+        <location filename="../mainwindow.cpp" line="3357"/>
         <source>Left classroom channel %1</source>
-        <translation>离开教室频道 %1</translation>
+        <translation>已离开课堂频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3206"/>
-        <location filename="../mainwindow.cpp" line="3218"/>
+        <location filename="../mainwindow.cpp" line="3349"/>
+        <location filename="../mainwindow.cpp" line="3361"/>
         <source>Left channel %1</source>
-        <translation>离开频道 %1</translation>
+        <translation>已离开频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4923"/>
+        <location filename="../mainwindow.cpp" line="4972"/>
         <source>Voice for %1 disabled</source>
         <translation>%1 的语音已禁用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4925"/>
+        <location filename="../mainwindow.cpp" line="4974"/>
         <source>Voice for %1 enabled</source>
         <translation>%1 的语音已启用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4942"/>
+        <location filename="../mainwindow.cpp" line="4991"/>
         <source>Media files for %1 disabled</source>
         <translation>%1 的媒体文件已禁用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4944"/>
+        <location filename="../mainwindow.cpp" line="4993"/>
         <source>Media files for %1 enabled</source>
         <translation>%1 的媒体文件已启用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4960"/>
+        <location filename="../mainwindow.cpp" line="5009"/>
         <source>Master volume disabled</source>
-        <translation>主音量已禁用</translation>
+        <translation>主音量已静音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4965"/>
+        <location filename="../mainwindow.cpp" line="5014"/>
         <source>Master volume enabled</source>
-        <translation>主音量已启用</translation>
+        <translation>主音量已取消静音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5097"/>
+        <location filename="../mainwindow.cpp" line="5146"/>
         <source>Voice volume for %1 increased to %2%</source>
-        <translation>%1 的语音音量增加到 %2</translation>
+        <translation>%1 的语音音量已增加到 %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5110"/>
+        <location filename="../mainwindow.cpp" line="5159"/>
         <source>Voice volume for %1 decreased to %2%</source>
-        <translation>%1 的语音音量降低到 %2</translation>
+        <translation>%1 的语音音量已降低到 %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5123"/>
+        <location filename="../mainwindow.cpp" line="5172"/>
         <source>Media files volume for %1 increased to %2%</source>
-        <translation>%1 的媒体音量增加到 %2%</translation>
+        <translation>%1 的媒体文件音量已增加到 %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5136"/>
+        <location filename="../mainwindow.cpp" line="5185"/>
         <source>Media files volume for %1 decreased to %2%</source>
-        <translation>%1 的媒体音量降低到 %2%</translation>
+        <translation>%1 的媒体文件音量已降低到 %2%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5155"/>
+        <location filename="../mainwindow.cpp" line="5204"/>
         <source>%1 selected for move</source>
-        <translation>已选择 %1 进行移动</translation>
+        <translation>已标记待移动：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5187"/>
-        <location filename="../mainwindow.cpp" line="5191"/>
+        <location filename="../mainwindow.cpp" line="5236"/>
+        <location filename="../mainwindow.cpp" line="5240"/>
         <source>Selected users has been moved to channel %1</source>
-        <translation>所选用户已移至 %1</translation>
+        <translation>所选用户已移至频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5782"/>
+        <location filename="../mainwindow.cpp" line="5832"/>
         <source>Delete %1 files</source>
         <translation>删除 %1 个文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2215"/>
-        <location filename="../mainwindow.cpp" line="2216"/>
+        <location filename="../mainwindow.cpp" line="2345"/>
+        <location filename="../mainwindow.cpp" line="2346"/>
         <source>Server configuration saved</source>
         <translation>服务器配置已保存</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
+        <location filename="../mainwindow.cpp" line="5870"/>
         <source>Specify User Account</source>
-        <translation>指定用户帐户</translation>
+        <translation>指定用户账户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5867"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
         <source>Ascending</source>
         <translation>升序</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5867"/>
+        <location filename="../mainwindow.cpp" line="5917"/>
         <source>Descending</source>
         <translation>降序</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5869"/>
+        <location filename="../mainwindow.cpp" line="5919"/>
         <source>&amp;Name (%1)</source>
         <translation>名称 (%1) (&amp;N)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5875"/>
+        <location filename="../mainwindow.cpp" line="5925"/>
         <source>&amp;Size (%1)</source>
         <translation>大小 (%1) (&amp;S)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5881"/>
+        <location filename="../mainwindow.cpp" line="5931"/>
         <source>&amp;Owner (%1)</source>
         <translation>所有者 (%1) (&amp;O)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5887"/>
+        <location filename="../mainwindow.cpp" line="5937"/>
         <source>&amp;Upload Date (%1)</source>
         <translation>上传日期 (%1) (&amp;U)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6140"/>
+        <location filename="../mainwindow.cpp" line="6190"/>
         <source>Administrator</source>
         <comment>For female</comment>
         <translation>管理员</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6140"/>
+        <location filename="../mainwindow.cpp" line="6190"/>
         <source>Administrator</source>
         <comment>For male and neutral</comment>
         <translation>管理员</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6144"/>
+        <location filename="../mainwindow.cpp" line="6194"/>
         <source>User</source>
         <comment>For female</comment>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6144"/>
+        <location filename="../mainwindow.cpp" line="6194"/>
         <source>User</source>
         <comment>For male and neutral</comment>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6151"/>
+        <location filename="../mainwindow.cpp" line="6201"/>
         <source>Selected for move</source>
         <comment>For female</comment>
-        <translation>已选择移动</translation>
+        <translation>已标记待移动</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6151"/>
+        <location filename="../mainwindow.cpp" line="6201"/>
         <source>Selected for move</source>
         <comment>For male and neutral</comment>
-        <translation>已选择移动</translation>
+        <translation>已标记待移动</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6154"/>
+        <location filename="../mainwindow.cpp" line="6204"/>
         <source>Channel operator</source>
         <comment>For female</comment>
         <translation>频道管理员</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6154"/>
+        <location filename="../mainwindow.cpp" line="6204"/>
         <source>Channel operator</source>
         <comment>For male and neutral</comment>
         <translation>频道管理员</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6162"/>
+        <location filename="../mainwindow.cpp" line="6212"/>
         <source>Available</source>
         <comment>For female</comment>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6162"/>
+        <location filename="../mainwindow.cpp" line="6212"/>
         <source>Available</source>
         <comment>For male and neutral</comment>
         <translation>在线</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6165"/>
+        <location filename="../mainwindow.cpp" line="6215"/>
         <source>Away</source>
         <comment>For female</comment>
         <translation>离开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6165"/>
+        <location filename="../mainwindow.cpp" line="6215"/>
         <source>Away</source>
         <comment>For male and neutral</comment>
         <translation>离开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6533"/>
+        <location filename="../mainwindow.cpp" line="6583"/>
         <source>Resume Stream</source>
-        <translation>恢复流媒体</translation>
+        <translation>继续播放</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6590"/>
-        <location filename="../mainwindow.cpp" line="6608"/>
+        <location filename="../mainwindow.cpp" line="6640"/>
+        <location filename="../mainwindow.cpp" line="6658"/>
         <source>&amp;Play</source>
         <translation>播放(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6595"/>
+        <location filename="../mainwindow.cpp" line="6645"/>
         <source>&amp;Pause</source>
         <translation>暂停(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5720"/>
-        <location filename="../mainwindow.cpp" line="6610"/>
+        <location filename="../mainwindow.cpp" line="5769"/>
+        <location filename="../mainwindow.cpp" line="6660"/>
         <source>Duration: %1</source>
         <translation>持续时间：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6600"/>
-        <location filename="../mainwindow.cpp" line="6613"/>
+        <location filename="../mainwindow.cpp" line="6650"/>
+        <location filename="../mainwindow.cpp" line="6663"/>
         <source>Audio format: %1</source>
         <translation>音频格式：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6601"/>
-        <location filename="../mainwindow.cpp" line="6614"/>
+        <location filename="../mainwindow.cpp" line="6651"/>
+        <location filename="../mainwindow.cpp" line="6664"/>
         <source>Video format: %1</source>
         <translation>视频格式：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6618"/>
+        <location filename="../mainwindow.cpp" line="6668"/>
         <source>File name: %1</source>
         <translation>文件名：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6627"/>
-        <location filename="../mainwindow.cpp" line="6633"/>
-        <location filename="../mainwindow.cpp" line="6640"/>
+        <location filename="../mainwindow.cpp" line="6677"/>
+        <location filename="../mainwindow.cpp" line="6683"/>
+        <location filename="../mainwindow.cpp" line="6690"/>
         <source>%1 %</source>
         <translation>%1%</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7677"/>
         <source>&amp;Video (%1)</source>
         <translation>视频 (%1) (&amp;V)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7629"/>
+        <location filename="../mainwindow.cpp" line="7685"/>
         <source>&amp;Desktops (%1)</source>
         <translation>桌面 (%1) (&amp;D)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7819"/>
+        <location filename="../mainwindow.cpp" line="7875"/>
         <source>A new version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation>%1 的新版本已发布： %2。您是否希望现在打开下载页面？</translation>
+        <translation>%1 有新版本：%2。是否立即打开下载页面？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7824"/>
+        <location filename="../mainwindow.cpp" line="7880"/>
         <source>New version available</source>
-        <translation>新版本可用</translation>
+        <translation>有新版本</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7831"/>
+        <location filename="../mainwindow.cpp" line="7887"/>
         <source>New version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation>新版本可用： %1<byte value="xd"/>
-您可在以下页面下载：<byte value="xd"/>
+        <translation>有新版本：%1<byte value="xd"/>
+可在以下页面下载：<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7843"/>
+        <location filename="../mainwindow.cpp" line="7899"/>
         <source>A new beta version of %1 is available: %2. Do you wish to open the download page now?</source>
-        <translation>有新的 %1 测试版可用： %2。你想现在打开下载页面吗？</translation>
+        <translation>%1 有新测试版：%2。是否立即打开下载页面？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7848"/>
+        <location filename="../mainwindow.cpp" line="7904"/>
         <source>New beta version available</source>
-        <translation>新测试版可升级</translation>
+        <translation>有新测试版</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7855"/>
+        <location filename="../mainwindow.cpp" line="7911"/>
         <source>New beta version available: %1<byte value="xd"/>
 You can download it on the page below:<byte value="xd"/>
 %2</source>
-        <translation>新测试版可用： %1<byte value="xd"/>
-您可在以下页面下载：<byte value="xd"/>
+        <translation>有新测试版：%1<byte value="xd"/>
+可在以下页面下载：<byte value="xd"/>
 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7957"/>
+        <location filename="../mainwindow.cpp" line="8013"/>
         <source>No available voices found for Text-To-Speech</source>
-        <translation>找不到可用于语音合成的语音</translation>
+        <translation>找不到可用于文字转语音的语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2684"/>
+        <location filename="../mainwindow.cpp" line="2809"/>
         <source>&amp;Restore</source>
         <translation>恢复(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1097"/>
+        <location filename="../mainwindow.cpp" line="1216"/>
         <source>Kicked from server by %1</source>
         <translation>您已被 %1 踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1100"/>
+        <location filename="../mainwindow.cpp" line="1219"/>
         <source>Kicked from server by unknown user</source>
         <translation>您已被未知用户踢出服务器</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1117"/>
+        <location filename="../mainwindow.cpp" line="1236"/>
         <source>Kicked from channel by %1</source>
         <translation>您已被 %1 踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1120"/>
+        <location filename="../mainwindow.cpp" line="1239"/>
         <source>Kicked from channel by unknown user</source>
         <translation>您已被未知用户踢出频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="698"/>
-        <location filename="../mainwindow.cpp" line="4134"/>
-        <location filename="../mainwindow.cpp" line="4152"/>
-        <location filename="../mainwindow.cpp" line="4167"/>
-        <location filename="../mainwindow.cpp" line="4565"/>
-        <location filename="../mainwindow.cpp" line="6003"/>
-        <location filename="../mainwindow.cpp" line="6317"/>
+        <location filename="../mainwindow.cpp" line="817"/>
+        <location filename="../mainwindow.cpp" line="4614"/>
+        <location filename="../mainwindow.cpp" line="6053"/>
+        <location filename="../mainwindow.cpp" line="6367"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="674"/>
+        <location filename="../mainwindow.cpp" line="793"/>
         <source>%1 has detected your system language to be %2. Continue in %2?</source>
-        <translation>%1 检测到您的系统语言为 %2。是否在 %2 中继续？</translation>
+        <translation>%1 检测到您的系统语言为 %2。是否使用 %2？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="678"/>
+        <location filename="../mainwindow.cpp" line="797"/>
         <source>Language configuration</source>
         <translation>语言配置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="701"/>
+        <location filename="../mainwindow.cpp" line="820"/>
         <source>Choose language</source>
         <translation>选择语言</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="702"/>
+        <location filename="../mainwindow.cpp" line="821"/>
         <source>Select the language will be use by %1</source>
-        <translation>选择 %1 将使用的语言</translation>
+        <translation>选择 %1 要使用的语言</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1070"/>
-        <location filename="../mainwindow.cpp" line="1071"/>
+        <location filename="../mainwindow.cpp" line="999"/>
+        <source>Would you like to enable accessibility options with recommended settings for screen reader usage?</source>
+        <translation>是否启用适用于屏幕阅读器的推荐无障碍设置？</translation>
+    </message>
+    <message>
+        <location filename="../mainwindow.cpp" line="1189"/>
+        <location filename="../mainwindow.cpp" line="1190"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
         <translation>由于错误 0x%1，安全连接失败：%2。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1140"/>
+        <location filename="../mainwindow.cpp" line="1259"/>
         <source>Welcome</source>
         <translation>欢迎</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1140"/>
+        <location filename="../mainwindow.cpp" line="1259"/>
         <source>Welcome to %1.<byte value="xd"/>
 Message of the day: %2</source>
         <translation>欢迎来到 %1。<byte value="xd"/>
-每日消息： %2</translation>
+每日公告：%2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1411"/>
+        <location filename="../mainwindow.cpp" line="1530"/>
         <source>Audio preprocessor failed to initialize</source>
         <translation>音频预处理器初始化失败</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1413"/>
+        <location filename="../mainwindow.cpp" line="1532"/>
         <source>An audio effect could not be applied on the sound device</source>
         <translation>无法在声音设备上应用音频效果</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1670"/>
+        <location filename="../mainwindow.cpp" line="1789"/>
         <source>New sound device available: %1. Refresh sound devices to discover new device.</source>
-        <translation>可用的新声音设备： %1。刷新声音设备以发现新设备。</translation>
+        <translation>发现新的声音设备：%1。请刷新声音设备列表以使用新设备。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="1675"/>
+        <location filename="../mainwindow.cpp" line="1794"/>
         <source>Sound device removed: %1.</source>
-        <translation>已移除声音设备： %1。</translation>
+        <translation>已移除声音设备：%1。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2104"/>
+        <location filename="../mainwindow.cpp" line="2224"/>
         <source>Failed to setup encryption settings</source>
-        <translation>无法设置加密设置</translation>
+        <translation>加密设置失败</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2125"/>
-        <location filename="../mainwindow.cpp" line="2126"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from %1</source>
-        <translation>与 %1 断开连接</translation>
+        <translation>已与 %1 断开连接</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2125"/>
-        <location filename="../mainwindow.cpp" line="2126"/>
+        <location filename="../mainwindow.cpp" line="2253"/>
+        <location filename="../mainwindow.cpp" line="2254"/>
         <source>Disconnected from server</source>
-        <translation>与服务器断开连接</translation>
+        <translation>已与服务器断开连接</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2169"/>
-        <location filename="../mainwindow.cpp" line="2170"/>
+        <location filename="../mainwindow.cpp" line="2299"/>
+        <location filename="../mainwindow.cpp" line="2300"/>
         <source>Files in channel</source>
         <translation>频道中的文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2245"/>
+        <location filename="../mainwindow.cpp" line="2375"/>
         <source>Incorrect username or password. Try again.</source>
         <translation>用户名或密码不正确。请重试。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2265"/>
+        <location filename="../mainwindow.cpp" line="2395"/>
         <source>Incorrect channel password. Try again.</source>
         <translation>频道密码不正确，请重试。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2281"/>
+        <location filename="../mainwindow.cpp" line="2411"/>
         <source>Banned from channel</source>
-        <translation>从频道禁止</translation>
+        <translation>已被频道封禁</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2294"/>
+        <location filename="../mainwindow.cpp" line="2424"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation>超出每个 IP 地址的最大登录次数</translation>
+        <translation>已超出每个 IP 地址的最大登录数</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2296"/>
+        <location filename="../mainwindow.cpp" line="2426"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation>超出音频编解码器的最大比特率</translation>
+        <translation>已超出音频编解码器的最大比特率</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2302"/>
+        <location filename="../mainwindow.cpp" line="2432"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation>超出文件传输最大数量</translation>
+        <translation>已超出文件传输的最大数量</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2472"/>
+        <location filename="../mainwindow.cpp" line="2602"/>
         <source>Voice transmission failed</source>
         <translation>语音传输失败</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2581"/>
+        <location filename="../mainwindow.cpp" line="2706"/>
         <source>Trying to reconnect to %1 port %2</source>
-        <translation>正尝试重新连接 %1 端口 %2</translation>
+        <translation>正在尝试重新连接 %1 端口 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2786"/>
+        <location filename="../mainwindow.cpp" line="2911"/>
         <source>Do you wish to add %1 to the Windows Firewall exception list?</source>
-        <translation>是否要将 %1 添加到Windows防火墙例外列表中？</translation>
+        <translation>是否将 %1 添加到 Windows 防火墙例外列表？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2799"/>
+        <location filename="../mainwindow.cpp" line="2924"/>
         <source>Failed to add %1 to Windows Firewall exceptions.</source>
-        <translation>无法将 %1 添加到Windows防火墙例外中。</translation>
+        <translation>无法将 %1 添加到 Windows 防火墙例外中。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2872"/>
+        <location filename="../mainwindow.cpp" line="3015"/>
         <source>Private messages</source>
-        <translation>私人消息</translation>
+        <translation>私信</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2877"/>
-        <location filename="../mainwindow.cpp" line="6958"/>
+        <location filename="../mainwindow.cpp" line="3020"/>
+        <location filename="../mainwindow.cpp" line="7014"/>
         <source>Channel messages</source>
         <translation>频道消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2882"/>
+        <location filename="../mainwindow.cpp" line="3025"/>
         <source>Broadcast messages</source>
         <translation>广播消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2887"/>
-        <location filename="../mainwindow.cpp" line="6971"/>
+        <location filename="../mainwindow.cpp" line="3030"/>
+        <location filename="../mainwindow.cpp" line="7027"/>
         <source>Voice</source>
         <translation>语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2892"/>
-        <location filename="../mainwindow.cpp" line="6984"/>
+        <location filename="../mainwindow.cpp" line="3035"/>
+        <location filename="../mainwindow.cpp" line="7040"/>
         <source>Video</source>
         <translation>视频</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2902"/>
+        <location filename="../mainwindow.cpp" line="3045"/>
         <source>Desktop input</source>
         <translation>桌面输入</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2907"/>
-        <location filename="../mainwindow.cpp" line="7010"/>
+        <location filename="../mainwindow.cpp" line="3050"/>
+        <location filename="../mainwindow.cpp" line="7066"/>
         <source>Media files</source>
         <translation>媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2912"/>
+        <location filename="../mainwindow.cpp" line="3055"/>
         <source>Intercept private messages</source>
-        <translation>截取私人消息</translation>
+        <translation>监听私信</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2917"/>
+        <location filename="../mainwindow.cpp" line="3060"/>
         <source>Intercept channel messages</source>
-        <translation>截取频道消息</translation>
+        <translation>监听频道消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2922"/>
+        <location filename="../mainwindow.cpp" line="3065"/>
         <source>Intercept voice</source>
-        <translation>截取语音</translation>
+        <translation>监听语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2927"/>
+        <location filename="../mainwindow.cpp" line="3070"/>
         <source>Intercept video capture</source>
-        <translation>截取视频</translation>
+        <translation>监听视频采集</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2932"/>
+        <location filename="../mainwindow.cpp" line="3075"/>
         <source>Intercept desktop</source>
-        <translation>截取桌面</translation>
+        <translation>监听桌面</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2937"/>
+        <location filename="../mainwindow.cpp" line="3080"/>
         <source>Intercept media files</source>
-        <translation>截取媒体文件</translation>
+        <translation>监听媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3102"/>
+        <location filename="../mainwindow.cpp" line="3245"/>
         <source>%1 is requesting desktop access</source>
         <translation>%1 正在请求桌面访问</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3108"/>
-        <location filename="../mainwindow.cpp" line="5043"/>
+        <location filename="../mainwindow.cpp" line="3251"/>
+        <location filename="../mainwindow.cpp" line="5092"/>
         <source>%1 granted desktop access</source>
         <translation>%1 已授予桌面访问权限</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3114"/>
+        <location filename="../mainwindow.cpp" line="3257"/>
         <source>%1 retracted desktop access</source>
         <translation>%1 已撤回桌面访问权限</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3152"/>
-        <location filename="../mainwindow.cpp" line="3164"/>
+        <location filename="../mainwindow.cpp" line="3295"/>
+        <location filename="../mainwindow.cpp" line="3307"/>
         <source>Joined channel %1</source>
-        <translation>加入频道 %1</translation>
+        <translation>已加入频道 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3280"/>
-        <location filename="../mainwindow.cpp" line="3281"/>
+        <location filename="../mainwindow.cpp" line="3423"/>
+        <location filename="../mainwindow.cpp" line="3424"/>
         <source>Files in channel: %1</source>
-        <translation>频道文件 %1</translation>
+        <translation>频道文件：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3341"/>
+        <location filename="../mainwindow.cpp" line="3484"/>
         <source>Failed to start recording</source>
         <translation>无法开始录音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3345"/>
+        <location filename="../mainwindow.cpp" line="3488"/>
         <source>Recording to file: %1</source>
-        <translation>记录到文件： %1</translation>
+        <translation>正在录制到文件：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3399"/>
+        <location filename="../mainwindow.cpp" line="3542"/>
         <source>Microphone gain is controlled by channel</source>
         <translation>麦克风增益受频道控制</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5562"/>
+        <location filename="../mainwindow.cpp" line="5611"/>
         <source>Failed to stream media file %1</source>
-        <translation>无法传输流媒体文件 %1</translation>
+        <translation>无法向频道播放媒体文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4534"/>
+        <location filename="../mainwindow.cpp" line="4576"/>
         <source>Are you sure you want to quit %1</source>
-        <translation>您确定要退出%1</translation>
+        <translation>确定要退出 %1 吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4539"/>
+        <location filename="../mainwindow.cpp" line="4581"/>
         <source>Exit %1</source>
         <translation>退出 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3850"/>
+        <location filename="../mainwindow.cpp" line="3993"/>
         <source>Enable HotKey</source>
         <translation>启用热键</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3851"/>
+        <location filename="../mainwindow.cpp" line="3994"/>
         <source>Failed to register hotkey. Please try another key combination.</source>
         <translation>无法注册热键。请尝试其他组合键。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3856"/>
+        <location filename="../mainwindow.cpp" line="3999"/>
         <source>Push To Talk: </source>
-        <translation>按键说话</translation>
+        <translation>按键说话：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4031"/>
+        <location filename="../mainwindow.cpp" line="4174"/>
         <source>Text messages blocked by channel operator</source>
         <translation>频道管理员阻止发送消息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4035"/>
+        <location filename="../mainwindow.cpp" line="4178"/>
         <source>Voice transmission blocked by channel operator</source>
         <translation>频道管理员阻止语音传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4039"/>
+        <location filename="../mainwindow.cpp" line="4182"/>
         <source>Media file transmission blocked by channel operator</source>
         <translation>频道管理员阻止媒体文件传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4043"/>
+        <location filename="../mainwindow.cpp" line="4186"/>
         <source>Video transmission blocked by channel operator</source>
         <translation>频道管理员阻止视频传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4047"/>
+        <location filename="../mainwindow.cpp" line="4190"/>
         <source>Desktop transmission blocked by channel operator</source>
         <translation>频道管理员阻止桌面传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4124"/>
-        <location filename="../mainwindow.cpp" line="4170"/>
-        <source>New Profile</source>
-        <translation>新建配置</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4124"/>
-        <source>Delete Profile</source>
-        <translation>删除配置</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4124"/>
-        <source>Current Profile</source>
-        <translation>当前配置</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4137"/>
-        <location filename="../mainwindow.cpp" line="4155"/>
-        <source>New Client Instance</source>
-        <translation>新客户端实例</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4138"/>
-        <source>Select profile</source>
-        <translation>选择配置</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4156"/>
-        <source>Delete profile</source>
-        <translation>删除配置</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4171"/>
-        <source>Profile name</source>
-        <translation>配置名称</translation>
-    </message>
-    <message>
-        <location filename="../mainwindow.cpp" line="4571"/>
+        <location filename="../mainwindow.cpp" line="4620"/>
         <source>Specify new nickname for current server</source>
         <translation>为当前服务器指定新昵称</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4573"/>
+        <location filename="../mainwindow.cpp" line="4622"/>
         <source>Specify new nickname</source>
         <translation>新昵称</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4680"/>
+        <location filename="../mainwindow.cpp" line="4729"/>
         <source>Push-To-Talk enabled</source>
-        <translation>启用按键说话</translation>
+        <translation>已启用按键说话</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4686"/>
+        <location filename="../mainwindow.cpp" line="4735"/>
         <source>Push-To-Talk disabled</source>
-        <translation>禁用按键说话</translation>
+        <translation>已禁用按键说话</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4704"/>
+        <location filename="../mainwindow.cpp" line="4753"/>
         <source>Voice activation enabled</source>
-        <translation>启用语音激活</translation>
+        <translation>已启用语音激活</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4704"/>
+        <location filename="../mainwindow.cpp" line="4753"/>
         <source>Voice activation disabled</source>
-        <translation>禁用语音激活</translation>
+        <translation>已禁用语音激活</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4711"/>
+        <location filename="../mainwindow.cpp" line="4760"/>
         <source>Failed to enable voice activation</source>
-        <translation>无法企用语音激活</translation>
+        <translation>无法启用语音激活</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4737"/>
-        <location filename="../mainwindow.cpp" line="7033"/>
+        <location filename="../mainwindow.cpp" line="4786"/>
+        <location filename="../mainwindow.cpp" line="7089"/>
         <source>Video device hasn&apos;t been configured properly. Check settings in &apos;Preferences&apos;</source>
-        <translation>未正确配置视频设备，请检查‘首选项’中的设置</translation>
+        <translation>视频设备配置不正确，请检查“首选项”中的设置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4762"/>
+        <location filename="../mainwindow.cpp" line="4811"/>
         <source>Video transmission enabled</source>
-        <translation>启用视频传输</translation>
+        <translation>已启用视频传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4783"/>
+        <location filename="../mainwindow.cpp" line="4832"/>
         <source>Video transmission disabled</source>
-        <translation>禁用视频传输</translation>
+        <translation>已禁用视频传输</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4833"/>
+        <location filename="../mainwindow.cpp" line="4882"/>
         <source>Desktop sharing enabled</source>
-        <translation>启用桌面共享</translation>
+        <translation>已启用桌面共享</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4856"/>
+        <location filename="../mainwindow.cpp" line="4905"/>
         <source>Desktop sharing disabled</source>
-        <translation>禁用桌面共享</translation>
+        <translation>已禁用桌面共享</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4880"/>
+        <location filename="../mainwindow.cpp" line="4929"/>
         <source>Sound events enabled</source>
-        <translation>声音事件已启用</translation>
+        <translation>已启用提示音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4885"/>
+        <location filename="../mainwindow.cpp" line="4934"/>
         <source>Sound events disabled</source>
-        <translation>声音事件已禁用</translation>
+        <translation>已禁用提示音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5248"/>
+        <location filename="../mainwindow.cpp" line="5297"/>
         <source>To relay voice stream from other channel you must enable subscription &quot;Intercept Voice&quot;.
 Do you wish to do this now?</source>
-        <translation>要转播其他频道的语音流，您必须启用“截取语音”订阅。
-您现在想这样做吗？</translation>
+        <translation>要转播其他频道的语音流，必须启用“监听语音”订阅。
+是否立即启用？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5268"/>
+        <location filename="../mainwindow.cpp" line="5317"/>
         <source>To relay media file stream from other channel you must enable subscription &quot;Intercept Media File&quot;.
 Do you wish to do this now?</source>
-        <translation>要转播其他频道的媒体文件流，您必须启用&quot;截取媒体文件&quot;订阅。
-您现在想这样做吗？</translation>
+        <translation>要转播其他频道的媒体文件流，必须启用“监听媒体文件”订阅。
+是否立即启用？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5697"/>
+        <location filename="../mainwindow.cpp" line="5746"/>
         <source>Failed to change volume of the stream</source>
-        <translation>无法更改流的音量</translation>
+        <translation>无法更改播放音量</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5713"/>
+        <location filename="../mainwindow.cpp" line="5762"/>
         <source>Failed to change playback position</source>
         <translation>无法更改播放位置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6533"/>
+        <location filename="../mainwindow.cpp" line="6583"/>
         <source>&amp;Pause Stream</source>
-        <translation>暂停流(&amp;P)</translation>
+        <translation>暂停播放(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5628"/>
+        <location filename="../mainwindow.cpp" line="5677"/>
         <source>Failed to resume the stream</source>
-        <translation>无法恢复流</translation>
+        <translation>无法继续播放</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5642"/>
+        <location filename="../mainwindow.cpp" line="5691"/>
         <source>Failed to pause the stream</source>
-        <translation>无法暂停流</translation>
+        <translation>无法暂停播放</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5820"/>
-        <location filename="../mainwindow.cpp" line="5843"/>
+        <location filename="../mainwindow.cpp" line="5870"/>
+        <location filename="../mainwindow.cpp" line="5893"/>
         <source>Share channel</source>
         <translation>分享频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5843"/>
+        <location filename="../mainwindow.cpp" line="5893"/>
         <source>Type password of channel:</source>
         <translation>输入频道密码：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5858"/>
-        <location filename="../mainwindow.cpp" line="5859"/>
+        <location filename="../mainwindow.cpp" line="5908"/>
+        <location filename="../mainwindow.cpp" line="5909"/>
         <source>Link copied to clipboard</source>
         <translation>链接已复制到剪贴板</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5866"/>
+        <location filename="../mainwindow.cpp" line="5916"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6216"/>
+        <location filename="../mainwindow.cpp" line="6266"/>
         <source>%1 users</source>
-        <translation>%1 用户</translation>
+        <translation>%1 个用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6281"/>
+        <location filename="../mainwindow.cpp" line="6331"/>
         <source>Are you sure you want to kick yourself?</source>
-        <translation>你确定要踢自己吗？</translation>
+        <translation>确定要踢出自己吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6301"/>
+        <location filename="../mainwindow.cpp" line="6351"/>
         <source>Are you sure you want to kick and ban yourself?</source>
-        <translation>你确定要踢出并禁止自己吗？</translation>
+        <translation>确定要踢出并封禁自己吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6320"/>
+        <location filename="../mainwindow.cpp" line="6370"/>
         <source>Ban user #%1</source>
-        <translation>禁止用户 #%1</translation>
+        <translation>封禁用户 #%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6324"/>
+        <location filename="../mainwindow.cpp" line="6374"/>
         <source>Ban User From Server</source>
-        <translation>从服务器禁止用户</translation>
+        <translation>从服务器封禁用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6350"/>
+        <location filename="../mainwindow.cpp" line="6400"/>
         <source>Ban IP-address</source>
-        <translation>禁止 IP 地址</translation>
+        <translation>封禁 IP 地址</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6350"/>
+        <location filename="../mainwindow.cpp" line="6400"/>
         <source>IP-address (&apos;/&apos; for subnet, e.g. 192.168.0.0/16)</source>
         <translation>IP 地址（“/”表示子网，例如 192.168.0.0/16）</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6691"/>
+        <location filename="../mainwindow.cpp" line="6747"/>
         <source>File %1 already exists on the server. Do you want to replace it?</source>
-        <translation>服务器上已存在文件 %1 。要替换它吗？</translation>
+        <translation>服务器上已存在文件 %1。是否替换？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6696"/>
+        <location filename="../mainwindow.cpp" line="6752"/>
         <source>File exists</source>
         <translation>文件已存在</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6703"/>
+        <location filename="../mainwindow.cpp" line="6759"/>
         <source>Failed to delete existing file %1</source>
         <translation>无法删除现有文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6715"/>
+        <location filename="../mainwindow.cpp" line="6771"/>
         <source>You do not have permission to replace the file %1</source>
         <translation>您没有权限替换文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6946"/>
+        <location filename="../mainwindow.cpp" line="7002"/>
         <source>Everyone</source>
         <translation>所有人</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6997"/>
+        <location filename="../mainwindow.cpp" line="7053"/>
         <source>Desktop windows</source>
         <translation>桌面窗口</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7864"/>
+        <location filename="../mainwindow.cpp" line="7920"/>
         <source>Check for Update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7864"/>
+        <location filename="../mainwindow.cpp" line="7920"/>
         <source>%1 is up to date.</source>
-        <translation>%1 是最新版</translation>
+        <translation>%1 已是最新版本。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7939"/>
+        <location filename="../mainwindow.cpp" line="7995"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation>未找到文本转语音的语言 %1</translation>
+        <translation>未找到文字转语音的语言 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7952"/>
+        <location filename="../mainwindow.cpp" line="8008"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation>未找到文本转语音的语音 %1。切换至 %2</translation>
+        <translation>未找到文字转语音的语音 %1，已切换至 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4748"/>
+        <location filename="../mainwindow.cpp" line="4797"/>
         <source>Failed to configure video codec. Check settings in &apos;Preferences&apos;</source>
         <translation>无法配置视频编解码器。请检查“首选项”中的设置</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2962"/>
-        <location filename="../mainwindow.cpp" line="6960"/>
-        <location filename="../mainwindow.cpp" line="6973"/>
-        <location filename="../mainwindow.cpp" line="6986"/>
-        <location filename="../mainwindow.cpp" line="6999"/>
-        <location filename="../mainwindow.cpp" line="7012"/>
+        <location filename="../mainwindow.cpp" line="3105"/>
+        <location filename="../mainwindow.cpp" line="7016"/>
+        <location filename="../mainwindow.cpp" line="7029"/>
+        <location filename="../mainwindow.cpp" line="7042"/>
+        <location filename="../mainwindow.cpp" line="7055"/>
+        <location filename="../mainwindow.cpp" line="7068"/>
         <source>Enabled</source>
         <translation>启用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2971"/>
-        <location filename="../mainwindow.cpp" line="6962"/>
-        <location filename="../mainwindow.cpp" line="6975"/>
-        <location filename="../mainwindow.cpp" line="6988"/>
-        <location filename="../mainwindow.cpp" line="7001"/>
-        <location filename="../mainwindow.cpp" line="7014"/>
+        <location filename="../mainwindow.cpp" line="3114"/>
+        <location filename="../mainwindow.cpp" line="7018"/>
+        <location filename="../mainwindow.cpp" line="7031"/>
+        <location filename="../mainwindow.cpp" line="7044"/>
+        <location filename="../mainwindow.cpp" line="7057"/>
+        <location filename="../mainwindow.cpp" line="7070"/>
         <source>Disabled</source>
         <translation>禁用</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4800"/>
+        <location filename="../mainwindow.cpp" line="4849"/>
         <source>Failed to open X11 display.</source>
-        <translation>无法打开X11显示。</translation>
+        <translation>无法打开 X11 显示。</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4819"/>
+        <location filename="../mainwindow.cpp" line="4868"/>
         <source>Failed to start desktop sharing</source>
         <translation>无法启动桌面共享</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4865"/>
+        <location filename="../mainwindow.cpp" line="4914"/>
         <source>Text-To-Speech enabled</source>
         <translation>已启用文字转语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="4870"/>
+        <location filename="../mainwindow.cpp" line="4919"/>
         <source>Text-To-Speech disabled</source>
         <translation>已禁用文字转语音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5301"/>
-        <location filename="../mainwindow.cpp" line="5314"/>
+        <location filename="../mainwindow.cpp" line="5350"/>
+        <location filename="../mainwindow.cpp" line="5363"/>
         <source>Failed to issue command to create channel</source>
         <translation>无法发出创建频道命令</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5328"/>
+        <location filename="../mainwindow.cpp" line="5377"/>
         <source>Failed to issue command to update channel</source>
         <translation>无法发出更新频道命令</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5341"/>
+        <location filename="../mainwindow.cpp" line="5390"/>
         <source>Are you sure you want to delete channel &quot;%1&quot;?</source>
-        <translation>确定要删除频道 “%1” 吗？</translation>
+        <translation>确定要删除频道“%1”吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5353"/>
+        <location filename="../mainwindow.cpp" line="5402"/>
         <source>Failed to issue command to delete channel</source>
         <translation>无法发出删除频道命令</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5375"/>
-        <location filename="../mainwindow.cpp" line="6266"/>
+        <location filename="../mainwindow.cpp" line="5424"/>
+        <location filename="../mainwindow.cpp" line="6316"/>
         <source>Specify password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5390"/>
+        <location filename="../mainwindow.cpp" line="5439"/>
         <source>Failed to issue command to join channel</source>
         <translation>无法发出加入频道命令</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5491"/>
+        <location filename="../mainwindow.cpp" line="5540"/>
         <source>Nobody is active in this channel</source>
-        <translation>此频道无人活跃</translation>
+        <translation>此频道中无人活动</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="569"/>
-        <location filename="../mainwindow.cpp" line="5734"/>
+        <location filename="../mainwindow.cpp" line="5784"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5755"/>
+        <location filename="../mainwindow.cpp" line="5805"/>
         <source>Save File</source>
         <translation>保存文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5785"/>
+        <location filename="../mainwindow.cpp" line="5835"/>
         <source>Are you sure you want to delete &quot;%1&quot;?</source>
-        <translation>确定要删除 “%1” 吗？</translation>
+        <translation>确定要删除“%1”吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5794"/>
+        <location filename="../mainwindow.cpp" line="5844"/>
         <source>Are you sure you want to delete %1 file(s)?</source>
         <translation>确定要删除 %1 个文件吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6006"/>
+        <location filename="../mainwindow.cpp" line="6056"/>
         <source>Message to broadcast:</source>
         <translation>广播消息：</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6052"/>
+        <location filename="../mainwindow.cpp" line="6102"/>
         <source>Are you sure you want to delete your existing settings?</source>
         <translation>确定要删除现有设置吗？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6067"/>
+        <location filename="../mainwindow.cpp" line="6117"/>
         <source>Cannot find %1</source>
         <translation>找不到 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6074"/>
+        <location filename="../mainwindow.cpp" line="6124"/>
         <source>Cannot remove %1</source>
         <translation>无法删除 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6081"/>
+        <location filename="../mainwindow.cpp" line="6131"/>
         <source>Failed to copy %1 to %2</source>
         <translation>无法将 %1 复制到 %2</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5448"/>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="5497"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Talking</source>
         <translation>正在说话</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Mute</source>
         <translation>静音</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5459"/>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="5508"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Streaming</source>
-        <translation>流媒体</translation>
+        <translation>播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Mute media file</source>
         <translation>静音媒体文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="5470"/>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="5519"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Webcam</source>
-        <translation>视频</translation>
+        <translation>摄像头</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="2897"/>
-        <location filename="../mainwindow.cpp" line="5481"/>
-        <location filename="../mainwindow.cpp" line="6136"/>
+        <location filename="../mainwindow.cpp" line="3040"/>
+        <location filename="../mainwindow.cpp" line="5530"/>
+        <location filename="../mainwindow.cpp" line="6186"/>
         <source>Desktop</source>
         <translation>桌面</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6168"/>
+        <location filename="../mainwindow.cpp" line="6218"/>
         <source>Question</source>
         <translation>提问</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Channel</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Password protected</source>
         <translation>密码保护</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Classroom</source>
-        <translation>教室</translation>
+        <translation>课堂</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6193"/>
+        <location filename="../mainwindow.cpp" line="6243"/>
         <source>Hidden</source>
         <translation>隐藏</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6212"/>
+        <location filename="../mainwindow.cpp" line="6262"/>
         <source>Topic: %1</source>
-        <translation>主题： %1</translation>
+        <translation>主题：%1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6219"/>
+        <location filename="../mainwindow.cpp" line="6269"/>
         <source>%1 files</source>
         <translation>%1 个文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6313"/>
+        <location filename="../mainwindow.cpp" line="6363"/>
         <source>IP-address</source>
-        <translation>IP地址</translation>
+        <translation>IP 地址</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6313"/>
+        <location filename="../mainwindow.cpp" line="6363"/>
         <source>Username</source>
         <translation>用户名</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6322"/>
+        <location filename="../mainwindow.cpp" line="6372"/>
         <source>Ban User From Channel</source>
-        <translation>从频道禁止用户</translation>
+        <translation>从频道封禁用户</translation>
     </message>
     <message>
-        <location filename="../mainwindow.ui" line="1744"/>
+        <location filename="../mainwindow.ui" line="1736"/>
         <source>&amp;Leave Channel</source>
         <translation>离开频道(&amp;L)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="6894"/>
+        <location filename="../mainwindow.cpp" line="6950"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>最大可传输用户数为 %1</translation>
+        <translation>可传输的最大用户数为 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7032"/>
+        <location filename="../mainwindow.cpp" line="7088"/>
         <source>Start Webcam</source>
         <translation>启动摄像头</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7054"/>
-        <location filename="../mainwindow.cpp" line="7106"/>
+        <location filename="../mainwindow.cpp" line="7110"/>
+        <location filename="../mainwindow.cpp" line="7162"/>
         <source>Myself</source>
         <translation>我自己</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="3291"/>
+        <location filename="../mainwindow.cpp" line="3434"/>
         <source>&amp;Files (%1)</source>
         <translation>文件 (%1) (&amp;F)</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7452"/>
-        <location filename="../mainwindow.cpp" line="7457"/>
-        <location filename="../mainwindow.cpp" line="7463"/>
-        <location filename="../mainwindow.cpp" line="7468"/>
-        <location filename="../mainwindow.cpp" line="7474"/>
-        <location filename="../mainwindow.cpp" line="7479"/>
-        <location filename="../mainwindow.cpp" line="7485"/>
-        <location filename="../mainwindow.cpp" line="7490"/>
-        <location filename="../mainwindow.cpp" line="7496"/>
-        <location filename="../mainwindow.cpp" line="7501"/>
-        <location filename="../mainwindow.cpp" line="7507"/>
-        <location filename="../mainwindow.cpp" line="7512"/>
-        <location filename="../mainwindow.cpp" line="7520"/>
-        <location filename="../mainwindow.cpp" line="7525"/>
+        <location filename="../mainwindow.cpp" line="7508"/>
+        <location filename="../mainwindow.cpp" line="7513"/>
+        <location filename="../mainwindow.cpp" line="7519"/>
+        <location filename="../mainwindow.cpp" line="7524"/>
         <location filename="../mainwindow.cpp" line="7530"/>
         <location filename="../mainwindow.cpp" line="7535"/>
-        <location filename="../mainwindow.cpp" line="7540"/>
-        <location filename="../mainwindow.cpp" line="7545"/>
-        <location filename="../mainwindow.cpp" line="7550"/>
-        <location filename="../mainwindow.cpp" line="7555"/>
-        <location filename="../mainwindow.cpp" line="7560"/>
-        <location filename="../mainwindow.cpp" line="7565"/>
-        <location filename="../mainwindow.cpp" line="7570"/>
-        <location filename="../mainwindow.cpp" line="7575"/>
-        <location filename="../mainwindow.cpp" line="7580"/>
-        <location filename="../mainwindow.cpp" line="7585"/>
-        <location filename="../mainwindow.cpp" line="7590"/>
-        <location filename="../mainwindow.cpp" line="7595"/>
+        <location filename="../mainwindow.cpp" line="7541"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7552"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
+        <location filename="../mainwindow.cpp" line="7563"/>
+        <location filename="../mainwindow.cpp" line="7568"/>
+        <location filename="../mainwindow.cpp" line="7576"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7586"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7596"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7606"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7616"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7626"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7636"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7646"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>%1 changed subscription &quot;%2&quot; to: %3</source>
-        <translation>%1 将订阅 “%2” 更改为 %3</translation>
+        <translation>%1 将订阅“%2”更改为：%3</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7456"/>
-        <location filename="../mainwindow.cpp" line="7457"/>
-        <location filename="../mainwindow.cpp" line="7467"/>
-        <location filename="../mainwindow.cpp" line="7468"/>
-        <location filename="../mainwindow.cpp" line="7478"/>
-        <location filename="../mainwindow.cpp" line="7479"/>
-        <location filename="../mainwindow.cpp" line="7489"/>
-        <location filename="../mainwindow.cpp" line="7490"/>
-        <location filename="../mainwindow.cpp" line="7500"/>
-        <location filename="../mainwindow.cpp" line="7501"/>
-        <location filename="../mainwindow.cpp" line="7511"/>
         <location filename="../mainwindow.cpp" line="7512"/>
+        <location filename="../mainwindow.cpp" line="7513"/>
+        <location filename="../mainwindow.cpp" line="7523"/>
         <location filename="../mainwindow.cpp" line="7524"/>
-        <location filename="../mainwindow.cpp" line="7525"/>
         <location filename="../mainwindow.cpp" line="7534"/>
         <location filename="../mainwindow.cpp" line="7535"/>
-        <location filename="../mainwindow.cpp" line="7544"/>
         <location filename="../mainwindow.cpp" line="7545"/>
-        <location filename="../mainwindow.cpp" line="7554"/>
-        <location filename="../mainwindow.cpp" line="7555"/>
-        <location filename="../mainwindow.cpp" line="7564"/>
-        <location filename="../mainwindow.cpp" line="7565"/>
-        <location filename="../mainwindow.cpp" line="7574"/>
-        <location filename="../mainwindow.cpp" line="7575"/>
-        <location filename="../mainwindow.cpp" line="7584"/>
-        <location filename="../mainwindow.cpp" line="7585"/>
-        <location filename="../mainwindow.cpp" line="7594"/>
-        <location filename="../mainwindow.cpp" line="7595"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7556"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
+        <location filename="../mainwindow.cpp" line="7567"/>
+        <location filename="../mainwindow.cpp" line="7568"/>
+        <location filename="../mainwindow.cpp" line="7580"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7590"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7600"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7610"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7620"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7630"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7640"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7650"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>On</source>
         <translation>开</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7456"/>
-        <location filename="../mainwindow.cpp" line="7457"/>
-        <location filename="../mainwindow.cpp" line="7467"/>
-        <location filename="../mainwindow.cpp" line="7468"/>
-        <location filename="../mainwindow.cpp" line="7478"/>
-        <location filename="../mainwindow.cpp" line="7479"/>
-        <location filename="../mainwindow.cpp" line="7489"/>
-        <location filename="../mainwindow.cpp" line="7490"/>
-        <location filename="../mainwindow.cpp" line="7500"/>
-        <location filename="../mainwindow.cpp" line="7501"/>
-        <location filename="../mainwindow.cpp" line="7511"/>
         <location filename="../mainwindow.cpp" line="7512"/>
+        <location filename="../mainwindow.cpp" line="7513"/>
+        <location filename="../mainwindow.cpp" line="7523"/>
         <location filename="../mainwindow.cpp" line="7524"/>
-        <location filename="../mainwindow.cpp" line="7525"/>
         <location filename="../mainwindow.cpp" line="7534"/>
         <location filename="../mainwindow.cpp" line="7535"/>
-        <location filename="../mainwindow.cpp" line="7544"/>
         <location filename="../mainwindow.cpp" line="7545"/>
-        <location filename="../mainwindow.cpp" line="7554"/>
-        <location filename="../mainwindow.cpp" line="7555"/>
-        <location filename="../mainwindow.cpp" line="7564"/>
-        <location filename="../mainwindow.cpp" line="7565"/>
-        <location filename="../mainwindow.cpp" line="7574"/>
-        <location filename="../mainwindow.cpp" line="7575"/>
-        <location filename="../mainwindow.cpp" line="7584"/>
-        <location filename="../mainwindow.cpp" line="7585"/>
-        <location filename="../mainwindow.cpp" line="7594"/>
-        <location filename="../mainwindow.cpp" line="7595"/>
+        <location filename="../mainwindow.cpp" line="7546"/>
+        <location filename="../mainwindow.cpp" line="7556"/>
+        <location filename="../mainwindow.cpp" line="7557"/>
+        <location filename="../mainwindow.cpp" line="7567"/>
+        <location filename="../mainwindow.cpp" line="7568"/>
+        <location filename="../mainwindow.cpp" line="7580"/>
+        <location filename="../mainwindow.cpp" line="7581"/>
+        <location filename="../mainwindow.cpp" line="7590"/>
+        <location filename="../mainwindow.cpp" line="7591"/>
+        <location filename="../mainwindow.cpp" line="7600"/>
+        <location filename="../mainwindow.cpp" line="7601"/>
+        <location filename="../mainwindow.cpp" line="7610"/>
+        <location filename="../mainwindow.cpp" line="7611"/>
+        <location filename="../mainwindow.cpp" line="7620"/>
+        <location filename="../mainwindow.cpp" line="7621"/>
+        <location filename="../mainwindow.cpp" line="7630"/>
+        <location filename="../mainwindow.cpp" line="7631"/>
+        <location filename="../mainwindow.cpp" line="7640"/>
+        <location filename="../mainwindow.cpp" line="7641"/>
+        <location filename="../mainwindow.cpp" line="7650"/>
+        <location filename="../mainwindow.cpp" line="7651"/>
         <source>Off</source>
         <translation>关</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7693"/>
-        <location filename="../mainwindow.cpp" line="7702"/>
-        <location filename="../mainwindow.cpp" line="7712"/>
-        <location filename="../mainwindow.cpp" line="7723"/>
+        <location filename="../mainwindow.cpp" line="7749"/>
+        <location filename="../mainwindow.cpp" line="7758"/>
+        <location filename="../mainwindow.cpp" line="7768"/>
+        <location filename="../mainwindow.cpp" line="7779"/>
         <source>Load File</source>
         <translation>加载文件</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7694"/>
-        <location filename="../mainwindow.cpp" line="7703"/>
+        <location filename="../mainwindow.cpp" line="7750"/>
+        <location filename="../mainwindow.cpp" line="7759"/>
         <source>Failed to load file %1</source>
         <translation>无法加载文件 %1</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7713"/>
+        <location filename="../mainwindow.cpp" line="7769"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>文件 “%1” 与 %2 不兼容</translation>
+        <translation>文件“%1”与 %2 不兼容</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7724"/>
+        <location filename="../mainwindow.cpp" line="7780"/>
         <source>Failed to extract host-information from %1</source>
         <translation>无法从 %1 提取主机信息</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7733"/>
+        <location filename="../mainwindow.cpp" line="7789"/>
         <source>The file %1 contains %2 setup information.<byte value="xd"/>
 Should these settings be applied?</source>
         <translation>文件 %1 包含 %2 设置信息。<byte value="xd"/>
-应该应用这些设置吗？</translation>
+是否应用这些设置？</translation>
     </message>
     <message>
-        <location filename="../mainwindow.cpp" line="7738"/>
+        <location filename="../mainwindow.cpp" line="7794"/>
         <source>Load %1 File</source>
         <translation>加载 %1 文件</translation>
     </message>
     <message>
         <location filename="../settings.h" line="38"/>
         <source>NoName</source>
-        <translation>无名</translation>
+        <translation>无名氏</translation>
     </message>
 </context>
 <context>
@@ -4950,7 +4979,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="14"/>
         <source>Record Conversations to Disk</source>
-        <translation>记录会话至磁盘</translation>
+        <translation>录制会话到磁盘</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="20"/>
@@ -4965,12 +4994,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="35"/>
         <source>Single audio file for all users</source>
-        <translation>所有用户保存单个音频文件</translation>
+        <translation>所有用户合并为单个音频文件</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="42"/>
         <source>Separate audio file for each user</source>
-        <translation>各用户保存独立音频文件</translation>
+        <translation>每个用户单独保存音频文件</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="53"/>
@@ -4996,12 +5025,12 @@ Should these settings be applied?</source>
         <location filename="../mediastorage.ui" line="91"/>
         <location filename="../mediastoragedlg.cpp" line="116"/>
         <source>Folder for audio files</source>
-        <translation>音频文件文件夹</translation>
+        <translation>音频文件夹</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
-        <translation>存储消息会话</translation>
+        <translation>保存文字消息会话</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
@@ -5011,7 +5040,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="148"/>
         <source>Folder for user-to-user log files</source>
-        <translation>私人消息日志文件夹</translation>
+        <translation>私信日志文件夹</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="196"/>
@@ -5077,39 +5106,39 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>用于存储私人消息的文件夹不存在。您想让 %1 为您创建它吗？</translation>
+        <translation>用于存储私信的文件夹不存在。您想让 %1 为您创建吗？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
         <source>Folder for private text messages</source>
-        <translation>私人消息文件夹</translation>
+        <translation>私信文件夹</translation>
     </message>
 </context>
 <context>
     <name>MessageDetailsDlg</name>
     <message>
-        <location filename="../chattextlist.cpp" line="450"/>
-        <location filename="../chattextlist.cpp" line="451"/>
+        <location filename="../chattextlist.cpp" line="469"/>
+        <location filename="../chattextlist.cpp" line="470"/>
         <source>Message Details</source>
         <translation>消息详细信息</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="455"/>
+        <location filename="../chattextlist.cpp" line="474"/>
         <source>Sent: %1</source>
-        <translation>已发送： %1</translation>
+        <translation>发送时间：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="457"/>
+        <location filename="../chattextlist.cpp" line="476"/>
         <source>By: %1</source>
-        <translation>作者： %1</translation>
+        <translation>发送者：%1</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="461"/>
+        <location filename="../chattextlist.cpp" line="480"/>
         <source>Content:</source>
         <translation>内容：</translation>
     </message>
     <message>
-        <location filename="../chattextlist.cpp" line="470"/>
+        <location filename="../chattextlist.cpp" line="489"/>
         <source>&amp;Close</source>
         <translation>关闭(&amp;C)</translation>
     </message>
@@ -5140,7 +5169,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../moveusersdlg.cpp" line="82"/>
         <source>Root Channel</source>
-        <translation>跟贫道</translation>
+        <translation>根频道</translation>
     </message>
 </context>
 <context>
@@ -5180,7 +5209,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="166"/>
         <source>M&amp;essages</source>
-        <translation>消息(&amp;E)</translation>
+        <translation>私信(&amp;E)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="63"/>
@@ -5191,7 +5220,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="167"/>
         <source>&amp;Op</source>
-        <translation>设为频道管理员(&amp;O)</translation>
+        <translation>设为/取消频道管理员(&amp;O)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="68"/>
@@ -5208,22 +5237,22 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="169"/>
         <source>K&amp;ick from Server</source>
-        <translation>从服务器踢出(&amp;I)</translation>
+        <translation>踢出服务器(&amp;I)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="171"/>
         <source>Kick and B&amp;an from Server</source>
-        <translation>从服务器踢出并禁止(&amp;A)</translation>
+        <translation>踢出服务器并封禁(&amp;A)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="172"/>
         <source>&amp;Select User(s) for Move</source>
-        <translation>选择移动的用户</translation>
+        <translation>标记待移动用户(&amp;S)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="168"/>
         <source>&amp;Kick from Channel</source>
-        <translation>从频道踢出(&amp;K)</translation>
+        <translation>踢出频道(&amp;K)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="78"/>
@@ -5240,7 +5269,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="170"/>
         <source>Kick and &amp;Ban from Channel</source>
-        <translation>从频道踢出并禁止(&amp;B)</translation>
+        <translation>踢出频道并封禁(&amp;B)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="88"/>
@@ -5272,7 +5301,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="176"/>
         <source>&amp;Id (%1)</source>
-        <translation>&amp;Id (%1)</translation>
+        <translation>ID (%1)(&amp;I)</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="182"/>
@@ -5282,7 +5311,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersdlg.cpp" line="288"/>
         <source>Nickname: %2, Status message: %3, Username: %4, Channel: %5, IP address: %6, Version: %7, ID: %1</source>
-        <translation>昵称： %2， 状态消息： %3， 用户名： %4， 频道： %5， IP 地址： %6， 版本： %7， ID： %1</translation>
+        <translation>昵称：%2，状态消息：%3，用户名：%4，频道：%5，IP 地址：%6，版本：%7，ID：%1</translation>
     </message>
 </context>
 <context>
@@ -5315,7 +5344,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusersmodel.cpp" line="140"/>
         <source>IP-address</source>
-        <translation>IP地址</translation>
+        <translation>IP 地址</translation>
     </message>
     <message>
         <location filename="../onlineusersmodel.cpp" line="142"/>
@@ -5326,22 +5355,22 @@ Should these settings be applied?</source>
 <context>
     <name>PasswordDialog</name>
     <message>
-        <location filename="../utilui.cpp" line="739"/>
+        <location filename="../utilui.cpp" line="773"/>
         <source>Password</source>
         <translation>密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="745"/>
+        <location filename="../utilui.cpp" line="779"/>
         <source>Show password</source>
         <translation>显示密码</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="750"/>
+        <location filename="../utilui.cpp" line="784"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="751"/>
+        <location filename="../utilui.cpp" line="785"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
@@ -5374,12 +5403,12 @@ Should these settings be applied?</source>
         <translation>性别</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="409"/>
+        <location filename="../preferencesdlg.cpp" line="431"/>
         <source>Male</source>
         <translation>男</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="410"/>
+        <location filename="../preferencesdlg.cpp" line="432"/>
         <source>Female</source>
         <translation>女</translation>
     </message>
@@ -5396,17 +5425,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="150"/>
         <source>Set away status after</source>
-        <translation>后设为离开状态</translation>
+        <translation>闲置超过</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="411"/>
+        <location filename="../preferencesdlg.cpp" line="433"/>
         <source>Neutral</source>
         <translation>中性</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="167"/>
         <source>seconds of inactivity (0 means disabled)</source>
-        <translation>不活动的秒数（0表示禁用）</translation>
+        <translation>秒后设为离开状态（0 表示禁用）</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="259"/>
@@ -5416,7 +5445,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="306"/>
         <source>Restore volume settings and subscriptions on login for Web Login users</source>
-        <translation>为 Web 登录用户恢复登录时的音量设置和订阅</translation>
+        <translation>Web 登录用户登录时恢复其音量设置和订阅</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="316"/>
@@ -5431,7 +5460,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="331"/>
         <source>&amp;Setup Keys</source>
-        <translation>热键注册(&amp;S)</translation>
+        <translation>设置热键(&amp;S)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="373"/>
@@ -5471,7 +5500,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="456"/>
         <source>Enable VU-meter updates</source>
-        <translation>启用VU表更新</translation>
+        <translation>启用 VU 表更新</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="697"/>
@@ -5486,7 +5515,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="711"/>
         <source>Show last to talk in yellow</source>
-        <translation>以黄色显示最后一个谈话</translation>
+        <translation>以黄色显示最后发言者</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="477"/>
@@ -5496,17 +5525,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="622"/>
         <source>Popup dialog when receiving text message</source>
-        <translation>收到消息弹出对话框</translation>
+        <translation>收到文字消息时弹出对话框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="629"/>
         <source>Start video in popup dialog</source>
-        <translation>在弹出对话框中启动视频</translation>
+        <translation>在弹出窗口中显示视频</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="636"/>
         <source>Start desktops in popup dialog</source>
-        <translation>在弹出对话框中启动桌面</translation>
+        <translation>在弹出窗口中显示共享桌面</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="544"/>
@@ -5516,7 +5545,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="856"/>
         <source>Show new version available in dialog box</source>
-        <translation>在对话框中显示可用的新版本</translation>
+        <translation>在对话框中提示新版本</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="581"/>
@@ -5526,7 +5555,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="187"/>
         <source>Disable voice activation during inactivity</source>
-        <translation>在非活动状态时禁用语音激活</translation>
+        <translation>闲置时禁用语音激活</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="211"/>
@@ -5536,7 +5565,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="241"/>
         <source>Status message during inactivity</source>
-        <translation>非活动时的状态消息</translation>
+        <translation>闲置时的状态消息</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="341"/>
@@ -5551,17 +5580,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="463"/>
         <source>Show voice activation level slider</source>
-        <translation>显示语音激活级别滑块</translation>
+        <translation>显示语音激活阈值滑块</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="470"/>
         <source>Show chat history as list view instead of text edit</source>
-        <translation>将聊天历史记录显示为列表视图而不是编辑框</translation>
+        <translation>以列表视图而非文本框显示聊天记录</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="486"/>
         <source>Setup text message templates</source>
-        <translation>设置消息模板</translation>
+        <translation>设置文字消息模板</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="493"/>
@@ -5581,7 +5610,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="616"/>
         <source>Dialogs</source>
-        <translation>对话</translation>
+        <translation>对话框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="691"/>
@@ -5616,7 +5645,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="894"/>
         <source>Connect to latest host on startup</source>
-        <translation>启动时自动连接到最近的主机</translation>
+        <translation>启动时连接到最近使用的主机</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="901"/>
@@ -5626,7 +5655,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="908"/>
         <source>Join root channel upon connection</source>
-        <translation>连接后加入跟频道</translation>
+        <translation>连接后加入根频道</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="915"/>
@@ -5636,7 +5665,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="922"/>
         <source>Add application to Windows Firewall exceptions list</source>
-        <translation>将应用程序添加到Windows防火墙例外列表中</translation>
+        <translation>将应用程序添加到 Windows 防火墙例外列表</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="929"/>
@@ -5647,7 +5676,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="940"/>
         <source>User Messages</source>
-        <translation>用户消息</translation>
+        <translation>私信</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="947"/>
@@ -5667,7 +5696,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="968"/>
-        <location filename="../preferences.ui" line="2019"/>
+        <location filename="../preferences.ui" line="2005"/>
         <source>Video Capture</source>
         <translation>视频</translation>
     </message>
@@ -5706,17 +5735,17 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1053"/>
         <location filename="../preferences.ui" line="1070"/>
         <source>Default: 0</source>
-        <translation>默认: 0</translation>
+        <translation>默认：0</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1060"/>
         <source>UDP port</source>
-        <translation>udp 端口</translation>
+        <translation>UDP 端口</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1143"/>
         <location filename="../preferences.ui" line="1170"/>
-        <location filename="../preferencesdlg.cpp" line="945"/>
+        <location filename="../preferencesdlg.cpp" line="973"/>
         <source>Sound System</source>
         <translation>声音系统</translation>
     </message>
@@ -5726,22 +5755,22 @@ Should these settings be applied?</source>
         <translation>声音系统设置</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1945"/>
+        <location filename="../preferences.ui" line="1931"/>
         <source>Speak selected item in lists</source>
-        <translation>朗读列表中选定项目</translation>
+        <translation>朗读列表中的所选项</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2217"/>
+        <location filename="../preferences.ui" line="2203"/>
         <source> kbps</source>
         <translation> kbps</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="558"/>
+        <location filename="../preferencesdlg.cpp" line="580"/>
         <source>DirectSound</source>
         <translation>DirectSound</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="561"/>
+        <location filename="../preferencesdlg.cpp" line="583"/>
         <source>CoreAudio</source>
         <translation>CoreAudio</translation>
     </message>
@@ -5756,7 +5785,7 @@ Should these settings be applied?</source>
         <translation>输出设备</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1983"/>
+        <location filename="../preferences.ui" line="1969"/>
         <source>Double click to configure keys</source>
         <translation>双击配置按键</translation>
     </message>
@@ -5769,17 +5798,17 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1306"/>
         <source>&amp;Test Selected</source>
-        <translation>测试所选项(&amp;T)</translation>
+        <translation>测试所选设备(&amp;T)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1331"/>
         <source>Enable echo cancellation (remove echo from speakers)</source>
-        <translation>启用回声消除（移除扬声器的回声）</translation>
+        <translation>启用回声消除（消除扬声器产生的回声）</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1338"/>
         <source>Enable automatic gain control (microphone level adjusted automatically)</source>
-        <translation>启用自动增益控制（自动调整麦克风级别）</translation>
+        <translation>启用自动增益控制（自动调节麦克风音量）</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1345"/>
@@ -5789,11 +5818,11 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1354"/>
         <source>Media file vs. voice volume</source>
-        <translation>媒体文件相对于语音的音量</translation>
+        <translation>媒体文件与语音音量比例</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1391"/>
-        <location filename="../preferences.ui" line="2283"/>
+        <location filename="../preferences.ui" line="2269"/>
         <source>&amp;Default</source>
         <translation>默认(&amp;D)</translation>
     </message>
@@ -5801,7 +5830,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1417"/>
         <location filename="../preferences.ui" line="1423"/>
         <source>Sound Events</source>
-        <translation>声音事件</translation>
+        <translation>提示音</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1431"/>
@@ -5811,23 +5840,23 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1457"/>
         <source>Sound event volume level</source>
-        <translation>声音事件音量级别</translation>
+        <translation>提示音音量</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1515"/>
         <source>Enable/disable Sound Events</source>
-        <translation>启用/禁用声音事件</translation>
+        <translation>启用/禁用提示音</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1521"/>
         <location filename="../preferences.ui" line="1662"/>
         <source>Double click to check/uncheck</source>
-        <translation>双击选中/取消选中</translation>
+        <translation>双击勾选/取消勾选</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1540"/>
         <source>Sound Event File</source>
-        <translation>声音事件文件</translation>
+        <translation>提示音文件</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1546"/>
@@ -5852,7 +5881,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="657"/>
         <source>Show dialog box with server&apos;s message of the day</source>
-        <translation>显示包含服务器每日消息的对话框</translation>
+        <translation>显示服务器每日公告对话框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="664"/>
@@ -5865,7 +5894,7 @@ Should these settings be applied?</source>
         <translation>配置事件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="564"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
         <source>PulseAudio</source>
         <translation>PulseAudio</translation>
     </message>
@@ -5893,24 +5922,24 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1503"/>
         <source>Use the sound output device selected in TeamTalk for playing sound events</source>
-        <translation>使用 TeamTalk 中选择的声音输出设备播放声音事件</translation>
+        <translation>使用 TeamTalk 中选择的声音输出设备播放提示音</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1506"/>
         <source>Use selected sound output device for playback</source>
-        <translation>使用选定的声音输出设备进行播放</translation>
+        <translation>使用所选声音输出设备播放</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1601"/>
         <location filename="../preferences.ui" line="1750"/>
         <source>C&amp;lear all</source>
-        <translation>全部禁用(&amp;C)</translation>
+        <translation>全部取消(&amp;L)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1621"/>
         <location filename="../preferences.ui" line="1770"/>
         <source>&amp;Revert</source>
-        <translation>恢复(&amp;R)</translation>
+        <translation>还原(&amp;R)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1718"/>
@@ -5945,7 +5974,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="1881"/>
         <source>Display duration of notifications</source>
-        <translation>显示通知的持续时间</translation>
+        <translation>通知显示时长</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1904"/>
@@ -5954,481 +5983,476 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1917"/>
-        <source>Use SAPI instead of current screenreader</source>
-        <translation>使用 SAPI 代替当前屏幕阅读器</translation>
+        <source>Interrupt current screenreader speech on new event</source>
+        <translation>有新事件时打断屏幕阅读器当前朗读</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1924"/>
-        <source>Switch to SAPI if current screenreader is not available</source>
-        <translation>如果当前屏幕阅读器不可用，则切换到 SAPI</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="1931"/>
-        <source>Interrupt current screenreader speech on new event</source>
-        <translation>在发生新事件时中断当前屏幕阅读器语音</translation>
-    </message>
-    <message>
-        <location filename="../preferences.ui" line="1938"/>
         <source>Use toast notification</source>
         <translation>使用 Toast 通知</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1971"/>
+        <location filename="../preferences.ui" line="1957"/>
         <source>Shortcuts</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="1977"/>
+        <location filename="../preferences.ui" line="1963"/>
         <source>Keyboard Shortcuts</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2025"/>
+        <location filename="../preferences.ui" line="2011"/>
         <source>Video Capture Settings</source>
-        <translation>视频采集</translation>
+        <translation>视频采集设置</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2031"/>
+        <location filename="../preferences.ui" line="2017"/>
         <source>Video Capture Device</source>
-        <translation>视频捕获设备</translation>
+        <translation>视频采集设备</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2051"/>
+        <location filename="../preferences.ui" line="2037"/>
         <source>Video Resolution</source>
         <translation>视频分辨率</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2066"/>
+        <location filename="../preferences.ui" line="2052"/>
         <source>Customize video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2078"/>
+        <location filename="../preferences.ui" line="2064"/>
         <source>Image Format</source>
         <translation>图像格式</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="659"/>
+        <location filename="../preferencesdlg.cpp" line="687"/>
         <source>RGB32</source>
         <translation>RGB32</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="660"/>
+        <location filename="../preferencesdlg.cpp" line="688"/>
         <source>I420</source>
         <translation>I420</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="661"/>
+        <location filename="../preferencesdlg.cpp" line="689"/>
         <source>YUY2</source>
         <translation>YUY2</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2106"/>
-        <location filename="../preferencesdlg.cpp" line="1278"/>
+        <location filename="../preferences.ui" line="2092"/>
+        <location filename="../preferencesdlg.cpp" line="1319"/>
         <source>Test Selected</source>
-        <translation>测试所选项</translation>
+        <translation>测试所选设备</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2134"/>
-        <location filename="../preferences.ui" line="2137"/>
+        <location filename="../preferences.ui" line="2120"/>
+        <location filename="../preferences.ui" line="2123"/>
         <source>Video Codec Settings</source>
         <translation>视频编解码器设置</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2145"/>
+        <location filename="../preferences.ui" line="2131"/>
         <source>Codec</source>
         <translation>编解码器</translation>
     </message>
     <message>
-        <location filename="../preferences.ui" line="2201"/>
+        <location filename="../preferences.ui" line="2187"/>
         <source>Bitrate</source>
         <translation>比特率</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="309"/>
+        <location filename="../preferencesdlg.cpp" line="331"/>
         <source>Default Input Device</source>
         <translation>默认输入设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="342"/>
+        <location filename="../preferencesdlg.cpp" line="364"/>
         <source>Default Output Device</source>
         <translation>默认输出设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="326"/>
-        <location filename="../preferencesdlg.cpp" line="355"/>
+        <location filename="../preferencesdlg.cpp" line="348"/>
+        <location filename="../preferencesdlg.cpp" line="377"/>
         <source>No Sound Device</source>
         <translation>无声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="396"/>
+        <location filename="../preferencesdlg.cpp" line="418"/>
         <source>Open Wave File</source>
-        <translation>打开波形文件</translation>
+        <translation>打开 WAV 文件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="397"/>
+        <location filename="../preferencesdlg.cpp" line="419"/>
         <source>Wave files (*.wav)</source>
-        <translation>波形文件(*.wav)</translation>
+        <translation>WAV 文件 (*.wav)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="818"/>
-        <location filename="../preferencesdlg.cpp" line="825"/>
+        <location filename="../preferencesdlg.cpp" line="846"/>
+        <location filename="../preferencesdlg.cpp" line="853"/>
         <source>Windows Firewall</source>
-        <translation>Windows防火墙</translation>
+        <translation>Windows 防火墙</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="819"/>
+        <location filename="../preferencesdlg.cpp" line="847"/>
         <source>Failed to add %1 to Windows Firewall exception list</source>
-        <translation>无法将 %1 添加到Windows防火墙例外列表中</translation>
+        <translation>无法将 %1 添加到 Windows 防火墙例外列表</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="826"/>
+        <location filename="../preferencesdlg.cpp" line="854"/>
         <source>Failed to remove %1 from Windows Firewall exception list</source>
-        <translation>无法从Windows防火墙例外列表中删除 %1</translation>
+        <translation>无法将 %1 从 Windows 防火墙例外列表中移除</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1296"/>
+        <location filename="../preferencesdlg.cpp" line="1337"/>
         <source>Sound Initialization</source>
-        <translation>初始化声音</translation>
+        <translation>声音初始化</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1035"/>
         <location filename="../preferencesdlg.cpp" line="1071"/>
+        <location filename="../preferencesdlg.cpp" line="1112"/>
         <source>Video Device</source>
         <translation>视频设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="69"/>
+        <location filename="../preferencesdlg.cpp" line="80"/>
         <source>&amp;OK</source>
         <translation>确定(&amp;O)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="70"/>
+        <location filename="../preferencesdlg.cpp" line="81"/>
         <source>&amp;Cancel</source>
         <translation>取消(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="418"/>
+        <location filename="../preferencesdlg.cpp" line="440"/>
         <source>&amp;Reset</source>
         <translation>重置(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="482"/>
-        <location filename="../preferencesdlg.cpp" line="604"/>
+        <location filename="../preferencesdlg.cpp" line="504"/>
+        <location filename="../preferencesdlg.cpp" line="632"/>
         <source>None</source>
         <translation>无</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="577"/>
-        <location filename="../preferencesdlg.cpp" line="591"/>
-        <location filename="../preferencesdlg.cpp" line="606"/>
+        <location filename="../preferencesdlg.cpp" line="605"/>
+        <location filename="../preferencesdlg.cpp" line="619"/>
+        <location filename="../preferencesdlg.cpp" line="634"/>
         <source>Default</source>
         <translation>默认</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="71"/>
+        <location filename="../preferencesdlg.cpp" line="82"/>
         <source>Client settings</source>
         <translation>客户端设置</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="103"/>
+        <location filename="../preferencesdlg.cpp" line="114"/>
         <source>The day as a number without a leading zero (1 to 31)</source>
-        <translation>以数字形式表示的日期，不带前导零（1 至 31）</translation>
+        <translation>不带前导零的日（1 至 31）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="104"/>
+        <location filename="../preferencesdlg.cpp" line="115"/>
         <source>The day as a number with a leading zero (01 to 31)</source>
-        <translation>以数字形式表示的日期，带前导零（01 至 31）</translation>
+        <translation>带前导零的日（01 至 31）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="105"/>
+        <location filename="../preferencesdlg.cpp" line="116"/>
         <source>The abbreviated day name (&apos;Mon&apos; to &apos;Sun&apos;).</source>
-        <translation>缩写的星期名称（‘周一’至‘周日’）。</translation>
+        <translation>星期的缩写名称（“周一”至“周日”）。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="106"/>
+        <location filename="../preferencesdlg.cpp" line="117"/>
         <source>The long day name (&apos;Monday&apos; to &apos;Sunday&apos;).</source>
-        <translation>长星期名称（(‘星期一’至‘星期日’)。</translation>
+        <translation>星期的完整名称（“星期一”至“星期日”）。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="107"/>
+        <location filename="../preferencesdlg.cpp" line="118"/>
         <source>The month as a number without a leading zero (1 to 12)</source>
-        <translation>月份为不带前导零的数字（1 至 12）</translation>
+        <translation>不带前导零的月份（1 至 12）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="108"/>
+        <location filename="../preferencesdlg.cpp" line="119"/>
         <source>The month as a number with a leading zero (01 to 12)</source>
-        <translation>月份为带前导零的数字（01 至 12）</translation>
+        <translation>带前导零的月份（01 至 12）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="109"/>
+        <location filename="../preferencesdlg.cpp" line="120"/>
         <source>The abbreviated month name (&apos;Jan&apos; to &apos;Dec&apos;).</source>
-        <translation>缩写的月份名称（“1月”到“12月”）。</translation>
+        <translation>月份的缩写名称（“1月”至“12月”）。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="110"/>
+        <location filename="../preferencesdlg.cpp" line="121"/>
         <source>The long month name (&apos;January&apos; to &apos;December&apos;).</source>
-        <translation>长月份名称（‘一月’至‘十二月’）。</translation>
+        <translation>月份的完整名称（“一月”至“十二月”）。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="111"/>
+        <location filename="../preferencesdlg.cpp" line="122"/>
         <source>The year as a two digit number (00 to 99)</source>
-        <translation>两位数年份（00 至 99）</translation>
+        <translation>两位数的年份（00 至 99）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="112"/>
+        <location filename="../preferencesdlg.cpp" line="123"/>
         <source>The year as a four digit number.</source>
-        <translation>以四位数字表示的年份。</translation>
+        <translation>四位数的年份。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="113"/>
+        <location filename="../preferencesdlg.cpp" line="124"/>
         <source>The hour without a leading zero (0 to 23)</source>
         <translation>不带前导零的小时（0 至 23）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="114"/>
+        <location filename="../preferencesdlg.cpp" line="125"/>
         <source>The hour with a leading zero (00 to 23)</source>
         <translation>带前导零的小时（00 至 23）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="115"/>
+        <location filename="../preferencesdlg.cpp" line="126"/>
         <source>The minute without a leading zero (0 to 59)</source>
         <translation>不带前导零的分钟（0 至 59）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="116"/>
+        <location filename="../preferencesdlg.cpp" line="127"/>
         <source>The minute with a leading zero (00 to 59)</source>
         <translation>带前导零的分钟（00 至 59）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="117"/>
+        <location filename="../preferencesdlg.cpp" line="128"/>
         <source>The whole second, without any leading zero (0 to 59)</source>
         <translation>不带前导零的秒（0 至 59）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="118"/>
+        <location filename="../preferencesdlg.cpp" line="129"/>
         <source>The whole second, with a leading zero where applicable (00 to 59)</source>
-        <translation>带前导0的秒（00 至 59）</translation>
+        <translation>带前导零的秒（00 至 59）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="557"/>
+        <location filename="../preferencesdlg.cpp" line="579"/>
         <source>Windows Audio Session API (WASAPI)</source>
         <translation>Windows 音频会话 API (WASAPI)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="559"/>
+        <location filename="../preferencesdlg.cpp" line="581"/>
         <source>Windows legacy audio system</source>
         <translation>Windows 传统音频系统</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="563"/>
+        <location filename="../preferencesdlg.cpp" line="585"/>
         <source>Advanced Linux Sound Architecture (ALSA)</source>
         <translation>高级 Linux 声音架构 (ALSA)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="508"/>
+        <location filename="../preferencesdlg.cpp" line="530"/>
         <source>Do nothing</source>
-        <translation>什么都不做</translation>
+        <translation>无操作</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="483"/>
+        <location filename="../preferencesdlg.cpp" line="505"/>
         <source>Emojis</source>
         <translation>表情符号</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="484"/>
+        <location filename="../preferencesdlg.cpp" line="506"/>
         <source>Text</source>
         <translation>文本</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="509"/>
+        <location filename="../preferencesdlg.cpp" line="531"/>
         <source>Join only</source>
         <translation>仅加入</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="510"/>
+        <location filename="../preferencesdlg.cpp" line="532"/>
         <source>Leave only</source>
         <translation>仅离开</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="511"/>
+        <location filename="../preferencesdlg.cpp" line="533"/>
         <source>Join or leave</source>
         <translation>加入或离开</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="515"/>
+        <location filename="../preferencesdlg.cpp" line="537"/>
         <source>Ascending</source>
         <translation>升序</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="516"/>
+        <location filename="../preferencesdlg.cpp" line="538"/>
         <source>Popularity</source>
-        <translation>受欢迎度</translation>
+        <translation>热度</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="592"/>
+        <location filename="../preferencesdlg.cpp" line="620"/>
         <source>One by One</source>
-        <translation>逐个</translation>
+        <translation>逐个播放</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="593"/>
+        <location filename="../preferencesdlg.cpp" line="621"/>
         <source>Overlapping</source>
-        <translation>重叠</translation>
+        <translation>重叠播放</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="609"/>
-        <source>Tolk</source>
-        <translation>Tolk</translation>
-    </message>
-    <message>
-        <location filename="../preferencesdlg.cpp" line="613"/>
+        <location filename="../preferencesdlg.cpp" line="640"/>
         <source>VoiceOver (via Apple Script)</source>
         <translation>旁白（通过 Apple Script）</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="616"/>
+        <location filename="../preferencesdlg.cpp" line="643"/>
         <source>Qt Accessibility Announcement</source>
-        <translation>Qt 辅助功能通知</translation>
+        <translation>Qt 无障碍播报</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="793"/>
+        <location filename="../preferencesdlg.cpp" line="821"/>
         <source>Chat History</source>
-        <translation>聊天历史</translation>
+        <translation>聊天记录</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="794"/>
+        <location filename="../preferencesdlg.cpp" line="822"/>
         <source>Please restart application to change to chat history control</source>
-        <translation>请重启程序以更改聊天历史记录控件</translation>
+        <translation>请重启程序以切换聊天记录控件</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1036"/>
         <location filename="../preferencesdlg.cpp" line="1072"/>
-        <location filename="../preferencesdlg.cpp" line="1662"/>
+        <location filename="../preferencesdlg.cpp" line="1113"/>
+        <location filename="../preferencesdlg.cpp" line="1739"/>
         <source>Failed to initialize video device</source>
         <translation>无法初始化视频设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1127"/>
+        <location filename="../preferencesdlg.cpp" line="1168"/>
         <source>Key Combination: %1</source>
         <translation>组合键：%1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1182"/>
+        <location filename="../preferencesdlg.cpp" line="1223"/>
         <source>Max Input Channels %1</source>
-        <translation>最大输入声道 %1</translation>
+        <translation>最大输入声道数 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1184"/>
-        <location filename="../preferencesdlg.cpp" line="1208"/>
+        <location filename="../preferencesdlg.cpp" line="1225"/>
+        <location filename="../preferencesdlg.cpp" line="1249"/>
         <source>Sample Rates:</source>
         <translation>采样率：</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1206"/>
+        <location filename="../preferencesdlg.cpp" line="1247"/>
         <source>Max Output Channels %1</source>
-        <translation>最大输出声道 %1</translation>
+        <translation>最大输出声道数 %1</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1237"/>
+        <location filename="../preferencesdlg.cpp" line="1278"/>
         <source>Refresh Sound Devices</source>
         <translation>刷新声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1238"/>
+        <location filename="../preferencesdlg.cpp" line="1279"/>
         <source>Failed to restart sound systems. Please restart application.</source>
         <translation>无法重新启动声音系统。请重新启动应用程序。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1279"/>
+        <location filename="../preferencesdlg.cpp" line="1320"/>
         <source>This sound device configuration gives suboptimal echo cancellation. Check manual for details.</source>
-        <translation>此声音设备配置提供了欠佳的回声消除。请查看手册以了解详细信息。</translation>
+        <translation>此声音设备配置的回声消除效果欠佳。详情请参阅手册。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1297"/>
+        <location filename="../preferencesdlg.cpp" line="1338"/>
         <source>Failed to initialize new sound devices</source>
         <translation>无法初始化新的声音设备</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1485"/>
-        <source>Use SAPI instead of %1 screenreader</source>
-        <translation>使用 SAPI 代替 %1 屏幕阅读器</translation>
-    </message>
-    <message>
-        <location filename="../preferencesdlg.cpp" line="1486"/>
-        <source>Switch to SAPI if %1 screenreader is not available</source>
-        <translation>如果 %1 屏幕阅读器不可用，则切换到 SAPI</translation>
-    </message>
-    <message>
-        <location filename="../preferencesdlg.cpp" line="1492"/>
+        <location filename="../preferencesdlg.cpp" line="1545"/>
         <source>Speech and Braille</source>
         <translation>语音和盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1494"/>
+        <location filename="../preferencesdlg.cpp" line="1547"/>
         <source>Braille only</source>
-        <translation>盲文</translation>
+        <translation>仅盲文</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1496"/>
+        <location filename="../preferencesdlg.cpp" line="1546"/>
         <source>Speech only</source>
-        <translation>语音</translation>
+        <translation>仅语音</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1621"/>
+        <location filename="../preferencesdlg.cpp" line="590"/>
+        <source>PulseAudio / PipeWire</source>
+        <translation>PulseAudio / PipeWire</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="637"/>
+        <source>Prism</source>
+        <translation>Prism</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1510"/>
+        <source>Backend</source>
+        <translation>后端</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1517"/>
+        <source>Auto</source>
+        <translation>自动</translation>
+    </message>
+    <message>
+        <location filename="../preferencesdlg.cpp" line="1698"/>
         <source>Custom video format</source>
         <translation>自定义视频格式</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1709"/>
+        <location filename="../preferencesdlg.cpp" line="1786"/>
         <source>Default Video Capture</source>
-        <translation>默认视频捕获</translation>
+        <translation>默认视频采集</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1710"/>
+        <location filename="../preferencesdlg.cpp" line="1787"/>
         <source>Unable to find preferred video capture settings</source>
-        <translation>无法找到首选的视频捕获设置</translation>
+        <translation>找不到首选的视频采集设置</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1773"/>
+        <location filename="../preferencesdlg.cpp" line="1850"/>
         <source>Message for Event &quot;%1&quot;</source>
         <translation>事件“%1”的消息</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1843"/>
+        <location filename="../preferencesdlg.cpp" line="1920"/>
         <source>Are you sure you want to restore all TTS messages to default values?</source>
-        <translation>您确定要将所有 TTS 消息恢复为默认值吗？</translation>
+        <translation>确定要将所有文字转语音消息恢复为默认值吗？</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1844"/>
-        <location filename="../preferencesdlg.cpp" line="1958"/>
+        <location filename="../preferencesdlg.cpp" line="1921"/>
+        <location filename="../preferencesdlg.cpp" line="2035"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1845"/>
-        <location filename="../preferencesdlg.cpp" line="1959"/>
+        <location filename="../preferencesdlg.cpp" line="1922"/>
+        <location filename="../preferencesdlg.cpp" line="2036"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1848"/>
+        <location filename="../preferencesdlg.cpp" line="1925"/>
         <source>Restore default values</source>
         <translation>恢复默认值</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1957"/>
+        <location filename="../preferencesdlg.cpp" line="2034"/>
         <source>%1 language has been changed. Should the default values of Text-to-Speech events and Status Messages, Chat Templates and Date Time format be restored? This ensures all messages are retranslated, but your custom messages will be lost.</source>
-        <translation>语言已更改为 %1。是否要恢复文本转语音事件和状态消息、聊天模板及日期时间格式的默认值？这将确保所有消息都被重新翻译，但您的自定义消息将会丢失。</translation>
+        <translation>%1 的语言已更改。是否恢复文字转语音事件、状态消息、聊天模板和日期时间格式的默认值？这样可以确保所有消息都使用新语言，但您的自定义消息将会丢失。</translation>
     </message>
     <message>
-        <location filename="../preferencesdlg.cpp" line="1962"/>
+        <location filename="../preferencesdlg.cpp" line="2039"/>
         <source>Language configuration changed</source>
         <translation>语言配置已更改</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="363"/>
         <source>Press to transmit.  Press to stop transmit</source>
-        <translation>按下开始传输，再次按下停止传输</translation>
+        <translation>按一下开始传输，再按一下停止传输</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="366"/>
@@ -6443,7 +6467,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="818"/>
         <source>Double click on a channel</source>
-        <translation>双击一个频道</translation>
+        <translation>双击频道时</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="801"/>
@@ -6458,7 +6482,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferences.ui" line="643"/>
         <source>Show dialog box when excluded from channel or server</source>
-        <translation>踢出频道或服务器时显示对话框</translation>
+        <translation>被踢出频道或服务器时显示对话框</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="842"/>
@@ -6482,7 +6506,7 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../preferences.ui" line="1689"/>
-        <location filename="../preferencesdlg.cpp" line="1773"/>
+        <location filename="../preferencesdlg.cpp" line="1850"/>
         <source>Message</source>
         <translation>消息</translation>
     </message>
@@ -6490,7 +6514,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="533"/>
         <location filename="../preferences.ui" line="1704"/>
         <source>&amp;Variables...</source>
-        <translation>变量...(&amp;V)</translation>
+        <translation>变量(&amp;V)...</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1711"/>
@@ -6499,36 +6523,138 @@ Should these settings be applied?</source>
     </message>
 </context>
 <context>
+    <name>ProfilesDlg</name>
+    <message>
+        <location filename="../profiles.ui" line="14"/>
+        <location filename="../profiles.ui" line="27"/>
+        <location filename="../profiles.ui" line="33"/>
+        <source>Profiles</source>
+        <translation>配置</translation>
+    </message>
+    <message>
+        <location filename="../profiles.ui" line="70"/>
+        <source>&amp;New Profile</source>
+        <translation>新建配置(&amp;N)</translation>
+    </message>
+    <message>
+        <location filename="../profiles.ui" line="77"/>
+        <source>Use &amp;Current Profile</source>
+        <translation>使用当前配置(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="126"/>
+        <location filename="../profilesdlg.cpp" line="135"/>
+        <source>New Profile</source>
+        <translation>新建配置</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="126"/>
+        <source>Maximum number of profiles reached.</source>
+        <translation>已达到配置数量上限。</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="131"/>
+        <location filename="../profilesdlg.cpp" line="181"/>
+        <source>&amp;OK</source>
+        <translation>确定(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="132"/>
+        <location filename="../profilesdlg.cpp" line="182"/>
+        <source>&amp;Cancel</source>
+        <translation>取消(&amp;C)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="134"/>
+        <source>Profile %1</source>
+        <translation>配置 %1</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="136"/>
+        <location filename="../profilesdlg.cpp" line="186"/>
+        <source>Profile name</source>
+        <translation>配置名称</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="185"/>
+        <source>Edit Profile</source>
+        <translation>编辑配置</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="213"/>
+        <source>Are you sure you want to delete profile &quot;%1&quot;?</source>
+        <translation>确定要删除配置“%1”吗？</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="214"/>
+        <source>&amp;Yes</source>
+        <translation>是(&amp;Y)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="215"/>
+        <source>&amp;No</source>
+        <translation>否(&amp;N)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="218"/>
+        <source>Delete profile</source>
+        <translation>删除配置</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="255"/>
+        <source>&amp;Open Profile</source>
+        <translation>打开配置(&amp;O)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="256"/>
+        <source>&amp;Edit Profile</source>
+        <translation>编辑配置(&amp;E)</translation>
+    </message>
+    <message>
+        <location filename="../profilesdlg.cpp" line="257"/>
+        <source>&amp;Delete Profile</source>
+        <translation>删除配置(&amp;D)</translation>
+    </message>
+</context>
+<context>
+    <name>ProfilesModel</name>
+    <message>
+        <location filename="../profilesmodel.cpp" line="34"/>
+        <source>Profile Name</source>
+        <translation>配置名称</translation>
+    </message>
+</context>
+<context>
     <name>QObject</name>
     <message>
-        <location filename="../utilsound.cpp" line="326"/>
+        <location filename="../utilsound.cpp" line="337"/>
         <source>Failed to initialize sound duplex mode: %1 - %2</source>
-        <translation>无法初始化声音双工模式： %1 - %2</translation>
+        <translation>无法初始化声音双工模式：%1 - %2</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="334"/>
+        <location filename="../utilsound.cpp" line="345"/>
         <source>Failed to initialize sound input device: %1</source>
-        <translation>无法初始化声音输入设备： %1</translation>
+        <translation>无法初始化声音输入设备：%1</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="338"/>
+        <location filename="../utilsound.cpp" line="349"/>
         <source>Failed to initialize sound output device: %1</source>
-        <translation>无法初始化声音输出设备： %1</translation>
+        <translation>无法初始化声音输出设备：%1</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="364"/>
+        <location filename="../utilsound.cpp" line="375"/>
         <source>Switching to default sound devices</source>
-        <translation>切换到默认声音设备</translation>
+        <translation>正在切换到默认声音设备</translation>
     </message>
     <message>
-        <location filename="../utilsound.cpp" line="372"/>
+        <location filename="../utilsound.cpp" line="383"/>
         <source>Unable to get default sound devices</source>
         <translation>无法获取默认声音设备</translation>
     </message>
     <message>
-        <location filename="../common.cpp" line="512"/>
+        <location filename="../common.cpp" line="515"/>
         <source>Conference</source>
-        <translation>对话</translation>
+        <translation>会议</translation>
     </message>
     <message>
         <location filename="../utilhotkey.cpp" line="35"/>
@@ -6586,33 +6712,33 @@ Should these settings be applied?</source>
         <translation>未知热键</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="30"/>
+        <location filename="../utilmedia.cpp" line="32"/>
         <source>Stereo</source>
         <translation>立体声</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="32"/>
+        <location filename="../utilmedia.cpp" line="34"/>
         <source>Mono</source>
         <translation>单声道</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="34"/>
-        <source>%1 audio channels</source>
-        <translation>%1声道</translation>
-    </message>
-    <message>
         <location filename="../utilmedia.cpp" line="36"/>
-        <source>%1 Hz, %2</source>
-        <translation>%1Hz, %2</translation>
+        <source>%1 audio channels</source>
+        <translation>%1 声道</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="39"/>
-        <location filename="../utilmedia.cpp" line="49"/>
+        <location filename="../utilmedia.cpp" line="38"/>
+        <source>%1 Hz, %2</source>
+        <translation>%1 Hz，%2</translation>
+    </message>
+    <message>
+        <location filename="../utilmedia.cpp" line="41"/>
+        <location filename="../utilmedia.cpp" line="51"/>
         <source>Unknown format</source>
         <translation>未知格式</translation>
     </message>
     <message>
-        <location filename="../utilmedia.cpp" line="47"/>
+        <location filename="../utilmedia.cpp" line="49"/>
         <source>%1x%2 %3 FPS</source>
         <translation>%1x%2 %3 FPS</translation>
     </message>
@@ -6679,7 +6805,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="165"/>
         <source>Use BearWare.dk Web Login</source>
-        <translation>使用 BearWare.dk Web 登陆</translation>
+        <translation>使用 BearWare.dk Web 登录</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="172"/>
@@ -6717,7 +6843,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.ui" line="251"/>
         <source>Last Joined Channel</source>
-        <translation>最后加入频道</translation>
+        <translation>上次加入的频道</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="258"/>
@@ -6725,78 +6851,93 @@ Should these settings be applied?</source>
         <translation>频道</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="302"/>
-        <source>Join Code for Easy Login</source>
-        <translation>加入码快速登录</translation>
+        <location filename="../serverdlg.ui" line="299"/>
+        <source>Channel type</source>
+        <translation>频道类型</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="308"/>
+        <location filename="../serverdlg.ui" line="309"/>
+        <source>Select the channel types used when creating a missing channel</source>
+        <translation>选择自动创建不存在的频道时使用的频道类型</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.ui" line="312"/>
+        <source>Default</source>
+        <translation>默认</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.ui" line="322"/>
+        <source>Join Code for Easy Login</source>
+        <translation>使用加入码快速登录</translation>
+    </message>
+    <message>
+        <location filename="../serverdlg.ui" line="328"/>
         <source>Join Code</source>
         <translation>加入码</translation>
     </message>
     <message>
-        <location filename="../serverdlg.ui" line="331"/>
+        <location filename="../serverdlg.ui" line="351"/>
         <source>&amp;Connect to Server on exit</source>
-        <translation>退出时连接到服务器(&amp;C)</translation>
+        <translation>保存后连接到服务器(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="42"/>
+        <location filename="../serverdlg.cpp" line="44"/>
         <source>&amp;Save and Close</source>
         <translation>保存并关闭(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="43"/>
+        <location filename="../serverdlg.cpp" line="45"/>
         <source>&amp;Close without saving</source>
-        <translation>不保存关闭(&amp;C)</translation>
+        <translation>关闭但不保存(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="64"/>
-        <location filename="../serverdlg.cpp" line="65"/>
+        <location filename="../serverdlg.cpp" line="75"/>
+        <location filename="../serverdlg.cpp" line="76"/>
         <source>Add Server</source>
         <translation>添加服务器</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="69"/>
+        <location filename="../serverdlg.cpp" line="80"/>
         <source>Edit Server</source>
         <translation>编辑服务器</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="70"/>
+        <location filename="../serverdlg.cpp" line="81"/>
         <source>Edit Server %1</source>
         <translation>编辑服务器 %1</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="74"/>
+        <location filename="../serverdlg.cpp" line="85"/>
         <source>View Server Information</source>
         <translation>查看服务器信息</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="75"/>
+        <location filename="../serverdlg.cpp" line="86"/>
         <source>View %1 Information</source>
         <translation>查看 %1 信息</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="92"/>
+        <location filename="../serverdlg.cpp" line="104"/>
         <source>&amp;Close</source>
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="160"/>
+        <location filename="../serverdlg.cpp" line="179"/>
         <source>Name already used</source>
         <translation>名称已被使用</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="160"/>
+        <location filename="../serverdlg.cpp" line="179"/>
         <source>Another server with this name already exists. Please use a different name.</source>
-        <translation>具有此名称的另一服务器已存在。请使用不同的名称。</translation>
+        <translation>已存在同名服务器，请使用其他名称。</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="165"/>
+        <location filename="../serverdlg.cpp" line="184"/>
         <source>Missing information</source>
         <translation>缺少信息</translation>
     </message>
     <message>
-        <location filename="../serverdlg.cpp" line="165"/>
+        <location filename="../serverdlg.cpp" line="184"/>
         <source>Please fill in &quot;Host IP-address&quot; field</source>
         <translation>请填写“主机 IP 地址”字段</translation>
     </message>
@@ -6827,7 +6968,7 @@ Should these settings be applied?</source>
         <location filename="../serverlist.ui" line="22"/>
         <location filename="../serverlist.ui" line="25"/>
         <source>Filter Servers</source>
-        <translation>过滤服务器</translation>
+        <translation>筛选服务器</translation>
     </message>
     <message>
         <location filename="../serverlist.ui" line="33"/>
@@ -6856,9 +6997,9 @@ Should these settings be applied?</source>
     </message>
     <message>
         <location filename="../serverlist.ui" line="132"/>
-        <location filename="../serverlistdlg.cpp" line="811"/>
-        <location filename="../serverlistdlg.cpp" line="831"/>
-        <location filename="../serverlistdlg.cpp" line="853"/>
+        <location filename="../serverlistdlg.cpp" line="817"/>
+        <location filename="../serverlistdlg.cpp" line="837"/>
+        <location filename="../serverlistdlg.cpp" line="859"/>
         <source>Enter Join Code</source>
         <translation>输入加入码</translation>
     </message>
@@ -6873,7 +7014,7 @@ Should these settings be applied?</source>
         <translation>最近主机</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="976"/>
+        <location filename="../serverlistdlg.cpp" line="982"/>
         <source>&amp;Connect</source>
         <translation>连接(&amp;C)</translation>
     </message>
@@ -6883,252 +7024,252 @@ Should these settings be applied?</source>
         <translation>导入 .tt 文件(&amp;I)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="395"/>
+        <location filename="../serverlistdlg.cpp" line="401"/>
         <source>Open File</source>
         <translation>打开文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="403"/>
-        <location filename="../serverlistdlg.cpp" line="412"/>
-        <location filename="../serverlistdlg.cpp" line="423"/>
-        <location filename="../serverlistdlg.cpp" line="443"/>
+        <location filename="../serverlistdlg.cpp" line="409"/>
+        <location filename="../serverlistdlg.cpp" line="418"/>
+        <location filename="../serverlistdlg.cpp" line="429"/>
+        <location filename="../serverlistdlg.cpp" line="449"/>
         <source>Load File</source>
         <translation>加载文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="404"/>
-        <location filename="../serverlistdlg.cpp" line="413"/>
-        <location filename="../serverlistdlg.cpp" line="444"/>
+        <location filename="../serverlistdlg.cpp" line="410"/>
+        <location filename="../serverlistdlg.cpp" line="419"/>
+        <location filename="../serverlistdlg.cpp" line="450"/>
         <source>Failed to load file %1</source>
-        <translation>无法夹在文件 %1</translation>
+        <translation>无法加载文件 %1</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="424"/>
+        <location filename="../serverlistdlg.cpp" line="430"/>
         <source>The file &quot;%1&quot; is incompatible with %2</source>
-        <translation>文件 &quot;%1&quot; 与 %2 不兼容</translation>
+        <translation>文件“%1”与 %2 不兼容</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="521"/>
-        <location filename="../serverlistdlg.cpp" line="760"/>
-        <location filename="../serverlistdlg.cpp" line="861"/>
+        <location filename="../serverlistdlg.cpp" line="527"/>
+        <location filename="../serverlistdlg.cpp" line="766"/>
+        <location filename="../serverlistdlg.cpp" line="867"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="522"/>
-        <location filename="../serverlistdlg.cpp" line="761"/>
-        <location filename="../serverlistdlg.cpp" line="862"/>
+        <location filename="../serverlistdlg.cpp" line="528"/>
+        <location filename="../serverlistdlg.cpp" line="767"/>
+        <location filename="../serverlistdlg.cpp" line="868"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="570"/>
+        <location filename="../serverlistdlg.cpp" line="576"/>
         <source>Duplicate Server Entry</source>
-        <translation>复制的服务器条目</translation>
+        <translation>复制服务器条目</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="571"/>
+        <location filename="../serverlistdlg.cpp" line="577"/>
         <source>Entry Name</source>
         <translation>条目名称</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="572"/>
+        <location filename="../serverlistdlg.cpp" line="578"/>
         <source>%1 - COPY</source>
-        <translation>%1 - 复制</translation>
+        <translation>%1 - 副本</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="645"/>
+        <location filename="../serverlistdlg.cpp" line="651"/>
         <source>Export entire list in single file</source>
-        <translation>导出整个列表为单文件</translation>
+        <translation>将整个列表导出为单个文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="646"/>
+        <location filename="../serverlistdlg.cpp" line="652"/>
         <source>Export one server per file</source>
-        <translation>每个文件导出一个服务器</translation>
+        <translation>每个服务器导出为一个文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="669"/>
-        <location filename="../serverlistdlg.cpp" line="708"/>
-        <location filename="../serverlistdlg.cpp" line="726"/>
-        <location filename="../serverlistdlg.cpp" line="744"/>
+        <location filename="../serverlistdlg.cpp" line="675"/>
+        <location filename="../serverlistdlg.cpp" line="714"/>
+        <location filename="../serverlistdlg.cpp" line="732"/>
+        <location filename="../serverlistdlg.cpp" line="750"/>
         <source>Export Server List</source>
         <translation>导出服务器列表</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="669"/>
-        <location filename="../serverlistdlg.cpp" line="726"/>
+        <location filename="../serverlistdlg.cpp" line="675"/>
+        <location filename="../serverlistdlg.cpp" line="732"/>
         <source>No server to export.</source>
         <translation>没有可导出的服务器。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="675"/>
-        <location filename="../serverlistdlg.cpp" line="703"/>
+        <location filename="../serverlistdlg.cpp" line="681"/>
+        <location filename="../serverlistdlg.cpp" line="709"/>
         <source>Save File</source>
         <translation>保存文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="396"/>
-        <location filename="../serverlistdlg.cpp" line="676"/>
+        <location filename="../serverlistdlg.cpp" line="402"/>
+        <location filename="../serverlistdlg.cpp" line="682"/>
         <source>TT Files (*.tt)</source>
-        <translation>TT文件(*.tt)</translation>
+        <translation>TT 文件 (*.tt)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="703"/>
+        <location filename="../serverlistdlg.cpp" line="709"/>
         <source>Unable to save file</source>
         <translation>无法保存文件</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="708"/>
-        <location filename="../serverlistdlg.cpp" line="744"/>
+        <location filename="../serverlistdlg.cpp" line="714"/>
+        <location filename="../serverlistdlg.cpp" line="750"/>
         <source>All servers have been exported successfully.</source>
         <translation>所有服务器已成功导出。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="731"/>
+        <location filename="../serverlistdlg.cpp" line="737"/>
         <source>Select Directory</source>
         <translation>选择目录</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="764"/>
-        <location filename="../serverlistdlg.cpp" line="792"/>
+        <location filename="../serverlistdlg.cpp" line="770"/>
+        <location filename="../serverlistdlg.cpp" line="798"/>
         <source>Publish Server</source>
         <translation>发布服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="811"/>
+        <location filename="../serverlistdlg.cpp" line="817"/>
         <source>Join Code</source>
         <translation>加入码</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="832"/>
-        <location filename="../serverlistdlg.cpp" line="893"/>
+        <location filename="../serverlistdlg.cpp" line="838"/>
+        <location filename="../serverlistdlg.cpp" line="899"/>
         <source>Failed to get server information.</source>
         <translation>无法获取服务器信息。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="854"/>
+        <location filename="../serverlistdlg.cpp" line="860"/>
         <source>Join Code incorrect</source>
         <translation>加入码不正确</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="860"/>
+        <location filename="../serverlistdlg.cpp" line="866"/>
         <source>This will publish server&apos;s login information so others can join it using a generated code. Continue?</source>
-        <translation>这将发布服务器登录信息，以便其他人使用生成的代码加入服务器。要继续吗？</translation>
+        <translation>这将发布服务器的登录信息，其他人可以通过生成的加入码加入服务器。是否继续？</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="865"/>
-        <location filename="../serverlistdlg.cpp" line="892"/>
-        <location filename="../serverlistdlg.cpp" line="909"/>
+        <location filename="../serverlistdlg.cpp" line="871"/>
+        <location filename="../serverlistdlg.cpp" line="898"/>
+        <location filename="../serverlistdlg.cpp" line="915"/>
         <source>Generate Join Code</source>
         <translation>生成加入码</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="910"/>
+        <location filename="../serverlistdlg.cpp" line="916"/>
         <source>Enter the following Join Code to connect to server:</source>
-        <translation>输入以下加入代码以连接到服务器：</translation>
+        <translation>输入以下加入码以连接到服务器：</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="949"/>
+        <location filename="../serverlistdlg.cpp" line="955"/>
         <source>Ascending</source>
         <translation>升序</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="949"/>
+        <location filename="../serverlistdlg.cpp" line="955"/>
         <source>Descending</source>
         <translation>降序</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="951"/>
+        <location filename="../serverlistdlg.cpp" line="957"/>
         <source>De&amp;fault (%1)</source>
-        <translation>默认 (%1) (&amp;f)</translation>
+        <translation>默认 (%1)(&amp;F)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="957"/>
+        <location filename="../serverlistdlg.cpp" line="963"/>
         <source>&amp;Name (%1)</source>
         <translation>名称 (%1) (&amp;N)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="963"/>
+        <location filename="../serverlistdlg.cpp" line="969"/>
         <source>&amp;User Count (%1)</source>
         <translation>用户数 (%1) (&amp;U)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="969"/>
+        <location filename="../serverlistdlg.cpp" line="975"/>
         <source>Country (%1)</source>
         <translation>国家 (%1)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="977"/>
+        <location filename="../serverlistdlg.cpp" line="983"/>
         <source>&amp;Delete</source>
         <translation>删除(&amp;D)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="978"/>
+        <location filename="../serverlistdlg.cpp" line="984"/>
         <source>&amp;Edit</source>
         <translation>编辑(&amp;E)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="979"/>
+        <location filename="../serverlistdlg.cpp" line="985"/>
         <source>D&amp;uplicate</source>
-        <translation>复制(&amp;u)</translation>
+        <translation>创建副本(&amp;U)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="982"/>
+        <location filename="../serverlistdlg.cpp" line="988"/>
         <source>&amp;Generate .tt file</source>
         <translation>生成 .tt 文件(&amp;G)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="981"/>
+        <location filename="../serverlistdlg.cpp" line="987"/>
         <source>&amp;Publish Publicly</source>
         <translation>公开发布(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="983"/>
+        <location filename="../serverlistdlg.cpp" line="989"/>
         <source>Generate &amp;Join Code</source>
         <translation>生成加入码(&amp;J)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="1037"/>
+        <location filename="../serverlistdlg.cpp" line="1044"/>
         <source>Co&amp;nnect</source>
-        <translation>连接(&amp;n)</translation>
+        <translation>连接(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="1038"/>
+        <location filename="../serverlistdlg.cpp" line="1045"/>
         <source>&amp;Remove from Latest Hosts</source>
-        <translation>从最近主机中删除(&amp;R)</translation>
+        <translation>从最近主机中移除(&amp;R)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="1039"/>
+        <location filename="../serverlistdlg.cpp" line="1046"/>
         <source>&amp;Add to Saved Hosts</source>
         <translation>添加至已保存主机(&amp;A)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="1040"/>
+        <location filename="../serverlistdlg.cpp" line="1047"/>
         <source>&amp;Clear Latest Hosts</source>
         <translation>清除最近主机(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="759"/>
+        <location filename="../serverlistdlg.cpp" line="765"/>
         <source>Are you sure you want to publish the server named &quot;%1&quot;</source>
-        <translation>您确定要发布名为“%1”的服务器吗</translation>
+        <translation>确定要发布名为“%1”的服务器吗？</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="270"/>
+        <location filename="../serverlistdlg.cpp" line="276"/>
         <source>Host manager</source>
         <translation>主机管理器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="793"/>
+        <location filename="../serverlistdlg.cpp" line="799"/>
         <source>Failed to publish server.</source>
         <translation>无法发布服务器。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="797"/>
+        <location filename="../serverlistdlg.cpp" line="803"/>
         <source>Publish Server Completed</source>
         <translation>服务器发布完成</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="798"/>
+        <location filename="../serverlistdlg.cpp" line="804"/>
         <source>Update your server&apos;s properties so its server name includes the text #teamtalkpublish#.
 This will verify that you&apos;re the owner of the server.
 Once the server is verified your server will appear in a couple of minutes.
@@ -7137,71 +7278,77 @@ The #teamtalkpublish# notification can be removed once
 the server has been verified.
 
 Delete the published user account to unregister your server.</source>
-        <translation>更新服务器属性，使服务器名称包含文本 #teamtalkpublish#。
+        <translation>请更新服务器属性，使服务器名称包含文本 #teamtalkpublish#。
 这将验证您是服务器的所有者。
-一旦验证完成，您的服务器将在几分钟后出现。
+验证通过后，您的服务器将在几分钟内公开显示。
 
-服务器验证通过后， #teamtalkpublish# 可被删除。
+服务器验证通过后，
+即可移除 #teamtalkpublish# 标记。
 
-删除发布的用户帐户以取消注册您的服务器。</translation>
+删除已发布的用户账户即可取消注册您的服务器。</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="948"/>
+        <location filename="../serverlistdlg.cpp" line="954"/>
         <source>Sort By...</source>
         <translation>排序方式...</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="525"/>
+        <location filename="../serverlistdlg.cpp" line="531"/>
         <source>Delete Server</source>
         <translation>删除服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="520"/>
+        <location filename="../serverlistdlg.cpp" line="526"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>删除名为&quot;%1&quot; 的服务器</translation>
+        <translation>删除名为“%1”的服务器</translation>
     </message>
 </context>
 <context>
     <name>ServerListModel</name>
     <message>
-        <location filename="../serverlistdlg.cpp" line="93"/>
+        <location filename="../serverlistdlg.cpp" line="94"/>
         <source>Name</source>
         <translation>名称</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="94"/>
+        <location filename="../serverlistdlg.cpp" line="95"/>
         <source>Users</source>
         <translation>用户</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="95"/>
+        <location filename="../serverlistdlg.cpp" line="96"/>
         <source>Country</source>
         <translation>国家</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="130"/>
-        <source>Local server, Name: %1</source>
-        <translation>本地服务器， 名称： %1</translation>
+        <location filename="../serverlistdlg.cpp" line="97"/>
+        <source>MOTD</source>
+        <translation>每日公告</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="132"/>
+        <location filename="../serverlistdlg.cpp" line="134"/>
+        <source>Local server, Name: %1</source>
+        <translation>本地服务器，名称：%1</translation>
+    </message>
+    <message>
+        <location filename="../serverlistdlg.cpp" line="136"/>
         <source>Official server</source>
         <translation>官方服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="135"/>
+        <location filename="../serverlistdlg.cpp" line="139"/>
         <source>Public server</source>
         <translation>公共服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="138"/>
+        <location filename="../serverlistdlg.cpp" line="142"/>
         <source>Unofficial server</source>
         <translation>非官方服务器</translation>
     </message>
     <message>
-        <location filename="../serverlistdlg.cpp" line="141"/>
+        <location filename="../serverlistdlg.cpp" line="145"/>
         <source>%1, Name: %2, Users: %3, Country: %4, MOTD: %5</source>
-        <translation>%1， 名称： %2， 用户： %3， 国家： %4， 每日消息： %5</translation>
+        <translation>%1，名称：%2，用户：%3，国家：%4，每日公告：%5</translation>
     </message>
 </context>
 <context>
@@ -7229,12 +7376,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="91"/>
         <source>User connected</source>
-        <translation>用户连接</translation>
+        <translation>用户已连接</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="93"/>
         <source>User disconnected</source>
-        <translation>用户断开连接</translation>
+        <translation>用户已断开连接</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="95"/>
@@ -7259,17 +7406,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="103"/>
         <source>User kicked</source>
-        <translation>用户被踢</translation>
+        <translation>用户被踢出</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="105"/>
         <source>User banned</source>
-        <translation>用户被禁止</translation>
+        <translation>用户被封禁</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="107"/>
         <source>User ban removed</source>
-        <translation>用户解禁</translation>
+        <translation>用户被解封</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="109"/>
@@ -7294,7 +7441,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User sent private text message</source>
-        <translation>用户发送了私人消息</translation>
+        <translation>用户发送了私信</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
@@ -7314,42 +7461,42 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation>用户开始新流</translation>
+        <translation>用户开始了新的流</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
         <source>Channel created</source>
-        <translation>频道创建</translation>
+        <translation>频道已创建</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="129"/>
         <source>Channel updated</source>
-        <translation>频道更新</translation>
+        <translation>频道已更新</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="131"/>
         <source>Channel removed</source>
-        <translation>频道删除</translation>
+        <translation>频道已删除</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="133"/>
         <source>File uploaded</source>
-        <translation>文件上传</translation>
+        <translation>文件已上传</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="135"/>
         <source>File downloaded</source>
-        <translation>文件下载</translation>
+        <translation>文件已下载</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="137"/>
         <source>File deleted</source>
-        <translation>文件删除</translation>
+        <translation>文件已删除</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="139"/>
         <source>Server updated</source>
-        <translation>服务器更新</translation>
+        <translation>服务器已更新</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="141"/>
@@ -7379,7 +7526,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../serverproperties.ui" line="70"/>
         <location filename="../serverpropertiesdlg.cpp" line="177"/>
         <source>Message of the day</source>
-        <translation>每日消息</translation>
+        <translation>每日公告</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="96"/>
@@ -7389,7 +7536,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="106"/>
         <source>&amp;Variables...</source>
-        <translation>变量...(&amp;V)</translation>
+        <translation>变量(&amp;V)...</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="113"/>
@@ -7419,7 +7566,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="263"/>
         <source>Video TX max</source>
-        <translation>视频最大传输量</translation>
+        <translation>视频传输上限</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="256"/>
@@ -7433,32 +7580,32 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="236"/>
         <source>Voice TX max</source>
-        <translation>语音最大传输量</translation>
+        <translation>语音传输上限</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="344"/>
         <source>Total TX max</source>
-        <translation>视频传输最大值</translation>
+        <translation>总传输上限</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="317"/>
         <source>Desktop TX max</source>
-        <translation>桌面传输最大值</translation>
+        <translation>桌面传输上限</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="290"/>
         <source>Media File TX max</source>
-        <translation>媒体文件传输最大值</translation>
+        <translation>媒体文件传输上限</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="374"/>
         <source>Server Abuse</source>
-        <translation>服务器滥用</translation>
+        <translation>防滥用</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="380"/>
         <source>Max login attempts before ban</source>
-        <translation>禁止登录前的最大登录尝试次数</translation>
+        <translation>封禁前允许的最大登录尝试次数</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="400"/>
@@ -7469,17 +7616,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverproperties.ui" line="407"/>
         <source>Max logins per IP-address</source>
-        <translation>每个 IP 地址的最大登录次数</translation>
+        <translation>每个 IP 地址的最大登录数</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="434"/>
         <source>Login delay per IP-address</source>
-        <translation>每个 IP 地址的登录延迟</translation>
+        <translation>同一 IP 地址的登录间隔</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="451"/>
         <source>msec (0 = disabled)</source>
-        <translation>毫秒（0 =禁用）</translation>
+        <translation>毫秒（0 = 禁用）</translation>
     </message>
     <message>
         <location filename="../serverproperties.ui" line="461"/>
@@ -7554,12 +7701,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="114"/>
         <source>last user to log on</source>
-        <translation>最后登录用户</translation>
+        <translation>最后登录的用户</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="172"/>
         <source>Change message of the day?</source>
-        <translation>要更改每日消息吗？</translation>
+        <translation>是否更改每日公告？</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="173"/>
@@ -7607,7 +7754,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="78"/>
         <source>Throughput RX/TX</source>
-        <translation>吞吐率接收/发送</translation>
+        <translation>吞吐量接收/发送</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="78"/>
@@ -7622,17 +7769,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstatsdlg.cpp" line="90"/>
         <source>Users served</source>
-        <translation>服务用户</translation>
+        <translation>累计服务用户数</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="91"/>
         <source>Users peak</source>
-        <translation>用户峰值</translation>
+        <translation>用户数峰值</translation>
     </message>
     <message>
         <location filename="../serverstatsdlg.cpp" line="93"/>
         <source>Uptime: %1 hours, %2 minutes, %3 seconds</source>
-        <translation>正常运行时间：%1 小时，%2 分钟，%3 秒</translation>
+        <translation>运行时间：%1 小时 %2 分钟 %3 秒</translation>
     </message>
 </context>
 <context>
@@ -7645,7 +7792,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverstats.ui" line="136"/>
         <source>Update information every</source>
-        <translation>每隔 更新信息</translation>
+        <translation>信息更新间隔</translation>
     </message>
     <message>
         <location filename="../serverstats.ui" line="142"/>
@@ -7661,19 +7808,35 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>ShortcutsModel</name>
     <message>
-        <location filename="../shortcutsmodel.cpp" line="57"/>
+        <location filename="../shortcutsmodel.cpp" line="55"/>
         <source>Action</source>
         <translation>操作</translation>
     </message>
     <message>
-        <location filename="../shortcutsmodel.cpp" line="58"/>
+        <location filename="../shortcutsmodel.cpp" line="56"/>
         <source>Shortcut</source>
         <translation>快捷键</translation>
     </message>
     <message>
-        <location filename="../shortcutsmodel.cpp" line="89"/>
+        <location filename="../shortcutsmodel.cpp" line="57"/>
+        <source>Type</source>
+        <translation>类型</translation>
+    </message>
+    <message>
+        <location filename="../shortcutsmodel.cpp" line="94"/>
+        <location filename="../shortcutsmodel.cpp" line="100"/>
         <source>None</source>
         <translation>无</translation>
+    </message>
+    <message>
+        <location filename="../shortcutsmodel.cpp" line="104"/>
+        <source>Interface Shortcut</source>
+        <translation>界面快捷键</translation>
+    </message>
+    <message>
+        <location filename="../shortcutsmodel.cpp" line="105"/>
+        <source>Global Shortcut</source>
+        <translation>全局快捷键</translation>
     </message>
 </context>
 <context>
@@ -7711,22 +7874,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="113"/>
         <source>Connection to server lost</source>
-        <translation>与服务器的连接丢失</translation>
+        <translation>与服务器的连接已断开</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="115"/>
         <source>Private message received</source>
-        <translation>收到私人消息</translation>
+        <translation>收到私信</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="117"/>
         <source>Private message sent</source>
-        <translation>发送私人消息</translation>
+        <translation>发送私信</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>用户正在焦点窗口中输入私人消息</translation>
+        <translation>用户正在焦点窗口中输入私信</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
@@ -7751,7 +7914,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="129"/>
         <source>Channel silent</source>
-        <translation>频道静音</translation>
+        <translation>频道无人发言</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="131"/>
@@ -7771,7 +7934,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="137"/>
         <source>Files updated</source>
-        <translation>更新文件</translation>
+        <translation>文件已更新</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="139"/>
@@ -7781,37 +7944,37 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="141"/>
         <source>User enabled question mode</source>
-        <translation>用户启用提问模式</translation>
+        <translation>用户进入提问模式</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="143"/>
         <source>Voice activation enabled</source>
-        <translation>启用语音激活</translation>
+        <translation>语音激活已启用</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="145"/>
         <source>Voice activation disabled</source>
-        <translation>禁用语音激活</translation>
+        <translation>语音激活已禁用</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="147"/>
         <source>Voice activation enabled via &quot;Me&quot; menu</source>
-        <translation>从“个人”菜单启用语音激活</translation>
+        <translation>通过“个人”菜单启用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="149"/>
         <source>Voice activation disabled via &quot;Me&quot; menu</source>
-        <translation>从“个人”菜单禁用语音激活</translation>
+        <translation>通过“个人”菜单禁用语音激活</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="151"/>
         <source>Voice activation triggered</source>
-        <translation>触发语音激活</translation>
+        <translation>语音激活已触发</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="153"/>
         <source>Voice activation stopped</source>
-        <translation>停止语音激活</translation>
+        <translation>语音激活已停止</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="155"/>
@@ -7826,22 +7989,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>在“无中断”频道中传输就绪</translation>
+        <translation>“禁止插话”频道中轮到你发言</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
         <source>Transmit stopped in &quot;No interruption&quot; channel</source>
-        <translation>在“无中断”频道中停止传输</translation>
+        <translation>“禁止插话”频道中发言已停止</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="163"/>
         <source>Interception by another user</source>
-        <translation>被其他用户截取</translation>
+        <translation>被其他用户监听</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="165"/>
         <source>End of interception by another user</source>
-        <translation>其他用户结束截取</translation>
+        <translation>其他用户结束监听</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="191"/>
@@ -7885,7 +8048,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="68"/>
         <source>&amp;Variables...</source>
-        <translation>变量...(&amp;V)</translation>
+        <translation>变量(&amp;V)...</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="75"/>
@@ -7905,12 +8068,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
-        <translation>全部禁用(&amp;C)</translation>
+        <translation>全部取消(&amp;L)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="134"/>
         <source>&amp;Revert</source>
-        <translation>恢复(&amp;R)</translation>
+        <translation>还原(&amp;R)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="34"/>
@@ -7930,7 +8093,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.cpp" line="165"/>
         <source>Are you sure you want to restore all Status bar messages to default values?</source>
-        <translation>您确实要将所有状态栏消息恢复为默认值吗？</translation>
+        <translation>确定要将所有状态栏消息恢复为默认值吗？</translation>
     </message>
     <message>
         <location filename="../statusbardlg.cpp" line="166"/>
@@ -7963,7 +8126,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="163"/>
         <source>Server configuration saved</source>
-        <translation>保存服务器配置</translation>
+        <translation>服务器配置已保存</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
@@ -8018,107 +8181,107 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="121"/>
         <source>Subscription private text message changed</source>
-        <translation>更改私人消息订阅</translation>
+        <translation>私信订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="123"/>
         <source>Subscription channel text message changed</source>
-        <translation>更改频道消息订阅</translation>
+        <translation>频道消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="125"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>更改广播消息订阅</translation>
+        <translation>广播消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="127"/>
         <source>Subscription voice stream changed</source>
-        <translation>更改语音订阅</translation>
+        <translation>语音订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="129"/>
         <source>Subscription webcam stream changed</source>
-        <translation>更改视频订阅</translation>
+        <translation>视频订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="131"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>更改桌面共享订阅</translation>
+        <translation>桌面共享订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="133"/>
         <source>Subscription desktop access changed</source>
-        <translation>更改桌面访问订阅</translation>
+        <translation>桌面访问订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription media file stream changed</source>
-        <translation>更改媒体文件流订阅</translation>
+        <translation>媒体文件流订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>更改截取私人消息订阅</translation>
+        <translation>监听私信订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="139"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>更改截取频道消息订阅</translation>
+        <translation>监听频道消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="141"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>更改截取语音订阅</translation>
+        <translation>监听语音订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="143"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>更改截取视频订阅</translation>
+        <translation>监听视频订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="145"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>更改截取桌面共享订阅</translation>
+        <translation>监听桌面共享订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>更改截取媒体文件流订阅</translation>
+        <translation>监听媒体文件流订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>教室更改允许发送频道消息</translation>
+        <translation>课堂：频道消息发送权限已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="151"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>教室更改允许语音传输</translation>
+        <translation>课堂：语音传输权限已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="153"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>教室更改允许视频传输</translation>
+        <translation>课堂：视频传输权限已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="155"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>教室更改允许桌面传输</translation>
+        <translation>课堂：桌面传输权限已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="157"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>教室更改允许媒体文件传输</translation>
+        <translation>课堂：媒体文件传输权限已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="159"/>
         <source>File added</source>
-        <translation>添加文件</translation>
+        <translation>文件已添加</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="161"/>
         <source>File removed</source>
-        <translation>删除文件</translation>
+        <translation>文件已移除</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="167"/>
@@ -8131,7 +8294,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="14"/>
         <source>Stream Media File To Channel</source>
-        <translation>播放流媒体</translation>
+        <translation>向频道播放媒体文件</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="20"/>
@@ -8179,7 +8342,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="96"/>
         <location filename="../streammediafile.ui" line="99"/>
-        <location filename="../streammediafiledlg.cpp" line="181"/>
+        <location filename="../streammediafiledlg.cpp" line="182"/>
         <source>Clear history</source>
         <translation>清除历史记录</translation>
     </message>
@@ -8225,17 +8388,17 @@ Delete the published user account to unregister your server.</source>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="287"/>
-        <location filename="../streammediafiledlg.cpp" line="267"/>
-        <location filename="../streammediafiledlg.cpp" line="292"/>
-        <location filename="../streammediafiledlg.cpp" line="375"/>
-        <location filename="../streammediafiledlg.cpp" line="408"/>
+        <location filename="../streammediafiledlg.cpp" line="269"/>
+        <location filename="../streammediafiledlg.cpp" line="294"/>
+        <location filename="../streammediafiledlg.cpp" line="377"/>
+        <location filename="../streammediafiledlg.cpp" line="410"/>
         <source>&amp;Play</source>
         <translation>播放(&amp;P)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="209"/>
         <source>&amp;Setup</source>
-        <translation>设置(amp;S)</translation>
+        <translation>设置(&amp;S)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="236"/>
@@ -8246,12 +8409,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="280"/>
         <source>Test playback</source>
-        <translation>播放测试</translation>
+        <translation>测试播放</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="264"/>
-        <location filename="../streammediafiledlg.cpp" line="278"/>
-        <location filename="../streammediafiledlg.cpp" line="316"/>
+        <location filename="../streammediafiledlg.cpp" line="266"/>
+        <location filename="../streammediafiledlg.cpp" line="280"/>
+        <location filename="../streammediafiledlg.cpp" line="318"/>
         <source>Play</source>
         <translation>播放</translation>
     </message>
@@ -8284,86 +8447,86 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafiledlg.cpp" line="40"/>
         <source>Streaming to channel</source>
-        <translation>流式传输到频道</translation>
+        <translation>向频道播放</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="62"/>
+        <location filename="../streammediafiledlg.cpp" line="63"/>
         <source>No Audio Preprocessor</source>
         <translation>不使用音频预处理器</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="63"/>
-        <source>TeamTalk Audio Preprocessor</source>
-        <translation>TeamTalk音频预处理器</translation>
-    </message>
-    <message>
         <location filename="../streammediafiledlg.cpp" line="64"/>
-        <source>Speex DSP Audio Preprocessor</source>
-        <translation>Speex DSP音频预处理器</translation>
+        <source>TeamTalk Audio Preprocessor</source>
+        <translation>TeamTalk 音频预处理器</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="82"/>
+        <location filename="../streammediafiledlg.cpp" line="65"/>
+        <source>Speex DSP Audio Preprocessor</source>
+        <translation>Speex DSP 音频预处理器</translation>
+    </message>
+    <message>
+        <location filename="../streammediafiledlg.cpp" line="83"/>
         <source>No video</source>
         <translation>无视频</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="135"/>
+        <location filename="../streammediafiledlg.cpp" line="136"/>
         <source>Open Media File</source>
         <translation>打开媒体文件</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="137"/>
+        <location filename="../streammediafiledlg.cpp" line="138"/>
         <source>Media files %1</source>
         <translation>媒体文件 %1</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="176"/>
+        <location filename="../streammediafiledlg.cpp" line="177"/>
         <source>Are you sure you want to clear stream history?</source>
-        <translation>您确定要清除流历史记录吗？</translation>
+        <translation>确定要清除播放历史记录吗？</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="177"/>
+        <location filename="../streammediafiledlg.cpp" line="178"/>
         <source>&amp;Yes</source>
         <translation>是(&amp;Y)</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="178"/>
+        <location filename="../streammediafiledlg.cpp" line="179"/>
         <source>&amp;No</source>
         <translation>否(&amp;N)</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="264"/>
-        <location filename="../streammediafiledlg.cpp" line="278"/>
-        <location filename="../streammediafiledlg.cpp" line="316"/>
+        <location filename="../streammediafiledlg.cpp" line="266"/>
+        <location filename="../streammediafiledlg.cpp" line="280"/>
+        <location filename="../streammediafiledlg.cpp" line="318"/>
         <source>Failed to play media file</source>
-        <translation>无法播放媒体</translation>
+        <translation>无法播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="281"/>
-        <location filename="../streammediafiledlg.cpp" line="370"/>
-        <location filename="../streammediafiledlg.cpp" line="403"/>
+        <location filename="../streammediafiledlg.cpp" line="283"/>
+        <location filename="../streammediafiledlg.cpp" line="372"/>
+        <location filename="../streammediafiledlg.cpp" line="405"/>
         <source>&amp;Pause</source>
         <translation>暂停(&amp;P)</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="324"/>
+        <location filename="../streammediafiledlg.cpp" line="326"/>
         <source>Stream</source>
-        <translation>流</translation>
+        <translation>播放到频道</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="324"/>
+        <location filename="../streammediafiledlg.cpp" line="326"/>
         <source>Failed to stream media file</source>
-        <translation>无法传输媒体留</translation>
+        <translation>无法向频道播放媒体文件</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="349"/>
-        <location filename="../streammediafiledlg.cpp" line="354"/>
+        <location filename="../streammediafiledlg.cpp" line="351"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Audio Preprocessor</source>
         <translation>音频预处理器</translation>
     </message>
     <message>
-        <location filename="../streammediafiledlg.cpp" line="349"/>
-        <location filename="../streammediafiledlg.cpp" line="354"/>
+        <location filename="../streammediafiledlg.cpp" line="351"/>
+        <location filename="../streammediafiledlg.cpp" line="356"/>
         <source>Failed to activate audio preprocessor</source>
         <translation>无法激活音频预处理器</translation>
     </message>
@@ -8383,22 +8546,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="135"/>
         <source>Private message received</source>
-        <translation>收到私人消息</translation>
+        <translation>收到私信</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="137"/>
         <source>Private message sent</source>
-        <translation>发送私人消息</translation>
+        <translation>发送私信</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation>用户正在焦点窗口中输入私人消息</translation>
+        <translation>用户正在焦点窗口中输入私信</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
         <source>User is typing a private message</source>
-        <translation>用户正在输入私人消息</translation>
+        <translation>用户正在输入私信</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="143"/>
@@ -8463,112 +8626,112 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="151"/>
         <source>User enabled question mode</source>
-        <translation>用户启用提问模式</translation>
+        <translation>用户进入提问模式</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="153"/>
         <source>Subscription private text message changed</source>
-        <translation>更改私人消息订阅</translation>
+        <translation>私信订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="155"/>
         <source>Subscription channel text message changed</source>
-        <translation>更改频道消息订阅</translation>
+        <translation>频道消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="157"/>
         <source>Subscription broadcast text message changed</source>
-        <translation>更改广播消息订阅</translation>
+        <translation>广播消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="159"/>
         <source>Subscription voice stream changed</source>
-        <translation>更改语音订阅</translation>
+        <translation>语音订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="161"/>
         <source>Subscription webcam stream changed</source>
-        <translation>更改视频订阅</translation>
+        <translation>视频订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="163"/>
         <source>Subscription shared desktop stream changed</source>
-        <translation>更改桌面共享订阅</translation>
+        <translation>桌面共享订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="165"/>
         <source>Subscription desktop access changed</source>
-        <translation>更改桌面访问订阅</translation>
+        <translation>桌面访问订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription media file stream changed</source>
-        <translation>更改媒体文件流订阅</translation>
+        <translation>媒体文件流订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
         <source>Subscription intercept private text message changed</source>
-        <translation>更改截取私人消息订阅</translation>
+        <translation>监听私信订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="171"/>
         <source>Subscription intercept channel text message changed</source>
-        <translation>更改截取频道消息订阅</translation>
+        <translation>监听频道消息订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="173"/>
         <source>Subscription intercept voice stream changed</source>
-        <translation>更改截取语音订阅</translation>
+        <translation>监听语音订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="175"/>
         <source>Subscription intercept webcam stream changed</source>
-        <translation>更改截取视频订阅</translation>
+        <translation>监听视频订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="177"/>
         <source>Subscription intercept desktop stream changed</source>
-        <translation>更改截取桌面共享订阅</translation>
+        <translation>监听桌面共享订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>更改截取媒体文件流订阅</translation>
+        <translation>监听媒体文件流订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
         <source>Classroom allow channel messages transmission changed</source>
-        <translation>教室更改允许发送频道消息</translation>
+        <translation>课堂：频道消息发送权限已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="183"/>
         <source>Classroom allow voice transmission changed</source>
-        <translation>教室更改允许语音传输</translation>
+        <translation>课堂：语音传输权限已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="185"/>
         <source>Classroom allow webcam transmission changed</source>
-        <translation>教室更改允许视频传输</translation>
+        <translation>课堂：视频传输权限已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="187"/>
         <source>Classroom allow desktop transmission changed</source>
-        <translation>教室更改允许桌面传输</translation>
+        <translation>课堂：桌面传输权限已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="189"/>
         <source>Classroom allow media file transmission changed</source>
-        <translation>教室更改允许媒体文件传输</translation>
+        <translation>课堂：媒体文件传输权限已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="191"/>
         <source>File added</source>
-        <translation>添加文件</translation>
+        <translation>文件已添加</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="193"/>
         <source>File removed</source>
-        <translation>删除文件</translation>
+        <translation>文件已移除</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="195"/>
@@ -8600,7 +8763,7 @@ Delete the published user account to unregister your server.</source>
     <name>TextMessageDlg</name>
     <message>
         <location filename="../textmessage.ui" line="14"/>
-        <location filename="../textmessagedlg.cpp" line="108"/>
+        <location filename="../textmessagedlg.cpp" line="114"/>
         <source>Messages</source>
         <translation>消息</translation>
     </message>
@@ -8620,9 +8783,9 @@ Delete the published user account to unregister your server.</source>
         <translation>关闭(&amp;C)</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="153"/>
-        <location filename="../textmessagedlg.cpp" line="211"/>
-        <location filename="../textmessagedlg.cpp" line="254"/>
+        <location filename="../textmessagedlg.cpp" line="159"/>
+        <location filename="../textmessagedlg.cpp" line="217"/>
+        <location filename="../textmessagedlg.cpp" line="260"/>
         <source>New message</source>
         <translation>新消息</translation>
     </message>
@@ -8632,14 +8795,14 @@ Delete the published user account to unregister your server.</source>
         <translation>发送(&amp;S)</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="109"/>
+        <location filename="../textmessagedlg.cpp" line="115"/>
         <source>Private chat with %1</source>
         <translation>与 %1 私聊</translation>
     </message>
     <message>
-        <location filename="../textmessagedlg.cpp" line="233"/>
+        <location filename="../textmessagedlg.cpp" line="239"/>
         <source>New message - remote user typing.</source>
-        <translation>新消息 - 对方正在输入</translation>
+        <translation>新消息 - 对方正在输入。</translation>
     </message>
 </context>
 <context>
@@ -8652,7 +8815,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="30"/>
         <source>Basic Account Properties</source>
-        <translation>基本帐户属性</translation>
+        <translation>基本账户属性</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="36"/>
@@ -8672,7 +8835,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="89"/>
         <source>Note</source>
-        <translation>注释</translation>
+        <translation>备注</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="106"/>
@@ -8696,7 +8859,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="172"/>
         <source>User Actions Allowed on Server</source>
-        <translation>服务器上允许的用户行为</translation>
+        <translation>允许用户在服务器上执行的操作</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="204"/>
@@ -8708,7 +8871,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../useraccountdlg.ui" line="210"/>
         <location filename="../useraccountdlg.ui" line="213"/>
         <source>Auto-Operator Channels</source>
-        <translation>管理频道</translation>
+        <translation>自动成为频道管理员的频道</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="219"/>
@@ -8718,7 +8881,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="229"/>
         <source>User will automatically become operator when joining these channels</source>
-        <translation>加入这些频道时，用户将自动成为管理员</translation>
+        <translation>加入这些频道时，用户将自动成为频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="242"/>
@@ -8728,7 +8891,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="261"/>
         <source>Set selected user auto operator for selected channels</source>
-        <translation>为选定频道设置选定用户为管理员</translation>
+        <translation>将所选用户设为所选频道的自动频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="264"/>
@@ -8738,7 +8901,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="271"/>
         <source>No longer set selected user auto operator for selected channels</source>
-        <translation>不再为选定频道设置选定用户为管理员</translation>
+        <translation>取消所选用户在所选频道的自动频道管理员身份</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="274"/>
@@ -8768,22 +8931,22 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.ui" line="359"/>
         <source>Abuse Prevention</source>
-        <translation>防止滥用</translation>
+        <translation>防滥用</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="365"/>
         <source>Flood Protection</source>
-        <translation>防洪</translation>
+        <translation>防刷屏</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="371"/>
         <source>Prevent user from e.g. spamming text messages by limiting the number of commands they can issue within a given timeframe.</source>
-        <translation>例如通过限制用户在给定时间内发出的命令数量，防止用户乱发消息等。</translation>
+        <translation>通过限制用户在指定时间内可发出的命令数量，防止其刷屏等行为。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.ui" line="383"/>
         <source>Limit issued commands</source>
-        <translation>限制发出的命令</translation>
+        <translation>限制发出的命令数</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="57"/>
@@ -8814,17 +8977,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="97"/>
         <source>10 commands in 10 sec.</source>
-        <translation>10 秒内执行 10 条命令。</translation>
+        <translation>10 秒内 10 条命令。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="98"/>
         <source>10 commands in 1 minute</source>
-        <translation>1 分钟内执行 10 条命令</translation>
+        <translation>1 分钟内 10 条命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="99"/>
         <source>60 commands in 1 minute</source>
-        <translation>1 分钟内执行 60 条命令</translation>
+        <translation>1 分钟内 60 条命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="100"/>
@@ -8869,7 +9032,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="196"/>
         <source>Create anonymous user account?</source>
-        <translation>创建匿名用户帐户吗？</translation>
+        <translation>是否创建匿名用户账户？</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="197"/>
@@ -8889,12 +9052,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="259"/>
         <source>The maximum number of channels where a user can automatically become channel operator is %1.</source>
-        <translation>用户可以自动成为频道管理员的频道数为 %1。</translation>
+        <translation>用户最多可在 %1 个频道中自动成为频道管理员。</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="372"/>
         <source>Last edited: %1</source>
-        <translation>最后编辑：%1</translation>
+        <translation>上次编辑：%1</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="373"/>
@@ -8904,7 +9067,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="438"/>
         <source>Custom (%1 commands per %2 seconds)</source>
-        <translation>自定义（每 %2 秒 %1 个命令）</translation>
+        <translation>自定义（每 %2 秒 %1 条命令）</translation>
     </message>
 </context>
 <context>
@@ -8912,17 +9075,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccounts.ui" line="14"/>
         <source>User Accounts</source>
-        <translation>用户帐户</translation>
+        <translation>用户账户</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="27"/>
         <source>Active User Accounts</source>
-        <translation>活跃用户账户</translation>
+        <translation>现有用户账户</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="70"/>
         <source>&amp;New User Account</source>
-        <translation>新用户帐户(&amp;N)</translation>
+        <translation>新建用户账户(&amp;N)</translation>
     </message>
     <message>
         <location filename="../useraccounts.ui" line="33"/>
@@ -8982,17 +9145,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
         <source>&amp;Create New User Account</source>
-        <translation>创建新用户帐户(&amp;C)</translation>
+        <translation>新建用户账户(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="204"/>
         <source>&amp;Delete Selected User Account</source>
-        <translation>删除选定的用户帐户(&amp;D)</translation>
+        <translation>删除所选用户账户(&amp;D)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="205"/>
         <source>&amp;Edit Selected User Account</source>
-        <translation>编辑选定的用户帐户(&amp;E)</translation>
+        <translation>编辑所选用户账户(&amp;E)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="123"/>
@@ -9025,7 +9188,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="38"/>
         <source>Note</source>
-        <translation>注释</translation>
+        <translation>备注</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="39"/>
@@ -9089,7 +9252,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userdesktopwidget.cpp" line="251"/>
         <source>Retract &amp;Desktop Access</source>
-        <translation>撤销桌面访问(&amp;D)</translation>
+        <translation>撤回桌面访问请求(&amp;D)</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="253"/>
@@ -9104,7 +9267,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userdesktopwidget.cpp" line="260"/>
         <source>PNG files (*.png)</source>
-        <translation>PNG 文件(*.png)</translation>
+        <translation>PNG 文件 (*.png)</translation>
     </message>
     <message>
         <location filename="../userdesktopwidget.cpp" line="262"/>
@@ -9118,7 +9281,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../userimagewidget.cpp" line="194"/>
         <location filename="../userimagewidget.cpp" line="204"/>
         <source>&amp;Save to Image File</source>
-        <translation>保存为图像文件(&amp;s)</translation>
+        <translation>保存为图像文件(&amp;S)</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="195"/>
@@ -9133,7 +9296,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userimagewidget.cpp" line="202"/>
         <source>PNG files (*.png)</source>
-        <translation>PNG 文件(*.png)</translation>
+        <translation>PNG 文件 (*.png)</translation>
     </message>
     <message>
         <location filename="../userimagewidget.cpp" line="204"/>
@@ -9156,7 +9319,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="54"/>
         <source>User ID</source>
-        <translation>用户ID</translation>
+        <translation>用户 ID</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="58"/>
@@ -9191,17 +9354,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="123"/>
         <source>Voice packet loss</source>
-        <translation>语音数据包丢失</translation>
+        <translation>语音丢包</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="124"/>
         <source>Video frame loss</source>
-        <translation>视频帧丢失</translation>
+        <translation>视频丢帧</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="125"/>
         <source>Audio file packets loss</source>
-        <translation>音频文件包丢失</translation>
+        <translation>音频文件丢包</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="126"/>
@@ -9211,7 +9374,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../userinfodlg.cpp" line="52"/>
         <source>Information of %1</source>
-        <translation>%1的信息</translation>
+        <translation>%1 的信息</translation>
     </message>
     <message>
         <location filename="../userinfodlg.cpp" line="66"/>
@@ -9281,12 +9444,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="237"/>
         <source>Log in multiple times</source>
-        <translation>多次登录</translation>
+        <translation>多处同时登录</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="239"/>
         <source>See users in all channels</source>
-        <translation>查看所有频道用户</translation>
+        <translation>查看所有频道中的用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="241"/>
@@ -9316,7 +9479,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="251"/>
         <source>Ban users from server</source>
-        <translation>禁止用户访问服务器</translation>
+        <translation>封禁用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="253"/>
@@ -9326,7 +9489,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="255"/>
         <source>Make other users channel operator</source>
-        <translation>使其他用户成为频道管理员</translation>
+        <translation>设置其他用户为频道管理员</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="257"/>
@@ -9351,7 +9514,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="265"/>
         <source>Transmit video data (webcam)</source>
-        <translation>传输视频数据（网络摄像头）</translation>
+        <translation>传输视频数据（摄像头）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="267"/>
@@ -9366,17 +9529,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="271"/>
         <source>Stream audio files (wav, mp3 files)</source>
-        <translation>流式传输音频文件（wav、mp3 文件）</translation>
+        <translation>向频道播放音频文件（wav、mp3 文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="273"/>
         <source>Stream video files (avi, mp4 files)</source>
-        <translation>流式传输视频文件（avi、mp4 文件）</translation>
+        <translation>向频道播放视频文件（avi、mp4 文件）</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="279"/>
         <source>Send private text messages</source>
-        <translation>发送私人消息</translation>
+        <translation>发送私信</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="281"/>
@@ -9501,216 +9664,212 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UtilTTS</name>
     <message>
-        <location filename="../settings.h" line="437"/>
+        <location filename="../settings.h" line="439"/>
         <source>{user} has logged in on {server}</source>
         <translation>{user} 已登录 {server}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="439"/>
+        <location filename="../settings.h" line="441"/>
         <source>{user} has logged out from {server}</source>
         <translation>{user} 已从 {server} 登出</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="441"/>
+        <location filename="../settings.h" line="443"/>
         <source>{user} joined channel {channel}</source>
         <translation>{user} 加入频道 {channel}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="443"/>
+        <location filename="../settings.h" line="445"/>
         <source>{user} left channel {channel}</source>
         <translation>{user} 离开频道 {channel}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="445"/>
+        <location filename="../settings.h" line="447"/>
         <source>{user} joined channel</source>
         <translation>{user} 加入频道</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="447"/>
+        <location filename="../settings.h" line="449"/>
         <source>{user} left channel</source>
         <translation>{user} 离开频道</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="449"/>
-        <source>Private message from {user}: {message}</source>
-        <translation>私人消息： {user}：{message}</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="451"/>
-        <source>Private message sent: {message}</source>
-        <translation>发送私人消息：{message}</translation>
+        <source>Private message from {user}: {message}</source>
+        <translation>{user} 私信：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="453"/>
+        <source>Private message sent: {message}</source>
+        <translation>已发送私信：{message}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="455"/>
         <source>{user} is typing...</source>
         <translation>{user} 正在输入...</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="455"/>
+        <location filename="../settings.h" line="457"/>
         <source>{user} set question mode</source>
-        <translation>{user} 设置提问模式</translation>
+        <translation>{user} 进入提问模式</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="457"/>
+        <location filename="../settings.h" line="459"/>
         <source>Channel message from {user}: {message}</source>
         <translation>{user}：{message}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="459"/>
-        <source>Channel message sent: {message}</source>
-        <translation>发送频道消息：{message}</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="461"/>
-        <source>Broadcast message from {user}: {message}</source>
-        <translation>广播消息： {user}：{message}</translation>
+        <source>Channel message sent: {message}</source>
+        <translation>已发送频道消息：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="463"/>
-        <source>Broadcast message sent: {message}</source>
-        <translation>发送广播消息：{message}</translation>
+        <source>Broadcast message from {user}: {message}</source>
+        <translation>{user} 广播：{message}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="465"/>
+        <source>Broadcast message sent: {message}</source>
+        <translation>已发送广播消息：{message}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="467"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
         <translation>为 {user} {state}订阅“{type}”</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="467"/>
+        <location filename="../settings.h" line="469"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
         <translation>为 {user} {state}传输“{type}”</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="469"/>
-        <source>File {filename} added by {user}</source>
-        <translation>文件 {filename} 由 {user} 添加</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="471"/>
-        <source>File {file} removed by {user}</source>
-        <translation>文件 {file} 已被 {user} 删除</translation>
+        <source>File {filename} added by {user}</source>
+        <translation>{user} 添加了文件 {filename}</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="50"/>
+        <location filename="../settings.h" line="473"/>
+        <source>File {file} removed by {user}</source>
+        <translation>{user} 删除了文件 {file}</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s nickname who logged in</source>
         <translation>登录用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="50"/>
-        <location filename="../utiltts.cpp" line="51"/>
-        <location filename="../utiltts.cpp" line="56"/>
+        <location filename="../utiltts.cpp" line="54"/>
+        <location filename="../utiltts.cpp" line="55"/>
         <location filename="../utiltts.cpp" line="60"/>
-        <location filename="../utiltts.cpp" line="61"/>
-        <location filename="../utiltts.cpp" line="63"/>
+        <location filename="../utiltts.cpp" line="64"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="67"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation>发出事件的服务器名称</translation>
+        <translation>触发事件的服务器名称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="50"/>
+        <location filename="../utiltts.cpp" line="54"/>
         <source>User&apos;s username who logged in</source>
         <translation>登录用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="51"/>
+        <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s nickname who logged out</source>
         <translation>登出用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="51"/>
+        <location filename="../utiltts.cpp" line="55"/>
         <source>User&apos;s username who logged out</source>
         <translation>登出用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="52"/>
-        <location filename="../utiltts.cpp" line="54"/>
+        <location filename="../utiltts.cpp" line="56"/>
+        <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s nickname who joined channel</source>
         <translation>加入频道的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="52"/>
+        <location filename="../utiltts.cpp" line="56"/>
         <source>Channel&apos;s name joined by user</source>
         <translation>用户加入的频道名称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="52"/>
-        <location filename="../utiltts.cpp" line="54"/>
+        <location filename="../utiltts.cpp" line="56"/>
+        <location filename="../utiltts.cpp" line="58"/>
         <source>User&apos;s username who joined channel</source>
         <translation>加入频道的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="53"/>
-        <location filename="../utiltts.cpp" line="55"/>
+        <location filename="../utiltts.cpp" line="57"/>
+        <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s nickname who left channel</source>
         <translation>离开频道的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="53"/>
+        <location filename="../utiltts.cpp" line="57"/>
         <source>Channel&apos;s name left by user</source>
         <translation>用户离开的频道名称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="53"/>
-        <location filename="../utiltts.cpp" line="55"/>
+        <location filename="../utiltts.cpp" line="57"/>
+        <location filename="../utiltts.cpp" line="59"/>
         <source>User&apos;s username who left channel</source>
         <translation>离开频道的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="56"/>
-        <location filename="../utiltts.cpp" line="61"/>
-        <location filename="../utiltts.cpp" line="63"/>
+        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="67"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation>发消息用户的昵称</translation>
+        <translation>发送消息的用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="56"/>
-        <location filename="../utiltts.cpp" line="57"/>
+        <location filename="../utiltts.cpp" line="60"/>
         <location filename="../utiltts.cpp" line="61"/>
-        <location filename="../utiltts.cpp" line="62"/>
-        <location filename="../utiltts.cpp" line="63"/>
-        <location filename="../utiltts.cpp" line="64"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="66"/>
+        <location filename="../utiltts.cpp" line="67"/>
+        <location filename="../utiltts.cpp" line="68"/>
         <source>Message content</source>
         <translation>消息内容</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="56"/>
-        <location filename="../utiltts.cpp" line="61"/>
-        <location filename="../utiltts.cpp" line="63"/>
+        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="65"/>
+        <location filename="../utiltts.cpp" line="67"/>
         <source>User&apos;s username who sent message</source>
         <translation>发送消息的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="58"/>
-        <location filename="../utiltts.cpp" line="59"/>
+        <location filename="../utiltts.cpp" line="62"/>
+        <location filename="../utiltts.cpp" line="63"/>
         <source>User&apos;s nickname who is typing</source>
         <translation>正在输入的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="58"/>
-        <location filename="../utiltts.cpp" line="59"/>
+        <location filename="../utiltts.cpp" line="62"/>
+        <location filename="../utiltts.cpp" line="63"/>
         <source>User typing</source>
-        <translation>用户输入</translation>
+        <translation>正在输入的用户</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="58"/>
-        <location filename="../utiltts.cpp" line="59"/>
+        <location filename="../utiltts.cpp" line="62"/>
+        <location filename="../utiltts.cpp" line="63"/>
         <source>User&apos;s username who is typing</source>
         <translation>正在输入的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s nickname who set question mode</source>
         <translation>设置提问模式的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="60"/>
+        <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s username who set question mode</source>
         <translation>设置提问模式的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="65"/>
-        <location filename="../utiltts.cpp" line="66"/>
-        <location filename="../utiltts.cpp" line="67"/>
-        <location filename="../utiltts.cpp" line="68"/>
         <location filename="../utiltts.cpp" line="69"/>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
@@ -9726,14 +9885,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="81"/>
         <location filename="../utiltts.cpp" line="82"/>
         <location filename="../utiltts.cpp" line="83"/>
+        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="86"/>
+        <location filename="../utiltts.cpp" line="87"/>
         <source>User concerns by change</source>
-        <translation>用户关注的变化</translation>
+        <translation>变更涉及的用户</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="65"/>
-        <location filename="../utiltts.cpp" line="66"/>
-        <location filename="../utiltts.cpp" line="67"/>
-        <location filename="../utiltts.cpp" line="68"/>
         <location filename="../utiltts.cpp" line="69"/>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
@@ -9744,14 +9903,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="76"/>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
+        <location filename="../utiltts.cpp" line="79"/>
+        <location filename="../utiltts.cpp" line="80"/>
+        <location filename="../utiltts.cpp" line="81"/>
+        <location filename="../utiltts.cpp" line="82"/>
         <source>Subscription type</source>
         <translation>订阅类型</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="65"/>
-        <location filename="../utiltts.cpp" line="66"/>
-        <location filename="../utiltts.cpp" line="67"/>
-        <location filename="../utiltts.cpp" line="68"/>
         <location filename="../utiltts.cpp" line="69"/>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
@@ -9762,14 +9921,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="76"/>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
+        <location filename="../utiltts.cpp" line="79"/>
+        <location filename="../utiltts.cpp" line="80"/>
+        <location filename="../utiltts.cpp" line="81"/>
+        <location filename="../utiltts.cpp" line="82"/>
         <source>Subscription state</source>
         <translation>订阅状态</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="65"/>
-        <location filename="../utiltts.cpp" line="66"/>
-        <location filename="../utiltts.cpp" line="67"/>
-        <location filename="../utiltts.cpp" line="68"/>
         <location filename="../utiltts.cpp" line="69"/>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
@@ -9780,14 +9939,14 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="76"/>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
+        <location filename="../utiltts.cpp" line="79"/>
+        <location filename="../utiltts.cpp" line="80"/>
+        <location filename="../utiltts.cpp" line="81"/>
+        <location filename="../utiltts.cpp" line="82"/>
         <source>Subscription change</source>
         <translation>订阅更改</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="65"/>
-        <location filename="../utiltts.cpp" line="66"/>
-        <location filename="../utiltts.cpp" line="67"/>
-        <location filename="../utiltts.cpp" line="68"/>
         <location filename="../utiltts.cpp" line="69"/>
         <location filename="../utiltts.cpp" line="70"/>
         <location filename="../utiltts.cpp" line="71"/>
@@ -9798,64 +9957,68 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="76"/>
         <location filename="../utiltts.cpp" line="77"/>
         <location filename="../utiltts.cpp" line="78"/>
-        <source>User&apos;s username concerns by change</source>
-        <translation>用户的用户名关注变化</translation>
-    </message>
-    <message>
         <location filename="../utiltts.cpp" line="79"/>
         <location filename="../utiltts.cpp" line="80"/>
         <location filename="../utiltts.cpp" line="81"/>
         <location filename="../utiltts.cpp" line="82"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation>变更涉及的用户的用户名</translation>
+    </message>
+    <message>
         <location filename="../utiltts.cpp" line="83"/>
+        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="86"/>
+        <location filename="../utiltts.cpp" line="87"/>
         <source>Transmission type</source>
         <translation>传输类型</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="79"/>
-        <location filename="../utiltts.cpp" line="80"/>
-        <location filename="../utiltts.cpp" line="81"/>
-        <location filename="../utiltts.cpp" line="82"/>
         <location filename="../utiltts.cpp" line="83"/>
+        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="86"/>
+        <location filename="../utiltts.cpp" line="87"/>
         <source>Transmission state</source>
         <translation>传输状态</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="79"/>
-        <location filename="../utiltts.cpp" line="80"/>
-        <location filename="../utiltts.cpp" line="81"/>
-        <location filename="../utiltts.cpp" line="82"/>
         <location filename="../utiltts.cpp" line="83"/>
-        <source>Classroom transmission authorization change</source>
-        <translation>教室传输许可更改</translation>
-    </message>
-    <message>
         <location filename="../utiltts.cpp" line="84"/>
         <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="86"/>
+        <location filename="../utiltts.cpp" line="87"/>
+        <source>Classroom transmission authorization change</source>
+        <translation>课堂传输权限变更</translation>
+    </message>
+    <message>
+        <location filename="../utiltts.cpp" line="88"/>
+        <location filename="../utiltts.cpp" line="89"/>
         <source>File name</source>
         <translation>文件名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="88"/>
         <source>User&apos;s nickname who added the file</source>
         <translation>添加文件的用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="88"/>
         <source>File size</source>
         <translation>文件大小</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="84"/>
+        <location filename="../utiltts.cpp" line="88"/>
         <source>User&apos;s username who added the file</source>
         <translation>添加文件的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="89"/>
         <source>User&apos;s nickname who removed the file</source>
         <translation>删除文件的用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utiltts.cpp" line="85"/>
+        <location filename="../utiltts.cpp" line="89"/>
         <source>User&apos;s username who removed the file</source>
         <translation>删除文件的用户的用户名</translation>
     </message>
@@ -9863,165 +10026,163 @@ Delete the published user account to unregister your server.</source>
 <context>
     <name>UtilUI</name>
     <message>
-        <location filename="../settings.h" line="474"/>
+        <location filename="../settings.h" line="476"/>
         <source>{user} has logged in</source>
         <translation>{user} 已登录</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="476"/>
+        <location filename="../settings.h" line="478"/>
         <source>{user} has logged out</source>
         <translation>{user} 已登出</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="478"/>
+        <location filename="../settings.h" line="480"/>
         <source>{user} joined channel {channel}</source>
         <translation>{user} 加入频道 {channel}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="480"/>
+        <location filename="../settings.h" line="482"/>
         <source>{user} left channel {channel}</source>
         <translation>{user} 离开频道 {channel}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="482"/>
+        <location filename="../settings.h" line="484"/>
         <source>{user} joined channel</source>
         <translation>{user} 加入频道</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="484"/>
+        <location filename="../settings.h" line="486"/>
         <source>{user} left channel</source>
         <translation>{user} 离开频道</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="486"/>
+        <location filename="../settings.h" line="488"/>
         <source>Subscription &quot;{type}&quot; {state} for {user}</source>
         <translation>为 {user} {state}订阅“{type}”</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="488"/>
+        <location filename="../settings.h" line="490"/>
         <source>Transmission &quot;{type}&quot; {state} for {user}</source>
         <translation>为 {user} {state}传输“{type}”</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="490"/>
-        <source>File {filename} added by {user}</source>
-        <translation>文件 {filename} 由 {user} 添加</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="492"/>
-        <source>File {file} removed by {user}</source>
-        <translation>文件 {file} 已被 {user} 删除</translation>
+        <source>File {filename} added by {user}</source>
+        <translation>{user} 添加了文件 {filename}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="495"/>
-        <location filename="../settings.h" line="499"/>
+        <location filename="../settings.h" line="494"/>
+        <source>File {file} removed by {user}</source>
+        <translation>{user} 删除了文件 {file}</translation>
+    </message>
+    <message>
+        <location filename="../settings.h" line="497"/>
+        <location filename="../settings.h" line="501"/>
         <source>{date} &lt;{user}&gt;
 {content}</source>
         <translation>{date} &lt;{user}&gt;
 {content}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="497"/>
+        <location filename="../settings.h" line="499"/>
         <source>{date} &lt;{user}-&gt;BROADCAST&gt;
 {content}</source>
         <translation>{date} &lt;{user}-&gt;广播消息&gt;
 {content}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="501"/>
+        <location filename="../settings.h" line="503"/>
         <source>{date} * {content}</source>
         <translation>{date} * {content}</translation>
     </message>
     <message>
-        <location filename="../settings.h" line="503"/>
-        <source>{date} Server Name: {server}</source>
-        <translation>{date} 服务器名称： {server}</translation>
-    </message>
-    <message>
         <location filename="../settings.h" line="505"/>
-        <source>{date} Message of the day: {MOTD}</source>
-        <translation>{date} 每日消息： {MOTD}</translation>
+        <source>{date} Server Name: {server}</source>
+        <translation>{date} 服务器名称：{server}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="507"/>
-        <source>{date} Joined channel: {channelpath}</source>
-        <translation>{date} 加入频道： {channelpath}</translation>
+        <source>{date} Message of the day: {MOTD}</source>
+        <translation>{date} 每日公告：{MOTD}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="509"/>
-        <source>Topic: {channeltopic}</source>
-        <translation>主题： {channeltopic}</translation>
+        <source>{date} Joined channel: {channelpath}</source>
+        <translation>{date} 已加入频道：{channelpath}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="511"/>
-        <source>Disk quota: {quota}</source>
-        <translation>磁盘配额： {quota}</translation>
+        <source>Topic: {channeltopic}</source>
+        <translation>主题：{channeltopic}</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
+        <location filename="../settings.h" line="513"/>
+        <source>Disk quota: {quota}</source>
+        <translation>磁盘配额：{quota}</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s nickname who logged in</source>
         <translation>登录用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
-        <location filename="../utilui.cpp" line="200"/>
         <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="202"/>
+        <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="204"/>
         <source>Server&apos;s name from which event was emited</source>
-        <translation>发出事件的服务器名称</translation>
+        <translation>触发事件的服务器名称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="199"/>
+        <location filename="../utilui.cpp" line="201"/>
         <source>User&apos;s username who logged in</source>
         <translation>登录用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s nickname who logged out</source>
         <translation>登出用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="200"/>
+        <location filename="../utilui.cpp" line="202"/>
         <source>User&apos;s username who logged out</source>
         <translation>登出用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="205"/>
         <source>User&apos;s nickname who joined channel</source>
         <translation>加入频道的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
+        <location filename="../utilui.cpp" line="203"/>
         <source>Channel&apos;s name joined by user</source>
         <translation>用户加入的频道名称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="201"/>
         <location filename="../utilui.cpp" line="203"/>
+        <location filename="../utilui.cpp" line="205"/>
         <source>User&apos;s username who joined channel</source>
         <translation>加入频道的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
+        <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s nickname who left channel</source>
         <translation>离开频道的用户昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
+        <location filename="../utilui.cpp" line="204"/>
         <source>Channel&apos;s name left by user</source>
         <translation>用户离开的频道名称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="202"/>
         <location filename="../utilui.cpp" line="204"/>
+        <location filename="../utilui.cpp" line="206"/>
         <source>User&apos;s username who left channel</source>
         <translation>离开频道的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10039,12 +10200,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>User concerns by change</source>
-        <translation>用户关注变更</translation>
+        <translation>变更涉及的用户</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10057,12 +10218,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription type</source>
         <translation>订阅类型</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10075,12 +10236,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription state</source>
         <translation>订阅状态</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10093,12 +10254,12 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
+        <location filename="../utilui.cpp" line="219"/>
+        <location filename="../utilui.cpp" line="220"/>
         <source>Subscription change</source>
         <translation>订阅变更</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="205"/>
-        <location filename="../utilui.cpp" line="206"/>
         <location filename="../utilui.cpp" line="207"/>
         <location filename="../utilui.cpp" line="208"/>
         <location filename="../utilui.cpp" line="209"/>
@@ -10111,134 +10272,136 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utilui.cpp" line="216"/>
         <location filename="../utilui.cpp" line="217"/>
         <location filename="../utilui.cpp" line="218"/>
-        <source>User&apos;s username concerns by change</source>
-        <translation>用户的用户名关注变化</translation>
-    </message>
-    <message>
         <location filename="../utilui.cpp" line="219"/>
         <location filename="../utilui.cpp" line="220"/>
+        <source>User&apos;s username concerns by change</source>
+        <translation>变更涉及的用户的用户名</translation>
+    </message>
+    <message>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>Transmission type</source>
         <translation>传输类型</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="219"/>
-        <location filename="../utilui.cpp" line="220"/>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
+        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="225"/>
         <source>Transmission state</source>
         <translation>传输状态</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="219"/>
-        <location filename="../utilui.cpp" line="220"/>
         <location filename="../utilui.cpp" line="221"/>
         <location filename="../utilui.cpp" line="222"/>
         <location filename="../utilui.cpp" line="223"/>
-        <source>Classroom transmission authorization change</source>
-        <translation>教室传输许可变更</translation>
-    </message>
-    <message>
         <location filename="../utilui.cpp" line="224"/>
         <location filename="../utilui.cpp" line="225"/>
+        <source>Classroom transmission authorization change</source>
+        <translation>课堂传输权限变更</translation>
+    </message>
+    <message>
+        <location filename="../utilui.cpp" line="226"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>File name</source>
         <translation>文件名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>User&apos;s nickname who added the file</source>
         <translation>添加文件的用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>File size</source>
         <translation>文件大小</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="224"/>
+        <location filename="../utilui.cpp" line="226"/>
         <source>User&apos;s username who added the file</source>
         <translation>添加文件的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="225"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>User&apos;s nickname who removed the file</source>
         <translation>删除文件的用户的昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="225"/>
+        <location filename="../utilui.cpp" line="227"/>
         <source>User&apos;s username who removed the file</source>
         <translation>删除文件的用户的用户名</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="239"/>
         <source>Message date</source>
         <translation>消息日期</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
+        <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
         <source>Sender&apos;s nickname</source>
         <translation>发送者昵称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="234"/>
-        <location filename="../utilui.cpp" line="235"/>
         <location filename="../utilui.cpp" line="236"/>
         <location filename="../utilui.cpp" line="237"/>
+        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="239"/>
         <source>Message content</source>
         <translation>消息内容</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="238"/>
-        <location filename="../utilui.cpp" line="239"/>
         <location filename="../utilui.cpp" line="240"/>
         <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Date</source>
         <translation>日期</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="238"/>
+        <location filename="../utilui.cpp" line="240"/>
         <source>Server name</source>
         <translation>服务器名称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="239"/>
+        <location filename="../utilui.cpp" line="241"/>
         <source>Server&apos;s Message of the Day</source>
-        <translation>服务器的每日消息</translation>
+        <translation>服务器每日公告</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Path</source>
         <translation>频道路径</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Name</source>
         <translation>频道名称</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Channel Topic</source>
         <translation>频道主题</translation>
     </message>
     <message>
-        <location filename="../utilui.cpp" line="240"/>
-        <location filename="../utilui.cpp" line="241"/>
         <location filename="../utilui.cpp" line="242"/>
+        <location filename="../utilui.cpp" line="243"/>
+        <location filename="../utilui.cpp" line="244"/>
         <source>Disk Quota</source>
         <translation>磁盘配额</translation>
     </message>

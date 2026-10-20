@@ -12,4 +12,24 @@
         android:id="@+id/action_remove"
         android:title="@string/button_remove"/>
 
+    <item
+        android:id="@+id/action_allowvoice"
+        android:title="@string/action_allowvoice"/>
+
+    <item
+        android:id="@+id/action_allowvideo"
+        android:title="@string/action_allowvideo"/>
+
+    <item
+        android:id="@+id/action_allowdesktop"
+        android:title="@string/action_allowdesktop"/>
+
+    <item
+        android:id="@+id/action_allowmedia"
+        android:title="@string/action_allowmedia"/>
+
+    <item
+        android:id="@+id/action_allowchanmsg"
+        android:title="@string/action_allowchanmsg"/>
+
 </menu>

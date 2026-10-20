@@ -157,6 +157,7 @@ final class ServerListModel: ObservableObject {
     @Published var navigationPath: [ServerListDestination] = []
     @Published var activeMainTabModel: MainTabModel?
     @Published var serverDetailModel: ServerDetailModel?
+    @Published var serverPendingDeletion: Server?
 
     // Join code alert
     @Published var showJoinCodeAlert = false

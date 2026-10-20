@@ -16,7 +16,7 @@
  * client's version can be seen in the @a szVersion member of the
  * #User struct. */
 
-#define TEAMTALK_VERSION "5.23.0.5201"
+#define TEAMTALK_VERSION "5.23.1.5210"
 
 
 #if defined(WIN32)
@@ -343,7 +343,7 @@ extern "C" {
         /** @brief Same as #SOUNDSYSTEM_AUDIOUNIT. */
         SOUNDSYSTEM_AUDIOUNIT_IOS = SOUNDSYSTEM_AUDIOUNIT,
         /** @brief PulseAudio API.
-         *  PulseAudio is typically used on Ubuntu 22. */
+         *  PulseAudio is typically used on Ubuntu and Raspberry Pi OS. */
         SOUNDSYSTEM_PULSEAUDIO = 10,
     } SoundSystem;
 
@@ -4276,8 +4276,8 @@ extern "C" {
      *
      * @return Returns TRUE if the event has been scheduled. */
     TEAMTALKDLL_API TTBOOL TT_PumpMessage(IN TTInstance* lpTTInstance,
-                                          ClientEvent nClientEvent,
-                                          INT32 nIdentifier);
+                                          IN ClientEvent nClientEvent,
+                                          IN INT32 nIdentifier);
 
     /**
      * @brief Get a bitmask describing the client's current state.

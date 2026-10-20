@@ -5,44 +5,44 @@
 "%@ left channel" = "%@ 离开频道";
 
 /* Web Login Controller */
-"%@, your username \"%@\" has been validated" = "%@, 您的用户名 \"%@\" 已通过验证";
+"%@, your username \"%@\" has been validated" = "%@，您的用户名“%@”已通过验证";
 
 /* preferences */
 "%d %% - Default" = "%d %% - 默认";
 
 /* codec detail */
-"(Active)" = "(使用中)";
+"(Active)" = "（使用中）";
 
 /* codec detail */
-"12 KHz" = "12 仟赫";
+"12 KHz" = "12 kHz";
 
 /* codec detail
    create channel */
-"16 KHz" = "16 仟赫";
+"16 KHz" = "16 kHz";
 
 /* codec detail */
-"24 KHz" = "24 仟赫";
+"24 KHz" = "24 kHz";
 
 /* codec detail
    create channel */
-"32 KHz" = "32 仟赫";
+"32 KHz" = "32 kHz";
 
 /* codec detail */
-"48 KHz" = "48 仟赫";
+"48 KHz" = "48 kHz";
 
 /* codec detail
    create channel */
-"8 KHz" = "8 仟赫";
+"8 KHz" = "8 kHz";
 
 /* serverlist */
-"Access preferences" = "进入首选项";
+"Access preferences" = "打开首选项";
 
 /* server entry
    user detail */
 "Actions" = "操作";
 
 /* channel list */
-"Active" = "激活";
+"Active" = "已激活";
 
 /* serverlist */
 "Add new server entry" = "添加新服务器";
@@ -51,7 +51,7 @@
 "Announce content of text message" = "播报消息内容";
 
 /* preferences */
-"Announce lost server connection" = "播报丢失连接";
+"Announce lost server connection" = "播报服务器连接断开";
 
 /* preferences */
 "Announce user joining channel" = "播报加入频道的用户";
@@ -66,19 +66,19 @@
 "Announce user logged out of server" = "播报登出服务器的用户";
 
 /* text to speech */
-"Announcements" = "通知";
+"Announcements" = "播报";
 
 /* preferences */
 "App Version" = "App 版本";
 
 /* codec detail */
-"Application" = "应用";
+"Application" = "应用场景";
 
 /* preferences */
 "Ascending" = "升序";
 
 /* codec detail */
-"Audio Channels" = "音频频道";
+"Audio Channels" = "声道";
 
 /* create channel */
 "Audio Codec" = "音频编解码器";
@@ -88,16 +88,16 @@
 
 /* server entry
    Web Login controller */
-"Authentication" = "认证";
+"Authentication" = "身份验证";
 
 /* channel list */
-"Ban user" = "禁止用户";
+"Ban user" = "封禁用户";
 
 /* server entry */
 "BearWare.dk Web Login" = "BearWare.dk Web 登录";
 
 /* weblogin event */
-"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web 登录验证失败。 请检查首选项中的 BearWare.dk Web 登录 ";
+"BearWare.dk Web Login failed to authenticate. Check BearWare.dk Web Login in Preferences" = "BearWare.dk Web 登录验证失败。请检查首选项中的 BearWare.dk Web 登录设置";
 
 /* codec detail */
 "Bitrate" = "比特率";
@@ -109,7 +109,7 @@
 "Bluetooth A2DP Playback" = "蓝牙 A2DP 播放";
 
 /* Sound Devices */
-"Bluetooth playback should use Advanced Audio Distribution Profile" = "蓝牙播放会使用蓝牙音频传输模型协定(Advanced Audio Distribution Profile)";
+"Bluetooth playback should use Advanced Audio Distribution Profile" = "蓝牙播放使用高级音频分发协议（A2DP）";
 
 /* text message type */
 "Broadcast message" = "广播消息";
@@ -132,7 +132,7 @@
 "Channel message" = "频道消息";
 
 /* TTS EVENT */
-"Channel message from %@. %@" = "%@. %@";
+"Channel message from %@. %@" = "%@：%@";
 
 /* preferences
    user detail */
@@ -145,19 +145,19 @@
 "Channel Text Message" = "频道消息";
 
 /* channel list */
-"Channel. %d users" = "频道. %d 用户";
+"Channel. %d users" = "频道，%d 个用户";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "仅在服务器已启用 BearWare.dk Web 登录时选中";
+"Check only if this server has enabled BearWare.dk Web Login" = "仅当此服务器启用了 BearWare.dk Web 登录时勾选";
 
 /* log entry */
-"Command failed: %@" = "命令失败： %@";
+"Command failed: %@" = "命令失败：%@";
 
 /* create channel */
 "Commands" = "命令";
 
 /* serverlist */
-"Connect to server" = "连接";
+"Connect to server" = "连接到服务器";
 
 /* connect to a server */
 "Connect to Server" = "连接到服务器";
@@ -168,7 +168,7 @@
 
 /* preferences
    tts event */
-"Connection lost" = "连接丢失";
+"Connection lost" = "连接已断开";
 
 /* server entry */
 "Copy" = "复制";
@@ -189,7 +189,7 @@
 "Default Subscriptions" = "默认订阅";
 
 /* serverlist */
-"Delete server from list" = "删除服务器";
+"Delete server from list" = "从列表中删除服务器";
 
 /* preferences
    user detail */
@@ -226,7 +226,7 @@
 "Error" = "错误";
 
 /* preferences */
-"Exclusive Mode Toggled" = "独占模式切换";
+"Exclusive Mode Toggled" = "发言权切换";
 
 /* connect to a server */
 "Failed to setup encryption" = "设置加密失败";
@@ -245,10 +245,10 @@
 "General" = "常规";
 
 /* TTS EVENT */
-"has joined the channel" = "加入频道";
+"has joined the channel" = "加入了频道";
 
 /* TTS EVENT */
-"has left the channel" = "离开频道";
+"has left the channel" = "离开了频道";
 
 /* TTS EVENT */
 "has logged on" = "已登录";
@@ -257,7 +257,7 @@
 "has logged out" = "已登出";
 
 /* preferences */
-"Headset TX Toggle" = "耳机传输切换";
+"Headset TX Toggle" = "耳机按键切换传输";
 
 /* hidden channel */
 "Hidden Channel" = "隐藏频道";
@@ -278,22 +278,22 @@
 "Join channel" = "加入频道";
 
 /* server entry */
-"Join Code: %@" = "加入码： %@";
+"Join Code: %@" = "加入码：%@";
 
 /* preferences */
-"Join Root Channel" = "加入跟频道";
+"Join Root Channel" = "加入根频道";
 
 /* preferences */
-"Join root channel after login" = "登录后加入跟频道";
+"Join root channel after login" = "登录后加入根频道";
 
 /* log entry */
-"Joined %@" = "加入 %@";
+"Joined %@" = "已加入 %@";
 
 /* channel list */
 "Kick user" = "踢出用户";
 
 /* preferences */
-"Limit length of names in channel list to %d characters" = "限制频道列表中的名称长度为 %d 字符";
+"Limit length of names in channel list to %d characters" = "将频道列表中的名称长度限制为 %d 个字符";
 
 /* serverlist */
 "Local server" = "本地服务器";
@@ -302,7 +302,7 @@
 "Log message" = "日志消息";
 
 /* log entry */
-"Logged on to server" = "登录服务器";
+"Logged on to server" = "已登录服务器";
 
 /* preferences */
 "Male" = "男";
@@ -322,10 +322,10 @@
 "Media File Volume" = "媒体文件音量";
 
 /* preferences */
-"Media file vs. voice volume" = "媒体文件相对于语音的音量";
+"Media file vs. voice volume" = "媒体文件与语音音量比例";
 
 /* server entry */
-"Message of the Day" = "每日消息";
+"Message of the Day" = "每日公告";
 
 /* preferences */
 "Microphone Gain" = "麦克风增益";
@@ -373,13 +373,13 @@
 
 /* codec detail
    create channel */
-"No Audio" = "无声";
+"No Audio" = "无音频";
 
 /* create channel */
 "No Audio Recording" = "禁止录音";
 
 /* create channel */
-"No Interruptions" = "无中断";
+"No Interruptions" = "禁止插话";
 
 /* channel list */
 "No password" = "无密码";
@@ -391,7 +391,7 @@
 "No Voice Activation" = "禁止语音激活";
 
 /* default nickname */
-"Noname" = "无名";
+"Noname" = "无名氏";
 
 /* serverlist */
 "Official server" = "官方服务器";
@@ -407,10 +407,10 @@
 "OPUS Codec" = "OPUS 编解码器";
 
 /* preferences */
-"Order of channels in Channel List" = "频道列表中的顺序";
+"Order of channels in Channel List" = "频道列表中的频道顺序";
 
 /* channel list */
-"Parent channel" = "母频道";
+"Parent channel" = "上级频道";
 
 /* create channel
    Dialog message
@@ -440,10 +440,10 @@
 "Play sound when connection is dropped" = "连接丢失时播放声音";
 
 /* preferences */
-"Play sound when private text message is received" = "收到私人消息时播放声音";
+"Play sound when private text message is received" = "收到私信时播放声音";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "在无中断频道传输准备就绪时播放声音";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "在“禁止插话”频道中轮到你发言时播放声音";
 
 /* preferences */
 "Play sound when user logs off to the server" = "用户登出服务器时播放声音";
@@ -458,10 +458,10 @@
 "Play sound when voice transmission is toggled" = "切换语音传输时播放声音";
 
 /* preferences */
-"Pop up text message when new messages are received" = "收到新消息时弹出消息";
+"Pop up text message when new messages are received" = "收到新消息时弹出显示";
 
 /* preferences */
-"Popularity" = "人气";
+"Popularity" = "热度";
 
 /* serverlist */
 "Preferences" = "首选项";
@@ -473,16 +473,16 @@
 "Pressing Return-key sends text message" = "按回车键发送消息";
 
 /* text message type */
-"Private message" = "私人消息";
+"Private message" = "私信";
 
 /* preferences */
-"Private Text Message" = "私人消息";
+"Private Text Message" = "私信";
 
 /* TTS EVENT */
-"Private text message from %@. %@" = "私人消息： %@. %@";
+"Private text message from %@. %@" = "%@ 私信：%@";
 
 /* preferences */
-"Proximity Sensor" = "近距离传感器";
+"Proximity Sensor" = "距离传感器";
 
 /* serverlist */
 "Public server" = "公共服务器";
@@ -506,7 +506,7 @@
 "Receive media file streams by default" = "默认接收媒体文件流";
 
 /* preferences */
-"Receive text messages by default" = "默认接收私人消息";
+"Receive text messages by default" = "默认接收私信";
 
 /* preferences */
 "Receive voice streams by default" = "默认接收语音流";
@@ -518,10 +518,10 @@
 "Return Sends Message" = "回车发送消息";
 
 /* channel list */
-"Return to previous channel" = "返回先前的频道";
+"Return to previous channel" = "返回上级频道";
 
 /* log entry */
-"root channel" = "跟频道";
+"root channel" = "根频道";
 
 /* codec detail */
 "Sample Rate" = "采样率";
@@ -530,19 +530,19 @@
 "Save Server" = "保存服务器";
 
 /* Dialog message */
-"Save server to server list?" = "保存服务器至服务器列表吗？";
+"Save server to server list?" = "是否将服务器保存到服务器列表？";
 
 /* text message */
 "Send empty message to close keyboard" = "发送空消息以关闭键盘";
 
 /* channel list */
-"Send private message" = "发送私人消息";
+"Send private message" = "发送私信";
 
 /* preferences */
-"Server Connection Lost" = "服务器连接丢失";
+"Server Connection Lost" = "服务器连接断开";
 
 /* server entry */
-"Server List Entry" = "服务器列表入口";
+"Server List Entry" = "服务器列表条目";
 
 /* server entry */
 "Server Status" = "服务器状态";
@@ -563,14 +563,14 @@
 "Show usernames instead of nicknames" = "显示用户名而非昵称";
 
 /* channel list */
-"Silent" = "无声";
+"Silent" = "未说话";
 
 /* preferences */
 "Sort Channels" = "频道排序";
 
 /* preferences
    text to speech */
-"Sound Events" = "声音事件";
+"Sound Events" = "提示音";
 
 /* preferences */
 "Sound System" = "声音系统";
@@ -582,7 +582,7 @@
 "Speech Rate" = "语速";
 
 /* preferences */
-"Speech Volume" = "音量";
+"Speech Volume" = "朗读音量";
 
 /* codec detail */
 "Speex Codec" = "Speex 编解码器";
@@ -601,7 +601,7 @@
 "Subscriptions" = "订阅";
 
 /* channel list */
-"Talking" = "发言中";
+"Talking" = "正在说话";
 
 /* server entry */
 "TCP Port" = "TCP 端口";
@@ -610,16 +610,16 @@
 "Text To Speech Events" = "文字转语音事件";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "语音速度为 %.1f";
+"The rate of the speaking voice is %.1f" = "朗读语速为 %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "语音音量为  %.1f";
+"The volume of the speaking voice is %.1f" = "朗读音量为 %.1f";
 
 /* channel list */
 "Toggle to enable/disable transmission" = "切换以启用/禁用传输";
 
 /* preferences */
-"Toggle voice transmission using headset" = "使用耳机切换语音传输";
+"Toggle voice transmission using headset" = "使用耳机按键切换语音传输";
 
 /* create channel */
 "Topic" = "主题";
@@ -690,7 +690,7 @@
 
 /* preferences
    user detail */
-"User Messages" = "用户消息";
+"User Messages" = "私信";
 
 /* server entry
       user detail
@@ -704,7 +704,7 @@
 "Users Online" = "在线用户";
 
 /* serverlist */
-"Users: %d, Country: %@" = "用户： %1$d， 国家： %2$@";
+"Users: %d, Country: %@" = "用户：%1$d，国家：%2$@";
 
 /* codec detail */
 "Variable Bitrate" = "可变比特率";
@@ -723,28 +723,28 @@
 "Voice" = "语音";
 
 /* preferences */
-"Voice Activation Level" = "语音激活级别";
+"Voice Activation Level" = "语音激活阈值";
 
 /* preferences */
-"Voice Activation Level: %d. Recommended: %d" = "语音激活级别： %d. 推荐： %d";
+"Voice Activation Level: %d. Recommended: %d" = "语音激活阈值：%d。推荐：%d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "语音激活级别： 禁用";
+"Voice Activation Level: Disabled" = "语音激活阈值：禁用";
 
 /* preferences */
-"Voice Activation Triggered" = "触发语音激活";
+"Voice Activation Triggered" = "语音激活已触发";
 
 /* preferences */
 "Voice Preprocessing" = "语音预处理";
 
 /* preferences */
-"Voice Transmission Toggled" = "切换语音传输";
+"Voice Transmission Toggled" = "语音传输已切换";
 
 /* user detail */
 "Voice Volume" = "语音音量";
 
 /* codec detail */
-"VoIP" = "网络电话";
+"VoIP" = "语音通话";
 
 /* user detail */
 "Volume Controls" = "音量控制";
@@ -754,7 +754,7 @@
 
 /* preferences
    user detail */
-"WebCam" = "视频";
+"WebCam" = "摄像头";
 
 /* Dialog message */
 "Yes" = "是";
