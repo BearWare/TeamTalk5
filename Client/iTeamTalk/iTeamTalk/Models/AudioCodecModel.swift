@@ -65,6 +65,8 @@ final class AudioCodecModel: ObservableObject {
     @Published var opusBitrate: Double
     @Published var opusVBR: Bool
     @Published var opusDTX: Bool
+    @Published var opusDRED: Bool
+    @Published var opusOSCE: Bool
     @Published var opusFrameSize: Double
     @Published var opusTransmitInterval: Double
 
@@ -101,6 +103,8 @@ final class AudioCodecModel: ObservableObject {
         opusBitrate = Double(bitrate) / 1000.0
         opusVBR = opuscodec.bVBR == TRUE
         opusDTX = opuscodec.bDTX != 0
+        opusDRED = opuscodec.bEnableDRED == TRUE
+        opusOSCE = opuscodec.bEnableOSCE == TRUE
         opusFrameSize = Double(opuscodec.nFrameSizeMSec)
         opusTransmitInterval = Double(opuscodec.nTxIntervalMSec)
 
@@ -123,6 +127,8 @@ final class AudioCodecModel: ObservableObject {
         opuscodec.nTxIntervalMSec = INT32(opusTransmitInterval)
         opuscodec.bDTX = opusDTX ? TRUE : FALSE
         opuscodec.bVBR = opusVBR ? TRUE : FALSE
+        opuscodec.bEnableDRED = opusDRED ? TRUE : FALSE
+        opuscodec.bEnableOSCE = opusOSCE ? TRUE : FALSE
         opuscodec.nFrameSizeMSec = INT32(opusFrameSize)
     }
 

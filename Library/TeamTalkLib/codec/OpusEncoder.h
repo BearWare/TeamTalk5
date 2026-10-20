@@ -45,6 +45,7 @@ public:
     bool SetVBR(bool enable);
     bool SetVBRConstraint(bool enable);
     bool SetDTX(bool enable);
+    bool SetDREDDuration(int duration_10ms);
 
     int Encode(const short* input_buffer, int input_samples,
                char* output_buffer, int output_bufsize);

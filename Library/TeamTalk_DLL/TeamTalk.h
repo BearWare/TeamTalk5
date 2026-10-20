@@ -1184,6 +1184,13 @@ extern "C" {
          * If @c nFrameSizeMSec is 0 then @c nFrameSizeMSec will be same as 
          * @c nTxIntervalMSec. */
         INT32 nFrameSizeMSec;
+        /** @brief Enable OPUS DRED (Deep Redundancy) for improved packet
+         * loss recovery. Requires OPUS 1.5 or later. */
+        TTBOOL bEnableDRED;
+        /** @brief Enable OPUS OSCE (Optimized Speech Comfort noise
+         * Estimation) AI-based decoder enhancement. Requires OPUS 1.5
+         * or later. */
+        TTBOOL bEnableOSCE;
     } OpusCodec;
 
 /** @brief Audio encoding is for VoIP. This value should be set as

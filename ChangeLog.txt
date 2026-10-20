@@ -3,11 +3,14 @@
 ----------------------------------------------
 Version 5.24, unreleased
 Desktop Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Android Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 iOS Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Server
 -
 
@@ -18,11 +21,6 @@ Default Qt Client
 - Added screen reader support on Linux via Speech Dispatcher and Orca
 - Simplified changing profile with Profiles dialog
 - First launch now asks all users whether to enable accessibility settings
-- Play sound event when the sound event is enabled
-- Channel types can now be specified in .tt files
-- Ability to reply to chat messages from the message history
-- Ability to customize all shortcuts
-- Ability to forward/rewind media stream using keyboard
 - Fixed compilation time display on Linux (Qt5)
 - Fixed crash issue when invoking context menu in Server List dialog
 - Fixed classroom transmission permissions being cleared when changed from another channel
