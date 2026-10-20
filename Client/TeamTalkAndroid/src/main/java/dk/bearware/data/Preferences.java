@@ -45,7 +45,8 @@ public class Preferences {
             PREF_SOUNDSYSTEM_MUTE_ON_TRANSMISSION = "mute_speakers_on_tx_checkbox",
             PREF_SOUNDSYSTEM_SPEAKERPHONE = "speakerphone_checkbox",
             PREF_SOUNDSYSTEM_BLUETOOTH_HEADSET = "bluetooth_headset_checkbox",
-            PREF_SOUNDSYSTEM_VOICEPROCESSING = "voiceprocessing_checkbox";
+            PREF_SOUNDSYSTEM_VOICEPROCESSING = "voiceprocessing_checkbox",
+            PREF_SOUNDSYSTEM_MICROPHONE = "microphone_list";
     public static final String
             PREF_JOIN_ROOT_CHAN = "auto_join_root_checkbox",
             PREF_SUB_TEXTMESSAGE = "sub_txtmsg_checkbox",
