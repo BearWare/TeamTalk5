@@ -39,6 +39,8 @@ public class TeamTalkConstants {
     public static final int STATUSMODE_DESKTOP          = 0x00000400;
     public static final int STATUSMODE_STREAM_MEDIAFILE = 0x00000800;
 
+    public static final int STATUSMODE_GENDER_MASK      = STATUSMODE_MALE | STATUSMODE_FEMALE | STATUSMODE_NEUTRAL;
+
     public static final int OPUS_MIN_TXINTERVALMSEC = 20;
     public static final int OPUS_MAX_TXINTERVALMSEC = 500;
     public static final int OPUS_DEFAULT_FRAMESIZEMSEC = 0; //framesize = txinterval

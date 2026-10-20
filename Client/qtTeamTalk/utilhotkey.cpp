@@ -109,6 +109,35 @@ void deleteHotKeySettings(HotKeyID hotkeyid)
     ttSettings->remove(getHotKeyString(hotkeyid));
 }
 
+QString getActionShortcutSetting(const QString& actionName)
+{
+    return QString(SETTINGS_SHORTCUTS_ACTION).arg(actionName);
+}
+
+bool loadActionShortcut(const QString& actionName, QKeySequence& shortcut)
+{
+    const QString setting = getActionShortcutSetting(actionName);
+    if (!ttSettings->contains(setting))
+        return false;
+
+    shortcut = QKeySequence::fromString(ttSettings->value(setting).toString(),
+                                        QKeySequence::PortableText);
+    return true;
+}
+
+void saveActionShortcut(const QString& actionName, const QKeySequence& shortcut)
+{
+    const QString value = shortcut.isEmpty()
+        ? QStringLiteral("")
+        : shortcut.toString(QKeySequence::PortableText);
+    ttSettings->setValue(getActionShortcutSetting(actionName), value);
+}
+
+void deleteActionShortcut(const QString& actionName)
+{
+    ttSettings->remove(getActionShortcutSetting(actionName));
+}
+
 #if defined(Q_OS_DARWIN)
 QString QCFStringToQString(CFStringRef str)
 {
@@ -359,12 +388,16 @@ QString getHotKeyText(const hotkey_t& hotkey)
     }
     return key;
 #elif defined(Q_OS_LINUX)
-    int keys[4] = {0, 0, 0, 0};
-    for(std::size_t i=0;i<hotkey.size();i++)
-        keys[i] = hotkey[i];
+    int combined = 0;
+    for (INT32 key : hotkey)
+        combined |= key;
 
-    QKeySequence keyseq(keys[0], keys[1], keys[2], keys[3]);
-    return keyseq.toString();
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    const QKeySequence keyseq(QKeyCombination::fromCombined(combined));
+#else
+    const QKeySequence keyseq(combined);
+#endif
+    return keyseq.toString(QKeySequence::NativeText);
 #elif defined(Q_OS_DARWIN)
     /*
     QString key;

@@ -587,6 +587,29 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testListBansInvalidRange() {
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase client = newClientInstance();
+
+        ServerInterleave interleave = new RunServer(server);
+        connect(server, client);
+        login(server, client, getTestMethodName(), ADMIN_USERNAME, ADMIN_PASSWORD);
+
+        TTMessage msg = new TTMessage();
+        int cmdid = client.doListBans(0, -1, 1);
+        assertTrue(waitCmdError(client, cmdid, DEF_WAIT, msg, interleave), "negative ban index");
+        assertEquals(ClientError.CMDERR_SYNTAX_ERROR, msg.clienterrormsg.nErrorNo, "negative ban index error");
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "server responsive after negative ban index");
+
+        cmdid = client.doListBans(0, 0, -1);
+        assertTrue(waitCmdError(client, cmdid, DEF_WAIT, msg, interleave), "negative ban count");
+        assertEquals(ClientError.CMDERR_SYNTAX_ERROR, msg.clienterrormsg.nErrorNo, "negative ban count error");
+        assertTrue(waitCmdSuccess(client, client.doListBans(0, 0, 0), DEF_WAIT, interleave), "zero-length ban list");
+        assertTrue(waitCmdComplete(client, client.doPing(), DEF_WAIT, interleave), "server responsive after invalid ban ranges");
+    }
+
+    @Test
     public void testSystemID() {
         TeamTalkSrv server = newServerInstance("foobar");
 

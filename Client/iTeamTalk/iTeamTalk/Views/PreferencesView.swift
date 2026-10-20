@@ -69,10 +69,11 @@ struct PreferencesView: View {
                     )) {
                         Text("Male").tag(0)
                         Text("Female").tag(1)
+                        Text("Neutral").tag(2)
                     }
                     .pickerStyle(.segmented)
                 }
-                PreferenceSubtitle("Show male or female icon")
+                PreferenceSubtitle("Show male, female or neutral icon")
             }
 
             NavigationLink {
@@ -181,7 +182,7 @@ struct PreferencesView: View {
 
     private var soundSection: some View {
         Section("Sound System") {
-            /*sliderWithSubtitle(
+            sliderWithSubtitle(
                 title: "Master Volume",
                 subtitle: Text(verbatim: model.percentSubtitle(model.masterVolumePercent)),
                 value: Binding(get: { model.masterVolumePercent }, set: { model.masterVolumeChanged($0) }),
@@ -199,12 +200,15 @@ struct PreferencesView: View {
             )
             sliderWithSubtitle(
                 title: "Microphone Gain",
-                subtitle: Text(verbatim: model.percentSubtitle(model.microphoneGainPercent)),
+                subtitle: model.micGainSetByChannel
+                    ? Text("Set by the channel's volume leveling")
+                    : Text(verbatim: model.percentSubtitle(model.microphoneGainPercent)),
                 value: Binding(get: { model.microphoneGainPercent }, set: { model.microphoneGainChanged($0) }),
                 range: 0...100,
                 step: 10,
                 displayValue: { model.percentSubtitle($0) }
             )
+            .disabled(model.micGainSetByChannel)
             sliderWithSubtitle(
                 title: "Voice Activation Level",
                 subtitle: Text(verbatim: model.voiceActivationSubtitle(model.voiceActivationLevel)),
@@ -212,23 +216,7 @@ struct PreferencesView: View {
                 range: 0...Double(VOICEACT_DISABLED),
                 step: 1,
                 displayValue: { model.voiceActivationValueText($0) }
-            )*/
-            Slider(value: Binding(get: { model.masterVolumePercent}, set: { model.masterVolumeChanged($0)}), in: 0...100, step: 10) {
-                Text("Master volume")
-            }
-            Slider(value: Binding(get: { model.mediaFileVolumePercent}, set: { model.mediafileVolumeChanged($0)}), in: 0...100, step: 1) {
-                Text("media volume")
-            }
-            Slider(value: Binding(get: { model.microphoneGainPercent}, set: { model.microphoneGainChanged($0)}), in: 0...100, step: 10) {
-                Text("Microphone gain")
-            }
-            Slider(value: Binding(get: { model.voiceActivationLevel}, set: { model.voiceactlevelChanged($0)}), in: 0...Double(VOICEACT_DISABLED), step: 1) {
-                Text("Voice activation level")
-            } minimumValueLabel: {
-                Text(model.voiceActivationSubtitle(model.voiceActivationLevel))
-            } maximumValueLabel: {
-                Text(model.voiceActivationSubtitle(model.voiceActivationLevel))
-            }
+            )
             NavigationLink {
                 SoundDevicesView()
             } label: {
@@ -269,7 +257,7 @@ struct PreferencesView: View {
                         .foregroundStyle(.secondary)
                 }
             }
-            /*sliderWithSubtitle(
+            sliderWithSubtitle(
                 title: "Speech Rate",
                 subtitle: Text(verbatim: String(format: String(localized: "The rate of the speaking voice is %.1f", comment: "preferences"), Float(model.ttsRate))),
                 value: Binding(get: { model.ttsRate }, set: { model.ttsrateChanged($0) }),
@@ -284,13 +272,7 @@ struct PreferencesView: View {
                 range: 0...1,
                 step: 0.1,
                 displayValue: { String(format: "%.1f", $0) }
-            )*/
-            Slider(value: Binding(get: { model.ttsRate}, set: { model.ttsrateChanged($0)}), in: Double(AVSpeechUtteranceMinimumSpeechRate)...Double(AVSpeechUtteranceMaximumSpeechRate), step: 0.1) {
-                Text("Speech rate")
-            }
-            Slider(value: Binding(get: { model.ttsVolume}, set: { model.ttsvolChanged($0)}), in: 0...1, step: 0.1) {
-                Text("Speech volume")
-            }
+            )
             NavigationLink {
                 TextToSpeechEventsView()
             } label: {

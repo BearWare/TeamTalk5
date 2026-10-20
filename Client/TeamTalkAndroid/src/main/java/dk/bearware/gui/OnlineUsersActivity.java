@@ -166,7 +166,7 @@ public class OnlineUsersActivity extends AppCompatActivity implements
                                 getClient().doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), !isOp));
                         alert.setNegativeButton(android.R.string.no, null);
                         alert.setView(input);
-                        alert.show();
+                        DialogHelper.showWithImeSubmit(alert, input);
                         return true;
                     } else {
                         return false;

@@ -332,7 +332,6 @@
     <string name="pref_title_libraries">Perpustakaan Pihak Ketiga</string>
     <string name="channel_prop_title_hiddenchannel">Tersembunyi</string>
     <string name="pref_title_gender">Jenis kelamin</string>
-    <string name="pref_summary_gender">Aktifkan untuk ikon wanita</string>
     <string name="user_state_away">Away</string>
     <string name="pref_title_userloggedin_icon">Pengguna masuk ke server</string>
     <string name="pref_summary_userloggedin_icon">Mainkan suara ketika pengguna masuk ke server</string>

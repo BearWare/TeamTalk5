@@ -13,11 +13,8 @@ body:
       label: Application
       description: Which software is affected by the bug
       options:
-        - label: qtTeamTalk
-        - label: TeamTalkAndroid
-        - label: iTeamTalk
-        - label: TeamTalkClassic
-        - label: TeamTalkServer
+        - label: TeamTalk Client
+        - label: TeamTalk Server
     validations:
       required: true
   - type: checkboxes

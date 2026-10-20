@@ -1,5 +1,6 @@
 TEAMTALK_ROOT?=$(PWD)/..
 CONFIGTYPE?=release
+INSTALLDIR?=$(TEAMTALK_ROOT)/Build/install-$(CONFIGTYPE)-ios
 
 SHELL := /bin/bash
 
@@ -65,8 +66,7 @@ generic:
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$(UBUNTUDIR) \
-	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-	-DTOOLCHAIN_OPENSSL=OFF" generic
+	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
 
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
@@ -75,8 +75,7 @@ ubuntu26:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 rasp:
-	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
-                              -DTOOLCHAIN_OPENSSL=OFF" \
+	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF" \
                               BUILDDIR=build-$(CONFIGTYPE)-$@ generic
 
 mac:
@@ -97,6 +96,10 @@ ios-build:
         -DFEATURE_FFMPEG=OFF \
         -DFEATURE_OGG=OFF \
         -DFEATURE_OPUSTOOLS=OFF \
+        -DTOOLCHAIN_CATCH2=OFF \
+        -DTOOLCHAIN_FFMPEG=OFF \
+        -DTOOLCHAIN_OGG=OFF \
+        -DTOOLCHAIN_PORTAUDIO=OFF \
         -DTOOLCHAIN_ZLIB=OFF" \
         buildlib
 
@@ -104,11 +107,15 @@ ios-arm64:
 	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphoneos -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
 	$(MAKE) ARCH=arm64 lipo-arch
 
-ios-x64:
-	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
-	$(MAKE) ARCH=x86_64 lipo-arch
+ios-arm64-simulator:
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=arm64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/arm64-simulator" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
+	$(MAKE) ARCH=arm64-simulator lipo-arch
 
-ios-all: ios-arm64 ios-x64 lipo
+ios-x64-simulator:
+	$(MAKE) CMAKE_EXTRA+="-DCMAKE_OSX_ARCHITECTURES=x86_64 -DCMAKE_OSX_SYSROOT=iphonesimulator -DTOOLCHAIN_INSTALL_PREFIX=$(INSTALLDIR)/x86_64-simulator" BUILDDIR=build-$(CONFIGTYPE)-$@ ios-build
+	$(MAKE) ARCH=x86_64-simulator lipo-arch
+
+ios-all: ios-arm64 ios-x64-simulator ios-arm64-simulator
 
 lipo-arch: teamtalk-env
 	test -d "$(INSTALLDIR)"
@@ -140,14 +147,23 @@ lipo-arch: teamtalk-env
 	$(INSTALLDIR)/$(ARCH)/webrtc/obj/modules/audio_processing/libteamtalk.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/$(ARCH)/libTeamTalk5Pro.a
 
-lipo: teamtalk-env
-	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64.a \
+lipo: teamtalk-env ios-arm64 ios-x64-simulator
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64-simulator.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-arm64.a \
 	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5.a
 
-	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-x86_64.a \
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-x86_64-simulator.a \
 	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-arm64.a \
 	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro.a
+
+lipo-simulator: teamtalk-env ios-x64-simulator ios-arm64-simulator
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-x86_64-simulator.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-arm64-simulator.a \
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5-simulator.a
+
+	lipo $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-x86_64-simulator.a \
+	$(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-arm64-simulator.a \
+	-create -output $(TEAMTALK_ROOT)/Library/TeamTalk_DLL/libTeamTalk5Pro-simulator.a
 
 xcodeswap-apps:
 	@echo "Changing to /Applications/Xcode.app/Contents/Developer"

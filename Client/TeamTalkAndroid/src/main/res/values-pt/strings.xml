@@ -317,7 +317,6 @@
     <string name="pref_title_libraries">Bibliotecas de terceiros</string>
     <string name="channel_prop_title_hiddenchannel">Oculto</string>
     <string name="pref_title_gender">Gênero</string>
-    <string name="pref_summary_gender">Verifique se há ícone feminino</string>
     <string name="user_state_away">Ausente</string>
     <string name="pref_title_userloggedin_icon">Usuário conectou-se</string>
     <string name="pref_summary_userloggedin_icon">Reproduzir som quando um usuário se conectar</string>

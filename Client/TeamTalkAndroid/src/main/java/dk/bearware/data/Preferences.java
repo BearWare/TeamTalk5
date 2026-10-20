@@ -35,7 +35,8 @@ public class Preferences {
             PREF_GENERAL_BEARWARE_CHECKED = "bearwareid_checkbox",
             PREF_GENERAL_BEARWARE_USERNAME = "bearware_username",
             PREF_GENERAL_BEARWARE_TOKEN = "bearware_token",
-            PREF_GENERAL_GENDER = "gender_checkbox";
+            PREF_GENERAL_GENDER = "gender_list",
+            PREF_GENERAL_GENDER_LEGACY = "gender_checkbox";
     public static final String
             PREF_SOUNDSYSTEM_MEDIAFILE_VOLUME = "mediafilevolume_seekbar",
             PREF_SOUNDSYSTEM_VOICEACTIVATION_LEVEL = "voice_activation_level",

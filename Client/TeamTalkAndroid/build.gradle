@@ -15,14 +15,14 @@ android {
         version = release(37)
     }
     buildToolsVersion = '37.0.0'
-    ndkVersion = '29.0.14206865'
+    ndkVersion = '30.0.16248370'
 
     defaultConfig {
         applicationId = 'dk.bearware.gui'
         minSdk = 23
         targetSdk = 37
-        versionCode = 150
-        versionName = '5.22'
+        versionCode = 154
+        versionName = '5.23'
 
         testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
     }

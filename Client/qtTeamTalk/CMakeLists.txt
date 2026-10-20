@@ -77,8 +77,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
   set (QTTEAMTALK_SOURCES
     mainwindow.h preferencesdlg.h uservideowidget.h
-    channelstree.h channeldlg.h userinfodlg.h bannedusersdlg.h
+    channelstree.h channeldlg.h channeltypedlg.h userinfodlg.h bannedusersdlg.h
     useraccountsdlg.h videogridwidget.h uservideodlg.h
+    profilesdlg.h profilesmodel.h
     serverpropertiesdlg.h keycompdlg.h serverlistdlg.h common.h
     textmessagedlg.h chattextedit.h filesmodel.h filetransferdlg.h
     filesview.h uservolumedlg.h changestatusdlg.h aboutdlg.h
@@ -99,8 +100,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.h chattemplatesdlg.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
-    channelstree.cpp channeldlg.cpp userinfodlg.cpp
+    channelstree.cpp channeldlg.cpp channeltypedlg.cpp userinfodlg.cpp
     bannedusersdlg.cpp useraccountsdlg.cpp videogridwidget.cpp
+    profilesdlg.cpp profilesmodel.cpp
     uservideodlg.cpp serverpropertiesdlg.cpp keycompdlg.cpp
     serverlistdlg.cpp common.cpp textmessagedlg.cpp chattextedit.cpp
     filesmodel.cpp filetransferdlg.cpp filesview.cpp
@@ -121,6 +123,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     chattextlist.cpp chattemplatesdlg.cpp
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
+    profiles.ui
     serverproperties.ui uservideo.ui keycomp.ui textmessage.ui
     filetransfer.ui uservolume.ui changestatus.ui about.ui
     serverstats.ui onlineusers.ui mediastorage.ui userdesktop.ui

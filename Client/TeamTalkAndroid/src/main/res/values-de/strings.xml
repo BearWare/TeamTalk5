@@ -453,7 +453,6 @@
     <string name="pref_title_libraries">Drittanbieter-Bibliotheken</string>
     <string name="channel_prop_title_hiddenchannel">Versteckt</string>
     <string name="pref_title_gender">Geschlecht</string>
-    <string name="pref_summary_gender">Aktivieren für weibliches Symbol</string>
     <string name="user_state_away">Abwesend</string>
     <string name="user_state_operator">Raumoperator</string>
     <string name="user_state_selected">Zum Verschieben gewählt </string>

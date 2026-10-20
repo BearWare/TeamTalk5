@@ -25,6 +25,17 @@ import Foundation
 import AVFoundation
 import TeamTalkKit
 
+/// Microphone gain from preferences, applied through the TeamTalk audio
+/// preprocessor since an active preprocessor overrides the input gain level
+func applyMicrophoneGain() {
+    var ap = TeamTalkAudioPreprocessor.makeTeamTalkPreprocessor()
+    let defaults = UserDefaults.standard
+    if defaults.object(forKey: PREF_MICROPHONE_GAIN) != nil {
+        ap.ttpreprocessor.nGainLevel = INT32(refVolume(Double(defaults.integer(forKey: PREF_MICROPHONE_GAIN))))
+    }
+    _ = TeamTalkClient.shared.setSoundInputPreprocess(&ap)
+}
+
 func refVolume(_ percent: Double) -> Int {
     //82.832*EXP(0.0508*x) - 50
     if percent == 0 {

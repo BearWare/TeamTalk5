@@ -42,6 +42,8 @@ public slots:
     void shutdown();
 
 private:
+    static void warnOnError(const char* call, PrismError err);
+
     PrismContext* m_context = nullptr;
     PrismBackend* m_backend = nullptr;
 };

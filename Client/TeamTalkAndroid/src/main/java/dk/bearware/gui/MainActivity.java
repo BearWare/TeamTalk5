@@ -30,6 +30,7 @@ import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -90,6 +91,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 import androidx.fragment.app.ListFragment;
 import androidx.viewpager.widget.ViewPager;
+import androidx.activity.OnBackPressedCallback;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -124,6 +126,11 @@ import dk.bearware.UserAccount;
 import dk.bearware.UserRight;
 import dk.bearware.UserState;
 import dk.bearware.UserType;
+import dk.bearware.VideoCodec;
+import dk.bearware.MediaFileStatus;
+import dk.bearware.MediaFileInfo;
+import dk.bearware.MediaFilePlayback;
+import dk.bearware.MediaFilePlaybackConstants;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -305,6 +312,12 @@ extends AppCompatActivity
             mMediaPlayer.setOnCompletionListener(mediaPlayer -> mMediaPlayer.release());
             mMediaPlayer.start();
         }
+        getOnBackPressedDispatcher().addCallback(this, new OnBackPressedCallback(true) {
+            @Override
+            public void handleOnBackPressed() {
+                handleBackNavigation();
+            }
+        });
     }
 
     @Override
@@ -318,19 +331,25 @@ extends AppCompatActivity
     public boolean onPrepareOptionsMenu(Menu menu) {
         UserAccount myuseraccount = new UserAccount();
         getClient().getMyUserAccount(myuseraccount);
-
+        MediaFileInfo mfi = getService().currentMediaFileInfo;
+        int flags = getClient().getFlags();
+        boolean isPaused = (mfi.nStatus == MediaFileStatus.MFS_PAUSED);
+        boolean isStreaming = (flags & ClientFlag.CLIENT_STREAM_AUDIO) == ClientFlag.CLIENT_STREAM_AUDIO || (flags & ClientFlag.CLIENT_STREAM_VIDEO) == ClientFlag.CLIENT_STREAM_VIDEO;
         boolean uploadRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_UPLOAD_FILES) != UserRight.USERRIGHT_NONE;
         boolean broadcastRight = (myuseraccount.uUserRights & UserRight.USERRIGHT_TEXTMESSAGE_BROADCAST) != UserRight.USERRIGHT_NONE;
         boolean isEditable = curchannel != null;
         boolean isJoinable = curchannel != null && getClient().getMyChannelID() != curchannel.nChannelID && curchannel.nMaxUsers > 0;
         boolean isLeaveable = getClient().getMyChannelID() > 0;
         boolean isMyChannel = curchannel != null && getClient().getMyChannelID() == curchannel.nChannelID;
+        menu.findItem(R.id.action_pause).setEnabled(isStreaming).setVisible(isStreaming);
+        menu.findItem(R.id.action_pause).setTitle(isPaused ? R.string.action_resume : R.string.action_pause);
         menu.findItem(R.id.action_edit).setEnabled(isEditable).setVisible(isEditable);
         menu.findItem(R.id.action_join).setEnabled(isJoinable).setVisible(isJoinable);
         menu.findItem(R.id.action_leave).setEnabled(isLeaveable).setVisible(isLeaveable);
         menu.findItem(R.id.action_upload).setEnabled(uploadRight).setVisible(uploadRight);
         menu.findItem(R.id.action_broadcast).setEnabled(broadcastRight).setVisible(broadcastRight);
         menu.findItem(R.id.action_stream).setEnabled(isMyChannel).setVisible(isMyChannel);
+        menu.findItem(R.id.action_stream).setTitle(isStreaming ? R.string.action_stop : R.string.action_stream);
         return super.onPrepareOptionsMenu(menu);
     }
 
@@ -366,6 +385,13 @@ extends AppCompatActivity
                 Intent intent = new Intent(MainActivity.this, StreamMediaActivity.class);
                 startActivity(intent);
             }
+        } else if (itemId == R.id.action_pause) {
+            MediaFileInfo mfi = getService().currentMediaFileInfo;
+            MediaFilePlayback pb = new MediaFilePlayback();
+            VideoCodec vc = new VideoCodec();
+            pb.uOffsetMSec = MediaFilePlaybackConstants.TT_MEDIAPLAYBACK_OFFSET_IGNORE;
+            pb.bPaused = (mfi.nStatus == MediaFileStatus.MFS_PLAYING);
+            getClient().updateStreamingMediaFileToChannel(pb, vc);
         } else if (itemId == R.id.action_edit) {
             if (curchannel != null)
                 editChannelProperties(curchannel);
@@ -387,34 +413,41 @@ extends AppCompatActivity
             Intent intent = new Intent(MainActivity.this, OnlineUsersActivity.class);
             startActivity(intent);
         } else if (itemId == android.R.id.home) {
-            int currentPage = mViewPager.getCurrentItem();
-            Channel parentChannel = ((currentPage == SectionsPagerAdapter.CHANNELS_PAGE)
-                                     && (curchannel != null)
-                                     ) ?
-                getService().getChannels().get(curchannel.nParentID) :
-                null;
-            if (currentPage != SectionsPagerAdapter.CHANNELS_PAGE) {
-                mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
-            } else if ((curchannel != null)) {
-                setCurrentChannel(parentChannel);
-                channelsAdapter.notifyDataSetChanged();
-            }
-            else if (filesAdapter.getActiveTransfersCount() > 0) {
-                alert.setMessage(R.string.disconnect_alert);
-                alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
-                    filesAdapter.cancelAllTransfers();
-                    finish();
-                });
-                alert.setNegativeButton(android.R.string.cancel, null);
-                alert.show();
-            }
-            else {
-                finish();
-            }
+            handleBackNavigation();
         } else {
             return super.onOptionsItemSelected(item);
         }
         return true;
+    }
+
+    private void handleBackNavigation() {
+        // 1. Switch to the channels tab if not already
+        if (mViewPager.getCurrentItem() != SectionsPagerAdapter.CHANNELS_PAGE) {
+            mViewPager.setCurrentItem(SectionsPagerAdapter.CHANNELS_PAGE);
+        } 
+        
+        // 2. Navigate upward safely
+        else if (curchannel != null) {
+            setCurrentChannel(getService().getChannels().get(curchannel.nParentID));
+            channelsAdapter.notifyDataSetChanged();
+        } 
+        
+        // 3. Check for active file transfers
+        else if (filesAdapter.getActiveTransfersCount() > 0) {
+            AlertDialog.Builder alert = new AlertDialog.Builder(this);
+            alert.setMessage(R.string.disconnect_alert);
+            alert.setPositiveButton(android.R.string.ok, (dialog, whichButton) -> {
+                filesAdapter.cancelAllTransfers();
+                finish();
+            });
+            alert.setNegativeButton(android.R.string.cancel, null);
+            alert.show();
+        } 
+        
+        // 4. Otherwise, exit
+        else {
+            finish();
+        }
     }
 
     private void showChangeNicknameStatusDialog() {
@@ -465,7 +498,15 @@ extends AppCompatActivity
         });
 
         alert.setNegativeButton(android.R.string.cancel, null);
-        alert.show();
+        final AlertDialog dialog = alert.create();
+        dialog.show();
+        statusMessageInput.setOnEditorActionListener((v, actionId, event) -> {
+            if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                return true;
+            }
+            return false;
+        });
     }
 
     private void applyNicknameStatusChange(String nickname, int mode, String statusMessage) {
@@ -940,6 +981,7 @@ extends AppCompatActivity
             alert.setMessage(R.string.channel_password_prompt);
             final EditText input = new EditText(this);
             input.setInputType(InputType.TYPE_TEXT_VARIATION_PASSWORD|InputType.TYPE_CLASS_TEXT);
+            input.setImeOptions(EditorInfo.IME_ACTION_DONE);
             input.setText(channel.szPassword);
             input.requestFocus();
             alert.setView(input);
@@ -952,9 +994,16 @@ extends AppCompatActivity
                 InputMethodManager im = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
                 im.hideSoftInputFromWindow(input.getWindowToken(), 0);
             });
-			final AlertDialog dialog = alert.create();
+            final AlertDialog dialog = alert.create();
             dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
             dialog.show();
+            input.setOnEditorActionListener((v, actionId, event) -> {
+                if (actionId == EditorInfo.IME_ACTION_DONE || actionId == EditorInfo.IME_NULL) {
+                    dialog.getButton(DialogInterface.BUTTON_POSITIVE).performClick();
+                    return true;
+                }
+                return false;
+            });
         }
         else {
             joinChannel(channel, "");
@@ -1060,7 +1109,7 @@ private EditText newmsg;
                 return false;
             });
             ListView chatlog = rootView.findViewById(R.id.channel_im_listview);
-            chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_ALWAYS_SCROLL);
+            chatlog.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
             chatlog.setAdapter(mainActivity.getTextMessagesAdapter());
 
             Button sendBtn = rootView.findViewById(R.id.channel_im_sendbtn);
@@ -1299,6 +1348,15 @@ private EditText newmsg;
                         if (convertView == null ||
                                 convertView.findViewById(R.id.parentname) == null)
                             convertView = inflater.inflate(R.layout.item_channel_back, parent, false);
+
+                        TextView parenttopic = convertView.findViewById(R.id.chantopic);
+                        TextView parentpopulation = convertView.findViewById(R.id.population);
+
+                        parenttopic.setText(channel.szTopic);
+
+                        int parentusers = Utils.getUsers(channel.nChannelID, getService().getUsers()).size();
+                        parentpopulation.setText((parentusers > 0) ? String.format(Locale.ROOT, "(%d)", parentusers) : "");
+
                         break;
 
                     case CHANNEL_VIEW_TYPE :
@@ -1377,8 +1435,8 @@ private EditText newmsg;
                 boolean talking = (user.uUserState & UserState.USERSTATE_VOICE) != 0;
                 boolean female = (user.nStatusMode & TeamTalkConstants.STATUSMODE_FEMALE) != 0;
                 boolean neutral = (user.nStatusMode & TeamTalkConstants.STATUSMODE_NEUTRAL) != 0;
-                boolean male = !female && !neutral;
-                boolean away =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
+                boolean isAway =  (user.nStatusMode & TeamTalkConstants.STATUSMODE_AWAY) != 0;
+                boolean isStreaming = (user.nStatusMode & TeamTalkConstants.STATUSMODE_STREAM_MEDIAFILE) != 0;
                 int icon_resource;
                 
                 if(user.nUserID == getService().getTTInstance().getMyUserID()) {
@@ -1387,26 +1445,32 @@ private EditText newmsg;
 
                 String move = selected ? getString(R.string.user_state_selected) : "";
                 String speaking = talking ? getString(R.string.user_state_now_speaking, name) : name;
-                String gender = female ? " 👩 " : neutral ? " 🧑 " : " 👨 ";
+                String gender = female ? getString(R.string.user_state_female) : neutral ? getString(R.string.user_state_neutral) : getString(R.string.user_state_male);
                 String op = isOperator ? getString(R.string.user_state_operator) : "";
                 String admin = isAdmin ? getString(R.string.user_state_admin) : "";
-                nickname.setContentDescription(move + " " + speaking + gender + op + " " + admin);
+                String away = isAway ? getString(R.string.user_state_away) : "";
+                String streaming = isStreaming ? getString(R.string.user_state_streaming) : "";
+                nickname.setContentDescription(move + " " + speaking + " " + gender + " " + op + " " + admin);
 
                 if (talking) {
                     if (female) {
                         icon_resource = R.drawable.woman_green;
+                    } else if (neutral) {
+                        icon_resource = R.drawable.neutral_green;
                     } else {
-                        icon_resource = R.drawable.man_green; // male or neutral
+                        icon_resource = R.drawable.man_green;
                     }
                 } else {
                     if (female) {
-                        icon_resource = away ? R.drawable.woman_orange : R.drawable.woman_blue;
+                        icon_resource = isAway ? R.drawable.woman_orange : R.drawable.woman_blue;
+                    } else if (neutral) {
+                        icon_resource = isAway ? R.drawable.neutral_orange : R.drawable.neutral_blue;
                     } else {
-                        icon_resource = away ? R.drawable.man_orange : R.drawable.man_blue; // male or neutral
+                        icon_resource = isAway ? R.drawable.man_orange : R.drawable.man_blue;
                     }
                 }
 
-                status.setContentDescription(away ? getString(R.string.user_state_away) + " " + user.szStatusMsg : null);
+                status.setContentDescription(away + " " + streaming + " " + user.szStatusMsg);
 
                 usericon.setImageResource(icon_resource);
                 usericon.setImportantForAccessibility(View.IMPORTANT_FOR_ACCESSIBILITY_NO);
@@ -1636,7 +1700,7 @@ private EditText newmsg;
                 alert.setPositiveButton(android.R.string.yes, ((dialog, whichButton) -> getClient().doChannelOpEx(selectedUser.nUserID, selectedUser.nChannelID, input.getText().toString(), !getClient().isChannelOperator(selectedUser.nUserID, selectedUser.nChannelID))));
                 alert.setNegativeButton(android.R.string.no, null);
                 alert.setView(input);
-                alert.show();
+                DialogHelper.showWithImeSubmit(alert, input);
             }
         } else if (itemId == R.id.action_move) {
             for (Integer userID : userIDS) {
@@ -1861,9 +1925,9 @@ private EditText newmsg;
         masterSeekBar.setOnSeekBarChangeListener(volListener);
         micSeekBar.setOnSeekBarChangeListener(volListener);
 
-        if ((Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) && accessibilityAssistant.isServiceActive()) {
-            tx_btn.setOnClickListener(txButtonListener);
-        }
+        // The touch listener consumes the event, so performClick() only runs for an
+        // accessibility click. Attaching here covers a service started after onCreate().
+        tx_btn.setOnClickListener(txButtonListener);
 
         ImageButton speakerBtn = findViewById(R.id.speakerBtn);
         speakerBtn.setOnClickListener(v -> {

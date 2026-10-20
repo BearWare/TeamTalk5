@@ -82,6 +82,7 @@ import dk.bearware.StreamType;
 import dk.bearware.Subscription;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
+import dk.bearware.backend.TeamTalkConstants;
 import dk.bearware.data.AppInfo;
 import dk.bearware.data.Preferences;
 import dk.bearware.data.ServerEntry;
@@ -171,6 +172,38 @@ public class Utils {
             return new Gson().fromJson(intent.getExtras().getString(Channel.class.getName()), Channel.class);
         }
         return null;
+    }
+
+    // Values of R.array.gender_values
+    public static final String GENDER_MALE = "male",
+        GENDER_FEMALE = "female",
+        GENDER_NEUTRAL = "neutral";
+
+    /**
+     * Migrates the old male/female gender checkbox to the male/female/neutral
+     * list preference. Does nothing once the list preference holds a value.
+     */
+    public static void migrateGenderPreference(SharedPreferences prefs) {
+        if (prefs.contains(Preferences.PREF_GENERAL_GENDER))
+            return;
+
+        prefs.edit().putString(Preferences.PREF_GENERAL_GENDER,
+                               prefs.getBoolean(Preferences.PREF_GENERAL_GENDER_LEGACY, false) ?
+                               GENDER_FEMALE : GENDER_MALE).apply();
+    }
+
+    /**
+     * Returns the STATUSMODE_* gender flag for the user's gender preference.
+     */
+    public static int getGenderStatusMode(SharedPreferences prefs) {
+        migrateGenderPreference(prefs);
+
+        String gender = prefs.getString(Preferences.PREF_GENERAL_GENDER, GENDER_MALE);
+        if (GENDER_FEMALE.equals(gender))
+            return TeamTalkConstants.STATUSMODE_FEMALE;
+        if (GENDER_NEUTRAL.equals(gender))
+            return TeamTalkConstants.STATUSMODE_NEUTRAL;
+        return TeamTalkConstants.STATUSMODE_MALE;
     }
 
     public static Vector<Channel> getSubChannels(int chanid, Map<Integer, Channel> channels) {

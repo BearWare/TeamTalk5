@@ -34,10 +34,7 @@ extern TTInstance* ttInst;
 KeyCompDlg::KeyCompDlg(HotKeyID hkID, QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 {
-    ui.setupUi(this);
-    setWindowIcon(QIcon(APPICON));
-
-    ui.groupBox->setTitle(tr("Setup Hotkey: %1").arg(getHotKeyName(hkID)));
+    initialize(getHotKeyName(hkID));
 
 #ifdef Q_OS_WIN32
     HWND hWnd = reinterpret_cast<HWND>(this->winId());
@@ -45,15 +42,68 @@ KeyCompDlg::KeyCompDlg(HotKeyID hkID, QWidget * parent/* = 0*/)
 #endif
 }
 
+KeyCompDlg::KeyCompDlg(const QString& actionName, QWidget * parent/* = 0*/)
+: QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
+, m_actionShortcut(true)
+{
+    initialize(actionName);
+}
+
+void KeyCompDlg::initialize(const QString& name)
+{
+    ui.setupUi(this);
+    setWindowIcon(QIcon(APPICON));
+    ui.groupBox->setTitle(tr("Setup Hotkey: %1").arg(name));
+}
+
 KeyCompDlg::~KeyCompDlg()
 {
 #if defined(Q_OS_WIN32)
-    TT_HotKey_RemoveTestHook(ttInst);
+    if (!m_actionShortcut)
+        TT_HotKey_RemoveTestHook(ttInst);
 #elif defined(Q_OS_DARWIN)
-    if(m_hotkey.empty())
+    if(!m_actionShortcut && m_hotkey.empty())
         QMessageBox::warning(this, tr("Key Combination"),
                              tr("Modifiers (Option, Control, Command and Shift) must be used in combination with other keys."));
 #endif
+}
+
+bool KeyCompDlg::captureActionShortcut(QKeyEvent* event)
+{
+    if (!m_actionShortcut)
+        return false;
+
+    switch (event->key())
+    {
+    case Qt::Key_Control:
+    case Qt::Key_Alt:
+    case Qt::Key_Shift:
+    case Qt::Key_Meta:
+        event->accept();
+        return true;
+    default:
+        break;
+    }
+
+#if QT_VERSION >= QT_VERSION_CHECK(6,0,0)
+    m_keysequence = QKeySequence(event->keyCombination());
+#else
+    m_keysequence = QKeySequence(event->key() | int(event->modifiers()));
+#endif
+    ui.keycompEdit->setText(m_keysequence.toString(QKeySequence::NativeText));
+    event->accept();
+    return true;
+}
+
+bool KeyCompDlg::releaseActionShortcut(QKeyEvent* event)
+{
+    if (!m_actionShortcut)
+        return false;
+
+    if (!event->isAutoRepeat() && !m_keysequence.isEmpty())
+        accept();
+    event->accept();
+    return true;
 }
 
 #if defined(Q_OS_WIN32)
@@ -66,6 +116,9 @@ bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
                              qintptr* result)
 #endif
 {
+    if (m_actionShortcut)
+        return QDialog::nativeEvent(eventType, message, result);
+
     MSG* msg = reinterpret_cast<MSG*>(message);
 
     if(msg->message == WM_TEAMTALK_HOTKEYEVENT)
@@ -93,10 +146,25 @@ bool KeyCompDlg::nativeEvent(const QByteArray& eventType, void* message,
     return QDialog::nativeEvent(eventType, message, result);
 }
 
+void KeyCompDlg::keyPressEvent(QKeyEvent* event)
+{
+    if (!captureActionShortcut(event))
+        QDialog::keyPressEvent(event);
+}
+
+void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
+{
+    if (!releaseActionShortcut(event))
+        QDialog::keyReleaseEvent(event);
+}
+
 #elif defined(Q_OS_LINUX)
 
 void KeyCompDlg::keyPressEvent(QKeyEvent* event)
 {
+    if (captureActionShortcut(event))
+        return;
+
     m_hotkey.clear();
 
     Qt::KeyboardModifiers mods = event->modifiers();
@@ -129,6 +197,9 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
 
 void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
 {
+    if (releaseActionShortcut(event))
+        return;
+
     // if KeyCompDlg is opened from a key press (e.g. Space-key) then
     // we receive an unwanted keyReleaseEvent()
     if (!m_activekeys.contains(event->key()))
@@ -147,6 +218,9 @@ void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
 
 void KeyCompDlg::keyPressEvent(QKeyEvent* event)
 {
+    if (captureActionShortcut(event))
+        return;
+
     qDebug() << "KeyCompDlg::keyPressEvent";
 
     qDebug() << "Native: " << QString("%1").arg(event->nativeModifiers(), 0, 16)
@@ -197,6 +271,9 @@ void KeyCompDlg::keyPressEvent(QKeyEvent* event)
 
 void KeyCompDlg::keyReleaseEvent(QKeyEvent* event)
 {
+    if (releaseActionShortcut(event))
+        return;
+
     qDebug() << "KeyCompDlg::keyReleaseEvent";
 
     qDebug() << "Native: " << QString("%1").arg(event->nativeModifiers(), 0, 16)

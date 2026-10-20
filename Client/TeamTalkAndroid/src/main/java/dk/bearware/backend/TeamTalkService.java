@@ -149,6 +149,8 @@ public class TeamTalkService extends Service
 
     public static final String TAG = "bearware";
 
+    public MediaFileInfo currentMediaFileInfo = new MediaFileInfo();
+
     private static final int UI_WIDGET_ID = 1;
     private static final String UI_CHANNEL_ID = "TeamtalkConnection";
     /** Delay before re-connecting Bluetooth SCO after a phone call ends (system needs time to release SCO). */
@@ -991,8 +993,7 @@ public class TeamTalkService extends Service
             statusmsg = prefs.getString(Preferences.PREF_GENERAL_STATUSMSG, "");
         }
 
-        if (prefs.getBoolean(Preferences.PREF_GENERAL_GENDER, false))
-            statusmode |= TeamTalkConstants.STATUSMODE_FEMALE;
+        statusmode |= Utils.getGenderStatusMode(prefs);
 
         ttclient.doChangeStatus(statusmode, statusmsg);
     }
@@ -1251,6 +1252,7 @@ public class TeamTalkService extends Service
 
     @Override
     public void onStreamMediaFile(MediaFileInfo mediafileinfo) {
+        currentMediaFileInfo = mediafileinfo;
         User myself = users.get(ttclient.getMyUserID());
         if (myself == null) // event may have been generated before ttclient.disconnect() was called
             return;
