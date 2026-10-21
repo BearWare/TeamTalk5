@@ -97,7 +97,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
     utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h
     mytableview.h mytabwidget.h shortcutsmodel.h utilmedia.h
-    chattextlist.h chattemplatesdlg.h
+    chattextlist.h chattemplatesdlg.h chattemplateeditdlg.h
+    statusbareventeditdlg.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp channeltypedlg.cpp userinfodlg.cpp
@@ -120,7 +121,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
     mytableview.cpp mytabwidget.cpp shortcutsmodel.cpp utilmedia.cpp
-    chattextlist.cpp chattemplatesdlg.cpp
+    chattextlist.cpp chattemplatesdlg.cpp chattemplateeditdlg.cpp
+    statusbareventeditdlg.cpp
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
     profiles.ui
@@ -130,7 +132,8 @@ if (Qt5_FOUND OR Qt6_FOUND)
     desktopshare.ui streammediafile.ui videotext.ui desktopaccess.ui
     generatettfile.ui customvideofmt.ui bearwarelogindlg.ui
     audiopreprocessor.ui statusbardlg.ui encryptionsetupdlg.ui
-    serverdlg.ui useraccountdlg.ui chattemplatesdlg.ui
+    serverdlg.ui useraccountdlg.ui chattemplatesdlg.ui chattemplateeditdlg.ui
+    statusbareventeditdlg.ui
     resources.qrc mainwindow.rc
     )
 
