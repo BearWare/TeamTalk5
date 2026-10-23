@@ -118,6 +118,7 @@
             <abuse-prevention>
                 <commands-limit>10</commands-limit>
                 <commands-interval-msec>10000</commands-interval-msec>
+                <login-delay-msec>0</login-delay-msec>
             </abuse-prevention>
             <channel-operator>
                 <channel>1</channel>
@@ -325,6 +326,19 @@
  *           frame specified by \<commands-interval-msec\>.
  *         - @c \<commands-interval-msec\>
  *           See description of @c \<commands-limit\>.
+ *         - @c \<login-delay-msec\>
+ *           Account login-delay override, also applied to administrators.
+ *           Zero (or an absent element) inherits the general server login
+ *           delay; -1 disables the delay for this account; a positive value
+ *           specifies milliseconds. Other authentication and abuse checks
+ *           still apply. Inheriting accounts share the existing per-IP
+ *           limit. A positive override has its own account/IP limit, shared
+ *           by all clients using that account from that IP. Exempt accounts
+ *           neither consume nor refresh any login-delay bucket. Rejected
+ *           attempts renew the interval and return CMDERR_COMMAND_FLOOD.
+ *           Old clients can still edit accounts without erasing overrides.
+ *           In Qt, use User Accounts, Abuse Prevention, Use server login
+ *           delay; clear that checkbox to select a custom delay or Disabled.
  *       - @c \<channel-operator\>
  *         - @c \<channel\>
  *           The ID of the channel where the user will automatically become channel

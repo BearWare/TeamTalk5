@@ -2010,16 +2010,20 @@ void setAbusePrevention(JNIEnv* env, AbusePrevention& abuse, jobject lpAbusePrev
     jclass cls = env->GetObjectClass(lpAbusePrevention);
     jfieldID fid_cmds = env->GetFieldID(cls, "nCommandsLimit", "I");
     jfieldID fid_msec = env->GetFieldID(cls, "nCommandsIntervalMSec", "I");
+    jfieldID fid_login = env->GetFieldID(cls, "nLoginDelayMSec", "I");
     assert(fid_cmds);
     assert(fid_msec);
+    assert(fid_login);
 
     if(conv == N2J) {
         env->SetIntField(lpAbusePrevention, fid_cmds, abuse.nCommandsLimit);
         env->SetIntField(lpAbusePrevention, fid_msec, abuse.nCommandsIntervalMSec);
+        env->SetIntField(lpAbusePrevention, fid_login, abuse.nLoginDelayMSec);
     }
     else {
         abuse.nCommandsLimit = env->GetIntField(lpAbusePrevention, fid_cmds);
         abuse.nCommandsIntervalMSec = env->GetIntField(lpAbusePrevention, fid_msec);
+        abuse.nLoginDelayMSec = env->GetIntField(lpAbusePrevention, fid_login);
     }
 }
 

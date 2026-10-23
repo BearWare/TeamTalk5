@@ -317,7 +317,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool XMLDocument::GetInteger(const tinyxml2::XMLElement* parent, const string& szName, int& nValue) const
+    bool XMLDocument::GetInteger(const tinyxml2::XMLElement* parent, const string& szName, int& nValue, bool strict) const
     {
         const tinyxml2::XMLElement* item = parent->FirstChildElement(szName.c_str());
 
@@ -325,7 +325,21 @@ namespace teamtalk {
         {
             string s;
             GetElementText(item, s);
-            nValue = std::stoi(s);
+            size_t end = 0;
+            int value = 0;
+            try
+            {
+                value = std::stoi(s, &end);
+            }
+            catch (const std::exception&)
+            {
+                if (strict)
+                    return false;
+                throw;
+            }
+            if (strict && s.find_first_not_of(" \t\r\n", end) != string::npos)
+                return false;
+            nValue = value;
             return true;
         }
         return false;
