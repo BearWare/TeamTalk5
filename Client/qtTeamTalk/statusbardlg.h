@@ -35,16 +35,12 @@ private:
     Ui::StatusBarDlg ui;
     class StatusBarEventsModel* m_statusbarmodel = nullptr;
     void slotStatusBarEventToggled(const QModelIndex &index);
-    void statusBarEventSelected(const QModelIndex &index);
-    void insertVariable();
-    void saveCurrentMessage();
-    void statusBarRestoreDefaultMessage();
+    void slotEditEvent();
     void statusBarRestoreAllDefaultMessage();
-    QMenu* m_SBVarMenu;
-    QModelIndex m_currentIndex;
     void slotStatusBarEnableAll(bool checked);
     void slotStatusBarClearAll(bool checked);
     void slotStatusBarRevert(bool checked);
+    void slotTableContextMenu(const QPoint& point);
     StatusBarEvents m_events;
 };
 

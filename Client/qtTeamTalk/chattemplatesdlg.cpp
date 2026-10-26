@@ -20,6 +20,7 @@
 #include <QKeyEvent>
 
 #include "chattemplatesdlg.h"
+#include "chattemplateeditdlg.h"
 #include "appinfo.h"
 #include "settings.h"
 
@@ -41,91 +42,34 @@ ChatTemplatesDlg::ChatTemplatesDlg(QWidget* parent)
     ui.chatTemplatesTableView->horizontalHeader()->restoreState(ttSettings->value(SETTINGS_DISPLAY_CHATTEMPLATES_MODEL_HEADER).toByteArray());
     ui.chatTemplatesTableView->horizontalHeader()->setSectionsMovable(false);
 
-    connect(ui.chatTemplatesTableView->selectionModel(), &QItemSelectionModel::currentChanged,
-            this, &ChatTemplatesDlg::chatTemplateSelected);
-    m_CTVarMenu = new QMenu(this);
-    connect(ui.CTVarButton, &QPushButton::clicked, this, [this]()
-    {
-        m_CTVarMenu->exec(QCursor::pos());
-    });
-    connect(ui.CTDefValButton, &QPushButton::clicked, this, &ChatTemplatesDlg::chatTemplatesRestoreDefaultTemplate);
+    connect(ui.chatTemplatesTableView, &QAbstractItemView::doubleClicked, this, &ChatTemplatesDlg::slotEditTemplate);
+    ui.chatTemplatesTableView->setContextMenuPolicy(Qt::CustomContextMenu);
+    connect(ui.chatTemplatesTableView, &QWidget::customContextMenuRequested,
+            this, &ChatTemplatesDlg::slotTableContextMenu);
+
     connect(ui.CTDefAllValButton, &QPushButton::clicked, this, &ChatTemplatesDlg::chatTemplatesRestoreAllDefaultTemplate);
     connect(this, &QDialog::accepted, this, &ChatTemplatesDlg::slotAccept);
 }
 
-void ChatTemplatesDlg::chatTemplateSelected(const QModelIndex &index)
+void ChatTemplatesDlg::slotEditTemplate()
 {
-    saveCurrentTemplate();
-
-    m_currentIndex = index;
+    QModelIndex index = ui.chatTemplatesTableView->currentIndex();
     if (!index.isValid()) return;
 
-    auto templatesMap = UtilUI::templatesToSettingMap();
     ChatTemplates templateId = static_cast<ChatTemplates>(index.internalId());
-
-    if (templatesMap.contains(templateId))
-    {
-        const ChatTemplateInfo& templateInfo = templatesMap[templateId];
-        QString paramKey = templateInfo.settingKey;
-        QString defaultValue = UtilUI::getDefaultTemplate(paramKey);
-        QString currentMessage = ttSettings->value(paramKey, defaultValue).toString();
-        ui.CTMsgLabel->setText(templateInfo.templateName.size() > 0?tr("Template for \"%1\"").arg(templateInfo.templateName):tr("Template"));
-        ui.CTMsgEdit->setText(currentMessage);
-
-        m_CTVarMenu->clear();
-        for (auto it = templateInfo.variables.constBegin(); it != templateInfo.variables.constEnd(); ++it)
-        {
-            QAction* action = m_CTVarMenu->addAction(it.value());
-            action->setData(it.key());
-            connect(action, &QAction::triggered, this, &ChatTemplatesDlg::insertVariable);
-        }
-    }
-}
-
-void ChatTemplatesDlg::insertVariable()
-{
-    QAction* action = qobject_cast<QAction*>(sender());
-    if (action)
-    {
-        QString variable = action->data().toString();
-        int cursorPos = ui.CTMsgEdit->cursorPosition();
-        ui.CTMsgEdit->insert(variable);
-        ui.CTMsgEdit->setCursorPosition(cursorPos + variable.length());
-    }
-}
-
-void ChatTemplatesDlg::saveCurrentTemplate()
-{
-    if (!m_currentIndex.isValid()) return;
-
     auto templatesMap = UtilUI::templatesToSettingMap();
-    ChatTemplates templateId = static_cast<ChatTemplates>(m_currentIndex.internalId());
+    if (!templatesMap.contains(templateId)) return;
 
-    if (templatesMap.contains(templateId))
+    ChatTemplateEditDlg dlg(templateId, this);
+    if (dlg.exec() == QDialog::Accepted)
     {
-        const ChatTemplateInfo& templateInfo = templatesMap[templateId];
-        QString paramKey = templateInfo.settingKey;
-        QString text = ui.CTMsgEdit->text();
+        QString paramKey = templatesMap[templateId].settingKey;
+        QString text = dlg.getMessage();
 
         if (!text.isEmpty() && text != ttSettings->value(paramKey))
         {
             ttSettings->setValueOrClear(paramKey, text, UtilUI::getDefaultTemplate(paramKey));
         }
-    }
-}
-
-void ChatTemplatesDlg::chatTemplatesRestoreDefaultTemplate()
-{
-    if (!m_currentIndex.isValid()) return;
-
-    auto templatesMap = UtilUI::templatesToSettingMap();
-    ChatTemplates templateId = static_cast<ChatTemplates>(m_currentIndex.internalId());
-
-    if (templatesMap.contains(templateId))
-    {
-        const ChatTemplateInfo& templateInfo = templatesMap[templateId];
-        QString defaultValue = UtilUI::getDefaultTemplate(templateInfo.settingKey);
-        ui.CTMsgEdit->setText(defaultValue);
     }
 }
 
@@ -147,11 +91,7 @@ void ChatTemplatesDlg::chatTemplatesRestoreAllDefaultTemplate()
         ChatTemplates templateId = static_cast<ChatTemplates>(tpl);
         if (templatesMap.contains(templateId))
         {
-            const ChatTemplateInfo& templateInfo = templatesMap[templateId];
-            QString defaultValue = UtilUI::getDefaultTemplate(templateInfo.settingKey);
-            ttSettings->remove(templateInfo.settingKey);
-            if (m_currentIndex.isValid() && m_currentIndex.internalId() == templateId)
-                ui.CTMsgEdit->setText(defaultValue);
+            ttSettings->remove(templatesMap[templateId].settingKey);
         }
     }
 }
@@ -160,17 +100,29 @@ void ChatTemplatesDlg::slotAccept()
 {
     ttSettings->setValue(SETTINGS_DISPLAY_CHATTEMPLATES_MODEL_HEADER, ui.chatTemplatesTableView->horizontalHeader()->saveState());
     ttSettings->setValue(SETTINGS_DISPLAY_CHATTEMPLATESDLG_SIZE, saveGeometry());
-    saveCurrentTemplate();
 }
 
 void ChatTemplatesDlg::keyPressEvent ( QKeyEvent * event )
 {
-    if (ui.CTMsgEdit->hasFocus() && (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter) &&
-        (event->modifiers() & Qt::ShiftModifier) != 0)
+    if (ui.chatTemplatesTableView->hasFocus() && (event->key() == Qt::Key_Return || event->key() == Qt::Key_Enter))
+        slotEditTemplate();
+    else
+        QDialog::keyPressEvent( event );
+}
+
+void ChatTemplatesDlg::slotTableContextMenu(const QPoint& /*point*/)
+{
+    QMenu menu(this);
+    QAction* editTemplate = menu.addAction(tr("&Edit Template"));
+
+    QModelIndex index = ui.chatTemplatesTableView->currentIndex();
+    editTemplate->setEnabled(index.isValid());
+
+    if (QAction* action = menu.exec(QCursor::pos()))
     {
-        ui.CTMsgEdit->insert("\n");
+        if (action == editTemplate)
+            slotEditTemplate();
     }
-    QDialog::keyPressEvent( event );
 }
 
 
