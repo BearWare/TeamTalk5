@@ -62,13 +62,15 @@ void OpusDecode::Reset()
     }
 }
 
-int OpusDecode::Decode(const char* input_buffer, int input_bufsize, 
-                       short* output_buffer, int output_samples)
+int OpusDecode::Decode(const char* input_buffer, int input_bufsize,
+                       short* output_buffer, int output_samples, bool fec)
 {
     assert(m_decoder);
     assert(output_buffer);
-    return opus_decode(m_decoder, 
-                       reinterpret_cast<const unsigned char*>((input_buffer != nullptr)?input_buffer:nullptr),
-                       (input_buffer != nullptr)?input_bufsize:0, output_buffer, 
-                       output_samples, (input_buffer != nullptr)?0:1);
+
+    auto const data = reinterpret_cast<const unsigned char*>(input_buffer);
+    int const len = (input_buffer != nullptr) ? input_bufsize : 0;
+    int const decode_fec = (fec && input_buffer != nullptr) ? 1 : 0;
+    return opus_decode(m_decoder, (input_buffer != nullptr) ? data : nullptr,
+                       len, output_buffer, output_samples, decode_fec);
 }

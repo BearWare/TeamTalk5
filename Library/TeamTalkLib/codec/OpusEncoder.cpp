@@ -119,6 +119,40 @@ bool OpusEncode::SetFEC(bool enable)
     return err == 0;
 }
 
+bool OpusEncode::SetPacketLossPerc(int perc)
+{
+    assert(m_encoder);
+    if(m_encoder == nullptr)
+        return false;
+
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_PACKET_LOSS_PERC(perc));
+    assert(err == 0);
+    return err == 0;
+}
+
+bool OpusEncode::SetSignalVoice(bool voice)
+{
+    assert(m_encoder);
+    if(m_encoder == nullptr)
+        return false;
+
+    int const value = voice ? OPUS_SIGNAL_VOICE : OPUS_AUTO;
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_SIGNAL(value));
+    assert(err == 0);
+    return err == 0;
+}
+
+bool OpusEncode::SetLSBDepth(int bits)
+{
+    assert(m_encoder);
+    if(m_encoder == nullptr)
+        return false;
+
+    int const err = opus_encoder_ctl(m_encoder, OPUS_SET_LSB_DEPTH(bits));
+    assert(err == 0);
+    return err == 0;
+}
+
 bool OpusEncode::SetBitrate(int bitrate)
 {
     assert(m_encoder);
