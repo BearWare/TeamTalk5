@@ -60,7 +60,7 @@ public class Main {
         TimeProvider time = Instant::now;
 
         Logger logger = Logger.getLogger("");
-        FileHandler fh = new FileHandler("spambot.log");
+        FileHandler fh = new FileHandler("spambot.log", true);
         logger.addHandler(fh);
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
