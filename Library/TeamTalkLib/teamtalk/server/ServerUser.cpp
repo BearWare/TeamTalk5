@@ -758,6 +758,11 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     }
     GetProperty(properties, TT_AUDIOCFG, chanprop.audiocfg);
 
+    if(chanprop.name.find(CHANNEL_SEPARATOR) != ACE_TString::npos)
+    {
+        return TT_CMDERR_SYNTAX_ERROR;
+    }
+
     return m_servernode.UserUpdateChannel(GetUserID(), chanprop);
 }
 
