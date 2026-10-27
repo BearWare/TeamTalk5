@@ -467,13 +467,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
                 logger.severe("Failed to issue text message command");
             }
 
-            cmdid = ttclient.doKickUser(user.nUserID, 0);
-            if (cmdid > 0) {
-                activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-            }
-            else {
-                logger.severe("Failed to issue kick command");
-            }
+            issueKickUser(user, true);
         }
         else {
             logger.info(String.format("Cannot kick #%d %s", user.nUserID, user.szNickname));
@@ -534,15 +528,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
 
         if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            int cmdid = ttclient.doKickUser(user.nUserID, 0);
-            if (cmdid > 0) {
-                this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-                logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
-                abuse.incKicks(user.szIPAddress);
-            }
-            else {
-                logger.severe("Failed to issue kick command");
-            }
+            issueKickUser(user, false);
         }
 
         if (user.nChannelID == ttclient.getMyChannelID()) {
@@ -575,27 +561,11 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
             abusedb.addWhiteListIPAddr(user.szIPAddress);
         else if (!user.szIPAddress.isEmpty() && abusedb.checkForReported(user.szIPAddress)) {
             sendBadWordsNotify(user.nUserID, "Your IP-address is listed as a spammer");
-            int cmdid = ttclient.doKickUser(user.nUserID, 0);
-            if (cmdid > 0) {
-                this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-                logger.info(String.format("Kicking %s from %s:%d because %s is listed as spammer", user.szNickname, server.ipaddr, server.tcpport, user.szIPAddress));
-                abuse.incKicks(user.szIPAddress);
-            }
-            else {
-                logger.severe("Failed to issue kick command");
-            }
+            issueKickUser(user, false);
         }
         else if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            int cmdid = ttclient.doKickUser(user.nUserID, 0);
-            if (cmdid > 0) {
-                this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-                logger.info(String.format("Kicking %s from %s:%d due to bad words", user.szNickname, server.ipaddr, server.tcpport));
-                abuse.incKicks(user.szIPAddress);
-            }
-            else {
-                logger.severe("Failed to issue kick command");
-            }
+            issueKickUser(user, false);
         }
 
         abuse.incLogin(user.szIPAddress);
@@ -618,17 +588,10 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
     public void onCmdUserTextMessage(TextMessage textmsg) {
         if (!cleanTextMessage(textmsg)) {
             sendBadWordsNotify(textmsg.nFromUserID, "Your text message contains foul language");
-            int cmdid = ttclient.doKickUser(textmsg.nFromUserID, 0);
-            if (cmdid > 0) {
-                this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-                logger.info(String.format("Kicking #%d from %s:%d", textmsg.nFromUserID, server.ipaddr, server.tcpport));
-                User user = users.get(textmsg.nFromUserID);
-                if (user != null) {
-                    abuse.incKicks(user.szIPAddress);
-                }
-            }
-            else {
-                logger.severe("Failed to issue kick command");
+
+            User user = users.get(textmsg.nFromUserID);
+            if (user != null) {
+                issueKickUser(user, false);
             }
         }
     }
@@ -638,15 +601,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
         users.put(user.nUserID, user);
         if (!cleanUser(user)) {
             sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
-            int cmdid = ttclient.doKickUser(user.nUserID, 0);
-            if (cmdid > 0) {
-                this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
-                logger.info(String.format("Kicking %s from %s:%d", user.szNickname, server.ipaddr, server.tcpport));
-                abuse.incKicks(user.szIPAddress);
-            }
-            else {
-                logger.severe("Failed to issue kick command");
-            }
+            issueKickUser(user, false);
         }
     }
 
@@ -677,6 +632,22 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
     @Override
     public int issueRemoveBan(BannedUser ban) {
         return ttclient.doUnBanUserEx(ban);
+    }
+
+    void issueKickUser(User user, boolean skipIncrement) {
+        if ((useraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) != UserRight.USERRIGHT_KICK_USERS)
+            return;
+
+        int cmdid = ttclient.doKickUser(user.nUserID, 0);
+        if (cmdid > 0) {
+            this.activecommands.put(cmdid, CmdComplete.CMD_ABUSE_KICK);
+            logger.info(String.format("Kicking %s", user.szNickname));
+            if (!user.szIPAddress.isEmpty() && !skipIncrement)
+                abuse.incKicks(user.szIPAddress);
+        }
+        else {
+            logger.severe("Failed to issue kick command");
+        }
     }
 
     public UserAccount banOwner() {
