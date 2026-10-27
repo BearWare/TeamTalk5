@@ -388,11 +388,11 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
         }
     }
 
-    void sendBadWordsNotify(int userid, String text) {
+    void sendAbuseNotification(User user, String text) {
         TextMessage textmsg = new TextMessage();
         textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
         textmsg.szMessage = text;
-        textmsg.nToUserID = userid;
+        textmsg.nToUserID = user.nUserID;
         int cmdid = ttclient.doTextMessage(textmsg);
         if (cmdid > 0) {
             activecommands.put(cmdid, CmdComplete.CMD_ABUSE_TEXTMSG);
@@ -436,44 +436,24 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
             }
 
             // inform user about ban
-            TextMessage textmsg = new TextMessage();
-            textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
-            textmsg.szMessage = "You have been banned due to abuse";
-            textmsg.nToUserID = user.nUserID;
-            cmdid = ttclient.doTextMessage(textmsg);
-            if (cmdid > 0) {
-                activecommands.put(cmdid, CmdComplete.CMD_ABUSE_TEXTMSG);
-            }
-            else {
-                logger.severe("Failed to issue text message command");
-            }
+            sendAbuseNotification(user, "You have been banned due to abuse");
         }
         else {
             logger.info(String.format("Cannot ban #%d %s", user.nUserID, user.szNickname));
         }
 
         if ((useraccount.uUserRights & UserRight.USERRIGHT_KICK_USERS) == UserRight.USERRIGHT_KICK_USERS) {
-
             // inform user about ban
-            TextMessage textmsg = new TextMessage();
-            textmsg.nMsgType = TextMsgType.MSGTYPE_USER;
-            textmsg.szMessage = "You have been kicked due to abuse";
-            textmsg.nToUserID = user.nUserID;
-            int cmdid = ttclient.doTextMessage(textmsg);
-            if (cmdid > 0) {
-                activecommands.put(cmdid, CmdComplete.CMD_ABUSE_TEXTMSG);
-            }
-            else {
-                logger.severe("Failed to issue text message command");
-            }
-
+            sendAbuseNotification(user, "You have been kicked due to abuse");
             issueKickUser(user, true);
         }
         else {
             logger.info(String.format("Cannot kick #%d %s", user.nUserID, user.szNickname));
         }
 
-        abusedb.report(user.szIPAddress, "Spam");
+        if (!user.szIPAddress.isEmpty()) {
+            abusedb.report(user.szIPAddress, "Spam");
+        }
     }
 
     @Override
@@ -527,7 +507,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
         users.put(user.nUserID, user);
 
         if (!cleanUser(user)) {
-            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
+            sendAbuseNotification(user, "Your nick name and/or status message contains foul language");
             issueKickUser(user, false);
         }
 
@@ -541,10 +521,12 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
             }
         }
 
-        abuse.incJoins(user.szIPAddress);
-        if (abuse.checkJoinAbuse(user.szIPAddress)) {
-            logger.info(String.format("Banning %s from %s:%d due to join abuse", user.szNickname, server.ipaddr, server.tcpport));
-            abuseBan(user);
+        if (!user.szIPAddress.isEmpty()) {
+            abuse.incJoins(user.szIPAddress);
+            if (abuse.checkJoinAbuse(user.szIPAddress)) {
+                logger.info(String.format("Banning %s from %s:%d due to join abuse", user.szNickname, server.ipaddr, server.tcpport));
+                abuseBan(user);
+            }
         }
     }
 
@@ -560,22 +542,24 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
         if (user.nUserID == ttclient.getMyUserID())
             abusedb.addWhiteListIPAddr(user.szIPAddress);
         else if (!user.szIPAddress.isEmpty() && abusedb.checkForReported(user.szIPAddress)) {
-            sendBadWordsNotify(user.nUserID, "Your IP-address is listed as a spammer");
+            sendAbuseNotification(user, "Your IP-address is listed as a spammer");
             issueKickUser(user, false);
         }
         else if (!cleanUser(user)) {
-            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
+            sendAbuseNotification(user, "Your nick name and/or status message contains foul language");
             issueKickUser(user, false);
         }
 
-        abuse.incLogin(user.szIPAddress);
-        if (abuse.checkLoginAbuse(user.szIPAddress)) {
-            logger.info(String.format("Banning %s from %s:%d due to login abuse", user.szNickname, server.ipaddr, server.tcpport));
-            abuseBan(user);
-        }
-        if (abuse.checkKickAbuse(user.szIPAddress)) {
-            logger.info(String.format("Banning %s from %s:%d due to badwords abuse", user.szNickname, server.ipaddr, server.tcpport));
-            abuseBan(user);
+        if (!user.szIPAddress.isEmpty()) {
+            abuse.incLogin(user.szIPAddress);
+            if (abuse.checkLoginAbuse(user.szIPAddress)) {
+                logger.info(String.format("Banning %s from %s:%d due to login abuse", user.szNickname, server.ipaddr, server.tcpport));
+                abuseBan(user);
+            }
+            if (abuse.checkKickAbuse(user.szIPAddress)) {
+                logger.info(String.format("Banning %s from %s:%d due to badwords abuse", user.szNickname, server.ipaddr, server.tcpport));
+                abuseBan(user);
+            }
         }
     }
 
@@ -587,10 +571,9 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
     @Override
     public void onCmdUserTextMessage(TextMessage textmsg) {
         if (!cleanTextMessage(textmsg)) {
-            sendBadWordsNotify(textmsg.nFromUserID, "Your text message contains foul language");
-
             User user = users.get(textmsg.nFromUserID);
             if (user != null) {
+                sendAbuseNotification(user, "Your text message contains foul language");
                 issueKickUser(user, false);
             }
         }
@@ -600,7 +583,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
     public void onCmdUserUpdate(User user) {
         users.put(user.nUserID, user);
         if (!cleanUser(user)) {
-            sendBadWordsNotify(user.nUserID, "Your nick name and/or status message contains foul language");
+            sendAbuseNotification(user, "Your nick name and/or status message contains foul language");
             issueKickUser(user, false);
         }
     }
