@@ -371,7 +371,7 @@ implements ConnectionListener, CommandListener, AutoCloseable, BanProvider {
     void syncBans() {
         if ((this.useraccount.uUserRights & UserRight.USERRIGHT_BAN_USERS) == UserRight.USERRIGHT_BAN_USERS) {
             if (versionSameOrLater("5.13")) {
-                int cmdid = ttclient.doListBans(0, 0, 1000000);
+                int cmdid = ttclient.doListBans(0, 0, 5000);
                 if (cmdid > 0) {
                     activecommands.put(cmdid, CmdComplete.CMD_LISTBANS);
                 }
