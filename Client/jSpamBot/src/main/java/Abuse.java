@@ -82,12 +82,6 @@ public class Abuse {
             history.remove(key);
     }
 
-    public void removeIpaddr(String ipaddr) {
-        iplogins.remove(ipaddr);
-        ipjoins.remove(ipaddr);
-        ipkicks.remove(ipaddr);
-    }
-
     public boolean checkLoginAbuse(String ipaddr) {
         clean(time, iplogins, this.banDuration);
         return iplogins.get(ipaddr) != null ? iplogins.get(ipaddr).size() >= ipLoginCount : false;
