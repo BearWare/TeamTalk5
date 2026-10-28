@@ -4317,12 +4317,13 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
     if(subscriptuser != user)
         user->DoUpdateUser(*subscriptuser);
 
-    //if active desktop then start it
-    if (subscriptuser->GetDesktopSession() &&
-        ((subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP)) != 0u))
+    //if active desktop then start it. Same rule as GetPacketDestinations():
+    //subscribers must be in the channel, only interceptors (admins) can be outside
+    if (subscriptuser->GetDesktopSession())
     {
         serverchannel_t const chan = subscriptuser->GetChannel();
-        if (chan)
+        if (chan && (((subscrip & SUBSCRIBE_INTERCEPT_DESKTOP) != 0u) ||
+                     ((subscrip & SUBSCRIBE_DESKTOP) != 0u && chan == user->GetChannel())))
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 
