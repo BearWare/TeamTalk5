@@ -84,6 +84,8 @@ namespace teamtalk {
                     audio_resampler_t& resampler);
         ~AudioPlayer() override;
 
+        int GetUserID() const { return m_userid; }
+
         //returns reassembled AudioPacket if 'new_audpkt' has fragments
         audiopacket_t QueuePacket(const AudioPacket& new_audpkt);
 
@@ -112,13 +114,14 @@ namespace teamtalk {
         int GetNumAudioPacketsLost(bool reset);
 
         const AudioCodec& GetAudioCodec() const { return m_codec; }
+        int GetStreamID() const { return m_stream_id; }
 
     protected:
         void CleanUpAudioFragments(uint16_t too_old_packet_no);
-
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
 
+    private:
         int m_userid = 0;
         StreamType m_streamtype = STREAMTYPE_NONE;
         soundsystem::soundsystem_t m_sndsys;
