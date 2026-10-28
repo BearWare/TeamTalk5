@@ -4227,11 +4227,15 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
+        if (transfer.filesize < 0)
+            return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
+
         //upload only if is admin or the filesize is less than the channel max usage
-        //and also less than the total disk usage allowed.
-        if(((chan->GetDiskUsage() + transfer.filesize) > chan->GetMaxDiskUsage() && 
+        //and also less than the total disk usage allowed. Subtract instead of add
+        //so a huge filesize cannot overflow.
+        if((transfer.filesize > chan->GetMaxDiskUsage() - chan->GetDiskUsage() &&
             (user->GetUserType() & USERTYPE_ADMIN) == 0)
-            || (GetDiskUsage() + transfer.filesize) > m_properties.maxdiskusage)
+            || transfer.filesize > m_properties.maxdiskusage - GetDiskUsage())
             return ErrorMsg(TT_CMDERR_MAX_DISKUSAGE_EXCEEDED);
 
         //set temporary filename for transfer
