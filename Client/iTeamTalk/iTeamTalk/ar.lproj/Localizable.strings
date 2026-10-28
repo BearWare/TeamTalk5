@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ إنضم للقناة";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ غادر القناة";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ سجل دخول";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ سجل خروج";
+
 /* log entry */
 "%@ joined channel" = "%@ إنضم للقناة";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "عام";
 
-/* TTS EVENT */
-"has joined the channel" = "إنضم للقناة";
-
-/* TTS EVENT */
-"has left the channel" = "غادر القناة";
-
-/* TTS EVENT */
-"has logged on" = "سجل دخول";
-
-/* TTS EVENT */
-"has logged out" = "سجل خروج";
-
 /* preferences */
 "Headset TX Toggle" = "تبديل المايكروفون عن طريق سماعة الرأس";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "ملف الوسائط مقابل حجم الصوت";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "رسالة اليوم";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "خادم عام";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "قفل إضغط وتحدث";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "منفذ TCP";
 
+/* accessibility label */
+"Text Messaging" = "الرسائل النصية";
+
 /* preferences */
 "Text To Speech Events" = "أحداث تحويل النص إلى كلام";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "أنثى";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "ينضم المستخدم إلى القناة";

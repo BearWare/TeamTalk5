@@ -28,10 +28,10 @@
 		<string name="text_cmd_leftchan">Покинуто канал:</string>
 		<string name="text_cmd_joinroot">Приєднано до кореневого каналу</string>
 		<string name="text_cmd_leftroot">Покинуто кореневий канал</string>
-		<string name="text_cmd_userjoinchan">Приєднано до каналу</string>
-		<string name="text_cmd_userleftchan">Покинуто канал</string>
-		<string name="text_cmd_userloggedout">від\'єднано</string>
-		<string name="text_cmd_userloggedin">приєднано</string>
+		<string name="text_cmd_userjoinchan">%1$s Приєднано до каналу</string>
+		<string name="text_cmd_userleftchan">%1$s Покинуто канал</string>
+		<string name="text_cmd_userloggedout">%1$s від\'єднано</string>
+		<string name="text_cmd_userloggedin">%1$s приєднано</string>
 		<string name="pref_cat_subscriptions">Підписки</string>
 		<string name="pref_cat_connection_general">Загальні</string>
 		<string name="pref_cat_tts">Налаштування озвучення подій</string>
@@ -163,10 +163,10 @@
 		<string name="pref_title_voice_processing_checkbox">Увімкнути попередню обробку голосу</string>
 		<string name="pref_summary_voice_processing_checkbox">Використовуватиметься усунення відлуння та автоматичне підсилення</string>
 
-		<string name="text_tts_loggedin">увійшов на сервер</string>
-		<string name="text_tts_loggedout">вийшов з сервера</string>
-		<string name="text_tts_joined_chan">приєднався до каналу</string>
-		<string name="text_tts_left_chan">покидає канал</string>
+		<string name="text_tts_loggedin">%1$s увійшов на сервер</string>
+		<string name="text_tts_loggedout">%1$s вийшов з сервера</string>
+		<string name="text_tts_joined_chan">%1$s приєднався до каналу</string>
+		<string name="text_tts_left_chan">%1$s покидає канал</string>
 		<string name="text_tts_private_message">Приватне повідомлення від %1$s: %2$s</string>
 		<string name="text_tts_channel_message">Повідомлення каналу від %1$s: %2$s</string>
 		<string name="text_tts_broadcast_message">Загальне повідомлення від %1$s: %2$s</string>

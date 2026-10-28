@@ -30,10 +30,10 @@
     <string name="text_cmd_leftchan">已离开频道：</string>
     <string name="text_cmd_joinroot">已加入根频道</string>
     <string name="text_cmd_leftroot">已离开根频道</string>
-    <string name="text_cmd_userjoinchan">加入了频道</string>
-    <string name="text_cmd_userleftchan">离开了频道</string>
-    <string name="text_cmd_userloggedout">已登出</string>
-    <string name="text_cmd_userloggedin">已登录</string>
+    <string name="text_cmd_userjoinchan">%1$s 加入了频道</string>
+    <string name="text_cmd_userleftchan">%1$s 离开了频道</string>
+    <string name="text_cmd_userloggedout">%1$s 已登出</string>
+    <string name="text_cmd_userloggedin">%1$s 已登录</string>
     <string name="pref_cat_subscriptions">订阅</string>
     <string name="pref_cat_connection_general">常规</string>
     <string name="pref_cat_tts">文字转语音设置</string>
@@ -173,13 +173,13 @@
     <string name="pref_title_voice_processing_checkbox">启用语音预处理</string>
     <string name="pref_summary_voice_processing_checkbox">使用回声消除和自动增益控制</string>
 
-    <string name="text_tts_loggedin">已登录</string>
-    <string name="text_tts_loggedout">已登出</string>
+    <string name="text_tts_loggedin">%1$s 已登录</string>
+    <string name="text_tts_loggedout">%1$s 已登出</string>
     <string name="text_tts_user_joined_other_channel">%1$s 加入了频道 %2$s</string>
     <string name="text_tts_user_left_other_channel">%1$s 离开了频道 %2$s</string>
     <string name="text_root_chan">根频道</string>
-    <string name="text_tts_joined_chan">加入了频道</string>
-    <string name="text_tts_left_chan">离开了频道</string>
+    <string name="text_tts_joined_chan">%1$s 加入了频道</string>
+    <string name="text_tts_left_chan">%1$s 离开了频道</string>
     <string name="text_tts_private_message">%1$s 私信：%2$s</string>
     <string name="text_tts_channel_message">%1$s：%2$s</string>
     <string name="text_tts_broadcast_message">%1$s 广播：%2$s</string>

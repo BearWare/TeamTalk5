@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ тепер у каналі";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ поза каналом";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ увійшов";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ вийшов";
+
 /* log entry */
 "%@ joined channel" = "%@ тепер у каналі";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "Загальне";
 
-/* TTS EVENT */
-"has joined the channel" = "тепер у каналі";
-
-/* TTS EVENT */
-"has left the channel" = "поза каналом";
-
-/* TTS EVENT */
-"has logged on" = "увійшов";
-
-/* TTS EVENT */
-"has logged out" = "вийшов";
-
 /* preferences */
 "Headset TX Toggle" = "Керування кнопкою «Говорити» на гарнітурі";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Гучність медіафайла відносно голосу";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Повідомлення дня";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "Публічний сервер";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Фіксація кнопки «Говорити»";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "TCP-порт";
 
+/* accessibility label */
+"Text Messaging" = "Текстове повідомлення";
+
 /* preferences */
 "Text To Speech Events" = "Мовленнєві події";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "Користувачка";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Користувач приєднується до каналу";

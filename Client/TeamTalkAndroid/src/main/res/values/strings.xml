@@ -30,10 +30,10 @@
     <string name="text_cmd_leftchan">Left channel:</string>
     <string name="text_cmd_joinroot">Joined root channel</string>
     <string name="text_cmd_leftroot">Left root channel</string>
-    <string name="text_cmd_userjoinchan">joined channel</string>
-    <string name="text_cmd_userleftchan">left channel</string>
-    <string name="text_cmd_userloggedout">logged out</string>
-    <string name="text_cmd_userloggedin">logged in</string>
+    <string name="text_cmd_userjoinchan">%1$s joined channel</string>
+    <string name="text_cmd_userleftchan">%1$s left channel</string>
+    <string name="text_cmd_userloggedout">%1$s logged out</string>
+    <string name="text_cmd_userloggedin">%1$s logged in</string>
     <string name="pref_cat_subscriptions">Subscriptions</string>
     <string name="pref_cat_connection_general">General</string>
     <string name="pref_cat_tts">Text-To-Speech settings</string>
@@ -173,13 +173,13 @@
     <string name="pref_title_voice_processing_checkbox">Enable voice preprocessing</string>
     <string name="pref_summary_voice_processing_checkbox">Use echo cancellation and automatic gain control</string>
 
-    <string name="text_tts_loggedin">has logged in</string>
-    <string name="text_tts_loggedout">has logged out</string>
+    <string name="text_tts_loggedin">%1$s has logged in</string>
+    <string name="text_tts_loggedout">%1$s has logged out</string>
     <string name="text_tts_user_joined_other_channel">%1$s has joined channel %2$s</string>
     <string name="text_tts_user_left_other_channel">%1$s has left channel %2$s</string>
     <string name="text_root_chan">root</string>
-    <string name="text_tts_joined_chan">has joined the channel</string>
-    <string name="text_tts_left_chan">has left the channel</string>
+    <string name="text_tts_joined_chan">%1$s has joined the channel</string>
+    <string name="text_tts_left_chan">%1$s has left the channel</string>
     <string name="text_tts_private_message">Private message from %1$s - %2$s</string>
     <string name="text_tts_channel_message">Channel message from %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Broadcast message from %1$s - %2$s</string>
@@ -452,6 +452,9 @@
 
     <string name="private_message_notification">New message from user %1$s</string>
     <string name="private_message_notification_hint">Click to read and answer</string>
+    <string name="notification_channel_messages">Incoming messages</string>
+    <string name="notification_channel_connection">Connection</string>
+    <string name="notification_channel_file_transfers">File transfers</string>
     <string name="user_state_now_speaking">%1$s now speaking</string>
     <string name="text_waitstream">Waiting for video stream</string>
     <string name="text_desktop_session">Desktop session</string>
