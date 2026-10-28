@@ -1,7 +1,7 @@
 [versions]
 agp = "9.4.1"
 desugar = "2.1.5"
-gson = "2.14.0"
+gson = "2.15.0"
 annotation = "1.11.0"
 appcompat = "1.8.0"
 core = "1.19.1"
