@@ -1258,9 +1258,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
         clientuser_t const user = clientnode->GetUser(nUserID);
         if(!user)
             return nullptr;
-        g.release(); //don't hold lock while decoding
-        mb = user->GetVideoCaptureFrame();
-        g.acquire();
+        mb = user->GetVideoCaptureFrame(g);
     }
 
     if(mb != nullptr)
@@ -2296,14 +2294,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     if (!user)
         return nullptr;
 
-    g.release(); //don't hold lock while decoding
-    
-    ACE_Message_Block* mb = user->GetVideoFileFrame();
+    ACE_Message_Block* mb = user->GetVideoFileFrame(g);
     if(mb == nullptr)
         return nullptr;
 
-    g.acquire();
-    
     VideoFrame* lpVideoFrame = inst->PushVideoFrame(mb);
     if(lpVideoFrame != nullptr)
     {
