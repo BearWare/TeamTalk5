@@ -2146,7 +2146,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 
     clientuser_t const src_user = GetUser(di_pkt.GetSrcUserID());
     clientchannel_t const chan = GetChannel(di_pkt.GetChannel());
-    if (!chan)
+    if (!src_user || !chan)
         return;
 
     if (!m_desktop || m_desktop->GetSessionID() != di_pkt.GetSessionID())
@@ -2156,8 +2156,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
             di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
             static_cast<ACE_UINT32>(di_pkt.GetPacketNo()));
     
-    if (src_user)
-        src_user->AddPacket(di_pkt, *chan);
+    src_user->AddPacket(di_pkt, *chan);
 
     if(std::cmp_equal(di_pkt.GetDestUserID() , m_myuserid))
     {
