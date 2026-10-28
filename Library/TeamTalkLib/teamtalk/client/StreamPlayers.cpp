@@ -490,6 +490,12 @@ bool SpeexPlayer::DecodeFrame(const EncFrame& enc_frame,
         if (enc_frame.stream_id != m_stream_id)
             m_decoder.Reset();
 
+        // output_buffer only has room for 'fpp' frames
+        int const fpp = GetAudioCodecFramesPerPacket(m_codec);
+        TTASSERT(std::cmp_equal(fpp, enc_frame.enc_frame_sizes.size()));
+        if (std::cmp_not_equal(fpp, enc_frame.enc_frame_sizes.size()))
+            return false;
+
         // first do bounds check
         std::vector<int> const frmsizes = ConvertFrameSizes(enc_frame.enc_frame_sizes);
         int const totalsize = SumFrameSizes(frmsizes);
