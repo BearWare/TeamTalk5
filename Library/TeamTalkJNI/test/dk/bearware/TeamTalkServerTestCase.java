@@ -2244,8 +2244,8 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
         useraccounts.add(useraccount);
 
         UserAccount noopuseraccount = new UserAccount();
-        noopuseraccount.szUsername = "guest";
-        noopuseraccount.szPassword = "guest";
+        noopuseraccount.szUsername = "guest2";
+        noopuseraccount.szPassword = "guest2";
         noopuseraccount.uUserType = UserType.USERTYPE_DEFAULT;
         noopuseraccount.uUserRights = UserRight.USERRIGHT_VIEW_ALL_USERS | UserRight.USERRIGHT_MULTI_LOGIN;
         useraccounts.add(noopuseraccount);
