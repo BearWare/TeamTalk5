@@ -4224,12 +4224,6 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
 
     if(transfer.inbound)
     {
-        if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
-            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-
-        if (transfer.filesize < 0)
-            return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
-
         //upload only if is admin or the filesize is less than the channel max usage
         //and also less than the total disk usage allowed. Subtract instead of add
         //so a huge filesize cannot overflow.
@@ -4252,9 +4246,6 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     }
     else
     {
-        if((user->GetUserRights() & USERRIGHT_DOWNLOAD_FILES) == 0)
-            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-
         //a user download
         RemoteFile remotefile;
         if(!chan->GetFile(transfer.filename, remotefile))
