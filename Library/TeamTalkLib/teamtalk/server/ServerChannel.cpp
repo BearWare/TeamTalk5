@@ -206,9 +206,9 @@ bool ServerChannel::IsOwner(const ServerUser& user) const
     return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
 }
 
-bool ServerChannel::IsAutoOperator(const ServerUser& user) 
+bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 {
-    return user.GetUserAccount().auto_op_channels.contains(user.GetUserID());
+    return user.GetUserAccount().auto_op_channels.contains(GetChannelID());
 }
 
 void ServerChannel::AddUserBan(const BannedUser& ban)

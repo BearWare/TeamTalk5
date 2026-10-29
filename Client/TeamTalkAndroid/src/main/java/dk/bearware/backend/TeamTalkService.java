@@ -160,6 +160,7 @@ public class TeamTalkService extends Service
     private final IBinder mBinder = new LocalBinder();
 
     private BluetoothHeadsetHelper bluetoothHeadsetHelper;
+    private boolean microphoneSelected;
     private TelephonyManager telephonyManager;
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     private boolean listeningPhoneStateChanges;
@@ -543,7 +544,8 @@ public class TeamTalkService extends Service
     /** When "use bluetooth headset microphone" is on and headset SCO is active, use VOICECOM
      * so that input is routed to the Bluetooth headset mic. */
 	private int getPreferredSoundInputDeviceId() {
-		return shouldUseBluetoothVoiceCom()
+		// a selected microphone is routed as voice communication audio
+		return shouldUseBluetoothVoiceCom() || microphoneSelected
 				? SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM
 				: SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
 	}
@@ -563,6 +565,14 @@ public class TeamTalkService extends Service
 		return bluetoothHeadsetHelper.isHeadsetConnected()
 				&& bluetoothHeadsetHelper.isOnHeadsetSco();
 	}
+
+    /** Record from the voice communication device when a microphone is selected in preferences. */
+    public void setMicrophoneSelected(boolean selected) {
+        if (microphoneSelected == selected)
+            return;
+        microphoneSelected = selected;
+        reinitSoundInputDevice();
+    }
 
     /** Re-initialize sound input with the preferred device (e.g. after SCO connect/disconnect). */
     private void reinitSoundInputDevice() {

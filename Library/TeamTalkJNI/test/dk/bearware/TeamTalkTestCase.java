@@ -1976,7 +1976,10 @@ public abstract class TeamTalkTestCase extends TeamTalkTestCaseBase {
 
         // now do same test for TT_MUXED_USERID
         assertTrue(ttclient.enableAudioBlockEvent(Constants.TT_MUXED_USERID, StreamType.STREAMTYPE_VOICE, fmt, true), "enable aud cb for muxed");
-        assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg), "gimme voice audioblock from muxed");
+        // skip audio block events for local user which were queued before it was disabled
+        do {
+            assertTrue(waitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, msg), "gimme voice audioblock from muxed");
+        } while (msg.nSource == Constants.TT_LOCAL_USERID);
         assertEquals(Constants.TT_MUXED_USERID, msg.nSource, "from muxed user");
 
         ab = ttclient.acquireUserAudioBlock(StreamType.STREAMTYPE_VOICE, msg.nSource);

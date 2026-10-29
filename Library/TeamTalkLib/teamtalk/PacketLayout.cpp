@@ -2049,8 +2049,9 @@ namespace teamtalk
         for(size_t i=0;i<packetnums.size();i+=2)
         {
             assert(packetnums[i+1] > packetnums[i]);
-            for(uint16_t b_low=packetnums[i];b_low<=packetnums[i+1];b_low++)
-                packets_ack.insert(b_low);
+            //int so the loop ends when the range stops at 0xFFFF
+            for(int b_low=packetnums[i];b_low<=packetnums[i+1];b_low++)
+                packets_ack.insert(static_cast<uint16_t>(b_low));
         }
         return true;
     }

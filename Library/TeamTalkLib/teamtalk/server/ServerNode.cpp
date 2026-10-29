@@ -3481,7 +3481,7 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
         m_srvguard->GetUserBans(*user, bans);
     }
 
-    for(;index<std::min(count, static_cast<int>(bans.size()));++index)
+    for(;index<static_cast<int>(bans.size()) && count > 0;++index, --count)
     {
         user->DoShowBan(bans[index]);
     }
