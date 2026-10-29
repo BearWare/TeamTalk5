@@ -1462,17 +1462,21 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        User user;
-        TT_GetUserByUsername(ttInst, file.szUsername, &user);
-        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
-        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        User user = {};
+        //user who uploaded the file may not be logged on
+        QString name = _Q(file.szUsername);
+        if (m_host.username == _Q(file.szUsername))
+            name = tr("You");
+        else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            name = getDisplayName(user);
+        addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
+        addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
     }
 }
 
 void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
 {
-    User user;
+    User user = {};
     //only update files list if we're not currently logging in or
     //joining a channel
     cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1482,10 +1486,14 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        TT_GetUserByUsername(ttInst, file.szUsername, &user);
-        QString name = m_host.username != _Q(file.szUsername)?getDisplayName(user):tr("You");
-        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
-        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(user.szUsername)}}));
+        //user who uploaded the file may not be logged on
+        QString name = _Q(file.szUsername);
+        if (m_host.username == _Q(file.szUsername))
+            name = tr("You");
+        else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+            name = getDisplayName(user);
+        addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
+        addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
     }
 }
 
@@ -5210,9 +5218,9 @@ void MainWindow::slotUsersAdvancedStoreForMove(int userid /*= 0*/)
     QString listuser;
     for(int i=0; i<m_moveusers.size(); i++)
     {
-        User user;
-        TT_GetUser(ttInst, m_moveusers.value(i), &user);
-        listuser += getDisplayName(user) + ", ";
+        User user = {};
+        if (TT_GetUser(ttInst, m_moveusers.value(i), &user))
+            listuser += getDisplayName(user) + ", ";
     }
     listuser.chop(2);
     addTextToSpeechMessage(TTS_MENU_ACTIONS, tr("%1 selected for move").arg(listuser));
