@@ -300,6 +300,12 @@ void DesktopViewer::AddCompressedBlock(int block_no, const char* inbuf, int in_s
 
 void DesktopViewer::AddDuplicateBlock(int src_block_no, int dest_block_no)
 {
+    assert(src_block_no < m_w_blocks * m_h_blocks);
+    assert(dest_block_no < m_w_blocks * m_h_blocks);
+    if(src_block_no >= m_w_blocks * m_h_blocks ||
+       dest_block_no >= m_w_blocks * m_h_blocks)
+        return;
+
     int const src_h = src_block_no / m_w_blocks;
     int const src_w = src_block_no - (src_h * m_w_blocks);
 
