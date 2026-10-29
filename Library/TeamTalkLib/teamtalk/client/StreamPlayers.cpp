@@ -599,18 +599,18 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
         }
         return true;
     }
-     //packet lost
-            MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
-        int fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
-        int decoffset = 0;
-        for (int i=0;i<fpp;i++)
-        {
-            m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
-            decoffset += framesize;
-        }
-        //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
-        return false;
-   
+
+    //packet lost
+    MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    int fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
+    int decoffset = 0;
+    for (int i=0;i<fpp;i++)
+    {
+        m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
+        decoffset += framesize;
+    }
+    //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
+    return false;
 }
 #endif
 
