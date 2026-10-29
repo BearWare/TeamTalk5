@@ -50,15 +50,8 @@
 #include <iostream>
 #include <queue>
 #include <regex>
-#include <sstream>
 #include <thread>
 #include <vector>
-
-#if defined(UNICODE)
-typedef std::wostringstream tostringstream;
-#else
-using tostringstream = std::ostringstream;
-#endif
 
 using namespace std;
 using namespace teamtalk;

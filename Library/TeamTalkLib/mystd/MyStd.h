@@ -26,8 +26,15 @@
 
 #include <cstdint>
 #include <regex>
+#include <sstream>
 #include <string>
 #include <vector>
+
+#if defined(UNICODE)
+using tostringstream = std::wostringstream;
+#else
+using tostringstream = std::ostringstream;
+#endif
 
 using stdstrings_t = std::vector<std::string>;
 
