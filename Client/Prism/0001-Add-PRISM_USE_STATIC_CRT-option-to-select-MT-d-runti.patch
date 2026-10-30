@@ -1,45 +1,33 @@
-From c62e36e1de8c45b8bbabca253c5b0388c4d95027 Mon Sep 17 00:00:00 2001
+From ab806c33af77bc91e14f58bdb7332ad2d1fa0294 Mon Sep 17 00:00:00 2001
 From: Sihu Hwang <129564966+hwangsihu@users.noreply.github.com>
-Date: Fri, 24 Apr 2026 20:19:54 +0900
+Date: Thu, 29 Oct 2026 20:37:29 +0900
 Subject: [PATCH] Add PRISM_USE_STATIC_CRT option to select /MT(d) runtime
 
 ---
- CMakeLists.txt | 15 +++++----------
- 1 file changed, 5 insertions(+), 10 deletions(-)
+ cmake/PrismOptions.cmake | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/CMakeLists.txt b/CMakeLists.txt
-index e160b09..cd03fa8 100644
---- a/CMakeLists.txt
-+++ b/CMakeLists.txt
-@@ -46,6 +46,7 @@ endif()
- option(PRISM_ENABLE_GDEXTENSION "Enable building of the Godot GDExtension" ON)
+diff --git a/cmake/PrismOptions.cmake b/cmake/PrismOptions.cmake
+index a7bf8e8..36de51a 100644
+--- a/cmake/PrismOptions.cmake
++++ b/cmake/PrismOptions.cmake
+@@ -21,6 +21,7 @@ option(PRISM_ENABLE_LEGACY_BACKENDS
+        "Build backends for discontinued screen readers" OFF)
  option(PRISM_ENABLE_POWER_MANAGEMENT
-        "Enable OS power-state-aware availability polling where supported." ON)
+        "Enable OS power-state-aware availability polling where supported" ON)
 +option(PRISM_USE_STATIC_CRT "Use /MT(d) static CRT on MSVC" OFF)
- option(PRISM_ENABLE_LEGACY_BACKENDS
-        "Enable building of legacy backends which are dead or rarely used" OFF)
- if(PRISM_ENABLE_LEGACY_BACKENDS)
-@@ -72,16 +73,10 @@ if(WIN32)
+ option(PRISM_ENABLE_LINTING
+        "Run available linters as part of the build (implies warnings as errors)"
+        OFF)
+@@ -75,7 +76,7 @@ if(WIN32 AND NOT _prism_xbox_requested)
      set(CMAKE_MSVC_RUNTIME_LIBRARY
          "MultiThreadedDLL"
          CACHE STRING "Match godot-cpp non-debug CRT")
 -  else()
--    if(NOT CMAKE_BUILD_TYPE STREQUAL "Debug")
--      set(CMAKE_MSVC_RUNTIME_LIBRARY
--          "MultiThreaded"
--          CACHE STRING "Set MSVC CRT library type")
--    else()
--      set(CMAKE_MSVC_RUNTIME_LIBRARY
--          "MultiThreadedDebug"
--          CACHE STRING "Set MSVC CRT library type")
--    endif()
 +  elseif(PRISM_USE_STATIC_CRT)
-+    set(CMAKE_MSVC_RUNTIME_LIBRARY
-+        "MultiThreaded$<$<CONFIG:Debug>:Debug>"
-+        CACHE STRING "Use static CRT")
-   endif()
- endif()
- function(add_import_library target def_file dll_name)
+     set(CMAKE_MSVC_RUNTIME_LIBRARY
+         "MultiThreaded$<$<CONFIG:Debug>:Debug>"
+         CACHE STRING "MSVC CRT library type")
 -- 
-2.55.0.windows.2
+2.56.0.windows.4
 

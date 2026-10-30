@@ -648,8 +648,9 @@ void AddTextToSpeechMessage(const CString& szMsg)
     extern PrismBackend* g_prismBackend;
     if (g_bSpeech && g_prismBackend)
     {
-        CStringA utf8(szMsg);
-        prism_backend_output(g_prismBackend, utf8, true);
+        int utf8_len = WideCharToMultiByte(CP_UTF8, 0, szMsg, -1, NULL, 0, NULL, NULL);
+        std::string utf8 = STR_UTF8(szMsg, utf8_len + 1);
+        prism_backend_output(g_prismBackend, utf8.c_str(), true);
     }
 #endif
 }

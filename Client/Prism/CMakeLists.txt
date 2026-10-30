@@ -14,22 +14,13 @@ if (MSVC)
   set (PRISM_STATIC_LIB_MD ${PRISM_INSTALL_DIR_MD}/lib/prism.lib)
   set (PRISM_STATIC_LIB_MT ${PRISM_INSTALL_DIR_MT}/lib/prism.lib)
 
-  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
-    set (PRISM_DELAYLOAD_OPTIONS /delayload:ZDSRAPI_x64.dll /delayload:byctrl-x64.dll)
-  else()
-    set (PRISM_DELAYLOAD_OPTIONS /delayload:ZDSRAPI.dll /delayload:byctrl.dll)
-  endif()
-  list (APPEND PRISM_DELAYLOAD_OPTIONS /delayload:PCTKUSR.dll
-    /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
-
   ExternalProject_Add(prism-md-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.17.1
+    GIT_TAG           acdec19
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DCMAKE_DEBUG_POSTFIX=d
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
@@ -43,12 +34,11 @@ if (MSVC)
 
   ExternalProject_Add(prism-mt-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.17.1
+    GIT_TAG           acdec19
     PATCH_COMMAND     git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-PRISM_USE_STATIC_CRT-option-to-select-MT-d-runti.patch
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DPRISM_USE_STATIC_CRT=ON
                       -DCMAKE_DEBUG_POSTFIX=d
@@ -71,19 +61,9 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MD}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MD})
 
-  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
-    add_library(Prism_${implib} SHARED IMPORTED GLOBAL)
-    add_dependencies(Prism_${implib} prism-md-src)
-    set_target_properties(Prism_${implib} PROPERTIES
-      IMPORTED_IMPLIB ${PRISM_INSTALL_DIR_MD}/lib/${implib}.lib)
-  endforeach()
-
   target_link_libraries(Prism INTERFACE
-    rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    Prism_ZDSR Prism_byctrl Prism_PCTalker Prism_PrismOrcaBridge Prism_PrismSpeechDispatcherBridge)
-  target_link_options(Prism INTERFACE
-    "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:Prism>"
-    ${PRISM_DELAYLOAD_OPTIONS})
+    rpcrt4 onecore uiautomationcore ole32 oleaut32 runtimeobject xaudio2)
+  target_link_options(Prism INTERFACE "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:Prism>")
 
   file(MAKE_DIRECTORY ${PRISM_INSTALL_DIR_MT}/include)
 
@@ -95,19 +75,9 @@ if (MSVC)
     IMPORTED_LOCATION_DEBUG ${PRISM_INSTALL_DIR_MT}/lib/prismd.lib
     IMPORTED_LOCATION ${PRISM_STATIC_LIB_MT})
 
-  foreach (implib ZDSR byctrl PCTalker PrismOrcaBridge PrismSpeechDispatcherBridge)
-    add_library(PrismMT_${implib} SHARED IMPORTED GLOBAL)
-    add_dependencies(PrismMT_${implib} prism-mt-src)
-    set_target_properties(PrismMT_${implib} PROPERTIES
-      IMPORTED_IMPLIB ${PRISM_INSTALL_DIR_MT}/lib/${implib}.lib)
-  endforeach()
-
   target_link_libraries(PrismMT INTERFACE
-    rpcrt4 delayimp onecore uiautomationcore ole32 oleaut32
-    PrismMT_ZDSR PrismMT_byctrl PrismMT_PCTalker PrismMT_PrismOrcaBridge PrismMT_PrismSpeechDispatcherBridge)
-  target_link_options(PrismMT INTERFACE
-    "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:PrismMT>"
-    ${PRISM_DELAYLOAD_OPTIONS})
+    rpcrt4 onecore uiautomationcore ole32 oleaut32 runtimeobject xaudio2)
+  target_link_options(PrismMT INTERFACE "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:PrismMT>")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
@@ -124,7 +94,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-arm64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.17.1
+    GIT_TAG           acdec19
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -138,7 +108,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 
   ExternalProject_Add(prism-x86_64-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.17.1
+    GIT_TAG           acdec19
     UPDATE_COMMAND    ""
     CMAKE_GENERATOR   Xcode
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
@@ -167,9 +137,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
   target_compile_definitions(Prism INTERFACE PRISM_STATIC)
   set_target_properties(Prism PROPERTIES IMPORTED_LOCATION ${PRISM_STATIC_LIB})
 
+  find_library(APPKIT_FRAMEWORK AppKit)
   find_library(AVFOUNDATION_FRAMEWORK AVFoundation)
   find_library(FOUNDATION_FRAMEWORK Foundation)
-  target_link_libraries(Prism INTERFACE ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
+  target_link_libraries(Prism INTERFACE ${APPKIT_FRAMEWORK} ${AVFOUNDATION_FRAMEWORK} ${FOUNDATION_FRAMEWORK})
   target_link_options(Prism INTERFACE "LINKER:-force_load,$<TARGET_LINKER_FILE:Prism>")
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
@@ -179,11 +150,10 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   ExternalProject_Add(prism-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
-    GIT_TAG           v0.17.1
+    GIT_TAG           acdec19
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
                       -DCMAKE_BUILD_TYPE=release
@@ -201,16 +171,17 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
 
   find_package(PkgConfig)
   if (PkgConfig_FOUND)
-    pkg_check_modules(SPEECHD IMPORTED_TARGET speech-dispatcher)
-    pkg_check_modules(GLIB IMPORTED_TARGET glib-2.0)
+    pkg_check_modules(DBUS IMPORTED_TARGET dbus-1)
     pkg_check_modules(GIO IMPORTED_TARGET gio-2.0)
-    if (SPEECHD_FOUND)
-      target_link_libraries(Prism INTERFACE PkgConfig::SPEECHD)
+    pkg_check_modules(SPIEL spiel-1.0)
+    if (DBUS_FOUND)
+      target_link_libraries(Prism INTERFACE PkgConfig::DBUS)
     endif()
-    if (GLIB_FOUND AND GIO_FOUND)
-      target_link_libraries(Prism INTERFACE PkgConfig::GLIB PkgConfig::GIO)
+    if (GIO_FOUND AND SPIEL_FOUND)
+      target_link_libraries(Prism INTERFACE PkgConfig::GIO)
     endif()
   endif()
+  target_link_libraries(Prism INTERFACE ${CMAKE_DL_LIBS})
   target_link_options(Prism INTERFACE
     "LINKER:--whole-archive" "$<TARGET_LINKER_FILE:Prism>" "LINKER:--no-whole-archive")
 
