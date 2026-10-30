@@ -735,6 +735,61 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testDesktopSubscribe() {
+
+        // subscribe to desktop window in other channel not allowed
+
+        UserAccount useraccount = new UserAccount();
+        final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        int USERRIGHTS = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL | UserRight.USERRIGHT_VIEW_ALL_USERS |
+                         UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_MULTI_LOGIN;
+        useraccount.szUsername = USERNAME;
+        useraccount.szPassword = PASSWORD;
+        useraccount.uUserType = UserType.USERTYPE_ADMIN;
+        useraccount.uUserRights = USERRIGHTS;
+        useraccounts.add(useraccount);
+
+        TeamTalkSrv server = newServerInstance();
+        TeamTalkBase txclient = newClientInstance();
+        ServerInterleave interleave = new RunServer(server);
+
+        connect(server, txclient);
+        login(server, txclient, NICKNAME, USERNAME, PASSWORD);
+        joinRoot(server, txclient);
+
+        TeamTalkBase rxclient = newClientInstance();
+        connect(server, rxclient);
+        login(server, rxclient, NICKNAME, USERNAME, PASSWORD);
+        Channel chan = buildDefaultChannel(rxclient, "New channel", Codec.OPUS_CODEC);
+        assertTrue(waitCmdSuccess(rxclient, rxclient.doJoinChannel(chan), DEF_WAIT, interleave), "join channel");
+
+        DesktopWindow wnd = new DesktopWindow();
+        wnd.nWidth = 100;
+        wnd.nHeight = 200;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        assertTrue(txclient.sendDesktopWindow(wnd, BitmapFormat.BMP_NONE) > 0, "Send desktop window for RGB " + wnd.bmpFormat);
+
+        TTMessage msg = new TTMessage();
+
+        while(waitForEvent(txclient, ClientEvent.CLIENTEVENT_DESKTOPWINDOW_TRANSFER,
+                           DEF_WAIT, msg, interleave) && msg.nBytesRemain > 0) {
+        }
+
+        assertTrue(msg.nBytesRemain == 0, "All bytes transferred for RGB " + wnd.bmpFormat);
+        assertTrue(hasFlag(txclient.getFlags(), ClientFlag.CLIENT_DESKTOP_ACTIVE), "Desktop active for RGB " + wnd.bmpFormat);
+
+        assertTrue(waitCmdSuccess(rxclient, rxclient.doUnsubscribe(txclient.getMyUserID(), Subscription.SUBSCRIBE_DESKTOP), DEF_WAIT, interleave));
+        assertTrue(waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient.getMyUserID(), Subscription.SUBSCRIBE_DESKTOP), DEF_WAIT, interleave));
+        assertFalse(waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, 1000, msg, interleave), "get desktop window");
+
+        assertTrue(waitCmdSuccess(rxclient, rxclient.doSubscribe(txclient.getMyUserID(), Subscription.SUBSCRIBE_INTERCEPT_DESKTOP), DEF_WAIT, interleave));
+        assertTrue(waitForEvent(rxclient, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, msg, interleave), "get desktop window");
+    }
+
+    @Test
     public void testChannelUpdates() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
