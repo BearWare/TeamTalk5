@@ -775,8 +775,6 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
     if(!chan)
         return false;
 
-    TTASSERT(chan == dest_user->GetChannel());
-
     desktoppackets_t rtx_packets;
     desktop_tx->GetLostDesktopPackets(DESKTOP_DEFAULT_RTX_TIMEOUT, rtx_packets, 1);
     auto dpi = rtx_packets.begin();
