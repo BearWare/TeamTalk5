@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ has joined the channel";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ has left the channel";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ has logged on";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ has logged out";
+
 /* log entry */
 "%@ joined channel" = "%@ joined channel";
 
@@ -240,18 +252,6 @@
    user detail */
 "General" = "General";
 
-/* TTS EVENT */
-"has joined the channel" = "has joined the channel";
-
-/* TTS EVENT */
-"has left the channel" = "has left the channel";
-
-/* TTS EVENT */
-"has logged on" = "has logged on";
-
-/* TTS EVENT */
-"has logged out" = "has logged out";
-
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
 
@@ -316,6 +316,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Media file vs. voice volume";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Message of the Day";
@@ -477,6 +480,9 @@
 /* serverlist */
 "Public server" = "Public server";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Push To Talk Lock";
 
@@ -597,6 +603,9 @@
 /* server entry */
 "TCP Port" = "TCP Port";
 
+/* accessibility label */
+"Text Messaging" = "Text Messaging";
+
 /* preferences */
 "Text To Speech Events" = "Text To Speech Events";
 
@@ -651,6 +660,9 @@
 
 /* channel list */
 "User female" = "User female";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "User Joins Channel";

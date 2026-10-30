@@ -27,8 +27,8 @@
     <string name="text_cmd_leftchan">Har forladt kanal:</string>
     <string name="text_cmd_joinroot">Er tilsluttet Rodkanalen</string>
     <string name="text_cmd_leftroot">Har forladt rodkanalen</string>
-    <string name="text_cmd_userjoinchan">er tilsluttet kanalen</string>
-    <string name="text_cmd_userleftchan">Har forladt kanalen</string>
+    <string name="text_cmd_userjoinchan">%1$s er tilsluttet kanalen</string>
+    <string name="text_cmd_userleftchan">%1$s Har forladt kanalen</string>
     <string name="pref_cat_subscriptions">Tilmeldinger</string>
     <string name="pref_cat_tts">Konfigurer tekst-til-tale-beskeder</string>
     <string name="pref_header_general">Generelt</string>
@@ -105,10 +105,10 @@
     <string name="pref_summary_bluetooth_headset_checkbox">Når bluetooth headsæt er tilsluttet brug dets  microphone</string>
     <string name="pref_title_voice_processing_checkbox">Aktiver stemme-forbehandling</string>
     <string name="pref_summary_voice_processing_checkbox">Brug fjernelse af ekko  og automatisk lydstyrkekontrol</string>
-    <string name="text_tts_loggedin">Er logget på</string>
-    <string name="text_tts_loggedout">Er logget af</string>
-    <string name="text_tts_joined_chan">Deltager i kanalen</string>
-    <string name="text_tts_left_chan">Har forladt kanalen</string>
+    <string name="text_tts_loggedin">%1$s Er logget på</string>
+    <string name="text_tts_loggedout">%1$s Er logget af</string>
+    <string name="text_tts_joined_chan">%1$s Deltager i kanalen</string>
+    <string name="text_tts_left_chan">%1$s Har forladt kanalen</string>
     <string name="text_tts_private_message">Privat besked fra %1$s - %2$s</string>
     <string name="text_tts_channel_message">Kanalbesked fra %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Broadcastbesked fra %1$s - %2$s</string>

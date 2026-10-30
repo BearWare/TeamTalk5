@@ -29,10 +29,10 @@
     <string name="text_cmd_leftchan">Raum verlassen:</string>
     <string name="text_cmd_joinroot">Hauptraum betreten</string>
     <string name="text_cmd_leftroot">Hauptraum verlassen</string>
-    <string name="text_cmd_userjoinchan">hat den Raum betreten</string>
-    <string name="text_cmd_userleftchan">hat den Raum verlassen</string>
-    <string name="text_cmd_userloggedout">abgemeldet</string>
-    <string name="text_cmd_userloggedin">angemeldet</string>
+    <string name="text_cmd_userjoinchan">%1$s hat den Raum betreten</string>
+    <string name="text_cmd_userleftchan">%1$s hat den Raum verlassen</string>
+    <string name="text_cmd_userloggedout">%1$s abgemeldet</string>
+    <string name="text_cmd_userloggedin">%1$s angemeldet</string>
     <string name="pref_cat_subscriptions">Empfang</string>
     <string name="pref_cat_connection_general">Allgemein</string>
     <string name="pref_cat_tts">Text-To-Speech-Einstellungen</string>
@@ -164,10 +164,10 @@
     <string name="pref_title_voice_processing_checkbox">Sprachvorverarbeitung</string>
     <string name="pref_summary_voice_processing_checkbox">Echo-Unterdrückung und automatische Mikrofonpegel-Kontrolle</string>
 
-    <string name="text_tts_loggedin">hat sich angemeldet</string>
-    <string name="text_tts_loggedout">hat sich abgemeldet</string>
-    <string name="text_tts_joined_chan">hat den Raum betreten</string>
-    <string name="text_tts_left_chan">hat den Raum verlassen</string>
+    <string name="text_tts_loggedin">%1$s hat sich angemeldet</string>
+    <string name="text_tts_loggedout">%1$s hat sich abgemeldet</string>
+    <string name="text_tts_joined_chan">%1$s hat den Raum betreten</string>
+    <string name="text_tts_left_chan">%1$s hat den Raum verlassen</string>
     <string name="text_tts_private_message">Privatnachricht von Benutzer %1$s - %2$s</string>
     <string name="text_tts_channel_message">Raumnachricht von %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Servernachricht von Benutzer %1$s - %2$s</string>

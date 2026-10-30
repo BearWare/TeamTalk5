@@ -25,8 +25,8 @@
     <string name="text_cmd_leftchan">Kanalı Terk Edin</string>
     <string name="text_cmd_joinroot">Kök kanala qatıl</string>
     <string name="text_cmd_leftroot">Kök kanaldan Ayrıl</string>
-    <string name="text_cmd_userjoinchan">Kanala qatıl</string>
-    <string name="text_cmd_userleftchan">Kanaldan Ayrıl</string>
+    <string name="text_cmd_userjoinchan">%1$s Kanala qatıl</string>
+    <string name="text_cmd_userleftchan">%1$s Kanaldan Ayrıl</string>
     <string name="pref_cat_subscriptions">Abonentler</string>
     <string name="pref_cat_tts">Metin Oxuma Mesajlarını oluşdur</string>
     <string name="pref_header_general">Umumi</string>
@@ -76,10 +76,10 @@
     <string name="pref_title_broadcast_message">Yayın Mesajları</string>
     <string name="pref_title_mute_speakers">Bas Danış düğmesine basıldığında hoparlörü sustur</string>
     <string name="pref_summary_mute_speakers">Hoparlörden ses dönüşümünü önlemek üçün bunu etkinleştirin</string>
-    <string name="text_tts_loggedin">Sunucuya Geldi</string>
-    <string name="text_tts_loggedout">Sunucudan Getdi</string>
-    <string name="text_tts_joined_chan">Geldi</string>
-    <string name="text_tts_left_chan">Getdi</string>
+    <string name="text_tts_loggedin">%1$s Sunucuya Geldi</string>
+    <string name="text_tts_loggedout">%1$s Sunucudan Getdi</string>
+    <string name="text_tts_joined_chan">%1$s Geldi</string>
+    <string name="text_tts_left_chan">%1$s Getdi</string>
     <string name="text_tts_private_message">%1$s istifadeçisinden mesaj - %2$s</string>
     <string name="text_tts_broadcast_message">%1$s istifadeçisinden yayın mesajı - %2$s</string>
     <string name="pref_header_soundsystem">Ses Sistemi</string>
