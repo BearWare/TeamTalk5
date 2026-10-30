@@ -21,7 +21,6 @@ if (MSVC)
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DCMAKE_DEBUG_POSTFIX=d
     BUILD_COMMAND     ${CMAKE_COMMAND} --build . --config Debug
@@ -40,7 +39,6 @@ if (MSVC)
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DPRISM_USE_STATIC_CRT=ON
                       -DCMAKE_DEBUG_POSTFIX=d
@@ -156,7 +154,6 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
     UPDATE_COMMAND    ""
     CMAKE_ARGS        -DCMAKE_INSTALL_PREFIX=<INSTALL_DIR>
                       -DBUILD_SHARED_LIBS=OFF
-                      -DPRISM_ENABLE_GDEXTENSION=OFF
                       -DPRISM_ENABLE_POWER_MANAGEMENT=OFF
                       -DCMAKE_POSITION_INDEPENDENT_CODE=ON
                       -DCMAKE_BUILD_TYPE=release
