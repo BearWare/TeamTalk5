@@ -1462,13 +1462,16 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
     {
         updateChannelFiles(file.nChannelID);
         playSoundEvent(SOUNDEVENT_FILESUPD);
-        User user = {};
         //user who uploaded the file may not be logged on
         QString name = _Q(file.szUsername);
-        if (m_host.username == _Q(file.szUsername))
-            name = tr("You");
-        else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
-            name = getDisplayName(user);
+        if ((m_myuseraccount.uUserRights & USERRIGHT_MULTI_LOGIN) == USERRIGHT_NONE)
+        {
+            User user = {};
+            if (m_host.username == _Q(file.szUsername))
+                name = tr("You");
+            else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+                name = getDisplayName(user);
+        }
         addStatusMsg(STATUSBAR_FILE_ADD, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
         addTextToSpeechMessage(TTS_FILE_ADD, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_ADDED, {{"{filename}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}, {"{filesize}", getFormattedSize(file.nFileSize)}}));
     }
@@ -1476,7 +1479,6 @@ void MainWindow::clienteventCmdFileNew(const RemoteFile& file)
 
 void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
 {
-    User user = {};
     //only update files list if we're not currently logging in or
     //joining a channel
     cmdreply_t::iterator ite = m_commands.find(m_current_cmdid);
@@ -1488,10 +1490,14 @@ void MainWindow::clienteventCmdFileRemove(const RemoteFile& file)
         playSoundEvent(SOUNDEVENT_FILESUPD);
         //user who uploaded the file may not be logged on
         QString name = _Q(file.szUsername);
-        if (m_host.username == _Q(file.szUsername))
-            name = tr("You");
-        else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
-            name = getDisplayName(user);
+        if ((m_myuseraccount.uUserRights & USERRIGHT_MULTI_LOGIN) == USERRIGHT_NONE)
+        {
+            User user = {};
+            if (m_host.username == _Q(file.szUsername))
+                name = tr("You");
+            else if (TT_GetUserByUsername(ttInst, file.szUsername, &user))
+                name = getDisplayName(user);
+        }
         addStatusMsg(STATUSBAR_FILE_REMOVE, UtilUI::getStatusBarMessage(SETTINGS_STATUSBARMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
         addTextToSpeechMessage(TTS_FILE_REMOVE, UtilTTS::getTTSMessage(SETTINGS_TTSMSG_FILE_REMOVED, {{"{file}", _Q(file.szFileName)}, {"{user}", name}, {"{username}", _Q(file.szUsername)}}));
     }
