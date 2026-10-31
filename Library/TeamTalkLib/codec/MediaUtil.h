@@ -30,6 +30,7 @@
 
 #include <cstdint>
 #include <cstring>
+#include <span>
 #include <vector>
 
 constexpr auto ONE_SEC_MILLIS = 1000;
@@ -158,29 +159,25 @@ namespace media
     {
         short* input_buffer = nullptr; //for recorded frame
         const short* output_buffer = nullptr; //for echo cancel frame
-        int input_samples;
-        int output_samples;
+        int input_samples = 0;
+        int output_samples = 0;
         AudioFormat inputfmt;
         AudioFormat outputfmt;
         int streamid = 0;
-        int soundgrpid;
-        uint32_t userdata;
-        bool force_enc; //force encoding of frame
-        bool voiceact_enc; //encode if voice active
-        uint32_t timestamp;
+        int soundgrpid = 0;
+        uint32_t userdata = 0;
+        bool force_enc = false; //force encoding of frame
+        bool voiceact_enc = false; //encode if voice active
+        uint32_t timestamp = 0;
         uint32_t sample_no = 0;
         int duplex_callback_delay = 0; // The time between capture and expected rendering of the samples, taken from the PortAudio duplex callback timing
-        Rational gain; // if != 1 then apply gain
+        Rational gain = {1, 1}; // if != 1 then apply gain
 
-        AudioFrame()
-        : soundgrpid(0), userdata(0), timestamp(GETTIMESTAMP()), gain(1, 1)
+        std::span<short> InputSamples() const
         {
-            input_samples = output_samples = 0;
-            
-            
-            force_enc = voiceact_enc = false;
-            
+            return std::span(input_buffer, input_samples * inputfmt.channels);
         }
+        AudioFrame() = default;
 
         AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, ACE_UINT32 sampleindex = 0)
         : AudioFrame()
@@ -192,7 +189,6 @@ namespace media
         }
 
         AudioFrame(ACE_Message_Block* mb)
-        : gain(1, 1)
         {
             auto* frm = reinterpret_cast<AudioFrame*>(mb->base());
             *this = *frm;
