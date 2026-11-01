@@ -45,7 +45,7 @@ void tt_assert(const char* assertion, const char* file, int line);
 #if defined(_DEBUG)
 
 //ensure that it's the thread owner of the reactor which is executing
-constexpr void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
+static void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
 {
     ACE_thread_t tid {};
     int ret = reactor.owner(&tid);
@@ -53,7 +53,7 @@ constexpr void ASSERT_REACTOR_THREAD(ACE_Reactor& reactor)
     TTASSERT(ACE_Thread::self() == tid);
 }
 
-constexpr void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
+static void ASSERT_NOT_REACTOR_THREAD(ACE_Reactor& reactor)
 {
     ACE_thread_t tid {};
     int ret = reactor.owner(&tid);

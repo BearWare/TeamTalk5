@@ -38,6 +38,7 @@
 #include <ace/Message_Block.h>
 #include <ace/SString.h>
 
+#include <array>
 #include <cstdint>
 #include <list>
 #include <memory>
@@ -94,21 +95,21 @@ namespace teamtalk {
 
     struct ClientUserStats
     {
-        ACE_INT64 voicepackets_recv = 0;
-        ACE_INT64 voicepackets_lost = 0;
+        int64_t voicepackets_recv = 0;
+        int64_t voicepackets_lost = 0;
 
-        ACE_INT64 vidcappackets_recv = 0;
-        ACE_INT64 vidcapframes_recv = 0;
-        ACE_INT64 vidcapframes_lost = 0;
-        ACE_INT64 vidcapframes_dropped = 0;
+        int64_t vidcappackets_recv = 0;
+        int64_t vidcapframes_recv = 0;
+        int64_t vidcapframes_lost = 0;
+        int64_t vidcapframes_dropped = 0;
 
-        ACE_INT64 mediafile_audiopackets_recv = 0;
-        ACE_INT64 mediafile_audiopackets_lost = 0;
+        int64_t mediafile_audiopackets_recv = 0;
+        int64_t mediafile_audiopackets_lost = 0;
 
-        ACE_INT64 mediafile_video_packets_recv = 0;
-        ACE_INT64 mediafile_video_frames_recv = 0;
-        ACE_INT64 mediafile_video_frames_lost = 0;
-        ACE_INT64 mediafile_video_frames_dropped = 0;
+        int64_t mediafile_video_packets_recv = 0;
+        int64_t mediafile_video_frames_recv = 0;
+        int64_t mediafile_video_frames_lost = 0;
+        int64_t mediafile_video_frames_dropped = 0;
 
         ClientUserStats() = default;
     };
@@ -238,7 +239,7 @@ namespace teamtalk {
         const ACE_TString& GetAudioFileVariables() const { return m_vlog_vars; }
         void SetAudioFileFormat(AudioFileFormat aff);
         AudioFileFormat GetAudioFileFormat() const;
-        ACE_INT32 IncVoiceLogCounter() { return ++m_voicelog_counter; }
+        int32_t IncVoiceLogCounter() { return ++m_voicelog_counter; }
 
         void SetAudioStreamBufferSize(StreamType stream_type, int msec);
         int GetAudioStreamBufferSize(StreamType stream_type) const;
@@ -311,7 +312,7 @@ namespace teamtalk {
         bool m_snd_duplexmode = false;
 
         //gaining audio
-        float m_voice_position[3], m_audiofile_position[3];
+        std::array<float, 3> m_voice_position{}, m_audiofile_position{};
         int m_voice_volume = soundsystem::VOLUME_DEFAULT, m_audiofile_volume = soundsystem::VOLUME_DEFAULT;
         bool m_voice_mute = false, m_audiofile_mute = false;
         int m_voice_stopped_delay = STOPPED_TALKING_DELAY, m_audiofile_stopped_delay = STOPPED_TALKING_DELAY;
@@ -324,7 +325,7 @@ namespace teamtalk {
         ACE_TString m_audiofolder;
         ACE_TString m_vlog_vars;
         AudioFileFormat m_aff = AFF_NONE;
-        ACE_UINT32 m_voicelog_counter = 0;
+        uint32_t m_voicelog_counter = 0;
     };
 } // namespace teamtalk
 #endif

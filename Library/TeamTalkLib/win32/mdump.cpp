@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include "mdump.h"
 
+#include <array>
+
 LPCTSTR MiniDumper::m_szAppName;
 
 MiniDumper::MiniDumper( LPCTSTR szAppName )
@@ -28,15 +30,15 @@ LONG MiniDumper::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
     // look next to the EXE first, as the one in System32 might be old 
     // (e.g. Windows 2000)
     HMODULE hDll = NULL;
-    TCHAR szDbgHelpPath[_MAX_PATH];
+    std::array<TCHAR, _MAX_PATH> szDbgHelpPath{};
 
-    if (GetModuleFileName( NULL, szDbgHelpPath, _MAX_PATH ))
+    if (GetModuleFileName( NULL, szDbgHelpPath.data(), _MAX_PATH ))
     {
-        TCHAR *pSlash = _tcsrchr( szDbgHelpPath, '\\' );
+        TCHAR *pSlash = _tcsrchr( szDbgHelpPath.data(), '\\' );
         if (pSlash)
         {
             _tcscpy( pSlash+1, _T("DBGHELP.DLL") );
-            hDll = ::LoadLibrary( szDbgHelpPath );
+            hDll = ::LoadLibrary( szDbgHelpPath.data() );
         }
     }
 
@@ -53,21 +55,21 @@ LONG MiniDumper::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
         MINIDUMPWRITEDUMP pDump = (MINIDUMPWRITEDUMP)::GetProcAddress( hDll, "MiniDumpWriteDump" );
         if (pDump)
         {
-            TCHAR szDumpPath[_MAX_PATH];
-            TCHAR szScratch [_MAX_PATH];
+            std::array<TCHAR, _MAX_PATH> szDumpPath{};
+            std::array<TCHAR, _MAX_PATH> szScratch{};
 
             // work out a good place for the dump file
-            if (!GetTempPath( _MAX_PATH, szDumpPath ))
-                _tcscpy( szDumpPath, _T("c:\\temp\\") );
+            if (!GetTempPath( _MAX_PATH, szDumpPath.data() ))
+                _tcscpy( szDumpPath.data(), _T("c:\\temp\\") );
 
-            _tcscat( szDumpPath, m_szAppName );
-            _tcscat( szDumpPath, _T(".dmp") );
+            _tcscat( szDumpPath.data(), m_szAppName );
+            _tcscat( szDumpPath.data(), _T(".dmp") );
 
             // ask the user if they want to save a dump file
             if (::MessageBox( NULL, _T("A fatal error occurred. Would you like to save an error report? Please send the file to contact@bearware.dk"), m_szAppName, MB_YESNO )==IDYES)
             {
                 // create the file
-                HANDLE hFile = ::CreateFile( szDumpPath, GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
+                HANDLE hFile = ::CreateFile( szDumpPath.data(), GENERIC_WRITE, FILE_SHARE_WRITE, NULL, CREATE_ALWAYS,
                     FILE_ATTRIBUTE_NORMAL, NULL );
 
                 if (hFile!=INVALID_HANDLE_VALUE)
@@ -82,21 +84,21 @@ LONG MiniDumper::TopLevelFilter( struct _EXCEPTION_POINTERS *pExceptionInfo )
                     BOOL bOK = pDump( GetCurrentProcess(), GetCurrentProcessId(), hFile, MiniDumpNormal, &ExInfo, NULL, NULL );
                     if (bOK)
                     {
-                        _stprintf( szScratch, _T("Saved dump file to '%s'"), szDumpPath );
-                        szResult = szScratch;
+                        _stprintf( szScratch.data(), _T("Saved dump file to '%s'"), szDumpPath.data() );
+                        szResult = szScratch.data();
                         retval = EXCEPTION_EXECUTE_HANDLER;
                     }
                     else
                     {
-                        _stprintf( szScratch, _T("Failed to save dump file to '%s' (error %d)"), szDumpPath, GetLastError() );
-                        szResult = szScratch;
+                        _stprintf( szScratch.data(), _T("Failed to save dump file to '%s' (error %d)"), szDumpPath.data(), GetLastError() );
+                        szResult = szScratch.data();
                     }
                     ::CloseHandle(hFile);
                 }
                 else
                 {
-                    _stprintf( szScratch, _T("Failed to create dump file '%s' (error %d)"), szDumpPath, GetLastError() );
-                    szResult = szScratch;
+                    _stprintf( szScratch.data(), _T("Failed to create dump file '%s' (error %d)"), szDumpPath.data(), GetLastError() );
+                    szResult = szScratch.data();
                 }
             }
         }

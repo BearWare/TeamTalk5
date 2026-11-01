@@ -1278,7 +1278,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     {
         AppendProperty(TT_MOTDRAW, properties.motd, command);
         AppendProperty(TT_MAXLOGINATTEMPTS, properties.maxloginattempts, command);
-        AppendProperty(TT_AUTOSAVE, static_cast<ACE_INT64>(properties.autosave), command);
+        AppendProperty(TT_AUTOSAVE, static_cast<int64_t>(properties.autosave), command);
         if (!properties.tcpaddrs.empty())
             AppendProperty(TT_TCPPORT, properties.tcpaddrs[0].get_port_number(), command);
         if (!properties.udpaddrs.empty())
@@ -1502,7 +1502,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
                            channel.GetEncryptKey().size()), command);
 #endif
     }
-    AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
+    AppendProperty(TT_REQPASSWORD, static_cast<int64_t>(channel.IsPasswordProtected()), command);
 
     if (!channel.GetTopic().empty())
         AppendProperty(TT_TOPIC, channel.GetTopic(), command);
@@ -1575,7 +1575,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         }
 #endif
     }
-    AppendProperty(TT_REQPASSWORD, static_cast<ACE_INT64>(channel.IsPasswordProtected()), command);
+    AppendProperty(TT_REQPASSWORD, static_cast<int64_t>(channel.IsPasswordProtected()), command);
     AppendProperty(TT_TOPIC, channel.GetTopic(), command);
     AppendProperty(TT_OPERATORS, setOps, command);
     AppendProperty(TT_DISKQUOTA, channel.GetMaxDiskUsage(), command);
@@ -1663,7 +1663,7 @@ void ServerUser::DoTextMessage(const ServerUser&  /*fromuser*/, const TextMessag
     AppendProperty(TT_MSGTYPE, msg.msgType, command);
     AppendProperty(TT_SRCUSERID, msg.from_userid, command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
-    AppendProperty(TT_TEXTMSG_MORE, static_cast<ACE_INT64>(msg.more), command);
+    AppendProperty(TT_TEXTMSG_MORE, static_cast<int64_t>(msg.more), command);
 
     switch(msg.msgType)
     {
@@ -1692,7 +1692,7 @@ void ServerUser::DoTextMessage(const TextMessage& msg)
     AppendProperty(TT_MSGTYPE, msg.msgType, command);
     AppendProperty(TT_SRCUSERID, msg.from_userid, command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
-    AppendProperty(TT_TEXTMSG_MORE, static_cast<ACE_INT64>(msg.more), command);
+    AppendProperty(TT_TEXTMSG_MORE, static_cast<int64_t>(msg.more), command);
 
     switch(msg.msgType)
     {
@@ -1849,7 +1849,7 @@ void ServerUser::DoFileReady()
 
     ACE_TString command = SERVER_FILE_READY;
     AppendProperty(TT_TRANSFERID, m_filetransfer->transferid, command);
-    AppendProperty(TT_FILESIZE, static_cast<ACE_INT64>(m_filetransfer->filesize), command);
+    AppendProperty(TT_FILESIZE, static_cast<int64_t>(m_filetransfer->filesize), command);
     command += EOL;
 
     TransmitCommand(command);
@@ -1901,7 +1901,7 @@ void ServerUser::DoServerStats()
 {
     const ServerStats& stats = m_servernode.GetServerStats();
     ACE_Time_Value tm = ACE_OS::gettimeofday() - stats.starttime;
-    ACE_UINT64 msec = 0;
+    uint64_t msec = 0;
     tm.msec(msec);
 
     ACE_TString command;
@@ -1920,7 +1920,7 @@ void ServerUser::DoServerStats()
     AppendProperty(TT_USERSPEAK, stats.userspeak, command);
     AppendProperty(TT_FILESTX, stats.files_bytessent, command);
     AppendProperty(TT_FILESRX, stats.files_bytesreceived, command);
-    AppendProperty(TT_UPTIME, static_cast<ACE_INT64>(msec), command);
+    AppendProperty(TT_UPTIME, static_cast<int64_t>(msec), command);
     command += EOL;
 
     TransmitCommand(command);

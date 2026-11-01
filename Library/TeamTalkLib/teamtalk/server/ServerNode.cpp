@@ -37,6 +37,7 @@
 #include <ace/OS.h>
 
 #include <algorithm>
+#include <array>
 #include <cstdint>
 #include <memory>
 #include <stack>
@@ -230,11 +231,11 @@ bool ServerNode::SetFileSharing(const ACE_TString& rootdir)
     return true;    
 }
 
-ACE_INT64 ServerNode::GetDiskUsage()
+int64_t ServerNode::GetDiskUsage()
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    ACE_INT64 diskusage = 0;
+    int64_t diskusage = 0;
 
     std::stack<serverchannel_t> sweeper;
     sweeper.push(GetRootChannel());
@@ -406,24 +407,24 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
 
     ACE_TString internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
 
-    ACE_TCHAR newfilename[MAX_STRING_LENGTH+1] = {};
-    ACE_UINT32 dat_id = m_file_id_counter;
+    std::array<ACE_TCHAR, MAX_STRING_LENGTH+1> newfilename{};
+    uint32_t dat_id = m_file_id_counter;
     ACE_TString local_filename;
     do
     {
-        ACE_OS::snprintf(newfilename, MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
+        ACE_OS::snprintf(newfilename.data(), MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
                          static_cast<unsigned int>(dat_id++));
-        local_filename = internalpath + newfilename;
+        local_filename = internalpath + newfilename.data();
     }
     while(ACE_OS::filesize(local_filename.c_str())>=0 && std::cmp_not_equal(dat_id , m_file_id_counter));
 
-    internalpath += newfilename;
+    internalpath += newfilename.data();
     if(ACE_OS::rename(transfer.localfile.c_str(), internalpath.c_str()) != 0)
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
     remotefile.username = user.GetUsername();
     remotefile.filename = transfer.filename;
-    remotefile.internalname = newfilename;
+    remotefile.internalname = newfilename.data();
     remotefile.filesize = transfer.filesize;
     remotefile.channelid = chan.GetChannelID();
 
@@ -529,7 +530,7 @@ int ServerNode::StartTimer(ServerTimer timer, timer_userdata userdata,
     return m_timer_reactor->schedule_timer(th, delay, interval);
 }
 
-int ServerNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int ServerNode::TimerEvent(uint32_t timer_event_id, long userdata)
 {
     GUARD_OBJ(this, Lock());
 
@@ -1196,15 +1197,15 @@ void ServerNode::OnClosed(CryptStreamHandler::StreamHandler_t& handler)
     auto sslerr = ACE_OS::last_error();
     if ((sslerr != 0) && ((m_properties.logevents & SERVERLOGEVENT_USER_CRYPTERROR) != 0u))
     {
-        char sslerr_str[MAX_STRING_LENGTH] = "";
-        ::ERR_error_string_n(sslerr, sslerr_str, sizeof(sslerr_str)-1);
+        std::array<char, MAX_STRING_LENGTH> sslerr_str{};
+        ::ERR_error_string_n(sslerr, sslerr_str.data(), sslerr_str.size()-1);
 
         TTASSERT(m_streamhandles.find(handler.get_handle()) != m_streamhandles.end());
         serveruser_t const user = m_streamhandles[handler.get_handle()];
         TTASSERT(user.get());
         if (user.get() != nullptr)
         {
-            m_srvguard->OnUserCryptError(*user, sslerr, LocalToUnicode(sslerr_str));
+            m_srvguard->OnUserCryptError(*user, sslerr, LocalToUnicode(sslerr_str.data()));
         }
     }
     OnClosed(handler.get_handle());
@@ -1788,7 +1789,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    ACE_UINT8 const pp_min = TEAMTALK_DEFAULT_PACKET_PROTOCOL;
+    uint8_t const pp_min = TEAMTALK_DEFAULT_PACKET_PROTOCOL;
     switch(subscrip_check)
     {
     case SUBSCRIBE_VOICE :
@@ -4458,4 +4459,3 @@ ErrorMsg ServerNode::SendTextMessage(const TextMessage& msg)
     }
     return ErrorMsg(TT_CMDERR_INCOMPATIBLE_PROTOCOLS);
 }
-

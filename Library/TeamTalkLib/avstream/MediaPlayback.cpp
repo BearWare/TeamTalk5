@@ -170,7 +170,7 @@ bool MediaPlayback::Pause()
     return m_streamer->Pause();
 }
 
-bool MediaPlayback::Seek(ACE_UINT32 offset)
+bool MediaPlayback::Seek(uint32_t offset)
 {
     if(!m_streamer)
         return false;

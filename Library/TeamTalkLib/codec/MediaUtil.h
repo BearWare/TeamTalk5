@@ -182,7 +182,7 @@ namespace media
             
         }
 
-        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, ACE_UINT32 sampleindex = 0)
+        AudioFrame(const AudioFormat& infmt, short* input_buf, int insamples, uint32_t sampleindex = 0)
         : AudioFrame()
         {
             inputfmt = infmt;

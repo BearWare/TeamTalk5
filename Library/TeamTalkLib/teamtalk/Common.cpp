@@ -31,6 +31,7 @@
 
 #include <ace/Date_Time.h>
 
+#include <array>
 #include <cstdint>
 #include <regex>
 #include <string>
@@ -124,11 +125,11 @@ namespace teamtalk
     ACE_TString DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time const date(tv);
-        ACE_TCHAR buf[200];
-        ACE_OS::sprintf(buf, ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"), 
+        std::array<ACE_TCHAR, 200> buf{};
+        ACE_OS::sprintf(buf.data(), ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"),
                         static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
                         static_cast<int>(date.hour()), static_cast<int>(date.minute()));
-        return buf;
+        return buf.data();
     }
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in)

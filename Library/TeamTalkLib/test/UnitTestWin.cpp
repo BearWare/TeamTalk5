@@ -1310,7 +1310,7 @@ namespace UnitTest
             Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 16000, 1));
 
             audioinput_streamer_t ais(new AudioInputStreamer(1));
-            std::vector<ACE_UINT32> timestamps;
+            std::vector<uint32_t> timestamps;
             auto acb = [&](media::AudioFrame& audio_frame,
                 ACE_Message_Block* mb_audio)
             {
@@ -1335,7 +1335,7 @@ namespace UnitTest
             const int ASAMPLES = 300;
 
             MediaStreamOutput mso(infmt, ASAMPLES);
-            ACE_UINT32 outframeduration = ACE_UINT32((ASAMPLES * 1000) / mso.audio.samplerate);
+            uint32_t outframeduration = uint32_t((ASAMPLES * 1000) / mso.audio.samplerate);
             Assert::IsTrue(ais->Open(mso));
             Assert::IsTrue(ais->StartStream());
 
@@ -1414,7 +1414,7 @@ namespace UnitTest
             Assert::IsTrue(wavfile.NewFile(L"myfile.wav", 48000, 2));
 
             audioinput_streamer_t ais(new AudioInputStreamer(2));
-            std::vector<ACE_UINT32> timestamps;
+            std::vector<uint32_t> timestamps;
             auto cb = [&](media::AudioFrame& audio_frame,
                 ACE_Message_Block* mb_audio)
             {
@@ -1429,7 +1429,7 @@ namespace UnitTest
             media::AudioFormat infmt(44100, 1);
 
             MediaStreamOutput mso(media::AudioFormat(48000, 2), 48000 * .05);
-            ACE_UINT32 outframeduration = ACE_UINT32((48000 * .05 * 1000) / mso.audio.samplerate);
+            uint32_t outframeduration = uint32_t((48000 * .05 * 1000) / mso.audio.samplerate);
             Assert::IsTrue(ais->Open(mso));
             Assert::IsTrue(ais->StartStream());
 

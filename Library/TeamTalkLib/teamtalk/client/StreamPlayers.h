@@ -130,7 +130,7 @@ namespace teamtalk {
         uint32_t m_play_stopped_delay = STOPPED_TALKING_DELAY; //wait for how long to stop playing
         uint32_t m_played_packet_time = 0; //time of last packet to be send to audio buffer
         //AudioMuxer attributes
-        ACE_UINT32 m_samples_played = 0;
+        uint32_t m_samples_played = 0;
         //Resample buffer
         audio_resampler_t m_resampler;
         std::vector<short> m_resample_buffer;

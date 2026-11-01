@@ -23,6 +23,7 @@
 
 #include "OggFileIO.h"
 
+#include <array>
 #include <cassert>
 
 OggOutput::OggOutput()
@@ -399,7 +400,7 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
                     spx_int32_t lookahead)
 {
     ogg_packet op;
-    char comment[]= {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
+    std::array<char, 12> comment = {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
     int packet_size = 0;
     int ret = 0;
 
@@ -419,8 +420,8 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
     if(ret < 0)
         goto error;
 
-    op.packet = reinterpret_cast<unsigned char*>(comment);
-    op.bytes = sizeof(comment);
+    op.packet = reinterpret_cast<unsigned char*>(comment.data());
+    op.bytes = comment.size();
     op.b_o_s = 0;
     op.e_o_s = 0;
     op.granulepos = 0;
@@ -715,10 +716,10 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     m_header.nb_streams = 1;
     m_header.nb_coupled = channels == 2? 1 : 0;
 
-    unsigned char header_data[276];
-    int const packet_size = opus_header_to_packet(&m_header, header_data, sizeof(header_data));
+    std::array<unsigned char, 276> header_data{};
+    int const packet_size = opus_header_to_packet(&m_header, header_data.data(), header_data.size());
     ogg_packet op = {};
-    op.packet = header_data;
+    op.packet = header_data.data();
     op.bytes = packet_size;
     op.b_o_s = 1;
     op.e_o_s = 0;
@@ -727,14 +728,14 @@ bool OpusFile::NewFile(const ACE_TString& filename,
 
     m_oggout.PutPacket(op);
 
-    unsigned char comment_data[] = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
+    std::array<unsigned char, 16> comment_data = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
                                     /* Vendor String Length */
                                     0x0, 0x0, 0x0, 0x0,
                                     /* User Comment List Length */
                                     0x0, 0x0, 0x0, 0x0};
     op = {};
-    op.packet = comment_data;
-    op.bytes = sizeof(comment_data);
+    op.packet = comment_data.data();
+    op.bytes = comment_data.size();
     op.b_o_s = op.e_o_s = 0;
     op.granulepos = 0;
     op.packetno = 1;

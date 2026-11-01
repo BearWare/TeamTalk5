@@ -65,7 +65,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
 {
     TTASSERT(this->thr_count() == 0);
 
-    //ACE_UINT32 start_tm = GETTIMESTAMP();
+    //uint32_t start_tm = GETTIMESTAMP();
 
     MYTRACE_COND(!IsValid(), ACE_TEXT("Desktop window is invalid: %dx%d format %d. Block count: %d\n"), GetWidth(), GetHeight(), GetRGBMode(), GetBlocksCount());
     if (!IsValid())
@@ -114,7 +114,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
 
             const int BLOCK_INDEX = w + (h * m_w_blocks);
 
-            ACE_UINT32 const crc = ACE::crc32(m_tmp_block.data(), m_tmp_block.size());
+            uint32_t const crc = ACE::crc32(m_tmp_block.data(), m_tmp_block.size());
             
             //only replace if it's different
             auto const ii = m_blocks.find(BLOCK_INDEX);

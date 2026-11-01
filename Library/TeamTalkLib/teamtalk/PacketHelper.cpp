@@ -493,7 +493,7 @@ void DuplicateBlocks(const std::set<uint16_t>& dirty_blocks,
     auto si=dirty_blocks.begin();
     for(;si!=dirty_blocks.end();si++)
     {
-        ACE_UINT32 crc32 = 0;
+        uint32_t crc32 = 0;
         auto const bci = block_crcs.find(*si);
         TTASSERT(bci != block_crcs.end());
         if(bci != block_crcs.end())

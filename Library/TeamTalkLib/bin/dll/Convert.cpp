@@ -181,7 +181,7 @@ enum TTKey
     TTKEY_MIDDLEMOUSEBTN        = 0x00001002,
 };
 
-using key_map_t = std::map<ACE_UINT32, ACE_UINT32>;
+using key_map_t = std::map<uint32_t, uint32_t>;
 
 static key_map_t tt_keymap, local_keymap;
 
@@ -1553,7 +1553,7 @@ void Convert(const teamtalk::ServerStats& stats, ServerStatistics& result)
     result.nUsersPeak = stats.userspeak;
     result.nFilesTx = stats.files_bytessent;
     result.nFilesRx = stats.files_bytesreceived;
-    ACE_UINT64 msec = 0;
+    uint64_t msec = 0;
     stats.starttime.msec(msec);
     result.nUptimeMSec = msec;
 }

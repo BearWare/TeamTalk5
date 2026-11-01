@@ -23,11 +23,14 @@
 
 #include "Trial.h"
 
+#include <array>
+
 #import <Foundation/Foundation.h>
 
 ACE_TString GetProcessName()
 {
-    ACE_TCHAR buff[512] = ACE_TEXT("Unknown");
+    std::array<ACE_TCHAR, 512> buff{};
+    ACE_OS::strncpy(buff.data(), ACE_TEXT("Unknown"), buff.size());
 
     NSBundle *bundle = [NSBundle mainBundle];       
     NSDictionary *info = [bundle infoDictionary];
@@ -44,8 +47,8 @@ ACE_TString GetProcessName()
     {
         const char *c = [prodName UTF8String];
         if(c)
-            ACE_OS::strncpy(buff, c, 512);
+            ACE_OS::strncpy(buff.data(), c, buff.size());
     }
 
-    return ACE_TString(buff);
+    return ACE_TString(buff.data());
 }

@@ -52,7 +52,7 @@ struct MediaStream
 
 struct MediaFileProp : public MediaStream
 {
-    ACE_UINT32 duration_ms = 0, elapsed_ms = 0;
+    uint32_t duration_ms = 0, elapsed_ms = 0;
     ACE_TString filename;
 
     MediaFileProp() = default;
@@ -146,7 +146,7 @@ protected:
     
     void InitBuffers();
     void ClearBuffers();
-    ACE_UINT32 GetMinimumFrameDurationMSec() const;
+    uint32_t GetMinimumFrameDurationMSec() const;
     int GetQueuedAudioDataSize();
 
     MediaStreamOutput m_media_out;
@@ -158,15 +158,15 @@ protected:
     bool m_stop = false;
     
     //return 'true' if it should be called again
-    bool ProcessAVQueues(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
+    bool ProcessAVQueues(uint32_t starttime, uint32_t curtime, bool flush);
 
 private:
 
     mediastream_videocallback_t m_videocallback;
     mediastream_audiocallback_t m_audiocallback;
 
-    bool ProcessAudioFrame(ACE_UINT32 starttime, ACE_UINT32 curtime, bool flush);
-    bool ProcessVideoFrame(ACE_UINT32 starttime, ACE_UINT32 curtime);
+    bool ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool flush);
+    bool ProcessVideoFrame(uint32_t starttime, uint32_t curtime);
     
     msg_queue_t m_audio_frames;
     msg_queue_t m_video_frames;
@@ -180,14 +180,14 @@ public:
     void RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable);
     
     // return previous offset (was)
-    ACE_UINT32 SetOffset(ACE_UINT32 offset);
+    uint32_t SetOffset(uint32_t offset);
 
     const MediaFileProp& GetMediaFile() const { return m_media_in; }
 
     bool Completed() const;
 
 private:
-    ACE_UINT32 m_offset = MEDIASTREAMER_OFFSET_IGNORE;
+    uint32_t m_offset = MEDIASTREAMER_OFFSET_IGNORE;
     std::mutex m_mutex;
 
 protected:

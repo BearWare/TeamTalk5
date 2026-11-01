@@ -24,6 +24,7 @@
 #include "PortAudioWrapper.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
@@ -359,7 +360,7 @@ void PortAudio::SetupDefaultCommunicationDevice(sounddevices_t& sounddevs)
     HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, (void**)&pEnumerator);
     if (SUCCEEDED(hr))
     {
-        EDataFlow flows[] = { eCapture, eRender };
+        const std::array<EDataFlow, 2> flows = { eCapture, eRender };
         for (auto flow : flows)
         {
             CComPtr<IMMDevice> device;

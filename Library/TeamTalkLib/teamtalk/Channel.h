@@ -101,8 +101,8 @@ namespace teamtalk {
         bool IsPasswordProtected() const{return m_protected || !m_password.empty();}
         void SetTopic(const ACE_TString& topic){m_topic = topic;}
         const ACE_TString& GetTopic() const{return m_topic;}
-        void SetMaxDiskUsage(ACE_INT64 maxSize) { m_maxdiskusage = maxSize; }
-        ACE_INT64 GetMaxDiskUsage() const { return m_maxdiskusage; }
+        void SetMaxDiskUsage(int64_t maxSize) { m_maxdiskusage = maxSize; }
+        int64_t GetMaxDiskUsage() const { return m_maxdiskusage; }
         void SetMaxUsers(int maxusers) { m_maxusers = maxusers; }
         int GetMaxUsers() const { return m_maxusers; }
         int GetChannelID() const { return m_channelid; }
@@ -333,9 +333,9 @@ namespace teamtalk {
             return channel;
         }
 
-        ACE_INT64 GetDiskUsage() const
+        int64_t GetDiskUsage() const
         {
-            ACE_INT64 total = 0;
+            int64_t total = 0;
             auto ite=m_files.begin();
             while(ite != m_files.end())
             {
@@ -523,7 +523,7 @@ namespace teamtalk {
         std::set< int > m_setOps;
         std::weak_ptr< CHANNEL > m_parent;
         bool m_protected = false;
-        ACE_INT64 m_maxdiskusage = 0;
+        int64_t m_maxdiskusage = 0;
         using mfiles_t = std::map<ACE_TString, RemoteFile>;
         mfiles_t m_files;
         int m_maxusers = MAX_USERS_IN_CHANNEL;

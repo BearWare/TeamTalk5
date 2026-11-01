@@ -25,6 +25,7 @@
 
 #include "myace/MyACE.h"
 
+#include <array>
 #include <cassert>
 
 namespace soundsystem {
@@ -60,17 +61,17 @@ bool OpenSLESWrapper::Init()
 {
     SLresult result;
 
-    SLEngineOption engineOptions[] = {
-        { .feature = SL_ENGINEOPTION_THREADSAFE, .data = SL_BOOLEAN_TRUE}
+    std::array<SLEngineOption, 1> engineOptions = {
+        SLEngineOption{ .feature = SL_ENGINEOPTION_THREADSAFE, .data = SL_BOOLEAN_TRUE}
     };
-    const SLuint32 n_ops = sizeof(engineOptions)/sizeof(engineOptions[0]);
+    const SLuint32 n_ops = static_cast<SLuint32>(engineOptions.size());
 
-    SLInterfaceID ids[] = { SL_IID_ANDROIDEFFECTCAPABILITIES };
-    SLboolean req[] = { SL_BOOLEAN_FALSE };
-    const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+    std::array<SLInterfaceID, 1> ids = { SL_IID_ANDROIDEFFECTCAPABILITIES };
+    std::array<SLboolean, 1> req = { SL_BOOLEAN_FALSE };
+    const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
     // create engine
-    result = slCreateEngine(&m_engineObject, n_ops, engineOptions, n_ids, ids, req);
+    result = slCreateEngine(&m_engineObject, n_ops, engineOptions.data(), n_ids, ids.data(), req.data());
     MYTRACE_COND(SL_RESULT_SUCCESS != result,
                  ACE_TEXT("Failed to create OpenSL ES engine object\n"));
     if (SL_RESULT_SUCCESS != result)
@@ -113,14 +114,14 @@ bool OpenSLESWrapper::Init()
         for (SLuint32 i=0; i < nbEffects; i++)
         {
             const int FX_NAME_LENGTH = 128;
-            SLchar effectName[FX_NAME_LENGTH];
+            std::array<SLchar, FX_NAME_LENGTH> effectName{};
             SLuint16 effectNameLength = FX_NAME_LENGTH-1;
 
             result = (*effectLibItf)->QueryEffect(effectLibItf, i,
                                                   &effectType, &effectImplementation,
-                                                  effectName, &effectNameLength);
+                                                  effectName.data(), &effectNameLength);
             effectName[effectNameLength] = 0;
-            MYTRACE(ACE_TEXT("Android Effect Capability: #%d name=%s\n"), i, effectName);
+            MYTRACE(ACE_TEXT("Android Effect Capability: #%d name=%s\n"), i, effectName.data());
         }
     }
 
@@ -131,9 +132,9 @@ bool OpenSLESWrapper::Init()
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to get audioIO capabilities interface from engine\n"));
     if (SL_RESULT_SUCCESS == result)
     {
-        SLuint32 audioDevIds[3];
+        std::array<SLuint32, 3> audioDevIds{};
         SLint32 nbAudioDevs = 3;//sizeof(audioDevIds)/sizeof(audioDevIds[0]);
-        result = (*audioioItf)->GetAvailableAudioInputs(audioioItf, &nbAudioDevs, audioDevIds);
+        result = (*audioioItf)->GetAvailableAudioInputs(audioioItf, &nbAudioDevs, audioDevIds.data());
         MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to audio input interfaces from engine\n"));
 
         for(SLint32 i=0;i<nbAudioDevs;i++)
@@ -195,11 +196,11 @@ SLObjectItf OpenSLESWrapper::InitOutputMixObject(soundgroup_t& sndgrp)
     assert(m_engineEngine);
 
     // create output mix, with environmental reverb specified as a non-required interface
-    const SLInterfaceID ids[] = {SL_IID_ENVIRONMENTALREVERB};
-    const SLboolean req[] = {SL_BOOLEAN_FALSE};
-    const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+    const std::array<SLInterfaceID, 1> ids = {SL_IID_ENVIRONMENTALREVERB};
+    const std::array<SLboolean, 1> req = {SL_BOOLEAN_FALSE};
+    const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
     result = (*m_engineEngine)->CreateOutputMix(m_engineEngine, &outputMixObject,
-                                                n_ids, ids, req);
+                                                n_ids, ids.data(), req.data());
     MYTRACE_COND(SL_RESULT_SUCCESS != result, ACE_TEXT("Failed to create OpenSLES output mux\n"));
     if(SL_RESULT_SUCCESS != result)
     {
@@ -395,7 +396,7 @@ void bqRecorderCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     if (result != SL_RESULT_SUCCESS)
         return;
 
-    ACE_UINT32 buf_index = streamer->buf_index++ % ANDROID_INPUT_BUFFERS;
+    uint32_t buf_index = streamer->buf_index++ % ANDROID_INPUT_BUFFERS;
     assert(streamer->channels);
     assert(streamer->framesize);
     // MYTRACE(ACE_TEXT("Callback to recorder %p, capture %p, buf size %d, framesize %d\n"),
@@ -457,19 +458,19 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
     inputstreamer_t streamer;
     int frames_per_callback = 0;
 
-    const SLInterfaceID ids[] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
+    const std::array<SLInterfaceID, 5> ids = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
                                  SL_IID_ANDROIDCONFIGURATION,
                                  SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
                                  SL_IID_ANDROIDNOISESUPPRESSION,
                                  SL_IID_ANDROIDAUTOMATICGAINCONTROL};
 
-    SLboolean req[] = {SL_BOOLEAN_TRUE,
+    std::array<SLboolean, 5> req = {SL_BOOLEAN_TRUE,
                        SL_BOOLEAN_FALSE,
                        SL_BOOLEAN_FALSE,
                        SL_BOOLEAN_FALSE,
                        SL_BOOLEAN_FALSE};
 
-    const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+    const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
     // SL_ANDROID_RECORDING_PRESET_VOICE_COMMUNICATION requires SL_IID_ANDROIDCONFIGURATION
     if (inputdeviceid == VOICECOM_DEVICE_ID)
@@ -477,7 +478,7 @@ inputstreamer_t OpenSLESWrapper::NewStream(StreamCapture* capture,
 
     result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine,
                                                     &recorderObject,
-                                                    &audioSrc, &audioSnk, n_ids, ids, req);
+                                                    &audioSrc, &audioSnk, n_ids, ids.data(), req.data());
 
     if (SL_RESULT_SUCCESS != result)
     {
@@ -657,7 +658,7 @@ void bqPlayerCallback(SLAndroidSimpleBufferQueueItf bq, void *context)
     bool more = true;
     std::lock_guard<std::recursive_mutex> g(streamer->mutex);
 
-    ACE_UINT32 buf_index = streamer->buf_index++ % ANDROID_OUTPUT_BUFFERS;
+    uint32_t buf_index = streamer->buf_index++ % ANDROID_OUTPUT_BUFFERS;
     assert(streamer->channels);
     assert(streamer->framesize);
     int n_samples = streamer->buffers[buf_index].size() / streamer->channels;
@@ -740,13 +741,13 @@ outputstreamer_t OpenSLESWrapper::NewStream(soundsystem::StreamPlayer* player,
     int frames_per_callback = 0;
 
     // create audio player
-    const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE};
-    const SLboolean req[] = {SL_BOOLEAN_TRUE};
-    const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+    const std::array<SLInterfaceID, 1> ids = {SL_IID_BUFFERQUEUE};
+    const std::array<SLboolean, 1> req = {SL_BOOLEAN_TRUE};
+    const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
     result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
                                                   &audioSrc, &audioSnk,
-                                                  n_ids, ids, req);
+                                                  n_ids, ids.data(), req.data());
     MYTRACE_COND(SL_RESULT_SUCCESS != result,
                  ACE_TEXT("Failed to create OpenSL ES player object\n"));
     if (result != SL_RESULT_SUCCESS)
@@ -955,14 +956,14 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             // (requires the RECORD_AUDIO permission)
             SLObjectItf recorderObject = nullptr;
 
-            const SLInterfaceID ids[] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
-            const SLboolean req[] = {SL_BOOLEAN_TRUE};
-            const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+            const std::array<SLInterfaceID, 1> ids = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE};
+            const std::array<SLboolean, 1> req = {SL_BOOLEAN_TRUE};
+            const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
             result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine,
                                                             &recorderObject,
                                                             &audioSrc, &audioSnk,
-                                                            n_ids, ids, req);
+                                                            n_ids, ids.data(), req.data());
             if (SL_RESULT_SUCCESS != result)
             {
                 MYTRACE(ACE_TEXT("Failed to query OpenSL audio recorder, channels=%d, samplerate=%d\n"), c, standardSampleRates[sr]);
@@ -1003,22 +1004,22 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
         // (requires the RECORD_AUDIO permission)
         SLObjectItf recorderObject = nullptr;
 
-        SLInterfaceID ids[] = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
+        std::array<SLInterfaceID, 5> ids = {SL_IID_ANDROIDSIMPLEBUFFERQUEUE,
                                SL_IID_ANDROIDCONFIGURATION,
                                SL_IID_ANDROIDACOUSTICECHOCANCELLATION,
                                SL_IID_ANDROIDNOISESUPPRESSION,
                                SL_IID_ANDROIDAUTOMATICGAINCONTROL};
-        const SLboolean req[] = {SL_BOOLEAN_TRUE,
+        const std::array<SLboolean, 5> req = {SL_BOOLEAN_TRUE,
                                  SL_BOOLEAN_FALSE,
                                  SL_BOOLEAN_FALSE,
                                  SL_BOOLEAN_FALSE,
                                  SL_BOOLEAN_FALSE};
-        const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+        const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
         result = (*m_engineEngine)->CreateAudioRecorder(m_engineEngine,
                                                         &recorderObject,
                                                         &audioSrc, &audioSnk,
-                                                        n_ids, &ids[0], req);
+                                                        n_ids, ids.data(), req.data());
 
         // realize the audio recorder so we can query the
         // interfaces. Putting SL_IID_ANDROIDACOUSTICECHOCANCELLATION
@@ -1103,13 +1104,13 @@ void OpenSLESWrapper::FillDevices(sounddevices_t& sounddevs)
             SLObjectItf playerObject = NULL;
 
             // create audio player
-            const SLInterfaceID ids[] = {SL_IID_BUFFERQUEUE};
-            const SLboolean req[] = {SL_BOOLEAN_TRUE};
-            const SLuint32 n_ids = sizeof(ids)/sizeof(ids[0]);
+            const std::array<SLInterfaceID, 1> ids = {SL_IID_BUFFERQUEUE};
+            const std::array<SLboolean, 1> req = {SL_BOOLEAN_TRUE};
+            const SLuint32 n_ids = static_cast<SLuint32>(ids.size());
 
             result = (*m_engineEngine)->CreateAudioPlayer(m_engineEngine, &playerObject,
                                                           &audioSrc, &audioSnk,
-                                                          n_ids, ids, req);
+                                                          n_ids, ids.data(), req.data());
             if(SL_RESULT_SUCCESS != result)
             {
                 MYTRACE(ACE_TEXT("Failed to query OpenSL audio player, channels=%d, samplerate=%d\n"), c, standardSampleRates[sr]);

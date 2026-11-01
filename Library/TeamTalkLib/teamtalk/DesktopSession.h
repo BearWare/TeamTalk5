@@ -26,6 +26,7 @@
 
 #include "Common.h"
 
+#include <array>
 #include <cstddef>
 #include <vector>
 
@@ -85,7 +86,7 @@ namespace teamtalk {
     public:
         static BMPPalette* Instance();
 
-        ACE_UINT8 m_rgb8_palette[256][4];
+        std::array<std::array<uint8_t, 4>, 256> m_rgb8_palette{};
 
     private:
         BMPPalette();
