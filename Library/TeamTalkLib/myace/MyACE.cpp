@@ -231,7 +231,7 @@ void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TStri
     target = tmp;
 }
 
-ACE_TString I2String(ACE_INT64 i)
+ACE_TString I2String(int64_t i)
 {
 #if defined(UNICODE)
     return std::to_wstring(i).c_str();
@@ -240,7 +240,7 @@ ACE_TString I2String(ACE_INT64 i)
 #endif /* UNICODE */
 }
 
-ACE_INT64 String2I(const ACE_TString& int_str, int base, ACE_INT64 errorValue)
+int64_t String2I(const ACE_TString& int_str, int base, int64_t errorValue)
 {
     try
     {
@@ -301,8 +301,8 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic
     std::vector<ACE_TCHAR> str_buf(MAX_TRACESTRLEN);
     ACE_OS::strncpy(str_buf.data(), ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
     std::array<ACE_TCHAR, MAX_TRACESTRLEN> tmp_str;
-    static ACE_UINT32 begin = GETTIMESTAMP();
-    static ACE_UINT32 next;
+    static uint32_t begin = GETTIMESTAMP();
+    static uint32_t next;
     next = GETTIMESTAMP();
     int out_len = 0;
 
@@ -398,7 +398,7 @@ ACE_TString UptimeHours(const ACE_Time_Value& value)
     return buf.data();
 }
 
-ACE_Time_Value ToTimeValue(ACE_INT64 msec)
+ACE_Time_Value ToTimeValue(int64_t msec)
 {
     constexpr auto ONE_SEC = 1000;
     return ACE_Time_Value(msec / ONE_SEC, (msec % ONE_SEC) * ONE_SEC);
@@ -635,24 +635,24 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
 {
     m_start = ACE_OS::gettimeofday();
 #if defined(WIN32) || defined(__ANDROID_API__)
-    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+    auto const h = static_cast<uint64_t>(ACE_OS::thr_self());
 #else
-    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+    auto const h = reinterpret_cast<uint64_t>(ACE_OS::thr_self());
 #endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
-                 m_name, (ACE_UINT32)0, m_filename, m_line, (unsigned)h);
+                 m_name, (uint32_t)0, m_filename, m_line, (unsigned)h);
 }
 
 Profiler::~Profiler()
 {
     ACE_Time_Value const tm = ACE_OS::gettimeofday() - m_start;
 #if defined(WIN32) || defined(__ANDROID_API__)
-    auto const h = static_cast<ACE_UINT64>(ACE_OS::thr_self());
+    auto const h = static_cast<uint64_t>(ACE_OS::thr_self());
 #else
-    auto const h = reinterpret_cast<ACE_UINT64>(ACE_OS::thr_self());
+    auto const h = reinterpret_cast<uint64_t>(ACE_OS::thr_self());
 #endif
     MYTRACE(ACE_TEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%X\n"),
-            m_name, static_cast<ACE_UINT32>(tm.msec()), m_filename, m_line, static_cast<unsigned>(h));
+            m_name, static_cast<uint32_t>(tm.msec()), m_filename, m_line, static_cast<unsigned>(h));
 }
 
 // NOLINTEND(cppcoreguidelines-pro-type-reinterpret-cast,cppcoreguidelines-pro-bounds-pointer-arithmetic)

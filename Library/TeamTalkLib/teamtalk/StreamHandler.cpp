@@ -23,6 +23,7 @@
 
 #include "StreamHandler.h"
 
+#include <array>
 #include <ace/Time_Value.h>
 #include <mutex>
 
@@ -219,9 +220,9 @@ int CryptStreamHandler::ProcessSSL(SSL* ssl)
     {
         unsigned long const err = ::ERR_get_error ();
         ACE_OS::last_error (err);
-        char error_string[256] = "";
-        ::ERR_error_string_n (::ERR_get_error(), error_string, sizeof(error_string));
-        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string));
+        std::array<char, 256> error_string{};
+        ::ERR_error_string_n (::ERR_get_error(), error_string.data(), error_string.size());
+        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string.data()));
         return -1;
     }
     }

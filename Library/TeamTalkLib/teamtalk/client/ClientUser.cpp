@@ -1014,7 +1014,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
     {
-       MYTRACE(ACE_TEXT("%u, "), static_cast<ACE_UINT32>((*ii)->GetPacketNo()));
+       MYTRACE(ACE_TEXT("%u, "), static_cast<uint32_t>((*ii)->GetPacketNo()));
        ii++;
     }
     MYTRACE(ACE_TEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));

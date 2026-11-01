@@ -70,7 +70,7 @@ namespace teamtalk {
         const teamtalk::FileTransfer& GetFileTransferInfo() const { return m_transfer; }
 
         //TimerListener functions
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         //StreamListener
 #if defined(ENABLE_ENCRYPTION)

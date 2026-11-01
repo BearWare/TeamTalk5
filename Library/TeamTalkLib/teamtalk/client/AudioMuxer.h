@@ -93,7 +93,7 @@ private:
     bool StartThread(const media::AudioInputFormat& fmt);
     void StopThread();
     void Run();
-    int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+    int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
     void ProcessAudioQueues(bool flush);
     bool CanMuxUserAudio();

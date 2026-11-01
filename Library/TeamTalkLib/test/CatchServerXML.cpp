@@ -27,6 +27,7 @@
 #include "myace/MyACE.h"
 
 #include <cstdio>
+#include <array>
 #include <string>
 #include <vector>
 
@@ -40,9 +41,9 @@ namespace {
     std::string GetTempFilePath(const std::string& name)
     {
 #if defined(WIN32)
-        char tmpPath[MAX_PATH];
-        GetTempPathA(MAX_PATH, tmpPath);
-        return std::string(tmpPath) + name;
+        std::array<char, MAX_PATH> tmpPath{};
+        GetTempPathA(MAX_PATH, tmpPath.data());
+        return std::string(tmpPath.data()) + name;
 #else
         return std::string("/tmp/") + name;
 #endif

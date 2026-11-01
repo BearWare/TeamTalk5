@@ -125,7 +125,7 @@ void AudioInputStreamer::Run()
 
     InitBuffers();
 
-    ACE_UINT32 const starttime = GETTIMESTAMP();
+    uint32_t const starttime = GETTIMESTAMP();
 
     bool flush = false;
     while (!m_stop)
@@ -204,6 +204,6 @@ bool AudioInputStreamer::Submit(ACE_Message_Block* mb)
 void AudioInputStreamer::UpdateTimeStamp(media::AudioFrame& frame)
 {
     assert(frame.inputfmt == GetMediaOutput().audio);
-    frame.timestamp = static_cast<ACE_UINT32>( (m_sampleindex * 1000) / GetMediaOutput().audio.samplerate );
+    frame.timestamp = static_cast<uint32_t>( (m_sampleindex * 1000) / GetMediaOutput().audio.samplerate );
     m_sampleindex += frame.input_samples;
 }

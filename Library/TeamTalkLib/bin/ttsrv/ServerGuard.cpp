@@ -691,7 +691,7 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
 
 #if defined(ENABLE_TEAMTALKPRO)
 
-void ServerGuard::WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount)
+void ServerGuard::WebLoginBearWare(ServerNode* servernode, uint32_t userid, UserAccount useraccount)
 {
     ErrorMsg err;
     std::string const authusername = UnicodeToUtf8(useraccount.username).c_str();
@@ -806,7 +806,7 @@ ErrorMsg ServerGuard::WebLoginPostAuthenticate(UserAccount& useraccount)
    
 }
 
-void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
+void ServerGuard::WebLoginComplete(ServerNode* servernode, uint32_t userid,
                                    const UserAccount& useraccount, const ErrorMsg& err)
 {
     serveruser_t const user = servernode->GetUser(userid, nullptr, false);
@@ -824,7 +824,7 @@ void ServerGuard::WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid,
     }
 
     timer_userdata usr = {};
-    usr.src_userid = ACE_UINT16(userid);
+    usr.src_userid = uint16_t(userid);
 
     int const ret = servernode->StartTimer(TIMERSRV_COMMAND_RESUME_ID, usr, ACE_Time_Value::zero);
     TTASSERT(ret >= 0);
@@ -865,7 +865,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         }
 
         MYTRACE(ACE_TEXT("Starting BearWare.dk WebLogin for %s\n"), useraccount.username.c_str());
-        std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, ACE_UINT32(user.GetUserID()), useraccount);
+        std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, uint32_t(user.GetUserID()), useraccount);
         mythr.detach();
 
         return TT_SRVERR_COMMAND_SUSPEND;

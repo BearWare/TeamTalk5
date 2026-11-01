@@ -87,10 +87,10 @@ public:
         ACE_HANDLE const hh = this->get_handle();
 #if defined (ACE_WIN32)
         MYTRACE(ACE_TEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
-                this, hh, ACE_UINT32(sent_), ACE_UINT32(recv_));
+                this, hh, uint32_t(sent_), uint32_t(recv_));
 #else
         MYTRACE(ACE_TEXT("~StreamHandler() %p, Handle: 0x%x, Sent: %u Recv: %u\n"),
-                this, hh, ACE_UINT32(sent_), ACE_UINT32(recv_));
+                this, hh, uint32_t(sent_), uint32_t(recv_));
 #endif
 
     }
@@ -208,7 +208,7 @@ public:
         return -1;
     }
 
-    ACE_INT64 sent_ = 0, recv_ = 0;
+    int64_t sent_ = 0, recv_ = 0;
 
 protected:
     StreamListener<StreamHandler>* m_listener = nullptr;

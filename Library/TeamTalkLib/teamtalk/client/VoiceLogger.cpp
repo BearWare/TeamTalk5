@@ -521,7 +521,7 @@ VoiceLogger::~VoiceLogger()
     MYTRACE(ACE_TEXT("~VoiceLogger()\n"));
 }
 
-int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int VoiceLogger::TimerEvent(uint32_t timer_event_id, long userdata)
 {
     switch(timer_event_id)
     {
@@ -575,7 +575,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
     ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
     ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
-    ACE_UINT32 const counter = from_user.IncVoiceLogCounter();
+    uint32_t const counter = from_user.IncVoiceLogCounter();
     std::array<ACE_TCHAR, 100> str_count;
     ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
     ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());

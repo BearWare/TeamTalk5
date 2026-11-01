@@ -34,25 +34,25 @@ class TimerListener
 {
 public:
     virtual ~TimerListener() = default;
-    virtual int TimerEvent(ACE_UINT32 timer_event_id, long userdata) = 0; //returning -1 will call 'delete this'
+    virtual int TimerEvent(uint32_t timer_event_id, long userdata) = 0; //returning -1 will call 'delete this'
 };
 
-using timers_t = std::map<ACE_UINT32, long>;
+using timers_t = std::map<uint32_t, long>;
 
 class TimerHandler : public ACE_Event_Handler
 {
 public:
-    TimerHandler(TimerListener& listener, ACE_UINT32 timer_event_id, long userdata = 0);
+    TimerHandler(TimerListener& listener, uint32_t timer_event_id, long userdata = 0);
     ~TimerHandler() override;
 
     int handle_timeout(const ACE_Time_Value& tv, const void* arg) override;
     int handle_close(ACE_HANDLE handle, ACE_Reactor_Mask close_mask) override;
 private:
     TimerListener& m_listener;
-    ACE_UINT32 m_timer_event_id;
+    uint32_t m_timer_event_id;
     long m_userdata;
 };
 
-using timer_handlers_t = std::map<ACE_UINT32, TimerHandler*>;
+using timer_handlers_t = std::map<uint32_t, TimerHandler*>;
 
 #endif

@@ -141,7 +141,7 @@ private:
     ACE_Time_Value m_lastActive;
 
     // tone generation
-    ACE_UINT32 m_tone_sample_index = 0, m_tone_frequency = 0;
+    uint32_t m_tone_sample_index = 0, m_tone_frequency = 0;
 };
 
 using audio_thread_t = std::shared_ptr< AudioThread >;

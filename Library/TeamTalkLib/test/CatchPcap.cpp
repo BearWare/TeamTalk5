@@ -40,6 +40,7 @@
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
 
+#include <array>
 #include <arpa/inet.h>
 #include <net/ethernet.h>
 #include <netinet/ip.h>
@@ -63,8 +64,8 @@ ttpackets_t GetTTPackets(const ACE_CString& filename,
     std::map< ACE_Time_Value, std::vector<char> > result;
     ACE_Time_Value first;
 
-    char errbuff[PCAP_ERRBUF_SIZE];
-    pcap_t * pcap = pcap_open_offline(filename.c_str(), errbuff);
+    std::array<char, PCAP_ERRBUF_SIZE> errbuff{};
+    pcap_t * pcap = pcap_open_offline(filename.c_str(), errbuff.data());
     REQUIRE(pcap);
 
     struct pcap_pkthdr *header;
@@ -317,7 +318,7 @@ TEST_CASE("PlaybackJitter")
             SuspendEventHandling(true);
         }
 
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override
+        int TimerEvent(uint32_t timer_event_id, long userdata) override
         {
             REQUIRE(m_nextpacket != m_packets.end());
             auto data = &m_nextpacket->second[0];

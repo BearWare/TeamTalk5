@@ -374,7 +374,7 @@ ClientKeepAlive ClientNode::GetKeepAlive()
 }
 
 //TimerListener
-int ClientNode::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
 {
     GUARD_REACTOR(this);
 
@@ -1441,8 +1441,8 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
 /*
     static int x = 0;
-    static ACE_UINT32 start = GETTIMESTAMP();
-    ACE_UINT32 now = GETTIMESTAMP();
+    static uint32_t start = GETTIMESTAMP();
+    uint32_t now = GETTIMESTAMP();
     MYTRACE(ACE_TEXT("Sent %d msec at %u. Duration: %u. Frame time: %u\n"), 
         x += GetAudioCodecCbMillis(m_audiofile_thread.Codec()),
         GETTIMESTAMP(), now - start, audio_frame.timestamp);
@@ -2154,7 +2154,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
 
     MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
             di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
-            static_cast<ACE_UINT32>(di_pkt.GetPacketNo()));
+            static_cast<uint32_t>(di_pkt.GetPacketNo()));
     
     src_user->AddPacket(di_pkt, *chan);
 
@@ -2186,8 +2186,8 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
         return;
 
     MYTRACE(ACE_TEXT("Received desktop input ACK for user #%d, session %d, pkt %u. Remain: %u\n"),
-            ack_pkt.GetSrcUserID(), static_cast<int>(session_id), static_cast<ACE_UINT32>(packetno),
-            static_cast<ACE_UINT32>(user->GetDesktopInputRtxQueue().size()));
+            ack_pkt.GetSrcUserID(), static_cast<int>(session_id), static_cast<uint32_t>(packetno),
+            static_cast<uint32_t>(user->GetDesktopInputRtxQueue().size()));
 
     while((!user->GetDesktopInputRtxQueue().empty()) &&
           user->GetDesktopInputRtxQueue().front()->GetSessionID() == session_id &&
@@ -3667,8 +3667,8 @@ ACE_Message_Block* ClientNode::AcquireVideoCaptureFrame()
 
 bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                           const char* enc_data, int enc_len,
-                                          ACE_UINT32 packet_no,
-                                          ACE_UINT32 timestamp)
+                                          uint32_t packet_no,
+                                          uint32_t timestamp)
 {
     if((enc_data != nullptr) && ((m_flags & CLIENT_AUTHORIZED) != 0u) &&
        ((m_flags & CLIENT_TX_VIDEOCAPTURE) != 0u))
@@ -3710,8 +3710,8 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
 
 bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
                                        const char* enc_data, int enc_len,
-                                       ACE_UINT32 packet_no,
-                                       ACE_UINT32 timestamp)
+                                       uint32_t packet_no,
+                                       uint32_t timestamp)
 {
     //max supported is uint16 * MAX_PAYLOAD_SIZE
     auto w = static_cast<uint16_t>(m_videofile_thread->GetVideoFormat().width);
@@ -4377,7 +4377,7 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
         TTASSERT(0);
         break;
     }
-    AppendProperty(TT_TEXTMSG_MORE, static_cast<ACE_INT64>(msg.more), command);
+    AppendProperty(TT_TEXTMSG_MORE, static_cast<int64_t>(msg.more), command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
@@ -4477,7 +4477,7 @@ int ClientNode::DoChannelOperator(int userid, int channelid,
     ACE_TString command = CLIENT_CHANNELOP;
     AppendProperty(TT_CHANNELID, channelid, command);
     AppendProperty(TT_USERID, userid, command);
-    AppendProperty(TT_OPERATORSTATUS, static_cast<ACE_INT64>(op), command);
+    AppendProperty(TT_OPERATORSTATUS, static_cast<int64_t>(op), command);
     if(!oppasswd.empty())
         AppendProperty(TT_OPPASSWORD, oppasswd, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4491,7 +4491,7 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_INT64 const filesize = ACE_OS::filesize(localfilepath.c_str());
+    int64_t const filesize = ACE_OS::filesize(localfilepath.c_str());
     ACE_TString filename = localfilepath;
     size_t const index = localfilepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR);
     if(index != ACE_TString::npos)
@@ -4729,7 +4729,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
     AppendProperty(TT_MAXLOGINATTEMPTS, serverprop.maxloginattempts, command);
     AppendProperty(TT_MAXLOGINSPERIP, serverprop.max_logins_per_ipaddr, command);
     AppendProperty(TT_LOGINDELAY, serverprop.logindelay, command);
-    AppendProperty(TT_AUTOSAVE, static_cast<ACE_INT64>(serverprop.autosave), command);
+    AppendProperty(TT_AUTOSAVE, static_cast<int64_t>(serverprop.autosave), command);
     if (!serverprop.hostaddrs.empty())
     {
         AppendProperty(TT_TCPPORT, serverprop.hostaddrs[0].get_port_number(), command);
@@ -5023,7 +5023,7 @@ void ClientNode::OnClosed()
             if (encrypted && (ace_lasterr != 0))
             {
                 std::array<char, MAX_STRING_LENGTH> sslerr_str;
-                ::ERR_error_string_n(ace_lasterr, sslerr_str.data(), sizeof(sslerr_str)-1);
+                ::ERR_error_string_n(ace_lasterr, sslerr_str.data(), sslerr_str.size()-1);
                 MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str.data());
                 m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str.data()));
             }
@@ -5934,7 +5934,7 @@ void ClientNode::HandleServerStats(const mstrings_t& properties)
 
     ServerStats serverstats;
 
-    ACE_INT64 uptime = 0;
+    int64_t uptime = 0;
     GetProperty(properties, TT_TOTALTX, serverstats.total_bytessent);
     GetProperty(properties, TT_TOTALRX, serverstats.total_bytesreceived);
     GetProperty(properties, TT_VOICETX, serverstats.voice_bytessent);
@@ -6030,4 +6030,3 @@ void ClientNode::HandleRemoveFile(const mstrings_t& properties)
         TTASSERT(0);
     }
 }
-
