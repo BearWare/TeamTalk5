@@ -6019,15 +6019,17 @@ void MainWindow::slotServerBannedUsers(bool /*checked =false */)
 
 void MainWindow::slotServerOnlineUsers(bool /*checked=false*/)
 {
+    //only connect signals once, otherwise each action is done several times
     if(m_onlineusersdlg)
-        m_onlineusersdlg->activateWindow();
-    else
     {
-        m_onlineusersdlg = new OnlineUsersDlg();
-        connect(m_onlineusersdlg, &QDialog::finished,
-                this, &MainWindow::slotClosedOnlineUsersDlg);
-        m_onlineusersdlg->setAttribute(Qt::WA_DeleteOnClose);
+        m_onlineusersdlg->activateWindow();
+        return;
     }
+
+    m_onlineusersdlg = new OnlineUsersDlg();
+    connect(m_onlineusersdlg, &QDialog::finished,
+            this, &MainWindow::slotClosedOnlineUsersDlg);
+    m_onlineusersdlg->setAttribute(Qt::WA_DeleteOnClose);
 
     connect(this, &MainWindow::userLogin, m_onlineusersdlg,
             &OnlineUsersDlg::slotUserLoggedIn);
