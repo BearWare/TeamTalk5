@@ -26,8 +26,8 @@
     <string name="text_cmd_leftchan">Opuszczono kanał:</string>
     <string name="text_cmd_joinroot">Dołączono do głównego kanału</string>
     <string name="text_cmd_leftroot">Opuszczono główny kanał</string>
-    <string name="text_cmd_userjoinchan">dołącza do kanału</string>
-    <string name="text_cmd_userleftchan">opuszcza kanał</string>
+    <string name="text_cmd_userjoinchan">%1$s dołącza do kanału</string>
+    <string name="text_cmd_userleftchan">%1$s opuszcza kanał</string>
     <string name="pref_cat_subscriptions">Usługi</string>
     <string name="pref_cat_tts">Ustawienia syntezy mowy</string>
     <string name="pref_header_general">Ogólne</string>
@@ -65,10 +65,10 @@
     <string name="pref_summary_channel_leave">Oznajmiaj nazwę użytkownika opuszczającego kanał</string>
     <string name="pref_title_private_message">Otrzymanie wiadomości prywatnej</string>
     <string name="pref_title_broadcast_message">Otrzymanie wiadomości administracyjnej</string>
-    <string name="text_tts_loggedin">loguje się</string>
-    <string name="text_tts_loggedout">wylogowuje się</string>
-    <string name="text_tts_joined_chan">dołącza się</string>
-    <string name="text_tts_left_chan">odchodzi</string>
+    <string name="text_tts_loggedin">%1$s loguje się</string>
+    <string name="text_tts_loggedout">%1$s wylogowuje się</string>
+    <string name="text_tts_joined_chan">%1$s dołącza się</string>
+    <string name="text_tts_left_chan">%1$s odchodzi</string>
     <string name="text_tts_private_message">Prywatna wiadomość od %1$s: %2$s</string>
     <string name="text_tts_broadcast_message">Wiadomość administracyjna od %1$s: %2$s</string>
     <string name="pref_header_soundsystem">Dźwięk</string>
@@ -499,8 +499,8 @@
     <string name="pref_summary_bearwareid">Skonfiguruj logowanie BearWare.dk Web Login</string>
     <string name="pref_title_mediafile_volume">Głośność multimediów</string>
     <string name="pref_summary_mediafile_volume">Ustaw głośność strumieniowanych multimediów niezależnie od mowy użytkowników</string>
-    <string name="text_cmd_userloggedin">loguje się</string>
-    <string name="text_cmd_userloggedout">wylogowuje się</string>
+    <string name="text_cmd_userloggedin">%1$s loguje się</string>
+    <string name="text_cmd_userloggedout">%1$s wylogowuje się</string>
     <string name="text_user_typing_title">%1$s pisze…</string>
     <string name="title_section_media">Strumienie multimedialne</string>
     <string name="label_rxtx">RX/TX:</string>

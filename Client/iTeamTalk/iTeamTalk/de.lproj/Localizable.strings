@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ hat den Raum betreten";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ hat den Raum verlassen";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ hat sich angemeldet";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ hat sich abgemeldet";
+
 /* log entry */
 "%@ joined channel" = "%@ hat den Raum betreten";
 
@@ -246,18 +258,6 @@
    user detail */
 "General" = "Allgemein";
 
-/* TTS EVENT */
-"has joined the channel" = "hat den Raum betreten";
-
-/* TTS EVENT */
-"has left the channel" = "hat den Raum verlassen";
-
-/* TTS EVENT */
-"has logged on" = "hat sich angemeldet";
-
-/* TTS EVENT */
-"has logged out" = "hat sich abgemeldet";
-
 /* preferences */
 "Headset TX Toggle" = "Headset-Übertragung umschalten";
 
@@ -325,6 +325,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Lautstärke Medien zu Sprache";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Nachricht des Tages";
@@ -489,6 +492,9 @@
 /* serverlist */
 "Public server" = "Öffentlicher Server";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Push-to-Talk-Sperre";
 
@@ -609,6 +615,9 @@
 /* server entry */
 "TCP Port" = "TCP-Port";
 
+/* accessibility label */
+"Text Messaging" = "Textnachricht";
+
 /* preferences */
 "Text To Speech Events" = "Sprachausgabenereignisse";
 
@@ -666,6 +675,9 @@
 
 /* channel list */
 "User female" = "Benutzerin";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Benutzer betritt Raum";

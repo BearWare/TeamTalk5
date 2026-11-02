@@ -2210,7 +2210,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedin, name));
         }
     }
 
@@ -2226,7 +2226,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedout, name));
         }
     }
 
@@ -2280,7 +2280,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && prefs.get("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
-                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                        ttsWrapper.speak(getResources().getString(R.string.text_tts_joined_chan, name));
                     }
                 }
                 accessibilityAssistant.unlockEvents();
@@ -2335,7 +2335,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                    ttsWrapper.speak(getResources().getString(R.string.text_tts_left_chan, name));
                 }
             }
             accessibilityAssistant.unlockEvents();
@@ -2417,7 +2417,7 @@ private EditText newmsg;
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, completemsg.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, getString(R.string.notification_channel_messages), NotificationManager.IMPORTANCE_HIGH);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(null);
                 mChannel.enableLights(false);

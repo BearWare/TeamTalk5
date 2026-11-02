@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ приєднується до каналу";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ виходить з каналу";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ входить на сервер";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ виходить із сервера";
+
 /* log entry */
 "%@ joined channel" = "%@ приєднується до каналу";
 
@@ -242,18 +254,6 @@
 /* preferences
    user detail */
 "General" = "Загальні";
-
-/* TTS EVENT */
-"has joined the channel" = "приєднується до каналу";
-
-/* TTS EVENT */
-"has left the channel" = "виходить з каналу";
-
-/* TTS EVENT */
-"has logged on" = "входить на сервер";
-
-/* TTS EVENT */
-"has logged out" = "виходить із сервера";
 
 /* preferences */
 "Headset TX Toggle" = "Керування передаванням з гарнітури";

@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ 채널에 입장함";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ 채널에서 퇴장함";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ 로그인함";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ 로그아웃함";
+
 /* log entry */
 "%@ joined channel" = "%@ 채널에 입장함";
 
@@ -244,18 +256,6 @@
    user detail */
 "General" = "일반";
 
-/* TTS EVENT */
-"has joined the channel" = "채널에 입장함";
-
-/* TTS EVENT */
-"has left the channel" = "채널에서 퇴장함";
-
-/* TTS EVENT */
-"has logged on" = "로그인함";
-
-/* TTS EVENT */
-"has logged out" = "로그아웃함";
-
 /* preferences */
 "Headset TX Toggle" = "헤드셋으로 말하기 상태 전환";
 
@@ -323,6 +323,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "미디어 파일 음량 대비 말하기 음량";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "환영사";
@@ -487,6 +490,9 @@
 /* serverlist */
 "Public server" = "공개 서버";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "눌러서 말하기 잠금";
 
@@ -606,6 +612,9 @@
 /* server entry */
 "TCP Port" = "TCP 포트";
 
+/* accessibility label */
+"Text Messaging" = "텍스트 메시지";
+
 /* preferences */
 "Text To Speech Events" = "TTS 이벤트";
 
@@ -663,6 +672,9 @@
 
 /* channel list */
 "User female" = "사용자, 여성";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "채널 입장";

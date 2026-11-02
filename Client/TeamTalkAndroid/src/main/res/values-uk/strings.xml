@@ -29,10 +29,10 @@
 		<string name="text_cmd_leftchan">Ви вийшли з каналу:</string>
 		<string name="text_cmd_joinroot">Ви приєдналися до кореневого каналу</string>
 		<string name="text_cmd_leftroot">Ви вийшли з кореневого каналу</string>
-		<string name="text_cmd_userjoinchan">приєднується до каналу</string>
-		<string name="text_cmd_userleftchan">виходить з каналу</string>
-		<string name="text_cmd_userloggedout">виходить із сервера</string>
-		<string name="text_cmd_userloggedin">входить на сервер</string>
+		<string name="text_cmd_userjoinchan">%1$s приєднується до каналу</string>
+		<string name="text_cmd_userleftchan">%1$s виходить з каналу</string>
+		<string name="text_cmd_userloggedout">%1$s виходить із сервера</string>
+		<string name="text_cmd_userloggedin">%1$s входить на сервер</string>
 		<string name="pref_cat_subscriptions">Підписки</string>
 		<string name="pref_cat_connection_general">Загальні</string>
 		<string name="pref_cat_tts">Налаштування синтезу мовлення</string>
@@ -172,13 +172,13 @@
 		<string name="pref_title_voice_processing_checkbox">Увімкнути попередню обробку голосу</string>
 		<string name="pref_summary_voice_processing_checkbox">Використовуватиметься усунення відлуння та автоматичне регулювання підсилення</string>
 
-		<string name="text_tts_loggedin">входить на сервер</string>
-		<string name="text_tts_loggedout">виходить із сервера</string>
+		<string name="text_tts_loggedin">%1$s входить на сервер</string>
+		<string name="text_tts_loggedout">%1$s виходить із сервера</string>
 		<string name="text_tts_user_joined_other_channel">%1$s приєднується до каналу: %2$s</string>
 		<string name="text_tts_user_left_other_channel">%1$s виходить з каналу: %2$s</string>
 		<string name="text_root_chan">кореневий</string>
-		<string name="text_tts_joined_chan">приєднується до каналу</string>
-		<string name="text_tts_left_chan">виходить з каналу</string>
+		<string name="text_tts_joined_chan">%1$s приєднується до каналу</string>
+		<string name="text_tts_left_chan">%1$s виходить з каналу</string>
 		<string name="text_tts_private_message">Приватне повідомлення від %1$s: %2$s</string>
 		<string name="text_tts_channel_message">Повідомлення каналу від %1$s: %2$s</string>
 		<string name="text_tts_broadcast_message">Загальне повідомлення від %1$s: %2$s</string>

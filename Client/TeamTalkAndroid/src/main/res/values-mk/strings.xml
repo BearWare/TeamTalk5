@@ -27,8 +27,8 @@
     <string name="text_cmd_leftchan">Напушти го каналот:</string>
     <string name="text_cmd_joinroot">Приклучисе на главниот канал</string>
     <string name="text_cmd_leftroot">Напушти го главниот канал</string>
-    <string name="text_cmd_userjoinchan">Се приклучи на каналот</string>
-    <string name="text_cmd_userleftchan">Го напушти каналот</string>
+    <string name="text_cmd_userjoinchan">%1$s Се приклучи на каналот</string>
+    <string name="text_cmd_userleftchan">%1$s Го напушти каналот</string>
     <string name="pref_cat_subscriptions">Супскрипции</string>
     <string name="pref_cat_tts">Конфигурирај ги известувањата од говорната синтеза</string>
     <string name="pref_header_general">Генерални</string>
@@ -91,10 +91,10 @@
     <string name="pref_title_voice_processing_checkbox">Вклучи препроцесирање на гласот</string>
     <string name="pref_summary_voice_processing_checkbox">Користи пригушување на ехото и автоматска контрола на микрофонот</string>
 
-    <string name="text_tts_loggedin">Се најави</string>
-    <string name="text_tts_loggedout">се одјави</string>
-    <string name="text_tts_joined_chan">се приклучи на каналот</string>
-    <string name="text_tts_left_chan">го напушти каналот</string>
+    <string name="text_tts_loggedin">%1$s Се најави</string>
+    <string name="text_tts_loggedout">%1$s се одјави</string>
+    <string name="text_tts_joined_chan">%1$s се приклучи на каналот</string>
+    <string name="text_tts_left_chan">%1$s го напушти каналот</string>
     <string name="text_tts_private_message">Лична порака од корисникот %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Броткаст порака од корисникот %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Систем за звук</string>

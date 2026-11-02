@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ kapcsolódott a csatornához";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ elhagyta a csatornát";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ has logged on";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ has logged out";
+
 /* log entry */
 "%@ joined channel" = "%@ Csatlakozott a csatornához";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "Általános";
 
-/* TTS EVENT */
-"has joined the channel" = "kapcsolódott a csatornához";
-
-/* TTS EVENT */
-"has left the channel" = "elhagyta a csatornát";
-
-/* TTS EVENT */
-"has logged on" = "has logged on";
-
-/* TTS EVENT */
-"has logged out" = "has logged out";
-
 /* preferences */
 "Headset TX Toggle" = "Headset TX Toggle";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "a Médiafájl és hangerő közti különbség";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Message of the Day";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "nyilvános szerver";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "PTT zárolás";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "TCP Port";
 
+/* accessibility label */
+"Text Messaging" = "szöveg üzenet";
+
 /* preferences */
 "Text To Speech Events" = "Hangmotori Események";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "User female";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "tag Kapcsolódott a Csatornához";
