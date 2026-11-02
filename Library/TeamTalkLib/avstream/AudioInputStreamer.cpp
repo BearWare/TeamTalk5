@@ -59,8 +59,8 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
             return false;
 
         m_inputfmt = frame.inputfmt;
-        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
-        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
+        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
+        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
     }
     else if (frame.inputfmt != m_inputfmt)
     {

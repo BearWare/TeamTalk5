@@ -69,8 +69,9 @@ using namespace teamtalk;
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
 {
+    constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
     ACE_TString settings_path;
-    std::array<ACE_TCHAR, 1024> buf;
+    std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buf;
 
     if(cfgfile.empty())
     {
@@ -450,7 +451,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(PrintGetBool(!filesroot.empty()))
     {
-        std::array<ACE_TCHAR, 1024> buff;
+        constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
+        constexpr auto BYTES_PER_KILOBYTE = 1024;
+        std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buff;
         ACE_OS::getcwd(buff.data(), buff.size());
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
@@ -461,9 +464,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         if(!filesroot.empty() && ACE_OS::chdir(filesroot.c_str()) == 0)
         {
             cout << "Disk quota (in KBytes) per channel, 0 = disabled: ";
-            diskquota = PrintGetInt64(diskquota/1024)*1024;
+            diskquota = PrintGetInt64(diskquota/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
             cout << "Maximum disk usage (in KBytes) for storing files: ";
-            maxdiskusage = PrintGetInt64(maxdiskusage/1024)*1024;
+            maxdiskusage = PrintGetInt64(maxdiskusage/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
         }
         else
         {
@@ -917,12 +920,14 @@ bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
 
 bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
 {
+    constexpr auto LOGIN_RETRY_BACKOFF_MULTIPLIER = 2;
+    constexpr auto INITIAL_LOGIN_RETRY_DELAY_SECONDS = 1ul;
     std::string bwidUtf8;
     std::string tokenUtf8;
     xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
     ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
     ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
-    static auto sleepTimeSec = 1ul;
+    static auto sleepTimeSec = INITIAL_LOGIN_RETRY_DELAY_SECONDS;
     while (token.empty())
     {
         cout << TEAMTALK_NAME << " requires a BearWare.dk WebLogin" << endl;
@@ -961,11 +966,11 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
         case WEBLOGIN_SERVER_UNAVAILABLE :
         case WEBLOGIN_SERVER_INCOMPATIBLE :
             cout << "Unable to contact BearWare.dk WebLogin" << endl;
-            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
             break;
         case WEBLOGIN_FAILED :
             cout << "Login failed. Please try again." << endl;
-            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
             break;
         }
     }
@@ -985,14 +990,14 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
             xmlSettings.SaveFile();
         }
-        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
         return false;
     case WEBLOGIN_SERVER_UNAVAILABLE :
     case WEBLOGIN_SERVER_INCOMPATIBLE :
         os.str(ACE_TEXT(""));
         os << "BearWare.dk WebLogin is currently unavailable. Continuing... ";
         TT_SYSLOG(os.str().c_str());
-        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
         break;
     case WEBLOGIN_SUCCESS :
         break;
@@ -1006,6 +1011,14 @@ bool ConfigureServer(teamtalk::ServerNode& servernode,
                      const teamtalk::ServerSettings& properties,
                      const teamtalk::statchannels_t& channels)
 {
+    constexpr auto DEFAULT_OPUS_SAMPLE_RATE_HZ = 48000;
+    constexpr auto DEFAULT_OPUS_CHANNEL_COUNT = 1;
+    constexpr auto DEFAULT_OPUS_COMPLEXITY = 10;
+    constexpr auto DEFAULT_OPUS_BITRATE_BPS = 32000;
+    constexpr auto DEFAULT_OPUS_FRAME_SIZE_SAMPLES = 1920;
+    constexpr auto DEFAULT_OPUS_FRAMES_PER_PACKET = 1;
+    constexpr auto OPUS_APPLICATION_VOIP = 2048; // don't depend on codecs in server
+
     GUARD_OBJ(&servernode, servernode.Lock());
 
     //load settings
@@ -1024,17 +1037,17 @@ bool ConfigureServer(teamtalk::ServerNode& servernode,
         chanprop.channelid = 1;
         chanprop.chantype = CHANNEL_DEFAULT | CHANNEL_PERMANENT;
         chanprop.audiocodec.codec = CODEC_OPUS;
-        chanprop.audiocodec.opus.samplerate = 48000;
-        chanprop.audiocodec.opus.channels = 1;
-        chanprop.audiocodec.opus.complexity = 10;
+        chanprop.audiocodec.opus.samplerate = DEFAULT_OPUS_SAMPLE_RATE_HZ;
+        chanprop.audiocodec.opus.channels = DEFAULT_OPUS_CHANNEL_COUNT;
+        chanprop.audiocodec.opus.complexity = DEFAULT_OPUS_COMPLEXITY;
         chanprop.audiocodec.opus.fec = true;
         chanprop.audiocodec.opus.dtx = false;
-        chanprop.audiocodec.opus.bitrate = 32000;
+        chanprop.audiocodec.opus.bitrate = DEFAULT_OPUS_BITRATE_BPS;
         chanprop.audiocodec.opus.vbr = true;
         chanprop.audiocodec.opus.vbr_constraint = false;
-        chanprop.audiocodec.opus.frame_size = 1920;
-        chanprop.audiocodec.opus.application = 2048; /* OPUS_APPLICATION_VOIP */
-        chanprop.audiocodec.opus.frames_per_packet = 1;
+        chanprop.audiocodec.opus.frame_size = DEFAULT_OPUS_FRAME_SIZE_SAMPLES;
+        chanprop.audiocodec.opus.application = OPUS_APPLICATION_VOIP;
+        chanprop.audiocodec.opus.frames_per_packet = DEFAULT_OPUS_FRAMES_PER_PACKET;
 #if 0
         chanprop.audiocodec.codec = CODEC_SPEEX;
         chanprop.audiocodec.speex.bandmode = 1;

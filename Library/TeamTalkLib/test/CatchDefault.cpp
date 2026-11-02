@@ -2548,7 +2548,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
     soundsystem::DeviceInfo& outdev = *ioutdev;
 
     uint32_t samples = 0, starttime = 0;
-    const int SAMPLERATE = 48000, CHANNELS = 1;
+    constexpr int SAMPLERATE = 48000, CHANNELS = 1;
 
     class MyStream : public soundsystem::StreamPlayer
     {
@@ -2960,9 +2960,9 @@ TEST_CASE("LocalPlaybackEventOrder")
 
 TEST_CASE("LocalPlaybackPerformance")
 {
-    const auto IN_SAMPLERATE = 48000;
-    const auto IN_CHANNELS = 2;
-    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+    constexpr auto IN_SAMPLERATE = 48000;
+    constexpr auto IN_CHANNELS = 2;
+    constexpr auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
@@ -3643,9 +3643,9 @@ TEST_CASE("OPUSFileEncDec")
 
 TEST_CASE("OPUSFileSeek")
 {
-    const auto SAMPLERATE = 12000;
-    const auto FRAMESIZE_SEC = .04;
-    const auto CHANNELS = 2;
+    constexpr auto SAMPLERATE = 12000;
+    constexpr auto FRAMESIZE_SEC = .04;
+    constexpr auto CHANNELS = 2;
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = CHANNELS;
@@ -3767,9 +3767,9 @@ TEST_CASE("OPUSFileSeek")
 
 TEST_CASE("OPUSStreamer")
 {
-    const auto IN_SAMPLERATE = 12000;
-    const auto IN_FRAMESIZE_SEC = .04;
-    const auto IN_CHANNELS = 2;
+    constexpr auto IN_SAMPLERATE = 12000;
+    constexpr auto IN_FRAMESIZE_SEC = .04;
+    constexpr auto IN_CHANNELS = 2;
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
@@ -3785,9 +3785,9 @@ TEST_CASE("OPUSStreamer")
                      mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
     CreateOpusFile(mfi, opusencfilename.data(), IN_FRAMESIZE);
 
-    const auto OUT_SAMPLERATE = 48000;
-    const auto OUT_CHANNELS = 1;
-    const auto OUT_FRAMESIZE = int(OUT_SAMPLERATE * .06);
+    constexpr auto OUT_SAMPLERATE = 48000;
+    constexpr auto OUT_CHANNELS = 1;
+    constexpr auto OUT_FRAMESIZE = int(OUT_SAMPLERATE * .06);
 
     std::array<ACE_TCHAR, TT_STRLEN> opusstreamerfilename{};
     ACE_OS::snprintf(opusstreamerfilename.data(), opusstreamerfilename.size(), ACE_TEXT("opusstreamer_outputfile_%d_%dmsec.wav"),
@@ -3854,9 +3854,9 @@ TEST_CASE("OPUSStreamer")
 
 TEST_CASE("TTPlayOpusOgg")
 {
-    const auto IN_SAMPLERATE = 48000;
-    const auto IN_CHANNELS = 2;
-    const auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+    constexpr auto IN_SAMPLERATE = 48000;
+    constexpr auto IN_CHANNELS = 2;
+    constexpr auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
@@ -3950,7 +3950,7 @@ TEST_CASE("TTPlayOpusOgg")
     started = false;
     paused = false;
     durationMSec = GETTIMESTAMP();
-    const int pausedurationMSec = 1000;
+    constexpr int PAUSE_DURATION_MSEC = 1000;
     while (!stop && WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, DEFWAIT))
     {
         switch(msg.mediafileinfo.nStatus)
@@ -3969,7 +3969,7 @@ TEST_CASE("TTPlayOpusOgg")
         case MFS_PAUSED :
             REQUIRE(!paused);
             paused = true;
-            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, pausedurationMSec);
+            WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, PAUSE_DURATION_MSEC);
             mfp.bPaused = FALSE;
             REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
             started = false;
@@ -3987,8 +3987,8 @@ TEST_CASE("TTPlayOpusOgg")
     REQUIRE(paused);
     durationMSec = GETTIMESTAMP() - durationMSec;
     // precision reduced due to GitHub CI being slow
-    const int toleranceMSec = 500;
-    REQUIRE(int(durationMSec) >= int(mfi.uDurationMSec + pausedurationMSec - pausedurationMSec));
+    constexpr int DURATION_TOLERANCE_MSEC = 500;
+    REQUIRE(int(durationMSec) >= int(mfi.uDurationMSec + PAUSE_DURATION_MSEC - PAUSE_DURATION_MSEC));
 }
 
 TEST_CASE("TTPlayFFmpegOpus")

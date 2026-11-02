@@ -133,7 +133,7 @@ public:
     const MediaStreamOutput& GetMediaOutput() const { return m_media_out; }
 
 protected:
-    const int BUF_SECS = 3;
+    static constexpr int BUFFER_DURATION_SECONDS = 3;
 
     void Close();
 
