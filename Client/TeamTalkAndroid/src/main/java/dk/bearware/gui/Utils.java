@@ -958,6 +958,8 @@ public class Utils {
     }
     
     public static String getDisplayName(Context context, User user) {
+        if (user == null)
+            return "";
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context); 
         if(pref.getBoolean(Preferences.PREF_GENERAL_SHOWUSERNAMES, false)) {
             return user.szUsername;
