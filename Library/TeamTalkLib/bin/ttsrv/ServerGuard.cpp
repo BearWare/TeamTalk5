@@ -674,18 +674,19 @@ void ServerGuard::OnSaveConfiguration(const ServerUser* user/* = NULL*/)
 
 void ServerGuard::OnShutdown(const ServerStats& stats)
 {
+    constexpr auto BYTES_PER_KILOBYTE = 1024;
     tostringstream oss;
     oss << ACE_TEXT("Data transferred - ");
-    oss << ACE_TEXT("Total TX: ") << stats.total_bytessent / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Total RX: ") << stats.total_bytesreceived / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Voice TX: ") << stats.voice_bytessent / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Voice RX: ") << stats.voice_bytesreceived / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Desktop TX: ") << stats.desktop_bytessent / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Desktop RX: ") << stats.desktop_bytesreceived / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Media Files TX: ") << stats.mediafile_bytessent / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Media Files RX: ") << stats.mediafile_bytesreceived / 1024 << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Video TX: ") << stats.vidcap_bytessent / 1024 << ACE_TEXT(" KBytes/sec ");
-    oss << ACE_TEXT("Video RX: ") << stats.vidcap_bytesreceived / 1024 << ACE_TEXT(" KBytes/sec.");
+    oss << ACE_TEXT("Total TX: ") << stats.total_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Total RX: ") << stats.total_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Voice TX: ") << stats.voice_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Voice RX: ") << stats.voice_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Desktop TX: ") << stats.desktop_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Desktop RX: ") << stats.desktop_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Media Files TX: ") << stats.mediafile_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Media Files RX: ") << stats.mediafile_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
+    oss << ACE_TEXT("Video TX: ") << stats.vidcap_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes/sec ");
+    oss << ACE_TEXT("Video RX: ") << stats.vidcap_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes/sec.");
     TT_LOG(oss.str().c_str());
 }
 

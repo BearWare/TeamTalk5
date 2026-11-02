@@ -61,8 +61,8 @@ struct BitmapInfoHeader
 };
 #endif
 
-const int BMPHDR_SIZE = 14;
-const int BMIHEADER_SIZE = 40;
+constexpr int BMPHDR_SIZE = 14;
+constexpr int BMIHEADER_SIZE = 40;
 
 bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
                  const char* data, int size)

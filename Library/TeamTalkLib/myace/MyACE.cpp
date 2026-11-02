@@ -294,7 +294,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic
     va_list args;
     va_start(args, trace_str);
 #if defined(__ANDROID_API__) || defined(WIN32) || defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
-    const int MAX_TRACESTRLEN = 512;
+    constexpr int MAX_TRACESTRLEN = 512;
 #else
     constexpr int MAX_TRACESTRLEN = 0x10000;
 #endif

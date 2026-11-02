@@ -113,7 +113,7 @@ bool OpenSLESWrapper::Init()
         SLInterfaceID effectType, effectImplementation;
         for (SLuint32 i=0; i < nbEffects; i++)
         {
-            const int FX_NAME_LENGTH = 128;
+            constexpr int FX_NAME_LENGTH = 128;
             std::array<SLchar, FX_NAME_LENGTH> effectName{};
             SLuint16 effectNameLength = FX_NAME_LENGTH-1;
 

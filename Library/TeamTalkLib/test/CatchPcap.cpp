@@ -128,31 +128,36 @@ TEST_CASE("AudioMuxerJitter")
 {
     auto ttpackets = GetTTPackets("testdata/Jitter/netem.pcapng", "10.157.1.34", 10333, "10.157.1.40", 63915);
 
-    const int FPP = 2;
-    const int SAMPLERATE = 48000, CHANNELS = 2;
-    const double FRMDURATION = .120;
-    const int PLAYBACKFRAMESIZE = FPP * FRMDURATION * SAMPLERATE;
+    constexpr int FRAMES_PER_PACKET = 2;
+    constexpr int SAMPLE_RATE_HZ = 48000;
+    constexpr int CHANNEL_COUNT = 2;
+    constexpr double FRAME_DURATION_SECONDS = .120;
+    constexpr int PLAYBACK_FRAME_SIZE_SAMPLES = FRAMES_PER_PACKET * FRAME_DURATION_SECONDS * SAMPLE_RATE_HZ;
+    constexpr int OPUS_COMPLEXITY = 10;
+    constexpr int OPUS_BITRATE_BPS = 6000;
+    constexpr int AUDIO_BUFFER_SIZE_MSEC = 5000;
+    constexpr int STOPPED_TALKING_DELAY_MSEC = 5000;
 
     teamtalk::AudioCodec codec;
     codec.codec = teamtalk::CODEC_OPUS;
-    codec.opus.samplerate = SAMPLERATE;
-    codec.opus.channels = CHANNELS;
+    codec.opus.samplerate = SAMPLE_RATE_HZ;
+    codec.opus.channels = CHANNEL_COUNT;
     codec.opus.application = OPUS_APPLICATION_VOIP;
-    codec.opus.complexity = 10;
+    codec.opus.complexity = OPUS_COMPLEXITY;
     codec.opus.fec = true;
     codec.opus.dtx = true;
-    codec.opus.bitrate = 6000;
+    codec.opus.bitrate = OPUS_BITRATE_BPS;
     codec.opus.vbr = false;
     codec.opus.vbr_constraint = false;
-    codec.opus.frame_size = SAMPLERATE * FRMDURATION;
-    codec.opus.frames_per_packet = FPP;
+    codec.opus.frame_size = SAMPLE_RATE_HZ * FRAME_DURATION_SECONDS;
+    codec.opus.frames_per_packet = FRAMES_PER_PACKET;
 
     OpusDecode decoder;
-    REQUIRE(decoder.Open(SAMPLERATE, CHANNELS));
-    std::vector<short> frame(CHANNELS * SAMPLERATE * FRMDURATION * FPP);
+    REQUIRE(decoder.Open(SAMPLE_RATE_HZ, CHANNEL_COUNT));
+    std::vector<short> frame(PLAYBACK_FRAME_SIZE_SAMPLES * CHANNEL_COUNT);
 
     WavePCMFile wavefile;
-    REQUIRE(wavefile.NewFile(ACE_TEXT("netem.wav"), SAMPLERATE, CHANNELS));
+    REQUIRE(wavefile.NewFile(ACE_TEXT("netem.wav"), SAMPLE_RATE_HZ, CHANNEL_COUNT));
     uint32_t sampleno = 0;
 
 #define DIRECTRECORDER 0
@@ -193,10 +198,10 @@ TEST_CASE("AudioMuxerJitter")
             {
                 player.reset(new teamtalk::OpusPlayer(p.GetSrcUserID(), teamtalk::STREAMTYPE_VOICE,
                                                       snd, audiocb, codec, audio_resampler_t()));
-                player->SetAudioBufferSize(5000);
-                player->SetStoppedTalkingDelay(5000);
+                player->SetAudioBufferSize(AUDIO_BUFFER_SIZE_MSEC);
+                player->SetStoppedTalkingDelay(STOPPED_TALKING_DELAY_MSEC);
                 REQUIRE(snd->OpenOutputStream(player.get(), TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
-                                              sndgrp, SAMPLERATE, CHANNELS, PLAYBACKFRAMESIZE));
+                                              sndgrp, SAMPLE_RATE_HZ, CHANNEL_COUNT, PLAYBACK_FRAME_SIZE_SAMPLES));
                 REQUIRE(snd->StartStream(player.get()));
             }
 
@@ -207,25 +212,25 @@ TEST_CASE("AudioMuxerJitter")
             auto opusenc = p.GetEncodedAudio(opuslen);
             REQUIRE(opusenc);
             int encoffset = 0;
-            int enclen = opuslen / FPP;
+            int enclen = opuslen / FRAMES_PER_PACKET;
             int frameoffset = 0;
 
-            for (int i=0; i < FPP; ++i)
+            for (int i=0; i < FRAMES_PER_PACKET; ++i)
             {
-                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[frameoffset * CHANNELS], codec.opus.frame_size);
+                int ret = decoder.Decode(&opusenc[encoffset], enclen, &frame[frameoffset * CHANNEL_COUNT], codec.opus.frame_size);
                 REQUIRE(ret == codec.opus.frame_size);
                 encoffset += enclen;
                 frameoffset += codec.opus.frame_size;
             }
-            REQUIRE(frameoffset == PLAYBACKFRAMESIZE);
-            wavefile.AppendSamples(&frame[0], PLAYBACKFRAMESIZE);
+            REQUIRE(frameoffset == PLAYBACK_FRAME_SIZE_SAMPLES);
+            wavefile.AppendSamples(&frame[0], PLAYBACK_FRAME_SIZE_SAMPLES);
 
 #if DIRECTRECORDER
-            media::AudioFrame frm(media::AudioFormat(SAMPLERATE, CHANNELS),
-                                  &frame[0], PLAYBACKFRAMESIZE, sampleno);
+            media::AudioFrame frm(media::AudioFormat(SAMPLE_RATE_HZ, CHANNEL_COUNT),
+                                  &frame[0], PLAYBACK_FRAME_SIZE_SAMPLES, sampleno);
             REQUIRE(directrecorder.QueueUserAudio(p.GetSrcUserID(), teamtalk::STREAMTYPE_VOICE, frm));
 #endif
-            sampleno += PLAYBACKFRAMESIZE;
+            sampleno += PLAYBACK_FRAME_SIZE_SAMPLES;
         }
         }
         ACE_Time_Value wait = i.first - last;
@@ -246,24 +251,27 @@ TEST_CASE("PlaybackJitter")
     REQUIRE(ttpackets.size());
 
     // Setup ClientNode's own 'ClientChannel'
-    const int FPP = 2;
-    const int SAMPLERATE = 48000, CHANNELS = 2;
-    const double FRMDURATION = .120;
-    const int PLAYBACKFRAMESIZE = FPP * FRMDURATION * SAMPLERATE;
+    constexpr int FRAMES_PER_PACKET = 2;
+    constexpr int SAMPLE_RATE_HZ = 48000;
+    constexpr int CHANNEL_COUNT = 2;
+    constexpr double FRAME_DURATION_SECONDS = .120;
+    constexpr int PLAYBACK_FRAME_SIZE_SAMPLES = FRAMES_PER_PACKET * FRAME_DURATION_SECONDS * SAMPLE_RATE_HZ;
+    constexpr int OPUS_COMPLEXITY = 10;
+    constexpr int OPUS_BITRATE_BPS = 6000;
 
     teamtalk::AudioCodec codec;
     codec.codec = teamtalk::CODEC_OPUS;
-    codec.opus.samplerate = SAMPLERATE;
-    codec.opus.channels = CHANNELS;
+    codec.opus.samplerate = SAMPLE_RATE_HZ;
+    codec.opus.channels = CHANNEL_COUNT;
     codec.opus.application = OPUS_APPLICATION_VOIP;
-    codec.opus.complexity = 10;
+    codec.opus.complexity = OPUS_COMPLEXITY;
     codec.opus.fec = true;
     codec.opus.dtx = true;
-    codec.opus.bitrate = 6000;
+    codec.opus.bitrate = OPUS_BITRATE_BPS;
     codec.opus.vbr = false;
     codec.opus.vbr_constraint = false;
-    codec.opus.frame_size = SAMPLERATE * FRMDURATION;
-    codec.opus.frames_per_packet = FPP;
+    codec.opus.frame_size = SAMPLE_RATE_HZ * FRAME_DURATION_SECONDS;
+    codec.opus.frames_per_packet = FRAMES_PER_PACKET;
 
     teamtalk::clientchannel_t mychan;
     mychan.reset(new teamtalk::ClientChannel(25));

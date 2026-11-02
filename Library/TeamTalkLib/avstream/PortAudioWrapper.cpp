@@ -914,7 +914,8 @@ void CWMAudioAECCapture::Run()
     int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, WINAEC_SAMPLERATE);
     m_input_buffer.resize(inputsamples * WINAEC_CHANNELS);
 
-    const size_t BUFSIZE = PCM16_BYTES(inputsamples * 2, WINAEC_CHANNELS);
+    constexpr auto INPUT_BUFFER_FRAME_MULTIPLIER = 2;
+    const size_t BUFSIZE = PCM16_BYTES(inputsamples * INPUT_BUFFER_FRAME_MULTIPLIER, WINAEC_CHANNELS);
     m_input_queue.high_water_mark(BUFSIZE);
     m_input_queue.low_water_mark(BUFSIZE);
 
