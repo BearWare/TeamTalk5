@@ -1542,10 +1542,13 @@ void ClientUser::SetDirtyProps()
 }
 
 
-ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
+ACE_Message_Block* ClientUser::GetVideoCaptureFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_vidcap_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_vidcap_player;
+    if (player)
     {
         //if(m_voice_player && GetMediaFileBufferSize() &&
         //   m_voice_player->GetPlayedPacketNo())
@@ -1558,7 +1561,10 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 
         //    return m_vidcap_player->GetNextFrame();
         //}
-        return m_vidcap_player->GetNextFrame();
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame();
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
     return nullptr;
@@ -1591,18 +1597,21 @@ void ClientUser::CloseVideoCapturePlayer()
 #endif
 }
 
-ACE_Message_Block* ClientUser::GetVideoFileFrame()
+ACE_Message_Block* ClientUser::GetVideoFileFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_videofile_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_videofile_player;
+    if (player)
     {
-        if (m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
-           (m_audiofile_player->GetPlayedPacketNo() != 0u))
-        {
-            uint32_t audio_tm = m_audiofile_player->GetPlayedPacketTime();
-            return m_videofile_player->GetNextFrame(&audio_tm);
-        }
-        return m_videofile_player->GetNextFrame();
+        bool const sync = m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
+           (m_audiofile_player->GetPlayedPacketNo() != 0u);
+        uint32_t audio_tm = sync ? m_audiofile_player->GetPlayedPacketTime() : 0;
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame(sync ? &audio_tm : nullptr);
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
 

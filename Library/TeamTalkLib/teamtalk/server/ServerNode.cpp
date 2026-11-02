@@ -775,8 +775,6 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
     if(!chan)
         return false;
 
-    TTASSERT(chan == dest_user->GetChannel());
-
     desktoppackets_t rtx_packets;
     desktop_tx->GetLostDesktopPackets(DESKTOP_DEFAULT_RTX_TIMEOUT, rtx_packets, 1);
     auto dpi = rtx_packets.begin();
@@ -3481,7 +3479,7 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
         m_srvguard->GetUserBans(*user, bans);
     }
 
-    for(;index<std::min(count, static_cast<int>(bans.size()));++index)
+    for(;index<static_cast<int>(bans.size()) && count > 0;++index, --count)
     {
         user->DoShowBan(bans[index]);
     }
@@ -4224,14 +4222,12 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
 
     if(transfer.inbound)
     {
-        if((user->GetUserRights() & USERRIGHT_UPLOAD_FILES) == 0)
-            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-
         //upload only if is admin or the filesize is less than the channel max usage
-        //and also less than the total disk usage allowed.
-        if(((chan->GetDiskUsage() + transfer.filesize) > chan->GetMaxDiskUsage() && 
+        //and also less than the total disk usage allowed. Subtract instead of add
+        //so a huge filesize cannot overflow.
+        if((transfer.filesize > chan->GetMaxDiskUsage() - chan->GetDiskUsage() &&
             (user->GetUserType() & USERTYPE_ADMIN) == 0)
-            || (GetDiskUsage() + transfer.filesize) > m_properties.maxdiskusage)
+            || transfer.filesize > m_properties.maxdiskusage - GetDiskUsage())
             return ErrorMsg(TT_CMDERR_MAX_DISKUSAGE_EXCEEDED);
 
         //set temporary filename for transfer
@@ -4248,9 +4244,6 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     }
     else
     {
-        if((user->GetUserRights() & USERRIGHT_DOWNLOAD_FILES) == 0)
-            return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
-
         //a user download
         RemoteFile remotefile;
         if(!chan->GetFile(transfer.filename, remotefile))
@@ -4322,12 +4315,13 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
     if(subscriptuser != user)
         user->DoUpdateUser(*subscriptuser);
 
-    //if active desktop then start it
-    if (subscriptuser->GetDesktopSession() &&
-        ((subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP)) != 0u))
+    //if active desktop then start it. Same rule as GetPacketDestinations():
+    //subscribers must be in the channel, only interceptors (admins) can be outside
+    if (subscriptuser->GetDesktopSession())
     {
         serverchannel_t const chan = subscriptuser->GetChannel();
-        if (chan)
+        if (chan && (((subscrip & SUBSCRIBE_INTERCEPT_DESKTOP) != 0u) ||
+                     ((subscrip & SUBSCRIBE_DESKTOP) != 0u && chan == user->GetChannel())))
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 

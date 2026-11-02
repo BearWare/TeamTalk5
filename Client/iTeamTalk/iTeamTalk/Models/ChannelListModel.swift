@@ -202,6 +202,9 @@ final class ChannelListModel: ObservableObject {
         let actionTitle = canEdit
             ? String(localized: "Edit", comment: "channel list")
             : String(localized: "View", comment: "channel list")
+        let propertiesActionTitle = canEdit
+            ? String(localized: "Edit properties", comment: "channel list")
+            : String(localized: "View properties", comment: "channel list")
 
         if curchannel.nChannelID == 0 {
             let iconName = channel.bPassword != 0 ? "channel_pink" : "channel_orange"
@@ -214,6 +217,7 @@ final class ChannelListModel: ObservableObject {
                 iconName: iconName,
                 iconAccessibilityLabel: iconLabel,
                 actionTitle: actionTitle,
+                propertiesActionTitle: propertiesActionTitle,
                 isParent: false
             )
         }
@@ -228,6 +232,7 @@ final class ChannelListModel: ObservableObject {
                 iconName: "back_orange",
                 iconAccessibilityLabel: String(localized: "Return to previous channel", comment: "channel list"),
                 actionTitle: actionTitle,
+                propertiesActionTitle: propertiesActionTitle,
                 isParent: true
             )
         }
@@ -241,6 +246,7 @@ final class ChannelListModel: ObservableObject {
             iconName: iconName,
             iconAccessibilityLabel: iconLabel,
             actionTitle: actionTitle,
+            propertiesActionTitle: propertiesActionTitle,
             isParent: false
         )
     }

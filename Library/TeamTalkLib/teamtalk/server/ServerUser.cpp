@@ -955,6 +955,12 @@ ErrorMsg ServerUser::HandleRegSendFile(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_FILESIZE, transfer.filesize);
     GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
 
+    if ((GetUserRights() & USERRIGHT_UPLOAD_FILES) == USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
+
+    if (transfer.filesize < 0)
+        return ErrorMsg(TT_CMDERR_SYNTAX_ERROR);
+
     return m_servernode.UserRegFileTransfer(transfer);
 }
 
@@ -968,6 +974,9 @@ ErrorMsg ServerUser::HandleRegRecvFile(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, transfer.channelid);
     GET_PROP_OR_RETURN(properties, TT_FILENAME, transfer.filename);
     GetProperty(properties, TT_TRANSFERKEY, transfer.transferkey);
+
+    if ((GetUserRights() & USERRIGHT_DOWNLOAD_FILES) == USERRIGHT_NONE)
+        return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     return m_servernode.UserRegFileTransfer(transfer);
 }

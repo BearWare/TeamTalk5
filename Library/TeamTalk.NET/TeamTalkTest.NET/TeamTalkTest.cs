@@ -2921,8 +2921,7 @@ namespace TeamTalkTest.NET
                 }
                 while(block.nStreamID>0);
 
-                while(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 0))
-
+                while(WaitForEvent(ttclient, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 0));
 
                 test_duration += voice_tx_duration;
                 test_duration += SILENCE_DURATION;

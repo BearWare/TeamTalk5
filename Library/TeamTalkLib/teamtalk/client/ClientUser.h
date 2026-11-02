@@ -198,11 +198,13 @@ namespace teamtalk {
         void ResetVoicePlayer();
         void ResetAudioFilePlayer();
 
-        ACE_Message_Block* GetVideoCaptureFrame();
+        // 'g' is the held reactor lock. It is released while decoding.
+        ACE_Message_Block* GetVideoCaptureFrame(guard_t& g);
         bool GetVideoCaptureCodec(VideoCodec& codec) const;
         void CloseVideoCapturePlayer();
 
-        ACE_Message_Block* GetVideoFileFrame();
+        // 'g' is the held reactor lock. It is released while decoding.
+        ACE_Message_Block* GetVideoFileFrame(guard_t& g);
         bool GetVideoFileCodec(VideoCodec& codec) const;
         void CloseVideoFilePlayer();
 

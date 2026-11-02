@@ -1134,9 +1134,11 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
     //store max packet
     uint16_t const max_packet_no = *(--packet_nums.end());
 
-    //store which packets have been reported missing (holes in packet order)
-    for(uint16_t packet_no=0;packet_no<=max_packet_no;packet_no++)
+    //store which packets have been reported missing (holes in packet order).
+    //int so the loop ends when max_packet_no is 0xFFFF
+    for(int i=0;i<=max_packet_no;i++)
     {
+        auto const packet_no = static_cast<uint16_t>(i);
         if(packet_nums.contains(packet_no))
             continue;
 

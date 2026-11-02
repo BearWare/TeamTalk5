@@ -27,6 +27,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -58,6 +59,7 @@ import dk.bearware.ClientEvent;
 import dk.bearware.StreamType;
 import dk.bearware.TeamTalkBase;
 import dk.bearware.User;
+import dk.bearware.backend.CommunicationDeviceHelper;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
 import dk.bearware.backend.TeamTalkConstants;
@@ -438,6 +440,36 @@ public class PreferencesActivity extends PreferenceActivity implements TeamTalkC
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             addPreferencesFromResource(R.xml.pref_soundsystem);
+            setupMicrophonePreference();
+        }
+
+        private void setupMicrophonePreference() {
+            ListPreference micPref = (ListPreference) findPreference(Preferences.PREF_SOUNDSYSTEM_MICROPHONE);
+            if (!CommunicationDeviceHelper.isSupported()) {
+                micPref.setEnabled(false);
+                micPref.setShouldDisableView(true);
+                micPref.setSummary(R.string.pref_summary_microphone_unsupported);
+                return;
+            }
+
+            AudioManager audioManager = (AudioManager) getActivity().getSystemService(Context.AUDIO_SERVICE);
+            List<String> keys = CommunicationDeviceHelper.getKeys(audioManager);
+            // keep a selected microphone which is currently unplugged
+            String selected = micPref.getValue();
+            if (!TextUtils.isEmpty(selected) && !keys.contains(selected))
+                keys.add(selected);
+
+            List<String> values = new ArrayList<>();
+            List<String> names = new ArrayList<>();
+            values.add("");
+            names.add(getString(R.string.pref_microphone_automatic));
+            for (String key : keys) {
+                values.add(key);
+                names.add(CommunicationDeviceHelper.getName(getActivity(), audioManager, key));
+            }
+            micPref.setEntries(names.toArray(new CharSequence[0]));
+            micPref.setEntryValues(values.toArray(new CharSequence[0]));
+            micPref.setSummary("%s");
         }
     }
 

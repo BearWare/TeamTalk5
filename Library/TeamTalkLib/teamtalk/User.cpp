@@ -41,7 +41,7 @@ namespace teamtalk {
 
     void User::UpdateLastTimeStamp(ACE_UINT32 tm)
     {
-        if(!m_tm_ok || W32_GEQ(GetLastTimeStamp(), m_timestamp))
+        if(!m_tm_ok || W32_GEQ(tm, m_timestamp))
         {
             m_timestamp = tm;
             m_tm_ok = true;
