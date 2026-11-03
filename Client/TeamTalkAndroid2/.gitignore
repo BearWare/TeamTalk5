@@ -1,8 +1,8 @@
 .gradle
 .idea
 build
-debug
-release
+/debug
+/release
 keystore.properties
 local.properties
 *.iml

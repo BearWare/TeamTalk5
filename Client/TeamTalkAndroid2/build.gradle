@@ -1,5 +1,6 @@
 plugins {
     alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
 }
 
 def ksFile = rootProject.file('keystore.properties')
@@ -9,7 +10,6 @@ if (ksFile.exists()) {
 }
 
 android {
-    enableKotlin = false
     namespace = 'dk.bearware.gui'
     compileSdk {
         version = release(37)
@@ -47,6 +47,8 @@ android {
             }
         }
         debug {
+            // so it can be installed next to the release app and TeamTalkAndroid
+            applicationIdSuffix = '.android2'
             if (ks['signDebug']?.toBoolean()) {
                 signingConfig = signingConfigs.release
             }
@@ -61,6 +63,7 @@ android {
 
     buildFeatures {
         buildConfig = true
+        compose = true
         viewBinding = true
     }
 
@@ -80,6 +83,7 @@ android {
     sourceSets {
         main {
             jniLibs.srcDirs = [layout.buildDirectory.dir('jniLibs-staging')]
+            res.srcDirs = ['src/main/res', layout.buildDirectory.dir('strings-staging')]
         }
     }
 
@@ -106,13 +110,27 @@ tasks.register('syncJniLibs', Sync) {
     into layout.buildDirectory.dir('jniLibs-staging')
 }
 
+// translations stay in TeamTalkAndroid until this client replaces it
+tasks.register('syncStrings', Sync) {
+    from('../TeamTalkAndroid/src/main/res') {
+        include 'values*/strings.xml'
+    }
+    into layout.buildDirectory.dir('strings-staging')
+}
+
 afterEvaluate {
-    tasks.named('preBuild').configure { dependsOn 'syncJniLibs' }
+    tasks.named('preBuild').configure { dependsOn 'syncJniLibs', 'syncStrings' }
 }
 
 dependencies {
     coreLibraryDesugaring libs.desugar.jdk.libs
     implementation libs.gson
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.compose.material3
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.ui.tooling.preview
+    debugImplementation libs.androidx.compose.ui.tooling
     implementation libs.androidx.annotation
     implementation libs.androidx.appcompat
     implementation libs.androidx.core
