@@ -837,7 +837,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -847,7 +847,7 @@ ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 
 ErrorMsg ServerUser::HandleListUserAccounts(const mstrings_t& properties)
 {
-    if( (GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1079,7 +1079,7 @@ ErrorMsg ServerUser::HandleUnsubscribe(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleQueryStats(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1493,7 +1493,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
             AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)  //admins should see password
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)  //admins should see password
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1563,7 +1563,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);

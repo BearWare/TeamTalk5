@@ -921,7 +921,7 @@ ErrorMsg ServerGuard::GetRegUsers(const ServerUser&  /*user*/, useraccounts_t& u
 
 ErrorMsg ServerGuard::AddRegUser(const ServerUser& user, const UserAccount& useraccount)
 {
-    if( (user.GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
@@ -945,7 +945,7 @@ ErrorMsg ServerGuard::AddRegUser(const ServerUser& user, const UserAccount& user
 
 ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const ACE_TString& username)
 {
-    if( (user.GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }

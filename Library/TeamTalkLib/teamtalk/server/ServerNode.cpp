@@ -162,7 +162,7 @@ const ServerChannel::users_t& ServerNode::GetAdministrators()
     ServerChannel::users_t users;
     for(auto & user : m_mUsers)
     {
-        if ((user.second->GetUserType() & USERTYPE_ADMIN) != 0u)
+        if ((user.second->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
             users.push_back(user.second);
     }
     TTASSERT(m_admins.size() == users.size());
@@ -194,7 +194,7 @@ ServerChannel::users_t ServerNode::GetAuthorizedUsers(bool excludeAdmins/* = fal
     {
         if( user.second->IsAuthorized())
         {
-            if(excludeAdmins && ((user.second->GetUserType() & USERTYPE_ADMIN) != 0u))
+            if(excludeAdmins && ((user.second->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE))
                 continue;
             users.push_back(user.second);
         }
@@ -481,7 +481,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
     bool const b = chan->GetFile(filename, remotefile);
     TTASSERT(b);
 
-    if( ((user->GetUserType() & USERTYPE_ADMIN) != 0u) || 
+    if( ((user->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE) ||
         chan->IsOperator(userid) ||
         (remotefile.username == user->GetUsername()))
     {
@@ -810,9 +810,9 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
         return false;
     if(((chan.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT) &&
        !chan.IsOperator(src_user.GetUserID()) &&
-       (src_user.GetUserType() & USERTYPE_ADMIN) == 0 &&
+       (src_user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE &&
        !chan.IsOperator(dest_user.GetUserID()) &&
-       (dest_user.GetUserType() & USERTYPE_ADMIN) == 0)
+       (dest_user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
        return false;
 
     DesktopCache const& desktop = *src_user.GetDesktopSession();
@@ -1758,7 +1758,7 @@ serverchannel_t ServerNode::GetPacketChannel(ServerUser& user,
     if(!chan || chan->GetChannelID() != chanid)
     {
         //only admins can stream outside their channels
-        if((user.GetUserType() & USERTYPE_ADMIN) == 0)
+        if((user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
             return {};
 
         //this branch will only happen if a user is streaming outside his channel
@@ -1837,14 +1837,14 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
     {
         if (((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT) &&
             !channel.IsOperator(fromuserid) && 
-            (user.GetUserType() & USERTYPE_ADMIN) == 0)
+            (user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
         {
             //only operators and admins will receive from default users
             //in channel type CHANNEL_OPERATOR_RECVONLY
             for (const auto& u : channel.GetUsers())
             {
                 if ((channel.IsOperator(u->GetUserID()) ||
-                     ((u->GetUserType() & USERTYPE_ADMIN) != 0u)) &&
+                     ((u->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)) &&
                     ((u->GetSubscriptions(user) & subscrip_check) != SUBSCRIBE_NONE) &&
                     u->GetPacketProtocol() >= pp_min)
                 {
@@ -2704,7 +2704,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
 
     int const user_count = static_cast<int>(GetAuthorizedUsers(false).size());
     if(user_count+1 > m_properties.maxusers && 
-       (useraccount.usertype & USERTYPE_ADMIN) == 0)
+       (useraccount.usertype & USERTYPE_ADMIN) == USERTYPE_NONE)
         return ErrorMsg(TT_CMDERR_MAX_SERVER_USERS_EXCEEDED); //user limit
 
     //check for double login
@@ -2720,7 +2720,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
 
     //check for max logins per ip-address (ignore admin users)
     if((m_properties.max_logins_per_ipaddr != 0) &&
-       (useraccount.usertype & USERTYPE_ADMIN) == 0)
+       (useraccount.usertype & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         int logins = 1; //include self
         for (const auto &u : GetAuthorizedUsers())
@@ -2736,7 +2736,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     user->SetUserAccount(useraccount);
 
     //store in admin cache
-    if((user->GetUserType() & USERTYPE_ADMIN) != 0u)
+    if((user->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
         m_admins.push_back(user);
 
     //clear any wrong logins
@@ -2750,7 +2750,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     user->ForwardChannels(GetRootChannel(), IsEncrypted());
 
     //send all files to user if admin
-    if((user->GetUserType() & USERTYPE_ADMIN) != 0u)
+    if((user->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
         user->ForwardFiles(GetRootChannel(), true);
 
     //notify other users of new user
@@ -3062,7 +3062,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     }
 
     //send channel's file list
-    if((user->GetUserType() & USERTYPE_DEFAULT) != 0u)
+    if((user->GetUserType() & USERTYPE_DEFAULT) != USERTYPE_NONE)
         user->ForwardFiles(newchan, false);
 
     //start active desktop transmissions
@@ -4143,7 +4143,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         if(from->GetChannel() != chan &&
-           (from->GetUserType() & USERTYPE_ADMIN) == 0)
+           (from->GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         if (!chan->CanTransmit(from->GetUserID(), STREAMTYPE_CHANNELMSG, 0, nullptr))
@@ -4215,7 +4215,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
     if (!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-    if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == 0)
+    if (!chan->UserExists(user->GetUserID()) && (user->GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     if (CountFileTransfers(user->GetUserID()) >= m_properties.maxfiletransfers)
@@ -4227,7 +4227,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         //and also less than the total disk usage allowed. Subtract instead of add
         //so a huge filesize cannot overflow.
         if((transfer.filesize > chan->GetMaxDiskUsage() - chan->GetDiskUsage() &&
-            (user->GetUserType() & USERTYPE_ADMIN) == 0)
+            (user->GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
             || transfer.filesize > m_properties.maxdiskusage - GetDiskUsage())
             return ErrorMsg(TT_CMDERR_MAX_DISKUSAGE_EXCEEDED);
 
@@ -4297,7 +4297,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
     
     //only admins can intercept
-    if((user->GetUserType() & USERTYPE_ADMIN) == 0)
+    if((user->GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         if((subscrip & SUBSCRIBE_INTERCEPT_ALL) != SUBSCRIBE_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);

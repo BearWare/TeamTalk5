@@ -4203,7 +4203,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         m_mychannel.reset();
 
     //clear files if not admin
-    if((m_myuseraccount.usertype & USERTYPE_DEFAULT) != 0u)
+    if((m_myuseraccount.usertype & USERTYPE_DEFAULT) != USERTYPE_NONE)
         chan.ClearFiles();
 
     //stop streaming media file
