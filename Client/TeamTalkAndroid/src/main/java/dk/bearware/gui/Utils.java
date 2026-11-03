@@ -38,6 +38,7 @@ import android.util.Log;
 import android.util.Xml;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.preference.EditTextPreference;
 import androidx.preference.Preference;
@@ -957,11 +958,19 @@ public class Utils {
         return bitmap;
     }
     
-    public static String getDisplayName(Context context, User user) {
-        if (user == null)
-            return "";
+    // If the user is not in 'users' then only nUserID is set in the returned user.
+    public static User getUserForDisplay(Map<Integer, User> users, int userid) {
+        User user = users.get(userid);
+        if (user == null) {
+            user = new User();
+            user.nUserID = userid;
+        }
+        return user;
+    }
+
+    public static String getDisplayName(Context context, @NonNull User user) {
         SharedPreferences pref = PreferenceManager.getDefaultSharedPreferences(context); 
-        if(pref.getBoolean(Preferences.PREF_GENERAL_SHOWUSERNAMES, false)) {
+        if(pref.getBoolean(Preferences.PREF_GENERAL_SHOWUSERNAMES, false) && !TextUtils.isEmpty(user.szUsername)) {
             return user.szUsername;
         }
         if (TextUtils.isEmpty(user.szNickname)) {
