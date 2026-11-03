@@ -1,0 +1,12 @@
+.gradle
+.idea
+build
+debug
+release
+keystore.properties
+local.properties
+*.iml
+*.jar
+*.jks
+*.keystore
+*.so

@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <EditTextPreference
+		android:key="nickname_text"
+		android:title="@string/pref_title_nickname"
+		android:selectAllOnFocus="true"
+		android:singleLine="true" />
+
+    <EditTextPreference
+		android:key="statusmsg_text"
+		android:title="@string/pref_title_statusmsg"
+		android:selectAllOnFocus="true"
+		android:singleLine="true" />
+
+	<ListPreference
+		android:defaultValue="male"
+		android:key="gender_list"
+		android:title="@string/pref_title_gender"
+		android:dialogTitle="@string/pref_title_gender"
+		android:entries="@array/gender_entries"
+		android:entryValues="@array/gender_values" />
+
+	<CheckBoxPreference
+		android:key="bearwareid_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_bearwareid"
+		android:summary="@string/pref_summary_bearwareid" />
+
+    <CheckBoxPreference
+		android:key="movetalk_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_move_talking"
+		android:summary="@string/pref_summary_move_talking" />
+
+    <CheckBoxPreference
+		android:key="showusernames_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_show_usernames"
+		android:summary="@string/pref_summary_show_usernames" />
+
+    <CheckBoxPreference
+		android:key="vibrate_checkbox"
+		android:defaultValue="true"
+		android:title="@string/pref_title_vibrate" />
+
+    <CheckBoxPreference
+		android:key="proximity_sensor_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_proximity_sensor" />
+
+    <CheckBoxPreference
+		android:key="keep_screen_on_checkbox"
+		android:defaultValue="false"
+		android:title="@string/pref_title_keep_screen_on" />
+
+    <CheckBoxPreference
+		android:key="show_log_messages"
+		android:defaultValue="true"
+		android:title="@string/pref_show_log_messages" />
+
+
+</PreferenceScreen>
