@@ -433,7 +433,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
     m_stats.files_bytesreceived += remotefile.filesize;
-    if ((m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_FILE_UPLOADED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnFileUploaded(user, chan, remotefile);
     }
@@ -441,7 +441,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     if (IsAutoSaving() && ((chan.GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
     {
         err = m_srvguard->SaveConfiguration(user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
             m_srvguard->OnSaveConfiguration(&user);
     }
     return err;
@@ -456,7 +456,7 @@ ErrorMsg ServerNode::FileOutboundCompleted(const ServerUser& user,
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
     m_stats.files_bytessent += remotefile.filesize;
-    if ((m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_FILE_DOWNLOADED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnFileDownloaded(user, chan, remotefile);
     }
@@ -494,7 +494,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
-    if ((m_properties.logevents & SERVERLOGEVENT_FILE_DELETED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_FILE_DELETED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnFileDeleted(*user, *chan, remotefile);
     }
@@ -502,7 +502,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
     if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
             m_srvguard->OnSaveConfiguration(user.get());
     }
 
@@ -1104,7 +1104,7 @@ void ServerNode::OnOpened(ACE_HANDLE h, serveruser_t& user)
     m_streamhandles[h] = user;
 
     user->DoWelcome(m_properties);
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_CONNECTED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_CONNECTED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserConnected(*user);
     }
@@ -1195,7 +1195,7 @@ void ServerNode::OnClosed(ACE_HANDLE h)
 void ServerNode::OnClosed(CryptStreamHandler::StreamHandler_t& handler)
 {
     auto sslerr = ACE_OS::last_error();
-    if ((sslerr != 0) && ((m_properties.logevents & SERVERLOGEVENT_USER_CRYPTERROR) != 0u))
+    if ((sslerr != 0) && ((m_properties.logevents & SERVERLOGEVENT_USER_CRYPTERROR) != SERVERLOGEVENT_NONE))
     {
         std::array<char, MAX_STRING_LENGTH> sslerr_str{};
         ::ERR_error_string_n(sslerr, sslerr_str.data(), sslerr_str.size()-1);
@@ -1274,7 +1274,7 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
         ban.bantype = BANTYPE_IPADDR;
         ban.ipaddr = user.GetIpAddress();
         m_srvguard->AddUserBan(user, ban);
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserBanned(user.GetIpAddress(), user);
         }
@@ -1282,7 +1282,7 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
         if (IsAutoSaving())
         {
             auto err = m_srvguard->SaveConfiguration(user, *this);
-            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
                 m_srvguard->OnSaveConfiguration(&user);
         }
     }
@@ -1922,7 +1922,7 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_VOICE, streamid) != streamid)
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_VOICE, streamid);
@@ -1979,7 +1979,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_MEDIAFILE_AUDIO, streamid) != streamid)
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_MEDIAFILE_AUDIO, streamid);
@@ -2026,7 +2026,7 @@ void ServerNode::ReceivedVideoCapturePacket(ServerUser& user,
     if(!chan.CanTransmit(user.GetUserID(), STREAMTYPE_VIDEOCAPTURE, streamid, nullptr))
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_VIDEOCAPTURE, streamid) != streamid)
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_VIDEOCAPTURE, streamid);
@@ -2087,7 +2087,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     if(!tx_ok)
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_MEDIAFILE_VIDEO, streamid) != streamid)
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_MEDIAFILE_VIDEO, streamid);
@@ -2135,7 +2135,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     if (!chan.CanTransmit(user.GetUserID(), STREAMTYPE_DESKTOP, packet.GetSessionID(), nullptr))
        return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_DESKTOP, packet.GetSessionID()) != packet.GetSessionID())
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOP, packet.GetSessionID());
@@ -2484,7 +2484,7 @@ void ServerNode::ReceivedDesktopCursorPacket(ServerUser& user,
                 user.GetLastTimeStamp(packet, &is_set)) && is_set)
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_DESKTOPINPUT, packet.GetSessionID()) != packet.GetSessionID())
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOPINPUT, packet.GetSessionID());
@@ -2550,7 +2550,7 @@ void ServerNode::ReceivedDesktopInputPacket(ServerUser& user,
     if (!session || session->GetSessionID() != packet.GetSessionID())
         return;
 
-    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != 0u) &&
+    if (((m_properties.logevents & SERVERLOGEVENT_USER_NEW_STREAM) != SERVERLOGEVENT_NONE) &&
         user.UpdateActiveStream(STREAMTYPE_DESKTOPINPUT, packet.GetSessionID()) != packet.GetSessionID())
     {
         m_srvguard->OnUserUpdateStream(user, chan, STREAMTYPE_DESKTOPINPUT, packet.GetSessionID());
@@ -2640,7 +2640,7 @@ void ServerNode::CheckKeepAlive()
     for(const auto & j : theDead)
     {
         //notify of dropped users (due to keepalive)
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_TIMEDOUT) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_TIMEDOUT) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserDropped(*j);
         }
@@ -2679,7 +2679,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         break;
     }
     case TT_CMDERR_SERVER_BANNED :
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserLoginBanned(*user);
         }
@@ -2687,7 +2687,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     case TT_SRVERR_COMMAND_SUSPEND :
         return err;
     default :
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGINFAILED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGINFAILED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserAuthFailed(*user, username);
         }
@@ -2773,7 +2773,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     m_stats.usersservered++;
 
     //notify listener if any
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDIN) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDIN) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserLogin(*user);
     }
@@ -2782,7 +2782,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     if (IsAutoSaving())
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
             m_srvguard->OnSaveConfiguration(user.get());
     }
 
@@ -2846,7 +2846,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     for (const auto& u : GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS))
         u->DoLoggedOut(*user);
 
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDOUT) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_LOGGEDOUT) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserLoggedOut(*user);
     }
@@ -2906,7 +2906,7 @@ ErrorMsg ServerNode::UserUpdate(int userid)
     for (const auto& u : notifyusers)
         u->DoUpdateUser(*user);
 
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_UPDATED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_UPDATED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserUpdated(*user);
     }
@@ -3090,7 +3090,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     //notify listener
     TTASSERT(newchan == user->GetChannel());
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_JOINEDCHANNEL) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_JOINEDCHANNEL) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserJoinChannel(*user, *newchan);
     }
@@ -3162,7 +3162,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
     serverchannel_t nullc;
     user->SetChannel(nullc);
 
-    if ((m_properties.logevents & SERVERLOGEVENT_USER_LEFTCHANNEL) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_USER_LEFTCHANNEL) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnUserLeaveChannel(*user, *chan);
     }
@@ -3189,7 +3189,7 @@ void ServerNode::UserDisconnected(int userid)
             u->ClearUserSubscription(*user);
 
         //notify listener (if any)
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_DISCONNECTED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_DISCONNECTED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserDisconnected(*user);
         }
@@ -3261,7 +3261,7 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
         {
             kickee->DoKicked(userid, true);
 
-            if ((m_properties.logevents & SERVERLOGEVENT_USER_KICKED) != 0u)
+            if ((m_properties.logevents & SERVERLOGEVENT_USER_KICKED) != SERVERLOGEVENT_NONE)
             {
                 m_srvguard->OnUserKicked(*kickee, kicker.get(), chan.get());
             }
@@ -3275,7 +3275,7 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
     {
         kickee->DoKicked(userid, false);
 
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_KICKED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_KICKED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserKicked(*kickee, kicker.get(), kickee->GetChannel().get());
         }
@@ -3325,7 +3325,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
     if (banchan && err.Success())
         AddBannedUserToChannel(ban);
 
-    if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != 0u))
+    if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != SERVERLOGEVENT_NONE))
     {
         m_srvguard->OnUserBanned(*banner, ban);
     }
@@ -3333,7 +3333,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
     if (err.Success() && IsAutoSaving())
     {
         err = m_srvguard->SaveConfiguration(*banner, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(banner.get());
         }
@@ -3385,7 +3385,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     if (banchan && err.Success())
         AddBannedUserToChannel(ban);
 
-    if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != 0u))
+    if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != SERVERLOGEVENT_NONE))
     {
         m_srvguard->OnUserBanned(*ban_user, *banner);
     }
@@ -3393,7 +3393,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     if (err.Success() && IsAutoSaving())
     {
         err = m_srvguard->SaveConfiguration(*banner, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(banner.get());
         }
@@ -3435,7 +3435,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
 
     if(err.Success())
     {
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_BANNED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserUnbanned(*user, ban);
         }
@@ -3443,7 +3443,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
         if(IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
             {
                 m_srvguard->OnSaveConfiguration(user.get());
             }
@@ -3532,7 +3532,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
         if (IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
             {
                 m_srvguard->OnSaveConfiguration(user.get());
             }
@@ -3560,7 +3560,7 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& userna
         if (IsAutoSaving())
         {
             err = m_srvguard->SaveConfiguration(*user, *this);
-            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+            if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
                 m_srvguard->OnSaveConfiguration(user.get());
         }
         for (const auto& au : GetAdministrators())
@@ -3637,7 +3637,7 @@ ErrorMsg ServerNode::UserSaveServerConfig(int userid)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     auto errmsg = m_srvguard->SaveConfiguration(*user, *this);
-    if (errmsg.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+    if (errmsg.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
     {
         m_srvguard->OnSaveConfiguration(user.get());
     }
@@ -3648,8 +3648,8 @@ ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
                                   const ServerUser* user /*= nullptr*/)
 {
     // log server save event if it is or was enabled
-    bool const logevent = ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u) ||
-                    ((properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u);
+    bool const logevent = ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE) ||
+                    ((properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE);
     SetServerProperties(properties);
 
     if (logevent)
@@ -3664,7 +3664,7 @@ ErrorMsg ServerNode::UpdateServer(const ServerSettings& properties,
     if (IsAutoSaving() && (user != nullptr))
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(user);
         }
@@ -3774,7 +3774,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     }
 
     //notify listener if any
-    if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_CREATED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_CREATED) != SERVERLOGEVENT_NONE)
     {
         m_srvguard->OnChannelCreated(*chan, user);
     }
@@ -3783,7 +3783,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     if (IsAutoSaving() && ((chanprop.chantype & CHANNEL_PERMANENT) != CHANNEL_DEFAULT) && (user != nullptr))
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(user);
         }
@@ -3865,7 +3865,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT) && (user != nullptr))
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(user);
         }
@@ -3986,7 +3986,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
 
         parent->RemoveSubChannel(chan->GetName());
         //notify listener if any
-        if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_REMOVED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_REMOVED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnChannelRemoved(*chan, user);
         }
@@ -3995,7 +3995,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     if (IsAutoSaving() && bStatic && (user != nullptr))
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
-        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
+        if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != SERVERLOGEVENT_NONE))
         {
             m_srvguard->OnSaveConfiguration(user);
         }
@@ -4023,7 +4023,7 @@ void ServerNode::UpdateChannel(const ServerChannel& chan, const ServerChannel::u
     for (const auto& u : users)
         u->DoUpdateChannel(chan, IsEncrypted());
 
-    if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_UPDATED) != 0u)
+    if ((m_properties.logevents & SERVERLOGEVENT_CHANNEL_UPDATED) != SERVERLOGEVENT_NONE)
         m_srvguard->OnChannelUpdated(chan, user);
 }
 
@@ -4050,7 +4050,7 @@ ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
 
     if(err.errorno == TT_CMDERR_SUCCESS)
     {
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_MOVED) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_MOVED) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserMoved(*user, *moveuser);
         }
@@ -4095,7 +4095,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_PRIVATE) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnUserMessage(*from, *to_user, msg);
         }
@@ -4126,7 +4126,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CUSTOM) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnCustomMessage(*from, *to_user, msg);
         }
@@ -4168,7 +4168,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_CHANNEL) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnChannelMessage(*from, *chan, msg);
         }
@@ -4187,7 +4187,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         }
 
         //log text message
-        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST) != 0u)
+        if ((m_properties.logevents & SERVERLOGEVENT_USER_TEXTMESSAGE_BROADCAST) != SERVERLOGEVENT_NONE)
         {
             m_srvguard->OnBroadcastMessage(*from, msg);
         }
