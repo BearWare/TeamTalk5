@@ -1646,7 +1646,7 @@ void MainWindow::clienteventUserVideoCapture(int source, int streamid)
 
     //if local video is disabled then don't process pending video
     //frames
-    if (source == 0 && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if (source == 0 && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
         return;
 
     //pass new video frame (if it's not being ignored)
@@ -2245,7 +2245,7 @@ void MainWindow::initSound()
 
 void MainWindow::connectToServer()
 {
-    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == 0);
+    Q_ASSERT((TT_GetFlags(ttInst) & CLIENT_CONNECTION) == CLIENT_CLOSED);
 
     if (!setupEncryption(m_host))
     {
@@ -2577,7 +2577,7 @@ void MainWindow::hotkeyToggle(HotKeyID id, bool active)
         break;
     case HOTKEY_VIDEOTX :
         if(active)
-            slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == 0);
+            slotMeEnableVideoTransmission((TT_GetFlags(ttInst) & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED);
         break;
     case HOTKEY_REINITSOUNDDEVS :
         if (active)
@@ -2666,7 +2666,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         }
 
         //check if desktop transfer has been closed
-        if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == CLIENT_CLOSED)
         {
             m_desktopsession_id = 0;
             m_prev_desktopsession_id = 0;
@@ -2729,7 +2729,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         break;
     }
     case TIMER_RECONNECT :
-        Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == 0);
+        Q_ASSERT( (TT_GetFlags(ttInst) & CLIENT_CONNECTED) == CLIENT_CLOSED);
         disconnectFromServer();
         addTextToSpeechMessage(TTS_SERVER_CONNECTIVITY, tr("Trying to reconnect to %1 port %2").arg(m_host.ipaddr).arg(m_host.tcpport));
         connectToServer();
@@ -2753,7 +2753,7 @@ void MainWindow::timerEvent(QTimerEvent *event)
         }
         break;
     case TIMER_SEND_DESKTOPWINDOW :
-        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == 0)
+        if((TT_GetFlags(ttInst) & CLIENT_TX_DESKTOP) == CLIENT_CLOSED)
         {
             //only update desktop if there's users in the channel
             //(save bandwidth)
@@ -3808,7 +3808,7 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
     if(inputs.isEmpty())return;
 
     //ignore input if we're not sharing a window
-    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE) == CLIENT_CLOSED)
         return;
 /*
     //ignore input if incorrect window has focus
@@ -4802,7 +4802,7 @@ void MainWindow::enableVoiceActivation(bool checked, SoundEvent on, SoundEvent o
 void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
 {
     ClientFlags flags = TT_GetFlags(ttInst);
-    if((flags & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if((flags & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         VideoCodec vidcodec;
         if(!getVideoCaptureCodec(vidcodec) || !initVideoCaptureFromSettings())
@@ -7112,7 +7112,7 @@ void MainWindow::updateClassroomChannel(const Channel& oldchan, const Channel& n
 
 void MainWindow::slotInitVideo()
 {
-    if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if((TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::warning(this, tr("Start Webcam"), 
