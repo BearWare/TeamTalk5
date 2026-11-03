@@ -273,7 +273,7 @@ clientuser_t ClientNode::GetUserByUsername(const ACE_TString& username)
 
     //with view-all-users disabled we need to check channels
     if((m_rootchannel.get() != nullptr) && 
-        (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == 0)
+        (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         ClientChannel::users_t users;
         m_rootchannel->GetUsers(users, true);
@@ -299,7 +299,7 @@ void ClientNode::GetUsers(std::set<int>& userids)
     }
     //with view-all-users disabled we need to check channels
     if((m_rootchannel.get() != nullptr) && 
-       (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == 0)
+       (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         ClientChannel::users_t users;
         m_rootchannel->GetUsers(users, true);
@@ -1086,14 +1086,14 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
             return;
 
         CryptVoicePacket const crypt_pkt(packet, chan->GetEncryptKey());
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             SendPacket(crypt_pkt, m_serverinfo.udpaddr);
         TTASSERT(crypt_pkt.ValidatePacket());
     }
     else
 #endif
     {
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
     }
@@ -1118,7 +1118,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
             return;
 
         CryptAudioFilePacket const crypt_pkt(packet, chan->GetEncryptKey());
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             SendPacket(crypt_pkt, m_serverinfo.udpaddr);
         TTASSERT(crypt_pkt.ValidatePacket());
     }
@@ -1126,7 +1126,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
 #endif
     {
         MYTRACE_COND(!m_def_stream, ACE_TEXT("Sending UDP data on closed connected\n"));
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
     }
@@ -2356,7 +2356,7 @@ void ClientNode::SendPackets()
                 if (!chan)
                     break;
                 CryptVideoCapturePacket const crypt_pkt(*vidpkt, chan->GetEncryptKey());
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2364,7 +2364,7 @@ void ClientNode::SendPackets()
 #endif
             {
                 TTASSERT(m_def_stream);
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
                     ret = SendPacket(*vidpkt, m_serverinfo.udpaddr);
                 TTASSERT(vidpkt->ValidatePacket());
             }
@@ -2395,7 +2395,7 @@ void ClientNode::SendPackets()
                 if (!chan)
                     break;
                 CryptVideoFilePacket const crypt_pkt(*vidpkt, chan->GetEncryptKey());
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2403,7 +2403,7 @@ void ClientNode::SendPackets()
 #endif
             {
                 TTASSERT(m_def_stream);
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
                 {
                     ret = SendPacket(*vidpkt, m_serverinfo.udpaddr);
                 }
@@ -2439,7 +2439,7 @@ void ClientNode::SendPackets()
             {
                 CryptDesktopPacket const crypt_pkt(*desktoppkt, m_mychannel->GetEncryptKey());
                 ret = 0;
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2448,7 +2448,7 @@ void ClientNode::SendPackets()
             {
                 TTASSERT(m_def_stream);
                 ret = 0;
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
                     ret = SendPacket(*desktoppkt, m_serverinfo.udpaddr);
                 TTASSERT(desktoppkt->ValidatePacket());
             }
@@ -3749,7 +3749,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     ASSERT_CLIENTNODE_LOCKED(this);
 
     if (!m_mychannel ||
-       (m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) == 0)
+       (m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) == USERRIGHT_NONE)
         return -1;
 
     if(!m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_DESKTOP))

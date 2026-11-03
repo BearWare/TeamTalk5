@@ -855,7 +855,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         {
             useraccount = i->second;
 
-            if((useraccount.userrights & USERRIGHT_LOCKED_NICKNAME) != 0u)
+            if((useraccount.userrights & USERRIGHT_LOCKED_NICKNAME) != USERRIGHT_NONE)
                 user.SetNickname(useraccount.nickname);
             m_pendinglogin.erase(i);
             

@@ -284,8 +284,8 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         REQUIRE(xml.GetUser("special_user", specialRead));
         REQUIRE(specialRead.username == ACE_TEXT("special_user"));
         REQUIRE(specialRead.passwd == ACE_TEXT("specialpass"));
-        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VOICE) != 0);
-        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0);
+        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE);
+        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE);
         REQUIRE(specialRead.abuse.n_cmds == 5);
         REQUIRE(specialRead.abuse.cmd_msec == 500);
 

@@ -1536,63 +1536,63 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VOICE_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             ReceivedVoicePacket(*user, CryptVoicePacket(packet_data, packet_size), 
                                 remoteaddr, localaddr);
         m_stats.voice_bytesreceived += packet_size;
         break;
 #endif
     case PACKET_KIND_VOICE :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             ReceivedVoicePacket(*user, VoicePacket(packet_data, packet_size), 
                                 remoteaddr, localaddr);
         m_stats.voice_bytesreceived += packet_size;
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_AUDIO_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             ReceivedAudioFilePacket(*user, CryptAudioFilePacket(packet_data, packet_size), 
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
 #endif
     case PACKET_KIND_MEDIAFILE_AUDIO :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             ReceivedAudioFilePacket(*user, AudioFilePacket(packet_data, packet_size), 
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_VIDEO_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
             ReceivedVideoCapturePacket(*user, CryptVideoCapturePacket(packet_data, packet_size), 
                                        remoteaddr, localaddr);
         m_stats.vidcap_bytesreceived += packet_size;
         break;
 #endif
     case PACKET_KIND_VIDEO :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
             ReceivedVideoCapturePacket(*user, VideoCapturePacket(packet_data, packet_size), 
                                        remoteaddr, localaddr);
         m_stats.vidcap_bytesreceived += packet_size;
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_MEDIAFILE_VIDEO_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
             ReceivedVideoFilePacket(*user, CryptVideoFilePacket(packet_data, packet_size), 
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
 #endif
     case PACKET_KIND_MEDIAFILE_VIDEO :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
             ReceivedVideoFilePacket(*user, VideoFilePacket(packet_data, packet_size), 
                                     remoteaddr, localaddr);
         m_stats.mediafile_bytesreceived += packet_size;
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOP_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
             ReceivedDesktopPacket(*user,
                                   CryptDesktopPacket(packet_data, packet_size), 
                                   remoteaddr, localaddr);
@@ -1600,7 +1600,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         break;
 #endif
     case PACKET_KIND_DESKTOP :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
             ReceivedDesktopPacket(*user,
                                   DesktopPacket(packet_data, packet_size), 
                                   remoteaddr, localaddr);
@@ -1650,7 +1650,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         break;
 #if defined(ENABLE_ENCRYPTION)
     case PACKET_KIND_DESKTOPINPUT_CRYPT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOPINPUT) != USERRIGHT_NONE)
             ReceivedDesktopInputPacket(*user,
                                        CryptDesktopInputPacket(packet_data, packet_size),
                                        remoteaddr, localaddr);
@@ -1658,7 +1658,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         break;
 #endif
     case PACKET_KIND_DESKTOPINPUT :
-        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0u)
+        if((user->GetUserRights() & USERRIGHT_TRANSMIT_DESKTOPINPUT) != USERRIGHT_NONE)
             ReceivedDesktopInputPacket(*user,
                                        DesktopInputPacket(packet_data, packet_size),
                                        remoteaddr, localaddr);
@@ -2708,7 +2708,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
         return ErrorMsg(TT_CMDERR_MAX_SERVER_USERS_EXCEEDED); //user limit
 
     //check for double login
-    if((useraccount.userrights & USERRIGHT_MULTI_LOGIN) == 0)
+    if((useraccount.userrights & USERRIGHT_MULTI_LOGIN) == USERRIGHT_NONE)
     {
         for (const auto &u : GetAuthorizedUsers())
         {
@@ -2761,7 +2761,7 @@ ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
     }
 
     //forward users if USERRIGHT_VIEW_ALL_USERS enabled
-    if((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != 0u)
+    if((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != USERRIGHT_NONE)
     {
         for (const auto &u : GetAuthorizedUsers())
             user->DoLoggedIn(*u);
@@ -2943,12 +2943,12 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     if (!newchan)//user is trying to create a new channel
     {
         // ensure user is allowed to create channels
-        if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == 0 &&
-           (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+        if((user->GetUserRights() & USERRIGHT_CREATE_TEMPORARY_CHANNEL) == USERRIGHT_NONE &&
+           (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         // CHANNEL_PERMANENT and CHANNEL_HIDDEN require USERRIGHT_MODIFY_CHANNELS
-        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0 &&
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE &&
             ((chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)) != 0u))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
@@ -2956,7 +2956,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         // unless user has USERRIGHT_MODIFY_CHANNELS
         serverchannel_t const parent = GetChannel(chanprop.parentid);
         if (parent != m_rootchannel && user->GetChannel() != parent &&
-            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+            (user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
      
         ErrorMsg err = MakeChannel(chanprop, user.get());
@@ -3218,7 +3218,7 @@ ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid,
     if(!chan)
         return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-    if(((opper->GetUserRights() & USERRIGHT_OPERATOR_ENABLE) != 0u) ||
+    if(((opper->GetUserRights() & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE) ||
         ((!oppasswd.empty()) && oppasswd == chan->GetOpPassword()))
     {
         if(op)
@@ -3255,7 +3255,7 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         if (force_kick ||
-            ((kicker->GetUserRights() & USERRIGHT_KICK_USERS) != 0u) ||
+            ((kicker->GetUserRights() & USERRIGHT_KICK_USERS) != USERRIGHT_NONE) ||
             chan->IsOperator(userid) ||
             chan->IsAutoOperator(*kicker))
         {
@@ -3271,7 +3271,7 @@ ErrorMsg ServerNode::UserKick(int userid, int kick_userid, int chanid,
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
-    if(force_kick || ((kicker->GetUserRights() & USERRIGHT_KICK_USERS) != 0u))//kick from server
+    if(force_kick || ((kicker->GetUserRights() & USERRIGHT_KICK_USERS) != USERRIGHT_NONE))//kick from server
     {
         kickee->DoKicked(userid, false);
 
@@ -3310,7 +3310,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
     }
 
     ban.owner = banner->GetUsername();
-    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == USERRIGHT_NONE)
     {
         if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*banner)))
             err = m_srvguard->AddUserBan(*banner, ban);
@@ -3374,7 +3374,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
         ban = ban_user->GenerateBan(ban.bantype, ban.chanpath);
     }
 
-    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    if ((banner->GetUserRights() & USERRIGHT_BAN_USERS) == USERRIGHT_NONE)
     {
         if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*banner)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3418,7 +3418,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
             return TT_CMDERR_CHANNEL_NOT_FOUND;
     }
 
-    if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    if((user->GetUserRights() & USERRIGHT_BAN_USERS) == USERRIGHT_NONE)
     {
         if (banchan && (banchan->IsOperator(userid) || banchan->IsAutoOperator(*user)))
             err = m_srvguard->RemoveUserBan(*user, ban);
@@ -3464,7 +3464,7 @@ ErrorMsg ServerNode::UserListServerBans(int userid, int chanid, int index, int c
     if (chanid > 0 && !banchan)
         return TT_CMDERR_CHANNEL_NOT_FOUND;
 
-    if((user->GetUserRights() & USERRIGHT_BAN_USERS) == 0)
+    if((user->GetUserRights() & USERRIGHT_BAN_USERS) == USERRIGHT_NONE)
     {
         if (!banchan || (!banchan->IsOperator(userid) && !banchan->IsAutoOperator(*user)))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
@@ -3591,13 +3591,13 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
     //don't allow change of hidden channel property
     if ((chanprop.chantype & CHANNEL_HIDDEN) != (chan->GetChannelType() & CHANNEL_HIDDEN))
     {
-        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u)
+        if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
             return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
     //user can update channel if either admin or operator of channel
-    if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u)
+    if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
         return UpdateChannel(chanprop, user.get());
     if (chan->IsOperator(userid) || chan->IsAutoOperator(*user))
     {
@@ -3622,7 +3622,7 @@ ErrorMsg ServerNode::UserUpdateServer(int userid, const ServerSettings& properti
     if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == 0)
+    if((user->GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) == USERRIGHT_NONE)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     return UpdateServer(properties, user.get());
@@ -4035,7 +4035,7 @@ ErrorMsg ServerNode::UserMove(int userid, int moveuserid, int channelid)
     if (!user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    if((user->GetUserRights() & USERRIGHT_MOVE_USERS) == 0)
+    if((user->GetUserRights() & USERRIGHT_MOVE_USERS) == USERRIGHT_NONE)
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
     serveruser_t const moveuser = GetUser(moveuserid, user.get());
@@ -4307,7 +4307,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
 
     //update user's subscription mask, if viewing all users or
     //in same channel
-    if (((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != 0u) ||
+    if (((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != USERRIGHT_NONE) ||
         user->GetChannel() == subscriptuser->GetChannel())
     {
         subscriptuser->DoUpdateUser(*user);
@@ -4343,7 +4343,7 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
         user->ClearSubscriptions(*subscriptuser, subscrip);
         //update user's subscription mask, if viewing all users or
         //in same channel
-        if (((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != 0u) ||
+        if (((subscriptuser->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) != USERRIGHT_NONE) ||
             user->GetChannel() == subscriptuser->GetChannel())
         {
             subscriptuser->DoUpdateUser(*user);

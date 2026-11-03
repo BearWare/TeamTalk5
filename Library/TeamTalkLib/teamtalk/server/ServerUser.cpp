@@ -669,7 +669,7 @@ ErrorMsg ServerUser::HandleChannelOp(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
 {
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -743,7 +743,7 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
-    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u)
+    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
     {
         //only admin can change these properties
         GetProperty(properties, TT_DISKQUOTA, chanprop.diskquota);
@@ -771,7 +771,7 @@ ErrorMsg ServerUser::HandleRemoveChannel(const mstrings_t& properties)
     int channelid = 0;
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, channelid);
 
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1274,7 +1274,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_LOGINDELAY, properties.logindelay, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_MOTD, m_servernode.GetMessageOfTheDay(), command);
-    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0u)
+    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != USERRIGHT_NONE)
     {
         AppendProperty(TT_MOTDRAW, properties.motd, command);
         AppendProperty(TT_MAXLOGINATTEMPTS, properties.maxloginattempts, command);
@@ -1356,7 +1356,7 @@ void ServerUser::DoLoggedIn(const ServerUser& user)
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1403,7 +1403,7 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1483,7 +1483,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
         AppendProperty(TT_PARENTID, channel.GetParentChannel()->GetChannelID(), command);
         AppendProperty(TT_CHANNAME, channel.GetName(), command);
     }
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
@@ -1555,7 +1555,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     AppendProperty(TT_CHANNAME, channel.GetName(), command);
 
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
