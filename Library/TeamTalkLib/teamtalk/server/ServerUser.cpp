@@ -1093,7 +1093,7 @@ BannedUser ServerUser::GenerateBan(BanTypes bantype, const ACE_TString& chanpath
     ban.bantype = bantype;
     ban.nickname = GetNickname();
     ban.username = GetUsername();
-    if (((bantype & BANTYPE_CHANNEL) != 0u) && (!chanpath.empty()))
+    if (((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE) && (!chanpath.empty()))
         ban.chanpath = chanpath;
     else if (GetChannel())
         ban.chanpath = GetChannel()->GetChannelPath();

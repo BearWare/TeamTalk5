@@ -3298,7 +3298,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
     serverchannel_t banchan;
     ErrorMsg err(TT_CMDERR_SUCCESS);
 
-    if ((ban.bantype & BANTYPE_CHANNEL) != 0u)
+    if ((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
     {
         if(ban.chanpath.is_empty())
             return TT_CMDERR_CHANNEL_NOT_FOUND;
@@ -3356,7 +3356,7 @@ ErrorMsg ServerNode::UserBan(int userid, int ban_userid, BannedUser ban)
     if (!ban_user)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
-    if ((ban.bantype & BANTYPE_CHANNEL) != 0u)
+    if ((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
     {
         if (!ban.chanpath.empty())
         {
@@ -3411,7 +3411,7 @@ ErrorMsg ServerNode::UserUnBan(int userid, const BannedUser& ban)
         return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
     serverchannel_t banchan;
-    if((ban.bantype & BANTYPE_CHANNEL) != 0u)
+    if((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
     {
         banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
         if (!banchan)

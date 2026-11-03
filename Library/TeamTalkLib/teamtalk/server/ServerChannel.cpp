@@ -190,7 +190,7 @@ void ServerChannel::UpdateChannelBans()
 {
     for (auto& b : m_bans)
     {
-        if ((b.bantype & BANTYPE_CHANNEL) != 0u)
+        if ((b.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             b.chanpath = GetChannelPath();
     }
 }

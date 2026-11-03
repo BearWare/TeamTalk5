@@ -239,12 +239,12 @@ void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
         oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
     oss << ACE_TEXT("banned ");
 
-    if((ban.bantype & BANTYPE_IPADDR) != 0u)
+    if((ban.bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
         oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
-    if((ban.bantype & BANTYPE_USERNAME) != 0u)
+    if((ban.bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
         oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
 
-    if((ban.bantype & BANTYPE_CHANNEL) != 0u)
+    if((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
         oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
     else
         oss << ACE_TEXT("from server.");
