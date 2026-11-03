@@ -293,37 +293,37 @@ void ServerGuard::OnUserSubscribe(const ServerUser& user, const ServerUser& subs
 
     tostringstream oss_sub;
     auto subscriptions = user.GetSubscriptions(subscriptuser);
-    if ((subscriptions & SUBSCRIBE_USER_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("um");
-    if ((subscriptions & SUBSCRIBE_CHANNEL_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("cm");
-    if ((subscriptions & SUBSCRIBE_BROADCAST_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("bm");
-    if ((subscriptions & SUBSCRIBE_CUSTOM_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_CUSTOM_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mm");
-    if ((subscriptions & SUBSCRIBE_VOICE) != 0u)
+    if ((subscriptions & SUBSCRIBE_VOICE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vo");
-    if ((subscriptions & SUBSCRIBE_VIDEOCAPTURE) != 0u)
+    if ((subscriptions & SUBSCRIBE_VIDEOCAPTURE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vi");
-    if ((subscriptions & SUBSCRIBE_DESKTOP) != 0u)
+    if ((subscriptions & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("de");
-    if ((subscriptions & SUBSCRIBE_DESKTOPINPUT) != 0u)
+    if ((subscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("di");
-    if ((subscriptions & SUBSCRIBE_MEDIAFILE) != 0u)
+    if ((subscriptions & SUBSCRIBE_MEDIAFILE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mf");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("UM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("CM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_VOICE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_VOICE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VO");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VI");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("DE");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MF");
 
     oss << oss_sub.str() << ACE_TEXT(".");

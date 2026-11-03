@@ -1815,7 +1815,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         for (const auto &u : channel.GetUsers())
         {
             if (u->GetUserID() == dest_userid &&
-                ((u->GetSubscriptions(user) & subscrip_check) != 0u) &&
+                ((u->GetSubscriptions(user) & subscrip_check) != SUBSCRIBE_NONE) &&
                 u->GetPacketProtocol() >= pp_min)
             {
                 result.push_back(u);
@@ -1825,7 +1825,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         //admins can also subscribe outside their channels
         for (const auto& au : GetAdministrators())
         {
-            if (((au->GetSubscriptions(user) & intercept_check) != 0u) &&
+            if (((au->GetSubscriptions(user) & intercept_check) != SUBSCRIBE_NONE) &&
                 !channel.UserExists(au->GetUserID()) &&
                 au->GetPacketProtocol() >= pp_min)
             {
@@ -1845,7 +1845,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
             {
                 if ((channel.IsOperator(u->GetUserID()) ||
                      ((u->GetUserType() & USERTYPE_ADMIN) != 0u)) &&
-                    ((u->GetSubscriptions(user) & subscrip_check) != 0u) &&
+                    ((u->GetSubscriptions(user) & subscrip_check) != SUBSCRIBE_NONE) &&
                     u->GetPacketProtocol() >= pp_min)
                 {
                     result.push_back(u);
@@ -1857,7 +1857,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
             //forward to all users in same channel
             for (const auto &u : channel.GetUsers())
             {
-                if (((u->GetSubscriptions(user) & subscrip_check) != 0u) &&
+                if (((u->GetSubscriptions(user) & subscrip_check) != SUBSCRIBE_NONE) &&
                     u->GetPacketProtocol() >= pp_min)
                 {
                     result.push_back(u);
@@ -1868,7 +1868,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
         //admins can also subscribe outside their channels
         for (const auto &au : GetAdministrators())
         {
-            if (((au->GetSubscriptions(user) & intercept_check) != 0u) &&
+            if (((au->GetSubscriptions(user) & intercept_check) != SUBSCRIBE_NONE) &&
                 !channel.UserExists(au->GetUserID()) &&
                 au->GetPacketProtocol() >= pp_min)
             {
@@ -3069,7 +3069,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     for (const auto &cu : newchan->GetUsers())
     {
         if (cu->GetDesktopSession() && 
-           ((user->GetSubscriptions(*cu) & SUBSCRIBE_DESKTOP) != 0u))
+           ((user->GetSubscriptions(*cu) & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE))
         {
             //Start delayed timers for desktop transmission, so the new 
             //user will have received the channel's channel-key.
@@ -4078,7 +4078,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         //just ignore text message if the user doesn't subscribe
-        if( (to_user->GetSubscriptions(*from) & SUBSCRIBE_USER_MSG) == 0)
+        if( (to_user->GetSubscriptions(*from) & SUBSCRIBE_USER_MSG) == SUBSCRIBE_NONE)
             return ErrorMsg(TT_CMDERR_SUCCESS);
 
         to_user->DoTextMessage(*from, msg);
@@ -4086,7 +4086,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         //notify administrators for user2user message
         for (const auto& au : GetAdministrators())
         {
-            if (((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) != 0u) &&
+            if (((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE) &&
                 au->GetUserID() != msg.to_userid && 
                 au->GetUserID() != msg.from_userid)
             {
@@ -4109,7 +4109,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
             return ErrorMsg(TT_CMDERR_USER_NOT_FOUND);
 
         //just ignore text message if the user doesn't subscribe
-        if( (to_user->GetSubscriptions(*from) & SUBSCRIBE_CUSTOM_MSG) == 0)
+        if( (to_user->GetSubscriptions(*from) & SUBSCRIBE_CUSTOM_MSG) == SUBSCRIBE_NONE)
             return ErrorMsg(TT_CMDERR_SUCCESS);
 
         to_user->DoTextMessage(*from, msg);
@@ -4117,7 +4117,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         //notify administrators for user2user message
         for (const auto& au : GetAdministrators())
         {
-            if (((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != 0u) &&
+            if (((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != SUBSCRIBE_NONE) &&
                 au->GetUserID() != msg.to_userid && 
                 au->GetUserID() != msg.from_userid)
             {
@@ -4154,7 +4154,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         for (const auto& cu : chan->GetUsers())
         {
             already_recv.insert(cu->GetUserID());
-            if ((cu->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG) != 0u)
+            if ((cu->GetSubscriptions(*from) & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE)
                 cu->DoTextMessage(*from, msg);
         }
 
@@ -4163,7 +4163,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
         {
             if (already_recv.contains(au->GetUserID()))
                 continue;
-            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != 0u)
+            if ((au->GetSubscriptions(*from) & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE)
                 au->DoTextMessage(*from, msg);
         }
 
@@ -4182,7 +4182,7 @@ ErrorMsg ServerNode::UserTextMessage(const TextMessage& msg)
 
         for (const auto& u : GetAuthorizedUsers())
         {
-            if ((u->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG) != 0u)
+            if ((u->GetSubscriptions(*from) & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE)
                 u->DoTextMessage(*from, msg);
         }
 
@@ -4299,7 +4299,7 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
     //only admins can intercept
     if((user->GetUserType() & USERTYPE_ADMIN) == 0)
     {
-        if((subscrip & SUBSCRIBE_INTERCEPT_ALL) != 0u)
+        if((subscrip & SUBSCRIBE_INTERCEPT_ALL) != SUBSCRIBE_NONE)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
 
@@ -4321,8 +4321,8 @@ ErrorMsg ServerNode::UserSubscribe(int userid, int subuserid,
     if (subscriptuser->GetDesktopSession())
     {
         serverchannel_t const chan = subscriptuser->GetChannel();
-        if (chan && (((subscrip & SUBSCRIBE_INTERCEPT_DESKTOP) != 0u) ||
-                     ((subscrip & SUBSCRIBE_DESKTOP) != 0u && chan == user->GetChannel())))
+        if (chan && (((subscrip & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE) ||
+                     ((subscrip & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE && chan == user->GetChannel())))
             StartDesktopTransmitter(*subscriptuser, *user, *chan);
     }
 
@@ -4353,7 +4353,7 @@ ErrorMsg ServerNode::UserUnsubscribe(int userid, int subuserid,
             user->DoUpdateUser(*subscriptuser);
 
         //if active desktop then stop it
-        if((subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP)) != 0u)
+        if((subscrip & (SUBSCRIBE_DESKTOP | SUBSCRIBE_INTERCEPT_DESKTOP)) != SUBSCRIBE_NONE)
             StopDesktopTransmitter(*subscriptuser, *user, true);
 
         m_srvguard->OnUserSubscribe(*user, *subscriptuser);

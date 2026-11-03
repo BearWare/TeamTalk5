@@ -6904,7 +6904,7 @@ void MainWindow::slotUserDoubleClicked(int id)
         {
             //resubscribe in case disabled
             Subscriptions subs = SUBSCRIBE_NONE;
-            if((user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
+            if((user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_NONE)
                 subs |= SUBSCRIBE_VIDEOCAPTURE;
             if(user.nChannelID != m_mychannel.nChannelID)
                 subs |= SUBSCRIBE_INTERCEPT_VIDEOCAPTURE;
@@ -6925,7 +6925,7 @@ void MainWindow::slotUserDoubleClicked(int id)
         {
             //resubscribe in case disabled
             Subscriptions subs = SUBSCRIBE_NONE;
-            if((user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE) == 0)
+            if((user.uLocalSubscriptions & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_NONE)
                 subs |= SUBSCRIBE_MEDIAFILE;
             if(user.nChannelID != m_mychannel.nChannelID)
                 subs |= SUBSCRIBE_INTERCEPT_MEDIAFILE;
@@ -7157,7 +7157,7 @@ void MainWindow::slotAddUserVideo()
 
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
-           (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == 0)
+           (user.uLocalSubscriptions & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_NONE)
            menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 
@@ -7344,7 +7344,7 @@ void MainWindow::slotAddUserDesktopGrid()
 
         User user;
         if(TT_GetUser(ttInst, users[i], &user) &&
-           (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == 0)
+           (user.uLocalSubscriptions & SUBSCRIBE_DESKTOP) == SUBSCRIBE_NONE)
            menu.addAction(getDisplayName(user))->setData(users[i]);
     }
 

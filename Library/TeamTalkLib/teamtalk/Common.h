@@ -659,7 +659,7 @@ namespace teamtalk {
 
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */
-    enum
+    enum Subscribe
     {
         SUBSCRIBE_NONE                                  = 0x00000000,
         SUBSCRIBE_USER_MSG                              = 0x00000001,

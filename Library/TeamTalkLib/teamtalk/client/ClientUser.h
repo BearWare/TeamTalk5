@@ -230,7 +230,7 @@ namespace teamtalk {
         bool LocalSubscribes(const FieldPacket& packet) const;
         bool PeerSubscribes(const FieldPacket& packet) const;
         bool LocalSubscribes(Subscriptions sub_mask) const
-        { return (GetLocalSubscriptions() & sub_mask) != 0u; }
+        { return (GetLocalSubscriptions() & sub_mask) != SUBSCRIBE_NONE; }
 
         void SetAudioFolder(const ACE_TString& audfolder) { m_audiofolder = audfolder; }
         const ACE_TString& GetAudioFolder() const { return m_audiofolder; }
