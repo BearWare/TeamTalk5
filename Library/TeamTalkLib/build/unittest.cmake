@@ -1,10 +1,3 @@
-option (MSVS_UNITTEST "Build Visual Studio Unit Tests" OFF)
-add_feature_info (MSVS_UNITTEST MSVS_UNITTEST "Visual Studio format unit tests for TeamTalk")
-if (MSVS_UNITTEST)
-  set (MSVS_UNITTEST_SOURCES ${TEAMTALKLIB_ROOT}/test/UnitTestWin.cpp
-	   ${TEAMTALKLIB_ROOT}/test/TTUnitTest.cpp ${TEAMTALKLIB_ROOT}/test/TTUnitTest.h)
-endif()
-
 option (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2 "Build Catch Unit Tests" OFF)
 add_feature_info (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2 BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2 "Catch2 unit tests for TeamTalk")
 if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
