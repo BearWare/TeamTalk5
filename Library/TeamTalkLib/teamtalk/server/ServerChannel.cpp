@@ -82,7 +82,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
     if (!PARENT::CanTransmit(userid, txtype))
     {
-        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         {
             // If transmitter is head we have to trigger channel update
             if (ClearFromTransmitQueue(userid) && (modified != nullptr))
@@ -115,7 +115,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         return false;
     }
 
-    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
+    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
     {
         //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 

@@ -1674,7 +1674,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
-        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
             user->AddVoicePacket(*decrypt_pkt, m_soundprop, !no_record);
@@ -1688,7 +1688,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
-        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
             user->AddVoicePacket(audio_pkt, m_soundprop, !no_record);
@@ -2274,7 +2274,7 @@ void ClientNode::SendPackets()
                 if(!m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_VOICE))
                     break;
                 
-                if(((m_mychannel->GetChannelType() & CHANNEL_NO_VOICEACTIVATION) != 0u) &&
+                if(((m_mychannel->GetChannelType() & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT) &&
                    ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u) &&
                    ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVE) != 0u))
                     break;
@@ -2282,7 +2282,7 @@ void ClientNode::SendPackets()
                 audpkt->SetChannel(m_mychannel->GetChannelID());
             }
 
-            bool const no_record = ((m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+            bool const no_record = ((m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
                 (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
             //store in voicelog
             if((!m_local_voicelog->GetAudioFolder().empty()) && !no_record)
@@ -4424,7 +4424,7 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
         AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
         AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
         AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-        if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u) && chanprop.transmitswitchdelay > 0)
+        if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && chanprop.transmitswitchdelay > 0)
             AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
         AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
         AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
@@ -4645,7 +4645,7 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-    if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u) && chanprop.transmitswitchdelay > 0)
+    if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && chanprop.transmitswitchdelay > 0)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
     AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
@@ -4679,7 +4679,7 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-    if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u)
+    if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
     AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);

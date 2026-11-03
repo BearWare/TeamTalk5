@@ -438,7 +438,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
         m_srvguard->OnFileUploaded(user, chan, remotefile);
     }
 
-    if (IsAutoSaving() && ((chan.GetChannelType() & CHANNEL_PERMANENT) != 0u))
+    if (IsAutoSaving() && ((chan.GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
     {
         err = m_srvguard->SaveConfiguration(user, *this);
         if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
@@ -499,7 +499,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
         m_srvguard->OnFileDeleted(*user, *chan, remotefile);
     }
 
-    if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != 0u))
+    if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
         if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
@@ -808,7 +808,7 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
 
     if (!src_user.GetDesktopSession())
         return false;
-    if(((chan.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != 0u) &&
+    if(((chan.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT) &&
        !chan.IsOperator(src_user.GetUserID()) &&
        (src_user.GetUserType() & USERTYPE_ADMIN) == 0 &&
        !chan.IsOperator(dest_user.GetUserID()) &&
@@ -1835,7 +1835,7 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
     }
     else if (packet.GetChannel() != 0u)
     {
-        if (((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != 0u) &&
+        if (((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != CHANNEL_DEFAULT) &&
             !channel.IsOperator(fromuserid) && 
             (user.GetUserType() & USERTYPE_ADMIN) == 0)
         {
@@ -1914,7 +1914,7 @@ void ServerNode::ReceivedVoicePacket(ServerUser& user,
     bool modified = false;
     bool const tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_VOICE, streamid, &modified);
 
-    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && modified)
+    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && modified)
     {
         UpdateChannel(chan, chan.GetUsers(), &user);
     }
@@ -1971,7 +1971,7 @@ void ServerNode::ReceivedAudioFilePacket(ServerUser& user,
     bool modified = false;
     bool const tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
 
-    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && modified)
+    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && modified)
     {
         UpdateChannel(chan, chan.GetUsers(), &user);
     }
@@ -2079,7 +2079,7 @@ void ServerNode::ReceivedVideoFilePacket(ServerUser& user,
     bool modified = false;
     bool const tx_ok = chan.CanTransmit(user.GetUserID(), STREAMTYPE_MEDIAFILE, streamid, &modified);
     
-    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && modified)
+    if (((chan.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && modified)
     {
         UpdateChannel(chan, chan.GetUsers(), &user);
     }
@@ -2949,7 +2949,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
         // CHANNEL_PERMANENT and CHANNEL_HIDDEN require USERRIGHT_MODIFY_CHANNELS
         if ((user->GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE &&
-            ((chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)) != 0u))
+            ((chanprop.chantype & (CHANNEL_PERMANENT | CHANNEL_HIDDEN)) != CHANNEL_DEFAULT))
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         // ensure user cannot create channel which is not direct subchannel of current
@@ -3018,7 +3018,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
     user->SetChannel(newchan);
 
     // forward hidden channel to user if user cannot see it
-    if (((newchan->GetChannelType() & CHANNEL_HIDDEN) != 0u) &&
+    if (((newchan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) &&
         (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
     {
         user->DoAddChannel(*newchan, IsEncrypted());
@@ -3034,7 +3034,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     //notify users that new user has joined
     ServerChannel::users_t notifyusers;
-    if ((newchan->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+    if ((newchan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, newchan);
     else
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, newchan);
@@ -3046,7 +3046,7 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
 
     // notify new user of other users in same channel if not visible
     if ((user->GetUserRights() & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE ||
-        (((newchan->GetChannelType() & CHANNEL_HIDDEN) != 0u) && (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE))
+        (((newchan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) && (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE))
     {
         for (const auto &cu : newchan->GetUsers())
         {
@@ -3120,7 +3120,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
 
     //notify admins and "show-all" users
     ServerChannel::users_t notifyusers;
-    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS | USERRIGHT_VIEW_ALL_USERS, chan);
     else
         notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS, chan);
@@ -3153,7 +3153,7 @@ ErrorMsg ServerNode::UserLeaveChannel(int userid, int channelid)
         UpdateChannel(*chan, chan->GetUsers(), user.get());
 
     // forward hidden channel to user
-    if (((chan->GetChannelType() & CHANNEL_HIDDEN) != 0u) &&
+    if (((chan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) &&
         (user->GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
     {
         user->DoRemoveChannel(*chan);
@@ -3606,7 +3606,7 @@ ErrorMsg ServerNode::UserUpdateChannel(int userid, const ChannelProp& chanprop)
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         //don't allow operator to change name of static channel
-        if (((chan->GetChannelType() & CHANNEL_PERMANENT) != 0u) && chanprop.name != chan->GetName())
+        if (((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT) && chanprop.name != chan->GetName())
             return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
 
         return UpdateChannel(chanprop, user.get());
@@ -3705,7 +3705,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
             ACE_TString(CHANNEL_SEPARATOR).length() >= MAX_STRING_LENGTH)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
-        if ((parent->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+        if ((parent->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
             return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
     }
 
@@ -3728,7 +3728,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     {
         TTASSERT(!GetRootChannel());
 
-        if ((chanprop.chantype & CHANNEL_HIDDEN) != 0u)
+        if ((chanprop.chantype & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
             return ErrorMsg(TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN);
         
         chan = std::make_shared<ServerChannel>(chanid);
@@ -3763,7 +3763,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
 
     //forward new channel to users
     ServerChannel::users_t users;
-    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
         users = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan);
     else
         users = GetAuthorizedUsers();
@@ -3780,7 +3780,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     }
 
     ErrorMsg err(TT_CMDERR_SUCCESS);
-    if (IsAutoSaving() && ((chanprop.chantype & CHANNEL_PERMANENT) != 0u) && (user != nullptr))
+    if (IsAutoSaving() && ((chanprop.chantype & CHANNEL_PERMANENT) != CHANNEL_DEFAULT) && (user != nullptr))
     {
         err = m_srvguard->SaveConfiguration(*user, *this);
         if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
@@ -3862,7 +3862,7 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
 
     UpdateChannel(chan, user);
 
-    if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != 0u) && (user != nullptr))
+    if (IsAutoSaving() && ((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT) && (user != nullptr))
     {
         auto err = m_srvguard->SaveConfiguration(*user, *this);
         if (err.Success() && ((m_properties.logevents & SERVERLOGEVENT_SERVER_SAVECONFIG) != 0u))
@@ -3883,7 +3883,7 @@ void ServerNode::CleanChannels(serverchannel_t& channel)
     {
         if( channel->GetUsersCount()==0 && 
             channel->GetSubChannelCount()==0 &&
-            (channel->GetChannelType() & CHANNEL_PERMANENT) == 0)
+            (channel->GetChannelType() & CHANNEL_PERMANENT) == CHANNEL_DEFAULT)
         {
             serverchannel_t const parent = channel->GetParentChannel();
             RemoveChannel(channel->GetChannelID());
@@ -3936,7 +3936,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     if (!err.Success())
         return err;
 
-    bStatic = ((chan->GetChannelType() & CHANNEL_PERMANENT) != 0u);
+    bStatic = ((chan->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT);
 
     //recursive remove
     auto subchannels = chan->GetSubChannels();
@@ -3976,7 +3976,7 @@ ErrorMsg ServerNode::RemoveChannel(int channelid, const ServerUser* user/* = NUL
     {
         //notify users
         ServerChannel::users_t notifyusers;
-        if ((chan->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+        if ((chan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
             notifyusers = GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS);
         else
             notifyusers = GetNotificationUsers(USERRIGHT_VIEW_ALL_USERS);
@@ -4009,7 +4009,7 @@ void ServerNode::UpdateChannel(const serverchannel_t& chan, const ServerUser* us
     ASSERT_SERVERNODE_LOCKED(this);
     TTASSERT(chan);
 
-    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != 0u)
+    if ((chan->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
         UpdateChannel(*chan, GetNotificationUsers(USERRIGHT_VIEW_HIDDEN_CHANNELS, chan), user);
     else
         UpdateChannel(*chan, GetAuthorizedUsers(), user);

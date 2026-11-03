@@ -1077,7 +1077,7 @@ void ConvertChannels(const teamtalk::serverchannel_t& root,
         for(const auto & sub : subs)
         {
             ACE_TString const path = sub->GetChannelPath().c_str();
-            if(!onlystatic || ((sub->GetChannelType() & CHANNEL_PERMANENT) != 0u))
+            if(!onlystatic || ((sub->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
             {
                 sweeper.push(sub);
                 sweeperid.push(sub->GetChannelID());

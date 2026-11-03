@@ -581,7 +581,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     if (!m_audiofile_player)
         return;
 
-    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u;
+    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
     m_audiofile_player->SetNoRecording(no_record);
 
     assert(m_audiofile_player->GetAudioCodec() == chan->GetAudioCodec());

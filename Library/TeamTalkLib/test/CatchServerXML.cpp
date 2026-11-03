@@ -149,7 +149,7 @@ TEST_CASE("ServerXML Channels Write/Read")
         REQUIRE(rootRead.diskquota == 51200000);
         REQUIRE(rootRead.oppasswd == ACE_TEXT("oppwd"));
         REQUIRE(rootRead.maxusers == 1000);
-        REQUIRE((rootRead.chantype & CHANNEL_PERMANENT) != 0);
+        REQUIRE((rootRead.chantype & CHANNEL_PERMANENT) != CHANNEL_DEFAULT);
         REQUIRE(rootRead.userdata == 12345);
         REQUIRE(rootRead.audiocodec.codec == CODEC_OPUS);
         REQUIRE(rootRead.audiocodec.opus.samplerate == 48000);
@@ -177,7 +177,7 @@ TEST_CASE("ServerXML Channels Write/Read")
         REQUIRE(child1Read.topic == ACE_TEXT("Sub Channel 1 Topic"));
         REQUIRE(child1Read.diskquota == 10240000);
         REQUIRE(child1Read.maxusers == 100);
-        REQUIRE((child1Read.chantype & CHANNEL_CLASSROOM) != 0);
+        REQUIRE((child1Read.chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT);
         REQUIRE(child1Read.audiocodec.codec == CODEC_OPUS);
         REQUIRE(child1Read.audiocodec.opus.samplerate == 24000);
         REQUIRE(child1Read.audiocodec.opus.channels == 1);

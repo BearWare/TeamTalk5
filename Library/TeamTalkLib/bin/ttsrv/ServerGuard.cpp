@@ -507,31 +507,31 @@ static void LogTransmitUsers(const std::set<int>& userids, ChannelTypes chantype
     switch (stream)
     {
     case STREAMTYPE_VOICE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit voice:");
         else
             oss << ACE_TEXT(", cannot transmit voice:");
         break;
     case STREAMTYPE_VIDEOCAPTURE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit video:");
         else
             oss << ACE_TEXT(", cannot transmit video:");
         break;
     case STREAMTYPE_DESKTOP :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit desktop:");
         else
             oss << ACE_TEXT(", cannot transmit desktop:");
         break;
     case STREAMTYPE_MEDIAFILE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit media files:");
         else
             oss << ACE_TEXT(", cannot transmit media files:");
         break;
     case STREAMTYPE_CHANNELMSG :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can send channel text messages:");
         else
             oss << ACE_TEXT(", cannot send channel text messages:");
@@ -567,7 +567,7 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
         oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated");
     }
 
-    if (((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && (!channel.GetTransmitQueue().empty()))
+    if (((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && (!channel.GetTransmitQueue().empty()))
         oss << ACE_TEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
 
     LogTransmitUsers(channel.GetVoiceUsers(), channel.GetChannelType(), STREAMTYPE_VOICE, oss);
