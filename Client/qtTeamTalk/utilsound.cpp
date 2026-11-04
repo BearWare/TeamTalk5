@@ -71,6 +71,8 @@ QHash<SoundEvents, SoundEventInfo> UtilSound::eventToSettingMap()
         { SOUNDEVENT_INTERCEPT, {SETTINGS_SOUNDEVENT_INTERCEPT, "intercept"} },
         { SOUNDEVENT_INTERCEPTEND, {SETTINGS_SOUNDEVENT_INTERCEPTEND, "interceptEnd"} },
         { SOUNDEVENT_TYPING, {SETTINGS_SOUNDEVENT_TYPING, "typing"} },
+        { SOUNDEVENT_WHISPERSTART, {SETTINGS_SOUNDEVENT_WHISPERSTART, "hotkey"} },
+        { SOUNDEVENT_WHISPERSTOP, {SETTINGS_SOUNDEVENT_WHISPERSTOP, "hotkey"} },
     };
     return map;
 }
@@ -556,6 +558,12 @@ QString getSoundEventFilename(SoundEvent event)
         case SOUNDEVENT_TYPING:
             filename = ttSettings->value(SETTINGS_SOUNDEVENT_TYPING, SETTINGS_SOUNDEVENT_TYPING_DEFAULT).toString();
             break;
+        case SOUNDEVENT_WHISPERSTART:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_WHISPERSTART, SETTINGS_SOUNDEVENT_WHISPERSTART_DEFAULT).toString();
+            break;
+        case SOUNDEVENT_WHISPERSTOP:
+            filename = ttSettings->value(SETTINGS_SOUNDEVENT_WHISPERSTOP, SETTINGS_SOUNDEVENT_WHISPERSTOP_DEFAULT).toString();
+            break;
         case SOUNDEVENT_NONE :
         case SOUNDEVENT_NEXT_UNUSED :
             break;
@@ -755,6 +763,10 @@ QString UtilSound::getDefaultFile(const QString& paramKey)
         return SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT;
     if (paramKey == SETTINGS_SOUNDEVENT_TYPING)
         return SETTINGS_SOUNDEVENT_TYPING_DEFAULT;
+    if (paramKey == SETTINGS_SOUNDEVENT_WHISPERSTART)
+        return SETTINGS_SOUNDEVENT_WHISPERSTART_DEFAULT;
+    if (paramKey == SETTINGS_SOUNDEVENT_WHISPERSTOP)
+        return SETTINGS_SOUNDEVENT_WHISPERSTOP_DEFAULT;
     return QString();
 }
 

@@ -442,6 +442,19 @@ extern "C" {
                                           bEnable);
     }
 
+    JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_setVoiceTransmissionTarget(JNIEnv* env,
+                                                                                         jobject thiz,
+                                                                                         jint nUserID)
+    {
+        return TT_SetVoiceTransmissionTarget(GetTTInstance(env, thiz), nUserID);
+    }
+
+    JNIEXPORT jint JNICALL Java_dk_bearware_TeamTalkBase_getVoiceTransmissionTarget(JNIEnv* env,
+                                                                                     jobject thiz)
+    {
+        return TT_GetVoiceTransmissionTarget(GetTTInstance(env, thiz));
+    }
+
     JNIEXPORT jboolean JNICALL Java_dk_bearware_TeamTalkBase_enable3DSoundPositioning(JNIEnv* env,
                                                                                       jobject thiz,
                                                                                       jboolean bEnable)

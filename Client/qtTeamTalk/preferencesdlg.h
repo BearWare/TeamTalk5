@@ -28,14 +28,31 @@
 #include <QLineEdit>
 #include <QAction>
 
+class QButtonGroup;
+class QCheckBox;
+class QComboBox;
+
 class PreferencesDlg : public QDialog
 {
     Q_OBJECT
 
 public:
+    enum DesktopShareRequest
+    {
+        DESKTOPSHARE_REQUEST_NONE,
+        DESKTOPSHARE_REQUEST_START,
+        DESKTOPSHARE_REQUEST_STOP
+    };
+
     PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
-                   const QList<QAction*>& actions, QWidget * parent = 0);
+                   const QList<QAction*>& actions,
+                   bool desktopSharingActive,
+                   bool desktopSharingAvailable,
+                   QWidget * parent = 0);
     ~PreferencesDlg();
+
+    DesktopShareRequest desktopShareRequest() const { return m_desktopShareRequest; }
+    qulonglong desktopShareWindowHandle() const { return m_desktopShareWindowHandle; }
 
     enum
     {
@@ -46,17 +63,37 @@ public:
         SOUNDEVENTS_TAB,
         TTSEVENTS_TAB,
         SHORTCUTS_TAB,
-        VIDCAP_TAB
+        VIDCAP_TAB,
+        SHARESCREEN_TAB,
+        RESOLUTION_TAB
     };
 
 private:
     Ui::PreferencesDlg ui;
     QSet<int> m_modtab;
+    DesktopShareRequest m_desktopShareRequest = DESKTOPSHARE_REQUEST_NONE;
+    bool m_desktopSharingActive = false;
+    QCheckBox* m_desktopSharingCheckBox = nullptr;
+    QCheckBox* m_desktopReaStreamCheckBox = nullptr;
+    QButtonGroup* m_desktopPresetGroup = nullptr;
+    QButtonGroup* m_desktopSourceGroup = nullptr;
+    QComboBox* m_desktopWindowComboBox = nullptr;
+    qulonglong m_desktopShareWindowHandle = 0;
+    DesktopShareMode m_initialDesktopShareMode = DESKTOPSHARE_DESKTOP;
+    QString m_initialDesktopShareWindowTitle;
+    int m_initialDesktopPreset = 1;
+    bool m_initialDesktopReaStream = false;
+    bool m_desktopSettingsChanged = false;
 
 private:
     void slotTabChange(int index);
     void slotSaveChanges();
     void slotCancelChanges();
+
+    // screen sharing tab
+    void addScreenShareTab(bool desktopSharingActive,
+                           bool desktopSharingAvailable);
+    void saveScreenShareSettings();
 
     // general tab
     void initGeneralTab();

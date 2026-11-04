@@ -73,6 +73,7 @@ public:
     int GetCurrentVoiceLevel() const;
 
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
+    bool SetBitrate(int bitrate);
 
     int m_voiceactlevel = VU_METER_MIN;
     ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
@@ -112,6 +113,7 @@ private:
 #endif
     audioencodercallback_t m_callback;
     std::recursive_mutex m_preprocess_lock;
+    std::mutex m_encoder_lock;
 #if defined(ENABLE_SPEEXDSP)
     std::unique_ptr<SpeexPreprocess> m_preprocess_left, m_preprocess_right;
 #endif

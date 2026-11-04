@@ -223,6 +223,8 @@ namespace teamtalk {
         int GetSoundOutputVolume();
 
         bool EnableVoiceTransmission(bool enable);
+        bool SetVoiceTransmissionTarget(int userid);
+        int GetVoiceTransmissionTarget() const { return m_voice_target_userid.load(); }
         int GetCurrentVoiceLevel();
         void SetVoiceActivationLevel(int voicelevel);
         int GetVoiceActivationLevel() const;
@@ -238,6 +240,7 @@ namespace teamtalk {
                                       bool enable);
         // user provided audio stream that replaces voice input stream
         bool QueueAudioInput(const media::AudioFrame& frm, int streamid);
+        bool SetScreenShareAudioBitrate(int bitrate);
         
         bool MuteAll(bool muteall);
 
@@ -383,6 +386,8 @@ namespace teamtalk {
         bool AudioInputCallback(media::AudioFrame& audio_frame,
                                 ACE_Message_Block* mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
+        bool ScreenShareAudioInputCallback(media::AudioFrame& audio_frame,
+                                           ACE_Message_Block* mb_audio);
 
         // AudioMuxer callback - separate thread
         void AudioMuxCallback(teamtalk::StreamTypes sts, const media::AudioFrame& audio_frame);
@@ -581,6 +586,7 @@ namespace teamtalk {
         AudioThread m_voice_thread;
         uint8_t m_voice_stream_id = 0; //0 means not used
         uint16_t m_voice_pkt_counter = 0;
+        std::atomic<int> m_voice_target_userid{0}; //0 broadcasts voice to the channel
         std::atomic<bool> m_voice_tx_closed{false}; // CLIENT_TX_VOICE was toggled (transmit next packet)
 
         //encode video from video capture
@@ -592,6 +598,7 @@ namespace teamtalk {
         //media streamer to channels
         mediafile_streamer_t m_mediafile_streamer;
         uint8_t m_mediafile_stream_id = 0; //0 means not used
+        uint8_t m_screenshare_audio_stream_id = 0; // suppress our returned screen audio
 
         //encode audio of media file
         AudioThread m_audiofile_thread;
@@ -606,6 +613,10 @@ namespace teamtalk {
 
         // audio input streamer (replaces voice stream)
         audioinput_streamer_t m_audioinput_voice;
+        // screen-share computer audio is encoded as media-file audio so it
+        // can be muted independently from the presenter's microphone.
+        audioinput_streamer_t m_audioinput_screenshare;
+        int m_screenshare_audio_bitrate = 0;
 
         //desktop session
         desktop_initiator_t m_desktop;

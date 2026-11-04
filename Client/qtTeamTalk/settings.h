@@ -326,6 +326,10 @@
 #define SETTINGS_SOUNDEVENT_INTERCEPTEND_DEFAULT           (SOUNDSPATH"/interceptEnd.wav")
 #define SETTINGS_SOUNDEVENT_TYPING           "soundevents/user-typing"
 #define SETTINGS_SOUNDEVENT_TYPING_DEFAULT           (SOUNDSPATH"/typing.wav")
+#define SETTINGS_SOUNDEVENT_WHISPERSTART           "soundevents/whisper-start"
+#define SETTINGS_SOUNDEVENT_WHISPERSTART_DEFAULT           (SOUNDSPATH"/hotkey.wav")
+#define SETTINGS_SOUNDEVENT_WHISPERSTOP           "soundevents/whisper-stop"
+#define SETTINGS_SOUNDEVENT_WHISPERSTOP_DEFAULT           (SOUNDSPATH"/hotkey.wav")
 #define SETTINGS_SOUNDS_PACK           "soundevents/sounds-pack"
 #define SETTINGS_SOUNDS_PACK_DEFAULT           "Default"
 #define SETTINGS_SOUNDEVENT_ENABLE                   "soundevents/sounds-enable"
@@ -366,7 +370,9 @@
                                                     SOUNDEVENT_VOICEACTMEOFF | \
                                                     SOUNDEVENT_INTERCEPT | \
                                                     SOUNDEVENT_INTERCEPTEND | \
-                                                    SOUNDEVENT_TYPING)
+                                                    SOUNDEVENT_TYPING | \
+                                                    SOUNDEVENT_WHISPERSTART | \
+                                                    SOUNDEVENT_WHISPERSTOP)
 
 #define SETTINGS_SHORTCUTS_ACTIVEHKS          "shortcuts/active-shortcuts"
 #define SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT          Hotkeys(HOTKEY_NONE)
@@ -555,6 +561,18 @@
 #define SETTINGS_DESKTOPSHARE_INTERVAL              "desktop-share/desktop-share-interval"
 #define SETTINGS_DESKTOPSHARE_CURSOR                "desktop-share/desktop-cursor"
 #define SETTINGS_DESKTOPSHARE_WINDOWTITLE           "desktop-share/desktop-window-title"
+#define SETTINGS_DESKTOPSHARE_PRESET                "desktop-share/preset"
+#define SETTINGS_DESKTOPSHARE_PRESET_DEFAULT        1
+#define SETTINGS_DESKTOPSHARE_HEIGHT                "desktop-share/target-height"
+#define SETTINGS_DESKTOPSHARE_HEIGHT_DEFAULT        720
+#define SETTINGS_DESKTOPSHARE_SYSTEMAUDIO           "desktop-share/system-audio"
+#define SETTINGS_DESKTOPSHARE_SYSTEMAUDIO_DEFAULT   true
+#define SETTINGS_DESKTOPSHARE_REASTREAM               "desktop-share/reastream"
+#define SETTINGS_DESKTOPSHARE_REASTREAM_DEFAULT       false
+#define SETTINGS_DESKTOPSHARE_AUDIOBITRATE          "desktop-share/audio-bitrate"
+#define SETTINGS_DESKTOPSHARE_AUDIOBITRATE_DEFAULT  320000
+#define SETTINGS_DESKTOPSHARE_VOLUME                "desktop-share/volume"
+#define SETTINGS_DESKTOPSHARE_VOLUME_DEFAULT        50
 
 #define SETTINGS_LATESTHOST_NAME                "latesthosts/%1_name"
 #define SETTINGS_LATESTHOST_HOSTADDR                "latesthosts/%1_hostaddr"

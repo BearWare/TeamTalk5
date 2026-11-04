@@ -469,6 +469,16 @@ void ClientUser::AddVoicePacket(const VoicePacket& audpkt,
     //store time of packet for later use
     UpdateLastTimeStamp(audpkt);
 
+    // A destination-user header means this voice stream is private to us.
+    // Notify the UI only when the mode changes so the incoming whisper sound
+    // is played once, rather than once for every audio packet.
+    bool const whisper = audpkt.GetDestUserID() != 0;
+    if (whisper != m_voice_whisper)
+    {
+        m_voice_whisper = whisper;
+        m_listener->OnUserStateChange(*this);
+    }
+
     if (!m_voice_player)
         LaunchVoicePlayer(chan->GetAudioCodec(), sndprop);
     if (!m_voice_player)
@@ -1291,9 +1301,16 @@ void ClientUser::ResetAudioPlayers(bool reset_snderr)
 void ClientUser::ResetVoicePlayer()
 {
     if (!m_voice_player)
+    {
+        if (m_voice_whisper)
+        {
+            m_voice_whisper = false;
+            m_listener->OnUserStateChange(*this);
+        }
         return;
+    }
 
-    bool const talking = IsAudioActive(STREAMTYPE_VOICE);
+    bool const notify_state_change = IsAudioActive(STREAMTYPE_VOICE) || m_voice_whisper;
 
     if(m_snd_duplexmode)
     {
@@ -1309,8 +1326,9 @@ void ClientUser::ResetVoicePlayer()
 
     m_voice_player.reset();
     m_voice_active = false;
+    m_voice_whisper = false;
 
-    if(talking)
+    if(notify_state_change)
         m_listener->OnUserStateChange(*this);
 
     //reset existing voice log

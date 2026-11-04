@@ -31,6 +31,8 @@
 #include "utiltts.h"
 #include "utilui.h"
 #include "settings.h"
+#include "screenshareaudio.h"
+#include "screensharequality.h"
 #if defined(ENABLE_PRISM)
 #include <prism.h>
 #endif
@@ -43,6 +45,13 @@
 #include <QFileDialog>
 #include <QFileInfo>
 #include <QDir>
+#include <QGroupBox>
+#include <QLabel>
+#include <QButtonGroup>
+#include <QCheckBox>
+#include <QComboBox>
+#include <QRadioButton>
+#include <QVBoxLayout>
 
 #if defined(Q_OS_LINUX)
 #include <unistd.h>
@@ -62,6 +71,8 @@ extern NonDefaultSettings* ttSettings;
 
 PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
                                const QList<QAction*>& actions,
+                               bool desktopSharingActive,
+                               bool desktopSharingAvailable,
                                QWidget * parent/* = 0*/)
 : QDialog(parent, QT_DEFAULT_DIALOG_HINTS)
 , m_devin(devin)
@@ -73,6 +84,8 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
     ui.setupUi(this);
     setWindowIcon(QIcon(APPICON));
     restoreGeometry(ttSettings->value(SETTINGS_DISPLAY_PREFERENCESWINDOWPOS).toByteArray());
+
+    addScreenShareTab(desktopSharingActive, desktopSharingAvailable);
 
     ui.buttonBox->button(QDialogButtonBox::Ok)->setText(tr("&OK"));
     ui.buttonBox->button(QDialogButtonBox::Cancel)->setText(tr("&Cancel"));
@@ -237,6 +250,247 @@ PreferencesDlg::PreferencesDlg(SoundDevice& devin, SoundDevice& devout,
 
     slotTabChange(GENERAL_TAB);
     ui.nicknameEdit->setFocus();
+}
+
+void PreferencesDlg::addScreenShareTab(bool desktopSharingActive,
+                                       bool desktopSharingAvailable)
+{
+    m_desktopSharingActive = desktopSharingActive;
+    QWidget* tab = new QWidget(ui.tabWidget);
+    QVBoxLayout* tabLayout = new QVBoxLayout(tab);
+    QGroupBox* group = new QGroupBox(tr("Screen sharing"), tab);
+    QVBoxLayout* groupLayout = new QVBoxLayout(group);
+
+    QLabel* description = new QLabel(
+        tr("Share your entire desktop, the active window, or a specific window with users in your channel."),
+        group);
+    description->setWordWrap(true);
+    groupLayout->addWidget(description);
+
+    QLabel* status = new QLabel(desktopSharingActive
+        ? tr("Screen sharing is currently active.")
+        : tr("Screen sharing is currently stopped."), group);
+    status->setAccessibleName(tr("Screen sharing status"));
+    groupLayout->addWidget(status);
+
+    if (!desktopSharingAvailable && !desktopSharingActive)
+    {
+        QLabel* unavailable = new QLabel(
+            tr("Join a channel before starting screen sharing."), group);
+        unavailable->setWordWrap(true);
+        groupLayout->addWidget(unavailable);
+    }
+
+    tabLayout->addWidget(group);
+
+    QGroupBox* presetGroup = new QGroupBox(tr("Screen sharing quality"), tab);
+    QVBoxLayout* presetLayout = new QVBoxLayout(presetGroup);
+    QLabel* presetDescription = new QLabel(
+        tr("Choose a preset based on the speed of your internet connection."), presetGroup);
+    presetDescription->setWordWrap(true);
+    presetLayout->addWidget(presetDescription);
+
+    m_desktopPresetGroup = new QButtonGroup(this);
+    QRadioButton* economy = new QRadioButton(
+        tr("Low - up to 560p, 10 FPS, audio up to 128 kbps"), presetGroup);
+    QRadioButton* normal = new QRadioButton(
+        tr("Medium - up to 720p, 15 FPS, audio up to 320 kbps"), presetGroup);
+    QRadioButton* high = new QRadioButton(
+        tr("High - up to 1080p, 20 FPS, audio up to 510 kbps"), presetGroup);
+    m_desktopPresetGroup->setExclusive(true);
+    economy->setObjectName("screenShareQualityLow");
+    normal->setObjectName("screenShareQualityMedium");
+    high->setObjectName("screenShareQualityHigh");
+    for (QRadioButton* button : { economy, normal, high })
+    {
+        button->setFocusPolicy(Qt::StrongFocus);
+        button->setAccessibleDescription(tr("Press Space to select this quality. Only one quality can be selected."));
+    }
+    m_desktopPresetGroup->addButton(economy, 0);
+    m_desktopPresetGroup->addButton(normal, 1);
+    m_desktopPresetGroup->addButton(high, 2);
+    presetLayout->addWidget(economy);
+    presetLayout->addWidget(normal);
+    presetLayout->addWidget(high);
+    switch (ttSettings->value(SETTINGS_DESKTOPSHARE_PRESET,
+                              SETTINGS_DESKTOPSHARE_PRESET_DEFAULT).toInt())
+    {
+    case 0: economy->setChecked(true); break;
+    case 2: high->setChecked(true); break;
+    case 1:
+    default: normal->setChecked(true); break;
+    }
+    m_initialDesktopPreset = m_desktopPresetGroup->checkedId();
+
+#if defined(Q_OS_WIN32)
+    m_desktopReaStreamCheckBox = new QCheckBox(
+        tr("Include REAPER audio via ReaStream (TeamTalk_REAPER)"), presetGroup);
+    m_desktopReaStreamCheckBox->setAccessibleDescription(
+        tr("Receives only the REAPER master mix. In REAPER, set ReaStream to Send, * local broadcast, with identifier TeamTalk_REAPER."));
+    m_initialDesktopReaStream = ttSettings->value(
+        SETTINGS_DESKTOPSHARE_REASTREAM,
+        SETTINGS_DESKTOPSHARE_REASTREAM_DEFAULT).toBool();
+    m_desktopReaStreamCheckBox->setChecked(m_initialDesktopReaStream);
+    presetLayout->addWidget(m_desktopReaStreamCheckBox);
+#endif
+
+    QLabel* audioNote = new QLabel(
+        tr("Only audio from the shared source is transmitted. TeamTalk notification sounds remain local. For the best High audio quality, use an Opus channel with 48 kHz stereo. The channel sample rate, mono/stereo format and packet interval can limit every preset."), presetGroup);
+    Channel currentChannel = {};
+    if (TT_GetChannel(ttInst, TT_GetMyChannelID(ttInst), &currentChannel) &&
+        currentChannel.audiocodec.nCodec == OPUS_CODEC)
+    {
+        auto updateAudioDetails = [this, audioNote, currentChannel]() {
+            const int preset = m_desktopPresetGroup->checkedId();
+            const int requested = preset == 0 ? 128000 : preset == 2 ? 510000 : 320000;
+            const int effective = screenShareAudioBitrate(currentChannel.audiocodec, requested);
+            audioNote->setText(tr("Shared audio uses the current Opus channel: %1 Hz, %2. Selected bitrate target: %3 kbps%4. TeamTalk notifications remain local.")
+                .arg(currentChannel.audiocodec.opus.nSampleRate)
+                .arg(currentChannel.audiocodec.opus.nChannels == 2 ? tr("stereo") : tr("mono"))
+                .arg(effective / 1000.0, 0, 'f', effective % 1000 ? 3 : 0)
+                .arg(effective < requested ? tr(" (limited by the channel packet interval)") : QString()));
+        };
+        connect(m_desktopPresetGroup, &QButtonGroup::idToggled, this,
+                [updateAudioDetails](int, bool checked) { if (checked) updateAudioDetails(); });
+        updateAudioDetails();
+    }
+    audioNote->setObjectName("screenShareAudioDetails");
+    audioNote->setWordWrap(true);
+    presetLayout->addWidget(audioNote);
+    tabLayout->addWidget(presetGroup);
+
+    QGroupBox* sourceGroup = new QGroupBox(tr("What do you want to share?"), tab);
+    QVBoxLayout* sourceLayout = new QVBoxLayout(sourceGroup);
+    m_desktopSourceGroup = new QButtonGroup(this);
+    QRadioButton* entireScreen = new QRadioButton(tr("Entire screen"), sourceGroup);
+    QRadioButton* application = new QRadioButton(tr("Only one application"), sourceGroup);
+    QRadioButton* activeWindow = new QRadioButton(tr("Active window"), sourceGroup);
+    m_desktopSourceGroup->addButton(entireScreen, DESKTOPSHARE_DESKTOP);
+    m_desktopSourceGroup->addButton(application, DESKTOPSHARE_SPECIFIC_WINDOW);
+    m_desktopSourceGroup->addButton(activeWindow, DESKTOPSHARE_ACTIVE_WINDOW);
+    sourceLayout->addWidget(entireScreen);
+    sourceLayout->addWidget(application);
+    sourceLayout->addWidget(activeWindow);
+
+    m_desktopWindowComboBox = new QComboBox(sourceGroup);
+    m_desktopWindowComboBox->setAccessibleName(tr("Open applications"));
+#if defined(Q_OS_WIN32)
+    HWND window = nullptr;
+    int windowIndex = 0;
+    while (TT_Windows_GetDesktopWindowHWND(windowIndex++, &window))
+    {
+        ShareWindow shareWindow = {};
+        if (TT_Windows_GetWindow(window, &shareWindow) &&
+            !_Q(shareWindow.szWindowTitle).isEmpty() &&
+            (!parentWidget() || window != reinterpret_cast<HWND>(parentWidget()->winId())))
+        {
+            m_desktopWindowComboBox->addItem(
+                QString("%1 - (%2x%3)").arg(_Q(shareWindow.szWindowTitle))
+                    .arg(shareWindow.nWidth).arg(shareWindow.nHeight),
+                qulonglong(window));
+        }
+    }
+    m_desktopWindowComboBox->model()->sort(0);
+#else
+    application->hide();
+    activeWindow->hide();
+    m_desktopWindowComboBox->hide();
+#endif
+    sourceLayout->addWidget(m_desktopWindowComboBox);
+    tabLayout->addWidget(sourceGroup);
+
+    m_initialDesktopShareMode = DesktopShareMode(
+        ttSettings->value(SETTINGS_DESKTOPSHARE_MODE, DESKTOPSHARE_DESKTOP).toInt());
+    m_initialDesktopShareWindowTitle =
+        ttSettings->value(SETTINGS_DESKTOPSHARE_WINDOWTITLE).toString();
+    if (m_initialDesktopShareMode == DESKTOPSHARE_ACTIVE_WINDOW)
+        activeWindow->setChecked(true);
+    else if (m_initialDesktopShareMode == DESKTOPSHARE_SPECIFIC_WINDOW)
+        application->setChecked(true);
+    else
+        entireScreen->setChecked(true);
+    const int previousWindow = m_desktopWindowComboBox->findText(
+        m_initialDesktopShareWindowTitle);
+    if (previousWindow >= 0 || m_initialDesktopShareMode == DESKTOPSHARE_SPECIFIC_WINDOW)
+        m_desktopWindowComboBox->setCurrentIndex(previousWindow);
+    m_desktopWindowComboBox->setEnabled(application->isChecked());
+    connect(application, &QRadioButton::toggled,
+            m_desktopWindowComboBox, &QComboBox::setEnabled);
+
+    m_desktopSharingCheckBox = new QCheckBox(tr("Enable screen sharing"), tab);
+    m_desktopSharingCheckBox->setChecked(desktopSharingActive);
+    m_desktopSharingCheckBox->setEnabled(desktopSharingActive || desktopSharingAvailable);
+    m_desktopSharingCheckBox->setAccessibleDescription(
+        tr("Starts screen sharing with the selected screen or application after you press OK."));
+    tabLayout->addWidget(m_desktopSharingCheckBox);
+    tabLayout->addStretch();
+    ui.tabWidget->addTab(tab, tr("Share Screen"));
+
+    // Opening Preferences on another page must not change the shared source.
+    const auto changed = [this]() { m_desktopSettingsChanged = true; };
+    connect(m_desktopSourceGroup, &QButtonGroup::idClicked, this, changed);
+    connect(m_desktopPresetGroup, &QButtonGroup::idClicked, this, changed);
+    connect(m_desktopWindowComboBox, &QComboBox::currentIndexChanged, this, changed);
+    connect(m_desktopSharingCheckBox, &QCheckBox::toggled, this, changed);
+    if (m_desktopReaStreamCheckBox)
+        connect(m_desktopReaStreamCheckBox, &QCheckBox::toggled, this, changed);
+}
+
+void PreferencesDlg::saveScreenShareSettings()
+{
+    if (!m_desktopSettingsChanged)
+        return;
+    const int preset = m_desktopPresetGroup ? m_desktopPresetGroup->checkedId() : 1;
+    // TeamTalk desktop sharing uses CPU-heavy bitmap/Zlib updates rather than
+    // a hardware video codec. Keep all presets below event-flood territory.
+    int height = 720, bitrate = 320000, interval = 67;
+    BitmapFormat bitmap = BMP_RGB16_555;
+    if (preset == 0)
+    {
+        height = 560;
+        bitrate = 128000;
+        interval = 100;
+        bitmap = BMP_RGB8_PALETTE;
+    }
+    else if (preset == 2)
+    {
+        height = 1080;
+        bitrate = 510000;
+        interval = 50;
+        bitmap = BMP_RGB16_555;
+    }
+
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_PRESET, preset);
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_HEIGHT, height);
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_AUDIOBITRATE, bitrate);
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_SYSTEMAUDIO, true);
+    const bool reastreamEnabled = m_desktopReaStreamCheckBox &&
+        m_desktopReaStreamCheckBox->isChecked();
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_REASTREAM, reastreamEnabled);
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_INTERVAL, interval);
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_BMPMODE, bitmap);
+
+    const DesktopShareMode sourceMode = m_desktopSourceGroup
+        ? DesktopShareMode(m_desktopSourceGroup->checkedId()) : DESKTOPSHARE_DESKTOP;
+    const QString sourceTitle = m_desktopWindowComboBox
+        ? m_desktopWindowComboBox->currentText() : QString();
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_MODE, sourceMode);
+    if (sourceMode == DESKTOPSHARE_SPECIFIC_WINDOW && m_desktopWindowComboBox)
+    {
+        ttSettings->setValue(SETTINGS_DESKTOPSHARE_WINDOWTITLE, sourceTitle);
+        m_desktopShareWindowHandle =
+            m_desktopWindowComboBox->currentData().toULongLong();
+    }
+
+    const bool requested = m_desktopSharingCheckBox && m_desktopSharingCheckBox->isChecked();
+    const bool sourceChanged = sourceMode != m_initialDesktopShareMode ||
+        (sourceMode == DESKTOPSHARE_SPECIFIC_WINDOW &&
+         sourceTitle != m_initialDesktopShareWindowTitle);
+    const bool streamSettingsChanged = preset != m_initialDesktopPreset ||
+        reastreamEnabled != m_initialDesktopReaStream;
+    if (requested != m_desktopSharingActive ||
+        (requested && (sourceChanged || streamSettingsChanged)))
+        m_desktopShareRequest = requested ? DESKTOPSHARE_REQUEST_START : DESKTOPSHARE_REQUEST_STOP;
 }
 
 PreferencesDlg::~PreferencesDlg()
@@ -740,6 +994,9 @@ void PreferencesDlg::slotTabChange(int index)
     case VIDCAP_TAB : //video capture
         initVideoCaptureTab();
         break;
+    case SHARESCREEN_TAB : // screen sharing
+    case RESOLUTION_TAB : // screen sharing resolution and audio
+        break;
     default :
         Q_ASSERT(0);
     }
@@ -748,6 +1005,7 @@ void PreferencesDlg::slotTabChange(int index)
 
 void PreferencesDlg::slotSaveChanges()
 {
+    saveScreenShareSettings();
     if(m_modtab.find(GENERAL_TAB) != m_modtab.end())
     {
         ttSettings->setValueOrClear(SETTINGS_GENERAL_NICKNAME, ui.nicknameEdit->text(), SETTINGS_GENERAL_NICKNAME_DEFAULT);

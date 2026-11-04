@@ -20,6 +20,7 @@
 
 #include "userimagewidget.h"
 #include "common.h"
+class QPushButton;
 
 class UserDesktopWidget : public UserImageWidget
 {
@@ -42,6 +43,7 @@ public:
 
 signals:
     void userDesktopWindowEnded(int userid);
+    void fullScreenRequested(int userid);
 
 protected:
     void slotContextMenu(const QPoint& p) override;
@@ -69,6 +71,7 @@ protected:
     void runTTPaint(QPainter& painter);
 #endif
     void timerEvent(QTimerEvent *e) override;
+    void resizeEvent(QResizeEvent* event) override;
     void refreshTimeout();
     void sendDesktopInputTimeout();
 
@@ -87,6 +90,7 @@ protected:
     int m_sendinput_timerid;
     //cache of user data
     User m_user;
+    QPushButton* m_fullScreenButton = nullptr;
 };
 
 #endif

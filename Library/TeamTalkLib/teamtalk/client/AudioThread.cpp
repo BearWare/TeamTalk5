@@ -532,7 +532,12 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             for(int enc_frame_size : enc_frame_sizes)
                 nbBytes += enc_frame_size;
 
-            m_callback(m_codec, enc_data, nbBytes,
+            AudioCodec callbackCodec;
+            {
+                std::lock_guard<std::mutex> lock(m_encoder_lock);
+                callbackCodec = m_codec;
+            }
+            m_callback(callbackCodec, enc_data, nbBytes,
                        enc_frame_sizes, audblock);
         }
         m_enc_cleared = false;
@@ -547,13 +552,21 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
                 m_speex->Reset();
 #endif
 #if defined(ENABLE_OPUS)
-            if (m_opus)
-                m_opus->Reset();
+            {
+                std::lock_guard<std::mutex> lock(m_encoder_lock);
+                if (m_opus)
+                    m_opus->Reset();
+            }
 #endif
             m_enc_cleared = true;
         }
 
-        m_callback(m_codec, nullptr, 0, std::vector<int>(), audblock);
+        AudioCodec callbackCodec;
+        {
+            std::lock_guard<std::mutex> lock(m_encoder_lock);
+            callbackCodec = m_codec;
+        }
+        m_callback(callbackCodec, nullptr, 0, std::vector<int>(), audblock);
     }
 }
 
@@ -729,6 +742,7 @@ const char* AudioThread::ProcessSpeex(const media::AudioFrame& audblock,
 const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
                                      std::vector<int>& enc_frame_sizes)
 {
+    std::lock_guard<std::mutex> lock(m_encoder_lock);
     TTASSERT(m_opus);
     TTASSERT(audblock.input_samples == GetAudioCodecCbSamples(m_codec));
     int const framesize = GetAudioCodecFrameSize(m_codec);
@@ -764,3 +778,23 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     return m_encbuf.data();
 }
 #endif
+
+bool AudioThread::SetBitrate(int bitrate)
+{
+#if defined(ENABLE_OPUS)
+    std::lock_guard<std::mutex> lock(m_encoder_lock);
+    constexpr int opusMinBitrate = 6000;
+    constexpr int opusMaxBitrate = 512000;
+    if (m_codec.codec != CODEC_OPUS || !m_opus ||
+        bitrate < opusMinBitrate || bitrate > opusMaxBitrate ||
+        bitrate > GetAudioCodecMaxPacketBitrate(m_codec))
+        return false;
+    if (!m_opus->SetBitrate(bitrate))
+        return false;
+    m_codec.opus.bitrate = bitrate;
+    return true;
+#else
+    ACE_UNUSED_ARG(bitrate);
+    return false;
+#endif
+}

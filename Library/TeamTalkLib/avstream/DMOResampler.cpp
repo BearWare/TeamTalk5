@@ -90,7 +90,9 @@ bool DMOResampler::Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFm
     GUID const gResampler = __uuidof(CResamplerMediaObject);
     GUID const gMO = __uuidof(IMediaObject);
     hr = CoInitializeEx(nullptr, COINIT_APARTMENTTHREADED);
-    if (FAILED(hr))
+    // The caller may already have initialized this worker as MTA. The Windows
+    // resampler can run there, so a different existing COM apartment is valid.
+    if (FAILED(hr) && hr != RPC_E_CHANGED_MODE)
         return false;
 
     hr = CoCreateInstance(gResampler, nullptr, CLSCTX_INPROC_SERVER, gMO,

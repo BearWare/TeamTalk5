@@ -41,6 +41,8 @@ SoundEventsModel::SoundEventsModel(QObject* parent)
     m_soundevents.push_back(SOUNDEVENT_USERMSG);
     m_soundevents.push_back(SOUNDEVENT_USERMSGSENT);
     m_soundevents.push_back(SOUNDEVENT_TYPING);
+    m_soundevents.push_back(SOUNDEVENT_WHISPERSTART);
+    m_soundevents.push_back(SOUNDEVENT_WHISPERSTOP);
     m_soundevents.push_back(SOUNDEVENT_CHANNELMSG);
     m_soundevents.push_back(SOUNDEVENT_CHANNELMSGSENT);
     m_soundevents.push_back(SOUNDEVENT_BROADCASTMSG);
@@ -117,6 +119,10 @@ QVariant SoundEventsModel::data ( const QModelIndex & index, int role /*= Qt::Di
                 return tr("Private message sent");
             case SOUNDEVENT_TYPING :
                 return tr("User is typing a private message in focused window");
+            case SOUNDEVENT_WHISPERSTART :
+                return tr("Whisper started");
+            case SOUNDEVENT_WHISPERSTOP :
+                return tr("Whisper ended");
             case SOUNDEVENT_CHANNELMSG :
                 return tr("Channel message received");
             case SOUNDEVENT_CHANNELMSGSENT :

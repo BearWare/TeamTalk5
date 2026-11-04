@@ -179,6 +179,15 @@ public abstract class TeamTalkBase implements AutoCloseable
 
     public native boolean enableVoiceTransmission(boolean bEnable);
 
+    /**
+     * Selects a single recipient for transmitted voice. A value of zero
+     * restores normal channel transmission.
+     */
+    public native boolean setVoiceTransmissionTarget(int nUserID);
+
+    /** Returns the selected voice recipient, or zero for the channel. */
+    public native int getVoiceTransmissionTarget();
+
     public native boolean enableVoiceActivation(boolean bEnable);
 
     public native boolean setVoiceActivationLevel(int nLevel);

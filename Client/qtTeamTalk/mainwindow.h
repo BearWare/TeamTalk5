@@ -102,6 +102,7 @@ public:
 
 protected:
     void timerEvent(QTimerEvent *event) override;
+    bool eventFilter(QObject* watched, QEvent* event) override;
     void changeEvent(QEvent* event) override;
     void keyPressEvent(QKeyEvent* e) override;
     void closeEvent(QCloseEvent* event) override;
@@ -142,6 +143,7 @@ private:
     //keep track of who is talking
     typedef QSet<int> talkingset_t;
     talkingset_t m_talking;
+    QSet<int> m_incoming_whispers;
 
     //ignore video frames from these users
     typedef QSet<int> video_exclude_user_t;
@@ -188,6 +190,9 @@ private:
     userdesktop_t m_userdesktop;
     //users to move to another channel (drag/drop)
     userids_t m_moveusers;
+    bool m_whisper_started_tx = false;
+    int m_whisper_target_userid = 0;
+    bool m_whisper_space_down = false;
     // user-cache of previous settings
     QMap<QString, UserCached> m_usercache;
     //online users in separate dialog
@@ -209,10 +214,19 @@ private:
     QVector<BannedUser> m_bannedusers;
     //position of mouse cursor
     QPoint m_lastCursorPos;
+    QSize m_desktopSourceSize;
+    QSize m_desktopSentSize;
     //list of desktop access users
     QVector<DesktopAccessEntry> m_desktopaccess_entries;
     // user being relayed
     int m_relayvoice_userid = 0, m_relaymediafile_userid = 0;
+    class ScreenShareAudio* m_screenShareAudio = nullptr;
+    bool m_screenShareAudioRequested = false;
+    unsigned long m_screenShareAudioProcessId = 0;
+    void startScreenShareAudio();
+    void updateScreenShareAudioSource();
+    bool m_desktopSelectionFromPreferences = false;
+    qulonglong m_desktopSelectedWindowHandle = 0;
 
     void processTTMessage(const TTMessage& msg);
     void drainTTMessages();
@@ -420,6 +434,8 @@ private:
     void slotNewMyselfTextMessage(const MyTextMessage& textmsg);
     void slotTextMessageClosed(int userid);
     void slotTransmitUsersChanged(int channelid, const QMap<int,StreamTypes>&);
+    void slotWhisperPressed(int userid);
+    void slotWhisperReleased();
     void slotChannelUpdate(const Channel& chan);
     void slotInitVideo();
     void slotAddUserVideo();
@@ -435,6 +451,7 @@ private:
     void slotDetachUserDesktopGrid();
     void slotDetachUserDesktop(int userid, const QSize& size);
     void slotUserDesktopDlgClosing(int userid);
+    void slotFullScreenUserDesktop(int userid);
     void slotUserJoin(int channelid, const User& user);
     void slotUserLeft(int channelid, const User& user);
     void slotUserUpdate(const User& user);

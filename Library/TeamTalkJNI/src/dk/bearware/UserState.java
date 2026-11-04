@@ -32,6 +32,8 @@ public interface UserState {
     public static final int USERSTATE_VIDEOCAPTURE          = 0x00000010;
     public static final int USERSTATE_MEDIAFILE_AUDIO       = 0x00000020;
     public static final int USERSTATE_MEDIAFILE_VIDEO       = 0x00000040;
+    /** Voice received as a targeted whisper from another client. */
+    public static final int USERSTATE_WHISPER               = 0x00000080;
     public static final int USERSTATE_MEDIAFILE             = USERSTATE_MEDIAFILE_AUDIO |
                                                               USERSTATE_MEDIAFILE_VIDEO;
 

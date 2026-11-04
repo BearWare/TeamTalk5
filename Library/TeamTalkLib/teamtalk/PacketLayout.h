@@ -668,25 +668,29 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         //Constructor for codec with no fragments and no frame sizes
         AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                     uint8_t stream_id, uint16_t packet_no, 
-                    const char* enc_audio, uint16_t enc_length);
+                    const char* enc_audio, uint16_t enc_length,
+                    uint16_t dest_userid = 0);
 
         //Constructor for codec with fragmented packets
         AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                     uint8_t stream_id, uint16_t packet_no,
                     uint8_t frag_no, uint8_t* frag_cnt, 
-                    const char* enc_audio, uint16_t enc_length);
+                    const char* enc_audio, uint16_t enc_length,
+                    uint16_t dest_userid = 0);
 
         //Constructor for codec with varirable frame sizes
         AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                     uint8_t stream_id, uint16_t packet_no, 
                     const char* enc_audio, uint16_t enc_length, 
-                    const std::vector<uint16_t>& enc_framesizes);
+                    const std::vector<uint16_t>& enc_framesizes,
+                    uint16_t dest_userid = 0);
 
         //Constructor for codec with variable frame sizes and fragmented packets
         AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                     uint8_t stream_id, uint16_t packet_no, uint8_t frag_no, 
                     uint8_t* frag_cnt, const char* enc_audio, uint16_t enc_length, 
-                    const std::vector<uint16_t>* enc_framesizes);
+                    const std::vector<uint16_t>* enc_framesizes,
+                    uint16_t dest_userid = 0);
 
         AudioPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                     iovec& decrypt_fields)

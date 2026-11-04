@@ -1258,6 +1258,8 @@ void Convert(const teamtalk::ClientUser& clientuser, User& result)
 
     result.uUserState = clientuser.IsAudioActive(teamtalk::STREAMTYPE_VOICE)?
                                                USERSTATE_VOICE : USERSTATE_NONE;
+    if(clientuser.IsVoiceWhisper())
+        result.uUserState |= USERSTATE_WHISPER;
     if(clientuser.IsMute(teamtalk::STREAMTYPE_VOICE))
         result.uUserState |= USERSTATE_MUTE_VOICE;
     if(clientuser.IsMute(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO))

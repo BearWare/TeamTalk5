@@ -97,7 +97,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     useraccountsmodel.h encryptionsetupdlg.h utiltt.h utilxml.h
     utilos.h serverdlg.h moveusersdlg.h useraccountdlg.h soundeventsmodel.h
     mytableview.h mytabwidget.h shortcutsmodel.h utilmedia.h
-    chattextlist.h chattemplatesdlg.h
+    chattextlist.h chattemplatesdlg.h screenshareaudio.h
 
     main.cpp mainwindow.cpp preferencesdlg.cpp uservideowidget.cpp
     channelstree.cpp channeldlg.cpp channeltypedlg.cpp userinfodlg.cpp
@@ -120,7 +120,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     useraccountsmodel.cpp encryptionsetupdlg.cpp utiltt.cpp utilxml.cpp
     utilos.cpp serverdlg.cpp moveusersdlg.cpp useraccountdlg.cpp soundeventsmodel.cpp
     mytableview.cpp mytabwidget.cpp shortcutsmodel.cpp utilmedia.cpp
-    chattextlist.cpp chattemplatesdlg.cpp
+    chattextlist.cpp chattemplatesdlg.cpp screenshareaudio.cpp
     mainwindow.ui channel.ui preferences.ui
     serverlist.ui userinfo.ui bannedusers.ui useraccounts.ui
     profiles.ui
@@ -223,7 +223,7 @@ if (Qt5_FOUND OR Qt6_FOUND)
     endif()
 
     if (WIN32)
-      target_link_libraries (${TEAMTALK_TARGET} WinToast)
+      target_link_libraries (${TEAMTALK_TARGET} WinToast ole32 uuid)
     endif()
 
     if (BUILD_TEAMTALK_LIBRARY_DLL)
@@ -274,7 +274,9 @@ if (Qt5_FOUND OR Qt6_FOUND)
 
     set_property(TARGET ${TEAMTALK_TARGET} PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}/../../Library/TeamTalk_DLL)
 
-    set_output_dir(${TEAMTALK_TARGET} "${CMAKE_CURRENT_SOURCE_DIR}/")
+    set(TEAMTALK_CLIENT_OUTPUT_DIRECTORY "${CMAKE_CURRENT_SOURCE_DIR}/" CACHE PATH
+        "Output directory for the Qt TeamTalk client")
+    set_output_dir(${TEAMTALK_TARGET} "${TEAMTALK_CLIENT_OUTPUT_DIRECTORY}")
 
     if (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 

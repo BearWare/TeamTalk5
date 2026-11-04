@@ -596,18 +596,26 @@ namespace teamtalk
 
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time,
                              uint8_t stream_id, uint16_t packet_no, 
-                             const char* enc_audio, uint16_t enc_length)
-            : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
+                             const char* enc_audio, uint16_t enc_length,
+                             uint16_t dest_userid)
+            : FieldPacket(dest_userid ? PACKETHDR_DEST_USER : PACKETHDR_CHANNEL_ONLY,
+                          kind, src_userid, time)
     {
+        if (dest_userid)
+            SetDestUser(dest_userid);
         InitCommon(stream_id, packet_no, nullptr, nullptr, enc_audio, enc_length, nullptr);
     }
 
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                              uint8_t stream_id, uint16_t packet_no, 
                              uint8_t frag_no, uint8_t* frag_cnt,
-                             const char* enc_audio, uint16_t enc_length)
-            : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
+                             const char* enc_audio, uint16_t enc_length,
+                             uint16_t dest_userid)
+            : FieldPacket(dest_userid ? PACKETHDR_DEST_USER : PACKETHDR_CHANNEL_ONLY,
+                          kind, src_userid, time)
     {
+        if (dest_userid)
+            SetDestUser(dest_userid);
         InitCommon(stream_id, packet_no, &frag_no, frag_cnt,
                    enc_audio, enc_length, nullptr);
     }
@@ -616,17 +624,25 @@ namespace teamtalk
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, 
                              uint8_t stream_id, uint16_t packet_no, 
                              const char* enc_audio, uint16_t enc_length, 
-                             const std::vector<uint16_t>& enc_framesizes)
-            : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
+                             const std::vector<uint16_t>& enc_framesizes,
+                             uint16_t dest_userid)
+            : FieldPacket(dest_userid ? PACKETHDR_DEST_USER : PACKETHDR_CHANNEL_ONLY,
+                          kind, src_userid, time)
     {
+        if (dest_userid)
+            SetDestUser(dest_userid);
         InitCommon(stream_id, packet_no, nullptr, nullptr, enc_audio, enc_length, &enc_framesizes);
     }
 
     AudioPacket::AudioPacket(uint8_t kind, uint16_t src_userid, uint32_t time, uint8_t stream_id, 
                     uint16_t packet_no, uint8_t frag_no, uint8_t* frag_cnt, 
-                    const char* enc_audio, uint16_t enc_length, const std::vector<uint16_t>* enc_framesizes)
-            : FieldPacket(PACKETHDR_CHANNEL_ONLY, kind, src_userid, time)
+                    const char* enc_audio, uint16_t enc_length, const std::vector<uint16_t>* enc_framesizes,
+                    uint16_t dest_userid)
+            : FieldPacket(dest_userid ? PACKETHDR_DEST_USER : PACKETHDR_CHANNEL_ONLY,
+                          kind, src_userid, time)
     {
+        if (dest_userid)
+            SetDestUser(dest_userid);
         InitCommon(stream_id, packet_no, &frag_no, frag_cnt, enc_audio, 
                    enc_length, enc_framesizes);
     }

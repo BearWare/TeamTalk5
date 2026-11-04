@@ -2181,6 +2181,9 @@ extern "C" {
          * this flag changes the event #CLIENTEVENT_USER_STATECHANGE
          * is posted.  @see TT_StartStreamingMediaFile() */
         USERSTATE_MEDIAFILE_VIDEO       = 0x00000040,
+        /** @brief If set the user's voice stream is addressed only to
+         * this client. This identifies targeted voice transmission. */
+        USERSTATE_WHISPER               = 0x00000080,
         /** @brief If set user is streaming a media file.  If this
          * flag changes the event #CLIENTEVENT_USER_STATECHANGE is
          * posted.  @see TT_StartStreamingMediaFile() */
@@ -4995,6 +4998,12 @@ extern "C" {
      * The member @c uSampleIndex of #AudioBlock is ignored. */
     TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
                                                IN const AudioBlock* lpAudioBlock);
+
+    /** Set the encoder bitrate used by computer audio accompanying a screen
+     * share. This stream is transported as media-file audio so receivers can
+     * control it independently from voice. */
+    TEAMTALKDLL_API TTBOOL TT_SetScreenShareAudioBitrate(IN TTInstance* lpTTInstance,
+                                                        IN INT32 nBitrate);
     
     /**
      * @brief Start/stop transmitting of voice data from sound input.
@@ -5017,6 +5026,24 @@ extern "C" {
      * not be activated on the client instance. */
     TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
                                                       IN TTBOOL bEnable);
+
+    /**
+     * @brief Route microphone voice packets to one user temporarily.
+     *
+     * The destination must be a user in the same channel. Pass 0 to resume
+     * normal channel-wide voice transmission. This setting does not itself
+     * enable or disable microphone transmission. Server administrators with
+     * voice interception rights may still receive the transmission.
+     *
+     * @param lpTTInstance Pointer to client instance created by #TT_InitTeamTalk.
+     * @param nUserID Destination user ID, or 0 for the current channel.
+     * @return TRUE on success, otherwise FALSE.
+     */
+    TEAMTALKDLL_API TTBOOL TT_SetVoiceTransmissionTarget(IN TTInstance* lpTTInstance,
+                                                         IN INT32 nUserID);
+
+    /** @brief Get the current private voice destination, or 0 for the channel. */
+    TEAMTALKDLL_API INT32 TT_GetVoiceTransmissionTarget(IN TTInstance* lpTTInstance);
 
     /**
      * @brief Enable voice activation.

@@ -109,7 +109,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                           in_packet.GetPacketNumber(),
                                           (uint8_t)0, &u8_fragments,
                                           ptr, max_chunk_size,
-                                          &frame_sizes);
+                                          &frame_sizes, dest_userid);
     }
     else
     {
@@ -119,12 +119,10 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                           stream_id,
                                           in_packet.GetPacketNumber(),
                                           (uint8_t)0, &u8_fragments,
-                                          ptr, max_chunk_size);
+                                          ptr, max_chunk_size, dest_userid);
     }
     result.push_back(audiopacket_t(p));
 
-    if(dest_userid != 0u)
-        p->SetDestUser(dest_userid);
     p->SetChannel(chanid);
 
     uint16_t copied = max_chunk_size;
@@ -140,12 +138,10 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                           stream_id,
                                           in_packet.GetPacketNumber(),
                                           i, nullptr,
-                                          &ptr[copied], copy_size);
+                                          &ptr[copied], copy_size, dest_userid);
         copied += copy_size;
         result.push_back(p);
 
-        if(dest_userid != 0u)
-            p->SetDestUser(dest_userid);
         p->SetChannel(chanid);
     }
     assert(copied == enc_size);
@@ -217,6 +213,8 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
 
     ii = fragments.find(0);
     const AudioPacket& frag0 = *ii->second;
+    uint16_t const dest_userid = frag0.GetDestUserID();
+    uint16_t const chanid = frag0.GetChannel();
     audiopacket_t audpkt;
     if(!frame_sizes.empty())
         audpkt = std::make_shared<AudioPacket>(frag0.GetKind(),
@@ -225,20 +223,16 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
                                                frag0.GetStreamID(),
                                                packet_no,
                                                buf.data(), uint16_t(buf.size()),
-                                               frame_sizes);
+                                               frame_sizes, dest_userid);
     else
         audpkt = std::make_shared<AudioPacket>(frag0.GetKind(),
                                                frag0.GetSrcUserID(),
                                                frag0.GetTime(),
                                                frag0.GetStreamID(),
                                                packet_no,
-                                               buf.data(), uint16_t(buf.size()));
+                                               buf.data(), uint16_t(buf.size()), dest_userid);
     //WARNING: if FieldPacket is changed these additional fields must be 
     //added here.
-    uint16_t const dest_userid = frag0.GetDestUserID();
-    uint16_t const chanid = frag0.GetChannel();
-    if(dest_userid != 0u)
-        audpkt->SetDestUser(dest_userid);
     if(chanid != 0u)
         audpkt->SetChannel(chanid);
 

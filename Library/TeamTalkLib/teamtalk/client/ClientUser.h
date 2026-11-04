@@ -169,6 +169,7 @@ namespace teamtalk {
         const ClientUserStats& GetStatistics() const { return m_stats; }
 
         bool IsAudioActive(StreamType stream_type) const;
+        bool IsVoiceWhisper() const { return m_voice_whisper; }
 
         void SetPlaybackStoppedDelay(StreamType stream_type, int msec);
         int GetPlaybackStoppedDelay(StreamType stream_type) const;
@@ -270,6 +271,7 @@ namespace teamtalk {
         //voice playback
         audio_player_t m_voice_player;
         bool m_voice_active = false;
+        bool m_voice_whisper = false;
         int m_voice_buf_msec = VOICE_BUFFER_MSEC;
         JitterCalculator m_jitter_calculator;
         std::queue<audiopacket_t> m_jitterbuffer;

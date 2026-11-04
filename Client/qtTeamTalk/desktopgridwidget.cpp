@@ -39,6 +39,8 @@ void DesktopGridWidget::slotAddUser(int userid)
             userdesktop, &UserDesktopWidget::slotDesktopUpdate);
     connect(userdesktop, &UserDesktopWidget::userDesktopWindowEnded,
             this, &DesktopGridWidget::userDesktopWindowEnded);
+    connect(userdesktop, &UserDesktopWidget::fullScreenRequested,
+            this, &DesktopGridWidget::fullScreenRequested);
     connect(userdesktop, &UserImageWidget::userWidgetFocused,
             this, &DesktopGridWidget::slotDesktopWidgetFocused);
     connect(this, &DesktopGridWidget::userDesktopCursorUpdate,

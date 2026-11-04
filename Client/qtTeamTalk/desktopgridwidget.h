@@ -39,6 +39,7 @@ signals:
     void userUpdated(const User&);
 
     void desktopCountChanged(int);
+    void fullScreenRequested(int userid);
 
 protected:
     QString getEmptyGridText() const;

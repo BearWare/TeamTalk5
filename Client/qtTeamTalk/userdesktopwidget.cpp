@@ -24,6 +24,8 @@
 #include <QMessageBox>
 #include <QMenu>
 #include <QDebug>
+#include <QPushButton>
+#include <QResizeEvent>
 
 #if defined(Q_OS_DARWIN)
 #include <Carbon/Carbon.h>
@@ -45,6 +47,10 @@ UserDesktopWidget::UserDesktopWidget(QWidget* parent, int userid, int border_wid
     setMouseTracking(true);
 
     setUserID(userid);
+    m_fullScreenButton = new QPushButton(tr("Full screen"), this);
+    m_fullScreenButton->setAccessibleName(tr("Full screen"));
+    connect(m_fullScreenButton, &QPushButton::clicked, this,
+            [this]() { emit fullScreenRequested(m_userid); });
 }
 
 UserDesktopWidget::~UserDesktopWidget()
@@ -95,6 +101,18 @@ void UserDesktopWidget::timerEvent(QTimerEvent* e)
         refreshTimeout();
     else if(e->timerId() == m_sendinput_timerid)
         sendDesktopInputTimeout();
+}
+
+void UserDesktopWidget::resizeEvent(QResizeEvent* event)
+{
+    UserImageWidget::resizeEvent(event);
+    if (m_fullScreenButton)
+    {
+        m_fullScreenButton->adjustSize();
+        m_fullScreenButton->move(
+            qMax(4, (width() - m_fullScreenButton->width()) / 2), 24);
+        m_fullScreenButton->raise();
+    }
 }
 
 void UserDesktopWidget::refreshTimeout()

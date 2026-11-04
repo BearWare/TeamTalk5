@@ -165,6 +165,30 @@
       </item>
      </layout>
     </widget>
+  </item>
+   <item>
+    <widget class="QGroupBox" name="asioGroupBox">
+     <property name="title">
+      <string>Audio from ASIO applications</string>
+     </property>
+     <layout class="QVBoxLayout" name="asioLayout">
+       <item>
+        <widget class="QCheckBox" name="reaStreamCheckBox">
+         <property name="text">
+          <string>Include REAPER audio via ReaStream (TeamTalk_REAPER)</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="reaStreamHelpLabel">
+         <property name="wordWrap"><bool>true</bool></property>
+         <property name="text">
+          <string>Receives only the REAPER master mix. Keep ReaStream set to Send, * local broadcast, and identifier TeamTalk_REAPER.</string>
+         </property>
+        </widget>
+       </item>
+     </layout>
+    </widget>
    </item>
    <item>
     <spacer name="verticalSpacer">

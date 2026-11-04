@@ -51,8 +51,11 @@
 #include "moveusersdlg.h"
 #include "useraccountdlg.h"
 #include "chattextlist.h"
+#include "screenshareaudio.h"
+#include "screensharequality.h"
 
 #include <QMessageBox>
+#include <QPushButton>
 #include <QInputDialog>
 #include <QFileDialog>
 #include <QFileInfo>
@@ -145,6 +148,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 , m_nWindowShareWnd(0)
 #endif
 {
+    m_screenShareAudio = new ScreenShareAudio();
     //Ensure the correct version of the DLL is loaded
     if(QString(TEAMTALK_VERSION) != _Q(TT_GetVersion()))
         QMessageBox::warning(nullptr, "DLL load error",
@@ -195,6 +199,7 @@ MainWindow::MainWindow(const QString& cfgfile)
     }
 
     ui.setupUi(this);
+    qApp->installEventFilter(this);
     setupChatHistory();
 
     setWindowIcon(QIcon(APPICON));
@@ -212,6 +217,7 @@ MainWindow::MainWindow(const QString& cfgfile)
 
     ui.volumeSlider->setRange(0, 100);
     ui.micSlider->setRange(0, 100);
+    ui.screenShareVolumeSlider->setRange(0, 100);
 
     ui.voiceactBar->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
     ui.voiceactSlider->setRange(SOUND_VU_MIN, DEFAULT_SOUND_VU_MAX /*SOUND_VU_MAX*/);
@@ -248,6 +254,11 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotMicrophoneGainChanged);
     connect(ui.volumeSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotMasterVolumeChanged);
+    connect(ui.screenShareVolumeSlider, &QAbstractSlider::valueChanged,
+            this, [this](int value) {
+                if (m_screenShareAudio)
+                    m_screenShareAudio->setVolume(value);
+            });
     connect(ui.voiceactSlider, &QAbstractSlider::valueChanged,
             this, &MainWindow::slotVoiceActivationLevelChanged);
 
@@ -297,6 +308,8 @@ MainWindow::MainWindow(const QString& cfgfile)
             this, &MainWindow::slotUpdateDesktopTabUI);
     connect(ui.desktopgridWidget, &DesktopGridWidget::userDesktopSelected,
             this, &MainWindow::slotUpdateDesktopTabUI);
+    connect(ui.desktopgridWidget, &DesktopGridWidget::fullScreenRequested,
+            this, &MainWindow::slotFullScreenUserDesktop);
 
     /* Chat-tab */
     connect(ui.msgEdit, &QLineEdit::textChanged, this, &MainWindow::slotTextChanged);
@@ -649,12 +662,21 @@ MainWindow::MainWindow(const QString& cfgfile)
 
 MainWindow::~MainWindow()
 {
+    if (m_screenShareAudio)
+    {
+        m_screenShareAudio->stop();
+        delete m_screenShareAudio;
+        m_screenShareAudio = nullptr;
+    }
 #if defined(Q_OS_LINUX)
     if(m_display)
         XCloseDisplay(m_display);
 #endif
     ttSettings->setValueOrClear(SETTINGS_SOUND_MASTERVOLUME, ui.volumeSlider->value(), SETTINGS_SOUND_MASTERVOLUME_DEFAULT);
     ttSettings->setValueOrClear(SETTINGS_SOUND_MICROPHONEGAIN, ui.micSlider->value(), SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT);
+    ttSettings->setValueOrClear(SETTINGS_DESKTOPSHARE_VOLUME,
+                                ui.screenShareVolumeSlider->value(),
+                                SETTINGS_DESKTOPSHARE_VOLUME_DEFAULT);
     ttSettings->setValueOrClear(SETTINGS_SOUND_VOICEACTIVATIONLEVEL, ui.voiceactSlider->value(), SETTINGS_SOUND_VOICEACTIVATIONLEVEL_DEFAULT);
 
     auto activekeys = ttSettings->value(SETTINGS_SHORTCUTS_ACTIVEHKS, SETTINGS_SHORTCUTS_ACTIVEHKS_DEFAULT).toULongLong();
@@ -886,6 +908,12 @@ void MainWindow::loadSettings()
                               SETTINGS_SOUND_MICROPHONEGAIN_GAIN_DEFAULT).toInt();
     ui.micSlider->setValue(value);
     slotMicrophoneGainChanged(value); //force update on equal
+
+    value = ttSettings->value(SETTINGS_DESKTOPSHARE_VOLUME,
+                              SETTINGS_DESKTOPSHARE_VOLUME_DEFAULT).toInt();
+    ui.screenShareVolumeSlider->setValue(qBound(0, value, 100));
+    if (m_screenShareAudio)
+        m_screenShareAudio->setVolume(ui.screenShareVolumeSlider->value());
 
     m_audiostorage_mode = ttSettings->value(SETTINGS_MEDIASTORAGE_MODE,
                                             AUDIOSTORAGE_NONE).toUInt();
@@ -1559,6 +1587,22 @@ void MainWindow::clienteventInternalError(const ClientErrorMsg& clienterrormsg)
 void MainWindow::clienteventUserStateChange(const User& user)
 {
     emit userStateChange(user);
+    if ((user.uUserState & USERSTATE_WHISPER) &&
+        user.nUserID != TT_GetMyUserID(ttInst))
+    {
+        if (!m_incoming_whispers.contains(user.nUserID))
+        {
+            m_incoming_whispers.insert(user.nUserID);
+            playSoundEvent(SOUNDEVENT_WHISPERSTART);
+        }
+    }
+    else
+    {
+        if (m_incoming_whispers.contains(user.nUserID))
+            playSoundEvent(SOUNDEVENT_WHISPERSTOP);
+        m_incoming_whispers.remove(user.nUserID);
+    }
+
     if(user.uUserState & USERSTATE_VOICE)
     {
         m_talking.insert(user.nUserID);
@@ -2302,6 +2346,9 @@ void MainWindow::disconnectFromServer()
         addServerEntry(m_host);
     }
 
+    m_screenShareAudioRequested = false;
+    if (m_screenShareAudio)
+        m_screenShareAudio->stop();
     TT_Disconnect(ttInst);
 
     // sync user settings to cache
@@ -2342,6 +2389,7 @@ void MainWindow::disconnectFromServer()
     m_textmessages.clear();
     m_commands.clear();
     m_talking.clear();
+    m_incoming_whispers.clear();
 
     if(m_sysicon)
         m_sysicon->setIcon(QIcon(APPTRAYICON));
@@ -2629,6 +2677,141 @@ void MainWindow::pttHotKey(bool active)
     {
         addStatusMsg(STATUSBAR_BYPASS, tr("Voice transmission failed"));
     }
+}
+
+void MainWindow::slotWhisperPressed(int userid)
+{
+    User target = {};
+    if (!TT_GetUser(ttInst, userid, &target) ||
+        target.nChannelID == 0 || target.nChannelID != TT_GetMyChannelID(ttInst))
+    {
+        QString const message = tr("Whisper target must be in your channel");
+        addStatusMsg(STATUSBAR_BYPASS, message);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, message);
+        return;
+    }
+
+    bool const was_transmitting = (TT_GetFlags(ttInst) & CLIENT_TX_VOICE) != 0;
+    if (!TT_SetVoiceTransmissionTarget(ttInst, userid))
+    {
+        QString const message = tr("Unable to start whisper");
+        addStatusMsg(STATUSBAR_BYPASS, message);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, message);
+        return;
+    }
+
+    m_whisper_started_tx = !was_transmitting;
+    m_whisper_target_userid = userid;
+    if (m_whisper_started_tx && !TT_EnableVoiceTransmission(ttInst, TRUE))
+    {
+        TT_SetVoiceTransmissionTarget(ttInst, 0);
+        m_whisper_started_tx = false;
+        m_whisper_target_userid = 0;
+        QString const message = tr("Unable to start whisper");
+        addStatusMsg(STATUSBAR_BYPASS, message);
+        addTextToSpeechMessage(TTS_MENU_ACTIONS, message);
+        return;
+    }
+
+    emit updateMyself();
+    Q_ASSERT(playsoundevent);
+    playsoundevent->queueSoundEvent(SOUNDEVENT_WHISPERSTART);
+    QString const message = tr("Whispering to %1").arg(getDisplayName(target));
+    addStatusMsg(STATUSBAR_BYPASS, message);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, message);
+}
+
+void MainWindow::slotWhisperReleased()
+{
+    if (m_whisper_target_userid == 0 && !m_whisper_started_tx)
+        return;
+
+    TT_SetVoiceTransmissionTarget(ttInst, 0);
+    if (m_whisper_started_tx)
+        TT_EnableVoiceTransmission(ttInst, FALSE);
+    m_whisper_started_tx = false;
+    m_whisper_target_userid = 0;
+    emit updateMyself();
+    Q_ASSERT(playsoundevent);
+    playsoundevent->queueSoundEvent(SOUNDEVENT_WHISPERSTOP);
+    QString const message = tr("Whisper ended");
+    addStatusMsg(STATUSBAR_BYPASS, message);
+    addTextToSpeechMessage(TTS_MENU_ACTIONS, message);
+}
+
+bool MainWindow::eventFilter(QObject* watched, QEvent* event)
+{
+    Q_UNUSED(watched);
+
+    if (event->type() == QEvent::KeyRelease && m_whisper_space_down)
+    {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+        if (keyEvent->key() == Qt::Key_Space && !keyEvent->isAutoRepeat())
+        {
+            m_whisper_space_down = false;
+            slotWhisperReleased();
+            keyEvent->accept();
+            return true;
+        }
+    }
+
+    QWidget* focus = QApplication::focusWidget();
+    // Popup menus can leave focusWidget() pointing at the tree. Only handle
+    // keys on the name column, not the adjacent transmission checkboxes.
+    bool const channelListFocused =
+        (focus == ui.channelsWidget || focus == ui.channelsWidget->viewport()) &&
+        ui.channelsWidget->currentColumn() == 0 &&
+        QApplication::activeWindow() == this &&
+        !QApplication::activePopupWidget() && !QApplication::activeModalWidget();
+    bool const treeKeyTarget = watched == ui.channelsWidget ||
+        watched == ui.channelsWidget->viewport();
+
+    if (m_whisper_space_down &&
+        (!channelListFocused ||
+         (event->type() == QEvent::FocusOut && treeKeyTarget) ||
+         (event->type() == QEvent::WindowDeactivate && watched == this)))
+    {
+        m_whisper_space_down = false;
+        slotWhisperReleased();
+    }
+
+    if (channelListFocused && treeKeyTarget &&
+        (event->type() == QEvent::ShortcutOverride ||
+         event->type() == QEvent::KeyPress ||
+         event->type() == QEvent::KeyRelease))
+    {
+        QKeyEvent* keyEvent = static_cast<QKeyEvent*>(event);
+
+        if (keyEvent->key() == Qt::Key_Space &&
+            keyEvent->modifiers() == Qt::NoModifier && !keyEvent->isAutoRepeat())
+        {
+            if (event->type() == QEvent::ShortcutOverride)
+            {
+                keyEvent->accept();
+                return true;
+            }
+
+            if (event->type() == QEvent::KeyPress && !m_whisper_space_down)
+            {
+                int const userid = ui.channelsWidget->selectedUser();
+                if (userid > 0 && userid != TT_GetMyUserID(ttInst))
+                {
+                    m_whisper_space_down = true;
+                    slotWhisperPressed(userid);
+                    keyEvent->accept();
+                    return true;
+                }
+            }
+        }
+    }
+
+    if (event->type() == QEvent::ApplicationDeactivate && m_whisper_space_down)
+    {
+        m_whisper_space_down = false;
+        slotWhisperReleased();
+    }
+
+    return QMainWindow::eventFilter(watched, event);
 }
 
 
@@ -3396,6 +3579,7 @@ void MainWindow::processMyselfLeft(int /*channelid*/)
     m_last_channel = {};
 
     m_talking.clear();
+    m_incoming_whispers.clear();
     ui.videogridWidget->resetGrid();
     ui.desktopgridWidget->resetGrid();
 
@@ -3591,6 +3775,120 @@ void MainWindow::updateAudioConfig()
     ui.micSlider->setEnabled(!m_mychannel.audiocfg.bEnableAGC);
 }
 
+#if defined(Q_OS_WIN32)
+static int sendScaledDesktopWindow(TTInstance* instance, HWND window,
+                                   BitmapFormat bitmapFormat, int targetHeight,
+                                   QSize& sourceSize, QSize& sentSize)
+{
+    RECT rect = {};
+    if (!window || !GetWindowRect(window, &rect))
+        return -1;
+
+    const int sourceWidth = rect.right - rect.left;
+    const int sourceHeight = rect.bottom - rect.top;
+    if (sourceWidth <= 0 || sourceHeight <= 0)
+        return -1;
+
+    const double scale = targetHeight > 0 && sourceHeight > targetHeight
+                           ? double(targetHeight) / sourceHeight : 1.0;
+    const int width = qMax(1, qRound(sourceWidth * scale));
+    const int height = qMax(1, qRound(sourceHeight * scale));
+    sourceSize = QSize(sourceWidth, sourceHeight);
+    sentSize = QSize(width, height);
+
+    HDC screenDc = CreateDC(TEXT("DISPLAY"), nullptr, nullptr, nullptr);
+    HDC memoryDc = screenDc ? CreateCompatibleDC(screenDc) : nullptr;
+    if (!screenDc || !memoryDc)
+    {
+        if (memoryDc) DeleteDC(memoryDc);
+        if (screenDc) DeleteDC(screenDc);
+        return -1;
+    }
+
+    BITMAPINFO info = {};
+    info.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
+    info.bmiHeader.biWidth = width;
+    info.bmiHeader.biHeight = -height;
+    info.bmiHeader.biPlanes = 1;
+    info.bmiHeader.biBitCount = 32;
+    info.bmiHeader.biCompression = BI_RGB;
+    void* pixels = nullptr;
+    HBITMAP bitmap = CreateDIBSection(screenDc, &info, DIB_RGB_COLORS,
+                                      &pixels, nullptr, 0);
+    if (!bitmap || !pixels)
+    {
+        if (bitmap) DeleteObject(bitmap);
+        DeleteDC(memoryDc);
+        DeleteDC(screenDc);
+        return -1;
+    }
+
+    HGDIOBJ previous = SelectObject(memoryDc, bitmap);
+    SetStretchBltMode(memoryDc, HALFTONE);
+    SetBrushOrgEx(memoryDc, 0, 0, nullptr);
+    BOOL copied = FALSE;
+    const bool entireDesktop = window == TT_Windows_GetDesktopHWND();
+    if (entireDesktop)
+    {
+        copied = StretchBlt(memoryDc, 0, 0, width, height, screenDc,
+                            rect.left, rect.top, sourceWidth, sourceHeight,
+                            SRCCOPY | CAPTUREBLT);
+    }
+    else
+    {
+        // Capture the selected HWND into an isolated surface. Reading the
+        // same rectangle from the desktop would leak overlapping windows.
+        if (IsHungAppWindow(window))
+        {
+            SelectObject(memoryDc, previous);
+            DeleteObject(bitmap);
+            DeleteDC(memoryDc);
+            DeleteDC(screenDc);
+            return -1;
+        }
+        HDC sourceDc = CreateCompatibleDC(screenDc);
+        HBITMAP sourceBitmap = CreateCompatibleBitmap(screenDc,
+                                                       sourceWidth, sourceHeight);
+        if (sourceDc && sourceBitmap)
+        {
+            HGDIOBJ sourcePrevious = SelectObject(sourceDc, sourceBitmap);
+            constexpr UINT renderFullContent = 0x00000002;
+            BOOL rendered = PrintWindow(window, sourceDc, renderFullContent);
+            if (!rendered)
+                rendered = PrintWindow(window, sourceDc, 0);
+            if (rendered)
+                copied = StretchBlt(memoryDc, 0, 0, width, height, sourceDc,
+                                    0, 0, sourceWidth, sourceHeight, SRCCOPY);
+            SelectObject(sourceDc, sourcePrevious);
+        }
+        if (sourceBitmap)
+            DeleteObject(sourceBitmap);
+        if (sourceDc)
+            DeleteDC(sourceDc);
+    }
+
+    int result = -1;
+    if (copied)
+    {
+        DesktopWindow desktop = {};
+        desktop.nWidth = width;
+        desktop.nHeight = height;
+        desktop.bmpFormat = BMP_RGB32;
+        desktop.nBytesPerLine = width * 4;
+        desktop.nProtocol = DESKTOPPROTOCOL_ZLIB_1;
+        desktop.frameBuffer = pixels;
+        desktop.nFrameBufferSize = width * height * 4;
+        result = TT_SendDesktopWindow(instance, &desktop, bitmapFormat);
+    }
+
+    SelectObject(memoryDc, previous);
+    DeleteObject(bitmap);
+    DeleteDC(memoryDc);
+    DeleteDC(screenDc);
+    return result;
+}
+#endif
+
 bool MainWindow::sendDesktopWindow()
 {
     switch(ttSettings->value(SETTINGS_DESKTOPSHARE_MODE, 
@@ -3605,6 +3903,7 @@ bool MainWindow::sendDesktopWindow()
     case DESKTOPSHARE_ACTIVE_WINDOW :
 #if defined(Q_OS_WIN32)
         m_hShareWnd = TT_Windows_GetDesktopActiveHWND();
+        updateScreenShareAudioSource();
 #elif defined(Q_OS_LINUX)
     {
         if(!m_display)
@@ -3636,7 +3935,11 @@ bool MainWindow::sendDesktopWindow()
     int ret = 0;
 #if defined(Q_OS_WIN32)
     if(m_hShareWnd)
-        ret = TT_SendDesktopWindowFromHWND(ttInst, m_hShareWnd, bmp_mode, DESKTOPPROTOCOL_ZLIB_1);
+        ret = sendScaledDesktopWindow(
+            ttInst, m_hShareWnd, bmp_mode,
+            ttSettings->value(SETTINGS_DESKTOPSHARE_HEIGHT,
+                              SETTINGS_DESKTOPSHARE_HEIGHT_DEFAULT).toInt(),
+            m_desktopSourceSize, m_desktopSentSize);
 /*
     const int W = 100, H = 100;
     QImage img(W, H, QImage::Format_RGB32);
@@ -3711,6 +4014,11 @@ void MainWindow::restartSendDesktopWindowTimer()
     int upd_interval = ttSettings->value(SETTINGS_DESKTOPSHARE_INTERVAL).toInt();
     if(upd_interval>0)
     {
+        // Older installations may retain a 17/33 ms setting (60/30 FPS).
+        // Bitmap/Zlib desktop updates at those rates can overwhelm the UI and
+        // accessibility stack, so enforce the safe 20 FPS ceiling at runtime.
+        upd_interval = qMax(upd_interval, 50);
+        ttSettings->setValue(SETTINGS_DESKTOPSHARE_INTERVAL, upd_interval);
         m_timers.insert(startTimer(upd_interval), TIMER_SEND_DESKTOPWINDOW);
         m_timers.insert(startTimer(50), TIMER_SEND_DESKTOPCURSOR);
     }
@@ -3786,6 +4094,13 @@ void MainWindow::sendDesktopCursor()
     if(x<0 || x>wnd.nWidth || y < 0 || y > wnd.nHeight)
         x = y = -1;
     curPos = QPoint(x, y);
+    if (x >= 0 && y >= 0 && m_desktopSourceSize.isValid() && m_desktopSentSize.isValid())
+    {
+        curPos.setX(qRound(double(x) * m_desktopSentSize.width() /
+                           m_desktopSourceSize.width()));
+        curPos.setY(qRound(double(y) * m_desktopSentSize.height() /
+                           m_desktopSourceSize.height()));
+    }
 #endif
 
     if(m_lastCursorPos != curPos)
@@ -3868,6 +4183,17 @@ void MainWindow::processDesktopInput(int userid, const DesktopInput& input)
         if(inputs[i].uMousePosX != TT_DESKTOPINPUT_MOUSEPOS_IGNORE &&
            inputs[i].uMousePosY != TT_DESKTOPINPUT_MOUSEPOS_IGNORE)
         {
+#if defined(Q_OS_WIN32)
+            if (m_desktopSourceSize.isValid() && m_desktopSentSize.isValid())
+            {
+                inputs[i].uMousePosX = UINT16(qRound(
+                    double(inputs[i].uMousePosX) * m_desktopSourceSize.width() /
+                    m_desktopSentSize.width()));
+                inputs[i].uMousePosY = UINT16(qRound(
+                    double(inputs[i].uMousePosY) * m_desktopSourceSize.height() /
+                    m_desktopSentSize.height()));
+            }
+#endif
             //don't allow mouse input outside shared window
             if(inputs[i].uMousePosX > offset.width() ||
                inputs[i].uMousePosY > offset.height())
@@ -4297,7 +4623,9 @@ void MainWindow::slotClientConnect(bool /*checked =false */)
 
 void MainWindow::slotClientPreferences(bool /*checked =false */)
 {
-    PreferencesDlg dlg(m_devin, m_devout, shortcutActions(), this);
+    PreferencesDlg dlg(m_devin, m_devout, shortcutActions(),
+                       ui.actionEnableDesktopSharing->isChecked(),
+                       ui.actionEnableDesktopSharing->isEnabled(), this);
 
     //we need to be able to process local frames (userid 0),
     //so ensure these video frames are not being displayed elsewhere
@@ -4477,6 +4805,28 @@ void MainWindow::slotClientPreferences(bool /*checked =false */)
     updateWindowTitle();
     slotUpdateUI();
     startTTS();
+
+    switch (dlg.desktopShareRequest())
+    {
+    case PreferencesDlg::DESKTOPSHARE_REQUEST_START:
+    {
+        if (TT_GetFlags(ttInst) & CLIENT_DESKTOP_ACTIVE)
+            slotMeEnableDesktopSharing(false);
+        m_desktopSelectionFromPreferences = true;
+        m_desktopSelectedWindowHandle = dlg.desktopShareWindowHandle();
+        ui.actionEnableDesktopSharing->setChecked(true);
+        slotMeEnableDesktopSharing(true);
+        break;
+    }
+    case PreferencesDlg::DESKTOPSHARE_REQUEST_STOP:
+        ui.actionEnableDesktopSharing->setChecked(false);
+        slotMeEnableDesktopSharing(false);
+        slotUpdateUI();
+        break;
+    case PreferencesDlg::DESKTOPSHARE_REQUEST_NONE:
+    default:
+        break;
+    }
 }
 
 void MainWindow::slotClientSoundDevices()
@@ -4864,10 +5214,75 @@ void MainWindow::slotMeEnableVideoTransmission(bool /*checked*/)
     slotUpdateVideoTabUI();
 }
 
+void MainWindow::updateScreenShareAudioSource()
+{
+#if defined(Q_OS_WIN32)
+    if (m_screenShareAudioRequested &&
+        !ttSettings->value(SETTINGS_DESKTOPSHARE_REASTREAM,
+                           SETTINGS_DESKTOPSHARE_REASTREAM_DEFAULT).toBool() &&
+        ScreenShareAudio::processIdForWindow(m_hShareWnd) != m_screenShareAudioProcessId)
+        startScreenShareAudio();
+#endif
+}
+
+void MainWindow::startScreenShareAudio()
+{
+    // Stop the previous process before resolving or opening the next one.
+    m_screenShareAudio->stop();
+    int screenShareAudioBitrate = 0;
+    if (m_mychannel.audiocodec.nCodec == OPUS_CODEC)
+    {
+        const int requestedBitrate =
+            ttSettings->value(SETTINGS_DESKTOPSHARE_AUDIOBITRATE,
+                              SETTINGS_DESKTOPSHARE_AUDIOBITRATE_DEFAULT).toInt();
+        screenShareAudioBitrate = ::screenShareAudioBitrate(
+            m_mychannel.audiocodec, requestedBitrate);
+    }
+#if defined(Q_OS_WIN32)
+    DWORD sharedProcessId = GetCurrentProcessId();
+    const bool includeSharedProcess =
+        m_hShareWnd != TT_Windows_GetDesktopHWND();
+    if (includeSharedProcess)
+        sharedProcessId = ScreenShareAudio::processIdForWindow(m_hShareWnd);
+#else
+    const unsigned long sharedProcessId = 0;
+    const bool includeSharedProcess = false;
+#endif
+    m_screenShareAudioProcessId = sharedProcessId;
+    const bool useReaStream =
+        ttSettings->value(SETTINGS_DESKTOPSHARE_REASTREAM,
+                          SETTINGS_DESKTOPSHARE_REASTREAM_DEFAULT).toBool();
+    // Cache the selected bitrate before capture can enqueue its first block.
+    if (screenShareAudioBitrate > 0 &&
+        !TT_SetScreenShareAudioBitrate(ttInst, screenShareAudioBitrate))
+    {
+        addStatusMsg(STATUSBAR_BYPASS,
+                     tr("Unable to apply the selected screen sharing audio quality"));
+    }
+    if (!m_screenShareAudio->start(
+            ttInst, sharedProcessId,
+            includeSharedProcess, useReaStream,
+            useReaStream ? QStringLiteral("TeamTalk_REAPER") : QString()))
+    {
+        addStatusMsg(STATUSBAR_BYPASS,
+                     useReaStream
+                         ? tr("Screen sharing audio could not start. Check UDP port 58710.")
+                         : tr("Screen sharing audio could not start. Check the selected application."));
+    }
+    else if (screenShareAudioBitrate > 0 &&
+             !TT_SetScreenShareAudioBitrate(ttInst, screenShareAudioBitrate))
+    {
+        addStatusMsg(STATUSBAR_BYPASS,
+                     tr("The screen sharing audio encoder could not apply the selected bitrate"));
+    }
+}
+
 void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 {
     if(checked)
     {
+        const bool usePreferencesSelection = m_desktopSelectionFromPreferences;
+        m_desktopSelectionFromPreferences = false;
 #if defined(Q_OS_LINUX)
         if(!m_display)
             m_display = XOpenDisplay(nullptr);
@@ -4880,15 +5295,47 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
 #else
         DesktopShareDlg dlg(this);
 #endif
-        if(dlg.exec())
+        bool selectionAccepted = false;
+        if (usePreferencesSelection)
         {
+            const DesktopShareMode mode = DesktopShareMode(
+                ttSettings->value(SETTINGS_DESKTOPSHARE_MODE,
+                                  DESKTOPSHARE_DESKTOP).toInt());
 #if defined(Q_OS_WIN32)
-            m_hShareWnd = dlg.m_hShareWnd;
-#elif defined(Q_OS_DARWIN)
-            m_nCGShareWnd = dlg.m_nCGShareWnd;
+            if (mode == DESKTOPSHARE_DESKTOP)
+                m_hShareWnd = TT_Windows_GetDesktopHWND();
+            else if (mode == DESKTOPSHARE_SPECIFIC_WINDOW)
+                m_hShareWnd = reinterpret_cast<HWND>(m_desktopSelectedWindowHandle);
+            else
+                m_hShareWnd = TT_Windows_GetDesktopActiveHWND();
+            ShareWindow selectedWindow = {};
+            selectionAccepted = m_hShareWnd &&
+                TT_Windows_GetWindow(m_hShareWnd, &selectedWindow);
 #elif defined(Q_OS_LINUX)
-            m_nWindowShareWnd = dlg.m_nWindowShareWnd;
+            if (mode == DESKTOPSHARE_DESKTOP && m_display)
+            {
+                m_nWindowShareWnd = XRootWindow(m_display, 0);
+                selectionAccepted = true;
+            }
 #endif
+        }
+        else
+        {
+            selectionAccepted = dlg.exec();
+        }
+
+        if(selectionAccepted)
+        {
+            if (!usePreferencesSelection)
+            {
+#if defined(Q_OS_WIN32)
+                m_hShareWnd = dlg.m_hShareWnd;
+#elif defined(Q_OS_DARWIN)
+                m_nCGShareWnd = dlg.m_nCGShareWnd;
+#elif defined(Q_OS_LINUX)
+                m_nWindowShareWnd = dlg.m_nWindowShareWnd;
+#endif
+            }
             if(!sendDesktopWindow())
             {
                 ui.actionEnableDesktopSharing->setChecked(false);
@@ -4907,6 +5354,8 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
                 TT_DoChangeStatus(ttInst, m_statusmode, _W(statusmsg));
             }
             transmitOn(STREAMTYPE_DESKTOP);
+            m_screenShareAudioRequested = true;
+            startScreenShareAudio();
             addTextToSpeechMessage(TTS_TOGGLE_DESKTOPTRANSMISSION, tr("Desktop sharing enabled"));
         }
         else
@@ -4914,6 +5363,9 @@ void MainWindow::slotMeEnableDesktopSharing(bool checked/*=false*/)
     }
     else
     {
+        m_screenShareAudioRequested = false;
+        if (m_screenShareAudio)
+            m_screenShareAudio->stop();
         killLocalTimer(TIMER_SEND_DESKTOPWINDOW);
         killLocalTimer(TIMER_SEND_DESKTOPCURSOR);
         TT_CloseDesktopWindow(ttInst);
@@ -7434,6 +7886,19 @@ void MainWindow::slotDetachUserDesktopGrid()
     slotDetachUserDesktop(userid, imgsize);
 }
 
+void MainWindow::slotFullScreenUserDesktop(int userid)
+{
+    if (ui.desktopgridWidget->userExists(userid))
+    {
+        const QSize size = ui.desktopgridWidget->getUserImageSize(userid);
+        ui.desktopgridWidget->removeUser(userid);
+        slotDetachUserDesktop(userid, size);
+    }
+    auto detached = m_userdesktop.find(userid);
+    if (detached != m_userdesktop.end())
+        detached.value()->showFullScreen();
+}
+
 void MainWindow::slotDetachUserDesktop(int userid, const QSize& size)
 {
     User user;
@@ -7515,6 +7980,11 @@ void MainWindow::slotUserJoin(int channelid, const User& user)
 
 void MainWindow::slotUserLeft(int channelid, const User& user)
 {
+    m_incoming_whispers.remove(user.nUserID);
+
+    if (user.nUserID == m_whisper_target_userid)
+        slotWhisperReleased();
+
     if(m_mychannel.nChannelID == channelid && m_current_cmdid == 0)
     {
         playSoundEvent(SOUNDEVENT_REMOVEUSER);

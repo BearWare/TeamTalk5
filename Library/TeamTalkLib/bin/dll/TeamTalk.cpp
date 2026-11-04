@@ -901,6 +901,21 @@ TEAMTALKDLL_API TTBOOL TT_EnableVoiceTransmission(IN TTInstance* lpTTInstance,
     return static_cast<TTBOOL>(clientnode->EnableVoiceTransmission(bEnable != 0));
 }
 
+TEAMTALKDLL_API TTBOOL TT_SetVoiceTransmissionTarget(IN TTInstance* lpTTInstance,
+                                                     IN INT32 nUserID)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return static_cast<TTBOOL>(clientnode->SetVoiceTransmissionTarget(nUserID));
+}
+
+TEAMTALKDLL_API INT32 TT_GetVoiceTransmissionTarget(IN TTInstance* lpTTInstance)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, 0);
+    return clientnode->GetVoiceTransmissionTarget();
+}
+
 TEAMTALKDLL_API TTBOOL TT_EnableVoiceActivation(IN TTInstance* lpTTInstance,
                                                 IN TTBOOL bEnable)
 {
@@ -1004,6 +1019,15 @@ TEAMTALKDLL_API TTBOOL TT_InsertAudioBlock(IN TTInstance* lpTTInstance,
             // end session
     return static_cast<TTBOOL>(clientnode->QueueAudioInput(media::AudioFrame(), 0));
    
+}
+
+
+TEAMTALKDLL_API TTBOOL TT_SetScreenShareAudioBitrate(IN TTInstance* lpTTInstance,
+                                                     IN INT32 nBitrate)
+{
+    clientnode_t clientnode;
+    GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
+    return static_cast<TTBOOL>(clientnode->SetScreenShareAudioBitrate(nBitrate));
 }
 
 TEAMTALKDLL_API TTBOOL TT_StartRecordingMuxedAudioFile(IN TTInstance* lpTTInstance,

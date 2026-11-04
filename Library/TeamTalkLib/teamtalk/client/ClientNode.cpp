@@ -1192,20 +1192,21 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     assert(enc_length <= MAX_ENC_FRAMESIZE);
 
     VoicePacket* newpacket = nullptr;
+    uint16_t const voice_target = uint16_t(m_voice_target_userid.load());
     if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
         ACE_NEW(newpacket, 
                 VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
                             org_frame.timestamp, m_voice_stream_id, 
                             m_voice_pkt_counter++, enc_data, enc_length,
-                            ConvertFrameSizes(enc_frame_sizes)));
+                            ConvertFrameSizes(enc_frame_sizes), voice_target));
     }
     else
     {
         ACE_NEW(newpacket, 
                 VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
                             org_frame.timestamp,  m_voice_stream_id, 
-                            m_voice_pkt_counter++, enc_data, enc_length));
+                            m_voice_pkt_counter++, enc_data, enc_length, voice_target));
     }
 
     if(!QueuePacket(newpacket))
@@ -1512,6 +1513,21 @@ bool ClientNode::AudioInputCallback(media::AudioFrame& audio_frame,
     return false; // delete 'mb_audio'
 }
 
+bool ClientNode::ScreenShareAudioInputCallback(media::AudioFrame& audio_frame,
+                                                ACE_Message_Block* mb_audio)
+{
+    TTASSERT(m_flags & CLIENT_STREAM_AUDIOFILE);
+    if ((m_flags & CLIENT_STREAM_AUDIOFILE) == 0u)
+        return false;
+
+    audio_frame.force_enc = true;
+    audio_frame.userdata = STREAMTYPE_MEDIAFILE_AUDIO;
+    audio_frame.streamid = m_mediafile_stream_id;
+    AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, audio_frame);
+    m_audiofile_thread.QueueAudio(mb_audio);
+    return true; // m_audiofile_thread takes ownership
+}
+
 void ClientNode::AudioInputStatusCallback(const AudioInputStatus& ais)
 {
     if (ais.elapsed_msec == 0 && ais.queueduration_msec == 0)
@@ -1707,7 +1723,9 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received CryptAudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
-        if (user)
+        if (user && !(packet.GetSrcUserID() == m_myuserid &&
+                      m_screenshare_audio_stream_id != 0 &&
+                      decrypt_pkt->GetStreamID() == m_screenshare_audio_stream_id))
             user->AddAudioFilePacket(*decrypt_pkt, m_soundprop);
     }
     break;
@@ -1719,7 +1737,11 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received AudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
-        if (user)
+        // The sender already hears the captured application locally. Keep this
+        // stream suppressed after stop as well, while returned packets drain.
+        if (user && !(packet.GetSrcUserID() == m_myuserid &&
+                      m_screenshare_audio_stream_id != 0 &&
+                      audio_pkt.GetStreamID() == m_screenshare_audio_stream_id))
             user->AddAudioFilePacket(audio_pkt, m_soundprop);
         break;
     }
@@ -2913,6 +2935,31 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
     return true;
 }
 
+bool ClientNode::SetVoiceTransmissionTarget(int userid)
+{
+    ASSERT_CLIENTNODE_LOCKED(this);
+
+    if (userid < 0 || userid >= TRANSMITUSERS_FREEFORALL || userid == m_myuserid)
+        return false;
+
+    if (userid > 0)
+    {
+        auto target = GetUser(userid);
+        if (!target || !target->GetChannel() || !m_mychannel ||
+            target->GetChannel()->GetChannelID() != m_mychannel->GetChannelID())
+            return false;
+    }
+
+    if (m_voice_target_userid.load() != userid)
+    {
+        m_voice_target_userid = userid;
+        if ((m_flags & (CLIENT_TX_VOICE | CLIENT_SNDINPUT_VOICEACTIVE)) != 0u)
+            GEN_NEXT_ID(m_voice_stream_id);
+    }
+
+    return true;
+}
+
 int ClientNode::GetCurrentVoiceLevel()
 {
     return m_voice_thread.GetCurrentVoiceLevel();
@@ -3053,6 +3100,75 @@ bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
+    constexpr int SCREENSHARE_AUDIO_STREAM_ID = 0x5343524E; // "SCRN"
+    const bool screenShareAudio = streamid == SCREENSHARE_AUDIO_STREAM_ID ||
+                                  (frm.input_samples == 0 && m_audioinput_screenshare);
+
+    if (screenShareAudio)
+    {
+        if (frm.input_samples == 0)
+        {
+            m_audioinput_screenshare.reset();
+            AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO,
+                              media::AudioFrame());
+            if ((m_flags & CLIENT_STREAM_AUDIOFILE) != 0u)
+            {
+                m_audiofile_thread.StopEncoder();
+                m_flags &= ~CLIENT_STREAM_AUDIOFILE;
+            }
+            return true;
+        }
+
+        if (m_audioinput_screenshare)
+        {
+            if (streamid != m_audioinput_screenshare->GetStreamID())
+                return false;
+            return m_audioinput_screenshare->InsertAudio(frm);
+        }
+
+        if (!m_mychannel || m_mediafile_streamer ||
+            (m_flags & (CLIENT_STREAM_AUDIOFILE | CLIENT_STREAM_VIDEOFILE)) != 0u)
+            return false;
+
+        media::AudioFormat const infmt =
+            GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec());
+        int const cbsamples = GetAudioCodecCbSamples(m_mychannel->GetAudioCodec());
+        auto cbfunc = [this](auto&& PH1, auto&& PH2, auto&& PH3, auto&& PH4,
+                             auto&& PH5) {
+            EncodedAudioFileFrame(std::forward<decltype(PH1)>(PH1),
+                                  std::forward<decltype(PH2)>(PH2),
+                                  std::forward<decltype(PH3)>(PH3),
+                                  std::forward<decltype(PH4)>(PH4),
+                                  std::forward<decltype(PH5)>(PH5));
+        };
+        if (!m_audiofile_thread.StartEncoder(cbfunc,
+                                             m_mychannel->GetAudioCodec(), true))
+            return false;
+        if (m_screenshare_audio_bitrate > 0)
+            m_audiofile_thread.SetBitrate(m_screenshare_audio_bitrate);
+
+        GEN_NEXT_ID(m_mediafile_stream_id);
+        m_screenshare_audio_stream_id = m_mediafile_stream_id;
+        m_flags |= CLIENT_STREAM_AUDIOFILE;
+        m_audioinput_screenshare = std::make_shared<AudioInputStreamer>(
+            streamid, MediaStreamOutput(infmt, cbsamples));
+        m_audioinput_screenshare->RegisterAudioCallback(
+            [this](auto&& PH1, auto&& PH2) {
+                return ScreenShareAudioInputCallback(
+                    std::forward<decltype(PH1)>(PH1),
+                    std::forward<decltype(PH2)>(PH2));
+            }, true);
+        if (!m_audioinput_screenshare->Open() ||
+            !m_audioinput_screenshare->StartStream())
+        {
+            m_audioinput_screenshare.reset();
+            m_audiofile_thread.StopEncoder();
+            m_flags &= ~CLIENT_STREAM_AUDIOFILE;
+            return false;
+        }
+        return m_audioinput_screenshare->InsertAudio(frm);
+    }
+
     if ((GetFlags() & (CLIENT_TX_VOICE | CLIENT_SNDINPUT_VOICEACTIVATED)) != 0u)
         return false;
 
@@ -3096,6 +3212,16 @@ bool ClientNode::QueueAudioInput(const media::AudioFrame& frm, int streamid)
     }
 
     return m_audioinput_voice->InsertAudio(frm);
+}
+
+
+bool ClientNode::SetScreenShareAudioBitrate(int bitrate)
+{
+    ASSERT_CLIENTNODE_LOCKED(this);
+    m_screenshare_audio_bitrate = bitrate;
+    if (m_audioinput_screenshare)
+        return m_audiofile_thread.SetBitrate(bitrate);
+    return bitrate > 0;
 }
 
 bool ClientNode::MuteAll(bool muteall)
@@ -3303,6 +3429,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
 
     //both audio and video part of mediafile use same stream id
     GEN_NEXT_ID(m_mediafile_stream_id);
+    m_screenshare_audio_stream_id = 0;
 
     // initial playback should ignore offset being 0 (which is the logical value to use)
     if (!UpdateStreamingMediaFile((offset != 0 ? offset : MEDIASTREAMER_OFFSET_IGNORE),
@@ -3355,7 +3482,14 @@ void ClientNode::StopStreamingMediaFile(bool killtimer/* = true*/)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     bool clear_video = false;
-    bool clear_audio = false;
+    bool clear_audio = m_audioinput_screenshare != nullptr;
+
+    if (m_audioinput_screenshare)
+    {
+        AudioUserCallback(LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO,
+                          media::AudioFrame());
+        m_audioinput_screenshare.reset();
+    }
 
     if (m_mediafile_streamer)
     {
@@ -4198,6 +4332,8 @@ void ClientNode::LeftChannel(ClientChannel& chan)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     TTASSERT(m_mychannel.get());
+
+    m_voice_target_userid = 0;
 
     if (m_mychannel && chan.Compare(m_mychannel))
         m_mychannel.reset();
@@ -5512,6 +5648,13 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
     TTASSERT(chan.get());
     if(!user || !chan)
         return;
+
+    if (m_voice_target_userid.load() == userid)
+    {
+        m_voice_target_userid = 0;
+        if ((m_flags & (CLIENT_TX_VOICE | CLIENT_SNDINPUT_VOICEACTIVE)) != 0u)
+            GEN_NEXT_ID(m_voice_stream_id);
+    }
 
     // notify audio file muxer that user left channel
     m_channelrecord.RemoveUser(userid, STREAMTYPE_VOICE);

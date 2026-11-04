@@ -42,6 +42,7 @@ public:
 #endif
 public:
     void accept();
+    bool includeReaStream() const;
 
 private:
     Ui::DesktopShareDlg ui;

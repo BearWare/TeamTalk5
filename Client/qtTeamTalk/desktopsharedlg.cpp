@@ -171,6 +171,19 @@ DesktopShareDlg::DesktopShareDlg(QWidget* parent)
         ui.intervalSpinBox->setValue(updinterval);
 
     ui.cursorChkBox->setChecked(ttSettings->value(SETTINGS_DESKTOPSHARE_CURSOR, false).toBool());
+
+#if defined(Q_OS_WIN32)
+    ui.reaStreamCheckBox->setChecked(ttSettings->value(
+        SETTINGS_DESKTOPSHARE_REASTREAM,
+        SETTINGS_DESKTOPSHARE_REASTREAM_DEFAULT).toBool());
+#else
+    ui.asioGroupBox->hide();
+#endif
+}
+
+bool DesktopShareDlg::includeReaStream() const
+{
+    return ui.reaStreamCheckBox->isChecked();
 }
 
 void DesktopShareDlg::accept()
@@ -216,5 +229,7 @@ void DesktopShareDlg::accept()
                          ui.rgbComboBox->itemData(ui.rgbComboBox->currentIndex()));
 
     ttSettings->setValue(SETTINGS_DESKTOPSHARE_CURSOR, ui.cursorChkBox->isChecked());
+    ttSettings->setValue(SETTINGS_DESKTOPSHARE_REASTREAM,
+                         includeReaStream());
     QDialog::accept();
 }
