@@ -69,11 +69,11 @@ namespace teamtalk
     bool BannedUser::Same(const BannedUser& user) const
     {
         bool same = user.bantype == this->bantype;
-        if ((bantype & BANTYPE_IPADDR) != 0u)
+        if ((bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
             same &= user.ipaddr == this->ipaddr;
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             same &= user.chanpath == this->chanpath;
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             same &= user.username == this->username;
         return same;
     }
@@ -82,7 +82,7 @@ namespace teamtalk
     {
         bool match = bantype != BANTYPE_NONE;
 
-        if (((bantype & BANTYPE_IPADDR) != 0u) && (!ipaddr.empty()))
+        if (((bantype & BANTYPE_IPADDR) != BANTYPE_NONE) && (!ipaddr.empty()))
         {
             const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
@@ -112,10 +112,10 @@ namespace teamtalk
             }
         }
 
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             match &= username == user.username;
 
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             match &= ChannelsEquals(chanpath, user.chanpath);
 
         return match;

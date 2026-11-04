@@ -581,7 +581,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     if (!m_audiofile_player)
         return;
 
-    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u;
+    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
     m_audiofile_player->SetNoRecording(no_record);
 
     assert(m_audiofile_player->GetAudioCodec() == chan->GetAudioCodec());
@@ -1759,14 +1759,14 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
     int const mychanid = m_clientnode->GetChannelID();
     int const userchanid = (GetChannel() ? GetChannel()->GetChannelID() : 0);
 
-    if((local_subs != 0u) && (local_intercept_subs != 0u))
+    if((local_subs != SUBSCRIBE_NONE) && (local_intercept_subs != SUBSCRIBE_NONE))
     {
-        if (((m_localsubscriptions & local_subs) != 0u) && mychanid > 0)
+        if (((m_localsubscriptions & local_subs) != SUBSCRIBE_NONE) && mychanid > 0)
         {
             if (std::cmp_equal(mychanid , packet.GetChannel()))
                 return true;
         }
-        if (((m_localsubscriptions & local_intercept_subs) != 0u) && userchanid > 0)
+        if (((m_localsubscriptions & local_intercept_subs) != SUBSCRIBE_NONE) && userchanid > 0)
         {
             if (std::cmp_equal(userchanid , packet.GetChannel()))
                 return true;
@@ -1806,7 +1806,7 @@ bool ClientUser::PeerSubscribes(const FieldPacket& packet) const
     case PACKET_KIND_DESKTOPINPUT_CRYPT :
     case PACKET_KIND_DESKTOPINPUT_ACK :
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
-        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != 0u;
+        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE;
     default :
         assert(0);
     }

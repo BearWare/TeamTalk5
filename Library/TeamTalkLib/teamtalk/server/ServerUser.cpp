@@ -148,7 +148,7 @@ void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
         for(const auto & sub : subs)
             chanqueue.push(sub);
 
-        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != 0u) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
             continue;
         
         DoAddChannel(*ch.get(), encrypted);
@@ -171,7 +171,7 @@ void ServerUser::ForwardUsers(const serverchannel_t& channel, bool recursive)
         for(size_t i=0;i<subs.size() && recursive;i++)
             chanqueue.push(subs[i]);
 
-        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != 0u) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
+        if (((ch->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT) && (GetUserRights() & USERRIGHT_VIEW_HIDDEN_CHANNELS) == USERRIGHT_NONE)
             continue;
         
         ServerChannel::users_t const users = ch->GetUsers();
@@ -669,7 +669,7 @@ ErrorMsg ServerUser::HandleChannelOp(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleMakeChannel(const mstrings_t& properties)
 {
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -743,7 +743,7 @@ ErrorMsg ServerUser::HandleUpdateChannel(const mstrings_t& properties)
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
 
-    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u)
+    if((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)
     {
         //only admin can change these properties
         GetProperty(properties, TT_DISKQUOTA, chanprop.diskquota);
@@ -771,7 +771,7 @@ ErrorMsg ServerUser::HandleRemoveChannel(const mstrings_t& properties)
     int channelid = 0;
     GET_PROP_OR_RETURN(properties, TT_CHANNELID, channelid);
 
-    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == 0)
+    if( (GetUserRights() & USERRIGHT_MODIFY_CHANNELS) == USERRIGHT_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -837,7 +837,7 @@ ErrorMsg ServerUser::HandleUpdateServer(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -847,7 +847,7 @@ ErrorMsg ServerUser::HandleSaveConfig(const mstrings_t&  /*properties*/)
 
 ErrorMsg ServerUser::HandleListUserAccounts(const mstrings_t& properties)
 {
-    if( (GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1079,7 +1079,7 @@ ErrorMsg ServerUser::HandleUnsubscribe(const mstrings_t& properties)
 
 ErrorMsg ServerUser::HandleQueryStats(const mstrings_t&  /*properties*/)
 {
-    if((GetUserType() & USERTYPE_ADMIN) == 0)
+    if((GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return TT_CMDERR_NOT_AUTHORIZED;
     }
@@ -1093,7 +1093,7 @@ BannedUser ServerUser::GenerateBan(BanTypes bantype, const ACE_TString& chanpath
     ban.bantype = bantype;
     ban.nickname = GetNickname();
     ban.username = GetUsername();
-    if (((bantype & BANTYPE_CHANNEL) != 0u) && (!chanpath.empty()))
+    if (((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE) && (!chanpath.empty()))
         ban.chanpath = chanpath;
     else if (GetChannel())
         ban.chanpath = GetChannel()->GetChannelPath();
@@ -1274,7 +1274,7 @@ void ServerUser::DoServerUpdate(const ServerSettings& properties)
     AppendProperty(TT_LOGINDELAY, properties.logindelay, command);
     AppendProperty(TT_USERTIMEOUT, properties.usertimeout, command);
     AppendProperty(TT_MOTD, m_servernode.GetMessageOfTheDay(), command);
-    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0u)
+    if((GetUserRights() & USERRIGHT_UPDATE_SERVERPROPERTIES) != USERRIGHT_NONE)
     {
         AppendProperty(TT_MOTDRAW, properties.motd, command);
         AppendProperty(TT_MAXLOGINATTEMPTS, properties.maxloginattempts, command);
@@ -1356,7 +1356,7 @@ void ServerUser::DoLoggedIn(const ServerUser& user)
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1403,7 +1403,7 @@ void ServerUser::DoAddUser(const ServerUser& user, const ServerChannel& channel)
         AppendProperty(TT_NICKNAME, user.GetNickname(), command);
     if (!user.GetUsername().empty())
         AppendProperty(TT_USERNAME, user.GetUsername(), command);
-    if(((GetUserRights() & USERRIGHT_BAN_USERS) != 0u) ||
+    if(((GetUserRights() & USERRIGHT_BAN_USERS) != USERRIGHT_NONE) ||
        user.GetUserID() == GetUserID())
     {
         AppendProperty(TT_IPADDR, user.GetIpAddress(), command);
@@ -1483,7 +1483,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
         AppendProperty(TT_PARENTID, channel.GetParentChannel()->GetChannelID(), command);
         AppendProperty(TT_CHANNAME, channel.GetName(), command);
     }
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
@@ -1493,7 +1493,7 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
             AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)  //admins should see password
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)  //admins should see password
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1520,17 +1520,17 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
     // Deprecated: Ignore in TeamTalk 6.
     // If class-room channel type then we must forward the channel due 
     // to compatibility of TeamTalk TCP protocol v5.3
-    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     if (!channel.GetChannelTextMsgUsers().empty())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
-    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+    if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
 
     AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
@@ -1555,7 +1555,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     AppendProperty(TT_CHANNELID, channel.GetChannelID(), command);
     AppendProperty(TT_CHANNAME, channel.GetName(), command);
 
-    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != 0u) ||
+    if (((GetUserRights() & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE) ||
         channel.IsOperator(GetUserID()) ||
         GetUserAccount().auto_op_channels.contains(channel.GetChannelID()))
     {
@@ -1563,7 +1563,7 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
         AppendProperty(TT_OPPASSWORD, channel.GetOpPassword(), command);
     }
 
-    if((GetUserType() & USERTYPE_ADMIN) != 0u)
+    if((GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)
     {
 #if defined(ENABLE_ENCRYPTION)
         TTASSERT(channel.GetEncryptKey().size() == CRYPTKEY_SIZE);
@@ -1586,18 +1586,18 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     if (!AudioCodecConvertBug(GetStreamProtocol(), channel.GetAudioCodec()))
         AppendProperty(TT_AUDIOCODEC, channel.GetAudioCodec(), command);
     AppendProperty(TT_AUDIOCFG, channel.GetAudioConfig(), command);
-    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVoiceUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VOICEUSERS, channel.GetVoiceUsers(), command);
-    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetVideoUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_VIDEOUSERS, channel.GetVideoUsers(), command);
-    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetDesktopUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_DESKTOPUSERS, channel.GetDesktopUsers(), command);
-    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != 0u))
+    if ((!channel.GetMediaFileUsers().empty()) || ((channel.GetChannelType() & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT))
         AppendProperty(TT_MEDIAFILEUSERS, channel.GetMediaFileUsers(), command);
     if (!channel.GetChannelTextMsgUsers().empty())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
 
-    if((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+    if((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
     {
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);
         AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);

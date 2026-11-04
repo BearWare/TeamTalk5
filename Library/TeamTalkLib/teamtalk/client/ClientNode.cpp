@@ -142,7 +142,7 @@ bool ClientNode::GetServerInfo(ServerInfo& info)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_CONNECTED) != 0u)
+    if((m_flags & CLIENT_CONNECTED) != CLIENT_CLOSED)
     {
         info = m_serverinfo;
         return true;
@@ -154,7 +154,7 @@ bool ClientNode::GetClientStatistics(ClientStats& stats)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_CONNECTED) != 0u)
+    if((m_flags & CLIENT_CONNECTED) != CLIENT_CLOSED)
     {
         stats = m_clientstats;
 
@@ -273,7 +273,7 @@ clientuser_t ClientNode::GetUserByUsername(const ACE_TString& username)
 
     //with view-all-users disabled we need to check channels
     if((m_rootchannel.get() != nullptr) && 
-        (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == 0)
+        (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         ClientChannel::users_t users;
         m_rootchannel->GetUsers(users, true);
@@ -299,7 +299,7 @@ void ClientNode::GetUsers(std::set<int>& userids)
     }
     //with view-all-users disabled we need to check channels
     if((m_rootchannel.get() != nullptr) && 
-       (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == 0)
+       (m_myuseraccount.userrights & USERRIGHT_VIEW_ALL_USERS) == USERRIGHT_NONE)
     {
         ClientChannel::users_t users;
         m_rootchannel->GetUsers(users, true);
@@ -395,7 +395,7 @@ int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
         ACE_Time_Value const duration(m_clientstats.udp_silence_sec, 0);
         if (duration >= m_keepalive.udp_connect_timeout)
         {
-            if ((m_flags & CLIENT_CONNECTING) != 0u)
+            if ((m_flags & CLIENT_CONNECTING) != CLIENT_CLOSED)
                 OnClosed();
             ret = -1;
         }
@@ -866,7 +866,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
     m_soundprop.samples_delay_msec = GETTIMESTAMP();
 
     bool opened = false;
-    if ((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if ((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
     {
         int samplerate = codec_samplerate;
         int output_channels = GetAudioCodecSimulateStereo(codec) ? 2 : codec_channels;
@@ -990,7 +990,7 @@ void ClientNode::CloseAudioCapture()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
         m_soundsystem->CloseDuplexStream(this);
     else
         m_soundsystem->CloseInputStream(this);
@@ -1028,8 +1028,8 @@ void ClientNode::CloseAudioCapture()
 void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
 {
     bool const ptt_close = m_voice_tx_closed.exchange(false);
-    audframe.force_enc = (((m_flags & CLIENT_TX_VOICE) != 0u) || ptt_close);
-    audframe.voiceact_enc = ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u);
+    audframe.force_enc = (((m_flags & CLIENT_TX_VOICE) != CLIENT_CLOSED) || ptt_close);
+    audframe.voiceact_enc = ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != CLIENT_CLOSED);
     audframe.sample_no = m_soundprop.samples_recorded;
     m_soundprop.samples_recorded += audframe.input_samples;
 
@@ -1086,14 +1086,14 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
             return;
 
         CryptVoicePacket const crypt_pkt(packet, chan->GetEncryptKey());
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             SendPacket(crypt_pkt, m_serverinfo.udpaddr);
         TTASSERT(crypt_pkt.ValidatePacket());
     }
     else
 #endif
     {
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
     }
@@ -1118,7 +1118,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
             return;
 
         CryptAudioFilePacket const crypt_pkt(packet, chan->GetEncryptKey());
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             SendPacket(crypt_pkt, m_serverinfo.udpaddr);
         TTASSERT(crypt_pkt.ValidatePacket());
     }
@@ -1126,7 +1126,7 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
 #endif
     {
         MYTRACE_COND(!m_def_stream, ACE_TEXT("Sending UDP data on closed connected\n"));
-        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0u)
+        if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
     }
@@ -1149,8 +1149,8 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
 
     if(enc_length == 0)
     {
-        if(((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) != 0u) &&
-           ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u))
+        if(((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) != CLIENT_CLOSED) &&
+           ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != CLIENT_CLOSED))
         {
             m_flags &= ~CLIENT_SNDINPUT_VOICEACTIVE;
             m_listener->OnVoiceActivated(false);
@@ -1165,13 +1165,13 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
         
         return;
     }
-    if ((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == 0 &&
-        ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u))
+    if ((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) == CLIENT_CLOSED &&
+        ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != CLIENT_CLOSED))
     {
         m_flags |= CLIENT_SNDINPUT_VOICEACTIVE;
         m_listener->OnVoiceActivated(true);
 
-        if((m_flags & CLIENT_TX_VOICE) == 0)
+        if((m_flags & CLIENT_TX_VOICE) == CLIENT_CLOSED)
             GEN_NEXT_ID(m_voice_stream_id);
     }
 
@@ -1408,7 +1408,7 @@ bool ClientNode::VideoCaptureEncodeCallback(media::VideoFrame& video_frame,
 bool ClientNode::VideoCaptureDualCallback(media::VideoFrame& video_frame,
                                           ACE_Message_Block* mb_video)
 {
-    if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != 0u)
+    if ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
     {
         return VideoCaptureEncodeCallback(video_frame, mb_video);
     }
@@ -1674,7 +1674,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
-        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
             user->AddVoicePacket(*decrypt_pkt, m_soundprop, !no_record);
@@ -1688,7 +1688,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
                      ACE_TEXT("Received voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
-        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+        bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
             (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
         if (user)
             user->AddVoicePacket(audio_pkt, m_soundprop, !no_record);
@@ -1921,7 +1921,7 @@ void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
     ASSERT_REACTOR_THREAD(*GetEventLoop());
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if( (m_flags & CLIENT_CONNECTING) != 0u)//server ACK
+    if( (m_flags & CLIENT_CONNECTING) != CLIENT_CLOSED)//server ACK
     {
         m_flags &= ~CLIENT_CONNECTING;
         m_flags |= CLIENT_CONNECTED;
@@ -1944,7 +1944,7 @@ void ClientNode::ReceivedHelloAckPacket(const HelloPacket& packet,
         if(m_listener != nullptr)
             m_listener->OnConnectSuccess();
     }
-    else if ((m_flags & CLIENT_CONNECTED) != 0u)//server ACK
+    else if ((m_flags & CLIENT_CONNECTED) != CLIENT_CLOSED)//server ACK
     {
         if(TimerExists(TIMER_UDPCONNECT_ID))
             StopTimer(TIMER_UDPCONNECT_ID);
@@ -2274,15 +2274,15 @@ void ClientNode::SendPackets()
                 if(!m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_VOICE))
                     break;
                 
-                if(((m_mychannel->GetChannelType() & CHANNEL_NO_VOICEACTIVATION) != 0u) &&
-                   ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u) &&
-                   ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVE) != 0u))
+                if(((m_mychannel->GetChannelType() & CHANNEL_NO_VOICEACTIVATION) != CHANNEL_DEFAULT) &&
+                   ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVATED) != CLIENT_CLOSED) &&
+                   ((GetFlags() & CLIENT_SNDINPUT_VOICEACTIVE) != CLIENT_CLOSED))
                     break;
 
                 audpkt->SetChannel(m_mychannel->GetChannelID());
             }
 
-            bool const no_record = ((m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) != 0u) &&
+            bool const no_record = ((m_mychannel->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
                 (GetMyUserAccount().userrights & USERRIGHT_RECORD_VOICE) == USERRIGHT_NONE;
             //store in voicelog
             if((!m_local_voicelog->GetAudioFolder().empty()) && !no_record)
@@ -2341,7 +2341,7 @@ void ClientNode::SendPackets()
                 //only transmit if we're in a channel, transmitting and
                 //there's active users
                 if (!m_mychannel || 
-                   (m_flags & CLIENT_TX_VIDEOCAPTURE) == 0 ||
+                   (m_flags & CLIENT_TX_VIDEOCAPTURE) == CLIENT_CLOSED ||
                    !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_VIDEOCAPTURE))
                     break;
 
@@ -2356,7 +2356,7 @@ void ClientNode::SendPackets()
                 if (!chan)
                     break;
                 CryptVideoCapturePacket const crypt_pkt(*vidpkt, chan->GetEncryptKey());
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2364,7 +2364,7 @@ void ClientNode::SendPackets()
 #endif
             {
                 TTASSERT(m_def_stream);
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)
                     ret = SendPacket(*vidpkt, m_serverinfo.udpaddr);
                 TTASSERT(vidpkt->ValidatePacket());
             }
@@ -2380,7 +2380,7 @@ void ClientNode::SendPackets()
                 //only transmit if we're in a channel, transmitting and
                 //there's active users
                 if (!m_mychannel || 
-                   (m_flags & CLIENT_STREAM_VIDEOFILE) == 0 ||
+                   (m_flags & CLIENT_STREAM_VIDEOFILE) == CLIENT_CLOSED ||
                    !m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_MEDIAFILE))
                     break;
 
@@ -2395,7 +2395,7 @@ void ClientNode::SendPackets()
                 if (!chan)
                     break;
                 CryptVideoFilePacket const crypt_pkt(*vidpkt, chan->GetEncryptKey());
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2403,7 +2403,7 @@ void ClientNode::SendPackets()
 #endif
             {
                 TTASSERT(m_def_stream);
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)
                 {
                     ret = SendPacket(*vidpkt, m_serverinfo.udpaddr);
                 }
@@ -2439,7 +2439,7 @@ void ClientNode::SendPackets()
             {
                 CryptDesktopPacket const crypt_pkt(*desktoppkt, m_mychannel->GetEncryptKey());
                 ret = 0;
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
                     ret = SendPacket(crypt_pkt, m_serverinfo.udpaddr);
                 TTASSERT(crypt_pkt.ValidatePacket());
             }
@@ -2448,7 +2448,7 @@ void ClientNode::SendPackets()
             {
                 TTASSERT(m_def_stream);
                 ret = 0;
-                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != 0u)
+                if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)
                     ret = SendPacket(*desktoppkt, m_serverinfo.udpaddr);
                 TTASSERT(desktoppkt->ValidatePacket());
             }
@@ -2705,7 +2705,7 @@ bool ClientNode::InitSoundInputDevice(int inputdevice)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINPUT_READY) != 0u)
+    if((m_flags & CLIENT_SNDINPUT_READY) != CLIENT_CLOSED)
         return false;
 
     if(!m_soundsystem->CheckInputDevice(inputdevice))
@@ -2731,7 +2731,7 @@ bool ClientNode::InitSoundOutputDevice(int outputdevice)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDOUTPUT_READY) != 0u)
+    if((m_flags & CLIENT_SNDOUTPUT_READY) != CLIENT_CLOSED)
         return false;
     if(!m_soundsystem->CheckOutputDevice(outputdevice))
         return false;
@@ -2754,8 +2754,8 @@ bool ClientNode::InitSoundDuplexDevices(int inputdeviceid,
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if(((m_flags & CLIENT_SNDINPUT_READY) != 0u) ||
-       ((m_flags & CLIENT_SNDOUTPUT_READY) != 0u))
+    if(((m_flags & CLIENT_SNDINPUT_READY) != CLIENT_CLOSED) ||
+       ((m_flags & CLIENT_SNDOUTPUT_READY) != CLIENT_CLOSED))
         return false; //already enabled
     if(!m_soundsystem->CheckInputDevice(inputdeviceid))
         return false;
@@ -2785,7 +2785,7 @@ bool ClientNode::CloseSoundInputDevice()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
         return false;
 
     CloseAudioCapture();
@@ -2802,7 +2802,7 @@ bool ClientNode::CloseSoundOutputDevice()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
         return false;
 
     rguard_t g_snd(LockSndprop());
@@ -2820,7 +2820,7 @@ bool ClientNode::CloseSoundDuplexDevices()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) == 0)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) == CLIENT_CLOSED)
         return false; //already enabled
 
     ResetAudioPlayers();
@@ -2852,12 +2852,12 @@ bool ClientNode::SetSoundDeviceEffects(const SoundDeviceEffects& effects)
         m_soundprop.effects = effects;
     }
 
-    if ((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if ((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
     {
         if (!m_soundsystem->IsStreamStopped(static_cast<StreamDuplex*>(this)))
             return m_soundsystem->UpdateStreamDuplexFeatures(this);
     }
-    else if ((m_flags & CLIENT_SNDINPUT_READY) != 0u)
+    else if ((m_flags & CLIENT_SNDINPUT_READY) != CLIENT_CLOSED)
     {
         if (!m_soundsystem->IsStreamStopped(static_cast<StreamCapture*>(this)))
             return m_soundsystem->UpdateStreamCaptureFeatures(this);
@@ -2898,15 +2898,15 @@ bool ClientNode::EnableVoiceTransmission(bool enable)
 
         //don't increment stream id if voice activated and voice active
         if ((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) == CLIENT_CLOSED ||
-            (((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != 0u) &&
-             ((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) != 0u)))
+            (((m_flags & CLIENT_SNDINPUT_VOICEACTIVATED) != CLIENT_CLOSED) &&
+             ((m_flags & CLIENT_SNDINPUT_VOICEACTIVE) != CLIENT_CLOSED)))
         {
             GEN_NEXT_ID(m_voice_stream_id);
         }
     }
     else
     {
-        m_voice_tx_closed = ((m_flags & CLIENT_TX_VOICE) != 0u);
+        m_voice_tx_closed = ((m_flags & CLIENT_TX_VOICE) != CLIENT_CLOSED);
         m_flags &= ~CLIENT_TX_VOICE;
     }
     
@@ -2959,7 +2959,7 @@ bool ClientNode::EnableAutoPositioning(bool enable)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
         return false;
 
     if(enable)
@@ -2973,7 +2973,7 @@ bool ClientNode::AutoPositionUsers()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != 0u)
+    if((m_flags & CLIENT_SNDINOUTPUT_DUPLEX) != CLIENT_CLOSED)
         return false;
     return m_soundsystem->AutoPositionPlayers(m_soundprop.soundgroupid, true);
 }
@@ -3237,7 +3237,7 @@ bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
     if (!m_mychannel)
         return false;
 
-    if (((m_flags & CLIENT_STREAM_VIDEOFILE) != 0u) || ((m_flags & CLIENT_STREAM_AUDIOFILE) != 0u))
+    if (((m_flags & CLIENT_STREAM_VIDEOFILE) != CLIENT_CLOSED) || ((m_flags & CLIENT_STREAM_AUDIOFILE) != CLIENT_CLOSED))
         return false;
 
     MediaStreamOutput media_out(GetAudioCodecAudioFormat(m_mychannel->GetAudioCodec()),
@@ -3553,7 +3553,7 @@ bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_VIDEOCAPTURE_READY) != 0u)
+    if((m_flags & CLIENT_VIDEOCAPTURE_READY) != CLIENT_CLOSED)
         return false;
 
     assert(!m_vidcap);
@@ -3620,7 +3620,7 @@ bool ClientNode::OpenVideoCaptureSession(const VideoCodec& codec)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_TX_VIDEOCAPTURE) != 0u)
+    if((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED)
         return false;
 
     if (!m_vidcap)
@@ -3670,8 +3670,8 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                           uint32_t packet_no,
                                           uint32_t timestamp)
 {
-    if((enc_data != nullptr) && ((m_flags & CLIENT_AUTHORIZED) != 0u) &&
-       ((m_flags & CLIENT_TX_VIDEOCAPTURE) != 0u))
+    if((enc_data != nullptr) && ((m_flags & CLIENT_AUTHORIZED) != CLIENT_CLOSED) &&
+       ((m_flags & CLIENT_TX_VIDEOCAPTURE) != CLIENT_CLOSED))
     {
         auto w = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().width);
         auto h = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().height);
@@ -3749,7 +3749,7 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     ASSERT_CLIENTNODE_LOCKED(this);
 
     if (!m_mychannel ||
-       (m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) == 0)
+       (m_myuseraccount.userrights & USERRIGHT_TRANSMIT_DESKTOP) == USERRIGHT_NONE)
         return -1;
 
     if(!m_mychannel->CanTransmit(m_myuserid, STREAMTYPE_DESKTOP))
@@ -4001,7 +4001,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
     // can't double connect
-    if (((m_flags & CLIENT_CONNECTION) != 0u) || (!m_serverinfo.hostaddrs.empty()))
+    if (((m_flags & CLIENT_CONNECTION) != CLIENT_CLOSED) || (!m_serverinfo.hostaddrs.empty()))
         return false;
 
     if ((!localaddr.empty()) || (local_tcpport != 0u) || (local_udpport != 0u))
@@ -4203,7 +4203,7 @@ void ClientNode::LeftChannel(ClientChannel& chan)
         m_mychannel.reset();
 
     //clear files if not admin
-    if((m_myuseraccount.usertype & USERTYPE_DEFAULT) != 0u)
+    if((m_myuseraccount.usertype & USERTYPE_DEFAULT) != USERTYPE_NONE)
         chan.ClearFiles();
 
     //stop streaming media file
@@ -4424,7 +4424,7 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
         AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
         AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
         AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-        if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u) && chanprop.transmitswitchdelay > 0)
+        if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && chanprop.transmitswitchdelay > 0)
             AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
         AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
         AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
@@ -4645,7 +4645,7 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-    if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u) && chanprop.transmitswitchdelay > 0)
+    if (((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && chanprop.transmitswitchdelay > 0)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
     AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
@@ -4679,7 +4679,7 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     AppendProperty(TT_DESKTOPUSERS, chanprop.GetTransmitUsers(STREAMTYPE_DESKTOP), command);
     AppendProperty(TT_MEDIAFILEUSERS, chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE), command);
     AppendProperty(TT_CHANMSGUSERS, chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG), command);
-    if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != 0u)
+    if ((chanprop.chantype & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         AppendProperty(TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay, command);
     AppendProperty(TT_TOTVOICE, chanprop.totvoice, command);
     AppendProperty(TT_TOTMEDIAFILE, chanprop.totmediafile, command);
@@ -4869,7 +4869,7 @@ int ClientNode::TransmitCommand(const ACE_TString& command, int cmdid)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if((m_flags & CLIENT_CONNECTED) == 0)
+    if((m_flags & CLIENT_CONNECTED) == CLIENT_CLOSED)
         return -1;
 
     MYTRACE(ACE_TEXT("CLIENT #%d: %s"), m_myuserid, command.c_str());
@@ -4932,7 +4932,7 @@ ACE_SSL_Context* ClientNode::SetupEncryptionContext()
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    if ((m_flags & CLIENT_CONNECTION) != 0u)
+    if ((m_flags & CLIENT_CONNECTION) != CLIENT_CLOSED)
         return nullptr;
     
     CryptStreamHandler::RemoveSSLContext(GetEventLoop());
