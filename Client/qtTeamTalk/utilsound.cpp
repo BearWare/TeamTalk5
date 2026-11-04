@@ -208,11 +208,9 @@ int getSoundInputFromUID(int inputid, const QString& uid)
 
     SoundDevice dev;
     if (getSoundDevice(uid, true, inputdev, dev))
-        return dev.nDeviceID;
+        inputid = dev.nDeviceID;
 
-    // the stored ID now belongs to another device, so report that the UID could
-    // not be resolved rather than handing back an index that means nothing
-    return SOUNDDEVICEID_DEFAULT;
+    return inputid;
 }
 
 int getSoundOutputFromUID(int outputid, const QString& uid)
@@ -224,9 +222,8 @@ int getSoundOutputFromUID(int outputid, const QString& uid)
 
     SoundDevice dev;
     if (getSoundDevice(uid, false, outputdev, dev))
-        return dev.nDeviceID;
-
-    return SOUNDDEVICEID_DEFAULT;
+        outputid = dev.nDeviceID;
+    return outputid;
 }
 
 int getSelectedSndInputDevice()
@@ -239,10 +236,7 @@ int getSelectedSndInputDevice()
     {
         //check if device-id has changed since last
         QString uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
-        if (uid.size())
-            inputid = getSoundInputFromUID(inputid, uid);
-        if (inputid == SOUNDDEVICEID_DEFAULT)
-            inputid = getDefaultSndInputDevice();
+        inputid = getSoundInputFromUID(getDefaultSndInputDevice(), uid);
     }
     qDebug() << "Returning input device #" << inputid;
     return inputid;
@@ -258,10 +252,7 @@ int getSelectedSndOutputDevice()
     {
         //check if device-id has changed since last
         QString uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
-        if (uid.size())
-            outputid = getSoundOutputFromUID(outputid, uid);
-        if (outputid == SOUNDDEVICEID_DEFAULT)
-            outputid = getDefaultSndOutputDevice();
+        outputid = getSoundOutputFromUID(getDefaultSndOutputDevice(), uid);
     }
     qDebug() << "Returning output device #" << outputid;
     return outputid;
