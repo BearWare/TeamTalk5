@@ -436,7 +436,7 @@ namespace teamtalk {
         {
             const std::set<int>& txusers = m_transmitusers[txtype];
 
-            if (((m_chantype & CHANNEL_CLASSROOM) != 0U) &&
+            if (((m_chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT) &&
                 !txusers.contains(userid) &&
                 !txusers.contains(TRANSMITUSERS_FREEFORALL))
                 return false;

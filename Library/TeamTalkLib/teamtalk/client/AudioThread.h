@@ -78,8 +78,8 @@ public:
     ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
 
     //real maximum is 100 (when all samples are 32768)
-    static const int VU_METER_MAX = 100;
-    static const int VU_METER_MIN = 0;
+    static constexpr int VU_METER_MAX = 100;
+    static constexpr int VU_METER_MIN = 0;
 
     const teamtalk::AudioCodec& Codec() const { return m_codec; }
 

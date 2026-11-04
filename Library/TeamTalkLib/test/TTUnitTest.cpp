@@ -118,12 +118,12 @@ bool InitSound(TTInstance* ttClient, SoundMode mode /*= DEFAULT*/, INT32 indev, 
 
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/* = SOUNDDEVICEID_DEFAULT*/, INT32 outdev/* = SOUNDDEVICEID_DEFAULT*/)
 {
-    const int DEVMAX = 100;
-    std::vector<SoundDevice> devs(DEVMAX);
+    constexpr int MAX_SOUND_DEVICES = 100;
+    std::vector<SoundDevice> devs(MAX_SOUND_DEVICES);
     INT32 howmany = INT32(devs.size());
     TT_GetSoundDevices(&devs[0], &howmany);
     devs.resize(howmany);
-    if (howmany == DEVMAX)
+    if (howmany == MAX_SOUND_DEVICES)
     {
         TT_GetSoundDevices(&devs[0], &howmany);
     }

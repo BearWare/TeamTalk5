@@ -245,7 +245,7 @@ void MediaStreamer::InitBuffers()
     if (m_media_out.HasAudio())
     {
         size_t const buffer_size = PCM16_BYTES(m_media_out.audio.samplerate *
-            BUF_SECS, m_media_out.audio.channels);
+            BUFFER_DURATION_SECONDS, m_media_out.audio.channels);
 
         m_audio_frames.low_water_mark(buffer_size);
         m_audio_frames.high_water_mark(buffer_size);
@@ -257,7 +257,7 @@ void MediaStreamer::InitBuffers()
         int const media_frame_size = bmp_size + sizeof(media::VideoFrame);
         size_t const fps = m_media_out.video.fps_numerator / std::max(1, m_media_out.video.fps_denominator);
 
-        size_t const buffer_size = fps * BUF_SECS * media_frame_size;
+        size_t const buffer_size = fps * BUFFER_DURATION_SECONDS * media_frame_size;
         m_video_frames.low_water_mark(buffer_size);
         m_video_frames.high_water_mark(buffer_size);
     }
@@ -575,4 +575,3 @@ uint32_t MediaFileStreamer::SetOffset(uint32_t offset)
     m_offset = offset;
     return prev;
 }
-

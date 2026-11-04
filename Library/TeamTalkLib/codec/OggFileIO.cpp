@@ -300,7 +300,7 @@ bool OggFile::SyncPage()
 {
     assert(ogg_sync_check(&m_state) == 0);
 
-    const auto SIZE = 0x1000;
+    constexpr auto SYNC_PAGE_BUFFER_SIZE = 0x1000;
     const auto ORIGIN = m_file.Tell();
 
     // first seek forwards
@@ -309,8 +309,8 @@ bool OggFile::SyncPage()
     do
     {
         ogg_sync_reset(&m_state);
-        auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-        n_read = m_file.Read(buffer, static_cast<long>(SIZE));
+        auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+        n_read = m_file.Read(buffer, static_cast<long>(SYNC_PAGE_BUFFER_SIZE));
         if (n_read > 0)
         {
             int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));
@@ -339,12 +339,12 @@ bool OggFile::SyncPage()
                 return false; // already at begining last time
 
             ogg_sync_reset(&m_state);
-            backwards = std::max(backwards - SIZE, static_cast<int64_t>(0));
+            backwards = std::max(backwards - SYNC_PAGE_BUFFER_SIZE, static_cast<int64_t>(0));
             if (!m_file.Seek(backwards, std::ios_base::beg))
                 return false;
 
-            auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-            n_read = m_file.Read(buffer, SIZE);
+            auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+            n_read = m_file.Read(buffer, SYNC_PAGE_BUFFER_SIZE);
             if (n_read > 0)
             {
                 int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));

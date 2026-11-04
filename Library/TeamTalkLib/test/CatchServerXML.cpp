@@ -24,10 +24,11 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "bin/ttsrv/ServerXML.h"
+#include "codec/OpusEncoder.h" // OPUS_APPLICATION_AUDIO/OPUS_APPLICATION_VOIP
 #include "myace/MyACE.h"
 
-#include <cstdio>
 #include <array>
+#include <cstdio>
 #include <string>
 #include <vector>
 
@@ -66,6 +67,14 @@ TEST_CASE("ServerXML Channels Write/Read")
 
         statchannels_t channels;
 
+        constexpr auto ROOT_OPUS_SAMPLE_RATE_HZ = 48000;
+        constexpr auto ROOT_OPUS_CHANNEL_COUNT = 2;
+        constexpr auto ROOT_OPUS_COMPLEXITY = 10;
+        constexpr auto ROOT_OPUS_BITRATE_BPS = 64000;
+        constexpr auto ROOT_OPUS_FRAME_SIZE_SAMPLES = 1920;
+        constexpr auto ROOT_AUDIO_GAIN_LEVEL = 8000;
+        constexpr auto ROOT_TRANSMIT_SWITCH_DELAY_MSEC = 500;
+
         ChannelProp root;
         root.channelid = 1;
         root.parentid = 0;
@@ -78,23 +87,29 @@ TEST_CASE("ServerXML Channels Write/Read")
         root.chantype = CHANNEL_PERMANENT;
         root.userdata = 12345;
         root.audiocodec.codec = CODEC_OPUS;
-        root.audiocodec.opus.samplerate = 48000;
-        root.audiocodec.opus.channels = 2;
-        root.audiocodec.opus.application = 2048;
-        root.audiocodec.opus.complexity = 10;
+        root.audiocodec.opus.samplerate = ROOT_OPUS_SAMPLE_RATE_HZ;
+        root.audiocodec.opus.channels = ROOT_OPUS_CHANNEL_COUNT;
+        root.audiocodec.opus.application = OPUS_APPLICATION_VOIP;
+        root.audiocodec.opus.complexity = ROOT_OPUS_COMPLEXITY;
         root.audiocodec.opus.fec = true;
         root.audiocodec.opus.dtx = false;
-        root.audiocodec.opus.bitrate = 64000;
+        root.audiocodec.opus.bitrate = ROOT_OPUS_BITRATE_BPS;
         root.audiocodec.opus.vbr = true;
         root.audiocodec.opus.vbr_constraint = false;
-        root.audiocodec.opus.frame_size = 1920;
+        root.audiocodec.opus.frame_size = ROOT_OPUS_FRAME_SIZE_SAMPLES;
         root.audiocfg.enable_agc = true;
-        root.audiocfg.gain_level = 8000;
+        root.audiocfg.gain_level = ROOT_AUDIO_GAIN_LEVEL;
         root.transmitusers[STREAMTYPE_VOICE].insert(TRANSMITUSERS_FREEFORALL);
-        root.transmitswitchdelay = 500;
+        root.transmitswitchdelay = ROOT_TRANSMIT_SWITCH_DELAY_MSEC;
         root.totvoice = 30000;
         root.totmediafile = 60000;
         channels[root.channelid] = root;
+
+        constexpr auto CHILD_OPUS_SAMPLE_RATE_HZ = 24000;
+        constexpr auto CHILD_OPUS_CHANNEL_COUNT = 1;
+        constexpr auto CHILD_OPUS_COMPLEXITY = 5;
+        constexpr auto CHILD_OPUS_BITRATE_BPS = 32000;
+        constexpr auto CHILD_OPUS_FRAME_SIZE_SAMPLES = 960;
 
         ChannelProp child1;
         child1.channelid = 2;
@@ -106,16 +121,16 @@ TEST_CASE("ServerXML Channels Write/Read")
         child1.maxusers = 100;
         child1.chantype = CHANNEL_PERMANENT | CHANNEL_CLASSROOM;
         child1.audiocodec.codec = CODEC_OPUS;
-        child1.audiocodec.opus.samplerate = 24000;
-        child1.audiocodec.opus.channels = 1;
-        child1.audiocodec.opus.application = 2049;
-        child1.audiocodec.opus.complexity = 5;
+        child1.audiocodec.opus.samplerate = CHILD_OPUS_SAMPLE_RATE_HZ;
+        child1.audiocodec.opus.channels = CHILD_OPUS_CHANNEL_COUNT;
+        child1.audiocodec.opus.application = OPUS_APPLICATION_AUDIO;
+        child1.audiocodec.opus.complexity = CHILD_OPUS_COMPLEXITY;
         child1.audiocodec.opus.fec = false;
         child1.audiocodec.opus.dtx = true;
-        child1.audiocodec.opus.bitrate = 32000;
+        child1.audiocodec.opus.bitrate = CHILD_OPUS_BITRATE_BPS;
         child1.audiocodec.opus.vbr = false;
         child1.audiocodec.opus.vbr_constraint = true;
-        child1.audiocodec.opus.frame_size = 960;
+        child1.audiocodec.opus.frame_size = CHILD_OPUS_FRAME_SIZE_SAMPLES;
         channels[child1.channelid] = child1;
 
         ChannelProp child2;
@@ -149,7 +164,7 @@ TEST_CASE("ServerXML Channels Write/Read")
         REQUIRE(rootRead.diskquota == 51200000);
         REQUIRE(rootRead.oppasswd == ACE_TEXT("oppwd"));
         REQUIRE(rootRead.maxusers == 1000);
-        REQUIRE((rootRead.chantype & CHANNEL_PERMANENT) != 0);
+        REQUIRE((rootRead.chantype & CHANNEL_PERMANENT) != CHANNEL_DEFAULT);
         REQUIRE(rootRead.userdata == 12345);
         REQUIRE(rootRead.audiocodec.codec == CODEC_OPUS);
         REQUIRE(rootRead.audiocodec.opus.samplerate == 48000);
@@ -177,7 +192,7 @@ TEST_CASE("ServerXML Channels Write/Read")
         REQUIRE(child1Read.topic == ACE_TEXT("Sub Channel 1 Topic"));
         REQUIRE(child1Read.diskquota == 10240000);
         REQUIRE(child1Read.maxusers == 100);
-        REQUIRE((child1Read.chantype & CHANNEL_CLASSROOM) != 0);
+        REQUIRE((child1Read.chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT);
         REQUIRE(child1Read.audiocodec.codec == CODEC_OPUS);
         REQUIRE(child1Read.audiocodec.opus.samplerate == 24000);
         REQUIRE(child1Read.audiocodec.opus.channels == 1);
@@ -284,8 +299,8 @@ TEST_CASE("ServerXML User Accounts Write/Read")
         REQUIRE(xml.GetUser("special_user", specialRead));
         REQUIRE(specialRead.username == ACE_TEXT("special_user"));
         REQUIRE(specialRead.passwd == ACE_TEXT("specialpass"));
-        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VOICE) != 0);
-        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0);
+        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE);
+        REQUIRE((specialRead.userrights & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE);
         REQUIRE(specialRead.abuse.n_cmds == 5);
         REQUIRE(specialRead.abuse.cmd_msec == 500);
 
