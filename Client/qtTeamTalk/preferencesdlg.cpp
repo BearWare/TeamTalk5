@@ -1103,7 +1103,7 @@ void PreferencesDlg::slotSaveChanges()
 void PreferencesDlg::slotCancelChanges()
 {
     //if user tested video settings, we need to revert to what it was before
-    if(m_video_ready && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if(m_video_ready && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::critical(this, tr("Video Device"), 

@@ -239,12 +239,12 @@ void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
         oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
     oss << ACE_TEXT("banned ");
 
-    if((ban.bantype & BANTYPE_IPADDR) != 0u)
+    if((ban.bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
         oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
-    if((ban.bantype & BANTYPE_USERNAME) != 0u)
+    if((ban.bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
         oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
 
-    if((ban.bantype & BANTYPE_CHANNEL) != 0u)
+    if((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
         oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
     else
         oss << ACE_TEXT("from server.");
@@ -293,37 +293,37 @@ void ServerGuard::OnUserSubscribe(const ServerUser& user, const ServerUser& subs
 
     tostringstream oss_sub;
     auto subscriptions = user.GetSubscriptions(subscriptuser);
-    if ((subscriptions & SUBSCRIBE_USER_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("um");
-    if ((subscriptions & SUBSCRIBE_CHANNEL_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("cm");
-    if ((subscriptions & SUBSCRIBE_BROADCAST_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("bm");
-    if ((subscriptions & SUBSCRIBE_CUSTOM_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_CUSTOM_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mm");
-    if ((subscriptions & SUBSCRIBE_VOICE) != 0u)
+    if ((subscriptions & SUBSCRIBE_VOICE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vo");
-    if ((subscriptions & SUBSCRIBE_VIDEOCAPTURE) != 0u)
+    if ((subscriptions & SUBSCRIBE_VIDEOCAPTURE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vi");
-    if ((subscriptions & SUBSCRIBE_DESKTOP) != 0u)
+    if ((subscriptions & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("de");
-    if ((subscriptions & SUBSCRIBE_DESKTOPINPUT) != 0u)
+    if ((subscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("di");
-    if ((subscriptions & SUBSCRIBE_MEDIAFILE) != 0u)
+    if ((subscriptions & SUBSCRIBE_MEDIAFILE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mf");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("UM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("CM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MM");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_VOICE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_VOICE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VO");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VI");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("DE");
-    if ((subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != 0u)
+    if ((subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != SUBSCRIBE_NONE)
         oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MF");
 
     oss << oss_sub.str() << ACE_TEXT(".");
@@ -507,31 +507,31 @@ static void LogTransmitUsers(const std::set<int>& userids, ChannelTypes chantype
     switch (stream)
     {
     case STREAMTYPE_VOICE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit voice:");
         else
             oss << ACE_TEXT(", cannot transmit voice:");
         break;
     case STREAMTYPE_VIDEOCAPTURE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit video:");
         else
             oss << ACE_TEXT(", cannot transmit video:");
         break;
     case STREAMTYPE_DESKTOP :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit desktop:");
         else
             oss << ACE_TEXT(", cannot transmit desktop:");
         break;
     case STREAMTYPE_MEDIAFILE :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can transmit media files:");
         else
             oss << ACE_TEXT(", cannot transmit media files:");
         break;
     case STREAMTYPE_CHANNELMSG :
-        if ((chantype & CHANNEL_CLASSROOM) != 0u)
+        if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
             oss << ACE_TEXT(", can send channel text messages:");
         else
             oss << ACE_TEXT(", cannot send channel text messages:");
@@ -567,7 +567,7 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
         oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated");
     }
 
-    if (((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && (!channel.GetTransmitQueue().empty()))
+    if (((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && (!channel.GetTransmitQueue().empty()))
         oss << ACE_TEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
 
     LogTransmitUsers(channel.GetVoiceUsers(), channel.GetChannelType(), STREAMTYPE_VOICE, oss);
@@ -856,7 +856,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         {
             useraccount = i->second;
 
-            if((useraccount.userrights & USERRIGHT_LOCKED_NICKNAME) != 0u)
+            if((useraccount.userrights & USERRIGHT_LOCKED_NICKNAME) != USERRIGHT_NONE)
                 user.SetNickname(useraccount.nickname);
             m_pendinglogin.erase(i);
             
@@ -922,7 +922,7 @@ ErrorMsg ServerGuard::GetRegUsers(const ServerUser&  /*user*/, useraccounts_t& u
 
 ErrorMsg ServerGuard::AddRegUser(const ServerUser& user, const UserAccount& useraccount)
 {
-    if( (user.GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
@@ -946,7 +946,7 @@ ErrorMsg ServerGuard::AddRegUser(const ServerUser& user, const UserAccount& user
 
 ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const ACE_TString& username)
 {
-    if( (user.GetUserType() & USERTYPE_ADMIN) == 0)
+    if( (user.GetUserType() & USERTYPE_ADMIN) == USERTYPE_NONE)
     {
         return ErrorMsg(TT_CMDERR_NOT_AUTHORIZED);
     }
