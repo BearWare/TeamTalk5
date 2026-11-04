@@ -581,7 +581,7 @@ void ClientUser::AddAudioFilePacket(const AudioFilePacket& audpkt,
     if (!m_audiofile_player)
         return;
 
-    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != 0u;
+    bool const no_record = (chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT;
     m_audiofile_player->SetNoRecording(no_record);
 
     assert(m_audiofile_player->GetAudioCodec() == chan->GetAudioCodec());
@@ -1014,7 +1014,7 @@ void ClientUser::AddPacket(const DesktopInputPacket& p,
     ii = m_desktop_input_rx.begin();
     while(ii != m_desktop_input_rx.end())
     {
-       MYTRACE(ACE_TEXT("%u, "), static_cast<ACE_UINT32>((*ii)->GetPacketNo()));
+       MYTRACE(ACE_TEXT("%u, "), static_cast<uint32_t>((*ii)->GetPacketNo()));
        ii++;
     }
     MYTRACE(ACE_TEXT(". Next: %d\n"), static_cast<int>(m_desktop_input_rx_pktno));
@@ -1542,10 +1542,13 @@ void ClientUser::SetDirtyProps()
 }
 
 
-ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
+ACE_Message_Block* ClientUser::GetVideoCaptureFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_vidcap_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_vidcap_player;
+    if (player)
     {
         //if(m_voice_player && GetMediaFileBufferSize() &&
         //   m_voice_player->GetPlayedPacketNo())
@@ -1558,7 +1561,10 @@ ACE_Message_Block* ClientUser::GetVideoCaptureFrame()
 
         //    return m_vidcap_player->GetNextFrame();
         //}
-        return m_vidcap_player->GetNextFrame();
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame();
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
     return nullptr;
@@ -1591,18 +1597,21 @@ void ClientUser::CloseVideoCapturePlayer()
 #endif
 }
 
-ACE_Message_Block* ClientUser::GetVideoFileFrame()
+ACE_Message_Block* ClientUser::GetVideoFileFrame(guard_t& g)
 {
 #if defined(ENABLE_VPX)
-    if (m_videofile_player)
+    // copy while 'g' is held so the reactor thread cannot delete the
+    // player while it is decoding
+    webm_player_t const player = m_videofile_player;
+    if (player)
     {
-        if (m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
-           (m_audiofile_player->GetPlayedPacketNo() != 0u))
-        {
-            uint32_t audio_tm = m_audiofile_player->GetPlayedPacketTime();
-            return m_videofile_player->GetNextFrame(&audio_tm);
-        }
-        return m_videofile_player->GetNextFrame();
+        bool const sync = m_audiofile_player && (GetAudioStreamBufferSize(STREAMTYPE_MEDIAFILE_AUDIO) != 0) &&
+           (m_audiofile_player->GetPlayedPacketNo() != 0u);
+        uint32_t audio_tm = sync ? m_audiofile_player->GetPlayedPacketTime() : 0;
+        g.release(); //don't hold lock while decoding
+        ACE_Message_Block* mb = player->GetNextFrame(sync ? &audio_tm : nullptr);
+        g.acquire();
+        return mb;
     }
 #endif /* ENABLE_VPX */
 
@@ -1750,14 +1759,14 @@ bool ClientUser::LocalSubscribes(const FieldPacket& packet) const
     int const mychanid = m_clientnode->GetChannelID();
     int const userchanid = (GetChannel() ? GetChannel()->GetChannelID() : 0);
 
-    if((local_subs != 0u) && (local_intercept_subs != 0u))
+    if((local_subs != SUBSCRIBE_NONE) && (local_intercept_subs != SUBSCRIBE_NONE))
     {
-        if (((m_localsubscriptions & local_subs) != 0u) && mychanid > 0)
+        if (((m_localsubscriptions & local_subs) != SUBSCRIBE_NONE) && mychanid > 0)
         {
             if (std::cmp_equal(mychanid , packet.GetChannel()))
                 return true;
         }
-        if (((m_localsubscriptions & local_intercept_subs) != 0u) && userchanid > 0)
+        if (((m_localsubscriptions & local_intercept_subs) != SUBSCRIBE_NONE) && userchanid > 0)
         {
             if (std::cmp_equal(userchanid , packet.GetChannel()))
                 return true;
@@ -1797,7 +1806,7 @@ bool ClientUser::PeerSubscribes(const FieldPacket& packet) const
     case PACKET_KIND_DESKTOPINPUT_CRYPT :
     case PACKET_KIND_DESKTOPINPUT_ACK :
     case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
-        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != 0u;
+        return (m_peersubscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE;
     default :
         assert(0);
     }

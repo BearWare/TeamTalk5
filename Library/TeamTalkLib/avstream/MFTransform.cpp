@@ -1258,7 +1258,7 @@ fail:
 ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoFormat& fmt)
 {
     HRESULT hr;
-    ACE_UINT32 timestamp = 0;
+    uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
     ACE_Message_Block* mb = nullptr;
     assert(fmt.IsValid());
@@ -1268,7 +1268,7 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
         assert(SUCCEEDED(hr));
         LONGLONG llSampleTime = 0;
         if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
-            timestamp = ACE_UINT32(llSampleTime / 10000);
+            timestamp = uint32_t(llSampleTime / 10000);
     }
 
     for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)
@@ -1299,7 +1299,7 @@ ACE_Message_Block* ConvertVideoSample(IMFSample* pSample, const media::VideoForm
 ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioFormat& fmt)
 {
     HRESULT hr;
-    ACE_UINT32 timestamp = 0;
+    uint32_t timestamp = 0;
     DWORD dwBufCount = 0;
     ACE_Message_Block* mb = nullptr;
     assert(fmt.IsValid());
@@ -1309,7 +1309,7 @@ ACE_Message_Block* ConvertAudioSample(IMFSample* pSample, const media::AudioForm
         assert(SUCCEEDED(hr));
         LONGLONG llSampleTime = 0;
         if(SUCCEEDED(pSample->GetSampleTime(&llSampleTime)))
-            timestamp = ACE_UINT32(llSampleTime / 10000);
+            timestamp = uint32_t(llSampleTime / 10000);
     }
 
     for(DWORD i = 0; i<dwBufCount && mb == nullptr; i++)

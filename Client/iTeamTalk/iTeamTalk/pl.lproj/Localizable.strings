@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ dołącza się";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ odchodzi";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ loguje się";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ wylogowuje się";
+
 /* log entry */
 "%@ joined channel" = "Dołącza się %@";
 
@@ -242,18 +254,6 @@
 /* preferences
    user detail */
 "General" = "Ogólne";
-
-/* TTS EVENT */
-"has joined the channel" = "dołącza się";
-
-/* TTS EVENT */
-"has left the channel" = "odchodzi";
-
-/* TTS EVENT */
-"has logged on" = "loguje się";
-
-/* TTS EVENT */
-"has logged out" = "wylogowuje się";
 
 /* preferences */
 "Headset TX Toggle" = "Steruj nadawaniem przyciskami zestawu słuchawkowego";

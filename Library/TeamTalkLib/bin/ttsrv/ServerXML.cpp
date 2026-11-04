@@ -29,6 +29,7 @@
 #include "mystd/MyStd.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cstdio>
 #include <cstdint>
@@ -1579,9 +1580,9 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     std::string DateToString(time_t t)
     {
         tm* tt = std::localtime(&t);
-        char buff[100];
-        sprintf(buff, "%.4d/%.2d/%.2d %.2d:%.2d", tt->tm_year+1900, tt->tm_mon+1, tt->tm_mday, tt->tm_hour, tt->tm_min);
-        return buff;
+        std::array<char, 100> buff{};
+        sprintf(buff.data(), "%.4d/%.2d/%.2d %.2d:%.2d", tt->tm_year+1900, tt->tm_mon+1, tt->tm_mday, tt->tm_hour, tt->tm_min);
+        return buff.data();
     }
 
     time_t StringToDate(const std::string& date)

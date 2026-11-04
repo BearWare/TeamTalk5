@@ -60,7 +60,7 @@ public class Main {
         TimeProvider time = Instant::now;
 
         Logger logger = Logger.getLogger("");
-        FileHandler fh = new FileHandler("spambot.log");
+        FileHandler fh = new FileHandler("spambot.log", true);
         logger.addHandler(fh);
         logger.setLevel(Level.ALL);
         logger.setUseParentHandlers(false);
@@ -138,10 +138,10 @@ public class Main {
                         try {
                             var newLogger = Logger.getLogger(String.format("%s:%d", server.ipaddr, server.tcpport));
                             var spambot = new SpamBotSession(server,
-                                                             new WebLogin(username, passwd, logger),
+                                                             new WebLogin(username, passwd, newLogger),
                                                              new IPBan(time, bannetworks, Duration.ofSeconds(banDurationSeconds), newLogger),
                                                              badwords,
-                                                             new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmddurationSeconds)),
+                                                             new Abuse(time, ipjoins, iplogins, ipkicks, Duration.ofSeconds(ipcmddurationSeconds), newLogger),
                                                              abusedb, ipv4banprefix, ipv6banprefix,
                                                              newLogger, time);
                             sessions.add(spambot);

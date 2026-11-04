@@ -27,8 +27,8 @@
     <string name="text_cmd_leftchan">Kanaal verlaten:</string>
     <string name="text_cmd_joinroot">Hoofdkanaal binnengegaan</string>
     <string name="text_cmd_leftroot">Hoofdkanaal verlaten</string>
-    <string name="text_cmd_userjoinchan">is kanaal binnengekomen</string>
-    <string name="text_cmd_userleftchan">heeft kanaal verlaten</string>
+    <string name="text_cmd_userjoinchan">%1$s is kanaal binnengekomen</string>
+    <string name="text_cmd_userleftchan">%1$s heeft kanaal verlaten</string>
     <string name="pref_cat_subscriptions">Ontvangst</string>
     <string name="pref_cat_tts">Tekst-naar-spraak-berichten configureren</string>
     <string name="pref_header_general">Algemeen</string>
@@ -83,10 +83,10 @@
     <string name="pref_title_mediafile_volume">Mediabestandvolume</string>
     <string name="pref_summary_mediafile_volume">Mediabestand- vs. stemvolume</string>
     
-    <string name="text_tts_loggedin">is ingelogd</string>
-    <string name="text_tts_loggedout">is uitgelogd</string>
-    <string name="text_tts_joined_chan">is het kanaal binnengekomen</string>
-    <string name="text_tts_left_chan">heeft het kanaal verlaten</string>
+    <string name="text_tts_loggedin">%1$s is ingelogd</string>
+    <string name="text_tts_loggedout">%1$s is uitgelogd</string>
+    <string name="text_tts_joined_chan">%1$s is het kanaal binnengekomen</string>
+    <string name="text_tts_left_chan">%1$s heeft het kanaal verlaten</string>
     <string name="text_tts_private_message">Persoonlijk bericht van gebruiker %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Uitzendbericht van gebruiker %1$s - %2$s</string>
     <string name="pref_header_soundsystem">Geluidssysteem</string>

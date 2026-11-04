@@ -45,8 +45,8 @@
 
 using videoencodercallback_t = std::function< bool (ACE_Message_Block* org_frame, /* can be NULL */
                              const char* enc_data, int enc_len,
-                             ACE_UINT32 packet_no,
-                             ACE_UINT32 timestamp) >;
+                             uint32_t packet_no,
+                             uint32_t timestamp) >;
 
 class VideoThread : protected ACE_Task<ACE_MT_SYNCH>
 {
@@ -77,7 +77,7 @@ private:
 #if defined(ENABLE_VPX)
     VpxEncoder m_vpx_encoder;
 #endif
-    ACE_UINT32 m_packet_counter = 0;
+    uint32_t m_packet_counter = 0;
     media::VideoFormat m_cap_format;
     teamtalk::VideoCodec m_codec;
 
@@ -95,8 +95,8 @@ public:
     virtual bool EncodedVideoFrame(const VideoThread* video_encoder,
                                    ACE_Message_Block* org_frame, /* can be NULL */
                                    const char* enc_data, int enc_len,
-                                   ACE_UINT32 packet_no,
-                                   ACE_UINT32 timestamp) = 0;
+                                   uint32_t packet_no,
+                                   uint32_t timestamp) = 0;
 };
 
 #endif

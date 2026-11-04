@@ -40,6 +40,7 @@
 #endif
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cctype>
 #include <cerrno>
@@ -293,17 +294,17 @@ std::string URLEncode(const std::string& utf8)
 
 ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
 {
-    ACE_TCHAR buf[INET6_ADDRSTRLEN+1] = {};
-    addr.addr_to_string(buf, INET6_ADDRSTRLEN);
-    return buf;
+    std::array<ACE_TCHAR, INET6_ADDRSTRLEN+1> buf{};
+    addr.addr_to_string(buf.data(), INET6_ADDRSTRLEN);
+    return buf.data();
 }
 
 int InetAddrFamily(const ACE_TString& addr_str)
 {
-    char buf[INET6_ADDRSTRLEN];
-    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    std::array<char, INET6_ADDRSTRLEN> buf{};
+    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET;
-    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET6;
     return -1;
 }
@@ -324,9 +325,9 @@ ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
         ipv4addr.sin_addr.s_addr >>= shift;
         ipv4addr.sin_addr.s_addr <<= shift;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
-        char strnet[INET_ADDRSTRLEN];
-        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     case AF_INET6 :
     {
@@ -342,9 +343,9 @@ ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
             prefix -= bits;
         }
 
-        char strnet[INET6_ADDRSTRLEN];
-        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET6_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     }
     return {};

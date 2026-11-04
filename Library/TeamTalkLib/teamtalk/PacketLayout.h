@@ -35,6 +35,7 @@
 #include <array>
 #include <cassert>
 #include <cstddef>
+#include <array>
 #include <cstdint>
 #include <list>
 #include <map>
@@ -62,8 +63,8 @@ constexpr auto MIN_PACKET_PAYLOAD_SIZE = MIN_PAYLOAD_DATA_SIZE + FIELDHEADER_PAY
 constexpr auto MAX_PAYLOAD_DATA_SIZE = 1250;   //The raw data must be split in at most this size;
 constexpr auto MAX_PACKET_PAYLOAD_SIZE = MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD;   //The maximum size of fields and raw data
 
-static constexpr uint16_t MTU_QUERY_SIZES[] = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
-constexpr auto MTU_QUERY_SIZES_COUNT = sizeof(MTU_QUERY_SIZES) / sizeof(MTU_QUERY_SIZES[0]);
+static constexpr std::array<uint16_t, 4> MTU_QUERY_SIZES = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
+constexpr auto MTU_QUERY_SIZES_COUNT = MTU_QUERY_SIZES.size();
 
 constexpr auto MAX_PACKET_SIZE = 1350;           //The maximum size of a packet
 

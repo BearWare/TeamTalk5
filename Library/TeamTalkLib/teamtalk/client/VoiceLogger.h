@@ -164,7 +164,7 @@ namespace teamtalk {
         VoiceLogger(VoiceLogListener* listener);
         ~VoiceLogger() override;
 
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         void AddVoicePacket(ClientUser& from_user, 
                             const ClientChannel& channel, 

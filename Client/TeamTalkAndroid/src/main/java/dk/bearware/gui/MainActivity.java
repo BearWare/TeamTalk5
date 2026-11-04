@@ -38,6 +38,8 @@ import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
+import android.media.AudioDeviceCallback;
+import android.media.AudioDeviceInfo;
 import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.media.SoundPool;
@@ -131,6 +133,7 @@ import dk.bearware.MediaFileStatus;
 import dk.bearware.MediaFileInfo;
 import dk.bearware.MediaFilePlayback;
 import dk.bearware.MediaFilePlaybackConstants;
+import dk.bearware.backend.CommunicationDeviceHelper;
 import dk.bearware.backend.OnVoiceTransmissionToggleListener;
 import dk.bearware.backend.TeamTalkConnection;
 import dk.bearware.backend.TeamTalkConnectionListener;
@@ -206,6 +209,8 @@ extends AppCompatActivity
     TTSWrapper ttsWrapper = null;
     AccessibilityAssistant accessibilityAssistant;
     AudioManager audioManager;
+    boolean microphoneSelected;
+    AudioDeviceCallback audioDeviceCallback;
     SoundPool audioIcons;
     NotificationManager notificationManager;
     WakeLock wakeLock, proximityWakeLock;
@@ -282,6 +287,23 @@ extends AppCompatActivity
         restarting = (savedInstanceState != null);
         accessibilityAssistant = new AccessibilityAssistant(this);
         audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        if (CommunicationDeviceHelper.isSupported()) {
+            // select the microphone again when it is plugged in, or fall back when it is removed
+            audioDeviceCallback = new AudioDeviceCallback() {
+                @Override
+                public void onAudioDevicesAdded(AudioDeviceInfo[] addedDevices) {
+                    if (mConnection.isBound())
+                        adjustSoundSystem();
+                }
+
+                @Override
+                public void onAudioDevicesRemoved(AudioDeviceInfo[] removedDevices) {
+                    if (mConnection.isBound())
+                        adjustSoundSystem();
+                }
+            };
+            audioManager.registerAudioDeviceCallback(audioDeviceCallback, null);
+        }
         notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         wakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK, TAG + ":TeamTalk5");
         proximityWakeLock = ((PowerManager)getSystemService(Context.POWER_SERVICE)).newWakeLock(PowerManager.PROXIMITY_SCREEN_OFF_WAKE_LOCK, TAG + ":TeamTalk5");
@@ -709,6 +731,9 @@ extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+
+        if (audioDeviceCallback != null)
+            audioManager.unregisterAudioDeviceCallback(audioDeviceCallback);
 
         if (isProximitySensorRegistered) {
             mSensorManager.unregisterListener(this);
@@ -1760,8 +1785,26 @@ private EditText newmsg;
         boolean voiceProcessing = prefs.get(Preferences.PREF_SOUNDSYSTEM_VOICEPROCESSING, false);
         audioManager.setMode(voiceProcessing ?
                 AudioManager.MODE_IN_COMMUNICATION : AudioManager.MODE_NORMAL);
+        boolean speakerphone = prefs.get(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false);
+        if (voiceProcessing && selectMicrophone(speakerphone)) {
+            getService().setMicrophoneSelected(true);
+            return;
+        }
+        if (microphoneSelected && CommunicationDeviceHelper.isSupported()) {
+            CommunicationDeviceHelper.clear(audioManager);
+            microphoneSelected = false;
+        }
+        getService().setMicrophoneSelected(false);
         if (voiceProcessing)
-            audioManager.setSpeakerphoneOn(prefs.get(Preferences.PREF_SOUNDSYSTEM_SPEAKERPHONE, false) && !audioManager.isWiredHeadsetOn());
+            audioManager.setSpeakerphoneOn(speakerphone && !audioManager.isWiredHeadsetOn());
+    }
+
+    private boolean selectMicrophone(boolean speakerphone) {
+        String mic = prefs.get(Preferences.PREF_SOUNDSYSTEM_MICROPHONE, "");
+        if (!CommunicationDeviceHelper.isSupported() || mic.isEmpty())
+            return false;
+        microphoneSelected = CommunicationDeviceHelper.apply(audioManager, mic, speakerphone);
+        return microphoneSelected;
     }
 
     private void adjustMuteButton(ImageButton btn) {
@@ -2167,7 +2210,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDIN), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_login_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedin));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedin, name));
         }
     }
 
@@ -2183,7 +2226,7 @@ private EditText newmsg;
             audioIcons.play(sounds.get(SOUND_USERLOGGEDOFF), 1.0f, 1.0f, 0, 0, 1.0f);
         if (ttsWrapper != null && prefs.get("server_logout_checkbox", false)) {
             String name = Utils.getDisplayName(getBaseContext(), user);
-            ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_loggedout));
+            ttsWrapper.speak(getResources().getString(R.string.text_tts_loggedout, name));
         }
     }
 
@@ -2237,7 +2280,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERJOIN), 1.0f, 1.0f, 0, 0, 1.0f);
                     if (ttsWrapper != null && prefs.get("channel_join_checkbox", false)) {
                         String name = Utils.getDisplayName(getBaseContext(), user);
-                        ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_joined_chan));
+                        ttsWrapper.speak(getResources().getString(R.string.text_tts_joined_chan, name));
                     }
                 }
                 accessibilityAssistant.unlockEvents();
@@ -2292,7 +2335,7 @@ private EditText newmsg;
                         audioIcons.play(sounds.get(SOUND_USERLEFT), 1.0f, 1.0f, 0, 0, 1.0f);
                 if (ttsWrapper != null && prefs.get("channel_leave_checkbox", false)) {
                     String name = Utils.getDisplayName(getBaseContext(), user);
-                    ttsWrapper.speak(name + " " + getResources().getString(R.string.text_tts_left_chan));
+                    ttsWrapper.speak(getResources().getString(R.string.text_tts_left_chan, name));
                 }
             }
             accessibilityAssistant.unlockEvents();
@@ -2374,7 +2417,7 @@ private EditText newmsg;
                 ttsWrapper.speak(getString(R.string.text_tts_private_message, senderName, completemsg.szMessage));
             Intent action = new Intent(this, TextMessageActivity.class);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, "Teamtalk incoming message", NotificationManager.IMPORTANCE_HIGH);
+                NotificationChannel mChannel = new NotificationChannel(MSG_NOTIFICATION_CHANNEL_ID, getString(R.string.notification_channel_messages), NotificationManager.IMPORTANCE_HIGH);
                 mChannel.enableVibration(false);
                 mChannel.setVibrationPattern(null);
                 mChannel.enableLights(false);

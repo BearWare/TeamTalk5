@@ -69,7 +69,7 @@ public:
 
     bool Pause();
 
-    bool Seek(ACE_UINT32 offset);
+    bool Seek(uint32_t offset);
 
     // required by TeamTalkAudioPreprocessor
     void MuteSound(bool left, bool right);

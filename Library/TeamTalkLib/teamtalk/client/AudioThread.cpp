@@ -562,8 +562,8 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
 
 void AudioThread::MeasureVoiceLevel(const media::AudioFrame& audblock)
 {
-    const int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
-    const int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
+    constexpr int VU_MAX_VOLUME = 8000; //real maximum is if all samples are 32768
+    constexpr int VOICEACT_STOPDELAY = 1500;//msecs to wait before stopping after voiceact has been disabled
 
     int lsum = 0;
     int rsum = 0;

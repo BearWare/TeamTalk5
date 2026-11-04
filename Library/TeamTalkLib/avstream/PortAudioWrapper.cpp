@@ -24,6 +24,7 @@
 #include "PortAudioWrapper.h"
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
@@ -359,7 +360,7 @@ void PortAudio::SetupDefaultCommunicationDevice(sounddevices_t& sounddevs)
     HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, (void**)&pEnumerator);
     if (SUCCEEDED(hr))
     {
-        EDataFlow flows[] = { eCapture, eRender };
+        const std::array<EDataFlow, 2> flows = { eCapture, eRender };
         for (auto flow : flows)
         {
             CComPtr<IMMDevice> device;
@@ -913,7 +914,8 @@ void CWMAudioAECCapture::Run()
     int inputsamples = CalcSamples(m_streamer->samplerate, m_streamer->framesize, WINAEC_SAMPLERATE);
     m_input_buffer.resize(inputsamples * WINAEC_CHANNELS);
 
-    const size_t BUFSIZE = PCM16_BYTES(inputsamples * 2, WINAEC_CHANNELS);
+    constexpr auto INPUT_BUFFER_FRAME_MULTIPLIER = 2;
+    const size_t BUFSIZE = PCM16_BYTES(inputsamples * INPUT_BUFFER_FRAME_MULTIPLIER, WINAEC_CHANNELS);
     m_input_queue.high_water_mark(BUFSIZE);
     m_input_queue.low_water_mark(BUFSIZE);
 

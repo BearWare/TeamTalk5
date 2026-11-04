@@ -30,10 +30,10 @@
     <string name="text_cmd_leftchan">Отключен канал:</string>
     <string name="text_cmd_joinroot">Подключен корневой канал</string>
     <string name="text_cmd_leftroot">Отключен корневой канал</string>
-    <string name="text_cmd_userjoinchan">подключился к каналу</string>
-    <string name="text_cmd_userleftchan">покинул канал</string>
-    <string name="text_cmd_userloggedout">Ушел с сервера</string>
-    <string name="text_cmd_userloggedin">Зарегистрировался на сервере</string>
+    <string name="text_cmd_userjoinchan">%1$s подключился к каналу</string>
+    <string name="text_cmd_userleftchan">%1$s покинул канал</string>
+    <string name="text_cmd_userloggedout">%1$s Ушел с сервера</string>
+    <string name="text_cmd_userloggedin">%1$s Зарегистрировался на сервере</string>
     <string name="pref_cat_subscriptions">Подписки</string>
     <string name="pref_cat_connection_general">Общие</string>
     <string name="pref_cat_tts">Настройка синтеза речи</string>
@@ -173,13 +173,13 @@
     <string name="pref_title_voice_processing_checkbox">Разрешить предобработку голоса</string>
     <string name="pref_summary_voice_processing_checkbox">Подавление эффекта эхо и автоматическая регулировка уровня</string>
 
-    <string name="text_tts_loggedin">вошел</string>
-    <string name="text_tts_loggedout">ушел</string>
+    <string name="text_tts_loggedin">%1$s вошел</string>
+    <string name="text_tts_loggedout">%1$s ушел</string>
     <string name="text_tts_user_joined_other_channel">%1$s присоединился к каналу %2$s</string>
     <string name="text_tts_user_left_other_channel">%1$s покинул канал %2$s</string>
     <string name="text_root_chan">корневой</string>
-    <string name="text_tts_joined_chan">присоединился к каналу</string>
-    <string name="text_tts_left_chan">покинул канал</string>
+    <string name="text_tts_joined_chan">%1$s присоединился к каналу</string>
+    <string name="text_tts_left_chan">%1$s покинул канал</string>
     <string name="text_tts_private_message">Личное сообщение от %1$s - %2$s</string>
     <string name="text_tts_channel_message">Сообщение канала от %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">Широковещательное сообщение от %1$s - %2$s</string>

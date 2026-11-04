@@ -46,6 +46,7 @@ extern "C" {
 }
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
@@ -89,8 +90,8 @@ bool OpenInput(const ACE_TString& filename,
         {
             if (utf8name[i] == '%' && i + 2 < utf8name.length())
             {
-                char hex[3] = { utf8name[i+1], utf8name[i+2], 0 };
-                decoded += static_cast<char>(strtol(hex, nullptr, 16));
+                std::array<char, 3> hex = { utf8name[i+1], utf8name[i+2], 0 };
+                decoded += static_cast<char>(strtol(hex.data(), nullptr, 16));
                 i += 2;
             }
             else
@@ -380,9 +381,9 @@ void FFmpegStreamer::Run()
         goto fail;
 
     MediaStreamStatus status;
-    ACE_UINT32 start_time;
-    ACE_UINT32 start_offset;
-    ACE_UINT32 totalpausetime;
+    uint32_t start_time;
+    uint32_t start_offset;
+    uint32_t totalpausetime;
     int64_t curaudiotime;
     int64_t curvideotime;
 
@@ -397,13 +398,13 @@ void FFmpegStreamer::Run()
 
     while (!m_stop)
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sync. Audio %u, Video %u\n"), ACE_UINT32(curaudiotime),
-                ACE_UINT32(curvideotime));
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sync. Audio %u, Video %u\n"), uint32_t(curaudiotime),
+                uint32_t(curvideotime));
 
         if (curaudiotime >= 0)
-            m_media_in.elapsed_ms = static_cast<ACE_UINT32>(curaudiotime);
+            m_media_in.elapsed_ms = static_cast<uint32_t>(curaudiotime);
         else if (curvideotime >= 0)
-            m_media_in.elapsed_ms = static_cast<ACE_UINT32>(curvideotime);
+            m_media_in.elapsed_ms = static_cast<uint32_t>(curvideotime);
 
         if (start_offset != MEDIASTREAMER_OFFSET_IGNORE)
             m_media_in.elapsed_ms += start_offset;
@@ -414,7 +415,7 @@ void FFmpegStreamer::Run()
             if (m_statuscallback)
                 m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
-            ACE_UINT32 pausetime = GETTIMESTAMP();
+            uint32_t pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
             {
                 MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
@@ -447,12 +448,12 @@ void FFmpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, audio_stream_index, difftime_sec / av_q2d(aud_stream->time_base),
                                   (offset_sec > curaudio_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to audio position %u in %s\n"), static_cast<uint32_t>(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE(ACE_TEXT("Seeked to audio position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to audio position %u in %s\n"), static_cast<uint32_t>(offset_sec * 1000), m_media_in.filename.c_str());
                 }
             }
 
@@ -465,12 +466,12 @@ void FFmpegStreamer::Run()
                 if (av_seek_frame(fmt_ctx, video_stream_index, difftime_sec / av_q2d(vid_stream->time_base),
                                   (offset_sec > curvideo_sec? 0 : AVSEEK_FLAG_BACKWARD)) < 0)
                 {
-                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Failed to seek to video position %u in %s\n"), static_cast<uint32_t>(offset_sec * 1000), m_media_in.filename.c_str());
                     success = false;
                 }
                 else
                 {
-                    MYTRACE(ACE_TEXT("Seeked to video position %u in %s\n"), static_cast<ACE_UINT32>(offset_sec * 1000), m_media_in.filename.c_str());
+                    MYTRACE(ACE_TEXT("Seeked to video position %u in %s\n"), static_cast<uint32_t>(offset_sec * 1000), m_media_in.filename.c_str());
                 }
 
             }
@@ -626,8 +627,8 @@ end:
 int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
                                            AVFrame* filt_frame,
                                            AVStream* aud_stream,
-                                           ACE_UINT32  /*start_time*/,
-                                           ACE_UINT32& start_offset)
+                                           uint32_t  /*start_time*/,
+                                           uint32_t& start_offset)
 {
 
     /* pull filtered audio from the filtergraph */
@@ -644,7 +645,7 @@ int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
     // initial frame may be -0.000072
     MYTRACE_COND(frame_sec < 0., ACE_TEXT("Audio frame time is less than 0: %g\n"), frame_sec);
     frame_sec = std::max(0., frame_sec);
-    auto frame_timestamp = static_cast<ACE_UINT32>(frame_sec * 1000.0); //msec
+    auto frame_timestamp = static_cast<uint32_t>(frame_sec * 1000.0); //msec
 
     if (!IsSystemTime())
     {
@@ -674,8 +675,8 @@ int64_t FFmpegStreamer::ProcessAudioBuffer(AVFilterContext* aud_buffersink_ctx,
 int64_t FFmpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
                                            AVFrame* filt_frame,
                                            AVStream* vid_stream,
-                                           ACE_UINT32 start_time,
-                                           ACE_UINT32& start_offset)
+                                           uint32_t start_time,
+                                           uint32_t& start_offset)
 {
     assert(W32_LEQ(start_time, GETTIMESTAMP()));
 
@@ -691,7 +692,7 @@ int64_t FFmpegStreamer::ProcessVideoBuffer(AVFilterContext* vid_buffersink_ctx,
     double frame_sec = frame_tm * av_q2d(vid_stream->time_base);
     MYTRACE_COND(frame_sec < 0., ACE_TEXT("Video frame time is less than 0: %g\n"), frame_sec);
     frame_sec = std::max(0., frame_sec);
-    auto frame_timestamp = static_cast<ACE_UINT32>(frame_sec * 1000.0); //msec
+    auto frame_timestamp = static_cast<uint32_t>(frame_sec * 1000.0); //msec
 
     if (!IsSystemTime())
     {
@@ -764,9 +765,9 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
     const AVFilterLink *outlink = nullptr;
-    char args[512];
-    char filter_descr[100];
-    char ch_layout_str[64];
+    std::array<char, 512> args{};
+    std::array<char, 100> filter_descr{};
+    std::array<char, 64> ch_layout_str{};
     int ret = 0;
     AVRational const time_base = fmt_ctx->streams[audio_stream_index]->time_base;
     AVChannelLayout out_ch_layout = {};
@@ -777,14 +778,14 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     if (aud_dec_ctx->ch_layout.order == AV_CHANNEL_ORDER_UNSPEC)
         av_channel_layout_default(&aud_dec_ctx->ch_layout, aud_dec_ctx->ch_layout.nb_channels);
 
-    av_channel_layout_describe(&aud_dec_ctx->ch_layout, ch_layout_str, sizeof(ch_layout_str));
-    snprintf(args, sizeof(args),
+    av_channel_layout_describe(&aud_dec_ctx->ch_layout, ch_layout_str.data(), ch_layout_str.size());
+    snprintf(args.data(), args.size(),
              "time_base=%d/%d:sample_rate=%d:sample_fmt=%s:channel_layout=%s",
              time_base.num, time_base.den, aud_dec_ctx->sample_rate,
-             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), ch_layout_str);
+             av_get_sample_fmt_name(aud_dec_ctx->sample_fmt), ch_layout_str.data());
 
     ret = avfilter_graph_create_filter(&aud_buffersrc_ctx, abuffersrc, "in",
-                                       args, nullptr, filter_graph);
+                                       args.data(), nullptr, filter_graph);
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot create audio buffer source\n"));
         goto error;
@@ -799,10 +800,10 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        const enum AVSampleFormat sample_fmts[] = { AV_SAMPLE_FMT_S16 };
+        const std::array<enum AVSampleFormat, 1> sample_fmts = { AV_SAMPLE_FMT_S16 };
         ret = av_opt_set_array(aud_buffersink_ctx, "sample_formats",
                                AV_OPT_SEARCH_CHILDREN,
-                               0, 1, AV_OPT_TYPE_SAMPLE_FMT, sample_fmts);
+                               0, sample_fmts.size(), AV_OPT_TYPE_SAMPLE_FMT, sample_fmts.data());
     }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Failed to set output sample fmt\n"));
@@ -810,10 +811,10 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        const AVChannelLayout channel_layouts[] = { out_ch_layout };
+        const std::array<AVChannelLayout, 1> channel_layouts = { out_ch_layout };
         ret = av_opt_set_array(aud_buffersink_ctx, "channel_layouts",
                                AV_OPT_SEARCH_CHILDREN,
-                               0, 1, AV_OPT_TYPE_CHLAYOUT, channel_layouts);
+                               0, channel_layouts.size(), AV_OPT_TYPE_CHLAYOUT, channel_layouts.data());
     }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output channel layout\n"));
@@ -821,10 +822,10 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        const int samplerates[] = { out_samplerate };
+        const std::array<int, 1> samplerates = { out_samplerate };
         ret = av_opt_set_array(aud_buffersink_ctx, "samplerates",
                                AV_OPT_SEARCH_CHILDREN,
-                               0, 1, AV_OPT_TYPE_INT, samplerates);
+                               0, samplerates.size(), AV_OPT_TYPE_INT, samplerates.data());
     }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output sample rate\n"));
@@ -845,8 +846,8 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        const enum AVSampleFormat OUT_SAMPLE_FMTS[] = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
-        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_fmts", OUT_SAMPLE_FMTS, -1,
+        const std::array<enum AVSampleFormat, 2> OUT_SAMPLE_FMTS = { AV_SAMPLE_FMT_S16, AV_SAMPLE_FMT_NONE };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_fmts", OUT_SAMPLE_FMTS.data(), -1,
                                   AV_OPT_SEARCH_CHILDREN);
     }
     if (ret < 0) {
@@ -855,8 +856,8 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        int64_t out_channel_layouts[] = { (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO), -1 };
-        ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts, -1,
+        std::array<int64_t, 2> out_channel_layouts = { (out_channels == 1 ? AV_CH_LAYOUT_MONO : AV_CH_LAYOUT_STEREO), -1 };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "channel_layouts", out_channel_layouts.data(), -1,
                                   AV_OPT_SEARCH_CHILDREN);
     }
     if (ret < 0) {
@@ -865,8 +866,8 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        int out_sample_rates[] = { out_samplerate, -1 };
-        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_rates", out_sample_rates, -1,
+        std::array<int, 2> out_sample_rates = { out_samplerate, -1 };
+        ret = av_opt_set_int_list(aud_buffersink_ctx, "sample_rates", out_sample_rates.data(), -1,
                                   AV_OPT_SEARCH_CHILDREN);
     }
     if (ret < 0) {
@@ -886,11 +887,11 @@ AVFilterGraph* CreateAudioFilterGraph(AVFormatContext *fmt_ctx,
     inputs->pad_idx    = 0;
     inputs->next       = nullptr;
 
-    snprintf(filter_descr, sizeof(filter_descr),
+    snprintf(filter_descr.data(), filter_descr.size(),
              "aresample=%d,aformat=sample_fmts=s16:channel_layouts=%s",
              out_samplerate, (out_channels == 2?"stereo":"mono"));
 
-    if ((ret = avfilter_graph_parse(filter_graph, filter_descr,
+    if ((ret = avfilter_graph_parse(filter_graph, filter_descr.data(),
                                     inputs, outputs, nullptr)) < 0)
     {
         MYTRACE(ACE_TEXT("Failed to parse graph\n"));
@@ -932,31 +933,31 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
 {
     //init filters
     AVFilterGraph *filter_graph = nullptr;
-    char args[512];
+    std::array<char, 512> args{};
     int ret = 0;
     const AVFilter *buffersrc  = avfilter_get_by_name("buffer");
     const AVFilter *buffersink = avfilter_get_by_name("buffersink");
     AVFilterInOut *outputs = avfilter_inout_alloc();
     AVFilterInOut *inputs  = avfilter_inout_alloc();
     AVRational const time_base = fmt_ctx->streams[video_stream_index]->time_base;
-    char filters_descr[100];
+    std::array<char, 100> filters_descr{};
 
-    snprintf(filters_descr, sizeof(filters_descr), "scale=%d:%d",
+    snprintf(filters_descr.data(), filters_descr.size(), "scale=%d:%d",
              vid_dec_ctx->width, vid_dec_ctx->height);
 
     filter_graph = avfilter_graph_alloc();
 
     /* buffer video source: the decoded frames from the decoder will be inserted here. */
-    snprintf(args, sizeof(args),
+    snprintf(args.data(), args.size(),
              "video_size=%dx%d:pix_fmt=%d:time_base=%d/%d:pixel_aspect=%d/%d",
              vid_dec_ctx->width, vid_dec_ctx->height, vid_dec_ctx->pix_fmt,
              time_base.num, time_base.den,
              vid_dec_ctx->sample_aspect_ratio.num, vid_dec_ctx->sample_aspect_ratio.den);
 
-    MYTRACE(ACE_TEXT("%s\n"), args);
+    MYTRACE(ACE_TEXT("%s\n"), args.data());
 
     ret = avfilter_graph_create_filter(&vid_buffersrc_ctx, buffersrc, "in",
-                                       args, nullptr, filter_graph);
+                                       args.data(), nullptr, filter_graph);
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot create buffer source\n"));
         goto error;
@@ -971,10 +972,10 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     }
 
     {
-        const enum AVPixelFormat pixel_formats[] = { output_pixfmt };
+        const std::array<enum AVPixelFormat, 1> pixel_formats = { output_pixfmt };
         ret = av_opt_set_array(vid_buffersink_ctx, "pixel_formats",
                                AV_OPT_SEARCH_CHILDREN,
-                               0, 1, AV_OPT_TYPE_PIXEL_FMT, pixel_formats);
+                               0, pixel_formats.size(), AV_OPT_TYPE_PIXEL_FMT, pixel_formats.data());
     }
     if (ret < 0) {
         MYTRACE(ACE_TEXT("Cannot set output pixel format\n"));
@@ -988,7 +989,7 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     }
 #else
     {
-        const enum AVPixelFormat PIX_FMTS[] = { output_pixfmt, AV_PIX_FMT_NONE };
+        const std::array<enum AVPixelFormat, 2> PIX_FMTS = { output_pixfmt, AV_PIX_FMT_NONE };
         ret = avfilter_graph_create_filter(&vid_buffersink_ctx, buffersink, "out",
                                            nullptr, nullptr, filter_graph);
         if (ret < 0) {
@@ -996,7 +997,7 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
             goto error;
         }
 
-        ret = av_opt_set_int_list(vid_buffersink_ctx, "pix_fmts", PIX_FMTS,
+        ret = av_opt_set_int_list(vid_buffersink_ctx, "pix_fmts", PIX_FMTS.data(),
                                   AV_PIX_FMT_NONE, AV_OPT_SEARCH_CHILDREN);
     }
     if (ret < 0) {
@@ -1016,7 +1017,7 @@ AVFilterGraph* CreateVideoFilterGraph(AVFormatContext *fmt_ctx,
     inputs->pad_idx    = 0;
     inputs->next       = nullptr;
 
-    if ((ret = avfilter_graph_parse(filter_graph, filters_descr,
+    if ((ret = avfilter_graph_parse(filter_graph, filters_descr.data(),
                                     inputs, outputs, nullptr)) < 0)
         goto error;
 

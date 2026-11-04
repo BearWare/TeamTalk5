@@ -52,7 +52,7 @@ namespace teamtalk {
         void UpdateChannelBans();
         void SetOwner(const ServerUser& user);
         bool IsOwner(const ServerUser& user) const;
-        static bool IsAutoOperator(const ServerUser& user) ;
+        bool IsAutoOperator(const ServerUser& user) const;
 
         void AddUserBan(const BannedUser& ban);
         bool IsBanned(const BannedUser& testban) const;

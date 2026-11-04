@@ -9,7 +9,7 @@ Android Client
 iOS Client
 -
 Server
--
+- Fixed channel rename accepting a name containing '/'
 
 Version 5.23, 2026/10/03
 Default Qt Client
