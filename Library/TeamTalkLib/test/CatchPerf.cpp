@@ -32,6 +32,7 @@
 #include "codec/WaveFile.h"
 #include "myace/MyACE.h"
 
+#include <array>
 #include <cstring>
 
 TEST_CASE("AudioMuxerStreamRestart")
@@ -52,7 +53,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
     AudioBlock* ab;
     int n_frames;
-    const int RETRIES = 50;
+    constexpr int MAX_AUDIO_BLOCK_WAIT_RETRIES = 50;
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
@@ -60,7 +61,7 @@ TEST_CASE("AudioMuxerStreamRestart")
     {
         REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
 
-        n_frames = RETRIES;
+        n_frames = MAX_AUDIO_BLOCK_WAIT_RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
@@ -76,7 +77,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
         REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
 
-        n_frames = RETRIES;
+        n_frames = MAX_AUDIO_BLOCK_WAIT_RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_MUXED_USERID);
@@ -111,7 +112,7 @@ TEST_CASE("AudioMuxerStreamRestart")
     {
         REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
 
-        n_frames = RETRIES;
+        n_frames = MAX_AUDIO_BLOCK_WAIT_RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_MEDIAFILE_AUDIO, TT_MUXED_USERID);
@@ -127,7 +128,7 @@ TEST_CASE("AudioMuxerStreamRestart")
 
         REQUIRE(TT_StopStreamingMediaFileToChannel(txclient));
 
-        n_frames = RETRIES;
+        n_frames = MAX_AUDIO_BLOCK_WAIT_RETRIES;
         while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
         {
             ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_MEDIAFILE_AUDIO, TT_MUXED_USERID);
@@ -149,7 +150,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     StreamTypes sts;
     INT32 session;
 
-    const int N_WAIT_FRAMES = 50;
+    constexpr int MAX_AUDIO_BLOCK_WAIT_FRAMES = 50;
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = 2;
@@ -258,7 +259,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
         REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     }
     REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
-    int n_frames = N_WAIT_FRAMES;
+    int n_frames = MAX_AUDIO_BLOCK_WAIT_FRAMES;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -272,7 +273,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(ab->uStreamTypes == STREAMTYPE_VOICE);
     REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
-    n_frames = N_WAIT_FRAMES;
+    n_frames = MAX_AUDIO_BLOCK_WAIT_FRAMES;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -287,7 +288,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     session = TT_InitLocalPlayback(rxclient, mfi.szFileName, &mfp);
     REQUIRE(session > 0);
-    n_frames = N_WAIT_FRAMES;
+    n_frames = MAX_AUDIO_BLOCK_WAIT_FRAMES;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -303,7 +304,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
     REQUIRE(TT_StopStreamingMediaFileToChannel(txclient));
     REQUIRE(TT_StopLocalPlayback(rxclient, session));
-    n_frames = N_WAIT_FRAMES;
+    n_frames = MAX_AUDIO_BLOCK_WAIT_FRAMES;
     while (n_frames-- && WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK))
     {
         ab = TT_AcquireUserAudioBlock(rxclient, sts, TT_MUXED_USERID);
@@ -442,13 +443,13 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
         REQUIRE(TT_EnableAudioBlockEventEx(rxclient, TT_MUXED_USERID, sts, &af, TRUE));
 
         WavePCMFile wavfile;
-        TTCHAR wavfilename[TT_STRLEN];
-        ACE_OS::snprintf(wavfilename, TT_STRLEN, ACE_TEXT("mixedvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
-        REQUIRE(wavfile.NewFile(wavfilename, af.nSampleRate, af.nChannels));
+        std::array<TTCHAR, TT_STRLEN> wavfilename{};
+        ACE_OS::snprintf(wavfilename.data(), wavfilename.size(), ACE_TEXT("mixedvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        REQUIRE(wavfile.NewFile(wavfilename.data(), af.nSampleRate, af.nChannels));
 
-        TTCHAR recordfilename[TT_STRLEN];
-        ACE_OS::snprintf(recordfilename, TT_STRLEN, ACE_TEXT("recordvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
-        REQUIRE(TT_StartRecordingMuxedStreams(rxclient, sts, &ac, recordfilename, AFF_WAVE_FORMAT));
+        std::array<TTCHAR, TT_STRLEN> recordfilename{};
+        ACE_OS::snprintf(recordfilename.data(), recordfilename.size(), ACE_TEXT("recordvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        REQUIRE(TT_StartRecordingMuxedStreams(rxclient, sts, &ac, recordfilename.data(), AFF_WAVE_FORMAT));
 
         MediaFilePlayback mfp = {};
         mfp.bPaused = FALSE;
@@ -488,8 +489,8 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
 
         MediaFileInfo mfi1, mfi2, mfi3;
         REQUIRE(TT_GetMediaFileInfo(mfi.szFileName, &mfi1));
-        REQUIRE(TT_GetMediaFileInfo(wavfilename, &mfi2));
-        REQUIRE(TT_GetMediaFileInfo(recordfilename, &mfi3));
+        REQUIRE(TT_GetMediaFileInfo(wavfilename.data(), &mfi2));
+        REQUIRE(TT_GetMediaFileInfo(recordfilename.data(), &mfi3));
 
         // local playback uses a 40 msec
         int localplayback_interval = txinterval * (PB_FRAMEDURATION_MSEC / txinterval);
@@ -677,32 +678,32 @@ TEST_CASE("MaxChannels")
 
 TEST_CASE("Last voice packet - wav files")
 {
-    TTCHAR curdir[1024] = {};
-    ACE_OS::getcwd(curdir, 1024);
+    std::array<TTCHAR, 1024> curdir{};
+    ACE_OS::getcwd(curdir.data(), curdir.size());
 
 
     //clean up wav files from previous runs
     //they are not deleted after the test, so they are available for inspection afterwards
     ACE_TCHAR delim = ACE_DIRECTORY_SEPARATOR_CHAR;
-    ACE_OS::strncat(curdir, &delim, 1);
-    ACE_OS::strncat(curdir, ACE_TEXT("wav"), 4);
+    ACE_OS::strncat(curdir.data(), &delim, 1);
+    ACE_OS::strncat(curdir.data(), ACE_TEXT("wav"), 4);
 
     ACE_stat fileInfo;
-    ACE_DIR* dir = ACE_OS::opendir(curdir);
+    ACE_DIR* dir = ACE_OS::opendir(curdir.data());
     if (!dir)
     {
-        ACE_OS::mkdir(curdir);
-        dir = ACE_OS::opendir(curdir);
+        ACE_OS::mkdir(curdir.data());
+        dir = ACE_OS::opendir(curdir.data());
     }
     REQUIRE(dir);
 
-    if (ACE_OS::stat(curdir, &fileInfo) == -1)
+    if (ACE_OS::stat(curdir.data(), &fileInfo) == -1)
     {
-        ACE_OS::mkdir(curdir);
-        dir = ACE_OS::opendir(curdir);
+        ACE_OS::mkdir(curdir.data());
+        dir = ACE_OS::opendir(curdir.data());
     }
     dirent* dirInfo = ACE_OS::readdir(dir);
-    ACE_TCHAR fileToDelete[1024]{};
+    std::array<ACE_TCHAR, 1024> fileToDelete{};
     do
     {
         if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
@@ -710,16 +711,16 @@ TEST_CASE("Last voice packet - wav files")
             continue;
         }
 
-        TTCHAR buf[1024]{};
-        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
-        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+        std::array<TTCHAR, 1024> buf{};
+        ACE_OS::strncpy(buf.data(), dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf.data(), ACE_TEXT(".wav"), 4);
 
         if (index == 0)
         {
-            ACE_OS::strncpy(fileToDelete, curdir, 1024);
-            ACE_OS::strncat(fileToDelete, &delim, 1);
-            ACE_OS::strncat(fileToDelete, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
-            ACE_OS::unlink(fileToDelete);
+            ACE_OS::strncpy(fileToDelete.data(), curdir.data(), fileToDelete.size());
+            ACE_OS::strncat(fileToDelete.data(), &delim, 1);
+            ACE_OS::strncat(fileToDelete.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+            ACE_OS::unlink(fileToDelete.data());
         }
 
 
@@ -786,7 +787,7 @@ TEST_CASE("Last voice packet - wav files")
         REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
 
         REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
-        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir, ACE_TEXT(""), AFF_WAVE_FORMAT));
+        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
         auto voicestop = [&](TTMessage msg)
             {
@@ -828,7 +829,7 @@ TEST_CASE("Last voice packet - wav files")
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
     long long fileSize = -1;
-    dir = ACE_OS::opendir(curdir);
+    dir = ACE_OS::opendir(curdir.data());
     dirInfo = ACE_OS::readdir(dir);
     do
     {
@@ -837,18 +838,18 @@ TEST_CASE("Last voice packet - wav files")
             continue;
         }
 
-        TTCHAR buf[1024]{};
-        ACE_OS::strncpy(buf, dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
-        int index = ACE_OS::strncmp(buf, ACE_TEXT(".wav"), 4);
+        std::array<TTCHAR, 1024> buf{};
+        ACE_OS::strncpy(buf.data(), dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
+        int index = ACE_OS::strncmp(buf.data(), ACE_TEXT(".wav"), 4);
 
-        ACE_TCHAR fileToCheck[1024]{};
+        std::array<ACE_TCHAR, 1024> fileToCheck{};
         if (index == 0)
         {
-            ACE_OS::strncpy(fileToCheck, curdir, 1024);
-            ACE_OS::strncat(fileToCheck, &delim, 1);
-            ACE_OS::strncat(fileToCheck, dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
+            ACE_OS::strncpy(fileToCheck.data(), curdir.data(), fileToCheck.size());
+            ACE_OS::strncat(fileToCheck.data(), &delim, 1);
+            ACE_OS::strncat(fileToCheck.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
 
-            if (ACE_OS::stat(fileToCheck, &fileInfo) != -1)
+            if (ACE_OS::stat(fileToCheck.data(), &fileInfo) != -1)
             {
                 if (fileSize == -1)
                 {

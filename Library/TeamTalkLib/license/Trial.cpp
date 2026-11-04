@@ -30,6 +30,7 @@
 #include <ace/INet/HTTP_URL.h>
 #include <ace/Thread_Manager.h>
 
+#include <array>
 #include <atomic>
 #include <cassert>
 #include <cstdint>
@@ -68,14 +69,15 @@ void LicenseCheck()
 #if defined(WIN32)
 ACE_TString GetProcessName()
 {
-    ACE_TCHAR buff[MAX_PATH] = ACE_TEXT(""), *p;
-    GetModuleFileName(NULL, buff, MAX_PATH);
+    std::array<ACE_TCHAR, MAX_PATH> buff{};
+    ACE_TCHAR* p;
+    GetModuleFileName(NULL, buff.data(), MAX_PATH);
 
-    p = ACE_OS::strrchr(buff, ACE_DIRECTORY_SEPARATOR_CHAR);
+    p = ACE_OS::strrchr(buff.data(), ACE_DIRECTORY_SEPARATOR_CHAR);
     if(p)
         return ++p;
 
-    return buff;
+    return buff.data();
 }
 #elif defined(ACE_ANDROID)
 extern char *__progname;

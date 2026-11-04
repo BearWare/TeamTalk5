@@ -32,7 +32,7 @@
 #include <cstddef>
 #include <mutex>
 
-constexpr size_t INTMSG_MAX_SIZE = (0x7F000000);
+constexpr size_t INTMSG_MAX_SIZE = 0x7F000000;
 /*
  * Message queue must be able to handle initial login where there's max number
  * of channels, max number of users and all users are in channels, as well as
@@ -157,7 +157,7 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             else
                 m_suspended = suspend = true;
 
-            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), int(suspend));
+            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), static_cast<int>(suspend));
         }
         else if (m_event_queue.message_bytes() + mb->size() <= INTMSG_SUSPEND_SIZE)
         {
@@ -172,7 +172,7 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
                 m_suspended = suspend = true;
 
             auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
-            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, int(suspend));
+            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, static_cast<int>(suspend));
         }
         MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"), this, old_size, m_event_queue.message_bytes());
     }
@@ -622,7 +622,7 @@ void TTMsgQueue::OnChannelStreamMediaFile(const MediaFileProp& mfp,
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_STREAM_MEDIAFILE,
                                      0, __MEDIAFILEINFO);
     Convert(mfp, *msg->mediafileinfo);
-    msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    msg->mediafileinfo->nStatus = static_cast<MediaFileStatus>(status);
     EnqueueMsg(mb);
 }
 
@@ -633,7 +633,7 @@ void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mf
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_LOCAL_MEDIAFILE,
         sessionid, __MEDIAFILEINFO);
     Convert(mfp, *msg->mediafileinfo);
-    msg->mediafileinfo->nStatus = (MediaFileStatus)status;
+    msg->mediafileinfo->nStatus = static_cast<MediaFileStatus>(status);
     EnqueueMsg(mb);
 }
 
@@ -651,7 +651,7 @@ void TTMsgQueue::OnUserAudioBlock(int userid, teamtalk::StreamTypes sts)
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_USER_AUDIOBLOCK,
                                      userid, __STREAMTYPE);
-    *msg->streamtype = (StreamType)sts;
+    *msg->streamtype = static_cast<StreamType>(sts);
     EnqueueMsg(mb);
 }
 

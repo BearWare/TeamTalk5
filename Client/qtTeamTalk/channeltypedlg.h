@@ -26,6 +26,8 @@ class QCheckBox;
 
 class ChannelTypeDlg : public QDialog
 {
+    Q_OBJECT
+
 public:
     explicit ChannelTypeDlg(ChannelTypes channelType, QWidget* parent = nullptr);
 

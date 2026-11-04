@@ -160,6 +160,7 @@ public class TeamTalkService extends Service
     private final IBinder mBinder = new LocalBinder();
 
     private BluetoothHeadsetHelper bluetoothHeadsetHelper;
+    private boolean microphoneSelected;
     private TelephonyManager telephonyManager;
     OnVoiceTransmissionToggleListener onVoiceTransmissionToggleListener;
     private boolean listeningPhoneStateChanges;
@@ -395,7 +396,7 @@ public class TeamTalkService extends Service
                 Intent ui = new Intent(this, MainActivity.class);
                 ui.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                    NotificationChannel mChannel = new NotificationChannel(UI_CHANNEL_ID, "Teamtalk connection", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationChannel mChannel = new NotificationChannel(UI_CHANNEL_ID, getString(R.string.notification_channel_connection), NotificationManager.IMPORTANCE_DEFAULT);
                     mChannel.enableVibration(false);
                     mChannel.setVibrationPattern(null);
                     mChannel.enableLights(false);
@@ -543,7 +544,8 @@ public class TeamTalkService extends Service
     /** When "use bluetooth headset microphone" is on and headset SCO is active, use VOICECOM
      * so that input is routed to the Bluetooth headset mic. */
 	private int getPreferredSoundInputDeviceId() {
-		return shouldUseBluetoothVoiceCom()
+		// a selected microphone is routed as voice communication audio
+		return shouldUseBluetoothVoiceCom() || microphoneSelected
 				? SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_VOICECOM
 				: SoundDeviceConstants.TT_SOUNDDEVICE_ID_OPENSLES_DEFAULT;
 	}
@@ -563,6 +565,14 @@ public class TeamTalkService extends Service
 		return bluetoothHeadsetHelper.isHeadsetConnected()
 				&& bluetoothHeadsetHelper.isOnHeadsetSco();
 	}
+
+    /** Record from the voice communication device when a microphone is selected in preferences. */
+    public void setMicrophoneSelected(boolean selected) {
+        if (microphoneSelected == selected)
+            return;
+        microphoneSelected = selected;
+        reinitSoundInputDevice();
+    }
 
     /** Re-initialize sound input with the preferred device (e.g. after SCO connect/disconnect). */
     private void reinitSoundInputDevice() {
@@ -1036,7 +1046,7 @@ public class TeamTalkService extends Service
 
         String name = Utils.getDisplayName(getBaseContext(), user);
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-            name + " " + getResources().getString(R.string.text_cmd_userloggedin));
+            getResources().getString(R.string.text_cmd_userloggedin, name));
         getChatLogTextMsgs().add(msg);
 
         // sync weblogin user settings from cache
@@ -1049,7 +1059,7 @@ public class TeamTalkService extends Service
 
         String name = Utils.getDisplayName(getBaseContext(), user);
         MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-            name + " " + getResources().getString(R.string.text_cmd_userloggedout));
+            getResources().getString(R.string.text_cmd_userloggedout, name));
         getChatLogTextMsgs().add(msg);
 
         // sync user settings to cache
@@ -1098,7 +1108,7 @@ public class TeamTalkService extends Service
             
             String name = Utils.getDisplayName(getBaseContext(), user);
             MyTextMessage msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                name + " " + getResources().getString(R.string.text_cmd_userjoinchan));
+                getResources().getString(R.string.text_cmd_userjoinchan, name));
             getChatLogTextMsgs().add(msg);
         }
         
@@ -1142,7 +1152,7 @@ public class TeamTalkService extends Service
                 // other user left current channel
                 String name = Utils.getDisplayName(getBaseContext(), user);
                 msg = MyTextMessage.createLogMsg(MyTextMessage.MSGTYPE_LOG_INFO,
-                    name + " " + getResources().getString(R.string.text_cmd_userleftchan));                
+                    getResources().getString(R.string.text_cmd_userleftchan, name));                
             }
             getChatLogTextMsgs().add(msg);
         }

@@ -1290,7 +1290,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextedit.cpp" line="438"/>
         <source>&amp;Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yanıtla</translation>
     </message>
     <message>
         <location filename="../chattextedit.cpp" line="442"/>
@@ -1356,7 +1356,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="403"/>
         <source>&amp;Reply</source>
-        <translation type="unfinished"></translation>
+        <translation>&amp;Yanıtla</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="404"/>

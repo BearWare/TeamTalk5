@@ -14,6 +14,14 @@ if (MSVC)
   set (PRISM_STATIC_LIB_MD ${PRISM_INSTALL_DIR_MD}/lib/prism.lib)
   set (PRISM_STATIC_LIB_MT ${PRISM_INSTALL_DIR_MT}/lib/prism.lib)
 
+  if (CMAKE_SIZEOF_VOID_P EQUAL 8)
+    set (PRISM_DELAYLOAD_OPTIONS /delayload:ZDSRAPI_x64.dll /delayload:byctrl-x64.dll)
+  else()
+    set (PRISM_DELAYLOAD_OPTIONS /delayload:ZDSRAPI.dll /delayload:byctrl.dll)
+  endif()
+  list (APPEND PRISM_DELAYLOAD_OPTIONS /delayload:PCTKUSR.dll
+    /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
+
   ExternalProject_Add(prism-md-src
     GIT_REPOSITORY    https://github.com/ethindp/prism.git
     GIT_TAG           v0.17.1
@@ -75,9 +83,7 @@ if (MSVC)
     Prism_ZDSR Prism_byctrl Prism_PCTalker Prism_PrismOrcaBridge Prism_PrismSpeechDispatcherBridge)
   target_link_options(Prism INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:Prism>"
-    /delayload:ZDSRAPI_x64.dll
-    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
-    /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
+    ${PRISM_DELAYLOAD_OPTIONS})
 
   file(MAKE_DIRECTORY ${PRISM_INSTALL_DIR_MT}/include)
 
@@ -101,9 +107,7 @@ if (MSVC)
     PrismMT_ZDSR PrismMT_byctrl PrismMT_PCTalker PrismMT_PrismOrcaBridge PrismMT_PrismSpeechDispatcherBridge)
   target_link_options(PrismMT INTERFACE
     "/WHOLEARCHIVE:$<TARGET_LINKER_FILE:PrismMT>"
-    /delayload:ZDSRAPI_x64.dll
-    /delayload:byctrl-x64.dll /delayload:PCTKUSR.dll
-    /delayload:prism_orca_bridge.dll /delayload:prism_speech_dispatcher_bridge.dll)
+    ${PRISM_DELAYLOAD_OPTIONS})
 
 elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
 

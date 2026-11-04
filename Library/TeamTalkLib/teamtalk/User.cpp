@@ -39,16 +39,16 @@ namespace teamtalk {
         MYTRACE(ACE_TEXT("~User() - \"%s\"\n"), m_nickname.c_str());
     }
 
-    void User::UpdateLastTimeStamp(ACE_UINT32 tm)
+    void User::UpdateLastTimeStamp(uint32_t tm)
     {
-        if(!m_tm_ok || W32_GEQ(GetLastTimeStamp(), m_timestamp))
+        if(!m_tm_ok || W32_GEQ(tm, m_timestamp))
         {
             m_timestamp = tm;
             m_tm_ok = true;
         }
     }
 
-    void User::UpdateLastTimeStamp(PacketKind packet_kind, ACE_UINT32 tm)
+    void User::UpdateLastTimeStamp(PacketKind packet_kind, uint32_t tm)
     {
         UpdateLastTimeStamp(tm);
         auto const ii = m_pkt_timestamps.find(packet_kind);
@@ -58,22 +58,22 @@ namespace teamtalk {
 
     void User::UpdateLastTimeStamp(const FieldPacket& pkt)
     {
-        UpdateLastTimeStamp((PacketKind)pkt.GetKind(), pkt.GetTime());
+        UpdateLastTimeStamp(static_cast<PacketKind>(pkt.GetKind()), pkt.GetTime());
     }
 
-    ACE_UINT32 User::GetLastTimeStamp(bool* is_set/* = NULL*/) const
+    uint32_t User::GetLastTimeStamp(bool* is_set/* = NULL*/) const
     {
         if(is_set != nullptr)
             *is_set = m_tm_ok;
         return m_timestamp;
     }
 
-    ACE_UINT32 User::GetLastTimeStamp(const FieldPacket& pkt, bool* is_set/* = NULL*/) const
+    uint32_t User::GetLastTimeStamp(const FieldPacket& pkt, bool* is_set/* = NULL*/) const
     {
-        return GetLastTimeStamp((PacketKind)pkt.GetKind(), is_set);
+        return GetLastTimeStamp(static_cast<PacketKind>(pkt.GetKind()), is_set);
     }
 
-    ACE_UINT32 User::GetLastTimeStamp(PacketKind packet_kind, bool* is_set/* = NULL*/) const
+    uint32_t User::GetLastTimeStamp(PacketKind packet_kind, bool* is_set/* = NULL*/) const
     {
         auto const ii = m_pkt_timestamps.find(packet_kind);
         if(ii != m_pkt_timestamps.end())

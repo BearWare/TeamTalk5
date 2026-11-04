@@ -87,15 +87,15 @@ namespace teamtalk {
     {
         ACE_TString systemid;
         ACE_TString version;
-        bool autosave = false;;
+        bool autosave = false;
         ACE_TString motd;
         ACE_TString servername;
         int maxusers = 0;
         int maxloginattempts = 0; //max login attempts with wrong password
         int max_logins_per_ipaddr = 0;
         int logindelay = 0; // msec before IP-address can log in again
-        ACE_INT64 diskquota = 0; //max bytes for each channel to store files
-        ACE_INT64 maxdiskusage = 0; //max bytes to use for storage of files
+        int64_t diskquota = 0; //max bytes for each channel to store files
+        int64_t maxdiskusage = 0; //max bytes to use for storage of files
         int usertimeout = 0;
         int voicetxlimit = 0;
         int videotxlimit = 0;
@@ -108,33 +108,33 @@ namespace teamtalk {
 
     struct ServerStats
     {
-        ACE_INT64 total_bytessent = 0;
-        ACE_INT64 total_bytesreceived = 0;
-        ACE_INT64 last_bytessent = 0;
-        ACE_INT64 last_bytesreceived = 0;
-        ACE_INT64 avg_bytessent = 0;
-        ACE_INT64 avg_bytesreceived = 0;
-        ACE_INT64 voice_bytesreceived = 0;
-        ACE_INT64 voice_bytessent = 0;
-        ACE_INT64 last_voice_bytessent = 0;
-        ACE_INT64 vidcap_bytesreceived = 0;
-        ACE_INT64 vidcap_bytessent = 0;
-        ACE_INT64 last_vidcap_bytessent = 0;
-        ACE_INT64 mediafile_bytesreceived = 0;
-        ACE_INT64 mediafile_bytessent = 0;
-        ACE_INT64 last_mediafile_bytessent = 0;
-        ACE_INT64 desktop_bytesreceived = 0;
-        ACE_INT64 desktop_bytessent = 0;
-        ACE_INT64 last_desktop_bytessent = 0;
-        ACE_INT64 files_bytesreceived = 0;
-        ACE_INT64 files_bytessent = 0;
+        int64_t total_bytessent = 0;
+        int64_t total_bytesreceived = 0;
+        int64_t last_bytessent = 0;
+        int64_t last_bytesreceived = 0;
+        int64_t avg_bytessent = 0;
+        int64_t avg_bytesreceived = 0;
+        int64_t voice_bytesreceived = 0;
+        int64_t voice_bytessent = 0;
+        int64_t last_voice_bytessent = 0;
+        int64_t vidcap_bytesreceived = 0;
+        int64_t vidcap_bytessent = 0;
+        int64_t last_vidcap_bytessent = 0;
+        int64_t mediafile_bytesreceived = 0;
+        int64_t mediafile_bytessent = 0;
+        int64_t last_mediafile_bytessent = 0;
+        int64_t desktop_bytesreceived = 0;
+        int64_t desktop_bytessent = 0;
+        int64_t last_desktop_bytessent = 0;
+        int64_t files_bytesreceived = 0;
+        int64_t files_bytessent = 0;
 
         int userspeak = 0;
         int usersservered = 0;
         //uptime
         ACE_Time_Value starttime;
         
-        ACE_INT64 packets_received = 0, packets_sent = 0; // only used internally
+        int64_t packets_received = 0, packets_sent = 0; // only used internally
 
         ServerStats() = default;
     };
@@ -169,7 +169,7 @@ namespace teamtalk {
         USERTYPE_ADMIN        = 0x02,
     };
 
-    using UserTypes = ACE_UINT32;
+    using UserTypes = uint32_t;
 
     /* Remember to updated DLL header file when modifying this */
     enum UserRight
@@ -219,7 +219,7 @@ namespace teamtalk {
         USERRIGHT_KNOWN_MASK                = ~0xFF000000
     };
 
-    using UserRights = ACE_UINT32;
+    using UserRights = uint32_t;
 
     struct Abuse
     {
@@ -273,7 +273,7 @@ namespace teamtalk {
         BANTYPE_USERNAME        = 0x04,
         BANTYPE_DEFAULT = BANTYPE_IPADDR,
     };
-    using BanTypes = ACE_UINT32;
+    using BanTypes = uint32_t;
 
     struct BannedUser
     {
@@ -311,7 +311,7 @@ namespace teamtalk {
         STREAMTYPE_ALL                      = 0x0000ffff,
     };
 
-    using StreamTypes = ACE_UINT32;
+    using StreamTypes = uint32_t;
 
 
     enum FileTransferStatus
@@ -331,8 +331,8 @@ namespace teamtalk {
         ACE_TString localfile;
         ACE_TString filename;
         int userid = 0;
-        ACE_INT64 filesize = 0;
-        ACE_INT64 transferred = 0;
+        int64_t filesize = 0;
+        int64_t transferred = 0;
         int transferid = 0;
         bool inbound = true;
         ACE_TString transferkey;
@@ -351,48 +351,48 @@ namespace teamtalk {
 
     struct SpeexCodec
     {
-        int bandmode;
-        int quality;
-        int frames_per_packet;
-        bool sim_stereo;
+        int bandmode = 0;
+        int quality = 0;
+        int frames_per_packet = 0;
+        bool sim_stereo = false;
     };
     
     struct SpeexVBRCodec
     {
-        int bandmode;
-        int vbr_quality;
-        int bitrate;
-        int max_bitrate;
-        bool dtx;
-        int frames_per_packet;
-        bool sim_stereo;
+        int bandmode = 0;
+        int vbr_quality = 0;
+        int bitrate = 0;
+        int max_bitrate = 0;
+        bool dtx = false;
+        int frames_per_packet = 0;
+        bool sim_stereo = false;
     };
 
     struct OpusCodec
     {
-        int samplerate;
-        int channels;
-        int application;
-        int complexity;
-        bool fec;
-        bool dtx;
-        int bitrate;
-        bool vbr;
-        bool vbr_constraint;
-        int frame_size;
-        int frames_per_packet;
+        int samplerate = 0;
+        int channels = 0;
+        int application = 0;
+        int complexity = 0;
+        bool fec = false;
+        bool dtx = false;
+        int bitrate = 0;
+        bool vbr = false;
+        bool vbr_constraint = false;
+        int frame_size = 0;
+        int frames_per_packet = 0;
     };
 
     struct AudioCodec
     {
-        Codec codec;
+        Codec codec = CODEC_NO_CODEC;
         union
         {
             SpeexCodec speex;
             SpeexVBRCodec speex_vbr;
             OpusCodec opus;
         };
-        AudioCodec() : codec(CODEC_NO_CODEC)
+        AudioCodec()
         {
             //ensure that codecs can be compared using memcmp
             memset(this, 0, sizeof(AudioCodec));
@@ -417,7 +417,7 @@ namespace teamtalk {
         }
         bool operator!=(const AudioCodec& ch) const
         {
-            return (ch == *this) == false;
+            return (ch == *this) == false; // NOLINT(readability-simplify-boolean-expr) operator!= results in infinite recursion
         }
     };
 
@@ -425,8 +425,7 @@ namespace teamtalk {
     {
         bool enable_agc{false};
         int gain_level{0};
-        AudioConfig()
-             { }
+        AudioConfig() = default;
     };
 
     struct SpeexDSP
@@ -438,7 +437,7 @@ namespace teamtalk {
         int agc_maxgaindb = 0;
         bool enable_denoise = false;
         int maxnoisesuppressdb = 0;
-        bool enable_aec = 0;
+        bool enable_aec = false;
         int aec_suppress_level = 0;
         int aec_suppress_active = 0;
 
@@ -486,8 +485,8 @@ namespace teamtalk {
 
     struct WebMVP8Codec
     {
-        int rc_target_bitrate; /* 0 = 256 kbit/sec */
-        unsigned long encode_deadline; /* 0 = VPX_DL_BEST_QUALITY */
+        int rc_target_bitrate = 0; /* 0 = 256 kbit/sec */
+        unsigned long encode_deadline = 0; /* 0 = VPX_DL_BEST_QUALITY */
     };
 
     struct VideoCodec
@@ -509,7 +508,7 @@ namespace teamtalk {
         int fileid = 0;
         ACE_TString filename;
         ACE_TString internalname;
-        ACE_INT64 filesize;
+        int64_t filesize;
         ACE_TString username;
         ACE_Time_Value uploadtime;
         RemoteFile();
@@ -534,18 +533,12 @@ namespace teamtalk {
 
     struct DesktopWindow
     {
-        int session_id;
-        int width;
-        int height;
-        RGBMode rgb_mode;
-        DesktopProtocol desktop_protocol;
-        DesktopWindow()
-            : session_id(0)
-            , width(0)
-            , height(0)
-            , rgb_mode(BMP_NONE)
-            , desktop_protocol(DESKTOPPROTOCOL_NONE)
-        {}
+        int session_id = 0;
+        int width = 0;
+        int height = 0;
+        RGBMode rgb_mode = BMP_NONE;
+        DesktopProtocol desktop_protocol = DESKTOPPROTOCOL_NONE;
+        DesktopWindow() = default;
         DesktopWindow(int s_id, int w, int h, RGBMode mode, 
                       DesktopProtocol dskproto)
             : session_id(s_id)
@@ -570,7 +563,7 @@ namespace teamtalk {
         CHANNEL_HIDDEN              = 0x0040,
     };
 
-    using ChannelTypes = ACE_UINT32;
+    using ChannelTypes = uint32_t;
 
     using transmitusers_t = std::map< StreamType, std::set<int> >;
 
@@ -580,7 +573,7 @@ namespace teamtalk {
         ACE_TString passwd;
         ACE_TString topic;
         ACE_TString oppasswd;
-        ACE_INT64 diskquota = 0;
+        int64_t diskquota = 0;
         int maxusers = MAX_USERS_IN_CHANNEL;
         bool bProtected = false;
         std::set<int> setops;
@@ -590,7 +583,7 @@ namespace teamtalk {
         AudioConfig audiocfg;
         files_t files;
         ChannelTypes chantype = CHANNEL_DEFAULT;
-        ACE_UINT32 chankey = 0;
+        uint32_t chankey = 0;
         int userdata = 0;
         transmitusers_t transmitusers;
         std::vector<int> transmitqueue;
@@ -625,13 +618,13 @@ namespace teamtalk {
         KEYSTATE_UP         = 0x00000002,
     };
 
-    using KeyStateMask = ACE_UINT32;
+    using KeyStateMask = uint32_t;
 
     struct DesktopInput
     {
-        ACE_UINT16 x = -1;
-        ACE_UINT16 y = -1;
-        ACE_UINT32 keycode = -1;
+        uint16_t x = -1;
+        uint16_t y = -1;
+        uint32_t keycode = -1;
         KeyStateMask keystate = KEYSTATE_NONE;
         DesktopInput() = default;
     };
@@ -666,7 +659,7 @@ namespace teamtalk {
 
     /* Remember to updated DLL header file when modifying this.
      * If more than 16 bits ServerUser subscription model will be broken. */
-    enum
+    enum Subscribe
     {
         SUBSCRIBE_NONE                                  = 0x00000000,
         SUBSCRIBE_USER_MSG                              = 0x00000001,
@@ -704,7 +697,7 @@ namespace teamtalk {
         SUBSCRIBE_INTERCEPT_ALL                         = 0x017B0000,
     };
 
-    using Subscriptions = ACE_UINT32;
+    using Subscriptions = uint32_t;
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in);
     int SumFrameSizes(const std::vector<uint16_t>& in);
@@ -713,8 +706,8 @@ namespace teamtalk {
 
 constexpr auto TRANSMITUSERS_FREEFORALL = 0xFFF;
 
-constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return ((int16_t)((a)-(b)) >= 0); }
-constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) > 0); }
-constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return ((int8_t)((a)-(b)) >= 0); }
+static constexpr auto PACKETNO_GEQ(uint16_t a, uint16_t b) { return static_cast<int16_t>(a-b) >= 0; }
+static constexpr auto STREAMID_GT(uint8_t a, uint8_t b) { return static_cast<int8_t>(a-b) > 0; }
+static constexpr auto SESSIONID_GEQ(uint8_t a, uint8_t b) { return static_cast<int8_t>(a-b) >= 0; }
 } // namespace teamtalk
 #endif

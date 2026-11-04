@@ -34,11 +34,11 @@ typedef BITMAPFILEHEADER BitmapFileHeader;
 #else
 struct BitmapFileHeader
 {
-    ACE_UINT16 bfType;
-    ACE_UINT32 bfSize;
-    ACE_UINT16 bfReserved1;
-    ACE_UINT16 bfReserved2;
-    ACE_UINT32 bfOffBits;
+    uint16_t bfType;
+    uint32_t bfSize;
+    uint16_t bfReserved1;
+    uint16_t bfReserved2;
+    uint32_t bfOffBits;
 } __attribute__((packed));
 #endif
 
@@ -47,22 +47,22 @@ typedef BITMAPINFOHEADER BitmapInfoHeader;
 #else
 struct BitmapInfoHeader
 {
-    ACE_UINT32 biSize;
-    ACE_INT32  biWidth;
-    ACE_INT32  biHeight;
-    ACE_UINT16 biPlanes;
-    ACE_UINT16 biBitCount;
-    ACE_UINT32 biCompression;
-    ACE_UINT32 biSizeImage;
-    ACE_INT32  biXPelsPerMeter;
-    ACE_INT32  biYPelsPerMeter;
-    ACE_UINT32 biClrUsed;
-    ACE_UINT32 biClrImportant;
+    uint32_t biSize;
+    int32_t  biWidth;
+    int32_t  biHeight;
+    uint16_t biPlanes;
+    uint16_t biBitCount;
+    uint32_t biCompression;
+    uint32_t biSizeImage;
+    int32_t  biXPelsPerMeter;
+    int32_t  biYPelsPerMeter;
+    uint32_t biClrUsed;
+    uint32_t biClrImportant;
 };
 #endif
 
-const int BMPHDR_SIZE = 14;
-const int BMIHEADER_SIZE = 40;
+constexpr int BMPHDR_SIZE = 14;
+constexpr int BMIHEADER_SIZE = 40;
 
 bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
                  const char* data, int size)
@@ -72,7 +72,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
     assert(BMPHDR_SIZE == sizeof(bmphdr));
 
     bmphdr.bfType        = 0x4d42;   // 'BM' WINDOWS_BITMAP_SIGNATURE
-    bmphdr.bfSize        = (((3 * fmt.width + 3) & ~3) * fmt.height)
+    bmphdr.bfSize        = ((((3 * fmt.width) + 3) & ~3) * fmt.height)
                            + BMPHDR_SIZE + BMIHEADER_SIZE;
     bmphdr.bfReserved1    = bmphdr.bfReserved2 = 0;
     bmphdr.bfOffBits      = BMPHDR_SIZE + BMIHEADER_SIZE;
@@ -96,7 +96,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
         return false;
     }
     bmiHeader.biCompression = 0; //BI_RGB;
-    bmiHeader.biSizeImage = (ACE_UINT32)size;
+    bmiHeader.biSizeImage = static_cast<uint32_t>(size);
 
     MyFile bmpfile;
     if (!bmpfile.NewFile(filename))
@@ -150,8 +150,8 @@ std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat&
     if (bmiHeader.biSizeImage == 0)
     {
         if (bmpfile.Seek(0, std::ios_base::end)) {
-            bmiHeader.biSizeImage = uint32_t(bmpfile.Tell());
-            bmiHeader.biSizeImage -= uint32_t(startpos);
+            bmiHeader.biSizeImage = static_cast<uint32_t>(bmpfile.Tell());
+            bmiHeader.biSizeImage -= static_cast<uint32_t>(startpos);
         }
     }
     bmpfile.Seek(startpos, std::ios_base::beg);

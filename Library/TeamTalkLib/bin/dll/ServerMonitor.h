@@ -32,7 +32,6 @@ class ServerMonitor : public teamtalk::ServerNodeListener
 {
 public:
     ServerMonitor();
-    virtual ~ServerMonitor();
 
     void OnUserConnected(const teamtalk::ServerUser& user) override;
     void OnUserLogin(const teamtalk::ServerUser& user) override;

@@ -24,9 +24,9 @@
 #include "ServerChannel.h"
 
 #include "ServerUser.h"
-#include "teamtalk/TTAssert.h"
-#include "teamtalk/Common.h"
 #include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+#include "teamtalk/TTAssert.h"
 
 #include <algorithm>
 
@@ -61,7 +61,7 @@ void ServerChannel::Init()
     SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
 }
 
-constexpr auto STREAMKEY(int uid, int tx)
+static constexpr auto STREAMKEY(int uid, int tx)
 {
     return (uid << 16) | tx;
 }
@@ -82,7 +82,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 
     if (!PARENT::CanTransmit(userid, txtype))
     {
-        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u)
+        if ((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
         {
             // If transmitter is head we have to trigger channel update
             if (ClearFromTransmitQueue(userid) && (modified != nullptr))
@@ -95,8 +95,11 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         return false;
     }
 
-    if (newstreamid || (streamid == 0)) // !streamid handles SERVER_USERID
+    if (newstreamid || (streamid == 0))
+    {
+        // !streamid handles SERVER_USERID
         m_streamstart[streamkey] = ACE_OS::gettimeofday();
+    }
     else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
@@ -112,7 +115,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         return false;
     }
 
-    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != 0u) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
+    if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
     {
         //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 
@@ -141,7 +144,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         
                     ClearFromTransmitQueue(head_userid);
             BlockAudioStream(head_userid);
-            if (modified)
+            if (modified != nullptr)
                 *modified = true;
             return CanTransmit(userid, txtype, streamid, modified);
        
@@ -187,7 +190,7 @@ void ServerChannel::UpdateChannelBans()
 {
     for (auto& b : m_bans)
     {
-        if ((b.bantype & BANTYPE_CHANNEL) != 0u)
+        if ((b.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             b.chanpath = GetChannelPath();
     }
 }
@@ -203,9 +206,9 @@ bool ServerChannel::IsOwner(const ServerUser& user) const
     return user.GetUserAccount().IsWebLogin() && m_usernameOwner == user.GetUserAccount().username;
 }
 
-bool ServerChannel::IsAutoOperator(const ServerUser& user) 
+bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 {
-    return user.GetUserAccount().auto_op_channels.contains(user.GetUserID());
+    return user.GetUserAccount().auto_op_channels.contains(GetChannelID());
 }
 
 void ServerChannel::AddUserBan(const BannedUser& ban)

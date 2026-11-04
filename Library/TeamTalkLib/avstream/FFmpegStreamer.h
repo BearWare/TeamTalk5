@@ -59,13 +59,13 @@ private:
     int64_t ProcessAudioBuffer(struct AVFilterContext* aud_buffersink_ctx,
                                struct AVFrame* filt_frame,
                                struct AVStream* aud_stream,
-                               ACE_UINT32 start_time,
-                               ACE_UINT32& start_offset);
+                               uint32_t start_time,
+                               uint32_t& start_offset);
     int64_t ProcessVideoBuffer(struct AVFilterContext* vid_buffersink_ctx,
                                struct AVFrame* filt_frame,
                                struct AVStream* vid_stream,
-                               ACE_UINT32 start_time,
-                               ACE_UINT32& start_offset);
+                               uint32_t start_time,
+                               uint32_t& start_offset);
 };
 
 bool OpenInput(const ACE_TString& filename,

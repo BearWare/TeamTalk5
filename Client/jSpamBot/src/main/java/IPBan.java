@@ -23,7 +23,6 @@
 
 import dk.bearware.BanType;
 import dk.bearware.BannedUser;
-import dk.bearware.TeamTalkBase;
 import dk.bearware.UserAccount;
 
 import java.io.BufferedReader;
@@ -31,12 +30,9 @@ import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
 import java.time.Duration;
-import java.time.ZoneId;
-import java.time.ZonedDateTime;
+import java.time.Instant;
 import java.util.Vector;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 public class IPBan {
     TimeProvider time;
@@ -56,16 +52,6 @@ public class IPBan {
         this.networks = networks;
         this.banDuration = banDuration;
         this.logger = log;
-    }
-
-    static void setBanTime(BannedUser ban) {
-        ZonedDateTime now = ZonedDateTime.now(ZoneId.of("UTC"));
-        ban.szBanTime = String.format("%04d/%02d/%02d %02d:%02d",
-                now.getYear(),
-                now.getMonthValue(),
-                now.getDayOfMonth(),
-                now.getHour(),
-                now.getMinute());
     }
 
     public static Vector<String> loadFile(String filename, Logger log) {
@@ -98,14 +84,14 @@ public class IPBan {
         serverbans.add(ban);
     }
 
-    public void addLocalBan(BannedUser ban, TeamTalkBase ttinst) {
-        UserAccount ua = new UserAccount();
-        ttinst.getMyUserAccount(ua);
-        ban.szOwner = ua.szUsername;
-        setBanTime(ban);
+    // a "local ban" is a ban issued by the spambot
+    public void addLocalBan(BannedUser ban, BanProvider banner) {
+        ban.szOwner = banner.banOwner().szUsername;
+        ban.szBanTime = TimeUtil.instantToBanTime(time.now());
         addRemoteBan(ban);
     }
 
+    // a "remote ban" that exists on the remote server
     public void addRemoteBan(BannedUser ban) {
         addBan(ban);
     }
@@ -114,16 +100,13 @@ public class IPBan {
         this.serverbans.remove(ban);
     }
 
-    public int syncBans(TeamTalkBase ttinst) {
-        // WebLogin name (spambot@bearware.dk)
-        UserAccount ua = new UserAccount();
-        ttinst.getMyUserAccount(ua);
+    public int syncBans(BanProvider banner) {
 
         // make list of network bans created by spambot
         Vector<BannedUser> mybans = new Vector<>();
         Vector<String> ipaddrs = new Vector<>();
         for (BannedUser b : this.serverbans) {
-            if (b.uBanTypes == SPAMBOT_NETWORK_BAN_TYPE && b.szOwner.equals(ua.szUsername)) {
+            if (b.uBanTypes == SPAMBOT_NETWORK_BAN_TYPE && b.szOwner.equals(banner.banOwner().szUsername)) {
                 mybans.add(b);
                 ipaddrs.add(b.szIPAddress);
             }
@@ -135,7 +118,7 @@ public class IPBan {
                 this.serverbans.remove(b);
                 this.logger.info(String.format("Removed missing network ban: 0x%x IP: %s Username: %s Channel: %s",
                                                b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
-                return ttinst.doUnBanUserEx(b);
+                return banner.issueRemoveBan(b);
             }
         }
 
@@ -149,9 +132,9 @@ public class IPBan {
                 this.logger.info(String.format("Added new network ban: 0x%x IP: %s Username: %s Channel: %s",
                                                b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
                 // store in local ban list
-                int cmdid = ttinst.doBan(b);
+                int cmdid = banner.issueAddBan(b);
                 if (cmdid > 0) {
-                    addLocalBan(b, ttinst);
+                    addLocalBan(b, banner);
                 }
                 return cmdid;
             }
@@ -159,19 +142,19 @@ public class IPBan {
 
         // remove expired user bans
         if (!this.banDuration.isZero()) {
-            ZonedDateTime bannedBefore = ZonedDateTime.now(ZoneId.of("UTC")).minus(this.banDuration);
-            for (BannedUser b : getBannedBySpamBot(ua, SPAMBOT_USER_BAN_TYPE, bannedBefore)) {
+            Instant bannedBefore = time.now().minus(this.banDuration);
+            for (BannedUser b : getBannedBySpamBot(banner.banOwner(), SPAMBOT_USER_BAN_TYPE, bannedBefore)) {
                 removeBan(b);
                 this.logger.info(String.format("Removed expired ban: 0x%x IP: %s Username: %s Channel: %s",
                                                b.uBanTypes, b.szIPAddress, b.szUsername, b.szChannelPath));
-                return ttinst.doUnBanUserEx(b);
+                return banner.issueRemoveBan(b);
             }
         }
 
         return 0;
     }
 
-    private Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, ZonedDateTime before) {
+    private Vector<BannedUser> getBannedBySpamBot(UserAccount ua, int uBanTypes, Instant before) {
         Vector<BannedUser> result = new Vector<>();
         for (BannedUser b : getBannedUsersBefore(before)) {
             if (b.szOwner.equals(ua.szUsername) && b.uBanTypes == uBanTypes) {
@@ -181,25 +164,11 @@ public class IPBan {
         return result;
     }
 
-    private Vector<BannedUser> getBannedUsersBefore(ZonedDateTime zdt) {
+    private Vector<BannedUser> getBannedUsersBefore(Instant when) {
         Vector<BannedUser> result = new Vector<>();
         for (BannedUser b : this.serverbans) {
-            Pattern pattern = Pattern.compile("^(\\d+)/(\\d+)/(\\d+) (\\d+):(\\d+)$");
-            Matcher datematch = pattern.matcher(b.szBanTime);
-            if (datematch.find()) {
-                ZonedDateTime bantime = ZonedDateTime.of(Integer.parseInt(datematch.group(1)), //year
-                                                         Integer.parseInt(datematch.group(2)), //month
-                                                         Integer.parseInt(datematch.group(3)), //day
-                                                         Integer.parseInt(datematch.group(4)), //hour
-                                                         Integer.parseInt(datematch.group(5)), //minute
-                                                         0, 0, //seconds, nanos
-                                                         ZoneId.of("UTC"));
-                if (bantime.isBefore(zdt)) {
-                    result.add(b);
-                }
-            }
-            else {
-                this.logger.info(String.format("Date format %s does not match: ", b.szBanTime));
+            if (TimeUtil.banTimeToInstant(b.szBanTime).isBefore(when)) {
+                result.add(b);
             }
         }
         return result;

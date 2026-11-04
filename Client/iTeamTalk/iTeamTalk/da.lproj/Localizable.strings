@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ er nu i kanalen";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ har forladt kanalen";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ er logget på";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ er logget ud";
+
 /* log entry */
 "%@ joined channel" = "%@ er nu i kanalen";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "Generelt";
 
-/* TTS EVENT */
-"has joined the channel" = "er nu i kanalen";
-
-/* TTS EVENT */
-"has left the channel" = "har forladt kanalen";
-
-/* TTS EVENT */
-"has logged on" = "er logget på";
-
-/* TTS EVENT */
-"has logged out" = "er logget ud";
-
 /* preferences */
 "Headset TX Toggle" = "Headset TX Omskifter";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Mediefil versus talelydstyrke";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Dagens Besked";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "Offentlig server";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Tryk vil låse stemmetransmission";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "TCP Port";
 
+/* accessibility label */
+"Text Messaging" = "Tekstbesked";
+
 /* preferences */
 "Text To Speech Events" = "Tekst til Tale Hændelser";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "User female";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Ny bruger er i kanalen";

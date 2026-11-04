@@ -16,11 +16,13 @@ if (Java_FOUND)
         src/main/java/Abuse.java
         src/main/java/AbuseDB.java
         src/main/java/BadWords.java
+        src/main/java/BanProvider.java
         src/main/java/IPBan.java
         src/main/java/Main.java
         src/main/java/SpamBotSession.java
         src/main/java/TeamTalkServer.java
         src/main/java/TimeProvider.java
+        src/main/java/TimeUtil.java
         src/main/java/WebLogin.java
         )
 

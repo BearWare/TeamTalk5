@@ -2,6 +2,7 @@ import org.junit.jupiter.api.Test;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -17,7 +18,7 @@ class AbuseTest {
     @Test
     public void joinAbuse() {
         TimeProvider time = Instant::now;
-        Abuse a = new Abuse(time, 2, 3, 4, Duration.ofSeconds(2));
+        Abuse a = new Abuse(time, 2, 3, 4, Duration.ofSeconds(2), Logger.getLogger(""));
         var ipaddr = "192.160.0.1";
         a.incJoins(ipaddr);
         assertFalse(a.checkJoinAbuse(ipaddr));
@@ -29,7 +30,7 @@ class AbuseTest {
     public void joinAbuseTimeout() {
         MyTimeProvider time = new MyTimeProvider();
         Duration banDuration = Duration.ofSeconds(2);
-        Abuse a = new Abuse(time, 2, 3, 4, banDuration);
+        Abuse a = new Abuse(time, 2, 3, 4, banDuration, Logger.getLogger(""));
         var ipaddr = "192.160.0.1";
         a.incJoins(ipaddr);
         assertFalse(a.checkJoinAbuse(ipaddr));

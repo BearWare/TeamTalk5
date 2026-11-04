@@ -42,8 +42,8 @@ void DuplexCallback(DuplexStreamer& dpxStream,
     std::memset(playback, 0, bytes);
     {
         //lock 'players' so they're not removed during callback
-        std::lock_guard<std::recursive_mutex> const g(dpxStream.players_mtx);
-        assert(dpxStream.tmpOutputBuffer.size());
+        std::scoped_lock const g(dpxStream.players_mtx);
+        assert(!dpxStream.tmpOutputBuffer.empty());
         MuxPlayers(dpxStream.players, dpxStream.tmpOutputBuffer.data(), playback, mastervol, mastermute);
         if (dpxStream.players.empty())
         {
@@ -57,7 +57,7 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players,
                 short* tmp_buffer, short* playback,
                 int mastervol, bool mastermute)
 {
-    for(auto i : players)
+    for(auto *i : players)
     {
         StreamPlayer* player = i->player;
         if (player->StreamPlayerCb(*i,
@@ -74,7 +74,7 @@ void MuxPlayers(const std::vector<OutputStreamer*>& players,
                 else if(val<-32768)
                     playback[p] = -32768;
                 else
-                    playback[p] = (short)val;
+                    playback[p] = static_cast<short>(val);
             }
         }
     }
@@ -102,7 +102,7 @@ void SoftVolume(const OutputStreamer& streamer,
     }
     else
     {
-        SOFTGAIN(buffer, samples, streamer.channels, rational.numerator, rational.denominator);
+        SoftGain(buffer, samples, streamer.channels, rational.numerator, rational.denominator);
     }
 }
 

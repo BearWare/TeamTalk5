@@ -35,6 +35,7 @@
 #include <array>
 #include <cassert>
 #include <cstddef>
+#include <array>
 #include <cstdint>
 #include <list>
 #include <map>
@@ -42,6 +43,9 @@
 #include <set>
 #include <utility>
 #include <vector>
+
+// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+// NOLINTBEGIN(cppcoreguidelines-pro-bounds-pointer-arithmetic,readability-magic-numbers,misc-use-anonymous-namespace)
 
 /******************************
 *    TEAMTALK PACKET LAYOUT
@@ -59,8 +63,8 @@ constexpr auto MIN_PACKET_PAYLOAD_SIZE = MIN_PAYLOAD_DATA_SIZE + FIELDHEADER_PAY
 constexpr auto MAX_PAYLOAD_DATA_SIZE = 1250;   //The raw data must be split in at most this size;
 constexpr auto MAX_PACKET_PAYLOAD_SIZE = MAX_PAYLOAD_DATA_SIZE + FIELDHEADER_PAYLOAD;   //The maximum size of fields and raw data
 
-static constexpr uint16_t MTU_QUERY_SIZES[] = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
-constexpr auto MTU_QUERY_SIZES_COUNT = sizeof(MTU_QUERY_SIZES) / sizeof(MTU_QUERY_SIZES[0]);
+static constexpr std::array<uint16_t, 4> MTU_QUERY_SIZES = {MIN_PAYLOAD_DATA_SIZE, 800, 1000, MAX_PAYLOAD_DATA_SIZE};
+constexpr auto MTU_QUERY_SIZES_COUNT = MTU_QUERY_SIZES.size();
 
 constexpr auto MAX_PACKET_SIZE = 1350;           //The maximum size of a packet
 
@@ -799,15 +803,15 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     using videopacket_t = std::shared_ptr< VideoPacket >;
     
     //desktop block with pointer to data
-    struct desktop_block
+    struct DesktopBlock
     {
         const char* block_data = nullptr;
         uint16_t block_size = 0;
     };
     //blockno -> block
-    using map_block_t = std::map< uint16_t, desktop_block >;
+    using map_block_t = std::map< uint16_t, DesktopBlock >;
     //a fragmented block
-    struct block_fragment
+    struct BlockFragment
     {
         uint16_t block_no = 0;
         uint8_t frag_no = 0;
@@ -816,7 +820,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
         uint16_t frag_size = 0;
     };
     //blockno -> fragment
-    using block_frags_t = std::list<block_fragment>;
+    using block_frags_t = std::list<BlockFragment>;
     //blockno -> set(block_nums)
     using map_dup_blocks_t = std::map< uint16_t, std::set<uint16_t> >;
     //blockno -> set(block_nums)
@@ -918,20 +922,20 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     {
         //FIELDTYPE_BLOCKNUMS_AND_SIZES & FIELDTYPE_BLOCKS_DATA
         //FIELDTYPE_BLOCKNUMS_FRAGNO_AND_SIZES & FIELDTYPE_BLOCKS_FRAG_DATA
-        return ((blocks_cnt)? (FIELDVALUE_PREFIX + (blocks_cnt) * 3) + FIELDVALUE_PREFIX : 0) + ((frags_cnt)? (FIELDVALUE_PREFIX + (frags_cnt) * 4) + FIELDVALUE_PREFIX : 0);
+        return (blocks_cnt? (FIELDVALUE_PREFIX + blocks_cnt * 3) + FIELDVALUE_PREFIX : 0) + (frags_cnt? (FIELDVALUE_PREFIX + frags_cnt * 4) + FIELDVALUE_PREFIX : 0);
     }
 
     template<typename T1, typename T2>
     constexpr auto DESKTOPPACKET_BLOCKUSAGE(T1 dup_blocks_cnt, T2  total_blocks)
     {
         //FIELDTYPE_BLOCK_DUP
-        return ((dup_blocks_cnt)? (FIELDVALUE_PREFIX + (((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) % 8) ? ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8 + 1) : ((((dup_blocks_cnt) * 2 + (total_blocks)) * 12) / 8))) : 0);
+        return (dup_blocks_cnt? (FIELDVALUE_PREFIX + ((((dup_blocks_cnt * 2 + total_blocks) * 12) % 8) ? (((dup_blocks_cnt * 2 + total_blocks) * 12) / 8 + 1) : (((dup_blocks_cnt * 2 + total_blocks) * 12) / 8))) : 0);
     }
 
     template<typename T>
     constexpr auto DESKTOPPACKET_BLOCKRANGEUSAGE(T block_range_cnt) {
         //FIELDTYPE_BLOCK_DUP_RANGE
-        return ((block_range_cnt)? (FIELDVALUE_PREFIX + (((((block_range_cnt) * 3 * 12) % 8)? (((block_range_cnt) * 3 * 12) / 8 + 1) :     ((block_range_cnt) * 3 * 12) / 8))) : 0);
+        return (block_range_cnt? (FIELDVALUE_PREFIX + (((block_range_cnt * 3 * 12) % 8)? ((block_range_cnt * 3 * 12) / 8 + 1) :     (block_range_cnt * 3 * 12) / 8)) : 0);
     }
 
     
@@ -1012,7 +1016,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     {
     public:
         DesktopCursorPacket(uint16_t src_userid, uint32_t time, 
-                            uint8_t session_id, int16_t x, int16_t y);
+                            uint8_t session_id, uint16_t x, uint16_t y);
 
         DesktopCursorPacket(uint8_t kind, const FieldPacket& crypt_pkt,
                             iovec& decrypt_fields)
@@ -1022,8 +1026,8 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
 
         DesktopCursorPacket(const DesktopCursorPacket& packet);
 
-        bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id, 
-                              int16_t* x, int16_t* y) const;
+        bool GetSessionCursor(uint16_t* dest_userid, uint8_t* session_id,
+                              uint16_t* x, uint16_t* y) const;
 
         uint8_t GetSessionID() const
         {
@@ -1032,16 +1036,16 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
             return streamid;
         }
 
-        int16_t GetX() const
+        uint16_t GetX() const
         {
-            int16_t v = 0;
+            uint16_t v = 0;
             GetSessionCursor(nullptr, nullptr, &v, nullptr);
             return v;
         }
         
-        int16_t GetY() const
+        uint16_t GetY() const
         {
-            int16_t v = 0;
+            uint16_t v = 0;
             GetSessionCursor(nullptr, nullptr, nullptr, &v);
             return v;
         }
@@ -1166,4 +1170,8 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
     
 #endif
 } // namespace teamtalk
+
+// NOLINTEND(cppcoreguidelines-pro-bounds-pointer-arithmetic,readability-magic-numbers,misc-use-anonymous-namespace)
+// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-avoid-unchecked-container-access)
+
 #endif

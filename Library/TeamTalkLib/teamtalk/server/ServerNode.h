@@ -44,13 +44,11 @@
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/SString.h>
-#include <ace/Thread.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
 #endif
 
-#include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
@@ -86,8 +84,8 @@ namespace teamtalk {
     {
         struct
         {
-            ACE_UINT16 src_userid;
-            ACE_UINT16 dest_userid;
+            uint16_t src_userid;
+            uint16_t dest_userid;
         };
         long userdata;
         operator long() const  { return userdata; }
@@ -210,7 +208,7 @@ namespace teamtalk {
         const ServerStats& GetServerStats() const;
         ACE_TString GetMessageOfTheDay(int ignore_userid = 0);
         bool SetFileSharing(const ACE_TString& rootdir);
-        ACE_INT64 GetDiskUsage();
+        int64_t GetDiskUsage();
         ACE_TString GetFilesRoot() const { return m_properties.filesroot; }
         bool IsAutoSaving();
         void SetAutoSaving(bool autosave);
@@ -242,7 +240,7 @@ namespace teamtalk {
                        const ACE_Time_Value& interval = ACE_Time_Value::zero);
 
         //timer callback
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         //get currently connected admins
         const ServerChannel::users_t& GetAdministrators();

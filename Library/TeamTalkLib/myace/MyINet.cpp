@@ -40,6 +40,7 @@
 #endif
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cctype>
 #include <cerrno>
@@ -180,17 +181,15 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
             }
             if (request().get_method() == ACE::HTTP::Request::HTTP_POST)
             {
-                const ACE::HTTP::URL& http_url = dynamic_cast<const ACE::HTTP::URL&> (url);
-                return handle_post_request(http_url);
+                const auto& http_url = dynamic_cast<const ACE::HTTP::URL&> (url);
+                return HandlePostRequest(http_url);
             }
-            else
-            {
-                return ACE::HTTP::ClientRequestHandler::handle_open_request(url);
-            }
+
+            return ACE::HTTP::ClientRequestHandler::handle_open_request(url);
         }
 
         // 90% copy-paste from ClientRequestHandler::handle_get_request()
-        std::istream& handle_post_request(const ACE::HTTP::URL& http_url)
+        std::istream& HandlePostRequest(const ACE::HTTP::URL& http_url)
         {
             bool connected = false;
             if (http_url.has_proxy())
@@ -286,7 +285,7 @@ std::string URLEncode(const std::string& utf8)
 
         // Any other characters are percent-encoded
         escaped << std::uppercase;
-        escaped << '%' << std::setw(2) << int((unsigned char)c);
+        escaped << '%' << std::setw(2) << static_cast<int>(static_cast<unsigned char>(c));
         escaped << std::nouppercase;
     }
 
@@ -295,17 +294,17 @@ std::string URLEncode(const std::string& utf8)
 
 ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
 {
-    ACE_TCHAR buf[INET6_ADDRSTRLEN+1] = {};
-    addr.addr_to_string(buf, INET6_ADDRSTRLEN);
-    return buf;
+    std::array<ACE_TCHAR, INET6_ADDRSTRLEN+1> buf{};
+    addr.addr_to_string(buf.data(), INET6_ADDRSTRLEN);
+    return buf.data();
 }
 
 int InetAddrFamily(const ACE_TString& addr_str)
 {
-    char buf[INET6_ADDRSTRLEN];
-    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    std::array<char, INET6_ADDRSTRLEN> buf{};
+    if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET;
-    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf) > 0)
+    if (ACE_OS::inet_pton(AF_INET6, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
         return AF_INET6;
     return -1;
 }
@@ -320,33 +319,33 @@ ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
         struct sockaddr_in ipv4addr;
         if (inet_pton(AF_INET, UnicodeToUtf8(ipaddr).c_str(), &(ipv4addr.sin_addr)) <= 0)
             return {};
-        prefix = std::min(prefix, uint32_t(32));
+        prefix = std::min(prefix, static_cast<uint32_t>(32));
         uint32_t const shift = 32-prefix;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
         ipv4addr.sin_addr.s_addr >>= shift;
         ipv4addr.sin_addr.s_addr <<= shift;
         ipv4addr.sin_addr.s_addr = ntohl(ipv4addr.sin_addr.s_addr);
-        char strnet[INET_ADDRSTRLEN];
-        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet, INET_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET, &(ipv4addr.sin_addr.s_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     case AF_INET6 :
     {
         struct sockaddr_in6 ipv6addr;
         if (inet_pton(AF_INET6, UnicodeToUtf8(ipaddr).c_str(), &(ipv6addr.sin6_addr)) <= 0)
             return {};
-        prefix = std::min(prefix, uint32_t(128));
+        prefix = std::min(prefix, static_cast<uint32_t>(128));
         for (int i = 0; i < 16; ++i)
         {
-            uint32_t const bits = std::min(uint32_t(8), prefix);
+            uint32_t const bits = std::min(static_cast<uint32_t>(8), prefix);
             ipv6addr.sin6_addr.s6_addr[i] >>= 8 - bits;
             ipv6addr.sin6_addr.s6_addr[i] <<= 8 - bits;
             prefix -= bits;
         }
 
-        char strnet[INET6_ADDRSTRLEN];
-        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet, INET6_ADDRSTRLEN) != nullptr)
-            return Utf8ToUnicode(strnet);
+        std::array<char, INET6_ADDRSTRLEN> strnet{};
+        if (inet_ntop(AF_INET6, &(ipv6addr.sin6_addr), strnet.data(), strnet.size()) != nullptr)
+            return Utf8ToUnicode(strnet.data());
     }
     }
     return {};

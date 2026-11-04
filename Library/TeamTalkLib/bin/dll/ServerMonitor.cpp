@@ -31,10 +31,6 @@ ServerMonitor::ServerMonitor()
 {
 }
 
-ServerMonitor::~ServerMonitor()
-{
-}
-
 void ServerMonitor::OnUserConnected(const teamtalk::ServerUser& user)
 {
     User suser;

@@ -176,11 +176,11 @@ final class ChannelListModel: ObservableObject {
 
     func userDetails(_ user: User) -> ChannelUserDetails {
         let female = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_FEMALE.rawValue) != 0
+        let neutral = (UInt(user.nStatusMode) & StatusMode.STATUSMODE_NEUTRAL.rawValue) != 0
         let isTalking = user.uUserState & USERSTATE_VOICE.rawValue != 0 ||
             (TeamTalkClient.shared.myUserID == user.nUserID && TeamTalkClient.shared.isVoiceTransmitting)
-        let iconName = isTalking
-            ? (female ? "woman_green" : "man_green")
-            : (female ? "woman_blue" : "man_blue")
+        let icon = female ? "woman" : neutral ? "neutral" : "man"
+        let iconName = icon + (isTalking ? "_green" : "_blue")
         let iconAccessibilityLabel = isTalking
             ? String(localized: "Talking", comment: "channel list")
             : String(localized: "Silent", comment: "channel list")
@@ -202,6 +202,9 @@ final class ChannelListModel: ObservableObject {
         let actionTitle = canEdit
             ? String(localized: "Edit", comment: "channel list")
             : String(localized: "View", comment: "channel list")
+        let propertiesActionTitle = canEdit
+            ? String(localized: "Edit properties", comment: "channel list")
+            : String(localized: "View properties", comment: "channel list")
 
         if curchannel.nChannelID == 0 {
             let iconName = channel.bPassword != 0 ? "channel_pink" : "channel_orange"
@@ -214,6 +217,7 @@ final class ChannelListModel: ObservableObject {
                 iconName: iconName,
                 iconAccessibilityLabel: iconLabel,
                 actionTitle: actionTitle,
+                propertiesActionTitle: propertiesActionTitle,
                 isParent: false
             )
         }
@@ -228,6 +232,7 @@ final class ChannelListModel: ObservableObject {
                 iconName: "back_orange",
                 iconAccessibilityLabel: String(localized: "Return to previous channel", comment: "channel list"),
                 actionTitle: actionTitle,
+                propertiesActionTitle: propertiesActionTitle,
                 isParent: true
             )
         }
@@ -241,6 +246,7 @@ final class ChannelListModel: ObservableObject {
             iconName: iconName,
             iconAccessibilityLabel: iconLabel,
             actionTitle: actionTitle,
+            propertiesActionTitle: propertiesActionTitle,
             isParent: false
         )
     }
@@ -550,10 +556,7 @@ final class ChannelListModel: ObservableObject {
             ap.webrtc.gaincontroller2.bEnable = TRUE
             TeamTalkClient.shared.setSoundInputPreprocess(&ap)
         } else {
-            var ap = TeamTalkAudioPreprocessor.makeTeamTalkPreprocessor()
-            TeamTalkClient.shared.setSoundInputPreprocess(&ap)
-            let vol = UserDefaults.standard.integer(forKey: PREF_MICROPHONE_GAIN)
-            TeamTalkClient.shared.setSoundInputGainLevel(INT32(refVolume(Double(vol))))
+            applyMicrophoneGain()
         }
     }
 }
@@ -644,7 +647,7 @@ extension ChannelListModel: TeamTalkEvent {
                 if TeamTalkClient.shared.myUserID != user.nUserID {
                     let defaults = UserDefaults.standard
                     if defaults.object(forKey: PREF_TTSEVENT_USERLOGIN) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGIN) {
-                        newUtterance(getDisplayName(user) + " " + String(localized: "has logged on", comment: "TTS EVENT"))
+                        newUtterance(String(format: String(localized: "%@ has logged on", comment: "TTS EVENT"), getDisplayName(user)))
                     }
                 }
             }
@@ -658,7 +661,7 @@ extension ChannelListModel: TeamTalkEvent {
                 if TeamTalkClient.shared.myUserID != user.nUserID {
                     let defaults = UserDefaults.standard
                     if defaults.object(forKey: PREF_TTSEVENT_USERLOGOUT) != nil && defaults.bool(forKey: PREF_TTSEVENT_USERLOGOUT) {
-                        newUtterance(getDisplayName(user) + " " + String(localized: "has logged out", comment: "TTS EVENT"))
+                        newUtterance(String(format: String(localized: "%@ has logged out", comment: "TTS EVENT"), getDisplayName(user)))
                     }
                 }
             }
@@ -680,7 +683,7 @@ extension ChannelListModel: TeamTalkEvent {
                 playSound(.joined_CHAN)
                 let defaults = UserDefaults.standard
                 if defaults.object(forKey: PREF_TTSEVENT_JOINEDCHAN) == nil || defaults.bool(forKey: PREF_TTSEVENT_JOINEDCHAN) {
-                    newUtterance(getDisplayName(user) + " " + String(localized: "has joined the channel", comment: "TTS EVENT"))
+                    newUtterance(String(format: String(localized: "%@ has joined the channel", comment: "TTS EVENT"), getDisplayName(user)))
                 }
             }
             if currentCmdId == 0 { refreshChannelList() }
@@ -700,12 +703,13 @@ extension ChannelListModel: TeamTalkEvent {
             if user.nUserID == TeamTalkClient.shared.myUserID {
                 mychannel = Channel()
                 rejoinchannel = Channel()
+                updateAudioConfig()
             }
             if m.nSource == mychannel.nChannelID && mychannel.nChannelID > 0 {
                 playSound(.left_CHAN)
                 let defaults = UserDefaults.standard
                 if defaults.object(forKey: PREF_TTSEVENT_LEFTCHAN) == nil || defaults.bool(forKey: PREF_TTSEVENT_LEFTCHAN) {
-                    newUtterance(getDisplayName(user) + " " + String(localized: "has left the channel", comment: "TTS EVENT"))
+                    newUtterance(String(format: String(localized: "%@ has left the channel", comment: "TTS EVENT"), getDisplayName(user)))
                 }
             }
             if currentCmdId == 0 { refreshChannelList() }

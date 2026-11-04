@@ -30,7 +30,6 @@
 #include <ace/Time_Value.h>
 
 #include <cassert>
-#include <cstddef>
 #include <utility>
 
 using namespace media;
@@ -225,7 +224,7 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
     {
         m_frames_dropped++;
         MYTRACE(ACE_TEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
-                (int)mb_video->length(), (int)this->msg_queue()->message_bytes(), 
+                static_cast<int>(mb_video->length()), static_cast<int>(this->msg_queue()->message_bytes()), 
                 m_frames_dropped, m_frames_dropped + m_frames_passed);
         mb_video->release();
     }

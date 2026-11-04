@@ -36,9 +36,9 @@
 #include "avstream/WebRTCPreprocess.h"
 #endif
 
-#include <ace/SString.h>
-#include <ace/Message_Block.h>
 #include <ace/Future.h>
+#include <ace/Message_Block.h>
+#include <ace/SString.h>
 
 #include <cstdint>
 #include <functional>
@@ -69,7 +69,7 @@ public:
 
     bool Pause();
 
-    bool Seek(ACE_UINT32 offset);
+    bool Seek(uint32_t offset);
 
     // required by TeamTalkAudioPreprocessor
     void MuteSound(bool left, bool right);

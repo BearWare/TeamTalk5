@@ -396,7 +396,7 @@ namespace teamtalk
         case CODEC_SPEEX :
             return codec.speex.quality;
         case CODEC_SPEEX_VBR :
-            return (int)codec.speex_vbr.vbr_quality;
+            return codec.speex_vbr.vbr_quality;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :

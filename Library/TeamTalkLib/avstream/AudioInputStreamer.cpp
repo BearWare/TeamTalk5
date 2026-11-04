@@ -59,11 +59,14 @@ bool AudioInputStreamer::InsertAudio(const media::AudioFrame& frame)
             return false;
 
         m_inputfmt = frame.inputfmt;
-        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
-        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUF_SECS);
+        m_resample_frames.low_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
+        m_resample_frames.high_water_mark(PCM16_BYTES(m_inputfmt.samplerate, m_inputfmt.channels) * BUFFER_DURATION_SECONDS);
     }
-    else if (frame.inputfmt != m_inputfmt) // don't allow input format to change
+    else if (frame.inputfmt != m_inputfmt)
+    {
+        // don't allow input format to change
         return false;
+    }
 
     if (frame.inputfmt != GetMediaOutput().audio)
     {
@@ -122,7 +125,7 @@ void AudioInputStreamer::Run()
 
     InitBuffers();
 
-    ACE_UINT32 const starttime = GETTIMESTAMP();
+    uint32_t const starttime = GETTIMESTAMP();
 
     bool flush = false;
     while (!m_stop)
@@ -162,8 +165,8 @@ bool AudioInputStreamer::ProcessResample()
         assert(frame.inputfmt == m_inputfmt);
         assert(m_resampler);
         int const osamples = CalcSamples(frame.inputfmt.samplerate, frame.input_samples, GetMediaOutput().audio.samplerate);
-        if (m_resamplebuffer.size() != size_t(osamples) * GetMediaOutput().audio.channels)
-            m_resamplebuffer.resize(size_t(osamples) * GetMediaOutput().audio.channels);
+        if (m_resamplebuffer.size() != static_cast<size_t>(osamples) * GetMediaOutput().audio.channels)
+            m_resamplebuffer.resize(static_cast<size_t>(osamples) * GetMediaOutput().audio.channels);
         ret = m_resampler->Resample(frame.input_buffer, frame.input_samples, m_resamplebuffer.data(), osamples);
         assert(ret > 0);
         media::AudioFrame const resam_frame(GetMediaOutput().audio, m_resamplebuffer.data(), osamples);
@@ -201,6 +204,6 @@ bool AudioInputStreamer::Submit(ACE_Message_Block* mb)
 void AudioInputStreamer::UpdateTimeStamp(media::AudioFrame& frame)
 {
     assert(frame.inputfmt == GetMediaOutput().audio);
-    frame.timestamp = ACE_UINT32( (m_sampleindex * 1000) / GetMediaOutput().audio.samplerate );
+    frame.timestamp = static_cast<uint32_t>( (m_sampleindex * 1000) / GetMediaOutput().audio.samplerate );
     m_sampleindex += frame.input_samples;
 }

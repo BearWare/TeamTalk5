@@ -102,9 +102,9 @@ namespace teamtalk {
 
     private:
 #if defined(ENABLE_TEAMTALKPRO)
-        void WebLoginBearWare(ServerNode* servernode, ACE_UINT32 userid, UserAccount useraccount);
+        void WebLoginBearWare(ServerNode* servernode, uint32_t userid, UserAccount useraccount);
         ErrorMsg WebLoginPostAuthenticate(UserAccount& useraccount);
-        void WebLoginComplete(ServerNode* servernode, ACE_UINT32 userid, const UserAccount& useraccount, const ErrorMsg& err);
+        void WebLoginComplete(ServerNode* servernode, uint32_t userid, const UserAccount& useraccount, const ErrorMsg& err);
         std::map<int, UserAccount> m_pendinglogin;
 #endif
         teamtalk::ServerXML& m_settings;
