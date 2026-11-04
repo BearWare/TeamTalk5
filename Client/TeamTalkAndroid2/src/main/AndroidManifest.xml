@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <queries>
+        <intent>
+            <action android:name="android.intent.action.TTS_SERVICE" />
+        </intent>
+    </queries>
+    <!-- RECORD_AUDIO is needed to create an audio recorder -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO"></uses-permission>
+    <!-- MODIFY_AUDIO_SETTINGS is needed to use audio effects such as environmental reverb -->
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"></uses-permission>
+    <!-- INTERNET is needed to use a URI-based audio player, depending on the URI -->
+    <uses-permission android:name="android.permission.INTERNET"></uses-permission>
+    <!-- VIBRATE is needed to vibrate on up/down of tx button -->
+    <uses-permission android:name="android.permission.VIBRATE"></uses-permission>
+    <!-- READ_EXTERNAL_STORAGE and WRITE_EXTERNAL_STORAGE are needed for file transfer facilities -->
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" android:maxSdkVersion="32"></uses-permission>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" android:maxSdkVersion="29"></uses-permission>
+    <!-- Media read permissions for modern Android -->
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"></uses-permission>
+    <uses-permission android:name="android.permission.READ_MEDIA_VIDEO"></uses-permission>
+    <uses-permission android:name="android.permission.READ_MEDIA_AUDIO"></uses-permission>
+    <!-- WAKE_LOCK is needed to keep connection alive when screen dims out -->
+    <uses-permission android:name="android.permission.WAKE_LOCK"></uses-permission>
+    <!-- READ_PHONE_STATE is needed to suspend on incoming call -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"></uses-permission>
+    <!-- BLUETOOTH is needed to use bluetooth headset microphone -->
+    <uses-permission android:name="android.permission.BLUETOOTH" android:maxSdkVersion="30"></uses-permission>
+    <uses-permission android:name="android.permission.BLUETOOTH_CONNECT"></uses-permission>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE"></uses-permission>
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_MICROPHONE"></uses-permission>
+    <uses-permission android:name="android.hardware.sensor.proximity"></uses-permission>
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
+    <application
+        android:allowBackup="true"
+        android:icon="@drawable/teamtalk_blue"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme"
+        android:usesCleartextTraffic="true"
+        android:requestLegacyExternalStorage="true"
+        android:supportsRtl="true">
+
+        <activity
+            android:name=".WebLoginActivity"
+            android:label="@string/title_activity_web_login"
+            android:theme="@style/AppTheme.NoActionBar"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".ServerListActivity"
+            android:icon="@drawable/teamtalk_blue"
+            android:launchMode="singleTop"
+            android:exported="true">
+
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="tt" />
+            </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".ServerEntryActivity"
+            android:label="@string/title_activity_server_entry"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".MainActivity"
+            android:configChanges="orientation|screenSize"
+            android:label="@string/title_activity_main"
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="stateUnchanged|adjustResize"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".ChannelPropActivity"
+            android:label="@string/title_activity_channel_prop"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".StreamMediaActivity"
+            android:label="@string/title_activity_stream_media"
+            android:exported="false">
+        </activity>
+
+        <service
+            android:name="dk.bearware.backend.TeamTalkService"
+            android:foregroundServiceType="microphone"
+            android:enabled="true"
+            android:exported="false"
+            android:stopWithTask="true" />
+
+        <activity
+            android:name=".UserPropActivity"
+            android:label="@string/title_activity_user_prop"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".TextMessageActivity"
+            android:label="@string/title_activity_text_message"
+            android:parentActivityName=".MainActivity"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.bearware.gui.MainActivity" />
+        </activity>
+
+        <activity
+            android:name=".PreferencesActivity"
+            android:label="@string/title_activity_preferences"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".AudioCodecActivity"
+            android:label="@string/title_activity_audio_codec"
+            android:exported="false">
+        </activity>
+
+        <activity
+            android:name=".OnlineUsersActivity"
+            android:label="@string/online_users"
+            android:parentActivityName=".MainActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="dk.bearware.gui.MainActivity" />
+        </activity>
+
+        <receiver android:name=".MediaButtonEventReceiver"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter android:priority="2147483647">
+                <action android:name="android.intent.action.MEDIA_BUTTON" />
+            </intent-filter>
+        </receiver>
+
+    </application>
+
+</manifest>

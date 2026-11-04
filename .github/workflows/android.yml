@@ -60,7 +60,7 @@ jobs:
         ANDROID_NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
 
     - name: Generate Android signing keystore
-      working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
+      working-directory: ${{github.workspace}}/Client
       run: |
         keytool -genkeypair -v -keystore key.keystore -alias key -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=TeamTalk, OU=CI, O=TeamTalk, L=CI, ST=CI, C=US"
         cat > keystore.properties <<EOF
@@ -69,9 +69,15 @@ jobs:
         keyAlias=key
         keyPassword=android
         EOF
+        cp key.keystore keystore.properties TeamTalkAndroid/
+        cp key.keystore keystore.properties TeamTalkAndroid2/
 
     - name: Build TeamTalk Android client
       working-directory: ${{github.workspace}}/Client/TeamTalkAndroid
+      run: ./gradlew build
+
+    - name: Build TeamTalk Android 2 client
+      working-directory: ${{github.workspace}}/Client/TeamTalkAndroid2
       run: ./gradlew build
 
     - name: Upload TeamTalk SDK artifact
@@ -85,6 +91,12 @@ jobs:
       with:
         name: teamtalk-android-apk
         path: ${{github.workspace}}/Client/TeamTalkAndroid/build/outputs/apk/**/*.apk
+
+    - name: Upload TeamTalk Android 2 APK artifact
+      uses: actions/upload-artifact@v7
+      with:
+        name: teamtalk-android2-apk
+        path: ${{github.workspace}}/Client/TeamTalkAndroid2/build/outputs/apk/**/*.apk
 
     - name: Perform CodeQL Analysis
       uses: github/codeql-action/analyze@v4

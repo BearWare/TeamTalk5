@@ -1,0 +1,152 @@
+plugins {
+    alias(libs.plugins.android.application)
+    alias(libs.plugins.kotlin.compose)
+}
+
+def ksFile = rootProject.file('keystore.properties')
+def ks = new Properties()
+if (ksFile.exists()) {
+    ksFile.withInputStream { ks.load(it) }
+}
+
+android {
+    namespace = 'dk.bearware.gui'
+    compileSdk {
+        version = release(37)
+    }
+    buildToolsVersion = '37.0.0'
+    ndkVersion = '30.0.16248370'
+
+    defaultConfig {
+        applicationId = 'dk.bearware.gui'
+        minSdk = 23
+        targetSdk = 37
+        versionCode = 154
+        versionName = '5.23'
+
+        testInstrumentationRunner = 'androidx.test.runner.AndroidJUnitRunner'
+    }
+
+    if (ksFile.exists()) {
+        signingConfigs {
+            release {
+                storeFile = rootProject.file(ks['storeFile'])
+                storePassword = ks['storePassword']
+                keyAlias = ks['keyAlias']
+                keyPassword = ks['keyPassword']
+            }
+        }
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled = false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            if (ksFile.exists()) {
+                signingConfig = signingConfigs.release
+            }
+        }
+        debug {
+            // so it can be installed next to the release app and TeamTalkAndroid
+            applicationIdSuffix = '.android2'
+            if (ks['signDebug']?.toBoolean()) {
+                signingConfig = signingConfigs.release
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
+        coreLibraryDesugaringEnabled = true
+    }
+
+    buildFeatures {
+        buildConfig = true
+        compose = true
+        viewBinding = true
+    }
+
+    androidResources {
+        generateLocaleConfig = true
+    }
+
+    splits {
+        abi {
+            enable = true
+            reset()
+            include 'arm64-v8a', 'armeabi-v7a', 'x86', 'x86_64'
+            universalApk = true
+        }
+    }
+
+    sourceSets {
+        main {
+            jniLibs.srcDirs = [layout.buildDirectory.dir('jniLibs-staging')]
+            res.srcDirs = ['src/main/res', layout.buildDirectory.dir('strings-staging')]
+        }
+    }
+
+    packaging {
+        jniLibs {
+            excludes += ['**/libTeamTalk5Pro-jni.so']
+        }
+        pickFirsts = [
+                // Ignore duplicate files in junit-platform-commons-1.9.3.jar and junit-jupiter-api-5.9.3.jar
+                'META-INF/LICENSE.md',
+                'META-INF/LICENSE-notice.md'
+        ]
+    }
+
+    lint {
+        disable 'MissingTranslation'
+    }
+}
+
+tasks.register('syncJniLibs', Sync) {
+    from('../../Library/TeamTalkJNI/libs') {
+        include 'arm64-v8a/**', 'armeabi-v7a/**', 'x86/**', 'x86_64/**'
+    }
+    into layout.buildDirectory.dir('jniLibs-staging')
+}
+
+// translations stay in TeamTalkAndroid until this client replaces it
+tasks.register('syncStrings', Sync) {
+    from('../TeamTalkAndroid/src/main/res') {
+        include 'values*/strings.xml'
+    }
+    into layout.buildDirectory.dir('strings-staging')
+}
+
+afterEvaluate {
+    tasks.named('preBuild').configure { dependsOn 'syncJniLibs', 'syncStrings' }
+}
+
+dependencies {
+    coreLibraryDesugaring libs.desugar.jdk.libs
+    implementation libs.gson
+    implementation platform(libs.androidx.compose.bom)
+    implementation libs.androidx.activity.compose
+    implementation libs.androidx.compose.material3
+    implementation libs.androidx.compose.ui
+    implementation libs.androidx.compose.ui.tooling.preview
+    debugImplementation libs.androidx.compose.ui.tooling
+    implementation libs.androidx.annotation
+    implementation libs.androidx.appcompat
+    implementation libs.androidx.core
+    implementation libs.androidx.fragment
+    implementation libs.androidx.media
+    implementation libs.androidx.preference
+    implementation libs.androidx.viewpager
+    implementation libs.material
+    implementation files('../../Library/TeamTalkJNI/libs/TeamTalk5.jar')
+
+    testImplementation libs.junit.jupiter.api
+    testImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
+
+    androidTestImplementation libs.androidx.test.core
+    androidTestImplementation libs.androidx.test.runner
+    androidTestImplementation libs.androidx.test.rules
+    androidTestImplementation libs.junit.jupiter.api
+    androidTestImplementation files('../../Library/TeamTalkJNI/libs/TeamTalk5Test.jar')
+}
