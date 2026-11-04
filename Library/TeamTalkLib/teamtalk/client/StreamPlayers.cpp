@@ -599,18 +599,41 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
         }
         return true;
     }
-
     //packet lost
     MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
-    int fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
+
+    int const fpp = GetAudioCodecFramesPerPacket(GetAudioCodec());
+
+    // Opus in-band FEC: the LBRR copy of the last lost frame is carried in
+    // the first sub-frame of the next packet. With fpp > 1 only the last
+    // sub-frame is recoverable; earlier ones fall back to PLC.
+    const EncFrame* next = nullptr;
+    auto nextii = m_buffer.find(static_cast<uint16_t>(GetPlayedPacketNo() + 1));
+    if (nextii != m_buffer.end() && !nextii->second.enc_frames.empty() &&
+        !nextii->second.enc_frame_sizes.empty() &&
+        nextii->second.stream_id == GetStreamID())
+        next = &nextii->second;
+
     int decoffset = 0;
-    for (int i=0;i<fpp;i++)
+    for (int i = 0; i < fpp; i++)
     {
-        m_decoder.Decode(nullptr, 0, &output_buffer[decoffset*channels], framesize);
+        bool const fec = (next != nullptr) && (i == fpp - 1);
+        if (fec)
+            ret = m_decoder.Decode(next->enc_frames.data(), next->enc_frame_sizes[0],
+                                   &output_buffer[decoffset*channels], framesize, true);
+        else
+            ret = m_decoder.Decode(NULL, 0, &output_buffer[decoffset*channels],
+                                   framesize, false);
+        MYTRACE_COND(ret != framesize,
+                     ACE_TEXT("OPUS %s failed for #%d. Ret = %d\n"),
+                     fec ? ACE_TEXT("FEC decode") : ACE_TEXT("PLC"), GetUserID(), ret);
         decoffset += framesize;
     }
+    MYTRACE_COND(next != nullptr,
+                 ACE_TEXT("User #%d recovered packet %d via Opus FEC\n"),
+                 GetUserID(), GetPlayedPacketNo());
     //increment 'm_played_packet_time' with GetAudioCodecCbMillis()?
-    return false;
+    return false;   
 }
 #endif
 

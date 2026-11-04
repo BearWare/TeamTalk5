@@ -30,6 +30,8 @@
 int OpusGetCbSize(int samplerate, int msec);
 int OpusGetCbMSec(int samplerate, int cb_samples);
 
+constexpr int OPUS_DEFAULT_PACKET_LOSS_PERC = 10;
+
 class OpusEncode : private NonCopyable
 {
 public:
@@ -41,10 +43,13 @@ public:
 
     bool SetComplexity(int complex);
     bool SetFEC(bool enable);
+    bool SetPacketLossPerc(int perc);
     bool SetBitrate(int bitrate);
     bool SetVBR(bool enable);
     bool SetVBRConstraint(bool enable);
     bool SetDTX(bool enable);
+    bool SetSignalVoice(bool voice);
+    bool SetLSBDepth(int bits);
 
     int Encode(const short* input_buffer, int input_samples,
                char* output_buffer, int output_bufsize);
