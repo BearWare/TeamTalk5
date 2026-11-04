@@ -505,7 +505,7 @@ namespace teamtalk {
         }
         const std::array<uint8_t, CRYPTKEY_SIZE>& GetEncryptKey() const { return m_cryptkey; }
     protected:
-        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey;
+        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey = {};
 #endif
 
     private:
