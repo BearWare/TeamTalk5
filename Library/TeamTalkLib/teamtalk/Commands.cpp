@@ -29,6 +29,8 @@
 #include "myace/MyINet.h"
 
 #include <ace/OS.h>
+
+#include <array>
 #include <ctime>
 
 namespace teamtalk {
@@ -191,13 +193,13 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_UINT32& value)
+                     const ACE_TString& prop, uint32_t& value)
     {
         ACE_TString tmp;
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
-            value = static_cast<ACE_UINT32>(String2I(tmp));
+            value = static_cast<uint32_t>(String2I(tmp));
             return true;
         }
         return false;
@@ -214,7 +216,7 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, ACE_INT64& value)
+        const ACE_TString& prop, int64_t& value)
     {
         ACE_TString tmp;
         if(GetProperty(properties, prop, tmp))
@@ -363,7 +365,7 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
                      ACE_Time_Value& tv)
     {
-        ACE_INT64 gmttime = 0;
+        int64_t gmttime = 0;
         if (GetProperty(properties, prop, gmttime))
         {
             auto const gmt_tm = static_cast<time_t>(gmttime);
@@ -426,8 +428,8 @@ namespace teamtalk {
     {
         ACE_TString resultstr = str;
         ACE_TString tmpstr;
-        ACE_TCHAR search[3][3] = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
-        ACE_TCHAR replace[3][2] = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
+        std::array<ACE_TString, 3> search = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
+        std::array<ACE_TString, 3> replace = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
 
         for(size_t j = 0; j < 3; j++)
         {
@@ -660,7 +662,7 @@ namespace teamtalk {
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, ACE_INT64 value, ACE_TString& dest_str)
+    void AppendProperty(const ACE_TString& prop, int64_t value, ACE_TString& dest_str)
     {
         ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + I2String(value);
         dest_str += newprop;
@@ -742,7 +744,7 @@ namespace teamtalk {
     {
         time_t const local_tm = tv.sec();
         struct tm* gmt = std::gmtime(&local_tm);
-        ACE_INT64 const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : tv.sec();
+        int64_t const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : tv.sec();
         AppendProperty(prop, utc_tm, dest_str);
     }
 

@@ -261,7 +261,7 @@ int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data,
     {
         ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
         ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
-        ACE_UINT32 tm_msec = GETTIMESTAMP() - (ACE_UINT32)diff.msec();
+        uint32_t tm_msec = GETTIMESTAMP() - (uint32_t)diff.msec();
         media::VideoFrame vid_frm(const_cast<char*>(cap_info->video_data), cap_info->video_data_size,
                                   vidfmt.width, vidfmt.height, vidfmt.fourcc, true);
         vid_frm.timestamp = tm_msec;

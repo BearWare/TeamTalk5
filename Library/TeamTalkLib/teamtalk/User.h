@@ -65,13 +65,13 @@ namespace teamtalk {
         void SetPacketProtocol(int protocol){ m_packet_protocol = protocol; }
         int GetPacketProtocol() const { return m_packet_protocol; }
 
-        void UpdateLastTimeStamp(ACE_UINT32 tm);
-        void UpdateLastTimeStamp(PacketKind packet_kind, ACE_UINT32 tm);
+        void UpdateLastTimeStamp(uint32_t tm);
+        void UpdateLastTimeStamp(PacketKind packet_kind, uint32_t tm);
         void UpdateLastTimeStamp(const FieldPacket& pkt);
 
-        ACE_UINT32 GetLastTimeStamp(bool* is_set = nullptr) const;
-        ACE_UINT32 GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = nullptr) const;
-        ACE_UINT32 GetLastTimeStamp(PacketKind packet_kind, bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(const FieldPacket& pkt, bool* is_set = nullptr) const;
+        uint32_t GetLastTimeStamp(PacketKind packet_kind, bool* is_set = nullptr) const;
         // MAX_PAYLOAD_DATA_SIZE
         void SetMaxDataChunkSize(int size) { m_mtu_data_size = size; }
         int GetMaxDataChunkSize() const { return m_mtu_data_size; }
@@ -89,9 +89,9 @@ namespace teamtalk {
         int m_statusmode = 0;
         ACE_TString m_statusmsg;
         bool m_tm_ok = false;
-        ACE_UINT32 m_timestamp = 0;
+        uint32_t m_timestamp = 0;
         int m_mtu_data_size = MAX_PAYLOAD_DATA_SIZE, m_mtu_max_payload_size = MAX_PACKET_PAYLOAD_SIZE;
-        using packet_timestamps_t = std::map<PacketKind, ACE_UINT32>;
+        using packet_timestamps_t = std::map<PacketKind, uint32_t>;
         packet_timestamps_t m_pkt_timestamps;
     protected:
         ACE_TString m_nickname;

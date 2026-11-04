@@ -23,6 +23,7 @@
 
 #include "OggFileIO.h"
 
+#include <array>
 #include <cassert>
 
 OggOutput::OggOutput()
@@ -299,7 +300,7 @@ bool OggFile::SyncPage()
 {
     assert(ogg_sync_check(&m_state) == 0);
 
-    const auto SIZE = 0x1000;
+    constexpr auto SYNC_PAGE_BUFFER_SIZE = 0x1000;
     const auto ORIGIN = m_file.Tell();
 
     // first seek forwards
@@ -308,8 +309,8 @@ bool OggFile::SyncPage()
     do
     {
         ogg_sync_reset(&m_state);
-        auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-        n_read = m_file.Read(buffer, static_cast<long>(SIZE));
+        auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+        n_read = m_file.Read(buffer, static_cast<long>(SYNC_PAGE_BUFFER_SIZE));
         if (n_read > 0)
         {
             int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));
@@ -338,12 +339,12 @@ bool OggFile::SyncPage()
                 return false; // already at begining last time
 
             ogg_sync_reset(&m_state);
-            backwards = std::max(backwards - SIZE, static_cast<int64_t>(0));
+            backwards = std::max(backwards - SYNC_PAGE_BUFFER_SIZE, static_cast<int64_t>(0));
             if (!m_file.Seek(backwards, std::ios_base::beg))
                 return false;
 
-            auto *buffer = ogg_sync_buffer(&m_state, SIZE);
-            n_read = m_file.Read(buffer, SIZE);
+            auto *buffer = ogg_sync_buffer(&m_state, SYNC_PAGE_BUFFER_SIZE);
+            n_read = m_file.Read(buffer, SYNC_PAGE_BUFFER_SIZE);
             if (n_read > 0)
             {
                 int const ret = ogg_sync_wrote(&m_state, static_cast<long>(n_read));
@@ -399,7 +400,7 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
                     spx_int32_t lookahead)
 {
     ogg_packet op;
-    char comment[]= {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
+    std::array<char, 12> comment = {4, 0, 0, 0, 'B', 'E', 'A', 'R', 0, 0, 0, 0};
     int packet_size = 0;
     int ret = 0;
 
@@ -419,8 +420,8 @@ bool SpeexOgg::Open(const SpeexHeader& spx_header,
     if(ret < 0)
         goto error;
 
-    op.packet = reinterpret_cast<unsigned char*>(comment);
-    op.bytes = sizeof(comment);
+    op.packet = reinterpret_cast<unsigned char*>(comment.data());
+    op.bytes = comment.size();
     op.b_o_s = 0;
     op.e_o_s = 0;
     op.granulepos = 0;
@@ -715,10 +716,10 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     m_header.nb_streams = 1;
     m_header.nb_coupled = channels == 2? 1 : 0;
 
-    unsigned char header_data[276];
-    int const packet_size = opus_header_to_packet(&m_header, header_data, sizeof(header_data));
+    std::array<unsigned char, 276> header_data{};
+    int const packet_size = opus_header_to_packet(&m_header, header_data.data(), header_data.size());
     ogg_packet op = {};
-    op.packet = header_data;
+    op.packet = header_data.data();
     op.bytes = packet_size;
     op.b_o_s = 1;
     op.e_o_s = 0;
@@ -727,14 +728,14 @@ bool OpusFile::NewFile(const ACE_TString& filename,
 
     m_oggout.PutPacket(op);
 
-    unsigned char comment_data[] = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
+    std::array<unsigned char, 16> comment_data = {'O', 'p', 'u', 's', 'T', 'a', 'g', 's',
                                     /* Vendor String Length */
                                     0x0, 0x0, 0x0, 0x0,
                                     /* User Comment List Length */
                                     0x0, 0x0, 0x0, 0x0};
     op = {};
-    op.packet = comment_data;
-    op.bytes = sizeof(comment_data);
+    op.packet = comment_data.data();
+    op.bytes = comment_data.size();
     op.b_o_s = op.e_o_s = 0;
     op.granulepos = 0;
     op.packetno = 1;

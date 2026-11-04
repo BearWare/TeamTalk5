@@ -27,8 +27,8 @@
     <string name="text_cmd_leftchan">غادر القناة:</string>
     <string name="text_cmd_joinroot">انضم للقناة الأساسية</string>
     <string name="text_cmd_leftroot">غادر القناة الأساسية</string>
-    <string name="text_cmd_userjoinchan">انضم المستخدم للقناة</string>
-    <string name="text_cmd_userleftchan">غادر المستخدم القناة</string>
+    <string name="text_cmd_userjoinchan">%1$s انضم المستخدم للقناة</string>
+    <string name="text_cmd_userleftchan">%1$s غادر المستخدم القناة</string>
     <string name="pref_cat_subscriptions">الإشتراكات</string>
     <string name="pref_cat_tts"> رسائل نص لكلام ضبطت</string>
     <string name="pref_header_general">عام</string>
@@ -87,10 +87,10 @@
     <string name="pref_title_voice_processing_checkbox">تمكين معالجة الصوت</string>
     <string name="pref_summary_voice_processing_checkbox">استخدام إلغاء الصدى ومعالجة الضجيج تلقائي</string>
 
-    <string name="text_tts_loggedin">تم التسجيل</string>
-    <string name="text_tts_loggedout">تم تسجيل الخروج</string>
-    <string name="text_tts_joined_chan">انضم للقناة</string>
-    <string name="text_tts_left_chan">غادر القناة</string>
+    <string name="text_tts_loggedin">%1$s تم التسجيل</string>
+    <string name="text_tts_loggedout">%1$s تم تسجيل الخروج</string>
+    <string name="text_tts_joined_chan">%1$s انضم للقناة</string>
+    <string name="text_tts_left_chan">%1$s غادر القناة</string>
     <string name="text_tts_private_message">رسالة شخصية من مستخدم %1$s - %2$s</string>
     <string name="text_tts_broadcast_message">رسالة برودكاست من مستخدم %1$s - %2$s</string>
     <string name="pref_header_soundsystem">نظام الصوت</string>

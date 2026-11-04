@@ -27,8 +27,8 @@
     <string name="text_cmd_leftchan">Saiu do canal:</string>
     <string name="text_cmd_joinroot">Entrou no canal inicial</string>
     <string name="text_cmd_leftroot">Saiu do canal inicial</string>
-    <string name="text_cmd_userjoinchan">Entrou no canal</string>
-    <string name="text_cmd_userleftchan">Saiu do canal</string>
+    <string name="text_cmd_userjoinchan">%1$s Entrou no canal</string>
+    <string name="text_cmd_userleftchan">%1$s Saiu do canal</string>
     <string name="pref_cat_subscriptions">Subscrições</string>
     <string name="pref_cat_tts">Configurar as mensagens anunciadas pelo leitor de telas</string>
     <string name="pref_header_general">Geral</string>
@@ -94,10 +94,10 @@
     <string name="pref_summary_speakerphone_checkbox">Trocar de fones para alto-falantes do celular</string>
     <string name="pref_title_voice_processing_checkbox">Ativar áudio processado</string>
     <string name="pref_summary_voice_processing_checkbox">Usar cancelamento de ruídos e ganho automático do microfone</string>
-    <string name="text_tts_loggedin">entrou</string>
-    <string name="text_tts_loggedout">Saiu</string>
-    <string name="text_tts_joined_chan">entrou no canal</string>
-    <string name="text_tts_left_chan">Saiu do canal</string>
+    <string name="text_tts_loggedin">%1$s entrou</string>
+    <string name="text_tts_loggedout">%1$s Saiu</string>
+    <string name="text_tts_joined_chan">%1$s entrou no canal</string>
+    <string name="text_tts_left_chan">%1$s Saiu do canal</string>
     <string name="text_tts_private_message">Mensagem privada de %1$s: %2$s</string>
     <string name="text_tts_broadcast_message">Mensagem global de %1$s: %2$s</string>
     <string name="pref_header_soundsystem">Sistema de som</string>

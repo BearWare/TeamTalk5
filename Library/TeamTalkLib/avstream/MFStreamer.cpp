@@ -296,7 +296,7 @@ void MFStreamer::Run()
         LONGLONG nsDuration = 0;
         hr = PropVariantToInt64(var, &nsDuration);
         PropVariantClear(&var);
-        m_media_in.duration_ms = ACE_UINT32(nsDuration / 10000);
+        m_media_in.duration_ms = uint32_t(nsDuration / 10000);
     }
 
     RETURNONERROR(!m_media_in.IsValid());
@@ -329,13 +329,13 @@ void MFStreamer::Run()
         llVideoTimestamp = -1;
     }
 
-    ACE_UINT32 start_time = GETTIMESTAMP();
+    uint32_t start_time = GETTIMESTAMP();
 
     // ensure we don't submit MEDIASTREAM_STARTED twice (also for pause/seek)
     MediaStreamStatus status = MEDIASTREAM_STARTED;
 
-    ACE_UINT32 totalpausetime = 0;
-    ACE_UINT32 offset = 0;
+    uint32_t totalpausetime = 0;
+    uint32_t offset = 0;
     bool error = false;
     bool initialread = true;
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
@@ -344,9 +344,9 @@ void MFStreamer::Run()
                      ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
 
         if (llAudioTimestamp >= 0)
-            m_media_in.elapsed_ms = ACE_UINT32(llAudioTimestamp / 10000);
+            m_media_in.elapsed_ms = uint32_t(llAudioTimestamp / 10000);
         else if (llVideoTimestamp >= 0)
-            m_media_in.elapsed_ms = ACE_UINT32(llVideoTimestamp / 10000);
+            m_media_in.elapsed_ms = uint32_t(llVideoTimestamp / 10000);
 
         // check if we should pause
         if (m_pause)
@@ -354,7 +354,7 @@ void MFStreamer::Run()
             if (m_statuscallback)
                 m_statuscallback(m_media_in, MEDIASTREAM_PAUSED);
 
-            ACE_UINT32 pausetime = GETTIMESTAMP();
+            uint32_t pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
             {
                 MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
@@ -369,7 +369,7 @@ void MFStreamer::Run()
             totalpausetime += pausetime;
         }
 
-        ACE_UINT32 const newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
+        uint32_t const newoffset = SetOffset(MEDIASTREAMER_OFFSET_IGNORE);
 
         // check if we should forward/rewind
         if (newoffset == 0 && initialread)
@@ -532,7 +532,7 @@ int MFStreamer::QueueAudioSample(CComPtr<IMFSample>& pSample, int64_t sampletime
         if(SUCCEEDED(hr))
         {
             media::AudioFrame media_frame;
-            media_frame.timestamp = ACE_UINT32(sampletime / 10000);
+            media_frame.timestamp = uint32_t(sampletime / 10000);
             media_frame.input_buffer = reinterpret_cast<short*>(pBuffer);
             assert(m_media_out.audio.channels > 0);
             media_frame.input_samples = dwCurLen / sizeof(uint16_t) / m_media_out.audio.channels;
@@ -574,7 +574,7 @@ int MFStreamer::QueueVideoSample(CComPtr<IMFSample>& pSample, int64_t sampletime
         {
             media::VideoFrame media_frame(m_media_out.video,
                 reinterpret_cast<char*>(pBuffer), dwCurLen);
-            media_frame.timestamp = ACE_UINT32(llSampleTimeStamp / 10000);
+            media_frame.timestamp = uint32_t(llSampleTimeStamp / 10000);
             QueueVideo(media_frame);
             vframes++;
         }

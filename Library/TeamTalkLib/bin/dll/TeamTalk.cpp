@@ -77,6 +77,7 @@ HINSTANCE hInstance = NULL;
 
 #include <algorithm>
 #include <cassert>
+#include <array>
 #include <memory>
 #include <mutex>
 #include <map>
@@ -1258,9 +1259,7 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserVideoCaptureFrame(IN TTInstance* lpTTI
         clientuser_t const user = clientnode->GetUser(nUserID);
         if(!user)
             return nullptr;
-        g.release(); //don't hold lock while decoding
-        mb = user->GetVideoCaptureFrame();
-        g.acquire();
+        mb = user->GetVideoCaptureFrame(g);
     }
 
     if(mb != nullptr)
@@ -2296,14 +2295,10 @@ TEAMTALKDLL_API VideoFrame* TT_AcquireUserMediaVideoFrame(IN TTInstance* lpTTIns
     if (!user)
         return nullptr;
 
-    g.release(); //don't hold lock while decoding
-    
-    ACE_Message_Block* mb = user->GetVideoFileFrame();
+    ACE_Message_Block* mb = user->GetVideoFileFrame(g);
     if(mb == nullptr)
         return nullptr;
 
-    g.acquire();
-    
     VideoFrame* lpVideoFrame = inst->PushVideoFrame(mb);
     if(lpVideoFrame != nullptr)
     {
@@ -2674,7 +2669,7 @@ TEAMTALKDLL_API unsigned char* TT_Palette_GetColorTable(IN BitmapFormat nBmpPale
     case BMP_RGB8_PALETTE :
         if(nIndex<0 || nIndex >= 256)
             return nullptr;
-        return BMPPalette::Instance()->m_rgb8_palette[nIndex];
+        return BMPPalette::Instance()->m_rgb8_palette[nIndex].data();
     default :
         return nullptr;
     }
@@ -2882,7 +2877,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindow(IN TTInstance* lpTTInstance,
 struct MYBITMAPINFO
 {
     BITMAPINFOHEADER    bmiHeader;
-    RGBQUAD             bmiColors[256];
+    std::array<RGBQUAD, 256> bmiColors;
 };
 
 TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
@@ -2930,7 +2925,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     BOOL b;
     if(viewer->GetRGBMode() == BMP_RGB8_PALETTE)
     {
-        RGBQUAD* rgb = reinterpret_cast<RGBQUAD*>(&BMPPalette::Instance()->m_rgb8_palette[0]);
+        RGBQUAD* rgb = reinterpret_cast<RGBQUAD*>(BMPPalette::Instance()->m_rgb8_palette[0].data());
         memcpy(pBMI->bmiColors, rgb, sizeof(BMPPalette::Instance()->m_rgb8_palette));
     }
     b = StretchDIBits(hDC, XDest, YDest, nDestWidth, nDestHeight, XSrc, YSrc, 
@@ -3630,7 +3625,7 @@ TEAMTALKDLL_API TTBOOL TT_GetFileTransferInfo(IN TTInstance* lpTTInstance,
     if(lpFileTransfer != nullptr)
     {
         teamtalk::FileTransfer transfer;
-        ACE_INT64 const transferred = 0;
+        int64_t const transferred = 0;
         if(clientnode->GetTransferInfo(nTransferID, transfer))
         {
             Convert(transfer, *lpFileTransfer);
@@ -4335,7 +4330,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN 
     InOutValue val = {};
     val.value = nControlIndex;
     result = MixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_NAME, val);
-    ACE_OS::strsncpy(szDeviceName, val.name, TT_STRLEN);
+    ACE_OS::strsncpy(szDeviceName, val.name.data(), TT_STRLEN);
     return result;
 }
 
@@ -4391,4 +4386,3 @@ TEAMTALKDLL_API TTBOOL TT_Firewall_RemoveAppException(IN const TTCHAR* szExecuta
 }
 
 #endif /* WIN32 */
-

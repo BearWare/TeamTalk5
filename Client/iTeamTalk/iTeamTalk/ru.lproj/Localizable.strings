@@ -1,3 +1,15 @@
+/* TTS EVENT */
+"%@ has joined the channel" = "%@ присоединился к каналу";
+
+/* TTS EVENT */
+"%@ has left the channel" = "%@ покинул канал";
+
+/* TTS EVENT */
+"%@ has logged on" = "%@ вошёл";
+
+/* TTS EVENT */
+"%@ has logged out" = "%@ ушёл";
+
 /* log entry */
 "%@ joined channel" = "%@ присоединился к каналу";
 
@@ -243,18 +255,6 @@
    user detail */
 "General" = "Общее";
 
-/* TTS EVENT */
-"has joined the channel" = "присоединился к каналу";
-
-/* TTS EVENT */
-"has left the channel" = "покинул канал";
-
-/* TTS EVENT */
-"has logged on" = "вошёл";
-
-/* TTS EVENT */
-"has logged out" = "ушёл";
-
 /* preferences */
 "Headset TX Toggle" = "Управление Кнопкой Говорить На Гарнитуре";
 
@@ -322,6 +322,9 @@
 
 /* preferences */
 "Media file vs. voice volume" = "Громкость медиафайла относительно голоса";
+
+/* accessibility label */
+"Message" = "Message";
 
 /* server entry */
 "Message of the Day" = "Сообщение Дня";
@@ -484,6 +487,9 @@
 /* serverlist */
 "Public server" = "Публичный сервер";
 
+/* accessibility label */
+"Push to Talk" = "Push to Talk";
+
 /* preferences */
 "Push To Talk Lock" = "Блокировать кнопку Говорить";
 
@@ -603,6 +609,9 @@
 /* server entry */
 "TCP Port" = "TCP Порт";
 
+/* accessibility label */
+"Text Messaging" = "Текстовое Сообщение";
+
 /* preferences */
 "Text To Speech Events" = "Речевые События";
 
@@ -660,6 +669,9 @@
 
 /* channel list */
 "User female" = "Пользователь женщина";
+
+/* accessibility label */
+"User ID" = "User ID";
 
 /* preferences */
 "User Joins Channel" = "Пользователь Присоединяется К Каналу";

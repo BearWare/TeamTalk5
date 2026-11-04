@@ -539,7 +539,7 @@ void AudioMuxer::Run()
     ProcessAudioQueues(true);
 }
 
-int AudioMuxer::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
+int AudioMuxer::TimerEvent(uint32_t  /*timer_event_id*/, long  /*userdata*/)
 {
     ProcessAudioQueues(false);
     return 0;
@@ -547,8 +547,8 @@ int AudioMuxer::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
 
 void AudioMuxer::ProcessAudioQueues(bool flush)
 {
-    ACE_UINT32 const now = GETTIMESTAMP();
-    ACE_UINT32 const diff = now - m_last_flush_time;
+    uint32_t const now = GETTIMESTAMP();
+    uint32_t const diff = now - m_last_flush_time;
 
     // store the list of active sources prior to mux
     std::vector<int> oldkeys;

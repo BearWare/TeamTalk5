@@ -191,6 +191,15 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
     if (std::cmp_not_equal(packet.GetStreamID(), m_streamid) || packet.HasFragments())
         return;
 
+    // the writers decode 'fpp' frames into m_samples_buf, so drop a packet
+    // with another number of frames or with frames bigger than its data
+    uint16_t enc_len = 0;
+    std::vector<uint16_t> const frame_sizes = GetAudioPacketFrameSizes(packet, m_codec);
+    if (packet.GetEncodedAudio(enc_len) == nullptr ||
+        std::cmp_not_equal(frame_sizes.size(), GetAudioCodecFramesPerPacket(m_codec)) ||
+        SumFrameSizes(frame_sizes) > enc_len)
+        return;
+
     wguard_t const g(m_mutex);
 
     m_last = ACE_OS::gettimeofday();
@@ -340,7 +349,7 @@ void VoiceLog::WriteAudio(int packet_no)
 #if defined(ENABLE_SPEEX)
             if(m_speex != nullptr)
             {
-                std::vector<uint16_t> const frame_sizes = packet.GetEncodedFrameSizes();
+                std::vector<uint16_t> const frame_sizes = GetAudioPacketFrameSizes(packet, m_codec);
                 m_speex->DecodeMultiple(enc_data,
                                         ConvertFrameSizes(frame_sizes),
                                         m_samples_buf.data());
@@ -362,7 +371,7 @@ void VoiceLog::WriteAudio(int packet_no)
                 {
                     ret = m_opus->Decode(&enc_data[sum_dec], frame_sizes[i],
                                          &m_samples_buf[static_cast<size_t>(framesize) * channels * i],
-                                         cb_samples);
+                                         framesize);
                     assert(ret > 0);
                     decsamples += ret;
                     sum_dec += frame_sizes[i];
@@ -394,13 +403,13 @@ void VoiceLog::WriteAudio(int packet_no)
             if(m_opus != nullptr)
             {
                 int const fpp = GetAudioCodecFramesPerPacket(m_codec);
-                int const cb_samples = GetAudioCodecCbSamples(m_codec);
+                int const framesize = GetAudioCodecFrameSize(m_codec);
                 int const channels = GetAudioCodecChannels(m_codec);
                 for(int i=0;i<fpp;i++)
                 {
                     m_opus->Decode(nullptr, 0,
-                                   &m_samples_buf[static_cast<size_t>(cb_samples)*channels*i],
-                                   cb_samples);
+                                   &m_samples_buf[static_cast<size_t>(framesize)*channels*i],
+                                   framesize);
                 }
             }
 #endif        
@@ -512,7 +521,7 @@ VoiceLogger::~VoiceLogger()
     MYTRACE(ACE_TEXT("~VoiceLogger()\n"));
 }
 
-int VoiceLogger::TimerEvent(ACE_UINT32 timer_event_id, long userdata)
+int VoiceLogger::TimerEvent(uint32_t timer_event_id, long userdata)
 {
     switch(timer_event_id)
     {
@@ -566,7 +575,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, ACE_TEXT("%nickname%"), from_user.GetNickname());
     ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
     ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
-    ACE_UINT32 const counter = from_user.IncVoiceLogCounter();
+    uint32_t const counter = from_user.IncVoiceLogCounter();
     std::array<ACE_TCHAR, 100> str_count;
     ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
     ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());

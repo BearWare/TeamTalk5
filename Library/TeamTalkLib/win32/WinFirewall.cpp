@@ -27,23 +27,24 @@
 #include <Strsafe.h>
 #include <VersionHelpers.h>
 
+#include <array>
 #include <cassert>
 
 static HRESULT CoCreateInstanceAsAdmin(HWND hwnd, REFCLSID rclsid, REFIID riid, __out void ** ppv)
 {
     BIND_OPTS3 bo;
-    WCHAR  wszCLSID[50];
-    WCHAR  wszMonikerName[300];
+    std::array<WCHAR, 50> wszCLSID{};
+    std::array<WCHAR, 300> wszMonikerName{};
 
-    StringFromGUID2(rclsid, wszCLSID, sizeof(wszCLSID)/sizeof(wszCLSID[0])); 
-    HRESULT const hr = StringCchPrintf(wszMonikerName, sizeof(wszMonikerName)/sizeof(wszMonikerName[0]), L"Elevation:Administrator!new:%s", wszCLSID);
+    StringFromGUID2(rclsid, wszCLSID.data(), static_cast<int>(wszCLSID.size()));
+    HRESULT const hr = StringCchPrintf(wszMonikerName.data(), wszMonikerName.size(), L"Elevation:Administrator!new:%s", wszCLSID.data());
     if (FAILED(hr))
         return hr;
     memset(&bo, 0, sizeof(bo));
     bo.cbStruct = sizeof(bo);
     bo.hwnd = hwnd;
     bo.dwClassContext  = CLSCTX_LOCAL_SERVER;
-    return CoGetObject(wszMonikerName, &bo, riid, ppv);
+    return CoGetObject(wszMonikerName.data(), &bo, riid, ppv);
 }
 
 /* Code from: http://msdn.microsoft.com/en-us/library/aa364726(VS.85).aspx */

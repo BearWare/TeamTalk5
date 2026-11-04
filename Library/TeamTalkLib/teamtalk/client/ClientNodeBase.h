@@ -204,10 +204,10 @@ namespace teamtalk {
 
 #if defined(_DEBUG)
 
-constexpr void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
- {
+static void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
+{
     TTASSERT(clientnode->m_reactorlock_thr_id == ACE_Thread::self());
- }
+}
 
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( (this_obj)->ReactorLock() );             \

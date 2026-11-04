@@ -261,7 +261,7 @@ void FileNode::TransmitCommand(const ACE_TString& command)
     }
 }
 
-int FileNode::TimerEvent(ACE_UINT32  /*timer_event_id*/, long  /*userdata*/)
+int FileNode::TimerEvent(uint32_t  /*timer_event_id*/, long  /*userdata*/)
 {
     m_timerid = -1;
     InitTransfer();
@@ -331,7 +331,7 @@ bool FileNode::OnReceive(const char* buff, int len)
     if (m_binarymode)
     {
         TTASSERT(m_transfer.inbound);
-        ACE_INT64 writebytes = len;
+        int64_t writebytes = len;
         if (m_file.Tell() + len > m_transfer.filesize)
             writebytes = m_transfer.filesize - m_file.Tell();
         auto ret = m_file.Write(buff, writebytes);
@@ -503,7 +503,7 @@ void FileNode::HandleError(const mstrings_t& properties)
 
 void FileNode::HandleFileDeliver(const mstrings_t& properties)
 {
-    ACE_INT64 filesize = 0;
+    int64_t filesize = 0;
     int const transid = 0;
     GetProperty(properties, TT_FILESIZE, filesize);
     TTASSERT(filesize == m_transfer.filesize);

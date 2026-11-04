@@ -19,6 +19,12 @@
         android:title="@string/pref_title_voice_processing_checkbox"
         android:summary="@string/pref_summary_voice_processing_checkbox" />
 
+    <ListPreference
+        android:key="microphone_list"
+        android:dependency="voiceprocessing_checkbox"
+        android:defaultValue=""
+        android:title="@string/pref_title_microphone" />
+
 	<CheckBoxPreference
 		android:key="bluetooth_headset_checkbox"
 		android:defaultValue="false"

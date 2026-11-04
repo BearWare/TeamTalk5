@@ -119,27 +119,27 @@ namespace teamtalk {
         CLIENT_STREAM_VIDEOFILE          = 0x00020000
     };
 
-    using ClientFlags = ACE_UINT32;
+    using ClientFlags = uint32_t;
 
     struct ClientStats
     {
-        ACE_INT64 udpbytes_sent = 0;
-        ACE_INT64 udpbytes_recv = 0;
-        ACE_INT64 voicebytes_sent = 0;
-        ACE_INT64 voicebytes_recv = 0;
-        ACE_INT64 vidcapbytes_sent = 0;
-        ACE_INT64 vidcapbytes_recv = 0;
-        ACE_INT64 mediafile_audio_bytes_sent = 0;
-        ACE_INT64 mediafile_audio_bytes_recv = 0;
-        ACE_INT64 mediafile_video_bytes_sent = 0;
-        ACE_INT64 mediafile_video_bytes_recv = 0;
-        ACE_INT64 desktopbytes_sent = 0;
-        ACE_INT64 desktopbytes_recv = 0;
-        ACE_INT32 udpping_time = -1;
-        ACE_INT32 tcpping_time = -1;
+        int64_t udpbytes_sent = 0;
+        int64_t udpbytes_recv = 0;
+        int64_t voicebytes_sent = 0;
+        int64_t voicebytes_recv = 0;
+        int64_t vidcapbytes_sent = 0;
+        int64_t vidcapbytes_recv = 0;
+        int64_t mediafile_audio_bytes_sent = 0;
+        int64_t mediafile_audio_bytes_recv = 0;
+        int64_t mediafile_video_bytes_sent = 0;
+        int64_t mediafile_video_bytes_recv = 0;
+        int64_t desktopbytes_sent = 0;
+        int64_t desktopbytes_recv = 0;
+        int32_t udpping_time = -1;
+        int32_t tcpping_time = -1;
         //internal use
-        ACE_UINT32 tcp_silence_sec = 0;
-        ACE_UINT32 udp_silence_sec = 0;
+        uint32_t tcp_silence_sec = 0;
+        uint32_t udp_silence_sec = 0;
         ACE_Time_Value ping_issue_time;
         bool udp_ping_dirty = true;
         bool tcp_ping_dirty = true;
@@ -331,7 +331,7 @@ namespace teamtalk {
         ClientKeepAlive GetKeepAlive();
 
         //TimerListener - reactor thread
-        int TimerEvent(ACE_UINT32 timer_event_id, long userdata) override;
+        int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
         //Audio encoder callback - separate thread
         void EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
@@ -347,12 +347,12 @@ namespace teamtalk {
         //Video encoder - separate thread
         bool EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                       const char* enc_data, int enc_len,
-                                      ACE_UINT32 packet_no,
-                                      ACE_UINT32 timestamp);
+                                      uint32_t packet_no,
+                                      uint32_t timestamp);
         bool EncodedVideoFileFrame(ACE_Message_Block* org_frame,
                                    const char* enc_data, int enc_len,
-                                   ACE_UINT32 packet_no,
-                                   ACE_UINT32 timestamp);
+                                   uint32_t packet_no,
+                                   uint32_t timestamp);
 
         // SoundSystem listener - separate thread
         void StreamCaptureCb(const soundsystem::InputStreamer& streamer,

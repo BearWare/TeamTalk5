@@ -12,7 +12,7 @@ iOS Client
 - Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
 - Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Server
--
+- Fixed channel rename accepting a name containing '/'
 
 Version 5.23, 2026/10/03
 Default Qt Client

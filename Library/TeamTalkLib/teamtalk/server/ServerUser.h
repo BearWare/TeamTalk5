@@ -288,7 +288,7 @@ namespace teamtalk {
         //file transfer variables
         std::unique_ptr<LocalFileTransfer> m_filetransfer;
 
-        std::set<ACE_UINT32, W32LessComp> m_floodcmd;
+        std::set<uint32_t, W32LessComp> m_floodcmd;
 
         //desktop session, from this user
         desktop_cache_t m_desktop_cache;

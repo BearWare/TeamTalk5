@@ -32,6 +32,7 @@
 #include <map>
 #include <mutex>
 #include <set>
+#include <array>
 #include <vector>
 
 constexpr auto ANDROID_INPUT_BUFFERS = 3;
@@ -46,7 +47,7 @@ namespace soundsystem {
         SLAndroidSimpleBufferQueueItf recorderBufferQueue = nullptr;
         std::recursive_mutex mutex;
 
-        std::vector<short> buffers[ANDROID_INPUT_BUFFERS];
+        std::array<std::vector<short>, ANDROID_INPUT_BUFFERS> buffers;
         uint32_t buf_index = 0;
         SLInputStreamer(StreamCapture* r, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : InputStreamer(r, sg, fs, sr, chs, sndsys, devid) { }
@@ -59,7 +60,7 @@ namespace soundsystem {
         SLAndroidSimpleBufferQueueItf playerBufferQueue = nullptr;
         std::recursive_mutex mutex;
 
-        std::vector<short> buffers[ANDROID_OUTPUT_BUFFERS];
+        std::array<std::vector<short>, ANDROID_OUTPUT_BUFFERS> buffers;
         uint32_t buf_index = 0;
         SLOutputStreamer(StreamPlayer* p, int sg, int fs, int sr, int chs, SoundAPI sndsys, int devid)
             : OutputStreamer(p, sg, fs, sr, chs, sndsys, devid) { }
