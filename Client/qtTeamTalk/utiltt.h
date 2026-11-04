@@ -57,8 +57,7 @@ do {                                                            \
 #define COPY_TTSTR(wstr, qstr)                                  \
 do {                                                            \
     strncpy(wstr, _W(qstr), TT_STRLEN);                         \
-    if(qstr.size() >= TT_STRLEN)                                \
-        wstr[TT_STRLEN-1] = '\0';                               \
+    wstr[TT_STRLEN-1] = '\0';                                   \
 } while(0)
 #endif
 
