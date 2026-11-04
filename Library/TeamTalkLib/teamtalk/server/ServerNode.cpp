@@ -1812,9 +1812,16 @@ ServerChannel::users_t ServerNode::GetPacketDestinations(const ServerUser& user,
 
     if (dest_userid != 0u) //the packet is only for certain users
     {
+        //in channel type CHANNEL_OPERATOR_RECVONLY a default user
+        //can only send to operators and admins
+        bool const recvonly = ((channel.GetChannelType() & CHANNEL_OPERATOR_RECVONLY) != 0u) &&
+            !channel.IsOperator(fromuserid) &&
+            (user.GetUserType() & USERTYPE_ADMIN) == 0;
         for (const auto &u : channel.GetUsers())
         {
             if (u->GetUserID() == dest_userid &&
+                (!recvonly || channel.IsOperator(u->GetUserID()) ||
+                 ((u->GetUserType() & USERTYPE_ADMIN) != USERTYPE_NONE)) &&
                 ((u->GetSubscriptions(user) & subscrip_check) != SUBSCRIBE_NONE) &&
                 u->GetPacketProtocol() >= pp_min)
             {
