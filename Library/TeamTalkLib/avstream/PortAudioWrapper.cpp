@@ -1149,7 +1149,7 @@ bool CWMAudioAECCapture::ProcessAudioFrame(const media::AudioFrame& frm)
         int remainsamples = (m_input_buffer.size() - m_input_index) / CHANNELS;
         int copysamples = std::min(samples, remainsamples);
 
-        int copybytes = PCM16_BYTES(copysamples, CHANNELS);
+        size_t copybytes = PCM16_BYTES(copysamples, CHANNELS);
         std::memcpy(&m_input_buffer[m_input_index], &frm.input_buffer[copiedsamples * CHANNELS], copybytes);
         m_input_index += copysamples * CHANNELS;
         assert(m_input_index <= m_input_buffer.size());

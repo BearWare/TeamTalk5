@@ -54,7 +54,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
     if(this->thr_count() != 0)
         return false;
 
-    int bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
+    size_t bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= max_frames_queued;
     this->msg_queue()->activate();
     this->msg_queue()->high_water_mark(bytes);

@@ -163,9 +163,9 @@ media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
 {
     ACE_Message_Block* mb = nullptr;
-    int const frame_bytes = sizeof(frame);
-    int const input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
-    int const output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
+    size_t const frame_bytes = sizeof(frame);
+    size_t const input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
+    size_t const output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
 
     //assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
     //assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);

@@ -156,7 +156,7 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     m_callback = callback;
 
     //allow one second of audio to build up in the queue
-    int max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
+    size_t max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
     max_queue += (1 + (sample_rate / callback_samples)) * sizeof(media::AudioFrame);
 
     this->msg_queue()->activate();
