@@ -811,8 +811,8 @@ ACE_Message_Block* WebMPlayer::GetNextFrame(const uint32_t* timestamp)
 
     int w = m_decoder.GetConfig().w;
     int h = m_decoder.GetConfig().h;
-    int const bytes = RGB32_BYTES(w, h);
-    VideoFrame vid_frame(nullptr, bytes, w, h, FOURCC_RGB32, true);
+    size_t const bytes = RGB32_BYTES(w, h);
+    VideoFrame vid_frame(nullptr, static_cast<int>(bytes), w, h, FOURCC_RGB32, true);
     vid_frame.key_frame = false; //TODO: detect key frame
     vid_frame.stream_id = m_videostream_id;
     ACE_Message_Block* mb = VideoFrameInMsgBlock(vid_frame);
