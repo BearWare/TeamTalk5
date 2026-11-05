@@ -36,27 +36,27 @@
 constexpr auto ONE_SEC_MILLIS = 1000;
 
 // Returns number of bytes from number of 'samples' with 'channels'
-constexpr auto PCM16_BYTES(int samples, int channels)
+constexpr size_t PCM16_BYTES(size_t samples, size_t channels)
 {
-    return static_cast<size_t>(samples) * channels * sizeof(short);
+    return samples * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
-constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)
+constexpr size_t PCM16_BYTES_DURATION(size_t bytes, size_t channels, size_t samplerate)
 {
     return ((bytes / channels / sizeof(short)) * ONE_SEC_MILLIS) / samplerate;
 }
 // Returns number of msec from number of 'samples' at given 'samplerate'
-constexpr auto PCM16_SAMPLES_DURATION(int samples, int samplerate)
+constexpr size_t PCM16_SAMPLES_DURATION(size_t samples, size_t samplerate)
 {
     return ((samples / samplerate) * ONE_SEC_MILLIS) + (((samples % samplerate) * ONE_SEC_MILLIS) / samplerate);
 }
 // Returns number of samples from 'duration' msec at given 'samplerate'
-constexpr auto PCM16_DURATION_SAMPLES(int duration, int samplerate)
+constexpr size_t PCM16_DURATION_SAMPLES(size_t duration, size_t samplerate)
 {
     return ((duration / ONE_SEC_MILLIS) * samplerate) + (((duration % ONE_SEC_MILLIS) != 0) ? ((samplerate * (duration % ONE_SEC_MILLIS)) / ONE_SEC_MILLIS) : 0);
 }
 
-constexpr auto RGB32_BYTES(int w, int h)
+constexpr auto RGB32_BYTES(size_t w, size_t h)
 {
     return h * w * 4;
 }
