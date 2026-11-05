@@ -3589,7 +3589,7 @@ TEST_CASE("OPUSFileEncDec")
             mfi.uDurationMSec = 10 * 1000;
             const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
             ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("originalfile_%d_%dmsec.wav"),
-                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+                             mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate)));
 
             REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
@@ -3599,7 +3599,7 @@ TEST_CASE("OPUSFileEncDec")
             OpusEncFile opusenc;
             std::array<ACE_TCHAR, TT_STRLEN> opusencfilename{};
             ACE_OS::snprintf(opusencfilename.data(), opusencfilename.size(), ACE_TEXT("opusencfile_%d_%dmsec.ogg"),
-                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+                             mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate)));
             REQUIRE(opusenc.Open(opusencfilename.data(), mfi.audioFmt.nChannels, mfi.audioFmt.nSampleRate, FRAMESIZE, OPUS_APPLICATION_AUDIO));
 
             std::vector<short> buf(size_t(mfi.audioFmt.nChannels) * FRAMESIZE);
@@ -3619,7 +3619,7 @@ TEST_CASE("OPUSFileEncDec")
 
             std::array<ACE_TCHAR, TT_STRLEN> opusdecfilename{};
             ACE_OS::snprintf(opusdecfilename.data(), opusdecfilename.size(), ACE_TEXT("opusdecfile_%d_%dmsec.wav"),
-                             mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+                             mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate)));
             REQUIRE(wavfile.NewFile(opusdecfilename.data(), opusread.GetSampleRate(), opusread.GetChannels()));
 
             ogg_int64_t samplesduration = 0;
@@ -3636,7 +3636,7 @@ TEST_CASE("OPUSFileEncDec")
 
             auto durationmsec = PCM16_SAMPLES_DURATION(samplesduration, mfi.audioFmt.nSampleRate);
             // std::cout << SAMPLERATE << "@" << FRAMESIZE_SEC << " diff: " << mfi.uDurationMSec - durationmsec << std::endl;
-            REQUIRE(std::abs(durationmsec - (int)mfi.uDurationMSec) <= FRAMESIZE_SEC * 1000);
+            REQUIRE(std::abs(static_cast<int>(durationmsec) - static_cast<int>(mfi.uDurationMSec)) <= FRAMESIZE_SEC * 1000);
         }
     }
 }
@@ -3654,11 +3654,11 @@ TEST_CASE("OPUSFileSeek")
 
     const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("orgseekfile_%d_%dmsec.wav"),
-                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+                     mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate)));
 
     std::array<ACE_TCHAR, TT_STRLEN> opusencfilename{};
     ACE_OS::snprintf(opusencfilename.data(), opusencfilename.size(), ACE_TEXT("opusseekfile_%d_%dmsec.ogg"),
-                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
+                     mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate)));
 
     CreateOpusFile(mfi, opusencfilename.data(), FRAMESIZE);
 
@@ -3779,10 +3779,10 @@ TEST_CASE("OPUSStreamer")
 
     const int IN_FRAMESIZE = int(mfi.audioFmt.nSampleRate * IN_FRAMESIZE_SEC);
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.wav"),
-                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+                     mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate)));
     std::array<ACE_TCHAR, TT_STRLEN> opusencfilename{};
     ACE_OS::snprintf(opusencfilename.data(), opusencfilename.size(), ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.ogg"),
-                     mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate));
+                     mfi.audioFmt.nSampleRate, static_cast<int>(PCM16_SAMPLES_DURATION(IN_FRAMESIZE, mfi.audioFmt.nSampleRate)));
     CreateOpusFile(mfi, opusencfilename.data(), IN_FRAMESIZE);
 
     constexpr auto OUT_SAMPLERATE = 48000;
@@ -3791,7 +3791,7 @@ TEST_CASE("OPUSStreamer")
 
     std::array<ACE_TCHAR, TT_STRLEN> opusstreamerfilename{};
     ACE_OS::snprintf(opusstreamerfilename.data(), opusstreamerfilename.size(), ACE_TEXT("opusstreamer_outputfile_%d_%dmsec.wav"),
-                     OUT_SAMPLERATE, PCM16_SAMPLES_DURATION(OUT_FRAMESIZE, OUT_SAMPLERATE));
+                     OUT_SAMPLERATE, static_cast<int>(PCM16_SAMPLES_DURATION(OUT_FRAMESIZE, OUT_SAMPLERATE)));
 
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(opusstreamerfilename.data(), OUT_SAMPLERATE, OUT_CHANNELS));

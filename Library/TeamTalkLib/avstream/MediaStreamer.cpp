@@ -253,8 +253,8 @@ void MediaStreamer::InitBuffers()
 
     if (m_media_out.HasVideo())
     {
-        int const bmp_size = RGB32_BYTES(m_media_out.video.width, m_media_out.video.height);
-        int const media_frame_size = bmp_size + sizeof(media::VideoFrame);
+        size_t const bmp_size = RGB32_BYTES(m_media_out.video.width, m_media_out.video.height);
+        size_t const media_frame_size = bmp_size + sizeof(media::VideoFrame);
         size_t const fps = m_media_out.video.fps_numerator / std::max(1, m_media_out.video.fps_denominator);
 
         size_t const buffer_size = fps * BUFFER_DURATION_SECONDS * media_frame_size;
