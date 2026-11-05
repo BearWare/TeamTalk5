@@ -36,9 +36,9 @@
 constexpr auto ONE_SEC_MILLIS = 1000;
 
 // Returns number of bytes from number of 'samples' with 'channels'
-constexpr auto PCM16_BYTES(int samples, int channels)
+constexpr auto PCM16_BYTES(size_t samples, size_t channels)
 {
-    return static_cast<size_t>(samples) * channels * sizeof(short);
+    return samples * channels * sizeof(short);
 }
 // Returns number of msec from number of 'bytes' with 'channels' at given 'samplerate'
 constexpr auto PCM16_BYTES_DURATION(int bytes, int channels, int samplerate)

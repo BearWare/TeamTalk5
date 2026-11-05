@@ -131,7 +131,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             m_originalstream = streamer;
             m_sndgrpid = sndgrpid;
 
-            int buffersize = PCM16_BYTES(streamer->framesize, streamer->channels);
+            size_t buffersize = PCM16_BYTES(streamer->framesize, streamer->channels);
             buffersize *= 3; //TODO: what is a good number??
             m_samples_queue.low_water_mark(buffersize);
             m_samples_queue.high_water_mark(buffersize);
@@ -267,7 +267,7 @@ constexpr auto DEBUG_RESAMPLER = 0;
             if (resample)
             {
                 ACE_Message_Block* mb = nullptr;
-                int const size = PCM16_BYTES(samples, streamer.channels);
+                size_t const size = PCM16_BYTES(samples, streamer.channels);
                 ACE_NEW(mb, ACE_Message_Block(size));
                 if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
                 {
