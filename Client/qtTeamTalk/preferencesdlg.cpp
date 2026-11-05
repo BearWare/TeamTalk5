@@ -350,6 +350,8 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
     if (getSoundDevice(uid, true, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
+    else
+        devid = getSelectedSndInputDevice();
 
     int index = ui.inputdevBox->findData(devid);
     if(index >= 0)
@@ -379,6 +381,8 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
     if (getSoundDevice(uid, false, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
+    else
+        devid = getSelectedSndOutputDevice();
 
     index = ui.outputdevBox->findData(devid);
     if(index >= 0)
