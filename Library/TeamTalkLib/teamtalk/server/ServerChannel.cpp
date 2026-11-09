@@ -104,14 +104,14 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
         MYTRACE(ACE_TEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, GetTimeOutTimerVoice().msec());
+                streamid, userid, static_cast<int>(GetTimeOutTimerVoice().msec()));
         return false;
     }
     else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
     {
         MYTRACE(ACE_TEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, GetTimeOutTimerMediaFile().msec());
+                streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().msec()));
         return false;
     }
 
