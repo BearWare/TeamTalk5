@@ -174,7 +174,8 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
             MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, static_cast<int>(suspend));
         }
-        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"), this, old_size, m_event_queue.message_bytes());
+        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"),
+                     this, old_size, m_event_queue.message_bytes(), m_event_queue.high_water_mark());
     }
 
     if (suspend && (m_suspender != nullptr))
