@@ -1394,6 +1394,95 @@ public class TeamTalkServerTestCase extends TeamTalkTestCaseBase {
     }
 
     @Test
+    public void testChannelOperatorReceiveOnly() {
+
+        final String PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
+        final String OPERATOR_USERNAME = "tt_operator", USERNAME = "tt_user";
+
+        UserAccount operatorAccount = new UserAccount();
+        operatorAccount.szUsername = OPERATOR_USERNAME;
+        operatorAccount.szPassword = PASSWORD;
+        operatorAccount.uUserType = UserType.USERTYPE_DEFAULT;
+        operatorAccount.uUserRights = UserRight.USERRIGHT_CREATE_TEMPORARY_CHANNEL |
+                                     UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT;
+        useraccounts.add(operatorAccount);
+
+        UserAccount userAccount = new UserAccount();
+        userAccount.szUsername = USERNAME;
+        userAccount.szPassword = PASSWORD;
+        userAccount.uUserType = UserType.USERTYPE_DEFAULT;
+        userAccount.uUserRights = UserRight.USERRIGHT_TRANSMIT_VOICE | UserRight.USERRIGHT_MULTI_LOGIN |
+                                  UserRight.USERRIGHT_TRANSMIT_DESKTOP | UserRight.USERRIGHT_TRANSMIT_DESKTOPINPUT;
+        useraccounts.add(userAccount);
+
+        TeamTalkSrv server = newServerInstance();
+        ServerInterleave interleave = new RunServer(server);
+        TeamTalkBase operator = newClientInstance();
+        TeamTalkBase client1 = newClientInstance();
+        TeamTalkBase client2 = newClientInstance();
+
+        initSound(operator);
+        initSound(client1);
+        initSound(client2);
+
+        connect(server, operator);
+        connect(server, client1);
+        connect(server, client2);
+        login(server, operator, NICKNAME, OPERATOR_USERNAME, PASSWORD);
+        login(server, client1, NICKNAME, USERNAME, PASSWORD);
+        login(server, client2, NICKNAME, USERNAME, PASSWORD);
+
+        Channel chan = buildDefaultChannel(operator, "Operator receive-only");
+        chan.uChannelType |= ChannelType.CHANNEL_OPERATOR_RECVONLY;
+        assertTrue(waitCmdComplete(operator, operator.doJoinChannel(chan), DEF_WAIT, interleave),
+                   "operator creates and joins channel");
+
+        assertTrue(waitCmdSuccess(client1, client1.doJoinChannelByID(operator.getMyChannelID(), ""),
+                                  DEF_WAIT, interleave), "client1 joins channel");
+        assertTrue(waitCmdSuccess(client2, client2.doJoinChannelByID(operator.getMyChannelID(), ""),
+                                  DEF_WAIT, interleave), "client2 joins channel");
+
+        // test voice receive only
+        assertTrue(operator.enableAudioBlockEvent(client2.getMyUserID(), StreamType.STREAMTYPE_VOICE, true),
+                   "enable operator audio block event");
+        assertTrue(client1.enableAudioBlockEvent(client2.getMyUserID(), StreamType.STREAMTYPE_VOICE, true),
+                   "enable audio block event");
+
+        assertTrue(client2.enableVoiceTransmission(true), "enable client2 voice transmission");
+
+        assertTrue(waitForEvent(operator, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, DEF_WAIT, interleave),
+                   "operator receives transmitted audio");
+        assertFalse(waitForEvent(client1, ClientEvent.CLIENTEVENT_USER_AUDIOBLOCK, 1000, interleave),
+                    "non-operator must not receive audio");
+
+        // test receive only on desktop window
+        DesktopWindow wnd = new DesktopWindow();
+        wnd.nWidth = 128;
+        wnd.nHeight = 128;
+        wnd.bmpFormat = BitmapFormat.BMP_RGB32;
+        wnd.nProtocol = DesktopProtocol.DESKTOPPROTOCOL_ZLIB_1;
+        wnd.frameBuffer = new byte[wnd.nWidth * wnd.nHeight * 4];
+
+        assertTrue(client1.sendDesktopWindow(wnd, BitmapFormat.BMP_RGB32) > 0, "send desktop #1 window");
+        assertTrue(waitForEvent(operator, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, DEF_WAIT, interleave),
+                   "operator receives desktop");
+        assertFalse(waitForEvent(client1, ClientEvent.CLIENTEVENT_USER_DESKTOPWINDOW, 1000, interleave),
+                    "non-operator must not desktop");
+        assertTrue(waitCmdSuccess(client1, client1.doSubscribe(operator.getMyUserID(),
+                                                                 Subscription.SUBSCRIBE_DESKTOPINPUT),
+                                    DEF_WAIT, interleave), "subscribe desktopinput");
+        assertTrue(waitCmdSuccess(client1, client1.doSubscribe(client2.getMyUserID(),
+                                                                 Subscription.SUBSCRIBE_DESKTOPINPUT),
+                                    DEF_WAIT, interleave), "subscribe desktopinput");
+        DesktopInput[] inputs = new DesktopInput[1];
+        inputs[0] = new DesktopInput();
+        assertTrue(operator.sendDesktopInput(client1.getMyUserID(), inputs), "operator send desktop #1 input");
+        assertTrue(waitForEvent(client1, ClientEvent.CLIENTEVENT_USER_DESKTOPINPUT, DEF_WAIT, interleave), "get desktop input[0]");
+        // no desktop mapping for input
+        assertFalse(client2.sendDesktopInput(client1.getMyUserID(), inputs), "client2 send desktop #1 input");
+    }
+
+    @Test
     public void testTransmitUsers() {
 
         final String USERNAME = "tt_test", PASSWORD = "tt_test", NICKNAME = "jUnit - " + getTestMethodName();
