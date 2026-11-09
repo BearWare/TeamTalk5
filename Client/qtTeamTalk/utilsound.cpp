@@ -236,8 +236,7 @@ int getSelectedSndInputDevice()
     {
         //check if device-id has changed since last
         QString uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
-        if (uid.size())
-            inputid = getSoundInputFromUID(inputid, uid);
+        inputid = getSoundInputFromUID(getDefaultSndInputDevice(), uid);
     }
     qDebug() << "Returning input device #" << inputid;
     return inputid;
@@ -253,8 +252,7 @@ int getSelectedSndOutputDevice()
     {
         //check if device-id has changed since last
         QString uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
-        if (uid.size())
-            outputid = getSoundOutputFromUID(outputid, uid);
+        outputid = getSoundOutputFromUID(getDefaultSndOutputDevice(), uid);
     }
     qDebug() << "Returning output device #" << outputid;
     return outputid;
