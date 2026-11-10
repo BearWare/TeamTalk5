@@ -258,6 +258,22 @@ if (BUILD_TEAMTALK_LIBRARY_DLLPRO)
 
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
 
+  find_program (CLANG_TIDY_EXECUTABLE NAMES clang-tidy)
+  if (NOT CLANG_TIDY_EXECUTABLE)
+    set (CLANG_TIDY_EXECUTABLE clang-tidy)
+    message (STATUS "clang-tidy not found during configuration; TeamTalk5ProDLL-clang-tidy will use PATH at build time")
+  else()
+    message (STATUS "Using clang-tidy: ${CLANG_TIDY_EXECUTABLE}")
+  endif()
+
+  set (CMAKE_EXPORT_COMPILE_COMMANDS ON)
+
+  add_custom_target (TeamTalk5ProDLL-clang-tidy
+    COMMAND ${CLANG_TIDY_EXECUTABLE} -p ${CMAKE_BINARY_DIR} ${TTCLIENTPRODLL_SOURCES}
+    WORKING_DIRECTORY ${TEAMTALKLIB_ROOT}
+    COMMENT "Running clang-tidy on TeamTalk5ProDLL"
+    VERBATIM)
+
 endif()
 
 ######################
