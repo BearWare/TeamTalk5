@@ -18,6 +18,7 @@ rtc_enable_sctp=false
 rtc_include_opus=false
 rtc_include_tests=false
 rtc_libvpx_build_vp9=false
+rtc_rust=false
 rtc_ssl_root="/dev/null"
 target_cpu="@WEBRTC_ARCH@"
 target_environment="@WEBRTC_TARGET_ENV@"
