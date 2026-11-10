@@ -103,6 +103,8 @@ struct AudioCodecView: View {
             }
             Toggle("Variable Bitrate", isOn: $model.opusVBR)
             Toggle("DTX", isOn: $model.opusDTX)
+            Toggle("AI Packet Loss Recovery (DRED)", isOn: $model.opusDRED)
+            Toggle("AI Speech Enhancement (OSCE)", isOn: $model.opusOSCE)
             Stepper(value: Binding(
                 get: { model.opusFrameSize },
                 set: { model.opusFrameSizeChanged($0) }
