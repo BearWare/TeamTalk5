@@ -9,12 +9,6 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_WEBRTC ${TOOLCHAIN_INSTALL_PREFIX}/webrtc)
 
 if (MSVC)
-  # WebRTC for Windows depends on "Windows 11 SDK (10.0.26100.0)". This
-  # can be installed from Visual Studio Installer.
-  #
-  # WebRTC for Windows depends on "C++ Clang Compiler for Windows (18.1.8)".
-  # This can be installed from Visual Studio Installer.
-
   # Force C:\webrtc to avoid build errors due to long path names (MAX_PATH=260)
   set (WEBRTC_FETCH_PATH C:/webrtc/${CMAKE_SYSTEM_NAME} CACHE FILEPATH "Root folder for WebRTC repository")
   file(TO_NATIVE_PATH ${WEBRTC_FETCH_PATH} WEBRTC_FETCH_PATH_NATIVE)
