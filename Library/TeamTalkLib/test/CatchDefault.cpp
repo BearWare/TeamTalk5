@@ -123,6 +123,15 @@ public:
 /* Known bugs */
 #define TEAMTALK_KNOWN_BUGS 0
 
+constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
+constexpr auto OPUS_SAMPLE_RATE_HZ = 48000;
+constexpr auto OPUS_CHANNELS = 2;
+constexpr auto OPUS_COMPLEXITY = 10;
+constexpr auto OPUS_TX_INTERVAL_MSEC = 240;
+constexpr auto OPUS_FRAME_SIZE_120MS_MSEC = 120;
+constexpr auto OPUS_FRAME_SIZE_60MS_MSEC = 60;
+constexpr auto OPUS_FRAME_SIZE_40MS_MSEC = 40;
+
 static std::vector<char> FlattenPacket(const teamtalk::FieldPacket& packet,
                                        std::vector<size_t>& offsets)
 {
@@ -253,15 +262,22 @@ TEST_CASE( "Ogg Write", "" )
         std::cout << "Skipping \"Ogg Write\"... Weird file permission on Windows GitHub" << std::endl;
         return;
     }
+    constexpr auto SPEEX_BANDMODE = 1;
+    constexpr auto SPEEX_VBR_QUALITY = 7;
+    constexpr auto SPEEX_BITRATE = 32000;
+    constexpr auto SPEEX_MAX_BITRATE = 48000;
+
     SpeexEncFile spxfile;
-    REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), 1, DEFAULT_SPEEX_COMPLEXITY, 7, 32000, 48000, false) == false);
+    REQUIRE( spxfile.Open(ACE_TEXT("/foo.spx"), SPEEX_BANDMODE, DEFAULT_SPEEX_COMPLEXITY, SPEEX_VBR_QUALITY, SPEEX_BITRATE, SPEEX_MAX_BITRATE, false) == false);
 }
 #endif
 
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Record mux")
 {
-    std::vector<TTInstPtr> clients(2);
+    constexpr auto CLIENT_COUNT = 2;
+
+    std::vector<TTInstPtr> clients(CLIENT_COUNT);
     for (size_t i=0;i<clients.size();++i)
     {
         REQUIRE((clients[i] = InitTeamTalk()));
@@ -274,16 +290,16 @@ TEST_CASE( "Record mux")
             AudioCodec audiocodec = {};
             audiocodec.nCodec = OPUS_CODEC;
             audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
-            audiocodec.opus.nTxIntervalMSec = 240;
+            audiocodec.opus.nTxIntervalMSec = OPUS_TX_INTERVAL_MSEC;
 #if defined(OPUS_FRAMESIZE_120_MS)
-            audiocodec.opus.nFrameSizeMSec = 120;
+            audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_120MS_MSEC;
 #else
-            audiocodec.opus.nFrameSizeMSec = 40;
+            audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_40MS_MSEC;
 #endif
             audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
-            audiocodec.opus.nChannels = 2;
-            audiocodec.opus.nComplexity = 10;
-            audiocodec.opus.nSampleRate= 48000;
+            audiocodec.opus.nChannels = OPUS_CHANNELS;
+            audiocodec.opus.nComplexity = OPUS_COMPLEXITY;
+            audiocodec.opus.nSampleRate= OPUS_SAMPLE_RATE_HZ;
             audiocodec.opus.bDTX = 1;
             audiocodec.opus.bFEC = 1;
             audiocodec.opus.bVBR = 0;
@@ -302,22 +318,27 @@ TEST_CASE( "Record mux")
     REQUIRE(TT_GetChannel(clients[1], TT_GetMyChannelID(clients[1]), &chan));
 
     REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
-    WaitForEvent(clients[0], CLIENTEVENT_NONE, 100);
+    constexpr auto TX_TONE_HZ = 500;
+    constexpr auto RX_TONE_HZ = 600;
+    constexpr auto STARTUP_WAIT_MSEC = 100;
+    constexpr auto TRANSMIT_DURATION_MSEC = 2500;
+    constexpr auto RECORDING_DURATION_MSEC = 10000;
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, STARTUP_WAIT_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
 
     REQUIRE(TT_StartRecordingMuxedAudioFile(clients[1], &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
 
-    REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_DBG_SetSoundInputTone(clients[0], STREAMTYPE_VOICE, TX_TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(clients[0], true));
-    WaitForEvent(clients[0], CLIENTEVENT_NONE, 2500);
+    WaitForEvent(clients[0], CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(clients[0], false));
 
-    REQUIRE(TT_DBG_SetSoundInputTone(clients[1], STREAMTYPE_VOICE, 600));
+    REQUIRE(TT_DBG_SetSoundInputTone(clients[1], STREAMTYPE_VOICE, RX_TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(clients[1], true));
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, 2500);
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(clients[1], false));
 
-    WaitForEvent(clients[1], CLIENTEVENT_NONE, 10000);
+    WaitForEvent(clients[1], CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(clients[1]));
 }
@@ -326,6 +347,7 @@ TEST_CASE( "Record mux")
 #if defined(ENABLE_OPUS)
 TEST_CASE( "Last voice packet" )
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -340,16 +362,16 @@ TEST_CASE( "Last voice packet" )
     AudioCodec audiocodec = {};
     audiocodec.nCodec = OPUS_CODEC;
     audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
-    audiocodec.opus.nTxIntervalMSec = 240;
+    audiocodec.opus.nTxIntervalMSec = OPUS_TX_INTERVAL_MSEC;
 #if defined(OPUS_FRAMESIZE_120_MS)
-    audiocodec.opus.nFrameSizeMSec = 120;
+    audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_120MS_MSEC;
 #else
-    audiocodec.opus.nFrameSizeMSec = 60;
+    audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_60MS_MSEC;
 #endif
     audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
-    audiocodec.opus.nChannels = 2;
-    audiocodec.opus.nComplexity = 10;
-    audiocodec.opus.nSampleRate= 48000;
+    audiocodec.opus.nChannels = OPUS_CHANNELS;
+    audiocodec.opus.nComplexity = OPUS_COMPLEXITY;
+    audiocodec.opus.nSampleRate= OPUS_SAMPLE_RATE_HZ;
     audiocodec.opus.bDTX = 1;
     audiocodec.opus.bFEC = 1;
     audiocodec.opus.bVBR = 0;
@@ -360,10 +382,13 @@ TEST_CASE( "Last voice packet" )
 
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
 
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
+    constexpr auto RX_TONE_HZ = 600;
+    constexpr auto TX_INTERVAL_COUNT = 5;
+    constexpr auto TX_INTERVAL_EXTRA_FRACTION = .5;
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, RX_TONE_HZ));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, int((audiocodec.opus.nTxIntervalMSec * 5) + (audiocodec.opus.nTxIntervalMSec * .5)));
+    WaitForEvent(txclient, CLIENTEVENT_NONE, int((audiocodec.opus.nTxIntervalMSec * TX_INTERVAL_COUNT) + (audiocodec.opus.nTxIntervalMSec * TX_INTERVAL_EXTRA_FRACTION)));
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     auto voicestop = [&](TTMessage msg)
@@ -376,19 +401,21 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     //WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 2);
 
-    std::array<TTCHAR, 1024> curdir{};
+    std::array<TTCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> curdir{};
     ACE_OS::getcwd(curdir.data(), curdir.size());
     REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 0));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 1000);
+    constexpr auto SILENT_TRANSMIT_DURATION_MSEC = 1000;
+    WaitForEvent(txclient, CLIENTEVENT_NONE, SILENT_TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 }
 #endif
 
 TEST_CASE( "AudioMuxerToFile" )
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -406,40 +433,43 @@ TEST_CASE( "AudioMuxerToFile" )
     REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
     REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, ACE_TEXT("MyMuxFile.wav"), AFF_WAVE_FORMAT));
 
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    constexpr auto TX_TONE_HZ = 500;
+    constexpr auto RX_TONE_HZ = 600;
+    constexpr auto TRANSMIT_DURATION_MSEC = 2000;
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, TX_TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     // This tone is not being stored in 'MyMuxFile.wav' because the
     // audio block will bypass the audio encoder.
-    REQUIRE(TT_DBG_SetSoundInputTone(rxclient, STREAMTYPE_VOICE, 600));
+    REQUIRE(TT_DBG_SetSoundInputTone(rxclient, STREAMTYPE_VOICE, RX_TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(rxclient, false));
 
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoUnsubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
 
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoSubscribe(rxclient, TT_GetMyUserID(txclient), SUBSCRIBE_VOICE)));
 
     REQUIRE(TT_EnableVoiceTransmission(rxclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
 
     REQUIRE(TT_CloseSoundInputDevice(rxclient));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
-    WaitForEvent(txclient, CLIENTEVENT_NONE, 2000);
+    WaitForEvent(txclient, CLIENTEVENT_NONE, TRANSMIT_DURATION_MSEC);
     REQUIRE(TT_EnableVoiceTransmission(txclient, false));
 
     REQUIRE(TT_StopRecordingMuxedAudioFile(rxclient));
@@ -514,10 +544,13 @@ TEST_CASE( "AudioMuxerNoInputDevice" )
     int const sum = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
     REQUIRE(sum == 0);
 
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    constexpr auto TX_TONE_HZ = 500;
+    constexpr auto AUDIOBLOCK_RETRIES = 100;
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, TX_TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
 
-    int retries = 100;
+    int retries = AUDIOBLOCK_RETRIES;
     while (((retries--) != 0) && GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE) == 0);
     REQUIRE(retries > 0);
 }
@@ -534,7 +567,8 @@ TEST_CASE("AudioMuxerSoundInputDisabled")
     REQUIRE(TT_CloseSoundInputDevice(ttclient));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    int n_blocks = 10;
+    constexpr auto AUDIOBLOCK_COUNT = 10;
+    int n_blocks = AUDIOBLOCK_COUNT;
     do
     {
         TTMessage msg;
@@ -594,7 +628,10 @@ TEST_CASE( "AudioMuxerVolumeControl" )
     REQUIRE(Connect(txclient));
     REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
     REQUIRE(JoinRoot(txclient));
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+
+    constexpr auto TX_TONE_HZ = 500;
+
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, TX_TONE_HZ));
     int const txuserid = TT_GetMyUserID(txclient);
 
     REQUIRE(InitSound(rxclient));
@@ -620,20 +657,23 @@ TEST_CASE( "AudioMuxerVolumeControl" )
     // double volume level of user
     User user;
     REQUIRE(TT_GetUser(rxclient, txuserid, &user));
-    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * 2));
+    constexpr auto VOLUME_RETRIES = 5;
+    constexpr auto VOLUME_MULTIPLIER = 2;
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * VOLUME_MULTIPLIER));
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    int retries = 5;
+    int retries = VOLUME_RETRIES;
     uint32_t sum_gain = 0;
+    constexpr auto GAIN_TOLERANCE_FACTOR = 1.9;
     do
     {
         sum_gain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
     }
-    while (sum_gain <= sum_nogain * 1.9 && (retries != 0));
+    while (sum_gain <= sum_nogain * GAIN_TOLERANCE_FACTOR && (retries != 0));
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
-    REQUIRE(sum_gain > sum_nogain * 1.9);
+    REQUIRE(sum_gain > sum_nogain * GAIN_TOLERANCE_FACTOR);
 
     // reset
     REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, SOUND_VOLUME_DEFAULT));
@@ -641,19 +681,19 @@ TEST_CASE( "AudioMuxerVolumeControl" )
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
 
     // volume level of muxed audio when changing master volume
-    REQUIRE(TT_SetSoundOutputVolume(rxclient, SOUND_VOLUME_DEFAULT * 2));
+    REQUIRE(TT_SetSoundOutputVolume(rxclient, SOUND_VOLUME_DEFAULT * VOLUME_MULTIPLIER));
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE, TRUE));
 
-    retries = 5;
+    retries = VOLUME_RETRIES;
     do
     {
         sum_gain = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
     }
-    while (sum_gain <= sum_nogain * 1.9 && ((retries--) != 0));
+    while (sum_gain <= sum_nogain * GAIN_TOLERANCE_FACTOR && ((retries--) != 0));
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
-    REQUIRE(sum_gain > sum_nogain * 1.9);
+    REQUIRE(sum_gain > sum_nogain * GAIN_TOLERANCE_FACTOR);
 
     // reset
     REQUIRE(TT_SetSoundOutputVolume(rxclient, SOUND_VOLUME_DEFAULT));
@@ -663,26 +703,27 @@ TEST_CASE( "AudioMuxerVolumeControl" )
     // calc default volume leve of single stream audioblock
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    for (int i=0;i<2;++i)
+    constexpr auto SUM_SAMPLE_COUNT = 2;
+    for (int i=0;i<SUM_SAMPLE_COUNT;++i)
         sum_nogain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, FALSE));
     WaitForEvent(rxclient, CLIENTEVENT_NONE, 0);
 
     // double volume level
-    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * 2));
+    REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, user.nVolumeVoice * VOLUME_MULTIPLIER));
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    retries = 5;
+    retries = VOLUME_RETRIES;
     do
     {
         sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
     }
-    while (sum_gain <= sum_nogain * 1.9 && ((retries--) != 0));
+    while (sum_gain <= sum_nogain * GAIN_TOLERANCE_FACTOR && ((retries--) != 0));
 
     // volume level of muxed audio should now have doubled (roughly due to tone offset)
-    REQUIRE(sum_gain > sum_nogain * 1.9);
+    REQUIRE(sum_gain > sum_nogain * GAIN_TOLERANCE_FACTOR);
 
     // reset
     REQUIRE(TT_SetUserVolume(rxclient, txuserid, STREAMTYPE_VOICE, SOUND_VOLUME_DEFAULT));
@@ -694,7 +735,7 @@ TEST_CASE( "AudioMuxerVolumeControl" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    retries = 5;
+    retries = VOLUME_RETRIES;
     do
     {
         sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
@@ -713,7 +754,7 @@ TEST_CASE( "AudioMuxerVolumeControl" )
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
 
-    retries = 5;
+    retries = VOLUME_RETRIES;
     do
     {
         sum_gain = GetAudioBlockSamplesSum(rxclient, txuserid, STREAMTYPE_VOICE);
@@ -726,18 +767,24 @@ TEST_CASE( "AudioMuxerVolumeControl" )
 
 TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
 {
-    media::AudioInputFormat const inputfmt(media::AudioFormat(12000, 1), int(12000 * .01));
+    constexpr auto SAMPLE_RATE_HZ = 12000;
+    constexpr auto CHANNELS = 1;
+    constexpr auto FRAME_SIZE_SEC = .01;
+    constexpr auto QUEUE_WATER_MARK_BYTES = 1024 * 1024;
+
+    media::AudioInputFormat const inputfmt(media::AudioFormat(SAMPLE_RATE_HZ, CHANNELS), int(SAMPLE_RATE_HZ * FRAME_SIZE_SEC));
     const int TOTALSAMPLES = inputfmt.GetTotalSamples();
     const int FRAMESIZE = inputfmt.samples;
     const auto FMT = inputfmt.fmt;
     const int FRAMEBYTES = inputfmt.GetBytes();
 
     msg_queue_t mixed_frames;
-    mixed_frames.high_water_mark(1024 * 1024);
-    mixed_frames.low_water_mark(1024 * 1024);
+    mixed_frames.high_water_mark(QUEUE_WATER_MARK_BYTES);
+    mixed_frames.low_water_mark(QUEUE_WATER_MARK_BYTES);
 
     AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE);
-    int const muxinterval_msec = inputfmt.GetDurationMSec() * 5;
+    constexpr auto MUX_INTERVAL_FRAMES = 5;
+    int const muxinterval_msec = inputfmt.GetDurationMSec() * MUX_INTERVAL_FRAMES;
     muxer.SetMuxInterval(muxinterval_msec);
     auto mixedfunc = [&] (teamtalk::StreamTypes  /*sts*/, const media::AudioFrame& frm)
     {
@@ -758,7 +805,8 @@ for (auto u : userids)
         user_bufs.emplace_back(inputfmt.GetTotalSamples(), u);
     for (size_t i=0;i<userids.size();++i)
     {
-        media::AudioFrame frm(FMT, user_bufs[i].data(), inputfmt.samples, userids[i] * 1000);
+        constexpr auto SAMPLE_NO_STRIDE = 1000;
+        media::AudioFrame frm(FMT, user_bufs[i].data(), inputfmt.samples, userids[i] * SAMPLE_NO_STRIDE);
         frm.streamid = userids[i];
         user_frames.push_back(frm);
     }
@@ -774,7 +822,8 @@ for (auto u : userids)
         REQUIRE(std::memcmp(frm_mixed.input_buffer, user_frames[0].input_buffer, FRAMEBYTES) == 0);
     }
 
-    ACE_Time_Value tm = ACE_OS::gettimeofday() + ToTimeValue(50);
+    constexpr auto DEQUEUE_TIMEOUT_MSEC = 50;
+    ACE_Time_Value tm = ACE_OS::gettimeofday() + ToTimeValue(DEQUEUE_TIMEOUT_MSEC);
     REQUIRE(mixed_frames.dequeue(mb, &tm) < 0);
 
     user_frames[0].sample_no += FRAMESIZE;
@@ -802,7 +851,7 @@ for (auto u : userids)
     user_frames[1].sample_no += FRAMESIZE;
     REQUIRE(muxer.QueueUserAudio(user_frames[1].streamid, teamtalk::STREAMTYPE_VOICE, user_frames[1]));
 
-    tm = ACE_OS::gettimeofday() + ToTimeValue(50);
+    tm = ACE_OS::gettimeofday() + ToTimeValue(DEQUEUE_TIMEOUT_MSEC);
     REQUIRE(mixed_frames.dequeue(mb, &tm) < 0);
 
     // terminate stream for #0
@@ -840,8 +889,9 @@ for (auto u : userids)
             break;
     }
 
+    constexpr auto FLOOD_INTERVAL_COUNT = 10;
     // overflow the buffer
-    int const n_flood = 10 * muxinterval_msec / inputfmt.GetDurationMSec();
+    int const n_flood = FLOOD_INTERVAL_COUNT * muxinterval_msec / inputfmt.GetDurationMSec();
     for (int sr=0;sr<n_flood;++sr)
     {
         for (size_t i=0;i<userids.size();++i)
@@ -864,8 +914,9 @@ for (auto u : userids)
             break;
     }
 
+    constexpr auto DRAIN_INTERVAL_COUNT = 3;
     // wait for audio muxer to report delayer, i.e. drain muxer
-    tm = ACE_OS::gettimeofday() + ToTimeValue(muxinterval_msec * 3);
+    tm = ACE_OS::gettimeofday() + ToTimeValue(muxinterval_msec * DRAIN_INTERVAL_COUNT);
     bool gotmux = false;
     while (mixed_frames.dequeue(mb, &tm) >= 0)
     {
@@ -911,19 +962,28 @@ for (auto u : userids)
 
 TEST_CASE("MergeAudioBlocks")
 {
-    media::AudioFormat const fmt(48000, 2);
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto TONE_AMPLITUDE = 1000;
+    constexpr auto TOTAL_SAMPLES = 77000;
+    constexpr auto FRAME1_SAMPLES = 11000;
+    constexpr auto FRAME2_SAMPLES = 22000;
+    constexpr auto FRAME3_SAMPLES = 44000;
+    constexpr auto START_SAMPLE_NO = 7000;
+
+    media::AudioFormat const fmt(SAMPLE_RATE_HZ, CHANNELS);
     std::vector<short> rawaudio;
-    short v = 1000;
-    rawaudio.reserve(77000*fmt.channels);
-for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
+    short v = TONE_AMPLITUDE;
+    rawaudio.reserve(TOTAL_SAMPLES*fmt.channels);
+for (size_t i=0;std::cmp_less(i,TOTAL_SAMPLES*fmt.channels);++i)
         rawaudio.push_back(v++);
 
     std::vector<ACE_Message_Block*> mbs;
-    media::AudioFrame frm(fmt, rawaudio.data(), 11000, 7000);
+    media::AudioFrame frm(fmt, rawaudio.data(), FRAME1_SAMPLES, START_SAMPLE_NO);
     mbs.push_back(AudioFrameToMsgBlock(frm));
-    frm = media::AudioFrame(fmt, &rawaudio[11000 * fmt.channels], 22000, 7000 + 11000);
+    frm = media::AudioFrame(fmt, &rawaudio[FRAME1_SAMPLES * fmt.channels], FRAME2_SAMPLES, START_SAMPLE_NO + FRAME1_SAMPLES);
     mbs.push_back(AudioFrameToMsgBlock(frm));
-    frm = media::AudioFrame(fmt, &rawaudio[(11000 + 22000) * fmt.channels], 44000, 7000 + 11000 + 22000);
+    frm = media::AudioFrame(fmt, &rawaudio[(FRAME1_SAMPLES + FRAME2_SAMPLES) * fmt.channels], FRAME3_SAMPLES, START_SAMPLE_NO + FRAME1_SAMPLES + FRAME2_SAMPLES);
     mbs.push_back(AudioFrameToMsgBlock(frm));
     auto *mb = AudioFramesMerge(mbs);
     REQUIRE(mb->size() == mbs[0]->size() + mbs[1]->size() + mbs[2]->size() - sizeof(media::AudioFrame) * 2);
@@ -931,7 +991,7 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
     frm = media::AudioFrame(mb);
     for (size_t i=0;i<rawaudio.size();++i)
         REQUIRE(frm.input_buffer[i] == rawaudio[i]);
-    REQUIRE(frm.sample_no == 7000);
+    REQUIRE(frm.sample_no == START_SAMPLE_NO);
     REQUIRE(fmt == frm.inputfmt);
 
     for (auto *m : mbs)
@@ -944,33 +1004,40 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
     frm = media::AudioFrame(mb);
     for (size_t i=0;i<rawaudio.size();++i)
         REQUIRE(frm.input_buffer[i] == rawaudio[i]);
-    REQUIRE(frm.sample_no == 7000);
+    REQUIRE(frm.sample_no == START_SAMPLE_NO);
     REQUIRE(fmt == frm.inputfmt);
 }
 
 TEST_CASE("BuildAudioFrame")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto TONE_AMPLITUDE = 1000;
+    constexpr auto TOTAL_SAMPLES = 77000;
+    constexpr auto START_SAMPLE_NO = 7000;
+
     // Build from one big audio frame with remainder
-    media::AudioFormat const fmt(48000, 2);
+    media::AudioFormat const fmt(SAMPLE_RATE_HZ, CHANNELS);
     std::vector<short> rawaudio;
-    short v = 1000;
-    rawaudio.reserve(77000*fmt.channels);
-for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
+    short v = TONE_AMPLITUDE;
+    rawaudio.reserve(TOTAL_SAMPLES*fmt.channels);
+for (size_t i=0;std::cmp_less(i,TOTAL_SAMPLES*fmt.channels);++i)
         rawaudio.push_back(v++);
 
     std::vector<ACE_Message_Block*> mbs;
-    media::AudioFrame const frm(fmt, rawaudio.data(), 77000, 7000);
+    media::AudioFrame const frm(fmt, rawaudio.data(), TOTAL_SAMPLES, START_SAMPLE_NO);
     mbs.push_back(AudioFrameToMsgBlock(frm));
 
-    uint32_t sampleindex = 7000;
-    v = 1000;
-    while (auto *mb = AudioFrameFromList(120, mbs))
+    uint32_t sampleindex = START_SAMPLE_NO;
+    v = TONE_AMPLITUDE;
+    constexpr auto CHUNK_120_SAMPLES = 120;
+    while (auto *mb = AudioFrameFromList(CHUNK_120_SAMPLES, mbs))
     {
         MBGuard const g(mb);
         REQUIRE(mbs.size());
         media::AudioFrame const newfrm(mb);
         REQUIRE(newfrm.sample_no == sampleindex);
-        sampleindex += 120;
+        sampleindex += CHUNK_120_SAMPLES;
         for (int j=0;j<newfrm.input_samples*fmt.channels;++j)
             REQUIRE(newfrm.input_buffer[j] == v++);
     }
@@ -979,20 +1046,21 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
     MBGuard const g(mbs[0]);
     for (int j=0;j<remain.input_samples*fmt.channels;++j)
         REQUIRE(remain.input_buffer[j] == v++);
-    REQUIRE(remain.input_samples == 77000 % 120);
+    REQUIRE(remain.input_samples == TOTAL_SAMPLES % CHUNK_120_SAMPLES);
     mbs.clear();
 
     // Build from one big audio frame without remainder
     mbs.push_back(AudioFrameToMsgBlock(frm));
-    sampleindex = 7000;
-    v = 1000;
+    sampleindex = START_SAMPLE_NO;
+    v = TONE_AMPLITUDE;
     std::vector<ACE_Message_Block*> mbs_next;
-    while (auto *mb = AudioFrameFromList(100, mbs))
+    constexpr auto CHUNK_100_SAMPLES = 100;
+    while (auto *mb = AudioFrameFromList(CHUNK_100_SAMPLES, mbs))
     {
         MBGuard const g(mb);
         media::AudioFrame const newfrm(mb);
         REQUIRE(newfrm.sample_no == sampleindex);
-        sampleindex += 100;
+        sampleindex += CHUNK_100_SAMPLES;
         for (int j=0;j<newfrm.input_samples*fmt.channels;++j)
             REQUIRE(newfrm.input_buffer[j] == v++);
 
@@ -1003,15 +1071,16 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
 
     // Build from many small audio frames
     mbs = mbs_next;
-    sampleindex = 7000;
-    v = 1000;
-    while (auto *mb = AudioFrameFromList(1554, mbs))
+    sampleindex = START_SAMPLE_NO;
+    v = TONE_AMPLITUDE;
+    constexpr auto CHUNK_1554_SAMPLES = 1554;
+    while (auto *mb = AudioFrameFromList(CHUNK_1554_SAMPLES, mbs))
     {
         MBGuard const g(mb);
         REQUIRE(mbs.size());
         media::AudioFrame const newfrm(mb);
         REQUIRE(newfrm.sample_no == sampleindex);
-        sampleindex += 1554;
+        sampleindex += CHUNK_1554_SAMPLES;
         for (int j=0;j<newfrm.input_samples*fmt.channels;++j)
             REQUIRE(newfrm.input_buffer[j] == v++);
     }
@@ -1026,26 +1095,32 @@ for (size_t i=0;std::cmp_less(i,77000*fmt.channels);++i)
         remainsamples += media::AudioFrame(m).input_samples;
         m->release();
     }
-    REQUIRE(remainsamples == 77000 % 1554);
+    REQUIRE(remainsamples == TOTAL_SAMPLES % CHUNK_1554_SAMPLES);
 }
 
 TEST_CASE("GenerateToneStereoWaveFile")
 {
-    media::AudioFormat const fmt(32000, 2);
+    constexpr auto SAMPLE_RATE_HZ = 32000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto TONE_HZ = 500;
+    constexpr auto TONE_VOLUME = 8000;
+    constexpr auto ITERATIONS = 5;
+
+    media::AudioFormat const fmt(SAMPLE_RATE_HZ, CHANNELS);
     std::vector<short> buf(size_t(fmt.samplerate) * fmt.channels);
-    media::AudioFrame frm(fmt, buf.data(), 32000);
+    media::AudioFrame frm(fmt, buf.data(), SAMPLE_RATE_HZ);
     WavePCMFile wavfile;
     REQUIRE(wavfile.NewFile(ACE_TEXT("stereo.wav"), fmt));
-    for (int i=0;i<5;++i)
+    for (int i=0;i<ITERATIONS;++i)
     {
-        frm.sample_no = GenerateTone(frm, frm.sample_no, 500, 8000, false, true);
+        frm.sample_no = GenerateTone(frm, frm.sample_no, TONE_HZ, TONE_VOLUME, false, true);
         REQUIRE(wavfile.AppendSamples(frm.input_buffer, frm.input_samples));
-        frm.sample_no = GenerateTone(frm, frm.sample_no, 500, 8000, true, false);
+        frm.sample_no = GenerateTone(frm, frm.sample_no, TONE_HZ, TONE_VOLUME, true, false);
         REQUIRE(wavfile.AppendSamples(frm.input_buffer, frm.input_samples));
     }
     wavfile.Close();
     REQUIRE(wavfile.OpenFile(ACE_TEXT("stereo.wav"), true));
-    for (int i=0;i<5;++i)
+    for (int i=0;i<ITERATIONS;++i)
     {
         REQUIRE(wavfile.ReadSamples(frm.input_buffer, frm.input_samples) == frm.input_samples);
         for (int j=0;j<frm.input_samples;j+=2)
@@ -1060,7 +1135,11 @@ TEST_CASE("GenerateToneStereoWaveFile")
 
 TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 {
-    media::AudioInputFormat const inputfmt(media::AudioFormat(12000, 1), int(12000 * .01));
+    constexpr auto SAMPLE_RATE_HZ = 12000;
+    constexpr auto CHANNELS = 1;
+    constexpr auto FRAME_SIZE_SEC = .01;
+
+    media::AudioInputFormat const inputfmt(media::AudioFormat(SAMPLE_RATE_HZ, CHANNELS), int(SAMPLE_RATE_HZ * FRAME_SIZE_SEC));
     const int TOTALSAMPLES = inputfmt.GetTotalSamples();
     const int FRAMESIZE = inputfmt.samples;
     const auto FMT = inputfmt.fmt;
@@ -1069,7 +1148,8 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
     msg_queue_t mixed_frames;
     msg_queue_t mixed_ticker;
     AudioMuxer muxer(teamtalk::STREAMTYPE_VOICE | teamtalk::STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO | teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
-    int const muxinterval_msec = inputfmt.GetDurationMSec() * 5;
+    constexpr auto MUX_INTERVAL_FRAMES = 5;
+    int const muxinterval_msec = inputfmt.GetDurationMSec() * MUX_INTERVAL_FRAMES;
     muxer.SetMuxInterval(muxinterval_msec);
     auto mixedfunc = [&] (teamtalk::StreamTypes  /*sts*/, const media::AudioFrame& frm)
     {
@@ -1093,15 +1173,22 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
     userids.push_back(1000);
     std::vector<media::AudioFormat> user_fmts;
     user_fmts.push_back(FMT);
-    user_fmts.emplace_back(48000, 2);
-    user_fmts.emplace_back(32000, 2);
+    constexpr auto USER2_SAMPLE_RATE_HZ = 48000;
+    constexpr auto USER2_CHANNELS = 2;
+    constexpr auto USER3_SAMPLE_RATE_HZ = 32000;
+    constexpr auto USER3_CHANNELS = 2;
+    constexpr auto USER2_FRAME_SIZE_SEC = .01;
+    constexpr auto USER3_FRAME_SIZE_SEC = .015;
+    constexpr auto USER4_FRAME_SIZE_SEC = .005;
+    user_fmts.emplace_back(USER2_SAMPLE_RATE_HZ, USER2_CHANNELS);
+    user_fmts.emplace_back(USER3_SAMPLE_RATE_HZ, USER3_CHANNELS);
     user_fmts.push_back(FMT);
     std::vector< std::vector<short> > user_bufs;
     std::vector<media::AudioFrame> user_frames;
     user_bufs.emplace_back(inputfmt.GetTotalSamples(), userids[0]);
-    user_bufs.emplace_back(int64_t((user_fmts[1].channels * user_fmts[1].samplerate) * .01), userids[1]);
-    user_bufs.emplace_back(int64_t((user_fmts[2].channels * user_fmts[2].samplerate) * .015), userids[2]);
-    user_bufs.emplace_back(int64_t((user_fmts[3].channels * user_fmts[3].samplerate) * .005), userids[3]);
+    user_bufs.emplace_back(int64_t((user_fmts[1].channels * user_fmts[1].samplerate) * USER2_FRAME_SIZE_SEC), userids[1]);
+    user_bufs.emplace_back(int64_t((user_fmts[2].channels * user_fmts[2].samplerate) * USER3_FRAME_SIZE_SEC), userids[2]);
+    user_bufs.emplace_back(int64_t((user_fmts[3].channels * user_fmts[3].samplerate) * USER4_FRAME_SIZE_SEC), userids[3]);
     std::vector<teamtalk::StreamType> user_sts;
     user_sts.push_back(teamtalk::STREAMTYPE_VOICE);
     user_sts.push_back(teamtalk::STREAMTYPE_MEDIAFILE_AUDIO);
@@ -1110,7 +1197,8 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 
     for (size_t i=0;i<userids.size();++i)
     {
-        media::AudioFrame frm(user_fmts[i], user_bufs[i].data(), int(user_bufs[i].size() / user_fmts[i].channels), uint32_t(user_bufs[i].size() * 1000));
+        constexpr auto SAMPLE_NO_STRIDE = 1000;
+        media::AudioFrame frm(user_fmts[i], user_bufs[i].data(), int(user_bufs[i].size() / user_fmts[i].channels), uint32_t(user_bufs[i].size() * SAMPLE_NO_STRIDE));
         frm.streamid = userids[i];
         user_frames.push_back(frm);
     }
@@ -1141,8 +1229,9 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
         MBGuard const g(mb);
     }
 
+    constexpr auto OVERFLOW_INTERVAL_COUNT = 3;
     // test overflow of resampler buffer
-    int n_overflow = int(3 * ((muxinterval_msec / 1000.) / .015));
+    int n_overflow = int(OVERFLOW_INTERVAL_COUNT * ((muxinterval_msec / 1000.) / USER3_FRAME_SIZE_SEC));
     while ((n_overflow--) != 0)
     {
         user_frames[2].sample_no += user_frames[2].input_samples;
@@ -1159,14 +1248,19 @@ TEST_CASE( "AudioMuxerRawDifferentStreamTypeDifferentAudioFormat" )
 
 TEST_CASE( "AudioMuxerRawOverflow" )
 {
-    media::AudioInputFormat const inputfmt(media::AudioFormat(48000, 2), int(48000 * .01));
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto FRAME_SIZE_SEC = .01;
+    constexpr auto QUEUE_SIZE_BYTES = 1024*1024*10;
+
+    media::AudioInputFormat const inputfmt(media::AudioFormat(SAMPLE_RATE_HZ, CHANNELS), int(SAMPLE_RATE_HZ * FRAME_SIZE_SEC));
     const int TOTALSAMPLES = inputfmt.GetTotalSamples();
     const int FRAMESIZE = inputfmt.samples;
     const auto FMT = inputfmt.fmt;
 
     msg_queue_t mixed_frames;
     msg_queue_t mixed_ticker;
-    auto QSIZE = 1024*1024*10;
+    auto QSIZE = QUEUE_SIZE_BYTES;
     mixed_frames.high_water_mark(QSIZE);
     mixed_frames.low_water_mark(QSIZE);
     mixed_ticker.high_water_mark(QSIZE);
@@ -1198,7 +1292,8 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
     // overflow AudioMuxer's queue
     short v = 2;
-    while (frm.sample_no < uint32_t(frm.inputfmt.samplerate * 2))
+    constexpr auto OVERFLOW_DURATION_SEC = 2;
+    while (frm.sample_no < uint32_t(frm.inputfmt.samplerate * OVERFLOW_DURATION_SEC))
     {
         REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
         frm.sample_no += FRAMESIZE;
@@ -1220,7 +1315,9 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
     // AudioContainer has a 3 second buffer @ 48KHz, so lets overflow that
     auto offset = frm.sample_no;
-    while (frm.sample_no - offset < 48000 * 10)
+    constexpr auto AUDIO_CONTAINER_SAMPLE_RATE_HZ = 48000;
+    constexpr auto AUDIO_CONTAINER_OVERFLOW_SEC = 10;
+    while (frm.sample_no - offset < AUDIO_CONTAINER_SAMPLE_RATE_HZ * AUDIO_CONTAINER_OVERFLOW_SEC)
     {
         REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
         frm.sample_no += FRAMESIZE;
@@ -1243,7 +1340,12 @@ TEST_CASE( "AudioMuxerRawOverflow" )
 
 TEST_CASE( "AudioMuxerRawSampleIndex" )
 {
-    media::AudioInputFormat const inputfmt(media::AudioFormat(48000, 2), int(48000 * .01));
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto FRAME_SIZE_SEC = .01;
+    constexpr auto QUEUE_SIZE_BYTES = 1024*1024*10;
+
+    media::AudioInputFormat const inputfmt(media::AudioFormat(SAMPLE_RATE_HZ, CHANNELS), int(SAMPLE_RATE_HZ * FRAME_SIZE_SEC));
     const int TOTALSAMPLES = inputfmt.GetTotalSamples();
     const int FRAMESIZE = inputfmt.samples;
     const auto FMT = inputfmt.fmt;
@@ -1251,7 +1353,7 @@ TEST_CASE( "AudioMuxerRawSampleIndex" )
     ACE_Time_Value zero;
     msg_queue_t mixed_frames;
     msg_queue_t mixed_ticker;
-    auto QSIZE = 1024*1024*10;
+    auto QSIZE = QUEUE_SIZE_BYTES;
     mixed_frames.high_water_mark(QSIZE);
     mixed_frames.low_water_mark(QSIZE);
     mixed_ticker.high_water_mark(QSIZE);
@@ -1286,7 +1388,8 @@ TEST_CASE( "AudioMuxerRawSampleIndex" )
     }
 
     buffer.assign(buffer.size(), short(2));
-    frm.sample_no += FRAMESIZE * 2; // sample index mismatch
+    constexpr auto MISMATCH_SKIP_FRAMES_1 = 2;
+    frm.sample_no += FRAMESIZE * MISMATCH_SKIP_FRAMES_1; // sample index mismatch
 
     REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
     while (mixed_frames.dequeue(mb) >= 0)
@@ -1298,7 +1401,8 @@ TEST_CASE( "AudioMuxerRawSampleIndex" )
     }
 
     buffer.assign(buffer.size(), short(3));
-    frm.sample_no += FRAMESIZE * 3;
+    constexpr auto MISMATCH_SKIP_FRAMES_2 = 3;
+    frm.sample_no += FRAMESIZE * MISMATCH_SKIP_FRAMES_2;
 
     REQUIRE(muxer.QueueUserAudio(16, teamtalk::STREAMTYPE_VOICE, frm));
     while (mixed_frames.dequeue(mb) >= 0)
@@ -1311,6 +1415,7 @@ TEST_CASE( "AudioMuxerRawSampleIndex" )
 
 TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -1326,12 +1431,16 @@ TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 10 * 1000;
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 10 * 1000;
+    constexpr auto MEDIA_FILE_TONE_HZ = 500;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("muxtone.wav"));
 
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, MEDIA_FILE_TONE_HZ));
 
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
@@ -1341,7 +1450,8 @@ TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
     auto session = TT_InitLocalPlayback(rxclient, mfi.szFileName, &mfp);
     REQUIRE(session > 0);
 
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 800));
+    constexpr auto TX_TONE_HZ = 800;
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, TX_TONE_HZ));
 
     TTMessage msg;
 
@@ -1370,18 +1480,22 @@ TEST_CASE( "AudioMuxerStreamTypesIntoAudioBlock" )
         REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
     }
 
-    int n_frames = 10;
+    constexpr auto GAIN_RETRIES = 10;
+    constexpr auto GAIN_TOLERANCE_FACTOR = 1.2;
+    int n_frames = GAIN_RETRIES;
     do
     {
         sum_mux_mf_voice = GetAudioBlockSamplesSum(rxclient, TT_MUXED_USERID, sts);
     }
-    while (sum_mux_mf_voice <= sum_mux_mf * 1.2 && (--n_frames != 0));
+    while (sum_mux_mf_voice <= sum_mux_mf * GAIN_TOLERANCE_FACTOR && (--n_frames != 0));
 
-    REQUIRE(sum_mux_mf_voice > sum_mux_mf * 1.2);
+    REQUIRE(sum_mux_mf_voice > sum_mux_mf * GAIN_TOLERANCE_FACTOR);
 }
 
 TEST_CASE( "AudioMuxerStreamTypeRecording" )
 {
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 1000;
+
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(rxclient));
@@ -1391,19 +1505,28 @@ TEST_CASE( "AudioMuxerStreamTypeRecording" )
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 1000;
+    constexpr auto FILE1_SAMPLE_RATE_HZ = 48000;
+    constexpr auto FILE1_CHANNELS = 2;
+    constexpr auto FILE1_TONE_HZ = 100;
+    constexpr auto FILE2_SAMPLE_RATE_HZ = 44100;
+    constexpr auto FILE2_CHANNELS = 1;
+    constexpr auto FILE2_TONE_HZ = 200;
+    constexpr auto FILE3_SAMPLE_RATE_HZ = 12000;
+    constexpr auto FILE3_CHANNELS = 2;
+    constexpr auto FILE3_TONE_HZ = 300;
+    mfi.audioFmt.nChannels = FILE1_CHANNELS;
+    mfi.audioFmt.nSampleRate = FILE1_SAMPLE_RATE_HZ;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_100.wav"));
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 100));
-    mfi.audioFmt.nChannels = 1;
-    mfi.audioFmt.nSampleRate = 44100;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, FILE1_TONE_HZ));
+    mfi.audioFmt.nChannels = FILE2_CHANNELS;
+    mfi.audioFmt.nSampleRate = FILE2_SAMPLE_RATE_HZ;
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_200.wav"));
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 200));
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 12000;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, FILE2_TONE_HZ));
+    mfi.audioFmt.nChannels = FILE3_CHANNELS;
+    mfi.audioFmt.nSampleRate = FILE3_SAMPLE_RATE_HZ;
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("tone_300.wav"));
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 300));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, FILE3_TONE_HZ));
 
     Channel chan;
     REQUIRE(TT_GetChannel(rxclient, TT_GetRootChannelID(rxclient), &chan));
@@ -1481,8 +1604,9 @@ TEST_CASE( "AudioMuxerStreamTypeRecording" )
     mfp.bPaused = TRUE;
     REQUIRE(TT_UpdateLocalPlayback(rxclient, session, &mfp));
 
+    constexpr auto RESUME_WAIT_MSEC = 1000;
     // resume playback
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, 1000);
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, RESUME_WAIT_MSEC);
     mfp.bPaused = FALSE;
     REQUIRE(TT_UpdateLocalPlayback(rxclient, session, &mfp));
     do
@@ -1507,15 +1631,15 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
 {
     // This test case reproduces a problem in which the Audioblock output stops
     // after playing a file.
-    
+
     AudioCodec ac = MakeDefaultAudioCodec(OPUS_CODEC);
-    ac.opus.nSampleRate = 48000;
-    ac.opus.nChannels = 2;
-    ac.opus.nTxIntervalMSec = 240;
+    ac.opus.nSampleRate = OPUS_SAMPLE_RATE_HZ;
+    ac.opus.nChannels = OPUS_CHANNELS;
+    ac.opus.nTxIntervalMSec = OPUS_TX_INTERVAL_MSEC;
 #if defined(OPUS_FRAMESIZE_120_MS)
-    ac.opus.nFrameSizeMSec = 120;
+    ac.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_120MS_MSEC;
 #else
-    ac.opus.nFrameSizeMSec = 40;
+    ac.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_40MS_MSEC;
 #endif
 
     std::array<TTCHAR, TT_STRLEN> filename{};
@@ -1532,8 +1656,10 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
 
     AudioFormat af;
     af.nAudioFmt = AFF_WAVE_FORMAT;
-    af.nChannels = 1;
-    af.nSampleRate = 8000;
+    constexpr auto MIX_SAMPLE_RATE_HZ = 8000;
+    constexpr auto MIX_CHANNELS = 1;
+    af.nChannels = MIX_CHANNELS;
+    af.nSampleRate = MIX_SAMPLE_RATE_HZ;
     REQUIRE(TT_EnableAudioBlockEventEx(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE | STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, &af, TRUE));
 
     WavePCMFile wavfile;
@@ -1546,13 +1672,15 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     bool playoutstarted = false;
     TTMessage msg;
 
-    while (durationMSec < 3000)
+    constexpr auto MIX_DURATION_MSEC = 3000;
+    while (durationMSec < MIX_DURATION_MSEC)
     {
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
         auto const streamtype = msg.nStreamType;
         AudioBlock* ttAudioblock = TT_AcquireUserAudioBlock(ttclient, streamtype, msg.nSource);
         REQUIRE(ttAudioblock);
-        REQUIRE(ttAudioblock->nSamples == int(ttAudioblock->nSampleRate * .02));
+        constexpr auto AUDIOBLOCK_DURATION_SEC = .02;
+        REQUIRE(ttAudioblock->nSamples == int(ttAudioblock->nSampleRate * AUDIOBLOCK_DURATION_SEC));
         REQUIRE(ttAudioblock->nSampleRate == af.nSampleRate);
         REQUIRE(ttAudioblock->nChannels == af.nChannels);
         wavfile.AppendSamples(reinterpret_cast<const short*>(ttAudioblock->lpRawAudio), ttAudioblock->nSamples);
@@ -1562,10 +1690,11 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
             silenceBlockCount++;
         }
 
+        constexpr auto SILENCE_BLOCKS_BEFORE_PLAYOUT = 1;
         // Start playout after receving a few block without audio. 
         // Not required to reproduce the problem, but the mechanism might be useful
         // for debugging purpose
-        if (!playoutstarted && (silenceBlockCount > 1))
+        if (!playoutstarted && (silenceBlockCount > SILENCE_BLOCKS_BEFORE_PLAYOUT))
         {
             MediaFilePlayback mfp = {};
             mfp.bPaused = FALSE;
@@ -1587,6 +1716,7 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
 #if defined(ENABLE_OGG)
 TEST_CASE( "Opus Read File" )
 {
+
     auto rxclient = InitTeamTalk();
 
     REQUIRE(InitSound(rxclient));
@@ -1598,22 +1728,31 @@ TEST_CASE( "Opus Read File" )
     codec.nCodec = OPUS_CODEC;
     codec.opus = {};
     codec.opus.nApplication = OPUS_APPLICATION_AUDIO;
-    codec.opus.nBitRate = 64000;
+    constexpr auto OPUS_BITRATE = 64000;
+    constexpr auto OPUS_FRAMESIZE_MSEC = 5;
+    constexpr auto OPUS_SAMPLE_RATE = 24000;
+    constexpr auto OPUSTOOLS_TX_INTERVAL_MSEC = 400;
+    codec.opus.nBitRate = OPUS_BITRATE;
     codec.opus.nChannels = 2;
     codec.opus.nComplexity = 9;
-    codec.opus.nFrameSizeMSec = 5;
-    codec.opus.nSampleRate = 24000;
-    codec.opus.nTxIntervalMSec = 400;
+    codec.opus.nFrameSizeMSec = OPUS_FRAMESIZE_MSEC;
+    codec.opus.nSampleRate = OPUS_SAMPLE_RATE;
+    codec.opus.nTxIntervalMSec = OPUSTOOLS_TX_INTERVAL_MSEC;
     Channel chan = MakeChannel(rxclient, ACE_TEXT("opustools"), TT_GetMyChannelID(rxclient), codec);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannel(rxclient, &chan)));
 #else
     codec.nCodec = SPEEX_VBR_CODEC;
     codec.speex_vbr = {};
-    codec.speex_vbr.nBandmode = 1;
-    codec.speex_vbr.nBitRate = 16000;
-    codec.speex_vbr.nMaxBitRate = 32000;
-    codec.speex_vbr.nQuality = 5;
-    codec.speex_vbr.nTxIntervalMSec = 400;
+    constexpr auto SPEEX_BANDMODE = 1;
+    constexpr auto SPEEX_BITRATE = 16000;
+    constexpr auto SPEEX_MAX_BITRATE = 32000;
+    constexpr auto SPEEX_QUALITY = 5;
+    constexpr auto SPEEX_TX_INTERVAL_MSEC = 400;
+    codec.speex_vbr.nBandmode = SPEEX_BANDMODE;
+    codec.speex_vbr.nBitRate = SPEEX_BITRATE;
+    codec.speex_vbr.nMaxBitRate = SPEEX_MAX_BITRATE;
+    codec.speex_vbr.nQuality = SPEEX_QUALITY;
+    codec.speex_vbr.nTxIntervalMSec = SPEEX_TX_INTERVAL_MSEC;
     Channel chan = MakeChannel(rxclient, ACE_TEXT("speex"), TT_GetMyChannelID(rxclient), codec);
     REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannel(rxclient, &chan)));
 #endif
@@ -1622,7 +1761,8 @@ TEST_CASE( "Opus Read File" )
     REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &chan));
     REQUIRE(TT_StartRecordingMuxedAudioFile(rxclient, &chan.audiocodec, FILENAME.data(), AFF_CHANNELCODEC_FORMAT));
 
-    WaitForEvent(rxclient, CLIENTEVENT_NONE, 2000);
+    constexpr auto RECORDING_STARTUP_MSEC = 2000;
+    WaitForEvent(rxclient, CLIENTEVENT_NONE, RECORDING_STARTUP_MSEC);
 
     OggFile of;
     REQUIRE(of.Open(FILENAME.data()));
@@ -1739,7 +1879,8 @@ TEST_CASE("TT_AEC")
     }
 
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
-    int abCount = 20;
+    constexpr auto AUDIOBLOCK_COUNT = 20;
+    int abCount = AUDIOBLOCK_COUNT;
     AudioBlock* ab;
     while (abCount--)
     {
@@ -1774,7 +1915,7 @@ TEST_CASE("TT_AEC")
 
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_USERID, STREAMTYPE_VOICE, TRUE));
 
-    abCount = 20;
+    abCount = AUDIOBLOCK_COUNT;
     while (abCount--)
     {
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, msg));
@@ -1790,7 +1931,8 @@ TEST_CASE("TT_AEC")
     REQUIRE(TT_CloseSoundDuplexDevices(ttclient));
     REQUIRE(TT_SetSoundDeviceEffects(ttclient, &effects));
     REQUIRE(InitSound(ttclient, DUPLEX, indev, outdev));
-    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_INTERNAL_ERROR, 500) == false);
+    constexpr auto NO_ERROR_WAIT_MSEC = 500;
+    REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_INTERNAL_ERROR, NO_ERROR_WAIT_MSEC) == false);
 
     // cannot disable sound effects either
     effects.bEnableAGC = effects.bEnableDenoise = effects.bEnableEchoCancellation = FALSE;
@@ -1801,6 +1943,10 @@ TEST_CASE("TT_AEC")
 #if defined(ENABLE_FFMPEG)
 TEST_CASE("testThumbnail")
 {
+    constexpr auto STREAM_SAMPLE_RATE_HZ = 16000;
+    constexpr auto STREAM_CHANNELS = 2;
+    constexpr auto STREAM_FRAMESIZE = 1600;
+
     // ffmpeg -i in.mp3 -i teamtalk.png -map 0:0 -map 1:0 -c copy -id3v2_version 3 -metadata:s:v title="Album cover" -metadata:s:v comment="Cover (front)" out.mp3
 
     std::array<TTCHAR, TT_STRLEN> filename{};
@@ -1810,7 +1956,7 @@ TEST_CASE("testThumbnail")
     REQUIRE(GetMediaFileProp(filename.data(), mfp));
     REQUIRE(mfp.video.IsValid() == false);
 
-    MediaStreamOutput const prop(media::AudioFormat(16000, 2), 1600, media::FOURCC_NONE);
+    MediaStreamOutput const prop(media::AudioFormat(STREAM_SAMPLE_RATE_HZ, STREAM_CHANNELS), STREAM_FRAMESIZE, media::FOURCC_NONE);
     FFmpegStreamer ffmpeg(filename.data(), prop);
 
     REQUIRE(ffmpeg.Open());
@@ -1845,6 +1991,7 @@ TEST_CASE("testThumbnail")
 
 TEST_CASE("testSSLNonBlockConnector")
 {
+
     ACE_Timer_Heap timer_queue;
     ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
     auto grp = ACE_Thread_Manager::instance()->spawn(EventLoop, &r);
@@ -1859,7 +2006,8 @@ TEST_CASE("testSSLNonBlockConnector")
         void OnClosed(CryptStreamHandler::StreamHandler_t& /*streamer*/) override { }
         bool OnReceive(CryptStreamHandler::StreamHandler_t& /*streamer*/, const char* buff, int /*len*/) override
         {
-            REQUIRE(std::string(buff).substr(0, 8) == "teamtalk");
+            constexpr auto TEAMTALK_PREFIX_LENGTH = 8;
+            REQUIRE(std::string(buff).substr(0, TEAMTALK_PREFIX_LENGTH) == "teamtalk");
             m_rr->end_reactor_event_loop();
             return true;
         }
@@ -1872,7 +2020,8 @@ TEST_CASE("testSSLNonBlockConnector")
     CryptStreamHandler::StreamHandler_t* csh = new CryptStreamHandler(&r);
     csh->SetListener(&lsn);
     ACE_Synch_Options const options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
-    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    constexpr auto TEST_SERVER_PORT = 10443;
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), TEST_SERVER_PORT);
     REQUIRE(addrs.size());
     int const ret = connector.connect(csh, addrs[0], options);
     REQUIRE((ret == -1 && ACE_OS::last_error() == EWOULDBLOCK || ret == 0));
@@ -1884,6 +2033,7 @@ TEST_CASE("testSSLNonBlockConnector")
 
 TEST_CASE("testSSLBlockingConnector")
 {
+
     ACE_Timer_Heap timer_queue;
     ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
     auto grp = ACE_Thread_Manager::instance()->spawn(EventLoop, &r);
@@ -1898,7 +2048,8 @@ TEST_CASE("testSSLBlockingConnector")
         void OnClosed(CryptStreamHandler::StreamHandler_t&  /*streamer*/) override { }
         bool OnReceive(CryptStreamHandler::StreamHandler_t&  /*streamer*/, const char* buff, int /*len*/) override
         {
-            REQUIRE(std::string(buff).substr(0, 8) == "teamtalk");
+            constexpr auto TEAMTALK_PREFIX_LENGTH = 8;
+            REQUIRE(std::string(buff).substr(0, TEAMTALK_PREFIX_LENGTH) == "teamtalk");
             m_rr->end_reactor_event_loop();
             return true;
         }
@@ -1910,7 +2061,8 @@ TEST_CASE("testSSLBlockingConnector")
     REQUIRE(context);
     CryptStreamHandler::StreamHandler_t* csh = new CryptStreamHandler(&r);
     csh->SetListener(&lsn);
-    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    constexpr auto TEST_SERVER_PORT = 10443;
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), TEST_SERVER_PORT);
     REQUIRE(addrs.size());
     REQUIRE(connector.connect(csh, addrs[0]) == 0);
 
@@ -1921,6 +2073,7 @@ TEST_CASE("testSSLBlockingConnector")
 
 TEST_CASE("testConnector")
 {
+
     ACE_Timer_Heap timer_queue;
     ACE_Reactor r(new ACE_Select_Reactor(nullptr, &timer_queue), true);
     auto grp = ACE_Thread_Manager::instance()->spawn(EventLoop, &r);
@@ -1942,7 +2095,8 @@ TEST_CASE("testConnector")
     auto* csh = new DefaultStreamHandler(&r);
     csh->SetListener(&lsn);
     ACE_Synch_Options const options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
-    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), 10443);
+    constexpr auto TEST_SERVER_PORT = 10443;
+    auto addrs = DetermineHostAddress(ACE_TEXT("127.0.0.1"), TEST_SERVER_PORT);
     REQUIRE(addrs.size());
     int const ret = connector.connect(csh, addrs[0], options);
     REQUIRE(((ret == -1 && ACE_OS::last_error() == EWOULDBLOCK) || ret == 0));
@@ -2050,6 +2204,7 @@ TEST_CASE("SoundLoopbackDuplexDBFS30")
 
 TEST_CASE("SoundLoopbackDefault")
 {
+
     SoundDevice indev;
     SoundDevice outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
@@ -2070,39 +2225,45 @@ TEST_CASE("SoundLoopbackDefault")
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+    constexpr auto GAIN_DB = 25;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
 
     preprocess.webrtc.noisesuppression.bEnable = FALSE;
     preprocess.webrtc.noisesuppression.nLevel = 0;
 
+    constexpr auto CHANNELS = 1;
+    constexpr auto RECORDING_DURATION_MSEC = 30000;
     auto *sndloop = TT_StartSoundLoopbackTestEx(indev.nDeviceID, outdev.nDeviceID, indev.nDefaultSampleRate,
-                                          1, FALSE, &preprocess, nullptr);
+                                          CHANNELS, FALSE, &preprocess, nullptr);
     REQUIRE(sndloop);
 
     std::cout << "Recording...." << std::endl;
 
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 30000);
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 
     REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
 }
 
 TEST_CASE("WebRTC_SampleRates")
 {
+    constexpr auto GAIN_DB = 25;
+
     TTInstPtr const ttclient = InitTeamTalk();
 
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
 
     const std::vector<int> standardSampleRates = {8000, 12000, 16000, 24000, 32000, 44100, 48000};
 
     for (auto samplerate : standardSampleRates)
     {
+        constexpr auto CHANNELS = 2;
         auto *sndloop = TT_StartSoundLoopbackTestEx(TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
                                                    TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL,
-                                                   samplerate, 2, TRUE, &preprocess, nullptr);
+                                                   samplerate, CHANNELS, TRUE, &preprocess, nullptr);
         REQUIRE(sndloop);
 
         REQUIRE(TT_CloseSoundLoopbackTest(sndloop));
@@ -2111,6 +2272,7 @@ TEST_CASE("WebRTC_SampleRates")
 
 TEST_CASE("WebRTCPreprocessor")
 {
+
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient));
@@ -2118,28 +2280,31 @@ TEST_CASE("WebRTCPreprocessor")
     REQUIRE(JoinRoot(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
 
-    std::array<TTCHAR, 1024> curdir{};
+    std::array<TTCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> curdir{};
     ACE_OS::getcwd(curdir.data(), curdir.size());
     REQUIRE(TT_SetUserMediaStorageDir(ttclient, TT_GetMyUserID(ttclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
     REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+    constexpr auto RECORDING_DURATION_MSEC = 5000;
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 
     AudioPreprocessor preprocess = {};
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
 
     preprocess.webrtc.noisesuppression.bEnable = TRUE;
-    preprocess.webrtc.noisesuppression.nLevel = 3;
+    constexpr auto DENOISE_LEVEL = 3;
+    preprocess.webrtc.noisesuppression.nLevel = DENOISE_LEVEL;
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 10;
+    constexpr auto GAIN_DB = 10;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
 
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 
     REQUIRE(TT_EnableVoiceTransmission(ttclient, false));
 
@@ -2193,6 +2358,8 @@ TEST_CASE("WebRTC_gaincontroller1")
 
 TEST_CASE("WebRTC_gaincontroller2")
 {
+    constexpr auto DENOISE_LEVEL = 3;
+
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
 
@@ -2203,7 +2370,7 @@ TEST_CASE("WebRTC_gaincontroller2")
     mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 0;
 
     mfp.audioPreprocessor.webrtc.noisesuppression.bEnable = FALSE;
-    mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = 3;
+    mfp.audioPreprocessor.webrtc.noisesuppression.nLevel = DENOISE_LEVEL;
 
     std::array<TTCHAR, TT_STRLEN> filename{};
     ACE_OS::strsncpy(filename.data(), ACE_TEXT("testdata/AGC/input_16k_mono_low.wav"), filename.size());
@@ -2215,21 +2382,25 @@ TEST_CASE("WebRTC_gaincontroller2")
     bool toggled = false;
     bool stop = false;
     TTMessage msg;
-    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, 5000) && !stop)
+    constexpr auto EVENT_WAIT_MSEC = 5000;
+    constexpr auto TOGGLE_ELAPSED_MSEC = 3000;
+    constexpr auto STOP_ELAPSED_MSEC = 10000;
+    constexpr auto GAIN_DB = 25;
+    while (WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, EVENT_WAIT_MSEC) && !stop)
     {
         switch(msg.mediafileinfo.nStatus)
         {
         case MFS_PLAYING :
-            if (msg.mediafileinfo.uElapsedMSec >= 3000 && !toggled)
+            if (msg.mediafileinfo.uElapsedMSec >= TOGGLE_ELAPSED_MSEC && !toggled)
             {
                 mfp.uOffsetMSec = TT_MEDIAPLAYBACK_OFFSET_IGNORE;
                 mfp.audioPreprocessor.webrtc.gaincontroller2.bEnable = TRUE;
-                mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+                mfp.audioPreprocessor.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
                 toggled = true;
                 // std::cout << "Toggled: " << msg.mediafileinfo.uElapsedMSec << std::endl;
             }
-            if (msg.mediafileinfo.uElapsedMSec >= 10000)
+            if (msg.mediafileinfo.uElapsedMSec >= STOP_ELAPSED_MSEC)
             {
                 // std::cout << "Elapsed: " << msg.mediafileinfo.uElapsedMSec << std::endl;
                 stop = true;
@@ -2248,6 +2419,7 @@ TEST_CASE("WebRTC_gaincontroller2")
 
 TEST_CASE("WebRTC_echocancel")
 {
+
     TTInstPtr ttclient = InitTeamTalk();
     SoundDeviceEffects effects = {};
     effects.bEnableEchoCancellation = FALSE;
@@ -2260,10 +2432,13 @@ TEST_CASE("WebRTC_echocancel")
     AudioCodec codec = {};
     codec.nCodec = SPEEX_VBR_CODEC;
     codec.speex_vbr.nBandmode = 2;
-    codec.speex_vbr.nBitRate = 16000;
+    constexpr auto SPEEX_BITRATE = 16000;
+    constexpr auto SPEEX_QUALITY = 10;
+    constexpr auto SPEEX_TX_INTERVAL_MSEC = 40;
+    codec.speex_vbr.nBitRate = SPEEX_BITRATE;
     codec.speex_vbr.nMaxBitRate = SPEEX_UWB_MAX_BITRATE;
-    codec.speex_vbr.nQuality = 10;
-    codec.speex_vbr.nTxIntervalMSec = 40;
+    codec.speex_vbr.nQuality = SPEEX_QUALITY;
+    codec.speex_vbr.nTxIntervalMSec = SPEEX_TX_INTERVAL_MSEC;
     Channel const chan = MakeChannel(ttclient, ACE_TEXT("speex"), TT_GetRootChannelID(ttclient), codec);
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoJoinChannel(ttclient, &chan)));
 
@@ -2271,28 +2446,33 @@ TEST_CASE("WebRTC_echocancel")
 
     preprocess.nPreprocessor = WEBRTC_AUDIOPREPROCESSOR;
 
+    // WEBRTC_AUDIOPREPROCESSOR
+    constexpr auto DENOISE_LEVEL = 2;
+    constexpr auto GAIN_DB = 25;
+    // SPEEXDSP_AUDIOPREPROCESSOR
+    constexpr auto DEFAULT_AGC_ENABLE          = TRUE;
+    constexpr auto DEFAULT_AGC_GAINLEVEL       = 8000;
+    constexpr auto DEFAULT_AGC_INC_MAXDB       = 12;
+    constexpr auto DEFAULT_AGC_DEC_MAXDB       = (-40);
+    constexpr auto DEFAULT_AGC_GAINMAXDB       = 30;
+    constexpr auto DEFAULT_DENOISE_ENABLE      = TRUE;
+    constexpr auto DEFAULT_DENOISE_SUPPRESS    = (-30);
+    constexpr auto DEFAULT_ECHO_ENABLE         = TRUE;
+    constexpr auto DEFAULT_ECHO_SUPPRESS       = (-40);
+    constexpr auto DEFAULT_ECHO_SUPPRESSACTIVE = (-15);
+
     switch (preprocess.nPreprocessor)
     {
     case WEBRTC_AUDIOPREPROCESSOR :
         preprocess.webrtc.echocanceller.bEnable = TRUE;
 
         preprocess.webrtc.noisesuppression.bEnable = TRUE;
-        preprocess.webrtc.noisesuppression.nLevel = 2;
+        preprocess.webrtc.noisesuppression.nLevel = DENOISE_LEVEL;
 
         preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+        preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
         break;
     case SPEEXDSP_AUDIOPREPROCESSOR : {
-        constexpr auto DEFAULT_AGC_ENABLE          = TRUE;
-        constexpr auto DEFAULT_AGC_GAINLEVEL       = 8000;
-        constexpr auto DEFAULT_AGC_INC_MAXDB       = 12;
-        constexpr auto DEFAULT_AGC_DEC_MAXDB       = (-40);
-        constexpr auto DEFAULT_AGC_GAINMAXDB       = 30;
-        constexpr auto DEFAULT_DENOISE_ENABLE      = TRUE;
-        constexpr auto DEFAULT_DENOISE_SUPPRESS    = (-30);
-        constexpr auto DEFAULT_ECHO_ENABLE         = TRUE;
-        constexpr auto DEFAULT_ECHO_SUPPRESS       = (-40);
-        constexpr auto DEFAULT_ECHO_SUPPRESSACTIVE = (-15);
         preprocess.speexdsp.bEnableAGC = DEFAULT_AGC_ENABLE;
         preprocess.speexdsp.nGainLevel = DEFAULT_AGC_GAINLEVEL;
         preprocess.speexdsp.nMaxIncDBSec = DEFAULT_AGC_INC_MAXDB;
@@ -2316,11 +2496,14 @@ TEST_CASE("WebRTC_echocancel")
 
     REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
 
-    WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
+    constexpr auto RECORDING_DURATION_MSEC = 5000;
+    WaitForEvent(ttclient, CLIENTEVENT_NONE, RECORDING_DURATION_MSEC);
 }
 
 TEST_CASE("WebRTC_Preamplifier")
 {
+    constexpr auto TONE_HZ = 300;
+
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient));
@@ -2330,7 +2513,7 @@ TEST_CASE("WebRTC_Preamplifier")
     int level = 0;
     
     REQUIRE(TT_EnableVoiceTransmission(ttclient, TRUE));
-    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 300));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, TONE_HZ));
     REQUIRE(TT_EnableAudioBlockEvent(ttclient, TT_LOCAL_TX_USERID, STREAMTYPE_VOICE, TRUE));
 
     // no gain
@@ -2353,7 +2536,8 @@ TEST_CASE("WebRTC_Preamplifier")
 
     // half gain
     preprocess.webrtc.preamplifier.bEnable = TRUE;
-    preprocess.webrtc.preamplifier.fFixedGainFactor = .5f;
+    constexpr auto HALF_GAIN_FACTOR = .5f;
+    preprocess.webrtc.preamplifier.fFixedGainFactor = HALF_GAIN_FACTOR;
     REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
 
     REQUIRE(JoinRoot(ttclient));
@@ -2372,6 +2556,7 @@ TEST_CASE("WebRTC_Preamplifier")
 
 TEST_CASE("WebRTC-reinit")
 {
+
     TTInstPtr ttclient = InitTeamTalk();
     SoundDeviceEffects effects = {};
     effects.bEnableEchoCancellation = FALSE;
@@ -2384,16 +2569,16 @@ TEST_CASE("WebRTC-reinit")
     AudioCodec audiocodec = {};
     audiocodec.nCodec = OPUS_CODEC;
     audiocodec.opus.nApplication = OPUS_APPLICATION_VOIP;
-    audiocodec.opus.nTxIntervalMSec = 240;
+    audiocodec.opus.nTxIntervalMSec = OPUS_TX_INTERVAL_MSEC;
 #if defined(OPUS_FRAMESIZE_120_MS)
-    audiocodec.opus.nFrameSizeMSec = 120;
+    audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_120MS_MSEC;
 #else
-    audiocodec.opus.nFrameSizeMSec = 40;
+    audiocodec.opus.nFrameSizeMSec = OPUS_FRAME_SIZE_40MS_MSEC;
 #endif
     audiocodec.opus.nBitRate = OPUS_MIN_BITRATE;
-    audiocodec.opus.nChannels = 2;
-    audiocodec.opus.nComplexity = 10;
-    audiocodec.opus.nSampleRate = 48000;
+    audiocodec.opus.nChannels = OPUS_CHANNELS;
+    audiocodec.opus.nComplexity = OPUS_COMPLEXITY;
+    audiocodec.opus.nSampleRate = OPUS_SAMPLE_RATE_HZ;
     audiocodec.opus.bDTX = 1;
     audiocodec.opus.bFEC = 1;
     audiocodec.opus.bVBR = 0;
@@ -2408,22 +2593,26 @@ TEST_CASE("WebRTC-reinit")
     preprocess.webrtc.echocanceller.bEnable = TRUE;
 
     preprocess.webrtc.noisesuppression.bEnable = TRUE;
-    preprocess.webrtc.noisesuppression.nLevel = 2;
+    constexpr auto DENOISE_LEVEL = 2;
+    constexpr auto GAIN_DB = 25;
+    preprocess.webrtc.noisesuppression.nLevel = DENOISE_LEVEL;
 
     preprocess.webrtc.gaincontroller2.bEnable = TRUE;
-    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = 25;
+    preprocess.webrtc.gaincontroller2.fixeddigital.fGainDB = GAIN_DB;
 
 
     AudioPreprocessor preprocess_reinit = {};
     preprocess_reinit.nPreprocessor = NO_AUDIOPREPROCESSOR;
 
-    for (int i = 0; i < 100; i++)
+    constexpr auto REINIT_ITERATIONS = 100;
+    constexpr auto REINIT_WAIT_MSEC = 20;
+    for (int i = 0; i < REINIT_ITERATIONS; i++)
     {
         REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess));
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, REINIT_WAIT_MSEC);
 
         REQUIRE(TT_SetSoundInputPreprocessEx(ttclient, &preprocess_reinit));
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, 20);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, REINIT_WAIT_MSEC);
 
     }
 }
@@ -2431,6 +2620,10 @@ TEST_CASE("WebRTC-reinit")
 
 TEST_CASE("TeamTalk_VAD")
 {
+    constexpr auto VA_LEVEL = 63;
+    constexpr auto VA_STOP_DELAY_MSEC = 100;
+    constexpr auto TONE_HZ = 500;
+
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
     REQUIRE(Connect(ttclient));
@@ -2438,11 +2631,11 @@ TEST_CASE("TeamTalk_VAD")
     REQUIRE(JoinRoot(ttclient));
 
     REQUIRE(TT_EnableVoiceActivation(ttclient, TRUE));
-    REQUIRE(TT_SetVoiceActivationLevel(ttclient, 63));
-    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, 100));
+    REQUIRE(TT_SetVoiceActivationLevel(ttclient, VA_LEVEL));
+    REQUIRE(TT_SetVoiceActivationStopDelay(ttclient, VA_STOP_DELAY_MSEC));
 
     TTMessage msg = {};
-    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_DBG_SetSoundInputTone(ttclient, STREAMTYPE_VOICE, TONE_HZ));
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_VOICE_ACTIVATION, msg));
     REQUIRE(msg.bActive);
 
@@ -2471,6 +2664,7 @@ int Foo_StreamCallback(const void* inputBuffer, void* outputBuffer,
 
 TEST_CASE("PortAudioRaw_SamplesPerSec")
 {
+
     if (GITHUBSKIP)
     {
         std::cout << "Skipping \"PortAudioRaw_SamplesPerSec\"... No WASAPI" << std::endl;
@@ -2502,21 +2696,25 @@ TEST_CASE("PortAudioRaw_SamplesPerSec")
     outputParameters.suggestedLatency = ininfo->defaultLowOutputLatency;
 
     PaStream* outstream;
+    constexpr auto FRAME_SIZE_SEC = .04;
+    constexpr auto MEASURE_DURATION_SEC = 2;
+    constexpr auto SLEEP_MSEC = 1000;
     err = Pa_OpenStream(&outstream, nullptr, &outputParameters,
-                        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * .04),
+                        ininfo->defaultSampleRate, uint32_t(ininfo->defaultSampleRate * FRAME_SIZE_SEC),
                         paClipOff, Foo_StreamCallback, static_cast<void*> (0));
 
     REQUIRE(Pa_StartStream(outstream) == paNoError);
-    while (paSamples < ininfo->defaultSampleRate * 2)
+    while (paSamples < ininfo->defaultSampleRate * MEASURE_DURATION_SEC)
     {
-        Pa_Sleep(1000);
+        Pa_Sleep(SLEEP_MSEC);
 
         auto samplesDurationMSec = PCM16_SAMPLES_DURATION(paSamples, int(ininfo->defaultSampleRate));
         auto durationMSec = GETTIMESTAMP() - paTimeStamp;
         auto skew = int(samplesDurationMSec - durationMSec);
         // std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
 
-        REQUIRE(skew < 0.08 * 1000);
+        constexpr auto SKEW_TOLERANCE_MSEC = 0.08 * 1000;
+        REQUIRE(skew < SKEW_TOLERANCE_MSEC);
     }
 
     Pa_Terminate();
@@ -2548,7 +2746,6 @@ TEST_CASE("PortAudio_SamplesPerSec")
     soundsystem::DeviceInfo& outdev = *ioutdev;
 
     uint32_t samples = 0, starttime = 0;
-    constexpr int SAMPLERATE = 48000, CHANNELS = 1;
 
     class MyStream : public soundsystem::StreamPlayer
     {
@@ -2564,12 +2761,16 @@ TEST_CASE("PortAudio_SamplesPerSec")
         }
     } player(samples, starttime);
 
-    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, uint32_t(SAMPLERATE * 0.04)));
+    constexpr int SAMPLERATE = 48000, CHANNELS = 1;
+    constexpr auto FRAME_SIZE_SEC = .04;
+    constexpr auto MEASURE_DURATION_SEC = 2;
+    constexpr auto SLEEP_MSEC = 1000;
+    REQUIRE(snd->OpenOutputStream(&player, outputdeviceid, grp, SAMPLERATE, CHANNELS, uint32_t(SAMPLERATE * FRAME_SIZE_SEC)));
     REQUIRE(snd->StartStream(&player));
 
-    while (samples < uint32_t(outdev.default_samplerate * 2))
+    while (samples < uint32_t(outdev.default_samplerate * MEASURE_DURATION_SEC))
     {
-        Pa_Sleep(1000);
+        Pa_Sleep(SLEEP_MSEC);
 
         auto samplesDurationMSec = PCM16_SAMPLES_DURATION(samples, int(outdev.default_samplerate));
         auto durationMSec = GETTIMESTAMP() - starttime;
@@ -2577,7 +2778,8 @@ TEST_CASE("PortAudio_SamplesPerSec")
 
         // std::cout << "Samples duration: " << samplesDurationMSec << " / " << durationMSec << "  " << skew << std::endl;
 
-        REQUIRE(skew < 0.08 * 1000);
+        constexpr auto SKEW_TOLERANCE_MSEC = 0.08 * 1000;
+        REQUIRE(skew < SKEW_TOLERANCE_MSEC);
     }
     REQUIRE(snd->CloseOutputStream(&player));
     snd->RemoveSoundGroup(grp);
@@ -2587,6 +2789,7 @@ TEST_CASE("PortAudio_SamplesPerSec")
 
 TEST_CASE("InjectAudio")
 {
+
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
     REQUIRE(Connect(ttclient));
@@ -2595,8 +2798,8 @@ TEST_CASE("InjectAudio")
 
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
 
-    int SAMPLERATE = 48000;
-    int CHANNELS = 2;
+    constexpr auto SAMPLERATE = OPUS_SAMPLE_RATE_HZ;
+    constexpr auto CHANNELS = OPUS_CHANNELS;
     std::vector<short> buf(SAMPLERATE * CHANNELS);
     AudioBlock ab = {};
     ab.nStreamID = 1;
@@ -2605,8 +2808,9 @@ TEST_CASE("InjectAudio")
     ab.lpRawAudio = buf.data();
     ab.nSamples = SAMPLERATE;
 
+    constexpr auto INJECT_DURATION_SEC = 3;
     // 3 secs
-    int samples = SAMPLERATE * 3;
+    int samples = SAMPLERATE * INJECT_DURATION_SEC;
 
     do
     {
@@ -2632,11 +2836,14 @@ TEST_CASE("InjectAudioInputGain")
     Channel chan = {};
     REQUIRE(TT_GetChannel(ttclient, TT_GetMyChannelID(ttclient), &chan));
     REQUIRE(chan.audiocodec.nCodec == OPUS_CODEC);
-    auto const N_FRAMES = 5;
+
+    constexpr auto TONE_HZ = 500;
+    constexpr auto N_FRAMES = 5;
+
     int const samples = PCM16_DURATION_SAMPLES(chan.audiocodec.opus.nTxIntervalMSec, chan.audiocodec.opus.nSampleRate) * N_FRAMES;
     std::vector<short> buffer(size_t(samples) * chan.audiocodec.opus.nChannels);
     media::AudioFrame frm(media::AudioFormat(chan.audiocodec.opus.nSampleRate, chan.audiocodec.opus.nChannels), buffer.data(), samples);
-    int const sampleindex = GenerateTone(frm, 0, 500);
+    int const sampleindex = GenerateTone(frm, 0, TONE_HZ);
 
     AudioBlock ab = {};
     ab.lpRawAudio = frm.input_buffer;
@@ -2655,11 +2862,13 @@ TEST_CASE("InjectAudioInputGain")
     for (;recv_frames < N_FRAMES;++recv_frames)
         sumsamples_pregain += GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
 
+    constexpr auto GAIN_MULTIPLIER = 2;
+    constexpr auto UNDERFLOW_WAIT_INTERVALS = 2;
     // AudioMuxer underflow
-    REQUIRE(!WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, chan.audiocodec.opus.nTxIntervalMSec * 2));
+    REQUIRE(!WaitForEvent(ttclient, CLIENTEVENT_USER_AUDIOBLOCK, chan.audiocodec.opus.nTxIntervalMSec * UNDERFLOW_WAIT_INTERVALS));
 
     // double gain
-    REQUIRE(TT_SetSoundInputGainLevel(ttclient, TT_GetSoundInputGainLevel(ttclient) * 2));
+    REQUIRE(TT_SetSoundInputGainLevel(ttclient, TT_GetSoundInputGainLevel(ttclient) * GAIN_MULTIPLIER));
     ab.uSampleIndex = ab.nSamples;
     REQUIRE(TT_InsertAudioBlock(ttclient, &ab));
 
@@ -2667,11 +2876,13 @@ TEST_CASE("InjectAudioInputGain")
     for (recv_frames=0;recv_frames < N_FRAMES;++recv_frames)
         sumsamples_postgain += GetAudioBlockSamplesSum(ttclient, TT_MUXED_USERID, STREAMTYPE_VOICE);
 
-    REQUIRE(sumsamples_pregain * 1.9 < sumsamples_postgain);
+    constexpr auto GAIN_TOLERANCE_FACTOR = 1.9;
+    REQUIRE(sumsamples_pregain * GAIN_TOLERANCE_FACTOR < sumsamples_postgain);
 }
 
 TEST_CASE("FixedJitterBuffer")
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -2685,16 +2896,19 @@ TEST_CASE("FixedJitterBuffer")
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(rxclient));
 
-    uint32_t const fixeddelay = 240;
+    constexpr auto FIXED_DELAY_MSEC = 240;
+    constexpr auto MAX_ADAPTIVE_DELAY_MSEC = 10000;
+    constexpr auto TONE_HZ = 500;
+    uint32_t const fixeddelay = FIXED_DELAY_MSEC;
 
     JitterConfig jitterconf{};
     jitterconf.nFixedDelayMSec = fixeddelay;
     jitterconf.bUseAdativeDejitter = 0;
-    jitterconf.nMaxAdaptiveDelayMSec = 10000;
+    jitterconf.nMaxAdaptiveDelayMSec = MAX_ADAPTIVE_DELAY_MSEC;
 
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
 
-    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 500));
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, TONE_HZ));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
 
     auto voicestart = [&](TTMessage msg)
@@ -2717,6 +2931,7 @@ TEST_CASE("FixedJitterBuffer")
 
 TEST_CASE("SetGetJitterBufferControl")
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -2730,13 +2945,16 @@ TEST_CASE("SetGetJitterBufferControl")
     REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
     REQUIRE(JoinRoot(rxclient));
 
-    uint32_t const fixeddelay = 240;
+    constexpr auto FIXED_DELAY_MSEC = 240;
+    constexpr auto MAX_ADAPTIVE_DELAY_MSEC = 10000;
+    constexpr auto ACTIVE_ADAPTIVE_DELAY_MSEC = 800;
+    uint32_t const fixeddelay = FIXED_DELAY_MSEC;
 
     JitterConfig jitterconf_in{};
     jitterconf_in.nFixedDelayMSec = fixeddelay;
     jitterconf_in.bUseAdativeDejitter = 0;
-    jitterconf_in.nMaxAdaptiveDelayMSec = 10000;
-    jitterconf_in.nActiveAdaptiveDelayMSec = 800;
+    jitterconf_in.nMaxAdaptiveDelayMSec = MAX_ADAPTIVE_DELAY_MSEC;
+    jitterconf_in.nActiveAdaptiveDelayMSec = ACTIVE_ADAPTIVE_DELAY_MSEC;
 
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf_in);
 
@@ -2752,6 +2970,7 @@ TEST_CASE("SetGetJitterBufferControl")
 TEST_CASE("VideoCapture")
 {
     using namespace vidcap;
+
     videocapture_t capture = VideoCapture::Create();
 
     auto devs = capture->GetDevices();
@@ -2771,7 +2990,8 @@ TEST_CASE("VideoCapture")
 
     std::condition_variable cv;
 
-    int frames = 10;
+    constexpr auto FRAME_COUNT = 10;
+    int frames = FRAME_COUNT;
     auto callback = [&] (media::VideoFrame& /*video_frame*/, ACE_Message_Block* /*mb_video*/)
     {
         frames--;
@@ -2795,6 +3015,7 @@ TEST_CASE("VideoCapture")
 #if defined(ENABLE_VPX)
 TEST_CASE("StreamVideoFile")
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -2810,7 +3031,8 @@ TEST_CASE("StreamVideoFile")
 
     VideoCodec vid = {};
     vid.nCodec = WEBM_VP8_CODEC;
-    vid.webm_vp8.nRcTargetBitrate = 128;
+    constexpr auto VP8_TARGET_BITRATE_KBPS = 128;
+    vid.webm_vp8.nRcTargetBitrate = VP8_TARGET_BITRATE_KBPS;
     vid.webm_vp8.nEncodeDeadline = WEBM_VPX_DL_REALTIME;
 
 #if defined(WIN32)
@@ -2853,13 +3075,18 @@ TEST_CASE("StreamVideoFile")
 
 TEST_CASE("ReactorDeadlock_BUG")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 1000;
+    constexpr auto TONE_HZ = 500;
+
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("temp.wav"), TT_STRLEN);
-    mfi.uDurationMSec = 1000;
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
     
     MediaFilePlayback mfp = {};
     mfp.audioPreprocessor.nPreprocessor = NO_AUDIOPREPROCESSOR;
@@ -2875,10 +3102,12 @@ TEST_CASE("ReactorDeadlock_BUG")
     REQUIRE(JoinRoot(ttclient));
     playid = TT_InitLocalPlayback(ttclient, ACE_TEXT("temp.wav"), &mfp);
     REQUIRE(playid > 0);
-    for (int i=0;i<10;++i)
+    constexpr auto PLAYBACK_INSTANCES = 10;
+    constexpr auto PLAYBACK_START_WAIT_MSEC = 10;
+    for (int i=0;i<PLAYBACK_INSTANCES;++i)
     {
         REQUIRE(TT_InitLocalPlayback(ttclient, ACE_TEXT("temp.wav"), &mfp) > 0);
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, 10);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, PLAYBACK_START_WAIT_MSEC);
     }
 
     bool done = false;
@@ -2900,16 +3129,20 @@ TEST_CASE("ReactorDeadlock_BUG")
 
 TEST_CASE("LocalPlaybackEventOrder")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto TONE_HZ = 500;
+
     std::vector<MediaFileInfo> mfis;
     for (int const duration : {10, 20, 50, 80, 120})
     {
         MediaFileInfo mfi = {};
         mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-        mfi.audioFmt.nChannels = 2;
-        mfi.audioFmt.nSampleRate = 48000;
+        mfi.audioFmt.nChannels = CHANNELS;
+        mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
         ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("temp_%d.wav"), duration);
         mfi.uDurationMSec = duration;
-        REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+        REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
         mfis.push_back(mfi);
     }
 
@@ -2931,6 +3164,7 @@ TEST_CASE("LocalPlaybackEventOrder")
 
         playid = TT_InitLocalPlayback(ttclient, mfi.szFileName, &mfp);
         REQUIRE(playid > 0);
+        constexpr auto FINISHED_WAIT_MULTIPLIER = 2;
         while ((gotmsg = WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg, waittime)))
         {
             REQUIRE(msg.nSource == playid);
@@ -2944,7 +3178,7 @@ TEST_CASE("LocalPlaybackEventOrder")
             case MFS_FINISHED :
                 REQUIRE(!done);
                 done = true;
-                waittime = mfi.uDurationMSec * 2;
+                waittime = mfi.uDurationMSec * FINISHED_WAIT_MULTIPLIER;
                 break;
             default :
                 // no event should take place after MFS_FINISHED
@@ -2963,14 +3197,16 @@ TEST_CASE("LocalPlaybackPerformance")
     constexpr auto IN_SAMPLERATE = 48000;
     constexpr auto IN_CHANNELS = 2;
     constexpr auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 100;
+    constexpr auto TONE_HZ = 500;
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = IN_CHANNELS;
     mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
-    mfi.uDurationMSec = 100;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     TTInstPtr ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient));
@@ -3151,6 +3387,7 @@ TEST_CASE("ReactorLockedTimerStart_BUG")
 
 TEST_CASE("StreamMediaToAudioBlock")
 {
+
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
@@ -3165,11 +3402,15 @@ TEST_CASE("StreamMediaToAudioBlock")
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 10 * 1000;
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 10 * 1000;
+    constexpr auto TONE_HZ = 500;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("streamfile.wav"), TT_STRLEN);
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     REQUIRE(TT_EnableAudioBlockEvent(txclient, TT_LOCAL_USERID, STREAMTYPE_MEDIAFILE_AUDIO, TRUE));
     REQUIRE(TT_StartStreamingMediaFileToChannel(txclient, mfi.szFileName, nullptr));
@@ -3185,16 +3426,21 @@ TEST_CASE("StreamMediaToAudioBlock")
 
 TEST_CASE("LocalPlaybackToAudioBlock")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 100 * 1000;
+    constexpr auto TONE_HZ = 500;
+
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 100 * 1000;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("playbackfile.wav"), TT_STRLEN);
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     MediaFilePlayback mfp = {};
     mfp.bPaused = TRUE;
@@ -3228,7 +3474,8 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 
     std::set<INT32> allsessions;
     std::set<INT32> sessions;
-    for (int i=0;i<10;i++)
+    constexpr auto PLAYBACK_SESSIONS = 10;
+    for (int i=0;i<PLAYBACK_SESSIONS;i++)
     {
         sessionid = TT_InitLocalPlayback(txclient, mfi.szFileName, &mfp);
         REQUIRE(sessionid > 0);
@@ -3265,6 +3512,11 @@ TEST_CASE("LocalPlaybackToAudioBlock")
 
 TEST_CASE("LocalPlaybackDisconnect")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 1000;
+    constexpr auto TONE_HZ = 500;
+
     auto txclient = InitTeamTalk();
     REQUIRE(InitSound(txclient));
     REQUIRE(Connect(txclient));
@@ -3273,11 +3525,11 @@ TEST_CASE("LocalPlaybackDisconnect")
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nChannels = 2;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.uDurationMSec = 1000;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("playbackfile.wav"), TT_STRLEN);
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     MediaFilePlayback mfp = {};
     mfp.bPaused = FALSE;
@@ -3298,16 +3550,21 @@ TEST_CASE("LocalPlaybackDisconnect")
 
 TEST_CASE("LocalPlaybackSharedDevice")
 {
+    constexpr auto SAMPLE_RATE_HZ = 48000;
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 1000;
+    constexpr auto TONE_HZ = 600;
+
     auto ttclient = InitTeamTalk();
     InitSound(ttclient, SHARED_INPUT_OUTPUT);
 
     MediaFileInfo mfi = {};;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("hest.wav"), TT_STRLEN);;
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-    mfi.audioFmt.nSampleRate = 48000;
-    mfi.audioFmt.nChannels = 2;
-    mfi.uDurationMSec = 1000;
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 600));
+    mfi.audioFmt.nSampleRate = SAMPLE_RATE_HZ;
+    mfi.audioFmt.nChannels = CHANNELS;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     // Call TT_InitLocalPlayback for file 1, PAUSE=FALSE
     MediaFilePlayback mfp = {};
@@ -3354,6 +3611,8 @@ TEST_CASE("LocalPlaybackSharedDevice")
 
 TEST_CASE("LocalPlaybackOnOffSound")
 {
+    constexpr auto PLAYBACK_DURATION_MSEC = 1000;
+
     auto ttclient = InitTeamTalk();
     InitSound(ttclient);
 
@@ -3366,15 +3625,16 @@ TEST_CASE("LocalPlaybackOnOffSound")
     {
         int const onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
         REQUIRE(onid > 0);
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, PLAYBACK_DURATION_MSEC);
         int const offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
         REQUIRE(offid > 0);
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, 1000);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, PLAYBACK_DURATION_MSEC);
     }
 }
 
 TEST_CASE("LocalPlaybackOnOffPause")
 {
+
     auto ttclient = InitTeamTalk();
     InitSound(ttclient);
 
@@ -3394,7 +3654,8 @@ TEST_CASE("LocalPlaybackOnOffPause")
     int offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
     REQUIRE(offid > 0);
 
-    int i = 20;
+    constexpr auto PLAYBACK_ITERATIONS = 20;
+    int i = PLAYBACK_ITERATIONS;
     while ((i--) != 0)
     {
         // Play cached on.ogg
@@ -3409,7 +3670,8 @@ TEST_CASE("LocalPlaybackOnOffPause")
         onid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/on.ogg"), &mfp);
         REQUIRE(onid > 0);
 
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+        constexpr auto CACHE_WAIT_MSEC = 1000;
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, CACHE_WAIT_MSEC);
 
         // Play cached off.ogg
         mfp.bPaused = 0;
@@ -3423,12 +3685,13 @@ TEST_CASE("LocalPlaybackOnOffPause")
         offid = TT_InitLocalPlayback(ttclient, ACE_TEXT("testdata/Opus/off.ogg"), &mfp);
         REQUIRE(offid > 0);
 
-        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, 1000);
+        WaitForEvent(ttclient, CLIENTEVENT_NONE, msg, CACHE_WAIT_MSEC);
     }
 }
 
 TEST_CASE("FirstVoiceStreamPacket")
 {
+
     auto txclient = InitTeamTalk();
     auto rxclient = InitTeamTalk();
 
@@ -3455,13 +3718,16 @@ TEST_CASE("FirstVoiceStreamPacket")
             (msg.user.uUserState & USERSTATE_VOICE) == USERSTATE_VOICE;
     };
 
+    constexpr auto FIXED_DELAY_MSEC = 240;
+    constexpr auto MAX_ADAPTIVE_DELAY_MSEC = 10000;
+    constexpr auto ACTIVE_ADAPTIVE_DELAY_MSEC = 800;
     //Set fixed Jitter buffer config
-    uint32_t const fixeddelay = 240;
+    uint32_t const fixeddelay = FIXED_DELAY_MSEC;
     JitterConfig jitterconf = {};
     jitterconf.nFixedDelayMSec = fixeddelay;
     jitterconf.bUseAdativeDejitter = 0;
-    jitterconf.nMaxAdaptiveDelayMSec = 10000;
-    jitterconf.nActiveAdaptiveDelayMSec = 800;
+    jitterconf.nMaxAdaptiveDelayMSec = MAX_ADAPTIVE_DELAY_MSEC;
+    jitterconf.nActiveAdaptiveDelayMSec = ACTIVE_ADAPTIVE_DELAY_MSEC;
 
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
 
@@ -3484,8 +3750,9 @@ TEST_CASE("FirstVoiceStreamPacket")
     /* Part Two - fixed jitter buffer but set active adaptive control */
     /************************************************/
 
+    constexpr auto ADAPTIVE_DELAY_MSEC = 760;
     //Set fixed + adaptive Jitter buffer config but don't allow adaptive jitter control
-    uint32_t const adaptivedelay = 760;
+    uint32_t const adaptivedelay = ADAPTIVE_DELAY_MSEC;
     jitterconf.nActiveAdaptiveDelayMSec = adaptivedelay;
 
     TT_SetUserJitterControl(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, &jitterconf);
@@ -3518,6 +3785,7 @@ TEST_CASE("FirstVoiceStreamPacket")
 
 TEST_CASE("SeeFilesAfterMove")
 {
+
     auto admin = InitTeamTalk();
     REQUIRE(Connect(admin));
     REQUIRE(Login(admin, ACE_TEXT("admin"), ACE_TEXT("admin"), ACE_TEXT("admin")));
@@ -3531,8 +3799,10 @@ TEST_CASE("SeeFilesAfterMove")
     AudioCodec codec;
     codec.nCodec = NO_CODEC;
     auto chan = MakeChannel(admin, ACE_TEXT("SeeFilesAfterMove"), TT_GetRootChannelID(admin), codec);
-    chan.nMaxUsers = 100;
-    chan.nDiskQuota = 1024*1024;
+    constexpr auto CHANNEL_MAX_USERS = 100;
+    constexpr auto CHANNEL_DISK_QUOTA_BYTES = 1024*1024;
+    chan.nMaxUsers = CHANNEL_MAX_USERS;
+    chan.nDiskQuota = CHANNEL_DISK_QUOTA_BYTES;
     REQUIRE(WaitForCmdSuccess(admin, TT_DoMakeChannel(admin, &chan)));
 
     int const chanid = TT_GetChannelIDFromPath(admin, ACE_TEXT("SeeFilesAfterMove"));
@@ -3554,7 +3824,9 @@ TEST_CASE("SeeFilesAfterMove")
 
 static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilename, const int FRAMESIZE)
 {
-    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+    constexpr auto TONE_HZ = 500;
+
+    REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
     WavePCMFile wavfile;
     REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
@@ -3574,6 +3846,9 @@ static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilen
 
 TEST_CASE("OPUSFileEncDec")
 {
+    constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 10 * 1000;
+
     for (auto SAMPLERATE : {8000, 12000, 24000, 48000})
     {
 #if defined(OPUS_FRAMESIZE_120_MS)
@@ -3584,14 +3859,15 @@ TEST_CASE("OPUSFileEncDec")
         {
             MediaFileInfo mfi = {};
             mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
-            mfi.audioFmt.nChannels = 2;
+            mfi.audioFmt.nChannels = CHANNELS;
             mfi.audioFmt.nSampleRate = SAMPLERATE;
-            mfi.uDurationMSec = 10 * 1000;
+            mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
             const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
             ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("originalfile_%d_%dmsec.wav"),
                              mfi.audioFmt.nSampleRate, PCM16_SAMPLES_DURATION(FRAMESIZE, mfi.audioFmt.nSampleRate));
 
-            REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
+            constexpr auto TONE_HZ = 500;
+            REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, TONE_HZ));
 
             WavePCMFile wavfile;
             REQUIRE(wavfile.OpenFile(mfi.szFileName, true));
@@ -3646,11 +3922,13 @@ TEST_CASE("OPUSFileSeek")
     constexpr auto SAMPLERATE = 12000;
     constexpr auto FRAMESIZE_SEC = .04;
     constexpr auto CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 10 * 1000;
+
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = CHANNELS;
     mfi.audioFmt.nSampleRate = SAMPLERATE;
-    mfi.uDurationMSec = 10 * 1000;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
 
     const int FRAMESIZE = int(mfi.audioFmt.nSampleRate * FRAMESIZE_SEC);
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("orgseekfile_%d_%dmsec.wav"),
@@ -3669,13 +3947,15 @@ TEST_CASE("OPUSFileSeek")
     ogg_page og1;
     REQUIRE(of.Open(opusencfilename.data()));
     REQUIRE(of1.Open(opusencfilename.data()));
-    int count = 10;
+    constexpr auto PAGE_READ_COUNT = 10;
+    int count = PAGE_READ_COUNT;
     while((count--) != 0)
     {
         REQUIRE(of.ReadOggPage(og) == 1);
         REQUIRE(of1.ReadOggPage(og1) == 1);
     }
-    REQUIRE(of.LastGranulePos() == 48000 * mfi.uDurationMSec / 1000);
+    constexpr auto OPUS_GRANULE_SAMPLE_RATE_HZ = 48000;
+    REQUIRE(of.LastGranulePos() == OPUS_GRANULE_SAMPLE_RATE_HZ * mfi.uDurationMSec / 1000);
     REQUIRE(of.ReadOggPage(og) == 1);
     REQUIRE(of1.ReadOggPage(og1) == 1);
     REQUIRE(ogg_page_granulepos(&og) == ogg_page_granulepos(&og1));
@@ -3694,14 +3974,15 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(opfile.ReadEncoded(bytes, &samplesduration));
     REQUIRE(std::abs(halfsamples - samplesduration) <= FRAMESIZE);
 
+    constexpr auto SEEK_FRAMES = 10;
     // seek using log2
-    REQUIRE(of.Seek((FRAMESIZE * 10) * (48000 / SAMPLERATE), og));
-    REQUIRE(of.CurrentGranulePos() / (48000 / SAMPLERATE) == FRAMESIZE * 10);
-    REQUIRE(of1.SeekLog2((FRAMESIZE * 10) * (48000 / SAMPLERATE), og));
-    REQUIRE(of1.CurrentGranulePos() / (48000 / SAMPLERATE) == FRAMESIZE * 10);
+    REQUIRE(of.Seek((FRAMESIZE * SEEK_FRAMES) * (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE), og));
+    REQUIRE(of.CurrentGranulePos() / (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE) == FRAMESIZE * SEEK_FRAMES);
+    REQUIRE(of1.SeekLog2((FRAMESIZE * SEEK_FRAMES) * (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE), og));
+    REQUIRE(of1.CurrentGranulePos() / (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE) == FRAMESIZE * SEEK_FRAMES);
     REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
-    REQUIRE(of.Seek(((FRAMESIZE * 10) + FRAMESIZE / 3) * (48000 / SAMPLERATE), og));
-    REQUIRE(of1.SeekLog2(((FRAMESIZE * 10) + FRAMESIZE / 3) * (48000 / SAMPLERATE), og));
+    REQUIRE(of.Seek(((FRAMESIZE * SEEK_FRAMES) + FRAMESIZE / 3) * (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE), og));
+    REQUIRE(of1.SeekLog2(((FRAMESIZE * SEEK_FRAMES) + FRAMESIZE / 3) * (OPUS_GRANULE_SAMPLE_RATE_HZ / SAMPLERATE), og));
     REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
     std::vector<uint32_t> const seekpositions = { uint32_t(mfi.uDurationMSec * 0.31),
                                             uint32_t(mfi.uDurationMSec * 0.0),
@@ -3713,8 +3994,8 @@ TEST_CASE("OPUSFileSeek")
 
     for (uint32_t const sp : seekpositions)
     {
-        REQUIRE(of.Seek(48000 * sp / 1000, og));
-        REQUIRE(of1.SeekLog2(48000 * sp / 1000, og));
+        REQUIRE(of.Seek(OPUS_GRANULE_SAMPLE_RATE_HZ * sp / 1000, og));
+        REQUIRE(of1.SeekLog2(OPUS_GRANULE_SAMPLE_RATE_HZ * sp / 1000, og));
         REQUIRE(of.LastGranulePos() == of1.LastGranulePosLog2());
     }
 
@@ -3731,7 +4012,8 @@ TEST_CASE("OPUSFileSeek")
 
     // decode from 90% onwards
     REQUIRE(opusdecfile.Open(opusencfilename.data()));
-    auto offset_msec = .9 * mfi.uDurationMSec;
+    constexpr auto SEEK_OFFSET_FRACTION = .9;
+    auto offset_msec = SEEK_OFFSET_FRACTION * mfi.uDurationMSec;
     REQUIRE(opusdecfile.Seek(uint32_t(offset_msec)));
     frames = 0;
     while (opusdecfile.Decode(frame.data(), FRAMESIZE) == FRAMESIZE)frames++;
@@ -3747,9 +4029,10 @@ TEST_CASE("OPUSFileSeek")
     REQUIRE(duration_msec == mfi.uDurationMSec);
     REQUIRE(opusdecfile.GetDurationMSec() == mfi.uDurationMSec);
 
+    constexpr auto SEEK_OFFSET_MSEC = 555;
     // check seek offsets
-    REQUIRE(opusdecfile.Seek(555));
-    auto diffMSec = opusdecfile.GetElapsedMSec() - ((555 / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000));
+    REQUIRE(opusdecfile.Seek(SEEK_OFFSET_MSEC));
+    auto diffMSec = opusdecfile.GetElapsedMSec() - ((SEEK_OFFSET_MSEC / int(FRAMESIZE_SEC * 1000)) * int(FRAMESIZE_SEC * 1000));
     REQUIRE(std::abs(int(diffMSec)) <= PCM16_SAMPLES_DURATION(FRAMESIZE, SAMPLERATE));
     REQUIRE(opusdecfile.Seek(0));
     REQUIRE(opusdecfile.GetElapsedMSec() == 0);
@@ -3770,12 +4053,13 @@ TEST_CASE("OPUSStreamer")
     constexpr auto IN_SAMPLERATE = 12000;
     constexpr auto IN_FRAMESIZE_SEC = .04;
     constexpr auto IN_CHANNELS = 2;
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 3 * 1000;
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = IN_CHANNELS;
     mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
-    mfi.uDurationMSec = 3 * 1000;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
 
     const int IN_FRAMESIZE = int(mfi.audioFmt.nSampleRate * IN_FRAMESIZE_SEC);
     ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, ACE_TEXT("opusstreamer_inputfile_%d_%dmsec.wav"),
@@ -3849,7 +4133,8 @@ TEST_CASE("OPUSStreamer")
     ofs->RegisterAudioCallback(audiofunc, true);
     REQUIRE(ofs->Open());
     REQUIRE(ofs->StartStream());
-    REQUIRE(cv_finished.wait_for(lck, std::chrono::milliseconds(mfi.uDurationMSec * 2)) == std::cv_status::no_timeout);
+    constexpr auto FINISHED_WAIT_MULTIPLIER = 2;
+    REQUIRE(cv_finished.wait_for(lck, std::chrono::milliseconds(mfi.uDurationMSec * FINISHED_WAIT_MULTIPLIER)) == std::cv_status::no_timeout);
 }
 
 TEST_CASE("TTPlayOpusOgg")
@@ -3857,12 +4142,13 @@ TEST_CASE("TTPlayOpusOgg")
     constexpr auto IN_SAMPLERATE = 48000;
     constexpr auto IN_CHANNELS = 2;
     constexpr auto IN_FRAMESIZE = int(IN_SAMPLERATE * .01);
+    constexpr auto MEDIA_FILE_DURATION_MSEC = 5 * 1000;
 
     MediaFileInfo mfi = {};
     mfi.audioFmt.nAudioFmt = AFF_WAVE_FORMAT;
     mfi.audioFmt.nChannels = IN_CHANNELS;
     mfi.audioFmt.nSampleRate = IN_SAMPLERATE;
-    mfi.uDurationMSec = 5 * 1000;
+    mfi.uDurationMSec = MEDIA_FILE_DURATION_MSEC;
     ACE_OS::strncpy(mfi.szFileName, ACE_TEXT("TTPlayOpusOgg.wav"), TT_STRLEN);
 
     std::array<TTCHAR, TT_STRLEN> szFilename{};
@@ -4021,6 +4307,7 @@ TEST_CASE("TTPlayFFmpegOpus")
 
 TEST_CASE("SeekPrecision")
 {
+
     std::array<TTCHAR, TT_STRLEN> filename{};
     ACE_OS::strsncpy(filename.data(), ACE_TEXT("testdata/Opus/giana.ogg"), filename.size());
 
@@ -4038,12 +4325,15 @@ TEST_CASE("SeekPrecision")
     bool stop = false;
     while (!stop)
     {
+        constexpr auto PAUSE_ELAPSED_MSEC = 2440;
+        constexpr auto SEEK_OFFSET_MSEC = 988;
+
         REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
         switch (msg.mediafileinfo.nStatus)
         {
         case MFS_PLAYING :
             // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
-            if (msg.mediafileinfo.uElapsedMSec >= 2440)
+            if (msg.mediafileinfo.uElapsedMSec >= PAUSE_ELAPSED_MSEC)
             {
                 mfp.bPaused = TRUE;
                 REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
@@ -4051,7 +4341,7 @@ TEST_CASE("SeekPrecision")
             break;
         case MFS_PAUSED :
             mfp.bPaused = FALSE;
-            mfp.uOffsetMSec = 988;
+            mfp.uOffsetMSec = SEEK_OFFSET_MSEC;
             REQUIRE(TT_UpdateLocalPlayback(ttclient, session, &mfp));
             stop = true;
             // std::cout << "Paused at " << msg.mediafileinfo.uElapsedMSec << std::endl;
@@ -4063,15 +4353,18 @@ TEST_CASE("SeekPrecision")
 
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_STARTED);
-    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 120);
+    constexpr auto MFS_STARTED_TOLERANCE_MSEC = 120;
+    constexpr auto MFS_PLAYING_TOLERANCE_MSEC = 240;
+    constexpr auto MFS_PLAYING_MAX_TOLERANCE_MSEC = 360;
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= MFS_STARTED_TOLERANCE_MSEC);
     // std::cout << "Started at " << msg.mediafileinfo.uElapsedMSec << std::endl;
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
-    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 240);
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= MFS_PLAYING_TOLERANCE_MSEC);
     // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
     REQUIRE(WaitForEvent(ttclient, CLIENTEVENT_LOCAL_MEDIAFILE, msg));
     REQUIRE(msg.mediafileinfo.nStatus == MFS_PLAYING);
-    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= 360);
+    REQUIRE(std::abs(int32_t(msg.mediafileinfo.uElapsedMSec - mfp.uOffsetMSec)) <= MFS_PLAYING_MAX_TOLERANCE_MSEC);
     // std::cout << "Playing at " << msg.mediafileinfo.uElapsedMSec << std::endl;
 }
 
@@ -4091,6 +4384,8 @@ TEST_CASE("TimeConvert")
 
 TEST_CASE("FileIO")
 {
+    constexpr auto CHUNK_SIZE = 10;
+
     {
         MyFile f;
         REQUIRE(f.NewFile(ACE_TEXT("file.foo")));
@@ -4110,8 +4405,9 @@ TEST_CASE("FileIO")
         }
     }
 
-    std::array<char, 256> buf_myfile{};
-    std::array<char, 256> buf_ace{};
+    constexpr auto FILE_BUFFER_SIZE = 256;
+    std::array<char, FILE_BUFFER_SIZE> buf_myfile{};
+    std::array<char, FILE_BUFFER_SIZE> buf_ace{};
     int i = 0;
     for (char c = 'A'; c <= 'z'; ++c, i++)
     {
@@ -4130,54 +4426,54 @@ TEST_CASE("FileIO")
         REQUIRE(con.connect(file_ace, ACE_FILE_Addr(ACE_TEXT("file.ace")), nullptr, ACE_Addr::sap_any, 0, O_RDWR | O_CREAT | O_TRUNC | O_BINARY) >= 0);
         REQUIRE(file_ace.send(ORG_BUF, i));
 
-        std::array<char, 10> buf2{};
-        REQUIRE(f.Seek(10, std::ios_base::beg));  // now index 10
-        REQUIRE(f.Tell() == 10);
-        REQUIRE(f.Read(buf2.data(), 10) == 10); // now index 20
-        REQUIRE(memcmp(&ORG_BUF[10], buf2.data(), 10) == 0);
-        REQUIRE(f.Tell() == 20);
+        std::array<char, CHUNK_SIZE> buf2{};
+        REQUIRE(f.Seek(CHUNK_SIZE, std::ios_base::beg));  // now index 10
+        REQUIRE(f.Tell() == CHUNK_SIZE);
+        REQUIRE(f.Read(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE); // now index 20
+        REQUIRE(memcmp(&ORG_BUF[CHUNK_SIZE], buf2.data(), CHUNK_SIZE) == 0);
+        REQUIRE(f.Tell() == CHUNK_SIZE * 2);
         memset(buf2.data(), 0, buf2.size());
         // do same with ACE_FILE_IO
-        REQUIRE(file_ace.seek(10, SEEK_SET) >= 0);
-        REQUIRE(file_ace.recv(buf2.data(), 10) == 10);
-        REQUIRE(memcmp(&ORG_BUF[10], buf2.data(), 10) == 0);
-        REQUIRE(file_ace.tell() == 20);
+        REQUIRE(file_ace.seek(CHUNK_SIZE, SEEK_SET) >= 0);
+        REQUIRE(file_ace.recv(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE);
+        REQUIRE(memcmp(&ORG_BUF[CHUNK_SIZE], buf2.data(), CHUNK_SIZE) == 0);
+        REQUIRE(file_ace.tell() == CHUNK_SIZE * 2);
         memset(buf2.data(), 0, buf2.size());
 
         for (char & i : buf2)
             i = '%';
 
-        REQUIRE(f.Seek(10, std::ios_base::cur)); // now index 30
-        REQUIRE(f.Tell() == 30);
-        REQUIRE(f.Write(buf2.data(), 10) == 10); // now index 40
-        REQUIRE(f.Tell() == 40);
+        REQUIRE(f.Seek(CHUNK_SIZE, std::ios_base::cur)); // now index 30
+        REQUIRE(f.Tell() == CHUNK_SIZE * 3);
+        REQUIRE(f.Write(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE); // now index 40
+        REQUIRE(f.Tell() == CHUNK_SIZE * 4);
         // do same with ACE_FILE_IO
-        REQUIRE(file_ace.seek(10, SEEK_CUR) >= 0);
-        REQUIRE(file_ace.tell() == 30);
-        REQUIRE(file_ace.send(buf2.data(), 10) == 10);
-        REQUIRE(file_ace.tell() == 40);
+        REQUIRE(file_ace.seek(CHUNK_SIZE, SEEK_CUR) >= 0);
+        REQUIRE(file_ace.tell() == CHUNK_SIZE * 3);
+        REQUIRE(file_ace.send(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE);
+        REQUIRE(file_ace.tell() == CHUNK_SIZE * 4);
 
         REQUIRE(f.Seek(0, std::ios_base::beg));
         memset(buf_myfile.data(), 0, buf_myfile.size());
         REQUIRE(f.Read(buf_myfile.data(), buf_myfile.size()) == i);
-        REQUIRE(memcmp(buf_myfile.data(), ORG_BUF, 20) == 0);
-        REQUIRE(memcmp(&buf_myfile[30], buf2.data(), 10) == 0);
+        REQUIRE(memcmp(buf_myfile.data(), ORG_BUF, CHUNK_SIZE * 2) == 0);
+        REQUIRE(memcmp(&buf_myfile[CHUNK_SIZE * 3], buf2.data(), CHUNK_SIZE) == 0);
         // do same with ACE_FILE_IO
         REQUIRE(file_ace.seek(0, SEEK_SET) >= 0);
         memset(buf_ace.data(), 0, buf_ace.size());
         REQUIRE(file_ace.recv(buf_ace.data(), buf_ace.size()) == i);
-        REQUIRE(memcmp(buf_ace.data(), ORG_BUF, 20) == 0);
-        REQUIRE(memcmp(&buf_ace[30], buf2.data(), 10) == 0);
+        REQUIRE(memcmp(buf_ace.data(), ORG_BUF, CHUNK_SIZE * 2) == 0);
+        REQUIRE(memcmp(&buf_ace[CHUNK_SIZE * 3], buf2.data(), CHUNK_SIZE) == 0);
 
         for (char & i : buf2)
             i = '@';
-        REQUIRE(f.Seek(10, std::ios_base::end));
-        REQUIRE(f.Write(buf2.data(), 10) == 10);
-        REQUIRE(f.Read(buf_myfile.data(), 10) == 0);
+        REQUIRE(f.Seek(CHUNK_SIZE, std::ios_base::end));
+        REQUIRE(f.Write(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE);
+        REQUIRE(f.Read(buf_myfile.data(), CHUNK_SIZE) == 0);
         // do same with ACE_FILE_IO
-        REQUIRE(file_ace.seek(10, SEEK_END) >= 0);
-        REQUIRE(file_ace.send(buf2.data(), 10) == 10);
-        REQUIRE(file_ace.recv(buf_ace.data(), 10) == 0);
+        REQUIRE(file_ace.seek(CHUNK_SIZE, SEEK_END) >= 0);
+        REQUIRE(file_ace.send(buf2.data(), CHUNK_SIZE) == CHUNK_SIZE);
+        REQUIRE(file_ace.recv(buf_ace.data(), CHUNK_SIZE) == 0);
     }
 
     {
@@ -4223,12 +4519,12 @@ TEST_CASE("FileIO")
         ACE_FILE_Connector con;
 
         REQUIRE(f.Open(ACE_TEXT("file.foo"), false));
-        REQUIRE(f.Seek(10, std::ios_base::cur));
-        REQUIRE(f.Tell() == 10);
+        REQUIRE(f.Seek(CHUNK_SIZE, std::ios_base::cur));
+        REQUIRE(f.Tell() == CHUNK_SIZE);
         // do same with ACE_FILE_IO
         REQUIRE(con.connect(file_ace, ACE_FILE_Addr(ACE_TEXT("file.ace")), nullptr, ACE_Addr::sap_any, 0, O_RDWR | O_BINARY) >= 0);
-        REQUIRE(file_ace.seek(10, SEEK_CUR));
-        REQUIRE(file_ace.tell() == 10);
+        REQUIRE(file_ace.seek(CHUNK_SIZE, SEEK_CUR));
+        REQUIRE(file_ace.tell() == CHUNK_SIZE);
 
         REQUIRE(f.Write(ORG_BUF, i) == i);
         REQUIRE(f.Read(buf_myfile.data(), 1) == 1);
@@ -4249,8 +4545,10 @@ TEST_CASE( "TextMessageStrLength" )
     txtmsg.nMsgType = MSGTYPE_USER;
     txtmsg.nToUserID = TT_GetMyUserID(client);
 
+    constexpr auto CHAR_PATTERN_MODULO = 10;
+
     for (size_t i=0;i<TT_STRLEN-1;++i)
-        txtmsg.szMessage[i] = TTCHAR('A') + (i % 10);
+        txtmsg.szMessage[i] = TTCHAR('A') + (i % CHAR_PATTERN_MODULO);
     REQUIRE(TT_DoTextMessage(client, &txtmsg) >= 0);
     TTMessage msg;
     REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_TEXTMSG, msg));
@@ -4266,7 +4564,7 @@ TEST_CASE( "TextMessageStrLength" )
 
     // text exceeded max string for non-UTF-8
     for (size_t i=0;i<TT_STRLEN-1;++i)
-        str += TTCHAR('A') + (i % 10);
+        str += TTCHAR('A') + (i % CHAR_PATTERN_MODULO);
     REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
     REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
     str = str.substr(0, TT_STRLEN-1);
