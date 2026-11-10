@@ -141,7 +141,6 @@ else()
 
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm)
-      set (WEBRTC_CFG_EXTRA arm_use_neon=true)
       set (WEBRTC_TARGET_ENV device)
     elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm64)
@@ -177,7 +176,6 @@ else()
       message(WARNING "Unknown Android architecture")
     endif()
 
-    set (ANDROID_NDK_HOME $ENV{ANDROID_NDK_HOME})
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_android ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")

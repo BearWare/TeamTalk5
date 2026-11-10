@@ -1,4 +1,3 @@
-@WEBRTC_CFG_EXTRA@
 enable_dsyms=true
 gtest_enable_absl_printers=false
 ios_deployment_target="@CMAKE_OSX_DEPLOYMENT_TARGET@"
