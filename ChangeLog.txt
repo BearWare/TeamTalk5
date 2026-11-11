@@ -11,6 +11,17 @@ iOS Client
 Server
 -
 
+Version 5.23.1, unreleased
+Desktop Client
+-
+Android Client
+-
+iOS Client
+- Fixed tt:// not opening
+Server
+-
+
+
 Version 5.23, 2026/10/03
 Default Qt Client
 - Replaced Tolk with Prism for screen reader support
