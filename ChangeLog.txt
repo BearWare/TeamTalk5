@@ -3,13 +3,39 @@
 ----------------------------------------------
 Version 5.24, unreleased
 Desktop Client
--
+- Fixed bug where another sound device was used when the saved sound device was not found
+- Fixed crash after cancelling Preferences dialog when using the default speech engine
+- Fixed bug where Escape did not close the key combination dialog
+- Fixed bug where actions in Online Users dialog could be done several times
+- Fixed bug where unreadable text was announced for an unknown user
+- Fixed Channel Type dialog not being translated
+- Fixed screen reader DLLs not being found in the 32-bit Windows version
+- Fixed possible crash when recording conversations to audio files
+- Fixed possible crash when receiving video
+- Fixed possible crashes caused by invalid packets
 Android Client
--
+- Ability to select the microphone used with voice preprocessing (Android 12 and later)
+- Ability to save a server opened from a tt:// link or Join Code
+- Fixed crash when a message or announcement was from an unknown user
+- Fixed bug where only 16 users could be allowed to transmit in classroom channels
+- Fixed bug where translations could not move the user name in announcements
+- Fixed possible crashes caused by invalid packets
 iOS Client
--
+- Gender can now be set to neutral
+- Channels with volume leveling now set the microphone gain
+- Fixed bug where the microphone gain setting was mostly ignored
+- Fixed VoiceOver double tap opening channel properties instead of expanding the channel
+- Fixed bug where translations could not move the user name in announcements
+- Fixed VoiceOver reading some labels in English
+- Fixed possible crashes caused by invalid packets
 Server
 - Fixed channel rename accepting a name containing '/'
+- Fixed bug where auto-operator rights for one channel could apply to all channels
+- Fixed bug where a very large or negative file size passed the disk quota check
+- Fixed bug where a user could see a desktop shared in another channel
+- Fixed bug where default users could transmit to each other in channels where only operators receive
+- Fixed bug where only the first page of bans could be listed
+- Fixed possible crash or hang caused by invalid packets
 
 Version 5.23.1, unreleased
 Desktop Client
