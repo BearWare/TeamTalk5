@@ -27,10 +27,10 @@
 
 #include "AppInfo.h"
 #include "ServerXML.h"
-#include "mystd/MyStd.h"
+#include "TeamTalkDefs.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
-#include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/Log.h"
@@ -41,7 +41,6 @@
 #include <ace/OS.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
