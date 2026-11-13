@@ -39,7 +39,7 @@ using videocapturedevice_t = vidcap::AVFCapture;
 
 #elif defined(ENABLE_V4L2)
 #include "V4L2Capture.h"
-typedef V4L2Capture videocapturedevice_t;
+using videocapturedevice_t = V4L2Capture;
 
 #else
 
@@ -147,12 +147,12 @@ public:
     {
         uint32_t const c = (0xff << ((ACE_OS::gettimeofday().sec() % 4) * 8));
 
-        int const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
+        size_t const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
         std::vector<uint32_t> img(rgbsize / 4, c);
 
         if (m_curfmt.IsValid() && m_callback)
         {
-            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(img.data()), rgbsize);
+            media::VideoFrame frm(m_curfmt, reinterpret_cast<char*>(img.data()), static_cast<int>(rgbsize));
             m_callback(frm, nullptr);
         }
 

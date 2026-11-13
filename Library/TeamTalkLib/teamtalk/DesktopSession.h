@@ -26,6 +26,7 @@
 
 #include "Common.h"
 
+#include <array>
 #include <cstddef>
 #include <vector>
 
@@ -52,6 +53,7 @@ namespace teamtalk {
     class DesktopSession
     {
     public:
+        virtual ~DesktopSession() = default;
         DesktopSession(const DesktopWindow& wnd);
         DesktopSession(const DesktopWindow& wnd, int bytes_per_line);
 
@@ -84,7 +86,7 @@ namespace teamtalk {
     public:
         static BMPPalette* Instance();
 
-        ACE_UINT8 m_rgb8_palette[256][4];
+        std::array<std::array<uint8_t, 4>, 256> m_rgb8_palette{};
 
     private:
         BMPPalette();

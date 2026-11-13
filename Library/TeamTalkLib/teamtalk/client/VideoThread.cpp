@@ -30,7 +30,6 @@
 #include <ace/Time_Value.h>
 
 #include <cassert>
-#include <cstddef>
 #include <utility>
 
 using namespace media;
@@ -55,7 +54,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
     if(this->thr_count() != 0)
         return false;
 
-    int bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
+    size_t bytes = sizeof(VideoFrame) + RGB32_BYTES(cap_format.width, cap_format.height);
     bytes *= max_frames_queued;
     this->msg_queue()->activate();
     this->msg_queue()->high_water_mark(bytes);
@@ -225,7 +224,7 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
     {
         m_frames_dropped++;
         MYTRACE(ACE_TEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
-                (int)mb_video->length(), (int)this->msg_queue()->message_bytes(), 
+                static_cast<int>(mb_video->length()), static_cast<int>(this->msg_queue()->message_bytes()), 
                 m_frames_dropped, m_frames_dropped + m_frames_passed);
         mb_video->release();
     }

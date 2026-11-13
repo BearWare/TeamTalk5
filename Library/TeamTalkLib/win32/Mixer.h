@@ -26,6 +26,8 @@
 
 #include <tchar.h>
 
+#include <array>
+
 enum
 {
     MIXER_WAVEOUT_SET = 0x1,
@@ -61,7 +63,7 @@ enum
 
 union InOutValue
 {
-    TCHAR name[MIXER_STR_LEN];
+    std::array<TCHAR, MIXER_STR_LEN> name;
     int value;
 };
 

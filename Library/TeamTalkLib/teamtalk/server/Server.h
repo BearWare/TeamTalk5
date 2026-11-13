@@ -53,6 +53,6 @@ namespace teamtalk {
         }
     };
 
-}
+} // namespace teamtalk
 
 #endif

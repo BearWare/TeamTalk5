@@ -31,10 +31,11 @@
 
 #include <ace/Date_Time.h>
 
+#include <array>
 #include <cstdint>
 #include <regex>
 #include <string>
-#include <time.h>
+#include <ctime>
 #include <vector>
 
 namespace teamtalk
@@ -68,11 +69,11 @@ namespace teamtalk
     bool BannedUser::Same(const BannedUser& user) const
     {
         bool same = user.bantype == this->bantype;
-        if ((bantype & BANTYPE_IPADDR) != 0u)
+        if ((bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
             same &= user.ipaddr == this->ipaddr;
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             same &= user.chanpath == this->chanpath;
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             same &= user.username == this->username;
         return same;
     }
@@ -81,7 +82,7 @@ namespace teamtalk
     {
         bool match = bantype != BANTYPE_NONE;
 
-        if (((bantype & BANTYPE_IPADDR) != 0u) && (!ipaddr.empty()))
+        if (((bantype & BANTYPE_IPADDR) != BANTYPE_NONE) && (!ipaddr.empty()))
         {
             const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
@@ -92,7 +93,9 @@ namespace teamtalk
             std::string const bannedip = ipaddr.c_str();
 #endif
             if (user.ipaddr.is_empty())
+            {
                 match = false; // do not report banned if user has no IP-address
+            }
             else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
             {
                 // check if network ban
@@ -109,10 +112,10 @@ namespace teamtalk
             }
         }
 
-        if ((bantype & BANTYPE_USERNAME) != 0u)
+        if ((bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
             match &= username == user.username;
 
-        if ((bantype & BANTYPE_CHANNEL) != 0u)
+        if ((bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             match &= ChannelsEquals(chanpath, user.chanpath);
 
         return match;
@@ -122,11 +125,11 @@ namespace teamtalk
     ACE_TString DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time const date(tv);
-        ACE_TCHAR buf[200];
-        ACE_OS::sprintf(buf, ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"), 
-                        (int)date.year(), (int)date.month(), (int)date.day(), 
-                        (int)date.hour(), (int)date.minute());
-        return buf;
+        std::array<ACE_TCHAR, 200> buf{};
+        ACE_OS::sprintf(buf.data(), ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"),
+                        static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
+                        static_cast<int>(date.hour()), static_cast<int>(date.minute()));
+        return buf.data();
     }
 
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in)

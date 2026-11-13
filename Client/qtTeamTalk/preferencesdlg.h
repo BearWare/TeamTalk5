@@ -131,6 +131,7 @@ private:
     void initShortcutsTab();
     void shortcutSetup(const QModelIndex &index);
     class ShortcutsModel* m_shortcutsmodel = nullptr;
+    class QTextToSpeech* m_ttSpeech = nullptr;
     hotkeys_t m_hotkeys;
     QList<QAction*> m_actions;
     actionshortcuts_t m_actionShortcuts;

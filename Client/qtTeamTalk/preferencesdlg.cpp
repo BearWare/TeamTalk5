@@ -57,9 +57,6 @@
 
 extern TTInstance* ttInst;
 extern NonDefaultSettings* ttSettings;
-#if defined(QT_TEXTTOSPEECH_LIB)
-extern QTextToSpeech* ttSpeech;
-#endif
 
 #define CUSTOMVIDEOFORMAT_INDEX -2
 
@@ -353,6 +350,8 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     uid = ttSettings->value(SETTINGS_SOUND_INPUTDEVICE_UID, "").toString();
     if (getSoundDevice(uid, true, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
+    else
+        devid = getSelectedSndInputDevice();
 
     int index = ui.inputdevBox->findData(devid);
     if(index >= 0)
@@ -382,6 +381,8 @@ void PreferencesDlg::showDevices(SoundSystem snd)
     uid = ttSettings->value(SETTINGS_SOUND_OUTPUTDEVICE_UID, "").toString();
     if (getSoundDevice(uid, false, m_sounddevices, dev) && dev.nDeviceID != devid)
         devid = dev.nDeviceID;
+    else
+        devid = getSelectedSndOutputDevice();
 
     index = ui.outputdevBox->findData(devid);
     if(index >= 0)
@@ -1106,7 +1107,7 @@ void PreferencesDlg::slotSaveChanges()
 void PreferencesDlg::slotCancelChanges()
 {
     //if user tested video settings, we need to revert to what it was before
-    if(m_video_ready && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == 0)
+    if(m_video_ready && (TT_GetFlags(ttInst) & CLIENT_VIDEOCAPTURE_READY) == CLIENT_CLOSED)
     {
         if(!initVideoCaptureFromSettings())
             QMessageBox::critical(this, tr("Video Device"), 
@@ -1479,20 +1480,20 @@ void PreferencesDlg::slotUpdateTTSTab()
 #if defined(Q_OS_DARWIN)
         ui.ttsSpeakListsChkBox->show();
 #endif
-        delete ttSpeech;
-        ttSpeech = new QTextToSpeech(this);
+        delete m_ttSpeech;
+        m_ttSpeech = new QTextToSpeech(this);
 
         ui.ttsVoiceRateSpinBox->setValue(ttSettings->value(SETTINGS_TTS_RATE, SETTINGS_TTS_RATE_DEFAULT).toDouble());
         ui.ttsVoiceVolumeSpinBox->setValue(ttSettings->value(SETTINGS_TTS_VOLUME, SETTINGS_TTS_VOLUME_DEFAULT).toDouble());
         ui.ttsLocaleComboBox->clear();
-        foreach (const QLocale &locale, ttSpeech->availableLocales())
+        foreach (const QLocale &locale, m_ttSpeech->availableLocales())
         {
             ui.ttsLocaleComboBox->addItem(locale.nativeLanguageName(), locale.nativeLanguageName());
         }
         ui.ttsLocaleComboBox->model()->sort(0);
         setCurrentItemData(ui.ttsLocaleComboBox, ttSettings->value(SETTINGS_TTS_LOCALE));
         ui.ttsVoiceComboBox->clear();
-        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        foreach (const QVoice &voice, m_ttSpeech->availableVoices())
         {
             ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
         }
@@ -1569,17 +1570,17 @@ void PreferencesDlg::slotUpdateTTSTab()
 void PreferencesDlg::slotTTSLocaleChanged(const QString& locale)
 {
 #if defined(QT_TEXTTOSPEECH_LIB)
-    QVector<QLocale> locales = ttSpeech->availableLocales();
+    QVector<QLocale> locales = m_ttSpeech->availableLocales();
     auto selLocale = std::find_if(locales.begin(), locales.end(), [locale](const QLocale& l) {
        return l.nativeLanguageName() == locale;
     });
 
     if (selLocale != locales.end())
     {
-        ttSpeech->setLocale(*selLocale);
+        m_ttSpeech->setLocale(*selLocale);
 
         ui.ttsVoiceComboBox->clear();
-        foreach (const QVoice &voice, ttSpeech->availableVoices())
+        foreach (const QVoice &voice, m_ttSpeech->availableVoices())
         {
             ui.ttsVoiceComboBox->addItem(voice.name(), voice.name());
         }

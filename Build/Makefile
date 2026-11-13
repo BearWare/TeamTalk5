@@ -66,8 +66,7 @@ generic:
 ubuntu:
 	@echo May need to specify JAVA_HOME to help CMake find Java SDK
 	$(MAKE) BUILDDIR=build-$(CONFIGTYPE)-$(UBUNTUDIR) \
-	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON \
-	-DTOOLCHAIN_OPENSSL=OFF" generic
+	CMAKE_EXTRA+="-DCMAKE_POSITION_INDEPENDENT_CODE=ON" generic
 
 ubuntu24:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
@@ -76,8 +75,7 @@ ubuntu26:
 	$(MAKE) UBUNTUDIR=$@ ubuntu
 
 rasp:
-	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF \
-                              -DTOOLCHAIN_OPENSSL=OFF" \
+	$(MAKE) CMAKE_EXTRA+="-DFEATURE_WEBRTC=OFF" \
                               BUILDDIR=build-$(CONFIGTYPE)-$@ generic
 
 mac:

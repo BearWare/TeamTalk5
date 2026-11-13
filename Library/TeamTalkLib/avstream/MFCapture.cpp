@@ -31,6 +31,7 @@
 #include <mfidl.h>
 #include <mfreadwrite.h>
 
+#include <array>
 #include <cassert>
 #include <map>
 #include <thread>
@@ -106,9 +107,9 @@ vidcap_devices_t MFCapture::GetDevices()
         {
             dev.devicename = lpszName;
             dev.api = ACE_TEXT("Microsoft Media Foundation");
-            ACE_TCHAR buff[20];
-            ACE_OS::snprintf(buff, 20, ACE_TEXT("%d"), i);
-            dev.deviceid = buff;
+            std::array<ACE_TCHAR, 20> buff{};
+            ACE_OS::snprintf(buff.data(), buff.size(), ACE_TEXT("%d"), i);
+            dev.deviceid = buff.data();
             devs.push_back(dev);
             CoTaskMemFree(lpszName);
         }
@@ -342,7 +343,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
         CComPtr<IMFSample> pSample;
         DWORD dwStreamFlags = 0, dwActualStreamIndex = 0;
         LONGLONG llVideoTimestamp = 0;
-        ACE_UINT32 uTimeStamp;
+        uint32_t uTimeStamp;
 
         hr = pReader->ReadSample(dwVideoStreamIndex, 0, &dwActualStreamIndex, &dwStreamFlags, &llVideoTimestamp, &pSample);
         if (FAILED(hr))
@@ -354,7 +355,7 @@ void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
         if (dwStreamFlags & MF_SOURCE_READERF_ERROR)
             break;
 
-        uTimeStamp = ACE_UINT32(llVideoTimestamp / 10000);
+        uTimeStamp = uint32_t(llVideoTimestamp / 10000);
         uTimeStamp = GETTIMESTAMP();
 
         DWORD dwBufCount = 0;

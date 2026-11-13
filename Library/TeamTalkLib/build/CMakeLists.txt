@@ -14,7 +14,14 @@ if (MSVC)
   add_subdirectory(nasm)
 endif()
 
-option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ON)
+# OpenSSL on Linux must use same as OpenSSL as ACE, FFmpeg, etc.
+if (${CMAKE_SYSTEM_NAME} MATCHES "Linux")
+  set (_OPENSSL_DEFAULT OFF)
+else()
+  set (_OPENSSL_DEFAULT ON)
+endif()
+
+option (TOOLCHAIN_OPENSSL "Build and link OpenSSL from TeamTalk toolchain" ${_OPENSSL_DEFAULT})
 add_feature_info(TOOLCHAIN_OPENSSL TOOLCHAIN_OPENSSL "OpenSSL library is provided by TOOLCHAIN_INSTALL_PREFIX")
 if (TOOLCHAIN_OPENSSL)
   add_subdirectory(openssl)

@@ -91,7 +91,7 @@ public:
                                       m_media_in.video.width,
                                       m_media_in.video.height,
                                       m_media_out.video.fourcc, false);
-        media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
+        media_frame.timestamp = (uint32_t)(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
         MYTRACE(ACE_TEXT("Video frame submitting %u. Frames: %u\n"),
@@ -203,7 +203,7 @@ public:
                        S_OK);
         
         media::AudioFrame media_frame;
-        media_frame.timestamp = (ACE_UINT32)(SampleTime * 1000.0);
+        media_frame.timestamp = (uint32_t)(SampleTime * 1000.0);
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = output_samples_total; //overwrite later
         media_frame.inputfmt = m_media_out.audio;
@@ -546,7 +546,7 @@ no_video:
         hr = pMediaSeeking->GetDuration(&llTime);
         MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to query duration of media file: %s\n"),
             m_media_in.filename.c_str());
-        m_media_in.duration_ms = (ACE_UINT32)(llTime / 10000);
+        m_media_in.duration_ms = (uint32_t)(llTime / 10000);
     }
 
     // Turn off the sync clock for max speed
@@ -570,7 +570,7 @@ no_video:
     if(!m_stop && m_listener)
         m_listener->MediaStreamStatusCallback(this, m_media_in, MEDIASTREAM_STARTED);
 
-    ACE_UINT32 start_time = GETTIMESTAMP();
+    uint32_t start_time = GETTIMESTAMP();
 
     //now run when we have the start time
     hr = pMediaControl->Run();

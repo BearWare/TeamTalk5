@@ -29,8 +29,8 @@
 #include "VideoCapture.h"
 #include "codec/MediaUtil.h"
 
-#include <ace/SString.h>
 #include <ace/Message_Block.h>
+#include <ace/SString.h>
 
 #include <memory>
 

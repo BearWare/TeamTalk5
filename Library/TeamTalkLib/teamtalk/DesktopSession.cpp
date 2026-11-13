@@ -28,6 +28,7 @@
 #include "TTAssert.h"
 
 #include <cassert>
+#include <array>
 #include <cstddef>
 #include <cstring>
 #include <utility>
@@ -42,13 +43,13 @@ DesktopSession::DesktopSession(const DesktopWindow& wnd)
     Init();
 
     if(GetBitmapSize() != 0)
-        m_padding = ((GetWidth() * m_pixel_size + 3) & ~3) - GetWidth() * m_pixel_size;
+        m_padding = (((GetWidth() * m_pixel_size) + 3) & ~3) - (GetWidth() * m_pixel_size);
     TTASSERT((GetWidth() * m_pixel_size + m_padding) % 4 == 0);
 }
 
 DesktopSession::DesktopSession(const DesktopWindow& wnd, int bytes_per_line)
 : m_wnd(wnd)
-, m_padding(0), m_bytes_per_line(bytes_per_line)
+, m_bytes_per_line(bytes_per_line)
 {
     Init();
     
@@ -180,7 +181,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB16_555 : //BMP_RGB8_PALETTE -> BMP_RGB16_555
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 const rgb8 = src_bitmap[i];
+                    uint8_t const rgb8 = src_bitmap[i];
                     unsigned char const r = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
                     unsigned char const g = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
                     unsigned char const b = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
@@ -197,7 +198,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB24 : //BMP_RGB8_PALETTE -> BMP_RGB24
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 const rgb8 = src_bitmap[i];
+                    uint8_t const rgb8 = src_bitmap[i];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
@@ -206,7 +207,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
             case BMP_RGB32 : //BMP_RGB8_PALETTE -> BMP_RGB32
                 for(size_t i=rgbsrc_pos;i<rgbsrc_end;i+=1)
                 {
-                    ACE_UINT8 const rgb8 = src_bitmap[i];
+                    uint8_t const rgb8 = src_bitmap[i];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][0];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][1];
                     dst_bitmap[rgbdest_pos++] = BMPPalette::Instance()->m_rgb8_palette[rgb8][2];
@@ -375,7 +376,7 @@ size_t teamtalk::ConvertBitmap(const std::vector<char>& src_bitmap,
 
 BMPPalette::BMPPalette()
 {
-    memset(m_rgb8_palette, 0xFF, sizeof(m_rgb8_palette));
+    memset(m_rgb8_palette.data(), 0xFF, m_rgb8_palette.size() * sizeof(m_rgb8_palette[0]));
     InitPalette();
 }
 
@@ -398,9 +399,9 @@ BMPPalette* BMPPalette::Instance()
 //
 //    for (i = 1; i <= 15; i++)
 //    {
-//        m_rgb8_palette0[i][0] = (ACE_UINT8)(64.0 / 15.0 * (double) i - 1);
-//        m_rgb8_palette0[i][1] = (ACE_UINT8)(64.0 / 15.0 * (double) i - 1);
-//        m_rgb8_palette0[i][2] = (ACE_UINT8)(64.0 / 15.0 * (double) i - 1);
+//        m_rgb8_palette0[i][0] = (uint8_t)(64.0 / 15.0 * (double) i - 1);
+//        m_rgb8_palette0[i][1] = (uint8_t)(64.0 / 15.0 * (double) i - 1);
+//        m_rgb8_palette0[i][2] = (uint8_t)(64.0 / 15.0 * (double) i - 1);
 //        m_rgb8_palette0[i][3] = -1;
 //    } 
 //    for (i = 1; i <= 15; i++)                /* program 248 color hues */
@@ -412,26 +413,26 @@ BMPPalette* BMPPalette::Instance()
 //        for (j = 15; j >= 0; j--) 
 //        { 
 //            val = (1.0 / 16.0) * (j + 1) ;
-//            m_rgb8_palette0[i * 16 + j][0] = (ACE_UINT8)(r * val);
-//            m_rgb8_palette0[i * 16 + j][1] = (ACE_UINT8)(g * val);
-//            m_rgb8_palette0[i * 16 + j][2] = (ACE_UINT8)(b * val);
+//            m_rgb8_palette0[i * 16 + j][0] = (uint8_t)(r * val);
+//            m_rgb8_palette0[i * 16 + j][1] = (uint8_t)(g * val);
+//            m_rgb8_palette0[i * 16 + j][2] = (uint8_t)(b * val);
 //            m_rgb8_palette0[i * 16 + j][3] = -1;
 //        } 
 //    } 
 //}
 
-static unsigned char COLOR_MATRIX[6] = {0x00, 0x33, 0x66, 0x99, 0xcc, 0xff};
+static constexpr std::array<unsigned char, 6> COLOR_MATRIX = {0x00, 0x33, 0x66, 0x99, 0xcc, 0xff};
 
 void BMPPalette::InitPalette()
 {
-  unsigned int palette_idx;
-  unsigned int r_idx;
-  unsigned int g_idx;
-  unsigned int b_idx;
+  unsigned int palette_idx = 0;
+  unsigned int r_idx = 0;
+  unsigned int g_idx = 0;
+  unsigned int b_idx = 0;
 
-  unsigned char r;
-  unsigned char g;
-  unsigned char b;
+  unsigned char r = 0;
+  unsigned char g = 0;
+  unsigned char b = 0;
 
   r = 0;
   g = 0;

@@ -23,10 +23,11 @@
 
 #include "WaveFile.h"
 
+#include <array>
 #include <cassert>
+#include <cstddef>
 #include <cstdint>
 #include <cstring>
-#include <cstddef>
 
 constexpr auto WAVEHEADERSIZE = 44;
 constexpr auto DEBUG_WAVEFILE = 0;
@@ -38,7 +39,7 @@ bool WriteWaveFileHeader(MyFile& file, const media::AudioFormat& fmt)
     waveformat.nChannels = fmt.channels;
     waveformat.nSamplesPerSec = fmt.samplerate;
     waveformat.nAvgBytesPerSec = PCM16_BYTES(fmt.samplerate, fmt.channels);
-    waveformat.nBlockAlign = uint16_t(PCM16_BYTES(1, fmt.channels));
+    waveformat.nBlockAlign = static_cast<uint16_t>(PCM16_BYTES(1, fmt.channels));
     waveformat.wBitsPerSample = 16;
     waveformat.cbSize = 0;
 
@@ -49,17 +50,17 @@ bool WriteWaveFileHeader(MyFile& file, const media::AudioFormat& fmt)
 
 bool WriteWaveFileHeader(MyFile& file, const WAVEFORMATEX* waveformat, int len)
 {
-    const char RIFF[] = "RIFF";
-    const char WAVE[] = "WAVEfmt ";
-    const char DATA[] = "data";
+    constexpr std::array<char, 4> RIFF = {'R', 'I', 'F', 'F'};
+    constexpr std::array<char, 8> WAVE = {'W', 'A', 'V', 'E', 'f', 'm', 't', ' '};
+    constexpr std::array<char, 4> DATA = {'d', 'a', 't', 'a'};
     bool ret = true;
-    ret &= file.Write(RIFF, 4) == 4; // RIFF header
+    ret &= file.Write(RIFF.data(), RIFF.size()) == RIFF.size(); // RIFF header
     int32_t wavedatasize = 0x7FFFFFFF;
     ret &= file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4; //sizeof file wave data
-    ret &= file.Write(WAVE, 8) == 8;
+    ret &= file.Write(WAVE.data(), WAVE.size()) == WAVE.size();
     ret &= file.Write(reinterpret_cast<const char*>(&len), 4) == 4; //header size
     ret &= file.Write(reinterpret_cast<const char*>(waveformat), len) == len;
-    ret &= file.Write(DATA, 4) == 4;
+    ret &= file.Write(DATA.data(), DATA.size()) == DATA.size();
     ret &= file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4; //sizeof file wave data
 
     return ret;
@@ -72,27 +73,27 @@ bool UpdateWaveFileHeader(MyFile& file)
         return false;
 
     bool success = false;
-    char riff[4];
-    char wavefmt[8];
-    char data[4];
+    std::array<char, 4> riff{};
+    std::array<char, 8> wavefmt{};
+    std::array<char, 4> data{};
 
     auto end = file.Tell();
     if (file.Seek(0, std::ios_base::beg) &&
-        file.Read(riff, strlen("RIFF")) > 0 && end < 0x100000000)
+        file.Read(riff.data(), strlen("RIFF")) > 0 && end < 0x100000000)
     {
-        assert(memcmp(riff, "RIFF", 4) == 0);
+        assert(memcmp(riff.data(), "RIFF", 4) == 0);
 
-        uint32_t wavedatasize = uint32_t(end) - 8 /* don't include RIFF and size field in total size */;
+        uint32_t wavedatasize = static_cast<uint32_t>(end) - 8 /* don't include RIFF and size field in total size */;
         uint32_t headersize = 0;
         if (file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4 &&
-            file.Read(wavefmt, 8) == 8 /* past 'WAVEfmt ' */ &&
+            file.Read(wavefmt.data(), wavefmt.size()) == wavefmt.size() /* past 'WAVEfmt ' */ &&
             file.Read(reinterpret_cast<char*>(&headersize), 4) == 4 &&
             file.Seek(headersize, std::ios_base::cur) /* past extra header size */ &&
-            file.Read(data, 4) == 4 /* past 'data' */)
+            file.Read(data.data(), data.size()) == data.size() /* past 'data' */)
         {
-            assert(memcmp(wavefmt, "WAVEfmt ", 8) == 0);
-            assert(memcmp(data, "data", 4) == 0);
-            wavedatasize = uint32_t(end - file.Tell());
+            assert(memcmp(wavefmt.data(), "WAVEfmt ", 8) == 0);
+            assert(memcmp(data.data(), "data", 4) == 0);
+            wavedatasize = static_cast<uint32_t>(end - file.Tell());
             wavedatasize -= 4; // don't include size-field as part of data size
             if (file.Write(reinterpret_cast<const char*>(&wavedatasize), 4) == 4)
             {
@@ -209,7 +210,7 @@ int WavePCMFile::ReadSamples(short* buffer, int buffer_len)
 #endif
     auto pos2 = m_wavfile.Tell();
     assert(pos2-pos>=0);
-    return (int)(pos2-pos)/2/channels;
+    return static_cast<int>(pos2-pos)/2/channels;
 }
 
 bool WavePCMFile::WriteHeader(int samplerate, int channels)
@@ -222,19 +223,19 @@ bool WavePCMFile::WriteHeader(int samplerate, int channels)
 bool WavePCMFile::Valid()
 {
     auto oldPos = m_wavfile.Tell();
-    const char RIFF[] ="RIFF";
-    const char WAVE[] = "WAVEfmt ";
-    char buff[8];
+    constexpr std::array<char, 4> RIFF = {'R', 'I', 'F', 'F'};
+    constexpr std::array<char, 8> WAVE = {'W', 'A', 'V', 'E', 'f', 'm', 't', ' '};
+    std::array<char, 8> buff{};
     bool valid = true;
     m_wavfile.Seek(0, std::ios_base::beg);
-    m_wavfile.Read(buff, 4);
+    m_wavfile.Read(buff.data(), 4);
 
-    valid &= strncmp(buff, RIFF, 4) == 0;
+    valid &= strncmp(buff.data(), RIFF.data(), RIFF.size()) == 0;
 
     m_wavfile.Seek(8, std::ios_base::beg);
-    m_wavfile.Read(buff, 8);
+    m_wavfile.Read(buff.data(), buff.size());
 
-    valid &= strncmp(buff, WAVE, 8) == 0;
+    valid &= strncmp(buff.data(), WAVE.data(), WAVE.size()) == 0;
 
     short compression_type = 0;
     m_wavfile.Seek(20, std::ios_base::beg);
@@ -309,7 +310,7 @@ int WavePCMFile::WriteData(const void* data, int len)
         m_wavfile.Write(reinterpret_cast<const char*>(data), len);
     auto pos2 = m_wavfile.Tell();
     auto val = (pos2 - pos);
-    return val <= 0 && len > 0 ? 0 : int(val);
+    return val <= 0 && len > 0 ? 0 : static_cast<int>(val);
 }
 
 bool WavePCMFile::AppendSamples(const short* buffer, int samples_len)

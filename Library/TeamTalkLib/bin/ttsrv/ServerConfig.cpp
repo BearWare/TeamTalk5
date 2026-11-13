@@ -50,15 +50,8 @@
 #include <iostream>
 #include <queue>
 #include <regex>
-#include <sstream>
 #include <thread>
 #include <vector>
-
-#if defined(UNICODE)
-typedef std::wostringstream tostringstream;
-#else
-using tostringstream = std::ostringstream;
-#endif
 
 using namespace std;
 using namespace teamtalk;
@@ -69,8 +62,9 @@ using namespace teamtalk;
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
 {
+    constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
     ACE_TString settings_path;
-    std::array<ACE_TCHAR, 1024> buf;
+    std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buf;
 
     if(cfgfile.empty())
     {
@@ -178,91 +172,91 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
         user.usertype = USERTYPE_DEFAULT;
         int userrights = USERRIGHT_NONE;
         cout << "Should multiple users be allowed to log in with this user account? ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MULTI_LOGIN) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MULTI_LOGIN) != USERRIGHT_NONE)?
                          userrights | USERRIGHT_MULTI_LOGIN : userrights & ~USERRIGHT_MULTI_LOGIN;
 
         cout << "User can change nickname: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_LOCKED_NICKNAME) == 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_LOCKED_NICKNAME) == USERRIGHT_NONE)?
                          (userrights & ~USERRIGHT_LOCKED_NICKNAME) : (userrights | USERRIGHT_LOCKED_NICKNAME);
 
         cout << "User can see all other users on server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_VIEW_ALL_USERS) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_VIEW_ALL_USERS) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_VIEW_ALL_USERS) : (userrights & ~USERRIGHT_VIEW_ALL_USERS);
 
         cout << "User can create temporary channels: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_CREATE_TEMPORARY_CHANNEL) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_CREATE_TEMPORARY_CHANNEL) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_CREATE_TEMPORARY_CHANNEL) : (userrights & ~USERRIGHT_CREATE_TEMPORARY_CHANNEL);
 
         cout << "User can create/modify all channels: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MODIFY_CHANNELS) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MODIFY_CHANNELS) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_MODIFY_CHANNELS) : (userrights & ~USERRIGHT_MODIFY_CHANNELS);
 
         cout << "User can sent private text messages: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_USER) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_USER) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TEXTMESSAGE_USER) : (userrights & ~USERRIGHT_TEXTMESSAGE_USER);
 
         cout << "User can sent channel text messages: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_CHANNEL) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_CHANNEL) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TEXTMESSAGE_CHANNEL) : (userrights & ~USERRIGHT_TEXTMESSAGE_CHANNEL);
 
         cout << "User can broadcast text message to all users: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_BROADCAST) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TEXTMESSAGE_BROADCAST) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TEXTMESSAGE_BROADCAST) : (userrights & ~USERRIGHT_TEXTMESSAGE_BROADCAST);
 
         cout << "User can kick users off the server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_KICK_USERS) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_KICK_USERS) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_KICK_USERS) : (userrights & ~USERRIGHT_KICK_USERS);
 
         cout << "User can ban users from the server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_BAN_USERS) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_BAN_USERS) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_BAN_USERS) : (userrights & ~USERRIGHT_BAN_USERS);
 
         cout << "User can move users between channels: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MOVE_USERS) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_MOVE_USERS) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_MOVE_USERS) : (userrights & ~USERRIGHT_MOVE_USERS);
 
         cout << "User can make other users channel operator: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_OPERATOR_ENABLE) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_OPERATOR_ENABLE) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_OPERATOR_ENABLE) : (userrights & ~USERRIGHT_OPERATOR_ENABLE);
 
         cout << "User can upload files to channels: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPLOAD_FILES) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPLOAD_FILES) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_UPLOAD_FILES) : (userrights & ~USERRIGHT_UPLOAD_FILES);
 
         cout << "User can download files from channels: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_DOWNLOAD_FILES) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_DOWNLOAD_FILES) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_DOWNLOAD_FILES) : (userrights & ~USERRIGHT_DOWNLOAD_FILES);
 
         cout << "User can record conversations in channels that don't allow it: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_RECORD_VOICE) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_RECORD_VOICE) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_RECORD_VOICE) : (userrights & ~USERRIGHT_RECORD_VOICE);
 
         cout << "User can update server properties: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPDATE_SERVERPROPERTIES) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_UPDATE_SERVERPROPERTIES) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_UPDATE_SERVERPROPERTIES) : (userrights & ~USERRIGHT_UPDATE_SERVERPROPERTIES);
 
         cout << "User can transmit voice (microphone input) packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VOICE) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VOICE) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_VOICE) : (userrights & ~USERRIGHT_TRANSMIT_VOICE);
 
         cout << "User can transmit video (webcam) packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_VIDEOCAPTURE) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_VIDEOCAPTURE) : (userrights & ~USERRIGHT_TRANSMIT_VIDEOCAPTURE);
 
         cout << "User can transmit desktop sharing packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOP) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOP) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_DESKTOP) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOP);
 
         cout << "User can transmit remote desktop access packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOPINPUT) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_DESKTOPINPUT) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_DESKTOPINPUT) : (userrights & ~USERRIGHT_TRANSMIT_DESKTOPINPUT);
 
         cout << "User can transmit audio file (wav, mp3 files) packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO);
 
         cout << "User can transmit video file (avi, wmv files) packets through server: ";
-        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != 0)?
+        userrights = PrintGetBool((USERRIGHT_DEFAULT & USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) != USERRIGHT_NONE)?
                          (userrights | USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO) : (userrights & ~USERRIGHT_TRANSMIT_MEDIAFILE_VIDEO);
 
         user.userrights = userrights;
@@ -450,7 +444,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(PrintGetBool(!filesroot.empty()))
     {
-        std::array<ACE_TCHAR, 1024> buff;
+        constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
+        constexpr auto BYTES_PER_KILOBYTE = 1024;
+        std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buff;
         ACE_OS::getcwd(buff.data(), buff.size());
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
@@ -461,9 +457,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         if(!filesroot.empty() && ACE_OS::chdir(filesroot.c_str()) == 0)
         {
             cout << "Disk quota (in KBytes) per channel, 0 = disabled: ";
-            diskquota = PrintGetInt64(diskquota/1024)*1024;
+            diskquota = PrintGetInt64(diskquota/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
             cout << "Maximum disk usage (in KBytes) for storing files: ";
-            maxdiskusage = PrintGetInt64(maxdiskusage/1024)*1024;
+            maxdiskusage = PrintGetInt64(maxdiskusage/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
         }
         else
         {
@@ -917,12 +913,14 @@ bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
 
 bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
 {
+    constexpr auto LOGIN_RETRY_BACKOFF_MULTIPLIER = 2;
+    constexpr auto INITIAL_LOGIN_RETRY_DELAY_SECONDS = 1ul;
     std::string bwidUtf8;
     std::string tokenUtf8;
     xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
     ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
     ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
-    static auto sleepTimeSec = 1ul;
+    static auto sleepTimeSec = INITIAL_LOGIN_RETRY_DELAY_SECONDS;
     while (token.empty())
     {
         cout << TEAMTALK_NAME << " requires a BearWare.dk WebLogin" << endl;
@@ -961,11 +959,11 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
         case WEBLOGIN_SERVER_UNAVAILABLE :
         case WEBLOGIN_SERVER_INCOMPATIBLE :
             cout << "Unable to contact BearWare.dk WebLogin" << endl;
-            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
             break;
         case WEBLOGIN_FAILED :
             cout << "Login failed. Please try again." << endl;
-            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+            std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
             break;
         }
     }
@@ -985,14 +983,14 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
             xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
             xmlSettings.SaveFile();
         }
-        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
         return false;
     case WEBLOGIN_SERVER_UNAVAILABLE :
     case WEBLOGIN_SERVER_INCOMPATIBLE :
         os.str(ACE_TEXT(""));
         os << "BearWare.dk WebLogin is currently unavailable. Continuing... ";
         TT_SYSLOG(os.str().c_str());
-        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= 2));
+        std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
         break;
     case WEBLOGIN_SUCCESS :
         break;
@@ -1006,6 +1004,14 @@ bool ConfigureServer(teamtalk::ServerNode& servernode,
                      const teamtalk::ServerSettings& properties,
                      const teamtalk::statchannels_t& channels)
 {
+    constexpr auto DEFAULT_OPUS_SAMPLE_RATE_HZ = 48000;
+    constexpr auto DEFAULT_OPUS_CHANNEL_COUNT = 1;
+    constexpr auto DEFAULT_OPUS_COMPLEXITY = 10;
+    constexpr auto DEFAULT_OPUS_BITRATE_BPS = 32000;
+    constexpr auto DEFAULT_OPUS_FRAME_SIZE_SAMPLES = 1920;
+    constexpr auto DEFAULT_OPUS_FRAMES_PER_PACKET = 1;
+    constexpr auto OPUS_APPLICATION_VOIP = 2048; // don't depend on codecs in server
+
     GUARD_OBJ(&servernode, servernode.Lock());
 
     //load settings
@@ -1024,17 +1030,17 @@ bool ConfigureServer(teamtalk::ServerNode& servernode,
         chanprop.channelid = 1;
         chanprop.chantype = CHANNEL_DEFAULT | CHANNEL_PERMANENT;
         chanprop.audiocodec.codec = CODEC_OPUS;
-        chanprop.audiocodec.opus.samplerate = 48000;
-        chanprop.audiocodec.opus.channels = 1;
-        chanprop.audiocodec.opus.complexity = 10;
+        chanprop.audiocodec.opus.samplerate = DEFAULT_OPUS_SAMPLE_RATE_HZ;
+        chanprop.audiocodec.opus.channels = DEFAULT_OPUS_CHANNEL_COUNT;
+        chanprop.audiocodec.opus.complexity = DEFAULT_OPUS_COMPLEXITY;
         chanprop.audiocodec.opus.fec = true;
         chanprop.audiocodec.opus.dtx = false;
-        chanprop.audiocodec.opus.bitrate = 32000;
+        chanprop.audiocodec.opus.bitrate = DEFAULT_OPUS_BITRATE_BPS;
         chanprop.audiocodec.opus.vbr = true;
         chanprop.audiocodec.opus.vbr_constraint = false;
-        chanprop.audiocodec.opus.frame_size = 1920;
-        chanprop.audiocodec.opus.application = 2048; /* OPUS_APPLICATION_VOIP */
-        chanprop.audiocodec.opus.frames_per_packet = 1;
+        chanprop.audiocodec.opus.frame_size = DEFAULT_OPUS_FRAME_SIZE_SAMPLES;
+        chanprop.audiocodec.opus.application = OPUS_APPLICATION_VOIP;
+        chanprop.audiocodec.opus.frames_per_packet = DEFAULT_OPUS_FRAMES_PER_PACKET;
 #if 0
         chanprop.audiocodec.codec = CODEC_SPEEX;
         chanprop.audiocodec.speex.bandmode = 1;
@@ -1077,7 +1083,7 @@ void ConvertChannels(const teamtalk::serverchannel_t& root,
         for(const auto & sub : subs)
         {
             ACE_TString const path = sub->GetChannelPath().c_str();
-            if(!onlystatic || ((sub->GetChannelType() & CHANNEL_PERMANENT) != 0u))
+            if(!onlystatic || ((sub->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
             {
                 sweeper.push(sub);
                 sweeperid.push(sub->GetChannelID());

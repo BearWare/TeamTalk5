@@ -35,25 +35,28 @@
 #include <iostream>
 #include <vector>
 
+constexpr int TEST_TONE_FREQUENCY_HZ = 500;
+
 TEST_CASE("webrtc-audiobuf") {
 
-    const int IN_SR = 16000;
-    const int OUT_SR = 48000;
-    const int IN_CH = 1;
-    const int OUT_CH = 1;
+    constexpr int INPUT_SAMPLE_RATE_HZ = 16000;
+    constexpr int OUTPUT_SAMPLE_RATE_HZ = 48000;
+    constexpr int INPUT_CHANNEL_COUNT = 1;
+    constexpr int OUTPUT_CHANNEL_COUNT = 1;
 
-    const int IN_SAMPLES = 5 * IN_SR;
-    const int OUT_SAMPLES = 5 * OUT_SR;
-    std::vector<short> in_buff(IN_SAMPLES * IN_CH);
-    std::vector<short> out_buff(OUT_SAMPLES * OUT_CH);
-    media::AudioFrame in_af(media::AudioFormat(IN_SR, IN_CH), &in_buff[0], IN_SAMPLES);
+    constexpr int TEST_DURATION_SECONDS = 5;
+    constexpr int INPUT_SAMPLE_COUNT = TEST_DURATION_SECONDS * INPUT_SAMPLE_RATE_HZ;
+    constexpr int OUTPUT_SAMPLE_COUNT = TEST_DURATION_SECONDS * OUTPUT_SAMPLE_RATE_HZ;
+    std::vector<short> in_buff(INPUT_SAMPLE_COUNT * INPUT_CHANNEL_COUNT);
+    std::vector<short> out_buff(OUTPUT_SAMPLE_COUNT * OUTPUT_CHANNEL_COUNT);
+    media::AudioFrame in_af(media::AudioFormat(INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT), &in_buff[0], INPUT_SAMPLE_COUNT);
 
     WavePCMFile inwavfile;
     WavePCMFile outwavfile;
-    REQUIRE(inwavfile.NewFile(ACE_TEXT("in_tone.wav"), IN_SR, IN_CH));
-    REQUIRE(outwavfile.NewFile(ACE_TEXT("out_tone.wav"), OUT_SR, OUT_CH));
+    REQUIRE(inwavfile.NewFile(ACE_TEXT("in_tone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
+    REQUIRE(outwavfile.NewFile(ACE_TEXT("out_tone.wav"), OUTPUT_SAMPLE_RATE_HZ, OUTPUT_CHANNEL_COUNT));
 
-    REQUIRE(GenerateTone(in_af, 0, 500));
+    REQUIRE(GenerateTone(in_af, 0, TEST_TONE_FREQUENCY_HZ));
 
     REQUIRE(inwavfile.AppendSamples(in_af.input_buffer, in_af.input_samples));
 
@@ -61,16 +64,16 @@ TEST_CASE("webrtc-audiobuf") {
     REQUIRE(apm);
     apm->Initialize();
 
-    webrtc::StreamConfig in_cfg(IN_SR, IN_CH);
-    webrtc::StreamConfig out_cfg(OUT_SR, OUT_CH);
+    webrtc::StreamConfig in_cfg(INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT);
+    webrtc::StreamConfig out_cfg(OUTPUT_SAMPLE_RATE_HZ, OUTPUT_CHANNEL_COUNT);
 
     size_t in_index = 0;
     size_t out_index = 0;
-    while (in_index + in_cfg.num_frames() <= static_cast<size_t>(IN_SAMPLES))
+    while (in_index + in_cfg.num_frames() <= static_cast<size_t>(INPUT_SAMPLE_COUNT))
     {
-        REQUIRE(apm->ProcessStream(&in_buff[in_index * IN_CH],
+        REQUIRE(apm->ProcessStream(&in_buff[in_index * INPUT_CHANNEL_COUNT],
                                    in_cfg, out_cfg,
-                                   &out_buff[out_index * OUT_CH])
+                                   &out_buff[out_index * OUTPUT_CHANNEL_COUNT])
                 == webrtc::AudioProcessing::kNoError);
 
         in_index += in_cfg.num_frames();
@@ -85,9 +88,9 @@ TEST_CASE("webrtc-noise") {
     WavePCMFile infile;
     WavePCMFile outfile;
     REQUIRE(infile.OpenFile(ACE_TEXT("testdata/Noise/in_noise_16khz.wav"), true));
-    int IN_SR = infile.GetSampleRate();
-    int IN_CH = infile.GetChannels();
-    REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), IN_SR, IN_CH));
+    int input_sample_rate_hz = infile.GetSampleRate();
+    int input_channel_count = infile.GetChannels();
+    REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), input_sample_rate_hz, input_channel_count));
 
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.noise_suppression.enabled = true;
@@ -99,9 +102,9 @@ TEST_CASE("webrtc-noise") {
     REQUIRE(apm);
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 
-    webrtc::StreamConfig const in_cfg(IN_SR, IN_CH);
-    std::vector<int16_t> in_buff(in_cfg.num_frames() * IN_CH);
-    std::vector<int16_t> out_buff(in_cfg.num_frames() * IN_CH);
+    webrtc::StreamConfig const in_cfg(input_sample_rate_hz, input_channel_count);
+    std::vector<int16_t> in_buff(in_cfg.num_frames() * input_channel_count);
+    std::vector<int16_t> out_buff(in_cfg.num_frames() * input_channel_count);
 
     while (infile.ReadSamples(in_buff.data(), in_cfg.num_frames()) > 0)
     {
@@ -113,20 +116,21 @@ TEST_CASE("webrtc-noise") {
 
 TEST_CASE("webrtc-agc")
 {
-    const int IN_SR = 48000;
-    const int IN_CH = 1;
-    const int IN_SAMPLES = 5 * IN_SR;
+    constexpr int INPUT_SAMPLE_RATE_HZ = 48000;
+    constexpr int INPUT_CHANNEL_COUNT = 1;
+    constexpr int TEST_DURATION_SECONDS = 5;
+    constexpr int INPUT_SAMPLE_COUNT = TEST_DURATION_SECONDS * INPUT_SAMPLE_RATE_HZ;
 
     WavePCMFile rawfile;
     WavePCMFile agcfile;
-    REQUIRE(rawfile.NewFile(ACE_TEXT("agcnone.wav"), IN_SR, IN_CH));
-    REQUIRE(agcfile.NewFile(ACE_TEXT("agcfile.wav"), IN_SR, IN_CH));
+    REQUIRE(rawfile.NewFile(ACE_TEXT("agcnone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
+    REQUIRE(agcfile.NewFile(ACE_TEXT("agcfile.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
 
-    std::vector<int16_t> in_buff(IN_SAMPLES * IN_CH);
-    media::AudioFrame af(media::AudioFormat(IN_SR, IN_CH), in_buff.data(), IN_SAMPLES);
-    REQUIRE(GenerateTone(af, 0, 500));
+    std::vector<int16_t> in_buff(INPUT_SAMPLE_COUNT * INPUT_CHANNEL_COUNT);
+    media::AudioFrame af(media::AudioFormat(INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT), in_buff.data(), INPUT_SAMPLE_COUNT);
+    REQUIRE(GenerateTone(af, 0, TEST_TONE_FREQUENCY_HZ));
 
-    REQUIRE(rawfile.AppendSamples(in_buff.data(), IN_SAMPLES));
+    REQUIRE(rawfile.AppendSamples(in_buff.data(), INPUT_SAMPLE_COUNT));
 
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.gain_controller1.enabled = true;
@@ -140,13 +144,13 @@ TEST_CASE("webrtc-agc")
     REQUIRE(apm);
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 
-    webrtc::StreamConfig const in_cfg(IN_SR, IN_CH);
-    std::vector<int16_t> agc_buff(in_cfg.num_frames() * IN_CH);
+    webrtc::StreamConfig const in_cfg(INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT);
+    std::vector<int16_t> agc_buff(in_cfg.num_frames() * INPUT_CHANNEL_COUNT);
 
     int index = 0;
-    while (index + static_cast<int>(in_cfg.num_frames()) < IN_SAMPLES)
+    while (index + static_cast<int>(in_cfg.num_frames()) < INPUT_SAMPLE_COUNT)
     {
-        REQUIRE(apm->ProcessStream(&in_buff[index * IN_CH], in_cfg, in_cfg,
+        REQUIRE(apm->ProcessStream(&in_buff[index * INPUT_CHANNEL_COUNT], in_cfg, in_cfg,
                                    agc_buff.data())
                 == webrtc::AudioProcessing::kNoError);
 

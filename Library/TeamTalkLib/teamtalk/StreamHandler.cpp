@@ -23,8 +23,8 @@
 
 #include "StreamHandler.h"
 
+#include <array>
 #include <ace/Time_Value.h>
-
 #include <mutex>
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
@@ -46,7 +46,7 @@ static std::mutex ctxmtx;
 
 ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     TTASSERT(m_contexts.find(r) == m_contexts.end());
     
@@ -56,14 +56,14 @@ ACE_SSL_Context* CryptStreamHandler::AddSSLContext(ACE_Reactor* r)
 
 void CryptStreamHandler::RemoveSSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     m_contexts.erase(r);
 }
 
 ACE_SSL_Context* CryptStreamHandler::SSLContext(ACE_Reactor* r)
 {
-    std::lock_guard<std::mutex> const g(ctxmtx);
+    std::scoped_lock const g(ctxmtx);
 
     ACE_SSL_Context* c = ACE_SSL_Context::instance();
     if (m_contexts.contains(r))
@@ -220,9 +220,9 @@ int CryptStreamHandler::ProcessSSL(SSL* ssl)
     {
         unsigned long const err = ::ERR_get_error ();
         ACE_OS::last_error (err);
-        char error_string[256] = "";
-        ::ERR_error_string_n (::ERR_get_error(), error_string, sizeof(error_string));
-        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string));
+        std::array<char, 256> error_string{};
+        ::ERR_error_string_n (::ERR_get_error(), error_string.data(), error_string.size());
+        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string.data()));
         return -1;
     }
     }

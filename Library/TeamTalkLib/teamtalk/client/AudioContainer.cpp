@@ -27,6 +27,7 @@
 #include <ace/Time_Value.h>
 #include <cassert>
 #include <cstring>
+#include <memory>
 
 static uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
 {
@@ -37,29 +38,29 @@ static uint32_t GenKey(int userid, teamtalk::StreamTypes sts)
 
 void AudioContainer::Reset()
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
     m_container.clear();
 }
 
 void AudioContainer::AddAudioSource(int userid, teamtalk::StreamTypes sts,
                                     const media::AudioFormat& af)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
     auto key = GenKey(userid, sts);
-    audioentry_t const entry(new AudioEntry(af));
+    audioentry_t const entry = std::make_shared<AudioEntry>(af);
     m_container[key] = entry;
 }
 
 void AudioContainer::RemoveAudioSource(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
     m_container.erase(GenKey(userid, sts));
 }
 
 bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
                               const media::AudioFrame& frame)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
 
     auto const ii = m_container.find(GenKey(userid, sts));
 
@@ -84,14 +85,14 @@ bool AudioContainer::AddAudio(int userid, teamtalk::StreamTypes sts,
 
 bool AudioContainer::Exists(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
 
     return m_container.contains(GenKey(userid, sts));
 }
 
 bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
     auto ii = m_container.find(GenKey(userid, sts));
     if (ii == m_container.end())
         return true;
@@ -101,7 +102,7 @@ bool AudioContainer::IsEmpty(int userid, teamtalk::StreamTypes sts)
 
 ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::StreamTypes sts)
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
 
     auto const ii = m_container.find(GenKey(userid, sts));
     if (ii == m_container.end())
@@ -175,7 +176,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
 
 void AudioContainer::ReleaseAllAudio()
 {
-    std::lock_guard<std::recursive_mutex> const g(m_store_mtx);
+    std::scoped_lock const g(m_store_mtx);
 
     auto ii = m_container.begin();
     while(ii != m_container.end())

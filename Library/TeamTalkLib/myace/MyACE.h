@@ -91,17 +91,17 @@ ACE_TString FixFilePath(const ACE_TString& filepath);
 
 void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
 
-ACE_TString I2String(ACE_INT64 i);
-ACE_INT64 String2I(const ACE_TString& int_str, int base = 10);
+ACE_TString I2String(int64_t i);
+int64_t String2I(const ACE_TString& int_str, int base = 10, int64_t errorValue = 0);
 
 bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2);
 ACE_TString StringToLower(const ACE_TString& str);
 strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
 
-ACE_TString KeyToHexString(const unsigned char* key, int length);
-void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, int keylen);
+ACE_TString KeyToHexString(const unsigned char* key, std::size_t length);
+void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, std::size_t keylen);
 
-ACE_Time_Value ToTimeValue(int msec);
+ACE_Time_Value ToTimeValue(int64_t msec);
 
 ACE_TString UptimeHours(const ACE_Time_Value& value);
 
@@ -165,30 +165,30 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
             ACE_OS::sleep(0);            \
     } while(0)
 
-constexpr auto W32_GEQ(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) >= 0); }
-constexpr auto W32_GT(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) > 0); }
-constexpr auto W32_LEQ(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) <= 0); }
-constexpr auto W32_LT(ACE_UINT32 a, ACE_UINT32 b) { return ((ACE_INT32)((a)-(b)) < 0); }
+constexpr auto W32_GEQ(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) >= 0); }
+constexpr auto W32_GT(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) > 0); }
+constexpr auto W32_LEQ(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) <= 0); }
+constexpr auto W32_LT(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) < 0); }
 
-constexpr auto W16_GEQ(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) >= 0); }
-constexpr auto W16_GT(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) > 0); }
-constexpr auto W16_LEQ(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) <= 0); }
-constexpr auto W16_LT(ACE_UINT16 a, ACE_UINT16 b) { return ((ACE_INT16)((a)-(b)) < 0); }
+constexpr auto W16_GEQ(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) >= 0); }
+constexpr auto W16_GT(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) > 0); }
+constexpr auto W16_LEQ(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) <= 0); }
+constexpr auto W16_LT(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) < 0); }
 
-constexpr auto W8_GEQ(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) >= 0); }
-constexpr auto W8_GT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) > 0); }
-constexpr auto W8_LEQ(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) <= 0); }
-constexpr auto W8_LT(ACE_UINT8 a, ACE_UINT8 b) { return ((ACE_INT8)((a)-(b)) < 0); }
+constexpr auto W8_GEQ(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) >= 0); }
+constexpr auto W8_GT(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) > 0); }
+constexpr auto W8_LEQ(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) <= 0); }
+constexpr auto W8_LT(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) < 0); }
 
 struct W32LessComp
 {
-    bool operator() (const ACE_UINT32& a, const ACE_UINT32& b) const
+    bool operator() (const uint32_t& a, const uint32_t& b) const
         { return W32_LT(a,b); }
 };
 
 struct W16LessComp
 {
-    bool operator() (const ACE_UINT16& a, const ACE_UINT16& b) const
+    bool operator() (const uint16_t& a, const uint16_t& b) const
         { return W16_LT(a,b); }
 };
 

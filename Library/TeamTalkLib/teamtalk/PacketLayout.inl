@@ -167,11 +167,20 @@ std::unique_ptr< PACKETTYPE > CryptPacket< PACKETTYPE, PACKET_KIND_CRYPT, PACKET
     decrypt_len += tmpLen;
     assert(decrypt_len <= alloc_size);
     tmpLen = 0;
-    status = EVP_DecryptFinal(aesDecCtx, 
-                              reinterpret_cast<uint8_t*>(&decrypt_buf[decrypt_len]), 
-                              &tmpLen);
+    if(status == 1)
+        status = EVP_DecryptFinal(aesDecCtx,
+                                  reinterpret_cast<uint8_t*>(&decrypt_buf[decrypt_len]),
+                                  &tmpLen);
     decrypt_len += tmpLen;
     assert(decrypt_len <= alloc_size);
+
+    //data must decrypt and have room for the crc16
+    if(status != 1 || decrypt_len < 2)
+    {
+        MYTRACE(ACE_TEXT("Failed to decrypt packet %d from #%d\n"), PACKET_KIND_CRYPT, GetSrcUserID());
+        delete [] decrypt_buf;
+        return decrypt_pkt_t();
+    }
 
     //crc16 is last 2 bytes of decrypted data chunk
     const uint8_t* ptr = decrypt_buf;

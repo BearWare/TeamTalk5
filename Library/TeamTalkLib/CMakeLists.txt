@@ -167,10 +167,6 @@ option (BUILD_TEAMTALK_LIBRARY_DLL "Build TeamTalk5 shared library" ON)
 add_feature_info (BUILD_TEAMTALK_LIBRARY_DLL BUILD_TEAMTALK_LIBRARY_DLL "Build shared library [TeamTalk5.dll | libTeamTalk5.so | libTeamTalk5.dylib] in Library/TeamTalk_DLL")
 if (BUILD_TEAMTALK_LIBRARY_DLL)
 
-  if (MSVS_UNITTEST)
-    list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-  endif()
-
   add_library (TeamTalk5DLL SHARED ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
   target_include_directories (TeamTalk5DLL PRIVATE ${TTCLIENTDLL_INCLUDE_DIR} INTERFACE ${TEAMTALK_ROOT}/Library/TeamTalk_DLL)
@@ -193,11 +189,6 @@ if (BUILD_TEAMTALK_LIBRARY_DLL)
   install (FILES ${CMAKE_CURRENT_LIST_DIR}/../TeamTalk_DLL/TeamTalk.h DESTINATION Library/TeamTalk_DLL)
   install (TARGETS TeamTalk5DLL DESTINATION ${DLL_INSTALL_DIR})
 
-  if (MSVS_UNITTEST)
-    set_target_properties (TeamTalk5DLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5DLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
-  endif()
-
 endif()
 
 ######################
@@ -208,10 +199,6 @@ option (BUILD_TEAMTALK_LIBRARY_LIB "Build TeamTalk5 static library" OFF)
 add_feature_info (BUILD_TEAMTALK_LIBRARY_LIB BUILD_TEAMTALK_LIBRARY_LIB "Build static library [TeamTalk5.lib | libTeamTalk5.a ] in Library/TeamTalk_DLL")
 
 if (BUILD_TEAMTALK_LIBRARY_LIB)
-
-  if (MSVS_UNITTEST)
-    list (APPEND TTCLIENTDLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-  endif()
 
   add_library (TeamTalk5Lib STATIC ${TTCLIENTDLL_SOURCES} ${TTCLIENTDLL_HEADERS})
 
@@ -243,10 +230,6 @@ add_feature_info (BUILD_TEAMTALK_LIBRARY_DLLPRO BUILD_TEAMTALK_LIBRARY_DLLPRO "B
 
 if (BUILD_TEAMTALK_LIBRARY_DLLPRO)
 
-  if (MSVS_UNITTEST)
-    list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-  endif()
-
   add_library (TeamTalk5ProDLL SHARED
     ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
 
@@ -275,11 +258,6 @@ if (BUILD_TEAMTALK_LIBRARY_DLLPRO)
 
   set_target_properties (TeamTalk5ProDLL PROPERTIES OUTPUT_NAME TeamTalk5Pro)
 
-  if (MSVS_UNITTEST)
-    set_target_properties (TeamTalk5ProDLL PROPERTIES LINK_FLAGS "/LIBPATH:$(VCInstallDir)UnitTest/lib")
-    set_target_properties (TeamTalk5ProDLL PROPERTIES COMPILE_FLAGS "/I$(VCInstallDir)UnitTest/include")
-  endif()
-
 endif()
 
 ######################
@@ -290,10 +268,6 @@ option (BUILD_TEAMTALK_LIBRARY_LIBPRO "Build TeamTalk5Pro static library" OFF)
 add_feature_info (BUILD_TEAMTALK_LIBRARY_LIBPRO BUILD_TEAMTALK_LIBRARY_LIBPRO "Build static library [TeamTalk5Pro.lib | libTeamTalk5Pro.a ] in Library/TeamTalk_DLL")
 
 if (BUILD_TEAMTALK_LIBRARY_LIBPRO)
-
-  if (MSVS_UNITTEST)
-    list (APPEND TTCLIENTPRODLL_SOURCES ${MSVS_UNITTEST_SOURCES})
-  endif()
 
   add_library (TeamTalk5ProLib STATIC
     ${TTCLIENTPRODLL_SOURCES} ${TTCLIENTPRODLL_HEADERS})
@@ -468,7 +442,7 @@ if (BUILD_TEAMTALK_LIBRARY_UNITTEST_CATCH2)
     ${TTCLIENTPRODLL_INCLUDE_DIR})
 
   target_compile_options (catchtt PRIVATE
-    ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS})
+    ${TTCLIENTPRODLL_COMPILE_FLAGS} ${COMPILE_FLAGS} -DCATCH_CONFIG_EXPERIMENTAL_THREAD_SAFE_ASSERTIONS)
 
   target_link_libraries (catchtt ${TTCLIENTPRODLL_LINK_FLAGS}
     ${LINK_LIBS} ${CATCH_LINK_FLAGS} ${TINYXML2_LINK_FLAGS})
