@@ -28,6 +28,7 @@
 
 #include <cerrno>
 #include <cstdint>
+#include <memory>
 #include <utility>
 
 using namespace teamtalk;
@@ -53,14 +54,14 @@ FileNode::FileNode(ACE_Reactor& reactor, bool encrypted,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW(m_crypt_stream, CryptStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
+        m_crypt_stream = std::make_unique<CryptStreamHandler>(&m_reactor).release(); // NOLINT(bugprone-unused-return-value)
         m_crypt_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_crypt_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
     else
 #endif
     {
-        ACE_NEW(m_def_stream, DefaultStreamHandler(&m_reactor)); // NOLINT(cppcoreguidelines-owning-memory)
+        m_def_stream = std::make_unique<DefaultStreamHandler>(&m_reactor).release(); // NOLINT(bugprone-unused-return-value)
         m_def_stream->msg_queue()->high_water_mark(FILEBUFFERSIZE);
         m_def_stream->msg_queue()->low_water_mark(FILEBUFFERSIZE);
     }
@@ -81,7 +82,7 @@ FileNode::~FileNode()
 
 void FileNode::BeginTransfer()
 {
-    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1)); // NOLINT(cppcoreguidelines-owning-memory)
+    m_timerid = m_reactor.schedule_timer(new TimerHandler(*this, 1), nullptr, ACE_Time_Value(0,1)); // NOLINT(bugprone-unused-return-value)
     TTASSERT(m_timerid>=0);
 }
 

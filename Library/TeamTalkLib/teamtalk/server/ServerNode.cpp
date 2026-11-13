@@ -528,11 +528,9 @@ int ServerNode::StartTimer(ServerTimer timer, timer_userdata userdata,
                            const ACE_Time_Value& delay, 
                            const ACE_Time_Value& interval)
 {
-    TimerHandler* th = nullptr;
-    ACE_NEW_RETURN(th, TimerHandler(*this, timer,
-                                    userdata), -1);
+    auto th = std::make_unique<TimerHandler>(*this, timer, userdata);
 
-    return m_timer_reactor->schedule_timer(th, delay, interval);
+    return m_timer_reactor->schedule_timer(th.release(), delay, interval);  // NOLINT(bugprone-unused-return-value)
 }
 
 int ServerNode::TimerEvent(uint32_t timer_event_id, long userdata)
@@ -883,17 +881,16 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
         return true;
 
     //start RTX timer
-    TimerHandler* th = nullptr;
-    ACE_NEW_NORETURN(th, TimerHandler(*this,
-                                      TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID,
-                                      tm_data.userdata));
-    if(th != nullptr)
+    auto th = std::make_unique<TimerHandler>(*this,
+                                             TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID,
+                                             tm_data.userdata);
+    long const timerid = m_timer_reactor->schedule_timer(th.get(), nullptr,
+                                                         DESKTOP_DEFAULT_RTX_TIMEOUT,
+                                                         DESKTOP_DEFAULT_RTX_TIMEOUT);
+    if (timerid >= 0)
     {
-        long const timerid = m_timer_reactor->schedule_timer(th, nullptr, 
-                                                    DESKTOP_DEFAULT_RTX_TIMEOUT, 
-                                                    DESKTOP_DEFAULT_RTX_TIMEOUT);
-        if(timerid>=0)
-            m_desktop_rtx_timers[tm_data.userdata] = timerid;
+        th.release(); // NOLINT(bugprone-unused-return-value)
+        m_desktop_rtx_timers[tm_data.userdata] = timerid;
     }
     return true;
 }
@@ -919,14 +916,17 @@ void ServerNode::StopDesktopTransmitter(const ServerUser& src_user,
 
     if(start_nak_timer)
     {
-        TimerHandler* th = nullptr;
         timer_userdata tm_data;
         tm_data.src_userid = src_user.GetUserID();
         tm_data.dest_userid = dest_user.GetUserID();
-        ACE_NEW_NORETURN(th, TimerHandler(*this, TIMERSRV_CLOSE_DESKTOPSESSION_ID,
-                                          tm_data.userdata));
-        long const timerid = m_timer_reactor->schedule_timer(th, nullptr, ACE_Time_Value(1));
+        auto th = std::make_unique<TimerHandler>(*this, TIMERSRV_CLOSE_DESKTOPSESSION_ID,
+                                                 tm_data.userdata);
+        long const timerid = m_timer_reactor->schedule_timer(th.get(), nullptr, ACE_Time_Value(1));
         TTASSERT(timerid>=0);
+        if (timerid >= 0)
+        {
+            th.release(); // NOLINT(bugprone-unused-return-value)
+        }
     }
 }
 
@@ -2172,11 +2172,13 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     if(!m_desktop_ack_timers.contains(userid))
     {
         ACE_Time_Value const interval(0, 2000); //delayed ack time
-        TimerHandler* th = nullptr;
-        ACE_NEW(th, TimerHandler(*this, TIMERSRV_DESKTOPACKPACKET_ID, userid));
-        long const timerid = m_timer_reactor->schedule_timer(th, nullptr, interval, interval);
+        auto th = std::make_unique<TimerHandler>(*this, TIMERSRV_DESKTOPACKPACKET_ID, userid);
+        long const timerid = m_timer_reactor->schedule_timer(th.get(), nullptr, interval, interval);
         if(timerid >= 0)
+        {
+            th.release(); // NOLINT(bugprone-unused-return-value)
             m_desktop_ack_timers[userid] = timerid;
+        }
     }
 
     //don't forward the desktop packet if no session is ready
@@ -3085,14 +3087,15 @@ ErrorMsg ServerNode::UserJoinChannel(int userid, const ChannelProp& chanprop)
         {
             //Start delayed timers for desktop transmission, so the new 
             //user will have received the channel's channel-key.
-            TimerHandler* th = nullptr;
             timer_userdata tm_data;
             tm_data.src_userid = cu->GetUserID();
             tm_data.dest_userid = user->GetUserID();
-            ACE_NEW_NORETURN(th, TimerHandler(*this, TIMERSRV_START_DESKTOPTX_ID,
-                                              tm_data.userdata));
-            long const timerid = m_timer_reactor->schedule_timer(th, nullptr, ACE_Time_Value(1));
+            auto th = std::make_unique<TimerHandler>(*this, TIMERSRV_START_DESKTOPTX_ID,
+                                                     tm_data.userdata);
+            long const timerid = m_timer_reactor->schedule_timer(th.get(), nullptr, ACE_Time_Value(1));
             TTASSERT(timerid>=0);
+            if (timerid >= 0)
+                th.release(); // NOLINT(bugprone-unused-return-value)
         }
         //TODO: user could actually reuse the desktop session (but restarts at the moment)
 //         if (user->GetDesktopSession() && 

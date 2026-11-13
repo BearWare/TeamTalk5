@@ -415,7 +415,7 @@ namespace teamtalk {
 
 #define GUARD_OBJ_RELEASE(name, this_obj)                       \
           (this_obj)->m_reactorlock_thr_id = ACE_thread_t();    \
-        (name).release()
+        (name).release() // NOLINT(bugprone-unused-return-value)
 
 #define GUARD_OBJ(this_obj, lock)    GUARD_OBJ_NAME(g, this_obj, lock)
 
