@@ -1216,7 +1216,9 @@ static void RemoveNonmatchingFiles(const ACE_TString& filesroot,
             if (PrintGetBool(false))
             {
                 const ACE_TString path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
-                if (ACE_OS::unlink(path.c_str()) != 0)
+                std::error_code ec;
+                std::filesystem::remove(path.c_str(), ec);
+                if (ec)
                     std::cerr << "Failed to remove file: " << UnicodeToUtf8(path).c_str() << std::endl;
             }
         }

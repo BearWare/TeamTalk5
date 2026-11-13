@@ -721,7 +721,7 @@ TEST_CASE("Last voice packet - wav files")
             ACE_OS::strncpy(fileToDelete.data(), curdir.c_str(), fileToDelete.size());
             ACE_OS::strncat(fileToDelete.data(), &delim, 1);
             ACE_OS::strncat(fileToDelete.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
-            ACE_OS::unlink(fileToDelete.data());
+            std::filesystem::remove(fileToDelete.data(), ec);
         }
 
 
