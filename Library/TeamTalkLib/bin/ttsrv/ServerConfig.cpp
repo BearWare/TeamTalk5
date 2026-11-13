@@ -1167,21 +1167,13 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
 static std::vector<ACE_TString> GetFilesInFolder(const ACE_TString& rootdir)
 {
     std::vector<ACE_TString> result;
-    ACE_DIR* dir = ACE_OS::opendir(rootdir.c_str());
-    if (dir == nullptr)
-        return result;
-
-    ACE_DIRENT* dirInfo = nullptr;
-    while ((dirInfo = ACE_OS::readdir(dir)) != nullptr)
+    std::error_code ec;
+    for (std::filesystem::directory_iterator it(rootdir.c_str(), ec), end; !ec && it != end; it.increment(ec))
     {
-#if !defined(WIN32)
-        if (dirInfo->d_type != DT_REG)
-            continue;
-#endif
-        result.emplace_back(dirInfo->d_name);
+        std::error_code entryEc;
+        if (it->is_regular_file(entryEc))
+            result.emplace_back(it->path().filename().native().c_str());
     }
-
-    ACE_OS::closedir(dir);
     return result;
 }
 

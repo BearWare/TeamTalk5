@@ -687,47 +687,19 @@ TEST_CASE("Last voice packet - wav files")
 
     //clean up wav files from previous runs
     //they are not deleted after the test, so they are available for inspection afterwards
-    ACE_TCHAR delim = ACE_DIRECTORY_SEPARATOR_CHAR;
+    ec.clear();
+    std::filesystem::create_directories(curdir, ec);
+    REQUIRE(!ec);
 
-    ACE_stat fileInfo;
-    ACE_DIR* dir = ACE_OS::opendir(curdir.c_str());
-    if (!dir)
+    for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(curdir, ec))
     {
-        ACE_OS::mkdir(curdir.c_str());
-        dir = ACE_OS::opendir(curdir.c_str());
-    }
-    REQUIRE(dir);
-
-    if (ACE_OS::stat(curdir.c_str(), &fileInfo) == -1)
-    {
-        ACE_OS::mkdir(curdir.c_str());
-        dir = ACE_OS::opendir(curdir.c_str());
-    }
-    dirent* dirInfo = ACE_OS::readdir(dir);
-    std::array<ACE_TCHAR, 1024> fileToDelete{};
-    do
-    {
-        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
-        {
+        auto const name = entry.path().filename().native();
+        if (name.length() < 4 || name.substr(name.length() - 4) != ACE_TEXT(".wav"))
             continue;
-        }
 
-        std::array<TTCHAR, 1024> buf{};
-        ACE_OS::strncpy(buf.data(), dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
-        int index = ACE_OS::strncmp(buf.data(), ACE_TEXT(".wav"), 4);
-
-        if (index == 0)
-        {
-            ACE_OS::strncpy(fileToDelete.data(), curdir.c_str(), fileToDelete.size());
-            ACE_OS::strncat(fileToDelete.data(), &delim, 1);
-            ACE_OS::strncat(fileToDelete.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
-            std::filesystem::remove(fileToDelete.data(), ec);
-        }
-
-
-    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
-
-    ACE_OS::closedir(dir);
+        std::error_code rmEc;
+        std::filesystem::remove(entry.path(), rmEc);
+    }
 
     SoundDevice indev, outdev;
     REQUIRE(GetSoundDevices(indev, outdev));
@@ -830,39 +802,24 @@ TEST_CASE("Last voice packet - wav files")
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
     long long fileSize = -1;
-    dir = ACE_OS::opendir(curdir.c_str());
-    dirInfo = ACE_OS::readdir(dir);
-    do
+    for (const std::filesystem::directory_entry& entry : std::filesystem::directory_iterator(curdir, ec))
     {
-        if ((ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT(".")) == 0) || (ACE_OS::strcmp(dirInfo->d_name, ACE_TEXT("..")) == 0))
-        {
+        auto const name = entry.path().filename().native();
+        if (name.length() < 4 || name.substr(name.length() - 4) != ACE_TEXT(".wav"))
             continue;
-        }
 
-        std::array<TTCHAR, 1024> buf{};
-        ACE_OS::strncpy(buf.data(), dirInfo->d_name + ACE_OS::strlen(dirInfo->d_name) - 4, 4);
-        int index = ACE_OS::strncmp(buf.data(), ACE_TEXT(".wav"), 4);
-
-        std::array<ACE_TCHAR, 1024> fileToCheck{};
-        if (index == 0)
+        std::error_code sizeEc;
+        auto const wavSize = entry.file_size(sizeEc);
+        if (!sizeEc)
         {
-            ACE_OS::strncpy(fileToCheck.data(), curdir.c_str(), fileToCheck.size());
-            ACE_OS::strncat(fileToCheck.data(), &delim, 1);
-            ACE_OS::strncat(fileToCheck.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
-
-            if (ACE_OS::stat(fileToCheck.data(), &fileInfo) != -1)
+            if (fileSize == -1)
             {
-                if (fileSize == -1)
-                {
-                    fileSize = fileInfo.st_size;
-                }
-
-                REQUIRE(fileSize == fileInfo.st_size);
+                fileSize = static_cast<long long>(wavSize);
             }
-        }
-    } while ((dirInfo = ACE_OS::readdir(dir)) != NULL);
 
-    ACE_OS::closedir(dir);
+            REQUIRE(fileSize == static_cast<long long>(wavSize));
+        }
+    }
 }
 
 TEST_CASE("AudioMuxerInOutOfChannel")
