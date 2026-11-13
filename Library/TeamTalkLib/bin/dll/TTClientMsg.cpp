@@ -30,6 +30,7 @@
 #include <ace/OS_Memory.h>
 
 #include <cstddef>
+#include <cstring>
 #include <mutex>
 
 constexpr size_t INTMSG_MAX_SIZE = 0x7F000000;
@@ -211,7 +212,7 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
             int const size = TT_DBG_SIZEOF(intmsg->ttType);
             TTASSERT(!size || intmsg->any);
             if(size>0 && (intmsg->any != nullptr))
-                ACE_OS::memcpy(msg.data, intmsg->any, size);
+                std::memcpy(msg.data, intmsg->any, size);
             mb->release();
 
             MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue %p: Cur size: %u\n"),

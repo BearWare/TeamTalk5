@@ -403,13 +403,13 @@ bool ReassembleVideoPackets(const video_fragments_t& fragments,
         if(frag_ite != fragments.end())
         {
             data = frag_ite->second->GetEncodedData(frag_size);
-            ACE_OS::memcpy(&enc_frame[copied], data, frag_size);
+            std::memcpy(&enc_frame[copied], data, frag_size);
             copied += frag_size;
         }
         else if(i == packet.GetFragmentNo())
         {
             data = packet.GetEncodedData(frag_size);
-            ACE_OS::memcpy(&enc_frame[copied], data, frag_size);
+            std::memcpy(&enc_frame[copied], data, frag_size);
             copied += frag_size;
         }
         else

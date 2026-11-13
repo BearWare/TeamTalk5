@@ -43,6 +43,7 @@
 #include <cassert>
 #include <cstdint>
 #include <cstdlib>
+#include <cstring>
 #include <deque>
 #include <list>
 #include <memory>
@@ -1669,7 +1670,7 @@ bool ClientUser::GetDesktopWindow(char* buffer, int length)
     TTASSERT(length == bmp_size);
     if((bmp != nullptr) && length == bmp_size)
     {
-        ACE_OS::memcpy(buffer, bmp, bmp_size);
+        std::memcpy(buffer, bmp, bmp_size);
         return true;
     }
     return false;

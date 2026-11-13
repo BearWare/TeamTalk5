@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <memory>
 #include <vector>
 
@@ -111,7 +112,7 @@ namespace soundsystem {
             
                 size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, (UInt32)mb->length());
                 char* buf_ptr = reinterpret_cast<char*>(buf.mData);
-                ACE_OS::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
+                std::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
                 mb->rd_ptr(min_bytes);
                 if(mb->length() == 0)
                 {
@@ -738,7 +739,7 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
             return noErr;
         
         UInt32 min_bytes = std::min((UInt32)mb->length(), framebytes - copied);
-        ACE_OS::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
+        std::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
         mb->rd_ptr(min_bytes);
 
         copied += min_bytes;
