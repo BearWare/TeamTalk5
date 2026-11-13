@@ -77,6 +77,7 @@ HINSTANCE hInstance = NULL;
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <array>
 #include <memory>
 #include <mutex>
@@ -3285,9 +3286,9 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
         lpNewWindow->nBytesPerLine = deskwnd.nBytesPerLine;
         lpNewWindow->nProtocol = deskwnd.nProtocol;
         if(!out_bmp.empty())
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
         else
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
             
         return lpNewWindow;
     }
