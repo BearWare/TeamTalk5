@@ -39,8 +39,10 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <filesystem>
 #include <memory>
 #include <stack>
+#include <system_error>
 #include <utility>
 
 using namespace teamtalk;
@@ -410,13 +412,14 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     std::array<ACE_TCHAR, MAX_STRING_LENGTH+1> newfilename{};
     uint32_t dat_id = m_file_id_counter;
     ACE_TString local_filename;
+    std::error_code ec;
     do
     {
         ACE_OS::snprintf(newfilename.data(), MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
                          static_cast<unsigned int>(dat_id++));
         local_filename = internalpath + newfilename.data();
     }
-    while(ACE_OS::filesize(local_filename.c_str())>=0 && std::cmp_not_equal(dat_id , m_file_id_counter));
+    while (std::filesystem::exists(local_filename.c_str(), ec) && std::cmp_not_equal(dat_id, m_file_id_counter));
 
     internalpath += newfilename.data();
     if(ACE_OS::rename(transfer.localfile.c_str(), internalpath.c_str()) != 0)
@@ -4258,7 +4261,8 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
 
         ACE_TString const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
-        if(ACE_OS::filesize(internalpath.c_str())<0)
+        std::error_code ec;
+        if (!std::filesystem::exists(internalpath.c_str(), ec))
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
 
         transfer.localfile = internalpath;

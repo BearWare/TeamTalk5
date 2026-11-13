@@ -37,7 +37,9 @@
 #include <cstddef>
 #include <cstring>
 #include <ctime>
+#include <filesystem>
 #include <memory>
+#include <system_error>
 
 #include <ace/OS.h>
 
@@ -4491,7 +4493,9 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    int64_t const filesize = ACE_OS::filesize(localfilepath.c_str());
+    std::error_code ec;
+    auto const fsize = std::filesystem::file_size(localfilepath.c_str(), ec);
+    int64_t const filesize = ec ? -1 : static_cast<int64_t>(fsize);
     ACE_TString filename = localfilepath;
     size_t const index = localfilepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR);
     if(index != ACE_TString::npos)

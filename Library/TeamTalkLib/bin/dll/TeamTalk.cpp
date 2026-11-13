@@ -79,10 +79,12 @@ HINSTANCE hInstance = NULL;
 #include <cassert>
 #include <cstring>
 #include <array>
+#include <filesystem>
 #include <memory>
 #include <mutex>
 #include <map>
 #include <queue>
+#include <system_error>
 #include <utility>
 
 
@@ -1592,7 +1594,8 @@ TEAMTALKDLL_API INT32 TT_DoSendFile(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    if((szLocalFilePath != nullptr) && ACE_OS::filesize(szLocalFilePath)>=0)
+    std::error_code ec;
+    if (szLocalFilePath != nullptr && std::filesystem::exists(szLocalFilePath, ec))
         return clientnode->DoFileSend(nChannelID, szLocalFilePath);
     return -1;
 }

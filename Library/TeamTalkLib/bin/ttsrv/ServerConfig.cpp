@@ -75,7 +75,8 @@ bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
     }
     else settings_path = cfgfile;
 
-    if(ACE_OS::filesize(settings_path.c_str())>0)
+    std::error_code ec;
+    if (std::filesystem::exists(settings_path.c_str(), ec))
     {
         if(!xmlSettings.LoadFile(UnicodeToUtf8(settings_path).c_str()))
         {
@@ -294,7 +295,8 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         {
             cout << "Server certificate file (in PEM format) for encryption: ";
             certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile).c_str()).c_str());
-            if (ACE_OS::filesize(certfile.c_str()) <= 0)
+            std::error_code ec;
+            if (!std::filesystem::exists(certfile.c_str(), ec))
                 cerr << "File " << certfile << " not found!" << endl;
             else break;
         }
@@ -303,7 +305,8 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         {
             cout << "Server private key file (in PEM format) for encryption: ";
             keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile).c_str()).c_str());
-            if (ACE_OS::filesize(keyfile.c_str()) <= 0)
+            std::error_code ec;
+            if (!std::filesystem::exists(keyfile.c_str(), ec))
                 cerr << "File " << keyfile << " not found!" << endl;
             else break;
         }
@@ -1137,7 +1140,8 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 }
 
                 ACE_TString const rootpath = filesroot + chan.files[i].internalname.c_str();
-                if(ACE_OS::filesize(rootpath.c_str())<0)
+                std::error_code ec;
+                if (!std::filesystem::exists(rootpath.c_str(), ec))
                 {
                     tostringstream os;
                     os << ACE_TEXT("Failed to open channel #") << chan.files[i].channelid << ACE_TEXT(" file: ") << rootpath.c_str();
@@ -1145,7 +1149,8 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 }
                 else
                 {
-                    TTASSERT(ACE_OS::filesize(rootpath.c_str()) == chan.files[i].filesize);
+                    auto const fsize = std::filesystem::file_size(rootpath.c_str(), ec);
+                    TTASSERT(static_cast<int64_t>(fsize) == chan.files[i].filesize);
                 }
             }
 
