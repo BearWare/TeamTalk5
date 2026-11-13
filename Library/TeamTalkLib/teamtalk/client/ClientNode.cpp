@@ -35,6 +35,7 @@
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
 #include <filesystem>
@@ -1622,7 +1623,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
 #if SIMULATE_RX_PACKETLOSS
     static int dropped = 0, received = 0;
     received++;
-    if((ACE_OS::rand() % SIMULATE_RX_PACKETLOSS) == 0)
+    if((std::rand() % SIMULATE_RX_PACKETLOSS) == 0)
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
@@ -2620,7 +2621,7 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
 #if SIMULATE_TX_PACKETLOSS
     static int dropped = 0, transmitted = 0;
     transmitted++;
-    if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
+    if((std::rand() % SIMULATE_TX_PACKETLOSS) == 0)
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 

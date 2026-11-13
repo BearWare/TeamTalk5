@@ -39,6 +39,7 @@
 #include <algorithm>
 #include <array>
 #include <cstdint>
+#include <cstdlib>
 #include <filesystem>
 #include <memory>
 #include <stack>
@@ -980,7 +981,7 @@ bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
         //uptime
         m_stats.starttime = ACE_OS::gettimeofday();
         //init random numbers
-        ACE_OS::srand(ACE_OS::gettimeofday().msec());
+        std::srand(ACE_OS::gettimeofday().msec());
 
         // system id in welcome message
         if(!sysid.empty())
