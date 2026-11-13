@@ -33,6 +33,7 @@
 #include <ace/Reactor.h>
 
 #include <cstring>
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -67,7 +68,7 @@ void PacketQueue::RemoveChannelPackets()
         {
         case PACKET_KIND_HELLO :
         case PACKET_KIND_KEEPALIVE :
-            packets.push(p.release());
+            packets.push(p.release()); // NOLINT(bugprone-unused-return-value)
             break;
         default :
             MYTRACE(ACE_TEXT("Packet of kind %d was removed from transmit queue\n"), p->GetKind());
@@ -98,11 +99,10 @@ packet_ptr_t PacketQueue::GetNextPacket()
 
 int PacketQueue::QueuePacket(FieldPacket* packet)
 {
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(packet)), -1);
+    auto mb = std::make_unique<ACE_Message_Block>(sizeof(packet));
     mb->copy(reinterpret_cast<const char*>(&packet), sizeof(packet));
     ACE_Time_Value tv;
-    return this->enqueue(mb, &tv);
+    return this->enqueue(mb.release(), &tv); // NOLINT(bugprone-unused-return-value)
 }
 
 int PacketQueue::PacketCount()
