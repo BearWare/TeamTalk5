@@ -664,8 +664,10 @@ assert(status == noErr);
         {
             if(IsSharedVPIO(streamer->audunit))
             {
+                // UpdateSharedVPIO() only starts the unit if recording is set
                 streamer->recording = true;
-                return UpdateSharedVPIO();
+                streamer->recording = UpdateSharedVPIO();
+                return streamer->recording;
             }
 
             OSStatus status;
