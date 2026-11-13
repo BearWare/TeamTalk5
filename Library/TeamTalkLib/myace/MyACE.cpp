@@ -40,6 +40,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,cppcoreguidelines-pro-bounds-array-to-pointer-decay)
@@ -63,7 +64,7 @@ void SyncReactor(ACE_Reactor& reactor)
     ACE_thread_t tid{};
     while(reactor.owner(&tid) < 0 || tid == ACE_OS::thr_self())
     {
-        ACE_OS::sleep(0);
+        std::this_thread::yield();
     }
 }
 
