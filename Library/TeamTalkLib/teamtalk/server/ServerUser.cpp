@@ -29,7 +29,9 @@
 #include "teamtalk/TTAssert.h"
 
 #include <cstdio>
+#include <filesystem>
 #include <queue>
+#include <system_error>
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
@@ -2205,7 +2207,8 @@ void ServerUser::CloseTransfer()
     if (m_filetransfer->inbound && m_filetransfer->file.Tell() < m_filetransfer->filesize)
     {
         m_filetransfer->file.Close();
-        ACE_OS::unlink(m_filetransfer->filename.c_str());
+        std::error_code ec;
+        std::filesystem::remove(m_filetransfer->filename.c_str(), ec);
     }
 
     m_filetransfer.reset();

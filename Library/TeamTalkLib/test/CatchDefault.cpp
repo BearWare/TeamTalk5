@@ -80,6 +80,7 @@
 #include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <filesystem>
 #include <future>
 #include <iostream>
 #include <map>
@@ -87,6 +88,7 @@
 #include <mutex>
 #include <set>
 #include <string>
+#include <system_error>
 #include <utility>
 #include <vector>
 
@@ -376,9 +378,9 @@ TEST_CASE( "Last voice packet" )
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_STATECHANGE, voicestop));
     //WaitForEvent(txclient, CLIENTEVENT_NONE, nullptr, audiocodec.opus.nTxIntervalMSec * 2);
 
-    std::array<TTCHAR, 1024> curdir{};
-    ACE_OS::getcwd(curdir.data(), curdir.size());
-    REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
+    std::error_code ec;
+    std::filesystem::path const curdir = std::filesystem::current_path(ec);
+    REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.c_str(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
     REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 0));
     REQUIRE(TT_EnableVoiceTransmission(txclient, true));
@@ -2119,9 +2121,9 @@ TEST_CASE("WebRTCPreprocessor")
     REQUIRE(JoinRoot(ttclient));
     REQUIRE(WaitForCmdSuccess(ttclient, TT_DoSubscribe(ttclient, TT_GetMyUserID(ttclient), SUBSCRIBE_VOICE)));
 
-    std::array<TTCHAR, 1024> curdir{};
-    ACE_OS::getcwd(curdir.data(), curdir.size());
-    REQUIRE(TT_SetUserMediaStorageDir(ttclient, TT_GetMyUserID(ttclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
+    std::error_code ec;
+    std::filesystem::path const curdir = std::filesystem::current_path(ec);
+    REQUIRE(TT_SetUserMediaStorageDir(ttclient, TT_GetMyUserID(ttclient), curdir.c_str(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
     REQUIRE(TT_EnableVoiceTransmission(ttclient, true));
     WaitForEvent(ttclient, CLIENTEVENT_NONE, 5000);
