@@ -36,10 +36,12 @@
 
 #include <algorithm>
 #include <cstdint>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
 #include <string>
+#include <system_error>
 
 #if defined(WIN32)
 #include <windows.h>
@@ -164,8 +166,9 @@ void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname,
     ACE_TString const tmp_logname = logname + ACE_TEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
-    int const ren = ACE_OS::rename(logname.c_str(), tmp_logname.c_str());
-    TTASSERT(ren>=0);
+    std::error_code ec;
+    std::filesystem::rename(logname.c_str(), tmp_logname.c_str(), ec);
+    TTASSERT(!ec);
 
     logfile.open(logname.c_str());
     if(!logfile.good())
