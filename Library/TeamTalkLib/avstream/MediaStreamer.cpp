@@ -48,6 +48,7 @@
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -467,7 +468,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     //write bytes should only be greater than 0 if flushing
     if (write_bytes > 0)
     {
-        ACE_OS::memset(out_mb->wr_ptr(), 0, write_bytes);
+        std::memset(out_mb->wr_ptr(), 0, write_bytes);
         out_mb->wr_ptr(write_bytes);
         assert(out_mb->end() == out_mb->wr_ptr());
     }
