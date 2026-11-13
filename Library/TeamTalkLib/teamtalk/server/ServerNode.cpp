@@ -422,7 +422,8 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     while (std::filesystem::exists(local_filename.c_str(), ec) && std::cmp_not_equal(dat_id, m_file_id_counter));
 
     internalpath += newfilename.data();
-    if(ACE_OS::rename(transfer.localfile.c_str(), internalpath.c_str()) != 0)
+    std::filesystem::rename(transfer.localfile.c_str(), internalpath.c_str(), ec);
+    if(ec)
         return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
     remotefile.username = user.GetUsername();
