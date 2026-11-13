@@ -31,6 +31,7 @@
 #include <cmath>
 #include <cstdint>
 #include <limits>
+#include <memory>
 #include <numbers>
 #include <span>
 #include <utility>
@@ -128,13 +129,10 @@ ACE_Message_Block* VideoFrameInMsgBlock(media::VideoFrame& frm,
 {
     assert(frm.frame_length);
     
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, 
-                   ACE_Message_Block(frm.frame_length+sizeof(frm), mb_type), 
-                   nullptr);
+    auto mb = std::make_unique<ACE_Message_Block>(frm.frame_length+sizeof(frm), mb_type);
     frm.frame = &mb->rd_ptr()[sizeof(frm)];
     mb->copy(reinterpret_cast<const char*> (&frm), sizeof(frm));
-    return mb;
+    return mb.release();
 }
 
 ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
@@ -143,15 +141,14 @@ ACE_Message_Block* VideoFrameToMsgBlock(const media::VideoFrame& frm,
     assert(frm.frame);
     assert(frm.frame_length);
     media::VideoFrame tmp = frm;
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(tmp)+frm.frame_length, mb_type), nullptr);
+    auto mb = std::make_unique<ACE_Message_Block>(sizeof(tmp)+frm.frame_length, mb_type);
     tmp.frame = &mb->rd_ptr()[sizeof(tmp)];
 
     int ret = mb->copy(reinterpret_cast<const char*>(&tmp), sizeof(tmp));
     assert(ret>=0);
     ret = mb->copy(frm.frame, frm.frame_length);
     assert(ret>=0);
-    return mb;
+    return mb.release();
 }
 
 media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
@@ -162,7 +159,6 @@ media::VideoFrame* VideoFrameFromMsgBlock(ACE_Message_Block* mb)
 
 ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool skip_copy)
 {
-    ACE_Message_Block* mb = nullptr;
     size_t const frame_bytes = sizeof(frame);
     size_t const input_bytes = PCM16_BYTES(frame.input_samples, frame.inputfmt.channels);
     size_t const output_bytes = PCM16_BYTES(frame.output_samples, frame.outputfmt.channels);
@@ -170,7 +166,7 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool ski
     //assert(frame.input_buffer && frame.input_samples || !frame.input_buffer && frame.input_samples == 0);
     //assert(frame.output_buffer && frame.output_samples || !frame.output_buffer && frame.output_samples == 0);
 
-    ACE_NEW_RETURN(mb, ACE_Message_Block(frame_bytes + input_bytes + output_bytes), nullptr);
+    auto mb = std::make_unique<ACE_Message_Block>(frame_bytes + input_bytes + output_bytes);
 
     //assign pointers to inside ACE_Message_Block
     media::AudioFrame copy_frame = frame;
@@ -185,7 +181,7 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool ski
     assert(ret >= 0);
 
     if (skip_copy)
-        return mb;
+        return mb.release();
 
     if (input_bytes > 0)
     {
@@ -197,7 +193,7 @@ ACE_Message_Block* AudioFrameToMsgBlock(const media::AudioFrame& frame, bool ski
         ret = mb->copy(reinterpret_cast<const char*>(frame.output_buffer), output_bytes);
     assert(ret >= 0);
 
-    return mb;
+    return mb.release();
 }
 
 media::AudioFrame* AudioFrameFromMsgBlock(ACE_Message_Block* mb)

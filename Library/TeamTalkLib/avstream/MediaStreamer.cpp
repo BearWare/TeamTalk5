@@ -399,8 +399,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
 
     // ready to submit new data
     int const audio_block_size = required_audio_bytes + sizeof(AudioFrame);
-    ACE_Message_Block* out_mb = nullptr;
-    ACE_NEW_RETURN(out_mb, ACE_Message_Block(audio_block_size), 0);
+    auto out_mb = std::make_unique<ACE_Message_Block>(audio_block_size);
 
     auto* media_frame = reinterpret_cast<AudioFrame*>(out_mb->wr_ptr());
     *media_frame = *first_frame; //use original AudioFrame as base for construction
@@ -486,10 +485,9 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
                                                 m_media_out.audio.samplerate);
     AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
 
-    if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))
+    if (m_audiocallback && m_audiocallback(*media_frame, out_mb.get()))
     {
-        out_mb->release();
-        out_mb = nullptr;
+        out_mb.release(); //ownership transferred to the callback
     }
     //'out_mb' should now be considered dead
 

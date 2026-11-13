@@ -34,6 +34,7 @@
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
+#include <memory>
 #include <set>
 #include <vector>
 
@@ -296,57 +297,29 @@ videopackets_t BuildVideoPackets(uint8_t kind,
     if(fragcnt > 1)
     {
         const char* payload_ptr = enc_data;
-        VideoPacket* vp = nullptr;
-        ACE_NEW_RETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
-                                       packet_no, width, height, payload_ptr,
-                                       max_chunk_size, fragcnt),
-                       result);
-        if(vp != nullptr)
-            result.push_back(vp);
+        auto vp = std::make_unique<VideoPacket>(kind, src_userid, time, streamid,
+                                                packet_no, width, height, payload_ptr,
+                                                max_chunk_size, fragcnt);
+        result.push_back(vp.release());
 
         for(fragno=1;fragno<fragcnt-1;fragno++)
         {
             payload_ptr += max_chunk_size;
-            ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
-                                             packet_no, payload_ptr,
-                                             max_chunk_size, fragno));
-            if(vp != nullptr)
-            {
-                result.push_back(vp);
-            }
-            else
-            {
-                for(auto & i : result)
-                    delete i;
-                result.clear();
-                return result;
-            }
+            result.push_back(std::make_unique<VideoPacket>(kind, src_userid, time, streamid,
+                                                           packet_no, payload_ptr,
+                                                           max_chunk_size, fragno).release());
         }
         payload_ptr += max_chunk_size;
         auto const remaining = static_cast<uint16_t>(enc_len - ((fragcnt - 1) * max_chunk_size));
-        ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
-                                         packet_no, payload_ptr, 
-                                         remaining, fragno));
-        if(vp != nullptr)
-        {
-            result.push_back(vp);
-        }
-        else
-        {
-            for(auto & i : result)
-                delete i;
-            result.clear();
-            return result;
-        }
+        result.push_back(std::make_unique<VideoPacket>(kind, src_userid, time, streamid,
+                                                       packet_no, payload_ptr,
+                                                       remaining, fragno).release());
     }
     else
     {
-        VideoPacket* vp = nullptr;
-        ACE_NEW_NORETURN(vp, VideoPacket(kind, src_userid, time, streamid, 
-                                         packet_no, width, height, enc_data,
-                                         enc_len));
-        if(vp != nullptr)
-            result.push_back(vp);
+        result.push_back(std::make_unique<VideoPacket>(kind, src_userid, time, streamid,
+                                                       packet_no, width, height, enc_data,
+                                                       enc_len).release());
     }
     return result;
 
@@ -674,32 +647,28 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     //MYTRACE(ACE_TEXT("\nTotal: %d\n"), send_queue_bytes);
     if(new_session)
     {
-        DesktopPacket* p = nullptr;
-        ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
-                                          dwnd.session_id,
-                                          dwnd.width, dwnd.height, 
-                                          (uint8_t)dwnd.rgb_mode,
-                                          packet_index++,
-                                          0,//specified in UpdatePacketCount()
-                                          packet_blocks, packet_frags,
-                                          packet_dup_blocks));
-
-        result.push_back(desktoppacket_t(p));
+        auto p = std::make_shared<DesktopPacket>(src_userid, time,
+                                                 dwnd.session_id,
+                                                 dwnd.width, dwnd.height,
+                                                 (uint8_t)dwnd.rgb_mode,
+                                                 packet_index++,
+                                                 0,//specified in UpdatePacketCount()
+                                                 packet_blocks, packet_frags,
+                                                 packet_dup_blocks);
         packets_size += p->GetPacketSize();
+        result.push_back(std::move(p));
     }
     else
     {
-        DesktopPacket* p = nullptr;
-        ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
-                                          dwnd.session_id,
-                                          packet_index++,
-                                          0, //specified in UpdatePacketCount()
-                                          packet_blocks, 
-                                          packet_frags,
-                                          packet_dup_blocks));
-
-        result.push_back(desktoppacket_t(p));
+        auto p = std::make_shared<DesktopPacket>(src_userid, time,
+                                                 dwnd.session_id,
+                                                 packet_index++,
+                                                 0, //specified in UpdatePacketCount()
+                                                 packet_blocks,
+                                                 packet_frags,
+                                                 packet_dup_blocks);
         packets_size += p->GetPacketSize();
+        result.push_back(std::move(p));
     }
 
     packet_blocks.clear();
@@ -717,21 +686,19 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
         TTASSERT(send_queue_bytes>0);
         TTASSERT(send_queue_bytes <= max_chunk_size + FIELDHEADER_PAYLOAD);
 
-        DesktopPacket* p = nullptr;
-        ACE_NEW_NORETURN(p, DesktopPacket(src_userid, time,
-                                          dwnd.session_id,
-                                          packet_index++,
-                                          0, //specified in UpdatePacketCount()
-                                          packet_blocks, 
-                                          packet_frags,
-                                          packet_dup_blocks));
-
+        auto p = std::make_shared<DesktopPacket>(src_userid, time,
+                                                 dwnd.session_id,
+                                                 packet_index++,
+                                                 0, //specified in UpdatePacketCount()
+                                                 packet_blocks,
+                                                 packet_frags,
+                                                 packet_dup_blocks);
         packet_blocks.clear();
         packet_frags.clear();
         packet_dup_blocks.clear();
 
-        result.push_back(desktoppacket_t(p));
         packets_size += p->GetPacketSize();
+        result.push_back(std::move(p));
     }
 
     //now specify packet count for update

@@ -33,6 +33,7 @@
 
 #include <cassert>
 #include <cstdint>
+#include <memory>
 #include <mutex>
 
 using namespace teamtalk;
@@ -133,8 +134,7 @@ long ClientNodeBase::StartTimer(uint32_t timer_id, long userdata,
                                 const ACE_Time_Value& delay,
                                 const ACE_Time_Value& interval)
 {
-    TimerHandler* th = nullptr;
-    ACE_NEW_RETURN(th, TimerHandler(*this, timer_id, userdata), -1);
+    auto th = std::make_unique<TimerHandler>(*this, timer_id, userdata);
 
     //ensure we don't have duplicate timers
     bool const stoptimer = StopTimer(timer_id);
@@ -145,19 +145,20 @@ long ClientNodeBase::StartTimer(uint32_t timer_id, long userdata,
         //lock timer set
         wguard_t const g(LockTimers());
         TTASSERT(m_timers.find(timer_id) == m_timers.end());
-        m_timers[timer_id] = th; //put in before schedule because timeout might be 0
+        m_timers[timer_id] = th.get(); //put in before schedule because timeout might be 0
     }
 
-    long const reactor_timerid = m_reactor.schedule_timer(th, nullptr, delay, interval);
+    long const reactor_timerid = m_reactor.schedule_timer(th.get(), nullptr, delay, interval);
     TTASSERT(reactor_timerid>=0);
     if(reactor_timerid<0)
     {
         //lock timer set
         wguard_t const g(LockTimers());
         m_timers.erase(timer_id);
-        delete th;
+        return reactor_timerid; //th is freed by unique_ptr
     }
 
+    th.release(); //reactor owns the timer now
     return reactor_timerid;
 }
 

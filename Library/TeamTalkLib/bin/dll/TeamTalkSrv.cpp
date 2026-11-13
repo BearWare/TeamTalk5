@@ -68,13 +68,11 @@ struct ServerInstance
         : tcpReactor(&selectReactor)
          
         {
-            ServerMonitor* m = nullptr;
-            ServerNode* s = nullptr;
-            ACE_NEW(m, ServerMonitor());
+            auto m = std::make_unique<ServerMonitor>();
             m->m_ttInst = this;
-            ACE_NEW(s, ServerNode(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, m));
-            monitor.reset(m);
-            server.reset(s);
+            auto s = std::make_unique<ServerNode>(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, m.get());
+            monitor = std::move(m);
+            server = std::move(s);
 
             udp_thread = ACE_Thread_Manager::instance()->spawn(EventLoop, &udpReactor);
             SyncReactor(udpReactor);
@@ -195,14 +193,13 @@ TEAMTALKDLL_API TTSInstance* TTS_InitTeamTalk()
 
     LicenseCheck();
 
-    ServerInstance* ttInst = nullptr;
-    ACE_NEW_RETURN(ttInst, ServerInstance(false), nullptr);
+    auto ttInst = std::make_unique<ServerInstance>(false);
 
     wguard_t const g(servers_mutex);
 
-    servers.insert(ttInst);
+    servers.insert(ttInst.get());
 
-    return ttInst;
+    return ttInst.release();
 }
 
 TEAMTALKDLL_API TTBOOL TTS_CloseTeamTalk(IN TTSInstance* lpTTSInstance)

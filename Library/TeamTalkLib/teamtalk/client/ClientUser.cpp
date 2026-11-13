@@ -418,17 +418,16 @@ int ClientUser::TimerDesktopDelayedAck()
     std::set<uint16_t> ack_single;
     GetPacketRanges(acked_packets, ack_range, ack_single);
 
-    DesktopAckPacket* ack_packet = nullptr;
-    ACE_NEW_RETURN(ack_packet, DesktopAckPacket(m_clientnode->GetUserID(),
-                                                GETTIMESTAMP(),
-                                                GetUserID(), session_id,
-                                                upd_time, ack_single,
-                                                ack_range), -1);
+    auto ack_packet = std::make_unique<DesktopAckPacket>(m_clientnode->GetUserID(),
+                                                         GETTIMESTAMP(),
+                                                         GetUserID(), session_id,
+                                                         upd_time, ack_single,
+                                                         ack_range);
 
     ack_packet->SetChannel(chan->GetChannelID());
 
-    if(!m_clientnode->QueuePacket(ack_packet))
-        delete ack_packet;
+    if (m_clientnode->QueuePacket(ack_packet.get()))
+        ack_packet.release();
 
     return -1;
 }

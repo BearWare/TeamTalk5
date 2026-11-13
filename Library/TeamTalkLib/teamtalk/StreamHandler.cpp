@@ -25,18 +25,19 @@
 
 #include <array>
 #include <ace/Time_Value.h>
+#include <memory>
 #include <mutex>
 
 int QueueStreamData(ACE_Message_Queue_Base& msg_q, 
                     const char* data, int len, ACE_Time_Value* tm/* = 0*/)
 {
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(len), -1);
+    auto mb = std::make_unique<ACE_Message_Block>(len);
     int ret = mb->copy(data, len);
     TTASSERT(ret>=0);
-    ret = msg_q.enqueue_tail(mb, tm);
+    ret = msg_q.enqueue_tail(mb.get(), tm);
     if(ret<0)
-        mb->release();
+        return ret; //block is freed by unique_ptr (same as release() for a standalone block)
+    mb.release(); //queue owns the block now
     return ret;
 }
 
