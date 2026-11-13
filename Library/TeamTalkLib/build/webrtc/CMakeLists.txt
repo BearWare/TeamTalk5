@@ -9,12 +9,6 @@ include(ExternalProject)
 set (TOOLCHAIN_INSTALL_PREFIX_WEBRTC ${TOOLCHAIN_INSTALL_PREFIX}/webrtc)
 
 if (MSVC)
-  # WebRTC for Windows depends on "Windows 11 SDK (10.0.26100.0)". This
-  # can be installed from Visual Studio Installer.
-  #
-  # WebRTC for Windows depends on "C++ Clang Compiler for Windows (18.1.8)".
-  # This can be installed from Visual Studio Installer.
-
   # Force C:\webrtc to avoid build errors due to long path names (MAX_PATH=260)
   set (WEBRTC_FETCH_PATH C:/webrtc/${CMAKE_SYSTEM_NAME} CACHE FILEPATH "Root folder for WebRTC repository")
   file(TO_NATIVE_PATH ${WEBRTC_FETCH_PATH} WEBRTC_FETCH_PATH_NATIVE)
@@ -141,7 +135,6 @@ else()
 
     if ("armv7" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm)
-      set (WEBRTC_CFG_EXTRA arm_use_neon=true)
       set (WEBRTC_TARGET_ENV device)
     elseif ("arm64" STREQUAL "${CMAKE_OSX_ARCHITECTURES}")
       set (WEBRTC_ARCH arm64)
@@ -177,7 +170,6 @@ else()
       message(WARNING "Unknown Android architecture")
     endif()
 
-    set (ANDROID_NDK_HOME $ENV{ANDROID_NDK_HOME})
     configure_file(${CMAKE_CURRENT_LIST_DIR}/args.gn_android ${WEBRTC_INSTALL_ROOT}/args.gn @ONLY)
 
   elseif (${CMAKE_SYSTEM_NAME} MATCHES "Darwin")
@@ -236,7 +228,7 @@ else()
       message (WARNING "WebRTC is not present in ${WEBRTC_SOURCE_ROOT}. Downloading... This takes a loooong time")
       file(MAKE_DIRECTORY ${WEBRTC_FETCH_PATH})
       set (WEBRTC_DOWNLOAD_CMD1 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && fetch --nohooks ${WEBRTC_REPO_NAME})
-      set (WEBRTC_DOWNLOAD_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/7778)
+      set (WEBRTC_DOWNLOAD_CMD2 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_SOURCE_ROOT} && git checkout branch-heads/8127)
       set (WEBRTC_DOWNLOAD_CMD3 ${DEPOTTOOLS_EXPORT} && cd ${WEBRTC_FETCH_PATH} && gclient sync -D ${TOOLCHAIN_BUILD_MAKEJOBS})
       set (WEBRTC_PATCH_CMD cd ${WEBRTC_SOURCE_ROOT} && git apply ${CMAKE_CURRENT_LIST_DIR}/0001-Add-teamtalk-static-lib.patch)
     else()

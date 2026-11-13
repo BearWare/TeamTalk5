@@ -1,10 +1,8 @@
-@WEBRTC_CFG_EXTRA@
 enable_dsyms=true
 gtest_enable_absl_printers=false
 ios_deployment_target="@CMAKE_OSX_DEPLOYMENT_TARGET@"
 ios_enable_code_signing=false
 is_debug=false
-libcxx_is_shared=false
 libsrtp_build_boringssl = false
 libsrtp_ssl_root = "/dev/null"
 rtc_build_examples=false
@@ -18,13 +16,12 @@ rtc_enable_sctp=false
 rtc_include_opus=false
 rtc_include_tests=false
 rtc_libvpx_build_vp9=false
+rtc_rust=false
 rtc_ssl_root="/dev/null"
 target_cpu="@WEBRTC_ARCH@"
 target_environment="@WEBRTC_TARGET_ENV@"
 target_os="ios"
 treat_warnings_as_errors=false
-use_aura=false
 use_custom_libcxx=false
 use_lld=false
-use_ozone=false
 use_rtti=true
