@@ -44,11 +44,13 @@
 #include <csignal>
 #include <cstddef>
 #include <cstdlib>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <map>
 #include <sys/stat.h>
 #include <sys/types.h>
+#include <system_error>
 #include <utility>
 
 #if !defined(WIN32)
@@ -329,8 +331,8 @@ int RunServer(
     ACE_LOG_MSG->open(ACE_TEXT(TEAMTALK_NAME));
 #endif
 
-    std::array<ACE_TCHAR, 512> workdir{};
-    ACE_OS::getcwd(workdir.data(), workdir.size());
+    std::error_code ec;
+    ACE_TString workdir = std::filesystem::current_path(ec).native().c_str();
 
     //enable logging
     if (xmlSettings.GetServerLogMaxSize() != 0)
@@ -464,7 +466,7 @@ int RunServer(
 #if defined(BUILD_NT_SERVICE)
     SetConsoleCtrlHandler(ControlHandler, TRUE);
     service->report_status_foo(SERVICE_RUNNING);
-    RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir.data());
+    RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
 #else
     if(daemon_mode)
     {
@@ -517,14 +519,14 @@ int RunServer(
             exit(EXIT_FAILURE);
         }
 
-        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir.data());
+        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
 
 #endif /* WIN32 */
     }
     else if(nondaemon)
     {
         //TCP commands thread
-        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir.data());
+        RunEventLoop(ACE_Reactor::instance(), &udpReactor, workdir);
     }
 #endif /* BUILD_NT_SERVICE */
 
@@ -651,8 +653,9 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     if( (ite = args.find(ACE_TEXT("-wd"))) != args.end())
     {
         ACE_TString const workdir = (*ite).second;
-        int const ret = ACE_OS::chdir(workdir.c_str());
-        if(ret != 0)
+        std::error_code ec;
+        std::filesystem::current_path(workdir.c_str(), ec);
+        if(ec)
         {
             std::array<ACE_TCHAR, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("%s failed to change to directory \"%s\"."),
@@ -691,7 +694,8 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
             {
                 pChr++;
                 *pChr = 0;
-                ACE_OS::chdir(bufPath.data());
+                std::error_code ec;
+                std::filesystem::current_path(bufPath.data(), ec);
             }
             settingsfile = bufPath.data();
             settingsfile += ACE_TEXT( TEAMTALK_SETTINGSFILE );

@@ -34,6 +34,8 @@
 
 #include <array>
 #include <cstring>
+#include <filesystem>
+#include <system_error>
 
 TEST_CASE("AudioMuxerStreamRestart")
 {
@@ -678,29 +680,28 @@ TEST_CASE("MaxChannels")
 
 TEST_CASE("Last voice packet - wav files")
 {
-    std::array<TTCHAR, 1024> curdir{};
-    ACE_OS::getcwd(curdir.data(), curdir.size());
+    std::error_code ec;
+    std::filesystem::path curdir = std::filesystem::current_path(ec);
+    curdir /= ACE_TEXT("wav");
 
 
     //clean up wav files from previous runs
     //they are not deleted after the test, so they are available for inspection afterwards
     ACE_TCHAR delim = ACE_DIRECTORY_SEPARATOR_CHAR;
-    ACE_OS::strncat(curdir.data(), &delim, 1);
-    ACE_OS::strncat(curdir.data(), ACE_TEXT("wav"), 4);
 
     ACE_stat fileInfo;
-    ACE_DIR* dir = ACE_OS::opendir(curdir.data());
+    ACE_DIR* dir = ACE_OS::opendir(curdir.c_str());
     if (!dir)
     {
-        ACE_OS::mkdir(curdir.data());
-        dir = ACE_OS::opendir(curdir.data());
+        ACE_OS::mkdir(curdir.c_str());
+        dir = ACE_OS::opendir(curdir.c_str());
     }
     REQUIRE(dir);
 
-    if (ACE_OS::stat(curdir.data(), &fileInfo) == -1)
+    if (ACE_OS::stat(curdir.c_str(), &fileInfo) == -1)
     {
-        ACE_OS::mkdir(curdir.data());
-        dir = ACE_OS::opendir(curdir.data());
+        ACE_OS::mkdir(curdir.c_str());
+        dir = ACE_OS::opendir(curdir.c_str());
     }
     dirent* dirInfo = ACE_OS::readdir(dir);
     std::array<ACE_TCHAR, 1024> fileToDelete{};
@@ -717,7 +718,7 @@ TEST_CASE("Last voice packet - wav files")
 
         if (index == 0)
         {
-            ACE_OS::strncpy(fileToDelete.data(), curdir.data(), fileToDelete.size());
+            ACE_OS::strncpy(fileToDelete.data(), curdir.c_str(), fileToDelete.size());
             ACE_OS::strncat(fileToDelete.data(), &delim, 1);
             ACE_OS::strncat(fileToDelete.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
             ACE_OS::unlink(fileToDelete.data());
@@ -787,7 +788,7 @@ TEST_CASE("Last voice packet - wav files")
         REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
 
         REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
-        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.data(), ACE_TEXT(""), AFF_WAVE_FORMAT));
+        REQUIRE(TT_SetUserMediaStorageDir(rxclient, TT_GetMyUserID(txclient), curdir.c_str(), ACE_TEXT(""), AFF_WAVE_FORMAT));
 
         auto voicestop = [&](TTMessage msg)
             {
@@ -829,7 +830,7 @@ TEST_CASE("Last voice packet - wav files")
 
     //check file sizes. All files should hvae the same size (but some are missing the last frame, so this test fails)
     long long fileSize = -1;
-    dir = ACE_OS::opendir(curdir.data());
+    dir = ACE_OS::opendir(curdir.c_str());
     dirInfo = ACE_OS::readdir(dir);
     do
     {
@@ -845,7 +846,7 @@ TEST_CASE("Last voice packet - wav files")
         std::array<ACE_TCHAR, 1024> fileToCheck{};
         if (index == 0)
         {
-            ACE_OS::strncpy(fileToCheck.data(), curdir.data(), fileToCheck.size());
+            ACE_OS::strncpy(fileToCheck.data(), curdir.c_str(), fileToCheck.size());
             ACE_OS::strncat(fileToCheck.data(), &delim, 1);
             ACE_OS::strncat(fileToCheck.data(), dirInfo->d_name, ACE_OS::strlen(dirInfo->d_name));
 

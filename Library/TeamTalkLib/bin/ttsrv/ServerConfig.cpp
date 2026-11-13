@@ -47,9 +47,11 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <queue>
 #include <regex>
+#include <system_error>
 #include <thread>
 #include <vector>
 
@@ -62,13 +64,12 @@ using namespace teamtalk;
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
 {
-    constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
     ACE_TString settings_path;
-    std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buf;
 
     if(cfgfile.empty())
     {
-        ACE_TString workdir = ACE_OS::getcwd(buf.data(), buf.size());
+        std::error_code ec;
+        ACE_TString workdir = std::filesystem::current_path(ec).native().c_str();
         workdir += ACE_DIRECTORY_SEPARATOR_STR;
         settings_path = workdir + ACE_TEXT(TEAMTALK_SETTINGSFILE);
     }
@@ -444,17 +445,19 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(PrintGetBool(!filesroot.empty()))
     {
-        constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
         constexpr auto BYTES_PER_KILOBYTE = 1024;
-        std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buff;
-        ACE_OS::getcwd(buff.data(), buff.size());
+        std::error_code ec;
+        std::filesystem::path const orgdir = std::filesystem::current_path(ec);
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
 #else
         cout << "Directory for file storage, e.g. /home/bill/srv1/files: ";
 #endif
         filesroot = LocalToUnicode(PrintGetString(UnicodeToLocal(filesroot).c_str()).c_str());
-        if(!filesroot.empty() && ACE_OS::chdir(filesroot.c_str()) == 0)
+        ec.clear();
+        if(!filesroot.empty())
+            std::filesystem::current_path(filesroot.c_str(), ec);
+        if(!filesroot.empty() && !ec)
         {
             cout << "Disk quota (in KBytes) per channel, 0 = disabled: ";
             diskquota = PrintGetInt64(diskquota/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
@@ -467,7 +470,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             filesroot.clear();
             diskquota = 0;
         }
-        ACE_OS::chdir(buff.data());
+        std::filesystem::current_path(orgdir, ec);
     }
     else
     {
