@@ -325,7 +325,7 @@
 "Media file vs. voice volume" = "媒体文件与语音音量比例";
 
 /* accessibility label */
-"Message" = "Message";
+"Message" = "消息";
 
 /* server entry */
 "Message of the Day" = "每日公告";
@@ -491,7 +491,7 @@
 "Public server" = "公共服务器";
 
 /* accessibility label */
-"Push to Talk" = "Push to Talk";
+"Push to Talk" = "按键说话";
 
 /* preferences */
 "Push To Talk Lock" = "锁定按键说话";
@@ -588,7 +588,7 @@
 "Speech Rate" = "语速";
 
 /* preferences */
-"Speech Volume" = "朗读音量";
+"Speech Volume" = "音量";
 
 /* codec detail */
 "Speex Codec" = "Speex 编解码器";
@@ -619,10 +619,10 @@
 "Text To Speech Events" = "文字转语音事件";
 
 /* preferences */
-"The rate of the speaking voice is %.1f" = "朗读语速为 %.1f";
+"The rate of the speaking voice is %.1f" = "语速为 %.1f";
 
 /* preferences */
-"The volume of the speaking voice is %.1f" = "朗读音量为 %.1f";
+"The volume of the speaking voice is %.1f" = "音量为 %.1f";
 
 /* channel list */
 "Toggle to enable/disable transmission" = "切换以启用/禁用传输";
@@ -674,7 +674,7 @@
 "User female" = "女性用户";
 
 /* accessibility label */
-"User ID" = "User ID";
+"User ID" = "用户 ID";
 
 /* preferences */
 "User Joins Channel" = "用户加入频道";
@@ -785,3 +785,75 @@
 
 /* speech */
 "You have selected %@" = "您已选择 %@";
+
+/* Interface */
+"Channels" = "频道";
+"Messages" = "消息";
+"Connect" = "连接";
+"Disconnect" = "断开连接";
+"Save" = "保存";
+"Delete" = "删除";
+"Edit" = "编辑";
+"Talk" = "说话";
+"Send" = "发送";
+"Selected" = "已选择";
+"Disabled" = "禁用";
+"Neutral" = "中性";
+"Show male, female or neutral icon" = "显示男性、女性或中性图标";
+
+/* Server list */
+"TeamTalk Servers" = "TeamTalk 服务器";
+"Server Entry" = "服务器条目";
+"Show server details" = "显示服务器详情";
+"Delete Server" = "删除服务器";
+"Delete \"%@\" from the server list?" = "确定要从服务器列表中删除“%@”吗？";
+"Save server" = "保存服务器";
+"Channel name" = "频道名称";
+"Channel password" = "频道密码";
+"Show password" = "显示密码";
+"Join Code" = "加入码";
+"Copy Join Code" = "复制加入码";
+"Filter Server List" = "筛选服务器列表";
+"Limit types of servers to show" = "限制显示的服务器类型";
+"Official Servers" = "官方服务器";
+"Unofficial Servers" = "非官方服务器";
+
+/* Channel list */
+"Channel Detail" = "频道详情";
+"Delete Channel" = "删除频道";
+"Join this channel" = "加入此频道";
+"Show user details" = "显示用户详情";
+"Message this user" = "给此用户发私信";
+"Deselect user" = "取消选择用户";
+"No users selected to move" = "未选择要移动的用户";
+"%@ selected" = "已选择 %@";
+"%@ deselected" = "已取消选择 %@";
+"1 user selected to move here" = "已选择 1 个用户移动至此";
+"%d users selected to move here" = "已选择 %d 个用户移动至此";
+
+/* User detail */
+"Kick User" = "踢出用户";
+"Kick and Ban User" = "踢出并封禁用户";
+
+/* Preferences */
+"Login ID from BearWare.dk" = "BearWare.dk 的登录 ID";
+"Reset Web Login" = "重置 Web 登录";
+"Create Web Login" = "创建 Web 登录";
+"Set by the channel's volume leveling" = "由频道的固定音量设置决定";
+"Setup Sound Devices" = "设置声音设备";
+"Choose input and output devices" = "选择输入和输出设备";
+"Setup Sound Events" = "设置提示音";
+"Choose sounds events to play" = "选择要播放的提示音";
+"Speech" = "语音";
+"Select the text-to-speech voice to use" = "选择文字转语音使用的声音";
+"Text-to-Speech Voice" = "文字转语音声音";
+"Setup Announcements" = "设置播报";
+"Choose events to playback" = "选择要播报的事件";
+
+/* Audio codec */
+"Use No Audio" = "不使用音频";
+"Use OPUS Codec" = "使用 OPUS 编解码器";
+"Use Speex Codec" = "使用 Speex 编解码器";
+"Use Speex VBR Codec" = "使用 Speex VBR 编解码器";
+"%lld KB/s" = "%lld KB/s";
+"%lld ms" = "%lld 毫秒";

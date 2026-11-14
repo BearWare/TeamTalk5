@@ -4136,6 +4136,11 @@ Message of the day: %2</source>
         <translation>发现新的声音设备：%1。请刷新声音设备列表以使用新设备。</translation>
     </message>
     <message>
+        <location filename="../mainwindow.cpp" line="1816"/>
+        <source>Sound device unplugged: %1.</source>
+        <translation>已拔出声音设备：%1。</translation>
+    </message>
+    <message>
         <location filename="../mainwindow.cpp" line="1794"/>
         <source>Sound device removed: %1.</source>
         <translation>已移除声音设备：%1。</translation>
