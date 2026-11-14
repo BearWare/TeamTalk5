@@ -294,10 +294,17 @@ namespace teamtalk {
         int errorno = TT_CMDERR_SUCCESS;
         ACE_TString errmsg, paramname;
         ErrorMsg() = default;
-        ErrorMsg(int cmderrno, const ACE_TString& param = ACE_TEXT(""))
+        ErrorMsg(int cmderrno, const ACE_TString& msg = ACE_TEXT(""), const ACE_TString& param = ACE_TEXT(""))
             : errorno(cmderrno), paramname(param)
         {
-            errmsg = GetErrorDescription(cmderrno);
+            if (!msg.empty())
+            {
+                errmsg = msg;
+            }
+            else
+            {
+                errmsg = GetErrorDescription(cmderrno);
+            }
         }
 
         bool Success() const

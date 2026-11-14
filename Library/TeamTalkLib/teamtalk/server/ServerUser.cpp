@@ -39,10 +39,10 @@ using namespace teamtalk;
 
 // NOLINTBEGIN(cppcoreguidelines-avoid-do-while)
 
-#define GET_PROP_OR_RETURN(properties, name, value)                     \
-    do {                                                                \
-        if(!GetProperty(properties, name, value))                       \
-            return ErrorMsg(TT_CMDERR_MISSING_PARAMETER, name);         \
+#define GET_PROP_OR_RETURN(properties, name, value)                             \
+    do {                                                                        \
+        if(!GetProperty(properties, name, value))                               \
+            return ErrorMsg(TT_CMDERR_MISSING_PARAMETER, ACE_TEXT(""), name);   \
     }while(0)
 
 
