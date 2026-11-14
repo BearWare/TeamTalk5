@@ -1532,13 +1532,25 @@ void ClientNode::AudioMuxCallback(teamtalk::StreamTypes sts, const media::AudioF
     }
 }
 
+void ClientNode::SetStreamMuxer(audiomuxer_t muxer)
+{
+    // The old muxer stops its thread when it is destroyed, so
+    // keep it in 'muxer' until the lock is released.
+    std::scoped_lock const g(m_audiomuxer_stream_mtx);
+    m_audiomuxer_stream.swap(muxer);
+}
+
 void ClientNode::AudioUserCallback(int userid, StreamType st,
                                    const media::AudioFrame& audio_frame)
 {
     m_channelrecord.QueueUserAudio(userid, st, audio_frame);
 
     // make copy since we're in a separate thread
-    auto streammuxer = m_audiomuxer_stream;
+    audiomuxer_t streammuxer;
+    {
+        std::scoped_lock const g(m_audiomuxer_stream_mtx);
+        streammuxer = m_audiomuxer_stream;
+    }
     if (streammuxer)
         streammuxer->QueueUserAudio(userid, st, audio_frame);
 
@@ -3038,11 +3050,11 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
                 return false;
             }
 
-            m_audiomuxer_stream = newmuxer;
+            SetStreamMuxer(newmuxer);
         }
         else
         {
-            m_audiomuxer_stream.reset();
+            SetStreamMuxer(nullptr);
         }
     }
 
