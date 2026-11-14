@@ -2083,7 +2083,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../keycomp.ui" line="69"/>
         <source>This dialog closes when you have released all keys</source>
-        <translation>当您释放所有键后，此对话框将关闭</translation>
+        <translation>松开所有按键后，此对话框将关闭</translation>
     </message>
     <message>
         <location filename="../keycompdlg.cpp" line="56"/>
@@ -3471,7 +3471,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1761"/>
         <source>Aborted audio file %1</source>
-        <translation>已中止音频文件 %1</translation>
+        <translation>已中止写入音频文件 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2153"/>
@@ -3605,7 +3605,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2430"/>
         <source>Command flooding prevented by server</source>
-        <translation>服务器阻止了命令泛滥</translation>
+        <translation>服务器已阻止命令泛滥</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
@@ -3645,7 +3645,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2456"/>
         <source>This channel cannot be hidden</source>
-        <translation>此频道不能被隐藏</translation>
+        <translation>此频道无法隐藏</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2458"/>
@@ -3700,7 +3700,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2486"/>
         <source>The server reported an error:</source>
-        <translation>服务器报告了一个错误：</translation>
+        <translation>服务器报告错误：</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4489"/>
@@ -5072,7 +5072,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="111"/>
         <source>Folder for storing audio files does not exist. Do you want %1 to create it for you?</source>
-        <translation>用于存储音频文件的文件夹不存在。您想让 %1 为您创建它吗？</translation>
+        <translation>用于存储音频文件的文件夹不存在。是否让 %1 创建该文件夹？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="112"/>
@@ -5101,7 +5101,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="149"/>
         <source>Folder for storing channel messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>用于存储频道消息的文件夹不存在。您想让 %1 为您创建它吗？</translation>
+        <translation>用于存储频道消息的文件夹不存在。是否让 %1 创建该文件夹？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="154"/>
@@ -5111,7 +5111,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastoragedlg.cpp" line="166"/>
         <source>Folder for storing private text messages does not exist. Do you want %1 to create it for you?</source>
-        <translation>用于存储私信的文件夹不存在。您想让 %1 为您创建吗？</translation>
+        <translation>用于存储私信的文件夹不存在。是否让 %1 创建该文件夹？</translation>
     </message>
     <message>
         <location filename="../mediastoragedlg.cpp" line="171"/>
@@ -7446,27 +7446,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="117"/>
         <source>User sent private text message</source>
-        <translation>用户发送了私信</translation>
+        <translation>用户发送私信</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="119"/>
         <source>User sent custom text message</source>
-        <translation>用户发送了自定义消息</translation>
+        <translation>用户发送自定义消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="121"/>
         <source>User sent channel text message</source>
-        <translation>用户发送了频道消息</translation>
+        <translation>用户发送频道消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="123"/>
         <source>User sent broadcast text message</source>
-        <translation>用户发送了广播消息</translation>
+        <translation>用户发送广播消息</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="125"/>
         <source>User started new stream</source>
-        <translation>用户开始了新的流</translation>
+        <translation>用户开始新的流</translation>
     </message>
     <message>
         <location filename="../serverlogeventsmodel.cpp" line="127"/>
@@ -9751,12 +9751,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="471"/>
         <source>File {filename} added by {user}</source>
-        <translation>{user} 添加了文件 {filename}</translation>
+        <translation>{user} 添加文件 {filename}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="473"/>
         <source>File {file} removed by {user}</source>
-        <translation>{user} 删除了文件 {file}</translation>
+        <translation>{user} 删除文件 {file}</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="54"/>
@@ -10073,12 +10073,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../settings.h" line="492"/>
         <source>File {filename} added by {user}</source>
-        <translation>{user} 添加了文件 {filename}</translation>
+        <translation>{user} 添加文件 {filename}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="494"/>
         <source>File {file} removed by {user}</source>
-        <translation>{user} 删除了文件 {file}</translation>
+        <translation>{user} 删除文件 {file}</translation>
     </message>
     <message>
         <location filename="../settings.h" line="497"/>

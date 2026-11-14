@@ -1,8 +1,8 @@
 /* TTS EVENT */
-"%@ has joined the channel" = "%@ 加入了频道";
+"%@ has joined the channel" = "%@ 加入频道";
 
 /* TTS EVENT */
-"%@ has left the channel" = "%@ 离开了频道";
+"%@ has left the channel" = "%@ 离开频道";
 
 /* TTS EVENT */
 "%@ has logged on" = "%@ 已登录";
@@ -160,7 +160,7 @@
 "Channel. %d users" = "频道，%d 个用户";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "仅当此服务器启用了 BearWare.dk Web 登录时勾选";
+"Check only if this server has enabled BearWare.dk Web Login" = "仅当此服务器启用 BearWare.dk Web 登录时勾选";
 
 /* log entry */
 "Command failed: %@" = "命令失败：%@";
@@ -211,7 +211,7 @@
 "Display" = "显示";
 
 /* channel list */
-"Double tap and hold to transmit. Triple tap fast to lock transmission." = "双击并按住进行传输。快速三击以锁定传输。";
+"Double tap and hold to transmit. Triple tap fast to lock transmission." = "双击并按住以传输。快速三击以锁定传输。";
 
 /* preferences */
 "Double tap to lock TX button" = "双击锁定传输";
