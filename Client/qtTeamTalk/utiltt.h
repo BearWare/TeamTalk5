@@ -27,7 +27,11 @@
 
 #include <QMap>
 #include <QSet>
+#include <QString>
 #include <QVector>
+
+#include <algorithm>
+#include <cstring>
 
 /*
  * The TeamTalk header and library files are located in
@@ -54,11 +58,19 @@ do {                                                            \
 #else
 #define _W(qstr) qstr.toUtf8().constData()
 #define _Q(wstr) QString::fromUtf8(wstr)
-#define COPY_TTSTR(wstr, qstr)                                  \
-do {                                                            \
-    strncpy(wstr, _W(qstr), TT_STRLEN);                         \
-    wstr[TT_STRLEN-1] = '\0';                                   \
-} while(0)
+// Copy as UTF-8 and always terminate. If the string is too long, do
+// not cut a multi-byte character in half.
+inline void CopyTTStr(char* dst, const QString& src)
+{
+    const QByteArray utf8 = src.toUtf8();
+    qsizetype len = std::min<qsizetype>(utf8.size(), TT_STRLEN - 1);
+    // a continuation byte (10xxxxxx) at the cut means the last character is not complete
+    while (len > 0 && len < utf8.size() && (static_cast<unsigned char>(utf8[len]) & 0xC0) == 0x80)
+        len--;
+    std::memcpy(dst, utf8.constData(), len);
+    dst[len] = '\0';
+}
+#define COPY_TTSTR(wstr, qstr) CopyTTStr(wstr, qstr)
 #endif
 
 #define DEFAULT_TCPPORT 10333
