@@ -33,6 +33,7 @@
 #include <ace/Reactor.h>
 
 #include <cstring>
+#include <memory>
 #include <queue>
 #include <vector>
 
@@ -98,11 +99,10 @@ packet_ptr_t PacketQueue::GetNextPacket()
 
 int PacketQueue::QueuePacket(FieldPacket* packet)
 {
-    ACE_Message_Block* mb = nullptr;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(packet)), -1);
+    auto mb = std::make_unique<ACE_Message_Block>(sizeof(packet));
     mb->copy(reinterpret_cast<const char*>(&packet), sizeof(packet));
     ACE_Time_Value tv;
-    return this->enqueue(mb, &tv);
+    return this->enqueue(mb.release(), &tv);
 }
 
 int PacketQueue::PacketCount()

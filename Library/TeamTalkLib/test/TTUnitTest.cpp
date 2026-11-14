@@ -25,8 +25,10 @@
 
 #include "mystd/MyStd.h"
 
+#include <cstdlib>
+
 std::string g_server_ipaddr = "127.0.0.1";
-const bool GITHUBSKIP = ACE_OS::getenv(ACE_TEXT("GITHUBSKIP")) ? ACE_OS::atoi(ACE_OS::getenv(ACE_TEXT("GITHUBSKIP"))) == 1 : false;
+const bool GITHUBSKIP = std::getenv("GITHUBSKIP") ? std::atoi(std::getenv("GITHUBSKIP")) == 1 : false;
 
 TTInstPtr InitTeamTalk()
 {
@@ -130,8 +132,8 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
 
     int defaultin, defaultout;
     
-    ACE_TCHAR* envindev = ACE_OS::getenv(ACE_TEXT("INPUTDEVICEID"));
-    ACE_TCHAR* envoutdev = ACE_OS::getenv(ACE_TEXT("OUTPUTDEVICEID"));
+    char* envindev = std::getenv("INPUTDEVICEID");
+    char* envoutdev = std::getenv("OUTPUTDEVICEID");
     if (envindev || envoutdev)
     {
         if (envindev)

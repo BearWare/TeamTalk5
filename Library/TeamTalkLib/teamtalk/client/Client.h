@@ -38,11 +38,12 @@
 #include <ace/SOCK_Stream.h>
 #include <ace/Svc_Handler.h>
 #include <ace/Time_Value.h>
-
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_SOCK_Stream.h>
 #endif
 
+#include <chrono>
+#include <thread>
 #include <vector>
 
 namespace teamtalk {
@@ -105,8 +106,7 @@ namespace teamtalk {
                 // Win32 (at least prior to Windows 2000) has a timing problem.
                 // If you check to see if the connection has completed too fast,
                 // it will fail - so wait 35 milliseconds to let it catch up.
-                ACE_Time_Value tv (0, ACE_NON_BLOCKING_BUG_DELAY);
-                ACE_OS::sleep (tv);
+                std::this_thread::sleep_for(std::chrono::microseconds(ACE_NON_BLOCKING_BUG_DELAY));
                 if (svc_handler->peer ().get_remote_addr (raddr) != -1)
                     this->activate_svc_handler (svc_handler);
                 else // do the svc handler close below...

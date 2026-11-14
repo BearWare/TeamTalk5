@@ -45,9 +45,11 @@
 #include <ace/Time_Value.h>
 
 #include <algorithm>
+#include <chrono>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
+#include <cstring>
 #include <memory>
 #include <mutex>
 #include <thread>
@@ -342,7 +344,7 @@ bool MediaStreamer::ProcessAVQueues(uint32_t starttime, uint32_t curtime, bool f
     {
         uint32_t const wait_ms = GetMinimumFrameDurationMSec();
         MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
-        ACE_OS::sleep(ToTimeValue(wait_ms));
+        std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
         return true;
     }
 
@@ -350,7 +352,7 @@ bool MediaStreamer::ProcessAVQueues(uint32_t starttime, uint32_t curtime, bool f
     {
         uint32_t const wait_ms = GetMinimumFrameDurationMSec();
         MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... flushing frames\n"), wait_ms);
-        ACE_OS::sleep(ToTimeValue(wait_ms));
+        std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
         return (m_audio_frames.message_count() != 0u) || (m_video_frames.message_count() != 0u);
     }
 
@@ -397,8 +399,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
 
     // ready to submit new data
     int const audio_block_size = required_audio_bytes + sizeof(AudioFrame);
-    ACE_Message_Block* out_mb = nullptr;
-    ACE_NEW_RETURN(out_mb, ACE_Message_Block(audio_block_size), 0);
+    auto out_mb = std::make_unique<ACE_Message_Block>(audio_block_size);
 
     auto* media_frame = reinterpret_cast<AudioFrame*>(out_mb->wr_ptr());
     *media_frame = *first_frame; //use original AudioFrame as base for construction
@@ -467,7 +468,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     //write bytes should only be greater than 0 if flushing
     if (write_bytes > 0)
     {
-        ACE_OS::memset(out_mb->wr_ptr(), 0, write_bytes);
+        std::memset(out_mb->wr_ptr(), 0, write_bytes);
         out_mb->wr_ptr(write_bytes);
         assert(out_mb->end() == out_mb->wr_ptr());
     }
@@ -484,10 +485,9 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
                                                 m_media_out.audio.samplerate);
     AudioProgress(newduration, timestamp - starttime + media_frame->InputDurationMSec());
 
-    if (!m_audiocallback || !m_audiocallback(*media_frame, out_mb))
+    if (m_audiocallback && m_audiocallback(*media_frame, out_mb.get()))
     {
-        out_mb->release();
-        out_mb = nullptr;
+        out_mb.release(); //ownership transferred to the callback
     }
     //'out_mb' should now be considered dead
 

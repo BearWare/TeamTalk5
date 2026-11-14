@@ -137,13 +137,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             size_t const audiobytes = PCM16_BYTES(samples, entry->outfmt.channels);
             size_t const totalbytes = audiobytes + sizeof(media::AudioFrame);
 
-            ACE_Message_Block* mb_resam = nullptr;
-            ACE_NEW_NORETURN(mb_resam, ACE_Message_Block(totalbytes));
-            if (mb_resam == nullptr)
-            {
-                mb->release();
-                return nullptr;
-            }
+            auto mb_resam = std::make_unique<ACE_Message_Block>(totalbytes);
 
             auto* outputptr = reinterpret_cast<short*>(mb_resam->wr_ptr() + sizeof(media::AudioFrame));
             media::AudioFrame frm_resam = frm;
@@ -164,7 +158,7 @@ ACE_Message_Block* AudioContainer::AcquireAudioFrame(int userid, teamtalk::Strea
             mb_resam->wr_ptr(audiobytes); //advance past resampled output
 
             mb->release();
-            return mb_resam;
+            return mb_resam.release();
         }
 
         // MYTRACE("Retrieved audio for #%d type %d, index %u\n", userid, stream_type, frm.sample_no);

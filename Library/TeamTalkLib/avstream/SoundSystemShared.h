@@ -266,20 +266,13 @@ constexpr auto DEBUG_RESAMPLER = 0;
 
             if (resample)
             {
-                ACE_Message_Block* mb = nullptr;
                 size_t const size = PCM16_BYTES(samples, streamer.channels);
-                ACE_NEW(mb, ACE_Message_Block(size));
-                if (mb->copy(reinterpret_cast<const char*>(buffer), size) < 0)
-                {
-                    mb->release();
-                }
-                else
+                auto mb = std::make_unique<ACE_Message_Block>(size);
+                if (mb->copy(reinterpret_cast<const char*>(buffer), size) == 0)
                 {
                     ACE_Time_Value tm = ACE_Time_Value::zero;
-                    if (m_samples_queue.enqueue(mb, &tm) < 0)
-                    {
-                        mb->release();
-                    }
+                    if (m_samples_queue.enqueue(mb.get(), &tm) >= 0)
+                        mb.release(); //queue owns the block now
                 }
             }
         }
@@ -474,22 +467,15 @@ constexpr auto DEBUG_RESAMPLER = 0;
                         SoftVolume(*streamer_resam, input, streamer_resam->framesize, mastervol, mastermute);
                         short* output = resampler->Resample(input);
 
-                        ACE_Message_Block* mb = nullptr;
-                        ACE_NEW_NORETURN(mb, ACE_Message_Block(outputbytes));
-                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) < 0)
-                        {
-                            mb->release();
-                        }
-                        else
+                        auto mb = std::make_unique<ACE_Message_Block>(outputbytes);
+                        if (mb->copy(reinterpret_cast<const char*>(output), outputbytes) >= 0)
                         {
                             ACE_Time_Value tv;
-                            int ret = msgq->enqueue(mb, &tv);
-                            assert(ret >= 0);
-                            if (ret < 0)
-                            {
+                            int ret = msgq->enqueue(mb.get(), &tv);
+                            if (ret >= 0)
+                                mb.release(); //queue owns the block now
+                            else
                                 msgq->close();
-                                mb->release();
-                            }
                         }
                     }
 

@@ -65,7 +65,7 @@ elseif (${CMAKE_SYSTEM_NAME} MATCHES "iOS")
   endif()
 
   if (NOT CMAKE_OSX_DEPLOYMENT_TARGET)
-    set (CMAKE_OSX_DEPLOYMENT_TARGET 8.0)
+    set (CMAKE_OSX_DEPLOYMENT_TARGET 13.0)
     message(WARNING "No deployment target specified. Defaulting to ${CMAKE_OSX_DEPLOYMENT_TARGET}")
   endif()
   list (APPEND COMPILE_FLAGS -fembed-bitcode)

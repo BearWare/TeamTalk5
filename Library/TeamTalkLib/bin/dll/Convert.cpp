@@ -42,6 +42,7 @@
 #endif /** __APPLE__ **/
 
 #include <algorithm>
+#include <cstring>
 #include <map>
 #include <math.h>
 
@@ -1142,7 +1143,7 @@ bool Convert(const teamtalk::ChannelProp& chanprop, Channel& result)
     tmp = chanprop.GetTransmitUsers(teamtalk::STREAMTYPE_CHANNELMSG);
     userids.insert(tmp.begin(), tmp.end());
     
-    ACE_OS::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
+    std::memset(result.transmitUsers, 0, sizeof(result.transmitUsers));
     size_t i=0;
     for(ii=userids.begin();ii!=userids.end() && i < TT_TRANSMITUSERS_MAX;ii++, i++)
     {
@@ -1625,7 +1626,7 @@ void Convert(teamtalk::MediaFileStatus status, const teamtalk::VoiceLogFile& vlo
     result.uDurationMSec = vlog.duration;
     result.uElapsedMSec = 0;
     ACE_OS::strsncpy(result.szFileName, vlog.filename.c_str(), TT_STRLEN);
-    ACE_OS::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
+    std::memset(&result.videoFmt, 0, sizeof(result.videoFmt));
 }
 
 void Convert(const AudioInputStatus& ais, AudioInputProgress& result)

@@ -42,6 +42,7 @@
 
 #include <array>
 #include <arpa/inet.h>
+#include <chrono>
 #include <net/ethernet.h>
 #include <netinet/ip.h>
 #include <netinet/udp.h>
@@ -50,6 +51,7 @@
 
 #include <iostream>
 #include <map>
+#include <thread>
 #include <vector>
 
 
@@ -235,7 +237,7 @@ TEST_CASE("AudioMuxerJitter")
         }
         ACE_Time_Value wait = i.first - last;
         // std::cout << "Sleeping " << wait << std::endl;
-        ACE_OS::sleep(wait);
+        std::this_thread::sleep_for(std::chrono::seconds(wait.sec()) + std::chrono::microseconds(wait.usec()));
         last = i.first;
     }
 

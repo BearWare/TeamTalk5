@@ -28,6 +28,7 @@
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <memory>
 #include <vector>
 
@@ -111,7 +112,7 @@ namespace soundsystem {
             
                 size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, (UInt32)mb->length());
                 char* buf_ptr = reinterpret_cast<char*>(buf.mData);
-                ACE_OS::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
+                std::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
                 mb->rd_ptr(min_bytes);
                 if(mb->length() == 0)
                 {
@@ -700,45 +701,44 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
 {
     AUInputStreamer* streamer = reinterpret_cast<AUInputStreamer*>(userData);
 
-    ACE_Message_Block* mb;
-    ACE_NEW_RETURN(mb, ACE_Message_Block(numFrames * streamer->channels * sizeof(short)), noErr);
-    
+    auto cap_mb = std::make_unique<ACE_Message_Block>(numFrames * streamer->channels * sizeof(short));
+
     AudioBufferList bufList = {};
     bufList.mNumberBuffers = 1;
     bufList.mBuffers[0].mNumberChannels = streamer->channels;
-    bufList.mBuffers[0].mDataByteSize = mb->size();
-    bufList.mBuffers[0].mData = mb->wr_ptr();
+    bufList.mBuffers[0].mDataByteSize = cap_mb->size();
+    bufList.mBuffers[0].mData = cap_mb->wr_ptr();
 
     OSStatus status;
     status = AudioUnitRender(streamer->audunit, actionFlags, audioTimeStamp, busNumber, numFrames, &bufList);
     assert(status == noErr);
     if(status != noErr || bufList.mBuffers[0].mDataByteSize == 0)
     {
-        mb->release();
-        return noErr;
+        return noErr; //cap_mb is freed by unique_ptr
     }
-    
-    mb->wr_ptr(bufList.mBuffers[0].mDataByteSize);
+
+    cap_mb->wr_ptr(bufList.mBuffers[0].mDataByteSize);
     ACE_Time_Value tv;
-    int ret = streamer->samples_queue.enqueue_tail(mb, &tv);
+    int ret = streamer->samples_queue.enqueue_tail(cap_mb.get(), &tv);
     if(ret < 0)
     {
-        mb->release();
-        return noErr;
+        return noErr; //cap_mb is freed by unique_ptr
     }
-    
+    cap_mb.release(); //queue owns the block now
+
     UInt32 framebytes = PCM16_BYTES(streamer->channels, streamer->framesize);
     UInt32 copied = 0;
     std::vector<char> buffer(framebytes);
     while(streamer->samples_queue.message_length() >= framebytes - copied)
     {
+        ACE_Message_Block* mb = nullptr;
         ret = streamer->samples_queue.dequeue(mb, &tv);
         assert(ret >= 0);
         if(ret < 0)
             return noErr;
         
         UInt32 min_bytes = std::min((UInt32)mb->length(), framebytes - copied);
-        ACE_OS::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
+        std::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
         mb->rd_ptr(min_bytes);
 
         copied += min_bytes;
@@ -806,8 +806,7 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
         assert(buf_usage < buffers->mBuffers[buf_index].mDataByteSize);
         
         int cbbytes = PCM16_BYTES(streamer->channels, streamer->framesize);
-        ACE_Message_Block* mb;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(cbbytes), noErr);
+        auto mb = std::make_unique<ACE_Message_Block>(cbbytes);
         
         short* samples_buffer = reinterpret_cast<short*>(mb->wr_ptr());
         assert(streamer->player);
@@ -819,13 +818,10 @@ static OSStatus AudioOutputCallback(void *userData, AudioUnitRenderActionFlags *
         mb->wr_ptr(cbbytes);
         
         ACE_Time_Value tv;
-        ret = streamer->samples_queue.enqueue_tail(mb, &tv);
+        ret = streamer->samples_queue.enqueue_tail(mb.get(), &tv);
         assert(ret >= 0);
-        if(ret < 0)
-        {
-            mb->release();
-            return noErr;
-        }
+        if (ret >= 0)
+            mb.release(); //queue owns the block now
     }
     return noErr;
 }

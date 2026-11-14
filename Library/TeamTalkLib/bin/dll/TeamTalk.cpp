@@ -77,11 +77,14 @@ HINSTANCE hInstance = NULL;
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <array>
+#include <filesystem>
 #include <memory>
 #include <mutex>
 #include <map>
 #include <queue>
+#include <system_error>
 #include <utility>
 
 
@@ -118,16 +121,10 @@ struct ClientInstance
 
     VideoFrame* PushVideoFrame(ACE_Message_Block* mb)
     {
-        VideoFrame* vid_frame = nullptr;
-        ACE_NEW_NORETURN(vid_frame, VideoFrame);
-        if(vid_frame == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto vid_frame = std::make_unique<VideoFrame>();
         std::scoped_lock const g(mutex_video);
-        video_frames[vid_frame] = mb;
-        return vid_frame;
+        video_frames[vid_frame.get()] = mb;
+        return vid_frame.release();
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
     {
@@ -149,17 +146,14 @@ struct ClientInstance
     desktopwindows_t desktop_windows;
     DesktopWindow* PushDesktopWindow(int buf_size)
     {
-        DesktopWindow* wnd_frame = nullptr;
-
-        ACE_Message_Block* mb = nullptr;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(DesktopWindow) + buf_size),
-                       nullptr);
-        wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
+        auto mb = std::make_unique<ACE_Message_Block>(sizeof(DesktopWindow) + buf_size);
+        auto* wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
         wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
         std::scoped_lock const g(mutex_desktop);
-        desktop_windows[wnd_frame] = mb;
+        desktop_windows[wnd_frame] = mb.get();
+        mb.release();
         return wnd_frame;
     }
 
@@ -182,16 +176,10 @@ struct ClientInstance
 
     AudioBlock* PushAudioBlock(ACE_Message_Block* mb)
     {
-        AudioBlock* audblock = nullptr;
-        ACE_NEW_NORETURN(audblock, AudioBlock);
-        if(audblock == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto audblock = std::make_unique<AudioBlock>();
         std::scoped_lock const g(mutex_audblocks);
-        audio_blocks[audblock] = mb;
-        return audblock;
+        audio_blocks[audblock.get()] = mb;
+        return audblock.release();
     }
 
     bool RemoveAudioBlock(AudioBlock* audblock)
@@ -1591,7 +1579,8 @@ TEAMTALKDLL_API INT32 TT_DoSendFile(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    if((szLocalFilePath != nullptr) && ACE_OS::filesize(szLocalFilePath)>=0)
+    std::error_code ec;
+    if (szLocalFilePath != nullptr && std::filesystem::exists(szLocalFilePath, ec))
         return clientnode->DoFileSend(nChannelID, szLocalFilePath);
     return -1;
 }
@@ -3285,9 +3274,9 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
         lpNewWindow->nBytesPerLine = deskwnd.nBytesPerLine;
         lpNewWindow->nProtocol = deskwnd.nProtocol;
         if(!out_bmp.empty())
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
         else
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
             
         return lpNewWindow;
     }

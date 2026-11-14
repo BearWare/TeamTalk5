@@ -32,6 +32,7 @@
 #include <initguid.h>
 #include <streams.h>
 #include <assert.h>
+#include <memory>
 
 
 bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
@@ -198,9 +199,7 @@ public:
         //MYTRACE(ACE_TEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
         size_t bytes_total = PCM16_BYTES(output_samples_total,
                                          m_media_out.audio.channels);
-        ACE_Message_Block* mb;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(bytes_total + sizeof(media::AudioFrame)),
-                       S_OK);
+        auto mb = std::make_unique<ACE_Message_Block>(bytes_total + sizeof(media::AudioFrame));
         
         media::AudioFrame media_frame;
         media_frame.timestamp = (uint32_t)(SampleTime * 1000.0);
@@ -224,10 +223,13 @@ public:
 
         //store audio
         ACE_Time_Value tvzero;
-        if (m_audio_queue.enqueue(mb/*, &tvzero*/) < 0)
+        if (m_audio_queue.enqueue(mb.get()/*, &tvzero*/) < 0)
         {
             MYTRACE(ACE_TEXT("DSWrapper audio buffer closed\n"));
-            mb->release();
+        }
+        else
+        {
+            mb.release(); //queue owns the block now
         }
         return S_OK;
     }
