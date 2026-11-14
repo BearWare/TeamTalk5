@@ -30,6 +30,7 @@
 #include <ace/OS_Memory.h>
 
 #include <cstddef>
+#include <cstring>
 #include <mutex>
 
 constexpr size_t INTMSG_MAX_SIZE = 0x7F000000;
@@ -79,6 +80,8 @@ static IntTTMessage* MakeMsgBlock(ACE_Message_Block*& mb,
 {
     int const size = TT_DBG_SIZEOF(ttType);
     ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(IntTTMessage) + size), nullptr);
+    // Some events only set some of the fields, so the rest must be zero
+    std::memset(mb->rd_ptr(), 0, sizeof(IntTTMessage) + size);
     auto* ret = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
     ret->event = event;
     ret->nSource = nSource;
