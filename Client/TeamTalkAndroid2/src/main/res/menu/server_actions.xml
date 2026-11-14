@@ -1,0 +1,15 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_exportsrv"
+        android:title="@string/action_exportsrv"/>
+
+    <item
+        android:id="@+id/action_editsrv"
+        android:title="@string/action_editsrv"/>
+
+    <item
+        android:id="@+id/action_removesrv"
+        android:title="@string/action_removesrv"/>
+
+</menu>
