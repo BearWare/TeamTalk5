@@ -13,7 +13,7 @@
     <string name="title_section_files">文件</string>
     <string name="title_activity_channel_prop">频道属性</string>
     <string name="title_activity_user_prop">用户属性</string>
-    <string name="title_activity_text_message">消息</string>
+    <string name="title_activity_text_message">私信</string>
     <string name="text_user_typing_title">%1$s 正在输入...</string>
     <string name="title_activity_preferences">首选项</string>
     <string name="title_activity_stream_media">向频道播放媒体文件</string>
@@ -26,12 +26,12 @@
     <string name="text_con_cmderr">无法发出命令</string>
     <string name="text_cmderr_login">无法发出登录命令</string>
     <string name="text_cmd_loggedin">已登录服务器</string>
-    <string name="text_cmd_joinchan">已加入频道：</string>
-    <string name="text_cmd_leftchan">已离开频道：</string>
+    <string name="text_cmd_joinchan">已加入频道</string>
+    <string name="text_cmd_leftchan">已离开频道</string>
     <string name="text_cmd_joinroot">已加入根频道</string>
     <string name="text_cmd_leftroot">已离开根频道</string>
-    <string name="text_cmd_userjoinchan">%1$s 加入了频道</string>
-    <string name="text_cmd_userleftchan">%1$s 离开了频道</string>
+    <string name="text_cmd_userjoinchan">%1$s 加入频道</string>
+    <string name="text_cmd_userleftchan">%1$s 离开频道</string>
     <string name="text_cmd_userloggedout">%1$s 已登出</string>
     <string name="text_cmd_userloggedin">%1$s 已登录</string>
     <string name="pref_cat_subscriptions">订阅</string>
@@ -93,8 +93,8 @@
     <string name="pref_title_sub_mediafile">媒体文件</string>
     <string name="pref_summary_sub_mediafile">订阅媒体文件流</string>
     <string name="pref_header_tts">文字转语音</string>
-    <string name="pref_title_speech_engine">文字转语音引擎选择</string>
-    <string name="pref_summary_speech_engine">选择一个已安装的语音引擎，而非使用系统设置中的引擎</string>
+    <string name="pref_title_speech_engine">文字转语音引擎</string>
+    <string name="pref_summary_speech_engine">选择已安装的语音引擎，而非系统设置中的引擎</string>
     <string name="pref_title_a11y_volume">使用无障碍音量</string>
     <string name="pref_summary_a11y_volume">文字转语音消息将使用无障碍音量播放</string>
     <string name="pref_title_use_announcements">使用无障碍播报</string>
@@ -160,7 +160,7 @@
     <string name="pref_title_show_usernames">显示用户名</string>
     <string name="pref_summary_show_usernames">显示用户名而非昵称</string>
     <string name="pref_title_move_talking">将发言用户移至顶部</string>
-    <string name="pref_summary_move_talking">将正在发言用户移至用户列表顶部</string>
+    <string name="pref_summary_move_talking">将正在发言的用户移至用户列表顶部</string>
     <string name="pref_title_bearwareid">BearWare.dk Web 登录</string>
     <string name="pref_summary_bearwareid">设置 BearWare.dk Web 登录</string>
 
@@ -172,14 +172,20 @@
     <string name="pref_summary_bluetooth_headset_checkbox">连接蓝牙耳机时使用其麦克风</string>
     <string name="pref_title_voice_processing_checkbox">启用语音预处理</string>
     <string name="pref_summary_voice_processing_checkbox">使用回声消除和自动增益控制</string>
+    <string name="pref_title_microphone">麦克风</string>
+    <string name="pref_microphone_automatic">自动</string>
+    <string name="pref_microphone_builtin">手机麦克风</string>
+    <string name="pref_microphone_wired">有线耳机</string>
+    <string name="pref_microphone_unavailable">未连接</string>
+    <string name="pref_summary_microphone_unsupported">需要 Android 12 或更高版本</string>
 
     <string name="text_tts_loggedin">%1$s 已登录</string>
     <string name="text_tts_loggedout">%1$s 已登出</string>
-    <string name="text_tts_user_joined_other_channel">%1$s 加入了频道 %2$s</string>
-    <string name="text_tts_user_left_other_channel">%1$s 离开了频道 %2$s</string>
+    <string name="text_tts_user_joined_other_channel">%1$s 加入频道 %2$s</string>
+    <string name="text_tts_user_left_other_channel">%1$s 离开频道 %2$s</string>
     <string name="text_root_chan">根频道</string>
-    <string name="text_tts_joined_chan">%1$s 加入了频道</string>
-    <string name="text_tts_left_chan">%1$s 离开了频道</string>
+    <string name="text_tts_joined_chan">%1$s 加入频道</string>
+    <string name="text_tts_left_chan">%1$s 离开频道</string>
     <string name="text_tts_private_message">%1$s 私信：%2$s</string>
     <string name="text_tts_channel_message">%1$s：%2$s</string>
     <string name="text_tts_broadcast_message">%1$s 广播：%2$s</string>
@@ -198,16 +204,16 @@
     <string name="text_tts_subscription_intercept_media_changed">将监听媒体文件订阅更改为：</string>
     <string name="text_tts_subscribe_on">开</string>
     <string name="text_tts_subscribe_off">关</string>
-    <string name="text_tts_channel_msg_transmit_off">已不能发送频道消息！</string>
-    <string name="text_tts_channel_msg_transmit_on">现在可以发送频道消息！</string>
-    <string name="text_tts_voice_transmit_off">已不能传输语音！</string>
-    <string name="text_tts_voice_transmit_on">现在可以传输语音！</string>
-    <string name="text_tts_vid_transmit_off">已不能传输视频！</string>
-    <string name="text_tts_vid_transmit_on">现在可以传输视频！</string>
-    <string name="text_tts_desk_transmit_off">已不能传输共享桌面！</string>
-    <string name="text_tts_desk_transmit_on">现在可以传输共享桌面！</string>
-    <string name="text_tts_media_transmit_off">已不能传输媒体文件！</string>
-    <string name="text_tts_media_transmit_on">现在可以传输媒体文件！</string>
+    <string name="text_tts_channel_msg_transmit_off">不能再发送频道消息</string>
+    <string name="text_tts_channel_msg_transmit_on">现在可以发送频道消息</string>
+    <string name="text_tts_voice_transmit_off">不能再传输语音</string>
+    <string name="text_tts_voice_transmit_on">现在可以传输语音</string>
+    <string name="text_tts_vid_transmit_off">不能再传输视频</string>
+    <string name="text_tts_vid_transmit_on">现在可以传输视频</string>
+    <string name="text_tts_desk_transmit_off">不能再传输共享桌面</string>
+    <string name="text_tts_desk_transmit_on">现在可以传输共享桌面</string>
+    <string name="text_tts_media_transmit_off">不能再传输媒体文件</string>
+    <string name="text_tts_media_transmit_on">现在可以传输媒体文件</string>
     <string name="text_tts_transmit_name_everyone">所有人</string>
     <string name="pref_header_soundsystem">声音系统</string>
     <string name="title_activity_audio_codec">音频编解码器</string>
@@ -218,7 +224,7 @@
     <string name="opus_application">应用场景</string>
 
     <string name="button_tx">传输</string>
-    <string name="button_remove">移除</string>
+    <string name="button_remove">删除</string>
     <string name="action_cancel">取消下载</string>
     <string name="action_downloadfile">下载文件</string>
     <string name="action_removefile">删除文件</string>
@@ -233,7 +239,7 @@
     <string name="action_kicksrv">踢出服务器</string>
     <string name="action_move">移动至此</string>
     <string name="action_select">标记待移动</string>
-    <string name="action_deselect">取消标记移动</string>
+    <string name="action_deselect">取消待移动标记</string>
     <string name="action_allowvoice">允许所有人传输语音</string>
     <string name="action_disallowvoice">禁止所有人传输语音</string>
     <string name="action_allowvideo">允许所有人传输视频</string>
@@ -261,7 +267,7 @@
     <string name="text_no_browser">找不到可打开此链接的应用</string>
     <string name="button_select_media_file">浏览</string>
     <string name="button_stream_media_file">播放</string>
-    <string name="button_msg">消息</string>
+    <string name="button_msg">私信</string>
     <string name="button_send">发送</string>
 
     <string name="channel_prop_title_name">名称</string>
@@ -286,7 +292,7 @@
     <string name="user_prop_title_clientname">客户端名称：</string>
     <string name="user_prop_title_ipaddress">IP 地址：</string>
     <string name="user_prop_title_voice_volume">语音音量</string>
-    <string name="user_prop_title_mute_voice">语音静音</string>
+    <string name="user_prop_title_mute_voice">静音语音</string>
     <string name="user_prop_title_mute_voice_left">静音左声道语音</string>
     <string name="user_prop_title_mute_voice_right">静音右声道语音</string>
     <string name="user_prop_title_media_volume">媒体文件音量</string>
@@ -329,7 +335,7 @@
     <string name="name">名称</string>
 
     <string name="err_init_sound_output">无法初始化声音输出设备</string>
-    <string name="err_retrieve_public_server_list">无法检索公共服务器列表</string>
+    <string name="err_retrieve_public_server_list">无法获取公共服务器列表</string>
     <string name="err_send_text_message">无法发送消息</string>
     <string name="err_connection">连接失败</string>
     <string name="err_stream_media">无法向频道播放媒体文件</string>
@@ -343,6 +349,8 @@
     <string name="action_export_serverlist">导出服务器列表</string>
     <string name="action_enter_joincode">输入加入码</string>
     <string name="text_specify_joincode">服务器加入码</string>
+    <string name="title_save_server">保存服务器</string>
+    <string name="text_save_server">是否将此服务器保存到服务器列表？</string>
     <string name="err_enter_joincode">服务器加入码不正确</string>
     <string name="pref_title_joincode">使用加入码快速登录</string>
     <string name="text_joincode">加入码</string>
@@ -428,21 +436,21 @@
     <string name="text_parent_channel">上级频道</string>
     <string name="text_translator">由海浪翻译</string>
     <string name="desktop_image">桌面图像</string>
-    <string name="channel_change_alert">切换频道时，将停止所有活动的传输</string>
-    <string name="disconnect_alert">离开服务器时，所有活动的传输都将停止</string>
+    <string name="channel_change_alert">切换频道时，所有正在进行的传输都将停止</string>
+    <string name="disconnect_alert">离开服务器时，所有正在进行的传输都将停止</string>
 
     <string name="err_invalid_username">用户名无效</string>
     <string name="err_incorrect_server_password">服务器密码不正确</string>
     <string name="err_incorrect_channel_password">频道密码不正确</string>
-    <string name="err_invalid_account">无效账户</string>
-    <string name="err_max_server_users_exceeded">服务器上的用户过多</string>
-    <string name="err_max_channel_users_exceeded">频道中的用户过多</string>
+    <string name="err_invalid_account">账户无效</string>
+    <string name="err_max_server_users_exceeded">服务器用户数已达上限</string>
+    <string name="err_max_channel_users_exceeded">频道用户数已达上限</string>
     <string name="err_server_banned">您的 IP 地址已被封禁</string>
     <string name="err_not_authorized">未经授权</string>
     <string name="err_max_diskusage_exceeded">磁盘空间不足</string>
     <string name="err_incorrect_op_password">频道管理员密码不正确</string>
-    <string name="err_max_logins_per_ipaddress_exceeded">来自同一 IP 地址的连接过多</string>
-    <string name="err_max_channels_exceeded">频道过多</string>
+    <string name="err_max_logins_per_ipaddress_exceeded">同一 IP 地址的连接数已达上限</string>
+    <string name="err_max_channels_exceeded">频道数已达上限</string>
     <string name="err_channel_already_exists">频道已存在</string>
     <string name="err_user_not_found">找不到用户</string>
     <string name="err_openfile_failed">服务器无法打开文件</string>
@@ -451,6 +459,9 @@
 
     <string name="private_message_notification">%1$s 发来新消息</string>
     <string name="private_message_notification_hint">点击阅读并回复</string>
+    <string name="notification_channel_messages">收到的消息</string>
+    <string name="notification_channel_connection">连接</string>
+    <string name="notification_channel_file_transfers">文件传输</string>
     <string name="user_state_now_speaking">%1$s 正在说话</string>
     <string name="text_waitstream">等待视频流</string>
     <string name="text_desktop_session">桌面会话</string>
@@ -459,9 +470,9 @@
 
     <string name="permission_audioinput">录音与播放将不可用</string>
     <string name="permission_audiomodify">录音与播放将不可用</string>
-    <string name="permission_filerx">下载文件将不可用</string>
-    <string name="permission_filetx">上传与导入文件将不可用</string>
-    <string name="permission_imagetx">图片上传将不可用</string>
+    <string name="permission_filerx">将无法下载文件</string>
+    <string name="permission_filetx">将无法上传和导入文件</string>
+    <string name="permission_imagetx">将无法上传图片</string>
     <string name="permission_videotx">视频文件将无法上传和向频道播放</string>
     <string name="permission_audiotx">音频文件将无法上传和向频道播放</string>
     <string name="permission_internet">客户端将无法连接到服务器</string>
@@ -515,7 +526,7 @@
     <string name="pref_summary_channel_message_sent_audio_icon">发送频道消息时播放声音</string>
     <string name="pref_title_channel_message_sent">已发送的频道消息</string>
     <string name="pref_summary_channel_message_sent">播报发送的频道消息</string>
-    <string name="text_tts_channel_message_sent">我：%1$s</string>
+    <string name="text_tts_channel_message_sent">已发送频道消息：%1$s</string>
     <string name="text_tts_user_typing">%1$s 正在输入...</string>
     <string name="pref_summary_official_servers">在服务器列表中包含官方服务器</string>
     <string name="pref_title_official_servers">显示官方服务器</string>
@@ -525,11 +536,11 @@
     <string name="text_server_summary">%1$s:%2$d，用户：%3$d，国家：%4$s</string>
     <string name="pref_title_server_connection">连接</string>
     <string name="pref_title_server_motd">每日公告</string>
-    <string name="pref_title_server_usercount">在线用户</string>
+    <string name="pref_title_server_usercount">在线用户数</string>
     <string name="pref_title_server_country">国家</string>
     <string name="pref_title_server_status">服务器状态</string>
-    <string name="action_make_operator">授予频道管理员</string>
-    <string name="action_revoke_operator">撤销频道管理员</string>
+    <string name="action_make_operator">设为频道管理员</string>
+    <string name="action_revoke_operator">取消频道管理员</string>
     <string name="text_operator_password">输入频道管理员密码</string>
     <string name="text_broadcast_message">输入广播消息</string>
     <string name="text_status_message">状态消息</string>
