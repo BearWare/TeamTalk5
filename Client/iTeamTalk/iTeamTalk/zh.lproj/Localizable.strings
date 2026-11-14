@@ -160,7 +160,7 @@
 "Channel. %d users" = "频道，%d 个用户";
 
 /* server entry */
-"Check only if this server has enabled BearWare.dk Web Login" = "仅当此服务器启用 BearWare.dk Web 登录时勾选";
+"Check only if this server has enabled BearWare.dk Web Login" = "仅当此服务器启用 BearWare.dk Web 登录时开启";
 
 /* log entry */
 "Command failed: %@" = "命令失败：%@";
@@ -217,7 +217,7 @@
 "Double tap to lock TX button" = "双击锁定传输";
 
 /* codec detail */
-"DTX" = "不连续传输";
+"DTX" = "忽略静音 (DTX)";
 
 /* channel list */
 "Edit properties" = "编辑属性";
@@ -613,7 +613,7 @@
 "TCP Port" = "TCP 端口";
 
 /* accessibility label */
-"Text Messaging" = "文字消息";
+"Text Messaging" = "私信";
 
 /* preferences */
 "Text To Speech Events" = "文字转语音事件";
@@ -741,7 +741,7 @@
 "Voice Activation Level: %d. Recommended: %d" = "语音激活阈值：%d。推荐：%d";
 
 /* preferences */
-"Voice Activation Level: Disabled" = "语音激活阈值：禁用";
+"Voice Activation Level: Disabled" = "语音激活阈值：已禁用";
 
 /* preferences */
 "Voice Activation Triggered" = "语音激活已触发";
@@ -750,7 +750,7 @@
 "Voice Preprocessing" = "语音预处理";
 
 /* preferences */
-"Voice Transmission Toggled" = "语音传输已切换";
+"Voice Transmission Toggled" = "语音传输切换";
 
 /* user detail */
 "Voice Volume" = "语音音量";
@@ -766,7 +766,7 @@
 
 /* preferences
    user detail */
-"WebCam" = "摄像头";
+"WebCam" = "视频";
 
 /* Dialog message */
 "Yes" = "是";
@@ -797,7 +797,7 @@
 "Talk" = "说话";
 "Send" = "发送";
 "Selected" = "已选择";
-"Disabled" = "禁用";
+"Disabled" = "已禁用";
 "Neutral" = "中性";
 "Show male, female or neutral icon" = "显示男性、女性或中性图标";
 

@@ -45,24 +45,24 @@ p, li { white-space: pre-wrap; }
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://www.webmproject.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebM&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://webrtc.org/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;WebRTC&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;a href=&quot;https://zlib.net/&quot;&gt;&lt;span style=&quot; font-size:8pt; text-decoration: underline; color:#0000ff;&quot;&gt;Zlib&lt;/span&gt;&lt;/a&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</source>
-        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//ZH&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
+        <translation>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.0//EN&quot; &quot;http://www.w3.org/TR/REC-html40/strict.dtd&quot;&gt;
 &lt;html&gt;&lt;head&gt;&lt;meta name=&quot;qrichtext&quot; content=&quot;1&quot; /&gt;&lt;style type=&quot;text/css&quot;&gt;
 p, li { white-space: pre-wrap; }
 &lt;/style&gt;&lt;/head&gt;&lt;body style=&quot; font-family:&apos;MS Shell Dlg 2&apos;; font-size:8.25pt; font-weight:400; font-style:normal;&quot;&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-size:12pt; font-weight:600;&quot;&gt;致谢&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px; font-weight:600;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;贡献者&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen, 开发者&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, 开发者&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Bjørn Damstedt Rasmussen，开发者&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave，开发者&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;翻译者&lt;/span&gt;&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋, 简体中文&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave, 法语&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz, 德语&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Abolfazl Saeidifar, 波斯语&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek, 波兰语&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos and JNylson, 巴西葡萄牙语&lt;/p&gt;
-&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş, 土耳其语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;贺稼栋，简体中文&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Corentin Bacqué-Cazenave，法语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Steffen Schultz，德语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Abolfazl Saeidifar，波斯语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Michał Ciołek，波兰语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;João Carlos Ramos 和 JNylson，巴西葡萄牙语&lt;/p&gt;
+&lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;Ozancan Karataş，土耳其语&lt;/p&gt;
 &lt;p style=&quot;-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;br /&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;库&lt;/span&gt;&lt;/p&gt;
 &lt;p style=&quot; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;&quot;&gt;TeamTalk 使用以下库：&lt;/p&gt;
@@ -112,7 +112,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="42"/>
         <source>Automatic Gain Control (AGC)</source>
-        <translation>自动增益控制(AGC)</translation>
+        <translation>自动增益控制 (AGC)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="50"/>
@@ -122,7 +122,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="70"/>
         <source>Default</source>
-        <translation>默认</translation>
+        <translation>恢复默认</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="81"/>
@@ -138,12 +138,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>增益每秒最大增幅(dB)</translation>
+        <translation>增益每秒最大增幅 (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation>增益每秒最大降幅(dB)</translation>
+        <translation>增益每秒最大降幅 (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
@@ -158,12 +158,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="178"/>
         <source>Max Attenuation of noise (dB)</source>
-        <translation>最大噪声衰减(dB)</translation>
+        <translation>最大噪声衰减 (dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="219"/>
         <source>&amp;Default</source>
-        <translation>默认(&amp;D)</translation>
+        <translation>恢复默认(&amp;D)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="230"/>
@@ -247,22 +247,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bannedusersdlg.cpp" line="331"/>
         <source>&amp;Username (%1)</source>
-        <translation>用户名(%1)(&amp;U)</translation>
+        <translation>用户名 (%1)(&amp;U)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="337"/>
         <source>&amp;Ban Type (%1)</source>
-        <translation>封禁类型(%1)(&amp;B)</translation>
+        <translation>封禁类型 (%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="343"/>
         <source>&amp;Ban Time (%1)</source>
-        <translation>封禁时间(%1)(&amp;B)</translation>
+        <translation>封禁时间 (%1)(&amp;B)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="349"/>
         <source>&amp;IP-Adress (%1)</source>
-        <translation>IP地址(%1)(&amp;I)</translation>
+        <translation>IP 地址 (%1)(&amp;I)</translation>
     </message>
     <message>
         <location filename="../bannedusersdlg.cpp" line="354"/>
@@ -419,7 +419,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.ui" line="76"/>
         <source>Authentication</source>
-        <translation>身份认证</translation>
+        <translation>身份验证</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.ui" line="84"/>
@@ -444,7 +444,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../bearwarelogindlg.cpp" line="107"/>
         <source>Failed to authenticate</source>
-        <translation>身份认证失败</translation>
+        <translation>身份验证失败</translation>
     </message>
     <message>
         <location filename="../bearwarelogindlg.cpp" line="117"/>
@@ -587,7 +587,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channel.ui" line="200"/>
         <source>...</source>
-        <translation>浏览...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="209"/>
@@ -682,7 +682,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../channel.ui" line="546"/>
         <location filename="../channel.ui" line="744"/>
         <source>Ignore silence (DTX)</source>
-        <translation>忽略静音(DTX)</translation>
+        <translation>忽略静音 (DTX)</translation>
     </message>
     <message>
         <location filename="../channel.ui" line="606"/>
@@ -805,7 +805,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="187"/>
         <source>Update Channel</source>
-        <translation>更新频道</translation>
+        <translation>修改频道</translation>
     </message>
     <message>
         <location filename="../channeldlg.cpp" line="189"/>
@@ -1204,7 +1204,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattemplatesdlg.cpp" line="135"/>
         <source>Are you sure you want to restore all chat templates to default values?</source>
-        <translation>您确定要将所有聊天模板还原为默认值吗？</translation>
+        <translation>您确定要将所有聊天模板恢复为默认值吗？</translation>
     </message>
     <message>
         <location filename="../chattemplatesdlg.cpp" line="136"/>
@@ -1346,7 +1346,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../chattextlist.cpp" line="212"/>
         <source>You</source>
-        <translation>你</translation>
+        <translation>您</translation>
     </message>
     <message>
         <location filename="../chattextlist.cpp" line="229"/>
@@ -1689,7 +1689,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../encryptionsetupdlg.ui" line="156"/>
         <location filename="../encryptionsetupdlg.ui" line="171"/>
         <source>...</source>
-        <translation>浏览...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.ui" line="56"/>
@@ -1757,7 +1757,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="107"/>
         <source>The file %1 does not contain a valid certificate authority</source>
-        <translation>文件 %1 不包含有效的证书颁发机构</translation>
+        <translation>文件 %1 不包含有效的 CA 证书</translation>
     </message>
     <message>
         <location filename="../encryptionsetupdlg.cpp" line="135"/>
@@ -2417,7 +2417,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1712"/>
         <source>&amp;Update Channel</source>
-        <translation>更新频道(&amp;U)</translation>
+        <translation>修改频道(&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1715"/>
@@ -2457,7 +2457,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="1759"/>
         <source>Change &amp;Nickname</source>
-        <translation>修改昵称(&amp;N)</translation>
+        <translation>更改昵称(&amp;N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="1762"/>
@@ -2622,7 +2622,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="614"/>
         <source>Duration:</source>
-        <translation>持续时间：</translation>
+        <translation>时长：</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="628"/>
@@ -3202,7 +3202,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2421"/>
         <source>Mute Media File</source>
-        <translation>媒体文件静音</translation>
+        <translation>静音媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2429"/>
@@ -3252,7 +3252,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2474"/>
         <source>Banned Users From Channel</source>
-        <translation>频道封禁用户</translation>
+        <translation>频道已封禁用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2477"/>
@@ -3282,7 +3282,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.ui" line="2507"/>
         <source>&amp;Hear Myself</source>
-        <translation>收听自己(&amp;H)</translation>
+        <translation>收听自己的声音(&amp;H)</translation>
     </message>
     <message>
         <location filename="../mainwindow.ui" line="2510"/>
@@ -3405,7 +3405,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1535"/>
         <source>Internal message queue overloaded</source>
-        <translation>内部消息队列超载</translation>
+        <translation>内部消息队列过载</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1541"/>
@@ -3430,7 +3430,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1598"/>
         <source>Finished streaming media file to channel</source>
-        <translation>向频道播放媒体文件已完成</translation>
+        <translation>已完成向频道播放媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1605"/>
@@ -3451,7 +3451,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="1736"/>
         <source>Your desktop session was cancelled</source>
-        <translation>您的桌面会话已取消</translation>
+        <translation>桌面会话已取消</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1747"/>
@@ -3553,7 +3553,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="1486"/>
         <location filename="../mainwindow.cpp" line="7004"/>
         <source>You</source>
-        <translation>你</translation>
+        <translation>您</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
@@ -3665,12 +3665,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2464"/>
         <source>File transfer not found</source>
-        <translation>未找到文件传输</translation>
+        <translation>找不到文件传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2466"/>
         <source>User account not found</source>
-        <translation>未找到用户账户</translation>
+        <translation>找不到用户账户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2468"/>
@@ -3769,22 +3769,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="4972"/>
         <source>Voice for %1 disabled</source>
-        <translation>%1 的语音已禁用</translation>
+        <translation>%1 的语音已静音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4974"/>
         <source>Voice for %1 enabled</source>
-        <translation>%1 的语音已启用</translation>
+        <translation>%1 的语音已取消静音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4991"/>
         <source>Media files for %1 disabled</source>
-        <translation>%1 的媒体文件已禁用</translation>
+        <translation>%1 的媒体文件已静音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4993"/>
         <source>Media files for %1 enabled</source>
-        <translation>%1 的媒体文件已启用</translation>
+        <translation>%1 的媒体文件已取消静音</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5009"/>
@@ -3856,22 +3856,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="5919"/>
         <source>&amp;Name (%1)</source>
-        <translation>名称 (%1) (&amp;N)</translation>
+        <translation>名称 (%1)(&amp;N)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5925"/>
         <source>&amp;Size (%1)</source>
-        <translation>大小 (%1) (&amp;S)</translation>
+        <translation>大小 (%1)(&amp;S)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5931"/>
         <source>&amp;Owner (%1)</source>
-        <translation>所有者 (%1) (&amp;O)</translation>
+        <translation>所有者 (%1)(&amp;O)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5937"/>
         <source>&amp;Upload Date (%1)</source>
-        <translation>上传日期 (%1) (&amp;U)</translation>
+        <translation>上传日期 (%1)(&amp;U)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6190"/>
@@ -3965,7 +3965,7 @@ p, li { white-space: pre-wrap; }
         <location filename="../mainwindow.cpp" line="5769"/>
         <location filename="../mainwindow.cpp" line="6660"/>
         <source>Duration: %1</source>
-        <translation>持续时间：%1</translation>
+        <translation>时长：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6650"/>
@@ -3994,12 +3994,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="7677"/>
         <source>&amp;Video (%1)</source>
-        <translation>视频 (%1) (&amp;V)</translation>
+        <translation>视频 (%1)(&amp;V)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7685"/>
         <source>&amp;Desktops (%1)</source>
-        <translation>桌面 (%1) (&amp;D)</translation>
+        <translation>桌面 (%1)(&amp;D)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7875"/>
@@ -4047,7 +4047,7 @@ You can download it on the page below:<byte value="xd"/>
     <message>
         <location filename="../mainwindow.cpp" line="2809"/>
         <source>&amp;Restore</source>
-        <translation>恢复(&amp;R)</translation>
+        <translation>还原(&amp;R)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1216"/>
@@ -4171,7 +4171,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2375"/>
         <source>Incorrect username or password. Try again.</source>
-        <translation>用户名或密码不正确。请重试。</translation>
+        <translation>用户名或密码不正确，请重试。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2395"/>
@@ -4275,7 +4275,7 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="3070"/>
         <source>Intercept video capture</source>
-        <translation>监听视频采集</translation>
+        <translation>监听视频</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3075"/>
@@ -4296,12 +4296,12 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="3251"/>
         <location filename="../mainwindow.cpp" line="5092"/>
         <source>%1 granted desktop access</source>
-        <translation>%1 已授予桌面访问权限</translation>
+        <translation>已授予 %1 桌面访问权限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3257"/>
         <source>%1 retracted desktop access</source>
-        <translation>%1 已撤回桌面访问权限</translation>
+        <translation>%1 撤回桌面访问请求</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3295"/>
@@ -4313,12 +4313,12 @@ Message of the day: %2</source>
         <location filename="../mainwindow.cpp" line="3423"/>
         <location filename="../mainwindow.cpp" line="3424"/>
         <source>Files in channel: %1</source>
-        <translation>频道文件：%1</translation>
+        <translation>频道中的文件：%1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3484"/>
         <source>Failed to start recording</source>
-        <translation>无法开始录音</translation>
+        <translation>无法开始录制</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3488"/>
@@ -4595,12 +4595,12 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="7995"/>
         <source>Language %1 not found for Text-To-Speech</source>
-        <translation>未找到文字转语音的语言 %1</translation>
+        <translation>找不到文字转语音的语言 %1</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="8008"/>
         <source>Voice %1 not found for Text-To-Speech. Switching to %2</source>
-        <translation>未找到文字转语音的语音 %1，已切换至 %2</translation>
+        <translation>找不到文字转语音的语音 %1，已切换至 %2</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="4797"/>
@@ -4656,7 +4656,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="5377"/>
         <source>Failed to issue command to update channel</source>
-        <translation>无法发出更新频道命令</translation>
+        <translation>无法发出修改频道命令</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="5390"/>
@@ -4745,7 +4745,7 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="5508"/>
         <location filename="../mainwindow.cpp" line="6186"/>
         <source>Streaming</source>
-        <translation>播放媒体文件</translation>
+        <translation>正在播放媒体文件</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="6186"/>
@@ -4834,12 +4834,12 @@ Do you wish to do this now?</source>
         <location filename="../mainwindow.cpp" line="7110"/>
         <location filename="../mainwindow.cpp" line="7162"/>
         <source>Myself</source>
-        <translation>我自己</translation>
+        <translation>我</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="3434"/>
         <source>&amp;Files (%1)</source>
-        <translation>文件 (%1) (&amp;F)</translation>
+        <translation>文件 (%1)(&amp;F)</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7508"/>
@@ -5035,7 +5035,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../mediastorage.ui" line="119"/>
         <source>Store text message conversations</source>
-        <translation>保存文字消息会话</translation>
+        <translation>存储文字消息会话</translation>
     </message>
     <message>
         <location filename="../mediastorage.ui" line="125"/>
@@ -5829,7 +5829,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1391"/>
         <location filename="../preferences.ui" line="2269"/>
         <source>&amp;Default</source>
-        <translation>默认(&amp;D)</translation>
+        <translation>恢复默认(&amp;D)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1417"/>
@@ -5938,7 +5938,7 @@ Should these settings be applied?</source>
         <location filename="../preferences.ui" line="1601"/>
         <location filename="../preferences.ui" line="1750"/>
         <source>C&amp;lear all</source>
-        <translation>全部取消(&amp;L)</translation>
+        <translation>全部禁用(&amp;L)</translation>
     </message>
     <message>
         <location filename="../preferences.ui" line="1621"/>
@@ -6317,7 +6317,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../preferencesdlg.cpp" line="822"/>
         <source>Please restart application to change to chat history control</source>
-        <translation>请重启程序以切换聊天记录控件</translation>
+        <translation>请重新启动应用程序以切换聊天记录控件</translation>
     </message>
     <message>
         <location filename="../preferencesdlg.cpp" line="1072"/>
@@ -6555,7 +6555,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../profilesdlg.cpp" line="126"/>
         <source>Maximum number of profiles reached.</source>
-        <translation>已达到配置数量上限。</translation>
+        <translation>配置数量已达上限。</translation>
     </message>
     <message>
         <location filename="../profilesdlg.cpp" line="131"/>
@@ -6893,7 +6893,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverdlg.cpp" line="45"/>
         <source>&amp;Close without saving</source>
-        <translation>关闭但不保存(&amp;C)</translation>
+        <translation>不保存并关闭(&amp;C)</translation>
     </message>
     <message>
         <location filename="../serverdlg.cpp" line="75"/>
@@ -7191,12 +7191,12 @@ Should these settings be applied?</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="963"/>
         <source>&amp;Name (%1)</source>
-        <translation>名称 (%1) (&amp;N)</translation>
+        <translation>名称 (%1)(&amp;N)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="969"/>
         <source>&amp;User Count (%1)</source>
-        <translation>用户数 (%1) (&amp;U)</translation>
+        <translation>用户数 (%1)(&amp;U)</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="975"/>
@@ -7305,7 +7305,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverlistdlg.cpp" line="526"/>
         <source>Delete server named &quot;%1&quot;</source>
-        <translation>删除名为“%1”的服务器</translation>
+        <translation>是否删除名为“%1”的服务器？</translation>
     </message>
 </context>
 <context>
@@ -7691,7 +7691,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="114"/>
         <source>Server&apos;s time online</source>
-        <translation>服务器在线时间</translation>
+        <translation>服务器运行时间</translation>
     </message>
     <message>
         <location filename="../serverpropertiesdlg.cpp" line="114"/>
@@ -8073,7 +8073,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbardlg.ui" line="114"/>
         <source>C&amp;lear all</source>
-        <translation>全部取消(&amp;L)</translation>
+        <translation>全部禁用(&amp;L)</translation>
     </message>
     <message>
         <location filename="../statusbardlg.ui" line="134"/>
@@ -8136,7 +8136,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="165"/>
         <source>Recording started</source>
-        <translation>开始录制</translation>
+        <translation>已开始录制</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="169"/>
@@ -8221,7 +8221,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="135"/>
         <source>Subscription media file stream changed</source>
-        <translation>媒体文件流订阅已更改</translation>
+        <translation>媒体文件订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="137"/>
@@ -8251,7 +8251,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="147"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>监听媒体文件流订阅已更改</translation>
+        <translation>监听媒体文件订阅已更改</translation>
     </message>
     <message>
         <location filename="../statusbareventsmodel.cpp" line="149"/>
@@ -8369,12 +8369,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../streammediafile.ui" line="159"/>
         <source>Duration:</source>
-        <translation>持续时间：</translation>
+        <translation>时长：</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="178"/>
         <source>Co&amp;ntinuously play media file</source>
-        <translation>连续播放媒体文件(&amp;N)</translation>
+        <translation>循环播放媒体文件(&amp;N)</translation>
     </message>
     <message>
         <location filename="../streammediafile.ui" line="188"/>
@@ -8671,7 +8671,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="167"/>
         <source>Subscription media file stream changed</source>
-        <translation>媒体文件流订阅已更改</translation>
+        <translation>媒体文件订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="169"/>
@@ -8701,7 +8701,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="179"/>
         <source>Subscription intercept media file stream changed</source>
-        <translation>监听媒体文件流订阅已更改</translation>
+        <translation>监听媒体文件订阅已更改</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="181"/>
@@ -8746,17 +8746,17 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="197"/>
         <source>Voice transmission mode toggled</source>
-        <translation>切换语音传输模式</translation>
+        <translation>语音传输模式切换</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="199"/>
         <source>Video transmission toggled</source>
-        <translation>切换视频传输</translation>
+        <translation>视频传输切换</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="201"/>
         <source>Desktop sharing toggled</source>
-        <translation>切换桌面共享</translation>
+        <translation>桌面共享切换</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="203"/>
@@ -8966,7 +8966,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="65"/>
         <source>Default User</source>
-        <translation>默认用户</translation>
+        <translation>普通用户</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="66"/>
@@ -8982,7 +8982,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountdlg.cpp" line="97"/>
         <source>10 commands in 10 sec.</source>
-        <translation>10 秒内 10 条命令。</translation>
+        <translation>10 秒内 10 条命令</translation>
     </message>
     <message>
         <location filename="../useraccountdlg.cpp" line="98"/>
@@ -9125,27 +9125,27 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="174"/>
         <source>&amp;Username (%1)</source>
-        <translation>用户名 (%1) (&amp;U)</translation>
+        <translation>用户名 (%1)(&amp;U)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="180"/>
         <source>User &amp;Type (%1)</source>
-        <translation>用户类型 (%1) (&amp;T)</translation>
+        <translation>用户类型 (%1)(&amp;T)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="186"/>
         <source>&amp;Channel (%1)</source>
-        <translation>频道 (%1) (&amp;C)</translation>
+        <translation>频道 (%1)(&amp;C)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="192"/>
         <source>&amp;Modified (%1)</source>
-        <translation>修改时间 (%1) (&amp;M)</translation>
+        <translation>修改时间 (%1)(&amp;M)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
         <source>&amp;Last Login Time (%1)</source>
-        <translation>上次登录时间(%1)(&amp;L)</translation>
+        <translation>上次登录时间 (%1)(&amp;L)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="203"/>
@@ -9218,7 +9218,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="69"/>
         <source>Default User</source>
-        <translation>默认用户</translation>
+        <translation>普通用户</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="71"/>
@@ -9509,7 +9509,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsmodel.cpp" line="261"/>
         <source>Record voice in all channels</source>
-        <translation>在所有频道中录音</translation>
+        <translation>录制所有频道的语音</translation>
     </message>
     <message>
         <location filename="../useraccountsmodel.cpp" line="263"/>
@@ -9599,7 +9599,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservideowidget.cpp" line="48"/>
         <source>Waiting for local video</source>
-        <translation>等待本地视频</translation>
+        <translation>正在等待本地视频</translation>
     </message>
     <message>
         <location filename="../uservideowidget.cpp" line="50"/>
@@ -9653,7 +9653,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../uservolume.ui" line="147"/>
         <source>&amp;Default</source>
-        <translation>默认(&amp;D)</translation>
+        <translation>恢复默认(&amp;D)</translation>
     </message>
     <message>
         <location filename="../uservolumedlg.cpp" line="55"/>
@@ -9827,7 +9827,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="65"/>
         <location filename="../utiltts.cpp" line="67"/>
         <source>User&apos;s nickname who sent message</source>
-        <translation>发送消息的用户的昵称</translation>
+        <translation>发送消息的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="60"/>
@@ -9867,12 +9867,12 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s nickname who set question mode</source>
-        <translation>设置提问模式的用户昵称</translation>
+        <translation>进入提问模式的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="64"/>
         <source>User&apos;s username who set question mode</source>
-        <translation>设置提问模式的用户的用户名</translation>
+        <translation>进入提问模式的用户的用户名</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="69"/>
@@ -9949,7 +9949,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../utiltts.cpp" line="81"/>
         <location filename="../utiltts.cpp" line="82"/>
         <source>Subscription change</source>
-        <translation>订阅更改</translation>
+        <translation>订阅变更</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="69"/>
@@ -10005,7 +10005,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="88"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>添加文件的用户的昵称</translation>
+        <translation>添加文件的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="88"/>
@@ -10020,7 +10020,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utiltts.cpp" line="89"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>删除文件的用户的昵称</translation>
+        <translation>删除文件的用户昵称</translation>
     </message>
     <message>
         <location filename="../utiltts.cpp" line="89"/>
@@ -10318,7 +10318,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="226"/>
         <source>User&apos;s nickname who added the file</source>
-        <translation>添加文件的用户的昵称</translation>
+        <translation>添加文件的用户昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="226"/>
@@ -10333,7 +10333,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../utilui.cpp" line="227"/>
         <source>User&apos;s nickname who removed the file</source>
-        <translation>删除文件的用户的昵称</translation>
+        <translation>删除文件的用户昵称</translation>
     </message>
     <message>
         <location filename="../utilui.cpp" line="227"/>
@@ -10429,7 +10429,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../videotext.ui" line="24"/>
         <source>Text to Show</source>
-        <translation>要显示的文字</translation>
+        <translation>要显示的文本</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="30"/>
@@ -10486,7 +10486,7 @@ Delete the published user account to unregister your server.</source>
         <location filename="../videotext.ui" line="121"/>
         <location filename="../videotext.ui" line="141"/>
         <source>...</source>
-        <translation>浏览...</translation>
+        <translation>...</translation>
     </message>
     <message>
         <location filename="../videotext.ui" line="131"/>
