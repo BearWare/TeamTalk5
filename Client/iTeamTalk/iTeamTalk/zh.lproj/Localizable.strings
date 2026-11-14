@@ -440,13 +440,13 @@
 "Play sound when channel text message is received" = "收到频道消息时播放声音";
 
 /* preferences */
-"Play sound when connection is dropped" = "连接丢失时播放声音";
+"Play sound when connection is dropped" = "连接断开时播放声音";
 
 /* preferences */
 "Play sound when private text message is received" = "收到私信时播放声音";
 
 /* preferences */
-"Play sound when transmit ready in \"No Interruptions\" channel" = "在“禁止插话”频道中轮到你发言时播放声音";
+"Play sound when transmit ready in \"No Interruptions\" channel" = "在“禁止插话”频道中可以发言时播放声音";
 
 /* preferences */
 "Play sound when user logs off to the server" = "用户登出服务器时播放声音";
@@ -625,7 +625,7 @@
 "The volume of the speaking voice is %.1f" = "音量为 %.1f";
 
 /* channel list */
-"Toggle to enable/disable transmission" = "切换以启用/禁用传输";
+"Toggle to enable/disable transmission" = "开启或关闭传输";
 
 /* preferences */
 "Toggle voice transmission using headset" = "使用耳机按键切换语音传输";
@@ -825,11 +825,11 @@
 "Show user details" = "显示用户详情";
 "Message this user" = "给此用户发私信";
 "Deselect user" = "取消选择用户";
-"No users selected to move" = "未选择要移动的用户";
+"No users selected to move" = "没有待移动用户";
 "%@ selected" = "已选择 %@";
 "%@ deselected" = "已取消选择 %@";
-"1 user selected to move here" = "已选择 1 个用户移动至此";
-"%d users selected to move here" = "已选择 %d 个用户移动至此";
+"1 user selected to move here" = "已选择 1 个待移动用户";
+"%d users selected to move here" = "已选择 %d 个待移动用户";
 
 /* User detail */
 "Kick User" = "踢出用户";

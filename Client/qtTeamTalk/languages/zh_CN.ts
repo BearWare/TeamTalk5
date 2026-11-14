@@ -138,12 +138,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../audiopreprocessor.ui" line="111"/>
         <source>Max Gain Increase Per Sec (dB)</source>
-        <translation>每秒最大增益增加(dB)</translation>
+        <translation>增益每秒最大增幅(dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="128"/>
         <source>Max Gain Decrease Per Sec (dB)</source>
-        <translation>每秒最大增益减少(dB)</translation>
+        <translation>增益每秒最大降幅(dB)</translation>
     </message>
     <message>
         <location filename="../audiopreprocessor.ui" line="146"/>
@@ -845,7 +845,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../channeldlg.cpp" line="481"/>
         <source>Delay before switching to next user in queue (in msec)</source>
-        <translation>切换到队列中的下一个用户前的延迟（以毫秒为单位）</translation>
+        <translation>切换到队列中下一个用户前的延迟（毫秒）</translation>
     </message>
 </context>
 <context>
@@ -3533,7 +3533,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2366"/>
         <source>This client is not compatible with the server, so the action cannot be performed.</source>
-        <translation>此客户端与服务器不兼容，因此无法执行操作。</translation>
+        <translation>此客户端与服务器不兼容，无法执行该操作。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2369"/>
@@ -3575,22 +3575,22 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2413"/>
         <source>Command not authorized</source>
-        <translation>命令未授权</translation>
+        <translation>无权执行此命令</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2416"/>
         <source>Maximum number of users on server exceeded</source>
-        <translation>已超出服务器最大用户数</translation>
+        <translation>服务器用户数已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2418"/>
         <source>Maximum disk usage exceeded</source>
-        <translation>已超出最大磁盘使用量</translation>
+        <translation>磁盘用量已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2420"/>
         <source>Maximum number of users in channel exceeded</source>
-        <translation>已超出频道最大用户数</translation>
+        <translation>频道用户数已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2422"/>
@@ -3600,12 +3600,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2428"/>
         <source>The maximum number of channels has been exceeded</source>
-        <translation>已超出最大频道数</translation>
+        <translation>频道数已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2430"/>
         <source>Command flooding prevented by server</source>
-        <translation>服务器已阻止命令泛滥</translation>
+        <translation>命令发送过于频繁，已被服务器阻止</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2436"/>
@@ -3615,12 +3615,12 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2438"/>
         <source>Cannot perform action because client is currently not logged in</source>
-        <translation>无法执行操作，因为客户端当前未登录</translation>
+        <translation>客户端未登录，无法执行操作</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2441"/>
         <source>Cannot join the same channel twice</source>
-        <translation>不能两次加入同一频道</translation>
+        <translation>不能重复加入同一频道</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2443"/>
@@ -3655,7 +3655,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2460"/>
         <source>Cannot leave channel because not in channel.</source>
-        <translation>无法离开频道，因为您不在该频道中。</translation>
+        <translation>您不在该频道中，无法离开。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2462"/>
@@ -3690,7 +3690,7 @@ p, li { white-space: pre-wrap; }
     <message>
         <location filename="../mainwindow.cpp" line="2474"/>
         <source>Channel has active users</source>
-        <translation>频道中有活动用户</translation>
+        <translation>频道中仍有用户</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2479"/>
@@ -4106,7 +4106,7 @@ You can download it on the page below:<byte value="xd"/>
         <location filename="../mainwindow.cpp" line="1189"/>
         <location filename="../mainwindow.cpp" line="1190"/>
         <source>Secure connection failed due to error 0x%1: %2.</source>
-        <translation>由于错误 0x%1，安全连接失败：%2。</translation>
+        <translation>安全连接失败，错误 0x%1：%2。</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="1259"/>
@@ -4186,17 +4186,17 @@ Message of the day: %2</source>
     <message>
         <location filename="../mainwindow.cpp" line="2424"/>
         <source>Maximum number of logins per IP-address exceeded</source>
-        <translation>已超出每个 IP 地址的最大登录数</translation>
+        <translation>该 IP 地址的登录数已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2426"/>
         <source>Maximum bitrate for audio codec exceeded</source>
-        <translation>已超出音频编解码器的最大比特率</translation>
+        <translation>音频编解码器比特率超出上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2432"/>
         <source>Maximum number of file transfers exceeded</source>
-        <translation>已超出文件传输的最大数量</translation>
+        <translation>文件传输数已达上限</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="2602"/>
@@ -4823,7 +4823,7 @@ Do you wish to do this now?</source>
     <message>
         <location filename="../mainwindow.cpp" line="6950"/>
         <source>The maximum number of users who can transmit is %1</source>
-        <translation>可传输的最大用户数为 %1</translation>
+        <translation>最多允许 %1 个用户传输</translation>
     </message>
     <message>
         <location filename="../mainwindow.cpp" line="7088"/>
@@ -5198,7 +5198,7 @@ Should these settings be applied?</source>
     <message>
         <location filename="../onlineusers.ui" line="48"/>
         <source>Keep disconnected users</source>
-        <translation>保留已断开连接用户</translation>
+        <translation>保留已断开连接的用户</translation>
     </message>
     <message>
         <location filename="../onlineusersdlg.cpp" line="165"/>
@@ -6843,7 +6843,7 @@ Should these settings be applied?</source>
         <location filename="../serverdlg.ui" line="242"/>
         <location filename="../serverdlg.ui" line="245"/>
         <source>Join specific channel after authentication (optional)</source>
-        <translation>身份验证后加入特定频道（可选）</translation>
+        <translation>身份验证后加入指定频道（可选）</translation>
     </message>
     <message>
         <location filename="../serverdlg.ui" line="251"/>
@@ -7284,13 +7284,13 @@ the server has been verified.
 
 Delete the published user account to unregister your server.</source>
         <translation>请更新服务器属性，使服务器名称包含文本 #teamtalkpublish#。
-这将验证您是服务器的所有者。
-验证通过后，您的服务器将在几分钟内公开显示。
+以此验证您是服务器的所有者。
+验证通过后，服务器将在几分钟内公开显示。
 
 服务器验证通过后，
 即可移除 #teamtalkpublish# 标记。
 
-删除已发布的用户账户即可取消注册您的服务器。</translation>
+删除已发布的用户账户即可取消注册服务器。</translation>
     </message>
     <message>
         <location filename="../serverlistdlg.cpp" line="954"/>
@@ -7894,7 +7894,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="119"/>
         <source>User is typing a private message in focused window</source>
-        <translation>用户正在焦点窗口中输入私信</translation>
+        <translation>用户正在当前窗口中输入私信</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="121"/>
@@ -7994,7 +7994,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../soundeventsmodel.cpp" line="159"/>
         <source>Transmit ready in &quot;No interruption&quot; channel</source>
-        <translation>“禁止插话”频道中轮到你发言</translation>
+        <translation>“禁止插话”频道中可以发言</translation>
     </message>
     <message>
         <location filename="../soundeventsmodel.cpp" line="161"/>
@@ -8561,7 +8561,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../ttseventsmodel.cpp" line="139"/>
         <source>User is typing a private message in focused window</source>
-        <translation>用户正在焦点窗口中输入私信</translation>
+        <translation>用户正在当前窗口中输入私信</translation>
     </message>
     <message>
         <location filename="../ttseventsmodel.cpp" line="141"/>
@@ -9140,7 +9140,7 @@ Delete the published user account to unregister your server.</source>
     <message>
         <location filename="../useraccountsdlg.cpp" line="192"/>
         <source>&amp;Modified (%1)</source>
-        <translation>修改 (%1) (&amp;M)</translation>
+        <translation>修改时间 (%1) (&amp;M)</translation>
     </message>
     <message>
         <location filename="../useraccountsdlg.cpp" line="198"/>
