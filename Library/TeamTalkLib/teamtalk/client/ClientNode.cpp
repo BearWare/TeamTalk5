@@ -70,22 +70,6 @@ constexpr auto SIMULATE_TX_PACKETLOSS = 0;
 #error Packetloss in release mode
 #endif
 
-#if defined(ENABLE_ENCRYPTION)
-namespace {
-// The server sends the key, so only use it if it has the correct size.
-void SetChannelEncryptKey(ClientChannel& chan, const ACE_TString& crypt_key)
-{
-    std::array<uint8_t, CRYPTKEY_SIZE> encrypt = {};
-    TTASSERT(crypt_key.length() == encrypt.size() * 2);
-    if (crypt_key.length() == encrypt.size() * 2)
-    {
-        HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-        chan.SetEncryptKey(encrypt);
-    }
-}
-} // namespace
-#endif
-
 ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
                        : m_flags(CLIENT_CLOSED)
                        , m_connector(GetEventLoop(), ACE_NONBLOCK)
@@ -5612,7 +5596,7 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-        SetChannelEncryptKey(*newchan, crypt_key);
+        newchan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnAddChannel(*newchan);
@@ -5679,7 +5663,7 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-        SetChannelEncryptKey(*chan, crypt_key);
+        chan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnUpdateChannel(*chan);
@@ -5731,7 +5715,7 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
         ACE_TString crypt_key;
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-            SetChannelEncryptKey(*chan, crypt_key);
+            chan->SetEncryptKey(crypt_key);
 #endif
         JoinChannel(chan);
 
