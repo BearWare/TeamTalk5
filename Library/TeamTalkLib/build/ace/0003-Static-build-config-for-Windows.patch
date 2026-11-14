@@ -1,7 +1,7 @@
-From 94c34f9a6cdd0abdd460cf4c7375504cdad5c2bd Mon Sep 17 00:00:00 2001
+From fb3a501cb4a9250ec6522d4fbbf1a5f233a9c8aa Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Bj=C3=B8rn=20Damstedt=20Rasmussen?= <contact@bearware.dk>
 Date: Sun, 23 Jul 2023 21:13:56 +0200
-Subject: [PATCH] Static build config for Windows
+Subject: [PATCH 3/3] Static build config for Windows
 
 ---
  ACE/ace/config.h                            | 16 ++++++++++++++++
@@ -45,5 +45,5 @@ index 00000000000..7c337f909f1
 +
 +include $(ACE_ROOT)/include/makeinclude/platform_win32_msvc.GNU
 -- 
-2.39.2 (Apple Git-143)
+2.55.0.windows.3
 
