@@ -5596,14 +5596,7 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-    {
-        //check that key sizes match
-        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-        if (sizeof(encrypt) == crypt_key.length() / 2)
-            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-        newchan->SetEncryptKey(encrypt);
-    }
+        newchan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnAddChannel(*newchan);
@@ -5670,14 +5663,7 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-    {
-        //check that key sizes match
-        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-        if (sizeof(encrypt) == crypt_key.length() / 2)
-            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-        chan->SetEncryptKey(encrypt);
-    }
+        chan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnUpdateChannel(*chan);
@@ -5729,14 +5715,7 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
         ACE_TString crypt_key;
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-        {
-            //check that key sizes match
-            std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-            TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-            if (sizeof(encrypt) == crypt_key.length() / 2)
-                HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-            chan->SetEncryptKey(encrypt);
-        }
+            chan->SetEncryptKey(crypt_key);
 #endif
         JoinChannel(chan);
 

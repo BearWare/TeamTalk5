@@ -503,9 +503,20 @@ namespace teamtalk {
         {
             m_cryptkey = cryptkey;
         }
+        // Set the key from a hex string, e.g. from the server. The key
+        // is only used if it has the correct size.
+        void SetEncryptKey(const ACE_TString& crypt_key)
+        {
+            std::array<uint8_t, CRYPTKEY_SIZE> encrypt = {};
+            TTASSERT(crypt_key.length() == encrypt.size() * 2);
+            if (crypt_key.length() != encrypt.size() * 2)
+                return;
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
+            m_cryptkey = encrypt;
+        }
         const std::array<uint8_t, CRYPTKEY_SIZE>& GetEncryptKey() const { return m_cryptkey; }
     protected:
-        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey;
+        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey = {};
 #endif
 
     private:
