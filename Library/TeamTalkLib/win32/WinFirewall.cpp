@@ -63,7 +63,7 @@ static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bIn
         hr = CoCreateInstanceAsAdmin(nullptr,
                                      __uuidof(NetFwMgr),
                                      __uuidof(INetFwMgr),
-                                     (void **) &fwMgr);
+                                     reinterpret_cast<void**>(&fwMgr));
     else
     {
         // Create an instance of the firewall settings manager.
@@ -72,7 +72,7 @@ static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bIn
             nullptr,
             CLSCTX_INPROC_SERVER,
             __uuidof(INetFwMgr),
-            (void**)&fwMgr
+            reinterpret_cast<void**>(&fwMgr)
             );
     }
     if (FAILED(hr))
@@ -359,7 +359,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
                               nullptr,
                               CLSCTX_INPROC_SERVER,
                               __uuidof(INetFwAuthorizedApplication),
-                              (void **) &fwApp);
+                              reinterpret_cast<void**>(&fwApp));
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
@@ -493,7 +493,7 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
                               nullptr,
                               CLSCTX_INPROC_SERVER,
                               __uuidof(INetFwAuthorizedApplication),
-                              (void **) &fwApp);
+                              reinterpret_cast<void**>(&fwApp));
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
@@ -662,7 +662,7 @@ static HRESULT WindowsFirewallPortAdd(
                               nullptr,
                               CLSCTX_INPROC_SERVER,
                               __uuidof(INetFwOpenPort),
-                              (void **) &fwOpenPort);
+                              reinterpret_cast<void**>(&fwOpenPort));
         if (FAILED(hr))
         {
             MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);

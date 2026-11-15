@@ -155,7 +155,7 @@ namespace teamtalk {
         }
         int GetUsersCount() const
         {
-            return (int)m_mUsers.size();
+            return static_cast<int>(m_mUsers.size());
         }
         const users_t& GetUsers() const
         {
@@ -169,7 +169,7 @@ namespace teamtalk {
                 for(size_t i=0;i<m_subChannels.size();i++)
                     m_subChannels[i]->GetUsers(users, recursive);
             }
-            return (int)users.size();
+            return static_cast<int>(users.size());
         }
         void SetOperators(const std::set<int>& setOps)
         {
@@ -288,7 +288,7 @@ namespace teamtalk {
         }
         int GetSubChannelCount(bool recursive = false) const
         {
-            int count = (int)m_subChannels.size();
+            int count = static_cast<int>(m_subChannels.size());
             if(recursive)
             {
                 for(size_t i=0;i<m_subChannels.size();i++)
@@ -411,7 +411,7 @@ namespace teamtalk {
         }
         int GetFilesCount(bool recursive = false) const
         {
-            int count = (int)m_files.size();
+            int count = static_cast<int>(m_files.size());
             for(size_t i=0;i<m_subChannels.size() && recursive;i++)
                 count += m_subChannels[i]->GetFilesCount(recursive);
             return count;

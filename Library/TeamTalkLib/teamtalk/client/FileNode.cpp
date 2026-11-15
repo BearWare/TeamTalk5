@@ -456,8 +456,8 @@ void FileNode::ProcessCommand(const ACE_CString& cmdline)
         return;
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), (int)tmp_cmd.length());
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), (int)cmdline.length());
+    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
     ACE_TString const cmd = tmp_cmd;
     const ACE_TString& command = cmdline;

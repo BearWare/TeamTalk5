@@ -94,7 +94,7 @@ bool DMOResampler::Init(SampleFormat inputSampleFmt, SampleFormat outputSampleFm
         return false;
 
     hr = CoCreateInstance(gResampler, nullptr, CLSCTX_INPROC_SERVER, gMO,
-                          (void**)&m_pDMO);
+                          reinterpret_cast<void**>(&m_pDMO));
     if(FAILED(hr))
         return false;
 
@@ -172,12 +172,12 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     int ret = 0;
 
     long const inbufsize = PCM16_BYTES(input_samples_cnt, pInputWav->nChannels);
-    hr = CMediaBuffer::CreateBuffer((BYTE*)input_samples, inbufsize, inbufsize, (LPVOID*)&input_mb);
+    hr = CMediaBuffer::CreateBuffer(reinterpret_cast<BYTE*>(const_cast<short*>(input_samples)), inbufsize, inbufsize, reinterpret_cast<LPVOID*>(&input_mb));
     assert(SUCCEEDED(hr));
     RETURNONERROR(FAILED(hr));
 
     long const outbufsize = PCM16_BYTES(output_samples_cnt, pOutputWav->nChannels);
-    hr = CMediaBuffer::CreateBuffer((BYTE*)output_samples, 0, outbufsize, (LPVOID*)&output_mb);
+    hr = CMediaBuffer::CreateBuffer(reinterpret_cast<BYTE*>(output_samples), 0, outbufsize, reinterpret_cast<LPVOID*>(&output_mb));
     assert(SUCCEEDED(hr));
     RETURNONERROR(FAILED(hr));
 

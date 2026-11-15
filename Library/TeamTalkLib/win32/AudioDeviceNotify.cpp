@@ -44,7 +44,7 @@ static void AudioChangeCallback(const audio_device_change_callback_t& cb, AudioD
 
     // Get enumerator for audio endpoint devices.
     hr = CoCreateInstance(__uuidof(MMDeviceEnumerator), nullptr, CLSCTX_INPROC_SERVER,
-        __uuidof(IMMDeviceEnumerator), (void**)&pEnumerator);
+        __uuidof(IMMDeviceEnumerator), reinterpret_cast<void**>(&pEnumerator));
 
     if (SUCCEEDED(hr))
     {
@@ -96,12 +96,12 @@ public:
         if (IID_IUnknown == riid)
         {
             AddRef();
-            *ppvInterface = (IUnknown*)this;
+            *ppvInterface = static_cast<IUnknown*>(this);
         }
         else if (__uuidof(IMMNotificationClient) == riid)
         {
             AddRef();
-            *ppvInterface = (IMMNotificationClient *) this;
+            *ppvInterface = static_cast<IMMNotificationClient*>(this);
         }
         else
         {
@@ -246,7 +246,7 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
                                   nullptr,
                                   CLSCTX_INPROC_SERVER,
                                   __uuidof(IMMDeviceEnumerator),
-                                  (void **) &m_pEnumerator);
+                                  reinterpret_cast<void**>(&m_pEnumerator));
             if (SUCCEEDED(hr))
             {
                 hr = m_pEnumerator->RegisterEndpointNotificationCallback(&m_audnotify);

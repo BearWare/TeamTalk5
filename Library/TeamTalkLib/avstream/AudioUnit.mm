@@ -110,7 +110,7 @@ namespace soundsystem {
                 if(ret < 0)
                     return buf_usage;
             
-                size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, (UInt32)mb->length());
+                size_t min_bytes = std::min(buf.mDataByteSize - buf_usage, static_cast<UInt32>(mb->length()));
                 char* buf_ptr = reinterpret_cast<char*>(buf.mData);
                 std::memcpy(&buf_ptr[buf_usage], mb->rd_ptr(), min_bytes);
                 mb->rd_ptr(min_bytes);
@@ -737,7 +737,7 @@ static OSStatus AudioInputCallback(void *userData, AudioUnitRenderActionFlags *a
         if(ret < 0)
             return noErr;
         
-        UInt32 min_bytes = std::min((UInt32)mb->length(), framebytes - copied);
+        UInt32 min_bytes = std::min(static_cast<UInt32>(mb->length()), framebytes - copied);
         std::memcpy(&buffer[copied], mb->rd_ptr(), min_bytes);
         mb->rd_ptr(min_bytes);
 

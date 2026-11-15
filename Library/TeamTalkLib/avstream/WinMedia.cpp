@@ -79,7 +79,7 @@ public:
         pMediaSample->GetTime(&tStart, &tStop);
 
         tStart = tStart / 10000; //turn to msec
-        double SampleTime = (double)tStart / 1000.0;
+        double SampleTime = static_cast<double>(tStart) / 1000.0;
         long nBufferLen = pMediaSample->GetActualDataLength();
         PBYTE pBuffer;
         HRESULT hr = pMediaSample->GetPointer(&pBuffer);
@@ -92,7 +92,7 @@ public:
                                       m_media_in.video.width,
                                       m_media_in.video.height,
                                       m_media_out.video.fourcc, false);
-        media_frame.timestamp = (uint32_t)(SampleTime * 1000.0);
+        media_frame.timestamp = static_cast<uint32_t>(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
         MYTRACE(ACE_TEXT("Video frame submitting %u. Frames: %u\n"),
@@ -177,7 +177,7 @@ public:
         pMediaSample->GetTime(&tStart, &tStop);
 
         tStart = tStart / 10000; //turn to msec
-        double SampleTime = (double)tStart / 1000.0;
+        double SampleTime = static_cast<double>(tStart) / 1000.0;
         long nBufferLen = pMediaSample->GetActualDataLength();
         PBYTE pBuffer;
         HRESULT hr = pMediaSample->GetPointer(&pBuffer);
@@ -202,7 +202,7 @@ public:
         auto mb = std::make_unique<ACE_Message_Block>(bytes_total + sizeof(media::AudioFrame));
         
         media::AudioFrame media_frame;
-        media_frame.timestamp = (uint32_t)(SampleTime * 1000.0);
+        media_frame.timestamp = static_cast<uint32_t>(SampleTime * 1000.0);
         media_frame.input_buffer = reinterpret_cast<short*>(mb->wr_ptr() + sizeof(media_frame));
         media_frame.input_samples = output_samples_total; //overwrite later
         media_frame.inputfmt = m_media_out.audio;
@@ -461,7 +461,7 @@ no_audio:
         pVih = reinterpret_cast<VIDEOINFOHEADER*>(mt_vid.Format());
         BITMAPINFOHEADER bmp_hdr;  // info header of frames of the video
         memcpy(&bmp_hdr, &pVih->bmiHeader, sizeof(bmp_hdr));
-        int video_ms = (int)(pVih->AvgTimePerFrame / 10000);
+        int video_ms = static_cast<int>(pVih->AvgTimePerFrame / 10000);
 /* Example of connect/disconnect pins
         CComPtr<IPin> pVideoGrabPin, pVideoSrcPin;
         hr = GetPin(pVideoGrabberFilter, PINDIR_INPUT, &pVideoGrabPin);
@@ -548,7 +548,7 @@ no_video:
         hr = pMediaSeeking->GetDuration(&llTime);
         MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to query duration of media file: %s\n"),
             m_media_in.filename.c_str());
-        m_media_in.duration_ms = (uint32_t)(llTime / 10000);
+        m_media_in.duration_ms = static_cast<uint32_t>(llTime / 10000);
     }
 
     // Turn off the sync clock for max speed

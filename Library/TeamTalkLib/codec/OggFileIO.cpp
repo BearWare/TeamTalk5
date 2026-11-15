@@ -487,7 +487,7 @@ int SpeexOgg::PutEncoded(const char* enc_data, int len,
     ogg_int64_t const total_samples = ((m_counter) * m_frame_size) + m_frame_size;
 
     ogg_packet op;
-    op.packet = (unsigned char*)enc_data;
+    op.packet = reinterpret_cast<unsigned char*>(const_cast<char*>(enc_data));
     op.bytes = len;
     op.b_o_s = 0;
     op.e_o_s = static_cast<long>(last);

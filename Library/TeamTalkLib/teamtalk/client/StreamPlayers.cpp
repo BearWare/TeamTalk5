@@ -296,7 +296,7 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     
     MYTRACE_COND(packet.GetStreamID() == 0,
                  ACE_TEXT("Received stream ID 0 from #%d. Packet no %d\n"),
-                 m_userid, (int)pkt_no);
+                 m_userid, pkt_no);
 
     if(packet.GetStreamID() == 0)
         return;
@@ -308,7 +308,7 @@ void AudioPlayer::AddPacket(const teamtalk::AudioPacket& packet)
     }
 
     MYTRACE_COND(m_buffer.find(pkt_no) != m_buffer.end(),
-                 ACE_TEXT("User #%d, duplicate packet %d, start %d, end %d\n"), (int)pkt_no,
+                 ACE_TEXT("User #%d, duplicate packet %d, start %d, end %d\n"), pkt_no,
                  m_userid, m_buffer.begin()->first, m_buffer.rbegin()->first);
        
     if(packet.HasFrameSizes())

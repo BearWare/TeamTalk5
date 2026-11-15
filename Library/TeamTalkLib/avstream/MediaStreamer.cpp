@@ -425,7 +425,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
         {
             out_mb->copy(mb->rd_ptr(), mb->length());
             write_bytes -= static_cast<int>(mb->length());
-            assert((int)write_bytes >= 0);
+            assert(write_bytes >= 0);
             // ensure entire message_block's length is substracted from message queue's length
             mb->rd_ptr(mb->base());
             if (m_audio_frames.dequeue(mb, &tv) >= 0)
@@ -454,7 +454,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
             write_bytes -= write_bytes;
             assert(mb->rd_ptr() < mb->end());
         }
-        assert((int)write_bytes >= 0);
+        assert(write_bytes >= 0);
     }
     while(write_bytes > 0 && m_audio_frames.peek_dequeue_head(mb, &tv) >= 0);
 
