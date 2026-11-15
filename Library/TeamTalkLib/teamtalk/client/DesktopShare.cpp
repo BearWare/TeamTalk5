@@ -125,7 +125,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
             }
         }
     }
-    TTASSERT(m_w_blocks*m_h_blocks == (int)m_blocks.size());
+    TTASSERT(m_w_blocks*m_h_blocks == static_cast<int>(m_blocks.size()));
     TTASSERT(m_abort == false);
 
     //MYTRACE(ACE_TEXT("Build packets thread new bmp done %u, duration %u. Dirty blocks: %u\n"), 

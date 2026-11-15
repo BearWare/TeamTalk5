@@ -182,10 +182,10 @@ static LRESULT CALLBACK KeyHookProc(int nCode, WPARAM wParam, LPARAM lParam)
     {
         if ((lParam & 0x80000000) != 0) //a key is up
         {
-            HOTKEY->KeyToggle((UINT) wParam, FALSE);
+            HOTKEY->KeyToggle(static_cast<UINT>(wParam), FALSE);
         } else if (((0x40000000 & lParam) == 0) && ((lParam & 0x80000000) == 0)) //key is down
         {
-            HOTKEY->KeyToggle((UINT)wParam, TRUE);
+            HOTKEY->KeyToggle(static_cast<UINT>(wParam), TRUE);
         }
     }
     return (CallNextHookEx(hKeyHook,

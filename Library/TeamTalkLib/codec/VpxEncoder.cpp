@@ -175,12 +175,12 @@ const char* VpxEncoder::GetEncodedData(int& len)
 
 
 #define rgbtoy(b, g, r, y) \
-y=(unsigned char)(((int)(30*(r)) + (int)(59*(g)) + (int)(11*(b)))/100)
+y=static_cast<unsigned char>((30*(r) + 59*(g) + 11*(b))/100)
 
 #define rgbtoyuv(b, g, r, y, u, v) \
 rgbtoy(b, g, r, y); \
-u=(unsigned char)(((int)(-17*(r)) - (int)(33*(g)) + (int)(50*(b))+12800)/100); \
-v=(unsigned char)(((int)(50*(r)) - (int)(42*(g)) - (int)(8*(b))+12800)/100)
+u=static_cast<unsigned char>((-17*(r) - 33*(g) + 50*(b)+12800)/100); \
+v=static_cast<unsigned char>((50*(r) - 42*(g) - 8*(b)+12800)/100)
 
 
 void RGB32toYUV420P(const unsigned char * rgb,

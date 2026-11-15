@@ -96,7 +96,7 @@ ACE_TString GetWinError(DWORD err)
         NULL,
         err,
         0,
-        (LPTSTR)&s,
+        reinterpret_cast<LPTSTR>(&s),
         0,
         NULL);
     if(s)
@@ -299,7 +299,7 @@ int RunServer(
               )
 {
     //avoid SIGPIPE
-    ACE_Sig_Action no_sigpipe ((ACE_SignalHandler) SIG_IGN);
+    ACE_Sig_Action no_sigpipe (static_cast<ACE_SignalHandler>(SIG_IGN));
     ACE_Sig_Action original_action;
     no_sigpipe.register_action (SIGPIPE, &original_action);
 
@@ -367,7 +367,7 @@ int RunServer(
     //check for override options
     if (tcpport > 0)
     {
-        ACE_INET_Addr const addr((u_short)tcpport, (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
+        ACE_INET_Addr const addr(static_cast<u_short>(tcpport), (!prop.tcpaddrs.empty()) ? prop.tcpaddrs[0].get_host_addr() : nullptr);
         prop.tcpaddrs.clear();
         prop.tcpaddrs.push_back(addr);
     }
@@ -378,7 +378,7 @@ int RunServer(
 
     if (udpport > 0)
     {
-        ACE_INET_Addr const addr((u_short)udpport, (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
+        ACE_INET_Addr const addr(static_cast<u_short>(udpport), (!prop.udpaddrs.empty()) ? prop.udpaddrs[0].get_host_addr(): nullptr);
         prop.udpaddrs.clear();
         prop.udpaddrs.push_back(addr);
     }
@@ -427,13 +427,13 @@ int RunServer(
             ACE_OS::snprintf(error_msg.data(), error_msg.size(),
             ACE_TEXT("Unable to launch server using TCP port %d UDP port %d.\n")
             ACE_TEXT("Make sure the ports are not currently in use."),
-            (int)prop.tcpaddrs[0].get_port_number(), (int)prop.udpaddrs[0].get_port_number());
+            prop.tcpaddrs[0].get_port_number(), prop.udpaddrs[0].get_port_number());
         else
             ACE_OS::snprintf(error_msg.data(), error_msg.size(),
             ACE_TEXT("Unable to launch server using IP-address %s TCP port %d UDP port %d.\n")
             ACE_TEXT("Make sure the ports are not currently in use."),
-            prop.tcpaddrs[0].get_host_addr(), (int)prop.tcpaddrs[0].get_port_number(),
-            (int)prop.udpaddrs[0].get_port_number());
+            prop.tcpaddrs[0].get_host_addr(), prop.tcpaddrs[0].get_port_number(),
+            prop.udpaddrs[0].get_port_number());
 
         TT_SYSLOG(error_msg.data());
         return -1;
@@ -447,7 +447,7 @@ int RunServer(
             std::array<ACE_TCHAR, 256> msg{};
             ACE_OS::snprintf(msg.data(), msg.size(),
                 ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
-                (int)tcpport, (int)udpport, externalIP.c_str());
+                tcpport, udpport, externalIP.c_str());
             TT_LOG(msg.data());
         }
         else

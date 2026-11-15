@@ -357,7 +357,7 @@ void PortAudio::SetupDefaultCommunicationDevice(sounddevices_t& sounddevs)
     CComPtr<IMMDeviceEnumerator> pEnumerator;
     auto rclsid = __uuidof(MMDeviceEnumerator);
     auto riid = __uuidof(IMMDeviceEnumerator);
-    HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, (void**)&pEnumerator);
+    HRESULT hr = CoCreateInstance(rclsid, NULL, CLSCTX_INPROC_SERVER, riid, reinterpret_cast<void**>(&pEnumerator));
     if (SUCCEEDED(hr))
     {
         const std::array<EDataFlow, 2> flows = { eCapture, eRender };
@@ -897,13 +897,13 @@ void CWMAudioAECCapture::Run()
     CComPtr<IMediaObject> pDMO;
     CComPtr<IPropertyStore> pPS;
 
-    if (FAILED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, (LPVOID*)&pDMO)))
+    if (FAILED(CoCreateInstance(CLSID_CWMAudioAEC, NULL, CLSCTX_INPROC_SERVER, IID_IMediaObject, reinterpret_cast<LPVOID*>(&pDMO))))
     {
         m_started.set_value(false);
         return;
     }
 
-    if (FAILED(pDMO->QueryInterface(IID_IPropertyStore, (LPVOID*)&pPS)))
+    if (FAILED(pDMO->QueryInterface(IID_IPropertyStore, reinterpret_cast<LPVOID*>(&pPS))))
     {
         m_started.set_value(false);
         return;
@@ -1038,7 +1038,7 @@ void CWMAudioAECCapture::Run()
         ProcessAudioQueue();
 
         CComPtr<IMediaBuffer> ioutputbuf;
-        HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), (void**)&ioutputbuf);
+        HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), reinterpret_cast<void**>(&ioutputbuf));
         MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to create AEC output buffer\n"));
         if (FAILED(hr))
             break;
