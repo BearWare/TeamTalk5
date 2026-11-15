@@ -2213,6 +2213,97 @@ TEST_CASE("WAV voice transmission")
     REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
 }
 
+TEST_CASE("WAV insert and acquire audio block")
+{
+    struct WavTest
+    {
+        int samplerate;
+        int channels;
+        WavSampleFormat sampleformat;
+    };
+
+    const std::vector<WavTest> wavtests = {
+        {8000, 1, WAV_SAMPLEFORMAT_UINT8},
+        {11025, 2, WAV_SAMPLEFORMAT_INT16},
+        {44100, 1, WAV_SAMPLEFORMAT_INT16},
+        {48000, 2, WAV_SAMPLEFORMAT_UINT8},
+        {48000, 2, WAV_SAMPLEFORMAT_INT16},
+        {96000, 2, WAV_SAMPLEFORMAT_INT16},
+    };
+
+    for (const auto& wavtest : wavtests)
+    {
+        INFO("Sample rate " << wavtest.samplerate << ", channels " << wavtest.channels << ", sample format " << wavtest.sampleformat);
+
+        auto txclient = InitTeamTalk();
+        auto rxclient = InitTeamTalk();
+
+        REQUIRE(InitSound(txclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        REQUIRE(Connect(txclient));
+        REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+
+        REQUIRE(InitSound(rxclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        REQUIRE(Connect(rxclient));
+        REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+
+        AudioCodec audiocodec = MakeDefaultAudioCodec(WAV_CODEC);
+        audiocodec.wav.nSampleRate = wavtest.samplerate;
+        audiocodec.wav.nChannels = wavtest.channels;
+        audiocodec.wav.nSampleFormat = wavtest.sampleformat;
+
+        Channel const chan = MakeChannel(txclient, ACE_TEXT("wav"), TT_GetRootChannelID(txclient), audiocodec);
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
+
+        int const txuserid = TT_GetMyUserID(txclient);
+        REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+        auto const N_FRAMES = 10;
+        int const cbsamples = PCM16_DURATION_SAMPLES(audiocodec.wav.nTxIntervalMSec, wavtest.samplerate);
+        std::vector<short> sent(static_cast<size_t>(cbsamples) * N_FRAMES * wavtest.channels);
+        for (size_t i = 0; i < sent.size(); ++i)
+        {
+            auto const sample = static_cast<short>(1000 + ((i * 7919) % 30000));
+            sent[i] = (i % 2 == 0) ? sample : static_cast<short>(-sample);
+        }
+
+        std::vector<short> expected = sent;
+        if (wavtest.sampleformat == WAV_SAMPLEFORMAT_UINT8)
+        {
+            for (auto& sample : expected)
+                sample = static_cast<short>(sample & ~0xFF);
+        }
+
+        AudioBlock ab = {};
+        ab.nStreamID = 1;
+        ab.nSampleRate = wavtest.samplerate;
+        ab.nChannels = wavtest.channels;
+        ab.lpRawAudio = sent.data();
+        ab.nSamples = cbsamples * N_FRAMES;
+        REQUIRE(TT_InsertAudioBlock(txclient, &ab));
+
+        std::vector<short> received;
+        while (received.size() < expected.size())
+        {
+            REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+            AudioBlock* rxab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, txuserid);
+            REQUIRE(rxab != nullptr);
+            int const samplerate = rxab->nSampleRate;
+            int const channels = rxab->nChannels;
+            const auto* samples = static_cast<const short*>(rxab->lpRawAudio);
+            const auto* samples_end = samples + (static_cast<size_t>(rxab->nSamples) * rxab->nChannels);
+            if (std::any_of(samples, samples_end, [](short sample) { return sample != 0; }))
+                received.insert(received.end(), samples, samples_end);
+            REQUIRE(TT_ReleaseUserAudioBlock(rxclient, rxab));
+            REQUIRE(samplerate == wavtest.samplerate);
+            REQUIRE(channels == wavtest.channels);
+        }
+
+        REQUIRE(received.size() == expected.size());
+        REQUIRE(std::equal(received.begin(), received.end(), expected.begin()));
+    }
+}
+
 #if defined(ENABLE_WEBRTC)
 
 #if 0 /* gain_controller1 doesn't work */
