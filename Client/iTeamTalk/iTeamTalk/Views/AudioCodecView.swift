@@ -48,6 +48,8 @@ struct AudioCodecView: View {
             speexRows
         case SPEEX_VBR_CODEC:
             speexVBRRows
+        case WAV_CODEC:
+            wavRows
         case NO_CODEC:
             Button {
                 performAction(.useNoAudio)
@@ -206,6 +208,54 @@ struct AudioCodecView: View {
                 performAction(.useSpeexVBR)
             } label: {
                 Text("Use Speex VBR Codec")
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+        }
+    }
+
+    private var wavRows: some View {
+        Group {
+            Picker("Sample Rate", selection: $model.wavSampleRateIndex) {
+                ForEach(Array(model.wavSampleRates.enumerated()), id: \.offset) { index, samplerate in
+                    Text("\(samplerate) Hz").tag(index)
+                }
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Audio Channels")
+                Picker("Audio Channels", selection: $model.wavChannelsIndex) {
+                    Text("Mono").tag(0)
+                    Text("Stereo").tag(1)
+                }
+                .pickerStyle(.segmented)
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Bit Depth")
+                Picker("Bit Depth", selection: $model.wavSampleFormatIndex) {
+                    Text("8-bit").tag(0)
+                    Text("16-bit").tag(1)
+                }
+                .pickerStyle(.segmented)
+            }
+            HStack(spacing: 12) {
+                Text("Bitrate")
+                Spacer(minLength: 16)
+                Text("\(model.wavBitrate) KB/s")
+                    .font(.body.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+            Stepper(value: $model.wavTransmitInterval, in: 10...model.wavMaxTransmitInterval, step: 10) {
+                HStack(spacing: 12) {
+                    Text("Transmit Interval")
+                    Spacer(minLength: 16)
+                    Text("\(Int(model.wavTransmitInterval.rounded())) ms")
+                        .font(.body.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Button {
+                performAction(.useWAV)
+            } label: {
+                Text("Use WAV Codec")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
         }

@@ -110,6 +110,8 @@ private:
     const char* ProcessOPUS(const media::AudioFrame& audblock,
                             std::vector<int>& env_frame_sizes);
 #endif
+    const char* ProcessWAV(const media::AudioFrame& audblock,
+                           std::vector<int>& enc_frame_sizes);
     audioencodercallback_t m_callback;
     std::recursive_mutex m_preprocess_lock;
 #if defined(ENABLE_SPEEXDSP)

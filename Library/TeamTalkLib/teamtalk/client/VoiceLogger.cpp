@@ -106,6 +106,7 @@ VoiceLog::VoiceLog(int userid, const tstring& filename,
         case CODEC_OPUS :
 #endif /* ENABLE_OPUSTOOLS */
         case CODEC_NO_CODEC :
+        case CODEC_WAV :
         case CODEC_WEBM_VP8 :
             break;
         }
@@ -167,6 +168,8 @@ VoiceLog::VoiceLog(int userid, const tstring& filename,
         if(!m_opus->Open(codec.opus.samplerate, codec.opus.channels))
             return;
 #endif
+        break;
+    case CODEC_WAV :
         break;
     case CODEC_NO_CODEC :
     case CODEC_WEBM_VP8 :
@@ -316,6 +319,7 @@ void VoiceLog::WritePacket(int packet_no)
 #endif /* ENABLE_OGG && ENABLE_OPUSTOOLS */
         break;
     case CODEC_NO_CODEC :
+    case CODEC_WAV :
     case CODEC_WEBM_VP8 :
         assert(0);
         break;
@@ -383,6 +387,12 @@ void VoiceLog::WriteAudio(int packet_no)
             }
 #endif
             break;
+        case CODEC_WAV :
+            if (std::cmp_equal(enc_len, GetWavPacketSize(m_codec)))
+                DecodeWavSamples(m_codec.wav.sampleformat, enc_data, enc_len, m_samples_buf.data());
+            else
+                m_samples_buf.assign(m_samples_buf.size(), 0);
+            break;
         default : break;
         }
         m_mFlushPackets.erase(ite);
@@ -416,6 +426,9 @@ void VoiceLog::WriteAudio(int packet_no)
                 }
             }
 #endif        
+            break;
+        case CODEC_WAV :
+            m_samples_buf.assign(m_samples_buf.size(), 0);
             break;
         default : break;
         }
@@ -610,6 +623,10 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         case CODEC_OPUS :
             aff = from_user.GetAudioFileFormat();
             filename += TTEXT(".ogg");
+            break;
+        case CODEC_WAV :
+            aff = AFF_WAVE_FORMAT;
+            filename += TTEXT(".wav");
             break;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :

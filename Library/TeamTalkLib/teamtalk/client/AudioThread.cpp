@@ -65,6 +65,8 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     int const sample_rate = GetAudioCodecSampleRate(codec);
     int const channels = GetAudioCodecChannels(codec);
 
+    m_encbuf.resize(GetAudioCodecMaxEncFrameSize(codec));
+
     switch(codec.codec)
     {
     case CODEC_NO_CODEC :
@@ -142,6 +144,19 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
 #else
     return false;
 #endif
+    case CODEC_WAV :
+    {
+        TTASSERT(callback_samples);
+        TTASSERT(sample_rate);
+        TTASSERT(channels);
+
+        if (GetWavPacketSize(codec) > static_cast<int>(m_encbuf.size()))
+        {
+            StopEncoder();
+            return false;
+        }
+    }
+    break;
     default:
         TTASSERT(codec.codec == CODEC_SPEEX);
     }
@@ -180,6 +195,11 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
 
     MYTRACE_COND(codec.codec == CODEC_OPUS,
                  TTEXT("Launched OPUS VBR encoder, samplerate %d, bitrate %d, cb %d, channels %d\n"),
+                 GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
+                 GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
+
+    MYTRACE_COND(codec.codec == CODEC_WAV,
+                 TTEXT("Launched WAV encoder, samplerate %d, bitrate %d, cb %d, channels %d\n"),
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
 
@@ -521,6 +541,9 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
             enc_data = ProcessOPUS(audblock, enc_frame_sizes);
 #endif
             break;
+        case CODEC_WAV :
+            enc_data = ProcessWAV(audblock, enc_frame_sizes);
+            break;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -763,3 +786,20 @@ const char* AudioThread::ProcessOPUS(const media::AudioFrame& audblock,
     return m_encbuf.data();
 }
 #endif
+
+const char* AudioThread::ProcessWAV(const media::AudioFrame& audblock,
+                                    std::vector<int>& enc_frame_sizes)
+{
+    TTASSERT(audblock.input_samples == GetAudioCodecCbSamples(m_codec));
+    int const samples_total = audblock.input_samples * GetAudioCodecChannels(m_codec);
+    if (samples_total * GetWavSampleFormatBytes(m_codec.wav.sampleformat) > static_cast<int>(m_encbuf.size()))
+        return nullptr;
+
+    int const ret = EncodeWavSamples(m_codec.wav.sampleformat, audblock.input_buffer,
+                                     samples_total, m_encbuf.data());
+    if (ret <= 0)
+        return nullptr;
+
+    enc_frame_sizes.push_back(ret);
+    return m_encbuf.data();
+}

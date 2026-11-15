@@ -248,6 +248,12 @@ AudioCodec MakeDefaultAudioCodec(Codec codec)
         result.opus.bFEC = TRUE;
         result.opus.nBitRate = 32000;
         break;
+    case WAV_CODEC :
+        result.wav.nSampleRate = 48000;
+        result.wav.nChannels = 1;
+        result.wav.nSampleFormat = WAV_SAMPLEFORMAT_INT16;
+        result.wav.nTxIntervalMSec = 40;
+        break;
     case NO_CODEC :
     case WEBM_VP8_CODEC :
         break;

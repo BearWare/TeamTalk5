@@ -29,6 +29,7 @@ public class AudioCodec
     public SpeexCodec speex = new SpeexCodec(true);
     public SpeexVBRCodec speex_vbr = new SpeexVBRCodec(true);
     public OpusCodec opus = new OpusCodec(true);
+    public WavCodec wav = new WavCodec(true);
     public AudioCodec() {
         nCodec = Codec.NO_CODEC;
     }

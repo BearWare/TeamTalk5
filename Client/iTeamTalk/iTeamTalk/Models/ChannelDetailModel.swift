@@ -107,6 +107,7 @@ final class ChannelDetailModel: ObservableObject {
         var opuscodec = newOpusCodec()
         var speexcodec = newSpeexCodec()
         var speexvbrcodec = newSpeexVBRCodec()
+        var wavcodec = newWavCodec()
         var activeCodec = channel.audiocodec
 
         switch channel.audiocodec.nCodec {
@@ -116,6 +117,8 @@ final class ChannelDetailModel: ObservableObject {
             speexvbrcodec = TeamTalkAudioCodec.speexVBRCodec(from: channel.audiocodec)
         case OPUS_CODEC:
             opuscodec = TeamTalkAudioCodec.opusCodec(from: channel.audiocodec)
+        case WAV_CODEC:
+            wavcodec = TeamTalkAudioCodec.wavCodec(from: channel.audiocodec)
         case NO_CODEC:
             if channel.nChannelID == 0 {
                 activeCodec.nCodec = OPUS_CODEC
@@ -128,7 +131,8 @@ final class ChannelDetailModel: ObservableObject {
             activeCodec: activeCodec.nCodec,
             opuscodec: opuscodec,
             speexcodec: speexcodec,
-            speexvbrcodec: speexvbrcodec
+            speexvbrcodec: speexvbrcodec,
+            wavcodec: wavcodec
         )
     }
 
@@ -148,6 +152,10 @@ final class ChannelDetailModel: ObservableObject {
             var speexvbrcodec = newSpeexVBRCodec()
             codecModel.saveSpeexVBRCodec(to: &speexvbrcodec)
             TeamTalkAudioCodec.setSpeexVBRCodec(speexvbrcodec, on: &channel.audiocodec)
+        case .useWAV:
+            var wavcodec = newWavCodec()
+            codecModel.saveWavCodec(to: &wavcodec)
+            TeamTalkAudioCodec.setWavCodec(wavcodec, on: &channel.audiocodec)
         }
         refreshCodecDescription(channel.audiocodec)
     }
@@ -185,6 +193,11 @@ final class ChannelDetailModel: ObservableObject {
         case SPEEX_VBR_CODEC:
             let speexvbr = TeamTalkAudioCodec.speexVBRCodec(from: codec)
             return "Speex VBR " + bandmodeString(speexvbr.nBandmode)
+        case WAV_CODEC:
+            let wav = TeamTalkAudioCodec.wavCodec(from: codec)
+            let chans = wav.nChannels > 1 ? String(localized: "Stereo", comment: "create channel") : String(localized: "Mono", comment: "create channel")
+            let bits = wav.nSampleFormat == WAV_SAMPLEFORMAT_UINT8 ? 8 : 16
+            return "WAV \(wav.nSampleRate) Hz \(bits)-bit " + chans
         case NO_CODEC:
             fallthrough
         default:

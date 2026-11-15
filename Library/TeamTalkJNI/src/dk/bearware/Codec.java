@@ -29,5 +29,6 @@ public interface Codec
     public static final int SPEEX_CODEC                 = 1;
     public static final int SPEEX_VBR_CODEC             = 2;
     public static final int OPUS_CODEC                  = 3;
+    public static final int WAV_CODEC                   = 4;
     public static final int WEBM_VP8_CODEC              = 128;
 }

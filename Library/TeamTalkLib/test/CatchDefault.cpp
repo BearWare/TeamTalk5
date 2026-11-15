@@ -34,8 +34,10 @@
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 #include "settings/Settings.h"
+#include "teamtalk/CodecCommon.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
+#include "teamtalk/PacketHelper.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/StreamHandler.h"
 #include "teamtalk/client/AudioMuxer.h"
@@ -71,6 +73,7 @@
 #include <ace/Synch_Options.h>
 #include <ace/Timer_Heap.h>
 
+#include <algorithm>
 #include <array>
 #include <cerrno>
 #include <chrono>
@@ -238,6 +241,176 @@ TEST_CASE("Reject incomplete desktop packet ranges", "[packet]")
         CHECK_FALSE(malformed.GetPacketsAcked(packets));
         CHECK(packets.empty());
     }
+}
+
+TEST_CASE("WAV codec validation", "[wav]")
+{
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_WAV;
+    codec.wav.channels = 2;
+    codec.wav.sampleformat = teamtalk::WAV_SAMPLEFORMAT_INT16;
+    codec.wav.txinterval_msec = 40;
+    for (int samplerate : {8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                           88200, 96000, 176400, 192000, 352800, 384000})
+    {
+        codec.wav.samplerate = samplerate;
+        CHECK(teamtalk::ValidAudioCodec(codec));
+    }
+
+    codec.wav.samplerate = 44000;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.wav.samplerate = 384000;
+    codec.wav.txinterval_msec = 50;
+    CHECK(teamtalk::GetWavPacketSize(codec) > teamtalk::MAX_ENC_FRAGMENTED_FRAMESIZE);
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.wav.txinterval_msec = 1;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.wav.txinterval_msec = 40;
+    codec.wav.sampleformat = teamtalk::WAV_SAMPLEFORMAT_NONE;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.wav.samplerate = 48000;
+    codec.wav.channels = 1;
+    codec.wav.sampleformat = teamtalk::WAV_SAMPLEFORMAT_UINT8;
+    CHECK(teamtalk::ValidAudioCodec(codec));
+    CHECK(teamtalk::GetAudioCodecBitRate(codec) == 48000 * 8);
+    CHECK(teamtalk::GetAudioCodecCbSamples(codec) == 1920);
+    CHECK(teamtalk::GetAudioCodecCbMillis(codec) == 40);
+    CHECK(teamtalk::GetWavPacketSize(codec) == 1920);
+
+    codec.wav.samplerate = 11025;
+    codec.wav.txinterval_msec = 10;
+    CHECK(teamtalk::GetAudioCodecCbSamples(codec) == 110);
+    CHECK(teamtalk::GetAudioCodecCbMillis(codec) == 10);
+}
+
+TEST_CASE("WAV sample conversion", "[wav]")
+{
+    const std::vector<short> samples = {-32768, -256, -1, 0, 1, 255, 256, 32767};
+    std::vector<char> encoded(samples.size() * 2);
+    std::vector<short> decoded(samples.size());
+    int const samples_total = static_cast<int>(samples.size());
+
+    REQUIRE(teamtalk::EncodeWavSamples(teamtalk::WAV_SAMPLEFORMAT_INT16, samples.data(),
+                                       samples_total, encoded.data()) == samples_total * 2);
+    CHECK(static_cast<uint8_t>(encoded[0]) == 0x00);
+    CHECK(static_cast<uint8_t>(encoded[1]) == 0x80);
+    CHECK(static_cast<uint8_t>(encoded[14]) == 0xFF);
+    CHECK(static_cast<uint8_t>(encoded[15]) == 0x7F);
+    REQUIRE(teamtalk::DecodeWavSamples(teamtalk::WAV_SAMPLEFORMAT_INT16, encoded.data(),
+                                       samples_total * 2, decoded.data()) == samples_total);
+    CHECK(decoded == samples);
+
+    REQUIRE(teamtalk::EncodeWavSamples(teamtalk::WAV_SAMPLEFORMAT_UINT8, samples.data(),
+                                       samples_total, encoded.data()) == samples_total);
+    const std::vector<uint8_t> expected_uint8 = {0, 127, 127, 128, 128, 128, 129, 255};
+    for (size_t i = 0; i < expected_uint8.size(); ++i)
+        CHECK(static_cast<uint8_t>(encoded[i]) == expected_uint8[i]);
+    REQUIRE(teamtalk::DecodeWavSamples(teamtalk::WAV_SAMPLEFORMAT_UINT8, encoded.data(),
+                                       samples_total, decoded.data()) == samples_total);
+    const std::vector<short> expected = {-32768, -256, -256, 0, 0, 0, 256, 32512};
+    CHECK(decoded == expected);
+
+    CHECK(teamtalk::EncodeWavSamples(teamtalk::WAV_SAMPLEFORMAT_NONE, samples.data(),
+                                     samples_total, encoded.data()) == 0);
+}
+
+TEST_CASE("WAV large audio packet fragments", "[wav][packet]")
+{
+    std::vector<char> enc_audio(61440);
+    for (size_t i = 0; i < enc_audio.size(); ++i)
+        enc_audio[i] = static_cast<char>((i % 251) + 1);
+
+    teamtalk::AudioPacket packet(teamtalk::PACKET_KIND_VOICE, 1, 2, 3, 4, enc_audio.data(),
+                                 static_cast<uint16_t>(enc_audio.size()));
+    packet.SetChannel(5);
+
+    uint16_t enc_length = 0;
+    const char* enc_data = packet.GetEncodedAudio(enc_length);
+    REQUIRE(enc_data != nullptr);
+    REQUIRE(enc_length == enc_audio.size());
+    CHECK(std::equal(enc_audio.begin(), enc_audio.end(), enc_data));
+
+    teamtalk::AudioPacket const packet_copy(packet);
+    enc_data = packet_copy.GetEncodedAudio(enc_length);
+    REQUIRE(enc_length == enc_audio.size());
+    CHECK(std::equal(enc_audio.begin(), enc_audio.end(), enc_data));
+
+    teamtalk::audiopackets_t const fragments = teamtalk::BuildAudioFragments(packet, MAX_PAYLOAD_DATA_SIZE);
+    REQUIRE(fragments.size() == 50);
+
+    teamtalk::audiofragments_t received;
+    for (const auto& fragment : fragments)
+    {
+        CHECK(fragment->GetPacketSize() <= MAX_PACKET_SIZE);
+        std::vector<size_t> offsets;
+        auto bytes = FlattenPacket(*fragment, offsets);
+        teamtalk::AudioPacket const wire_packet(bytes.data(), static_cast<uint16_t>(bytes.size()));
+        uint8_t frag_no = teamtalk::AudioPacket::INVALID_FRAGMENT_NO;
+        wire_packet.GetPacketNumberAndFragNo(frag_no, nullptr);
+        REQUIRE(frag_no != teamtalk::AudioPacket::INVALID_FRAGMENT_NO);
+        received[frag_no] = std::make_shared<teamtalk::AudioPacket>(wire_packet);
+    }
+
+    SECTION("all fragments")
+    {
+        teamtalk::audiopacket_t const reassembled = teamtalk::ReassembleAudioPacket(received, teamtalk::AudioCodec());
+        REQUIRE(reassembled != nullptr);
+        CHECK(reassembled->GetChannel() == 5);
+        CHECK(reassembled->GetPacketNumber() == 4);
+        enc_data = reassembled->GetEncodedAudio(enc_length);
+        REQUIRE(enc_length == enc_audio.size());
+        CHECK(std::equal(enc_audio.begin(), enc_audio.end(), enc_data));
+    }
+
+    SECTION("missing fragments")
+    {
+        std::vector<char> expected = enc_audio;
+        for (uint8_t const lost : {uint8_t(0), uint8_t(7), uint8_t(49)})
+        {
+            received.erase(lost);
+            size_t const offset = size_t(lost) * MAX_PAYLOAD_DATA_SIZE;
+            size_t const length = std::min<size_t>(MAX_PAYLOAD_DATA_SIZE, expected.size() - offset);
+            std::fill_n(expected.begin() + static_cast<std::ptrdiff_t>(offset), length, 0);
+        }
+
+        CHECK(teamtalk::ReassembleAudioPacket(received, teamtalk::AudioCodec()) == nullptr);
+
+        teamtalk::audiopacket_t const partial = teamtalk::ReassemblePartialAudioPacket(received,
+                                                                                       static_cast<uint16_t>(enc_audio.size()));
+        REQUIRE(partial != nullptr);
+        CHECK(partial->GetChannel() == 5);
+        CHECK(partial->GetPacketNumber() == 4);
+        enc_data = partial->GetEncodedAudio(enc_length);
+        REQUIRE(enc_length == expected.size());
+        CHECK(std::equal(expected.begin(), expected.end(), enc_data));
+
+        CHECK(teamtalk::ReassemblePartialAudioPacket(received,
+                                                     static_cast<uint16_t>(48 * MAX_PAYLOAD_DATA_SIZE)) == nullptr);
+    }
+}
+
+TEST_CASE("WAV codec command property", "[wav]")
+{
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_WAV;
+    codec.wav.samplerate = 96000;
+    codec.wav.channels = 2;
+    codec.wav.sampleformat = teamtalk::WAV_SAMPLEFORMAT_UINT8;
+    codec.wav.txinterval_msec = 20;
+
+    tstring cmd = TTEXT("makechannel");
+    teamtalk::AppendProperty(TTEXT("audiocodec"), codec, cmd);
+
+    teamtalk::mstrings_t properties;
+    teamtalk::ExtractProperties(cmd, properties);
+    teamtalk::AudioCodec parsed;
+    REQUIRE(teamtalk::GetProperty(properties, TTEXT("audiocodec"), parsed));
+    CHECK(parsed.codec == teamtalk::CODEC_WAV);
+    CHECK(parsed == codec);
 }
 
 TEST_CASE( "Init TT", "" )
@@ -1991,6 +2164,55 @@ TEST_CASE("NewVoiceStreamMatch")
     };
     REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_FIRSTVOICESTREAMPACKET, firststream, &msg));
     REQUIRE(msg.nSource == streamid + 1);
+}
+
+TEST_CASE("WAV voice transmission")
+{
+    auto txclient = InitTeamTalk();
+    auto rxclient = InitTeamTalk();
+
+    REQUIRE(InitSound(txclient));
+    REQUIRE(Connect(txclient));
+    REQUIRE(Login(txclient, TTEXT("TxClient")));
+
+    REQUIRE(InitSound(rxclient));
+    REQUIRE(Connect(rxclient));
+    REQUIRE(Login(rxclient, TTEXT("RxClient")));
+
+    AudioCodec audiocodec = MakeDefaultAudioCodec(WAV_CODEC);
+    audiocodec.wav.nChannels = 2;
+
+    Channel const chan = MakeChannel(txclient, TTEXT("wav"), TT_GetRootChannelID(txclient), audiocodec);
+    REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+    REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), TTEXT(""))));
+
+    Channel joined = {};
+    REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &joined));
+    REQUIRE(joined.audiocodec.nCodec == WAV_CODEC);
+    REQUIRE(joined.audiocodec.wav.nSampleRate == 48000);
+    REQUIRE(joined.audiocodec.wav.nChannels == 2);
+    REQUIRE(joined.audiocodec.wav.nSampleFormat == WAV_SAMPLEFORMAT_INT16);
+    REQUIRE(joined.audiocodec.wav.nTxIntervalMSec == 40);
+
+    REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_GetMyUserID(txclient), STREAMTYPE_VOICE, TRUE));
+    REQUIRE(TT_DBG_SetSoundInputTone(txclient, STREAMTYPE_VOICE, 600));
+    REQUIRE(TT_EnableVoiceTransmission(txclient, TRUE));
+
+    bool tone = false;
+    for (int i = 0; i < 25 && !tone; ++i)
+    {
+        REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+        AudioBlock* ab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, TT_GetMyUserID(txclient));
+        REQUIRE(ab != nullptr);
+        CHECK(ab->nSampleRate == 48000);
+        CHECK(ab->nChannels == 2);
+        const auto* samples = static_cast<const short*>(ab->lpRawAudio);
+        tone = std::any_of(samples, samples + (ab->nSamples * ab->nChannels),
+                           [](short sample) { return sample != 0; });
+        REQUIRE(TT_ReleaseUserAudioBlock(rxclient, ab));
+    }
+    CHECK(tone);
+    REQUIRE(TT_EnableVoiceTransmission(txclient, FALSE));
 }
 
 #if defined(ENABLE_WEBRTC)
