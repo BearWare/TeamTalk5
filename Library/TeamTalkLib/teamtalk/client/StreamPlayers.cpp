@@ -154,6 +154,21 @@ void AudioPlayer::CleanUpAudioFragments(uint16_t too_old_packet_no)
     }
 }
 
+void AudioPlayer::AddPartialPacket(uint16_t packet_no)
+{
+    wguard_t const g(m_mutex);
+
+    auto const ii = m_audfragments.find(packet_no);
+    if (ii == m_audfragments.end())
+        return;
+
+    audiopacket_t const audpkt = ReassemblePartialAudioPacket(ii->second,
+                                                              static_cast<uint16_t>(GetWavPacketSize(GetAudioCodec())));
+    m_audfragments.erase(ii);
+    if (audpkt)
+        AddPacket(*audpkt);
+}
+
 void AudioPlayer::Reset()
 {
     wguard_t const g(m_mutex);
@@ -400,6 +415,9 @@ bool AudioPlayer::PlayBuffer(short* output_buffer, int n_samples)
                      m_userid, m_streamtype, GetStreamID(), m_play_pkt_no, m_buffer.rbegin()->first,
                      GETTIMESTAMP());
 
+        if (GetAudioCodec().codec == CODEC_WAV && m_buffer.find(m_play_pkt_no) == m_buffer.end())
+            AddPartialPacket(m_play_pkt_no);
+
         if(DecodeFrame(m_buffer[m_play_pkt_no], output_buffer, n_samples))
         {
             m_played_packet_time = m_buffer[m_play_pkt_no].timestamp;
@@ -463,6 +481,7 @@ SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type, soundsystem::sounds
         break;
     case CODEC_NO_CODEC :
     case CODEC_OPUS :
+    case CODEC_WAV :
     case CODEC_WEBM_VP8 :
         TTASSERT(0);
         break;
@@ -533,6 +552,7 @@ OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsys
         break;
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :
+    case CODEC_WAV :
     case CODEC_WEBM_VP8 :
     case CODEC_NO_CODEC :
         TTASSERT(0);
@@ -613,6 +633,34 @@ bool OpusPlayer::DecodeFrame(const EncFrame& enc_frame,
     return false;
 }
 #endif
+
+WavPlayer::WavPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
+                     useraudio_callback_t audio_cb, const AudioCodec& codec,
+                     audio_resampler_t resampler)
+: AudioPlayer(userid, stream_type, std::move(sndsys), std::move(audio_cb), codec, resampler)
+{
+    TTASSERT(codec.codec == CODEC_WAV);
+}
+
+bool WavPlayer::DecodeFrame(const EncFrame& enc_frame,
+                            short* output_buffer, int n_samples)
+{
+    int const samples_total = n_samples * GetAudioCodecChannels(GetAudioCodec());
+    if (!enc_frame.enc_frames.empty() &&
+        std::cmp_equal(enc_frame.enc_frames.size(), GetWavPacketSize(GetAudioCodec())))
+    {
+        int const ret = DecodeWavSamples(GetAudioCodec().wav.sampleformat,
+                                         enc_frame.enc_frames.data(),
+                                         static_cast<int>(enc_frame.enc_frames.size()),
+                                         output_buffer);
+        if (ret == samples_total)
+            return true;
+    }
+
+    MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    std::fill_n(output_buffer, samples_total, static_cast<short>(0));
+    return false;
+}
 
 #if defined(ENABLE_VPX)
 

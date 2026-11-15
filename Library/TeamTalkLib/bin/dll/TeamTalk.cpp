@@ -3497,6 +3497,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(DesktopWindow);
     case __ABUSEPREVENTION:
         return sizeof(AbusePrevention);
+    case __WAVCODEC:
+        return sizeof(WavCodec);
     }
     return 0;
 }

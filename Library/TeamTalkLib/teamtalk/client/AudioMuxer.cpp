@@ -247,6 +247,12 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
                 m_opusfile.reset();
 #endif
             break;
+        case CODEC_WAV :
+            m_wavefile = std::make_shared<WavePCMFile>();
+            success = m_wavefile->NewFile(filename, samplerate, channels);
+            if (!success)
+                m_wavefile.reset();
+            break;
         default : // unsupported codec
             break;
         }

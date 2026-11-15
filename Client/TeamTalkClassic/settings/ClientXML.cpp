@@ -2622,6 +2622,7 @@ namespace teamtalk {
         case SPEEX_CODEC :
         case SPEEX_VBR_CODEC :
         case OPUS_CODEC :
+        case WAV_CODEC :
         case NO_CODEC :
             break;
         }
@@ -2640,6 +2641,7 @@ namespace teamtalk {
         case SPEEX_CODEC:
         case SPEEX_VBR_CODEC:
         case OPUS_CODEC:
+        case WAV_CODEC:
         case NO_CODEC:
             break;
         }

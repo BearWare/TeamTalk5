@@ -30,6 +30,7 @@
 
 #include <ace/Time_Value.h>
 
+#include <algorithm>
 #include <cassert>
 #include <cstddef>
 #include <cstdint>
@@ -241,6 +242,66 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
         audpkt->SetDestUser(dest_userid);
     if(chanid != 0u)
         audpkt->SetChannel(chanid);
+
+    return audpkt;
+}
+
+audiopacket_t ReassemblePartialAudioPacket(const audiofragments_t& fragments,
+                                           uint16_t enc_length)
+{
+    if (fragments.empty() || enc_length == 0)
+        return {};
+
+    uint16_t chunk_size = 0;
+    auto const frag0 = fragments.find(0);
+    if (frag0 != fragments.end())
+    {
+        uint8_t frag_no = 0;
+        uint8_t frag_cnt = 0;
+        frag0->second->GetPacketNumberAndFragNo(frag_no, &frag_cnt);
+        frag0->second->GetEncodedAudio(chunk_size);
+        if (frag_cnt == 0 || chunk_size == 0 ||
+            (enc_length + chunk_size - 1) / chunk_size != frag_cnt)
+            return {};
+    }
+    else if (fragments.size() >= 2)
+    {
+        for (const auto& fragment : fragments)
+        {
+            uint16_t frag_len = 0;
+            fragment.second->GetEncodedAudio(frag_len);
+            chunk_size = std::max(chunk_size, frag_len);
+        }
+    }
+
+    if (chunk_size == 0)
+        return {};
+
+    std::vector<char> buf(enc_length, 0);
+    for (const auto& fragment : fragments)
+    {
+        uint16_t frag_len = 0;
+        const char* ptr = fragment.second->GetEncodedAudio(frag_len);
+        size_t const offset = static_cast<size_t>(fragment.first) * chunk_size;
+        if (ptr == nullptr || offset >= buf.size() ||
+            frag_len != std::min(static_cast<size_t>(chunk_size), buf.size() - offset))
+            return {};
+        memcpy(&buf[offset], ptr, frag_len);
+    }
+
+    const AudioPacket& frag = *fragments.begin()->second;
+    uint8_t frag_no = 0;
+    uint16_t const packet_no = frag.GetPacketNumberAndFragNo(frag_no, nullptr);
+    audiopacket_t audpkt = std::make_shared<AudioPacket>(frag.GetKind(),
+                                                         frag.GetSrcUserID(),
+                                                         frag.GetTime(),
+                                                         frag.GetStreamID(),
+                                                         packet_no,
+                                                         buf.data(), enc_length);
+    if(frag.GetDestUserID() != 0u)
+        audpkt->SetDestUser(frag.GetDestUserID());
+    if(frag.GetChannel() != 0u)
+        audpkt->SetChannel(frag.GetChannel());
 
     return audpkt;
 }

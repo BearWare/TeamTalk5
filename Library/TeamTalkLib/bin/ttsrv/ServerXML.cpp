@@ -847,6 +847,12 @@ namespace teamtalk{
                     PutInteger(codecElement, "framesize", chan.audiocodec.opus.frame_size);
                     PutInteger(codecElement, "fpp", chan.audiocodec.opus.frames_per_packet);
                     break;
+                case CODEC_WAV :
+                    PutInteger(codecElement, "samplerate", chan.audiocodec.wav.samplerate);
+                    PutInteger(codecElement, "channels", chan.audiocodec.wav.channels);
+                    PutInteger(codecElement, "sample-format", chan.audiocodec.wav.sampleformat);
+                    PutInteger(codecElement, "tx-interval-msec", chan.audiocodec.wav.txinterval_msec);
+                    break;
                 }
                 xmlChan->InsertEndChild(codecElement);
 
@@ -1018,6 +1024,16 @@ namespace teamtalk{
                         newchan.audiocodec.opus.frames_per_packet = 1;
                         GetInteger(codecElement, "fpp", newchan.audiocodec.opus.frames_per_packet);
                         break;
+                    case CODEC_WAV :
+                    {
+                        int sampleformat = WAV_SAMPLEFORMAT_NONE;
+                        b &= GetInteger(codecElement, "samplerate", newchan.audiocodec.wav.samplerate);
+                        b &= GetInteger(codecElement, "channels", newchan.audiocodec.wav.channels);
+                        b &= GetInteger(codecElement, "sample-format", sampleformat);
+                        b &= GetInteger(codecElement, "tx-interval-msec", newchan.audiocodec.wav.txinterval_msec);
+                        newchan.audiocodec.wav.sampleformat = static_cast<WavSampleFormat>(sampleformat);
+                        break;
+                    }
                     }
                     if(b)
                         newchan.audiocodec.codec = (teamtalk::Codec)codec;

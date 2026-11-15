@@ -71,4 +71,5 @@ public interface TTType {
     public static final int __SOUNDDEVICEEFFECTS      = 44;
     public static final int __DESKTOPWINDOW           = 45;
     public static final int __ABUSEPREVENTION         = 46;
+    public static final int __WAVCODEC                = 47;
 }

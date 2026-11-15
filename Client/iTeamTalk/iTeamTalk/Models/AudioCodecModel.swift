@@ -29,6 +29,7 @@ enum AudioCodecAction {
     case useOPUS
     case useSpeex
     case useSpeexVBR
+    case useWAV
 }
 
 final class AudioCodecModel: ObservableObject {
@@ -44,6 +45,8 @@ final class AudioCodecModel: ObservableObject {
                 return "speex"
             case SPEEX_VBR_CODEC:
                 return "speex-vbr"
+            case WAV_CODEC:
+                return "wav"
             case NO_CODEC:
                 return "no-audio"
             default:
@@ -58,6 +61,9 @@ final class AudioCodecModel: ObservableObject {
     private let opusApplications: [Int32] = [OPUS_APPLICATION_VOIP, OPUS_APPLICATION_AUDIO]
     private let opusSampleRates: [Int32] = [8000, 12000, 16000, 24000, 48000]
     private let speexBandmodes: [INT32] = [0, 1, 2]
+    let wavSampleRates: [INT32] = [8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                                   88200, 96000, 176400, 192000, 352800, 384000]
+    private let wavSampleFormats: [WavSampleFormat] = [WAV_SAMPLEFORMAT_UINT8, WAV_SAMPLEFORMAT_INT16]
 
     @Published var opusApplicationIndex: Int
     @Published var opusSampleRateIndex: Int
@@ -78,20 +84,33 @@ final class AudioCodecModel: ObservableObject {
     @Published var speexVBRDTX: Bool
     @Published var speexVBRTransmitInterval: Double
 
-    init(activeCodec: Codec, opuscodec: OpusCodec, speexcodec: SpeexCodec, speexvbrcodec: SpeexVBRCodec) {
+    @Published var wavSampleRateIndex: Int {
+        didSet { clampWavTransmitInterval() }
+    }
+    @Published var wavChannelsIndex: Int {
+        didSet { clampWavTransmitInterval() }
+    }
+    @Published var wavSampleFormatIndex: Int {
+        didSet { clampWavTransmitInterval() }
+    }
+    @Published var wavTransmitInterval: Double
+
+    init(activeCodec: Codec, opuscodec: OpusCodec, speexcodec: SpeexCodec, speexvbrcodec: SpeexVBRCodec, wavcodec: WavCodec) {
         self.activeCodec = activeCodec
 
         switch activeCodec {
         case OPUS_CODEC:
-            sections = [OPUS_CODEC, SPEEX_CODEC, SPEEX_VBR_CODEC, NO_CODEC].map(Section.init)
+            sections = [OPUS_CODEC, SPEEX_CODEC, SPEEX_VBR_CODEC, WAV_CODEC, NO_CODEC].map(Section.init)
         case SPEEX_CODEC:
-            sections = [SPEEX_CODEC, OPUS_CODEC, SPEEX_VBR_CODEC, NO_CODEC].map(Section.init)
+            sections = [SPEEX_CODEC, OPUS_CODEC, SPEEX_VBR_CODEC, WAV_CODEC, NO_CODEC].map(Section.init)
         case SPEEX_VBR_CODEC:
-            sections = [SPEEX_VBR_CODEC, OPUS_CODEC, SPEEX_CODEC, NO_CODEC].map(Section.init)
+            sections = [SPEEX_VBR_CODEC, OPUS_CODEC, SPEEX_CODEC, WAV_CODEC, NO_CODEC].map(Section.init)
+        case WAV_CODEC:
+            sections = [WAV_CODEC, OPUS_CODEC, SPEEX_CODEC, SPEEX_VBR_CODEC, NO_CODEC].map(Section.init)
         case NO_CODEC:
             fallthrough
         default:
-            sections = [NO_CODEC, OPUS_CODEC, SPEEX_CODEC, SPEEX_VBR_CODEC].map(Section.init)
+            sections = [NO_CODEC, OPUS_CODEC, SPEEX_CODEC, SPEEX_VBR_CODEC, WAV_CODEC].map(Section.init)
         }
 
         opusApplicationIndex = opusApplications.firstIndex(of: opuscodec.nApplication) ?? 0
@@ -113,6 +132,30 @@ final class AudioCodecModel: ObservableObject {
         speexVBRBitrate = Double(speexvbrcodec.nMaxBitRate) / 1000.0
         speexVBRDTX = speexvbrcodec.bDTX != 0
         speexVBRTransmitInterval = Double(speexvbrcodec.nTxIntervalMSec)
+
+        wavSampleRateIndex = wavSampleRates.firstIndex(of: wavcodec.nSampleRate) ?? 8
+        wavChannelsIndex = wavcodec.nChannels == 2 ? 1 : 0
+        wavSampleFormatIndex = wavSampleFormats.firstIndex(of: wavcodec.nSampleFormat) ?? 1
+        wavTransmitInterval = Double(wavcodec.nTxIntervalMSec)
+    }
+
+    var wavBytesPerSecond: Int {
+        let samplebytes = wavSampleFormats[wavSampleFormatIndex] == WAV_SAMPLEFORMAT_UINT8 ? 1 : 2
+        return Int(wavSampleRates[wavSampleRateIndex]) * (wavChannelsIndex + 1) * samplebytes
+    }
+
+    var wavBitrate: Int {
+        wavBytesPerSecond * 8 / 1000
+    }
+
+    var wavMaxTransmitInterval: Double {
+        Double(min(1000, Int(WAV_MAX_PACKETSIZE) * 1000 / wavBytesPerSecond))
+    }
+
+    private func clampWavTransmitInterval() {
+        if wavTransmitInterval > wavMaxTransmitInterval {
+            wavTransmitInterval = wavMaxTransmitInterval
+        }
     }
 
     func saveOPUSCodec(to opuscodec: inout OpusCodec) {
@@ -140,6 +183,13 @@ final class AudioCodecModel: ObservableObject {
         speexvbrcodec.nTxIntervalMSec = INT32(speexVBRTransmitInterval)
     }
 
+    func saveWavCodec(to wavcodec: inout WavCodec) {
+        wavcodec.nSampleRate = wavSampleRates[wavSampleRateIndex]
+        wavcodec.nChannels = INT32(wavChannelsIndex + 1)
+        wavcodec.nSampleFormat = wavSampleFormats[wavSampleFormatIndex]
+        wavcodec.nTxIntervalMSec = INT32(min(wavTransmitInterval, wavMaxTransmitInterval))
+    }
+
     func title(for codec: Codec) -> String {
         let title: String
         switch codec {
@@ -149,6 +199,8 @@ final class AudioCodecModel: ObservableObject {
             title = String(localized: "Speex Codec", comment: "codec detail")
         case SPEEX_VBR_CODEC:
             title = String(localized: "Speex Variable Bitrate Codec", comment: "codec detail")
+        case WAV_CODEC:
+            title = String(localized: "WAV Codec", comment: "codec detail")
         case NO_CODEC:
             title = String(localized: "No Audio", comment: "codec detail")
         default:

@@ -1209,6 +1209,48 @@ extern "C" {
  * support up to 120 msec. */
 #define OPUS_REALMAX_FRAMESIZE 120
 
+    /** @brief The sample formats supported by #WavCodec.
+     * @see WavCodec */
+    typedef enum WavSampleFormat
+    {
+        /** @brief No sample format specified. */
+        WAV_SAMPLEFORMAT_NONE   = 0,
+        /** @brief Unsigned 8-bit PCM samples. */
+        WAV_SAMPLEFORMAT_UINT8  = 1,
+        /** @brief Signed 16-bit little-endian PCM samples. */
+        WAV_SAMPLEFORMAT_INT16  = 2,
+    } WavSampleFormat;
+
+    /** @brief WAV audio codec settings. Audio is transmitted as
+     * uncompressed PCM samples. */
+    typedef struct WavCodec
+    {
+        /** @brief The sample rate to use. Sample rate must be 8000,
+         * 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+         * 88200, 96000, 176400, 192000, 352800 or 384000 Hz. */
+        INT32 nSampleRate;
+        /** @brief Mono = 1 or stereo = 2. */
+        INT32 nChannels;
+        /** @brief The format of the PCM samples. @see WavSampleFormat */
+        WavSampleFormat nSampleFormat;
+        /** @brief Duration of audio before each transmission. Minimum is 2 msec.
+         * Maximum is 1000 msec.
+         *
+         * The PCM samples of each transmission cannot exceed
+         * #WAV_MAX_PACKETSIZE bytes, i.e. @c nSampleRate * @c
+         * nTxIntervalMSec / 1000 * @c nChannels * bytes per sample
+         * of @c nSampleFormat.
+         *
+         * The #SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
+        INT32 nTxIntervalMSec;
+    } WavCodec;
+
+/** @brief The maximum number of bytes of PCM samples in each
+ * transmission. Checkout @c nTxIntervalMSec of #WavCodec. */
+#define WAV_MAX_PACKETSIZE 65535
+
     /** @brief Speex DSP is used for specifying how recorded audio
      * from a sound input device should be preprocessed before
      * transmission.
@@ -1470,6 +1512,8 @@ extern "C" {
         SPEEX_VBR_CODEC             = 2,
         /** @brief OPUS audio codec. @see OpusCodec */
         OPUS_CODEC                  = 3,
+        /** @brief WAV audio codec. @see WavCodec */
+        WAV_CODEC                   = 4,
         /** @brief WebM video codec. @see WebMVP8Codec */
         WEBM_VP8_CODEC              = 128,
     } Codec;
@@ -1478,8 +1522,8 @@ extern "C" {
      * uses. */
     typedef struct AudioCodec
     {
-        /** @brief Specifies whether the member @a speex, @a speex_vbr or
-         * @a opus holds the codec settings. */
+        /** @brief Specifies whether the member @a speex, @a speex_vbr,
+         * @a opus or @a wav holds the codec settings. */
         Codec nCodec;  
         union
         {
@@ -1492,6 +1536,9 @@ extern "C" {
             /** @brief Opus codec settings if @a nCodec is
              * OPUS_CODEC */
             OpusCodec opus;
+            /** @brief WAV codec settings if @a nCodec is
+             * #WAV_CODEC */
+            WavCodec wav;
         };
     } AudioCodec;
 
@@ -3973,6 +4020,7 @@ extern "C" {
         __SOUNDDEVICEEFFECTS       = 44,
         __DESKTOPWINDOW       = 45,
         __ABUSEPREVENTION       = 46,
+        __WAVCODEC              = 47,
     } TTType;
 
     /**

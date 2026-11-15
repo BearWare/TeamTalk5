@@ -18,6 +18,10 @@ public enum TeamTalkAudioCodec {
         TTKitMakeSpeexVBRCodec()
     }
 
+    public static func makeWavCodec() -> WavCodec {
+        TTKitMakeWavCodec()
+    }
+
     public static func opusCodec(from audioCodec: AudioCodec) -> OpusCodec {
         var audioCodec = audioCodec
         return TTKitGetOpusCodec(&audioCodec)
@@ -33,6 +37,11 @@ public enum TeamTalkAudioCodec {
         return TTKitGetSpeexVBRCodec(&audioCodec)
     }
 
+    public static func wavCodec(from audioCodec: AudioCodec) -> WavCodec {
+        var audioCodec = audioCodec
+        return TTKitGetWavCodec(&audioCodec)
+    }
+
     public static func setOpusCodec(_ opusCodec: OpusCodec, on audioCodec: inout AudioCodec) {
         var opusCodec = opusCodec
         TTKitSetOpusCodec(&audioCodec, &opusCodec)
@@ -46,5 +55,10 @@ public enum TeamTalkAudioCodec {
     public static func setSpeexVBRCodec(_ speexVBRCodec: SpeexVBRCodec, on audioCodec: inout AudioCodec) {
         var speexVBRCodec = speexVBRCodec
         TTKitSetSpeexVBRCodec(&audioCodec, &speexVBRCodec)
+    }
+
+    public static func setWavCodec(_ wavCodec: WavCodec, on audioCodec: inout AudioCodec) {
+        var wavCodec = wavCodec
+        TTKitSetWavCodec(&audioCodec, &wavCodec)
     }
 }
