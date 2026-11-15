@@ -350,7 +350,7 @@ public:
             break;
         }
 
-        if(FAILED(hr))
+        if(FAILED(hr) || !pOutputType)
             return;
 
         if (szOutputFilename)
