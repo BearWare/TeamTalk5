@@ -339,7 +339,7 @@ void DesktopCache::UpdateCurrentDesktopWindow(const desktoppackets_t& update_pac
     TTASSERT(!m_updated_blocks.contains(m_current_desktop_time));
     m_updated_blocks[m_current_desktop_time] = upd_block_nums;
 
-    TTASSERT(m_blocks.size() == (size_t)GetBlocksCount());
+    TTASSERT(m_blocks.size() == static_cast<size_t>(GetBlocksCount()));
 }
 
 void DesktopCache::LimitUpdateHistory(uint32_t update_ref_time, int count)

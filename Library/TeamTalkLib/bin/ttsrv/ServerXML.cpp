@@ -806,10 +806,10 @@ namespace teamtalk{
                     PutString(xmlChan, "name", UnicodeToUtf8(chan.name).c_str());
                 PutString(xmlChan, "password", UnicodeToUtf8(chan.passwd).c_str());
                 PutString(xmlChan, "topic", UnicodeToUtf8(chan.topic).c_str());
-                PutInteger(xmlChan, "diskquota", (int64_t)chan.diskquota);
+                PutInteger(xmlChan, "diskquota", chan.diskquota);
                 PutString(xmlChan, "op-password", UnicodeToUtf8(chan.oppasswd).c_str());
                 PutInteger(xmlChan, "max-users", chan.maxusers);
-                PutInteger(xmlChan, "channel-type", (int)chan.chantype);
+                PutInteger(xmlChan, "channel-type", static_cast<int>(chan.chantype));
                 PutInteger(xmlChan, "userdata", chan.userdata);
 
                 XMLElement* codecElement = m_xmlDocument.NewElement("audio-codec");
@@ -880,7 +880,7 @@ namespace teamtalk{
                         XMLElement* fileElement = m_xmlDocument.NewElement("file");
                         fileElement->SetAttribute("name", UnicodeToUtf8(file.filename).c_str());
                         PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname).c_str());
-                        PutInteger(fileElement, "filesize", (int64_t)file.filesize);
+                        PutInteger(fileElement, "filesize", file.filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(file.username).c_str());
                         PutString(fileElement, "uploadtime", DateToString(file.uploadtime.sec()));
                         filesElement->InsertEndChild(fileElement);
@@ -965,12 +965,12 @@ namespace teamtalk{
                     newchan.passwd = Utf8ToUnicode(value.c_str());
                 if(GetString(child, "topic", value))
                     newchan.topic = Utf8ToUnicode(value.c_str());
-                GetInteger(child, "diskquota", (int64_t&)newchan.diskquota);
+                GetInteger(child, "diskquota", newchan.diskquota);
                 if(GetString(child, "op-password", value))
                     newchan.oppasswd = Utf8ToUnicode(value.c_str());
                 newchan.maxusers = MAX_USERS_IN_CHANNEL;
                 GetInteger(child, "max-users", newchan.maxusers);
-                GetInteger(child, "channel-type", (int&)newchan.chantype);
+                GetInteger(child, "channel-type", reinterpret_cast<int&>(newchan.chantype));
                 GetInteger(child, "userdata", newchan.userdata);
                 GetInteger(child, "transmit-delay-msec", newchan.transmitswitchdelay);
                 GetInteger(child, "tot-voice-msec", newchan.totvoice);
@@ -1020,7 +1020,7 @@ namespace teamtalk{
                         break;
                     }
                     if(b)
-                        newchan.audiocodec.codec = (teamtalk::Codec)codec;
+                        newchan.audiocodec.codec = static_cast<teamtalk::Codec>(codec);
                 }
 
                 XMLElement* audcfgElement = child->FirstChildElement("audio-config");
@@ -1059,7 +1059,7 @@ namespace teamtalk{
                         entry.filename = Utf8ToUnicode(nextfile->Attribute("name"));
                         if(GetString(nextfile, "internalname", tmp))
                             entry.internalname = Utf8ToUnicode(tmp.c_str());
-                        GetInteger(nextfile, "filesize", (int64_t&)entry.filesize);
+                        GetInteger(nextfile, "filesize", entry.filesize);
                         if(GetString(nextfile, "username", tmp))
                             entry.username = Utf8ToUnicode(tmp.c_str());
                         tmp.clear();
@@ -1293,8 +1293,8 @@ namespace teamtalk{
         XMLElement* userElement = m_xmlDocument.NewElement("user");
         PutString(userElement, "username", UnicodeToUtf8(user.username).c_str());
         PutString(userElement, "password", UnicodeToUtf8(user.passwd).c_str());
-        PutInteger(userElement, "user-type", (int)user.usertype);
-        PutInteger(userElement, "user-rights", (int)user.userrights);
+        PutInteger(userElement, "user-type", static_cast<int>(user.usertype));
+        PutInteger(userElement, "user-rights", static_cast<int>(user.userrights));
         PutString(userElement, "note", UnicodeToUtf8(user.note).c_str());
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel).c_str());

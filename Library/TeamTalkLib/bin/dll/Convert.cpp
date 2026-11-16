@@ -1331,7 +1331,7 @@ void Convert(const VideoCodec& vidcodec, teamtalk::VideoCodec& result)
         result.webm_vp8.encode_deadline = vidcodec.webm_vp8.nEncodeDeadline;
         break;
     }
-    assert(result.codec == (teamtalk::Codec)vidcodec.nCodec);
+    assert(result.codec == static_cast<teamtalk::Codec>(vidcodec.nCodec));
 }
 
 void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)

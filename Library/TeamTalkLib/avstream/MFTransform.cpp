@@ -1394,7 +1394,7 @@ CComPtr<IMFSample> CreateSample(const media::AudioFrame& frame)
     hr = MFCreateSample(&pSample);
     RETURNONERROR(FAILED(hr));
 
-    LONGLONG hnsSampleDuration = (frame.input_samples * (LONGLONG)10000000 ) / frame.inputfmt.samplerate;
+    LONGLONG hnsSampleDuration = (frame.input_samples * static_cast<LONGLONG>(10000000)) / frame.inputfmt.samplerate;
     hr = pSample->SetSampleDuration(hnsSampleDuration);
     RETURNONERROR(FAILED(hr));
 

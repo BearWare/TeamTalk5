@@ -41,7 +41,7 @@ bool MixerWaveOut(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
     if (res != MMSYSERR_NOERROR)
         return false;
 
-    auto hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = reinterpret_cast<HMIXEROBJ>(hTmpMixer);
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);
@@ -152,7 +152,7 @@ bool MixerWaveIn(int nWaveDeviceID, int mixerMask, InOutValue &inoutValue)
     if (res != MMSYSERR_NOERROR)
         return false;
 
-    auto hMixer = (HMIXEROBJ)hTmpMixer;
+    auto hMixer = reinterpret_cast<HMIXEROBJ>(hTmpMixer);
 
     MIXERLINE ml = {};
     ml.cbStruct = sizeof(MIXERLINE);

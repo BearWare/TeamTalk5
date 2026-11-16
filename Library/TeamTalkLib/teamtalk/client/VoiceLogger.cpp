@@ -640,7 +640,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
                                                 codec, aff, stream_id,
-                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
+                             static_cast<uint32_t>(from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
 
     bool const active = log->IsActive();
     if(active)

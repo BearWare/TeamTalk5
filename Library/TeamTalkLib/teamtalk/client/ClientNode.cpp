@@ -1243,7 +1243,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& /*streamer*/,
     const short* capture_buffer = nullptr;
     if (m_capture_resampler)
     {
-        assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_capture_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_capture_resampler->Resample(buffer, n_samples, 
                                                 m_capture_buffer.data(),
                                                 codec_samples);
@@ -1278,7 +1278,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     const short* capture_buffer = nullptr;
     if (m_capture_resampler)
     {
-        assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_capture_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_capture_resampler->Resample(input_buffer, n_samples, 
                                                 m_capture_buffer.data(),
                                                 codec_samples);
@@ -1298,7 +1298,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     const short* playback_buffer = nullptr;
     if (m_playback_resampler)
     {
-        assert((int)m_playback_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_playback_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_playback_resampler->Resample(output_buffer, n_samples, 
                                                  m_playback_buffer.data(),
                                                  codec_samples);
@@ -1613,7 +1613,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
-            (int)packet.GetKind(),(int)packet.GetSrcUserID(), dropped, received);
+            packet.GetKind(), packet.GetSrcUserID(), dropped, received);
         return;
     }
 #endif
@@ -1898,7 +1898,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     default :
         MYTRACE_COND(user.get(),
                      ACE_TEXT("Received unknown packet type %d from #%d, %s\n"), 
-                     (int)packet.GetKind(), user->GetUserID(), user->GetNickname().c_str());
+                     packet.GetKind(), user->GetUserID(), user->GetNickname().c_str());
         break;
     }
 }
@@ -2578,7 +2578,7 @@ bool ClientNode::QueuePacket(FieldPacket* packet)
     bool const b = m_tx_queue.QueuePacket(packet) >= 0;
 
     MYTRACE_COND(!b, ACE_TEXT("Failed to queue packet kind %d to channel %d\n"),
-                 (int)packet->GetKind(), (int)packet->GetChannel());
+                 packet->GetKind(), packet->GetChannel());
 
     ACE_Time_Value tv;
     auto *reactor = GetEventLoop();
@@ -2605,7 +2605,7 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
-                (int)packet.GetKind(), dropped, transmitted);
+                packet.GetKind(), dropped, transmitted);
         return packet.GetPacketSize();
     }
 #endif
@@ -5093,8 +5093,8 @@ bool ClientNode::ProcessCommand(const ACE_CString& cmdline)
     }
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), (int)tmp_cmd.length());
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), (int)cmdline.length());
+    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
     ACE_TString const cmd = tmp_cmd;
     const ACE_CString& command = cmdline;

@@ -108,7 +108,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                           in_packet.GetTime(),
                                           stream_id,
                                           in_packet.GetPacketNumber(),
-                                          (uint8_t)0, &u8_fragments,
+                                          0, &u8_fragments,
                                           ptr, max_chunk_size,
                                           &frame_sizes);
     }
@@ -119,7 +119,7 @@ audiopackets_t BuildAudioFragments(const AudioPacket& in_packet,
                                           in_packet.GetTime(),
                                           stream_id,
                                           in_packet.GetPacketNumber(),
-                                          (uint8_t)0, &u8_fragments,
+                                          0, &u8_fragments,
                                           ptr, max_chunk_size);
     }
     result.push_back(audiopacket_t(p));
@@ -649,7 +649,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
         auto p = std::make_shared<DesktopPacket>(src_userid, time,
                                                  dwnd.session_id,
                                                  dwnd.width, dwnd.height,
-                                                 (uint8_t)dwnd.rgb_mode,
+                                                 static_cast<uint8_t>(dwnd.rgb_mode),
                                                  packet_index++,
                                                  0,//specified in UpdatePacketCount()
                                                  packet_blocks, packet_frags,
