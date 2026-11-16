@@ -113,12 +113,12 @@ OggFile::~OggFile()
     Close();
 }
 
-bool OggFile::NewFile(const ACE_TString& filename)
+bool OggFile::NewFile(const tstring& filename)
 {
     return m_file.NewFile(filename);
 }
 
-bool OggFile::Open(const ACE_TString& filename)
+bool OggFile::Open(const tstring& filename)
 {
     if (!m_file.Open(filename))
         return false;
@@ -546,7 +546,7 @@ SpeexFile::~SpeexFile()
     Close();
 }
 
-bool SpeexFile::Open(const ACE_TString& filename,
+bool SpeexFile::Open(const tstring& filename,
                      int bandmode,
                      bool vbr)
 {
@@ -652,7 +652,7 @@ int SpeexFile::WriteEncoded(const char* enc_data, int len,
     return ret;
 }
 
-bool SpeexEncFile::Open(const ACE_TString& filename,
+bool SpeexEncFile::Open(const tstring& filename,
                         int bandmode, int complexity, float vbr_quality,
                         int bitrate, int maxbitrate, bool dtx)
 {
@@ -695,7 +695,7 @@ OpusFile::~OpusFile()
     Close();
 }
 
-bool OpusFile::NewFile(const ACE_TString& filename,
+bool OpusFile::NewFile(const tstring& filename,
                        int channels, int samplerate,
                        int  /*framesize*/)
 {
@@ -752,7 +752,7 @@ bool OpusFile::NewFile(const ACE_TString& filename,
     return ret >= 0;
 }
 
-bool OpusFile::OpenFile(const ACE_TString& filename)
+bool OpusFile::OpenFile(const tstring& filename)
 {
     if (!m_oggfile.Open(filename))
     {
@@ -969,7 +969,7 @@ ogg_int64_t OpusFile::GetSamplesPosition() const
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 
-bool OpusEncFile::Open(const ACE_TString& filename, int channels, 
+bool OpusEncFile::Open(const tstring& filename, int channels, 
                        int samplerate, int framesize, int app)
 {
     if(!m_encoder.Open(samplerate, channels, app))
@@ -1001,7 +1001,7 @@ int OpusEncFile::Encode(const short* input_buffer, int input_samples, bool last)
     return ret;
 }
 
-bool OpusDecFile::Open(const ACE_TString& filename)
+bool OpusDecFile::Open(const tstring& filename)
 {
     if (m_file.OpenFile(filename) && m_decoder.Open(m_file.GetSampleRate(), m_file.GetChannels()))
         return true;

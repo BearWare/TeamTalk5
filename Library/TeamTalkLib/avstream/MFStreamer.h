@@ -30,12 +30,12 @@
 #include <atlbase.h>
 #include <mfapi.h>
 
-bool GetMFMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
+bool GetMFMediaFileProp(const tstring& filename, MediaFileProp& fileprop);
 
 class MFStreamer : public MediaFileStreamer
 {
 public:
-    MFStreamer(const ACE_TString &filename, const MediaStreamOutput &out_prop);
+    MFStreamer(const tstring &filename, const MediaStreamOutput &out_prop);
     ~MFStreamer() override;
 
 protected:

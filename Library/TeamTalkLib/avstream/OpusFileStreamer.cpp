@@ -31,7 +31,7 @@
 #include <cstdint>
 #include <vector>
 
-bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
+bool GetOpusFileMediaFileProp(const tstring& filename, MediaFileProp& mfp)
 {
     OpusDecFile odf;
     if (odf.Open(filename))
@@ -44,7 +44,7 @@ bool GetOpusFileMediaFileProp(const ACE_TString& filename, MediaFileProp& mfp)
     return false;
 }
 
-OpusFileStreamer::OpusFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+OpusFileStreamer::OpusFileStreamer(const tstring& filename, const MediaStreamOutput& out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
 }

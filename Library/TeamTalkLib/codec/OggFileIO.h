@@ -29,9 +29,7 @@
 
 #include <ogg/ogg.h>
 
-#include <ace/SString.h>
 #include <cstdint>
-
 #include <memory>
 #include <vector>
 
@@ -76,9 +74,9 @@ public:
     ~OggFile();
     
     // write
-    bool NewFile(const ACE_TString& filename);
+    bool NewFile(const tstring& filename);
     // read only
-    bool Open(const ACE_TString& filename);
+    bool Open(const tstring& filename);
     
     void Close();
 
@@ -138,7 +136,7 @@ class SpeexFile : private NonCopyable
 public:
     SpeexFile();
     ~SpeexFile();
-    bool Open(const ACE_TString& filename,
+    bool Open(const tstring& filename,
               int bandmode, bool vbr);
 
     void Close();
@@ -165,7 +163,7 @@ class SpeexEncFile : private NonCopyable
 public:
     SpeexEncFile() = default;
 
-    bool Open(const ACE_TString& filename,
+    bool Open(const tstring& filename,
               int bandmode, int complexity, float vbr_quality,
               int bitrate, int maxbitrate, bool dtx);
     void Close();
@@ -193,9 +191,9 @@ public:
     OpusFile();
     ~OpusFile();
 
-    bool NewFile(const ACE_TString& filename,
+    bool NewFile(const tstring& filename,
                 int channels, int samplerate, int framesize);
-    bool OpenFile(const ACE_TString& filename);
+    bool OpenFile(const tstring& filename);
     void Close();
 
     int GetSampleRate() const;
@@ -235,7 +233,7 @@ class OpusEncFile : private NonCopyable
 public:
     OpusEncFile() = default;
 
-    bool Open(const ACE_TString& filename, int channels, 
+    bool Open(const tstring& filename, int channels, 
               int samplerate, int framesize, int app);
     void Close();
     int Encode(const short* input_buffer, int input_samples, bool last);
@@ -255,7 +253,7 @@ using opusencfile_t = std::shared_ptr< OpusEncFile >;
 class OpusDecFile : private NonCopyable
 {
 public:
-    bool Open(const ACE_TString& filename);
+    bool Open(const tstring& filename);
     void Close();
 
     int GetSampleRate() const;

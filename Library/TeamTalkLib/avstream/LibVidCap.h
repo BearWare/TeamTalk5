@@ -41,7 +41,7 @@ public:
 
     vidcap::vidcap_devices_t GetDevices();
 
-    bool InitVideoCapture(const ACE_TString& deviceid,
+    bool InitVideoCapture(const tstring& deviceid,
                           const media::VideoFormat& vidfmt);
 
     bool StartVideoCapture();

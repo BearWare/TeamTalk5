@@ -43,7 +43,6 @@
 #include <ace/Lock.h>
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
-#include <ace/SString.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
@@ -61,8 +60,8 @@ constexpr auto SERVER_KEEPALIVE_DELAY = 1;  //keep alive delay (secs). Checks;
 
 #define CHANNELFILEEXTENSION ACE_TEXT(".dat")
 
-using mapipchan_t = std::map<ACE_TString, std::vector<ACE_TString> >; //ip-address -> channelpaths
-using mapiptime_t = std::map<ACE_TString, std::vector<ACE_Time_Value> >; //map ip to login time (used for checking login attempts)
+using mapipchan_t = std::map<tstring, std::vector<tstring> >; //ip-address -> channelpaths
+using mapiptime_t = std::map<tstring, std::vector<ACE_Time_Value> >; //map ip to login time (used for checking login attempts)
 
 namespace teamtalk {
 
@@ -104,7 +103,7 @@ namespace teamtalk {
         const ServerNode& operator = (const ServerNode& sn);
 
     public:
-        ServerNode(const ACE_TString& version,
+        ServerNode(const tstring& version,
                    ACE_Reactor* timerReactor,
                    ACE_Reactor* tcpReactor, 
                    ACE_Reactor* udpReactor, 
@@ -206,13 +205,13 @@ namespace teamtalk {
         void SetServerProperties(const ServerSettings& srvprop);
         const ServerSettings& GetServerProperties() const;
         const ServerStats& GetServerStats() const;
-        ACE_TString GetMessageOfTheDay(int ignore_userid = 0);
-        bool SetFileSharing(const ACE_TString& rootdir);
+        tstring GetMessageOfTheDay(int ignore_userid = 0);
+        bool SetFileSharing(const tstring& rootdir);
         int64_t GetDiskUsage();
-        ACE_TString GetFilesRoot() const { return m_properties.filesroot; }
+        tstring GetFilesRoot() const { return m_properties.filesroot; }
         bool IsAutoSaving();
         void SetAutoSaving(bool autosave);
-        int GetChannelID(const ACE_TString& chanpath);
+        int GetChannelID(const tstring& chanpath);
         bool GetChannelProp(int channelid, ChannelProp& prop);
         serverchannel_t GetChannel(int channelid) const;
 
@@ -232,7 +231,7 @@ namespace teamtalk {
         bool OnSend(DefaultStreamHandler::StreamHandler_t& streamer) override;
 
         //launch server
-        bool StartServer(bool encrypted, const ACE_TString& sysid);
+        bool StartServer(bool encrypted, const tstring& sysid);
         void StopServer(bool docallback = true);
 
         int StartTimer(ServerTimer timer, timer_userdata userdata, 
@@ -253,19 +252,19 @@ namespace teamtalk {
         //////////////////////////////////////////
         /// User performing action
         //////////////////////////////////////////
-        ErrorMsg UserLogin(int userid, const ACE_TString& username, 
-                           const ACE_TString& passwd);
+        ErrorMsg UserLogin(int userid, const tstring& username, 
+                           const tstring& passwd);
         ErrorMsg UserLogout(int userid); //both admins and users go through here.
         ErrorMsg UserJoinChannel(int userid, const ChannelProp& chanprop);
         //User is exiting channel. Check whether we should clean up
         ErrorMsg UserLeaveChannel(int userid, int channelid = 0);
-        ErrorMsg UserChangeNickname(int userid, const ACE_TString& newnick);
-        ErrorMsg UserChangeStatus(int userid, int mode, const ACE_TString& status);
+        ErrorMsg UserChangeNickname(int userid, const tstring& newnick);
+        ErrorMsg UserChangeStatus(int userid, int mode, const tstring& status);
         ErrorMsg UserUpdate(int userid);
         ErrorMsg UserMove(int userid, int moveuserid, int channelid);
         void UserDisconnected(int userid);
         ErrorMsg UserOpDeOp(int userid, int channelid, //op user in a channel
-                            const ACE_TString& oppasswd, int op_userid, bool op); 
+                            const tstring& oppasswd, int op_userid, bool op); 
         ErrorMsg UserKick(int userid, int kick_userid, int chanid, bool force_kick);
         ErrorMsg UserBan(int userid, BannedUser ban);
         ErrorMsg UserBan(int userid, int ban_userid, BannedUser ban);
@@ -273,7 +272,7 @@ namespace teamtalk {
         ErrorMsg UserListServerBans(int userid, int chanid, int index, int count);
         ErrorMsg UserListUserAccounts(int userid, int index, int count);
         ErrorMsg UserNewUserAccount(int userid, const UserAccount& regusr);
-        ErrorMsg UserDeleteUserAccount(int userid, const ACE_TString& username);
+        ErrorMsg UserDeleteUserAccount(int userid, const tstring& username);
         ErrorMsg UserTextMessage(const TextMessage& msg);
 
         //transfer id will be set if successful
@@ -281,7 +280,7 @@ namespace teamtalk {
         ErrorMsg UserBeginFileTransfer(FileTransfer& transfer,
                                        MyFile& file);
         ErrorMsg UserEndFileTransfer(int transferid);
-        ErrorMsg UserDeleteFile(int userid, int channelid, const ACE_TString& filename);
+        ErrorMsg UserDeleteFile(int userid, int channelid, const tstring& filename);
 
         //user subscriptions to audio and channel/user text messages
         ErrorMsg UserSubscribe(int userid, int subuserid, Subscriptions subscrip);
@@ -300,7 +299,7 @@ namespace teamtalk {
         //add a file to a channel's folder
         ErrorMsg AddFileToChannel(const RemoteFile& remotefile);
         //remove a file from a channel's folder
-        ErrorMsg RemoveFileFromChannel(const ACE_TString& filename, int channelid);
+        ErrorMsg RemoveFileFromChannel(const tstring& filename, int channelid);
 
         ErrorMsg AddBannedUserToChannel(const BannedUser& ban);
 
@@ -352,7 +351,7 @@ namespace teamtalk {
         //failed login attempts
         mapiptime_t m_failedlogins;
         // last login (ip->time)
-        std::map<ACE_TString, ACE_Time_Value> m_logindelay;
+        std::map<tstring, ACE_Time_Value> m_logindelay;
         
         //user id incrementer
         int m_userid_counter = 0;
@@ -427,7 +426,7 @@ namespace teamtalk {
 
 #else
 
-#define ASSERT_SERVERNODE_LOCKED(servernode)        (void)0
+#define ASSERT_SERVERNODE_LOCKED(servernode)        static_cast<void>(0)
 
 #endif /* _DEBUG */
 
@@ -439,15 +438,15 @@ namespace teamtalk {
         /* begin logging functions */
         virtual void OnUserConnected(const ServerUser& user) = 0;
         virtual void OnUserLogin(const ServerUser& user) = 0;
-        virtual void OnUserAuthFailed(const ServerUser& user, const ACE_TString& username) = 0;
+        virtual void OnUserAuthFailed(const ServerUser& user, const tstring& username) = 0;
         virtual void OnUserLoginBanned(const ServerUser& user) = 0;
         virtual void OnUserLoggedOut(const ServerUser& user) = 0;
         virtual void OnUserDisconnected(const ServerUser& user) = 0;
-        virtual void OnUserCryptError(const ServerUser& user, int sslerr, const ACE_TString& msg) = 0;
+        virtual void OnUserCryptError(const ServerUser& user, int sslerr, const tstring& msg) = 0;
         virtual void OnUserDropped(const ServerUser& user) = 0;
         virtual void OnUserKicked(const ServerUser& kickee, const ServerUser* kicker, const ServerChannel* channel) = 0;
         virtual void OnUserBanned(const ServerUser& banee, const ServerUser& banner) = 0;
-        virtual void OnUserBanned(const ACE_TString& ipaddr, const ServerUser& banner) = 0;
+        virtual void OnUserBanned(const tstring& ipaddr, const ServerUser& banner) = 0;
         virtual void OnUserBanned(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual void OnUserUnbanned(const ServerUser& user, const BannedUser& ban) = 0;
         virtual void OnUserUpdated(const ServerUser& user) = 0;
@@ -488,15 +487,15 @@ namespace teamtalk {
                                         UserAccount& useraccount) = 0;
         virtual ErrorMsg GetRegUsers(const ServerUser& user, useraccounts_t& users) = 0;
         virtual ErrorMsg AddRegUser(const ServerUser& user, const UserAccount& useraccount) = 0;
-        virtual ErrorMsg DeleteRegUser(const ServerUser& user, const ACE_TString& username) = 0;
+        virtual ErrorMsg DeleteRegUser(const ServerUser& user, const tstring& username) = 0;
 
         virtual ErrorMsg AddUserBan(const ServerUser& banner, const ServerUser& banee, BanTypes bantype) = 0;
         virtual ErrorMsg AddUserBan(const ServerUser& banner, const BannedUser& ban) = 0;
         virtual ErrorMsg RemoveUserBan(const ServerUser& user, const BannedUser& ban) = 0;
         virtual ErrorMsg GetUserBans(const ServerUser& user, std::vector<BannedUser>& bans) = 0;
 
-        virtual ErrorMsg ChangeNickname(const ServerUser& user, const ACE_TString& newnick) = 0;
-        virtual ErrorMsg ChangeStatus(const ServerUser& user, int mode, const ACE_TString& status) = 0;
+        virtual ErrorMsg ChangeNickname(const ServerUser& user, const tstring& newnick) = 0;
+        virtual ErrorMsg ChangeStatus(const ServerUser& user, int mode, const tstring& status) = 0;
 
         virtual ErrorMsg SaveConfiguration(const ServerUser& user, ServerNode& servernode) = 0;
     };

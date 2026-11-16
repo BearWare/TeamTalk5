@@ -418,7 +418,7 @@ bool MixerGetWaveInName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
     if(res != MMSYSERR_NOERROR)
         return false;
 
-    res = mixerGetDevCaps((UINT_PTR)hMixer, reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
+    res = mixerGetDevCaps(reinterpret_cast<UINT_PTR>(hMixer), reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
     if(res != MMSYSERR_NOERROR)
     {
         mixerClose(hMixer);
@@ -440,7 +440,7 @@ bool MixerGetWaveOutName(int nWaveDeviceID, TCHAR name[MIXER_STR_LEN])
 	if(res != MMSYSERR_NOERROR)
 		return false;
 
-    res = mixerGetDevCaps((UINT_PTR)hMixer, reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
+    res = mixerGetDevCaps(reinterpret_cast<UINT_PTR>(hMixer), reinterpret_cast<LPMIXERCAPS>(&caps), sizeof(caps));
 	if(res != MMSYSERR_NOERROR)
     {
         mixerClose(hMixer);

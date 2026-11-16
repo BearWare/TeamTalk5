@@ -37,7 +37,6 @@
 
 #include <ace/INET_Addr.h>
 #include <ace/Message_Queue.h>
-#include <ace/SString.h>
 #include <ace/Time_Value.h>
 
 #include <array>
@@ -80,7 +79,7 @@ namespace teamtalk {
         {
             bool inbound = false;
             int transferid = 0;
-            ACE_TString filename;
+            tstring filename;
             MyFile file;
             int64_t filesize = 0;
             bool active = false;
@@ -108,23 +107,23 @@ namespace teamtalk {
         bool SendData(ACE_Message_Queue_Base& msg_queue);
 
 #if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString GetAccessToken() const { return KeyToHexString(m_accesstoken.data(), sizeof(m_accesstoken)); }
+        tstring GetAccessToken() const { return KeyToHexString(m_accesstoken.data(), sizeof(m_accesstoken)); }
 #endif
         bool IsAuthorized() const { return (m_account.usertype & (USERTYPE_ADMIN | USERTYPE_DEFAULT)) != 0u; }
         void SetUserAccount(const UserAccount& account) { m_account = account; }
         const UserAccount& GetUserAccount() const { return m_account; }
-        const ACE_TString& GetUsername() const override { return m_account.username; }
+        const tstring& GetUsername() const override { return m_account.username; }
         UserRights GetUserRights() const { return m_account.userrights; }
         UserTypes GetUserType() const override { return m_account.usertype; }
         int GetUserData() const override { return m_account.userdata; }
-        const ACE_TString& GetInitialChannel() const { return m_account.init_channel; }
+        const tstring& GetInitialChannel() const { return m_account.init_channel; }
 
         void SetUdpAddress(const ACE_INET_Addr& remoteaddr, const ACE_INET_Addr& localaddr){ m_udpaddr = remoteaddr; m_localudpaddr = localaddr; }
         const ACE_INET_Addr& GetUdpAddress() const { return m_udpaddr; }
         const ACE_INET_Addr& GetLocalUdpAddress() const { return m_localudpaddr; }
 
-        void SetStreamProtocol(const ACE_TString& protocol){m_stream_protocol=protocol;}
-        const ACE_TString& GetStreamProtocol() const { return m_stream_protocol; }
+        void SetStreamProtocol(const tstring& protocol){m_stream_protocol=protocol;}
+        const tstring& GetStreamProtocol() const { return m_stream_protocol; }
 
         int GetLastKeepAlive() const { return m_lastkeepalive; }
         void SetLastKeepAlive(int lasttime){ m_lastkeepalive = lasttime; }
@@ -132,7 +131,7 @@ namespace teamtalk {
         void SetChannel(serverchannel_t& channel){ m_channel = channel; }
         serverchannel_t GetChannel() const { return m_channel.lock(); }
         
-        BannedUser GenerateBan(BanTypes bantype = BANTYPE_NONE, const ACE_TString& chanpath = ACE_TEXT("")) const;
+        BannedUser GenerateBan(BanTypes bantype = BANTYPE_NONE, const tstring& chanpath = ACE_TEXT("")) const;
 
         //user specific subscriptions
         void AddSubscriptions(const ServerUser& user, Subscriptions subscribe);
@@ -178,14 +177,14 @@ namespace teamtalk {
         void DoShowBan(const BannedUser& ban);
         void DoShowUserAccount(const UserAccount& user);
         void DoAddUserAccount(const UserAccount& user);
-        void DoRemoveUserAccount(const ACE_TString& username);
+        void DoRemoveUserAccount(const tstring& username);
 
         void DoFileDeliver(const FileTransfer& transfer);
         void DoFileAccepted(const FileTransfer& transfer);
         void DoFileCompleted();
         void DoFileReady();
         void DoAddFile(const RemoteFile& file);
-        void DoRemoveFile(const ACE_TString& filename, const ServerChannel& channel);
+        void DoRemoveFile(const tstring& filename, const ServerChannel& channel);
         void DoServerStats();
 
         void DoOk();
@@ -215,8 +214,8 @@ namespace teamtalk {
         {
             CMD_ABORT, CMD_SUSPENDED, CMD_DONE
         };
-        CmdProcessing ProcessCommand(const ACE_CString& cmdline, bool was_suspended);
-        ErrorMsg HandleCommand(const ACE_TString& cmd, const mstrings_t& properties);
+        CmdProcessing ProcessCommand(const std::string& cmdline, bool was_suspended);
+        ErrorMsg HandleCommand(const tstring& cmd, const mstrings_t& properties);
         //handling of client --> server commands
         ErrorMsg HandleLogin(const mstrings_t& properties);
         ErrorMsg HandleLogout(const mstrings_t& properties);
@@ -261,7 +260,7 @@ namespace teamtalk {
         void DoBeginCmd(int cmdID);
         void DoEndCmd(int cmdID);
 
-        void TransmitCommand(const ACE_TString& cmd);
+        void TransmitCommand(const tstring& cmd);
         void SendFile(ACE_Message_Queue_Base& msg_queue);
         void CloseTransfer();
 
@@ -270,7 +269,7 @@ namespace teamtalk {
 
         ACE_INET_Addr m_udpaddr, m_localudpaddr;
 
-        ACE_TString m_stream_protocol;
+        tstring m_stream_protocol;
         ServerNode& m_servernode;
         ACE_HANDLE m_stream_handle = ACE_INVALID_HANDLE;
 #if defined(ENABLE_TEAMTALKPRO)
@@ -282,7 +281,7 @@ namespace teamtalk {
         ACE_Time_Value m_LogonTime;
 
         //commands received so far
-        ACE_CString m_recvbuf, m_sendbuf;
+        std::string m_recvbuf, m_sendbuf;
         bool m_cmdsuspended = false;
 
         //file transfer variables

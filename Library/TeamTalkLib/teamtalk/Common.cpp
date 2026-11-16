@@ -59,8 +59,8 @@ namespace teamtalk
     bool UserAccount::IsWebLogin() const
     {
 #if defined(ENABLE_TEAMTALKPRO)
-        ACE_TString const bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-        return std::regex_search(username.c_str(), BuildRegex(bwregex.c_str()));
+        tstring const bwregex = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + tstring(ACE_TEXT("$"));
+        return std::regex_search(username.c_str(), BuildRegex(bwregex));
 #else
         return false;
 #endif
@@ -84,31 +84,31 @@ namespace teamtalk
 
         if (((bantype & BANTYPE_IPADDR) != BANTYPE_NONE) && (!ipaddr.empty()))
         {
-            const ACE_TString rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
+            const tstring rgxsubnet = ACE_TEXT("^") ACE_TEXT("(.*)/(\\d+)") ACE_TEXT("$");
 #if defined(UNICODE)
             std::wsmatch sm;
-            std::wstring bannedip = ipaddr.c_str();
+            std::wstring bannedip = ipaddr;
 #else
             std::smatch sm;
             std::string const bannedip = ipaddr.c_str();
 #endif
-            if (user.ipaddr.is_empty())
+            if (user.ipaddr.empty())
             {
                 match = false; // do not report banned if user has no IP-address
             }
-            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet.c_str())) && sm.size() == 3)
+            else if (std::regex_search(bannedip, sm, BuildRegex(rgxsubnet)) && sm.size() == 3)
             {
                 // check if network ban
-                ACE_TString const net = sm[1].str().c_str();
-                uint32_t const prefix = String2I(sm[2].str().c_str());
+                tstring const net = sm[1].str();
+                uint32_t const prefix = String2I(sm[2].str());
                 // match &= INetAddrNetwork(user.ipaddr, prefix) == net;
                 // to prevent invalid network (192.168.1.0/23 = 192.168.0.0/23) ?
                 match &= INetAddrNetwork(user.ipaddr, prefix) == INetAddrNetwork(net, prefix);
             }
             else
             {
-                ACE_TString const rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
-                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx.c_str()));
+                tstring const rgx = ACE_TEXT("^") + ipaddr + ACE_TEXT("$");
+                match &= std::regex_search(user.ipaddr.c_str(), BuildRegex(rgx));
             }
         }
 
@@ -122,7 +122,7 @@ namespace teamtalk
     }
 
 
-    ACE_TString DateToString(const ACE_Time_Value& tv)
+    tstring DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time const date(tv);
         std::array<ACE_TCHAR, 200> buf{};

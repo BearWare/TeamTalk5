@@ -57,7 +57,7 @@
 
 using namespace media;
 
-bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
+bool GetMediaFileProp(const tstring& filename, MediaFileProp& fileprop)
 {
 #if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
     if (GetOpusFileMediaFileProp(filename, fileprop))
@@ -78,7 +78,7 @@ bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
     return false;
 }
 
-mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+mediafile_streamer_t MakeMediaFileStreamer(const tstring& filename, const MediaStreamOutput& out_prop)
 {
     mediafile_streamer_t streamer;
 
@@ -546,7 +546,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
     return m_video_frames.message_count() == 0;
 }
 
-MediaFileStreamer::MediaFileStreamer(const ACE_TString& filename,
+MediaFileStreamer::MediaFileStreamer(const tstring& filename,
                                      const MediaStreamOutput& out_prop)
 : MediaStreamer(out_prop)
 {

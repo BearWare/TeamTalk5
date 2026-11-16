@@ -94,7 +94,7 @@ namespace teamtalk {
         void InitTransfer();
         void UpdateBytesTransferred();
 
-        void ProcessCommand(const ACE_CString& cmdline);
+        void ProcessCommand(const std::string& cmdline);
         void HandleWelcome(const mstrings_t& properties);
         void HandleError(const mstrings_t& properties);
         void HandleFileDeliver(const mstrings_t& properties);
@@ -110,7 +110,7 @@ namespace teamtalk {
 
 
     private:
-        void TransmitCommand(const ACE_TString& command);
+        void TransmitCommand(const tstring& command);
 
         void SendFile(ACE_Message_Queue_Base& msg_queue);
 
@@ -123,7 +123,7 @@ namespace teamtalk {
         ACE_INET_Addr m_remoteAddr;
         ServerProperties m_srvprop;
         bool m_binarymode = false;
-        ACE_CString m_readbuffer, m_sendbuffer;
+        std::string m_readbuffer, m_sendbuffer;
         std::vector<char> m_filebuffer;
 
         bool m_pending_complete = false, m_completed = false;

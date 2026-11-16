@@ -50,12 +50,12 @@ namespace teamtalk {
 
     struct ServerInfo : public ServerProperties
     {
-        ACE_TString protocol;
+        tstring protocol;
         int packetprotocol = 0;
-        ACE_TString motd_raw;
+        tstring motd_raw;
         std::vector<ACE_INET_Addr> hostaddrs;
         ACE_INET_Addr udpaddr; // same as hostaddrs[0] but port number may be different
-        ACE_TString accesstoken;
+        tstring accesstoken;
         ServerInfo() = default;
     };
 

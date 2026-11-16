@@ -30,7 +30,7 @@ ClientChannel::ClientChannel(int channelid)
 {
 }
 
-ClientChannel::ClientChannel(channel_t& parent, int channelid, const ACE_TString& name)
+ClientChannel::ClientChannel(channel_t& parent, int channelid, const tstring& name)
 : PARENT(parent, channelid, name)
 {
 }

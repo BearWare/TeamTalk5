@@ -32,7 +32,7 @@
 
 #include <memory>
 
-bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
+bool GetDSMediaFileProp(const tstring& filename, MediaFileProp& fileprop);
 
 class DSWrapperThread : protected ACE_Task<ACE_MT_SYNCH>
                       , public MediaStreamer

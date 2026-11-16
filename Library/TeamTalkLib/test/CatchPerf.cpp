@@ -612,7 +612,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
         auto txclient = InitTeamTalk();
 
         REQUIRE(Connect(txclient));
-        ACE_TString name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
+        tstring name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
         REQUIRE(Login(txclient, name.c_str()));
         int n_users;
         REQUIRE(TT_GetServerUsers(txclient, nullptr, &n_users));
@@ -636,7 +636,7 @@ TEST_CASE("MaxUsersAndMaxChannels")
     //    auto txclient = InitTeamTalk();
 
     //    REQUIRE(Connect(txclient));
-    //    ACE_TString name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
+    //    tstring name = ACE_TEXT("Client - #") + I2String(TT_GetMyUserID(txclient));
     //    REQUIRE(Login(txclient, name.c_str()));
 
 }
@@ -660,7 +660,7 @@ TEST_CASE("MaxChannels")
     {
         AudioCodec codec;
         codec.nCodec = NO_CODEC;
-        ACE_TString name = ACE_TEXT("TestChannel - #") + I2String(i);
+        tstring name = ACE_TEXT("TestChannel - #") + I2String(i);
         Channel chan = MakeChannel(txclient, name.c_str(), TT_GetRootChannelID(txclient), codec);
         REQUIRE(WaitForCmdSuccess(txclient, TT_DoMakeChannel(txclient, &chan)));
     }
@@ -672,7 +672,7 @@ TEST_CASE("MaxChannels")
 
     for (int i = 0; i < n_create; ++i)
     {
-        ACE_TString name = ACE_TEXT("TestChannel - #") + I2String(i);
+        tstring name = ACE_TEXT("TestChannel - #") + I2String(i);
         int chanid = TT_GetChannelIDFromPath(txclient, name.c_str());
         REQUIRE(WaitForCmdSuccess(txclient, TT_DoRemoveChannel(txclient, chanid)));
     }

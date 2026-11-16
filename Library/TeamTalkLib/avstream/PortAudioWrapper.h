@@ -208,7 +208,7 @@ namespace soundsystem
         PaDuplexStreamer* m_streamer;
         std::shared_ptr<std::thread> m_callback_thread;
 
-        typedef std::map<ACE_TString, UINT> mapsndid_t;
+        typedef std::map<tstring, UINT> mapsndid_t;
 
         bool FindDevs(LONG& indevindex, LONG& outdevindex);
         void Run();

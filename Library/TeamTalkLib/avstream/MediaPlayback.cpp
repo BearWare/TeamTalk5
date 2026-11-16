@@ -83,7 +83,7 @@ MediaPlayback::~MediaPlayback()
     MYTRACE_COND(DEBUG_MEDIAPLAYBACK, ACE_TEXT("~MediaPlayback - %p. ID: %d\n"), this, m_userdata);
 }
 
-bool MediaPlayback::OpenFile(const ACE_TString& filename)
+bool MediaPlayback::OpenFile(const tstring& filename)
 {
     if (m_streamer && m_streamer->GetMediaFile().IsValid())
         return false;

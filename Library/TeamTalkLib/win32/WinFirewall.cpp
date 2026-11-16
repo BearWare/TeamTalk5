@@ -22,6 +22,7 @@
  */
 
 #include "WinFirewall.h"
+
 #include "myace/MyACE.h"
 
 #include <Strsafe.h>
@@ -855,7 +856,7 @@ bool WinFirewall::EnableFirewall(bool enable)
     return SUCCEEDED(hr);
 }
 
-bool WinFirewall::IsApplicationFirewalled(const ACE_TString& exefile)
+bool WinFirewall::IsApplicationFirewalled(const tstring& exefile)
 {
     if (m_fw == nullptr)
         return false;
@@ -865,8 +866,8 @@ bool WinFirewall::IsApplicationFirewalled(const ACE_TString& exefile)
     return bEnabled != 0;
 }
 
-bool WinFirewall::AddException(const ACE_TString& exefile,
-                               const ACE_TString& name)
+bool WinFirewall::AddException(const tstring& exefile,
+                               const tstring& name)
 {
     if (m_fw == nullptr)
         return false;
@@ -875,7 +876,7 @@ bool WinFirewall::AddException(const ACE_TString& exefile,
     return SUCCEEDED(hr);
 }
 
-bool WinFirewall::RemoveException(const ACE_TString& exefile)
+bool WinFirewall::RemoveException(const tstring& exefile)
 {
     if (m_fw == nullptr)
         return false;

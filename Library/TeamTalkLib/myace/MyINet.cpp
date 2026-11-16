@@ -49,7 +49,7 @@
 #include <memory>
 #include <sstream>
 
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port)
+std::vector<ACE_INET_Addr> DetermineHostAddress(const tstring& host, uint16_t port)
 {
     std::vector<ACE_INET_Addr> result;
 
@@ -118,11 +118,11 @@ static void AceSingletons()
 #endif /* ENABLE_ENCRYPTION */
 }
 
-int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
+int HttpGetRequest(const std::string& url, std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     AceSingletons();
 
-    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url.c_str()));
     if (!url_safe)
         return -1;
 
@@ -150,13 +150,13 @@ int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Statu
     return httpCode.is_ok() ? 1 : 0;
 }
 
-int HttpPostRequest(const ACE_CString& url, const char* data, int len,
+int HttpPostRequest(const std::string& url, const char* data, int len,
                     const std::map<std::string, std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode /*= nullptr*/)
 {
     AceSingletons();
 
-    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url));
+    std::unique_ptr<ACE::INet::URL_Base> url_safe(ACE::INet::URL_Base::create_from_string(url.c_str()));
     if (!url_safe)
         return -1;
 
@@ -253,7 +253,7 @@ int HttpPostRequest(const ACE_CString& url, const char* data, int len,
     return httpCode.is_ok() ? 1 : 0;
 }
 
-int HttpPostRequest(const ACE_CString& url, const std::map<std::string,std::string>& unencodedformdata,
+int HttpPostRequest(const std::string& url, const std::map<std::string,std::string>& unencodedformdata,
                     std::string& result, ACE::HTTP::Status::Code* statusCode/* = nullptr*/)
 {
     std::string content;
@@ -293,14 +293,14 @@ std::string URLEncode(const std::string& utf8)
     return escaped.str();
 }
 
-ACE_TString InetAddrToString(const ACE_INET_Addr& addr)
+tstring InetAddrToString(const ACE_INET_Addr& addr)
 {
     std::array<ACE_TCHAR, INET6_ADDRSTRLEN+1> buf{};
     addr.addr_to_string(buf.data(), INET6_ADDRSTRLEN);
     return buf.data();
 }
 
-int InetAddrFamily(const ACE_TString& addr_str)
+int InetAddrFamily(const tstring& addr_str)
 {
     std::array<char, INET6_ADDRSTRLEN> buf{};
     if (ACE_OS::inet_pton(AF_INET, UnicodeToUtf8(addr_str).c_str(), buf.data()) > 0)
@@ -310,7 +310,7 @@ int InetAddrFamily(const ACE_TString& addr_str)
     return -1;
 }
 
-ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix)
+tstring INetAddrNetwork(const tstring& ipaddr, uint32_t prefix)
 {
     int const af = InetAddrFamily(ipaddr);
     switch (af)

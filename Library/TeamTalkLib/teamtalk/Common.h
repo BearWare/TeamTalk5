@@ -32,7 +32,6 @@
 
 #include "TeamTalkDefs.h"
 
-#include <ace/SString.h>
 #include <ace/Time_Value.h>
 
 #include <cstdint>
@@ -85,11 +84,11 @@ namespace teamtalk {
 
     struct ServerProperties
     {
-        ACE_TString systemid;
-        ACE_TString version;
+        tstring systemid;
+        tstring version;
         bool autosave = false;
-        ACE_TString motd;
-        ACE_TString servername;
+        tstring motd;
+        tstring servername;
         int maxusers = 0;
         int maxloginattempts = 0; //max login attempts with wrong password
         int max_logins_per_ipaddr = 0;
@@ -154,9 +153,9 @@ namespace teamtalk {
     {
         MsgType msgType = TTNoneMsg;
         int from_userid = 0;
-        ACE_TString from_username;
+        tstring from_username;
         int to_userid = 0;
-        ACE_TString content;
+        tstring content;
         int channelid = 0;
         bool more = false;
     };
@@ -246,17 +245,17 @@ namespace teamtalk {
 
     struct UserAccount
     {
-        ACE_TString username;
-        ACE_TString passwd;
-        ACE_TString note;
+        tstring username;
+        tstring passwd;
+        tstring note;
         UserTypes usertype = USERTYPE_NONE;
         UserRights userrights = USERRIGHT_NONE; /* Mask of UserRight */
         int userdata = 0;
-        ACE_TString init_channel;
+        tstring init_channel;
         intset_t auto_op_channels;
         int audiobpslimit = 0;
         Abuse abuse;
-        ACE_TString nickname; /* TODO: add to TT API */
+        tstring nickname; /* TODO: add to TT API */
         ACE_Time_Value lastupdated;
         ACE_Time_Value lastlogin;
         
@@ -278,12 +277,12 @@ namespace teamtalk {
     struct BannedUser
     {
         BanTypes bantype{BANTYPE_NONE};
-        ACE_TString ipaddr;
-        ACE_TString chanpath;
+        tstring ipaddr;
+        tstring chanpath;
         ACE_Time_Value bantime;
-        ACE_TString nickname;
-        ACE_TString username; // banned username
-        ACE_TString owner; // who made the ban
+        tstring nickname;
+        tstring username; // banned username
+        tstring owner; // who made the ban
         BannedUser()  { bantime = ACE_OS::gettimeofday(); }
         bool Same(const BannedUser& user) const;
         bool Match(const BannedUser& user) const;
@@ -291,7 +290,7 @@ namespace teamtalk {
 
     using bannedusers_t = std::vector<BannedUser>;
 
-    ACE_TString DateToString(const ACE_Time_Value& tv);
+    tstring DateToString(const ACE_Time_Value& tv);
 
     enum StreamType //ensure DLL compliance
     {
@@ -328,14 +327,14 @@ namespace teamtalk {
     {
         FileTransferStatus status = FILETRANSFER_CLOSED;
         int channelid = 0;
-        ACE_TString localfile;
-        ACE_TString filename;
+        tstring localfile;
+        tstring filename;
         int userid = 0;
         int64_t filesize = 0;
         int64_t transferred = 0;
         int transferid = 0;
         bool inbound = true;
-        ACE_TString transferkey;
+        tstring transferkey;
         FileTransfer() = default;
     };
 
@@ -506,10 +505,10 @@ namespace teamtalk {
     {
         int channelid = 0;
         int fileid = 0;
-        ACE_TString filename;
-        ACE_TString internalname;
+        tstring filename;
+        tstring internalname;
         int64_t filesize;
-        ACE_TString username;
+        tstring username;
         ACE_Time_Value uploadtime;
         RemoteFile();
     };
@@ -569,10 +568,10 @@ namespace teamtalk {
 
     struct ChannelProp
     {
-        ACE_TString name;
-        ACE_TString passwd;
-        ACE_TString topic;
-        ACE_TString oppasswd;
+        tstring name;
+        tstring passwd;
+        tstring topic;
+        tstring oppasswd;
         int64_t diskquota = 0;
         int maxusers = MAX_USERS_IN_CHANNEL;
         bool bProtected = false;

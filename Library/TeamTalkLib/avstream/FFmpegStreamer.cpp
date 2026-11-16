@@ -68,7 +68,7 @@ void InitAVConv()
     });
 }
 
-bool OpenInput(const ACE_TString& filename,
+bool OpenInput(const tstring& filename,
                const AVInputFormat *iformat,
                AVDictionary *options,
                AVFormatContext*& fmt_ctx,
@@ -85,7 +85,7 @@ bool OpenInput(const ACE_TString& filename,
     if (utf8name.substr(0, 8) == "file:///")
     {
         utf8name = utf8name.substr(8);
-        ACE_CString decoded;
+        std::string decoded;
         for (size_t i = 0; i < utf8name.length(); ++i)
         {
             if (utf8name[i] == '%' && i + 2 < utf8name.length())
@@ -228,7 +228,7 @@ static void FillMediaFileProp(AVFormatContext *fmt_ctx,
     out_prop.duration_ms = static_cast<uint32_t>((fmt_ctx->duration * av_q2d(AV_TIME_BASE_Q)) * 1000);
 }
 
-bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
+bool GetAVMediaFileProp(const tstring& filename, MediaFileProp& out_prop)
 {
     InitAVConv();
 
@@ -257,7 +257,7 @@ bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)
 }
 
 
-FFmpegStreamer::FFmpegStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop)
+FFmpegStreamer::FFmpegStreamer(const tstring& filename, const MediaStreamOutput& out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
     InitAVConv();

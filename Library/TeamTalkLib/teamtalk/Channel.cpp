@@ -25,9 +25,9 @@
 
 namespace teamtalk {
 
-    strings_t TokenizeChannelPath(const ACE_TString& str)
+    strings_t TokenizeChannelPath(const tstring& str)
     {
-        std::vector<ACE_TString> tokNames;
+        std::vector<tstring> tokNames;
         size_t i=0;
         size_t last=0;
         while(i<str.length())
@@ -58,7 +58,7 @@ namespace teamtalk {
         return tokNames;
     }
 
-    bool ChannelsEquals(const ACE_TString& szChanPath1, const ACE_TString& szChanPath2)
+    bool ChannelsEquals(const tstring& szChanPath1, const tstring& szChanPath2)
     {
         strings_t const tok1 = TokenizeChannelPath(StringToLower(szChanPath1));
         strings_t const tok2 = TokenizeChannelPath(StringToLower(szChanPath2));

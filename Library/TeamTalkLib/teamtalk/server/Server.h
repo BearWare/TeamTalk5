@@ -28,7 +28,6 @@
 #include "TeamTalkDefs.h"
 
 #include <ace/INET_Addr.h>
-#include <ace/SString.h>
 
 #include <vector>
 
@@ -36,7 +35,7 @@ namespace teamtalk {
 
     struct ServerSettings : public ServerProperties
     {
-        ACE_TString filesroot; //files root directory            
+        tstring filesroot; //files root directory            
         std::vector<ACE_INET_Addr> tcpaddrs;
         std::vector<ACE_INET_Addr> udpaddrs;
         int rxloss = 0, txloss = 0;

@@ -31,7 +31,7 @@
 #include <propvarutil.h>
 #include <VersionHelpers.h>
 
-bool GetMFMediaFileProp(const ACE_TString &filename, MediaFileProp &fileprop)
+bool GetMFMediaFileProp(const tstring &filename, MediaFileProp &fileprop)
 {
     MFStreamer s(filename, MediaStreamOutput());
     if (s.Open())
@@ -42,7 +42,7 @@ bool GetMFMediaFileProp(const ACE_TString &filename, MediaFileProp &fileprop)
     return false;
 }
 
-MFStreamer::MFStreamer(const ACE_TString &filename, const MediaStreamOutput &out_prop)
+MFStreamer::MFStreamer(const tstring &filename, const MediaStreamOutput &out_prop)
     : MediaFileStreamer(filename, out_prop)
 {
 }

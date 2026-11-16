@@ -87,9 +87,9 @@ BOOL WINAPI ControlHandler(DWORD dwControlType)
     return FALSE;
 }
 
-ACE_TString GetWinError(DWORD err)
+tstring GetWinError(DWORD err)
 {
-    ACE_TString result;
+    tstring result;
     LPTSTR s = NULL;
     ::FormatMessage(FORMAT_MESSAGE_ALLOCATE_BUFFER |
         FORMAT_MESSAGE_FROM_SYSTEM,
@@ -151,12 +151,12 @@ ACE_NT_SERVICE_DEFINE (TeamTalk,
 #endif
 
 // overwritable options
-static ACE_TString bindip;
-static ACE_TString settingsfile;
-static ACE_TString logfile = ACE_TEXT(TEAMTALK_LOGFILE);
-static ACE_TString pidfile;
-static ACE_TString weblogin;
-static ACE_TString tokenlogin;
+static tstring bindip;
+static tstring settingsfile;
+static tstring logfile = ACE_TEXT(TEAMTALK_LOGFILE);
+static tstring pidfile;
+static tstring weblogin;
+static tstring tokenlogin;
 static int tcpport = 0;
 static int udpport = 0;
 static bool verbose = false;
@@ -256,7 +256,7 @@ int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
 }
 
 static void RunEventLoop(ACE_Reactor* tcpReactor, ACE_Reactor* udpReactor,
-                  const ACE_TString& workdir)
+                  const tstring& workdir)
 {
     int const ret = ACE_Thread_Manager::instance ()->spawn(EventLoop, udpReactor);
     if(ret < 0)
@@ -332,7 +332,7 @@ int RunServer(
 #endif
 
     std::error_code ec;
-    ACE_TString workdir = std::filesystem::current_path(ec).native().c_str();
+    tstring workdir = std::filesystem::current_path(ec).native().c_str();
 
     //enable logging
     if (xmlSettings.GetServerLogMaxSize() != 0)
@@ -414,7 +414,7 @@ int RunServer(
         return -1;
 #endif
 
-    ACE_TString systemid = SERVER_WELCOME;
+    tstring systemid = SERVER_WELCOME;
 #if defined(ENABLE_TEAMTALKPRO)
     systemid = Utf8ToUnicode(xmlSettings.GetSystemID(UnicodeToUtf8(systemid).c_str()).c_str());
     if (!servernode.StartServer(encrypted, systemid))
@@ -556,12 +556,12 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
 )
 {
-    std::map<ACE_TString,ACE_TString> args;
+    std::map<tstring,tstring> args;
 
     for(int i=0;i<argc;i++)
     {
-        ACE_TString const str(argv[i]);
-        pair<ACE_TString,ACE_TString> newPair;
+        tstring const str(argv[i]);
+        pair<tstring,tstring> newPair;
         newPair.first = str;
         if ((str == ACE_TEXT("-wd") ||
             str == ACE_TEXT("-tcpport") ||
@@ -591,7 +591,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         args.insert(newPair);
     }
 
-    std::map<ACE_TString,ACE_TString>::iterator ite;
+    std::map<tstring,tstring>::iterator ite;
 
     if(args.contains(ACE_TEXT("--version")))
     {
@@ -652,7 +652,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     }
     if( (ite = args.find(ACE_TEXT("-wd"))) != args.end())
     {
-        ACE_TString const workdir = (*ite).second;
+        tstring const workdir = (*ite).second;
         std::error_code ec;
         std::filesystem::current_path(workdir.c_str(), ec);
         if(ec)
@@ -783,7 +783,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     // -tokenlogin foo@bearware.dk:fedeabe0912345
     if (!tokenlogin.empty())
     {
-        const ACE_TString rgxtokenlogin = ACE_TEXT("^(.*):(.*)$");
+        const tstring rgxtokenlogin = ACE_TEXT("^(.*):(.*)$");
 #if defined(UNICODE)
         std::wsmatch sm;
         std::wstring const tokenstr = tokenlogin.c_str();
@@ -793,8 +793,8 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
         if (std::regex_search(tokenstr, sm, BuildRegex(rgxtokenlogin.c_str())) && sm.size() == 3)
         {
-            ACE_TString const loginid = sm[1].str().c_str();
-            ACE_TString const newtoken = sm[2].str().c_str();
+            tstring const loginid = sm[1].str().c_str();
+            tstring const newtoken = sm[2].str().c_str();
             if (AuthBearWareAccount(loginid, newtoken) != WEBLOGIN_SUCCESS)
             {
                 TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));
@@ -815,7 +815,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     // -weblogin foo@bearware.dk:mysecretpassword
     if (!weblogin.empty())
     {
-        const ACE_TString rgxweblogin = ACE_TEXT("^(.*):(.*)$");
+        const tstring rgxweblogin = ACE_TEXT("^(.*):(.*)$");
 #if defined(UNICODE)
         std::wsmatch sm;
         std::wstring webloginstr = weblogin.c_str();
@@ -825,9 +825,9 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 #endif
         if (std::regex_search(webloginstr, sm, BuildRegex(rgxweblogin.c_str())) && sm.size() == 3)
         {
-            ACE_TString const loginid = sm[1].str().c_str();
-            ACE_TString const passwd = sm[2].str().c_str();
-            ACE_TString bearwareid, token;
+            tstring const loginid = sm[1].str().c_str();
+            tstring const passwd = sm[2].str().c_str();
+            tstring bearwareid, token;
             if (LoginBearWareAccount(loginid, passwd, token, bearwareid) != WEBLOGIN_SUCCESS)
             {
                 TT_SYSLOG(ACE_TEXT("Failed to authenticate BearWare.dk WebLogin."));

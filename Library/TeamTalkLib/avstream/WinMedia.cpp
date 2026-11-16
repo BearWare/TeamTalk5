@@ -35,7 +35,7 @@
 #include <memory>
 
 
-bool GetDSMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop)
+bool GetDSMediaFileProp(const tstring& filename, MediaFileProp& fileprop)
 {
     DSWrapperThread ds_thread(NULL);
 

@@ -32,7 +32,6 @@
 #include <zlib.h>
 
 #include <ace/ACE.h>
-#include <ace/SString.h>
 
 #include <cassert>
 #include <cstddef>
@@ -388,7 +387,7 @@ bool DesktopViewer::DecompressBlock(const char* inbuf,
     return success;
 }
 
-void DesktopViewer::WriteBitmapToFile(const ACE_TString& filename)
+void DesktopViewer::WriteBitmapToFile(const tstring& filename)
 {
     switch (m_pixel_size)
     {

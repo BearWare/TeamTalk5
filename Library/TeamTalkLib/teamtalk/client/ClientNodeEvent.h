@@ -45,7 +45,7 @@ namespace teamtalk {
         virtual void OnConnectSuccess() = 0;
         virtual void OnConnectFailed() = 0;
         virtual void OnConnectionLost() = 0;
-        virtual void OnEncryptionFailed(int sslerr, const ACE_TString& errmsg) = 0;
+        virtual void OnEncryptionFailed(int sslerr, const tstring& errmsg) = 0;
 
         virtual void OnAccepted(int myuserid, const teamtalk::UserAccount& account) = 0;
         virtual void OnLoggedOut() = 0;
@@ -73,7 +73,7 @@ namespace teamtalk {
 
         virtual void OnUserAccount(const teamtalk::UserAccount& account) = 0;
         virtual void OnAddUserAccount(const teamtalk::UserAccount& account) = 0;
-        virtual void OnRemoveUserAccount(const ACE_TString& username) = 0;
+        virtual void OnRemoveUserAccount(const tstring& username) = 0;
         virtual void OnBannedUser(const teamtalk::BannedUser& banuser) = 0;
 
         virtual void OnTextMessage(const teamtalk::TextMessage& textmsg) = 0;
@@ -84,11 +84,11 @@ namespace teamtalk {
 
         virtual void OnFileTransferStatus(const teamtalk::FileTransfer& transfer) = 0;
 
-        virtual void OnCommandError(int cmdid, int err_num, const ACE_TString& msg) = 0;
+        virtual void OnCommandError(int cmdid, int err_num, const tstring& msg) = 0;
         virtual void OnCommandSuccess(int cmdid) = 0;
         virtual void OnCommandProcessing(int cmdid, bool begin_end) = 0;
 
-        virtual void OnInternalError(int err_num, const ACE_TString& msg) = 0;
+        virtual void OnInternalError(int err_num, const tstring& msg) = 0;
 
         virtual void OnVoiceActivated(bool enabled) = 0;
 

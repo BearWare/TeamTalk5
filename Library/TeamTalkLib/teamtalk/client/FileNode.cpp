@@ -235,15 +235,15 @@ void FileNode::Disconnect()
     TTASSERT(m_reactor.find_handler(h) == nullptr);
 }
 
-void FileNode::TransmitCommand(const ACE_TString& command)
+void FileNode::TransmitCommand(const tstring& command)
 {
     MYTRACE(ACE_TEXT("FILENODE: %s"), command.c_str());
     int ret = -1;
     ACE_Time_Value const tm = ACE_Time_Value::zero;
 #if defined(UNICODE)
-    ACE_CString data = UnicodeToUtf8(command.c_str());
+    std::string data(UnicodeToUtf8(command));
 #else
-    const ACE_CString& data = command;
+    std::string data(command.c_str());
 #endif
 
     bool const empty = m_sendbuffer.empty();
@@ -355,8 +355,8 @@ bool FileNode::OnReceive(const char* buff, int len)
     else
     {
         m_readbuffer.append(buff, len);
-        ACE_CString cmd;
-        ACE_CString remain;
+        std::string cmd;
+        std::string remain;
         while(GetCmdLine(m_readbuffer, cmd, remain))
         {
             ProcessCommand(cmd);
@@ -420,7 +420,7 @@ bool FileNode::OnSend(DefaultStreamHandler::StreamHandler_t& handler)
 
 void FileNode::DoRecvFile()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_RECVFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
     AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
@@ -431,7 +431,7 @@ void FileNode::DoRecvFile()
 
 void FileNode::DoSendFile()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_SENDFILE;
     AppendProperty(TT_TRANSFERID, m_transfer.transferid, cmd);
     AppendProperty(TT_TRANSFERKEY, m_transfer.transferkey, cmd);
@@ -442,25 +442,25 @@ void FileNode::DoSendFile()
 
 void FileNode::DoFileDeliver()
 {
-    ACE_TString cmd;
+    tstring cmd;
     cmd = CLIENT_DELIVERFILE;
     cmd += EOL;
 
     TransmitCommand(cmd);
 }
 
-void FileNode::ProcessCommand(const ACE_CString& cmdline)
+void FileNode::ProcessCommand(const std::string& cmdline)
 {
-    ACE_CString tmp_cmd;
+    std::string tmp_cmd;
     if(!GetCmd(cmdline, tmp_cmd))
         return;
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
+    tstring cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    tstring command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
-    ACE_TString const cmd = tmp_cmd;
-    const ACE_TString& command = cmdline;
+    tstring const cmd = tmp_cmd.c_str();
+    tstring const command = cmdline.c_str();
 #endif
 
     MYTRACE(ACE_TEXT("SERVER: %s"), command.c_str());
@@ -469,15 +469,15 @@ void FileNode::ProcessCommand(const ACE_CString& cmdline)
     if(ExtractProperties(command, properties)<0)
         return;
 
-    if(StringCmpNoCase(cmd, SERVER_ERROR))
+    if(cmd == SERVER_ERROR)
         HandleError(properties);
-    else if(StringCmpNoCase(cmd, m_srvprop.systemid))
+    else if(cmd == m_srvprop.systemid)
         HandleWelcome(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_DELIVER))
+    else if(cmd == SERVER_FILE_DELIVER)
         HandleFileDeliver(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_READY))
+    else if(cmd == SERVER_FILE_READY)
         HandleFileReady(properties);
-    else if(StringCmpNoCase(cmd, SERVER_FILE_COMPLETED))
+    else if(cmd == SERVER_FILE_COMPLETED)
         HandleFileCompleted(properties);
 }
 

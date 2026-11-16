@@ -65,7 +65,7 @@ namespace teamtalk {
 
     struct VoiceLogFile
     {
-        ACE_TString filename;
+        tstring filename;
         int samplerate = 0;
         int channels = 0;
         int duration = 0;
@@ -81,7 +81,7 @@ namespace teamtalk {
         //// no copying
         VoiceLog(const VoiceLog& log) = delete;
 
-        VoiceLog(int userid, const ACE_TString& filename,
+        VoiceLog(int userid, const tstring& filename,
                  const AudioCodec& codec, AudioFileFormat aff,
                  int stream_id, int stoppedtalking_delay);
         ~VoiceLog();
@@ -96,7 +96,7 @@ namespace teamtalk {
 
         bool IsActive() const { return m_active; }
 
-        ACE_TString GetFileName() const { return m_filename; }
+        tstring GetFileName() const { return m_filename; }
         AudioFileFormat GetAFF() const { return m_aff; }
 
         int GetDuration();
@@ -136,7 +136,7 @@ namespace teamtalk {
 #if defined(ENABLE_OPUSTOOLS)
         opusfile_t m_opusfile;
 #endif
-        ACE_TString m_filename;
+        tstring m_filename;
 
         teamtalk::AudioCodec m_codec;
         AudioFileFormat m_aff = AFF_NONE;
@@ -171,14 +171,14 @@ namespace teamtalk {
                             const AudioPacket& packet);
 
         void CancelLog(int userid);
-        ACE_TString GetVoiceLogFileName(int userid);
+        tstring GetVoiceLogFileName(int userid);
 
     private:
         int svc () override;
         void BeginLog(ClientUser& user, 
                       const AudioCodec& codec, 
                       int stream_id,
-                      const ACE_TString& folderpath);
+                      const tstring& folderpath);
         bool EndLog(int userid);
         void FlushLogs();
         using mapvlogs_t = std::map<int, voicelog_t>;

@@ -86,7 +86,7 @@ public:
     void OnConnectSuccess() override;
     void OnConnectFailed() override;
     void OnConnectionLost() override;
-    void OnEncryptionFailed(int sslerr, const ACE_TString& errmsg) override;
+    void OnEncryptionFailed(int sslerr, const tstring& errmsg) override;
 
     void OnAccepted(int myuserid, const teamtalk::UserAccount& account) override;
     void OnLoggedOut() override;
@@ -114,7 +114,7 @@ public:
 
     void OnUserAccount(const teamtalk::UserAccount& account) override;
     void OnAddUserAccount(const teamtalk::UserAccount& account) override;
-    void OnRemoveUserAccount(const ACE_TString& username) override;
+    void OnRemoveUserAccount(const tstring& username) override;
     void OnBannedUser(const teamtalk::BannedUser& banuser) override;
 
     void OnTextMessage(const teamtalk::TextMessage& textmsg) override;
@@ -126,11 +126,11 @@ public:
 
     void OnServerStatistics(const teamtalk::ServerStats& serverstats) override;
 
-    void OnCommandError(int cmdid, int err_num, const ACE_TString& msg) override;
+    void OnCommandError(int cmdid, int err_num, const tstring& msg) override;
     void OnCommandSuccess(int cmdid) override;
     void OnCommandProcessing(int cmdid, bool begin_end) override;
 
-    void OnInternalError(int errorno, const ACE_TString& msg) override;
+    void OnInternalError(int errorno, const tstring& msg) override;
 
     void OnVoiceActivated(bool enabled) override;
 

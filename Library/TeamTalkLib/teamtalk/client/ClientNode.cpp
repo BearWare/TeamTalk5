@@ -73,7 +73,7 @@ constexpr auto SIMULATE_TX_PACKETLOSS = 0;
 #error Packetloss in release mode
 #endif
 
-ClientNode::ClientNode(const ACE_TString& version, ClientListener* listener)
+ClientNode::ClientNode(const tstring& version, ClientListener* listener)
                        : m_flags(CLIENT_CLOSED)
                        , m_connector(GetEventLoop(), ACE_NONBLOCK)
 #if defined(ENABLE_ENCRYPTION)
@@ -215,11 +215,11 @@ clientchannel_t ClientNode::GetChannel(int channelid)
     return {};
 }
 
-ACE_TString ClientNode::GetChannelPath(int channelid)
+tstring ClientNode::GetChannelPath(int channelid)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    ACE_TString chanpath;
+    tstring chanpath;
     clientchannel_t const chan = GetChannel(channelid);
     if (chan)
         chanpath = chan->GetChannelPath();
@@ -261,7 +261,7 @@ clientuser_t ClientNode::GetUser(int userid, bool include_local/* = false*/)
     return suser;
 }
 
-clientuser_t ClientNode::GetUserByUsername(const ACE_TString& username)
+clientuser_t ClientNode::GetUserByUsername(const tstring& username)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
@@ -1417,7 +1417,7 @@ bool ClientNode::MediaStreamVideoCallback(media::VideoFrame& /*video_frame*/,
 //    VideoFormat cap_format = m_videofile_thread->GetVideoFormat();
 //     static int x = 1;
 //     if((x++ % 200) == 0)
-//         WriteBitmap(i2string(x) + ACE_TString(".bmp"), video_frame.width, video_frame.height, 4,
+//         WriteBitmap(i2string(x) + tstring(".bmp"), video_frame.width, video_frame.height, 4,
 //                     video_frame.frame, video_frame.frame_length);
     m_videofile_thread->QueueFrame(mb_video);
 
@@ -3146,7 +3146,7 @@ void ClientNode::SetSoundInputTone(StreamTypes streams, int frequency)
 
 bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec, 
                                               StreamTypes sts,
-                                              const ACE_TString& filename,
+                                              const tstring& filename,
                                               AudioFileFormat aff)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
@@ -3162,7 +3162,7 @@ bool ClientNode::StartRecordingMuxedAudioFile(const AudioCodec& codec,
 
 bool ClientNode::StartRecordingMuxedAudioFile(int channelid,
                                               StreamTypes sts,
-                                              const ACE_TString& filename,
+                                              const tstring& filename,
                                               AudioFileFormat aff)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
@@ -3204,7 +3204,7 @@ bool ClientNode::StartMTUQuery()
                       CLIENT_QUERY_MTU_INTERVAL)>=0;
 }
 
-bool ClientNode::StartStreamingMediaFile(const ACE_TString& filename,
+bool ClientNode::StartStreamingMediaFile(const tstring& filename,
                                          uint32_t offset, bool paused,
                                          const AudioPreprocessor& preprocessor,
                                          const VideoCodec& vid_codec)
@@ -3368,7 +3368,7 @@ void ClientNode::StopStreamingMediaFile(bool killtimer/* = true*/)
     }
 }
 
-int ClientNode::InitMediaPlayback(const ACE_TString& filename, uint32_t offset, bool paused, 
+int ClientNode::InitMediaPlayback(const tstring& filename, uint32_t offset, bool paused, 
                                   const AudioPreprocessor& preprocessor)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
@@ -3531,7 +3531,7 @@ void ClientNode::MediaPlaybackAudio(int id, const media::AudioFrame& frm)
     AudioUserCallback(id, STREAMTYPE_LOCALMEDIAPLAYBACK_AUDIO, cpyframe);
 }
 
-bool ClientNode::InitVideoCapture(const ACE_TString& src_id,
+bool ClientNode::InitVideoCapture(const tstring& src_id,
                                   const media::VideoFormat& cap_format)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
@@ -3966,10 +3966,10 @@ bool ClientNode::SendDesktopInput(int userid,
 }
 
 
-bool ClientNode::Connect(bool encrypted, const ACE_TString& hostaddr,
+bool ClientNode::Connect(bool encrypted, const tstring& hostaddr,
                          u_short tcpport, u_short udpport, 
-                         const ACE_TString& sysid,
-                         const ACE_TString& localaddr,
+                         const tstring& sysid,
+                         const tstring& localaddr,
                          u_short local_tcpport/* = 0*/, 
                          u_short local_udpport/* = 0*/)
 {
@@ -4270,21 +4270,21 @@ void ClientNode::LoggedOut()
     m_flags &= ~CLIENT_AUTHORIZED;
 }
 
-int ClientNode::DoLogin(const ACE_TString& nickname,
-                        const ACE_TString& username,
-                        const ACE_TString& password,
-                        const ACE_TString& clientname)
+int ClientNode::DoLogin(const tstring& nickname,
+                        const tstring& username,
+                        const tstring& password,
+                        const tstring& clientname)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
     
     //now do login
-    ACE_TString command = CLIENT_LOGIN;
+    tstring command = CLIENT_LOGIN;
     AppendProperty(TT_NICKNAME, nickname, command);
     AppendProperty(TT_USERNAME, username, command);
     AppendProperty(TT_PASSWORD, password, command);
     AppendProperty(TT_CLIENTNAME, clientname, command);
-    AppendProperty(TT_PROTOCOL, ACE_TString( TEAMTALK_PROTOCOL_VERSION ), command);
+    AppendProperty(TT_PROTOCOL, tstring( TEAMTALK_PROTOCOL_VERSION ), command);
     AppendProperty(TT_VERSION, m_version, command);
 
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4297,18 +4297,18 @@ int ClientNode::DoLogout()
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_LOGOUT;
+    tstring command = CLIENT_LOGOUT;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::DoChangeNickname(const ACE_TString& newnick)
+int ClientNode::DoChangeNickname(const tstring& newnick)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_CHANGENICK;
+    tstring command = CLIENT_CHANGENICK;
     AppendProperty(TT_NICKNAME, newnick, command);
 
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4316,12 +4316,12 @@ int ClientNode::DoChangeNickname(const ACE_TString& newnick)
     return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::DoChangeStatus(int statusmode, const ACE_TString& statusmsg)
+int ClientNode::DoChangeStatus(int statusmode, const tstring& statusmsg)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_CHANGESTATUS;
+    tstring command = CLIENT_CHANGESTATUS;
     AppendProperty(TT_STATUSMODE, statusmode, command);
     AppendProperty(TT_STATUSMESSAGE, statusmsg, command);
 
@@ -4335,7 +4335,7 @@ int ClientNode::DoTextMessage(const TextMessage& msg)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_MESSAGE;
+    tstring command = CLIENT_MESSAGE;
     AppendProperty(TT_MSGTYPE, static_cast<int>(msg.msgType), command);
     AppendProperty(TT_MSGCONTENT, msg.content, command);
     switch(msg.msgType)
@@ -4365,7 +4365,7 @@ int ClientNode::DoPing(bool issue_cmdid)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    ACE_TString command = CLIENT_KEEPALIVE;
+    tstring command = CLIENT_KEEPALIVE;
     if(issue_cmdid)
         AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
@@ -4382,7 +4382,7 @@ int ClientNode::DoJoinChannel(const ChannelProp& chanprop, bool forceexisting)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_JOINCHANNEL;
+    tstring command = CLIENT_JOINCHANNEL;
     if (!GetChannel(chanprop.channelid) && !forceexisting) //new channel
     {
         AppendProperty(TT_CHANNAME, chanprop.name, command);
@@ -4422,7 +4422,7 @@ int ClientNode::DoLeaveChannel()
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_LEAVECHANNEL;
+    tstring command = CLIENT_LEAVECHANNEL;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     return TransmitCommand(command, m_cmdid_counter);
@@ -4433,7 +4433,7 @@ int ClientNode::DoKickUser(int userid, int channelid)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_KICK;
+    tstring command = CLIENT_KICK;
     if(channelid != 0)
         AppendProperty(TT_CHANNELID, channelid, command);
 
@@ -4445,12 +4445,12 @@ int ClientNode::DoKickUser(int userid, int channelid)
 }
 
 int ClientNode::DoChannelOperator(int userid, int channelid, 
-                                  const ACE_TString& oppasswd, bool op)
+                                  const tstring& oppasswd, bool op)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_CHANNELOP;
+    tstring command = CLIENT_CHANNELOP;
     AppendProperty(TT_CHANNELID, channelid, command);
     AppendProperty(TT_USERID, userid, command);
     AppendProperty(TT_OPERATORSTATUS, static_cast<int64_t>(op), command);
@@ -4462,7 +4462,7 @@ int ClientNode::DoChannelOperator(int userid, int channelid,
     return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
+int ClientNode::DoFileSend(int channelid, const tstring& localfilepath)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
@@ -4470,9 +4470,9 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     std::error_code ec;
     auto const fsize = std::filesystem::file_size(localfilepath.c_str(), ec);
     int64_t const filesize = ec ? -1 : static_cast<int64_t>(fsize);
-    ACE_TString filename = localfilepath;
+    tstring filename = localfilepath;
     size_t const index = localfilepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR);
-    if(index != ACE_TString::npos)
+    if(index != tstring::npos)
         filename = filename.substr(index+1, localfilepath.length()-index+1);
 
     FileTransfer transfer;
@@ -4491,7 +4491,7 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     TTASSERT(GetUserID()>0);
 
     //first register file transfer before sending
-    ACE_TString command = CLIENT_REGSENDFILE;
+    tstring command = CLIENT_REGSENDFILE;
     AppendProperty(TT_FILENAME, transfer.filename, command);
     AppendProperty(TT_FILESIZE, transfer.filesize, command);
     AppendProperty(TT_CHANNELID, transfer.channelid, command);
@@ -4505,8 +4505,8 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
 }
 
 int ClientNode::DoFileRecv(int channelid, 
-                           const ACE_TString& localfilepath, 
-                           const ACE_TString& remotefilename)
+                           const tstring& localfilepath, 
+                           const tstring& remotefilename)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
@@ -4527,7 +4527,7 @@ int ClientNode::DoFileRecv(int channelid,
     TTASSERT(GetUserID()>0);
 
     //first register file transfer before sending
-    ACE_TString command = CLIENT_REGRECVFILE;
+    tstring command = CLIENT_REGRECVFILE;
     AppendProperty(TT_FILENAME, transfer.filename, command);
     AppendProperty(TT_CHANNELID, transfer.channelid, command);
     AppendProperty(TT_TRANSFERKEY, transfer.transferkey, command);
@@ -4539,12 +4539,12 @@ int ClientNode::DoFileRecv(int channelid,
     return cmdid;
 }
 
-int ClientNode::DoFileDelete(int channelid, const ACE_TString& filename)
+int ClientNode::DoFileDelete(int channelid, const tstring& filename)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_DELETEFILE;
+    tstring command = CLIENT_DELETEFILE;
     AppendProperty(TT_CHANNELID, channelid, command);
     AppendProperty(TT_FILENAME, filename, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4557,7 +4557,7 @@ int ClientNode::DoSubscribe(int userid, Subscriptions subscript)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_SUBSCRIBE;
+    tstring command = CLIENT_SUBSCRIBE;
     AppendProperty(TT_USERID, userid, command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, subscript, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4570,7 +4570,7 @@ int ClientNode::DoUnsubscribe(int userid, Subscriptions subscript)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_UNSUBSCRIBE;
+    tstring command = CLIENT_UNSUBSCRIBE;
     AppendProperty(TT_USERID, userid, command);
     AppendProperty(TT_LOCALSUBSCRIPTIONS, subscript, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4583,7 +4583,7 @@ int ClientNode::DoQueryServerStats()
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_QUERYSTATS;
+    tstring command = CLIENT_QUERYSTATS;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     return TransmitCommand(command, m_cmdid_counter);
@@ -4594,7 +4594,7 @@ int ClientNode::DoQuit()
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_QUIT;
+    tstring command = CLIENT_QUIT;
     command += EOL;
     return TransmitCommand(command, 0);
 }
@@ -4604,7 +4604,7 @@ int ClientNode::DoMakeChannel(const ChannelProp& chanprop)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_MAKECHANNEL;
+    tstring command = CLIENT_MAKECHANNEL;
     AppendProperty(TT_PARENTID, chanprop.parentid, command);
     AppendProperty(TT_CHANNAME, chanprop.name, command);
     AppendProperty(TT_PASSWORD, chanprop.passwd, command);
@@ -4638,7 +4638,7 @@ int ClientNode::DoUpdateChannel(const ChannelProp& chanprop)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_UPDATECHANNEL;
+    tstring command = CLIENT_UPDATECHANNEL;
     AppendProperty(TT_CHANNELID, chanprop.channelid, command);
     AppendProperty(TT_CHANNAME, chanprop.name, command);
     AppendProperty(TT_PASSWORD, chanprop.passwd, command);
@@ -4673,7 +4673,7 @@ int ClientNode::DoRemoveChannel(int channelid)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_REMOVECHANNEL;
+    tstring command = CLIENT_REMOVECHANNEL;
     AppendProperty(TT_CHANNELID, channelid, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
@@ -4686,7 +4686,7 @@ int ClientNode::DoMoveUser(int userid, int channelid)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_MOVEUSER;
+    tstring command = CLIENT_MOVEUSER;
     AppendProperty(TT_USERID, userid, command);
     AppendProperty(TT_CHANNELID, channelid, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4700,7 +4700,7 @@ int ClientNode::DoUpdateServer(const ServerInfo& serverprop)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_UPDATESERVER;
+    tstring command = CLIENT_UPDATESERVER;
     AppendProperty(TT_SERVERNAME, serverprop.servername, command);
     AppendProperty(TT_MOTDRAW, serverprop.motd_raw, command);
     AppendProperty(TT_MAXUSERS, serverprop.maxusers, command);
@@ -4731,7 +4731,7 @@ int ClientNode::DoBanUser(int userid, const BannedUser& ban)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_BAN;
+    tstring command = CLIENT_BAN;
     if(userid>0)
         AppendProperty(TT_USERID, userid, command);
     if(!ban.ipaddr.empty())
@@ -4755,7 +4755,7 @@ int ClientNode::DoUnBanUser(const BannedUser& ban)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_UNBAN;
+    tstring command = CLIENT_UNBAN;
     AppendProperty(TT_IPADDR, ban.ipaddr, command);
     AppendProperty(TT_BANTYPE, ban.bantype, command);
     AppendProperty(TT_USERNAME, ban.username, command);
@@ -4771,7 +4771,7 @@ int ClientNode::DoListBans(int chanid, int index, int count)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_LISTBANS;
+    tstring command = CLIENT_LISTBANS;
     AppendProperty(TT_INDEX, index, command);
     AppendProperty(TT_COUNT, count, command);
     if (chanid > 0)
@@ -4787,7 +4787,7 @@ int ClientNode::DoListUserAccounts(int index, int count)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_LISTUSERACCOUNTS;
+    tstring command = CLIENT_LISTUSERACCOUNTS;
     AppendProperty(TT_INDEX, index, command);
     AppendProperty(TT_COUNT, count, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
@@ -4801,7 +4801,7 @@ int ClientNode::DoNewUserAccount(const UserAccount& user)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_NEWUSERACCOUNT;
+    tstring command = CLIENT_NEWUSERACCOUNT;
     AppendProperty(TT_USERNAME, user.username, command);
     AppendProperty(TT_PASSWORD, user.passwd, command);
     AppendProperty(TT_USERTYPE, user.usertype, command);
@@ -4818,12 +4818,12 @@ int ClientNode::DoNewUserAccount(const UserAccount& user)
     return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::DoDeleteUserAccount(const ACE_TString& username)
+int ClientNode::DoDeleteUserAccount(const tstring& username)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_DELUSERACCOUNT;
+    tstring command = CLIENT_DELUSERACCOUNT;
     AppendProperty(TT_USERNAME, username, command);
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
@@ -4836,14 +4836,14 @@ int ClientNode::DoSaveConfig()
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    ACE_TString command = CLIENT_SAVECONFIG;
+    tstring command = CLIENT_SAVECONFIG;
     AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
 
     return TransmitCommand(command, m_cmdid_counter);
 }
 
-int ClientNode::TransmitCommand(const ACE_TString& command, int cmdid)
+int ClientNode::TransmitCommand(const tstring& command, int cmdid)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
@@ -4853,9 +4853,9 @@ int ClientNode::TransmitCommand(const ACE_TString& command, int cmdid)
     MYTRACE(ACE_TEXT("CLIENT #%d: %s"), m_myuserid, command.c_str());
 
 #if defined(UNICODE)
-    ACE_CString data = UnicodeToUtf8(command.c_str());
+    std::string data(UnicodeToUtf8(command));
 #else
-    const ACE_CString& data = command;
+    std::string data(command.c_str());
 #endif /* UNICODE */
 
     bool const empty = m_sendbuffer.empty();
@@ -5027,8 +5027,8 @@ bool ClientNode::OnReceive(const char* buff, int len)
     if(len>0)
     {
         m_recvbuffer.append(buff, len);
-        ACE_CString cmd;
-        ACE_CString remain;
+        std::string cmd;
+        std::string remain;
         while(GetCmdLine(m_recvbuffer, cmd, remain))
         {
             if(ProcessCommand(cmd))
@@ -5082,22 +5082,22 @@ bool ClientNode::OnSend(DefaultStreamHandler::StreamHandler_t& handler)
     return OnSend(*handler.msg_queue());
 }
 
-bool ClientNode::ProcessCommand(const ACE_CString& cmdline)
+bool ClientNode::ProcessCommand(const std::string& cmdline)
 {
     GUARD_REACTOR(this);
 
-    ACE_CString tmp_cmd;
+    std::string tmp_cmd;
     if(!GetCmd(cmdline, tmp_cmd))
     {
         return true;
     }
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
+    tstring cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    tstring command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
-    ACE_TString const cmd = tmp_cmd;
-    const ACE_CString& command = cmdline;
+    tstring const cmd = tmp_cmd.c_str();
+    tstring const command = cmdline.c_str();
 #endif
 
     MYTRACE(ACE_TEXT("SERVER #%d: %s"), m_myuserid, command.c_str());
@@ -5195,7 +5195,7 @@ void ClientNode::HandleAccepted(const mstrings_t& properties)
 
     TTASSERT(m_flags & CLIENT_CONNECTED);
     int userid = 0;
-    ACE_TString ipaddr;
+    tstring ipaddr;
     ACE_INET_Addr const udpaddr;
 
     if (GetProperty(properties, TT_USERID, userid) &&
@@ -5274,14 +5274,14 @@ void ClientNode::HandleLoggedIn(const mstrings_t& properties)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     int userid = 0;
-    ACE_TString nick;
-    ACE_TString username;
-    ACE_TString ipaddr;
-    ACE_TString clientname;
+    tstring nick;
+    tstring username;
+    tstring ipaddr;
+    tstring clientname;
     ACE_INET_Addr const udpaddr;
     int status = 0;
-    ACE_TString statusmsg;
-    ACE_TString version;
+    tstring statusmsg;
+    tstring version;
     UserTypes type = USERTYPE_NONE;
     Subscriptions localsubscript = SUBSCRIBE_NONE;
     Subscriptions peersubscript = SUBSCRIBE_NONE;
@@ -5358,13 +5358,13 @@ void ClientNode::HandleAddUser(const mstrings_t& properties)
 
     int userid = 0;
     int chanid = 0;
-    ACE_TString nickname;
-    ACE_TString username;
-    ACE_TString ipaddr;
-    ACE_TString clientname;
+    tstring nickname;
+    tstring username;
+    tstring ipaddr;
+    tstring clientname;
     int statusmode = 0;
-    ACE_TString statusmsg;
-    ACE_TString version;
+    tstring statusmsg;
+    tstring version;
     int packet_protocol = 0;
     int userdata = 0;
     UserTypes type = USERTYPE_NONE;
@@ -5431,11 +5431,11 @@ void ClientNode::HandleUpdateUser(const mstrings_t& properties)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     int userid = 0;
-    ACE_TString nickname;
-    ACE_TString ipaddr;
-    ACE_TString clientname;
+    tstring nickname;
+    tstring ipaddr;
+    tstring clientname;
     int statusmode = 0;
-    ACE_TString statusmsg;
+    tstring statusmsg;
     Subscriptions localsubscript = SUBSCRIBE_NONE;
     Subscriptions peersubscript = SUBSCRIBE_NONE;
 
@@ -5572,7 +5572,7 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     newchan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
-    ACE_TString crypt_key;
+    tstring crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
         newchan->SetEncryptKey(crypt_key);
 #endif
@@ -5639,7 +5639,7 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
-    ACE_TString crypt_key;
+    tstring crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
         chan->SetEncryptKey(crypt_key);
 #endif
@@ -5691,7 +5691,7 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
     if (chan)
     {
 #if defined(ENABLE_ENCRYPTION)
-        ACE_TString crypt_key;
+        tstring crypt_key;
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
             chan->SetEncryptKey(crypt_key);
 #endif
@@ -5771,7 +5771,7 @@ void ClientNode::HandleCmdError(const mstrings_t& properties)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     int errnum = 0;
-    ACE_TString msg;
+    tstring msg;
     GetProperty(properties, TT_ERRORNUM, errnum);
     GetProperty(properties, TT_ERRORMSG, msg);
 
@@ -5833,7 +5833,7 @@ void ClientNode::HandleRemoveUserAccount(const mstrings_t& properties)
 {
     ASSERT_CLIENTNODE_LOCKED(this);
 
-    ACE_TString username;
+    tstring username;
     GetProperty(properties, TT_USERNAME, username);
 
     m_listener->OnRemoveUserAccount(username);
@@ -5968,7 +5968,7 @@ void ClientNode::HandleRemoveFile(const mstrings_t& properties)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     int channelid = 0;
-    ACE_TString filename;
+    tstring filename;
     GetProperty(properties, TT_CHANNELID, channelid);
     GetProperty(properties, TT_FILENAME, filename);
 

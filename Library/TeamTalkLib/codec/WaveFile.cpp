@@ -115,7 +115,7 @@ WaveFile::WaveFile()
 WaveFile::~WaveFile()
 = default;
 
-bool WaveFile::NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len)
+bool WaveFile::NewFile(const tstring& filename, const WAVEFORMATEX* waveformat, int len)
 {
     if (!m_wavfile.NewFile(filename))
         return false;
@@ -140,7 +140,7 @@ WavePCMFile::~WavePCMFile()
     MYTRACE_COND(DEBUG_WAVEFILE, ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
 }
 
-bool WavePCMFile::OpenFile(const ACE_TString& filename, bool readonly)
+bool WavePCMFile::OpenFile(const tstring& filename, bool readonly)
 {
     if(m_wavfile.Open(filename, readonly) && Valid())
     {
@@ -153,7 +153,7 @@ bool WavePCMFile::OpenFile(const ACE_TString& filename, bool readonly)
     return false;
 }
 
-bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int channels)
+bool WavePCMFile::NewFile(const tstring& filename, int samplerate, int channels)
 {
     if (m_wavfile.NewFile(filename))
     {
@@ -164,7 +164,7 @@ bool WavePCMFile::NewFile(const ACE_TString& filename, int samplerate, int chann
     return false;
 }
 
-bool WavePCMFile::NewFile(const ACE_TString& filename, const media::AudioFormat& fmt)
+bool WavePCMFile::NewFile(const tstring& filename, const media::AudioFormat& fmt)
 {
     return NewFile(filename, fmt.samplerate, fmt.channels);
 }
@@ -176,10 +176,10 @@ void WavePCMFile::Close()
     m_channels = 0;
 }
 
-ACE_TString WavePCMFile::FileName() const
+tstring WavePCMFile::FileName() const
 {
     size_t const pos = m_filepath.rfind('\\');
-    if(pos != ACE_TString::npos)
+    if(pos != tstring::npos)
         return m_filepath.substr(pos+1, m_filepath.length()-pos);
             return m_filepath;
 }

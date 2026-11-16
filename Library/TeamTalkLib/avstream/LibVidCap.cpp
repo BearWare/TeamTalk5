@@ -130,20 +130,20 @@ vidcap_devices_t LibVidCap::GetDevices()
     return devices;
 }
 
-bool LibVidCap::InitVideoCapture(const ACE_TString& deviceid,
+bool LibVidCap::InitVideoCapture(const tstring& deviceid,
                                   const media::VideoFormat& vidfmt)
 {
     if(!m_vc_state)
         return false;
 
 #if defined(WIN32)
-    const ACE_TString sapi_id = ACE_TEXT("DirectShow"); //from sapi_dshow.cpp
+    const tstring sapi_id = ACE_TEXT("DirectShow"); //from sapi_dshow.cpp
 #elif defined(__APPLE__)
     //look in 'sapi_qt.c' for Mac support and 'sapi_v4l.c' for Linux support
-    const ACE_TString sapi_id = ACE_TEXT("quicktime"); //from sapi_dshow.cpp
+    const tstring sapi_id = ACE_TEXT("quicktime"); //from sapi_dshow.cpp
 #else
     //look in 'sapi_v4l.c' for Linux support
-    const ACE_TString sapi_id = ACE_TEXT("video4linux"); //from sapi_v4l.cpp
+    const tstring sapi_id = ACE_TEXT("video4linux"); //from sapi_v4l.cpp
 #endif
 
     int ret;

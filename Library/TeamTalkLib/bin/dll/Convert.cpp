@@ -1785,15 +1785,15 @@ void Convert(const int* int_array, int max_elements, std::set<int>& intset)
 bool SetupEncryptionContext(const EncryptionContext& enccontext, ACE_SSL_Context* context)
 {
 #if defined(UNICODE)
-    ACE_CString cert = UnicodeToLocal(enccontext.szCertificateFile);
-    ACE_CString priv = UnicodeToLocal(enccontext.szPrivateKeyFile);
-    ACE_CString cafile = UnicodeToLocal(enccontext.szCAFile);
-    ACE_CString cadir = UnicodeToLocal(enccontext.szCADir);
+    std::string cert = UnicodeToLocal(enccontext.szCertificateFile);
+    std::string priv = UnicodeToLocal(enccontext.szPrivateKeyFile);
+    std::string cafile = UnicodeToLocal(enccontext.szCAFile);
+    std::string cadir = UnicodeToLocal(enccontext.szCADir);
 #else
-    ACE_CString const cert = enccontext.szCertificateFile;
-    ACE_CString const priv = enccontext.szPrivateKeyFile;
-    ACE_CString const cafile = enccontext.szCAFile;
-    ACE_CString const cadir = enccontext.szCADir;
+    std::string const cert = enccontext.szCertificateFile;
+    std::string const priv = enccontext.szPrivateKeyFile;
+    std::string const cafile = enccontext.szCAFile;
+    std::string const cadir = enccontext.szCADir;
 #endif
     
     if ((!cert.empty()) && context->certificate(cert.c_str(), SSL_FILETYPE_PEM) < 0)

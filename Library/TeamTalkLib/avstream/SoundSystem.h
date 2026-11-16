@@ -27,8 +27,6 @@
 #include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
-#include <ace/SString.h>
-
 #include <cassert>
 #include <cstdint>
 #include <memory>
@@ -89,10 +87,10 @@ constexpr auto VOLUME_MIN = 0;
 
     struct DeviceInfo
     {
-        ACE_TString devicename;
+        tstring devicename;
         SoundAPI soundsystem{SOUND_API_NOSOUND};
         int id{SOUND_DEVICEID_INVALID};
-        ACE_TString deviceid;
+        tstring deviceid;
         int wavedeviceid{-1};
         SoundDeviceFeatures features{0};
         int max_input_channels{0};

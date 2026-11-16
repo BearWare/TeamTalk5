@@ -26,11 +26,11 @@
 
 #include "MediaUtil.h"
 
-#include <ace/SString.h>
 #include <vector>
 
-bool WriteBitmap(const ACE_TString& filename, media::VideoFormat fmt,
+bool WriteBitmap(const tstring& filename, media::VideoFormat fmt,
                  const char* data, int size);
 
-std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt);
+std::vector<char> LoadRawBitmap(const tstring& filename, media::VideoFormat& fmt);
+
 #endif

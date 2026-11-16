@@ -179,7 +179,7 @@ bool AudioMuxer::FileActive()
 }
 
 bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
-                          const ACE_TString& filename,
+                          const tstring& filename,
                           teamtalk::AudioFileFormat aff)
 {
     if (FileActive() || !Init(GetAudioCodecAudioInputFormat(codec)))
@@ -872,7 +872,7 @@ ChannelAudioMuxer::~ChannelAudioMuxer()
 
 bool ChannelAudioMuxer::SaveFile(int channelid, const teamtalk::AudioCodec& codec,
                                  teamtalk::StreamTypes sts,
-                                 const ACE_TString& filename,
+                                 const tstring& filename,
                                  teamtalk::AudioFileFormat aff)
 {
     std::unique_lock<std::recursive_mutex> const g(m_mutex);

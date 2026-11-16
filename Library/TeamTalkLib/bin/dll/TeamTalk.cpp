@@ -107,8 +107,8 @@ using namespace std::placeholders;
 
 using clientnode_t = std::shared_ptr<ClientNode>;
 
-extern ACE_TString g_lpszRegName;
-extern ACE_TString g_lpszRegKey;
+extern tstring g_lpszRegName;
+extern tstring g_lpszRegKey;
 extern bool g_LicenseValid;
 
 struct ClientInstance
@@ -1543,7 +1543,7 @@ TEAMTALKDLL_API INT32 TT_DoChannelOp(IN TTInstance* lpTTInstance,
 {
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
-    return clientnode->DoChannelOperator(nUserID, nChannelID, ACE_TString(), 
+    return clientnode->DoChannelOperator(nUserID, nChannelID, tstring(), 
                                           bMakeOperator != 0);
 }
 
@@ -3653,7 +3653,7 @@ TEAMTALKDLL_API INT32 TT_DoUnsubscribe(IN TTInstance* lpTTInstance,
 
 TEAMTALKDLL_API void TT_GetErrorMessage(IN INT32 nError, OUT TTCHAR szErrorMsg[TT_STRLEN])
 {
-    ACE_TString const err = teamtalk::GetErrorDescription(nError);
+    tstring const err = teamtalk::GetErrorDescription(nError);
     ACE_OS::strsncpy(szErrorMsg, err.c_str(), TT_STRLEN);
 }
 

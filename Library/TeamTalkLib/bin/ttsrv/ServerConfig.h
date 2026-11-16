@@ -21,14 +21,15 @@
  *
  */
 
+#if !defined(SERVERCONFIG_H)
+#define SERVERCONFIG_H
+
 #include "ServerXML.h"
 #include "teamtalk/server/Server.h"
 #include "teamtalk/server/ServerNode.h"
 #include "teamtalk/server/ServerUser.h"
 
-#include <ace/SString.h>
-
-bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile);
+bool LoadConfig(teamtalk::ServerXML& xmlSettings, const tstring& cfgfile);
 void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings);
 void RunWizard(teamtalk::ServerXML& xmlSettings);
 
@@ -51,3 +52,5 @@ void ConvertChannels(const teamtalk::serverchannel_t& root, teamtalk::statchanne
 void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statchannels_t& channels);
 
 void RemoveUnusedFiles(teamtalk::ServerXML& xmlSettings);
+
+#endif
