@@ -145,11 +145,9 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
 
             IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
                                              0, __CLIENTERRORMSG);
-            msg->clienterrmsg->nErrorNo = INTERR_TTMESSAGE_QUEUE_OVERFLOW;
-
-            ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
-                             ACE_TEXT("The internal message queue has overflowed"),
-                             TT_STRLEN);
+            Convert(teamtalk::ErrorMsg(INTERR_TTMESSAGE_QUEUE_OVERFLOW,
+                                       ACE_TEXT("The internal message queue has overflowed")),
+                    *msg->clienterrmsg);
 
             tv = ACE_Time_Value::zero;
             ret = m_event_queue.enqueue(mb, &tv);
@@ -274,11 +272,7 @@ void TTMsgQueue::OnEncryptionFailed(int sslerr, const ACE_TString& errmsg)
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_CRYPT_ERROR,
                                      sslerr, __CLIENTERRORMSG);
     ACE_UNUSED_ARG(msg);
-    msg->clienterrmsg->nErrorNo = sslerr;
-
-    ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg,
-                     errmsg.c_str(),
-                     TT_STRLEN);
+    Convert(teamtalk::ErrorMsg(sslerr, errmsg), *msg->clienterrmsg);
     EnqueueMsg(mb);
 }
 
@@ -429,7 +423,9 @@ void TTMsgQueue::OnRemoveUserAccount(const ACE_TString& username)
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USERACCOUNT_REMOVE,
                                      0,
                                      __USERACCOUNT);
-    ACE_OS::strsncpy(msg->useraccount->szUsername, username.c_str(), TT_STRLEN);
+    teamtalk::UserAccount account;
+    account.username = username;
+    Convert(account, *msg->useraccount);
     EnqueueMsg(mb);
 }
 
@@ -514,8 +510,7 @@ void TTMsgQueue::OnCommandError(int cmdid, int err_num, const ACE_TString& msg_)
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_ERROR,
                                      cmdid, __CLIENTERRORMSG);
-    msg->clienterrmsg->nErrorNo = err_num;
-    ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg, msg_.c_str(), TT_STRLEN);
+    Convert(teamtalk::ErrorMsg(err_num, msg_), *msg->clienterrmsg);
     EnqueueMsg(mb);
 }
 
@@ -533,8 +528,7 @@ void TTMsgQueue::OnInternalError(int errorno, const ACE_TString& msg_)
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
                                      0, __CLIENTERRORMSG);
-    msg->clienterrmsg->nErrorNo = errorno;
-    ACE_OS::strsncpy(msg->clienterrmsg->szErrorMsg, msg_.c_str(), TT_STRLEN);
+    Convert(teamtalk::ErrorMsg(errorno, msg_), *msg->clienterrmsg);
     EnqueueMsg(mb);
 }
 
@@ -635,7 +629,7 @@ void TTMsgQueue::OnLocalMediaFilePlayback(int sessionid, const MediaFileProp& mf
 {
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_LOCAL_MEDIAFILE,
-        sessionid, __MEDIAFILEINFO);
+                                     sessionid, __MEDIAFILEINFO);
     Convert(mfp, *msg->mediafileinfo);
     msg->mediafileinfo->nStatus = static_cast<MediaFileStatus>(status);
     EnqueueMsg(mb);
