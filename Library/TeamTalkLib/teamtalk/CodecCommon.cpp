@@ -460,7 +460,7 @@ namespace teamtalk
         }
     }
 
-    bool AudioCodecConvertBug(const ACE_TString& streamprotocol, const AudioCodec& codec)
+    bool AudioCodecConvertBug(const tstring& streamprotocol, const AudioCodec& codec)
     {
         // Deprecated: Ignore in TeamTalk 6.
         // Handle crash issue in pre-protocol v5.7 (TeamTalk v5.4).

@@ -57,10 +57,10 @@
 
 typedef std::map< ACE_Time_Value, std::vector<char> > ttpackets_t;
 
-ttpackets_t GetTTPackets(const ACE_CString& filename,
-                         const ACE_CString& srcip,
+ttpackets_t GetTTPackets(const tstring& filename,
+                         const tstring& srcip,
                          int srcport,
-                         const ACE_CString& destip,
+                         const tstring& destip,
                          int destport)
 {
     std::map< ACE_Time_Value, std::vector<char> > result;

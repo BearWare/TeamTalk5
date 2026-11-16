@@ -71,7 +71,7 @@ namespace teamtalk{
                 GetNextUser(0, ua);
                 ua.userrights |= USERRIGHT_TEXTMESSAGE_USER;
                 ua.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
-                RemoveUser(UnicodeToUtf8(ua.username).c_str());
+                RemoveUser(UnicodeToUtf8(ua.username));
                 AddNewUser(ua);
             }
             return SetFileVersion(TEAMTALK_XML_VERSION);
@@ -803,11 +803,11 @@ namespace teamtalk{
 
                 PutInteger(xmlChan, "channel-id", chan.channelid);
                 if(chan.parentid != 0)
-                    PutString(xmlChan, "name", UnicodeToUtf8(chan.name).c_str());
-                PutString(xmlChan, "password", UnicodeToUtf8(chan.passwd).c_str());
-                PutString(xmlChan, "topic", UnicodeToUtf8(chan.topic).c_str());
+                    PutString(xmlChan, "name", UnicodeToUtf8(chan.name));
+                PutString(xmlChan, "password", UnicodeToUtf8(chan.passwd));
+                PutString(xmlChan, "topic", UnicodeToUtf8(chan.topic));
                 PutInteger(xmlChan, "diskquota", chan.diskquota);
-                PutString(xmlChan, "op-password", UnicodeToUtf8(chan.oppasswd).c_str());
+                PutString(xmlChan, "op-password", UnicodeToUtf8(chan.oppasswd));
                 PutInteger(xmlChan, "max-users", chan.maxusers);
                 PutInteger(xmlChan, "channel-type", static_cast<int>(chan.chantype));
                 PutInteger(xmlChan, "userdata", chan.userdata);
@@ -879,9 +879,9 @@ namespace teamtalk{
                     {
                         XMLElement* fileElement = m_xmlDocument.NewElement("file");
                         fileElement->SetAttribute("name", UnicodeToUtf8(file.filename).c_str());
-                        PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname).c_str());
+                        PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname));
                         PutInteger(fileElement, "filesize", file.filesize);
-                        PutString(fileElement, "username", UnicodeToUtf8(file.username).c_str());
+                        PutString(fileElement, "username", UnicodeToUtf8(file.username));
                         PutString(fileElement, "uploadtime", DateToString(file.uploadtime.sec()));
                         filesElement->InsertEndChild(fileElement);
                     }
@@ -1200,11 +1200,11 @@ namespace teamtalk{
         banElement->SetAttribute("type", std::to_string(ban.bantype).c_str());
 
         PutString(banElement, "bantime", DateToString(ban.bantime.sec()));
-        PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr).c_str());
-        PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname).c_str());
-        PutString(banElement, "username", UnicodeToUtf8(ban.username).c_str());
-        PutString(banElement, "channel-path", UnicodeToUtf8(ban.chanpath).c_str());
-        PutString(banElement, "owner", UnicodeToUtf8(ban.owner).c_str());
+        PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr));
+        PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname));
+        PutString(banElement, "username", UnicodeToUtf8(ban.username));
+        PutString(banElement, "channel-path", UnicodeToUtf8(ban.chanpath));
+        PutString(banElement, "owner", UnicodeToUtf8(ban.owner));
     }
 
     int ServerXML::GetUserBanCount()
@@ -1291,13 +1291,13 @@ namespace teamtalk{
             return;
 
         XMLElement* userElement = m_xmlDocument.NewElement("user");
-        PutString(userElement, "username", UnicodeToUtf8(user.username).c_str());
-        PutString(userElement, "password", UnicodeToUtf8(user.passwd).c_str());
+        PutString(userElement, "username", UnicodeToUtf8(user.username));
+        PutString(userElement, "password", UnicodeToUtf8(user.passwd));
         PutInteger(userElement, "user-type", static_cast<int>(user.usertype));
         PutInteger(userElement, "user-rights", static_cast<int>(user.userrights));
-        PutString(userElement, "note", UnicodeToUtf8(user.note).c_str());
+        PutString(userElement, "note", UnicodeToUtf8(user.note));
         PutInteger(userElement, "userdata", user.userdata);
-        PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel).c_str());
+        PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel));
         PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()));
         PutString(userElement, "last-login-time", DateToString(user.lastlogin.sec()));
         XMLElement* opchanElement = m_xmlDocument.NewElement("channel-operator");
@@ -1418,7 +1418,7 @@ namespace teamtalk{
     {
         int const i = 0;
         UserAccount int_user;
-        XMLElement* userElement = GetUser(UnicodeToUtf8(user.username).c_str());
+        XMLElement* userElement = GetUser(UnicodeToUtf8(user.username));
         if(userElement == nullptr)
             return false;
         if(!GetUser(userElement, int_user))
@@ -1473,7 +1473,7 @@ namespace teamtalk{
 
     void ServerXML::UpdateLastLogin(const UserAccount& user)
     {
-        RemoveUser(UnicodeToUtf8(user.username).c_str());
+        RemoveUser(UnicodeToUtf8(user.username));
         UserAccount updateduser = user;
         updateduser.lastlogin = ACE_OS::gettimeofday();
         AddNewUser(updateduser);
@@ -1497,7 +1497,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
 
     for (const auto& userAcc : usersToModify)
     {
-        RemoveUser(UnicodeToUtf8(userAcc.username).c_str());
+        RemoveUser(UnicodeToUtf8(userAcc.username));
         AddNewUser(userAcc);
     }
 
@@ -1515,12 +1515,12 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         pElement = pElement->FirstChildElement("permanent-channels");
         if (pElement == nullptr)
             return nullptr;
-        stdstrings_t tokens = StringTokenize(chpath, "/");
+        strings_t tokens = Tokenize(Utf8ToUnicode(chpath.c_str()), ACE_TEXT("/"));
         while ((pElement != nullptr) && (!tokens.empty()))
         {
             pElement = pElement->FirstChildElement("channel");
             string val;
-            if(GetString(pElement, "name", val) && val == tokens[0])
+            if(GetString(pElement, "name", val) && val == UnicodeToUtf8(tokens[0]))
                 tokens.erase(tokens.begin());
             else
                 pElement = pElement->NextSiblingElement("channel");
@@ -1588,15 +1588,15 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     time_t StringToDate(const std::string& date)
     {
         tm t = {};
-        stdstrings_t tokens = StringTokenize(date, "/ :");
+        strings_t tokens = Tokenize(Utf8ToUnicode(date.c_str()), ACE_TEXT("/ :"));
         if(tokens.size() == 5)
         {
             t.tm_isdst = -1;
-            t.tm_year = std::stoi(tokens[0])-1900;
-            t.tm_mon = std::stoi(tokens[1])-1;
-            t.tm_mday = std::stoi(tokens[2]);
-            t.tm_hour = std::stoi(tokens[3]);
-            t.tm_min = std::stoi(tokens[4]);
+            t.tm_year = static_cast<int>(String2I(tokens[0]))-1900;
+            t.tm_mon = static_cast<int>(String2I(tokens[1]))-1;
+            t.tm_mday = static_cast<int>(String2I(tokens[2]));
+            t.tm_hour = static_cast<int>(String2I(tokens[3]));
+            t.tm_min = static_cast<int>(String2I(tokens[4]));
             return std::mktime(&t);
         }
         return 0;

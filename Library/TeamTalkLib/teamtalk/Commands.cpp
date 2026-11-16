@@ -35,9 +35,9 @@
 
 namespace teamtalk {
 
-    ACE_TString GetErrorDescription(int nError)
+    tstring GetErrorDescription(int nError)
     {
-        ACE_TString errmsg;
+        tstring errmsg;
         switch(nError)
         {
             // command errors
@@ -141,14 +141,14 @@ namespace teamtalk {
     }
 
     bool HasProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop)
+                     const tstring& prop)
     {
         return properties.contains(prop);
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, 
-        ACE_TString& value)
+        const tstring& prop, 
+        tstring& value)
     {
         auto const ite = properties.find(prop);
         if( ite != properties.end() )
@@ -180,7 +180,7 @@ namespace teamtalk {
     } while(0)
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, int& value)
+        const tstring& prop, int& value)
     {
         auto const ite = properties.find(prop);
         if( ite != properties.end())
@@ -193,9 +193,9 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, uint32_t& value)
+                     const tstring& prop, uint32_t& value)
     {
-        ACE_TString tmp;
+        tstring tmp;
         if(GetProperty(properties, prop, tmp))
         {
             UINT_OR_RET(tmp);
@@ -206,7 +206,7 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, bool& value)
+        const tstring& prop, bool& value)
     {
         int i = 0;
         bool const b = GetProperty(properties, prop, i);
@@ -216,9 +216,9 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, int64_t& value)
+        const tstring& prop, int64_t& value)
     {
-        ACE_TString tmp;
+        tstring tmp;
         if(GetProperty(properties, prop, tmp))
         {
             INT_OR_RET(tmp);
@@ -230,17 +230,17 @@ namespace teamtalk {
 
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, std::vector<int>& vec)
+        const tstring& prop, std::vector<int>& vec)
     {
-        ACE_TString value;
+        tstring value;
         auto const ite = properties.find(prop);
         if( ite != properties.end() )
         {
             value = (*ite).second;
-            ACE_TString token;
+            tstring token;
             size_t offset = 0;
             size_t i = value.find(',', offset);//Tokenize(ACE_TEXT(","),offset);
-            while(i != ACE_TString::npos)
+            while(i != tstring::npos)
             {
                 token = value.substr(offset, i-offset);
                 offset = i+1;
@@ -260,7 +260,7 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, 
-        const ACE_TString& prop, 
+        const tstring& prop, 
         std::set<int>& myset)
     {
         std::vector<int> vec;
@@ -270,7 +270,7 @@ namespace teamtalk {
         return b;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioCodec& codec)
     {
         intvec_t codec_type;
@@ -329,7 +329,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioConfig& audcfg)
     {
         intvec_t audcfg_prop;
@@ -346,10 +346,10 @@ namespace teamtalk {
         return true;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      ACE_INET_Addr& addr)
     {
-        ACE_TString str;
+        tstring str;
         if(GetProperty(properties, prop, str))
         {
             addr = ACE_INET_Addr(str.c_str());
@@ -358,7 +358,7 @@ namespace teamtalk {
         return false;
     }
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
+    bool GetProperty(const mstrings_t& properties, const tstring& prop,
                      ACE_Time_Value& tv)
     {
         int64_t gmttime = 0;
@@ -396,14 +396,14 @@ namespace teamtalk {
             useraccount.abuse.FromParam(flood);
     }
 
-    ACE_TString PrepareString(const ACE_TString& str)
+    tstring PrepareString(const tstring& str)
     {
-        ACE_TString newstr;
+        tstring newstr;
 
 #if defined(UNICODE)
         if (UnicodeToUtf8(str.c_str()).length() > MAX_STRING_LENGTH)
         {
-            ACE_CString utf8 = LimitUtf8(UnicodeToUtf8(str.c_str()), MAX_STRING_LENGTH);
+            std::string utf8 = LimitUtf8(UnicodeToUtf8(str.c_str()), MAX_STRING_LENGTH);
             newstr = Utf8ToUnicode(utf8.c_str());
         }
         else
@@ -420,12 +420,12 @@ namespace teamtalk {
         return newstr;
     }
 
-    ACE_TString RebuildString(const ACE_TString& str)
+    tstring RebuildString(const tstring& str)
     {
-        ACE_TString resultstr = str;
-        ACE_TString tmpstr;
-        std::array<ACE_TString, 3> search = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
-        std::array<ACE_TString, 3> replace = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
+        tstring resultstr = str;
+        tstring tmpstr;
+        std::array<tstring, 3> search = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
+        std::array<tstring, 3> replace = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
 
         for(size_t j = 0; j < 3; j++)
         {
@@ -433,7 +433,7 @@ namespace teamtalk {
             size_t oldpos = 0;
             tmpstr = resultstr;
             resultstr.clear();
-            while( (pos1 = tmpstr.find(search[j], pos1)) != ACE_TString::npos)
+            while( (pos1 = tmpstr.find(search[j], pos1)) != tstring::npos)
             {
                 int i = static_cast<int>(pos1);
                 int slashes = 0;
@@ -453,14 +453,14 @@ namespace teamtalk {
         return resultstr;
     }
 
-    ACE_TString PrepareIntegerArray(const std::vector<int>& array)
+    tstring PrepareIntegerArray(const std::vector<int>& array)
     {
-        ACE_TString s;
+        tstring s;
         for(int i=0;i<static_cast<int>(array.size())-1;i++)
         {
             s = s + I2String(array[i]) + ACE_TEXT(",");
         }
-        ACE_TString res;
+        tstring res;
         if(!array.empty())
         {
             res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
@@ -473,9 +473,9 @@ namespace teamtalk {
         return res;
     }
 
-    ACE_TString PrepareIntegerSet(const std::set<int>& myset)
+    tstring PrepareIntegerSet(const std::set<int>& myset)
     {
-        ACE_TString s;
+        tstring s;
         int index = 0;
         std::set<int>::const_iterator ite;
         for(ite=myset.begin();index++<static_cast<int>(myset.size())-1;ite++)
@@ -483,7 +483,7 @@ namespace teamtalk {
             s = s + I2String(*ite) + ACE_TEXT(",");
         }
 
-        ACE_TString res;
+        tstring res;
         if(myset.size()==1)
             res = ACE_TEXT("[") + I2String(*ite) + ACE_TEXT("]");
         else if(myset.size()>1)
@@ -494,7 +494,7 @@ namespace teamtalk {
         return res;
     }
 
-    static size_t PastBlanks(size_t offset, const ACE_TString& input)
+    static size_t PastBlanks(size_t offset, const tstring& input)
     {
         while(offset<input.length() && 
             (input[offset] == ' ' ||
@@ -503,7 +503,7 @@ namespace teamtalk {
         return offset;
     }
 
-    int ExtractProperties(const ACE_TString& input, mstrings_t& properties)
+    int ExtractProperties(const tstring& input, mstrings_t& properties)
     {
         TTASSERT(input.find('\n') == input.rfind('\n'));
 
@@ -512,7 +512,7 @@ namespace teamtalk {
             bSyntaxError = true;
 
         size_t offset = input.find(' ');//past command
-        if(offset == ACE_TString::npos)
+        if(offset == tstring::npos)
             return 0;
 
         while(offset < input.length() && !bSyntaxError)
@@ -525,8 +525,8 @@ namespace teamtalk {
             }
 
             size_t const propBegin = offset;
-            ACE_TString prop;
-            ACE_TString value;
+            tstring prop;
+            tstring value;
             while(offset < input.length()) //extract property name
             {
                 if( input[offset] != ' ' && input[offset] != '=') offset ++;
@@ -534,7 +534,7 @@ namespace teamtalk {
             }
             if(offset == input.length())
             {
-                bSyntaxError = true; //no properties in ACE_TString
+                bSyntaxError = true; //no properties in tstring
                 break;
             }
 
@@ -561,7 +561,7 @@ namespace teamtalk {
             }
 
             //determine whether it's a string or an integer
-            if(input[offset] == '"') //a ACE_TString
+            if(input[offset] == '"') //a tstring
             {
                 bool found = false;
                 size_t const strBegin = ++offset; //past "
@@ -637,35 +637,35 @@ namespace teamtalk {
         return bSyntaxError? -1 : static_cast<int>(properties.size());
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const ACE_TString& value, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const tstring& value, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=\"")) + PrepareString(value) + ACE_TString(ACE_TEXT("\""));
+        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=\"")) + PrepareString(value) + tstring(ACE_TEXT("\""));
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const std::vector<int>& vecValues, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const std::vector<int>& vecValues, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
+        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-        const std::set<int>& setValues, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+        const std::set<int>& setValues, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
+        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, int64_t value, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, int64_t value, tstring& dest_str)
     {
-        ACE_TString const newprop = ACE_TString(ACE_TEXT(" ")) + prop + ACE_TString(ACE_TEXT("=")) + I2String(value);
+        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + I2String(value);
         dest_str += newprop;
     }
 
-    void AppendProperty(const ACE_TString& prop, const AudioCodec& codec, 
-                        ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, const AudioCodec& codec, 
+                        tstring& dest_str)
     {
         intvec_t codec_prop;
         switch(codec.codec)
@@ -715,8 +715,8 @@ namespace teamtalk {
         AppendProperty(prop, codec_prop, dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop, const AudioConfig& audcfg, 
-                        ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, const AudioConfig& audcfg, 
+                        tstring& dest_str)
     {
         intvec_t audcfg_prop;
         /* do not change the order since it will break compatibility 
@@ -727,14 +727,14 @@ namespace teamtalk {
         AppendProperty(prop, audcfg_prop, dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_INET_Addr& addr, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop, 
+                        const ACE_INET_Addr& addr, tstring& dest_str)
     {
         AppendProperty(prop, InetAddrToString(addr), dest_str);
     }
 
-    void AppendProperty(const ACE_TString& prop,
-                        const ACE_Time_Value& tv, ACE_TString& dest_str)
+    void AppendProperty(const tstring& prop,
+                        const ACE_Time_Value& tv, tstring& dest_str)
     {
         time_t const local_tm = tv.sec();
         struct tm* gmt = std::gmtime(&local_tm);
@@ -743,9 +743,9 @@ namespace teamtalk {
     }
 
 
-    bool GetCmdLine(const ACE_CString& input, ACE_CString& cmd, ACE_CString& remain_input)
+    bool GetCmdLine(const std::string& input, std::string& cmd, std::string& remain_input)
     {
-        if(input.find('\n') != ACE_TString::npos)
+        if(input.find('\n') != tstring::npos)
         {
             size_t const pos = input.find('\n');
             cmd = input.substr(0, pos+1);
@@ -758,7 +758,7 @@ namespace teamtalk {
     }
 
 
-    bool GetCmd(const ACE_CString& input, ACE_CString& cmd)
+    bool GetCmd(const std::string& input, std::string& cmd)
     {
         size_t nEndCommand = 0;
         while(nEndCommand < input.length() && 
@@ -771,7 +771,7 @@ namespace teamtalk {
         return nEndCommand>0;
     }
 
-    ACE_TString stripEOL(const ACE_TString& input)
+    tstring stripEOL(const tstring& input)
     {
         size_t const len = ACE_OS::strlen(EOL);
         if(input.length()<len)

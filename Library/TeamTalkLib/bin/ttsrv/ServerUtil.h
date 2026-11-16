@@ -21,7 +21,7 @@
  *
  */
 
-#include <ace/SString.h>
+#include "mystd/MyStd.h"
 
 #include <cstdint>
 #include <fstream>
@@ -33,7 +33,7 @@ bool PrintGetBool(bool value);
 int PrintGetInt(int value);
 int64_t PrintGetInt64(int64_t value);
 
-void RotateLogfile(const ACE_TString& cwd, const ACE_TString& logname, std::ofstream& logfile);
+void RotateLogfile(const tstring& cwd, const tstring& logname, std::ofstream& logfile);
 
 #if defined(ENABLE_TEAMTALKPRO)
 enum WebLoginResult
@@ -43,6 +43,6 @@ enum WebLoginResult
     WEBLOGIN_FAILED = 0,
     WEBLOGIN_SUCCESS = 1,
 };
-WebLoginResult LoginBearWareAccount(const ACE_TString& username, const ACE_TString& passwd, ACE_TString& token, ACE_TString& loginid);
-WebLoginResult AuthBearWareAccount(const ACE_TString& username, const ACE_TString& token);
+WebLoginResult LoginBearWareAccount(const tstring& username, const tstring& passwd, tstring& token, tstring& loginid);
+WebLoginResult AuthBearWareAccount(const tstring& username, const tstring& token);
 #endif

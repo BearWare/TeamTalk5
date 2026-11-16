@@ -28,7 +28,6 @@
 
 #include <ace/ACE.h>
 #include <ace/INET_Addr.h>
-#include <ace/SString.h>
 
 #include <map>
 #include <set>
@@ -284,17 +283,17 @@ namespace teamtalk {
         TT_INTERR_SNDEFFECT_FAILURE = 10005,
     };
 
-    using mstrings_t = std::map<ACE_TString, ACE_TString>;
+    using mstrings_t = std::map<tstring, tstring>;
 
     //obtain error message to error number TT_CMDERR_*
-    ACE_TString GetErrorDescription(int nError);
+    tstring GetErrorDescription(int nError);
 
     struct ErrorMsg
     {
         int errorno = TT_CMDERR_SUCCESS;
-        ACE_TString errmsg, paramname;
+        tstring errmsg, paramname;
         ErrorMsg() = default;
-        ErrorMsg(int cmderrno, const ACE_TString& msg = ACE_TEXT(""), const ACE_TString& param = ACE_TEXT(""))
+        ErrorMsg(int cmderrno, const tstring& msg = ACE_TEXT(""), const tstring& param = ACE_TEXT(""))
             : errorno(cmderrno), paramname(param)
         {
             if (!msg.empty())
@@ -314,77 +313,77 @@ namespace teamtalk {
     };
 
     bool HasProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop);
+                     const tstring& prop);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, ACE_TString& value);
+                     const tstring& prop, tstring& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, int& value);
+                     const tstring& prop, int& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, uint32_t& value);
+                     const tstring& prop, uint32_t& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, std::vector<int>& vec);
+                     const tstring& prop, std::vector<int>& vec);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, std::set<int>& myset);
+                     const tstring& prop, std::set<int>& myset);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, bool& value);
+                     const tstring& prop, bool& value);
 
     bool GetProperty(const mstrings_t& properties, 
-                     const ACE_TString& prop, int64_t& value);
+                     const tstring& prop, int64_t& value);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioCodec& codec);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      AudioConfig& audcfg);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop, 
+    bool GetProperty(const mstrings_t& properties, const tstring& prop, 
                      ACE_INET_Addr& addr);
 
-    bool GetProperty(const mstrings_t& properties, const ACE_TString& prop,
+    bool GetProperty(const mstrings_t& properties, const tstring& prop,
                      ACE_Time_Value& tv);
 
     void GetProperties(const mstrings_t& properties, UserAccount& useraccount);
 
-    ACE_TString PrepareIntegerArray(const std::vector<int>& array);
+    tstring PrepareIntegerArray(const std::vector<int>& array);
 
-    ACE_TString PrepareIntegerSet(const std::set<int>& myset);
+    tstring PrepareIntegerSet(const std::set<int>& myset);
 
-    ACE_TString PrepareString(const ACE_TString& str);
+    tstring PrepareString(const tstring& str);
 
-    ACE_TString RebuildString(const ACE_TString& str);
+    tstring RebuildString(const tstring& str);
 
     //@return Number of properties found, -1 on error.
-    int ExtractProperties(const ACE_TString& input, mstrings_t& properties);
+    int ExtractProperties(const tstring& input, mstrings_t& properties);
 
-    //appends a property to a command ACE_TString
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_TString& value, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
+    //appends a property to a command tstring
+    void AppendProperty(const tstring& prop, 
+                        const tstring& value, tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
                         const std::vector<int>& vecValues, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
                         const std::set<int>& setValues, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        int64_t value, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, const AudioCodec& codec, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, const AudioConfig& audcfg, 
-                        ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop, 
-                        const ACE_INET_Addr& addr, ACE_TString& dest_str);
-    void AppendProperty(const ACE_TString& prop,
-                        const ACE_Time_Value& tv, ACE_TString& dest_str);
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
+                        int64_t value, tstring& dest_str);
+    void AppendProperty(const tstring& prop, const AudioCodec& codec, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, const AudioConfig& audcfg, 
+                        tstring& dest_str);
+    void AppendProperty(const tstring& prop, 
+                        const ACE_INET_Addr& addr, tstring& dest_str);
+    void AppendProperty(const tstring& prop,
+                        const ACE_Time_Value& tv, tstring& dest_str);
 
-    bool GetCmdLine(const ACE_CString& input, 
-                    ACE_CString& cmd, ACE_CString& remain_input);
-    bool GetCmd(const ACE_CString& input, ACE_CString& cmd);
-    ACE_TString StripEol(const ACE_TString& input);
+    bool GetCmdLine(const std::string& input, 
+                    std::string& cmd, std::string& remain_input);
+    bool GetCmd(const std::string& input, std::string& cmd);
+    tstring StripEol(const tstring& input);
 } // namespace teamtalk
 #endif

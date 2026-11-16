@@ -30,14 +30,13 @@
 #include <atlbase.h>
 
 #include <ace/Message_Queue_T.h>
-#include <ace/SString.h>
 
 #include <memory>
 #include <vector>
 
 media::FourCC ConvertSubType(const GUID& native_subtype);
 const GUID& ConvertFourCC(media::FourCC fcc);
-ACE_TString FourCCToString(media::FourCC fcc);
+tstring FourCCToString(media::FourCC fcc);
 media::VideoFormat ConvertVideoMediaType(IMFMediaType* pInputType);
 // returns WAVEFORMATEX-struct
 WAVEFORMATEX* MediaTypeToWaveFormatEx(IMFMediaType* pMediaType, std::vector<char>& buf);

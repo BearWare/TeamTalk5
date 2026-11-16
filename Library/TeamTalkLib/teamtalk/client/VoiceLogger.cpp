@@ -47,7 +47,7 @@ enum
 
 using namespace teamtalk;
 
-VoiceLog::VoiceLog(int userid, const ACE_TString& filename, 
+VoiceLog::VoiceLog(int userid, const tstring& filename, 
                    const AudioCodec& codec, AudioFileFormat aff,
                    int stream_id, int stoppedtalking_delay)
 : m_tot_msec(stoppedtalking_delay)
@@ -78,7 +78,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             m_speexfile = std::make_shared<SpeexFile>();
             if(!m_speexfile->Open(filename, GetSpeexBandMode(m_codec), vbr))
             {
-                ACE_TString const error = ACE_TEXT("Failed to open Speex file ") + filename;
+                tstring const error = ACE_TEXT("Failed to open Speex file ") + filename;
                 TT_ERROR(error.c_str());
                 m_active = false;
                 return;
@@ -93,7 +93,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
             int const framesize = GetAudioCodecFrameSize(m_codec);
             if (!m_opusfile->NewFile(filename, channels, samplerate, framesize))
             {
-                ACE_TString const error = ACE_TEXT("Failed to open OPUS file ") + filename;
+                tstring const error = ACE_TEXT("Failed to open OPUS file ") + filename;
                 TT_ERROR(error.c_str());
                 m_active = false;
                 return;
@@ -123,7 +123,7 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
         m_mp3transform = MFTransform::CreateMP3(media::AudioFormat(samplerate, channels), mp3bitrate, filename.c_str());
         if (!m_mp3transform)
         {
-            ACE_TString error = ACE_TEXT("Failed to open file ") + filename;
+            tstring error = ACE_TEXT("Failed to open file ") + filename;
             TT_ERROR(error.c_str());
             m_active = false;
             m_mp3transform.reset();
@@ -135,9 +135,9 @@ VoiceLog::VoiceLog(int userid, const ACE_TString& filename,
     case AFF_WAVE_FORMAT :
     {
         m_wavfile = std::make_shared<WavePCMFile>();
-        if(!m_wavfile->NewFile(filename.c_str(), samplerate, channels))
+        if(!m_wavfile->NewFile(filename, samplerate, channels))
         {
-            ACE_TString const error = ACE_TEXT("Failed to open file ") + filename;
+            tstring const error = ACE_TEXT("Failed to open file ") + filename;
             TT_ERROR(error.c_str());
             m_active = false;
             return;
@@ -539,7 +539,7 @@ int VoiceLogger::TimerEvent(uint32_t timer_event_id, long userdata)
 void VoiceLogger::BeginLog(ClientUser& from_user, 
                            const AudioCodec& codec, 
                            int stream_id,
-                           const ACE_TString& folderpath)
+                           const tstring& folderpath)
 {
     //spawn thread?
     if(this->thr_count() == 0)
@@ -563,12 +563,12 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ACE_Date_Time const dt(tv);
     constexpr int STR_SIZE = 512;
     std::array<ACE_TCHAR, STR_SIZE> buf;
-    ACE_TString const username = from_user.GetUsername();
+    tstring const username = from_user.GetUsername();
     int const userid = from_user.GetUserID();
 
-    ACE_TString var = from_user.GetAudioFileVariables();
+    tstring var = from_user.GetAudioFileVariables();
     
-    if(var.is_empty())
+    if(var.empty())
         var = DEFAULT_VOICELOG_VARS;
 
     ReplaceAll(var, ACE_TEXT("%starttick%"), I2String(GETTIMESTAMP()));
@@ -595,7 +595,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     //     ACE_OS::snprintf(buf, STR_SIZE, ACE_TEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
-    ACE_TString filename = buf.data();
+    tstring filename = buf.data();
     int mp3bitrate = 0;
     AudioFileFormat aff = AFF_WAVE_FORMAT;
     switch(from_user.GetAudioFileFormat())
@@ -636,7 +636,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         filename += ACE_TEXT(".mp3");
     }
 
-    ACE_TString const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
+    tstring const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
 
     voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
                                                 codec, aff, stream_id,
@@ -726,7 +726,7 @@ void VoiceLogger::CancelLog(int userid)
     TTASSERT(tid >= 0);
 }
 
-ACE_TString VoiceLogger::GetVoiceLogFileName(int userid)
+tstring VoiceLogger::GetVoiceLogFileName(int userid)
 {
     wguard_t const g1(m_add_mtx);
 

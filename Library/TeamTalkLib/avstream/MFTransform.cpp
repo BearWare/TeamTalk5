@@ -1146,7 +1146,7 @@ const GUID& ConvertFourCC(media::FourCC fcc)
     }
 }
 
-ACE_TString FourCCToString(media::FourCC fcc)
+tstring FourCCToString(media::FourCC fcc)
 {
     switch(fcc)
     {

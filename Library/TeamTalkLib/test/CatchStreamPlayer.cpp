@@ -40,8 +40,8 @@
 static void PlayAudioPackets(const std::set<uint16_t>& drop_packets,
                              const teamtalk::AudioCodec& codec,
                              const uint32_t recordDurationMSec,
-                             const ACE_TString& recordedFilename,
-                             const ACE_TString& playedFilename,
+                             const tstring& recordedFilename,
+                             const tstring& playedFilename,
                              int toneFrequency)
 {
 

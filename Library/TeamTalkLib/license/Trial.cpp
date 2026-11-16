@@ -43,8 +43,8 @@
 #include <tchar.h>
 #endif
 
-ACE_TString g_lpszRegName;
-ACE_TString g_lpszRegKey;
+tstring g_lpszRegName;
+tstring g_lpszRegKey;
 bool g_LicenseValid = true;
 
 void LicenseCheck()
@@ -67,7 +67,7 @@ void LicenseCheck()
 }
 
 #if defined(WIN32)
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     std::array<ACE_TCHAR, MAX_PATH> buff{};
     ACE_TCHAR* p;
@@ -81,7 +81,7 @@ ACE_TString GetProcessName()
 }
 #elif defined(ACE_ANDROID)
 extern char *__progname;
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     if(__progname)
     {
@@ -91,10 +91,10 @@ ACE_TString GetProcessName()
             return ++p;
         return __progname;
     }
-    return ACE_TString();
+    return tstring();
 }
 #elif !defined(__APPLE__)
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     if(program_invocation_short_name)
     {
@@ -104,7 +104,7 @@ ACE_TString GetProcessName()
             return ++p;
         return program_invocation_short_name;
     }
-    return ACE_TString();
+    return tstring();
 }
 #elif defined(__APPLE__)
 /* process name found in TrialObjC.mm */
@@ -112,11 +112,11 @@ ACE_TString GetProcessName()
 #error "Cannot get process name"
 #endif
 
-using http_prop_t = std::map<ACE_CString, ACE_CString>;
+using http_prop_t = std::map<std::string, std::string>;
 
 ACE_THR_FUNC_RETURN perform_check(void *arg)
 {
-    ACE_CString url = TEAMTALK_SDK_URL;
+    std::string url = TEAMTALK_SDK_URL;
 
     http_prop_t http_prop;
 
@@ -134,17 +134,17 @@ ACE_THR_FUNC_RETURN perform_check(void *arg)
     http_prop["client"] = TEAMTALK_LIB_NAME;
     http_prop["version"] = TEAMTALK_VERSION;
 
-    ACE_CString process = UnicodeToUtf8(GetProcessName().c_str());
-    http_prop["program"] = URLEncode(process.c_str()).c_str();
+    std::string process = UnicodeToUtf8(GetProcessName().c_str());
+    http_prop["program"] = URLEncode(process.c_str());
     if (!g_lpszRegName.empty())
     {
-        ACE_CString regname = UnicodeToUtf8(g_lpszRegName).c_str();
-        http_prop["regname"] = URLEncode(regname.c_str()).c_str();
+        std::string regname = UnicodeToUtf8(g_lpszRegName);
+        http_prop["regname"] = URLEncode(regname.c_str());
     }
     if (!g_lpszRegKey.empty())
     {
-        ACE_CString regkey = UnicodeToUtf8(g_lpszRegKey).c_str();
-        http_prop["regkey"] = URLEncode(regkey.c_str()).c_str();
+        std::string regkey = UnicodeToUtf8(g_lpszRegKey);
+        http_prop["regkey"] = URLEncode(regkey.c_str());
     }
 
     for(http_prop_t::const_iterator i=http_prop.begin();i!=http_prop.end();)

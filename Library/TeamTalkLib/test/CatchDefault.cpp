@@ -1665,8 +1665,8 @@ TEST_CASE("TestWebLogin")
         return;
     }
 
-    ACE_TString token;
-    ACE_TString loginid;
+    tstring token;
+    tstring loginid;
     REQUIRE(LoginBearWareAccount(ACE_TEXT("foo"), ACE_TEXT("bar"), token, loginid) == WEBLOGIN_FAILED);
 }
 
@@ -3555,7 +3555,7 @@ TEST_CASE("SeeFilesAfterMove")
 
 #if defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 
-static void CreateOpusFile(const MediaFileInfo& mfi, const ACE_TString& oggfilename, const int FRAMESIZE)
+static void CreateOpusFile(const MediaFileInfo& mfi, const tstring& oggfilename, const int FRAMESIZE)
 {
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
@@ -4081,7 +4081,7 @@ TEST_CASE("SeekPrecision")
 TEST_CASE("TimeConvert")
 {
     auto tv = ACE_OS::gettimeofday();
-    ACE_TString line = ACE_TEXT("foo ");
+    tstring line = ACE_TEXT("foo ");
     teamtalk::AppendProperty(ACE_TEXT("tm"), tv, line);
     line += EOL;
     teamtalk::mstrings_t props;
@@ -4262,10 +4262,10 @@ TEST_CASE( "TextMessageStrLength" )
         REQUIRE(txtmsg.szMessage[i] == msg.textmessage.szMessage[i]);
 
     // text max string length for non-UTF-8
-    ACE_TString str = txtmsg.szMessage;
+    tstring str = txtmsg.szMessage;
     REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
     REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
-    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+    REQUIRE(tstring(msg.user.szNickname) == str);
 
     // text exceeded max string for non-UTF-8
     for (size_t i=0;i<TT_STRLEN-1;++i)
@@ -4273,7 +4273,7 @@ TEST_CASE( "TextMessageStrLength" )
     REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
     REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
     str = str.substr(0, TT_STRLEN-1);
-    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+    REQUIRE(tstring(msg.user.szNickname) == str);
 
     // ensure UTF-8 string is cut correctly
     str = txtmsg.szMessage;
@@ -4283,13 +4283,13 @@ TEST_CASE( "TextMessageStrLength" )
     REQUIRE(TT_DoChangeNickname(client, str.c_str()) > 0);
     REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USER_UPDATE, msg));
     str = str.substr(0, orgsize);
-    REQUIRE(ACE_TString(msg.user.szNickname) == str);
+    REQUIRE(tstring(msg.user.szNickname) == str);
 }
 
 TEST_CASE( "TimeZoneConversion" )
 {
     ACE_Time_Value const now = ACE_OS::gettimeofday();
-    ACE_TString command = ACE_TEXT("foo ");
+    tstring command = ACE_TEXT("foo ");
     teamtalk::AppendProperty(ACE_TEXT("tm"), now, command);
 
     teamtalk::mstrings_t properties;

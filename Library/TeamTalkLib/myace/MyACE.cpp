@@ -26,20 +26,13 @@
 
 #include <ace/ACE.h>
 #include <ace/OS.h> // NOLINT(misc-include-cleaner)
-#if defined(UNICODE)
-#include <ace/UTF16_Encoding_Converter.h>
-#include <algorithm>
-#endif
 
 #include <array>
 #include <cassert>
 #include <cstdarg>
-#include <cstddef>
 #include <cstdint>
-#include <cstring>
 #include <ctime>
 #include <iostream>
-#include <string>
 #include <thread>
 #include <vector>
 
@@ -68,7 +61,7 @@ void SyncReactor(ACE_Reactor& reactor)
     }
 }
 
-bool MyFile::Open(const ACE_TString& filename, bool readonly /*= true*/)
+bool MyFile::Open(const tstring& filename, bool readonly /*= true*/)
 {
     if (m_file.is_open())
         return false;
@@ -82,7 +75,7 @@ bool MyFile::Open(const ACE_TString& filename, bool readonly /*= true*/)
     return m_file.good();
 }
 
-bool MyFile::NewFile(const ACE_TString& filename)
+bool MyFile::NewFile(const tstring& filename)
 {
     m_file.open(filename.c_str(), std::ios::in | std::ios::out | std::ios::trunc | std::ios::binary);
     m_readonly = !m_file.good();
@@ -173,107 +166,6 @@ int64_t MyFile::Tell()
     return m_file.tellg();
 }
 
-bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename)
-{
-    bool bResult = false;
-
-    if (!filepath.empty())
-    {
-        if(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR) != ACE_TString::npos)
-        {
-            if(!filepath.substr(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR), filepath.length()+1).empty())
-            {
-                filename = filepath.substr(filepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR)+1, filepath.length());
-                bResult = true;
-            }
-        }
-        else
-        {
-            filename = filepath;
-            bResult = true;
-        }
-    }
-    return bResult;
-}
-
-ACE_TString FixFilePath(const ACE_TString& filepath)
-{
-    ACE_TString tmp = filepath;
-    ACE_TString tofind = ACE_DIRECTORY_SEPARATOR_STR;
-    tofind += tofind;
-    while (tmp.find(tofind) != ACE_TString::npos)
-        ReplaceAll(tmp, tofind, ACE_DIRECTORY_SEPARATOR_STR);
-
-    if (!tmp.empty() && tmp[tmp.length()-1] == ACE_DIRECTORY_SEPARATOR_CHAR)
-        tmp = tmp.substr(0, tmp.length()-1);
-    return tmp;
-}
-
-void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement )
-{
-    if (to_find.empty())
-        return;
-
-    std::size_t pos1 = 0;
-    std::size_t pos2 = target.find(to_find);
-    if(pos2 == ACE_TString::npos)
-        return;
-
-    ACE_TString tmp;
-    do
-    {
-        tmp += target.substr(pos1, pos2 - pos1);
-        tmp += replacement;
-        pos1 = pos2 + to_find.length();
-    } while((pos2 = target.find(to_find, pos1)) != ACE_TString::npos);
-
-    tmp += target.substr(pos1, target.length() - pos1);
-
-    target = tmp;
-}
-
-ACE_TString I2String(int64_t i)
-{
-#if defined(UNICODE)
-    return std::to_wstring(i).c_str();
-#else
-    return std::to_string(i).c_str();
-#endif /* UNICODE */
-}
-
-int64_t String2I(const ACE_TString& int_str, int base, int64_t errorValue)
-{
-    try
-    {
-        return std::stoll(int_str.c_str(), nullptr, base);
-    }
-    catch(...)
-    {
-        return errorValue;
-    }
-}
-
-bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2)
-{
-    if(str1.length() != str2.length())
-        return false;
-
-    for(size_t i=0;i<str1.length();i++)
-    {
-        if(ACE_OS::ace_tolower(str1[i]) != ACE_OS::ace_tolower(str2[i]))
-            return false;
-    }
-    return true;
-}
-
-ACE_TString StringToLower(const ACE_TString& str)
-{
-    ACE_TString sstr = str;
-    for(size_t i=0;i<sstr.length();i++)
-        sstr[i] = ACE_OS::ace_tolower(sstr[i]);
-    return sstr;
-}
-
 #if defined(_DEBUG)
 
 constexpr bool MYTRACE_TIMESTAMP = true;
@@ -333,62 +225,7 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic
 }
 #endif /* _DEBUG */
 
-bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against)
-{
-    if(check == against) return true;
-
-    strings_t chk_tokens = Tokenize(check, ACE_TEXT("."));
-    strings_t against_tokens = Tokenize(against, ACE_TEXT("."));
-
-    std::vector<int> vec_chk;
-    std::vector<int> vec_against;
-    for(const auto & chk_token : chk_tokens)
-        vec_chk.push_back(ACE_OS::atoi(chk_token.c_str()));
-    for(const auto & against_token : against_tokens)
-        vec_against.push_back(ACE_OS::atoi(against_token.c_str()));
-
-    std::size_t const less = vec_chk.size() < vec_against.size()?vec_chk.size():vec_against.size();
-    
-    for(size_t i=0;i<less;i++)
-    {
-        if(vec_chk[i] < vec_against[i])
-            return false;
-        if(vec_chk[i] > vec_against[i])
-            return true;
-    }
-    return true;
-}
-
-ACE_TString KeyToHexString(const unsigned char* key, std::size_t length)
-{
-    std::array<ACE_TCHAR, 3> buf;
-    std::size_t const LEN = (2*length)+1;
-    std::vector<ACE_TCHAR> str(LEN);
-    for(std::size_t i=0;i<length;i++)
-    {
-        unsigned int const x = key[i];
-        ACE_OS::sprintf(buf.data(), ACE_TEXT("%.2x"), x);
-        ACE_OS::sprintf(&str[i*2], ACE_TEXT("%s"), buf.data());
-    }
-    return str.data();
-}
-
-void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, std::size_t keylen)
-{
-    assert(!crypt_key.empty() && crypt_key.length() % 2 == 0);
-
-    int pos = 0;
-    ACE_TString str;
-    for(size_t i=0;i<crypt_key.length() && ((keylen--) != 0);i+=2)
-    {
-        str = crypt_key.substr(i, 2);
-        constexpr auto HEXBASE = 16;
-        key[pos] = static_cast<uint8_t>(ACE_OS::strtol(str.c_str(), nullptr, HEXBASE));
-        pos++;
-    }
-}
-
-ACE_TString UptimeHours(const ACE_Time_Value& value)
+tstring UptimeHours(const ACE_Time_Value& value)
 {
     time_t const nHour = value.sec()/3600;
     time_t const nMinutes = (value.sec()%3600) / 60;
@@ -405,229 +242,6 @@ ACE_Time_Value ToTimeValue(int64_t msec)
     return ACE_Time_Value(msec / ONE_SEC, (msec % ONE_SEC) * ONE_SEC);
 }
 
-strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters)
-{ 
-    std::vector<ACE_TString> tokens;
-
-    std::size_t i = 0;
-    std::size_t tokenstart = 0;
-    while(i<source.length())
-    {
-        for(size_t j=0;j<delimeters.length();j++)
-        {
-            if(source[i] == delimeters[j])
-            {
-                if(i > tokenstart && source[tokenstart] != delimeters[j])
-                    tokens.push_back(source.substr(tokenstart, i - tokenstart));
-                tokenstart = i + 1;
-                break;
-            }
-        }
-        i++;
-    }
-
-    if(i>tokenstart)
-        tokens.push_back(source.substr(tokenstart, i - tokenstart));
-
-    return tokens; 
-}
-
-#if defined(UNICODE)
-ACE_CString UnicodeToUtf8(const wchar_t* unicode, int len/* = -1*/)
-{
-    ACE_UTF16_Encoding_Converter conv;
-    ACE_UTF16_Encoding_Converter::Result result;
-    int length = len == -1? static_cast<int>(wcslen(unicode)) * 4 + 1 : len * 4 + 1;
-    if (length <= 0)
-        return ACE_CString();
-
-    std::vector<ACE_Byte> buffer(length, 0);
-    result = conv.to_utf8(unicode, len == -1? 
-            wcslen(unicode)*sizeof(wchar_t) + sizeof(wchar_t) : len * sizeof(wchar_t), &buffer[0], length);
-#if defined(_DEBUG)
-    if(result != ACE_UTF16_Encoding_Converter::CONVERSION_OK)
-        MYTRACE(ACE_TEXT("Unicode->UTF8 conversion failed\n"));
-#endif
-    ACE_CString utf8(reinterpret_cast<const char*>(&buffer[0]));
-    return utf8;
-}
-
-ACE_CString UnicodeToUtf8(const ACE_WString& str)
-{
-    return UnicodeToUtf8(str.c_str());
-}
-
-ACE_WString Utf8ToUnicode(const char* utf8, int len/* = -1*/)
-{    
-    ACE_UTF16_Encoding_Converter conv;
-    ACE_UTF16_Encoding_Converter::Result result;
-    int length = len == -1? static_cast<int>(strlen(utf8)) + 1 : len + 1;
-    if(length<=0)
-        return ACE_WString();
-
-    std::vector<wchar_t> buffer(length, 0);
-    result = conv.from_utf8(reinterpret_cast<const ACE_Byte*>(utf8), len == -1?
-            strlen(utf8) + 1 : len, &buffer[0], length);
-#if defined(_DEBUG)
-    if(result != ACE_UTF16_Encoding_Converter::CONVERSION_OK)
-        MYTRACE(ACE_TEXT("UTF8->Unicode conversion failed\n"));
-#endif
-    ACE_WString unicode(&buffer[0]);
-    return unicode;
-}
-
-ACE_CString UnicodeToLocal(const ACE_WString& wstr)
-{
-    std::vector<char> str(std::max(size_t(1), wstr.length() * 4));
-    int size = WideCharToMultiByte(GetConsoleCP(), 0, wstr.c_str(), int(wstr.length()),
-                                      &str[0], int(str.size()), NULL, NULL);
-    assert(size >= 0);
-    return &str[0];
-}
-
-ACE_WString LocalToUnicode(const ACE_CString& str)
-{
-    std::vector<wchar_t> wstr(std::max(size_t(1), str.length() * 4));
-    std::size_t size = MultiByteToWideChar(GetConsoleCP(), 0, str.c_str(), -1,
-                                      &wstr[0], int(wstr.size()));
-    assert(size >= 0);
-    return &wstr[0];
-}
-
-ACE_CString LocalToUtf8(const char* local, int len/* = -1*/)
-{
-    ACE_WString unicode = LocalToUnicode(local);
-    return UnicodeToUtf8(unicode.c_str());
-}
-
-ACE_CString Utf8ToLocal(const char* local, int len/* = -1*/)
-{
-    ACE_WString cstr = Utf8ToUnicode(local, len);
-    return UnicodeToLocal(cstr.c_str());
-}
-/*
-bool ValidUtf8(const ACE_CString& utf8_str)
-{
-    ACE_UTF16_Encoding_Converter conv;
-    ACE_UTF16_Encoding_Converter::Result result;
-    if(utf8_str.length() == 0)
-        return true;
-    //ensure there's no \0 in the std::string
-    if(strlen(utf8_str.c_str()) != utf8_str.length())
-        return false;
-
-    std::vector<ACE_Byte> buffer((utf8_str.length()+1)*2, 0);
-    result = conv.from_utf8(reinterpret_cast<const ACE_Byte*>(utf8_str.c_str()),
-                            utf8_str.length()+1, 
-                            &buffer[0], buffer.size());
-    return result == ACE_UTF16_Encoding_Converter::CONVERSION_OK;
-}
-*/
-#endif
-
-// NOLINTBEGIN(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
-bool ValidUtf8(const ACE_CString& utf8_str)
-{
-    //ensure there's no \0 in the string
-    if(strlen(utf8_str.c_str()) != utf8_str.length())
-        return false;
-
-    //http://stackoverflow.com/questions/1031645/how-to-detect-utf-8-in-plain-c
-    const auto * bytes = reinterpret_cast<const unsigned char*>(utf8_str.c_str());
-    while (*bytes != 0u)
-    {
-        if(     (// ASCII
-            bytes[0] == 0x09 ||
-            bytes[0] == 0x0A ||
-            bytes[0] == 0x0D ||
-            (0x20 <= bytes[0] && bytes[0] <= 0x7E)
-            )
-            ) {
-                bytes += 1;
-                continue;
-        }
-
-        if(     (// non-overlong 2-byte
-            (0xC2 <= bytes[0] && bytes[0] <= 0xDF) &&
-            (0x80 <= bytes[1] && bytes[1] <= 0xBF)
-            )
-            ) {
-                bytes += 2;
-                continue;
-        }
-
-        if(     (// excluding overlongs
-            bytes[0] == 0xE0 &&
-            (0xA0 <= bytes[1] && bytes[1] <= 0xBF) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF)
-            ) ||
-            (// straight 3-byte
-            ((0xE1 <= bytes[0] && bytes[0] <= 0xEC) ||
-            bytes[0] == 0xEE ||
-            bytes[0] == 0xEF) &&
-            (0x80 <= bytes[1] && bytes[1] <= 0xBF) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF)
-            ) ||
-            (// excluding surrogates
-            bytes[0] == 0xED &&
-            (0x80 <= bytes[1] && bytes[1] <= 0x9F) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF)
-            )
-            ) {
-                bytes += 3;
-                continue;
-        }
-
-        if(     (// planes 1-3
-            bytes[0] == 0xF0 &&
-            (0x90 <= bytes[1] && bytes[1] <= 0xBF) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF) &&
-            (0x80 <= bytes[3] && bytes[3] <= 0xBF)
-            ) ||
-            (// planes 4-15
-            (0xF1 <= bytes[0] && bytes[0] <= 0xF3) &&
-            (0x80 <= bytes[1] && bytes[1] <= 0xBF) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF) &&
-            (0x80 <= bytes[3] && bytes[3] <= 0xBF)
-            ) ||
-            (// plane 16
-            bytes[0] == 0xF4 &&
-            (0x80 <= bytes[1] && bytes[1] <= 0x8F) &&
-            (0x80 <= bytes[2] && bytes[2] <= 0xBF) &&
-            (0x80 <= bytes[3] && bytes[3] <= 0xBF)
-            )
-            ) {
-                bytes += 4;
-                continue;
-        }
-
-        return false;
-    }
-
-    return true;
-}
-
-ACE_CString LimitUtf8(const ACE_CString& utf8_str, std::size_t maxlen)
-{
-    if (utf8_str.length() <= maxlen)
-        return utf8_str;
-
-    const ACE_CString& trimmed = utf8_str;
-    auto length = utf8_str.length();
-    while (length > maxlen && length > 0)
-    {
-        const auto *cp = trimmed.fast_rep() + length;
-        while (--cp >= trimmed.fast_rep() && (((*cp & 0b10000000) != 0) && ((*cp & 0b01000000) == 0))); // NOLINT(bugprone-inc-dec-in-conditions)
-        length = cp - trimmed.fast_rep();
-    }
-
-    if (length != utf8_str.length())
-        return trimmed.substr(0, length);
-
-    return trimmed;
-}
-// NOLINTEND(cppcoreguidelines-avoid-magic-numbers,cppcoreguidelines-pro-bounds-pointer-arithmetic)
-
 Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, 
                    bool p_start)
 : m_name(name)
@@ -641,7 +255,7 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
     auto const h = reinterpret_cast<uint64_t>(ACE_OS::thr_self());
 #endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
-                 m_name, 0u, m_filename, m_line, static_cast<unsigned>(h));
+                 m_name, static_cast<uint32_t>(0), m_filename, m_line, static_cast<unsigned>(h));
 }
 
 Profiler::~Profiler()

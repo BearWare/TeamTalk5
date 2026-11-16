@@ -61,14 +61,14 @@ using namespace teamtalk;
 #undef CreateFile
 #endif
 
-bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
+bool LoadConfig(teamtalk::ServerXML& xmlSettings, const tstring& cfgfile)
 {
-    ACE_TString settings_path;
+    tstring settings_path;
 
     if(cfgfile.empty())
     {
         std::error_code ec;
-        ACE_TString workdir = std::filesystem::current_path(ec).native().c_str();
+        tstring workdir = std::filesystem::current_path(ec).native();
         workdir += ACE_DIRECTORY_SEPARATOR_STR;
         settings_path = workdir + ACE_TEXT(TEAMTALK_SETTINGSFILE);
     }
@@ -77,12 +77,12 @@ bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
     std::error_code ec;
     if (std::filesystem::exists(settings_path.c_str(), ec))
     {
-        if(!xmlSettings.LoadFile(UnicodeToUtf8(settings_path).c_str()))
+        if(!xmlSettings.LoadFile(UnicodeToUtf8(settings_path)))
         {
             tostringstream osErr;
             if(xmlSettings.HasErrors())
             {
-                ACE_TString const errmsg = Utf8ToUnicode(xmlSettings.GetError().c_str());
+                tstring const errmsg = Utf8ToUnicode(xmlSettings.GetError().c_str());
                 osErr << ACE_TEXT("Unable to read ") << settings_path.c_str() << ACE_TEXT(". ") << errmsg.c_str() << endl;
             }
             else
@@ -94,7 +94,7 @@ bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
         return true;
     }
     
-    if(!xmlSettings.CreateFile(UnicodeToUtf8(settings_path).c_str()))
+    if(!xmlSettings.CreateFile(UnicodeToUtf8(settings_path)))
     {
         tostringstream osErr;
         osErr << ACE_TEXT("Unable to create settings file ") << settings_path.c_str() << ACE_TEXT(".");
@@ -128,7 +128,7 @@ void RemoveFacebookLogins(teamtalk::ServerXML& xmlSettings)
                         break;
                 }
 #if defined(UNICODE)
-                std::string fbname = UnicodeToUtf8(ua.username.c_str()).c_str();
+                std::string fbname = UnicodeToUtf8(ua.username.c_str());
 #else
                 std::string const fbname = ua.username.c_str();
 #endif
@@ -277,14 +277,14 @@ void ConfigureUserAccount(UserAccount user, teamtalk::ServerXML& xmlSettings)
     break;
     }
 
-    xmlSettings.RemoveUser(UnicodeToUtf8(user.username).c_str());
+    xmlSettings.RemoveUser(UnicodeToUtf8(user.username));
     xmlSettings.AddNewUser(user);
 }
 
 #if defined(ENABLE_TEAMTALKPRO)
 void ConfigureEncryption(bool& certverifyonce, int& certdepth,
-                         ACE_TString& cadir, ACE_TString& keyfile,
-                         ACE_TString& certfile, ACE_TString& cafile,
+                         tstring& cadir, tstring& keyfile,
+                         tstring& certfile, tstring& cafile,
                          bool& certverifypeer)
 {
     cout << "Should server run in encrypted mode? ";
@@ -293,20 +293,20 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         while (true)
         {
             cout << "Server certificate file (in PEM format) for encryption: ";
-            certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile).c_str()).c_str());
+            certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile)));
             std::error_code ec;
             if (!std::filesystem::exists(certfile.c_str(), ec))
-                cerr << "File " << certfile << " not found!" << endl;
+                cerr << "File " << UnicodeToLocal(certfile) << " not found!" << endl;
             else break;
         }
 
         while (true)
         {
             cout << "Server private key file (in PEM format) for encryption: ";
-            keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile).c_str()).c_str());
+            keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile)));
             std::error_code ec;
             if (!std::filesystem::exists(keyfile.c_str(), ec))
-                cerr << "File " << keyfile << " not found!" << endl;
+                cerr << "File " << UnicodeToLocal(keyfile) << " not found!" << endl;
             else break;
         }
 
@@ -314,10 +314,10 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         if ((certverifypeer = PrintGetBool(certverifypeer)))
         {
             cout << "File containing Certificate Authority (CA) certificate (in PEM format): ";
-            cafile = LocalToUnicode(PrintGetString(UnicodeToLocal(cafile).c_str()).c_str());
+            cafile = LocalToUnicode(PrintGetString(UnicodeToLocal(cafile)));
 
             cout << "Directory containing Certificate Authority (CA) certificates (leave blank to only use single CA file): ";
-            cadir = LocalToUnicode(PrintGetString(UnicodeToLocal(cadir).c_str()).c_str());
+            cadir = LocalToUnicode(PrintGetString(UnicodeToLocal(cadir)));
 
             cout << "Should client's certificate only be verified initially? ";
             certverifyonce = PrintGetBool(certverifyonce);
@@ -360,15 +360,15 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << endl;
     cout << "Configuring file: " << xmlSettings.GetFileName() << endl;
 
-    ACE_TString servername;
-    ACE_TString motd;
-    ACE_TString filesroot;
+    tstring servername;
+    tstring motd;
+    tstring filesroot;
     std::vector<std::string> bindips;
 #if defined(ENABLE_TEAMTALKPRO)
-    ACE_TString certfile;
-    ACE_TString keyfile;
-    ACE_TString cafile;
-    ACE_TString cadir;
+    tstring certfile;
+    tstring keyfile;
+    tstring cafile;
+    tstring cadir;
     bool certverifypeer = false;
     bool certverifyonce = false;
     int certdepth = 0;
@@ -431,9 +431,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     //cout << "Value in parantesis will be used if no input is specified." << endl;
     cout << endl;
     cout << TEAMTALK_NAME << " name: ";
-    servername = LocalToUnicode(PrintGetString(UnicodeToLocal(servername).c_str()).c_str());
+    servername = LocalToUnicode(PrintGetString(UnicodeToLocal(servername)));
     cout << "Message of the Day: ";
-    motd = LocalToUnicode(PrintGetString(UnicodeToLocal(motd).c_str()).c_str());
+    motd = LocalToUnicode(PrintGetString(UnicodeToLocal(motd)));
     cout << "Maximum users allowed on server: ";
     maxusers = PrintGetInt(maxusers);
     if(maxusers > MAX_USERS)
@@ -455,7 +455,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
 #else
         cout << "Directory for file storage, e.g. /home/bill/srv1/files: ";
 #endif
-        filesroot = LocalToUnicode(PrintGetString(UnicodeToLocal(filesroot).c_str()).c_str());
+        filesroot = LocalToUnicode(PrintGetString(UnicodeToLocal(filesroot)));
         ec.clear();
         if(!filesroot.empty())
             std::filesystem::current_path(filesroot.c_str(), ec);
@@ -538,7 +538,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     };
 
 #if defined(ENABLE_TEAMTALKPRO)
-    ACE_CString url;
+    std::string url;
     std::string xml;
 #endif
 
@@ -568,8 +568,8 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             while(xmlSettings.GetNextUser(count, user))
             {
                 cout << "User #" << count + 1 << endl;
-                cout << "Username: " << user.username << endl;
-                cout << "Password: " << user.passwd << endl;
+                cout << "Username: " << UnicodeToLocal(user.username) << endl;
+                cout << "Password: " << UnicodeToLocal(user.passwd) << endl;
                 switch(user.usertype)
                 {
                 case USERTYPE_DEFAULT :
@@ -588,9 +588,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         case CREATE_USERACCOUNT :
             cout << "Creating new user account." << endl;
             cout << "Type username: ";
-            user.username = LocalToUnicode(PrintGetString("").c_str());
+            user.username = LocalToUnicode(PrintGetString(""));
             cout << "Type password: ";
-            user.passwd = LocalToUnicode(PrintGetString("").c_str());
+            user.passwd = LocalToUnicode(PrintGetString(""));
 
             ConfigureUserAccount(user, xmlSettings);
             break;
@@ -632,8 +632,8 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         {
             cout << "Type the username of the account to delete: ";
             tmp = PrintGetString("");
-            ACE_TString const utf8 = LocalToUnicode(tmp.c_str());
-            if(xmlSettings.RemoveUser(UnicodeToUtf8(utf8).c_str()))
+            tstring const utf8 = LocalToUnicode(tmp);
+            if(xmlSettings.RemoveUser(UnicodeToUtf8(utf8)))
                 cout << "1 user deleted." << endl;
             else
                 cout << "User not found." << endl;
@@ -665,15 +665,15 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << endl << endl;
     cout << "Your " << TEAMTALK_NAME << " is now configured with the following settings:" << endl;
     cout << endl;
-    cout << TEAMTALK_NAME << " name: " << servername << endl;
-    cout << "Message of the Day: " << motd << endl;
+    cout << TEAMTALK_NAME << " name: " << UnicodeToLocal(servername) << endl;
+    cout << "Message of the Day: " << UnicodeToLocal(motd) << endl;
     cout << "Maximum users allowed: " << maxusers << endl;
     cout << "Server will" << (autosave? "" : " not") << " automatically save changes." << endl;
 
     if(!filesroot.empty())
     {
         cout << "File sharing enabled." << endl;
-        cout << "Root directory for root channel: " << filesroot << endl;
+        cout << "Root directory for root channel: " << UnicodeToLocal(filesroot) << endl;
         cout << "Disk quota in bytes per channel: " << diskquota/1024 << " KBytes" << endl;
         cout << "Maximum disk usage for storing files: " << maxdiskusage/1024 << " KBytes" <<endl;
     }
@@ -705,13 +705,13 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Users wait for " << logindelay << " msec before attempting login again." << endl;
 
 #if defined(ENABLE_TEAMTALKPRO)
-    cout << "Server certificate file for encryption: " << certfile << endl;
-    cout << "Server private key file for encryption: " << keyfile << endl;
+    cout << "Server certificate file for encryption: " << UnicodeToLocal(certfile) << endl;
+    cout << "Server private key file for encryption: " << UnicodeToLocal(keyfile) << endl;
     cout << "Server should verify client's certificate: " << (certverifypeer? "true" : "false") << endl;
     if (certverifypeer && (!cafile.empty()))
-        cout << "Certificate Authority (CA) file: " << cafile << endl;
+        cout << "Certificate Authority (CA) file: " << UnicodeToLocal(cafile) << endl;
     if (certverifypeer && (!cadir.empty()))
-        cout << "Certificate Authority (CA) directory: " << cadir << endl;
+        cout << "Certificate Authority (CA) directory: " << UnicodeToLocal(cadir) << endl;
 #endif
 
     int count = 0;
@@ -724,11 +724,11 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Save these settings? ";
     if(PrintGetBool(true))
     {
-        xmlSettings.SetServerName(UnicodeToUtf8(servername).c_str());
-        xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(motd).c_str());
+        xmlSettings.SetServerName(UnicodeToUtf8(servername));
+        xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(motd));
         xmlSettings.SetMaxUsers(maxusers);
         xmlSettings.SetAutoSave(autosave);
-        xmlSettings.SetFilesRoot(UnicodeToUtf8(filesroot).c_str());
+        xmlSettings.SetFilesRoot(UnicodeToUtf8(filesroot));
         xmlSettings.SetMaxDiskUsage(maxdiskusage);
         xmlSettings.SetDefaultDiskQuota(diskquota);
         xmlSettings.SetBindIPs(bindips);
@@ -736,10 +736,10 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
         xmlSettings.SetHostUdpPort(udpport);
         xmlSettings.SetUPnP(upnp);
 #if defined(ENABLE_TEAMTALKPRO)
-        xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile).c_str());
-        xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile).c_str());
-        xmlSettings.SetCertificateAuthFile(UnicodeToUtf8(cafile).c_str());
-        xmlSettings.SetCertificateAuthDir(UnicodeToUtf8(cadir).c_str());
+        xmlSettings.SetCertificateFile(UnicodeToUtf8(certfile));
+        xmlSettings.SetPrivateKeyFile(UnicodeToUtf8(keyfile));
+        xmlSettings.SetCertificateAuthFile(UnicodeToUtf8(cafile));
+        xmlSettings.SetCertificateAuthDir(UnicodeToUtf8(cadir));
         xmlSettings.SetCertificateVerify(certverifypeer);
         xmlSettings.SetCertificateVerifyOnce(certverifyonce);
         xmlSettings.SetCertificateVerifyDepth(certdepth);
@@ -816,8 +816,8 @@ bool ReadServerProperties(teamtalk::ServerXML& xmlSettings,
 bool SaveServerProperties(teamtalk::ServerXML& xmlSettings, const teamtalk::ServerSettings& properties,
                           const teamtalk::statchannels_t& channels)
 {
-    xmlSettings.SetServerName(UnicodeToUtf8(properties.servername).c_str());
-    xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd).c_str());
+    xmlSettings.SetServerName(UnicodeToUtf8(properties.servername));
+    xmlSettings.SetMessageOfTheDay(UnicodeToUtf8(properties.motd));
     xmlSettings.SetAutoSave(properties.autosave);
     xmlSettings.SetMaxUsers(properties.maxusers);
     xmlSettings.SetMaxLoginAttempts(properties.maxloginattempts);
@@ -838,7 +838,7 @@ bool SaveServerProperties(teamtalk::ServerXML& xmlSettings, const teamtalk::Serv
 
     xmlSettings.SetMaxDiskUsage(properties.maxdiskusage);
     xmlSettings.SetDefaultDiskQuota(properties.diskquota);
-    xmlSettings.SetFilesRoot(UnicodeToUtf8(properties.filesroot).c_str());
+    xmlSettings.SetFilesRoot(UnicodeToUtf8(properties.filesroot));
     xmlSettings.SetServerLogEvents(properties.logevents);
     xmlSettings.SetStaticChannels(channels);
 
@@ -849,10 +849,10 @@ bool SaveServerProperties(teamtalk::ServerXML& xmlSettings, const teamtalk::Serv
 #if defined(ENABLE_TEAMTALKPRO)
 bool SetupEncryption(teamtalk::ServerNode& servernode, teamtalk::ServerXML& xmlSettings)
 {
-    ACE_TString certfile;
-    ACE_TString privfile;
-    ACE_TString cafile;
-    ACE_TString cadir;
+    tstring certfile;
+    tstring privfile;
+    tstring cafile;
+    tstring cadir;
 
     certfile = Utf8ToUnicode(xmlSettings.GetCertificateFile().c_str());
     privfile = Utf8ToUnicode(xmlSettings.GetPrivateKeyFile().c_str());
@@ -909,8 +909,8 @@ bool HasBearWareWebLogin(teamtalk::ServerXML& xmlSettings)
         if (ua.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
             return true;
 
-        const ACE_TString BWREGEX = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + ACE_TString(ACE_TEXT("$"));
-        if (std::regex_search(ua.username.c_str(), BuildRegex(BWREGEX.c_str())))
+        const tstring BWREGEX = ACE_TEXT(WEBLOGIN_BEARWARE_POSTFIX) + tstring(ACE_TEXT("$"));
+        if (std::regex_search(ua.username.c_str(), BuildRegex(BWREGEX)))
             return true;
     }
     return false;
@@ -923,8 +923,8 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
     std::string bwidUtf8;
     std::string tokenUtf8;
     xmlSettings.GetBearWareWebLogin(bwidUtf8, tokenUtf8);
-    ACE_TString bwid = Utf8ToUnicode(bwidUtf8.c_str());
-    ACE_TString token = Utf8ToUnicode(tokenUtf8.c_str());
+    tstring bwid = Utf8ToUnicode(bwidUtf8.c_str());
+    tstring token = Utf8ToUnicode(tokenUtf8.c_str());
     static auto sleepTimeSec = INITIAL_LOGIN_RETRY_DELAY_SECONDS;
     while (token.empty())
     {
@@ -934,11 +934,11 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
         cout << "Please provide your credentials for BearWare.dk WebLogin." << endl;
         cout << endl;
         cout << "Type username: ";
-        bwid = LocalToUnicode(PrintGetString(UnicodeToLocal(bwid).c_str()).c_str());
+        bwid = LocalToUnicode(PrintGetString(UnicodeToLocal(bwid)));
         cout << "Type password: ";
-        ACE_TString const passwd = LocalToUnicode(PrintGetPassword("").c_str());
-        ACE_TString newtoken;
-        ACE_TString loginid;
+        tstring const passwd = LocalToUnicode(PrintGetPassword(""));
+        tstring newtoken;
+        tstring loginid;
         switch (LoginBearWareAccount(bwid, passwd, newtoken, loginid))
         {
         case WEBLOGIN_SUCCESS :
@@ -949,7 +949,7 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
             cout << "Store access token in " << xmlSettings.GetFileName() << "? ";
             if (PrintGetBool(true))
             {
-                xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid).c_str(), UnicodeToUtf8(newtoken).c_str());
+                xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(loginid), UnicodeToUtf8(newtoken));
                 xmlSettings.SaveFile();
 #if !defined(WIN32)
                 chmod(xmlSettings.GetFileName().c_str(), S_IRUSR | S_IWUSR);
@@ -959,7 +959,7 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
                 std::cout << "BearWare.dk WebLogin account." << std::endl;
             }
             bwid = loginid;
-            token = newtoken.c_str();
+            token = newtoken;
             break;
         case WEBLOGIN_SERVER_UNAVAILABLE :
         case WEBLOGIN_SERVER_INCOMPATIBLE :
@@ -985,7 +985,7 @@ bool LoginBearWare(teamtalk::ServerXML& xmlSettings)
         cout << "Reset BearWare.dk WebLogin credentials ";
         if (PrintGetBool(true))
         {
-            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid).c_str(), "");
+            xmlSettings.SetBearWareWebLogin(UnicodeToUtf8(bwid), "");
             xmlSettings.SaveFile();
         }
         std::this_thread::sleep_for(std::chrono::seconds(sleepTimeSec *= LOGIN_RETRY_BACKOFF_MULTIPLIER));
@@ -1087,7 +1087,7 @@ void ConvertChannels(const teamtalk::serverchannel_t& root,
         ServerChannel::channels_t subs = chan->GetSubChannels();
         for(const auto & sub : subs)
         {
-            ACE_TString const path = sub->GetChannelPath().c_str();
+            tstring const path = sub->GetChannelPath();
             if(!onlystatic || ((sub->GetChannelType() & CHANNEL_PERMANENT) != CHANNEL_DEFAULT))
             {
                 sweeper.push(sub);
@@ -1123,7 +1123,7 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 TT_SYSLOG(os.str().c_str());
                 continue;
             }
-            ACE_TString const filesroot = servernode.GetFilesRoot().c_str() + ACE_TString(ACE_DIRECTORY_SEPARATOR_STR);
+            tstring const filesroot = servernode.GetFilesRoot() + tstring(ACE_DIRECTORY_SEPARATOR_STR);
             for(size_t i=0;i<chan.files.size();i++)
             {
                 // add file, even if it doesn't exists. Otherwise
@@ -1138,7 +1138,7 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                     TT_SYSLOG(os.str().c_str());
                 }
 
-                ACE_TString const rootpath = filesroot + chan.files[i].internalname.c_str();
+                tstring const rootpath = filesroot + chan.files[i].internalname;
                 std::error_code ec;
                 if (!std::filesystem::exists(rootpath.c_str(), ec))
                 {
@@ -1163,9 +1163,9 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
     }
 }
 
-static std::vector<ACE_TString> GetFilesInFolder(const ACE_TString& rootdir)
+static std::vector<tstring> GetFilesInFolder(const tstring& rootdir)
 {
-    std::vector<ACE_TString> result;
+    std::vector<tstring> result;
     std::error_code ec;
     for (std::filesystem::directory_iterator it(rootdir.c_str(), ec), end; !ec && it != end; it.increment(ec))
     {
@@ -1176,9 +1176,9 @@ static std::vector<ACE_TString> GetFilesInFolder(const ACE_TString& rootdir)
     return result;
 }
 
-static std::vector<ACE_TString> GetChannelFiles(const teamtalk::statchannels_t& channels)
+static std::vector<tstring> GetChannelFiles(const teamtalk::statchannels_t& channels)
 {
-    std::vector<ACE_TString> channelfiles;
+    std::vector<tstring> channelfiles;
     for (const auto& c : channels)
     {
         for (const auto& f : c.second.files)
@@ -1187,11 +1187,11 @@ static std::vector<ACE_TString> GetChannelFiles(const teamtalk::statchannels_t& 
     return channelfiles;
 }
 
-static void RemoveNonmatchingFiles(const ACE_TString& filesroot,
-                            const std::vector<ACE_TString>& allfiles,
-                            const std::vector<ACE_TString>& keepfiles)
+static void RemoveNonmatchingFiles(const tstring& filesroot,
+                            const std::vector<tstring>& allfiles,
+                            const std::vector<tstring>& keepfiles)
 {
-    const ACE_TString EXT = CHANNELFILEEXTENSION;
+    const tstring EXT = CHANNELFILEEXTENSION;
     for (const auto& f : allfiles)
     {
         if (f.length() <= EXT.length() || f.substr(f.length() - EXT.length()) != EXT)
@@ -1206,7 +1206,7 @@ static void RemoveNonmatchingFiles(const ACE_TString& filesroot,
             std::cout << "Should it be removed? ";
             if (PrintGetBool(false))
             {
-                const ACE_TString path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
+                const tstring path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
                 std::error_code ec;
                 std::filesystem::remove(path.c_str(), ec);
                 if (ec)
@@ -1222,8 +1222,8 @@ void RemoveUnusedFiles(teamtalk::ServerXML& xmlSettings)
 {
     std::cout << "Using configuration file: " << xmlSettings.GetFileName() << std::endl;
 
-    ACE_TString const filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
-    if (filesroot.is_empty())
+    tstring const filesroot = Utf8ToUnicode(xmlSettings.GetFilesRoot().c_str());
+    if (filesroot.empty())
     {
         std::cout << "File storage is currently not enabled. Skipping cleanup." << std::endl;
         return;

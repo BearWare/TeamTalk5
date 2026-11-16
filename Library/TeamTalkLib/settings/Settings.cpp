@@ -109,20 +109,20 @@ namespace teamtalk {
     void XMLDocument::SetValue(const std::string& path, const std::string& value)
     {
         tinyxml2::XMLElement* item = GetRootElement();
-        stdstrings_t tokens = StringTokenize(path, "/");
+        strings_t tokens = Tokenize(Utf8ToUnicode(path.c_str()), Utf8ToUnicode("/"));
         assert(!tokens.empty());
         if (tokens.empty() || (item == nullptr))
             return;
 
-        std::string const name = tokens.back();
+        std::string const name = UnicodeToUtf8(tokens.back());
         tokens.erase(tokens.end()-1);
 
         while (!tokens.empty())
         {
-            auto *child = item->FirstChildElement(tokens[0].c_str());
+            auto *child = item->FirstChildElement(UnicodeToUtf8(tokens[0]).c_str());
             if (child == nullptr)
             {
-                child = AppendElement(item, tokens[0].c_str());
+                child = AppendElement(item, UnicodeToUtf8(tokens[0]).c_str());
             }
             item = child;
             tokens.erase(tokens.begin());
@@ -136,14 +136,14 @@ namespace teamtalk {
         if (item == nullptr)
             return defaultvalue;
 
-        stdstrings_t tokens = StringTokenize(path, "/");
+        strings_t tokens = Tokenize(Utf8ToUnicode(path.c_str()), Utf8ToUnicode("/"));
         if (prefixRoot)
-            tokens.insert(tokens.begin(), m_rootname);
+            tokens.insert(tokens.begin(), Utf8ToUnicode(m_rootname.c_str()));
 
         // handle root item
         if (!tokens.empty())
         {
-            if(item->Value() != tokens[0])
+            if(item->Value() != UnicodeToUtf8(tokens[0]))
             {
                 tokens.clear();
                 item = nullptr;
@@ -155,7 +155,7 @@ namespace teamtalk {
         // handle child items
         while((item != nullptr) && (!tokens.empty()))
         {
-            item = item->FirstChildElement(tokens[0].c_str());
+            item = item->FirstChildElement(UnicodeToUtf8(tokens[0]).c_str());
             tokens.erase(tokens.begin());
         }
         string value = defaultvalue;
@@ -290,12 +290,12 @@ namespace teamtalk {
             string s;
             GetElementText(item, s);
 
-            if (StringCmpNoCase(s, "true"))
+            if (StringCmpNoCase(Utf8ToUnicode(s.c_str()), Utf8ToUnicode("true")))
             {
                 bValue = true;
                 return true;
             }
-            if(StringCmpNoCase(s, "false"))
+            if(StringCmpNoCase(Utf8ToUnicode(s.c_str()), Utf8ToUnicode("false")))
             {
                 bValue = false;
                 return true;

@@ -26,25 +26,26 @@
 
 #include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_Status.h>
-#include <ace/SString.h>
+
+#include "mystd/MyStd.h"
 
 #include <cstdint>
 #include <map>
 #include <string>
 #include <vector>
 
-std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_t port);
+std::vector<ACE_INET_Addr> DetermineHostAddress(const tstring& host, uint16_t port);
 
-int HttpGetRequest(const ACE_CString& url, std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
-int HttpPostRequest(const ACE_CString& url, const char* data, int len,
+int HttpGetRequest(const std::string& url, std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
+int HttpPostRequest(const std::string& url, const char* data, int len,
                     const std::map<std::string,std::string>& headers,
                     std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
-int HttpPostRequest(const ACE_CString& url, const std::map<std::string,std::string>& unencodedformdata,
+int HttpPostRequest(const std::string& url, const std::map<std::string,std::string>& unencodedformdata,
                     std::string& result, ACE::HTTP::Status::Code* statusCode = nullptr);
 std::string URLEncode(const std::string& utf8);
 
-ACE_TString InetAddrToString(const ACE_INET_Addr& addr);
-int InetAddrFamily(const ACE_TString& addr_str); //AF_INET AF_NET6
-ACE_TString INetAddrNetwork(const ACE_TString& ipaddr, uint32_t prefix);
+tstring InetAddrToString(const ACE_INET_Addr& addr);
+int InetAddrFamily(const tstring& addr_str); //AF_INET AF_NET6
+tstring INetAddrNetwork(const tstring& ipaddr, uint32_t prefix);
 
 #endif

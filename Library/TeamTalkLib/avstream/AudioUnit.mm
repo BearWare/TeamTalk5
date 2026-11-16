@@ -518,7 +518,7 @@ assert(status == noErr);
             status = AudioComponentInstanceDispose(audioUnit);
             assert(status == noErr);
 
-            MYTRACE(ACE_TEXT("Failed to start input device %d, status %d\n"), inputdeviceid, (int)status);
+            MYTRACE(ACE_TEXT("Failed to start input device %d, status %d\n"), inputdeviceid, static_cast<int>(status));
 
             return inputstreamer_t();
         }

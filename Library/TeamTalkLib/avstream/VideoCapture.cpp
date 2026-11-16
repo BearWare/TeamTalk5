@@ -83,7 +83,7 @@ public:
         return devs;
     }
 
-    bool InitVideoCapture(const ACE_TString& deviceid,
+    bool InitVideoCapture(const tstring& deviceid,
                           const media::VideoFormat& vidfmt) override
     {
         if (deviceid != m_dev.deviceid)

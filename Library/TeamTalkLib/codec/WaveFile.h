@@ -28,8 +28,6 @@
 
 #include "myace/MyACE.h"
 
-#include <ace/SString.h>
-
 #include <cstdint>
 #include <memory>
 
@@ -61,7 +59,7 @@ public:
     WaveFile();
     virtual ~WaveFile();
 
-    bool NewFile(const ACE_TString& filename, const WAVEFORMATEX* waveformat, int len);
+    bool NewFile(const tstring& filename, const WAVEFORMATEX* waveformat, int len);
     bool AppendData(const void* data, int len);
 private:
     MyFile m_wavfile;
@@ -76,13 +74,13 @@ public:
     WavePCMFile();
     ~WavePCMFile();
 
-    bool NewFile(const ACE_TString& filename, int samplerate, int channels);
-    bool NewFile(const ACE_TString& filename, const media::AudioFormat& fmt);
-    bool OpenFile(const ACE_TString& filename, bool readonly);
+    bool NewFile(const tstring& filename, int samplerate, int channels);
+    bool NewFile(const tstring& filename, const media::AudioFormat& fmt);
+    bool OpenFile(const tstring& filename, bool readonly);
     void Close();
     bool AppendSamples(const short* buffer, int samples_len);
-    const ACE_TString& Path() const { return m_filepath; }
-    ACE_TString FileName() const; 
+    const tstring& Path() const { return m_filepath; }
+    tstring FileName() const; 
 
     bool SeekSamplesBegin();
     bool SeekSamplesEnd();
@@ -96,7 +94,7 @@ private:
     int WriteData(const void* data, int len);
     bool WriteHeader(int samplerate, int channels);
     MyFile m_wavfile;
-    ACE_TString m_filepath;
+    tstring m_filepath;
     int m_channels;
 };
 

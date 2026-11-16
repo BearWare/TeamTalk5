@@ -36,7 +36,6 @@
 #include "teamtalk/User.h"
 
 #include <ace/Message_Block.h>
-#include <ace/SString.h>
 
 #include <array>
 #include <cstdint>
@@ -138,8 +137,8 @@ namespace teamtalk {
         void SetChannel(clientchannel_t& chan);
         clientchannel_t GetChannel() const { return m_channel.lock(); }
 
-        void SetUsername(const ACE_TString& name){ m_username = name; }
-        const ACE_TString& GetUsername() const override { return m_username; }
+        void SetUsername(const tstring& name){ m_username = name; }
+        const tstring& GetUsername() const override { return m_username; }
 
         void SetUserType(UserTypes usertype) { m_usertype = usertype; }
         UserTypes GetUserType() const override { return m_usertype; }
@@ -232,11 +231,11 @@ namespace teamtalk {
         bool LocalSubscribes(Subscriptions sub_mask) const
         { return (GetLocalSubscriptions() & sub_mask) != SUBSCRIBE_NONE; }
 
-        void SetAudioFolder(const ACE_TString& audfolder) { m_audiofolder = audfolder; }
-        const ACE_TString& GetAudioFolder() const { return m_audiofolder; }
-        ACE_TString GetAudioFileName() const;
-        void SetAudioFileVariables(const ACE_TString& vars) { m_vlog_vars = vars; }
-        const ACE_TString& GetAudioFileVariables() const { return m_vlog_vars; }
+        void SetAudioFolder(const tstring& audfolder) { m_audiofolder = audfolder; }
+        const tstring& GetAudioFolder() const { return m_audiofolder; }
+        tstring GetAudioFileName() const;
+        void SetAudioFileVariables(const tstring& vars) { m_vlog_vars = vars; }
+        const tstring& GetAudioFileVariables() const { return m_vlog_vars; }
         void SetAudioFileFormat(AudioFileFormat aff);
         AudioFileFormat GetAudioFileFormat() const;
         int32_t IncVoiceLogCounter() { return ++m_voicelog_counter; }
@@ -262,7 +261,7 @@ namespace teamtalk {
 
         ClientUserStats m_stats;
         // public properties of user's UserAccount
-        ACE_TString m_username;
+        tstring m_username;
         UserTypes m_usertype = USERTYPE_NONE;
         int m_userdata = 0;
 
@@ -322,8 +321,8 @@ namespace teamtalk {
         Subscriptions m_localsubscriptions = SUBSCRIBE_NONE, m_peersubscriptions = SUBSCRIBE_NONE;
 
         //audio storage
-        ACE_TString m_audiofolder;
-        ACE_TString m_vlog_vars;
+        tstring m_audiofolder;
+        tstring m_vlog_vars;
         AudioFileFormat m_aff = AFF_NONE;
         uint32_t m_voicelog_counter = 0;
     };

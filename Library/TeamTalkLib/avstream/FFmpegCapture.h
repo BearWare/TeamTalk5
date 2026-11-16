@@ -30,7 +30,6 @@
 #include "codec/MediaUtil.h"
 
 #include <ace/Message_Block.h>
-#include <ace/SString.h>
 
 #include <memory>
 
@@ -65,7 +64,7 @@ namespace vidcap {
         ~FFmpegCapture() override;
 
         // VideoCapture interface
-        bool InitVideoCapture(const ACE_TString& deviceid,
+        bool InitVideoCapture(const tstring& deviceid,
                               const media::VideoFormat& vidfmt) override;
 
         bool StartVideoCapture() override;

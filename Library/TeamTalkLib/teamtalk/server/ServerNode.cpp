@@ -48,7 +48,7 @@
 
 using namespace teamtalk;
 
-ServerNode::ServerNode(const ACE_TString& version,
+ServerNode::ServerNode(const tstring& version,
                        ACE_Reactor* timerReactor,
                        ACE_Reactor* tcpReactor, 
                        ACE_Reactor* udpReactor, 
@@ -105,16 +105,16 @@ const ServerStats& ServerNode::GetServerStats() const
     return m_stats;
 }
 
-ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
+tstring ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
 {
     GUARD_OBJ(this, Lock());
 
     //%users% %uptime% %voicetx% %voicerx% %admins% %lastuser%
     size_t const users = GetAuthorizedUsers(true).size();
     size_t const admins = GetAdministrators().size();
-    ACE_TString const uptime = UptimeHours(GetUptime());
+    tstring const uptime = UptimeHours(GetUptime());
 
-    ACE_TString lastuser;
+    tstring lastuser;
     ACE_Time_Value const duration = ACE_Time_Value::max_time;
     for (const auto& u : GetAuthorizedUsers(false))
     {
@@ -122,7 +122,7 @@ ACE_TString ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
             u->GetUserID() != ignore_userid)
             lastuser = u->GetNickname();
     }
-    ACE_TString motd = m_properties.motd;
+    tstring motd = m_properties.motd;
     ReplaceAll(motd, ACE_TEXT("%users%"), I2String(static_cast<int>(users)));
     ReplaceAll(motd, ACE_TEXT("%admins%"), I2String(static_cast<int>(admins)));
     ReplaceAll(motd, ACE_TEXT("%uptime%"), uptime);
@@ -220,11 +220,11 @@ ServerChannel::users_t ServerNode::GetNotificationUsers(UserRights urights, cons
     return notifyusers;
 }
 
-bool ServerNode::SetFileSharing(const ACE_TString& rootdir)
+bool ServerNode::SetFileSharing(const tstring& rootdir)
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
-    ACE_TString const fixedpath = FixFilePath(rootdir);
+    tstring const fixedpath = FixFilePath(rootdir);
     ACE_Dirent_Selector dir;
     if(dir.open(fixedpath.c_str()) < 0)
         return false;
@@ -290,7 +290,7 @@ bool ServerNode::IsEncrypted() const
     return m_def_acceptors.empty();
 }
 
-int ServerNode::GetChannelID(const ACE_TString& chanpath)
+int ServerNode::GetChannelID(const tstring& chanpath)
 {
     GUARD_OBJ(this, Lock());
 
@@ -408,11 +408,11 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
 
     m_file_id_counter = remotefile.fileid;
 
-    ACE_TString internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
+    tstring internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
 
     std::array<ACE_TCHAR, MAX_STRING_LENGTH+1> newfilename{};
     uint32_t dat_id = m_file_id_counter;
-    ACE_TString local_filename;
+    tstring local_filename;
     std::error_code ec;
     do
     {
@@ -469,7 +469,7 @@ ErrorMsg ServerNode::FileOutboundCompleted(const ServerUser& user,
 }
 
 ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid, 
-                                    const ACE_TString& filename)
+                                    const tstring& filename)
 {
     GUARD_OBJ(this, Lock());
 
@@ -511,7 +511,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
             m_srvguard->OnSaveConfiguration(user.get());
     }
 
-    ACE_TString const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+    tstring const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
     g.release();
 
     ACE_FILE_Connector con;
@@ -930,7 +930,7 @@ void ServerNode::StopDesktopTransmitter(const ServerUser& src_user,
     }
 }
 
-bool ServerNode::StartServer(bool encrypted, const ACE_TString& sysid)
+bool ServerNode::StartServer(bool encrypted, const tstring& sysid)
 {
     GUARD_OBJ(this, Lock());
 
@@ -1136,7 +1136,7 @@ void ServerNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 #if defined(ENABLE_ENCRYPTION)
         handler.peer().peer().get_remote_addr(addr);
 #endif
-        ACE_TString str;
+        tstring str;
 #if defined(UNICODE)
         str = ACE_Ascii_To_Wide(addr.get_host_addr()).wchar_rep();
 #else
@@ -1165,7 +1165,7 @@ void ServerNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 
         ACE_INET_Addr addr;
         handler.peer().get_remote_addr(addr);
-        ACE_TString str;
+        tstring str;
 #if defined(UNICODE)
         str = ACE_Ascii_To_Wide(addr.get_host_addr()).wchar_rep();
 #else
@@ -2665,8 +2665,8 @@ void ServerNode::CheckKeepAlive()
     }
 }
 
-ErrorMsg ServerNode::UserLogin(int userid, const ACE_TString& username,
-                               const ACE_TString& passwd)
+ErrorMsg ServerNode::UserLogin(int userid, const tstring& username,
+                               const tstring& passwd)
 {
     GUARD_OBJ(this, Lock());
 
@@ -2871,7 +2871,7 @@ ErrorMsg ServerNode::UserLogout(int userid)
     return ErrorMsg(TT_CMDERR_SUCCESS);
 }
 
-ErrorMsg ServerNode::UserChangeNickname(int userid, const ACE_TString& newnick)
+ErrorMsg ServerNode::UserChangeNickname(int userid, const tstring& newnick)
 {
     GUARD_OBJ(this, Lock());
 
@@ -2888,7 +2888,7 @@ ErrorMsg ServerNode::UserChangeNickname(int userid, const ACE_TString& newnick)
     return err;
 }
 
-ErrorMsg ServerNode::UserChangeStatus(int userid, int mode, const ACE_TString& status)
+ErrorMsg ServerNode::UserChangeStatus(int userid, int mode, const tstring& status)
 {
     GUARD_OBJ(this, Lock());
 
@@ -3220,7 +3220,7 @@ void ServerNode::UserDisconnected(int userid)
 }
 
 ErrorMsg ServerNode::UserOpDeOp(int userid, int channelid, 
-                                const ACE_TString& oppasswd, int op_userid, bool op)
+                                const tstring& oppasswd, int op_userid, bool op)
 {
     GUARD_OBJ(this, Lock());
 
@@ -3315,7 +3315,7 @@ ErrorMsg ServerNode::UserBan(int userid, BannedUser ban)
 
     if ((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
     {
-        if(ban.chanpath.is_empty())
+        if(ban.chanpath.empty())
             return TT_CMDERR_CHANNEL_NOT_FOUND;
 
         banchan = ChangeChannel(GetRootChannel(), ban.chanpath);
@@ -3561,7 +3561,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
     return err;
 }
 
-ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const ACE_TString& username)
+ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const tstring& username)
 {
     GUARD_OBJ(this, Lock());
 
@@ -3717,7 +3717,7 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
             return ErrorMsg(TT_CMDERR_CHANNEL_ALREADY_EXISTS);
 
         if(parent->GetChannelPath().length() + chanprop.name.length() + 
-            ACE_TString(CHANNEL_SEPARATOR).length() >= MAX_STRING_LENGTH)
+            tstring(CHANNEL_SEPARATOR).length() >= MAX_STRING_LENGTH)
             return ErrorMsg(TT_CMDERR_CHANNEL_NOT_FOUND);
 
         if ((parent->GetChannelType() & CHANNEL_HIDDEN) != CHANNEL_DEFAULT)
@@ -4251,8 +4251,8 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(m_filetransfers.contains(id)) //no IDs left
             return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-        ACE_TString const tmpfilename = ACE_TEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
-        ACE_TString const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
+        tstring const tmpfilename = ACE_TEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
+        tstring const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
         if(chan->FileExists(transfer.filename))
             return ErrorMsg(TT_CMDERR_FILE_ALREADY_EXISTS);
                     transfer.localfile = filepath;
@@ -4265,7 +4265,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(!chan->GetFile(transfer.filename, remotefile))
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
 
-        ACE_TString const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+        tstring const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
         std::error_code ec;
         if (!std::filesystem::exists(internalpath.c_str(), ec))
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
@@ -4398,7 +4398,7 @@ ErrorMsg ServerNode::AddFileToChannel(const RemoteFile& remotefile)
     return {};
 }
 
-ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int channelid)
+ErrorMsg ServerNode::RemoveFileFromChannel(const tstring& filename, int channelid)
 {
     ASSERT_SERVERNODE_LOCKED(this);
 
@@ -4413,7 +4413,7 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const ACE_TString& filename, int chan
 
         ACE_FILE_Connector con;
         ACE_FILE_IO file;
-        ACE_TString const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+        tstring const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
         if(con.connect(file, ACE_FILE_Addr(internalpath.c_str())) >= 0)
             file.remove();
 

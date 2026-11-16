@@ -28,7 +28,6 @@
 #include "teamtalk/DesktopSession.h"
 #include "teamtalk/PacketHelper.h"
 
-#include <ace/SString.h>
 #include <ace/Task.h>
 
 #include <cstdint>
@@ -95,7 +94,7 @@ namespace teamtalk {
 
         void ResetBitmap(const std::vector<char>* bmp = nullptr);
 
-        void WriteBitmapToFile(const ACE_TString& filename);
+        void WriteBitmapToFile(const tstring& filename);
 
         const char* GetBitmap(int* size = nullptr) const;
 

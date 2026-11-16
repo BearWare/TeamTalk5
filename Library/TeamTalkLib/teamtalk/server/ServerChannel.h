@@ -27,7 +27,6 @@
 #include "teamtalk/Channel.h"
 #include "teamtalk/Common.h"
 
-#include <ace/SString.h>
 #include <ace/Time_Value.h>
 
 #include <map>
@@ -42,7 +41,7 @@ namespace teamtalk {
     public:
         using PARENT = Channel<ServerChannel, ServerUser>;
         explicit ServerChannel(int channelid);
-        ServerChannel(channel_t& parent, int channelid, const ACE_TString& name);
+        ServerChannel(channel_t& parent, int channelid, const tstring& name);
         ~ServerChannel() override;
         // Used for channels with CHANNEL_SOLO_TRANSMIT. 'modified' is only set if 'true'
         bool CanTransmit(int userid, StreamType txtype, int streamid, bool* modified);
@@ -67,7 +66,7 @@ namespace teamtalk {
         std::map<int, ACE_Time_Value> m_streamstart;
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
-        ACE_TString m_usernameOwner;
+        tstring m_usernameOwner;
         void BlockAudioStream(int userid);
     };
 } // namespace teamtalk

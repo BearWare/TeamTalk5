@@ -24,24 +24,64 @@
 #if !defined(MYSTD_H)
 #define MYSTD_H
 
+#include <cstddef>
 #include <cstdint>
 #include <regex>
 #include <sstream>
 #include <string>
 #include <vector>
 
+//tstring is std::wstring on Windows and std::string on other platforms.
 #if defined(UNICODE)
+using tstring = std::wstring;
 using tostringstream = std::wostringstream;
 #else
+using tstring = std::string;
 using tostringstream = std::ostringstream;
 #endif
 
-using stdstrings_t = std::vector<std::string>;
+using strings_t = std::vector<tstring>;
 
-std::string String2Lower(const std::string& str);
+//directory separator used in tstring file paths
+#if defined(WIN32)
+constexpr tstring::value_type DIRECTORY_SEPARATOR_CHAR = '\\';
+#else
+constexpr tstring::value_type DIRECTORY_SEPARATOR_CHAR = '/';
+#endif
 
-bool StringCmpNoCase(const std::string& str1, const std::string& str2);
-stdstrings_t StringTokenize(const std::string& source, const std::string& delimeters);
+tstring FixFilePath(const tstring& filepath);
+
+void ReplaceAll(tstring& target, const tstring& to_find, const tstring& replacement);
+
+tstring I2String(int64_t i);
+int64_t String2I(const tstring& int_str, int base = 10, int64_t errorValue = 0);
+
+bool StringCmpNoCase(const tstring& str1, const tstring& str2);
+tstring StringToLower(const tstring& str);
+strings_t Tokenize(const tstring& source, const tstring& delimeters);
+
+tstring KeyToHexString(const unsigned char* key, std::size_t length);
+void HexStringToKey(const tstring& crypt_key, uint8_t* key, std::size_t keylen);
+
+bool VersionSameOrLater(const tstring& check, const tstring& against);
+
+#if defined(UNICODE)
+std::string UnicodeToUtf8(const wchar_t* unicode, int len = -1);
+std::string UnicodeToUtf8(const tstring& str);
+tstring Utf8ToUnicode(const char* utf8, int len = -1);
+std::string UnicodeToLocal(const tstring& str);
+tstring LocalToUnicode(const std::string& str);
+std::string Utf8ToLocal(const char* local, int len = -1);
+#else
+#define UnicodeToUtf8(str)      (str)
+#define Utf8ToUnicode(utf8)     (utf8)
+#define UnicodeToLocal(str)     (str)
+#define LocalToUnicode(str)     (str)
+#define Utf8ToLocal(local)      (local)
+#endif
+
+bool ValidUtf8(const std::string& utf8_str);
+std::string LimitUtf8(const std::string& utf8_str, size_t maxlen);
 
 #if defined(UNICODE)
 std::wregex BuildRegex(const std::wstring& regexstr);

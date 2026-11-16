@@ -39,7 +39,7 @@ namespace vidcap {
 
         vidcap_devices_t GetDevices();
 
-        bool InitVideoCapture(const ACE_TString& deviceid,
+        bool InitVideoCapture(const tstring& deviceid,
                               const media::VideoFormat& vidfmt);
 
         bool StartVideoCapture();
@@ -53,7 +53,7 @@ namespace vidcap {
 
     private:
 
-        void Run(struct CaptureSession* session, ACE_TString deviceid);
+        void Run(struct CaptureSession* session, tstring deviceid);
 
         typedef std::shared_ptr<struct CaptureSession> capturesession_t;
         capturesession_t m_session;

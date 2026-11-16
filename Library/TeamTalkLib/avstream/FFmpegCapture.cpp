@@ -24,9 +24,8 @@
 #include "FFmpegCapture.h"
 
 #include <ace/Message_Block.h>
-#include <ace/SString.h>
 
-#include <assert.h>
+#include <cassert>
 #include <functional>
 #include <memory>
 
@@ -47,7 +46,7 @@ FFmpegCapture::FFmpegCapture()
 
 FFmpegCapture::~FFmpegCapture() = default;
 
-bool FFmpegCapture::InitVideoCapture(const ACE_TString& deviceid,
+bool FFmpegCapture::InitVideoCapture(const tstring& deviceid,
                                       const media::VideoFormat& vidfmt)
 {
     vidcap_devices_t devs = GetDevices();

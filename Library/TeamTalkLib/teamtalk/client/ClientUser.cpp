@@ -1813,7 +1813,7 @@ bool ClientUser::PeerSubscribes(const FieldPacket& packet) const
     return true;
 }
 
-ACE_TString ClientUser::GetAudioFileName() const
+tstring ClientUser::GetAudioFileName() const
 {
     return m_clientnode->GetVoiceLogger().GetVoiceLogFileName(GetUserID());
 }

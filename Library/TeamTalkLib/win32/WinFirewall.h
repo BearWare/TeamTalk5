@@ -24,8 +24,9 @@
 #ifndef WINFIREWALL_H
 #define WINFIREWALL_H
 
-#include <ace/SString.h>
+#include "mystd/MyStd.h"
 
+#include <ace/OS.h>
 #include <netfw.h>
 
 class WinFirewall
@@ -41,11 +42,11 @@ public:
 
     bool EnableFirewall(bool enable);
 
-    bool IsApplicationFirewalled(const ACE_TString& exefile);
+    bool IsApplicationFirewalled(const tstring& exefile);
 
-    bool AddException(const ACE_TString& exefile,
-                      const ACE_TString& name);
-    bool RemoveException(const ACE_TString& exefile);
+    bool AddException(const tstring& exefile,
+                      const tstring& name);
+    bool RemoveException(const tstring& exefile);
 
 private:
     bool OpenFirewall();

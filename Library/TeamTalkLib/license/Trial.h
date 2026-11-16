@@ -32,6 +32,6 @@ void LicenseCheck();
 
 void ValidTeamTalkSDK();
 
-ACE_TString GetProcessName();
+tstring GetProcessName();
 
 #endif

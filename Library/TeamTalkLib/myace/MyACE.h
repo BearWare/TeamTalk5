@@ -32,18 +32,14 @@
 #include <ace/Message_Queue_T.h>
 #include <ace/Reactor.h>
 #include <ace/Recursive_Thread_Mutex.h>
-#include <ace/SString.h>
-#include <ace/SStringfwd.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
 #include <ace/Timer_Heap.h>
 #include <ace/Timer_Queue_Adapters.h>
 
-#include <cstddef>
 #include <cstdint>
 #include <fstream>
 #include <set>
-#include <thread>
 #include <vector>
 
 //reactor event task
@@ -69,8 +65,8 @@ public:
 class MyFile : private NonCopyable
 {
 public:
-    bool Open(const ACE_TString& filename, bool readonly = true);
-    bool NewFile(const ACE_TString& filename);
+    bool Open(const tstring& filename, bool readonly = true);
+    bool NewFile(const tstring& filename);
     void Close();
 
     int64_t Read(char* buf, std::streamsize size);
@@ -83,49 +79,12 @@ private:
     bool m_readonly = true;
 };
 
-using strings_t = std::vector< ACE_TString >;
 using intset_t = std::set<int>;
 using intvec_t = std::vector<int>;
 
-bool ExtractFileName(const ACE_TString& filepath, ACE_TString& filename);
-ACE_TString FixFilePath(const ACE_TString& filepath);
-
-void ReplaceAll(ACE_TString& target, const ACE_TString& to_find, const ACE_TString& replacement );
-
-ACE_TString I2String(int64_t i);
-int64_t String2I(const ACE_TString& int_str, int base = 10, int64_t errorValue = 0);
-
-bool StringCmpNoCase(const ACE_TString& str1, const ACE_TString& str2);
-ACE_TString StringToLower(const ACE_TString& str);
-strings_t Tokenize(const ACE_TString& source, const ACE_TString& delimeters);
-
-ACE_TString KeyToHexString(const unsigned char* key, std::size_t length);
-void HexStringToKey(const ACE_TString& crypt_key, uint8_t* key, std::size_t keylen);
-
 ACE_Time_Value ToTimeValue(int64_t msec);
 
-ACE_TString UptimeHours(const ACE_Time_Value& value);
-
-#if defined(UNICODE)
-ACE_CString UnicodeToUtf8(const wchar_t* unicode, int len = -1);
-ACE_CString UnicodeToUtf8(const ACE_WString& str);
-ACE_WString Utf8ToUnicode(const char* utf8, int len = -1);
-ACE_CString UnicodeToLocal(const ACE_WString& str);
-ACE_WString LocalToUnicode(const ACE_CString& str);
-ACE_CString LocalToUtf8(const char* local, int len = -1);
-ACE_CString Utf8ToLocal(const char* local, int len = -1);
-//bool ValidUtf8(const ACE_CString& utf8_str);
-#else
-#define UnicodeToUtf8(str)      (str)
-#define Utf8ToUnicode(utf8)     (utf8)
-#define UnicodeToLocal(str)     (str)
-#define LocalToUnicode(str)     (str)
-#define LocalToUtf8(local)      (local)
-#define Utf8ToLocal(local)      (local)
-#endif
-
-bool ValidUtf8(const ACE_CString& utf8_str);
-ACE_CString LimitUtf8(const ACE_CString& utf8_str, size_t maxlen);
+tstring UptimeHours(const ACE_Time_Value& value);
 
 #if defined(_DEBUG)
 
@@ -138,8 +97,8 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-t
 
 #else
 
-#define MYTRACE(...)           ((void)0) 
-#define MYTRACE_COND(...)      ((void)0)
+#define MYTRACE(...)           (static_cast<void>(0)) 
+#define MYTRACE_COND(...)      (static_cast<void>(0))
 
 #endif /* _DEBUG */
 
@@ -157,8 +116,6 @@ private:
 
 #define PROFILER(name)   Profiler d1d(name, ACE_TEXT( __FILE__ ), __LINE__, false)
 #define PROFILER_ST(name)   Profiler d1d(name, ACE_TEXT( __FILE__ ), __LINE__, true)
-
-bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
 
 #define DUP_TIMESTAMP_DELAY(tm)          \
     do {                                 \

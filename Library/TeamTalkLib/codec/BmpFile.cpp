@@ -64,7 +64,7 @@ struct BitmapInfoHeader
 constexpr int BMPHDR_SIZE = 14;
 constexpr int BMIHEADER_SIZE = 40;
 
-bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
+bool WriteBitmap(const tstring& filename, const media::VideoFormat fmt,
                  const char* data, int size)
 {
     BitmapFileHeader bmphdr = {};
@@ -109,7 +109,7 @@ bool WriteBitmap(const ACE_TString& filename, const media::VideoFormat fmt,
     return written == size;
 }
 
-std::vector<char> LoadRawBitmap(const ACE_TString& filename, media::VideoFormat& fmt)
+std::vector<char> LoadRawBitmap(const tstring& filename, media::VideoFormat& fmt)
 {
     std::vector<char> buff;
     BitmapFileHeader bmphdr = {};

@@ -42,7 +42,7 @@ ServerChannel::ServerChannel(int channelid)
     Init();
 }
 
-ServerChannel::ServerChannel(channel_t& parent, int channelid, const ACE_TString& name) 
+ServerChannel::ServerChannel(channel_t& parent, int channelid, const tstring& name) 
     : PARENT(parent, channelid, name)
 {
     Init();

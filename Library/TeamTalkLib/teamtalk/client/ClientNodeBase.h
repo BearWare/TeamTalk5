@@ -215,7 +215,7 @@ static void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
     (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 
-#define ASSERT_CLIENTNODE_LOCKED(...)    (void)0
+#define ASSERT_CLIENTNODE_LOCKED(...)    static_cast<void>(0)
 
 #define GUARD_REACTOR(this_obj)                 \
     guard_t g(this_obj->ReactorLock())

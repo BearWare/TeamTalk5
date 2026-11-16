@@ -27,7 +27,7 @@
 
 #import <Foundation/Foundation.h>
 
-ACE_TString GetProcessName()
+tstring GetProcessName()
 {
     std::array<ACE_TCHAR, 512> buff{};
     ACE_OS::strncpy(buff.data(), ACE_TEXT("Unknown"), buff.size());
@@ -50,5 +50,5 @@ ACE_TString GetProcessName()
             ACE_OS::strncpy(buff.data(), c, buff.size());
     }
 
-    return ACE_TString(buff.data());
+    return tstring(buff.data());
 }

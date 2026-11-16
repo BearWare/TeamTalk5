@@ -266,7 +266,7 @@ void TTMsgQueue::OnConnectionLost()
     EnqueueMsg(mb);
 }
 
-void TTMsgQueue::OnEncryptionFailed(int sslerr, const ACE_TString& errmsg)
+void TTMsgQueue::OnEncryptionFailed(int sslerr, const tstring& errmsg)
 {
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CON_CRYPT_ERROR,
@@ -417,7 +417,7 @@ void TTMsgQueue::OnAddUserAccount(const teamtalk::UserAccount& account)
     EnqueueMsg(mb);
 }
 
-void TTMsgQueue::OnRemoveUserAccount(const ACE_TString& username)
+void TTMsgQueue::OnRemoveUserAccount(const tstring& username)
 {
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_USERACCOUNT_REMOVE,
@@ -505,7 +505,7 @@ void TTMsgQueue::OnCommandProcessing(int cmdid, bool begin_end)
     EnqueueMsg(mb);
 }
 
-void TTMsgQueue::OnCommandError(int cmdid, int err_num, const ACE_TString& msg_)
+void TTMsgQueue::OnCommandError(int cmdid, int err_num, const tstring& msg_)
 {
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_CMD_ERROR,
@@ -523,7 +523,7 @@ void TTMsgQueue::OnCommandSuccess(int cmdid)
     ACE_UNUSED_ARG(msg);
 }
 
-void TTMsgQueue::OnInternalError(int errorno, const ACE_TString& msg_)
+void TTMsgQueue::OnInternalError(int errorno, const tstring& msg_)
 {
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,

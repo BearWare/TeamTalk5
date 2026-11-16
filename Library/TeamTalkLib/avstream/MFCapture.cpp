@@ -183,7 +183,7 @@ namespace vidcap {
 
 }
 
-bool MFCapture::InitVideoCapture(const ACE_TString& deviceid,
+bool MFCapture::InitVideoCapture(const tstring& deviceid,
                                  const media::VideoFormat& vidfmt)
 {
     if(m_session)
@@ -246,7 +246,7 @@ void MFCapture::UnregisterVideoFormat(media::FourCC fcc)
         m_session->RemoveCallback(fcc);
 }
 
-void MFCapture::Run(CaptureSession* session, ACE_TString deviceid)
+void MFCapture::Run(CaptureSession* session, tstring deviceid)
 {
     HRESULT hr;
     UINT32 cDevices = 0;

@@ -29,7 +29,6 @@
 
 #include <ace/ACE.h>
 #include <ace/Future.h>
-#include <ace/SString.h>
 
 #include <cstdint>
 #include <functional>
@@ -53,10 +52,10 @@ struct MediaStream
 struct MediaFileProp : public MediaStream
 {
     uint32_t duration_ms = 0, elapsed_ms = 0;
-    ACE_TString filename;
+    tstring filename;
 
     MediaFileProp() = default;
-    MediaFileProp(const ACE_TString& fname) : filename(fname) { }
+    MediaFileProp(const tstring& fname) : filename(fname) { }
 };
 
 struct MediaStreamOutput : public MediaStream
@@ -89,7 +88,7 @@ struct MediaStreamOutput : public MediaStream
     }
 };
 
-bool GetMediaFileProp(const ACE_TString& filename, MediaFileProp& fileprop);
+bool GetMediaFileProp(const tstring& filename, MediaFileProp& fileprop);
 
 enum MediaStreamStatus
 {
@@ -175,7 +174,7 @@ private:
 class MediaFileStreamer : public MediaStreamer
 {
 public:
-    MediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
+    MediaFileStreamer(const tstring& filename, const MediaStreamOutput& out_prop);
     
     void RegisterStatusCallback(mediastream_statuscallback_t cb, bool enable);
     
@@ -201,6 +200,6 @@ protected:
 
 using mediafile_streamer_t = std::shared_ptr< MediaFileStreamer >;
 
-mediafile_streamer_t MakeMediaFileStreamer(const ACE_TString& filename, const MediaStreamOutput& out_prop);
+mediafile_streamer_t MakeMediaFileStreamer(const tstring& filename, const MediaStreamOutput& out_prop);
 
 #endif
