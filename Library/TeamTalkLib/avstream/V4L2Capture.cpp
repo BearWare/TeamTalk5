@@ -22,12 +22,11 @@
  */
 
 #include "V4L2Capture.h"
-
 #include "avstream/FFmpegCapture.h"
 #include "avstream/FFmpegStreamer.h"
 #include "avstream/VideoCapture.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 extern "C" {
 #include <libavdevice/avdevice.h>
@@ -129,7 +128,7 @@ vidcap_devices_t V4L2Capture::GetDevices()
     for(int i=0;i<device_list->nb_devices;i++) {
         AVDeviceInfo* dev = device_list->devices[i];
         VidCapDevice newdev;
-        newdev.api = ACE_TEXT("v4l2");
+        newdev.api = TTEXT("v4l2");
         newdev.devicename = dev->device_description;
         newdev.deviceid = dev->device_name;
 
@@ -162,16 +161,16 @@ void FillVidCapDevice(int fd, VidCapDevice& dev)
             fmt.fourcc = FOURCC_YUY2;
             break;
         case V4L2_PIX_FMT_MJPEG:
-            MYTRACE(ACE_TEXT("MJPEG not supported\n"));
+            MYTRACE(TTEXT("MJPEG not supported\n"));
             break;
         case V4L2_PIX_FMT_JPEG:
-            MYTRACE(ACE_TEXT("JPEG not supported\n"));
+            MYTRACE(TTEXT("JPEG not supported\n"));
             break;
         case V4L2_PIX_FMT_RGB32 :
             fmt.fourcc = FOURCC_RGB32;
             break;
         default :
-            MYTRACE(ACE_TEXT("Unknown pixel format: %X\n"), pixel_format.pixelformat);
+            MYTRACE(TTEXT("Unknown pixel format: %X\n"), pixel_format.pixelformat);
             break;
         }
 
@@ -186,10 +185,10 @@ void FillVidCapDevice(int fd, VidCapDevice& dev)
                 fmt.height = frame_size.discrete.height;
                 break;
             case V4L2_FRMSIZE_TYPE_STEPWISE :
-                MYTRACE(ACE_TEXT("Stepwise frame size not supported\n"));
+                MYTRACE(TTEXT("Stepwise frame size not supported\n"));
                 break;
             case V4L2_FRMSIZE_TYPE_CONTINUOUS :
-                MYTRACE(ACE_TEXT("Continuous frame size not supported\n"));
+                MYTRACE(TTEXT("Continuous frame size not supported\n"));
                 break;
             }
 
@@ -212,10 +211,10 @@ void FillVidCapDevice(int fd, VidCapDevice& dev)
                     }
                     break;
                 case V4L2_FRMIVAL_TYPE_STEPWISE :
-                    MYTRACE(ACE_TEXT("Stepwise frame ival not supported\n"));
+                    MYTRACE(TTEXT("Stepwise frame ival not supported\n"));
                     break;
                 case V4L2_FRMIVAL_TYPE_CONTINUOUS :
-                    MYTRACE(ACE_TEXT("Continuous frame ival not supported\n"));
+                    MYTRACE(TTEXT("Continuous frame ival not supported\n"));
                     break;
                 }
                 ++frame_interval.index;

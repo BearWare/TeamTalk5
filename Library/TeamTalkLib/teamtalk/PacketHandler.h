@@ -31,6 +31,8 @@
 #include <ace/Message_Queue_T.h>
 #include <ace/Reactor.h>
 #include <ace/SOCK_Dgram.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 
 #include <set>
 #include <vector>

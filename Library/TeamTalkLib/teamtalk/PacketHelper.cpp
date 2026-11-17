@@ -26,9 +26,9 @@
 #include "CodecCommon.h"
 #include "DesktopSession.h"
 #include "TTAssert.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#include <ace/Time_Value.h>
+#include <ace/ACE.h> // ACE::crc32
 
 #include <cassert>
 #include <cstddef>

@@ -24,11 +24,15 @@
 #if !defined(MYSTD_H)
 #define MYSTD_H
 
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
+#include <fstream>
 #include <regex>
+#include <set>
 #include <sstream>
 #include <string>
+#include <thread>
 #include <vector>
 
 //tstring is std::wstring on Windows and std::string on other platforms.
@@ -36,13 +40,33 @@
 using tstring = std::wstring;
 using tostringstream = std::wostringstream;
 using tchar = wchar_t;
+#define TTEXT(x) L##x
 #else
 using tstring = std::string;
 using tostringstream = std::ostringstream;
 using tchar = char;
+#define TTEXT(x) x
 #endif
 
 using strings_t = std::vector<tstring>;
+using intset_t = std::set<int>;
+using intvec_t = std::vector<int>;
+
+#if defined(_DEBUG)
+
+void MYTRACE(const tchar* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-type-vararg) */
+
+#define MYTRACE_COND(check, trace_str, ...)                       \
+    do { /* NOLINT */                                             \
+        if(check) MYTRACE(trace_str, ##__VA_ARGS__); /* NOLINT */ \
+    } while(0)
+
+#else
+
+#define MYTRACE(...)           (static_cast<void>(0))
+#define MYTRACE_COND(...)      (static_cast<void>(0))
+
+#endif /* _DEBUG */
 
 //directory separator used in tstring file paths
 #if defined(WIN32)
@@ -93,6 +117,8 @@ std::regex BuildRegex(const std::string& regexstr);
 
 uint32_t GETTIMESTAMP();
 
+void DUP_TIMESTAMP_DELAY(uint32_t tm);
+
 class NonCopyable
 {
 protected:
@@ -105,12 +131,72 @@ public:
     NonCopyable& operator=(NonCopyable&&) = delete;
 };
 
+class MyFile : private NonCopyable
+{
+public:
+    bool Open(const tstring& filename, bool readonly = true);
+    bool NewFile(const tstring& filename);
+    void Close();
+
+    int64_t Read(char* buf, std::streamsize size);
+    int64_t Write(const char* buf, std::streamsize size);
+    bool Seek(int64_t size, std::ios_base::seekdir way);
+    int64_t Tell();
+
+private:
+    std::fstream m_file;
+    bool m_readonly = true;
+};
+
 struct Rational
 {
     int numerator;
     int denominator;
     Rational(int n, int d) : numerator(n), denominator(d) { }
     bool IsOne() const { return numerator == denominator; }
+};
+
+class Profiler
+{
+public:
+    Profiler(const tchar* name, const tchar* file, int line, bool p_start);
+    ~Profiler();
+private:
+    std::chrono::steady_clock::time_point m_start;
+    const tchar* m_name;
+    const tchar* m_filename;
+    int m_line;
+};
+
+#define PROFILER(name)      Profiler d1d(name, TTEXT( __FILE__ ), __LINE__, false)
+#define PROFILER_ST(name)   Profiler d1d(name, TTEXT( __FILE__ ), __LINE__, true)
+
+//wraparound-safe comparisons of unsigned 32/16/8-bit counters
+constexpr auto W32_GEQ(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) >= 0); }
+constexpr auto W32_GT(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) > 0); }
+constexpr auto W32_LEQ(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) <= 0); }
+constexpr auto W32_LT(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) < 0); }
+
+constexpr auto W16_GEQ(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) >= 0); }
+constexpr auto W16_GT(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) > 0); }
+constexpr auto W16_LEQ(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) <= 0); }
+constexpr auto W16_LT(uint16_t a, uint16_t b) { return (static_cast<int16_t>(a-b) < 0); }
+
+constexpr auto W8_GEQ(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) >= 0); }
+constexpr auto W8_GT(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) > 0); }
+constexpr auto W8_LEQ(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) <= 0); }
+constexpr auto W8_LT(uint8_t a, uint8_t b) { return (static_cast<int8_t>(a-b) < 0); }
+
+struct W32LessComp
+{
+    bool operator() (const uint32_t& a, const uint32_t& b) const
+        { return W32_LT(a,b); }
+};
+
+struct W16LessComp
+{
+    bool operator() (const uint16_t& a, const uint16_t& b) const
+        { return W16_LT(a,b); }
 };
 
 #endif

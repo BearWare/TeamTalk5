@@ -34,14 +34,20 @@
 #include <cwctype>
 #endif
 
+#include <algorithm>
+#include <array>
 #include <cassert>
 #include <cctype>
 #include <chrono>
+#include <cstdarg>
 #include <cstdint>
 #include <cstdio>
 #include <cstring>
+#include <functional>
+#include <iostream>
 #include <regex>
 #include <string>
+#include <thread>
 #include <vector>
 
 /*******************************************************************/
@@ -390,4 +396,211 @@ uint32_t GETTIMESTAMP()
     auto duration = now_ms.time_since_epoch();
     return static_cast<uint32_t>(duration.count());
 }
+
+void DUP_TIMESTAMP_DELAY(uint32_t tm)
+{
+    while(tm == GETTIMESTAMP())
+        std::this_thread::yield();
+}
+
+#if defined(_DEBUG)
+
+constexpr bool MYTRACE_TIMESTAMP = true;
+
+#if defined(__ANDROID_API__)
+#include <android/log.h>
+#endif
+
+#if defined(__APPLE__)
+#include <os/log.h>
+#endif
+
+#if defined(WIN32)
+#include <windows.h>
+#include <cwchar>
+#endif
+
+void MYTRACE(const tchar* trace_str, ...) // NOLINT(modernize-avoid-variadic-functions)
+{
+    va_list args;
+    va_start(args, trace_str);
+#if defined(__ANDROID_API__) || defined(WIN32) || defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
+    constexpr int MAX_TRACESTRLEN = 512;
+#else
+    constexpr int MAX_TRACESTRLEN = 0x10000;
+#endif
+    std::vector<tchar> str_buf(MAX_TRACESTRLEN);
+#if defined(UNICODE)
+    std::wcsncpy(str_buf.data(), TTEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
+#else
+    std::strncpy(str_buf.data(), TTEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
+#endif
+    std::array<tchar, MAX_TRACESTRLEN> tmp_str;
+    static uint32_t begin = GETTIMESTAMP();
+    static uint32_t next;
+    next = GETTIMESTAMP();
+    int out_len = 0;
+
+    if (MYTRACE_TIMESTAMP)
+    {
+#if defined(UNICODE)
+        std::swprintf(tmp_str.data(), MAX_TRACESTRLEN, TTEXT("%08u: %s"), next - begin, trace_str);
+        out_len = std::vswprintf(str_buf.data(), MAX_TRACESTRLEN, tmp_str.data(), args);
+#else
+        std::snprintf(tmp_str.data(), MAX_TRACESTRLEN, "%08u: %s", next - begin, trace_str);
+        out_len = std::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, tmp_str.data(), args);
+#endif
+    }
+    else
+    {
+#if defined(UNICODE)
+        out_len = std::vswprintf(str_buf.data(), MAX_TRACESTRLEN, trace_str, args);
+#else
+        out_len = std::vsnprintf(str_buf.data(), MAX_TRACESTRLEN, trace_str, args);
+#endif
+    }
+
+#if defined(__ANDROID_API__)
+    __android_log_write(ANDROID_LOG_INFO, "bearware", &str_buf[0]);
+#elif defined(WIN32)
+    OutputDebugString(&str_buf[0]);
+#elif defined(TARGET_OS_IPHONE) && TARGET_OS_IPHONE || defined(TARGET_OS_SIMULATOR) && TARGET_OS_SIMULATOR
+    os_log_info(OS_LOG_DEFAULT, "%{public}s", &str_buf[0]);
+#else
+    std::cout << str_buf.data();
+    if (out_len >= MAX_TRACESTRLEN)
+        std::cout << "[MYTRACE buffer overflow]" << std::endl << std::flush;
+#endif /* __ANDROID_API__ */
+
+    va_end(args);
+}
+#endif /* _DEBUG */
+
+
+Profiler::Profiler(const tchar* name, const tchar* file, int line, bool p_start)
+: m_name(name)
+, m_filename(file)
+, m_line(line)
+{
+    m_start = std::chrono::steady_clock::now();
+    auto const h = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    MYTRACE_COND(p_start, TTEXT("Profiler: %s started at %u, %s:%d thr: 0x%llX\n"),
+                 m_name, static_cast<uint32_t>(0), m_filename, m_line,
+                 static_cast<unsigned long long>(h));
+}
+
+Profiler::~Profiler()
+{
+    auto const tm = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::steady_clock::now() - m_start).count();
+    auto const h = std::hash<std::thread::id>{}(std::this_thread::get_id());
+    MYTRACE(TTEXT("Profiler: %s completed in %u msec, %s:%d thr: 0x%llX\n"),
+            m_name, static_cast<uint32_t>(tm), m_filename, m_line,
+            static_cast<unsigned long long>(h));
+}
+bool MyFile::Open(const tstring& filename, bool readonly /*= true*/)
+{
+    if (m_file.is_open())
+        return false;
+
+    std::ios_base::openmode mode = std::ios::in | std::ios::binary;
+    if (!readonly)
+        mode |= std::ios::out;
+
+    m_file.open(filename.c_str(), mode);
+    m_readonly = m_file.good() && readonly;
+    return m_file.good();
+}
+
+bool MyFile::NewFile(const tstring& filename)
+{
+    m_file.open(filename.c_str(), std::ios::in | std::ios::out | std::ios::trunc | std::ios::binary);
+    m_readonly = !m_file.good();
+    return m_file.good();
+}
+
+void MyFile::Close()
+{
+    m_file.close();
+}
+
+int64_t MyFile::Read(char* buf, std::streamsize size)
+{
+    assert(m_file.is_open());
+    if (m_file.eof())
+        return 0;
+
+    MYTRACE_COND(m_file.bad(), TTEXT("File read while bad()\n"));
+    MYTRACE_COND(m_file.fail(), TTEXT("File read while fail()\n"));
+    MYTRACE_COND(!m_file.good(), TTEXT("File read while !good()\n"));
+
+    auto pos = m_file.tellg();
+
+    if (m_file.read(buf, size).bad())
+        return -1;
+
+    if (m_file.fail()) // happens if extracted bytes < 'size'
+        m_file.clear();
+
+    auto newpos = m_file.tellg();
+
+    // advance write pointer
+    if (!m_readonly)
+    {
+        if (!m_file.seekp(newpos))
+        {
+            assert(0 /* unable to advance write buffer */);
+            return -1;
+        }
+    }
+    assert(m_readonly || m_file.tellg() == m_file.tellp());
+    return newpos - pos;
+}
+
+int64_t MyFile::Write(const char* buf, std::streamsize size)
+{
+    assert(m_file.is_open());
+
+    MYTRACE_COND(m_file.bad(), TTEXT("File write while bad()\n"));
+    MYTRACE_COND(m_file.fail(), TTEXT("File write while fail()\n"));
+    MYTRACE_COND(!m_file.good(), TTEXT("File write while !good()\n"));
+
+    auto pos = m_file.tellp();
+    if (!m_file.write(buf, size))
+        return -1;
+
+    // advance read pointer
+    auto newpos = m_file.tellp();
+    if (!m_file.seekg(newpos))
+        return -1;
+
+    assert(m_file.tellg() == m_file.tellp());
+
+    return newpos - pos;
+}
+
+bool MyFile::Seek(int64_t size, std::ios_base::seekdir way)
+{
+    MYTRACE_COND(m_file.bad(), TTEXT("File seek while bad()\n"));
+    MYTRACE_COND(m_file.fail(), TTEXT("File seek while fail()\n"));
+    MYTRACE_COND(!m_file.good(), TTEXT("File seek while !good()\n"));
+
+    if (!m_file.seekg(size, way))
+        return false;
+
+    // seekg and seekp are interchangeable for file streams. Weird!
+
+    return !!m_file;
+}
+
+int64_t MyFile::Tell()
+{
+    MYTRACE_COND(m_file.bad(), TTEXT("File tell while bad()\n"));
+    MYTRACE_COND(m_file.fail(), TTEXT("File tell while fail()\n"));
+    MYTRACE_COND(!m_file.good(), TTEXT("File tell while !good()\n"));
+
+    assert(m_readonly || m_file.tellg() == m_file.tellp());
+    return m_file.tellg();
+}
+
 

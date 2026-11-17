@@ -24,9 +24,9 @@
 #if !defined(TRIAL_H)
 #define TRIAL_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
-#define REG_NAME_MIN 5
+constexpr auto REG_NAME_MIN = 5;
 
 void LicenseCheck();
 

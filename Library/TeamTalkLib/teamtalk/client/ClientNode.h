@@ -54,6 +54,8 @@
 #include <ace/INET_Addr.h>
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)

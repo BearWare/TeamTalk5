@@ -22,7 +22,6 @@
  */
 
 #include "MediaPlayback.h"
-
 #include "myace/MyACE.h"
 
 #if defined(ENABLE_WEBRTC)

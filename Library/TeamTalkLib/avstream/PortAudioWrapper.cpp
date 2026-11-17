@@ -23,17 +23,7 @@
 
 #include "PortAudioWrapper.h"
 
-#include <algorithm>
-#include <array>
-#include <cassert>
-#include <cmath>
-#include <cstdint>
-#include <cstdlib>
-#include <cstring>
-#include <memory>
-#include <numbers>
 #include <portaudio.h>
-#include <vector>
 
 #if defined(WIN32)
 
@@ -50,6 +40,17 @@ constexpr int WINAEC_SAMPLERATE = 22050;
 constexpr int WINAEC_CHANNELS = 1;
 
 #endif /* WIN32 */
+
+#include <algorithm>
+#include <array>
+#include <cassert>
+#include <cmath>
+#include <cstdint>
+#include <cstdlib>
+#include <cstring>
+#include <memory>
+#include <numbers>
+#include <vector>
 
 constexpr auto DEBUG_PORTAUDIO = 0;
 

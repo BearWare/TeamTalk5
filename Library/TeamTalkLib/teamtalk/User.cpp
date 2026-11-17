@@ -24,7 +24,7 @@
 #include "User.h"
 
 #include "PacketLayout.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 
 namespace teamtalk {
@@ -36,7 +36,7 @@ namespace teamtalk {
 
     User::~User()
     {
-        MYTRACE(ACE_TEXT("~User() - \"%s\"\n"), m_nickname.c_str());
+        MYTRACE(TTEXT("~User() - \"%s\"\n"), m_nickname.c_str());
     }
 
     void User::UpdateLastTimeStamp(uint32_t tm)

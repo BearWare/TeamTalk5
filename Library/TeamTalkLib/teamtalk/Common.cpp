@@ -25,7 +25,6 @@
 
 #include "Channel.h"
 #include "Commands.h"
-#include "myace/MyACE.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 
@@ -43,7 +42,6 @@ namespace teamtalk
 
     ServerProperties::ServerProperties() : systemid(SERVER_WELCOME)
     {
-        
     }
 
     RemoteFile::RemoteFile()

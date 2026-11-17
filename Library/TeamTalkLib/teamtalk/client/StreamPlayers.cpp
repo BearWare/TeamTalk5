@@ -22,12 +22,10 @@
  */
 
 #include "StreamPlayers.h"
-
+#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/TTAssert.h"
-
-#include <ace/Message_Block.h>
 
 #include <algorithm>
 #include <cassert>

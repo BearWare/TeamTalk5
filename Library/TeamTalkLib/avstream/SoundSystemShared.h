@@ -32,10 +32,8 @@
 
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
-#include <ace/OS_Memory.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
-#include <ace/ace_wchar.h>
 
 #include <algorithm>
 #include <cassert>

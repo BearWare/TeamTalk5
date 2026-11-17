@@ -27,7 +27,7 @@
 #include "DesktopCache.h"
 #include "Server.h"
 #include "ServerChannel.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHelper.h"
@@ -37,6 +37,8 @@
 
 #include <ace/INET_Addr.h>
 #include <ace/Message_Queue.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
 
 #include <array>

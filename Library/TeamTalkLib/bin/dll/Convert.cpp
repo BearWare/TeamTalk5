@@ -23,7 +23,6 @@
 
 #include "Convert.h"
 
-#include "myace/MyACE.h"
 #include "teamtalk/CodecCommon.h"
 
 #if defined(ENABLE_OPUS)
@@ -42,9 +41,9 @@
 #endif /** __APPLE__ **/
 
 #include <algorithm>
+#include <cmath>
 #include <cstring>
 #include <map>
-#include <math.h>
 
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html

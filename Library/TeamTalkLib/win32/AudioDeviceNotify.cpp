@@ -23,7 +23,7 @@
 
 #include "AudioDeviceNotify.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <atlbase.h>
 #include <mmdeviceapi.h>
@@ -148,13 +148,13 @@ public:
 
     HRESULT STDMETHODCALLTYPE OnDeviceAdded(LPCWSTR pwstrDeviceId) override
     {
-        MYTRACE(ACE_TEXT("IMMNotificationClient::OnDeviceAdded(%s)\n"), pwstrDeviceId);
+        MYTRACE(TTEXT("IMMNotificationClient::OnDeviceAdded(%s)\n"), pwstrDeviceId);
         return S_OK;
     };
 
     HRESULT STDMETHODCALLTYPE OnDeviceRemoved(LPCWSTR pwstrDeviceId) override
     {
-        MYTRACE(ACE_TEXT("IMMNotificationClient::OnDeviceRemoved(%s)\n"), pwstrDeviceId);
+        MYTRACE(TTEXT("IMMNotificationClient::OnDeviceRemoved(%s)\n"), pwstrDeviceId);
         return S_OK;
     }
 
@@ -250,7 +250,7 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
             if (SUCCEEDED(hr))
             {
                 hr = m_pEnumerator->RegisterEndpointNotificationCallback(&m_audnotify);
-                MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to register audio device notification callback\n"));
+                MYTRACE_COND(!SUCCEEDED(hr), TTEXT("Failed to register audio device notification callback\n"));
             }
         }
 
@@ -259,7 +259,7 @@ void RegisterAudioDeviceChange(void* owner, audio_device_change_callback_t cb, b
             if (m_pEnumerator != nullptr) {
                 HRESULT const hr = m_pEnumerator->UnregisterEndpointNotificationCallback(
                     &m_audnotify);
-                MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to unregister audio device notification callback\n"));
+                MYTRACE_COND(!SUCCEEDED(hr), TTEXT("Failed to unregister audio device notification callback\n"));
             }
         }
 

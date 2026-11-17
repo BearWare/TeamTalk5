@@ -27,6 +27,7 @@
 
 #include "TTUnitTest.h"
 
+#include "mystd/MyStd.h"
 #include "bin/dll/Convert.h"
 #include "codec/WaveFile.h"
 

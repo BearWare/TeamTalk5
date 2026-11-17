@@ -22,8 +22,7 @@
  */
 
 #include "VideoThread.h"
-
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Message_Block.h>

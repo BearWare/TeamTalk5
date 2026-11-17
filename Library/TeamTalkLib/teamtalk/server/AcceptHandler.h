@@ -24,7 +24,7 @@
 #if !defined(ACCEPTHANDLER_H)
 #define ACCEPTHANDLER_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/StreamHandler.h"
 
 #include <ace/Acceptor.h>

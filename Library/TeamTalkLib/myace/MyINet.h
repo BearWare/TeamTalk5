@@ -24,10 +24,10 @@
 #if !defined(MYINET_H)
 #define MYINET_H
 
+#include "mystd/MyStd.h"
+
 #include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_Status.h>
-
-#include "mystd/MyStd.h"
 
 #include <cstdint>
 #include <map>

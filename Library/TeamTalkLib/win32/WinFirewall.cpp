@@ -23,7 +23,7 @@
 
 #include "WinFirewall.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <Strsafe.h>
 #include <VersionHelpers.h>
@@ -78,7 +78,7 @@ static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bIn
     }
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -86,7 +86,7 @@ static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bIn
     hr = fwMgr->get_LocalPolicy(&fwPolicy);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("get_LocalPolicy failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("get_LocalPolicy failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -94,7 +94,7 @@ static HRESULT WindowsFirewallInitialize(OUT INetFwProfile **fwProfile, BOOL bIn
     hr = fwPolicy->get_CurrentProfile(fwProfile);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("get_CurrentProfile failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("get_CurrentProfile failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -137,7 +137,7 @@ static HRESULT WindowsFirewallIsOn(IN INetFwProfile *fwProfile, OUT BOOL *fwOn)
     hr = fwProfile->get_FirewallEnabled(&fwEnabled);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("get_FirewallEnabled failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("get_FirewallEnabled failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -145,9 +145,9 @@ static HRESULT WindowsFirewallIsOn(IN INetFwProfile *fwProfile, OUT BOOL *fwOn)
     if (fwEnabled != VARIANT_FALSE)
     {
         *fwOn = TRUE;
-        MYTRACE(ACE_TEXT("The firewall is on.\n"));
+        MYTRACE(TTEXT("The firewall is on.\n"));
     } else {
-        MYTRACE(ACE_TEXT("The firewall is off.\n"));
+        MYTRACE(TTEXT("The firewall is off.\n"));
     }
 
 error:
@@ -166,7 +166,7 @@ static HRESULT WindowsFirewallTurnOn(IN INetFwProfile *fwProfile)
     hr = WindowsFirewallIsOn(fwProfile, &fwOn);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("WindowsFirewallIsOn failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("WindowsFirewallIsOn failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -177,11 +177,11 @@ static HRESULT WindowsFirewallTurnOn(IN INetFwProfile *fwProfile)
         hr = fwProfile->put_FirewallEnabled(VARIANT_TRUE);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_FirewallEnabled failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_FirewallEnabled failed: 0x%08lx\n"), hr);
             goto error;
         }
 
-        MYTRACE(ACE_TEXT("The firewall is now on.\n"));
+        MYTRACE(TTEXT("The firewall is now on.\n"));
     }
 
 error:
@@ -200,7 +200,7 @@ static HRESULT WindowsFirewallTurnOff(IN INetFwProfile *fwProfile)
     hr = WindowsFirewallIsOn(fwProfile, &fwOn);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("WindowsFirewallIsOn failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("WindowsFirewallIsOn failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -211,11 +211,11 @@ static HRESULT WindowsFirewallTurnOff(IN INetFwProfile *fwProfile)
         hr = fwProfile->put_FirewallEnabled(VARIANT_FALSE);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_FirewallEnabled failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_FirewallEnabled failed: 0x%08lx\n"), hr);
             goto error;
         }
 
-        MYTRACE(ACE_TEXT("The firewall is now off.\n"));
+        MYTRACE(TTEXT("The firewall is now off.\n"));
     }
 
 error:
@@ -243,7 +243,7 @@ static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
     hr = fwProfile->get_AuthorizedApplications(&fwApps);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -252,7 +252,7 @@ static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
     if (fwBstrProcessImageFileName == nullptr)
     {
         hr = E_OUTOFMEMORY;
-        MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("SysAllocString failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -264,7 +264,7 @@ static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
         hr = fwApp->get_Enabled(&fwEnabled);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("get_Enabled failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("get_Enabled failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -273,14 +273,14 @@ static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
             // The authorized application is enabled.
             *fwAppEnabled = TRUE;
 
-            MYTRACE(ACE_TEXT(
+            MYTRACE(TTEXT(
                 "Authorized application %lS is enabled in the firewall.\n"),
                 fwProcessImageFileName
                 );
         }
         else
         {
-            MYTRACE(ACE_TEXT(
+            MYTRACE(TTEXT(
                 "Authorized application %lS is disabled in the firewall.\n"),
                 fwProcessImageFileName
                 );
@@ -291,7 +291,7 @@ static HRESULT WindowsFirewallAppIsEnabled(IN INetFwProfile *fwProfile,
         // The authorized application was not in the collection.
         hr = S_OK;
 
-        MYTRACE(ACE_TEXT(
+        MYTRACE(TTEXT(
             "Authorized application %lS is disabled in the firewall.\n"),
             fwProcessImageFileName
             );
@@ -340,7 +340,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         );
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("WindowsFirewallAppIsEnabled failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("WindowsFirewallAppIsEnabled failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -351,7 +351,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         hr = fwProfile->get_AuthorizedApplications(&fwApps);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -363,7 +363,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
                               reinterpret_cast<void**>(&fwApp));
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -372,7 +372,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         if (fwBstrProcessImageFileName == nullptr)
         {
             hr = E_OUTOFMEMORY;
-            MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("SysAllocString failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -380,7 +380,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         hr = fwApp->put_ProcessImageFileName(fwBstrProcessImageFileName);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_ProcessImageFileName failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_ProcessImageFileName failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -389,7 +389,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         if (SysStringLen(fwBstrName) == 0)
         {
             hr = E_OUTOFMEMORY;
-            MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("SysAllocString failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -397,7 +397,7 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         hr = fwApp->put_Name(fwBstrName);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_Name failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_Name failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -405,14 +405,14 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         //hr = fwApp->put_Scope(NET_FW_SCOPE_ALL);
         //if (FAILED(hr))
         //{
-        //    MYTRACE(ACE_TEXT("put_Scope failed: 0x%08lx\n"), hr);
+        //    MYTRACE(TTEXT("put_Scope failed: 0x%08lx\n"), hr);
         //    goto error;
         //}
 
         //hr = fwApp->put_RemoteAddresses(L"*");
         //if (FAILED(hr))
         //{
-        //    MYTRACE(ACE_TEXT("put_Scope failed: 0x%08lx\n"), hr);
+        //    MYTRACE(TTEXT("put_Scope failed: 0x%08lx\n"), hr);
         //    goto error;
         //}
         // Set scope (added by bdr -- end)
@@ -422,11 +422,11 @@ static HRESULT WindowsFirewallAddApp(IN INetFwProfile *fwProfile,
         hr = fwApps->Add(fwApp);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("Add failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("Add failed: 0x%08lx\n"), hr);
             goto error;
         }
 
-        MYTRACE(ACE_TEXT(
+        MYTRACE(TTEXT(
             "Authorized application %lS is now enabled in the firewall.\n"),
             fwProcessImageFileName
             );
@@ -474,7 +474,7 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
         );
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("WindowsFirewallAppIsEnabled failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("WindowsFirewallAppIsEnabled failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -485,7 +485,7 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
         hr = fwProfile->get_AuthorizedApplications(&fwApps);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("get_AuthorizedApplications failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -497,7 +497,7 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
                               reinterpret_cast<void**>(&fwApp));
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -506,7 +506,7 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
         if (fwBstrProcessImageFileName == nullptr)
         {
             hr = E_OUTOFMEMORY;
-            MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("SysAllocString failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -514,11 +514,11 @@ static HRESULT WindowsFirewallRemoveApp(IN INetFwProfile *fwProfile,
         hr = fwApps->Remove(fwBstrProcessImageFileName);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("Add failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("Add failed: 0x%08lx\n"), hr);
             goto error;
         }
 
-        MYTRACE(ACE_TEXT(
+        MYTRACE(TTEXT(
             "Authorized application %lS is now removed in the firewall.\n"),
             fwProcessImageFileName
             );
@@ -566,7 +566,7 @@ static HRESULT WindowsFirewallPortIsEnabled(
     hr = fwProfile->get_GloballyOpenPorts(&fwOpenPorts);
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("get_GloballyOpenPorts failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("get_GloballyOpenPorts failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -578,7 +578,7 @@ static HRESULT WindowsFirewallPortIsEnabled(
         hr = fwOpenPort->get_Enabled(&fwEnabled);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("get_Enabled failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("get_Enabled failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -587,11 +587,11 @@ static HRESULT WindowsFirewallPortIsEnabled(
             // The globally open port is enabled.
             *fwPortEnabled = TRUE;
 
-            MYTRACE(ACE_TEXT("Port %ld is open in the firewall.\n"), portNumber);
+            MYTRACE(TTEXT("Port %ld is open in the firewall.\n"), portNumber);
         }
         else
         {
-            MYTRACE(ACE_TEXT("Port %ld is not open in the firewall.\n"), portNumber);
+            MYTRACE(TTEXT("Port %ld is not open in the firewall.\n"), portNumber);
         }
     }
     else
@@ -599,7 +599,7 @@ static HRESULT WindowsFirewallPortIsEnabled(
         // The globally open port was not in the collection.
         hr = S_OK;
 
-        MYTRACE(ACE_TEXT("Port %ld is not open in the firewall.\n"), portNumber);
+        MYTRACE(TTEXT("Port %ld is not open in the firewall.\n"), portNumber);
     }
 
 error:
@@ -643,7 +643,7 @@ static HRESULT WindowsFirewallPortAdd(
         );
     if (FAILED(hr))
     {
-        MYTRACE(ACE_TEXT("WindowsFirewallPortIsEnabled failed: 0x%08lx\n"), hr);
+        MYTRACE(TTEXT("WindowsFirewallPortIsEnabled failed: 0x%08lx\n"), hr);
         goto error;
     }
 
@@ -654,7 +654,7 @@ static HRESULT WindowsFirewallPortAdd(
         hr = fwProfile->get_GloballyOpenPorts(&fwOpenPorts);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("get_GloballyOpenPorts failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("get_GloballyOpenPorts failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -666,7 +666,7 @@ static HRESULT WindowsFirewallPortAdd(
                               reinterpret_cast<void**>(&fwOpenPort));
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("CoCreateInstance failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -674,7 +674,7 @@ static HRESULT WindowsFirewallPortAdd(
         hr = fwOpenPort->put_Port(portNumber);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_Port failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_Port failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -682,7 +682,7 @@ static HRESULT WindowsFirewallPortAdd(
         hr = fwOpenPort->put_Protocol(ipProtocol);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_Protocol failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_Protocol failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -691,7 +691,7 @@ static HRESULT WindowsFirewallPortAdd(
         if (SysStringLen(fwBstrName) == 0)
         {
             hr = E_OUTOFMEMORY;
-            MYTRACE(ACE_TEXT("SysAllocString failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("SysAllocString failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -699,7 +699,7 @@ static HRESULT WindowsFirewallPortAdd(
         hr = fwOpenPort->put_Name(fwBstrName);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("put_Name failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("put_Name failed: 0x%08lx\n"), hr);
             goto error;
         }
 
@@ -707,11 +707,11 @@ static HRESULT WindowsFirewallPortAdd(
         hr = fwOpenPorts->Add(fwOpenPort);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("Add failed: 0x%08lx\n"), hr);
+            MYTRACE(TTEXT("Add failed: 0x%08lx\n"), hr);
             goto error;
         }
 
-        MYTRACE(ACE_TEXT("Port %ld is now open in the firewall.\n"), portNumber);
+        MYTRACE(TTEXT("Port %ld is now open in the firewall.\n"), portNumber);
     }
 
 error:
@@ -753,7 +753,7 @@ error:
 //        hr = comInit;
 //        if (FAILED(hr))
 //        {
-//            MYTRACE(ACE_TEXT("CoInitializeEx failed: 0x%08lx\n"), hr);
+//            MYTRACE(TTEXT("CoInitializeEx failed: 0x%08lx\n"), hr);
 //            goto error;
 //        }
 //    }
@@ -762,7 +762,7 @@ error:
 //    hr = WindowsFirewallInitialize(&fwProfile);
 //    if (FAILED(hr))
 //    {
-//        MYTRACE(ACE_TEXT("WindowsFirewallInitialize failed: 0x%08lx\n"), hr);
+//        MYTRACE(TTEXT("WindowsFirewallInitialize failed: 0x%08lx\n"), hr);
 //        goto error;
 //    }
 //
@@ -770,7 +770,7 @@ error:
 //    hr = WindowsFirewallTurnOff(fwProfile);
 //    if (FAILED(hr))
 //    {
-//        MYTRACE(ACE_TEXT("WindowsFirewallTurnOff failed: 0x%08lx\n"), hr);
+//        MYTRACE(TTEXT("WindowsFirewallTurnOff failed: 0x%08lx\n"), hr);
 //        goto error;
 //    }
 //
@@ -778,7 +778,7 @@ error:
 //    hr = WindowsFirewallTurnOn(fwProfile);
 //    if (FAILED(hr))
 //    {
-//        MYTRACE(ACE_TEXT("WindowsFirewallTurnOn failed: 0x%08lx\n"), hr);
+//        MYTRACE(TTEXT("WindowsFirewallTurnOn failed: 0x%08lx\n"), hr);
 //        goto error;
 //    }
 //
@@ -790,7 +790,7 @@ error:
 //        );
 //    if (FAILED(hr))
 //    {
-//        MYTRACE(ACE_TEXT("WindowsFirewallAddApp failed: 0x%08lx\n"), hr);
+//        MYTRACE(TTEXT("WindowsFirewallAddApp failed: 0x%08lx\n"), hr);
 //        goto error;
 //    }
 //
@@ -798,7 +798,7 @@ error:
 //    hr = WindowsFirewallPortAdd(fwProfile, 80, NET_FW_IP_PROTOCOL_TCP, L"WWW");
 //    if (FAILED(hr))
 //    {
-//        MYTRACE(ACE_TEXT("WindowsFirewallPortAdd failed: 0x%08lx\n"), hr);
+//        MYTRACE(TTEXT("WindowsFirewallPortAdd failed: 0x%08lx\n"), hr);
 //        goto error;
 //    }
 //

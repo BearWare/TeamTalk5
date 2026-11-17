@@ -24,7 +24,6 @@
 #include "AudioContainer.h"
 #include "avstream/AudioResampler.h"
 
-#include <ace/Time_Value.h>
 #include <cassert>
 #include <cstring>
 #include <memory>

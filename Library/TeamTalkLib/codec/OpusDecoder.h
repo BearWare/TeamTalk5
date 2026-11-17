@@ -25,6 +25,7 @@
 #define OPUSDECODER_H
 
 #include "mystd/MyStd.h"
+
 #include <opus/opus.h>
 
 class OpusDecode : private NonCopyable

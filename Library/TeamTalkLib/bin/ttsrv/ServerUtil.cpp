@@ -25,7 +25,7 @@
 
 #include "AppInfo.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 #include "settings/Settings.h"

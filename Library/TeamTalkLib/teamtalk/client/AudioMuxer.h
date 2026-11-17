@@ -50,6 +50,8 @@
 
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Reactor.h>
 #include <ace/Time_Value.h>
 

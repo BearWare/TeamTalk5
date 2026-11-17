@@ -577,7 +577,7 @@ int ParseArguments(int argc, tchar* argv[]
         {
             if(i+1 >= argc)
             {
-                cerr << "Missing option for parameter " << str << endl;
+                cerr << "Missing option for parameter " << UnicodeToLocal(str) << endl;
                 return 0;
             }
 

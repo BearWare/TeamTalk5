@@ -28,7 +28,7 @@
 #include "PacketLayout.h"
 #include "TeamTalkDefs.h"
 #include "TTAssert.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/Time_Value.h>
 

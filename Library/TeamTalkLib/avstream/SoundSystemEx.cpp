@@ -22,7 +22,6 @@
  */
 
 #include "SoundSystemEx.h"
-
 #include "codec/MediaUtil.h"
 
 #include <cassert>

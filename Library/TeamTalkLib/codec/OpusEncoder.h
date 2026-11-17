@@ -25,6 +25,7 @@
 #define OPUSENCODER_H
 
 #include "mystd/MyStd.h"
+
 #include <opus/opus.h>
 
 int OpusGetCbSize(int samplerate, int msec);
