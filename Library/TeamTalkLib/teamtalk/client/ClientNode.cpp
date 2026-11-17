@@ -4013,9 +4013,9 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                          const ACE_INET_Addr* localtcpaddr)
 {
     int ret = 0;
-    std::array<ACE_TCHAR, 128> remoteipaddr{};
-    std::array<ACE_TCHAR, 128> localtcpipaddr{};
-    std::array<ACE_TCHAR, 128> localudpipaddr{};
+    std::array<tchar, 128> remoteipaddr{};
+    std::array<tchar, 128> localtcpipaddr{};
+    std::array<tchar, 128> localudpipaddr{};
     hosttcpaddr.addr_to_string(remoteipaddr.data(), remoteipaddr.size());
     (localtcpaddr != nullptr) ? localtcpaddr->addr_to_string(localtcpipaddr.data(), localtcpipaddr.size())
                  : m_localTcpAddr.addr_to_string(localtcpipaddr.data(), localtcpipaddr.size());

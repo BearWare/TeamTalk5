@@ -23,6 +23,7 @@
 
 #include "VoiceLogger.h"
 
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Log.h"
 #include "teamtalk/TTAssert.h"
@@ -562,7 +563,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ACE_Time_Value const tv = ACE_OS::gettimeofday();
     ACE_Date_Time const dt(tv);
     constexpr int STR_SIZE = 512;
-    std::array<ACE_TCHAR, STR_SIZE> buf;
+    std::array<tchar, STR_SIZE> buf;
     tstring const username = from_user.GetUsername();
     int const userid = from_user.GetUserID();
 
@@ -576,7 +577,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, ACE_TEXT("%username%"), from_user.GetUsername());
     ReplaceAll(var, ACE_TEXT("%userid%"), I2String(from_user.GetUserID()));
     uint32_t const counter = from_user.IncVoiceLogCounter();
-    std::array<ACE_TCHAR, 100> str_count;
+    std::array<tchar, 100> str_count;
     ACE_OS::snprintf(str_count.data(), 100, ACE_TEXT("%09u"), counter);
     ReplaceAll(var, ACE_TEXT("%counter%"), str_count.data());
 

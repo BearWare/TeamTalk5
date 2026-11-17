@@ -416,7 +416,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Ready to configure " << TEAMTALK_NAME << " settings." << endl;
 
 #if !defined(WIN32)
-    ACE_TCHAR *s = nullptr;
+    tchar *s = nullptr;
     int utf8_mode = 0;
 
     if ((((s = getenv("LC_ALL")) != nullptr)   && (*s != 0)) ||

@@ -35,9 +35,11 @@
 #if defined(UNICODE)
 using tstring = std::wstring;
 using tostringstream = std::wostringstream;
+using tchar = wchar_t;
 #else
 using tstring = std::string;
 using tostringstream = std::ostringstream;
+using tchar = char;
 #endif
 
 using strings_t = std::vector<tstring>;

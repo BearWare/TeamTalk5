@@ -23,13 +23,15 @@
 
 #include "Trial.h"
 
+#include "mystd/MyStd.h"
+
 #include <array>
 
 #import <Foundation/Foundation.h>
 
 tstring GetProcessName()
 {
-    std::array<ACE_TCHAR, 512> buff{};
+    std::array<tchar, 512> buff{};
     ACE_OS::strncpy(buff.data(), ACE_TEXT("Unknown"), buff.size());
 
     NSBundle *bundle = [NSBundle mainBundle];       

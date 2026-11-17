@@ -410,7 +410,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
 
     tstring internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
 
-    std::array<ACE_TCHAR, MAX_STRING_LENGTH+1> newfilename{};
+    std::array<tchar, MAX_STRING_LENGTH+1> newfilename{};
     uint32_t dat_id = m_file_id_counter;
     tstring local_filename;
     std::error_code ec;
