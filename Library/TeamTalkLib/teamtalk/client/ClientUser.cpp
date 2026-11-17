@@ -26,7 +26,6 @@
 #include "ClientNodeEvent.h"
 
 #include "avstream/AudioResampler.h"
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/Commands.h"

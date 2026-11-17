@@ -26,7 +26,6 @@
 
 #include "MediaStreamer.h"
 #include "AudioResampler.h"
-
 #include "codec/OggFileIO.h"
 
 bool GetOpusFileMediaFileProp(const tstring& filename, MediaFileProp& mfp);

@@ -28,7 +28,7 @@
 #include "AppInfo.h"
 #include "ServerXML.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"

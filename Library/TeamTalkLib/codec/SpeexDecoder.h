@@ -25,6 +25,7 @@
 #define SPEEXDECODER_H
 
 #include <speex/speex.h>
+
 #include <vector>
 
 class SpeexDecoder

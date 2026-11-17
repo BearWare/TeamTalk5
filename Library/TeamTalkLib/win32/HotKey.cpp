@@ -23,7 +23,7 @@
 
 #include "HotKey.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/OS_NS_Thread.h>
 #include <ace/Thread_Manager.h>

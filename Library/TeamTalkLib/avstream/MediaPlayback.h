@@ -33,7 +33,7 @@
 #include "SpeexPreprocess.h"
 #endif
 #if defined(ENABLE_WEBRTC)
-#include "avstream/WebRTCPreprocess.h"
+#include "avstream/WebRTCPreprocess.h" // NOLINT(misc-include-cleaner)
 #endif
 
 #include <ace/Future.h>

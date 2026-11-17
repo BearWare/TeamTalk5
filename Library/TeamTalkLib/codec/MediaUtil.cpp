@@ -23,9 +23,6 @@
 
 #include "MediaUtil.h"
 
-#include <ace/Message_Block.h>
-#include <ace/OS_Memory.h>
-
 #include <algorithm>
 #include <cassert>
 #include <cmath>

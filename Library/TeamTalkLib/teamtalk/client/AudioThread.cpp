@@ -22,7 +22,6 @@
  */
 
 #include "AudioThread.h"
-
 #include "myace/MyACE.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"

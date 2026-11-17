@@ -25,10 +25,8 @@
 
 #include "TTAssert.h"
 #include "TeamTalkDefs.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
-
-#include <ace/OS.h>
 
 #include <array>
 #include <ctime>

@@ -28,6 +28,7 @@
 #include <ace/Event_Handler.h>
 #include <ace/Time_Value.h>
 
+#include <cstdint>
 #include <map>
 
 class TimerListener

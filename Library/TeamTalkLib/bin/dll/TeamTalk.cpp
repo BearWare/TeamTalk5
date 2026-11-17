@@ -76,13 +76,13 @@ HINSTANCE hInstance = NULL;
 #endif
 
 #include <algorithm>
+#include <array>
 #include <cassert>
 #include <cstring>
-#include <array>
 #include <filesystem>
+#include <map>
 #include <memory>
 #include <mutex>
-#include <map>
 #include <queue>
 #include <system_error>
 #include <utility>

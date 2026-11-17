@@ -33,6 +33,8 @@
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHelper.h"
 #include "teamtalk/PacketLayout.h"
+
+#include "myace/MyACE.h"
 #include "teamtalk/User.h"
 
 #include <ace/Message_Block.h>

@@ -25,6 +25,8 @@
 
 #include <ace/OS.h>
 
+#include "mystd/MyStd.h"
+
 #include <vector>
 #include <set>
 
@@ -38,7 +40,6 @@ public:
     virtual void OnKeyUp(UINT nVK) = 0;
 };
 
-typedef std::set<int> intset_t;
 struct HotKeyHook
 {
     int hotkeyid;

@@ -22,7 +22,7 @@
  */
 
 #include "DMOResampler.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <Mmreg.h>
 #include <uuids.h>
@@ -187,7 +187,7 @@ int DMOResampler::Resample(const short* input_samples, int input_samples_cnt,
     hr = m_pDMO->GetInputStatus(0, &status);
     assert(SUCCEEDED(hr));
     //this should not happen but if there's data left in the media object then flush it
-    MYTRACE_COND(status == 0, ACE_TEXT("Flushing audio resampler. %d Hz -> %d Hz. Frame size: %d -> %d\n"),
+    MYTRACE_COND(status == 0, TTEXT("Flushing audio resampler. %d Hz -> %d Hz. Frame size: %d -> %d\n"),
                  GetInputFormat().samplerate, GetOutputFormat().samplerate, input_samples_cnt, output_samples_cnt);
     if(status == 0)
         m_pDMO->Flush();

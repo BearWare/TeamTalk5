@@ -27,7 +27,7 @@
 #include "avstream/AudioResampler.h"
 #include "avstream/SoundSystem.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHelper.h"
 #include "teamtalk/PacketLayout.h"

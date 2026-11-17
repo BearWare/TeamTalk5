@@ -24,6 +24,7 @@
 #include "OggFileIO.h"
 
 #include <array>
+#include <cstring>
 #include <cassert>
 
 OggOutput::OggOutput()
@@ -517,7 +518,7 @@ int SpeexPacketJump(int msec_per_packet,
     int const packet_diff = time_diff / msec_per_packet;
     if(time_diff >= 250)
     {
-        MYTRACE(ACE_TEXT("Time diff skipped: %u\n"), time_diff);
+        MYTRACE(TTEXT("Time diff skipped: %u\n"), time_diff);
         return packet_diff;
     }
     return 0;

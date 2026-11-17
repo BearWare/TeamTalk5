@@ -23,6 +23,10 @@
 
 #include "WaveFile.h"
 
+#include "mystd/MyStd.h"
+
+#include <ace/OS.h>
+
 #include <array>
 #include <cassert>
 #include <cstddef>

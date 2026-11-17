@@ -24,8 +24,8 @@
 #ifndef CODECHELPER_H
 #define CODECHELPER_H
 
-#include "PacketLayout.h"
 #include "Common.h"
+#include "PacketLayout.h"
 
 #include <ace/Time_Value.h>
 

@@ -22,12 +22,9 @@
  */
 
 #include "TTClientMsg.h"
-
 #include "Convert.h"
 #include "TeamTalkDefs.h"
 #include "teamtalk/TTAssert.h"
-
-#include <ace/OS_Memory.h>
 
 #include <cstddef>
 #include <cstring>

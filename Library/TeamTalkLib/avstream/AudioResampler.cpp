@@ -22,8 +22,7 @@
  */
 
 #include "AudioResampler.h"
-
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #if defined(ENABLE_SPEEXDSP)
 #include "avstream/SpeexResampler.h"
@@ -55,7 +54,7 @@ AudioResampler::AudioResampler(const media::AudioFormat& informat, const media::
     if (fixed_input_samples > 0)
         SetupFixedFrameSize(informat, outformat, fixed_input_samples);
 
-    MYTRACE(ACE_TEXT("Created resampler %d Hz, channels %d -> %d Hz, channels %d. Frame size: %d -> %d\n"),
+    MYTRACE(TTEXT("Created resampler %d Hz, channels %d -> %d Hz, channels %d. Frame size: %d -> %d\n"),
             informat.samplerate, informat.channels, outformat.samplerate, outformat.channels,
             fixed_input_samples,
             ((fixed_input_samples != 0) ? CalcSamples(informat.samplerate, fixed_input_samples, outformat.samplerate) : 0));
@@ -140,17 +139,17 @@ audio_resampler_t MakeAudioResampler(const media::AudioFormat& informat,
     auto dmo = new DMOResampler(informat, outformat, input_samples_size);
     resampler.reset(dmo);
     ret = dmo->Init(SAMPLEFORMAT_INT16, SAMPLEFORMAT_INT16);
-    MYTRACE(ACE_TEXT("Launched DMOResampler\n"));
+    MYTRACE(TTEXT("Launched DMOResampler\n"));
 #elif defined(ENABLE_FFMPEG)
     auto *ffmpeg = new FFMPEGResampler(informat, outformat, input_samples_size);
     resampler.reset(ffmpeg);
     ret = ffmpeg->Init();
-    MYTRACE(ACE_TEXT("Launched FFMPEGResampler\n"));
+    MYTRACE(TTEXT("Launched FFMPEGResampler\n"));
 #elif defined(ENABLE_SPEEXDSP)
     auto spx = new SpeexResampler(informat, outformat, input_samples_size);
     resampler.reset(spx);
     ret = spx->Init(5);
-    MYTRACE(ACE_TEXT("Launched SpeexResampler\n"));
+    MYTRACE(TTEXT("Launched SpeexResampler\n"));
 #else
 #pragma message("No resampler available")
 #endif

@@ -23,8 +23,6 @@
 
 #include "FFmpegCapture.h"
 
-#include <ace/Message_Block.h>
-
 #include <cassert>
 #include <functional>
 #include <memory>

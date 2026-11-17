@@ -23,8 +23,6 @@
 
 #include "BmpFile.h"
 
-#include "myace/MyACE.h"
-
 #include <cassert>
 #include <cstdint>
 #include <vector>

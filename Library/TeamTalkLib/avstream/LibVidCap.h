@@ -26,7 +26,7 @@
 
 #include "VideoCapture.h"
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/Singleton.h>
 #include <vidcap/vidcap.h>

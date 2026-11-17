@@ -24,7 +24,7 @@
 #if !defined(CLIENT_H)
 #define CLIENT_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/StreamHandler.h"
 

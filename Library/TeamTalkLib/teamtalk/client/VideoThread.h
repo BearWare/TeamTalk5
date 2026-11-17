@@ -25,10 +25,10 @@
 #define VIDEOTHREAD_H
 
 #include "codec/MediaUtil.h"
-#include "teamtalk/Common.h"
 #if defined(ENABLE_VPX)
 #include "codec/VpxEncoder.h"
 #endif
+#include "teamtalk/Common.h"
 
 #include <ace/Message_Block.h>
 #include <ace/Task_T.h>

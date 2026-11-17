@@ -22,7 +22,6 @@
  */
 
 #include "MediaStreamer.h"
-
 #include "codec/MediaUtil.h"
 
 #if defined(ENABLE_MEDIAFOUNDATION)
@@ -40,9 +39,6 @@
 #if defined(WIN32) && defined(ENABLE_OPUSTOOLS) && defined(ENABLE_OPUS)
 #include "OpusFileStreamer.h"
 #endif /* ENABLE_OPUSTOOLS && ENABLE_OPUS */
-
-#include <ace/Message_Block.h>
-#include <ace/Time_Value.h>
 
 #include <algorithm>
 #include <chrono>

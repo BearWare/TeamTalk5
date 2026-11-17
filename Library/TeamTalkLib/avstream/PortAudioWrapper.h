@@ -28,7 +28,6 @@
 
 #include "SoundSystem.h"
 #include "codec/MediaUtil.h"
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
 #include <portaudio.h>

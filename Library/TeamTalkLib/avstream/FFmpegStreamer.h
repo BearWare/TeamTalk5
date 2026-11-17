@@ -25,7 +25,6 @@
 #define AVCONVWRAPPER_H
 
 #include "MediaStreamer.h"
-
 #include "mystd/MyStd.h"
 
 #include <cstdint>

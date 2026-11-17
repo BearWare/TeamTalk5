@@ -31,6 +31,8 @@
 #include <atlbase.h>
 
 #include <ace/Message_Queue_T.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 
 #include <memory>
 #include <vector>

@@ -24,7 +24,7 @@
 #if !defined(STREAMHANDLER_H)
 #define STREAMHANDLER_H
 
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <ace/Event_Handler.h>
@@ -33,6 +33,8 @@
 #include <ace/Null_Mutex.h>
 #include <ace/Reactor.h>
 #include <ace/Svc_Handler.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Thread_Manager.h>
 
 #if defined(ENABLE_ENCRYPTION)

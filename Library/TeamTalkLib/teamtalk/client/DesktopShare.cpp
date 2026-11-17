@@ -24,7 +24,7 @@
 #include "DesktopShare.h"
 
 #include "codec/BmpFile.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/TTAssert.h"
 

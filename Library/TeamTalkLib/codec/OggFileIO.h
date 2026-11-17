@@ -24,7 +24,6 @@
 #ifndef OGGOUTPUT_H
 #define OGGOUTPUT_H
 
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
 #include <ogg/ogg.h>

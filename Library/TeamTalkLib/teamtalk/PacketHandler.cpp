@@ -25,12 +25,10 @@
 
 #include "PacketLayout.h"
 #include "TTAssert.h"
-#include "myace/MyACE.h"
+#include "mystd/MyStd.h"
 #include "myace/MyINet.h"
 
-#include <ace/Event_Handler.h>
 #include <ace/Message_Block.h>
-#include <ace/Reactor.h>
 
 #include <cstring>
 #include <memory>

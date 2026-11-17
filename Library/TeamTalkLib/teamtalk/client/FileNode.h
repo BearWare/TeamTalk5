@@ -25,7 +25,6 @@
 #define FILENODE_H
 
 #include "Client.h"
-#include "myace/MyACE.h"
 #include "myace/TimerHandler.h"
 #include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
@@ -35,6 +34,8 @@
 #include <ace/Basic_Types.h>
 #include <ace/INET_Addr.h>
 #include <ace/Message_Queue.h>
+#include <ace/Synch.h>
+#include <ace/Synch_Traits.h>
 #include <ace/Reactor.h>
 
 #include <vector>

@@ -24,7 +24,6 @@
 #ifndef SOUNDSYSTEM_H
 #define SOUNDSYSTEM_H
 
-#include "myace/MyACE.h"
 #include "mystd/MyStd.h"
 
 #include <cassert>
@@ -197,7 +196,7 @@ constexpr auto VOLUME_MIN = 0;
 
         virtual ~InputStreamer()
         {
-            MYTRACE(ACE_TEXT("~InputStreamer() - %p for StreamCapture %p\n"), this, recorder);
+            MYTRACE(TTEXT("~InputStreamer() - %p for StreamCapture %p\n"), this, recorder);
         }
         bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRTUAL; }
         bool IsShared() const { return (inputdeviceid & SOUND_DEVICE_SHARED_FLAG) != 0; }
@@ -224,7 +223,7 @@ constexpr auto VOLUME_MIN = 0;
             { }
         virtual ~OutputStreamer()
         {
-            MYTRACE(ACE_TEXT("~OutputStreamer() - %p for StreamPlayer %p\n"), this, player);
+            MYTRACE(TTEXT("~OutputStreamer() - %p for StreamPlayer %p\n"), this, player);
         }
         bool IsVirtual() const { return outputdeviceid == SOUND_DEVICEID_VIRTUAL; }
         bool IsShared() const { return (outputdeviceid & SOUND_DEVICE_SHARED_FLAG) != 0; }
@@ -258,7 +257,7 @@ constexpr auto VOLUME_MIN = 0;
         virtual ~DuplexStreamer()
         {
             assert(players.empty());
-            MYTRACE(ACE_TEXT("~DuplexStreamer() - %p for StreamDuplex %p\n"), this, duplex);
+            MYTRACE(TTEXT("~DuplexStreamer() - %p for StreamDuplex %p\n"), this, duplex);
         }
 
         bool IsVirtual() const { return inputdeviceid == SOUND_DEVICEID_VIRTUAL &&
