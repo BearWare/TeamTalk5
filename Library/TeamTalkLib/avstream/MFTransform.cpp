@@ -169,7 +169,7 @@ public:
     }
 
     MFTransformImpl(IMFMediaType* pInputType, IMFMediaType* pOutputType, int nAudioOutputSamples,
-                    const ACE_TCHAR* szOutputFilename = nullptr)
+                    const tchar* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo;
@@ -257,7 +257,7 @@ public:
 
 
     MFTransformImpl(IMFMediaType* pInputType, const GUID& audiooutputformat, UINT uBitrate,
-                    const ACE_TCHAR* szOutputFilename = nullptr)
+                    const tchar* szOutputFilename = nullptr)
     {
         HRESULT hr;
         MFT_REGISTER_TYPE_INFO tininfo, toutinfo = { MFMediaType_Audio, audiooutputformat };
@@ -983,7 +983,7 @@ mftransform_t MFTransform::Create(media::AudioFormat inputfmt, media::AudioForma
     return result;
 }
 
-mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const ACE_TCHAR* szOutputFilename)
+mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID& audioSubType, UINT uBitrate, const tchar* szOutputFilename)
 {
     std::unique_ptr<MFTransformImpl> result;
 
@@ -1000,7 +1000,7 @@ mftransform_t MFTransform::Create(const media::AudioFormat& inputfmt, const GUID
     return result;
 }
 
-mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uBitrate, const tchar* szOutputFilename/* = nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_MP3, uBitrate, szOutputFilename);
 
@@ -1053,18 +1053,18 @@ mftransform_t MFTransform::CreateMP3(const media::AudioFormat& inputfmt, UINT uB
 }
 
 mftransform_t MFTransform::CreateWMA(const media::AudioFormat& inputfmt, UINT uBitrate,
-                                     const ACE_TCHAR* szOutputFilename/* = nullptr*/)
+                                     const tchar* szOutputFilename/* = nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_WMAudioV9, uBitrate, szOutputFilename);
 }
 
 mftransform_t MFTransform::CreateAAC(const media::AudioFormat& inputfmt, UINT uBitrate,
-                                     const ACE_TCHAR* szOutputFilename /*= nullptr*/)
+                                     const tchar* szOutputFilename /*= nullptr*/)
 {
     return MFTransform::Create(inputfmt, MFAudioFormat_AAC, uBitrate, szOutputFilename);
 }
 
-mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const ACE_TCHAR* szOutputFilename)
+mftransform_t MFTransform::CreateWav(const media::AudioFormat& inputfmt, const media::AudioFormat& outputfmt, const tchar* szOutputFilename)
 {
     std::unique_ptr<MFTransformImpl> result;
 

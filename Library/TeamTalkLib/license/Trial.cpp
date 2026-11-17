@@ -69,8 +69,8 @@ void LicenseCheck()
 #if defined(WIN32)
 tstring GetProcessName()
 {
-    std::array<ACE_TCHAR, MAX_PATH> buff{};
-    ACE_TCHAR* p;
+    std::array<tchar, MAX_PATH> buff{};
+    tchar* p;
     GetModuleFileName(NULL, buff.data(), MAX_PATH);
 
     p = ACE_OS::strrchr(buff.data(), ACE_DIRECTORY_SEPARATOR_CHAR);
@@ -85,7 +85,7 @@ tstring GetProcessName()
 {
     if(__progname)
     {
-        ACE_TCHAR* p = ACE_OS::strrchr(__progname,
+        tchar* p = ACE_OS::strrchr(__progname,
                                        ACE_DIRECTORY_SEPARATOR_CHAR);
         if(p)
             return ++p;
@@ -98,7 +98,7 @@ tstring GetProcessName()
 {
     if(program_invocation_short_name)
     {
-        ACE_TCHAR* p = ACE_OS::strrchr(program_invocation_short_name,
+        tchar* p = ACE_OS::strrchr(program_invocation_short_name,
                                        ACE_DIRECTORY_SEPARATOR_CHAR);
         if(p)
             return ++p;

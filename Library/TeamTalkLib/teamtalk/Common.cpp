@@ -125,7 +125,7 @@ namespace teamtalk
     tstring DateToString(const ACE_Time_Value& tv)
     {
         ACE_Date_Time const date(tv);
-        std::array<ACE_TCHAR, 200> buf{};
+        std::array<tchar, 200> buf{};
         ACE_OS::sprintf(buf.data(), ACE_TEXT("%d/%.2d/%.2d %.2d:%.2d"),
                         static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
                         static_cast<int>(date.hour()), static_cast<int>(date.minute()));

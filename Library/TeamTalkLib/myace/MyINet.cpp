@@ -23,6 +23,7 @@
 
 #include "MyINet.h"
 #include "MyACE.h"
+#include "mystd/MyStd.h"
 
 #include <ace/INET_Addr.h>
 #include <ace/INet/HTTP_ClientRequestHandler.h>
@@ -295,7 +296,7 @@ std::string URLEncode(const std::string& utf8)
 
 tstring InetAddrToString(const ACE_INET_Addr& addr)
 {
-    std::array<ACE_TCHAR, INET6_ADDRSTRLEN+1> buf{};
+    std::array<tchar, INET6_ADDRSTRLEN+1> buf{};
     addr.addr_to_string(buf.data(), INET6_ADDRSTRLEN);
     return buf.data();
 }

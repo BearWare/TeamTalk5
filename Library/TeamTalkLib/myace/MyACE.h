@@ -88,7 +88,7 @@ tstring UptimeHours(const ACE_Time_Value& value);
 
 #if defined(_DEBUG)
 
-void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-type-vararg) */
+void MYTRACE(const tchar* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-type-vararg) */
 
 #define MYTRACE_COND(check, trace_str, ...)                       \
     do { /* NOLINT */                                             \
@@ -105,12 +105,12 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...); /* NOLINT(cppcoreguidelines-pro-t
 class Profiler
 {
 public:
-    Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, bool p_start);
+    Profiler(const tchar* name, const tchar* file, int line, bool p_start);
     ~Profiler();
 private:
     ACE_Time_Value m_start;
-    const ACE_TCHAR* m_name;
-    const ACE_TCHAR* m_filename;
+    const tchar* m_name;
+    const tchar* m_filename;
     int m_line;
 };
 

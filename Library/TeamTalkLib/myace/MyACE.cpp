@@ -182,7 +182,7 @@ constexpr bool MYTRACE_TIMESTAMP = true;
 #include <windows.h>
 #endif
 
-void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic-functions)
+void MYTRACE(const tchar* trace_str, ...) // NOLINT(modernize-avoid-variadic-functions)
 {
     va_list args;
     va_start(args, trace_str);
@@ -191,9 +191,9 @@ void MYTRACE(const ACE_TCHAR* trace_str, ...) // NOLINT(modernize-avoid-variadic
 #else
     constexpr int MAX_TRACESTRLEN = 0x10000;
 #endif
-    std::vector<ACE_TCHAR> str_buf(MAX_TRACESTRLEN);
+    std::vector<tchar> str_buf(MAX_TRACESTRLEN);
     ACE_OS::strncpy(str_buf.data(), ACE_TEXT("[MYTRACE buffer overflow]\n"), MAX_TRACESTRLEN);
-    std::array<ACE_TCHAR, MAX_TRACESTRLEN> tmp_str;
+    std::array<tchar, MAX_TRACESTRLEN> tmp_str;
     static uint32_t begin = GETTIMESTAMP();
     static uint32_t next;
     next = GETTIMESTAMP();
@@ -231,7 +231,7 @@ tstring UptimeHours(const ACE_Time_Value& value)
     time_t const nMinutes = (value.sec()%3600) / 60;
     time_t const nSec = (value.sec()%60);
     constexpr auto BUFLEN = 512;
-    std::array<ACE_TCHAR, BUFLEN> buf;
+    std::array<tchar, BUFLEN> buf;
     ACE_OS::snprintf(buf.data(), BUFLEN, ACE_TEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
     return buf.data();
 }
@@ -242,7 +242,7 @@ ACE_Time_Value ToTimeValue(int64_t msec)
     return ACE_Time_Value(msec / ONE_SEC, (msec % ONE_SEC) * ONE_SEC);
 }
 
-Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line, 
+Profiler::Profiler(const tchar* name, const tchar* file, int line, 
                    bool p_start)
 : m_name(name)
 , m_filename(file)

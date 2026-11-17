@@ -101,13 +101,13 @@ vidcap_devices_t MFCapture::GetDevices()
             pInputType.Release();
         }
 
-        ACE_TCHAR* lpszName;
+        tchar* lpszName;
         if (SUCCEEDED(ppDevices[i]->GetAllocatedString(MF_DEVSOURCE_ATTRIBUTE_FRIENDLY_NAME,
                       &lpszName, NULL)))
         {
             dev.devicename = lpszName;
             dev.api = ACE_TEXT("Microsoft Media Foundation");
-            std::array<ACE_TCHAR, 20> buff{};
+            std::array<tchar, 20> buff{};
             ACE_OS::snprintf(buff.data(), buff.size(), ACE_TEXT("%d"), i);
             dev.deviceid = buff.data();
             devs.push_back(dev);

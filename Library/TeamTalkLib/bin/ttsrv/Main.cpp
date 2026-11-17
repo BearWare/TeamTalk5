@@ -70,7 +70,7 @@ static int RunServer(
 
 static void PrintCommandArgs();
 
-static int ParseArguments(int argc, ACE_TCHAR* argv[]
+static int ParseArguments(int argc, tchar* argv[]
 #if defined(BUILD_NT_SERVICE)
               , Service* service
 #endif
@@ -190,7 +190,7 @@ public:
         case SIGHUP :
             if (!LoadConfig(xmlSettings, settingsfile))
             {
-                std::array<ACE_TCHAR, 1024> error_msg{};
+                std::array<tchar, 1024> error_msg{};
                 ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to reload settings file %s."), settingsfile.c_str());
                 TT_SYSLOG(error_msg.data());
             }
@@ -203,7 +203,7 @@ public:
                     logstream.open(logfile.c_str(), ios::app);
                 }
 
-                std::array<ACE_TCHAR, 1024> msg{};
+                std::array<tchar, 1024> msg{};
                 ACE_OS::snprintf(msg.data(), msg.size(), ACE_TEXT("Reloaded settings file %s."), settingsfile.c_str());
                 TT_LOG(msg.data());
             }
@@ -212,7 +212,7 @@ public:
     }
 };
 
-int ACE_TMAIN(int argc, ACE_TCHAR* argv[])
+int ACE_TMAIN(int argc, tchar* argv[])
 {
     ACE::init();
     int exitcode = EXIT_FAILURE;
@@ -354,7 +354,7 @@ int RunServer(
     statchannels_t channels;
     if(!ReadServerProperties(xmlSettings, prop, channels))
     {
-        std::array<ACE_TCHAR, 1024> error_msg{};
+        std::array<tchar, 1024> error_msg{};
         ACE_OS::snprintf(error_msg.data(), error_msg.size(),
                          ACE_TEXT("Failed to read server properties from settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
@@ -399,7 +399,7 @@ int RunServer(
 
     if (!ConfigureServer(servernode, prop, channels))
     {
-        std::array<ACE_TCHAR, 1024> error_msg{};
+        std::array<tchar, 1024> error_msg{};
         ACE_OS::snprintf(error_msg.data(), error_msg.size(),
                          ACE_TEXT("Failed to configure the server from settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
@@ -422,7 +422,7 @@ int RunServer(
     if (!servernode.StartServer(false, systemid))
 #endif
     {
-        std::array<ACE_TCHAR, 1024> error_msg{};
+        std::array<tchar, 1024> error_msg{};
         if(bindip.empty())
             ACE_OS::snprintf(error_msg.data(), error_msg.size(),
             ACE_TEXT("Unable to launch server using TCP port %d UDP port %d.\n")
@@ -444,7 +444,7 @@ int RunServer(
         std::string externalIP;
         if (UPnP_AddPortMapping(tcpport, udpport, externalIP))
         {
-            std::array<ACE_TCHAR, 256> msg{};
+            std::array<tchar, 256> msg{};
             ACE_OS::snprintf(msg.data(), msg.size(),
                 ACE_TEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
                 tcpport, udpport, externalIP.c_str());
@@ -550,7 +550,7 @@ int RunServer(
     return 0;
 }
 
-int ParseArguments(int argc, ACE_TCHAR* argv[]
+int ParseArguments(int argc, tchar* argv[]
 #if defined(BUILD_NT_SERVICE)
               , Service* service
 #endif
@@ -657,7 +657,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
         std::filesystem::current_path(workdir.c_str(), ec);
         if(ec)
         {
-            std::array<ACE_TCHAR, 1024> error_msg{};
+            std::array<tchar, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("%s failed to change to directory \"%s\"."),
                              ACE_TEXT(TEAMTALK_NAME), workdir.c_str());
             TT_SYSLOG(error_msg.data());
@@ -685,7 +685,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         //load config file from same directory as
         //executable file when running as NT service.
-        std::array<ACE_TCHAR, MAX_PATH> bufPath{};
+        std::array<tchar, MAX_PATH> bufPath{};
         if(GetModuleFileName(NULL, bufPath.data(), MAX_PATH)>0)
         {
             TCHAR* pChr = ACE_OS::strrchr(bufPath.data(), '\\');
@@ -707,7 +707,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         if (service->insert(SERVICE_AUTO_START) < 0)
         {
-            std::array<ACE_TCHAR, 1024> error_msg{};
+            std::array<tchar, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to install ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
@@ -723,7 +723,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         if (service->remove() < 0)
         {
-            std::array<ACE_TCHAR, 1024> error_msg{};
+            std::array<tchar, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to remove ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
@@ -739,7 +739,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         if (service->start_svc() < 0)
         {
-            std::array<ACE_TCHAR, 1024> error_msg{};
+            std::array<tchar, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to start ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
@@ -755,7 +755,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
     {
         if (service->stop_svc() < 0)
         {
-            std::array<ACE_TCHAR, 1024> error_msg{};
+            std::array<tchar, 1024> error_msg{};
             ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to stop ") ACE_TEXT(TEAMTALK_NAME) ACE_TEXT("\nError: %s"),
                          GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
@@ -771,7 +771,7 @@ int ParseArguments(int argc, ACE_TCHAR* argv[]
 
     if(!LoadConfig(xmlSettings, settingsfile))
     {
-        std::array<ACE_TCHAR, 1024> error_msg{};
+        std::array<tchar, 1024> error_msg{};
         ACE_OS::snprintf(error_msg.data(), error_msg.size(), ACE_TEXT("Failed to load settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
         return -1;

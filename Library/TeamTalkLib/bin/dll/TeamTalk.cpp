@@ -2755,8 +2755,8 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
     if(nWidth <= 0 || nHeight <= 0)
         return -1;
 
-    const ACE_TCHAR* szDriver = ACE_TEXT("DISPLAY");
-    const ACE_TCHAR* szDeviceName = NULL;
+    const tchar* szDriver = ACE_TEXT("DISPLAY");
+    const tchar* szDeviceName = NULL;
 /*
     HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
     if(hMon)
@@ -3234,7 +3234,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
     lpDesktopWindow->nProtocol = DESKTOPPROTOCOL_ZLIB_1;
 
 // static int x = 0;
-// ACE_TCHAR buf[400];
+// tchar buf[400];
 // ACE_OS::sprintf(buf, ACE_TEXT("%d %dx%d.bmp"), x++, lpDesktopWindow->nWidth, lpDesktopWindow->nHeight);
 // user->GetDesktopSession()->WriteBitmapToFile(buf);
     bool const b = user->GetDesktopWindow(reinterpret_cast<char*>(lpDesktopWindow->frameBuffer),
