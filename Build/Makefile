@@ -123,6 +123,7 @@ lipo-arch: teamtalk-env
 	$(INSTALLDIR)/$(ARCH)/speex/lib/libspeex.a \
 	$(INSTALLDIR)/$(ARCH)/speexdsp/lib/libspeexdsp.a \
 	$(INSTALLDIR)/$(ARCH)/opus/lib/libopus.a \
+	$(INSTALLDIR)/$(ARCH)/flac/lib/libFLAC.a \
 	$(INSTALLDIR)/$(ARCH)/libvpx/lib/libvpx.a \
 	$(INSTALLDIR)/$(ARCH)/ace/lib/libACE.a \
 	$(INSTALLDIR)/$(ARCH)/ace/lib/libACE_SSL.a \
@@ -137,6 +138,7 @@ lipo-arch: teamtalk-env
 	$(INSTALLDIR)/$(ARCH)/speex/lib/libspeex.a \
 	$(INSTALLDIR)/$(ARCH)/speexdsp/lib/libspeexdsp.a \
 	$(INSTALLDIR)/$(ARCH)/opus/lib/libopus.a \
+	$(INSTALLDIR)/$(ARCH)/flac/lib/libFLAC.a \
 	$(INSTALLDIR)/$(ARCH)/libvpx/lib/libvpx.a \
 	$(INSTALLDIR)/$(ARCH)/ace/lib/libACE.a \
 	$(INSTALLDIR)/$(ARCH)/ace/lib/libACE_SSL.a \

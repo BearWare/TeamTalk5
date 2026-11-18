@@ -157,6 +157,26 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
         }
     }
     break;
+    case CODEC_FLAC :
+#if defined(ENABLE_FLAC)
+    {
+        TTASSERT(callback_samples);
+        TTASSERT(sample_rate);
+        TTASSERT(channels);
+
+        m_flac = std::make_unique<FlacEncode>();
+        if (GetFlacMaxPacketSize(codec) > static_cast<int>(m_encbuf.size()) ||
+            !m_flac->Open(codec.flac.samplerate, codec.flac.channels,
+                          codec.flac.compressionlevel, callback_samples))
+        {
+            StopEncoder();
+            return false;
+        }
+    }
+    break;
+#else
+    return false;
+#endif
     default:
         TTASSERT(codec.codec == CODEC_SPEEX);
     }
@@ -203,6 +223,11 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
                  GetAudioCodecSampleRate(codec), GetAudioCodecBitRate(codec),
                  GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
 
+    MYTRACE_COND(codec.codec == CODEC_FLAC,
+                 TTEXT("Launched FLAC encoder, samplerate %d, compression level %d, cb %d, channels %d\n"),
+                 GetAudioCodecSampleRate(codec), codec.flac.compressionlevel,
+                 GetAudioCodecFrameSize(codec), GetAudioCodecChannels(codec));
+
     return true;
 }
 
@@ -228,6 +253,10 @@ void AudioThread::StopEncoder()
 
 #if defined(ENABLE_OPUS)
     m_opus.reset();
+#endif
+
+#if defined(ENABLE_FLAC)
+    m_flac.reset();
 #endif
     m_enc_cleared = true;
 
@@ -544,6 +573,11 @@ void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)
         case CODEC_WAV :
             enc_data = ProcessWAV(audblock, enc_frame_sizes);
             break;
+        case CODEC_FLAC :
+#if defined(ENABLE_FLAC)
+            enc_data = ProcessFLAC(audblock, enc_frame_sizes);
+#endif
+            break;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -803,3 +837,20 @@ const char* AudioThread::ProcessWAV(const media::AudioFrame& audblock,
     enc_frame_sizes.push_back(ret);
     return m_encbuf.data();
 }
+
+#if defined(ENABLE_FLAC)
+const char* AudioThread::ProcessFLAC(const media::AudioFrame& audblock,
+                                     std::vector<int>& enc_frame_sizes)
+{
+    TTASSERT(m_flac);
+    TTASSERT(audblock.input_samples == GetAudioCodecCbSamples(m_codec));
+    int const ret = m_flac->Encode(audblock.input_buffer, audblock.input_samples,
+                                   m_encbuf.data(), static_cast<int>(m_encbuf.size()));
+    assert(ret > 0);
+    if (ret <= 0)
+        return nullptr;
+
+    enc_frame_sizes.push_back(ret);
+    return m_encbuf.data();
+}
+#endif

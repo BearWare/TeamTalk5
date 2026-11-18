@@ -259,6 +259,49 @@ TEST_CASE("ServerXML WAV Channel Write/Read")
     RemoveFile(xmlFile);
 }
 
+TEST_CASE("ServerXML FLAC Channel Write/Read")
+{
+    std::string const xmlFile = GetTempFilePath("test_flac_channels.xml");
+    RemoveFile(xmlFile);
+
+    {
+        ServerXML xml("teamtalk");
+        REQUIRE(xml.CreateFile(xmlFile));
+
+        ChannelProp root;
+        root.channelid = 1;
+        root.parentid = 0;
+        root.chantype = CHANNEL_PERMANENT;
+        root.audiocodec.codec = CODEC_FLAC;
+        root.audiocodec.flac.samplerate = 96000;
+        root.audiocodec.flac.channels = 2;
+        root.audiocodec.flac.compressionlevel = 8;
+        root.audiocodec.flac.txinterval_msec = 20;
+
+        statchannels_t channels;
+        channels[root.channelid] = root;
+        REQUIRE(xml.SetStaticChannels(channels));
+        REQUIRE(xml.SaveFile());
+    }
+
+    {
+        ServerXML xml("teamtalk");
+        REQUIRE(xml.LoadFile(xmlFile));
+
+        statchannels_t readChannels;
+        REQUIRE(xml.GetStaticChannels(readChannels));
+        REQUIRE(readChannels.contains(1));
+        auto& rootRead = readChannels[1];
+        REQUIRE(rootRead.audiocodec.codec == CODEC_FLAC);
+        REQUIRE(rootRead.audiocodec.flac.samplerate == 96000);
+        REQUIRE(rootRead.audiocodec.flac.channels == 2);
+        REQUIRE(rootRead.audiocodec.flac.compressionlevel == 8);
+        REQUIRE(rootRead.audiocodec.flac.txinterval_msec == 20);
+    }
+
+    RemoveFile(xmlFile);
+}
+
 TEST_CASE("ServerXML User Accounts Write/Read")
 {
     std::string const xmlFile = GetTempFilePath("test_users.xml");

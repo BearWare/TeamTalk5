@@ -72,4 +72,5 @@ public interface TTType {
     public static final int __DESKTOPWINDOW           = 45;
     public static final int __ABUSEPREVENTION         = 46;
     public static final int __WAVCODEC                = 47;
+    public static final int __FLACCODEC               = 48;
 }

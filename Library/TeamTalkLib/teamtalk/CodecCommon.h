@@ -59,6 +59,7 @@ namespace teamtalk
     bool ValidWavSampleRate(int samplerate);
     int GetWavSampleFormatBytes(WavSampleFormat sampleformat);
     int GetWavPacketSize(const AudioCodec& codec);
+    int GetFlacMaxPacketSize(const AudioCodec& codec);
     int EncodeWavSamples(WavSampleFormat sampleformat, const short* input_buffer,
                          int input_samples_total, char* output_buffer);
     int DecodeWavSamples(WavSampleFormat sampleformat, const char* enc_data,

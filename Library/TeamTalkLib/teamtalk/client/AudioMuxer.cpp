@@ -247,6 +247,7 @@ bool AudioMuxer::SaveFile(const teamtalk::AudioCodec& codec,
 #endif
             break;
         case CODEC_WAV :
+        case CODEC_FLAC :
             m_wavefile = std::make_shared<WavePCMFile>();
             success = m_wavefile->NewFile(filename, samplerate, channels);
             if (!success)

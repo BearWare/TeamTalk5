@@ -152,6 +152,8 @@ if (Java_FOUND)
     src/dk/bearware/events/UserListener.java
     src/dk/bearware/FileTransfer.java
     src/dk/bearware/FileTransferStatus.java
+    src/dk/bearware/FlacCodec.java
+    src/dk/bearware/FlacConstants.java
     src/dk/bearware/FourCC.java
     src/dk/bearware/IntPtr.java
     src/dk/bearware/MediaFileInfo.java

@@ -56,6 +56,10 @@ constexpr std::array<int, 15> WAV_SAMPLERATES = {8000, 11025, 12000, 16000, 2205
                                                  24000, 32000, 44100, 48000, 88200,
                                                  96000, 176400, 192000, 352800, 384000};
 
+constexpr auto FLAC_COMPRESSIONLEVEL_MIN = 0;
+constexpr auto FLAC_COMPRESSIONLEVEL_MAX = 8;
+constexpr auto FLAC_FRAME_OVERHEAD_MAX = 32;
+
 constexpr auto AUDIOPACKET_DURATION_MSEC_MAX = 1000;
 
 namespace teamtalk
@@ -100,6 +104,17 @@ namespace teamtalk
                 GetWavPacketSize(codec) > GetAudioCodecMaxEncFrameSize(codec))
                 return false;
             return true;
+        case CODEC_FLAC :
+            if (!ValidWavSampleRate(GetAudioCodecSampleRate(codec)) ||
+                GetAudioCodecChannels(codec) < 1 ||
+                GetAudioCodecChannels(codec) > 2 ||
+                codec.flac.compressionlevel < FLAC_COMPRESSIONLEVEL_MIN ||
+                codec.flac.compressionlevel > FLAC_COMPRESSIONLEVEL_MAX ||
+                GetAudioCodecCbMillis(codec) < WAV_TXINTERVAL_MSEC_MIN ||
+                GetAudioCodecCbMillis(codec) > AUDIOPACKET_DURATION_MSEC_MAX ||
+                GetFlacMaxPacketSize(codec) > GetAudioCodecMaxEncFrameSize(codec))
+                return false;
+            return true;
         case CODEC_WEBM_VP8 :
             break;
         }
@@ -118,6 +133,8 @@ namespace teamtalk
             return codec.opus.samplerate;
         case CODEC_WAV :
             return codec.wav.samplerate;
+        case CODEC_FLAC :
+            return codec.flac.samplerate;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -140,6 +157,9 @@ namespace teamtalk
         case CODEC_WAV :
             return static_cast<int>(PCM16_DURATION_SAMPLES(codec.wav.txinterval_msec,
                                                            codec.wav.samplerate));
+        case CODEC_FLAC :
+            return static_cast<int>(PCM16_DURATION_SAMPLES(codec.flac.txinterval_msec,
+                                                           codec.flac.samplerate));
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -156,6 +176,8 @@ namespace teamtalk
     {
         if (codec.codec == CODEC_WAV)
             return codec.wav.txinterval_msec;
+        if (codec.codec == CODEC_FLAC)
+            return codec.flac.txinterval_msec;
 
         int const samplerate = GetAudioCodecSampleRate(codec);
         if(samplerate == 0)
@@ -184,6 +206,8 @@ namespace teamtalk
             return codec.opus.channels;
         case CODEC_WAV :
             return codec.wav.channels;
+        case CODEC_FLAC :
+            return codec.flac.channels;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
             break;
@@ -202,6 +226,7 @@ namespace teamtalk
         case CODEC_OPUS :
             return codec.opus.frame_size;
         case CODEC_WAV :
+        case CODEC_FLAC :
             return GetAudioCodecCbSamples(codec);
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
@@ -221,6 +246,7 @@ namespace teamtalk
         case CODEC_OPUS :
             return codec.opus.frames_per_packet;
         case CODEC_WAV :
+        case CODEC_FLAC :
             return 1;
         case CODEC_NO_CODEC :
         case CODEC_WEBM_VP8 :
@@ -240,6 +266,7 @@ namespace teamtalk
         case CODEC_SPEEX_VBR :
         case CODEC_SPEEX :
         case CODEC_WAV :
+        case CODEC_FLAC :
             break;
         }
         return GetAudioCodecVBRMode(codec);
@@ -250,6 +277,7 @@ namespace teamtalk
         switch(codec.codec)
         {
         case CODEC_SPEEX_VBR :
+        case CODEC_FLAC :
             return true;
         case CODEC_OPUS :
             return codec.opus.vbr;
@@ -274,6 +302,7 @@ namespace teamtalk
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
         case CODEC_WAV :
+        case CODEC_FLAC :
             break;
         }
         return false;
@@ -376,6 +405,8 @@ namespace teamtalk
         case CODEC_WAV :
             return GetAudioCodecSampleRate(codec) * GetAudioCodecChannels(codec) *
                 GetWavSampleFormatBytes(codec.wav.sampleformat) * 8;
+        case CODEC_FLAC :
+            return GetAudioCodecSampleRate(codec) * GetAudioCodecChannels(codec) * 16;
         case CODEC_WEBM_VP8 :
         case CODEC_NO_CODEC :
             break;
@@ -402,6 +433,7 @@ namespace teamtalk
         switch(codec.codec)
         {
         case CODEC_WAV :
+        case CODEC_FLAC :
             return MAX_ENC_FRAGMENTED_FRAMESIZE;
         case CODEC_SPEEX :
         case CODEC_SPEEX_VBR :
@@ -439,6 +471,7 @@ namespace teamtalk
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
         case CODEC_WAV :
+        case CODEC_FLAC :
             break;
         }
         return -1;
@@ -456,6 +489,7 @@ namespace teamtalk
         case CODEC_WEBM_VP8 :
         case CODEC_OPUS :
         case CODEC_WAV :
+        case CODEC_FLAC :
             break;
         }
         return -1;
@@ -542,6 +576,13 @@ namespace teamtalk
         return GetAudioCodecCbTotalSamples(codec) * GetWavSampleFormatBytes(codec.wav.sampleformat);
     }
 
+    int GetFlacMaxPacketSize(const AudioCodec& codec)
+    {
+        if (codec.codec != CODEC_FLAC)
+            return 0;
+        return (GetAudioCodecCbTotalSamples(codec) * static_cast<int>(sizeof(short))) + FLAC_FRAME_OVERHEAD_MAX;
+    }
+
     int EncodeWavSamples(WavSampleFormat sampleformat, const short* input_buffer,
                          int input_samples_total, char* output_buffer)
     {
@@ -609,6 +650,7 @@ namespace teamtalk
             case CODEC_NO_CODEC :
             case CODEC_WEBM_VP8 :
             case CODEC_WAV :
+            case CODEC_FLAC :
                 break;
             }
         }

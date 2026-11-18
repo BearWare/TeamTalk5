@@ -107,6 +107,7 @@ VoiceLog::VoiceLog(int userid, const tstring& filename,
 #endif /* ENABLE_OPUSTOOLS */
         case CODEC_NO_CODEC :
         case CODEC_WAV :
+        case CODEC_FLAC :
         case CODEC_WEBM_VP8 :
             break;
         }
@@ -170,6 +171,13 @@ VoiceLog::VoiceLog(int userid, const tstring& filename,
 #endif
         break;
     case CODEC_WAV :
+        break;
+    case CODEC_FLAC :
+#if defined(ENABLE_FLAC)
+        m_flac = std::make_unique<FlacDecode>();
+        if(!m_flac->Open(codec.flac.samplerate, codec.flac.channels))
+            return;
+#endif
         break;
     case CODEC_NO_CODEC :
     case CODEC_WEBM_VP8 :
@@ -320,6 +328,7 @@ void VoiceLog::WritePacket(int packet_no)
         break;
     case CODEC_NO_CODEC :
     case CODEC_WAV :
+    case CODEC_FLAC :
     case CODEC_WEBM_VP8 :
         assert(0);
         break;
@@ -393,6 +402,15 @@ void VoiceLog::WriteAudio(int packet_no)
             else
                 m_samples_buf.assign(m_samples_buf.size(), 0);
             break;
+        case CODEC_FLAC :
+#if defined(ENABLE_FLAC)
+            if (m_flac != nullptr &&
+                m_flac->Decode(enc_data, enc_len, m_samples_buf.data(),
+                               GetAudioCodecCbSamples(m_codec)) == GetAudioCodecCbSamples(m_codec))
+                break;
+#endif
+            m_samples_buf.assign(m_samples_buf.size(), 0);
+            break;
         default : break;
         }
         m_mFlushPackets.erase(ite);
@@ -428,6 +446,7 @@ void VoiceLog::WriteAudio(int packet_no)
 #endif        
             break;
         case CODEC_WAV :
+        case CODEC_FLAC :
             m_samples_buf.assign(m_samples_buf.size(), 0);
             break;
         default : break;
@@ -625,6 +644,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
             filename += TTEXT(".ogg");
             break;
         case CODEC_WAV :
+        case CODEC_FLAC :
             aff = AFF_WAVE_FORMAT;
             filename += TTEXT(".wav");
             break;
