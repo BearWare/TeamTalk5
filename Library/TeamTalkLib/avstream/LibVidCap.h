@@ -28,10 +28,7 @@
 
 #include "mystd/MyStd.h"
 
-#include <ace/Singleton.h>
 #include <vidcap/vidcap.h>
-
-#include <map>
 
 class LibVidCap : public vidcap::VideoCapture
 {

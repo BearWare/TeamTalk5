@@ -49,12 +49,12 @@ public:
         : super(addr, r, flags)
         , m_listener(lsn)
     {
-        //MYTRACE(ACE_TEXT("%p Acceptor()\n"), this);
+        //MYTRACE(TTEXT("%p Acceptor()\n"), this);
     }
 
     ~Acceptor()
     {
-        MYTRACE(ACE_TEXT("~Acceptor()\n"));
+        MYTRACE(TTEXT("~Acceptor()\n"));
     }
 
     int activate_svc_handler (STREAMHANDLER* svc_handler) override

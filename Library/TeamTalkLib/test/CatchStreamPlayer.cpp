@@ -22,10 +22,10 @@
  */
 
 #include "AudioAnalyze.h"
-
 #include "avstream/AudioResampler.h"
 #include "avstream/SoundSystem.h"
 #include "codec/WaveFile.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/client/AudioThread.h"
@@ -150,18 +150,18 @@ TEST_CASE("OpusPlayer packetloss")
 
     for (const auto& drop_packets : test_input) {
         tostringstream os_recorded, os_played;
-        os_recorded << ACE_TEXT("PacketLossRecorded_loss_") << drop_packets.size() << ACE_TEXT(".wav");
-        os_played << ACE_TEXT("PacketLossPlayed_loss_") << drop_packets.size() << ACE_TEXT(".wav");
+        os_recorded << TTEXT("PacketLossRecorded_loss_") << drop_packets.size() << TTEXT(".wav");
+        os_played << TTEXT("PacketLossPlayed_loss_") << drop_packets.size() << TTEXT(".wav");
         PlayAudioPackets(drop_packets, codec, RECORD_DURATION_MSEC, os_recorded.str().c_str(), os_played.str().c_str(), TONE_FREQUENCY);
     }
 
     WavePCMFile originalFile;
     std::vector<std::vector<float>> packetlossSamples;
-    REQUIRE(originalFile.OpenFile(ACE_TEXT("PacketLossRecorded_loss_0.wav"), true));
+    REQUIRE(originalFile.OpenFile(TTEXT("PacketLossRecorded_loss_0.wav"), true));
     for (int i=0;i<test_input.size();++i)
     {
         tostringstream os_played;
-        os_played << ACE_TEXT("PacketLossPlayed_loss_") << i << ACE_TEXT(".wav");
+        os_played << TTEXT("PacketLossPlayed_loss_") << i << TTEXT(".wav");
         WavePCMFile packetlossFile;
         REQUIRE(packetlossFile.OpenFile(os_played.str().c_str(), true));
         packetlossSamples.push_back(LoadAudioAsFloat(packetlossFile));

@@ -88,10 +88,10 @@ public:
 
         ACE_HANDLE const hh = this->get_handle();
 #if defined (ACE_WIN32)
-        MYTRACE(ACE_TEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
+        MYTRACE(TTEXT("~StreamHandler() %p. Handle: 0x%p, Sent: %u Recv: %u\n"),
                 this, hh, uint32_t(sent_), uint32_t(recv_));
 #else
-        MYTRACE(ACE_TEXT("~StreamHandler() %p, Handle: 0x%x, Sent: %u Recv: %u\n"),
+        MYTRACE(TTEXT("~StreamHandler() %p, Handle: 0x%x, Sent: %u Recv: %u\n"),
                 this, hh, uint32_t(sent_), uint32_t(recv_));
 #endif
 

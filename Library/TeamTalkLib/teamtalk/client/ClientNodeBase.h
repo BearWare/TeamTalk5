@@ -28,6 +28,7 @@
 #include "avstream/SoundSystem.h"
 #include "codec/MediaUtil.h"
 #include "myace/TimerHandler.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/TTAssert.h"
@@ -211,7 +212,7 @@ static void ASSERT_CLIENTNODE_LOCKED(ClientNodeBase* clientnode)
 
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( (this_obj)->ReactorLock() );             \
-    /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
+    /*PROFILER_ST(TTEXT("Thread"));*/                \
     (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 

@@ -39,7 +39,7 @@
 #include <set>
 #include <vector>
 
-#define CHANNEL_SEPARATOR ACE_TEXT("/")
+#define CHANNEL_SEPARATOR TTEXT("/")
 
 namespace teamtalk {
 
@@ -86,7 +86,7 @@ namespace teamtalk {
         {
             //TTASSERT(m_mUsers.empty());
             //TTASSERT(m_vecUsers.empty());
-            MYTRACE(ACE_TEXT("~Channel() - \"%s\"\n"), m_name.c_str());
+            MYTRACE(TTEXT("~Channel() - \"%s\"\n"), m_name.c_str());
         }
         channel_t GetParentChannel() const { return m_parent.lock(); }
         bool IsRootChannel() const { return !GetParentChannel(); }

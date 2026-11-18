@@ -22,6 +22,7 @@
  */
 
 #include "AVFCapture.h"
+#include "mystd/MyStd.h"
 
 #import <AVFoundation/AVFoundation.h>
 
@@ -54,7 +55,7 @@ vidcap_devices_t AVFCapture::GetDevices()
 
     for (AVCaptureDevice *device in devices) {
         VidCapDevice dev;
-        dev.api = ACE_TEXT("avfoundation");
+        dev.api = TTEXT("avfoundation");
         dev.devicename = [[device localizedName] UTF8String];
         dev.deviceid = I2String(int([devices indexOfObject:device]));
 
@@ -72,7 +73,7 @@ vidcap_devices_t AVFCapture::GetDevices()
                 
                 if(std::find(dev.vidcapformats.begin(), dev.vidcapformats.end(), fmt) == dev.vidcapformats.end())
                     dev.vidcapformats.push_back(fmt);
-                // MYTRACE(ACE_TEXT("%dx%d - min %g max %g %f %f\n"), 
+                // MYTRACE(TTEXT("%dx%d - min %g max %g %f %f\n"), 
                 //         dimensions.width, dimensions.height,
                 //         [range minFrameRate], [range maxFrameRate], 
                 //         CMTimeGetSeconds([range minFrameDuration]),

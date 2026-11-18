@@ -22,7 +22,7 @@
  */
 
 #include "FileNode.h"
-
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/TTAssert.h"
 
@@ -77,7 +77,7 @@ FileNode::~FileNode()
 #endif
     if(m_def_stream != nullptr)
         m_def_stream->SetListener(nullptr);
-    MYTRACE(ACE_TEXT("~FileNode()\n"));
+    MYTRACE(TTEXT("~FileNode()\n"));
 }
 
 void FileNode::BeginTransfer()
@@ -237,7 +237,7 @@ void FileNode::Disconnect()
 
 void FileNode::TransmitCommand(const tstring& command)
 {
-    MYTRACE(ACE_TEXT("FILENODE: %s"), command.c_str());
+    MYTRACE(TTEXT("FILENODE: %s"), command.c_str());
     int ret = -1;
     ACE_Time_Value const tm = ACE_Time_Value::zero;
 #if defined(UNICODE)
@@ -272,7 +272,7 @@ int FileNode::TimerEvent(uint32_t  /*timer_event_id*/, long  /*userdata*/)
 #if defined(ENABLE_ENCRYPTION)
 void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 {
-    MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
+    MYTRACE(TTEXT("FILENODE: Connected successfully on TCP\n") );
     int size = FILEBUFFERSIZE;
     int optlen = sizeof(size);
     int ret = 0;
@@ -286,7 +286,7 @@ void FileNode::OnOpened(CryptStreamHandler::StreamHandler_t& handler)
 
 void FileNode::OnOpened(DefaultStreamHandler::StreamHandler_t& handler)
 {
-    MYTRACE(ACE_TEXT("FILENODE: Connected successfully on TCP\n") );
+    MYTRACE(TTEXT("FILENODE: Connected successfully on TCP\n") );
     int size = FILEBUFFERSIZE;
     int optlen = sizeof(size);
     int ret = 0;
@@ -336,7 +336,7 @@ bool FileNode::OnReceive(const char* buff, int len)
         if (m_file.Tell() + len > m_transfer.filesize)
             writebytes = m_transfer.filesize - m_file.Tell();
         auto ret = m_file.Write(buff, writebytes);
-        MYTRACE_COND(ret != writebytes, ACE_TEXT("Write failed to %s\n"), m_transfer.localfile.c_str());
+        MYTRACE_COND(ret != writebytes, TTEXT("Write failed to %s\n"), m_transfer.localfile.c_str());
 
         UpdateBytesTransferred();
 
@@ -463,7 +463,7 @@ void FileNode::ProcessCommand(const std::string& cmdline)
     tstring const command = cmdline.c_str();
 #endif
 
-    MYTRACE(ACE_TEXT("SERVER: %s"), command.c_str());
+    MYTRACE(TTEXT("SERVER: %s"), command.c_str());
 
     mstrings_t properties;
     if(ExtractProperties(command, properties)<0)

@@ -25,6 +25,7 @@
 
 #include "codec/MediaUtil.h"
 #include "codec/WaveFile.h"
+#include "mystd/MyStd.h"
 
 #include <api/audio/audio_processing.h>
 #include <api/audio/builtin_audio_processing_builder.h>
@@ -53,8 +54,8 @@ TEST_CASE("webrtc-audiobuf") {
 
     WavePCMFile inwavfile;
     WavePCMFile outwavfile;
-    REQUIRE(inwavfile.NewFile(ACE_TEXT("in_tone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
-    REQUIRE(outwavfile.NewFile(ACE_TEXT("out_tone.wav"), OUTPUT_SAMPLE_RATE_HZ, OUTPUT_CHANNEL_COUNT));
+    REQUIRE(inwavfile.NewFile(TTEXT("in_tone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
+    REQUIRE(outwavfile.NewFile(TTEXT("out_tone.wav"), OUTPUT_SAMPLE_RATE_HZ, OUTPUT_CHANNEL_COUNT));
 
     REQUIRE(GenerateTone(in_af, 0, TEST_TONE_FREQUENCY_HZ));
 
@@ -87,10 +88,10 @@ TEST_CASE("webrtc-noise") {
 
     WavePCMFile infile;
     WavePCMFile outfile;
-    REQUIRE(infile.OpenFile(ACE_TEXT("testdata/Noise/in_noise_16khz.wav"), true));
+    REQUIRE(infile.OpenFile(TTEXT("testdata/Noise/in_noise_16khz.wav"), true));
     int input_sample_rate_hz = infile.GetSampleRate();
     int input_channel_count = infile.GetChannels();
-    REQUIRE(outfile.NewFile(ACE_TEXT("out_noise.wav"), input_sample_rate_hz, input_channel_count));
+    REQUIRE(outfile.NewFile(TTEXT("out_noise.wav"), input_sample_rate_hz, input_channel_count));
 
     webrtc::AudioProcessing::Config apm_cfg;
     apm_cfg.noise_suppression.enabled = true;
@@ -123,8 +124,8 @@ TEST_CASE("webrtc-agc")
 
     WavePCMFile rawfile;
     WavePCMFile agcfile;
-    REQUIRE(rawfile.NewFile(ACE_TEXT("agcnone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
-    REQUIRE(agcfile.NewFile(ACE_TEXT("agcfile.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
+    REQUIRE(rawfile.NewFile(TTEXT("agcnone.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
+    REQUIRE(agcfile.NewFile(TTEXT("agcfile.wav"), INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT));
 
     std::vector<int16_t> in_buff(INPUT_SAMPLE_COUNT * INPUT_CHANNEL_COUNT);
     media::AudioFrame af(media::AudioFormat(INPUT_SAMPLE_RATE_HZ, INPUT_CHANNEL_COUNT), in_buff.data(), INPUT_SAMPLE_COUNT);
@@ -164,12 +165,12 @@ TEST_CASE("webrtc-apm")
     WavePCMFile rawfile;
     WavePCMFile apmfile_gain1;
     WavePCMFile apmfile_gain2;
-    const auto *FILENAME = ACE_TEXT("testdata/AGC/input_16k_mono_low.wav");
+    const auto *FILENAME = TTEXT("testdata/AGC/input_16k_mono_low.wav");
     REQUIRE(rawfile.OpenFile(FILENAME, true));
     REQUIRE(rawfile.GetChannels() == 1);
 
-    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gainctl1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
-    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gainctl2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain1.NewFile(TTEXT("apmfile_gainctl1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain2.NewFile(TTEXT("apmfile_gainctl2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
 
     media::AudioFormat const af(rawfile.GetSampleRate(), rawfile.GetChannels());
 
@@ -222,11 +223,11 @@ TEST_CASE("webrtc-double-gain")
     WavePCMFile rawfile;
     WavePCMFile apmfile_gain1;
     WavePCMFile apmfile_gain2;
-    const auto *FILENAME = ACE_TEXT("testdata/AGC/input_16k_mono_low.wav");
+    const auto *FILENAME = TTEXT("testdata/AGC/input_16k_mono_low.wav");
     REQUIRE(rawfile.OpenFile(FILENAME, true));
     REQUIRE(rawfile.GetChannels() == 1);
-    REQUIRE(apmfile_gain1.NewFile(ACE_TEXT("apmfile_gain1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
-    REQUIRE(apmfile_gain2.NewFile(ACE_TEXT("apmfile_gain2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain1.NewFile(TTEXT("apmfile_gain1.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
+    REQUIRE(apmfile_gain2.NewFile(TTEXT("apmfile_gain2.wav"), rawfile.GetSampleRate(), rawfile.GetChannels()));
 
     media::AudioFormat const af(rawfile.GetSampleRate(), rawfile.GetChannels());
 
@@ -259,7 +260,7 @@ TEST_CASE("webrtc-double-gain")
         REQUIRE(apmfile_gain1.AppendSamples(apm_buff.data(), out_cfg.num_frames()));
     }
     apmfile_gain1.Close();
-    REQUIRE(apmfile_gain1.OpenFile(ACE_TEXT("apmfile_gain1.wav"), true));
+    REQUIRE(apmfile_gain1.OpenFile(TTEXT("apmfile_gain1.wav"), true));
 
     REQUIRE(apm->Initialize() == webrtc::AudioProcessing::kNoError);
 

@@ -60,7 +60,7 @@ namespace teamtalk{
 
     bool ServerXML::UpdateFile()
     {
-        if (!VersionSameOrLater(Utf8ToUnicode(GetFileVersion().c_str()), ACE_TEXT("5.3")))
+        if (!VersionSameOrLater(Utf8ToUnicode(GetFileVersion().c_str()), TTEXT("5.3")))
         {
             int c = 0;
             UserAccount ua;
@@ -1515,7 +1515,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         pElement = pElement->FirstChildElement("permanent-channels");
         if (pElement == nullptr)
             return nullptr;
-        strings_t tokens = Tokenize(Utf8ToUnicode(chpath.c_str()), ACE_TEXT("/"));
+        strings_t tokens = Tokenize(Utf8ToUnicode(chpath.c_str()), TTEXT("/"));
         while ((pElement != nullptr) && (!tokens.empty()))
         {
             pElement = pElement->FirstChildElement("channel");
@@ -1588,7 +1588,7 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
     time_t StringToDate(const std::string& date)
     {
         tm t = {};
-        strings_t tokens = Tokenize(Utf8ToUnicode(date.c_str()), ACE_TEXT("/ :"));
+        strings_t tokens = Tokenize(Utf8ToUnicode(date.c_str()), TTEXT("/ :"));
         if(tokens.size() == 5)
         {
             t.tm_isdst = -1;

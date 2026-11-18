@@ -23,6 +23,7 @@
 
 #include "MediaStreamer.h"
 #include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
 
 #if defined(ENABLE_MEDIAFOUNDATION)
 #include "MFStreamer.h"
@@ -109,7 +110,7 @@ MediaStreamer::~MediaStreamer()
 {
     // subclasses must call ::Close() manually to finish their ::Run() method
     assert(!m_thread);
-    MYTRACE(ACE_TEXT("~MediaStreamer()\n"));
+    MYTRACE(TTEXT("~MediaStreamer()\n"));
 }
 
 void MediaStreamer::RegisterVideoCallback(mediastream_videocallback_t cb, bool enable)
@@ -131,7 +132,7 @@ void MediaStreamer::RegisterAudioCallback(mediastream_audiocallback_t cb, bool e
 bool MediaStreamer::Open()
 {
     assert(!m_thread);
-    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p opening\n"), this);
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("MediaStreamer %p opening\n"), this);
     m_thread = std::make_shared<std::thread>(&MediaStreamer::Run, this);
 
     bool ret = false;
@@ -160,7 +161,7 @@ void MediaStreamer::Close()
 
 bool MediaStreamer::StartStream()
 {
-    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p starting\n"), this);
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("MediaStreamer %p starting\n"), this);
     m_pause = false;
 
     // avoid doing a double start
@@ -172,7 +173,7 @@ bool MediaStreamer::StartStream()
 
 bool MediaStreamer::Pause()
 {
-    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("MediaStreamer %p pausing\n"), this);
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("MediaStreamer %p pausing\n"), this);
 
     m_pause = true;
 
@@ -208,10 +209,10 @@ bool MediaStreamer::QueueAudio(ACE_Message_Block* mb)
     ACE_Time_Value zero;
     if(m_audio_frames.enqueue(mb, &zero) >= 0)
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Queue audio frame ts: %u\n"), media::AudioFrame(mb).timestamp);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Queue audio frame ts: %u\n"), media::AudioFrame(mb).timestamp);
         return true;
     }
-    MYTRACE(ACE_TEXT("Dropped audio frame ts: %u\n"), media::AudioFrame(mb).timestamp);
+    MYTRACE(TTEXT("Dropped audio frame ts: %u\n"), media::AudioFrame(mb).timestamp);
 
     return false;
 }
@@ -227,10 +228,10 @@ bool MediaStreamer::QueueVideo(const media::VideoFrame& frame)
     ACE_Time_Value zero;
     if (m_video_frames.enqueue(mb, &zero) >= 0)
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Queue video frame ts: %u\n"), frame.timestamp);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Queue video frame ts: %u\n"), frame.timestamp);
         return true;
     }
-    MYTRACE(ACE_TEXT("Dropped video frame ts: %u\n"), frame.timestamp);
+    MYTRACE(TTEXT("Dropped video frame ts: %u\n"), frame.timestamp);
     
     mb->release();
     return false;
@@ -339,7 +340,7 @@ bool MediaStreamer::ProcessAVQueues(uint32_t starttime, uint32_t curtime, bool f
     if (!need_audio && !need_video)
     {
         uint32_t const wait_ms = GetMinimumFrameDurationMSec();
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Sleeping %d msec... waiting for frames\n"), wait_ms);
         std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
         return true;
     }
@@ -347,7 +348,7 @@ bool MediaStreamer::ProcessAVQueues(uint32_t starttime, uint32_t curtime, bool f
     if (flush)
     {
         uint32_t const wait_ms = GetMinimumFrameDurationMSec();
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Sleeping %d msec... flushing frames\n"), wait_ms);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Sleeping %d msec... flushing frames\n"), wait_ms);
         std::this_thread::sleep_for(std::chrono::milliseconds(wait_ms));
         return (m_audio_frames.message_count() != 0u) || (m_video_frames.message_count() != 0u);
     }
@@ -365,7 +366,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     ACE_Message_Block* mb = nullptr;
     if(m_audio_frames.peek_dequeue_head(mb, &tv) < 0)
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio ts: %u - Queue empty\n"), curtime - starttime);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Queue empty\n"), curtime - starttime);
         return true;
     }
 
@@ -373,7 +374,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     int const required_audio_bytes = PCM16_BYTES(m_media_out.audio_samples, m_media_out.audio.channels);
     if (queued_audio_bytes < required_audio_bytes && !flush)
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio ts: %u - Insufficent data\n"), curtime - starttime);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Insufficent data\n"), curtime - starttime);
         return true;
     }
 
@@ -382,13 +383,13 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
 
     // check if head is already ahead of time
     auto* first_frame = reinterpret_cast<AudioFrame*>(mb->base());
-    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio ts: %u - Checking ts: %u. Queue duration: %u msec, bytes %u\n"),
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Checking ts: %u. Queue duration: %u msec, bytes %u\n"),
         curtime - starttime, first_frame->timestamp, queue_duration,
             unsigned(m_audio_frames.message_length()));
 
     if (W32_GT(first_frame->timestamp, curtime - starttime))
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio ts: %u - Data in future ts: %u\n"),
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Data in future ts: %u\n"),
             curtime - starttime, first_frame->timestamp);
         return false;
     }
@@ -454,7 +455,7 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
     }
     while(write_bytes > 0 && m_audio_frames.peek_dequeue_head(mb, &tv) >= 0);
 
-    // MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio %u - Writebytes %u, audio size %d, q size %u, msg cnt: %u, state: %d\n"),
+    // MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio %u - Writebytes %u, audio size %d, q size %u, msg cnt: %u, state: %d\n"),
     //         curtime - starttime, write_bytes, GetQueuedAudioDataSize(),
     //         unsigned(m_audio_frames.message_length()),
     //         unsigned(m_audio_frames.message_count()), m_audio_frames.state());
@@ -471,10 +472,10 @@ bool MediaStreamer::ProcessAudioFrame(uint32_t starttime, uint32_t curtime, bool
 
     uint32_t const timestamp = media_frame->timestamp;
     bool const need_more = GetQueuedAudioDataSize() < required_audio_bytes;
-    MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Audio ts: %u - Submitted ts: %u. Diff ts: %d. Need more: %d\n"), curtime - starttime,
+    MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Audio ts: %u - Submitted ts: %u. Diff ts: %d. Need more: %d\n"), curtime - starttime,
             timestamp - starttime, int((curtime - starttime) - (timestamp - starttime)),
             int(need_more));
-    //MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
+    //MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Ejecting audio frame %u\n"), media_frame.timestamp);
     
     uint32_t const newduration = PCM16_BYTES_DURATION(GetQueuedAudioDataSize(),
                                                 m_media_out.audio.channels,
@@ -501,7 +502,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
     if (m_video_frames.peek_dequeue_head(mb, &tm_zero) >= 0)
     {
         auto* media_frame = reinterpret_cast<VideoFrame*>(mb->rd_ptr());
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video ts: %u - First ts: %u\n"),
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Video ts: %u - First ts: %u\n"),
                 curtime - starttime, media_frame->timestamp);
 
         if (W32_LEQ(media_frame->timestamp, curtime - starttime))
@@ -515,7 +516,7 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
 
             media_frame->timestamp = starttime + media_frame->timestamp;
 
-            MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video ts: %u - Submitted video frame ts: %u. Diff: %u. Queue count: %u\n"),
+            MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Video ts: %u - Submitted video frame ts: %u. Diff: %u. Queue count: %u\n"),
                     curtime - starttime,
                     media_frame->timestamp - starttime, curtime - media_frame->timestamp,
                     unsigned(m_video_frames.message_count()));
@@ -528,14 +529,14 @@ bool MediaStreamer::ProcessVideoFrame(uint32_t starttime, uint32_t curtime)
         }
         else
         {
-            MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video ts: %u - Not video ts: %u. Queue count: %u\n"),
+            MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Video ts: %u - Not video ts: %u. Queue count: %u\n"),
                     curtime - starttime, media_frame->timestamp, unsigned(m_video_frames.message_count()));
             return false;
         }
     }
     else
     {
-        MYTRACE_COND(DEBUG_MEDIASTREAMER, ACE_TEXT("Video ts: %u - Queue empty\n"), curtime - starttime);
+        MYTRACE_COND(DEBUG_MEDIASTREAMER, TTEXT("Video ts: %u - Queue empty\n"), curtime - starttime);
     }
 
 
@@ -559,8 +560,8 @@ void MediaFileStreamer::RegisterStatusCallback(mediastream_statuscallback_t cb, 
 
 bool MediaFileStreamer::Completed() const
 {
-    MYTRACE_COND(DEBUG_MEDIASTREAMER && !m_thread, ACE_TEXT("Completed %s - thread closed\n"), GetMediaFile().filename.c_str());
-    MYTRACE_COND(DEBUG_MEDIASTREAMER && m_completed, ACE_TEXT("Completed %s - Player reported complete\n"), GetMediaFile().filename.c_str());
+    MYTRACE_COND(DEBUG_MEDIASTREAMER && !m_thread, TTEXT("Completed %s - thread closed\n"), GetMediaFile().filename.c_str());
+    MYTRACE_COND(DEBUG_MEDIASTREAMER && m_completed, TTEXT("Completed %s - Player reported complete\n"), GetMediaFile().filename.c_str());
     return !m_thread || m_completed;
 }
 

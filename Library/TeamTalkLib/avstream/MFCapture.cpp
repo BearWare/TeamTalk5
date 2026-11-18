@@ -40,7 +40,7 @@ using namespace vidcap;
 
 MFCapture::~MFCapture()
 {
-    MYTRACE(ACE_TEXT("~MFCapture()\n"));
+    MYTRACE(TTEXT("~MFCapture()\n"));
 
     StopVideoCapture();
 }
@@ -106,9 +106,9 @@ vidcap_devices_t MFCapture::GetDevices()
                       &lpszName, NULL)))
         {
             dev.devicename = lpszName;
-            dev.api = ACE_TEXT("Microsoft Media Foundation");
+            dev.api = TTEXT("Microsoft Media Foundation");
             std::array<tchar, 20> buff{};
-            ACE_OS::snprintf(buff.data(), buff.size(), ACE_TEXT("%d"), i);
+            ACE_OS::snprintf(buff.data(), buff.size(), TTEXT("%d"), i);
             dev.deviceid = buff.data();
             devs.push_back(dev);
             CoTaskMemFree(lpszName);
@@ -295,7 +295,7 @@ void MFCapture::Run(CaptureSession* session, tstring deviceid)
     RETURNONERROR(FAILED(hr));
 
     hr = pReaderAttributes->SetUINT32(MF_SOURCE_READER_ENABLE_VIDEO_PROCESSING, TRUE);
-    MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to enable video processing\n"));
+    MYTRACE_COND(FAILED(hr), TTEXT("Failed to enable video processing\n"));
 
     hr = MFCreateSourceReaderFromMediaSource(pSource, pReaderAttributes, &pReader);
     RETURNONERROR(FAILED(hr));

@@ -24,7 +24,9 @@
 #include "MFStreamer.h"
 #include "MFTransform.h"
 
-#include <assert.h>
+#include "mystd/MyStd.h"
+
+#include <cassert>
 #include <shlwapi.h> //QITAB
 #include <mfidl.h>
 #include <mfreadwrite.h>
@@ -68,7 +70,7 @@ static LONGLONG SeekInStream(CComPtr<IMFSourceReader> &pSourceReader,
         HRESULT const hr = pSourceReader->ReadSample(dwStreamIndex, 0, nullptr, &dwStreamFlags, &llTimestamp, &pSample);
         if (FAILED(hr))
         {
-            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s\n"),
+            MYTRACE(TTEXT("Failed to seek to new offset %u in %s\n"),
                     UINT32(llOffset / 10000),
                     prop.filename.c_str());
             llTimestamp = -1;
@@ -76,7 +78,7 @@ static LONGLONG SeekInStream(CComPtr<IMFSourceReader> &pSourceReader,
         }
         if ((dwStreamFlags & (MF_SOURCE_READERF_ENDOFSTREAM | MF_SOURCE_READERF_ERROR)) != 0u)
         {
-            MYTRACE(ACE_TEXT("Failed to seek to new offset %u in %s due to EOF or error\n"), UINT32(llOffset / 10000), prop.filename.c_str());
+            MYTRACE(TTEXT("Failed to seek to new offset %u in %s due to EOF or error\n"), UINT32(llOffset / 10000), prop.filename.c_str());
             llTimestamp = -1;
             break;
         }
@@ -248,7 +250,7 @@ void MFStreamer::Run()
         {
             m_media_in.video.fps_numerator = 30;
             m_media_in.video.fps_denominator = 1;
-            MYTRACE(ACE_TEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
+            MYTRACE(TTEXT("No frame rate information found in %s\n"), m_media_in.filename.c_str());
         }
 
         GUID native_subtype = {};
@@ -341,7 +343,7 @@ void MFStreamer::Run()
     while(!m_stop && !error && (llAudioTimestamp >= 0 || llVideoTimestamp >= 0))
     {
         MYTRACE_COND(DEBUG_MEDIASTREAMER, 
-                     ACE_TEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
+                     TTEXT("Sync. Audio %u, Video %u\n"), unsigned(llAudioTimestamp/10000), unsigned(llVideoTimestamp/10000));
 
         if (llAudioTimestamp >= 0)
             m_media_in.elapsed_ms = uint32_t(llAudioTimestamp / 10000);
@@ -357,7 +359,7 @@ void MFStreamer::Run()
             uint32_t pausetime = GETTIMESTAMP();
             if ((m_run.get(start) >= 0 && !start) || m_stop)
             {
-                MYTRACE(ACE_TEXT("Media playback aborted during pause\n"));
+                MYTRACE(TTEXT("Media playback aborted during pause\n"));
                 break;
             }
 
@@ -365,7 +367,7 @@ void MFStreamer::Run()
             status = MEDIASTREAM_STARTED;
 
             pausetime = GETTIMESTAMP() - pausetime;
-            MYTRACE_COND(pausetime > 0, ACE_TEXT("Pause %s for %u msec\n"), GetMediaFile().filename.c_str(), pausetime);
+            MYTRACE_COND(pausetime > 0, TTEXT("Pause %s for %u msec\n"), GetMediaFile().filename.c_str(), pausetime);
             totalpausetime += pausetime;
         }
 
@@ -376,7 +378,7 @@ void MFStreamer::Run()
         {
             // There's a weird bug in Windows Media Foundation. If you seek to 0 in a very short audio file (<500 msec)
             // then it actually seeks a few milliseconds into the file.
-            MYTRACE(ACE_TEXT("Skipping seek to 0 in %s because already at 0 msec\n"), GetMediaFile().filename.c_str());
+            MYTRACE(TTEXT("Skipping seek to 0 in %s because already at 0 msec\n"), GetMediaFile().filename.c_str());
         }
         else if (newoffset != MEDIASTREAMER_OFFSET_IGNORE)
         {
@@ -406,7 +408,7 @@ void MFStreamer::Run()
             if(SUCCEEDED(hrprop))
                 PropVariantClear(&var);
 
-            MYTRACE(ACE_TEXT("Media file %s starting from %u\n"), GetMediaFile().filename.c_str(), newoffset);
+            MYTRACE(TTEXT("Media file %s starting from %u\n"), GetMediaFile().filename.c_str(), newoffset);
         }
 
         if (status != MEDIASTREAM_NONE)
@@ -462,13 +464,13 @@ void MFStreamer::Run()
 
             error |= (dwStreamFlags & MF_SOURCE_READERF_ERROR);
             assert(!error);
-            MYTRACE_COND(error, ACE_TEXT("Error in video stream\n"));
+            MYTRACE_COND(error, TTEXT("Error in video stream\n"));
             if(error || llVideoTimestamp < 0)
                 continue;
 
             static int chunks = 0;
             static int vframes = 0;
-            MYTRACE(ACE_TEXT("Video chunks %d, extracted: %d\n"), ++chunks, vframes);
+            MYTRACE(TTEXT("Video chunks %d, extracted: %d\n"), ++chunks, vframes);
 
             if (pSample != nullptr) {
                 if (transform)

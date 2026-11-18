@@ -76,7 +76,7 @@ ServerNode::ServerNode(const tstring& version,
 ServerNode::~ServerNode()
 {
     StopServer(true);
-    MYTRACE(ACE_TEXT("~ServerNode()\n"));
+    MYTRACE(TTEXT("~ServerNode()\n"));
 
 #if defined(ENABLE_ENCRYPTION)
     CryptStreamHandler::RemoveSSLContext(m_tcp_reactor);
@@ -123,12 +123,12 @@ tstring ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
             lastuser = u->GetNickname();
     }
     tstring motd = m_properties.motd;
-    ReplaceAll(motd, ACE_TEXT("%users%"), I2String(static_cast<int>(users)));
-    ReplaceAll(motd, ACE_TEXT("%admins%"), I2String(static_cast<int>(admins)));
-    ReplaceAll(motd, ACE_TEXT("%uptime%"), uptime);
-    ReplaceAll(motd, ACE_TEXT("%voicetx%"), I2String((m_stats.total_bytessent / 1024)));
-    ReplaceAll(motd, ACE_TEXT("%voicerx%"), I2String((m_stats.total_bytesreceived / 1024)));
-    ReplaceAll(motd, ACE_TEXT("%lastuser%"), lastuser);
+    ReplaceAll(motd, TTEXT("%users%"), I2String(static_cast<int>(users)));
+    ReplaceAll(motd, TTEXT("%admins%"), I2String(static_cast<int>(admins)));
+    ReplaceAll(motd, TTEXT("%uptime%"), uptime);
+    ReplaceAll(motd, TTEXT("%voicetx%"), I2String((m_stats.total_bytessent / 1024)));
+    ReplaceAll(motd, TTEXT("%voicerx%"), I2String((m_stats.total_bytesreceived / 1024)));
+    ReplaceAll(motd, TTEXT("%lastuser%"), lastuser);
 
     return motd;
 }
@@ -416,7 +416,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     std::error_code ec;
     do
     {
-        ACE_OS::snprintf(newfilename.data(), MAX_STRING_LENGTH, ACE_TEXT("data_%x") CHANNELFILEEXTENSION,
+        ACE_OS::snprintf(newfilename.data(), MAX_STRING_LENGTH, TTEXT("data_%x") CHANNELFILEEXTENSION,
                          static_cast<unsigned int>(dat_id++));
         local_filename = internalpath + newfilename.data();
     }
@@ -587,11 +587,11 @@ int ServerNode::TimerEvent(uint32_t timer_event_id, long userdata)
                                      tm_data.dest_userid))
         {
             m_desktop_rtx_timers.erase(tm_data.userdata);
-            MYTRACE(ACE_TEXT("Cancelled RTO for #%d -> #%d\n"), tm_data.src_userid, 
+            MYTRACE(TTEXT("Cancelled RTO for #%d -> #%d\n"), tm_data.src_userid, 
                     tm_data.dest_userid);
             return -1;
         }
-//         MYTRACE(ACE_TEXT("RTO for #%d -> #%d\n"), tm_data.src_userid, 
+//         MYTRACE(TTEXT("RTO for #%d -> #%d\n"), tm_data.src_userid, 
 //                 tm_data.dest_userid);
         return 0;
     }
@@ -734,13 +734,13 @@ bool ServerNode::SendDesktopAckPacket(int userid)
         SendPacket(ack_pkt, user);
     }
     //set<uint16_t>::const_iterator ii=recv_packets.begin();
-    //MYTRACE(ACE_TEXT("Received packets in upd %u: "), time_ack);
+    //MYTRACE(TTEXT("Received packets in upd %u: "), time_ack);
     //while(ii != recv_packets.end())
     //{
-    //    MYTRACE(ACE_TEXT("%d,"), *ii);
+    //    MYTRACE(TTEXT("%d,"), *ii);
     //    ii++;
     //}
-    //MYTRACE(ACE_TEXT("\n"));
+    //MYTRACE(TTEXT("\n"));
 
     uint16_t max_packet = 0;
     if(!recv_single.empty())
@@ -752,7 +752,7 @@ bool ServerNode::SendDesktopAckPacket(int userid)
         max_packet = std::max(max_packet, ii->second);
     }
 
-//     MYTRACE(ACE_TEXT("Ack sent %u, mac packet index %d\n"), GETTIMESTAMP(), 
+//     MYTRACE(TTEXT("Ack sent %u, mac packet index %d\n"), GETTIMESTAMP(), 
 //             max_packet);
 
 
@@ -782,7 +782,7 @@ bool ServerNode::RetransmitDesktopPackets(int src_userid, int dest_userid)
     desktoppackets_t rtx_packets;
     desktop_tx->GetLostDesktopPackets(DESKTOP_DEFAULT_RTX_TIMEOUT, rtx_packets, 1);
     auto dpi = rtx_packets.begin();
-//     MYTRACE_COND(dpi == rtx_packets.end(), ACE_TEXT("No packets for RTO\n"));
+//     MYTRACE_COND(dpi == rtx_packets.end(), TTEXT("No packets for RTO\n"));
     for(;dpi != rtx_packets.end();dpi++)
     {
         TTASSERT(chan->GetChannelID() == (*dpi)->GetChannel());
@@ -1336,7 +1336,7 @@ int ServerNode::SendPacket(const FieldPacket& packet,
             if ((m_properties.txloss != 0) && ((m_stats.packets_sent % m_properties.txloss) == 0))
             {
                 ret = packet.GetPacketSize();
-                MYTRACE(ACE_TEXT("Simulated TX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
+                MYTRACE(TTEXT("Simulated TX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
             }
             else
             {
@@ -1480,7 +1480,7 @@ int ServerNode::SendPackets(const FieldPacket& packet,
 #endif
             break;
         default:
-            MYTRACE(ACE_TEXT("Unknown packet sent %d\n"), packet.GetKind());
+            MYTRACE(TTEXT("Unknown packet sent %d\n"), packet.GetKind());
             break;
         }
     }
@@ -1499,15 +1499,15 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
 
     if ((m_properties.rxloss != 0) && ((m_stats.packets_received % m_properties.rxloss) == 0))
     {
-        MYTRACE(ACE_TEXT("Simulated RX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
+        MYTRACE(TTEXT("Simulated RX dropped packet. Kind %d\n"), static_cast<int>(packet.GetKind()));
         return;
     }
     
     m_stats.total_bytesreceived += packet_size;
-//     MYTRACE(ACE_TEXT("Packet %d size %d\n"), packet.GetKind(), packet_size);
+//     MYTRACE(TTEXT("Packet %d size %d\n"), packet.GetKind(), packet_size);
     if(!packet.ValidatePacket())
     {
-        MYTRACE(ACE_TEXT("Received invalid packet from %s\n"), 
+        MYTRACE(TTEXT("Received invalid packet from %s\n"), 
                 InetAddrToString(remoteaddr).c_str());
         return;
     }
@@ -1522,7 +1522,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
     if(!remoteaddr.is_ip_equal(user->GetUdpAddress()) && 
        !user->GetUdpAddress().is_any())
     {
-        MYTRACE(ACE_TEXT("User #%d sent UDP packet from invalid IP-address %s. Should be %s\n"),
+        MYTRACE(TTEXT("User #%d sent UDP packet from invalid IP-address %s. Should be %s\n"),
                 user->GetUserID(), InetAddrToString(remoteaddr).c_str(), 
                 InetAddrToString(user->GetUdpAddress()).c_str());
         return;
@@ -1684,7 +1684,7 @@ void ServerNode::ReceivedPacket(PacketHandler* ph, const char* packet_data,
         m_stats.desktop_bytesreceived += packet_size;
         break;
     default :
-        MYTRACE(ACE_TEXT("Received an unknown packet %d from #%d\n"),
+        MYTRACE(TTEXT("Received an unknown packet %d from #%d\n"),
                 static_cast<int>(packet.GetKind()), packet.GetSrcUserID());
         break;
     }
@@ -1732,7 +1732,7 @@ void ServerNode::ReceivedKeepAlivePacket(ServerUser& user,
     {
         user.SetMaxDataChunkSize(payload_data_size);
         user.SetMaxPayloadSize(payload_data_size + FIELDHEADER_PAYLOAD);
-        MYTRACE(ACE_TEXT("Updated #%d %s to payload size: %d\n"), 
+        MYTRACE(TTEXT("Updated #%d %s to payload size: %d\n"), 
                 user.GetUserID(), user.GetNickname().c_str(), 
                 payload_data_size);
     }
@@ -2164,7 +2164,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     }
 
     bool const add_pkt = user.AddDesktopPacket(packet);
-    MYTRACE_COND(!add_pkt, ACE_TEXT("Failed to DesktopPacket %d to session %d:%u\n"),
+    MYTRACE_COND(!add_pkt, TTEXT("Failed to DesktopPacket %d to session %d:%u\n"),
                  packet.GetPacketIndex(), packet.GetSessionID(), packet.GetTime());
 
     //start delayed ack
@@ -2203,7 +2203,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
              SESSIONID_GEQ(session_id, prev_session_id) &&
              W32_GEQ(update_time, prev_update_id));
 
-    MYTRACE(ACE_TEXT("Desktop update %d:%u completed for #%d\n"), 
+    MYTRACE(TTEXT("Desktop update %d:%u completed for #%d\n"), 
             session_id, update_time, userid);
 
     //don't process packet if it's not for the users current channel.
@@ -2212,7 +2212,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
     serverchannel_t const user_chan = user.GetChannel();
     if(!user_chan || user_chan->GetChannelID() != chan.GetChannelID())
     {
-        MYTRACE(ACE_TEXT("Ignored desktop packet from #%d to %s\n"),
+        MYTRACE(TTEXT("Ignored desktop packet from #%d to %s\n"),
                 user.GetUserID(), chan.GetChannelPath().c_str());
         return;
     }
@@ -2239,7 +2239,7 @@ void ServerNode::ReceivedDesktopPacket(ServerUser& user,
             else if(!dtx->Done())
                 continue; //skip new transmitter if one is already active
         }
-        MYTRACE(ACE_TEXT("Starting new DTX for #%d\n"), ui->GetUserID());
+        MYTRACE(TTEXT("Starting new DTX for #%d\n"), ui->GetUserID());
         //start or resume transmitter
         StartDesktopTransmitter(user, *ui, chan);
     }
@@ -2316,7 +2316,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
 #else
         SendPacket(nak_pkt, remoteaddr, localaddr);
 #endif
-        MYTRACE(ACE_TEXT("Sending NAK to #%d for user #%d's session %d\n"),
+        MYTRACE(TTEXT("Sending NAK to #%d for user #%d's session %d\n"),
                 user.GetUserID(), owner_userid, session_id);
         return;
     }
@@ -2364,7 +2364,7 @@ void ServerNode::ReceivedDesktopAckPacket(ServerUser& user,
             m_timer_reactor->cancel_timer(ii->second, nullptr, 0);
             m_desktop_rtx_timers.erase(ii);
         }
-        MYTRACE(ACE_TEXT("Desktop TX update %d:%u completed for #%d\n"),
+        MYTRACE(TTEXT("Desktop TX update %d:%u completed for #%d\n"),
             dtx->GetSessionID(), dtx->GetUpdateID(), user.GetUserID());
 
         //check if a new update is ready
@@ -2413,7 +2413,7 @@ void ServerNode::ReceivedDesktopNakPacket(ServerUser& user,
     if (desktop && desktop->GetSessionID() == packet.GetSessionID())
     {
         user.CloseDesktopSession();
-        MYTRACE(ACE_TEXT("Close desktop session %d for user #%d\n"),
+        MYTRACE(TTEXT("Close desktop session %d for user #%d\n"),
                 packet.GetSessionID(), user.GetUserID());
     }
     std::vector<ACE_INET_Addr> const addrs;
@@ -3554,7 +3554,7 @@ ErrorMsg ServerNode::UserNewUserAccount(int userid, const UserAccount& regusr)
         }
         for (const auto& au : GetAdministrators())
         {
-            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+            if (VersionSameOrLater(au->GetStreamProtocol(), TTEXT("5.11")))
                 au->DoAddUserAccount(regusr);
         }
     }
@@ -3580,7 +3580,7 @@ ErrorMsg ServerNode::UserDeleteUserAccount(int userid, const tstring& username)
         }
         for (const auto& au : GetAdministrators())
         {
-            if (VersionSameOrLater(au->GetStreamProtocol(), ACE_TEXT("5.11")))
+            if (VersionSameOrLater(au->GetStreamProtocol(), TTEXT("5.11")))
                 au->DoRemoveUserAccount(username);
         }
     }
@@ -4251,7 +4251,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(m_filetransfers.contains(id)) //no IDs left
             return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
-        tstring const tmpfilename = ACE_TEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
+        tstring const tmpfilename = TTEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
         tstring const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
         if(chan->FileExists(transfer.filename))
             return ErrorMsg(TT_CMDERR_FILE_ALREADY_EXISTS);

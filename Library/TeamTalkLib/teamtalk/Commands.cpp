@@ -40,99 +40,99 @@ namespace teamtalk {
         {
             // command errors
         case TT_CMDERR_SYNTAX_ERROR :
-            errmsg = ACE_TEXT("Syntax error in command");break;
+            errmsg = TTEXT("Syntax error in command");break;
         case TT_CMDERR_UNKNOWN_COMMAND :
-            errmsg = ACE_TEXT("Command not recognized");break;
+            errmsg = TTEXT("Command not recognized");break;
         case TT_CMDERR_INCOMPATIBLE_PROTOCOLS :
-            errmsg = ACE_TEXT("Incompatible protocols"); break;
+            errmsg = TTEXT("Incompatible protocols"); break;
         case TT_CMDERR_MISSING_PARAMETER :
-            errmsg = ACE_TEXT("Command is missing a parameter"); break;
+            errmsg = TTEXT("Command is missing a parameter"); break;
         case TT_CMDERR_UNKNOWN_AUDIOCODEC :
-            errmsg = ACE_TEXT("Audio codec is not supported by the server"); break;
+            errmsg = TTEXT("Audio codec is not supported by the server"); break;
         case TT_CMDERR_INVALID_USERNAME :
-            errmsg = ACE_TEXT("Invalid username for user account"); break;
+            errmsg = TTEXT("Invalid username for user account"); break;
 
             // rights
         case TT_CMDERR_INVALID_ACCOUNT :
-            errmsg = ACE_TEXT("Invalid user account");  break;
+            errmsg = TTEXT("Invalid user account");  break;
         case TT_CMDERR_INCORRECT_CHANNEL_PASSWORD :
-            errmsg = ACE_TEXT("Incorrect channel password");    break;
+            errmsg = TTEXT("Incorrect channel password");    break;
         case TT_CMDERR_SERVER_BANNED :
-            errmsg = ACE_TEXT("Banned from server"); break;
+            errmsg = TTEXT("Banned from server"); break;
         case TT_CMDERR_NOT_AUTHORIZED :
-            errmsg = ACE_TEXT("Command not authorized");    break;
+            errmsg = TTEXT("Command not authorized");    break;
         case TT_CMDERR_MAX_SERVER_USERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of users on server exceeded"); break;
+            errmsg = TTEXT("Maximum number of users on server exceeded"); break;
         case TT_CMDERR_MAX_DISKUSAGE_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum disk usage exceeded"); break;
+            errmsg = TTEXT("Maximum disk usage exceeded"); break;
         case TT_CMDERR_MAX_CHANNEL_USERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of users in channel exceeded"); break;
+            errmsg = TTEXT("Maximum number of users in channel exceeded"); break;
         case TT_CMDERR_INCORRECT_OP_PASSWORD :
-            errmsg = ACE_TEXT("Incorrect channel operator password");    break;
+            errmsg = TTEXT("Incorrect channel operator password");    break;
         case TT_CMDERR_AUDIOCODEC_BITRATE_LIMIT_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum bitrate for audio codec exceeded"); break;
+            errmsg = TTEXT("Maximum bitrate for audio codec exceeded"); break;
         case TT_CMDERR_MAX_LOGINS_PER_IPADDRESS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of logins per IP-address exceeded"); break;
+            errmsg = TTEXT("Maximum number of logins per IP-address exceeded"); break;
         case TT_CMDERR_MAX_CHANNELS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of channels exceeded"); break;
+            errmsg = TTEXT("Maximum number of channels exceeded"); break;
         case TT_CMDERR_COMMAND_FLOOD :
-            errmsg = ACE_TEXT("Commands are issued too fast. Flood protection."); break;
+            errmsg = TTEXT("Commands are issued too fast. Flood protection."); break;
         case TT_CMDERR_CHANNEL_BANNED:
-            errmsg = ACE_TEXT("Banned from channel"); break;
+            errmsg = TTEXT("Banned from channel"); break;
         case TT_CMDERR_MAX_FILETRANSFERS_EXCEEDED :
-            errmsg = ACE_TEXT("Maximum number of file transfers exceeded"); break;
+            errmsg = TTEXT("Maximum number of file transfers exceeded"); break;
 
             // state errors
         case TT_CMDERR_NOT_LOGGEDIN :
-            errmsg = ACE_TEXT("Not logged in");break;
+            errmsg = TTEXT("Not logged in");break;
         case TT_CMDERR_ALREADY_LOGGEDIN :
-            errmsg = ACE_TEXT("Already logged in");break;
+            errmsg = TTEXT("Already logged in");break;
         case TT_CMDERR_NOT_IN_CHANNEL :
-            errmsg = ACE_TEXT("Not in channel");break;
+            errmsg = TTEXT("Not in channel");break;
         case TT_CMDERR_ALREADY_IN_CHANNEL :
-            errmsg = ACE_TEXT("Cannot join the same channel twice");break;
+            errmsg = TTEXT("Cannot join the same channel twice");break;
         case TT_CMDERR_CHANNEL_ALREADY_EXISTS :
-            errmsg = ACE_TEXT("Channel already exists");break;
+            errmsg = TTEXT("Channel already exists");break;
         case TT_CMDERR_CHANNEL_NOT_FOUND :
-            errmsg = ACE_TEXT("Channel not found");break;
+            errmsg = TTEXT("Channel not found");break;
         case TT_CMDERR_USER_NOT_FOUND :
-            errmsg = ACE_TEXT("User not found");    break;
+            errmsg = TTEXT("User not found");    break;
         case TT_CMDERR_BAN_NOT_FOUND :
-            errmsg = ACE_TEXT("Ban no found"); break;
+            errmsg = TTEXT("Ban no found"); break;
         case TT_CMDERR_FILETRANSFER_NOT_FOUND :
-            errmsg = ACE_TEXT("File transfer not found"); break;
+            errmsg = TTEXT("File transfer not found"); break;
         case TT_CMDERR_OPENFILE_FAILED :
-            errmsg = ACE_TEXT("Server failed to create file"); break;            
+            errmsg = TTEXT("Server failed to create file"); break;            
         case TT_CMDERR_ACCOUNT_NOT_FOUND :
-            errmsg = ACE_TEXT("User account not found"); break;
+            errmsg = TTEXT("User account not found"); break;
         case TT_CMDERR_FILE_NOT_FOUND :
-            errmsg = ACE_TEXT("File not found"); break;
+            errmsg = TTEXT("File not found"); break;
         case TT_CMDERR_FILE_ALREADY_EXISTS :
-            errmsg = ACE_TEXT("File already exists"); break;
+            errmsg = TTEXT("File already exists"); break;
         case TT_CMDERR_FILESHARING_DISABLED :
-            errmsg = ACE_TEXT("File sharing is disabled"); break;
+            errmsg = TTEXT("File sharing is disabled"); break;
         case TT_CMDERR_CHANNEL_HAS_USERS :
-            errmsg = ACE_TEXT("Channel has active users"); break;
+            errmsg = TTEXT("Channel has active users"); break;
         case TT_CMDERR_LOGINSERVICE_UNAVAILABLE :
-            errmsg = ACE_TEXT("Login service unavailable"); break;
+            errmsg = TTEXT("Login service unavailable"); break;
         case TT_CMDERR_CHANNEL_CANNOT_BE_HIDDEN :
-            errmsg = ACE_TEXT("Cannot apply hidden property to channel"); break;
+            errmsg = TTEXT("Cannot apply hidden property to channel"); break;
 
             /***** Internal TeamTalk errors not related to commands ********/
         case TT_INTERR_SNDINPUT_FAILURE :
-            errmsg = ACE_TEXT("Sound input device failure");break;
+            errmsg = TTEXT("Sound input device failure");break;
         case TT_INTERR_SNDOUTPUT_FAILURE :
-            errmsg = ACE_TEXT("Sound output device failure");break;
+            errmsg = TTEXT("Sound output device failure");break;
         case TT_INTERR_AUDIOCODEC_INIT_FAILED :
-            errmsg = ACE_TEXT("Audio codec failed to initialize");break;
+            errmsg = TTEXT("Audio codec failed to initialize");break;
         case TT_INTERR_AUDIOPREPROCESSOR_INIT_FAILED :
-            errmsg = ACE_TEXT("Audio preprocessor failed to initialize");break;
+            errmsg = TTEXT("Audio preprocessor failed to initialize");break;
         case TT_INTERR_MSGQUEUE_OVERFLOW :
-            errmsg = ACE_TEXT("The internal message queue overflowed");break;
+            errmsg = TTEXT("The internal message queue overflowed");break;
         case TT_INTERR_SNDEFFECT_FAILURE :
-            errmsg = ACE_TEXT("An audio effect could not be applied on the sound device");break;
+            errmsg = TTEXT("An audio effect could not be applied on the sound device");break;
         default :
-            errmsg = ACE_TEXT("Unknown error");break;
+            errmsg = TTEXT("Unknown error");break;
         }
 
         return errmsg;
@@ -237,7 +237,7 @@ namespace teamtalk {
             value = (*ite).second;
             tstring token;
             size_t offset = 0;
-            size_t i = value.find(',', offset);//Tokenize(ACE_TEXT(","),offset);
+            size_t i = value.find(',', offset);//Tokenize(TTEXT(","),offset);
             while(i != tstring::npos)
             {
                 token = value.substr(offset, i-offset);
@@ -410,10 +410,10 @@ namespace teamtalk {
         newstr = LimitUtf8(str, MAX_STRING_LENGTH);
 #endif /* UNICODE */
 
-        ReplaceAll(newstr, ACE_TEXT("\\"), ACE_TEXT("\\\\"));
-        ReplaceAll(newstr, ACE_TEXT("\""), ACE_TEXT("\\\""));
-        ReplaceAll(newstr, ACE_TEXT("\r"), ACE_TEXT("\\r"));
-        ReplaceAll(newstr, ACE_TEXT("\n"), ACE_TEXT("\\n"));
+        ReplaceAll(newstr, TTEXT("\\"), TTEXT("\\\\"));
+        ReplaceAll(newstr, TTEXT("\""), TTEXT("\\\""));
+        ReplaceAll(newstr, TTEXT("\r"), TTEXT("\\r"));
+        ReplaceAll(newstr, TTEXT("\n"), TTEXT("\\n"));
 
         return newstr;
     }
@@ -422,8 +422,8 @@ namespace teamtalk {
     {
         tstring resultstr = str;
         tstring tmpstr;
-        std::array<tstring, 3> search = { ACE_TEXT("\\n"), ACE_TEXT("\\r"), ACE_TEXT("\\\"") };
-        std::array<tstring, 3> replace = { ACE_TEXT("\n"), ACE_TEXT("\r"), ACE_TEXT("\"") };
+        std::array<tstring, 3> search = { TTEXT("\\n"), TTEXT("\\r"), TTEXT("\\\"") };
+        std::array<tstring, 3> replace = { TTEXT("\n"), TTEXT("\r"), TTEXT("\"") };
 
         for(size_t j = 0; j < 3; j++)
         {
@@ -447,7 +447,7 @@ namespace teamtalk {
             resultstr += tmpstr.substr(oldpos, tmpstr.length() - oldpos);
         }
 
-        ReplaceAll(resultstr, ACE_TEXT("\\\\"), ACE_TEXT("\\"));
+        ReplaceAll(resultstr, TTEXT("\\\\"), TTEXT("\\"));
         return resultstr;
     }
 
@@ -456,16 +456,16 @@ namespace teamtalk {
         tstring s;
         for(int i=0;i<static_cast<int>(array.size())-1;i++)
         {
-            s = s + I2String(array[i]) + ACE_TEXT(",");
+            s = s + I2String(array[i]) + TTEXT(",");
         }
         tstring res;
         if(!array.empty())
         {
-            res = ACE_TEXT("[") + s + I2String(array[array.size()-1]) + ACE_TEXT("]");
+            res = TTEXT("[") + s + I2String(array[array.size()-1]) + TTEXT("]");
         }
         else
         {
-            res = ACE_TEXT("[]");
+            res = TTEXT("[]");
         }
 
         return res;
@@ -478,16 +478,16 @@ namespace teamtalk {
         std::set<int>::const_iterator ite;
         for(ite=myset.begin();index++<static_cast<int>(myset.size())-1;ite++)
         {
-            s = s + I2String(*ite) + ACE_TEXT(",");
+            s = s + I2String(*ite) + TTEXT(",");
         }
 
         tstring res;
         if(myset.size()==1)
-            res = ACE_TEXT("[") + I2String(*ite) + ACE_TEXT("]");
+            res = TTEXT("[") + I2String(*ite) + TTEXT("]");
         else if(myset.size()>1)
-            res = ACE_TEXT("[") + s + I2String(*ite) + ACE_TEXT("]");
+            res = TTEXT("[") + s + I2String(*ite) + TTEXT("]");
         else
-            res = ACE_TEXT("[]");
+            res = TTEXT("[]");
 
         return res;
     }
@@ -566,7 +566,7 @@ namespace teamtalk {
                 while(!found && offset<input.length())
                 {
                     /*
-                    if(input[offset]==ACE_TEXT('\"') && input[offset-1] != ACE_TEXT('\\')) found = true;
+                    if(input[offset]==TTEXT('\"') && input[offset-1] != TTEXT('\\')) found = true;
                     offset++;
                     */
                     if(input[offset] == '\\')
@@ -638,27 +638,27 @@ namespace teamtalk {
     void AppendProperty(const tstring& prop, 
         const tstring& value, tstring& dest_str)
     {
-        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=\"")) + PrepareString(value) + tstring(ACE_TEXT("\""));
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=\"")) + PrepareString(value) + tstring(TTEXT("\""));
         dest_str += newprop;
     }
 
     void AppendProperty(const tstring& prop, 
         const std::vector<int>& vecValues, tstring& dest_str)
     {
-        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + PrepareIntegerArray(vecValues);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + PrepareIntegerArray(vecValues);
         dest_str += newprop;
     }
 
     void AppendProperty(const tstring& prop, 
         const std::set<int>& setValues, tstring& dest_str)
     {
-        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + PrepareIntegerSet(setValues);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + PrepareIntegerSet(setValues);
         dest_str += newprop;
     }
 
     void AppendProperty(const tstring& prop, int64_t value, tstring& dest_str)
     {
-        tstring const newprop = tstring(ACE_TEXT(" ")) + prop + tstring(ACE_TEXT("=")) + I2String(value);
+        tstring const newprop = tstring(TTEXT(" ")) + prop + tstring(TTEXT("=")) + I2String(value);
         dest_str += newprop;
     }
 
@@ -776,7 +776,7 @@ namespace teamtalk {
             return input;
         if(input.substr(input.length()-len,len) == EOL)
             return input.substr(0,input.length()-len);
-        if(input.substr(input.length()-1,1) == ACE_TEXT("\n"))
+        if(input.substr(input.length()-1,1) == TTEXT("\n"))
             return input.substr(0,input.length()-1);
         return input;
     }

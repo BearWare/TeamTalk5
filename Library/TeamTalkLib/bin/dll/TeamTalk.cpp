@@ -199,7 +199,7 @@ struct ClientInstance
 
     ClientInstance(std::unique_ptr<TTMsgQueue> eh) : eventhandler(std::move(eh))
     {
-        MYTRACE(ACE_TEXT("ClientInstance() - %p\n"), this);
+        MYTRACE(TTEXT("ClientInstance() - %p\n"), this);
 
 #if defined(ENABLE_MEDIAFOUNDATION)
         static class MFInit {
@@ -217,14 +217,14 @@ struct ClientInstance
         } mfinit;
 #endif
         
-        clientnode = std::make_shared<ClientNode>(ACE_TEXT( TEAMTALK_VERSION ), eventhandler.get());
+        clientnode = std::make_shared<ClientNode>(Utf8ToUnicode(TEAMTALK_VERSION), eventhandler.get());
 
 #if defined(WIN32)
         RegisterAudioDeviceChange(eventhandler.get(), std::bind(&TTMsgQueue::AudioDeviceChange, eventhandler.get(), _1, _2, _3), true);
 #endif
         
 #if defined(ENABLE_MINIDUMP)
-        static MiniDumper mdump(ACE_TEXT("TeamTalk5.dll"));
+        static MiniDumper mdump(TTEXT("TeamTalk5.dll"));
 #endif
 
 #if !defined(WIN32)
@@ -238,17 +238,17 @@ struct ClientInstance
     ~ClientInstance()
     {
         MYTRACE_COND(!video_frames.empty(),
-                     ACE_TEXT("ERROR: Leaking %d VideoFrame structs\n"), static_cast<int>(video_frames.size()));
+                     TTEXT("ERROR: Leaking %d VideoFrame structs\n"), static_cast<int>(video_frames.size()));
         MYTRACE_COND(!desktop_windows.empty(),
-                     ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), static_cast<int>(desktop_windows.size()));
+                     TTEXT("ERROR: Leaking %d DesktopWindow structs\n"), static_cast<int>(desktop_windows.size()));
         MYTRACE_COND(!audio_blocks.empty(),
-                     ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), static_cast<int>(audio_blocks.size()));
+                     TTEXT("ERROR: Leaking %d AudioBlock structs\n"), static_cast<int>(audio_blocks.size()));
 
 #if defined(WIN32)
         auto eh = eventhandler.get();
         RegisterAudioDeviceChange(eh, std::bind(&TTMsgQueue::AudioDeviceChange, eh, _1, _2, _3), false);
 #endif
-        MYTRACE(ACE_TEXT("~ClientInstance() - %p\n"), this);
+        MYTRACE(TTEXT("~ClientInstance() - %p\n"), this);
     }
 };
 
@@ -341,7 +341,7 @@ static clientinst_t GetClient(TTInstance* pInstance)
             return c;
     }
 
-    MYTRACE(ACE_TEXT("TTInstance %p not found.\n"), pInstance);
+    MYTRACE(TTEXT("TTInstance %p not found.\n"), pInstance);
     return {};
 }
 
@@ -362,7 +362,8 @@ static clientnode_t GET_CLIENTNODE(TTInstance* pInstance)
 
 TEAMTALKDLL_API const TTCHAR* TT_GetVersion(void)
 {
-    return ACE_TEXT( TEAMTALK_VERSION );
+    static const tstring version = Utf8ToUnicode(TEAMTALK_VERSION);
+    return version.c_str();
 }
 
 #if defined(WIN32)
@@ -1341,7 +1342,7 @@ TEAMTALKDLL_API TTBOOL TT_ConnectSysID(IN TTInstance* lpTTInstance,
         return FALSE;
 
     return static_cast<TTBOOL>(clientnode->Connect(bEncrypted != 0, szHostAddress, nTcpPort, nUdpPort, 
-                                szSystemID, ACE_TEXT(""), nLocalTcpPort, 
+                                szSystemID, TTEXT(""), nLocalTcpPort, 
                                 nLocalUdpPort));
 }
 
@@ -1435,7 +1436,7 @@ TEAMTALKDLL_API INT32 TT_DoLogin(IN TTInstance* lpTTInstance,
                                  IN const TTCHAR* szPassword)
 {
     return TT_DoLoginEx(lpTTInstance, szNickname, szUsername, 
-                        szPassword, ACE_TEXT(""));
+                        szPassword, TTEXT(""));
 }
 
 TEAMTALKDLL_API INT32 TT_DoLoginEx(IN TTInstance* lpTTInstance,
@@ -1793,9 +1794,9 @@ TEAMTALKDLL_API TTBOOL TT_SetUserMediaStorageDirEx(IN TTInstance* lpTTInstance,
     if (user)
     {
         if(szFolderPath == nullptr)
-            szFolderPath = ACE_TEXT("");
+            szFolderPath = TTEXT("");
         if(szFileNameVars == nullptr)
-            szFileNameVars = ACE_TEXT("");
+            szFileNameVars = TTEXT("");
 
         user->SetAudioFolder(szFolderPath);
         user->SetAudioFileVariables(szFileNameVars);
@@ -2597,7 +2598,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                      lpDesktopWindow->nBytesPerLine);
 
     MYTRACE_COND(src_session.GetBitmapSize() != lpDesktopWindow->nFrameBufferSize,
-                 ACE_TEXT("Rejected bitmap due to invalid size\n"));
+                 TTEXT("Rejected bitmap due to invalid size\n"));
     if(src_session.GetBitmapSize() != lpDesktopWindow->nFrameBufferSize)
         return -1;
 
@@ -2618,7 +2619,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
                                               reinterpret_cast<const char*>(lpDesktopWindow->frameBuffer),
                                               lpDesktopWindow->nFrameBufferSize);
     
-    MYTRACE(ACE_TEXT("Warning: slow conversion of bitmap\n"));
+    MYTRACE(TTEXT("Warning: slow conversion of bitmap\n"));
     //FIXME: very inefficient!
     vector<char> buf;
     vector<char> tmp_buf;
@@ -2755,7 +2756,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
     if(nWidth <= 0 || nHeight <= 0)
         return -1;
 
-    const tchar* szDriver = ACE_TEXT("DISPLAY");
+    const tchar* szDriver = TTEXT("DISPLAY");
     const tchar* szDeviceName = NULL;
 /*
     HMONITOR hMon = MonitorFromWindow(hWnd, MONITOR_DEFAULTTONEAREST);
@@ -3235,7 +3236,7 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindow(IN TTInstance* lpTTIn
 
 // static int x = 0;
 // tchar buf[400];
-// ACE_OS::sprintf(buf, ACE_TEXT("%d %dx%d.bmp"), x++, lpDesktopWindow->nWidth, lpDesktopWindow->nHeight);
+// ACE_OS::sprintf(buf, TTEXT("%d %dx%d.bmp"), x++, lpDesktopWindow->nWidth, lpDesktopWindow->nHeight);
 // user->GetDesktopSession()->WriteBitmapToFile(buf);
     bool const b = user->GetDesktopWindow(reinterpret_cast<char*>(lpDesktopWindow->frameBuffer),
                                     lpDesktopWindow->nFrameBufferSize);
@@ -3667,7 +3668,7 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
         pMsg->nSource = 0;
         pMsg->ttType = __CLIENTERRORMSG;
         ACE_OS::strsncpy(pMsg->clienterrormsg.szErrorMsg,
-                         ACE_TEXT("TeamTalk SDK license has expired"),
+                         TTEXT("TeamTalk SDK license has expired"),
                          TT_STRLEN);
         return TRUE;
     }

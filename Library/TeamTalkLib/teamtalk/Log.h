@@ -24,11 +24,13 @@
 #if !defined(SERVERDEFS_H)
 #define SERVERDEFS_H
 
+#include "mystd/MyStd.h"
+
 #include <ace/Log_Msg.h>
 
-#define TT_ERROR(TXT) ACE_DEBUG((LM_ERROR, ACE_TEXT("%D %s\n"), TXT))
-#define TT_TRACE(TXT) ACE_DEBUG((LM_TRACE, ACE_TEXT("%D %s\n"), TXT))
-#define TT_LOG(TXT)  ACE_DEBUG((LM_INFO, ACE_TEXT("%D %s\n"), TXT))
-#define TT_SYSLOG(TXT) ACE_DEBUG((LM_ERROR, ACE_TEXT("%s\n"), TXT))
+#define TT_ERROR(TXT) ACE_DEBUG((LM_ERROR, TTEXT("%D %s\n"), TXT))
+#define TT_TRACE(TXT) ACE_DEBUG((LM_TRACE, TTEXT("%D %s\n"), TXT))
+#define TT_LOG(TXT)  ACE_DEBUG((LM_INFO, TTEXT("%D %s\n"), TXT))
+#define TT_SYSLOG(TXT) ACE_DEBUG((LM_ERROR, TTEXT("%s\n"), TXT))
 
 #endif

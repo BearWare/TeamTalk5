@@ -22,8 +22,10 @@
  */
 
 #include "TTClientMsg.h"
+
 #include "Convert.h"
 #include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/TTAssert.h"
 
 #include <cstddef>
@@ -143,7 +145,7 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             IntTTMessage* msg = MakeMsgBlock(mb, CLIENTEVENT_INTERNAL_ERROR,
                                              0, __CLIENTERRORMSG);
             Convert(teamtalk::ErrorMsg(INTERR_TTMESSAGE_QUEUE_OVERFLOW,
-                                       ACE_TEXT("The internal message queue has overflowed")),
+                                       TTEXT("The internal message queue has overflowed")),
                     *msg->clienterrmsg);
 
             tv = ACE_Time_Value::zero;
@@ -155,7 +157,7 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
             else
                 m_suspended = suspend = true;
 
-            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), static_cast<int>(suspend));
+            MYTRACE(TTEXT("TTMsgQueue message queue has overflowed. Suspend: %d\n"), static_cast<int>(suspend));
         }
         else if (m_event_queue.message_bytes() + mb->size() <= INTMSG_SUSPEND_SIZE)
         {
@@ -170,9 +172,9 @@ void TTMsgQueue::EnqueueMsg(ACE_Message_Block* mb)
                 m_suspended = suspend = true;
 
             auto* intmsg = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
-            MYTRACE(ACE_TEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, static_cast<int>(suspend));
+            MYTRACE(TTEXT("TTMsgQueue message queue has overflowed. Dropped ClientEvent %u. Suspend: %d\n"), intmsg->event, static_cast<int>(suspend));
         }
-        MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"),
+        MYTRACE_COND(DEBUG_TTMSGQUEUE, TTEXT("Enqueue %p: Old size: %u, Cur size: %u. Max size: %u\n"),
                      this, old_size, m_event_queue.message_bytes(), m_event_queue.high_water_mark());
     }
 
@@ -212,7 +214,7 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
                 std::memcpy(msg.data, intmsg->any, size);
             mb->release();
 
-            MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue %p: Cur size: %u\n"),
+            MYTRACE_COND(DEBUG_TTMSGQUEUE, TTEXT("Dequeue %p: Cur size: %u\n"),
                          this, m_event_queue.message_bytes());
 
             if (m_suspended && m_event_queue.message_bytes() <= INTMSG_SUSPEND_SIZE)
@@ -220,7 +222,7 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
                 resume = true;
                 m_suspended = false;
 
-                MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("TTMsgQueue message queue is resuming.\n"));
+                MYTRACE_COND(DEBUG_TTMSGQUEUE, TTEXT("TTMsgQueue message queue is resuming.\n"));
             }
         }
     }

@@ -75,7 +75,7 @@ namespace teamtalk {
 
         ~SSL_Connector()
         {
-            MYTRACE(ACE_TEXT("~Connector()\n"));
+            MYTRACE(TTEXT("~Connector()\n"));
         }
 
         /* copy-paste from ACE_Connector::initialize_svc_handler except SSL handling */

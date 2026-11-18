@@ -66,7 +66,7 @@ ServerUser::ServerUser(int userid,
 ServerUser::~ServerUser()
 {
     CloseTransfer();
-    MYTRACE( ACE_TEXT("~ServerUser #%d\r\n"), GetUserID());
+    MYTRACE( TTEXT("~ServerUser #%d\r\n"), GetUserID());
 }
 
 bool ServerUser::ReceiveData(const char* data, int len)
@@ -115,14 +115,14 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
 
         if(QueueStreamData(msg_queue, m_sendbuf.c_str(), static_cast<int>(m_sendbuf.length()), &tm) < 0)
         {
-            MYTRACE(ACE_TEXT("Forcing disconnect of #%d %s. Buffer full\n"),
+            MYTRACE(TTEXT("Forcing disconnect of #%d %s. Buffer full\n"),
                     GetUserID(), GetNickname().c_str());
             return false;
         }
 #if defined(UNICODE)
-        MYTRACE(ACE_TEXT("SERVERUSER > #%d: %s"), GetUserID(), Utf8ToUnicode(m_sendbuf.c_str()).c_str());
+        MYTRACE(TTEXT("SERVERUSER > #%d: %s"), GetUserID(), Utf8ToUnicode(m_sendbuf.c_str()).c_str());
 #else
-        MYTRACE(ACE_TEXT("SERVERUSER > #%d: %s"), GetUserID(), m_sendbuf.c_str());
+        MYTRACE(TTEXT("SERVERUSER > #%d: %s"), GetUserID(), m_sendbuf.c_str());
 #endif
         m_sendbuf.clear();
     }
@@ -232,7 +232,7 @@ bool ServerUser::ProcessCommandQueue(bool clearsuspended)
 
 ServerUser::CmdProcessing ServerUser::ProcessCommand(const std::string& cmdline, bool was_suspended)
 {
-    MYTRACE(ACE_TEXT("SERVERUSER < #%d: %s"), GetUserID(),
+    MYTRACE(TTEXT("SERVERUSER < #%d: %s"), GetUserID(),
 #if defined(UNICODE)
         Utf8ToUnicode(cmdline.c_str()).c_str()
 #else
@@ -872,7 +872,7 @@ ErrorMsg ServerUser::HandleNewUserAccount(const mstrings_t& properties)
     GET_PROP_OR_RETURN(properties, TT_USERTYPE, account.usertype);
     GetProperties(properties, account);
 
-    if (!VersionSameOrLater(GetStreamProtocol(), ACE_TEXT("5.13")))
+    if (!VersionSameOrLater(GetStreamProtocol(), TTEXT("5.13")))
     {
         account.userrights |= USERRIGHT_TEXTMESSAGE_USER;
         account.userrights |= USERRIGHT_TEXTMESSAGE_CHANNEL;
@@ -1106,15 +1106,15 @@ BannedUser ServerUser::GenerateBan(BanTypes bantype, const tstring& chanpath) co
 void ServerUser::AddSubscriptions(const ServerUser& user, Subscriptions subscribe)
 {
 #ifdef _DEBUG
-    MYTRACE(ACE_TEXT("Added subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(TTEXT("Added subscription: %d -> %d, "), GetUserID(), user.GetUserID());
+    MYTRACE(TTEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(TTEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(TTEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(TTEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(TTEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(TTEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(TTEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(TTEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 
     Subscriptions const cur_subscriptions = GetSubscriptions(user);
@@ -1145,15 +1145,15 @@ void ServerUser::ClearSubscriptions(const ServerUser& user, Subscriptions subscr
     TTASSERT((GetSubscriptions(user) & subscribe) == SUBSCRIBE_NONE);
 
 #ifdef _DEBUG
-    MYTRACE(ACE_TEXT("Cleared subscription: %d -> %d, "), GetUserID(), user.GetUserID());
-    MYTRACE(ACE_TEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
-    MYTRACE(ACE_TEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
-    MYTRACE(ACE_TEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
-    MYTRACE(ACE_TEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
-    MYTRACE(ACE_TEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
-    MYTRACE(ACE_TEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
-    MYTRACE(ACE_TEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
-    MYTRACE(ACE_TEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
+    MYTRACE(TTEXT("Cleared subscription: %d -> %d, "), GetUserID(), user.GetUserID());
+    MYTRACE(TTEXT("audio=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VOICE) == SUBSCRIBE_VOICE));
+    MYTRACE(TTEXT("video=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_VIDEOCAPTURE) == SUBSCRIBE_VIDEOCAPTURE));
+    MYTRACE(TTEXT("media=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_MEDIAFILE) == SUBSCRIBE_MEDIAFILE));
+    MYTRACE(TTEXT("usermsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_USER_MSG) == SUBSCRIBE_USER_MSG));
+    MYTRACE(TTEXT("chanmsg=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_CHANNEL_MSG) == SUBSCRIBE_CHANNEL_MSG));
+    MYTRACE(TTEXT("bcast=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_BROADCAST_MSG) == SUBSCRIBE_BROADCAST_MSG));
+    MYTRACE(TTEXT("desktop=%d "), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOP) == SUBSCRIBE_DESKTOP));
+    MYTRACE(TTEXT("desktopinput=%d\n"), static_cast<int>(static_cast<int>(subscribe & SUBSCRIBE_DESKTOPINPUT) == SUBSCRIBE_DESKTOPINPUT));
 #endif
 }
 
@@ -1209,7 +1209,7 @@ void ServerUser::HandleBinaryFileWrite(const char* buff, int len, bool& bContinu
 
         ErrorMsg const err = m_servernode.UserEndFileTransfer(transferid);
         MYTRACE_COND(err.errorno != TT_CMDERR_SUCCESS, 
-                     ACE_TEXT("File transfer %d failed\n"), transferid);
+                     TTEXT("File transfer %d failed\n"), transferid);
     }
     else if (m_filetransfer->file.Tell() > m_filetransfer->filesize)
     {
@@ -1989,7 +1989,7 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
             //queue packet until we get its session properties
             auto p = std::make_shared<DesktopPacket>(packet);
             m_desktop_queue.push_back(p);
-            MYTRACE(ACE_TEXT("Queued packet #%d due to missing header - size %d\n"), 
+            MYTRACE(TTEXT("Queued packet #%d due to missing header - size %d\n"), 
                     p->GetPacketIndex(), static_cast<int>(m_desktop_queue.size()));
             return true;
         }
@@ -2001,8 +2001,8 @@ bool ServerUser::AddDesktopPacket(const DesktopPacket& packet)
         m_desktop_cache = std::make_shared<DesktopCache>(GetUserID(), wnd, packet.GetTime());
 
         MYTRACE_COND(m_desktop_cache->GetBlocksCount() == 0,
-                     ACE_TEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
-        MYTRACE_COND(!m_desktop_cache->IsValid(), ACE_TEXT("Desktop session %d from #%d is invalid. Dimensions: %dx%d mode %d, blocks: %d\n"),
+                     TTEXT("Desktop session %d from #%d is invalid with 0 blocks\n"), session_id, GetUserID());
+        MYTRACE_COND(!m_desktop_cache->IsValid(), TTEXT("Desktop session %d from #%d is invalid. Dimensions: %dx%d mode %d, blocks: %d\n"),
             session_id, GetUserID(), wnd.width, wnd.height, wnd.rgb_mode, m_desktop_cache->GetBlocksCount());
         if (!m_desktop_cache->IsValid())
         {
@@ -2064,7 +2064,7 @@ desktop_transmitter_t ServerUser::StartDesktopTransmitter(
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;
 
-    MYTRACE(ACE_TEXT("Started Desktop TX for #%d -> #%d update %d:%u\n"),
+    MYTRACE(TTEXT("Started Desktop TX for #%d -> #%d update %d:%u\n"),
         src_user.GetUserID(), GetUserID(), dtx->GetSessionID(), dtx->GetUpdateID());
 
     return dtx;
@@ -2106,7 +2106,7 @@ desktop_transmitter_t ServerUser::ResumeDesktopTransmitter(
 
     m_user_desktop_tx[src_user.GetUserID()] = dtx;
 
-    MYTRACE(ACE_TEXT("Resumed Desktop TX for #%d -> #%d update %d:%u\n"),
+    MYTRACE(TTEXT("Resumed Desktop TX for #%d -> #%d update %d:%u\n"),
         src_user.GetUserID(), GetUserID(), dtx->GetSessionID(), dtx->GetUpdateID());
 
     return dtx;
@@ -2128,7 +2128,7 @@ void ServerUser::CloseDesktopTransmitter(int src_userid, bool store_closed_sessi
         auto const ii = m_user_desktop_tx.find(src_userid);
         if(ii != m_user_desktop_tx.end())
         {
-            MYTRACE(ACE_TEXT("Closed Desktop TX for #%d -> #%d\n"),
+            MYTRACE(TTEXT("Closed Desktop TX for #%d -> #%d\n"),
                     src_userid, GetUserID());
 
             ClosedDesktopSession session;

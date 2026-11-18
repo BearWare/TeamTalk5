@@ -22,7 +22,8 @@
  */
 
 #include "LibVidCap.h"
-#include <assert.h>
+#include "mystd/MyStd.h"
+#include <cassert>
 
 using namespace std;
 using namespace media;
@@ -137,13 +138,13 @@ bool LibVidCap::InitVideoCapture(const tstring& deviceid,
         return false;
 
 #if defined(WIN32)
-    const tstring sapi_id = ACE_TEXT("DirectShow"); //from sapi_dshow.cpp
+    const tstring sapi_id = TTEXT("DirectShow"); //from sapi_dshow.cpp
 #elif defined(__APPLE__)
     //look in 'sapi_qt.c' for Mac support and 'sapi_v4l.c' for Linux support
-    const tstring sapi_id = ACE_TEXT("quicktime"); //from sapi_dshow.cpp
+    const tstring sapi_id = TTEXT("quicktime"); //from sapi_dshow.cpp
 #else
     //look in 'sapi_v4l.c' for Linux support
-    const tstring sapi_id = ACE_TEXT("video4linux"); //from sapi_v4l.cpp
+    const tstring sapi_id = TTEXT("video4linux"); //from sapi_v4l.cpp
 #endif
 
     int ret;

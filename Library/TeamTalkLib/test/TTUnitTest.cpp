@@ -212,7 +212,7 @@ bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR*
 bool JoinRoot(TTInstance* ttClient)
 {
     auto chanid = TT_GetRootChannelID(ttClient);
-    return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, ACE_TEXT("")));
+    return WaitForCmdSuccess(ttClient, TT_DoJoinChannelByID(ttClient, chanid, TTEXT("")));
 }
 
 AudioCodec MakeDefaultAudioCodec(Codec codec)

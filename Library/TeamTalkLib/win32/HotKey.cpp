@@ -87,7 +87,7 @@ void HotKey::KeyToggle(UINT vkcode, BOOL keydown)
                 if (res.size() == m_hotkey.keys.size()) {
                     m_hotkey.listener->OnHotKeyActive(m_hotkey.hotkeyid);
                     m_hotkey.active = true;
-                    MYTRACE(ACE_TEXT("HK Active %d\n"), m_hotkey.hotkeyid);
+                    MYTRACE(TTEXT("HK Active %d\n"), m_hotkey.hotkeyid);
                 }
             }
         }
@@ -108,7 +108,7 @@ void HotKey::KeyToggle(UINT vkcode, BOOL keydown)
             if(m_hotkeys[i].active && 
                 m_hotkeys[i].keys.contains(vkcode))
             {
-                MYTRACE(ACE_TEXT("HK Inactive %d\n"), m_hotkeys[i].hotkeyid);
+                MYTRACE(TTEXT("HK Inactive %d\n"), m_hotkeys[i].hotkeyid);
                 m_hotkeys[i].listener->OnHotKeyInactive(m_hotkeys[i].hotkeyid);
                 m_hotkeys[i].active = false;
             }

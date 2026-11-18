@@ -21,6 +21,7 @@
  *
  */
 
+#include "mystd/MyStd.h"
 #include "WinMedia.h"
 #include "AudioResampler.h"
 
@@ -95,7 +96,7 @@ public:
         media_frame.timestamp = static_cast<uint32_t>(SampleTime * 1000.0);
 
         ACE_Message_Block* mb = VideoFrameToMsgBlock(media_frame);
-        MYTRACE(ACE_TEXT("Video frame submitting %u. Frames: %u\n"),
+        MYTRACE(TTEXT("Video frame submitting %u. Frames: %u\n"),
                 media_frame.timestamp, unsigned(m_video_queue.message_count()));
 
         ACE_Time_Value tvzero;
@@ -105,14 +106,14 @@ public:
             //ACE_Message_Block* tmp;
             //if (m_video_queue.dequeue_tail(tmp, &tvzero) >= 0)
             //{
-            //    MYTRACE(ACE_TEXT("Video replaced tail. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //    MYTRACE(TTEXT("Video replaced tail. Frames: %u\n"), unsigned(m_video_queue.message_count()));
             //    tmp->release();
             //}
 
             //if (m_video_queue.enqueue(mb) < 0)
             //{
             //    mb->release();
-            //    MYTRACE(ACE_TEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
+            //    MYTRACE(TTEXT("Video frame rejected. Frames: %u\n"), unsigned(m_video_queue.message_count()));
             //}
         }
 
@@ -196,7 +197,7 @@ public:
         //Windows' DMO resampler only wants to work with even number of samples
         if(output_samples_total % 2)
             output_samples_total++;
-        //MYTRACE(ACE_TEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
+        //MYTRACE(TTEXT("Sample time: %g, buffer: %d\n"), SampleTime, nBufferLen);
         size_t bytes_total = PCM16_BYTES(output_samples_total,
                                          m_media_out.audio.channels);
         auto mb = std::make_unique<ACE_Message_Block>(bytes_total + sizeof(media::AudioFrame));
@@ -219,13 +220,13 @@ public:
         mb->copy(reinterpret_cast<const char*>(&media_frame), sizeof(media_frame));
         mb->wr_ptr(resampled_bytes); //advance past resampled output
 
-        MYTRACE(ACE_TEXT("Audio - Frame submitting %u. . Frames: %u\n"), media_frame.timestamp, unsigned(m_audio_queue.message_count()));
+        MYTRACE(TTEXT("Audio - Frame submitting %u. . Frames: %u\n"), media_frame.timestamp, unsigned(m_audio_queue.message_count()));
 
         //store audio
         ACE_Time_Value tvzero;
         if (m_audio_queue.enqueue(mb.get()/*, &tvzero*/) < 0)
         {
-            MYTRACE(ACE_TEXT("DSWrapper audio buffer closed\n"));
+            MYTRACE(TTEXT("DSWrapper audio buffer closed\n"));
         }
         else
         {
@@ -283,7 +284,7 @@ DSWrapperThread::DSWrapperThread(MediaStreamListener* listener)
 DSWrapperThread::~DSWrapperThread()
 {
     Close();
-    MYTRACE(ACE_TEXT("~DSWrapperThread()\n"));
+    MYTRACE(TTEXT("~DSWrapperThread()\n"));
 }
 
 bool DSWrapperThread::OpenFile(const MediaFileProp& in_prop,
@@ -407,7 +408,7 @@ int DSWrapperThread::svc()
                                          m_media_out.audio.samplerate);
 
         //MYTRACE_COND(output_samples != m_media_out.audio_samples,
-        //             ACE_TEXT("WinMedia, unexpected samples output: %d, got %d\n"),
+        //             TTEXT("WinMedia, unexpected samples output: %d, got %d\n"),
         //             m_media_out.audio_samplerate, output_samples);
         resampler = MakeAudioResampler(pwav->nChannels, pwav->nSamplesPerSec,
                                        m_media_out.audio.channels,
@@ -539,14 +540,14 @@ no_video:
         goto fail_open;
 
     hr = pGraph->QueryInterface(IID_IMediaSeeking, reinterpret_cast<void**>(&pMediaSeeking));
-    MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to query IMediaSeeking\n"));
+    MYTRACE_COND(FAILED(hr), TTEXT("Failed to query IMediaSeeking\n"));
     if(SUCCEEDED(hr))
     {
         hr = pMediaSeeking->SetTimeFormat(&TIME_FORMAT_MEDIA_TIME);
         assert(SUCCEEDED(hr));
         LONGLONG llTime = 0;
         hr = pMediaSeeking->GetDuration(&llTime);
-        MYTRACE_COND(!SUCCEEDED(hr), ACE_TEXT("Failed to query duration of media file: %s\n"),
+        MYTRACE_COND(!SUCCEEDED(hr), TTEXT("Failed to query duration of media file: %s\n"),
             m_media_in.filename.c_str());
         m_media_in.duration_ms = static_cast<uint32_t>(llTime / 10000);
     }

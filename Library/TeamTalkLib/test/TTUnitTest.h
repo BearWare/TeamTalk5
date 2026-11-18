@@ -24,6 +24,7 @@
 #if !defined(TTUNITTEST_H)
 #define TTUNITTEST_H
 
+#include "mystd/MyStd.h"
 #include <ace/OS.h> // BOOL, UINT32, etc needed on Windows
 #include <TeamTalk.h>
 
@@ -54,7 +55,7 @@ bool InitSound(TTInstance* ttClient, SoundMode mode = DEFAULT, INT32 indev = SOU
 bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev = SOUNDDEVICEID_DEFAULT, INT32 outdev = SOUNDDEVICEID_DEFAULT);
 bool Connect(TTInstance* ttClient, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
 bool Connect(TTInstance* ttClient, const TTCHAR* hostname, INT32 tcpport = 10333, INT32 udpport = 10333, TTBOOL encrypted = FALSE);
-bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = ACE_TEXT("guest"), const TTCHAR* passwd = ACE_TEXT("guest"));
+bool Login(TTInstance* ttClient, const TTCHAR nickname[TT_STRLEN], const TTCHAR* username = TTEXT("guest"), const TTCHAR* passwd = TTEXT("guest"));
 bool JoinRoot(TTInstance* ttClient);
 AudioCodec MakeDefaultAudioCodec(Codec codec);
 Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, const AudioCodec& codec);

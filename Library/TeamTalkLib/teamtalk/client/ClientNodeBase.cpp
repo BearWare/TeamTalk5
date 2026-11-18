@@ -67,7 +67,7 @@ int ClientNodeBase::svc()
 
     m_reactor_thread = ACE_thread_t();
 
-    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread exited.\n"));
+    MYTRACE(TTEXT("ClientNodeBase reactor thread exited.\n"));
 
     return 0;
 }
@@ -79,7 +79,7 @@ bool ClientNodeBase::CanSuspend()
 
 void ClientNodeBase::SuspendEventHandling(bool quit)
 {
-    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread suspending.\n")) );
+    MYTRACE( (TTEXT("ClientNodeBase reactor thread suspending.\n")) );
 
     m_reactor.end_reactor_event_loop();
 
@@ -88,18 +88,18 @@ void ClientNodeBase::SuspendEventHandling(bool quit)
     if (m_reactor_thread != ACE_OS::thr_self())
         this->wait();
 
-    MYTRACE(ACE_TEXT("ClientNodeBase reactor thread %s.\n"), (quit ? ACE_TEXT("quit") : ACE_TEXT("suspended")));
+    MYTRACE(TTEXT("ClientNodeBase reactor thread %s.\n"), (quit ? TTEXT("quit") : TTEXT("suspended")));
 }
 
 void ClientNodeBase::ResumeEventHandling()
 {
-    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activating.\n")) );
+    MYTRACE( (TTEXT("ClientNodeBase reactor thread activating.\n")) );
 
     ACE_thread_t thr_id = ACE_thread_t();
     m_reactor.owner(&thr_id);
     if(thr_id != ACE_OS::thr_self())
     {
-        MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread waiting.\n")) );
+        MYTRACE( (TTEXT("ClientNodeBase reactor thread waiting.\n")) );
         this->wait();
     }
     assert(m_reactor_thread == ACE_thread_t());
@@ -113,7 +113,7 @@ void ClientNodeBase::ResumeEventHandling()
     if (ret >= 0)
         m_reactor_wait_cv.wait(lck);
 
-    MYTRACE( (ACE_TEXT("ClientNodeBase reactor thread activated.\n")) );
+    MYTRACE( (TTEXT("ClientNodeBase reactor thread activated.\n")) );
 }
 
 ACE_Lock& ClientNodeBase::ReactorLock()
@@ -138,7 +138,7 @@ long ClientNodeBase::StartTimer(uint32_t timer_id, long userdata,
 
     //ensure we don't have duplicate timers
     bool const stoptimer = StopTimer(timer_id);
-    MYTRACE_COND(stoptimer, ACE_TEXT("Starting timer which was already active: %u\n"), timer_id);
+    MYTRACE_COND(stoptimer, TTEXT("Starting timer which was already active: %u\n"), timer_id);
 
     //make sure we don't hold reactor lock when scheduling timer
     {

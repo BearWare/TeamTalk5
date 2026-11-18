@@ -59,7 +59,7 @@
 #include <memory>
 #include <vector>
 
-#define DEFAULT_VOICELOG_VARS ACE_TEXT("%Y%m%d-%H%M%S #%userid% %username%")
+#define DEFAULT_VOICELOG_VARS TTEXT("%Y%m%d-%H%M%S #%userid% %username%")
 
 namespace teamtalk {
 

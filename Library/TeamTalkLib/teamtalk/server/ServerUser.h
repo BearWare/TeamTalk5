@@ -133,7 +133,7 @@ namespace teamtalk {
         void SetChannel(serverchannel_t& channel){ m_channel = channel; }
         serverchannel_t GetChannel() const { return m_channel.lock(); }
         
-        BannedUser GenerateBan(BanTypes bantype = BANTYPE_NONE, const tstring& chanpath = ACE_TEXT("")) const;
+        BannedUser GenerateBan(BanTypes bantype = BANTYPE_NONE, const tstring& chanpath = TTEXT("")) const;
 
         //user specific subscriptions
         void AddSubscriptions(const ServerUser& user, Subscriptions subscribe);

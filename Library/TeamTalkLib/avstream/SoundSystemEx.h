@@ -89,7 +89,7 @@ namespace soundsystem {
             ACE_Time_Value const zero;
             auto tv = ToTimeValue(m_interval);
             int const ret = m_reactor.schedule_timer(this, nullptr, zero, tv);
-            MYTRACE_COND(ret < 0, ACE_TEXT("Failed to schedule timer in StreamCaller\n"));
+            MYTRACE_COND(ret < 0, TTEXT("Failed to schedule timer in StreamCaller\n"));
             m_reactor.run_reactor_event_loop();
             return 0;
         }
