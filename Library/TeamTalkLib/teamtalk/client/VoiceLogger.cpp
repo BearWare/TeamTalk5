@@ -578,7 +578,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     ReplaceAll(var, TTEXT("%userid%"), I2String(from_user.GetUserID()));
     uint32_t const counter = from_user.IncVoiceLogCounter();
     std::array<tchar, 100> str_count;
-    ACE_OS::snprintf(str_count.data(), 100, TTEXT("%09u"), counter);
+    tsnprintf(str_count.data(), 100, TTEXT("%09u"), counter);
     ReplaceAll(var, TTEXT("%counter%"), str_count.data());
 
     time_t const now = time(nullptr);
@@ -590,10 +590,10 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 #endif
 
     // if(username.length())
-    //     ACE_OS::snprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
+    //     tsnprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d %s"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid, username.c_str());
     // else
-    //     ACE_OS::snprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
+    //     tsnprintf(buf, STR_SIZE, TTEXT("%d%.2d%.2d-%.2d%.2d%.2d #%.5d"), 
     //     dt.year(), dt.month(), dt.day(), dt.hour(), dt.minute(), dt.second(), userid);
 
     tstring filename = buf.data();

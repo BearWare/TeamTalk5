@@ -192,7 +192,7 @@ public:
             if (!LoadConfig(xmlSettings, settingsfile))
             {
                 std::array<tchar, 1024> error_msg{};
-                ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to reload settings file %s."), settingsfile.c_str());
+                tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to reload settings file %s."), settingsfile.c_str());
                 TT_SYSLOG(error_msg.data());
             }
             else
@@ -205,7 +205,7 @@ public:
                 }
 
                 std::array<tchar, 1024> msg{};
-                ACE_OS::snprintf(msg.data(), msg.size(), TTEXT("Reloaded settings file %s."), settingsfile.c_str());
+                tsnprintf(msg.data(), msg.size(), TTEXT("Reloaded settings file %s."), settingsfile.c_str());
                 TT_LOG(msg.data());
             }
         }
@@ -356,7 +356,7 @@ int RunServer(
     if(!ReadServerProperties(xmlSettings, prop, channels))
     {
         std::array<tchar, 1024> error_msg{};
-        ACE_OS::snprintf(error_msg.data(), error_msg.size(),
+        tsnprintf(error_msg.data(), error_msg.size(),
                          TTEXT("Failed to read server properties from settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
         return -1;
@@ -401,7 +401,7 @@ int RunServer(
     if (!ConfigureServer(servernode, prop, channels))
     {
         std::array<tchar, 1024> error_msg{};
-        ACE_OS::snprintf(error_msg.data(), error_msg.size(),
+        tsnprintf(error_msg.data(), error_msg.size(),
                          TTEXT("Failed to configure the server from settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
         return -1;
@@ -425,12 +425,12 @@ int RunServer(
     {
         std::array<tchar, 1024> error_msg{};
         if(bindip.empty())
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(),
+            tsnprintf(error_msg.data(), error_msg.size(),
             TTEXT("Unable to launch server using TCP port %d UDP port %d.\n")
             TTEXT("Make sure the ports are not currently in use."),
             prop.tcpaddrs[0].get_port_number(), prop.udpaddrs[0].get_port_number());
         else
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(),
+            tsnprintf(error_msg.data(), error_msg.size(),
             TTEXT("Unable to launch server using IP-address %s TCP port %d UDP port %d.\n")
             TTEXT("Make sure the ports are not currently in use."),
             prop.tcpaddrs[0].get_host_addr(), prop.tcpaddrs[0].get_port_number(),
@@ -446,7 +446,7 @@ int RunServer(
         if (UPnP_AddPortMapping(tcpport, udpport, externalIP))
         {
             std::array<tchar, 256> msg{};
-            ACE_OS::snprintf(msg.data(), msg.size(),
+            tsnprintf(msg.data(), msg.size(),
                 TTEXT("UPnP: Ports TCP %d, UDP %d forwarded. External IP: %s"),
                 tcpport, udpport, externalIP.c_str());
             TT_LOG(msg.data());
@@ -662,7 +662,7 @@ int ParseArguments(int argc, tchar* argv[]
         if(ec)
         {
             std::array<tchar, 1024> error_msg{};
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("%s failed to change to directory \"%s\"."),
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("%s failed to change to directory \"%s\"."),
                              TEAMTALK_NAME_UNICODE.c_str(), workdir.c_str());
             TT_SYSLOG(error_msg.data());
             return -1;
@@ -712,7 +712,7 @@ int ParseArguments(int argc, tchar* argv[]
         if (service->insert(SERVICE_AUTO_START) < 0)
         {
             std::array<tchar, 1024> error_msg{};
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to install %s\nError: %s"),
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to install %s\nError: %s"),
                          TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
             return -1;
@@ -720,7 +720,7 @@ int ParseArguments(int argc, tchar* argv[]
         else
         {
             std::array<tchar, 1024> success_msg{};
-            ACE_OS::snprintf(success_msg.data(), success_msg.size(), TTEXT("%s installed successfully."),
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s installed successfully."),
                 TEAMTALK_NAME_UNICODE.c_str());
             TT_LOG(success_msg.data());
         }
@@ -731,7 +731,7 @@ int ParseArguments(int argc, tchar* argv[]
         if (service->remove() < 0)
         {
             std::array<tchar, 1024> error_msg{};
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to remove %s\nError: %s"),
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to remove %s\nError: %s"),
                 TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
             return -1;
@@ -739,7 +739,7 @@ int ParseArguments(int argc, tchar* argv[]
         else
         {
             std::array<tchar, 1024> success_msg{};
-            ACE_OS::snprintf(success_msg.data(), success_msg.size(), TTEXT("%s uninstalled successfully."),
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s uninstalled successfully."),
                 TEAMTALK_NAME_UNICODE.c_str());
             TT_LOG(success_msg.data());
         }
@@ -750,7 +750,7 @@ int ParseArguments(int argc, tchar* argv[]
         if (service->start_svc() < 0)
         {
             std::array<tchar, 1024> error_msg{};
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to start %s\nError: %s"),
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to start %s\nError: %s"),
                 TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
             return -1;
@@ -758,7 +758,7 @@ int ParseArguments(int argc, tchar* argv[]
         else
         {
             std::array<tchar, 1024> success_msg{};
-            ACE_OS::snprintf(success_msg.data(), success_msg.size(), TTEXT("%s started successfully."),
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s started successfully."),
                 TEAMTALK_NAME_UNICODE.c_str());
             TT_LOG(success_msg.data());
         }
@@ -769,7 +769,7 @@ int ParseArguments(int argc, tchar* argv[]
         if (service->stop_svc() < 0)
         {
             std::array<tchar, 1024> error_msg{};
-            ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to stop %s\nError: %s"),
+            tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to stop %s\nError: %s"),
                          TEAMTALK_NAME_UNICODE.c_str(), GetWinError(ACE_OS::last_error()).c_str());
             TT_SYSLOG(error_msg.data());
             return -1;
@@ -777,7 +777,7 @@ int ParseArguments(int argc, tchar* argv[]
         else
         {
             std::array<tchar, 1024> success_msg{};
-            ACE_OS::snprintf(success_msg.data(), success_msg.size(), TTEXT("%s stopped successfully."),
+            tsnprintf(success_msg.data(), success_msg.size(), TTEXT("%s stopped successfully."),
                 TEAMTALK_NAME_UNICODE.c_str());
             TT_LOG(success_msg.data());
         }
@@ -788,7 +788,7 @@ int ParseArguments(int argc, tchar* argv[]
     if(!LoadConfig(xmlSettings, settingsfile))
     {
         std::array<tchar, 1024> error_msg{};
-        ACE_OS::snprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to load settings file %s."), settingsfile.c_str());
+        tsnprintf(error_msg.data(), error_msg.size(), TTEXT("Failed to load settings file %s."), settingsfile.c_str());
         TT_SYSLOG(error_msg.data());
         return -1;
     }

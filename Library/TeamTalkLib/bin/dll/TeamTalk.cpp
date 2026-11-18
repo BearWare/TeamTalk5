@@ -490,7 +490,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
 
     for(size_t i=0;i<lessDevs;i++)
     {
-        ACE_OS::strsncpy(pSoundDevices[i].szDeviceName, 
+        tstrsncpy(pSoundDevices[i].szDeviceName, 
                         devices[i].devicename.c_str(), 
                         TT_STRLEN);
         pSoundDevices[i].nDeviceID = devices[i].id;
@@ -501,7 +501,7 @@ TEAMTALKDLL_API TTBOOL TT_GetSoundDevices(IN OUT SoundDevice* pSoundDevices,
         pSoundDevices[i].nSoundSystem = static_cast<SoundSystem>(devices[i].soundsystem);
         pSoundDevices[i].uSoundDeviceFeatures = devices[i].features;
 
-        ACE_OS::strsncpy(pSoundDevices[i].szDeviceID, 
+        tstrsncpy(pSoundDevices[i].szDeviceID, 
                         devices[i].deviceid.c_str(), 
                         TT_STRLEN);
         pSoundDevices[i].nWaveDeviceID = devices[i].wavedeviceid;
@@ -1094,13 +1094,13 @@ TEAMTALKDLL_API TTBOOL TT_GetVideoCaptureDevices(IN OUT VideoCaptureDevice* lpVi
     size_t const lessDevs = static_cast<size_t>(*lpnHowMany) < devs.size()?*lpnHowMany:devs.size();
     for(size_t i=0;i<lessDevs;i++)
     {
-        ACE_OS::strsncpy(lpVideoDevices[i].szCaptureAPI, 
+        tstrsncpy(lpVideoDevices[i].szCaptureAPI, 
                          devs[i].api.c_str(),
                          TT_STRLEN);
-        ACE_OS::strsncpy(lpVideoDevices[i].szDeviceName, 
+        tstrsncpy(lpVideoDevices[i].szDeviceName, 
                          devs[i].devicename.c_str(), 
                          TT_STRLEN);
-        ACE_OS::strsncpy(lpVideoDevices[i].szDeviceID, 
+        tstrsncpy(lpVideoDevices[i].szDeviceID, 
                          devs[i].deviceid.c_str(), 
                          TT_STRLEN);
 
@@ -1714,7 +1714,7 @@ TEAMTALKDLL_API TTBOOL TT_GetChannelPath(IN TTInstance* lpTTInstance,
         clientchannel_t const channel = clientnode->GetChannel(nChannelID);
         if(channel)
         {
-            ACE_OS::strsncpy(szChannelPath, channel->GetChannelPath().c_str(), TT_STRLEN);
+            tstrsncpy(szChannelPath, channel->GetChannelPath().c_str(), TT_STRLEN);
             return TRUE;
         }
     }
@@ -3049,7 +3049,7 @@ TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
 //     lpShareWindow->nWindowID = windowIDs[nIndex];
 //     lpShareWindow->nWidth = (INT32)rect.size.width;
 //     lpShareWindow->nHeight = (INT32)rect.size.height;
-//     ACE_OS::strsncpy(lpShareWindow->szWindowTitle, 
+//     tstrsncpy(lpShareWindow->szWindowTitle, 
 //                      data.windowTitles[nIndex].c_str(), TT_STRLEN);
 
     return TRUE;
@@ -3655,7 +3655,7 @@ TEAMTALKDLL_API INT32 TT_DoUnsubscribe(IN TTInstance* lpTTInstance,
 TEAMTALKDLL_API void TT_GetErrorMessage(IN INT32 nError, OUT TTCHAR szErrorMsg[TT_STRLEN])
 {
     tstring const err = teamtalk::GetErrorDescription(nError);
-    ACE_OS::strsncpy(szErrorMsg, err.c_str(), TT_STRLEN);
+    tstrsncpy(szErrorMsg, err.c_str(), TT_STRLEN);
 }
 
 TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance, 
@@ -3667,7 +3667,7 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
         pMsg->nClientEvent = CLIENTEVENT_INTERNAL_ERROR;
         pMsg->nSource = 0;
         pMsg->ttType = __CLIENTERRORMSG;
-        ACE_OS::strsncpy(pMsg->clienterrormsg.szErrorMsg,
+        tstrsncpy(pMsg->clienterrormsg.szErrorMsg,
                          TTEXT("TeamTalk SDK license has expired"),
                          TT_STRLEN);
         return TRUE;
@@ -4320,7 +4320,7 @@ TEAMTALKDLL_API TTBOOL TT_Mixer_GetWaveInControlName(IN INT32 nWaveDeviceID, IN 
     InOutValue val = {};
     val.value = nControlIndex;
     result = MixerWaveIn(nWaveDeviceID, MIXER_WAVEIN_BYINDEX | MIXER_WAVEIN_GET | MIXER_WAVEIN_NAME, val);
-    ACE_OS::strsncpy(szDeviceName, val.name.data(), TT_STRLEN);
+    tstrsncpy(szDeviceName, val.name.data(), TT_STRLEN);
     return result;
 }
 

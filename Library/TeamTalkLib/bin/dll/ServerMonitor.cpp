@@ -130,7 +130,7 @@ void ServerMonitor::OnUserBanned(const tstring& ipaddr,
 {
     User sbanner = {}, sbanee = {};
     Convert(banner, sbanner);
-    ACE_OS::strsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
+    tstrsncpy(sbanee.szIPAddress, ipaddr.c_str(), TT_STRLEN);
 
     userbanned_t::iterator i=m_userbanned.begin();
     for(;i!=m_userbanned.end();i++)

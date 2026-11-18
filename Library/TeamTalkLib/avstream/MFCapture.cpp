@@ -108,7 +108,7 @@ vidcap_devices_t MFCapture::GetDevices()
             dev.devicename = lpszName;
             dev.api = TTEXT("Microsoft Media Foundation");
             std::array<tchar, 20> buff{};
-            ACE_OS::snprintf(buff.data(), buff.size(), TTEXT("%d"), i);
+            tsnprintf(buff.data(), buff.size(), TTEXT("%d"), i);
             dev.deviceid = buff.data();
             devs.push_back(dev);
             CoTaskMemFree(lpszName);

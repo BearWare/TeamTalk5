@@ -726,8 +726,8 @@ void TTMsgQueue::AudioDeviceChange(AudioDevEvent event, const LPCWSTR& name, con
     SoundDevice snd = {};
     snd.nSoundSystem = SOUNDSYSTEM_WASAPI;
     snd.nDeviceID = -1;
-    ACE_OS::strsncpy(snd.szDeviceName, name, TT_STRLEN);
-    ACE_OS::strsncpy(snd.szDeviceID, id, TT_STRLEN);
+    tstrsncpy(snd.szDeviceName, name, TT_STRLEN);
+    tstrsncpy(snd.szDeviceID, id, TT_STRLEN);
 
     ACE_Message_Block* mb = nullptr;
     IntTTMessage* msg = nullptr;

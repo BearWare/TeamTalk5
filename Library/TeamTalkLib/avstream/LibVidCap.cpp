@@ -152,9 +152,9 @@ bool LibVidCap::InitVideoCapture(const tstring& deviceid,
     struct vidcap_sapi_info sapi_info;
     struct vidcap_src_info src_info;
 
-    ACE_OS::strncpy(sapi_info.identifier, sapi_id.c_str(),
+    tstrncpy(sapi_info.identifier, sapi_id.c_str(),
         VIDCAP_NAME_LENGTH);
-    ACE_OS::strncpy(src_info.identifier, deviceid.c_str(),
+    tstrncpy(src_info.identifier, deviceid.c_str(),
         VIDCAP_NAME_LENGTH);
 
     m_vc_api = vidcap_sapi_acquire(m_vc_state, &sapi_info);

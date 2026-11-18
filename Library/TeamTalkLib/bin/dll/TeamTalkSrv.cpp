@@ -161,8 +161,8 @@ TEAMTALKDLL_API TTBOOL TTS_SetEncryptionContext(IN TTSInstance* lpTTSInstance,
 
     EncryptionContext context = {};
     context.bVerifyClientOnce = 1;
-    ACE_OS::strsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
-    ACE_OS::strsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
+    tstrsncpy(context.szCertificateFile, szCertificateFile, TT_STRLEN);
+    tstrsncpy(context.szPrivateKeyFile, szPrivateKeyFile, TT_STRLEN);
 
     return TTS_SetEncryptionContextEx(lpTTSInstance, &context);
 }
