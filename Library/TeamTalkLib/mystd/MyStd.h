@@ -25,8 +25,12 @@
 #define MYSTD_H
 
 #include <chrono>
+#include <cstdarg>
 #include <cstddef>
 #include <cstdint>
+#include <cstdio>
+#include <cstring>
+#include <cwchar>
 #include <fstream>
 #include <regex>
 #include <set>
@@ -117,6 +121,49 @@ std::regex BuildRegex(const std::string& regexstr);
 uint32_t GETTIMESTAMP();
 
 void DUP_TIMESTAMP_DELAY(uint32_t tm);
+
+//tchar versions of tstrncpy, tsnprintf and tstrsncpy
+inline tchar* tstrncpy(tchar* dest, const tchar* src, size_t n)
+{
+#if defined(UNICODE)
+    return std::wcsncpy(dest, src, n);
+#else
+    return std::strncpy(dest, src, n);
+#endif
+}
+
+inline int tvsnprintf(tchar* buf, size_t n, const tchar* fmt, va_list args)
+{
+#if defined(UNICODE)
+    return std::vswprintf(buf, n, fmt, args);
+#else
+    return std::vsnprintf(buf, n, fmt, args);
+#endif
+}
+
+inline int tsnprintf(tchar* buf, size_t n, const tchar* fmt, ...) // NOLINT(cert-dcl50-cpp)
+{
+    va_list args;
+    va_start(args, fmt);
+    int const ret = tvsnprintf(buf, n, fmt, args);
+    va_end(args);
+    return ret;
+}
+
+//like tstrsncpy: copies at most maxlen-1 chars and always
+//null-terminates (if maxlen > 0); returns dest
+inline tchar* tstrsncpy(tchar* dest, const tchar* src, size_t maxlen)
+{
+    if (maxlen == 0)
+        return dest;
+    if (src == nullptr)
+        src = TTEXT("");
+    size_t const len = std::char_traits<tchar>::length(src);
+    size_t const n = len >= maxlen ? maxlen - 1 : len;
+    std::char_traits<tchar>::copy(dest, src, n);
+    dest[n] = tchar();
+    return dest;
+}
 
 class NonCopyable
 {

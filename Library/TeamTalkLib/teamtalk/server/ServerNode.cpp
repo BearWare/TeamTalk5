@@ -416,7 +416,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
     std::error_code ec;
     do
     {
-        ACE_OS::snprintf(newfilename.data(), MAX_STRING_LENGTH, TTEXT("data_%x") CHANNELFILEEXTENSION,
+        tsnprintf(newfilename.data(), MAX_STRING_LENGTH, TTEXT("data_%x") CHANNELFILEEXTENSION,
                          static_cast<unsigned int>(dat_id++));
         local_filename = internalpath + newfilename.data();
     }

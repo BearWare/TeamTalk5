@@ -259,7 +259,7 @@ Channel MakeChannel(TTInstance* ttClient, const TTCHAR* name, int parentid, cons
 {
     Channel chan = {};
     chan.nParentID = parentid;
-    ACE_OS::strsncpy(chan.szName, name, TT_STRLEN);
+    tstrsncpy(chan.szName, name, TT_STRLEN);
     chan.audiocodec = codec;
     return chan;
 }

@@ -105,7 +105,7 @@ TEST_CASE("AudioMuxerStreamRestart")
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 44100;
     mfi.uDurationMSec = 60000;
-    ACE_OS::strncpy(mfi.szFileName, TTEXT("myfile.wav"), TT_STRLEN);
+    tstrncpy(mfi.szFileName, TTEXT("myfile.wav"), TT_STRLEN);
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
     REQUIRE(TT_EnableAudioBlockEvent(rxclient, TT_MUXED_USERID, STREAMTYPE_MEDIAFILE_AUDIO, TRUE));
@@ -158,7 +158,7 @@ TEST_CASE("AudioMuxerAllStreamTypesIntoAudioBlock")
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 44100;
     mfi.uDurationMSec = 60000;
-    ACE_OS::strncpy(mfi.szFileName, TTEXT("myfile.wav"), TT_STRLEN);
+    tstrncpy(mfi.szFileName, TTEXT("myfile.wav"), TT_STRLEN);
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
     MediaFilePlayback mfp = {};
@@ -329,7 +329,7 @@ TEST_CASE( "AudioMuxerPauseLocalPlayback" )
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 48000;
     mfi.uDurationMSec = 10 * 1000;
-    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, TTEXT("tone500hz.wav"));
+    tsnprintf(mfi.szFileName, TT_STRLEN, TTEXT("tone500hz.wav"));
 
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 500));
 
@@ -412,12 +412,12 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
         mfi.audioFmt.nChannels = 2;
         mfi.audioFmt.nSampleRate = 48000;
         mfi.uDurationMSec = 1000;
-        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, TTEXT("tone_1000.wav"));
+        tsnprintf(mfi.szFileName, TT_STRLEN, TTEXT("tone_1000.wav"));
         REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 1000));
 
 #if 0
         // mix music with tone
-        ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, TTEXT("testdata/Opus/giana.ogg"));
+        tsnprintf(mfi.szFileName, TT_STRLEN, TTEXT("testdata/Opus/giana.ogg"));
 #endif
 
         auto rxclient = InitTeamTalk();
@@ -446,11 +446,11 @@ TEST_CASE("AudioMuxerMixedVoiceAndLocalPlayback")
 
         WavePCMFile wavfile;
         std::array<TTCHAR, TT_STRLEN> wavfilename{};
-        ACE_OS::snprintf(wavfilename.data(), wavfilename.size(), TTEXT("mixedvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        tsnprintf(wavfilename.data(), wavfilename.size(), TTEXT("mixedvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
         REQUIRE(wavfile.NewFile(wavfilename.data(), af.nSampleRate, af.nChannels));
 
         std::array<TTCHAR, TT_STRLEN> recordfilename{};
-        ACE_OS::snprintf(recordfilename.data(), recordfilename.size(), TTEXT("recordvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
+        tsnprintf(recordfilename.data(), recordfilename.size(), TTEXT("recordvoicelocalplayback_%d.wav"), ac.opus.nTxIntervalMSec);
         REQUIRE(TT_StartRecordingMuxedStreams(rxclient, sts, &ac, recordfilename.data(), AFF_WAVE_FORMAT));
 
         MediaFilePlayback mfp = {};
@@ -835,7 +835,7 @@ TEST_CASE("AudioMuxerInOutOfChannel")
     mfi.audioFmt.nChannels = 2;
     mfi.audioFmt.nSampleRate = 48000;
     mfi.uDurationMSec = 60 * 1000;
-    ACE_OS::snprintf(mfi.szFileName, TT_STRLEN, TTEXT("playfile.wav"));
+    tsnprintf(mfi.szFileName, TT_STRLEN, TTEXT("playfile.wav"));
 
     REQUIRE(TT_DBG_WriteAudioFileTone(&mfi, 0));
 

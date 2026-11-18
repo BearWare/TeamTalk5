@@ -33,7 +33,7 @@
 tstring GetProcessName()
 {
     std::array<tchar, 512> buff{};
-    ACE_OS::strncpy(buff.data(), TTEXT("Unknown"), buff.size());
+    tstrncpy(buff.data(), TTEXT("Unknown"), buff.size());
 
     NSBundle *bundle = [NSBundle mainBundle];       
     NSDictionary *info = [bundle infoDictionary];
@@ -50,7 +50,7 @@ tstring GetProcessName()
     {
         const char *c = [prodName UTF8String];
         if(c)
-            ACE_OS::strncpy(buff.data(), c, buff.size());
+            tstrncpy(buff.data(), c, buff.size());
     }
 
     return tstring(buff.data());
