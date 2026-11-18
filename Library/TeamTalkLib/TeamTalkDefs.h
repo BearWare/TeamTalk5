@@ -24,21 +24,25 @@
 #if !defined(TEAMTALKDEFS_H)
 #define TEAMTALKDEFS_H
 
+#include <string_view>
+
 #define TEAMTALK_VERSION            "5.23.1.5210"
 #define TEAMTALK_RC_VERSION         5,23,1,5210
 #define TEAMTALK_RC_FILEVERSION     "5, 23, 1, 5210"
 #define TEAMTALK_VERSION_POSTFIX    " - Unreleased"
 
 #if defined(ENABLE_TEAMTALKPRO)
-#define TEAMTALK_LIB_NAME "TeamTalk5Pro"
+constexpr std::string_view TEAMTALK_LIB_NAME = "TeamTalk5Pro";
 
-#define WEBLOGIN_BEARWARE_USERNAME  "bearware"
-#define WEBLOGIN_BEARWARE_POSTFIX   "@bearware.dk"
-#define WEBLOGIN_URL                "https://www.bearware.dk/teamtalk/weblogin.php?"
+constexpr std::string_view WEBLOGIN_BEARWARE_USERNAME = "bearware";
+constexpr std::string_view WEBLOGIN_BEARWARE_PASSWORD = "";
+constexpr std::string_view WEBLOGIN_BEARWARE_POSTFIX = "@bearware.dk";
+constexpr std::string_view WEBLOGIN_URL = "https://www.bearware.dk/teamtalk/weblogin.php?";
 #else
-#define TEAMTALK_LIB_NAME "TeamTalk5"
+constexpr std::string_view TEAMTALK_LIB_NAME = "TeamTalk5";
 #endif
-constexpr auto TEAMTALK_SDK_URL = "https://www.bearware.dk/teamtalksdk/tt5sdk.php?";
+
+constexpr std::string_view TEAMTALK_SDK_URL = "https://www.bearware.dk/teamtalksdk/tt5sdk.php?";
 
 constexpr auto TT_MAX_ID = 0xFFE;
 constexpr auto USER_TIMEOUT = 60; //secs before disconnecting users without keepalive (60 seconds)

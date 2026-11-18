@@ -83,7 +83,7 @@ bool VideoThread::StartEncoder(videoencodercallback_t callback,
         if(cap_format.fps_denominator != 0)
             fps = cap_format.fps_numerator / cap_format.fps_denominator;
 
-        MYTRACE(ACE_TEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
+        MYTRACE(TTEXT("Launching VPX encoder %dx%d@%d bitrate %d\n"),
                          cap_format.width, cap_format.height, fps,
                          m_codec.webm_vp8.rc_target_bitrate);
         
@@ -149,7 +149,7 @@ bool VideoThread::UpdateEncoder(const teamtalk::VideoCodec& codec)
 
 int VideoThread::close(u_long /*flags*/)
 {
-    MYTRACE( ACE_TEXT("Video Encoder thread closed\n") );
+    MYTRACE( TTEXT("Video Encoder thread closed\n") );
     return 0;
 }
 
@@ -222,7 +222,7 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
     if (this->msg_queue()->enqueue(mb_video, &tm_zero)<0)
     {
         m_frames_dropped++;
-        MYTRACE(ACE_TEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
+        MYTRACE(TTEXT("Dropped video frame of size %d, buffer holds %u. %d/%d\n"),
                 static_cast<int>(mb_video->length()), static_cast<int>(this->msg_queue()->message_bytes()), 
                 m_frames_dropped, m_frames_dropped + m_frames_passed);
         mb_video->release();
@@ -231,5 +231,5 @@ void VideoThread::QueueFrame(ACE_Message_Block* mb_video)
     {
         m_frames_passed++;
     }
-    //MYTRACE(ACE_TEXT("Encoder queue size: %d\n"), this->msg_queue()->message_count());
+    //MYTRACE(TTEXT("Encoder queue size: %d\n"), this->msg_queue()->message_count());
 }

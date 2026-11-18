@@ -70,7 +70,7 @@ struct ServerInstance
         {
             auto m = std::make_unique<ServerMonitor>();
             m->m_ttInst = this;
-            auto s = std::make_unique<ServerNode>(ACE_TEXT( TEAMTALK_VERSION ), &tcpReactor, &tcpReactor, &udpReactor, m.get());
+            auto s = std::make_unique<ServerNode>(Utf8ToUnicode(TEAMTALK_VERSION), &tcpReactor, &tcpReactor, &udpReactor, m.get());
             monitor = std::move(m);
             server = std::move(s);
 
@@ -109,13 +109,8 @@ static ServerInstance* GetServerinst(TTSInstance* pInstance)
     {
         if(i->second != ACE_OS::thr_self())
         {
-#if defined(UNICODE)
-            std::wcerr << TEAMTALK_LIB_NAME << " server does not support multi threading. Thread " 
-                       << ACE_OS::thr_self() << " != " << i->second << std::endl;
-#else
             std::cerr << TEAMTALK_LIB_NAME << " server does not support multi threading. Thread " 
                       << ACE_OS::thr_self() << " != " << i->second << std::endl;
-#endif
         }
     }
     threads[pInstance] = ACE_OS::thr_self();

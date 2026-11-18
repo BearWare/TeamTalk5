@@ -48,7 +48,7 @@ namespace soundsystem
         PaStreamer() = default;
         virtual ~PaStreamer()
         {
-            MYTRACE(ACE_TEXT("~PaStreamer()\n"));
+            MYTRACE(TTEXT("~PaStreamer()\n"));
         }
 
         uint32_t DurationMSec() const

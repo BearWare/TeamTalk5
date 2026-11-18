@@ -21,7 +21,8 @@
  *
  */
 
-#include "mixer.h"
+#include "Mixer.h"
+#include "mystd/MyStd.h"
 
 #include <tchar.h>
 #include <windows.h>

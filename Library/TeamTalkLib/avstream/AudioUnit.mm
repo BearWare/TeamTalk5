@@ -155,7 +155,7 @@ bool EnableSpeakerOutput(bool enable)
         status = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute,
                                          sizeof (flag), &flag);
         assert(status == noErr);
-        MYTRACE(ACE_TEXT("Enabling speaker output\n"));
+        MYTRACE(TTEXT("Enabling speaker output\n"));
     }
     else
     {
@@ -163,7 +163,7 @@ bool EnableSpeakerOutput(bool enable)
         status = AudioSessionSetProperty(kAudioSessionProperty_OverrideAudioRoute,
                                          sizeof (flag), &flag);
         assert(status == noErr);
-        MYTRACE(ACE_TEXT("Disabling speaker output\n"));
+        MYTRACE(TTEXT("Disabling speaker output\n"));
     }
 
     return status == noErr;
@@ -193,7 +193,7 @@ bool EnableSpeakerOutput(bool enable)
         virtual ~AudUnit()
         {
             Close();
-            MYTRACE(ACE_TEXT("~AudUnit()\n"));
+            MYTRACE(TTEXT("~AudUnit()\n"));
         }
         
         static std::shared_ptr<AudUnit> getInstance()
@@ -230,15 +230,15 @@ assert(status == noErr);
 
             [session setActive:YES error:nil];
 
-            MYTRACE(ACE_TEXT("Starting new AudioSession\n"));
+            MYTRACE(TTEXT("Starting new AudioSession\n"));
 
-            // MYTRACE_COND(status != noErr, ACE_TEXT("Failed to set property kAudioSessionProperty_AudioCategory"));
+            // MYTRACE_COND(status != noErr, TTEXT("Failed to set property kAudioSessionProperty_AudioCategory"));
 
             // Float32 bufferSizeInSec = 0.02f;
             // status = AudioSessionSetProperty(kAudioSessionProperty_PreferredHardwareIOBufferDuration,
             //                                  sizeof(Float32), &bufferSizeInSec);
             // assert(status == noErr);
-            // MYTRACE_COND(status != noErr, ACE_TEXT("Failed to set property kAudioSessionProperty_PreferredHardwareIOBufferDuration"));
+            // MYTRACE_COND(status != noErr, TTEXT("Failed to set property kAudioSessionProperty_PreferredHardwareIOBufferDuration"));
 
             RefreshDevices();
 
@@ -249,7 +249,7 @@ assert(status == noErr);
         {
             AVAudioSession *session = [AVAudioSession sharedInstance];
             [session setActive:NO error:nil];
-            MYTRACE(ACE_TEXT("Closing AudioSession\n"));
+            MYTRACE(TTEXT("Closing AudioSession\n"));
         }
 
         soundgroup_t NewSoundGroup()
@@ -283,21 +283,21 @@ assert(status == noErr);
 
             // Remote i/o device
 
-            dev.devicename = ACE_TEXT("Remote I/O Unit");
+            dev.devicename = TTEXT("Remote I/O Unit");
             dev.id = REMOTEIO_DEVICE_ID;
             sounddevs[dev.id] = dev;
 
 
             // voice processing i/o device
     
-            dev.devicename = ACE_TEXT("Voice-Processing I/O Unit");
+            dev.devicename = TTEXT("Voice-Processing I/O Unit");
             dev.id = VOICEPROCESSINGIO_DEVICE_ID;
             sounddevs[dev.id] = dev;
 
             // //TODO: detect if iPad, then don't include this device.
             // //if(UI_USER_INTERFACE_IDIOM() == UIUserInterfaceIdiomPad)
             // {
-            //     dev.devicename = ACE_TEXT("Speaker output");
+            //     dev.devicename = TTEXT("Speaker output");
             //     dev.id = SPEAKER_DEVICE_ID;
             //     dev.max_input_channels = 0;
             //     dev.input_channels.clear();
@@ -387,7 +387,7 @@ assert(status == noErr);
 
         fail:
             status = AudioUnitUninitialize(audioUnit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to destroy audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to destroy audio input\n"));
             status = AudioComponentInstanceDispose(audioUnit);
             assert(status == noErr);
             return nil;
@@ -506,7 +506,7 @@ assert(status == noErr);
 
             streamer->audunit = audioUnit;
     
-            MYTRACE(ACE_TEXT("Opened and started input device %d with samplerate %d and channels %d\n"),
+            MYTRACE(TTEXT("Opened and started input device %d with samplerate %d and channels %d\n"),
                     inputdeviceid, samplerate, channels);
 
             return streamer;
@@ -514,11 +514,11 @@ assert(status == noErr);
         fail:
 
             status = AudioUnitUninitialize(audioUnit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to destroy audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to destroy audio input\n"));
             status = AudioComponentInstanceDispose(audioUnit);
             assert(status == noErr);
 
-            MYTRACE(ACE_TEXT("Failed to start input device %d, status %d\n"), inputdeviceid, static_cast<int>(status));
+            MYTRACE(TTEXT("Failed to start input device %d, status %d\n"), inputdeviceid, static_cast<int>(status));
 
             return inputstreamer_t();
         }
@@ -539,9 +539,9 @@ assert(status == noErr);
 
             assert(streamer->audunit);
             status = AudioOutputUnitStop(streamer->audunit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to stop audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to stop audio input\n"));
             status = AudioUnitUninitialize(streamer->audunit);
-            MYTRACE_COND(status != noErr, ACE_TEXT("Failed to close audio input\n"));
+            MYTRACE_COND(status != noErr, TTEXT("Failed to close audio input\n"));
             status = AudioComponentInstanceDispose(streamer->audunit);
             assert(status == noErr);
         }
@@ -592,7 +592,7 @@ assert(status == noErr);
             if(status != noErr)
                 goto fail;
 
-            MYTRACE(ACE_TEXT("Opened output device %d with samplerate %d and channels %d\n"),
+            MYTRACE(TTEXT("Opened output device %d with samplerate %d and channels %d\n"),
                     outputdeviceid, streamer->samplerate, streamer->channels);
             status = AudioUnitInitialize(audioUnit);
             assert(status == noErr);
@@ -632,9 +632,9 @@ assert(status == noErr);
                 OSStatus status;
                 status = AudioOutputUnitStart(streamer->audunit);
 
-                MYTRACE_COND(status != noErr, ACE_TEXT("Failed to start output audio queue\n"));
+                MYTRACE_COND(status != noErr, TTEXT("Failed to start output audio queue\n"));
 
-                MYTRACE(ACE_TEXT("Start stream with samplerate %d and channels %d\n"),
+                MYTRACE(TTEXT("Start stream with samplerate %d and channels %d\n"),
                         streamer->samplerate, streamer->channels);
 
                 return status == noErr;
@@ -650,7 +650,7 @@ assert(status == noErr);
             {
                 OSStatus status;
                 status = AudioOutputUnitStop(streamer->audunit);
-                MYTRACE_COND(status != noErr, ACE_TEXT("Failed to stop output audio queue\n"));
+                MYTRACE_COND(status != noErr, TTEXT("Failed to stop output audio queue\n"));
                 return status == noErr;
             }
             return true;

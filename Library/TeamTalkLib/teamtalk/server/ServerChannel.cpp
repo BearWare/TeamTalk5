@@ -103,21 +103,21 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
     else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
-        MYTRACE(ACE_TEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+        MYTRACE(TTEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
                 streamid, userid, static_cast<int>(GetTimeOutTimerVoice().msec()));
         return false;
     }
     else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
              ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
     {
-        MYTRACE(ACE_TEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
+        MYTRACE(TTEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
                 streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().msec()));
         return false;
     }
 
     if (((GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && ((txtype & (STREAMTYPE_VOICE | STREAMTYPE_MEDIAFILE)) != 0))
     {
-        //MYTRACE(ACE_TEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
+        //MYTRACE(TTEXT(" %d -> %d. StreamID: %d\n"), userid, m_blockStreams[STREAMKEY(userid, txtype)], streamid);
 
         /* Don't allow user to transmit until a new stream (id) is started */
         if ((userid != 0) && m_blockStreams[STREAMKEY(userid, txtype)] == streamid)

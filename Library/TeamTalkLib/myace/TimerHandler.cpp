@@ -22,6 +22,7 @@
  */
 
 #include "TimerHandler.h"
+#include "mystd/MyStd.h"
 
 #include <ace/Basic_Types.h>
 #include <ace/Event_Handler.h>
@@ -30,12 +31,12 @@
 TimerHandler::TimerHandler(TimerListener& listener, uint32_t timer_event_id, long userdata)
 : m_listener(listener), m_timer_event_id(timer_event_id), m_userdata(userdata)
 {
-    //MYTRACE(ACE_TEXT("TimerHandler() %p ID %d \n"), this, m_timer_event_id);
+    //MYTRACE(TTEXT("TimerHandler() %p ID %d \n"), this, m_timer_event_id);
 }
 
 TimerHandler::~TimerHandler()
 {
-    //MYTRACE(ACE_TEXT("~TimerHandler() %p ID %d \n"), this, m_timer_event_id);
+    //MYTRACE(TTEXT("~TimerHandler() %p ID %d \n"), this, m_timer_event_id);
 }
 
 int TimerHandler::handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/)

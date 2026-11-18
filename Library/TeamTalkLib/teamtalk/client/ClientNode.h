@@ -36,7 +36,6 @@
 #include "DesktopShare.h"
 #include "FileNode.h"
 #include "VideoThread.h"
-
 #include "avstream/AudioInputStreamer.h"
 #include "avstream/AudioResampler.h"
 #include "avstream/MediaPlayback.h"
@@ -44,6 +43,7 @@
 #include "avstream/SoundSystem.h"
 #include "avstream/VideoCapture.h"
 #include "codec/MediaUtil.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/PacketHandler.h"
@@ -80,7 +80,7 @@ constexpr auto MTU_QUERY_RETRY_COUNT = 20; //20 * 500ms = 10 seconds for MTU que
 
 #define GUARD_REACTOR(this_obj)                         \
     guard_t g( (this_obj)->ReactorLock() );             \
-    /*PROFILER_ST(ACE_TEXT("Thread"));*/                \
+    /*PROFILER_ST(TTEXT("Thread"));*/                \
     (this_obj)->m_reactorlock_thr_id = ACE_Thread::self()
 #else
 #define GUARD_REACTOR(this_obj)                         \

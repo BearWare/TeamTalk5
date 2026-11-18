@@ -60,14 +60,14 @@ audiopackets_t BuildAudioPackets(uint16_t  /*src_userid*/,
         else
             p_len += static_cast<int>(enc_frame_sizes->size()*12 / 8);
 
-        MYTRACE(ACE_TEXT("Packet prediction for %d is %d bytes\n"), 
+        MYTRACE(TTEXT("Packet prediction for %d is %d bytes\n"), 
             packet_no, p_len);
     }
     else
     {
         int const h_len = AUDIOPACKET_TYPICAL_CBR_HEADER_SIZE;
         int const p_len = h_len + enc_length;
-        MYTRACE(ACE_TEXT("Packet prediction for %d is %d bytes\n"), 
+        MYTRACE(TTEXT("Packet prediction for %d is %d bytes\n"), 
             packet_no, p_len);
     }
     return {};
@@ -169,7 +169,7 @@ audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
     uint16_t const packet_no = ii->second->GetPacketNumberAndFragNo(frag_no, &frag_cnt);
 
     //MYTRACE_COND(fragments.size() != frag_cnt,
-    //             ACE_TEXT("Ejected packet %d due to missing fragments. Had %d needed %d\n"),
+    //             TTEXT("Ejected packet %d due to missing fragments. Had %d needed %d\n"),
     //             packet_no, fragments.size(), frag_cnt);
     if(fragments.size() != frag_cnt)
         return {};
@@ -517,19 +517,19 @@ void InsertDuplicateBlocks(const map_dup_blocks_t& dup_blocks,
     for(;dbi!=dup_blocks.end();dbi++)
     {
         auto const bi = blocks.find(dbi->first);
-        //MYTRACE(ACE_TEXT("%d => "), dbi->first);
+        //MYTRACE(TTEXT("%d => "), dbi->first);
         TTASSERT(bi != blocks.end());
         if(bi != blocks.end())
         {
             auto ii = dbi->second.begin();
             for(;ii!=dbi->second.end();ii++)
             {
-                //MYTRACE(ACE_TEXT("%d, "), *ii);
+                //MYTRACE(TTEXT("%d, "), *ii);
                 blocks[*ii] = bi->second;
                 updated_blocks.insert(*ii);
             }
         }
-        //MYTRACE(ACE_TEXT("\n"));
+        //MYTRACE(TTEXT("\n"));
     }
 }
 
@@ -626,7 +626,7 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
 
                 send_frags.push_back(bf);
             }
-            //MYTRACE(ACE_TEXT("Block #%d fragmented into %d\n"), ii->first, frag_cnt);
+            //MYTRACE(TTEXT("Block #%d fragmented into %d\n"), ii->first, frag_cnt);
         }
     }
 
@@ -636,14 +636,14 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
     block_frags_t packet_frags;
     mmap_dup_blocks_t packet_dup_blocks;
 
-    //MYTRACE(ACE_TEXT("Update %u:%d: "), time, packet_index);
+    //MYTRACE(TTEXT("Update %u:%d: "), time, packet_index);
     int send_queue_bytes = SelectDesktopBlocks(new_session, send_blocks, 
                                                send_frags, send_dup_blocks,
                                                packet_blocks, packet_frags,
                                                packet_dup_blocks,
                                                max_payload_size);
     TTASSERT(send_queue_bytes>0);
-    //MYTRACE(ACE_TEXT("\nTotal: %d\n"), send_queue_bytes);
+    //MYTRACE(TTEXT("\nTotal: %d\n"), send_queue_bytes);
     if(new_session)
     {
         auto p = std::make_shared<DesktopPacket>(src_userid, time,
@@ -676,12 +676,12 @@ desktoppackets_t BuildDesktopPackets(bool new_session,
 
     while((!send_blocks.empty()) || (!send_frags.empty()) || (!send_dup_blocks.empty()))
     {
-        //MYTRACE(ACE_TEXT("Update %u:%d: "), time, packet_index);
+        //MYTRACE(TTEXT("Update %u:%d: "), time, packet_index);
         send_queue_bytes = SelectDesktopBlocks(false, send_blocks, send_frags,
                                                send_dup_blocks, packet_blocks, 
                                                packet_frags, packet_dup_blocks,
                                                max_payload_size);
-        //MYTRACE(ACE_TEXT("\nTotal: %d\n"), send_queue_bytes);
+        //MYTRACE(TTEXT("\nTotal: %d\n"), send_queue_bytes);
         TTASSERT(send_queue_bytes>0);
         TTASSERT(send_queue_bytes <= max_chunk_size + FIELDHEADER_PAYLOAD);
 
@@ -854,9 +854,9 @@ int SelectDesktopBlocks(bool initial_desktoppacket,
     TTASSERT(new_fields_usage + data_usage == send_queue_bytes);
 #endif
 
-    //MYTRACE(ACE_TEXT("\nRanges: %d, single entries: %d, single blocks: %d"),
+    //MYTRACE(TTEXT("\nRanges: %d, single entries: %d, single blocks: %d"),
     //        range_cnt, single_blocks_cnt, single_blocks);
-    //MYTRACE(ACE_TEXT("\nData usage: %d, field usage: %d"), data_usage,
+    //MYTRACE(TTEXT("\nData usage: %d, field usage: %d"), data_usage,
     //    new_fields_usage);
 
     TTASSERT(std::cmp_less_equal(send_queue_bytes, max_payload_size));
@@ -988,11 +988,11 @@ void DesktopTransmitter::AddSentDesktopPacket(const DesktopPacket& packet)
     uint16_t const packet_no = packet.GetPacketIndex();
 
     //MYTRACE_COND(m_sent_pkts.find(packet_no) == m_sent_pkts.end(),
-    //    ACE_TEXT("Desktop tx %d:%u - pkt index %d, %u\n"),
+    //    TTEXT("Desktop tx %d:%u - pkt index %d, %u\n"),
     //    GetSessionID(), GetUpdateID(), packet_no, GETTIMESTAMP());
 
     MYTRACE_COND(m_sent_pkts.find(packet_no) != m_sent_pkts.end(),
-        ACE_TEXT("Desktop tx retransmitting %d:%u - pkt index %d, %u\n"),
+        TTEXT("Desktop tx retransmitting %d:%u - pkt index %d, %u\n"),
         GetSessionID(), GetUpdateID(), packet_no, GETTIMESTAMP());
     TTASSERT(packet.GetTime() == GetUpdateID());
 
@@ -1019,7 +1019,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
 {
     uint32_t const tm = GETTIMESTAMP();
     //static int ack_size = ack_packet.GetPacketSize();
-    //MYTRACE(ACE_TEXT("Ack Packet is %d bytes\n"), ack_size);
+    //MYTRACE(TTEXT("Ack Packet is %d bytes\n"), ack_size);
     //if(ack_packet.GetPacketSize()> ack_size)
     //    ack_size = ack_packet.GetPacketSize();
 
@@ -1037,21 +1037,21 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
     if(!ack_packet.GetPacketsAcked(packet_nums))
         return false;
     //{
-    //MYTRACE(ACE_TEXT("Ack'ed: "));
+    //MYTRACE(TTEXT("Ack'ed: "));
     //std::set<uint16_t>::const_iterator ii = packet_nums.begin();
     //while(ii != packet_nums.end())
     //{
-    //    MYTRACE(ACE_TEXT("%d,"), *ii);
+    //    MYTRACE(TTEXT("%d,"), *ii);
     //    ii++;
     //}
-    //MYTRACE(ACE_TEXT("\n"));
+    //MYTRACE(TTEXT("\n"));
     //}
     TTASSERT(!packet_nums.empty());
     if(packet_nums.empty())
         return true;
 
     //remove packets which have been reported ack'ed
-    //MYTRACE(ACE_TEXT("Ack'ed "));
+    //MYTRACE(TTEXT("Ack'ed "));
     auto dpi = m_sent_pkts.begin();
     while(dpi != m_sent_pkts.end())
     {
@@ -1059,7 +1059,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
 
         if(packet_nums.contains(ack_packetno))
         {
-            //MYTRACE(ACE_TEXT("%d,"), (int)packetno);
+            //MYTRACE(TTEXT("%d,"), (int)packetno);
             m_sent_times.erase(ack_packetno);
             m_acked_missing.erase(ack_packetno);
 
@@ -1087,7 +1087,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
 
             TTASSERT(m_tx_count>=0);
             TTASSERT(m_tx_count<=MAX_PACKETS_ON_WIRE);
-            //MYTRACE(ACE_TEXT("Ack'ed desktop packet %d, tx_count is now %d\n"), ack_packetno, m_tx_count);
+            //MYTRACE(TTEXT("Ack'ed desktop packet %d, tx_count is now %d\n"), ack_packetno, m_tx_count);
             TTASSERT(!m_sent_pkts.empty() || m_tx_count>0);
         }
         else
@@ -1095,7 +1095,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             dpi++;
         }
     }
-    //MYTRACE(ACE_TEXT("\n"));
+    //MYTRACE(TTEXT("\n"));
 
     //store max packet
     uint16_t const max_packet_no = *(--packet_nums.end());
@@ -1126,7 +1126,7 @@ bool DesktopTransmitter::ProcessDesktopAckPacket(const DesktopAckPacket& ack_pac
             ali->second++;
         }
     }
-//     MYTRACE(ACE_TEXT("Ack took %u, max packet index %d\n"), GETTIMESTAMP() - tm, max_packet_no);
+//     MYTRACE(TTEXT("Ack took %u, max packet index %d\n"), GETTIMESTAMP() - tm, max_packet_no);
 
     TTASSERT(!m_sent_pkts.empty() || m_tx_count>0);
 
@@ -1186,7 +1186,7 @@ void DesktopTransmitter::GetDupAckLostDesktopPackets(desktoppackets_t& packets)
                     m_tx_count--;
                     AddSentDesktopPacket(*dpi->second);
 
-                    MYTRACE(ACE_TEXT("Desktop packet %d in session %d:%u DUP ack lost, tx_count is %d\n"),
+                    MYTRACE(TTEXT("Desktop packet %d in session %d:%u DUP ack lost, tx_count is %d\n"),
                         dpi->first, GetSessionID(), GetUpdateID(), m_tx_count);
                 }
             }
@@ -1205,7 +1205,7 @@ void DesktopTransmitter::GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout
     {
         if(W32_GEQ(cur_time, ii->second + rtx_ms))
         {
-            MYTRACE(ACE_TEXT("Desktop packet %d in session %d:%u lost by %d, tx_count is %d\n"),
+            MYTRACE(TTEXT("Desktop packet %d in session %d:%u lost by %d, tx_count is %d\n"),
                     ii->first, GetSessionID(), GetUpdateID(),
                     cur_time - ii->second, m_tx_count);
             auto const dpi = m_sent_pkts.find(ii->first);
@@ -1217,7 +1217,7 @@ void DesktopTransmitter::GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout
             }
         }
     }
-//     MYTRACE(ACE_TEXT("Sent packets %d, queued packets %d, tx_count = %d\n"), 
+//     MYTRACE(TTEXT("Sent packets %d, queued packets %d, tx_count = %d\n"), 
 //             m_sent_pkts.size(), m_queued_pkts.size(), m_tx_count);
     
     //'m_sent_pkts' is not filled unless a transmission is successful,

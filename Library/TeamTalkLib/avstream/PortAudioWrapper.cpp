@@ -22,6 +22,7 @@
  */
 
 #include "PortAudioWrapper.h"
+#include "mystd/MyStd.h"
 
 #include <portaudio.h>
 
@@ -36,13 +37,14 @@
 #include <atlbase.h>
 #include <MMDeviceApi.h>
 
+#include <array>
+
 constexpr int WINAEC_SAMPLERATE = 22050;
 constexpr int WINAEC_CHANNELS = 1;
 
 #endif /* WIN32 */
 
 #include <algorithm>
-#include <array>
 #include <cassert>
 #include <cmath>
 #include <cstdint>
@@ -76,13 +78,13 @@ PortAudio::PortAudio()
 PortAudio::~PortAudio()
 {
     Close();
-    MYTRACE(ACE_TEXT("~PortAudio()\n"));
+    MYTRACE(TTEXT("~PortAudio()\n"));
 }
 
 bool PortAudio::Init()
 {
     PaError const err = Pa_Initialize();
-    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio failed to initialize. Error: %d\n"), err);
+    MYTRACE_COND(err != paNoError, TTEXT("PortAudio failed to initialize. Error: %d\n"), err);
     RefreshDevices();
     return err == paNoError;
 }
@@ -90,7 +92,7 @@ bool PortAudio::Init()
 void PortAudio::Close()
 {
     PaError const err = Pa_Terminate();
-    MYTRACE_COND(err != paNoError, ACE_TEXT("PortAudio closed incorrectly. Error: %d\n"), err);
+    MYTRACE_COND(err != paNoError, TTEXT("PortAudio closed incorrectly. Error: %d\n"), err);
 }
 
 std::shared_ptr<PortAudio> PortAudio::GetInstance()
@@ -416,8 +418,8 @@ static int InputStreamCallback(const void *inputBuffer, void * /*outputBuffer*/,
 {
     const auto* recorded = static_cast<const short*> (inputBuffer);
 
-    MYTRACE_COND(statusFlags & paInputUnderflow, ACE_TEXT("PORTAUDIO: paInputUnderFlow\n"));
-    MYTRACE_COND(statusFlags & paInputOverflow, ACE_TEXT("PORTAUDIO: paInputOverflow\n"));
+    MYTRACE_COND(statusFlags & paInputUnderflow, TTEXT("PORTAUDIO: paInputUnderFlow\n"));
+    MYTRACE_COND(statusFlags & paInputOverflow, TTEXT("PORTAUDIO: paInputOverflow\n"));
 
     auto* inputStreamer = static_cast<PaInputStreamer*> (userData);
     assert(inputStreamer);
@@ -432,10 +434,10 @@ static int InputStreamCallback(const void *inputBuffer, void * /*outputBuffer*/,
     uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, inputStreamer->samplerate);
 
     int const skewMSec = std::abs(static_cast<int>(durationMSec - samplesMSec));
-    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Input callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, TTEXT("Input callback is off by %d msec\n"), skewMSec);
 
     MYTRACE_COND(inputStreamer->soundsystem == SOUND_API_NOSOUND,
-                 ACE_TEXT("No sound input callback"));
+                 TTEXT("No sound input callback"));
     return paContinue;
 }
 
@@ -471,7 +473,7 @@ inputstreamer_t PortAudio::NewStream(StreamCapture* capture, int inputdeviceid,
                                 static_cast<double>(samplerate), framesize, paClipOff,
                                 InputStreamCallback,
                                 static_cast<void*> (streamer.get()) );
-    MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize input device %d\n"), inputdeviceid);
+    MYTRACE_COND(err != paNoError, TTEXT("Failed to initialize input device %d\n"), inputdeviceid);
     if(err != paNoError)
     {
         return {};
@@ -521,8 +523,8 @@ static int OutputStreamCallback(const void * /*inputBuffer*/, void *outputBuffer
     assert(userData);
     auto* streamer = static_cast<PaOutputStreamer*> (userData);
 
-    MYTRACE_COND(statusFlags & paOutputUnderflow, ACE_TEXT("PORTAUDIO: paOutputUnderflow\n"));
-    MYTRACE_COND(statusFlags & paOutputOverflow, ACE_TEXT("PORTAUDIO: paOutputOverflow\n"));
+    MYTRACE_COND(statusFlags & paOutputUnderflow, TTEXT("PORTAUDIO: paOutputUnderflow\n"));
+    MYTRACE_COND(statusFlags & paOutputOverflow, TTEXT("PORTAUDIO: paOutputOverflow\n"));
 
     bool bContinue = false;
     auto* playback = static_cast<short*>(outputBuffer);
@@ -533,7 +535,7 @@ static int OutputStreamCallback(const void * /*inputBuffer*/, void *outputBuffer
     SoftVolume(*streamer, playback, framesPerBuffer, mastervol, mastermute);
 
     MYTRACE_COND(streamer->soundsystem == SOUND_API_NOSOUND,
-                 ACE_TEXT("No sound output callback"));
+                 TTEXT("No sound output callback"));
 
     streamer->Tick(framesPerBuffer);
 
@@ -542,7 +544,7 @@ static int OutputStreamCallback(const void * /*inputBuffer*/, void *outputBuffer
     uint32_t const samplesMSec = streamer->DurationSamplesMSec(streamer->samplerate);
     uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, streamer->samplerate);
     int const skewMSec = std::abs(static_cast<int>(durationMSec - samplesMSec));
-    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Output callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, TTEXT("Output callback is off by %d msec\n"), skewMSec);
 
     if(bContinue)
         return paContinue;
@@ -584,7 +586,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
                                 OutputStreamCallback,
                                 static_cast<void*> (streamer.get()) );
 
-    MYTRACE_COND(err != paNoError, ACE_TEXT("Failed to initialize output device %d\n"), outputdeviceid);
+    MYTRACE_COND(err != paNoError, TTEXT("Failed to initialize output device %d\n"), outputdeviceid);
     if(err != paNoError)
     {
         return {};
@@ -593,7 +595,7 @@ outputstreamer_t PortAudio::NewStream(StreamPlayer* player, int outputdeviceid,
     //set master volume so it's relative to master volume
     SetVolume(player, VOLUME_DEFAULT);
 
-    MYTRACE(ACE_TEXT("Created PortAudio output stream %p\n"), streamer->stream);
+    MYTRACE(TTEXT("Created PortAudio output stream %p\n"), streamer->stream);
 
     return streamer;
 }
@@ -612,13 +614,13 @@ void PortAudio::CloseStream(outputstreamer_t streamer)
         err = Pa_AbortStream(paStream);
     assert(err == paNoError);
 
-    MYTRACE(ACE_TEXT("Closing PortAudio output stream %p\n"), streamer->stream);
+    MYTRACE(TTEXT("Closing PortAudio output stream %p\n"), streamer->stream);
     //close the stream
     err = Pa_CloseStream(paStream);
     assert(err == paNoError);
-    MYTRACE(ACE_TEXT("Closed PortAudio output stream %p\n"), streamer->stream);
+    MYTRACE(TTEXT("Closed PortAudio output stream %p\n"), streamer->stream);
     streamer->stream = nullptr;
-    MYTRACE_COND(err != paNoError, ACE_TEXT("PORTAUDIO: Failed to close stream\n"));
+    MYTRACE_COND(err != paNoError, TTEXT("PORTAUDIO: Failed to close stream\n"));
 }
 
 bool PortAudio::StartStream(outputstreamer_t streamer)
@@ -635,7 +637,7 @@ bool PortAudio::StopStream(outputstreamer_t streamer)
     assert(paStream);
 
     PaError const err = Pa_StopStream(paStream);
-    MYTRACE_COND(err != paNoError, ACE_TEXT("PORTAUDIO: Error stopping stream: %d\n"), err);
+    MYTRACE_COND(err != paNoError, TTEXT("PORTAUDIO: Error stopping stream: %d\n"), err);
     return err == paNoError;
 }
 
@@ -676,11 +678,11 @@ static int DuplexStreamCallback(const void *inputBuffer,
                          const PaStreamCallbackTimeInfo* timeInfo,
                          PaStreamCallbackFlags statusFlags, void *userData)
 {
-    MYTRACE_COND(statusFlags & paOutputUnderflow, ACE_TEXT("PORTAUDIO: paOutputUnderflow\n"));
-    MYTRACE_COND(statusFlags & paOutputOverflow, ACE_TEXT("PORTAUDIO: paOutputOverflow\n"));
+    MYTRACE_COND(statusFlags & paOutputUnderflow, TTEXT("PORTAUDIO: paOutputUnderflow\n"));
+    MYTRACE_COND(statusFlags & paOutputOverflow, TTEXT("PORTAUDIO: paOutputOverflow\n"));
 
-    MYTRACE_COND(statusFlags & paInputUnderflow, ACE_TEXT("PORTAUDIO: paInputUnderFlow\n"));
-    MYTRACE_COND(statusFlags & paInputOverflow, ACE_TEXT("PORTAUDIO: paInputOverflow\n"));
+    MYTRACE_COND(statusFlags & paInputUnderflow, TTEXT("PORTAUDIO: paInputUnderFlow\n"));
+    MYTRACE_COND(statusFlags & paInputOverflow, TTEXT("PORTAUDIO: paInputOverflow\n"));
     auto* dpxStream = static_cast<PaDuplexStreamer*>(userData);
     const auto* recorded = reinterpret_cast<const short*>(inputBuffer);
     auto* playback = reinterpret_cast<short*>(outputBuffer);
@@ -703,7 +705,7 @@ static int DuplexStreamCallback(const void *inputBuffer,
     uint32_t const samplesMSec = dpxStream->DurationSamplesMSec(dpxStream->samplerate);
     uint32_t const cbMSec = PCM16_SAMPLES_DURATION(framesPerBuffer, dpxStream->samplerate);
     int const skewMSec = std::abs(static_cast<int>(durationMSec - samplesMSec));
-    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, ACE_TEXT("Duplex callback is off by %d msec\n"), skewMSec);
+    MYTRACE_COND(DEBUG_PORTAUDIO && skewMSec > int(cbMSec) * 3, TTEXT("Duplex callback is off by %d msec\n"), skewMSec);
 
     int const mastervol = PortAudio::GetInstance()->GetMasterVolume(dpxStream->sndgrpid);
     bool const mastermute = PortAudio::GetInstance()->IsAllMute(dpxStream->sndgrpid);
@@ -711,7 +713,7 @@ static int DuplexStreamCallback(const void *inputBuffer,
     if (dpxStream->winaec)
     {
         recorded = dpxStream->winaec->AcquireBuffer();
-        MYTRACE_COND(!recorded, ACE_TEXT("No echo cancelled audio available\n"));
+        MYTRACE_COND(!recorded, TTEXT("No echo cancelled audio available\n"));
 
         if (recorded)
         {
@@ -728,7 +730,7 @@ static int DuplexStreamCallback(const void *inputBuffer,
         uint32_t echosamplesMSec = dpxStream->DurationEchoSamplesMSec(WINAEC_SAMPLERATE);
         uint32_t echosamples_diff = uint32_t(std::abs(int(samplesMSec - echosamplesMSec)));
         MYTRACE_COND(echosamples_diff > cbMSec * 3,
-                     ACE_TEXT("Duplex callback shows player is off by %d msec compared to echo cancellor\n"),
+                     TTEXT("Duplex callback shows player is off by %d msec compared to echo cancellor\n"),
                      echosamples_diff);
     }
     else
@@ -744,7 +746,7 @@ static int DuplexStreamCallback(const void *inputBuffer,
 static void DuplexStreamCallbackEnded(void* userData)
 {
     auto* dpxStream = static_cast<PaDuplexStreamer*>(userData);
-    MYTRACE(ACE_TEXT("PORTAUDIO: Duplex stream %p ended\n"), dpxStream);
+    MYTRACE(TTEXT("PORTAUDIO: Duplex stream %p ended\n"), dpxStream);
     DuplexEnded(PortAudio::GetInstance().get(), *dpxStream);
 }
 
@@ -811,7 +813,7 @@ duplexstreamer_t PortAudio::NewStream(StreamDuplex* duplex, int inputdeviceid,
                                 DuplexStreamCallback,
                                 static_cast<void*> (streamer.get()) );
     MYTRACE_COND(err != paNoError,
-                 ACE_TEXT("Failed to initialize duplex devices, input %d, output %d\n"),
+                 TTEXT("Failed to initialize duplex devices, input %d, output %d\n"),
                  inputdeviceid, outputdeviceid);
     if(err != paNoError)
     {
@@ -1040,7 +1042,7 @@ void CWMAudioAECCapture::Run()
 
         CComPtr<IMediaBuffer> ioutputbuf;
         HRESULT hr = CMediaBuffer::CreateBuffer(&outputbuf[0], 0, outputbuf.size(), reinterpret_cast<void**>(&ioutputbuf));
-        MYTRACE_COND(FAILED(hr), ACE_TEXT("Failed to create AEC output buffer\n"));
+        MYTRACE_COND(FAILED(hr), TTEXT("Failed to create AEC output buffer\n"));
         if (FAILED(hr))
             break;
 
@@ -1059,7 +1061,7 @@ void CWMAudioAECCapture::Run()
             BYTE* outputbufptr;
             if (SUCCEEDED(ioutputbuf->GetBufferAndLength(&outputbufptr, &dwOutputLen)))
             {
-                //MYTRACE(ACE_TEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
+                //MYTRACE(TTEXT("Audio callback with %d msec\n"), PCM16_BYTES_DURATION(dwOutputLen, CHANNELS, SAMPLERATE));
                 int samples = dwOutputLen / sizeof(short) / WINAEC_CHANNELS;
                 processedBytes += dwOutputLen;
                 m_streamer->TickEcho(samples);
@@ -1080,11 +1082,11 @@ void CWMAudioAECCapture::Run()
             error = true;
             break;
         case WMAAECMA_E_NO_ACTIVE_RENDER_STREAM:
-            MYTRACE(ACE_TEXT("No audio rendered on device: %d\n"), outDevIndex);
+            MYTRACE(TTEXT("No audio rendered on device: %d\n"), outDevIndex);
             error = true;
             break;
         default:
-            MYTRACE(ACE_TEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
+            MYTRACE(TTEXT("Unknown HRESULT from echo cancellor 0x%x\n"), hr);
             error = true;
             break;
         }
@@ -1125,7 +1127,7 @@ void CWMAudioAECCapture::QueueAudioFrame(const media::AudioFrame& frm)
         if (m_input_queue.enqueue_tail(mb, &tv) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("Failed to queue echo cancelled audio. %d msec\n"),
+            MYTRACE(TTEXT("Failed to queue echo cancelled audio. %d msec\n"),
                     PCM16_SAMPLES_DURATION(frm.input_samples, frm.inputfmt.samplerate));
         }
     }
@@ -1181,7 +1183,7 @@ bool CWMAudioAECCapture::ProcessAudioFrame(const media::AudioFrame& frm)
         if (m_input_queue.enqueue_head(mb, &tv) < 0)
         {
             mb->release();
-            MYTRACE(ACE_TEXT("Failed to reenqueue echo cancelled audio\n"));
+            MYTRACE(TTEXT("Failed to reenqueue echo cancelled audio\n"));
         }
     }
 
@@ -1193,7 +1195,7 @@ short* CWMAudioAECCapture::AcquireBuffer()
      size_t bytes = m_input_queue.message_length();
      bytes -= sizeof(media::AudioFrame) * m_input_queue.message_count();
      int duration = PCM16_BYTES_DURATION(bytes, m_streamer->input_channels, m_streamer->samplerate);
-     MYTRACE_COND(DEBUG_WINAEC, ACE_TEXT("Acquire echo audio, duration: %d msec. Full %d%%. Bytes %u\n"),
+     MYTRACE_COND(DEBUG_WINAEC, TTEXT("Acquire echo audio, duration: %d msec. Full %d%%. Bytes %u\n"),
              duration, 100 * m_input_index / m_input_buffer.size(), unsigned(m_input_queue.message_length()));
      
      if (m_resampled_input)

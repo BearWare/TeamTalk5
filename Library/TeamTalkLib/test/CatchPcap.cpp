@@ -24,10 +24,10 @@
 #include <catch2/catch_test_macros.hpp>
 
 #include "TTUnitTest.h"
-
 #include "avstream/SoundSystem.h"
 #include "bin/dll/TTClientMsg.h"
 #include "codec/WaveFile.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/PacketLayout.h"
 #include "teamtalk/client/AudioMuxer.h"
 #include "teamtalk/client/ClientNodeBase.h"
@@ -159,18 +159,18 @@ TEST_CASE("AudioMuxerJitter")
     std::vector<short> frame(PLAYBACK_FRAME_SIZE_SAMPLES * CHANNEL_COUNT);
 
     WavePCMFile wavefile;
-    REQUIRE(wavefile.NewFile(ACE_TEXT("netem.wav"), SAMPLE_RATE_HZ, CHANNEL_COUNT));
+    REQUIRE(wavefile.NewFile(TTEXT("netem.wav"), SAMPLE_RATE_HZ, CHANNEL_COUNT));
     uint32_t sampleno = 0;
 
 #define DIRECTRECORDER 0
 #if DIRECTRECORDER
     AudioMuxer directrecorder;
-    REQUIRE(directrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_direct.wav"), teamtalk::AFF_WAVE_FORMAT));
+    REQUIRE(directrecorder.SaveFile(codec, TTEXT("netem_muxer_direct.wav"), teamtalk::AFF_WAVE_FORMAT));
 #endif
 
     AudioMuxer playbackrecorder(teamtalk::STREAMTYPE_VOICE);
     // playbackrecorder.SetMuxInterval(2000);
-    REQUIRE(playbackrecorder.SaveFile(codec, ACE_TEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
+    REQUIRE(playbackrecorder.SaveFile(codec, TTEXT("netem_muxer_playback.wav"), teamtalk::AFF_WAVE_FORMAT));
 
     teamtalk::useraudio_callback_t audiocb = [&](int userid, teamtalk::StreamType stream_type, const media::AudioFrame& frm)
     {

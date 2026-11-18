@@ -58,7 +58,7 @@ constexpr auto SERVER_USERID = 0;
 constexpr auto SERVER_KEEPALIVE_DELAY = 1;  //keep alive delay (secs). Checks;
                                   //whether some users are dead
 
-#define CHANNELFILEEXTENSION ACE_TEXT(".dat")
+#define CHANNELFILEEXTENSION TTEXT(".dat")
 
 using mapipchan_t = std::map<tstring, std::vector<tstring> >; //ip-address -> channelpaths
 using mapiptime_t = std::map<tstring, std::vector<ACE_Time_Value> >; //map ip to login time (used for checking login attempts)

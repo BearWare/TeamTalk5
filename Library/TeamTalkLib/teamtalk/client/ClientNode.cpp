@@ -83,7 +83,7 @@ ClientNode::ClientNode(const tstring& version, ClientListener* listener)
                        , m_version(version)
                        , m_listener(listener)
 {
-    MYTRACE(ACE_TEXT("ClientNode %p\n"), this);
+    MYTRACE(TTEXT("ClientNode %p\n"), this);
 
     m_listener->RegisterEventSuspender(this);
 
@@ -121,7 +121,7 @@ ClientNode::~ClientNode()
     //close reactor so no one can register new handlers
     SuspendEventHandling(true);
 
-    MYTRACE(ACE_TEXT("~ClientNode %p\n"), this);
+    MYTRACE(TTEXT("~ClientNode %p\n"), this);
 }
 
 VoiceLogger& ClientNode::GetVoiceLogger()
@@ -556,7 +556,7 @@ int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
                 continue;
             }
 
-            MYTRACE(ACE_TEXT("Sending desktop input RTX. Session %d, pkt: %d\n"),
+            MYTRACE(TTEXT("Sending desktop input RTX. Session %d, pkt: %d\n"),
                     p.GetSessionID(), p.GetPacketNo());
             //queue desktop input packet for RTX
             auto packet = std::make_unique<DesktopInputPacket>(p);
@@ -582,7 +582,7 @@ int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
         ack_pkt->SetChannel(m_mychannel->GetChannelID());
         ack_pkt->SetDestUser(userid);
 
-        MYTRACE(ACE_TEXT("Sending desktop input ACK. Session %d. Pkt: %d\n"),
+        MYTRACE(TTEXT("Sending desktop input ACK. Session %d. Pkt: %d\n"),
                 ack_pkt->GetSessionID(), ack_pkt->GetPacketNo());
 
         if (QueuePacket(ack_pkt.get()))
@@ -663,7 +663,7 @@ int ClientNode::TimerUdpKeepAlive()
     // try reconnecting on UDP
     if (ACE_Time_Value(m_clientstats.udp_silence_sec, 0) >= m_keepalive.udp_keepalive_interval * 2)
     {
-        MYTRACE(ACE_TEXT("Recreating UDP socket due to connectivity problems\n"));
+        MYTRACE(TTEXT("Recreating UDP socket due to connectivity problems\n"));
         RecreateUdpSocket();
 
         if (TimerExists(TIMER_UDPCONNECT_ID))
@@ -713,7 +713,7 @@ int ClientNode::TimerBuildDesktopPackets()
         pk_size = std::max<int>(pk_size, (*ii)->GetPacketSize());
         ii++;
     }
-    //MYTRACE(ACE_TEXT("Packets ready: %u, Total size: %d, Biggest packet: %d\n"), 
+    //MYTRACE(TTEXT("Packets ready: %u, Total size: %d, Biggest packet: %d\n"), 
     //        packets.size(), total_size, pk_size);
 
     int const session_id = m_desktop->GetSessionID();
@@ -731,7 +731,7 @@ int ClientNode::TimerBuildDesktopPackets()
             dp.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
         }
         else break;
-        //MYTRACE(ACE_TEXT("Queued desktop packet %d, %u\n"), 
+        //MYTRACE(TTEXT("Queued desktop packet %d, %u\n"), 
         //    (*dpi)->GetPacketIndex(), GETTIMESTAMP());
         dpi++;
     }
@@ -793,7 +793,7 @@ int ClientNode::TimerDesktopNakPacket()
 
         nak_pkt->SetChannel(m_mychannel->GetChannelID());
 
-        MYTRACE(ACE_TEXT("Sending NAK for session %d:%u\n"),
+        MYTRACE(TTEXT("Sending NAK for session %d:%u\n"),
                 m_desktop_nak_tx->GetSessionID(),
                 m_desktop_nak_tx->GetUpdateID());
 
@@ -882,7 +882,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             {
                 m_playback_resampler.reset();
                 m_listener->OnInternalError(TT_INTERR_SNDOUTPUT_FAILURE,
-                                            ACE_TEXT("Cannot create resampler for sound output device"));
+                                            TTEXT("Cannot create resampler for sound output device"));
                 return;
             }
             m_playback_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
@@ -905,7 +905,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             {
                 m_capture_resampler.reset();
                 m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                    ACE_TEXT("Cannot create resampler for sound input device."));
+                    TTEXT("Cannot create resampler for sound input device."));
                 return;
             }
             m_capture_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
@@ -934,7 +934,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
                 dev.default_samplerate == 0)
             {
                 m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                    ACE_TEXT("Cannot open sound input device."));
+                    TTEXT("Cannot open sound input device."));
                 return;
             }
 
@@ -953,7 +953,7 @@ void ClientNode::OpenAudioCapture(const AudioCodec& codec)
             {
                 m_capture_resampler.reset();
                 m_listener->OnInternalError(TT_INTERR_SNDINPUT_FAILURE,
-                    ACE_TEXT("Cannot create resampler for sound input device."));
+                    TTEXT("Cannot create resampler for sound input device."));
                 return;
             }
             m_capture_buffer.resize(static_cast<size_t>(codec_samples) * codec_channels);
@@ -1026,7 +1026,7 @@ void ClientNode::QueueAudioCapture(media::AudioFrame& audframe)
     audframe.sample_no = m_soundprop.samples_recorded;
     m_soundprop.samples_recorded += audframe.input_samples;
 
-    MYTRACE_COND(m_soundprop.samples_delay_msec, ACE_TEXT("%p Audio recorder delay: %u msec\n"),
+    MYTRACE_COND(m_soundprop.samples_delay_msec, TTEXT("%p Audio recorder delay: %u msec\n"),
                  this, GETTIMESTAMP() - m_soundprop.samples_delay_msec);
 
     if (m_soundprop.samples_delay_msec != 0u)
@@ -1092,7 +1092,7 @@ void ClientNode::SendVoicePacket(const VoicePacket& packet)
     }
 
     //int ss = tx_pkt->GetPacketSize();
-    //MYTRACE(ACE_TEXT("Packet no %d became %d bytes\n"),
+    //MYTRACE(TTEXT("Packet no %d became %d bytes\n"),
     //    packet.GetPacketNumber(), packet.GetPacketSize());
 }
 
@@ -1118,14 +1118,14 @@ void ClientNode::SendAudioFilePacket(const AudioFilePacket& packet)
     else
 #endif
     {
-        MYTRACE_COND(!m_def_stream, ACE_TEXT("Sending UDP data on closed connected\n"));
+        MYTRACE_COND(!m_def_stream, TTEXT("Sending UDP data on closed connected\n"));
         if((m_myuseraccount.userrights & USERRIGHT_TRANSMIT_MEDIAFILE_AUDIO) != USERRIGHT_NONE)
             SendPacket(packet, m_serverinfo.udpaddr);
         TTASSERT(packet.ValidatePacket());
     }
 
     //int ss = tx_pkt->GetPacketSize();
-    //MYTRACE(ACE_TEXT("Packet no %d became %d bytes\n"),
+    //MYTRACE(TTEXT("Packet no %d became %d bytes\n"),
     //    packet.GetPacketNumber(), packet.GetPacketSize());
 }
 
@@ -1179,7 +1179,7 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     m_soundprop.samples_transmitted += org_frame.input_samples;
 
     MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
-                 ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
+                 TTEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
                  m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp, enc_length);
     
     assert(enc_length <= MAX_ENC_FRAMESIZE);
@@ -1250,7 +1250,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& /*streamer*/,
         assert(ret > 0);
         assert(ret <= codec_samples);
         MYTRACE_COND(ret != codec_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      codec_samples, ret);
         capture_buffer = m_capture_buffer.data();
     }
@@ -1285,7 +1285,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         assert(ret > 0);
         assert(ret <= codec_samples);
         MYTRACE_COND(ret != codec_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      codec_samples, ret);
 
         capture_buffer = m_capture_buffer.data();
@@ -1305,7 +1305,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
         assert(ret>0);
         assert(ret <= codec_samples);
         MYTRACE_COND(ret != codec_samples,
-                     ACE_TEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
+                     TTEXT("Resampler output incorrect no. samples, expect %d, got %d\n"),
                      codec_samples, ret);
 
         playback_buffer = m_playback_buffer.data();
@@ -1432,7 +1432,7 @@ bool ClientNode::MediaStreamAudioCallback(AudioFrame& audio_frame,
     static int x = 0;
     static uint32_t start = GETTIMESTAMP();
     uint32_t now = GETTIMESTAMP();
-    MYTRACE(ACE_TEXT("Sent %d msec at %u. Duration: %u. Frame time: %u\n"), 
+    MYTRACE(TTEXT("Sent %d msec at %u. Duration: %u. Frame time: %u\n"), 
         x += GetAudioCodecCbMillis(m_audiofile_thread.Codec()),
         GETTIMESTAMP(), now - start, audio_frame.timestamp);
     assert(audio_frame.timestamp < now + 2000);
@@ -1595,7 +1595,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     m_clientstats.udpbytes_recv += packet_size;
 
     MYTRACE_COND(m_serverinfo.udpaddr != addr, 
-                 ACE_TEXT("Received packet not from server: Was %s != %s\n"),
+                 TTEXT("Received packet not from server: Was %s != %s\n"),
                  InetAddrToString(addr).c_str(), InetAddrToString(m_serverinfo.udpaddr).c_str());
 
     if(m_serverinfo.udpaddr != addr)
@@ -1612,7 +1612,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     if((std::rand() % SIMULATE_RX_PACKETLOSS) == 0)
     {
         dropped++;
-        MYTRACE(ACE_TEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
+        MYTRACE(TTEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
             packet.GetKind(), packet.GetSrcUserID(), dropped, received);
         return;
     }
@@ -1643,7 +1643,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     clientchannel_t const chan = GetChannel(chanpacket.GetChannel());
     if (!chan)
     {
-        MYTRACE(ACE_TEXT("Received packet kind %d without a specified channel\n"), static_cast<int>(packet.GetKind()));
+        MYTRACE(TTEXT("Received packet kind %d without a specified channel\n"), static_cast<int>(packet.GetKind()));
         return;
     }
     
@@ -1654,13 +1654,13 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         CryptVoicePacket const crypt_pkt(packet_data, packet_size);
         auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
-        MYTRACE_COND(!decrypt_pkt, ACE_TEXT("Failed to decrypted voice packet from #%d\n"),
+        MYTRACE_COND(!decrypt_pkt, TTEXT("Failed to decrypted voice packet from #%d\n"),
                      crypt_pkt.GetSrcUserID());
         if(!decrypt_pkt)
             return;
 
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received crypt voice packet from unknown user #%d\n"),
+                     TTEXT("Received crypt voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
         bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
@@ -1674,7 +1674,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         VoicePacket const audio_pkt(packet_data, packet_size);
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received voice packet from unknown user #%d\n"),
+                     TTEXT("Received voice packet from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.voicebytes_recv += packet_size;
         bool const no_record = ((chan->GetChannelType() & CHANNEL_NO_RECORDING) != CHANNEL_DEFAULT) &&
@@ -1688,12 +1688,12 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         CryptAudioFilePacket const crypt_pkt(packet_data, packet_size);
         auto decrypt_pkt = crypt_pkt.Decrypt(chan->GetEncryptKey());
-        MYTRACE_COND(!decrypt_pkt, ACE_TEXT("Failed to decrypted audio packet from #%d\n"),
+        MYTRACE_COND(!decrypt_pkt, TTEXT("Failed to decrypted audio packet from #%d\n"),
                      crypt_pkt.GetSrcUserID());
         if(!decrypt_pkt)
             return;
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received CryptAudioFilePacket from unknown user #%d"),
+                     TTEXT("Received CryptAudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
         if (user)
@@ -1705,7 +1705,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         AudioFilePacket const audio_pkt(packet_data, packet_size);
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received AudioFilePacket from unknown user #%d"),
+                     TTEXT("Received AudioFilePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_audio_bytes_recv += packet_size;
         if (user)
@@ -1720,7 +1720,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
         if(!decrypt_pkt)
             return;
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
+                     TTEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.vidcapbytes_recv += packet_size;
         if (user)
@@ -1732,7 +1732,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         VideoCapturePacket const video_pkt(packet_data, packet_size);
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received VideoCapturePacket from unknown user #%d\n"),
+                     TTEXT("Received VideoCapturePacket from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.vidcapbytes_recv += packet_size;
         if (user)
@@ -1747,7 +1747,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
         if(!decrypt_pkt)
             return;
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received CryptVideoCapturePacket from unknown user #%d"),
+                     TTEXT("Received CryptVideoCapturePacket from unknown user #%d"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_video_bytes_recv += packet_size;
         if (user)
@@ -1759,7 +1759,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         VideoFilePacket const video_pkt(packet_data, packet_size);
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received VideoFilePacket from unknown user #%d\n"),
+                     TTEXT("Received VideoFilePacket from unknown user #%d\n"),
                      packet.GetSrcUserID());
         m_clientstats.mediafile_video_bytes_recv += packet_size;
         if (user)
@@ -1774,7 +1774,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
         if(!decrypt_pkt)
             return;
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received CryptDesktopPacket from unknown user #%d"),
+                     TTEXT("Received CryptDesktopPacket from unknown user #%d"),
                      packet.GetSrcUserID());
 
         m_clientstats.desktopbytes_recv += packet_size;
@@ -1787,7 +1787,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     {
         DesktopPacket const desktop_pkt(packet_data, packet_size);
         MYTRACE_COND(!user,
-                     ACE_TEXT("Received DesktopPacket from unknown user #%d"),
+                     TTEXT("Received DesktopPacket from unknown user #%d"),
                      packet.GetSrcUserID());
 
         m_clientstats.desktopbytes_recv += packet_size;
@@ -1897,7 +1897,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     break;
     default :
         MYTRACE_COND(user.get(),
-                     ACE_TEXT("Received unknown packet type %d from #%d, %s\n"), 
+                     TTEXT("Received unknown packet type %d from #%d, %s\n"), 
                      packet.GetKind(), user->GetUserID(), user->GetNickname().c_str());
         break;
     }
@@ -1957,7 +1957,7 @@ void ClientNode::ReceivedKeepAliveReplyPacket(const KeepAlivePacket& packet,
     ASSERT_CLIENTNODE_LOCKED(this);
 
     int const userid = packet.GetSrcUserID();
-    MYTRACE( ACE_TEXT("Received UDP keepalive reply from #%d %s\n"), 
+    MYTRACE( TTEXT("Received UDP keepalive reply from #%d %s\n"), 
         userid, InetAddrToString(addr).c_str());
 
     //reset server keep aliver timeout
@@ -1972,7 +1972,7 @@ void ClientNode::ReceivedKeepAliveReplyPacket(const KeepAlivePacket& packet,
         TTASSERT(ii->second->GetPayloadSize()>0);
 
         uint16_t const payload_size = ii->second->GetPayloadSize();
-        MYTRACE(ACE_TEXT("MTU query %u reported reply to %d payload\n"),
+        MYTRACE(TTEXT("MTU query %u reported reply to %d payload\n"),
                 ii->second->GetTime(), payload_size);
         StopTimer(TIMER_QUERY_MTU_ID);
 
@@ -2053,7 +2053,7 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
         {
             if(TimerExists(TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID))
                 StopTimer(TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID);
-            MYTRACE(ACE_TEXT("Desktop update %d:%u completed, duration %u msec\n"),
+            MYTRACE(TTEXT("Desktop update %d:%u completed, duration %u msec\n"),
                     m_desktop_tx->GetSessionID(), m_desktop_tx->GetUpdateID(),
                     GETTIMESTAMP()-m_desktop_tx->GetUpdateID());
             m_desktop_tx.reset();
@@ -2074,7 +2074,7 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
            StopTimer(TIMER_DESKTOPNAKPACKET_TIMEOUT_ID);
            m_desktop_nak_tx.reset();
 
-           MYTRACE(ACE_TEXT("Server ack'ed NAK to close desktop session %d:%u\n"),
+           MYTRACE(TTEXT("Server ack'ed NAK to close desktop session %d:%u\n"),
                    session_id, time_ack);
         }
     }
@@ -2085,14 +2085,14 @@ void ClientNode::ReceivedDesktopNakPacket(const DesktopNakPacket& nak_pkt)
     ASSERT_REACTOR_THREAD(*GetEventLoop());
 
     clientuser_t const user = GetUser(nak_pkt.GetSrcUserID());
-    MYTRACE_COND(!user, ACE_TEXT("Asked to delete desktop session #%d ")
-                 ACE_TEXT("from user who doesn't exist\n"), nak_pkt.GetSessionID());
+    MYTRACE_COND(!user, TTEXT("Asked to delete desktop session #%d ")
+                 TTEXT("from user who doesn't exist\n"), nak_pkt.GetSessionID());
     if(!user)
         return;
 
     desktop_viewer_t const viewer = user->GetDesktopSession();
-    MYTRACE_COND(!viewer, ACE_TEXT("Asked to delete desktop session #%d ")
-                 ACE_TEXT("which doesn't exist from user #%d\n"), 
+    MYTRACE_COND(!viewer, TTEXT("Asked to delete desktop session #%d ")
+                 TTEXT("which doesn't exist from user #%d\n"), 
                  nak_pkt.GetSessionID(), nak_pkt.GetSrcUserID());
 
     if (!viewer)
@@ -2100,7 +2100,7 @@ void ClientNode::ReceivedDesktopNakPacket(const DesktopNakPacket& nak_pkt)
 
     if(viewer->GetSessionID() == nak_pkt.GetSessionID())
     {
-        MYTRACE(ACE_TEXT("Closing desktop session %d:%u for user #%d due to NAK\n"),
+        MYTRACE(TTEXT("Closing desktop session %d:%u for user #%d due to NAK\n"),
             nak_pkt.GetSessionID(), nak_pkt.GetTime(), user->GetUserID());
         user->CloseDesktopSession();
     }
@@ -2140,7 +2140,7 @@ void ClientNode::ReceivedDesktopInputPacket(const DesktopInputPacket& di_pkt)
     if (!m_desktop || m_desktop->GetSessionID() != di_pkt.GetSessionID())
         return;
 
-    MYTRACE(ACE_TEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
+    MYTRACE(TTEXT("Received desktop input from #%d session: %d, pktno: %u\n"),
             di_pkt.GetSrcUserID(), di_pkt.GetSessionID(),
             static_cast<uint32_t>(di_pkt.GetPacketNo()));
     
@@ -2173,7 +2173,7 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
     if(!ack_pkt.GetSessionInfo(&session_id, &packetno))
         return;
 
-    MYTRACE(ACE_TEXT("Received desktop input ACK for user #%d, session %d, pkt %u. Remain: %u\n"),
+    MYTRACE(TTEXT("Received desktop input ACK for user #%d, session %d, pkt %u. Remain: %u\n"),
             ack_pkt.GetSrcUserID(), static_cast<int>(session_id), static_cast<uint32_t>(packetno),
             static_cast<uint32_t>(user->GetDesktopInputRtxQueue().size()));
 
@@ -2196,7 +2196,7 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
         }
     }
 
-    //MYTRACE(ACE_TEXT("Desktop input Tx queues, TX: %u, RTX: %u. Timer active: %d\n"),
+    //MYTRACE(TTEXT("Desktop input Tx queues, TX: %u, RTX: %u. Timer active: %d\n"),
     //        user->GetDesktopInputTxQueue().size(),
     //        user->GetDesktopInputRtxQueue().size(), 
     //        (int)TimerExists(USER_TIMER_DESKTOPINPUT_RTX_ID, userid));
@@ -2234,7 +2234,7 @@ void ClientNode::SendPackets()
         // trigger send but they don't check if connection has been
         // dropped.
         MYTRACE_COND(!m_def_stream && !m_crypt_stream,
-                     ACE_TEXT("Cannot send packet type %d on closed connection.\n"), int(p->GetKind()));
+                     TTEXT("Cannot send packet type %d on closed connection.\n"), int(p->GetKind()));
 
         if ((m_def_stream == nullptr) && (m_crypt_stream == nullptr))
             continue;
@@ -2411,7 +2411,7 @@ void ClientNode::SendPackets()
             //packet has been ack'ed since it was readded to the tx queue
             if(m_desktop_tx->IsDesktopPacketAcked(desktoppkt->GetPacketIndex()))
             {
-                MYTRACE(ACE_TEXT("Skipped desktop packet %d\n"), 
+                MYTRACE(TTEXT("Skipped desktop packet %d\n"), 
                         desktoppkt->GetPacketIndex());
                 break;
             }
@@ -2435,7 +2435,7 @@ void ClientNode::SendPackets()
                     ret = SendPacket(*desktoppkt, m_serverinfo.udpaddr);
                 TTASSERT(desktoppkt->ValidatePacket());
             }
-            //MYTRACE(ACE_TEXT("Sent desktop packet %d size %d, %u\n"), 
+            //MYTRACE(TTEXT("Sent desktop packet %d size %d, %u\n"), 
             //    desktoppkt->GetPacketIndex(), ret, desktoppkt->GetTime());
         }
         break;
@@ -2536,7 +2536,7 @@ void ClientNode::SendPackets()
                 TTASSERT(input_pkt->ValidatePacket());
             }
 
-            //MYTRACE(ACE_TEXT("Sent desktop input packet, %d:%u pkt no: %d\n"),
+            //MYTRACE(TTEXT("Sent desktop input packet, %d:%u pkt no: %d\n"),
             //        cursor_pkt->GetSessionID(), cursor_pkt->GetTime(),
             //        cursor_pkt->GetPacketNo());
         }
@@ -2577,7 +2577,7 @@ bool ClientNode::QueuePacket(FieldPacket* packet)
 {
     bool const b = m_tx_queue.QueuePacket(packet) >= 0;
 
-    MYTRACE_COND(!b, ACE_TEXT("Failed to queue packet kind %d to channel %d\n"),
+    MYTRACE_COND(!b, TTEXT("Failed to queue packet kind %d to channel %d\n"),
                  packet->GetKind(), packet->GetChannel());
 
     ACE_Time_Value tv;
@@ -2604,7 +2604,7 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
     if((std::rand() % SIMULATE_TX_PACKETLOSS) == 0)
     {
         dropped++;
-        MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
+        MYTRACE(TTEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
                 packet.GetKind(), dropped, transmitted);
         return packet.GetPacketSize();
     }
@@ -2622,11 +2622,11 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
         switch(packet.GetKind())
         {
         case PACKET_KIND_HELLO :
-            MYTRACE(ACE_TEXT("Sent hello to %s\n"), 
+            MYTRACE(TTEXT("Sent hello to %s\n"), 
                     InetAddrToString(addr).c_str());
             break;
         case PACKET_KIND_KEEPALIVE :
-            MYTRACE(ACE_TEXT("Sent keepalive to %s\n"), 
+            MYTRACE(TTEXT("Sent keepalive to %s\n"), 
                     InetAddrToString(addr).c_str());
             break;
         case PACKET_KIND_VOICE :
@@ -2670,14 +2670,14 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
         case PACKET_KIND_DESKTOPINPUT_ACK_CRYPT :
             m_clientstats.desktopbytes_sent += ret; break;
         default :
-            MYTRACE(ACE_TEXT("Sending unknown packet type %d\n"), packet.GetKind());
+            MYTRACE(TTEXT("Sending unknown packet type %d\n"), packet.GetKind());
             break;
         }
         m_clientstats.udpbytes_sent += ret;
     }
     else
     {
-        MYTRACE(ACE_TEXT("Failed to UDP packet kind %d of size %d\n"),
+        MYTRACE(TTEXT("Failed to UDP packet kind %d of size %d\n"),
                 static_cast<int>(packet.GetKind()), static_cast<int>(packet.GetPacketSize()));
     }
 
@@ -3012,7 +3012,7 @@ bool ClientNode::EnableAudioBlockCallback(int userid, StreamTypes sts,
             if (infmt.IsValid())
             {
                 bool const startmux = newmuxer->RegisterMuxCallback(infmt,[this](auto && PH1, auto && PH2) { AudioMuxCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); });
-                MYTRACE_COND(!startmux, ACE_TEXT("Failed to start audio muxer\n"));
+                MYTRACE_COND(!startmux, TTEXT("Failed to start audio muxer\n"));
                 if (!startmux)
                     return false;
             }
@@ -3315,7 +3315,7 @@ bool ClientNode::UpdateStreamingMediaFile(uint32_t offset, bool paused,
     {
         if (!m_videofile_thread->UpdateEncoder(vid_codec))
         {
-            MYTRACE(ACE_TEXT("Failed to update video encoder on %s\n"),
+            MYTRACE(TTEXT("Failed to update video encoder on %s\n"),
                     m_mediafile_streamer->GetMediaFile().filename.c_str());
             return false;
         }
@@ -3417,7 +3417,7 @@ int ClientNode::InitMediaPlayback(const tstring& filename, uint32_t offset, bool
         TTASSERT(ret >= 0);
     }
 
-    MYTRACE(ACE_TEXT("Opened local media playback #%d for file %s. Active %d \n"),
+    MYTRACE(TTEXT("Opened local media playback #%d for file %s. Active %d \n"),
             m_mediaplayback_counter, filename.c_str(), static_cast<int>(m_mediaplayback_streams.size()));
 
     return m_mediaplayback_counter;
@@ -3550,19 +3550,19 @@ bool ClientNode::InitVideoCapture(const tstring& src_id,
         
     if (session->RegisterVideoFormat([this](auto && PH1, auto && PH2) { return VideoCaptureEncodeCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, media::FOURCC_I420))
     {
-        MYTRACE(ACE_TEXT("Video capture sends I420 directly to encoder\n"));
+        MYTRACE(TTEXT("Video capture sends I420 directly to encoder\n"));
         if (session->RegisterVideoFormat([this](auto && PH1, auto && PH2) { return VideoCaptureRGB32Callback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, media::FOURCC_RGB32))
         {
-            MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to 'm_local_vidcapframes'\n"));
+            MYTRACE(TTEXT("Video capture sends RGB32 directly to 'm_local_vidcapframes'\n"));
         }
         else
         {
-            MYTRACE(ACE_TEXT("Video capture cannot send RGB32', i.e. 'm_local_vidcapframes' is ignored\n"));
+            MYTRACE(TTEXT("Video capture cannot send RGB32', i.e. 'm_local_vidcapframes' is ignored\n"));
         }
     }
     else if (session->RegisterVideoFormat([this](auto && PH1, auto && PH2) { return VideoCaptureDualCallback(std::forward<decltype(PH1)>(PH1), std::forward<decltype(PH2)>(PH2)); }, media::FOURCC_RGB32))
     {
-        MYTRACE(ACE_TEXT("Video capture sends RGB32 directly to encoder. Encoder forwards to 'm_local_vidcapframes'\n"));
+        MYTRACE(TTEXT("Video capture sends RGB32 directly to encoder. Encoder forwards to 'm_local_vidcapframes'\n"));
     }
     else
     {
@@ -3677,7 +3677,7 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
             }
         }
     }
-    //MYTRACE(ACE_TEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
+    //MYTRACE(TTEXT("Local video frame queue: %d\n"), m_local_vidcapframes.message_count());
 
     ACE_Time_Value const tm_zero;
     if(org_frame != nullptr)
@@ -3708,7 +3708,7 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
                                                &w, &h,
                                                enc_data, enc_len);
 
-    // MYTRACE(ACE_TEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
+    // MYTRACE(TTEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
     //         packet_no, (int)packets.size(), enc_len, 
     //         ACE::crc32(enc_data, enc_len));
 
@@ -3762,13 +3762,13 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
     if (m_desktop_tx && !m_desktop_tx->Done() &&
         m_desktop_tx->GetSessionID() == m_desktop->GetSessionID())
     {
-        MYTRACE(ACE_TEXT("Ignored desktop update. Transmission already ongoing\n"));
+        MYTRACE(TTEXT("Ignored desktop update. Transmission already ongoing\n"));
         return -1;
     }
 
     if((m_desktop->thr_count() != 0u) || m_desktop->HasDesktopPackets())
     {
-        MYTRACE(ACE_TEXT("Ignored desktop updated. Thread active: %d, Desktop packets: %d\n"),
+        MYTRACE(TTEXT("Ignored desktop updated. Thread active: %d, Desktop packets: %d\n"),
                 static_cast<int>(m_desktop->thr_count()), static_cast<int>(m_desktop->HasDesktopPackets()));
         return -1;
     }
@@ -3937,7 +3937,7 @@ bool ClientNode::SendDesktopInput(int userid,
     pkt->SetChannel(chan->GetChannelID());
 
     //store packet for retransmission
-    MYTRACE(ACE_TEXT("Queueing packet no %d with %u keys\n"),
+    MYTRACE(TTEXT("Queueing packet no %d with %u keys\n"),
             static_cast<int>(pkt->GetPacketNo()), static_cast<unsigned>(inputs.size()));
     auto rtx_pkt = std::make_shared<DesktopInputPacket>(*pkt);
     user->GetDesktopInputTxQueue().push_back(rtx_pkt);
@@ -3990,7 +3990,7 @@ bool ClientNode::Connect(bool encrypted, const tstring& hostaddr,
     m_serverinfo.systemid = sysid;
     
     m_serverinfo.hostaddrs = DetermineHostAddress(hostaddr, tcpport);
-    MYTRACE(ACE_TEXT("Resolved %d IP-addresses for \"%s\"\n"), static_cast<int>(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
+    MYTRACE(TTEXT("Resolved %d IP-addresses for \"%s\"\n"), static_cast<int>(m_serverinfo.hostaddrs.size()), hostaddr.c_str());
     if (!m_serverinfo.hostaddrs.empty())
     {
         m_serverinfo.udpaddr = m_serverinfo.hostaddrs[0];
@@ -4021,7 +4021,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
                  : m_localTcpAddr.addr_to_string(localtcpipaddr.data(), localtcpipaddr.size());
     m_localUdpAddr.addr_to_string(localudpipaddr.data(), localudpipaddr.size());
 
-    MYTRACE(ACE_TEXT("Trying remote TCP: %s, Local TCP: %s, UDP: %s\n"),
+    MYTRACE(TTEXT("Trying remote TCP: %s, Local TCP: %s, UDP: %s\n"),
             remoteipaddr.data(), localtcpipaddr.data(), localudpipaddr.data());
     
 #if defined(ENABLE_ENCRYPTION)
@@ -4050,7 +4050,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     }
 
     int const err = ACE_OS::last_error();
-    MYTRACE( ACE_TEXT("Last error: %d. Would block is %d\n"), err, EWOULDBLOCK);
+    MYTRACE( TTEXT("Last error: %d. Would block is %d\n"), err, EWOULDBLOCK);
     return ret == 0 || (ret == -1 && err == EWOULDBLOCK);
 }
 
@@ -4060,7 +4060,7 @@ void ClientNode::Disconnect()
 
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    MYTRACE(ACE_TEXT("Disconnecting #%d.\n"), GetUserID());
+    MYTRACE(TTEXT("Disconnecting #%d.\n"), GetUserID());
 
     ResetTimers();
     
@@ -4123,7 +4123,7 @@ void ClientNode::Disconnect()
     m_clientstats = ClientStats();
     m_localTcpAddr = m_localUdpAddr = ACE_INET_Addr();
 
-    MYTRACE(ACE_TEXT("Disconnected #%d.\n"), GetUserID());
+    MYTRACE(TTEXT("Disconnected #%d.\n"), GetUserID());
 }
 
 void ClientNode::JoinChannel(clientchannel_t& chan)
@@ -4850,7 +4850,7 @@ int ClientNode::TransmitCommand(const tstring& command, int cmdid)
     if((m_flags & CLIENT_CONNECTED) == CLIENT_CLOSED)
         return -1;
 
-    MYTRACE(ACE_TEXT("CLIENT #%d: %s"), m_myuserid, command.c_str());
+    MYTRACE(TTEXT("CLIENT #%d: %s"), m_myuserid, command.c_str());
 
 #if defined(UNICODE)
     std::string data(UnicodeToUtf8(command));
@@ -4922,11 +4922,11 @@ ACE_SSL_Context* ClientNode::SetupEncryptionContext()
 
 void ClientNode::OnOpened()
 {
-    MYTRACE( ACE_TEXT("Connected successfully on TCP\n") );
+    MYTRACE( TTEXT("Connected successfully on TCP\n") );
 
     ACE_INET_Addr const localaddr = GetLocalAddr();
     
-    MYTRACE(ACE_TEXT("UDP bind: %s. %d\n"), InetAddrToString(localaddr).c_str(), localaddr.get_type());
+    MYTRACE(TTEXT("UDP bind: %s. %d\n"), InetAddrToString(localaddr).c_str(), localaddr.get_type());
 
     if (m_packethandler.Open(localaddr))
     {
@@ -5002,7 +5002,7 @@ void ClientNode::OnClosed()
             {
                 std::array<char, MAX_STRING_LENGTH> sslerr_str;
                 ::ERR_error_string_n(ace_lasterr, sslerr_str.data(), sslerr_str.size()-1);
-                MYTRACE(ACE_TEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str.data());
+                MYTRACE(TTEXT("SSL errno: 0x%x, %s\n"), ace_lasterr, sslerr_str.data());
                 m_listener->OnEncryptionFailed(ace_lasterr, LocalToUnicode(sslerr_str.data()));
             }
             m_listener->OnConnectFailed();
@@ -5100,12 +5100,12 @@ bool ClientNode::ProcessCommand(const std::string& cmdline)
     tstring const command = cmdline.c_str();
 #endif
 
-    MYTRACE(ACE_TEXT("SERVER #%d: %s"), m_myuserid, command.c_str());
+    MYTRACE(TTEXT("SERVER #%d: %s"), m_myuserid, command.c_str());
 
     mstrings_t properties;
     if (ExtractProperties(command, properties) < 0)
     {
-        MYTRACE(ACE_TEXT("Failed to extract properties from server command: %s\n"), command.c_str());
+        MYTRACE(TTEXT("Failed to extract properties from server command: %s\n"), command.c_str());
         return true;
     }
     
@@ -5243,12 +5243,12 @@ void ClientNode::HandleServerUpdate(const mstrings_t& properties)
         
         GetProperty(properties, TT_TCPPORT, newtcpport);
         MYTRACE_COND(newtcpport && newtcpport != tcpport,
-                     ACE_TEXT("TCP port is different. Indicates server is behind NAT.\n"));
+                     TTEXT("TCP port is different. Indicates server is behind NAT.\n"));
         // don't change m_serverinfo.udpaddr. This will not work for
         // servers behind NAT
         GetProperty(properties, TT_UDPPORT, newudpport);
         MYTRACE_COND(newudpport && newudpport != udpport,
-                     ACE_TEXT("UDP port is different. Indicates server is behind NAT.\n"));
+                     TTEXT("UDP port is different. Indicates server is behind NAT.\n"));
     }
     GetProperty(properties, TT_MOTD, m_serverinfo.motd);
     GetProperty(properties, TT_MOTDRAW, m_serverinfo.motd_raw);
@@ -5338,7 +5338,7 @@ void ClientNode::HandleLoggedOut(const mstrings_t& properties)
     else
     {
         MYTRACE_COND(m_users.find(userid) == m_users.end(),
-                     ACE_TEXT("Unknown user: #%d\n"), userid);
+                     TTEXT("Unknown user: #%d\n"), userid);
 
         TTASSERT(m_users.find(userid) != m_users.end());
         //if user is admin he might have file stream coming in
@@ -5484,7 +5484,7 @@ void ClientNode::HandleRemoveUser(const mstrings_t& properties)
     GetProperty(properties, TT_USERID, userid);
 
     clientuser_t const user = GetUser(userid);
-    MYTRACE_COND(!user, ACE_TEXT("Unknown user: #%d\n"), userid);
+    MYTRACE_COND(!user, TTEXT("Unknown user: #%d\n"), userid);
     TTASSERT(user.get());
     clientchannel_t const chan = GetChannel(channelid);
     TTASSERT(chan.get());

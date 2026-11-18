@@ -33,7 +33,7 @@
 tstring GetProcessName()
 {
     std::array<tchar, 512> buff{};
-    ACE_OS::strncpy(buff.data(), ACE_TEXT("Unknown"), buff.size());
+    ACE_OS::strncpy(buff.data(), TTEXT("Unknown"), buff.size());
 
     NSBundle *bundle = [NSBundle mainBundle];       
     NSDictionary *info = [bundle infoDictionary];

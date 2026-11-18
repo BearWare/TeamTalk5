@@ -116,7 +116,7 @@ using http_prop_t = std::map<std::string, std::string>;
 
 ACE_THR_FUNC_RETURN perform_check(void *arg)
 {
-    std::string url = TEAMTALK_SDK_URL;
+    std::string url(TEAMTALK_SDK_URL);
 
     http_prop_t http_prop;
 

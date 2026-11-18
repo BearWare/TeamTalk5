@@ -32,7 +32,6 @@
 #include <set>
 #include <sstream>
 #include <string>
-#include <thread>
 #include <vector>
 
 //tstring is std::wstring on Windows and std::string on other platforms.

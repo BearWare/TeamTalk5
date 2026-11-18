@@ -22,6 +22,7 @@
  */
 
 #include "OggFileIO.h"
+#include "mystd/MyStd.h"
 
 #include <array>
 #include <cstring>

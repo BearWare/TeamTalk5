@@ -64,20 +64,20 @@ ServerGuard::ServerGuard(ServerXML& settings)
 void ServerGuard::OnUserConnected(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" TCP address: ") << user.GetIpAddress().c_str() << ACE_TEXT(" connected.");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" TCP address: ") << user.GetIpAddress().c_str() << TTEXT(" connected.");
     TT_LOG(oss.str().c_str());
 }
 
 void ServerGuard::OnUserLogin(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("IP address: ") << user.GetIpAddress().c_str() << ACE_TEXT(" ");
-    oss << ACE_TEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << ACE_TEXT(":");
-    oss << user.GetUdpAddress().get_port_number() << ACE_TEXT(" logged in.");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("IP address: ") << user.GetIpAddress().c_str() << TTEXT(" ");
+    oss << TTEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << TTEXT(":");
+    oss << user.GetUdpAddress().get_port_number() << TTEXT(" logged in.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -85,11 +85,11 @@ void ServerGuard::OnUserLogin(const ServerUser& user)
 void ServerGuard::OnUserAuthFailed(const ServerUser& user, const tstring& username)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("failed to authenticate for account \"") << LogPrepare(username).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("IP address: ") << user.GetIpAddress().c_str() << ACE_TEXT(" ");
-    oss << ACE_TEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << ACE_TEXT(":");
-    oss << user.GetUdpAddress().get_port_number() << ACE_TEXT(".");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("failed to authenticate for account \"") << LogPrepare(username).c_str() << TTEXT("\" ");
+    oss << TTEXT("IP address: ") << user.GetIpAddress().c_str() << TTEXT(" ");
+    oss << TTEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << TTEXT(":");
+    oss << user.GetUdpAddress().get_port_number() << TTEXT(".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -97,13 +97,13 @@ void ServerGuard::OnUserAuthFailed(const ServerUser& user, const tstring& userna
 void ServerGuard::OnUserLoginBanned(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("IP address: ") << user.GetIpAddress().c_str() << ACE_TEXT(" ");
-    oss << ACE_TEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << ACE_TEXT(":");
-    oss << user.GetUdpAddress().get_port_number() << ACE_TEXT(" denied login due to banned IP-address.");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("IP address: ") << user.GetIpAddress().c_str() << TTEXT(" ");
+    oss << TTEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << TTEXT(":");
+    oss << user.GetUdpAddress().get_port_number() << TTEXT(" denied login due to banned IP-address.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -111,11 +111,11 @@ void ServerGuard::OnUserLoginBanned(const ServerUser& user)
 void ServerGuard::OnUserLoggedOut(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("logged out.");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("logged out.");
 
     TT_LOG(oss.str().c_str());
 
@@ -131,20 +131,20 @@ void ServerGuard::OnUserDisconnected(const ServerUser& user)
     serverchannel_t const chan = user.GetChannel();
     if(chan)
     {
-        oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
         if(!user.GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("Channel: \"") << LogPrepare(chan->GetChannelPath()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("disconnected.");
+            oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+        oss << TTEXT("Channel: \"") << LogPrepare(chan->GetChannelPath()).c_str() << TTEXT("\" ");
+        oss << TTEXT("disconnected.");
     }
     else
     {
-        oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
         if(!user.GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("disconnected.");
+            oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+        oss << TTEXT("disconnected.");
     }
     TT_LOG(oss.str().c_str());
 }
@@ -152,20 +152,20 @@ void ServerGuard::OnUserDisconnected(const ServerUser& user)
 void ServerGuard::OnUserCryptError(const ServerUser& user, int sslerr, const tstring& msg)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("encryption error no: 0x") << std::hex << sslerr << ACE_TEXT(" ");
-    oss << ACE_TEXT("message: ") << LogPrepare(msg).c_str();
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("encryption error no: 0x") << std::hex << sslerr << TTEXT(" ");
+    oss << TTEXT("message: ") << LogPrepare(msg).c_str();
     TT_LOG(oss.str().c_str());
 }
 
 void ServerGuard::OnUserDropped(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("dropped after ") << user.GetLastKeepAlive() << ACE_TEXT(" sec for inactivity.");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("dropped after ") << user.GetLastKeepAlive() << TTEXT(" sec for inactivity.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -175,25 +175,25 @@ void ServerGuard::OnUserKicked(const ServerUser& kickee,
                                const ServerChannel* channel)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << kickee.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(kickee.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << kickee.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(kickee.GetNickname()).c_str() << TTEXT("\" ");
     if(!kickee.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(kickee.GetUsername()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("username: \"") << LogPrepare(kickee.GetUsername()).c_str() << TTEXT("\" ");
     if(kicker != nullptr)
     {
-        oss << ACE_TEXT("kicked by #") << kicker->GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(kicker->GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("kicked by #") << kicker->GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(kicker->GetNickname()).c_str() << TTEXT("\" ");
         if(channel != nullptr)
-            oss << ACE_TEXT("from channel: \"") << LogPrepare(channel->GetChannelPath()).c_str() << ACE_TEXT("\".");
+            oss << TTEXT("from channel: \"") << LogPrepare(channel->GetChannelPath()).c_str() << TTEXT("\".");
         else
-            oss << ACE_TEXT("from server.");
+            oss << TTEXT("from server.");
     }
     else
     {
         if(channel != nullptr)
-            oss << ACE_TEXT("kicked from channel: \"") << LogPrepare(channel->GetChannelPath()).c_str() << ACE_TEXT("\".");
+            oss << TTEXT("kicked from channel: \"") << LogPrepare(channel->GetChannelPath()).c_str() << TTEXT("\".");
         else
-            oss << ACE_TEXT("kick from server.");
+            oss << TTEXT("kick from server.");
     }
 
     TT_LOG(oss.str().c_str());
@@ -202,16 +202,16 @@ void ServerGuard::OnUserKicked(const ServerUser& kickee,
 void ServerGuard::OnUserBanned(const ServerUser& banee, const ServerUser& banner)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << banner.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << TTEXT("\" ");
     if(!banner.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("banned user #") << banee.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("IP address: ") << LogPrepare(banee.GetIpAddress()).c_str() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(banee.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("banned user #") << banee.GetUserID() << TTEXT(" ");
+    oss << TTEXT("IP address: ") << LogPrepare(banee.GetIpAddress()).c_str() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(banee.GetNickname()).c_str() << TTEXT("\" ");
     if(!banee.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(banee.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("from server.");
+        oss << TTEXT("username: \"") << LogPrepare(banee.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("from server.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -219,13 +219,13 @@ void ServerGuard::OnUserBanned(const ServerUser& banee, const ServerUser& banner
 void ServerGuard::OnUserBanned(const tstring& ipaddr, const ServerUser& banner)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << banner.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << TTEXT("\" ");
     if(!banner.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("banned ");
-    oss << ACE_TEXT("IP address: ") << LogPrepare(ipaddr).c_str() << ACE_TEXT(" ");
-    oss << ACE_TEXT("from server.");
+        oss << TTEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("banned ");
+    oss << TTEXT("IP address: ") << LogPrepare(ipaddr).c_str() << TTEXT(" ");
+    oss << TTEXT("from server.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -233,21 +233,21 @@ void ServerGuard::OnUserBanned(const tstring& ipaddr, const ServerUser& banner)
 void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << banner.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << banner.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(banner.GetNickname()).c_str() << TTEXT("\" ");
     if(!banner.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("banned ");
+        oss << TTEXT("username: \"") << LogPrepare(banner.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("banned ");
 
     if((ban.bantype & BANTYPE_IPADDR) != BANTYPE_NONE)
-        oss << ACE_TEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << ACE_TEXT(" ");
+        oss << TTEXT("IP address: ") << LogPrepare(ban.ipaddr).c_str() << TTEXT(" ");
     if((ban.bantype & BANTYPE_USERNAME) != BANTYPE_NONE)
-        oss << ACE_TEXT("username: \"") << LogPrepare(ban.username).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("username: \"") << LogPrepare(ban.username).c_str() << TTEXT("\" ");
 
     if((ban.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
-        oss << ACE_TEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("from channel \"") << LogPrepare(ban.chanpath).c_str() << TTEXT("\".");
     else
-        oss << ACE_TEXT("from server.");
+        oss << TTEXT("from server.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -255,11 +255,11 @@ void ServerGuard::OnUserBanned(const ServerUser& banner, const BannedUser& ban)
 void ServerGuard::OnUserUnbanned(const ServerUser& user, const BannedUser& ban)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("unbanned IP address: ") << ban.ipaddr.c_str() << ACE_TEXT(".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("unbanned IP address: ") << ban.ipaddr.c_str() << TTEXT(".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -267,14 +267,14 @@ void ServerGuard::OnUserUnbanned(const ServerUser& user, const BannedUser& ban)
 void ServerGuard::OnUserUpdated(const ServerUser& user)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("status: ") << user.GetStatusMode() << ACE_TEXT(" ");
-    oss << ACE_TEXT("status msg: \"") << LogPrepare(user.GetStatusMessage()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << ACE_TEXT(":");
-    oss << user.GetUdpAddress().get_port_number() << ACE_TEXT(" updated.");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("status: ") << user.GetStatusMode() << TTEXT(" ");
+    oss << TTEXT("status msg: \"") << LogPrepare(user.GetStatusMessage()).c_str() << TTEXT("\" ");
+    oss << TTEXT("UDP address: ") << user.GetUdpAddress().get_host_addr() << TTEXT(":");
+    oss << user.GetUdpAddress().get_port_number() << TTEXT(" updated.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -282,62 +282,62 @@ void ServerGuard::OnUserUpdated(const ServerUser& user)
 void ServerGuard::OnUserSubscribe(const ServerUser& user, const ServerUser& subscriptuser)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if (!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("changed subscription to #") << subscriptuser.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(subscriptuser.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("changed subscription to #") << subscriptuser.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(subscriptuser.GetNickname()).c_str() << TTEXT("\" ");
     if (!subscriptuser.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(subscriptuser.GetUsername()).c_str() << ACE_TEXT("\": ");
+        oss << TTEXT("username: \"") << LogPrepare(subscriptuser.GetUsername()).c_str() << TTEXT("\": ");
 
     tostringstream oss_sub;
     auto subscriptions = user.GetSubscriptions(subscriptuser);
     if ((subscriptions & SUBSCRIBE_USER_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("um");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("um");
     if ((subscriptions & SUBSCRIBE_CHANNEL_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("cm");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("cm");
     if ((subscriptions & SUBSCRIBE_BROADCAST_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("bm");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("bm");
     if ((subscriptions & SUBSCRIBE_CUSTOM_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mm");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("mm");
     if ((subscriptions & SUBSCRIBE_VOICE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vo");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("vo");
     if ((subscriptions & SUBSCRIBE_VIDEOCAPTURE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("vi");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("vi");
     if ((subscriptions & SUBSCRIBE_DESKTOP) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("de");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("de");
     if ((subscriptions & SUBSCRIBE_DESKTOPINPUT) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("di");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("di");
     if ((subscriptions & SUBSCRIBE_MEDIAFILE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("mf");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("mf");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_USER_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("UM");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("UM");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_CHANNEL_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("CM");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("CM");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_CUSTOM_MSG) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MM");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("MM");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_VOICE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VO");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("VO");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_VIDEOCAPTURE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("VI");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("VI");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_DESKTOP) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("DE");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("DE");
     if ((subscriptions & SUBSCRIBE_INTERCEPT_MEDIAFILE) != SUBSCRIBE_NONE)
-        oss_sub << ((!oss_sub.str().empty()) ? ACE_TEXT(",") : ACE_TEXT("")) << ACE_TEXT("MF");
+        oss_sub << ((!oss_sub.str().empty()) ? TTEXT(",") : TTEXT("")) << TTEXT("MF");
 
-    oss << oss_sub.str() << ACE_TEXT(".");
+    oss << oss_sub.str() << TTEXT(".");
     TT_LOG(oss.str().c_str());
 }
 
 void ServerGuard::OnUserJoinChannel(const ServerUser& user, const ServerChannel& channel)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("joined channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("joined channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -345,11 +345,11 @@ void ServerGuard::OnUserJoinChannel(const ServerUser& user, const ServerChannel&
 void ServerGuard::OnUserLeaveChannel(const ServerUser& user, const ServerChannel& channel)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("left channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("left channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -357,14 +357,14 @@ void ServerGuard::OnUserLeaveChannel(const ServerUser& user, const ServerChannel
 void ServerGuard::OnUserMoved(const ServerUser& mover, const ServerUser& movee)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << mover.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(mover.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << mover.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(mover.GetNickname()).c_str() << TTEXT("\" ");
     if(!mover.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(mover.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("moved user #") << movee.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(movee.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("username: \"") << LogPrepare(mover.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("moved user #") << movee.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(movee.GetNickname()).c_str() << TTEXT("\" ");
     if(!movee.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(movee.GetUsername()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(movee.GetUsername()).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -375,15 +375,15 @@ void ServerGuard::OnUserMessage(const ServerUser& from, const ServerUser& to, co
     if(msg.msgType == TTUserMsg)
     {
         tostringstream oss;
-        oss << ACE_TEXT("User message from #") << from.GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("User message from #") << from.GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << TTEXT("\" ");
         if(!from.GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("to #") << to.GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(to.GetNickname()).c_str() << ACE_TEXT("\" ");
+            oss << TTEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << TTEXT("\" ");
+        oss << TTEXT("to #") << to.GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(to.GetNickname()).c_str() << TTEXT("\" ");
         if(!to.GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(to.GetUsername()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("content: \"") << LogPrepare(msg.content).c_str() << ACE_TEXT("\".");
+            oss << TTEXT("username: \"") << LogPrepare(to.GetUsername()).c_str() << TTEXT("\" ");
+        oss << TTEXT("content: \"") << LogPrepare(msg.content).c_str() << TTEXT("\".");
 
         TT_LOG(oss.str().c_str());
     }
@@ -395,12 +395,12 @@ void ServerGuard::OnChannelMessage(const ServerUser& from, const ServerChannel& 
     if(msg.msgType == TTChannelMsg)
     {
         tostringstream oss;
-        oss << ACE_TEXT("Channel message from #") << from.GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("Channel message from #") << from.GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << TTEXT("\" ");
         if(!from.GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("to channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" ");
-        oss << ACE_TEXT("content: \"") << LogPrepare(msg.content).c_str() << ACE_TEXT("\".");
+            oss << TTEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << TTEXT("\" ");
+        oss << TTEXT("to channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\" ");
+        oss << TTEXT("content: \"") << LogPrepare(msg.content).c_str() << TTEXT("\".");
 
         TT_LOG(oss.str().c_str());
     }
@@ -410,8 +410,8 @@ void ServerGuard::OnBroadcastMessage(const ServerUser& from, const teamtalk::Tex
 {
     TTASSERT(msg.msgType == TTBroadcastMsg);
     tostringstream oss;
-    oss << ACE_TEXT("Broadcast message from #") << from.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("content: \"") << LogPrepare(msg.content).c_str() << ACE_TEXT("\".");
+    oss << TTEXT("Broadcast message from #") << from.GetUserID() << TTEXT(" ");
+    oss << TTEXT("content: \"") << LogPrepare(msg.content).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -421,15 +421,15 @@ void ServerGuard::OnCustomMessage(const ServerUser& from, const ServerUser& to, 
     //if(msg.msgType == TTCustomMsg)
     //{
     //    tostringstream oss;
-    //    oss << ACE_TEXT("User custom message from #") << from.GetUserID() << ACE_TEXT(" ");
-    //    oss << ACE_TEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << ACE_TEXT("\" ");
+    //    oss << TTEXT("User custom message from #") << from.GetUserID() << TTEXT(" ");
+    //    oss << TTEXT("nickname: \"") << LogPrepare(from.GetNickname()).c_str() << TTEXT("\" ");
     //    if(from.GetUsername().length())
-    //        oss << ACE_TEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << ACE_TEXT("\" ");
-    //    oss << ACE_TEXT("to #") << to.GetUserID() << ACE_TEXT(" ");
-    //    oss << ACE_TEXT("nickname: \"") << LogPrepare(to.GetNickname()).c_str() << ACE_TEXT("\" ");
+    //        oss << TTEXT("username: \"") << LogPrepare(from.GetUsername()).c_str() << TTEXT("\" ");
+    //    oss << TTEXT("to #") << to.GetUserID() << TTEXT(" ");
+    //    oss << TTEXT("nickname: \"") << LogPrepare(to.GetNickname()).c_str() << TTEXT("\" ");
     //    if(to.GetUsername().length())
-    //        oss << ACE_TEXT("username: \"") << LogPrepare(to.GetUsername()).c_str() << ACE_TEXT("\" ");
-    //    oss << ACE_TEXT("content: \"") << LogPrepare(msg.content) << ACE_TEXT("\".");
+    //        oss << TTEXT("username: \"") << LogPrepare(to.GetUsername()).c_str() << TTEXT("\" ");
+    //    oss << TTEXT("content: \"") << LogPrepare(msg.content) << TTEXT("\".");
 
     //    TT_LOG(oss.str().c_str());
     //}
@@ -441,22 +441,22 @@ void ServerGuard::OnUserUpdateStream(const ServerUser& user, const ServerChannel
     switch (stream)
     {
     case STREAMTYPE_VOICE :
-        oss << ACE_TEXT("New voice stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New voice stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_DESKTOP :
-        oss << ACE_TEXT("New desktop stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New desktop stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_DESKTOPINPUT :
-        oss << ACE_TEXT("New desktop input stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New desktop input stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_MEDIAFILE_AUDIO :
-        oss << ACE_TEXT("New audio media file stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New audio media file stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_MEDIAFILE_VIDEO :
-        oss << ACE_TEXT("New video media file stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New video media file stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_VIDEOCAPTURE :
-        oss << ACE_TEXT("New video capture stream ") << streamid << ACE_TEXT(" from #") << user.GetUserID() << ACE_TEXT(" ");
+        oss << TTEXT("New video capture stream ") << streamid << TTEXT(" from #") << user.GetUserID() << TTEXT(" ");
         break;
     case STREAMTYPE_MEDIAFILE :
     case STREAMTYPE_CHANNELMSG :
@@ -466,10 +466,10 @@ void ServerGuard::OnUserUpdateStream(const ServerUser& user, const ServerChannel
         break;
     }
 
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("to channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("to channel: \"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -481,16 +481,16 @@ void ServerGuard::OnChannelCreated(const ServerChannel& channel,
         return;
 
     tostringstream oss;
-    oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+    oss << TTEXT("Channel #") << channel.GetChannelID() << TTEXT(" ");
     if(user != nullptr)
     {
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" created by ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\" created by ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << TTEXT("\" ");
         if(!user->GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\".");
+            oss << TTEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << TTEXT("\".");
     }
     else
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" created.");
+        oss << TTEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\" created.");
 
     TT_LOG(oss.str().c_str());
 }
@@ -508,33 +508,33 @@ static void LogTransmitUsers(const std::set<int>& userids, ChannelTypes chantype
     {
     case STREAMTYPE_VOICE :
         if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
-            oss << ACE_TEXT(", can transmit voice:");
+            oss << TTEXT(", can transmit voice:");
         else
-            oss << ACE_TEXT(", cannot transmit voice:");
+            oss << TTEXT(", cannot transmit voice:");
         break;
     case STREAMTYPE_VIDEOCAPTURE :
         if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
-            oss << ACE_TEXT(", can transmit video:");
+            oss << TTEXT(", can transmit video:");
         else
-            oss << ACE_TEXT(", cannot transmit video:");
+            oss << TTEXT(", cannot transmit video:");
         break;
     case STREAMTYPE_DESKTOP :
         if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
-            oss << ACE_TEXT(", can transmit desktop:");
+            oss << TTEXT(", can transmit desktop:");
         else
-            oss << ACE_TEXT(", cannot transmit desktop:");
+            oss << TTEXT(", cannot transmit desktop:");
         break;
     case STREAMTYPE_MEDIAFILE :
         if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
-            oss << ACE_TEXT(", can transmit media files:");
+            oss << TTEXT(", can transmit media files:");
         else
-            oss << ACE_TEXT(", cannot transmit media files:");
+            oss << TTEXT(", cannot transmit media files:");
         break;
     case STREAMTYPE_CHANNELMSG :
         if ((chantype & CHANNEL_CLASSROOM) != CHANNEL_DEFAULT)
-            oss << ACE_TEXT(", can send channel text messages:");
+            oss << TTEXT(", can send channel text messages:");
         else
-            oss << ACE_TEXT(", cannot send channel text messages:");
+            oss << TTEXT(", cannot send channel text messages:");
         break;
     default :
         assert(0);
@@ -544,9 +544,9 @@ static void LogTransmitUsers(const std::set<int>& userids, ChannelTypes chantype
     for (auto id : userids)
     {
         if ((chantype & CHANNEL_CLASSROOM) == CHANNEL_CLASSROOM && id == TRANSMITUSERS_FREEFORALL)
-            oss << ACE_TEXT(" ") << ACE_TEXT("everyone");
+            oss << TTEXT(" ") << TTEXT("everyone");
         else if (id != TRANSMITUSERS_FREEFORALL)
-            oss << ACE_TEXT(" ") << ACE_TEXT("#") << id;
+            oss << TTEXT(" ") << TTEXT("#") << id;
     }
 }
 
@@ -554,21 +554,21 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
                                    const ServerUser* user/* = NULL*/)
 {
     tostringstream oss;
-    oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
+    oss << TTEXT("Channel #") << channel.GetChannelID() << TTEXT(" ");
     if (user != nullptr)
     {
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated by ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\" updated by ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << TTEXT("\" ");
         if (!user->GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\"");
+            oss << TTEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << TTEXT("\"");
     }
     else
     {
-        oss << ACE_TEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("\" updated");
+        oss << TTEXT("\"") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("\" updated");
     }
 
     if (((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT) && (!channel.GetTransmitQueue().empty()))
-        oss << ACE_TEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
+        oss << TTEXT(", transmitter: #") << *channel.GetTransmitQueue().begin();
 
     LogTransmitUsers(channel.GetVoiceUsers(), channel.GetChannelType(), STREAMTYPE_VOICE, oss);
     LogTransmitUsers(channel.GetVideoUsers(), channel.GetChannelType(), STREAMTYPE_VIDEOCAPTURE, oss);
@@ -576,7 +576,7 @@ void ServerGuard::OnChannelUpdated(const ServerChannel& channel,
     LogTransmitUsers(channel.GetDesktopUsers(), channel.GetChannelType(), STREAMTYPE_DESKTOP, oss);
     LogTransmitUsers(channel.GetChannelTextMsgUsers(), channel.GetChannelType(), STREAMTYPE_CHANNELMSG, oss);
 
-    oss << ACE_TEXT(".");
+    oss << TTEXT(".");
 
     TT_LOG(oss.str().c_str());
 }
@@ -588,21 +588,21 @@ void ServerGuard::OnChannelRemoved(const ServerChannel& channel,
     if (user != nullptr) 
     {
         tostringstream oss;
-        oss << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed by "); 
-        oss << ACE_TEXT("nickname: '") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("' ");
+        oss << TTEXT("Channel #") << channel.GetChannelID() << TTEXT(" ");
+        oss << TTEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("' removed by "); 
+        oss << TTEXT("nickname: '") << LogPrepare(user->GetNickname()).c_str() << TTEXT("' ");
         if(!user->GetUsername().empty())
-            oss << ACE_TEXT("username: '") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("'.");
+            oss << TTEXT("username: '") << LogPrepare(user->GetUsername()).c_str() << TTEXT("'.");
         else
-            oss << ACE_TEXT(".");
+            oss << TTEXT(".");
         TT_LOG(oss.str().c_str());
     }
     else
     {
          // Log server-initiated removal if not already logged by operator cleanup.
          tostringstream oss_server_removed;
-         oss_server_removed << ACE_TEXT("Channel #") << channel.GetChannelID() << ACE_TEXT(" ");
-         oss_server_removed << ACE_TEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << ACE_TEXT("' removed (server process).");
+         oss_server_removed << TTEXT("Channel #") << channel.GetChannelID() << TTEXT(" ");
+         oss_server_removed << TTEXT("'") << LogPrepare(channel.GetChannelPath()).c_str() << TTEXT("' removed (server process).");
          TT_LOG(oss_server_removed.str().c_str());
     }
 }
@@ -610,49 +610,49 @@ void ServerGuard::OnChannelRemoved(const ServerChannel& channel,
 void ServerGuard::OnFileUploaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("uploaded file: \"") << LogPrepare(file.filename).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("to channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("uploaded file: \"") << LogPrepare(file.filename).c_str() << TTEXT("\" ");
+    oss << TTEXT("to channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << TTEXT("\".");
     TT_LOG(oss.str().c_str()); 
 }
 
 void ServerGuard::OnFileDownloaded(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("downloaded file: \"") << LogPrepare(file.filename).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("from channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("downloaded file: \"") << LogPrepare(file.filename).c_str() << TTEXT("\" ");
+    oss << TTEXT("from channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << TTEXT("\".");
     TT_LOG(oss.str().c_str());
 }
 
 void ServerGuard::OnFileDeleted(const ServerUser& user, const ServerChannel& chan, const RemoteFile& file)
 {
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("deleted file: \"") << LogPrepare(file.filename).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("from channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("deleted file: \"") << LogPrepare(file.filename).c_str() << TTEXT("\" ");
+    oss << TTEXT("from channel: \"") << LogPrepare(chan.GetChannelPath()).c_str() << TTEXT("\".");
     TT_LOG(oss.str().c_str());
 }
 
 void ServerGuard::OnServerUpdated(const ServerUser* user, const ServerSettings&  /*srvprop*/)
 {
     tostringstream oss;
-    oss << ACE_TEXT("Server properties updated");
+    oss << TTEXT("Server properties updated");
     if (user != nullptr)
     {
-        oss << ACE_TEXT(" by user #") << user->GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT(" by user #") << user->GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << TTEXT("\" ");
         if(!user->GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\" ");
+            oss << TTEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << TTEXT("\" ");
     }
     TT_LOG(oss.str().c_str());
 }
@@ -660,15 +660,15 @@ void ServerGuard::OnServerUpdated(const ServerUser* user, const ServerSettings& 
 void ServerGuard::OnSaveConfiguration(const ServerUser* user/* = NULL*/)
 {
     tostringstream oss;
-    oss << ACE_TEXT("Server configuration saved");
+    oss << TTEXT("Server configuration saved");
     if(user != nullptr)
     {
-        oss << ACE_TEXT(" by user #") << user->GetUserID() << ACE_TEXT(" ");
-        oss << ACE_TEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << ACE_TEXT("\" ");
+        oss << TTEXT(" by user #") << user->GetUserID() << TTEXT(" ");
+        oss << TTEXT("nickname: \"") << LogPrepare(user->GetNickname()).c_str() << TTEXT("\" ");
         if(!user->GetUsername().empty())
-            oss << ACE_TEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << ACE_TEXT("\"");
+            oss << TTEXT("username: \"") << LogPrepare(user->GetUsername()).c_str() << TTEXT("\"");
     }
-    oss << ACE_TEXT(".");
+    oss << TTEXT(".");
     TT_LOG(oss.str().c_str());
 }
 
@@ -676,17 +676,17 @@ void ServerGuard::OnShutdown(const ServerStats& stats)
 {
     constexpr auto BYTES_PER_KILOBYTE = 1024;
     tostringstream oss;
-    oss << ACE_TEXT("Data transferred - ");
-    oss << ACE_TEXT("Total TX: ") << stats.total_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Total RX: ") << stats.total_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Voice TX: ") << stats.voice_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Voice RX: ") << stats.voice_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Desktop TX: ") << stats.desktop_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Desktop RX: ") << stats.desktop_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Media Files TX: ") << stats.mediafile_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Media Files RX: ") << stats.mediafile_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes ");
-    oss << ACE_TEXT("Video TX: ") << stats.vidcap_bytessent / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes/sec ");
-    oss << ACE_TEXT("Video RX: ") << stats.vidcap_bytesreceived / BYTES_PER_KILOBYTE << ACE_TEXT(" KBytes/sec.");
+    oss << TTEXT("Data transferred - ");
+    oss << TTEXT("Total TX: ") << stats.total_bytessent / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Total RX: ") << stats.total_bytesreceived / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Voice TX: ") << stats.voice_bytessent / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Voice RX: ") << stats.voice_bytesreceived / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Desktop TX: ") << stats.desktop_bytessent / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Desktop RX: ") << stats.desktop_bytesreceived / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Media Files TX: ") << stats.mediafile_bytessent / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Media Files RX: ") << stats.mediafile_bytesreceived / BYTES_PER_KILOBYTE << TTEXT(" KBytes ");
+    oss << TTEXT("Video TX: ") << stats.vidcap_bytessent / BYTES_PER_KILOBYTE << TTEXT(" KBytes/sec ");
+    oss << TTEXT("Video RX: ") << stats.vidcap_bytesreceived / BYTES_PER_KILOBYTE << TTEXT(" KBytes/sec.");
     TT_LOG(oss.str().c_str());
 }
 
@@ -710,7 +710,7 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, uint32_t userid, User
         if (authtoken.empty())
         {
             err = TT_CMDERR_INVALID_ACCOUNT;
-            MYTRACE(ACE_TEXT("Authentication token is empty\n"));
+            MYTRACE(TTEXT("Authentication token is empty\n"));
             WebLoginComplete(servernode, userid, useraccount, err);
             return;
         }
@@ -722,12 +722,12 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, uint32_t userid, User
         if (!m_settings.AuthenticateUser(copyaccount))
         {
             UserAccount sharedaccount;
-            sharedaccount.username = ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME);
+            sharedaccount.username = Utf8ToUnicode(WEBLOGIN_BEARWARE_USERNAME.data());
             if (!m_settings.AuthenticateUser(sharedaccount))
             {
                 err.errorno = TT_CMDERR_INVALID_ACCOUNT;
                 WebLoginComplete(servernode, userid, useraccount, err);
-                MYTRACE(ACE_TEXT("Shared 'bearware' account doesn't exist\n"));
+                MYTRACE(TTEXT("Shared 'bearware' account doesn't exist\n"));
                 return;
             }
 
@@ -744,21 +744,21 @@ void ServerGuard::WebLoginBearWare(ServerNode* servernode, uint32_t userid, User
     }
 
 
-    std::string url = WEBLOGIN_URL;
-    url += "client=" TEAMTALK_LIB_NAME;
-    url += "&version=" TEAMTALK_VERSION;
+    std::string url(WEBLOGIN_URL);
+    url += "client=" + std::string(TEAMTALK_LIB_NAME);
+    url += "&version=" + std::string(TEAMTALK_VERSION);
     url += "&service=bearware";
     url += "&action=serverauth";
     url += std::string("&username=") + authusername;
     url += std::string("&accesstoken=") + authtoken;
 
-    MYTRACE(ACE_TEXT("Performing HTTP web authentication of %s\n"), useraccount.username.c_str());
+    MYTRACE(TTEXT("Performing HTTP web authentication of %s\n"), useraccount.username.c_str());
     std::string utf8;
     int const ret = HttpGetRequest(url, utf8);
 
     GUARD_OBJ_NAME(g, servernode, servernode->Lock()); // lock required by WebLoginPostAuthenticate() and WebLoginComplete()
 
-    MYTRACE(ACE_TEXT("HTTP response code: %d\n"), ret);
+    MYTRACE(TTEXT("HTTP response code: %d\n"), ret);
     switch(ret)
     {
     default :
@@ -843,10 +843,10 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
         return ErrorMsg(TT_CMDERR_SERVER_BANNED);
     }
 
-    MYTRACE(ACE_TEXT("Authenticating %s\n"), useraccount.username.c_str());
+    MYTRACE(TTEXT("Authenticating %s\n"), useraccount.username.c_str());
 
 #if defined(ENABLE_TEAMTALKPRO)
-    if (useraccount.username == ACE_TEXT(WEBLOGIN_BEARWARE_USERNAME))
+    if (useraccount.username == Utf8ToUnicode(WEBLOGIN_BEARWARE_USERNAME.data()))
         return TT_CMDERR_INVALID_ACCOUNT;
 
     if (useraccount.IsWebLogin())
@@ -865,7 +865,7 @@ ErrorMsg ServerGuard::AuthenticateUser(ServerNode* servernode, ServerUser& user,
             return TT_CMDERR_IGNORE;
         }
 
-        MYTRACE(ACE_TEXT("Starting BearWare.dk WebLogin for %s\n"), useraccount.username.c_str());
+        MYTRACE(TTEXT("Starting BearWare.dk WebLogin for %s\n"), useraccount.username.c_str());
         std::thread mythr(&ServerGuard::WebLoginBearWare, this, servernode, uint32_t(user.GetUserID()), useraccount);
         mythr.detach();
 
@@ -933,11 +933,11 @@ ErrorMsg ServerGuard::AddRegUser(const ServerUser& user, const UserAccount& user
 
     //TODO: Separate log event
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("created user account: \"") << LogPrepare(useraccount.username).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("created user account: \"") << LogPrepare(useraccount.username).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 
@@ -952,11 +952,11 @@ ErrorMsg ServerGuard::DeleteRegUser(const ServerUser& user, const tstring& usern
     }
 
     tostringstream oss;
-    oss << ACE_TEXT("User #") << user.GetUserID() << ACE_TEXT(" ");
-    oss << ACE_TEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << ACE_TEXT("\" ");
+    oss << TTEXT("User #") << user.GetUserID() << TTEXT(" ");
+    oss << TTEXT("nickname: \"") << LogPrepare(user.GetNickname()).c_str() << TTEXT("\" ");
     if(!user.GetUsername().empty())
-        oss << ACE_TEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << ACE_TEXT("\" ");
-    oss << ACE_TEXT("deleted user account: \"") << LogPrepare(username).c_str() << ACE_TEXT("\".");
+        oss << TTEXT("username: \"") << LogPrepare(user.GetUsername()).c_str() << TTEXT("\" ");
+    oss << TTEXT("deleted user account: \"") << LogPrepare(username).c_str() << TTEXT("\".");
 
     TT_LOG(oss.str().c_str());
 

@@ -153,7 +153,7 @@ void RotateLogfile(const tstring& cwd, const tstring& logname,
         if(curfile.length()>logname.length() &&
            curfile.substr(0, logname.length()) == logname)
         {
-            strings_t tokens = Tokenize(curfile, ACE_TEXT("."));
+            strings_t tokens = Tokenize(curfile, TTEXT("."));
             if(tokens.empty())
                 continue;
             int const val = String2I(tokens[tokens.size()-1]);
@@ -163,7 +163,7 @@ void RotateLogfile(const tstring& cwd, const tstring& logname,
 
     max++;
 
-    tstring const tmp_logname = logname + ACE_TEXT(".") + I2String(max);
+    tstring const tmp_logname = logname + TTEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
     std::error_code ec;
@@ -182,9 +182,9 @@ WebLoginResult LoginBearWareAccount(const tstring& username, const tstring& pass
     std::string const usernameUtf8 = UnicodeToUtf8(username);
     std::string const passwdUtf8 = UnicodeToUtf8(passwd);
 
-    std::string url = WEBLOGIN_URL;
-    url += "client=" TEAMTALK_LIB_NAME;
-    url += "&version=" TEAMTALK_VERSION;
+    std::string url(WEBLOGIN_URL);
+    url += "client=" + std::string(TEAMTALK_LIB_NAME);
+    url += "&version=" + std::string(TEAMTALK_VERSION);
     url += "&service=bearware";
     url += "&action=auth";
     url += "&username=" + URLEncode(usernameUtf8);
@@ -216,9 +216,9 @@ WebLoginResult AuthBearWareAccount(const tstring& username, const tstring& token
     std::string const usernameUtf8 = UnicodeToUtf8(username);
     std::string const tokenUtf8 = UnicodeToUtf8(token);
 
-    std::string url = WEBLOGIN_URL;
-    url += "client=" TEAMTALK_LIB_NAME;
-    url += "&version=" TEAMTALK_VERSION;
+    std::string url(WEBLOGIN_URL);
+    url += "client=" + std::string(TEAMTALK_LIB_NAME);
+    url += "&version=" + std::string(TEAMTALK_VERSION);
     url += "&service=bearware";
     url += "&action=clientauth";
     url += "&username=" + URLEncode(usernameUtf8);

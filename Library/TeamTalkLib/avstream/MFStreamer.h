@@ -25,10 +25,10 @@
 
 #include "MediaStreamer.h"
 
-#include <cstdint>
-
 #include <atlbase.h>
 #include <mfapi.h>
+
+#include <cstdint>
 
 bool GetMFMediaFileProp(const tstring& filename, MediaFileProp& fileprop);
 

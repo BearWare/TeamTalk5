@@ -55,7 +55,7 @@ using videocapturedevice_t = V4L2Capture;
 #include <cstdint>
 #include <vector>
 
-#define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE ACE_TEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
+#define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE TTEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
 
 class NullVideoCapture : public VideoCapture
@@ -64,9 +64,9 @@ class NullVideoCapture : public VideoCapture
 public:
     NullVideoCapture()
     {
-        m_dev.api = ACE_TEXT("TeamTalk Virtual Video Capture");
+        m_dev.api = TTEXT("TeamTalk Virtual Video Capture");
         m_dev.deviceid = TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE;
-        m_dev.devicename = ACE_TEXT("TeamTalk Virtual Video Capture Device #0");
+        m_dev.devicename = TTEXT("TeamTalk Virtual Video Capture Device #0");
         m_dev.vidcapformats.emplace_back(320, 240, 30, 1, media::FOURCC_RGB32);
         m_dev.vidcapformats.emplace_back(640, 480, 15, 1, media::FOURCC_RGB32);
     }

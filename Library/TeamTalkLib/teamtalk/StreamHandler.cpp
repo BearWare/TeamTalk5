@@ -22,6 +22,7 @@
  */
 
 #include "StreamHandler.h"
+#include "mystd/MyStd.h"
 
 #include <array>
 #include <memory>
@@ -222,7 +223,7 @@ int CryptStreamHandler::ProcessSSL(SSL* ssl)
         ACE_OS::last_error (err);
         std::array<char, 256> error_string{};
         ::ERR_error_string_n (::ERR_get_error(), error_string.data(), error_string.size());
-        MYTRACE(ACE_TEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string.data()));
+        MYTRACE(TTEXT("OpenSSL error: %s\n"), LocalToUnicode(error_string.data()));
         return -1;
     }
     }

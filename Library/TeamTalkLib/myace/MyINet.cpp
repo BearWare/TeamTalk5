@@ -68,7 +68,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const tstring& host, uint16_t po
 #endif
     if (addrinfoerror != 0)
     {
-        MYTRACE(ACE_TEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
+        MYTRACE(TTEXT("Failed to resolve %s. Error: %d"), host.c_str(), addrinfoerror);
         return {};
     }
 
@@ -136,10 +136,10 @@ int HttpGetRequest(const std::string& url, std::string& result, ACE::HTTP::Statu
 
     ACE::HTTP::Status const httpCode = http.response().get_status();
 #if defined(UNICODE)
-    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"),
+    MYTRACE_COND(!httpCode.is_ok(), TTEXT("HTTP request failed:\n%s\n"),
         Utf8ToUnicode(result.c_str()).c_str());
 #else
-    MYTRACE_COND(!httpCode.is_ok(), ACE_TEXT("HTTP request failed:\n%s\n"), result.c_str());
+    MYTRACE_COND(!httpCode.is_ok(), TTEXT("HTTP request failed:\n%s\n"), result.c_str());
 #endif
     if (statusCode != nullptr)
         *statusCode = httpCode.get_status();

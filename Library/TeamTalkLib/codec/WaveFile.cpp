@@ -106,7 +106,7 @@ bool UpdateWaveFileHeader(MyFile& file)
         }
         else
         {
-            MYTRACE_COND(DEBUG_WAVEFILE, ACE_TEXT("Failed to update wave-file header\n"));
+            MYTRACE_COND(DEBUG_WAVEFILE, TTEXT("Failed to update wave-file header\n"));
         }
     }
 
@@ -141,7 +141,7 @@ WavePCMFile::WavePCMFile() : m_channels(0)
 WavePCMFile::~WavePCMFile()
 {
     Close();
-    MYTRACE_COND(DEBUG_WAVEFILE, ACE_TEXT("Closing wave-file %s\n"), m_filepath.c_str());
+    MYTRACE_COND(DEBUG_WAVEFILE, TTEXT("Closing wave-file %s\n"), m_filepath.c_str());
 }
 
 bool WavePCMFile::OpenFile(const tstring& filename, bool readonly)

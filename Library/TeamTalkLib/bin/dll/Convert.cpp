@@ -22,7 +22,7 @@
  */
 
 #include "Convert.h"
-
+#include "mystd/MyStd.h"
 #include "teamtalk/CodecCommon.h"
 
 #if defined(ENABLE_OPUS)
@@ -1228,7 +1228,7 @@ static void Convert(const teamtalk::User& srcuser, User& result)
     ACE_OS::strsncpy(result.szStatusMsg, srcuser.GetStatusMessage().c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szIPAddress, srcuser.GetIpAddress().c_str(), TT_STRLEN);
     ACE_OS::strsncpy(result.szClientName, srcuser.GetClientName().c_str(), TT_STRLEN);
-    strings_t tokens = Tokenize(srcuser.GetClientVersion(), ACE_TEXT("."));
+    strings_t tokens = Tokenize(srcuser.GetClientVersion(), TTEXT("."));
     result.uVersion = 0;
     int shift = 16;
     while((!tokens.empty()) && shift >= 0)

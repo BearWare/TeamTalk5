@@ -57,7 +57,7 @@ DesktopInitiator::DesktopInitiator(int userid, const DesktopWindow& wnd,
 DesktopInitiator::~DesktopInitiator()
 {
     TTASSERT(this->thr_count() == 0);
-    MYTRACE(ACE_TEXT("DesktopInitiator::~DesktopInitiator()\n"));
+    MYTRACE(TTEXT("DesktopInitiator::~DesktopInitiator()\n"));
 }
 
 int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
@@ -66,7 +66,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
 
     //uint32_t start_tm = GETTIMESTAMP();
 
-    MYTRACE_COND(!IsValid(), ACE_TEXT("Desktop window is invalid: %dx%d format %d. Block count: %d\n"), GetWidth(), GetHeight(), GetRGBMode(), GetBlocksCount());
+    MYTRACE_COND(!IsValid(), TTEXT("Desktop window is invalid: %dx%d format %d. Block count: %d\n"), GetWidth(), GetHeight(), GetRGBMode(), GetBlocksCount());
     if (!IsValid())
         return -1;
 
@@ -127,7 +127,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
     TTASSERT(m_w_blocks*m_h_blocks == static_cast<int>(m_blocks.size()));
     TTASSERT(m_abort == false);
 
-    //MYTRACE(ACE_TEXT("Build packets thread new bmp done %u, duration %u. Dirty blocks: %u\n"), 
+    //MYTRACE(TTEXT("Build packets thread new bmp done %u, duration %u. Dirty blocks: %u\n"), 
     //        tm, GETTIMESTAMP() - start_tm, m_dirty_blocknums.size());
 
     int const n_dirty = static_cast<int>(m_dirty_blocknums.size());
