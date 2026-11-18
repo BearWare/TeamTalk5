@@ -1,7 +1,7 @@
 TEAMTALK_ROOT=$(PWD)/../..
 
 #location of 'junit'
-JUNIT_JAR ?= /usr/share/java/junit-platform-console-standalone.jar
+JUNIT_JAR ?= $(PWD)/libs/junit-platform-console-standalone.jar
 
 ifeq ($(shell uname),Darwin)
 SHARED_EXT := dylib
