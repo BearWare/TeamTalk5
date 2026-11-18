@@ -537,7 +537,7 @@ assert(status == noErr);
             return audioUnit;
 
         fail:
-            MYTRACE(ACE_TEXT("Failed to create shared voice-processing unit, status %d\n"), (int)status);
+            MYTRACE(ACE_TEXT("Failed to create shared voice-processing unit, status %d\n"), static_cast<int>(status));
             AudioComponentInstanceDispose(audioUnit);
             return nil;
         }
@@ -1030,7 +1030,7 @@ static OSStatus VPIOOutputCallback(void *userData, AudioUnitRenderActionFlags *a
 
     // unit is running for recording only
     for(UInt32 i = 0; i < buffers->mNumberBuffers; ++i)
-        ACE_OS::memset(buffers->mBuffers[i].mData, 0, buffers->mBuffers[i].mDataByteSize);
+        std::memset(buffers->mBuffers[i].mData, 0, buffers->mBuffers[i].mDataByteSize);
     *actionFlags |= kAudioUnitRenderAction_OutputIsSilence;
     return noErr;
 }
