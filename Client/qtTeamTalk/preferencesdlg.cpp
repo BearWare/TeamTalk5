@@ -1808,6 +1808,7 @@ void PreferencesDlg::slotDefaultVideoSettings()
         break;
     case OPUS_CODEC :
     case WAV_CODEC :
+    case FLAC_CODEC :
     case SPEEX_VBR_CODEC :
     case SPEEX_CODEC :
     case NO_CODEC :

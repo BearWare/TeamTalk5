@@ -853,6 +853,12 @@ namespace teamtalk{
                     PutInteger(codecElement, "sample-format", chan.audiocodec.wav.sampleformat);
                     PutInteger(codecElement, "tx-interval-msec", chan.audiocodec.wav.txinterval_msec);
                     break;
+                case CODEC_FLAC :
+                    PutInteger(codecElement, "samplerate", chan.audiocodec.flac.samplerate);
+                    PutInteger(codecElement, "channels", chan.audiocodec.flac.channels);
+                    PutInteger(codecElement, "compression-level", chan.audiocodec.flac.compressionlevel);
+                    PutInteger(codecElement, "tx-interval-msec", chan.audiocodec.flac.txinterval_msec);
+                    break;
                 }
                 xmlChan->InsertEndChild(codecElement);
 
@@ -1034,6 +1040,12 @@ namespace teamtalk{
                         newchan.audiocodec.wav.sampleformat = static_cast<WavSampleFormat>(sampleformat);
                         break;
                     }
+                    case CODEC_FLAC :
+                        b &= GetInteger(codecElement, "samplerate", newchan.audiocodec.flac.samplerate);
+                        b &= GetInteger(codecElement, "channels", newchan.audiocodec.flac.channels);
+                        b &= GetInteger(codecElement, "compression-level", newchan.audiocodec.flac.compressionlevel);
+                        b &= GetInteger(codecElement, "tx-interval-msec", newchan.audiocodec.flac.txinterval_msec);
+                        break;
                     }
                     if(b)
                         newchan.audiocodec.codec = (teamtalk::Codec)codec;

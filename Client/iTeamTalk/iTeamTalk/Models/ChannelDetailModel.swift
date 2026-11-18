@@ -108,6 +108,7 @@ final class ChannelDetailModel: ObservableObject {
         var speexcodec = newSpeexCodec()
         var speexvbrcodec = newSpeexVBRCodec()
         var wavcodec = newWavCodec()
+        var flaccodec = newFlacCodec()
         var activeCodec = channel.audiocodec
 
         switch channel.audiocodec.nCodec {
@@ -119,6 +120,8 @@ final class ChannelDetailModel: ObservableObject {
             opuscodec = TeamTalkAudioCodec.opusCodec(from: channel.audiocodec)
         case WAV_CODEC:
             wavcodec = TeamTalkAudioCodec.wavCodec(from: channel.audiocodec)
+        case FLAC_CODEC:
+            flaccodec = TeamTalkAudioCodec.flacCodec(from: channel.audiocodec)
         case NO_CODEC:
             if channel.nChannelID == 0 {
                 activeCodec.nCodec = OPUS_CODEC
@@ -132,7 +135,8 @@ final class ChannelDetailModel: ObservableObject {
             opuscodec: opuscodec,
             speexcodec: speexcodec,
             speexvbrcodec: speexvbrcodec,
-            wavcodec: wavcodec
+            wavcodec: wavcodec,
+            flaccodec: flaccodec
         )
     }
 
@@ -156,6 +160,10 @@ final class ChannelDetailModel: ObservableObject {
             var wavcodec = newWavCodec()
             codecModel.saveWavCodec(to: &wavcodec)
             TeamTalkAudioCodec.setWavCodec(wavcodec, on: &channel.audiocodec)
+        case .useFLAC:
+            var flaccodec = newFlacCodec()
+            codecModel.saveFlacCodec(to: &flaccodec)
+            TeamTalkAudioCodec.setFlacCodec(flaccodec, on: &channel.audiocodec)
         }
         refreshCodecDescription(channel.audiocodec)
     }
@@ -198,6 +206,10 @@ final class ChannelDetailModel: ObservableObject {
             let chans = wav.nChannels > 1 ? String(localized: "Stereo", comment: "create channel") : String(localized: "Mono", comment: "create channel")
             let bits = wav.nSampleFormat == WAV_SAMPLEFORMAT_UINT8 ? 8 : 16
             return "WAV \(wav.nSampleRate) Hz \(bits)-bit " + chans
+        case FLAC_CODEC:
+            let flac = TeamTalkAudioCodec.flacCodec(from: codec)
+            let chans = flac.nChannels > 1 ? String(localized: "Stereo", comment: "create channel") : String(localized: "Mono", comment: "create channel")
+            return "FLAC \(flac.nSampleRate) Hz " + chans
         case NO_CODEC:
             fallthrough
         default:

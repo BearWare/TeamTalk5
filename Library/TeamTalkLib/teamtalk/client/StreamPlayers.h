@@ -38,6 +38,9 @@
 #if defined(ENABLE_OPUS)
 #include "codec/OpusDecoder.h"
 #endif
+#if defined(ENABLE_FLAC)
+#include "codec/FlacDecoder.h"
+#endif
 #if defined(ENABLE_VPX)
 #include "codec/VpxDecoder.h"
 #endif
@@ -209,6 +212,23 @@ namespace teamtalk {
         bool DecodeFrame(const EncFrame& enc_frame,
                          short* output_buffer, int n_samples) override;
     };
+
+#if defined(ENABLE_FLAC)
+    class FlacPlayer : public AudioPlayer
+    {
+    public:
+        FlacPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
+                   useraudio_callback_t audio_cb, const AudioCodec& codec,
+                   audio_resampler_t resampler);
+        ~FlacPlayer() override;
+
+        bool DecodeFrame(const EncFrame& enc_frame,
+                         short* output_buffer, int n_samples) override;
+
+    protected:
+        FlacDecode m_decoder;
+    };
+#endif
 
     using fragmentnums_t = std::vector<uint16_t>;
 

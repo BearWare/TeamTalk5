@@ -3499,6 +3499,8 @@ TEAMTALKDLL_API INT32 TT_DBG_SIZEOF(IN TTType nType)
         return sizeof(AbusePrevention);
     case __WAVCODEC:
         return sizeof(WavCodec);
+    case __FLACCODEC:
+        return sizeof(FlacCodec);
     }
     return 0;
 }

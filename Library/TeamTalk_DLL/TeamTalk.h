@@ -1251,6 +1251,49 @@ extern "C" {
  * transmission. Checkout @c nTxIntervalMSec of #WavCodec. */
 #define WAV_MAX_PACKETSIZE 65535
 
+    /** @brief FLAC audio codec settings. Audio is transmitted as
+     * losslessly compressed 16-bit PCM samples. */
+    typedef struct FlacCodec
+    {
+        /** @brief The sample rate to use. Sample rate must be 8000,
+         * 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+         * 88200, 96000, 176400, 192000, 352800 or 384000 Hz. */
+        INT32 nSampleRate;
+        /** @brief Mono = 1 or stereo = 2. */
+        INT32 nChannels;
+        /** @brief The compression level of the FLAC encoder. Value
+         * from #FLAC_MIN_COMPRESSIONLEVEL to
+         * #FLAC_MAX_COMPRESSIONLEVEL. A higher compression level
+         * gives smaller packets but requires more CPU. */
+        INT32 nCompressionLevel;
+        /** @brief Duration of audio before each transmission. Minimum is 2 msec.
+         * Maximum is 1000 msec.
+         *
+         * The size of the encoded audio depends on the audio being
+         * compressed so the uncompressed 16-bit PCM samples of each
+         * transmission plus #FLAC_MAX_PACKETOVERHEAD bytes cannot
+         * exceed #FLAC_MAX_PACKETSIZE bytes, i.e. @c nSampleRate * @c
+         * nTxIntervalMSec / 1000 * @c nChannels * 2 +
+         * #FLAC_MAX_PACKETOVERHEAD.
+         *
+         * The #SoundSystem must be able to process audio packets at
+         * this interval. In most cases this makes less than 40 msec
+         * transmission interval unfeasible. */
+        INT32 nTxIntervalMSec;
+    } FlacCodec;
+
+/** @brief The minimum compression level of #FlacCodec. */
+#define FLAC_MIN_COMPRESSIONLEVEL 0
+/** @brief The maximum compression level of #FlacCodec. */
+#define FLAC_MAX_COMPRESSIONLEVEL 8
+/** @brief The maximum number of bytes of encoded audio in each
+ * transmission. Checkout @c nTxIntervalMSec of #FlacCodec. */
+#define FLAC_MAX_PACKETSIZE 65535
+/** @brief The maximum number of bytes the FLAC encoder adds to the
+ * PCM samples of each transmission. Checkout @c nTxIntervalMSec of
+ * #FlacCodec. */
+#define FLAC_MAX_PACKETOVERHEAD 32
+
     /** @brief Speex DSP is used for specifying how recorded audio
      * from a sound input device should be preprocessed before
      * transmission.
@@ -1514,6 +1557,8 @@ extern "C" {
         OPUS_CODEC                  = 3,
         /** @brief WAV audio codec. @see WavCodec */
         WAV_CODEC                   = 4,
+        /** @brief FLAC audio codec. @see FlacCodec */
+        FLAC_CODEC                  = 5,
         /** @brief WebM video codec. @see WebMVP8Codec */
         WEBM_VP8_CODEC              = 128,
     } Codec;
@@ -1523,7 +1568,7 @@ extern "C" {
     typedef struct AudioCodec
     {
         /** @brief Specifies whether the member @a speex, @a speex_vbr,
-         * @a opus or @a wav holds the codec settings. */
+         * @a opus, @a wav or @a flac holds the codec settings. */
         Codec nCodec;  
         union
         {
@@ -1539,6 +1584,9 @@ extern "C" {
             /** @brief WAV codec settings if @a nCodec is
              * #WAV_CODEC */
             WavCodec wav;
+            /** @brief FLAC codec settings if @a nCodec is
+             * #FLAC_CODEC */
+            FlacCodec flac;
         };
     } AudioCodec;
 
@@ -4021,6 +4069,7 @@ extern "C" {
         __DESKTOPWINDOW       = 45,
         __ABUSEPREVENTION       = 46,
         __WAVCODEC              = 47,
+        __FLACCODEC             = 48,
     } TTType;
 
     /**

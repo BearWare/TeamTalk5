@@ -22,6 +22,10 @@ public enum TeamTalkAudioCodec {
         TTKitMakeWavCodec()
     }
 
+    public static func makeFlacCodec() -> FlacCodec {
+        TTKitMakeFlacCodec()
+    }
+
     public static func opusCodec(from audioCodec: AudioCodec) -> OpusCodec {
         var audioCodec = audioCodec
         return TTKitGetOpusCodec(&audioCodec)
@@ -42,6 +46,11 @@ public enum TeamTalkAudioCodec {
         return TTKitGetWavCodec(&audioCodec)
     }
 
+    public static func flacCodec(from audioCodec: AudioCodec) -> FlacCodec {
+        var audioCodec = audioCodec
+        return TTKitGetFlacCodec(&audioCodec)
+    }
+
     public static func setOpusCodec(_ opusCodec: OpusCodec, on audioCodec: inout AudioCodec) {
         var opusCodec = opusCodec
         TTKitSetOpusCodec(&audioCodec, &opusCodec)
@@ -60,5 +69,10 @@ public enum TeamTalkAudioCodec {
     public static func setWavCodec(_ wavCodec: WavCodec, on audioCodec: inout AudioCodec) {
         var wavCodec = wavCodec
         TTKitSetWavCodec(&audioCodec, &wavCodec)
+    }
+
+    public static func setFlacCodec(_ flacCodec: FlacCodec, on audioCodec: inout AudioCodec) {
+        var flacCodec = flacCodec
+        TTKitSetFlacCodec(&audioCodec, &flacCodec)
     }
 }

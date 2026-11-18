@@ -51,6 +51,7 @@ jobs:
            libavfilter-dev
            libavformat-dev
            libavutil-dev
+           libflac-dev
            libminiupnpc-dev
            libogg-dev
            libopus-dev
@@ -72,6 +73,7 @@ jobs:
            -DTOOLCHAIN_ACE=OFF
            -DTOOLCHAIN_CATCH2=OFF
            -DTOOLCHAIN_FFMPEG=OFF
+           -DTOOLCHAIN_FLAC=OFF
            -DTOOLCHAIN_LIBVPX=OFF
            -DTOOLCHAIN_MINIUPNPC=OFF
            -DTOOLCHAIN_OGG=OFF

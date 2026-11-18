@@ -252,6 +252,12 @@ AudioCodec MakeDefaultAudioCodec(Codec codec)
         result.wav.nSampleFormat = WAV_SAMPLEFORMAT_INT16;
         result.wav.nTxIntervalMSec = 40;
         break;
+    case FLAC_CODEC :
+        result.flac.nSampleRate = 48000;
+        result.flac.nChannels = 1;
+        result.flac.nCompressionLevel = 5;
+        result.flac.nTxIntervalMSec = 40;
+        break;
     case NO_CODEC :
     case WEBM_VP8_CODEC :
         break;

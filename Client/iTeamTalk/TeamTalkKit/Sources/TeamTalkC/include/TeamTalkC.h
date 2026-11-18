@@ -35,16 +35,19 @@ OpusCodec TTKitMakeOpusCodec(void);
 SpeexCodec TTKitMakeSpeexCodec(void);
 SpeexVBRCodec TTKitMakeSpeexVBRCodec(void);
 WavCodec TTKitMakeWavCodec(void);
+FlacCodec TTKitMakeFlacCodec(void);
 
 OpusCodec TTKitGetOpusCodec(const AudioCodec* audioCodec);
 SpeexCodec TTKitGetSpeexCodec(const AudioCodec* audioCodec);
 SpeexVBRCodec TTKitGetSpeexVBRCodec(const AudioCodec* audioCodec);
 WavCodec TTKitGetWavCodec(const AudioCodec* audioCodec);
+FlacCodec TTKitGetFlacCodec(const AudioCodec* audioCodec);
 
 void TTKitSetOpusCodec(AudioCodec* audioCodec, const OpusCodec* opusCodec);
 void TTKitSetSpeexCodec(AudioCodec* audioCodec, const SpeexCodec* speexCodec);
 void TTKitSetSpeexVBRCodec(AudioCodec* audioCodec, const SpeexVBRCodec* speexVBRCodec);
 void TTKitSetWavCodec(AudioCodec* audioCodec, const WavCodec* wavCodec);
+void TTKitSetFlacCodec(AudioCodec* audioCodec, const FlacCodec* flacCodec);
 
 Channel TTKitMessageChannel(const TTMessage* message);
 User TTKitMessageUser(const TTMessage* message);

@@ -50,6 +50,8 @@ struct AudioCodecView: View {
             speexVBRRows
         case WAV_CODEC:
             wavRows
+        case FLAC_CODEC:
+            flacRows
         case NO_CODEC:
             Button {
                 performAction(.useNoAudio)
@@ -256,6 +258,51 @@ struct AudioCodecView: View {
                 performAction(.useWAV)
             } label: {
                 Text("Use WAV Codec")
+                    .frame(maxWidth: .infinity, alignment: .center)
+            }
+        }
+    }
+
+    private var flacRows: some View {
+        Group {
+            Picker("Sample Rate", selection: $model.flacSampleRateIndex) {
+                ForEach(Array(model.wavSampleRates.enumerated()), id: \.offset) { index, samplerate in
+                    Text("\(samplerate) Hz").tag(index)
+                }
+            }
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Audio Channels")
+                Picker("Audio Channels", selection: $model.flacChannelsIndex) {
+                    Text("Mono").tag(0)
+                    Text("Stereo").tag(1)
+                }
+                .pickerStyle(.segmented)
+            }
+            Picker("Compression Level", selection: $model.flacCompressionLevelIndex) {
+                ForEach(Array(model.flacCompressionLevels.enumerated()), id: \.offset) { index, level in
+                    Text("\(level)").tag(index)
+                }
+            }
+            HStack(spacing: 12) {
+                Text("Max Bitrate")
+                Spacer(minLength: 16)
+                Text("\(model.flacMaxBitrate) KB/s")
+                    .font(.body.monospacedDigit())
+                    .foregroundStyle(.secondary)
+            }
+            Stepper(value: $model.flacTransmitInterval, in: 10...model.flacMaxTransmitInterval, step: 10) {
+                HStack(spacing: 12) {
+                    Text("Transmit Interval")
+                    Spacer(minLength: 16)
+                    Text("\(Int(model.flacTransmitInterval.rounded())) ms")
+                        .font(.body.monospacedDigit())
+                        .foregroundStyle(.secondary)
+                }
+            }
+            Button {
+                performAction(.useFLAC)
+            } label: {
+                Text("Use FLAC Codec")
                     .frame(maxWidth: .infinity, alignment: .center)
             }
         }

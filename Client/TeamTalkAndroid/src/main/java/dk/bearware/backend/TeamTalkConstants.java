@@ -51,6 +51,9 @@ public class TeamTalkConstants {
     public static final int WAV_MIN_TXINTERVALMSEC = 10;
     public static final int WAV_MAX_TXINTERVALMSEC = 1000;
 
+    public static final int FLAC_MIN_TXINTERVALMSEC = 10;
+    public static final int FLAC_MAX_TXINTERVALMSEC = 1000;
+
     // dk.bearware.AudioConfig - TeamTalk default values
     public static final int CHANNEL_AUDIOCONFIG_MAX = 32000;
     public static final boolean DEFAULT_CHANNEL_AUDIOCONFIG_ENABLE = false;

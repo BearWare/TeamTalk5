@@ -52,6 +52,11 @@
 #include "codec/OpusDecoder.h"
 #endif
 
+#if defined(ENABLE_FLAC)
+#include "codec/FlacDecoder.h"
+#include "codec/FlacEncoder.h"
+#endif
+
 #if defined(ENABLE_FFMPEG)
 #include "avstream/FFmpegStreamer.h"
 #endif
@@ -410,6 +415,138 @@ TEST_CASE("WAV codec command property", "[wav]")
     CHECK(parsed.codec == teamtalk::CODEC_WAV);
     CHECK(parsed == codec);
 }
+
+TEST_CASE("FLAC codec validation", "[flac]")
+{
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_FLAC;
+    codec.flac.channels = 2;
+    codec.flac.compressionlevel = 5;
+    codec.flac.txinterval_msec = 40;
+    for (int samplerate : {8000, 11025, 12000, 16000, 22050, 24000, 32000, 44100, 48000,
+                           88200, 96000, 176400, 192000, 352800, 384000})
+    {
+        codec.flac.samplerate = samplerate;
+        CHECK(teamtalk::ValidAudioCodec(codec));
+    }
+
+    codec.flac.samplerate = 44000;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.flac.samplerate = 384000;
+    codec.flac.txinterval_msec = 42;
+    CHECK(teamtalk::ValidAudioCodec(codec));
+    codec.flac.txinterval_msec = 43;
+    CHECK(teamtalk::GetFlacMaxPacketSize(codec) > teamtalk::MAX_ENC_FRAGMENTED_FRAMESIZE);
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.flac.txinterval_msec = 1;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.flac.samplerate = 48000;
+    codec.flac.txinterval_msec = 40;
+    for (int level = 0; level <= 8; ++level)
+    {
+        codec.flac.compressionlevel = level;
+        CHECK(teamtalk::ValidAudioCodec(codec));
+    }
+    codec.flac.compressionlevel = -1;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+    codec.flac.compressionlevel = 9;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.flac.compressionlevel = 5;
+    codec.flac.channels = 3;
+    CHECK_FALSE(teamtalk::ValidAudioCodec(codec));
+
+    codec.flac.channels = 1;
+    CHECK(teamtalk::ValidAudioCodec(codec));
+    CHECK(teamtalk::GetAudioCodecBitRate(codec) == 48000 * 16);
+    CHECK(teamtalk::GetAudioCodecCbSamples(codec) == 1920);
+    CHECK(teamtalk::GetAudioCodecCbMillis(codec) == 40);
+    CHECK(teamtalk::GetAudioCodecFramesPerPacket(codec) == 1);
+    CHECK(teamtalk::GetAudioCodecMaxEncFrameSize(codec) == teamtalk::MAX_ENC_FRAGMENTED_FRAMESIZE);
+    CHECK(teamtalk::GetFlacMaxPacketSize(codec) == (1920 * 2) + 32);
+}
+
+TEST_CASE("FLAC codec command property", "[flac]")
+{
+    teamtalk::AudioCodec codec;
+    codec.codec = teamtalk::CODEC_FLAC;
+    codec.flac.samplerate = 96000;
+    codec.flac.channels = 2;
+    codec.flac.compressionlevel = 8;
+    codec.flac.txinterval_msec = 20;
+
+    ACE_TString cmd = ACE_TEXT("makechannel");
+    teamtalk::AppendProperty(ACE_TEXT("audiocodec"), codec, cmd);
+
+    teamtalk::mstrings_t properties;
+    teamtalk::ExtractProperties(cmd, properties);
+    teamtalk::AudioCodec parsed;
+    REQUIRE(teamtalk::GetProperty(properties, ACE_TEXT("audiocodec"), parsed));
+    CHECK(parsed.codec == teamtalk::CODEC_FLAC);
+    CHECK(parsed == codec);
+}
+
+#if defined(ENABLE_FLAC)
+TEST_CASE("FLAC encoder and decoder", "[flac]")
+{
+    int const samplerate = 48000;
+    int const channels = 2;
+    int const framesize = 1920;
+    int const frames = 5;
+
+    std::vector<short> signal(static_cast<size_t>(framesize) * channels * frames);
+    for (size_t i = 0; i < signal.size(); ++i)
+        signal[i] = static_cast<short>(static_cast<int>((i * 7919) % 60000) - 30000);
+
+    for (int level = 0; level <= 8; ++level)
+    {
+        INFO("Compression level " << level);
+        FlacEncode encoder;
+        FlacDecode decoder;
+        REQUIRE(encoder.Open(samplerate, channels, level, framesize));
+        REQUIRE(decoder.Open(samplerate, channels));
+
+        std::vector<char> packet(teamtalk::MAX_ENC_FRAGMENTED_FRAMESIZE);
+        std::vector<short> decoded(static_cast<size_t>(framesize) * channels);
+        for (int f = 0; f < frames; ++f)
+        {
+            const short* input = &signal[static_cast<size_t>(f) * framesize * channels];
+            int const len = encoder.Encode(input, framesize, packet.data(), static_cast<int>(packet.size()));
+            REQUIRE(len > 0);
+            REQUIRE(len <= (framesize * channels * 2) + 32);
+            REQUIRE(decoder.Decode(packet.data(), len, decoded.data(), framesize) == framesize);
+            REQUIRE(std::equal(decoded.begin(), decoded.end(), input));
+        }
+    }
+
+    FlacEncode encoder;
+    FlacDecode decoder;
+    REQUIRE(encoder.Open(samplerate, channels, 5, framesize));
+    REQUIRE(decoder.Open(samplerate, channels));
+    std::vector<char> packet(teamtalk::MAX_ENC_FRAGMENTED_FRAMESIZE);
+    std::vector<short> decoded(static_cast<size_t>(framesize) * channels);
+    int const len = encoder.Encode(signal.data(), framesize, packet.data(), static_cast<int>(packet.size()));
+    REQUIRE(len > 0);
+
+    CHECK(decoder.Decode(packet.data(), len / 2, decoded.data(), framesize) == -1);
+    std::vector<char> corrupt(packet.begin(), packet.begin() + len);
+    corrupt[len / 2] ^= 0x5A;
+    CHECK(decoder.Decode(corrupt.data(), len, decoded.data(), framesize) == -1);
+    REQUIRE(decoder.Decode(packet.data(), len, decoded.data(), framesize) == framesize);
+    CHECK(std::equal(decoded.begin(), decoded.end(), signal.begin()));
+
+    FlacDecode mono;
+    REQUIRE(mono.Open(samplerate, 1));
+    CHECK(mono.Decode(packet.data(), len, decoded.data(), framesize) == -1);
+
+    CHECK(encoder.Encode(signal.data(), framesize - 1, packet.data(), static_cast<int>(packet.size())) == -1);
+    CHECK(encoder.Encode(signal.data(), framesize, packet.data(), 10) == -1);
+    CHECK(encoder.Encode(signal.data(), framesize, packet.data(), static_cast<int>(packet.size())) == len);
+}
+#endif
 
 TEST_CASE( "Init TT", "" )
 {
@@ -2303,6 +2440,98 @@ TEST_CASE("WAV insert and acquire audio block")
         REQUIRE(std::equal(received.begin(), received.end(), expected.begin()));
     }
 }
+
+#if defined(ENABLE_FLAC)
+TEST_CASE("FLAC insert and acquire audio block")
+{
+    struct FlacTest
+    {
+        int samplerate;
+        int channels;
+        int compressionlevel;
+    };
+
+    const std::vector<FlacTest> flactests = {
+        {8000, 1, 0},
+        {11025, 2, 5},
+        {44100, 1, 8},
+        {48000, 2, 5},
+        {96000, 2, 8},
+    };
+
+    for (const auto& flactest : flactests)
+    {
+        INFO("Sample rate " << flactest.samplerate << ", channels " << flactest.channels << ", compression level " << flactest.compressionlevel);
+
+        auto txclient = InitTeamTalk();
+        auto rxclient = InitTeamTalk();
+
+        REQUIRE(InitSound(txclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        REQUIRE(Connect(txclient));
+        REQUIRE(Login(txclient, ACE_TEXT("TxClient")));
+
+        REQUIRE(InitSound(rxclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
+        REQUIRE(Connect(rxclient));
+        REQUIRE(Login(rxclient, ACE_TEXT("RxClient")));
+
+        AudioCodec audiocodec = MakeDefaultAudioCodec(FLAC_CODEC);
+        audiocodec.flac.nSampleRate = flactest.samplerate;
+        audiocodec.flac.nChannels = flactest.channels;
+        audiocodec.flac.nCompressionLevel = flactest.compressionlevel;
+
+        Channel const chan = MakeChannel(txclient, ACE_TEXT("flac"), TT_GetRootChannelID(txclient), audiocodec);
+        REQUIRE(WaitForCmdSuccess(txclient, TT_DoJoinChannel(txclient, &chan)));
+        REQUIRE(WaitForCmdSuccess(rxclient, TT_DoJoinChannelByID(rxclient, TT_GetMyChannelID(txclient), ACE_TEXT(""))));
+
+        Channel joined = {};
+        REQUIRE(TT_GetChannel(rxclient, TT_GetMyChannelID(rxclient), &joined));
+        REQUIRE(joined.audiocodec.nCodec == FLAC_CODEC);
+        REQUIRE(joined.audiocodec.flac.nSampleRate == flactest.samplerate);
+        REQUIRE(joined.audiocodec.flac.nChannels == flactest.channels);
+        REQUIRE(joined.audiocodec.flac.nCompressionLevel == flactest.compressionlevel);
+
+        int const txuserid = TT_GetMyUserID(txclient);
+        REQUIRE(TT_EnableAudioBlockEvent(rxclient, txuserid, STREAMTYPE_VOICE, TRUE));
+
+        auto const N_FRAMES = 10;
+        int const cbsamples = PCM16_DURATION_SAMPLES(audiocodec.flac.nTxIntervalMSec, flactest.samplerate);
+        std::vector<short> sent(static_cast<size_t>(cbsamples) * N_FRAMES * flactest.channels);
+        for (size_t i = 0; i < sent.size(); ++i)
+        {
+            auto const sample = static_cast<short>(1000 + ((i * 7919) % 30000));
+            sent[i] = (i % 2 == 0) ? sample : static_cast<short>(-sample);
+        }
+
+        AudioBlock ab = {};
+        ab.nStreamID = 1;
+        ab.nSampleRate = flactest.samplerate;
+        ab.nChannels = flactest.channels;
+        ab.lpRawAudio = sent.data();
+        ab.nSamples = cbsamples * N_FRAMES;
+        REQUIRE(TT_InsertAudioBlock(txclient, &ab));
+
+        std::vector<short> received;
+        while (received.size() < sent.size())
+        {
+            REQUIRE(WaitForEvent(rxclient, CLIENTEVENT_USER_AUDIOBLOCK));
+            AudioBlock* rxab = TT_AcquireUserAudioBlock(rxclient, STREAMTYPE_VOICE, txuserid);
+            REQUIRE(rxab != nullptr);
+            int const samplerate = rxab->nSampleRate;
+            int const channels = rxab->nChannels;
+            const auto* samples = static_cast<const short*>(rxab->lpRawAudio);
+            const auto* samples_end = samples + (static_cast<size_t>(rxab->nSamples) * rxab->nChannels);
+            if (std::any_of(samples, samples_end, [](short sample) { return sample != 0; }))
+                received.insert(received.end(), samples, samples_end);
+            REQUIRE(TT_ReleaseUserAudioBlock(rxclient, rxab));
+            REQUIRE(samplerate == flactest.samplerate);
+            REQUIRE(channels == flactest.channels);
+        }
+
+        REQUIRE(received.size() == sent.size());
+        REQUIRE(std::equal(received.begin(), received.end(), sent.begin()));
+    }
+}
+#endif
 
 #if defined(ENABLE_WEBRTC)
 

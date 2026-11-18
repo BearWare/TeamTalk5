@@ -38,6 +38,7 @@ bool getVideoCaptureCodec(VideoCodec& vidcodec)
     case SPEEX_VBR_CODEC:
     case OPUS_CODEC:
     case WAV_CODEC:
+    case FLAC_CODEC:
     case NO_CODEC:
         break;
     }

@@ -130,3 +130,7 @@ func newSpeexVBRCodec() -> SpeexVBRCodec {
 func newWavCodec() -> WavCodec {
     TeamTalkAudioCodec.makeWavCodec()
 }
+
+func newFlacCodec() -> FlacCodec {
+    TeamTalkAudioCodec.makeFlacCodec()
+}

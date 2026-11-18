@@ -482,6 +482,7 @@ SpeexPlayer::SpeexPlayer(int userid, StreamType stream_type, soundsystem::sounds
     case CODEC_NO_CODEC :
     case CODEC_OPUS :
     case CODEC_WAV :
+    case CODEC_FLAC :
     case CODEC_WEBM_VP8 :
         TTASSERT(0);
         break;
@@ -553,6 +554,7 @@ OpusPlayer::OpusPlayer(int userid, StreamType stream_type, soundsystem::soundsys
     case CODEC_SPEEX :
     case CODEC_SPEEX_VBR :
     case CODEC_WAV :
+    case CODEC_FLAC :
     case CODEC_WEBM_VP8 :
     case CODEC_NO_CODEC :
         TTASSERT(0);
@@ -661,6 +663,45 @@ bool WavPlayer::DecodeFrame(const EncFrame& enc_frame,
     std::fill_n(output_buffer, samples_total, static_cast<short>(0));
     return false;
 }
+
+#if defined(ENABLE_FLAC)
+
+FlacPlayer::FlacPlayer(int userid, StreamType stream_type, soundsystem::soundsystem_t sndsys,
+                       useraudio_callback_t audio_cb, const AudioCodec& codec,
+                       audio_resampler_t resampler)
+: AudioPlayer(userid, stream_type, std::move(sndsys), std::move(audio_cb), codec, resampler)
+{
+    TTASSERT(codec.codec == CODEC_FLAC);
+    bool const b = m_decoder.Open(codec.flac.samplerate, codec.flac.channels);
+    MYTRACE_COND(!b, ACE_TEXT("Failed to initialize FLAC decoder\n"));
+}
+
+FlacPlayer::~FlacPlayer()
+{
+    m_decoder.Close();
+}
+
+bool FlacPlayer::DecodeFrame(const EncFrame& enc_frame,
+                             short* output_buffer, int n_samples)
+{
+    if (!enc_frame.enc_frames.empty())
+    {
+        int const ret = m_decoder.Decode(enc_frame.enc_frames.data(),
+                                         static_cast<int>(enc_frame.enc_frames.size()),
+                                         output_buffer, n_samples);
+        if (ret == n_samples)
+            return true;
+        MYTRACE(ACE_TEXT("FLAC decode failed for #%d. Ret = %d\n"), GetUserID(), ret);
+    }
+    else
+    {
+        MYTRACE(ACE_TEXT("User #%d is missing packet %d\n"), GetUserID(), GetPlayedPacketNo());
+    }
+
+    std::fill_n(output_buffer, n_samples * GetAudioCodecChannels(GetAudioCodec()), static_cast<short>(0));
+    return false;
+}
+#endif
 
 #if defined(ENABLE_VPX)
 
