@@ -31,6 +31,7 @@
 
 #include <cstddef>
 #include <cstring>
+#include <memory>
 #include <mutex>
 
 constexpr size_t INTMSG_MAX_SIZE = 0x7F000000;
@@ -79,8 +80,7 @@ static IntTTMessage* MakeMsgBlock(ACE_Message_Block*& mb,
                            TTType ttType)
 {
     int const size = TT_DBG_SIZEOF(ttType);
-    ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(IntTTMessage) + size), nullptr);
-    // Some events only set some of the fields, so the rest must be zero
+    mb = std::make_unique<ACE_Message_Block>(sizeof(IntTTMessage) + size).release(); // NOLINT(bugprone-unused-return-value)
     std::memset(mb->rd_ptr(), 0, sizeof(IntTTMessage) + size);
     auto* ret = reinterpret_cast<IntTTMessage*>(mb->rd_ptr());
     ret->event = event;
@@ -212,7 +212,7 @@ TTBOOL TTMsgQueue::GetMessage(TTMessage& msg, ACE_Time_Value* tv)
             int const size = TT_DBG_SIZEOF(intmsg->ttType);
             TTASSERT(!size || intmsg->any);
             if(size>0 && (intmsg->any != nullptr))
-                ACE_OS::memcpy(msg.data, intmsg->any, size);
+                std::memcpy(msg.data, intmsg->any, size);
             mb->release();
 
             MYTRACE_COND(DEBUG_TTMSGQUEUE, ACE_TEXT("Dequeue %p: Cur size: %u\n"),

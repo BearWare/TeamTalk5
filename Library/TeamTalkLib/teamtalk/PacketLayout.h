@@ -220,7 +220,7 @@ constexpr void GET_UINT12_UINT4(const uint8_t* buf, T1& val1, T2& val2)
 template<typename T1>
 constexpr uint8_t* SET_UINT16_PTR(uint8_t* buf, T1 val)
 {
-    assert((int)val <= 0xFFFF);
+    assert(static_cast<int>(val) <= 0xFFFF);
     buf[0] = static_cast<char>(val & 0xFF);
     buf[1] = static_cast<char>(val >> 8);
     return buf += 2;

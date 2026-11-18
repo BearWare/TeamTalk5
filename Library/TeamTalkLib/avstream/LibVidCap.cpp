@@ -42,7 +42,7 @@ void Convert(const struct vidcap_fmt_info& fmt_info,
 {
     vidfmt.width = fmt_info.width;
     vidfmt.height = fmt_info.height;
-    vidfmt.fourcc = (media::FourCC)fmt_info.fourcc;
+    vidfmt.fourcc = static_cast<media::FourCC>(fmt_info.fourcc);
     vidfmt.fps_numerator = fmt_info.fps_numerator;
     vidfmt.fps_denominator = fmt_info.fps_denominator;
 }
@@ -84,7 +84,7 @@ vidcap_devices_t LibVidCap::GetDevices()
     std::vector<struct vidcap_sapi_info> sapi_infos;
     struct vidcap_sapi_info api;
     size_t i=0;
-    while(vidcap_sapi_enumerate(m_vc_state, (int)i++, &api))
+    while(vidcap_sapi_enumerate(m_vc_state, static_cast<int>(i++), &api))
         sapi_infos.push_back(api);
 
     for(i=0;i<sapi_infos.size();i++)
@@ -261,7 +261,7 @@ int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data,
     {
         ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
         ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
-        uint32_t tm_msec = GETTIMESTAMP() - (uint32_t)diff.msec();
+        uint32_t tm_msec = GETTIMESTAMP() - static_cast<uint32_t>(diff.msec());
         media::VideoFrame vid_frm(const_cast<char*>(cap_info->video_data), cap_info->video_data_size,
                                   vidfmt.width, vidfmt.height, vidfmt.fourcc, true);
         vid_frm.timestamp = tm_msec;

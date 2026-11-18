@@ -130,7 +130,7 @@ public:
             recv_ += ret;
             if(m_listener)
             {
-                if(!m_listener->OnReceive(*this, m_buffer.data(), (int)ret))
+                if(!m_listener->OnReceive(*this, m_buffer.data(), static_cast<int>(ret)))
                     break;
             }
 

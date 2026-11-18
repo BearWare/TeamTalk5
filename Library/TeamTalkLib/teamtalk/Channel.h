@@ -155,7 +155,7 @@ namespace teamtalk {
         }
         int GetUsersCount() const
         {
-            return (int)m_mUsers.size();
+            return static_cast<int>(m_mUsers.size());
         }
         const users_t& GetUsers() const
         {
@@ -169,7 +169,7 @@ namespace teamtalk {
                 for(size_t i=0;i<m_subChannels.size();i++)
                     m_subChannels[i]->GetUsers(users, recursive);
             }
-            return (int)users.size();
+            return static_cast<int>(users.size());
         }
         void SetOperators(const std::set<int>& setOps)
         {
@@ -288,7 +288,7 @@ namespace teamtalk {
         }
         int GetSubChannelCount(bool recursive = false) const
         {
-            int count = (int)m_subChannels.size();
+            int count = static_cast<int>(m_subChannels.size());
             if(recursive)
             {
                 for(size_t i=0;i<m_subChannels.size();i++)
@@ -411,7 +411,7 @@ namespace teamtalk {
         }
         int GetFilesCount(bool recursive = false) const
         {
-            int count = (int)m_files.size();
+            int count = static_cast<int>(m_files.size());
             for(size_t i=0;i<m_subChannels.size() && recursive;i++)
                 count += m_subChannels[i]->GetFilesCount(recursive);
             return count;
@@ -503,9 +503,20 @@ namespace teamtalk {
         {
             m_cryptkey = cryptkey;
         }
+        // Set the key from a hex string, e.g. from the server. The key
+        // is only used if it has the correct size.
+        void SetEncryptKey(const ACE_TString& crypt_key)
+        {
+            std::array<uint8_t, CRYPTKEY_SIZE> encrypt = {};
+            TTASSERT(crypt_key.length() == encrypt.size() * 2);
+            if (crypt_key.length() != encrypt.size() * 2)
+                return;
+            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
+            m_cryptkey = encrypt;
+        }
         const std::array<uint8_t, CRYPTKEY_SIZE>& GetEncryptKey() const { return m_cryptkey; }
     protected:
-        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey;
+        std::array<uint8_t, CRYPTKEY_SIZE> m_cryptkey = {};
 #endif
 
     private:

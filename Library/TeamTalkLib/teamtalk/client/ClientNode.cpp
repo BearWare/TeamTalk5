@@ -35,9 +35,12 @@
 #include <cassert>
 #include <cerrno>
 #include <cstddef>
+#include <cstdlib>
 #include <cstring>
 #include <ctime>
+#include <filesystem>
 #include <memory>
+#include <system_error>
 
 #include <ace/OS.h>
 
@@ -556,12 +559,9 @@ int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
             MYTRACE(ACE_TEXT("Sending desktop input RTX. Session %d, pkt: %d\n"),
                     p.GetSessionID(), p.GetPacketNo());
             //queue desktop input packet for RTX
-            DesktopInputPacket* packet = nullptr;
-            ACE_NEW_RETURN(packet,
-                           DesktopInputPacket(p),
-                           0);
-            if(!QueuePacket(packet))
-                delete packet;
+            auto packet = std::make_unique<DesktopInputPacket>(p);
+            if (QueuePacket(packet.get()))
+                packet.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
             ret = 0;
             break;
         }
@@ -575,22 +575,18 @@ int ClientNode::TimerEvent(uint32_t timer_event_id, long userdata)
         if (!user || !m_desktop || !m_mychannel)
             break;
 
-        DesktopInputAckPacket* ack_pkt = nullptr;
-        ACE_NEW_NORETURN(ack_pkt,
-                         DesktopInputAckPacket(m_myuserid,
-                                               GETTIMESTAMP(),
-                                               m_desktop->GetSessionID(),
-                                               user->GetNextDesktopInputRxPacketNo()-1));
-        if(ack_pkt == nullptr)
-            break;
+        auto ack_pkt = std::make_unique<DesktopInputAckPacket>(m_myuserid,
+                                                               GETTIMESTAMP(),
+                                                               m_desktop->GetSessionID(),
+                                                               user->GetNextDesktopInputRxPacketNo()-1);
         ack_pkt->SetChannel(m_mychannel->GetChannelID());
         ack_pkt->SetDestUser(userid);
 
         MYTRACE(ACE_TEXT("Sending desktop input ACK. Session %d. Pkt: %d\n"),
                 ack_pkt->GetSessionID(), ack_pkt->GetPacketNo());
-                
-        if(!QueuePacket(ack_pkt))
-            delete ack_pkt;
+
+        if (QueuePacket(ack_pkt.get()))
+            ack_pkt.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
 
         break;
     }
@@ -729,13 +725,12 @@ int ClientNode::TimerBuildDesktopPackets()
     auto dpi = tx_packets.begin();
     while(dpi != tx_packets.end())
     {
-        DesktopPacket* dp = nullptr;
-        ACE_NEW_RETURN(dp, DesktopPacket(*(*dpi)), true);
-        if(!QueuePacket(dp))
+        auto dp = std::make_unique<DesktopPacket>(*(*dpi));
+        if (QueuePacket(dp.get()))
         {
-            delete dp;
-            break;
+            dp.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
         }
+        else break;
         //MYTRACE(ACE_TEXT("Queued desktop packet %d, %u\n"), 
         //    (*dpi)->GetPacketIndex(), GETTIMESTAMP());
         dpi++;
@@ -776,10 +771,9 @@ int ClientNode::TimerDesktopPacketRtx()
         auto dpi = rtx_packets.begin();
         while(dpi != rtx_packets.end())
         {
-            DesktopPacket* dp = nullptr;
-            ACE_NEW_RETURN(dp, DesktopPacket(*(*dpi)), 0);
-            if(!QueuePacket(dp))
-                delete dp;
+            auto dp = std::make_unique<DesktopPacket>(*(*dpi));
+            if (QueuePacket(dp.get()))
+                dp.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
 
             dpi++;
         }
@@ -793,19 +787,18 @@ int ClientNode::TimerDesktopNakPacket()
 
     if (m_desktop_nak_tx && m_mychannel)
     {
-        DesktopNakPacket* nak_pkt = nullptr;
-        ACE_NEW_RETURN(nak_pkt, DesktopNakPacket(GetUserID(), 
-                                                 m_desktop_nak_tx->GetUpdateID(),
-                                                 m_desktop_nak_tx->GetSessionID()), 0);
+        auto nak_pkt = std::make_unique<DesktopNakPacket>(GetUserID(),
+                                                          m_desktop_nak_tx->GetUpdateID(),
+                                                          m_desktop_nak_tx->GetSessionID());
 
         nak_pkt->SetChannel(m_mychannel->GetChannelID());
 
-        MYTRACE(ACE_TEXT("Sending NAK for session %d:%u\n"), 
+        MYTRACE(ACE_TEXT("Sending NAK for session %d:%u\n"),
                 m_desktop_nak_tx->GetSessionID(),
                 m_desktop_nak_tx->GetUpdateID());
 
-        if(!QueuePacket(nak_pkt))
-            delete nak_pkt;
+        if (QueuePacket(nak_pkt.get()))
+            nak_pkt.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
     }
     return 0;
 }
@@ -1191,25 +1184,23 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     
     assert(enc_length <= MAX_ENC_FRAMESIZE);
 
-    VoicePacket* newpacket = nullptr;
+    std::unique_ptr<VoicePacket> newpacket;
     if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
-        ACE_NEW(newpacket, 
-                VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
-                            org_frame.timestamp, m_voice_stream_id, 
-                            m_voice_pkt_counter++, enc_data, enc_length,
-                            ConvertFrameSizes(enc_frame_sizes)));
+        newpacket = std::make_unique<VoicePacket>(PACKET_KIND_VOICE, m_myuserid,
+                                                  org_frame.timestamp, m_voice_stream_id,
+                                                  m_voice_pkt_counter++, enc_data, enc_length,
+                                                  ConvertFrameSizes(enc_frame_sizes));
     }
     else
     {
-        ACE_NEW(newpacket, 
-                VoicePacket(PACKET_KIND_VOICE, m_myuserid, 
-                            org_frame.timestamp,  m_voice_stream_id, 
-                            m_voice_pkt_counter++, enc_data, enc_length));
+        newpacket = std::make_unique<VoicePacket>(PACKET_KIND_VOICE, m_myuserid,
+                                                  org_frame.timestamp,  m_voice_stream_id,
+                                                  m_voice_pkt_counter++, enc_data, enc_length);
     }
 
-    if(!QueuePacket(newpacket))
-        delete newpacket;
+    if (QueuePacket(newpacket.get()))
+        newpacket.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
 }
 
 void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec, 
@@ -1220,25 +1211,23 @@ void ClientNode::EncodedAudioFileFrame(const teamtalk::AudioCodec& codec,
     assert(GetFlags() & CLIENT_STREAM_AUDIOFILE);
     TTASSERT(org_frame.userdata == STREAMTYPE_MEDIAFILE_AUDIO);
     
-    AudioFilePacket* newpacket = nullptr;
+    std::unique_ptr<AudioFilePacket> newpacket;
     if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))
     {
-        ACE_NEW(newpacket, 
-                AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
-                                org_frame.timestamp, m_mediafile_stream_id, 
-                                m_audiofile_pkt_counter++, enc_data, enc_length,
-                                ConvertFrameSizes(enc_frame_sizes)));
+        newpacket = std::make_unique<AudioFilePacket>(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid,
+                                                      org_frame.timestamp, m_mediafile_stream_id,
+                                                      m_audiofile_pkt_counter++, enc_data, enc_length,
+                                                      ConvertFrameSizes(enc_frame_sizes));
     }
     else
     {
-        ACE_NEW(newpacket, 
-                AudioFilePacket(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid, 
-                                org_frame.timestamp,  m_mediafile_stream_id, 
-                                m_audiofile_pkt_counter++, enc_data, enc_length));
+        newpacket = std::make_unique<AudioFilePacket>(PACKET_KIND_MEDIAFILE_AUDIO, m_myuserid,
+                                                      org_frame.timestamp,  m_mediafile_stream_id,
+                                                      m_audiofile_pkt_counter++, enc_data, enc_length);
     }
 
-    if(!QueuePacket(newpacket))
-        delete newpacket;
+    if (QueuePacket(newpacket.get()))
+        newpacket.release(); // NOLINT(bugprone-unused-return-value)
 }
 
 
@@ -1254,7 +1243,7 @@ void ClientNode::StreamCaptureCb(const soundsystem::InputStreamer& /*streamer*/,
     const short* capture_buffer = nullptr;
     if (m_capture_resampler)
     {
-        assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_capture_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_capture_resampler->Resample(buffer, n_samples, 
                                                 m_capture_buffer.data(),
                                                 codec_samples);
@@ -1289,7 +1278,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     const short* capture_buffer = nullptr;
     if (m_capture_resampler)
     {
-        assert((int)m_capture_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_capture_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_capture_resampler->Resample(input_buffer, n_samples, 
                                                 m_capture_buffer.data(),
                                                 codec_samples);
@@ -1309,7 +1298,7 @@ void ClientNode::StreamDuplexCb(const soundsystem::DuplexStreamer& streamer,
     const short* playback_buffer = nullptr;
     if (m_playback_resampler)
     {
-        assert((int)m_playback_buffer.size() == codec_samples * codec_channels);
+        assert(static_cast<int>(m_playback_buffer.size()) == codec_samples * codec_channels);
         int const ret = m_playback_resampler->Resample(output_buffer, n_samples, 
                                                  m_playback_buffer.data(),
                                                  codec_samples);
@@ -1620,11 +1609,11 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
 #if SIMULATE_RX_PACKETLOSS
     static int dropped = 0, received = 0;
     received++;
-    if((ACE_OS::rand() % SIMULATE_RX_PACKETLOSS) == 0)
+    if((std::rand() % SIMULATE_RX_PACKETLOSS) == 0)
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped RX packet kind %d from #%d, dropped %d/%d\n"), 
-            (int)packet.GetKind(),(int)packet.GetSrcUserID(), dropped, received);
+            packet.GetKind(), packet.GetSrcUserID(), dropped, received);
         return;
     }
 #endif
@@ -1909,7 +1898,7 @@ void ClientNode::ReceivedPacket(PacketHandler* /*ph*/,
     default :
         MYTRACE_COND(user.get(),
                      ACE_TEXT("Received unknown packet type %d from #%d, %s\n"), 
-                     (int)packet.GetKind(), user->GetUserID(), user->GetNickname().c_str());
+                     packet.GetKind(), user->GetUserID(), user->GetNickname().c_str());
         break;
     }
 }
@@ -2047,13 +2036,12 @@ void ClientNode::ReceivedDesktopAckPacket(const DesktopAckPacket& ack_pkt)
         auto dpi = tx_packets.begin();
         while(dpi != tx_packets.end())
         {
-            DesktopPacket* dp = nullptr;
-            ACE_NEW(dp, DesktopPacket(*(*dpi)));
-            if(!QueuePacket(dp))
+            auto dp = std::make_unique<DesktopPacket>(*(*dpi));
+            if (QueuePacket(dp.get()))
             {
-                delete dp;
-                break;
+                dp.release();  // NOLINT(bugprone-unused-return-value) transfer ownership
             }
+            else break;
 
             dpi++;
         }
@@ -2199,15 +2187,10 @@ void ClientNode::ReceivedDesktopInputAckPacket(const DesktopInputAckPacket& ack_
           (!user->GetDesktopInputTxQueue().empty()))
     {
         desktopinput_pkt_t const tx_pkt(user->GetDesktopInputTxQueue().front());
-        DesktopInputPacket* packet = nullptr;
-        ACE_NEW_NORETURN(packet,
-                         DesktopInputPacket(*tx_pkt));
-        if(!QueuePacket(packet))
+        auto packet = std::make_unique<DesktopInputPacket>(*tx_pkt);
+        if (QueuePacket(packet.get()))
         {
-            delete packet;
-        }
-        else
-        {
+            packet.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
             user->GetDesktopInputRtxQueue().push_back(tx_pkt);
             user->GetDesktopInputTxQueue().pop_front();
         }
@@ -2595,7 +2578,7 @@ bool ClientNode::QueuePacket(FieldPacket* packet)
     bool const b = m_tx_queue.QueuePacket(packet) >= 0;
 
     MYTRACE_COND(!b, ACE_TEXT("Failed to queue packet kind %d to channel %d\n"),
-                 (int)packet->GetKind(), (int)packet->GetChannel());
+                 packet->GetKind(), packet->GetChannel());
 
     ACE_Time_Value tv;
     auto *reactor = GetEventLoop();
@@ -2618,11 +2601,11 @@ int ClientNode::SendPacket(const FieldPacket& packet, const ACE_INET_Addr& addr)
 #if SIMULATE_TX_PACKETLOSS
     static int dropped = 0, transmitted = 0;
     transmitted++;
-    if((ACE_OS::rand() % SIMULATE_TX_PACKETLOSS) == 0)
+    if((std::rand() % SIMULATE_TX_PACKETLOSS) == 0)
     {
         dropped++;
         MYTRACE(ACE_TEXT("Dropped TX packet kind %d, dropped %d/%d\n"), 
-                (int)packet.GetKind(), dropped, transmitted);
+                packet.GetKind(), dropped, transmitted);
         return packet.GetPacketSize();
     }
 #endif
@@ -3676,7 +3659,7 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
         auto w = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().width);
         auto h = static_cast<uint16_t>(m_vidcap_thread.GetVideoFormat().height);
         //max supported is uint16 * MAX_PAYLOAD_SIZE
-        videopackets_t const packets = BuildVideoPackets(PACKET_KIND_VIDEO,
+        videopackets_t packets = BuildVideoPackets(PACKET_KIND_VIDEO,
                                                          m_myuserid, timestamp,
                                                          m_mtu_data_size,
                                                          m_vidcap_stream_id,
@@ -3684,11 +3667,12 @@ bool ClientNode::EncodedVideoCaptureFrame(ACE_Message_Block* org_frame,
                                                          enc_data, enc_len);
 
         bool failed = false;
-        for(const auto & packet : packets)
+        for(auto & packet : packets)
         {
-            if(failed || !QueuePacket(packet))
+            if (!failed && QueuePacket(packet.get()))
+                packet.release(); // NOLINT(bugprone-unused-return-value)
+            else
             {
-                delete packet;
                 failed = true;
             }
         }
@@ -3716,24 +3700,25 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
     //max supported is uint16 * MAX_PAYLOAD_SIZE
     auto w = static_cast<uint16_t>(m_videofile_thread->GetVideoFormat().width);
     auto h = static_cast<uint16_t>(m_videofile_thread->GetVideoFormat().height);
-    videopackets_t const packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
-                                                     m_myuserid, timestamp,
-                                                     m_mtu_data_size,
-                                                     m_mediafile_stream_id, 
-                                                     packet_no,
-                                                     &w, &h,
-                                                     enc_data, enc_len);
+    videopackets_t packets = BuildVideoPackets(PACKET_KIND_MEDIAFILE_VIDEO,
+                                               m_myuserid, timestamp,
+                                               m_mtu_data_size,
+                                               m_mediafile_stream_id,
+                                               packet_no,
+                                               &w, &h,
+                                               enc_data, enc_len);
 
     // MYTRACE(ACE_TEXT("Video packet %d, fragments %d, size %d, csum 0x%x\n"),
     //         packet_no, (int)packets.size(), enc_len, 
     //         ACE::crc32(enc_data, enc_len));
 
     bool failed = false;
-    for(const auto & packet : packets)
+    for(auto & packet : packets)
     {
-        if(failed || !QueuePacket(packet))
+        if (!failed && QueuePacket(packet.get()))
+            packet.release(); // NOLINT(bugprone-unused-return-value)
+        else
         {
-            delete packet;
             failed = true;
         }
     }
@@ -3893,7 +3878,6 @@ bool ClientNode::SendDesktopCursor(int x, int y)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     clientchannel_t chan;
-    DesktopCursorPacket* pkt = nullptr;
 
     chan = GetMyChannel();
     if (!chan)
@@ -3901,18 +3885,18 @@ bool ClientNode::SendDesktopCursor(int x, int y)
     if (!m_desktop)
         return false;
 
-    ACE_NEW_RETURN(pkt, DesktopCursorPacket(GetUserID(),
-                                            GETTIMESTAMP(),
-                                            m_desktop->GetSessionID(),
-                                            x, y), false);
+    auto pkt = std::make_unique<DesktopCursorPacket>(GetUserID(),
+                                                     GETTIMESTAMP(),
+                                                     m_desktop->GetSessionID(),
+                                                     x, y);
     pkt->SetChannel(chan->GetChannelID());
 
-    if(!QueuePacket(pkt))
+    if (QueuePacket(pkt.get()))
     {
-        delete pkt;
-        return false;
+        pkt.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
+        return true;
     }
-    return true;
+    return false;
 }
 
 bool ClientNode::SendDesktopInput(int userid,
@@ -3944,12 +3928,11 @@ bool ClientNode::SendDesktopInput(int userid,
     if (!viewer)
         return false;
 
-    DesktopInputPacket* pkt = nullptr;
-    ACE_NEW_RETURN(pkt, DesktopInputPacket(GetUserID(),
-                                           GETTIMESTAMP(),
-                                           viewer->GetSessionID(),
-                                           user->NextDesktopInputTxPacket(),
-                                           inputs), false);
+    auto pkt = std::make_unique<DesktopInputPacket>(GetUserID(),
+                                                    GETTIMESTAMP(),
+                                                    viewer->GetSessionID(),
+                                                    user->NextDesktopInputTxPacket(),
+                                                    inputs);
     pkt->SetDestUser(userid);
     pkt->SetChannel(chan->GetChannelID());
 
@@ -3963,12 +3946,9 @@ bool ClientNode::SendDesktopInput(int userid,
     if(user->GetDesktopInputTxQueue().size() == 1 &&
        user->GetDesktopInputRtxQueue().empty())
     {
-        if(!QueuePacket(pkt))
+        if (QueuePacket(pkt.get()))
         {
-            delete pkt;
-        }
-        else
-        {
+            pkt.release(); // NOLINT(bugprone-unused-return-value) transfer ownership
             //move from Tx queue to Rtx queue
             user->GetDesktopInputRtxQueue().push_back(rtx_pkt);
             user->GetDesktopInputTxQueue().pop_front();
@@ -3980,10 +3960,6 @@ bool ClientNode::SendDesktopInput(int userid,
         StartUserTimer(USER_TIMER_DESKTOPINPUT_RTX_ID, userid, 0,
                         CLIENT_DESKTOPINPUT_RTX_TIMEOUT,
                         CLIENT_DESKTOPINPUT_RTX_TIMEOUT);
-    }
-    else
-    {
-        delete pkt;
     }
 
     return true;
@@ -4051,7 +4027,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
 #if defined(ENABLE_ENCRYPTION)
     if(encrypted)
     {
-        ACE_NEW_RETURN(m_crypt_stream, CryptStreamHandler(GetEventLoop()), false);
+        m_crypt_stream = std::make_unique<CryptStreamHandler>(GetEventLoop()).release(); // NOLINT(bugprone-unused-return-value)
         m_crypt_stream->SetListener(this);
         ACE_Synch_Options const options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0, 0));
         if (localtcpaddr != nullptr)
@@ -4064,7 +4040,7 @@ bool ClientNode::Connect(bool encrypted, const ACE_INET_Addr& hosttcpaddr,
     else
 #endif
     {
-        ACE_NEW_RETURN(m_def_stream, DefaultStreamHandler(GetEventLoop()), false);
+        m_def_stream = std::make_unique<DefaultStreamHandler>(GetEventLoop()).release(); // NOLINT(bugprone-unused-return-value)
         m_def_stream->SetListener(this);
         ACE_Synch_Options const options(ACE_Synch_Options::USE_REACTOR, ACE_Time_Value(0,0));
         if (localtcpaddr != nullptr)
@@ -4491,7 +4467,9 @@ int ClientNode::DoFileSend(int channelid, const ACE_TString& localfilepath)
     ASSERT_CLIENTNODE_LOCKED(this);
     ASSERT_NOT_REACTOR_THREAD(*GetEventLoop());
 
-    int64_t const filesize = ACE_OS::filesize(localfilepath.c_str());
+    std::error_code ec;
+    auto const fsize = std::filesystem::file_size(localfilepath.c_str(), ec);
+    int64_t const filesize = ec ? -1 : static_cast<int64_t>(fsize);
     ACE_TString filename = localfilepath;
     size_t const index = localfilepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR);
     if(index != ACE_TString::npos)
@@ -5115,8 +5093,8 @@ bool ClientNode::ProcessCommand(const ACE_CString& cmdline)
     }
 
 #if defined(UNICODE)
-    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), (int)tmp_cmd.length());
-    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), (int)cmdline.length());
+    ACE_TString cmd = Utf8ToUnicode(tmp_cmd.c_str(), static_cast<int>(tmp_cmd.length()));
+    ACE_TString command = Utf8ToUnicode(cmdline.c_str(), static_cast<int>(cmdline.length()));
 #else
     ACE_TString const cmd = tmp_cmd;
     const ACE_CString& command = cmdline;
@@ -5596,14 +5574,7 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-    {
-        //check that key sizes match
-        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-        if (sizeof(encrypt) == crypt_key.length() / 2)
-            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-        newchan->SetEncryptKey(encrypt);
-    }
+        newchan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnAddChannel(*newchan);
@@ -5670,14 +5641,7 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
     ACE_TString crypt_key;
     if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-    {
-        //check that key sizes match
-        std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-        TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-        if (sizeof(encrypt) == crypt_key.length() / 2)
-            HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-        chan->SetEncryptKey(encrypt);
-    }
+        chan->SetEncryptKey(crypt_key);
 #endif
 
     m_listener->OnUpdateChannel(*chan);
@@ -5729,14 +5693,7 @@ void ClientNode::HandleJoinedChannel(const mstrings_t& properties)
 #if defined(ENABLE_ENCRYPTION)
         ACE_TString crypt_key;
         if(GetProperty(properties, TT_CRYPTKEY, crypt_key))
-        {
-            //check that key sizes match
-            std::array<uint8_t, CRYPTKEY_SIZE> encrypt;
-            TTASSERT(sizeof(encrypt) == crypt_key.length() / 2);
-            if (sizeof(encrypt) == crypt_key.length() / 2)
-                HexStringToKey(crypt_key, encrypt.data(), encrypt.size());
-            chan->SetEncryptKey(encrypt);
-        }
+            chan->SetEncryptKey(crypt_key);
 #endif
         JoinChannel(chan);
 

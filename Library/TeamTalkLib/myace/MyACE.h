@@ -43,6 +43,7 @@
 #include <cstdint>
 #include <fstream>
 #include <set>
+#include <thread>
 #include <vector>
 
 //reactor event task
@@ -162,7 +163,7 @@ bool VersionSameOrLater(const ACE_TString& check, const ACE_TString& against);
 #define DUP_TIMESTAMP_DELAY(tm)          \
     do {                                 \
         while((tm) == GETTIMESTAMP())    \
-            ACE_OS::sleep(0);            \
+            std::this_thread::yield();   \
     } while(0)
 
 constexpr auto W32_GEQ(uint32_t a, uint32_t b) { return (static_cast<int32_t>(a-b) >= 0); }

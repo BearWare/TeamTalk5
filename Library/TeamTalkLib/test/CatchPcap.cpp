@@ -42,6 +42,7 @@
 
 #include <array>
 #include <arpa/inet.h>
+#include <chrono>
 #include <net/ethernet.h>
 #include <netinet/ip.h>
 #include <netinet/udp.h>
@@ -50,6 +51,7 @@
 
 #include <iostream>
 #include <map>
+#include <thread>
 #include <vector>
 
 
@@ -72,7 +74,7 @@ ttpackets_t GetTTPackets(const ACE_CString& filename,
     const u_char *data;
     while (int returnValue = pcap_next_ex(pcap, &header, &data) >= 0)
     {
-        struct iphdr *iph = (struct iphdr*)(data + sizeof(struct ethhdr));
+        struct iphdr *iph = reinterpret_cast<struct iphdr*>(const_cast<u_char*>(data + sizeof(struct ethhdr)));
         struct sockaddr_in src = {}, dest = {};
         src.sin_addr.s_addr = iph->saddr;
         dest.sin_addr.s_addr = iph->daddr;
@@ -96,7 +98,7 @@ ttpackets_t GetTTPackets(const ACE_CString& filename,
 
         case 17: //UDP Protocol
         {
-            struct udphdr *udph = (struct udphdr*)(data + iphdrlen + sizeof(struct ethhdr));
+            struct udphdr *udph = reinterpret_cast<struct udphdr*>(const_cast<u_char*>(data + iphdrlen + sizeof(struct ethhdr)));
             if (srcport && srcport != ntohs(udph->source))
                 continue;
             if (destport && destport != ntohs(udph->dest))
@@ -235,7 +237,7 @@ TEST_CASE("AudioMuxerJitter")
         }
         ACE_Time_Value wait = i.first - last;
         // std::cout << "Sleeping " << wait << std::endl;
-        ACE_OS::sleep(wait);
+        std::this_thread::sleep_for(std::chrono::seconds(wait.sec()) + std::chrono::microseconds(wait.usec()));
         last = i.first;
     }
 

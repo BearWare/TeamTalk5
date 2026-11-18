@@ -40,6 +40,7 @@
 #include <ctime>
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
 // NOLINTBEGIN(cppcoreguidelines-pro-bounds-avoid-unchecked-container-access,cppcoreguidelines-pro-bounds-array-to-pointer-decay)
@@ -63,7 +64,7 @@ void SyncReactor(ACE_Reactor& reactor)
     ACE_thread_t tid{};
     while(reactor.owner(&tid) < 0 || tid == ACE_OS::thr_self())
     {
-        ACE_OS::sleep(0);
+        std::this_thread::yield();
     }
 }
 
@@ -436,7 +437,7 @@ ACE_CString UnicodeToUtf8(const wchar_t* unicode, int len/* = -1*/)
 {
     ACE_UTF16_Encoding_Converter conv;
     ACE_UTF16_Encoding_Converter::Result result;
-    int length = len == -1? (int)wcslen(unicode) * 4 + 1 : len * 4 + 1;
+    int length = len == -1? static_cast<int>(wcslen(unicode)) * 4 + 1 : len * 4 + 1;
     if (length <= 0)
         return ACE_CString();
 
@@ -447,7 +448,7 @@ ACE_CString UnicodeToUtf8(const wchar_t* unicode, int len/* = -1*/)
     if(result != ACE_UTF16_Encoding_Converter::CONVERSION_OK)
         MYTRACE(ACE_TEXT("Unicode->UTF8 conversion failed\n"));
 #endif
-    ACE_CString utf8((const char*)&buffer[0]);
+    ACE_CString utf8(reinterpret_cast<const char*>(&buffer[0]));
     return utf8;
 }
 
@@ -460,12 +461,12 @@ ACE_WString Utf8ToUnicode(const char* utf8, int len/* = -1*/)
 {    
     ACE_UTF16_Encoding_Converter conv;
     ACE_UTF16_Encoding_Converter::Result result;
-    int length = len == -1? (int)strlen(utf8) + 1 : len + 1;
+    int length = len == -1? static_cast<int>(strlen(utf8)) + 1 : len + 1;
     if(length<=0)
         return ACE_WString();
 
     std::vector<wchar_t> buffer(length, 0);
-    result = conv.from_utf8((const ACE_Byte*)utf8, len == -1?
+    result = conv.from_utf8(reinterpret_cast<const ACE_Byte*>(utf8), len == -1?
             strlen(utf8) + 1 : len, &buffer[0], length);
 #if defined(_DEBUG)
     if(result != ACE_UTF16_Encoding_Converter::CONVERSION_OK)
@@ -516,7 +517,7 @@ bool ValidUtf8(const ACE_CString& utf8_str)
         return false;
 
     std::vector<ACE_Byte> buffer((utf8_str.length()+1)*2, 0);
-    result = conv.from_utf8((const ACE_Byte*)utf8_str.c_str(), 
+    result = conv.from_utf8(reinterpret_cast<const ACE_Byte*>(utf8_str.c_str()),
                             utf8_str.length()+1, 
                             &buffer[0], buffer.size());
     return result == ACE_UTF16_Encoding_Converter::CONVERSION_OK;
@@ -640,7 +641,7 @@ Profiler::Profiler(const ACE_TCHAR* name, const ACE_TCHAR* file, int line,
     auto const h = reinterpret_cast<uint64_t>(ACE_OS::thr_self());
 #endif
     MYTRACE_COND(p_start, ACE_TEXT("Profiler: %s started at %u, %s:%d thr: 0x%X\n"),
-                 m_name, (uint32_t)0, m_filename, m_line, (unsigned)h);
+                 m_name, 0u, m_filename, m_line, static_cast<unsigned>(h));
 }
 
 Profiler::~Profiler()

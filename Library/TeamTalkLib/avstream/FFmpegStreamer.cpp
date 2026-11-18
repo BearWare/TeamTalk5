@@ -225,7 +225,7 @@ static void FillMediaFileProp(AVFormatContext *fmt_ctx,
                                             media::FOURCC_RGB32);
     }
 
-    out_prop.duration_ms = (fmt_ctx->duration * av_q2d(AV_TIME_BASE_Q)) * 1000;
+    out_prop.duration_ms = static_cast<uint32_t>((fmt_ctx->duration * av_q2d(AV_TIME_BASE_Q)) * 1000);
 }
 
 bool GetAVMediaFileProp(const ACE_TString& filename, MediaFileProp& out_prop)

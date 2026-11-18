@@ -34,6 +34,7 @@
 #include <array>
 #include <cstddef>
 #include <ctime>
+#include <memory>
 #include <utility>
 
 enum
@@ -550,9 +551,8 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
             1, 0, prio);
         TTASSERT(ret>=0);
 
-        TimerHandler* th = nullptr;
-        ACE_NEW(th, TimerHandler(*this, TIMER_WRITELOG_ID));
-        m_timerid = m_reactor.schedule_timer(th, nullptr, FLUSH_INTERVAL, FLUSH_INTERVAL);
+        auto th = std::make_unique<TimerHandler>(*this, TIMER_WRITELOG_ID);
+        m_timerid = m_reactor.schedule_timer(th.release(), nullptr, FLUSH_INTERVAL, FLUSH_INTERVAL); // NOLINT(bugprone-unused-return-value)
         TTASSERT(m_timerid>=0);
     }
 
@@ -640,7 +640,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
 
     voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
                                                 codec, aff, stream_id,
-                             (from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
+                             static_cast<uint32_t>(from_user.GetPlaybackStoppedDelay(STREAMTYPE_VOICE) + from_user.GetRecordingCloseExtraDelay()));
 
     bool const active = log->IsActive();
     if(active)
@@ -721,9 +721,8 @@ void VoiceLogger::AddVoicePacket(ClientUser& from_user,
 
 void VoiceLogger::CancelLog(int userid)
 {
-    TimerHandler* th = nullptr;
-    ACE_NEW(th, TimerHandler(*this, TIMER_CANCELLOG_ID, userid));
-    long const tid = m_reactor.schedule_timer(th, nullptr, ACE_Time_Value::zero);
+    auto th = std::make_unique<TimerHandler>(*this, TIMER_CANCELLOG_ID, userid);
+    long const tid = m_reactor.schedule_timer(th.release(), nullptr, ACE_Time_Value::zero); // NOLINT(bugprone-unused-return-value)
     TTASSERT(tid >= 0);
 }
 

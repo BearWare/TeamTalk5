@@ -380,7 +380,7 @@ bool SoundLoopback::StreamPlayerCb(const soundsystem::OutputStreamer&  /*streame
     int const output_channels = (!m_preprocess_buffer_right.empty())? 2 : 1;
     if(!m_buf_queue.empty())
     {
-        assert((int)m_buf_queue.front().size() / output_channels == samples);
+        assert(static_cast<int>(m_buf_queue.front().size()) / output_channels == samples);
         std::memcpy(buffer, m_buf_queue.front().data(), m_buf_queue.front().size()*sizeof(short));
         m_buf_queue.pop();
     }

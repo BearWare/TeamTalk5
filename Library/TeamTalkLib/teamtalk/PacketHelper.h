@@ -60,7 +60,7 @@ namespace teamtalk {
                                                    const AudioCodec& codec);
 
     /* Video packets */
-    using videopackets_t = std::vector<VideoPacket*>;
+    using videopackets_t = std::vector<std::unique_ptr<VideoPacket>>;
     videopackets_t BuildVideoPackets(uint8_t kind,
                                      uint16_t src_userid,
                                      uint32_t time,

@@ -27,10 +27,10 @@
 
 #include "AppInfo.h"
 #include "ServerXML.h"
-#include "mystd/MyStd.h"
+#include "TeamTalkDefs.h"
 #include "myace/MyACE.h"
 #include "myace/MyINet.h"
-#include "TeamTalkDefs.h"
+#include "mystd/MyStd.h"
 #include "teamtalk/Commands.h"
 #include "teamtalk/Common.h"
 #include "teamtalk/Log.h"
@@ -41,15 +41,16 @@
 #include <ace/OS.h>
 
 #include <algorithm>
-#include <array>
 #include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <filesystem>
 #include <iostream>
 #include <queue>
 #include <regex>
+#include <system_error>
 #include <thread>
 #include <vector>
 
@@ -62,19 +63,19 @@ using namespace teamtalk;
 
 bool LoadConfig(teamtalk::ServerXML& xmlSettings, const ACE_TString& cfgfile)
 {
-    constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
     ACE_TString settings_path;
-    std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buf;
 
     if(cfgfile.empty())
     {
-        ACE_TString workdir = ACE_OS::getcwd(buf.data(), buf.size());
+        std::error_code ec;
+        ACE_TString workdir = std::filesystem::current_path(ec).native().c_str();
         workdir += ACE_DIRECTORY_SEPARATOR_STR;
         settings_path = workdir + ACE_TEXT(TEAMTALK_SETTINGSFILE);
     }
     else settings_path = cfgfile;
 
-    if(ACE_OS::filesize(settings_path.c_str())>0)
+    std::error_code ec;
+    if (std::filesystem::exists(settings_path.c_str(), ec))
     {
         if(!xmlSettings.LoadFile(UnicodeToUtf8(settings_path).c_str()))
         {
@@ -293,7 +294,8 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         {
             cout << "Server certificate file (in PEM format) for encryption: ";
             certfile = LocalToUnicode(PrintGetString(UnicodeToLocal(certfile).c_str()).c_str());
-            if (ACE_OS::filesize(certfile.c_str()) <= 0)
+            std::error_code ec;
+            if (!std::filesystem::exists(certfile.c_str(), ec))
                 cerr << "File " << certfile << " not found!" << endl;
             else break;
         }
@@ -302,7 +304,8 @@ void ConfigureEncryption(bool& certverifyonce, int& certdepth,
         {
             cout << "Server private key file (in PEM format) for encryption: ";
             keyfile = LocalToUnicode(PrintGetString(UnicodeToLocal(keyfile).c_str()).c_str());
-            if (ACE_OS::filesize(keyfile.c_str()) <= 0)
+            std::error_code ec;
+            if (!std::filesystem::exists(keyfile.c_str(), ec))
                 cerr << "File " << keyfile << " not found!" << endl;
             else break;
         }
@@ -444,17 +447,19 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
     cout << "Enable file sharing: ";
     if(PrintGetBool(!filesroot.empty()))
     {
-        constexpr auto CURRENT_DIRECTORY_BUFFER_SIZE = 1024;
         constexpr auto BYTES_PER_KILOBYTE = 1024;
-        std::array<ACE_TCHAR, CURRENT_DIRECTORY_BUFFER_SIZE> buff;
-        ACE_OS::getcwd(buff.data(), buff.size());
+        std::error_code ec;
+        std::filesystem::path const orgdir = std::filesystem::current_path(ec);
 #ifdef WIN32
         cout << "Directory for file storage, e.g. C:\\MyServerFiles: ";
 #else
         cout << "Directory for file storage, e.g. /home/bill/srv1/files: ";
 #endif
         filesroot = LocalToUnicode(PrintGetString(UnicodeToLocal(filesroot).c_str()).c_str());
-        if(!filesroot.empty() && ACE_OS::chdir(filesroot.c_str()) == 0)
+        ec.clear();
+        if(!filesroot.empty())
+            std::filesystem::current_path(filesroot.c_str(), ec);
+        if(!filesroot.empty() && !ec)
         {
             cout << "Disk quota (in KBytes) per channel, 0 = disabled: ";
             diskquota = PrintGetInt64(diskquota/BYTES_PER_KILOBYTE)*BYTES_PER_KILOBYTE;
@@ -467,7 +472,7 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
             filesroot.clear();
             diskquota = 0;
         }
-        ACE_OS::chdir(buff.data());
+        std::filesystem::current_path(orgdir, ec);
     }
     else
     {
@@ -1134,7 +1139,8 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 }
 
                 ACE_TString const rootpath = filesroot + chan.files[i].internalname.c_str();
-                if(ACE_OS::filesize(rootpath.c_str())<0)
+                std::error_code ec;
+                if (!std::filesystem::exists(rootpath.c_str(), ec))
                 {
                     tostringstream os;
                     os << ACE_TEXT("Failed to open channel #") << chan.files[i].channelid << ACE_TEXT(" file: ") << rootpath.c_str();
@@ -1142,7 +1148,8 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 }
                 else
                 {
-                    TTASSERT(ACE_OS::filesize(rootpath.c_str()) == chan.files[i].filesize);
+                    auto const fsize = std::filesystem::file_size(rootpath.c_str(), ec);
+                    TTASSERT(static_cast<int64_t>(fsize) == chan.files[i].filesize);
                 }
             }
 
@@ -1159,21 +1166,13 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
 static std::vector<ACE_TString> GetFilesInFolder(const ACE_TString& rootdir)
 {
     std::vector<ACE_TString> result;
-    ACE_DIR* dir = ACE_OS::opendir(rootdir.c_str());
-    if (dir == nullptr)
-        return result;
-
-    ACE_DIRENT* dirInfo = nullptr;
-    while ((dirInfo = ACE_OS::readdir(dir)) != nullptr)
+    std::error_code ec;
+    for (std::filesystem::directory_iterator it(rootdir.c_str(), ec), end; !ec && it != end; it.increment(ec))
     {
-#if !defined(WIN32)
-        if (dirInfo->d_type != DT_REG)
-            continue;
-#endif
-        result.emplace_back(dirInfo->d_name);
+        std::error_code entryEc;
+        if (it->is_regular_file(entryEc))
+            result.emplace_back(it->path().filename().native().c_str());
     }
-
-    ACE_OS::closedir(dir);
     return result;
 }
 
@@ -1208,7 +1207,9 @@ static void RemoveNonmatchingFiles(const ACE_TString& filesroot,
             if (PrintGetBool(false))
             {
                 const ACE_TString path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
-                if (ACE_OS::unlink(path.c_str()) != 0)
+                std::error_code ec;
+                std::filesystem::remove(path.c_str(), ec);
+                if (ec)
                     std::cerr << "Failed to remove file: " << UnicodeToUtf8(path).c_str() << std::endl;
             }
         }

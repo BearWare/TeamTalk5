@@ -44,6 +44,7 @@
 #include <cassert>
 #include <cctype>
 #include <cerrno>
+#include <cstring>
 #include <iomanip>
 #include <memory>
 #include <sstream>
@@ -80,7 +81,7 @@ std::vector<ACE_INET_Addr> DetermineHostAddress(const ACE_TString& host, uint16_
 #endif /* ACE_HAS_IPV6 */
         } addr{};
 
-        ACE_OS::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
+        std::memcpy(&addr, curr->ai_addr, curr->ai_addrlen);
 #ifdef ACE_HAS_IPV6
         if (curr->ai_family == AF_INET6)
         {

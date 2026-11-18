@@ -77,11 +77,14 @@ HINSTANCE hInstance = NULL;
 
 #include <algorithm>
 #include <cassert>
+#include <cstring>
 #include <array>
+#include <filesystem>
 #include <memory>
 #include <mutex>
 #include <map>
 #include <queue>
+#include <system_error>
 #include <utility>
 
 
@@ -118,16 +121,10 @@ struct ClientInstance
 
     VideoFrame* PushVideoFrame(ACE_Message_Block* mb)
     {
-        VideoFrame* vid_frame = nullptr;
-        ACE_NEW_NORETURN(vid_frame, VideoFrame);
-        if(vid_frame == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto vid_frame = std::make_unique<VideoFrame>();
         std::scoped_lock const g(mutex_video);
-        video_frames[vid_frame] = mb;
-        return vid_frame;
+        video_frames[vid_frame.get()] = mb;
+        return vid_frame.release(); // NOLINT(bugprone-unused-return-value)
     }
     bool RemoveVideoFrame(VideoFrame* vid_frame)
     {
@@ -149,17 +146,14 @@ struct ClientInstance
     desktopwindows_t desktop_windows;
     DesktopWindow* PushDesktopWindow(int buf_size)
     {
-        DesktopWindow* wnd_frame = nullptr;
-
-        ACE_Message_Block* mb = nullptr;
-        ACE_NEW_RETURN(mb, ACE_Message_Block(sizeof(DesktopWindow) + buf_size),
-                       nullptr);
-        wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
+        auto mb = std::make_unique<ACE_Message_Block>(sizeof(DesktopWindow) + buf_size);
+        auto* wnd_frame = reinterpret_cast<DesktopWindow*>(mb->rd_ptr());
         wnd_frame->frameBuffer = mb->rd_ptr() + sizeof(DesktopWindow);
         wnd_frame->nFrameBufferSize = buf_size;
 
         std::scoped_lock const g(mutex_desktop);
-        desktop_windows[wnd_frame] = mb;
+        desktop_windows[wnd_frame] = mb.get();
+        mb.release(); // NOLINT(bugprone-unused-return-value)
         return wnd_frame;
     }
 
@@ -182,16 +176,10 @@ struct ClientInstance
 
     AudioBlock* PushAudioBlock(ACE_Message_Block* mb)
     {
-        AudioBlock* audblock = nullptr;
-        ACE_NEW_NORETURN(audblock, AudioBlock);
-        if(audblock == nullptr)
-        {
-            mb->release();
-            return nullptr;
-        }
+        auto audblock = std::make_unique<AudioBlock>();
         std::scoped_lock const g(mutex_audblocks);
-        audio_blocks[audblock] = mb;
-        return audblock;
+        audio_blocks[audblock.get()] = mb;
+        return audblock.release(); // NOLINT(bugprone-unused-return-value)
     }
 
     bool RemoveAudioBlock(AudioBlock* audblock)
@@ -250,11 +238,11 @@ struct ClientInstance
     ~ClientInstance()
     {
         MYTRACE_COND(!video_frames.empty(),
-                     ACE_TEXT("ERROR: Leaking %d VideoFrame structs\n"), (int)video_frames.size());
+                     ACE_TEXT("ERROR: Leaking %d VideoFrame structs\n"), static_cast<int>(video_frames.size()));
         MYTRACE_COND(!desktop_windows.empty(),
-                     ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), (int)desktop_windows.size());
+                     ACE_TEXT("ERROR: Leaking %d DesktopWindow structs\n"), static_cast<int>(desktop_windows.size()));
         MYTRACE_COND(!audio_blocks.empty(),
-                     ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), (int)audio_blocks.size());
+                     ACE_TEXT("ERROR: Leaking %d AudioBlock structs\n"), static_cast<int>(audio_blocks.size()));
 
 #if defined(WIN32)
         auto eh = eventhandler.get();
@@ -284,7 +272,7 @@ BOOL APIENTRY DllMain(HANDLE hModule,
     {
     case DLL_PROCESS_ATTACH:
         {
-            hInstance = (HINSTANCE)hModule;
+            hInstance = reinterpret_cast<HINSTANCE>(hModule);
             ret = ACE::init();
             TTASSERT(ret >= 0);
             break;
@@ -1591,7 +1579,8 @@ TEAMTALKDLL_API INT32 TT_DoSendFile(IN TTInstance* lpTTInstance,
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, -1);
 
-    if((szLocalFilePath != nullptr) && ACE_OS::filesize(szLocalFilePath)>=0)
+    std::error_code ec;
+    if (szLocalFilePath != nullptr && std::filesystem::exists(szLocalFilePath, ec))
         return clientnode->DoFileSend(nChannelID, szLocalFilePath);
     return -1;
 }
@@ -2367,7 +2356,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2403,7 +2392,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2474,7 +2463,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = static_cast<INT32>(in_out_bmp.size());
             }
         }
@@ -2577,7 +2566,7 @@ static int ConvertBitmap(const DesktopWindow& src_wnd, BitmapFormat outputFormat
             }
             else
             {
-                TTASSERT((size_t)src_session.GetBitmapSize() == in_out_bmp.size());
+                TTASSERT(static_cast<size_t>(src_session.GetBitmapSize()) == in_out_bmp.size());
                 bmp_size = in_out_bmp.size();
             }
         }
@@ -2647,7 +2636,7 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindow(IN TTInstance* lpTTInstance,
     return clientnode->SendDesktopWindow(dst_session.GetWidth(),
                                          dst_session.GetHeight(),
                                          dst_session.GetRGBMode(),
-                                         (teamtalk::DesktopProtocol)lpDesktopWindow->nProtocol,
+                                         static_cast<teamtalk::DesktopProtocol>(lpDesktopWindow->nProtocol),
                                          &buf[0], static_cast<int>(buf.size()));
 }
 
@@ -2714,7 +2703,7 @@ TEAMTALKDLL_API TTBOOL TT_Windows_GetDesktopWindowHWND(IN INT32 nIndex,
     wnd.hWnd = 0;
     wnd.nIndex = nIndex;
 
-    EnumWindows( (WNDENUMPROC) CheckWindowTitle, (LPARAM) &wnd );
+    EnumWindows(reinterpret_cast<WNDENUMPROC>(CheckWindowTitle), reinterpret_cast<LPARAM>(&wnd));
     if(wnd.hWnd != 0)
     {
         if(lpHWnd)
@@ -2911,7 +2900,7 @@ TEAMTALKDLL_API TTBOOL TT_PaintDesktopWindowEx(IN TTInstance* lpTTInstance,
     bmh.biWidth = viewer->GetWidth();
     bmh.biHeight = viewer->GetHeight()*-1; //flip image
     bmh.biPlanes = 1;
-    bmh.biBitCount = (int)viewer->GetRGBMode() * 8;
+    bmh.biBitCount = static_cast<int>(viewer->GetRGBMode()) * 8;
     bmh.biCompression = BI_RGB;
     bmh.biSizeImage = viewer->GetBitmapSize();
     bmh.biXPelsPerMeter = 0;
@@ -2947,7 +2936,7 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
     shared_windows_t& windows = *reinterpret_cast<shared_windows_t*>(context);
     ShareWindow wnd = {};
 
-    CFDictionaryRef entry = (CFDictionaryRef)inputDictionary;
+    CFDictionaryRef entry = static_cast<CFDictionaryRef>(inputDictionary);
     CFNumberRef sharingState; /* SInt32 */
     CFNumberRef windowNumber; /* SInt64 */
     CFNumberRef ownerPID;     /* SInt64 */
@@ -2959,21 +2948,21 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
     SInt64 sint64;
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowSharingState,
-                                           (const void **)&sharingState);
+                                           reinterpret_cast<const void**>(&sharingState));
     if (status)
     {
         status = CFNumberGetValue(sharingState, kCFNumberSInt32Type,
-                                  (void *)&sint32);
+                                  &sint32);
         if (status && (sint32 == 0))
             return;
     }
     
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowOwnerPID,
-                                           (const void **)&ownerPID);
+                                           reinterpret_cast<const void**>(&ownerPID));
     if (status)
     {
         status = CFNumberGetValue(ownerPID, kCFNumberSInt64Type,
-                                  (void *)&sint64); 
+                                  &sint64); 
         if (status)
             wnd.nPID = sint64;
         else
@@ -2983,17 +2972,17 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
         return;
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowNumber,
-                                           (const void **)&windowNumber);
+                                           reinterpret_cast<const void**>(&windowNumber));
     if (status)
     {
         status = CFNumberGetValue(windowNumber, kCFNumberSInt64Type,
-                                  (void *)&sint64); 
+                                  &sint64); 
         if (status)
             wnd.nWindowID = sint64;
     }
 
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowOwnerName,
-                                           (const void **)&windowTitle);
+                                           reinterpret_cast<const void**>(&windowTitle));
     if (status)
     {
         CFIndex length = CFStringGetLength(windowTitle);
@@ -3003,7 +2992,7 @@ static void EnumerateWindowList(const void *inputDictionary, void *context)
 
     CFDictionaryRef rectDictionary;
     status = CFDictionaryGetValueIfPresent(entry, kCGWindowBounds,
-                                           (const void **)&rectDictionary);
+                                           reinterpret_cast<const void**>(&rectDictionary));
     if (status)
     {
         status = CGRectMakeWithDictionaryRepresentation(rectDictionary, &rect);
@@ -3051,7 +3040,7 @@ TEAMTALKDLL_API TTBOOL TT_MacOS_GetWindow(IN INT32 nIndex,
         return FALSE;
     if(!PopulateWindowTitles(windows))
         return FALSE;
-    if(nIndex >= (INT32)windows.size())
+    if(nIndex >= static_cast<INT32>(windows.size()))
         return FALSE;
 
     *lpShareWindow = windows[nIndex];
@@ -3285,9 +3274,9 @@ TEAMTALKDLL_API DesktopWindow* TT_AcquireUserDesktopWindowEx(IN TTInstance* lpTT
         lpNewWindow->nBytesPerLine = deskwnd.nBytesPerLine;
         lpNewWindow->nProtocol = deskwnd.nProtocol;
         if(!out_bmp.empty())
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, out_bmp.data(), size);
         else
-            ACE_OS::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
+            std::memcpy(lpNewWindow->frameBuffer, in_bmp.data(), size);
             
         return lpNewWindow;
     }

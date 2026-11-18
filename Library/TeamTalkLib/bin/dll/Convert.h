@@ -48,9 +48,10 @@
 
 #include <ace/SSL/SSL_Context.h>
 
+#include <cstring>
 #include <set>
 
-#define ZERO_STRUCT(x) ACE_OS::memset(&(x), 0, sizeof(x))
+#define ZERO_STRUCT(x) std::memset(&(x), 0, sizeof(x))
 
 bool TranslateDesktopInput(TTKeyTranslate nTranslate,
                            const DesktopInput& input,
