@@ -120,6 +120,9 @@ namespace teamtalk {
         void CleanUpAudioFragments(uint16_t too_old_packet_no);
         void AddPacket(const AudioPacket& packet);
         virtual void Reset();
+        //received frames
+        using enc_frames_t = std::map<uint16_t, EncFrame, W16LessComp>;
+        enc_frames_t m_buffer; // NOLINT(misc-non-private-member-variables-in-classes)
 
     private:
         int m_userid = 0;
@@ -146,9 +149,6 @@ namespace teamtalk {
         int m_audiopackets_recv = 0;
         int m_audiopacket_lost = 0;
 
-        //received frames
-        using enc_frames_t = std::map<uint16_t, EncFrame, W16LessComp>;
-        enc_frames_t m_buffer;
         int m_buffer_msec = 0;
         //current packet number being played
         uint16_t m_play_pkt_no = 0;
