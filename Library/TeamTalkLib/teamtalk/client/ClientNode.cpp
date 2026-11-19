@@ -4471,7 +4471,7 @@ int ClientNode::DoFileSend(int channelid, const tstring& localfilepath)
     auto const fsize = std::filesystem::file_size(localfilepath.c_str(), ec);
     int64_t const filesize = ec ? -1 : static_cast<int64_t>(fsize);
     tstring filename = localfilepath;
-    size_t const index = localfilepath.rfind(ACE_DIRECTORY_SEPARATOR_CHAR);
+    size_t const index = localfilepath.rfind(DIRECTORY_SEPARATOR_CHAR);
     if(index != tstring::npos)
         filename = filename.substr(index+1, localfilepath.length()-index+1);
 

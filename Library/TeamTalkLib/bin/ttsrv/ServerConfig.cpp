@@ -69,7 +69,7 @@ bool LoadConfig(teamtalk::ServerXML& xmlSettings, const tstring& cfgfile)
     {
         std::error_code ec;
         tstring workdir = std::filesystem::current_path(ec).native();
-        workdir += ACE_DIRECTORY_SEPARATOR_STR;
+        workdir += DIRECTORY_SEPARATOR_CHAR;
         settings_path = workdir + Utf8ToUnicode(TEAMTALK_SETTINGSFILE.data());
     }
     else settings_path = cfgfile;
@@ -1124,7 +1124,7 @@ void MakeStaticChannels(teamtalk::ServerNode& servernode, const teamtalk::statch
                 TT_SYSLOG(os.str().c_str());
                 continue;
             }
-            tstring const filesroot = servernode.GetFilesRoot() + tstring(ACE_DIRECTORY_SEPARATOR_STR);
+            tstring const filesroot = servernode.GetFilesRoot() + tstring(1, DIRECTORY_SEPARATOR_CHAR);
             for(size_t i=0;i<chan.files.size();i++)
             {
                 // add file, even if it doesn't exists. Otherwise
@@ -1207,7 +1207,7 @@ static void RemoveNonmatchingFiles(const tstring& filesroot,
             std::cout << "Should it be removed? ";
             if (PrintGetBool(false))
             {
-                const tstring path = filesroot + ACE_DIRECTORY_SEPARATOR_STR + f;
+                const tstring path = (std::filesystem::path(filesroot) / f).native();
                 std::error_code ec;
                 std::filesystem::remove(path.c_str(), ec);
                 if (ec)
