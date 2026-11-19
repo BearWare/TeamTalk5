@@ -333,7 +333,7 @@ int RunServer(
 #endif
 
     std::error_code ec;
-    tstring workdir = std::filesystem::current_path(ec).native().c_str();
+    tstring workdir = std::filesystem::current_path(ec).native();
 
     //enable logging
     if (xmlSettings.GetServerLogMaxSize() != 0)
@@ -658,7 +658,7 @@ int ParseArguments(int argc, tchar* argv[]
     {
         tstring const workdir = (*ite).second;
         std::error_code ec;
-        std::filesystem::current_path(workdir.c_str(), ec);
+        std::filesystem::current_path(workdir, ec);
         if(ec)
         {
             std::array<tchar, 1024> error_msg{};
@@ -692,16 +692,15 @@ int ParseArguments(int argc, tchar* argv[]
         std::array<tchar, MAX_PATH> bufPath{};
         if(GetModuleFileName(NULL, bufPath.data(), MAX_PATH)>0)
         {
-            TCHAR* pChr = ACE_OS::strrchr(bufPath.data(), '\\');
-            TTASSERT(pChr);
-            if(pChr)
+            tstring workdir = bufPath.data();
+            std::wstring::size_type pos = workdir.find_last_of(DIRECTORY_SEPARATOR_CHAR);
+            if (pos != std::wstring::npos)
             {
-                pChr++;
-                *pChr = 0;
+                workdir = workdir.substr(0, pos + 1); // include '\'
                 std::error_code ec;
-                std::filesystem::current_path(bufPath.data(), ec);
+                std::filesystem::current_path(workdir, ec);
             }
-            settingsfile = bufPath.data();
+            settingsfile = workdir;
             settingsfile += Utf8ToUnicode(TEAMTALK_SETTINGSFILE.data());
         }
     }

@@ -457,8 +457,9 @@ void RunWizard(teamtalk::ServerXML& xmlSettings)
 #endif
         filesroot = LocalToUnicode(PrintGetString(UnicodeToLocal(filesroot)));
         ec.clear();
-        if(!filesroot.empty())
-            std::filesystem::current_path(filesroot.c_str(), ec);
+        if (!filesroot.empty())
+            std::filesystem::current_path(filesroot, ec);
+
         if(!filesroot.empty() && !ec)
         {
             cout << "Disk quota (in KBytes) per channel, 0 = disabled: ";
