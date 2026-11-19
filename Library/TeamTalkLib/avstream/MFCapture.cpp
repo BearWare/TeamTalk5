@@ -258,7 +258,7 @@ void MFCapture::Run(CaptureSession* session, tstring deviceid)
     CComPtr<IMFMediaType> pInputType;
     DWORD dwMediaTypeIndex = 0, dwVideoStreamIndex = MF_SOURCE_READER_FIRST_VIDEO_STREAM;
     CComPtr<IMFAttributes> pAttributes;
-    unsigned devid = ACE_OS::atoi(deviceid.c_str());
+    unsigned const devid = static_cast<unsigned>(String2I(deviceid));
     bool start = false;
 
 #define RETURNONERROR(error)                \

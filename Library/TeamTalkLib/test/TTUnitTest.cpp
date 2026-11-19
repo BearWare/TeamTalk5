@@ -137,12 +137,12 @@ bool GetSoundDevices(SoundDevice& insnddev, SoundDevice& outsnddev, INT32 indev/
     if (envindev || envoutdev)
     {
         if (envindev)
-            defaultin = ACE_OS::atoi(envindev);
+            defaultin = static_cast<int>(String2I(Utf8ToUnicode(envindev)));
         else if (!TT_GetDefaultSoundDevices(indev != SOUNDDEVICEID_IGNORE ? &defaultin : nullptr, nullptr))
             return false;
 
         if (envoutdev)
-            defaultout = ACE_OS::atoi(envoutdev);
+            defaultout = static_cast<int>(String2I(Utf8ToUnicode(envoutdev)));
         else if (!TT_GetDefaultSoundDevices(nullptr, outdev != SOUNDDEVICEID_IGNORE ? &defaultout : nullptr))
             return false;
     }

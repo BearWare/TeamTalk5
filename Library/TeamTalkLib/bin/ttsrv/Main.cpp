@@ -648,11 +648,11 @@ int ParseArguments(int argc, tchar* argv[]
     }
     if( (ite = args.find(TTEXT("-rxloss"))) != args.end())
     {
-        rxloss = ACE_OS::atoi((*ite).second.c_str());
+        rxloss = static_cast<int>(String2I((*ite).second));
     }
     if( (ite = args.find(TTEXT("-txloss"))) != args.end())
     {
-        txloss = ACE_OS::atoi((*ite).second.c_str());
+        txloss = static_cast<int>(String2I((*ite).second));
     }
     if( (ite = args.find(TTEXT("-wd"))) != args.end())
     {
