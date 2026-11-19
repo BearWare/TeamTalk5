@@ -698,7 +698,7 @@ void FillKeys()
 */
 #endif
 
-static ACE_Recursive_Thread_Mutex keytransMtx;
+static std::recursive_mutex keytransMtx;
 
 bool TranslateDesktopInput(TTKeyTranslate nTranslate,
                            const DesktopInput& input,

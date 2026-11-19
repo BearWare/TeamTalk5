@@ -31,7 +31,6 @@
 #include <ace/Message_Block.h>
 #include <ace/Message_Queue_T.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Synch_Traits.h>
 #include <ace/Time_Value.h>
 #include <ace/Timer_Heap.h>
@@ -43,8 +42,8 @@
 ACE_THR_FUNC_RETURN EventLoop (void *arg);
 void SyncReactor(ACE_Reactor& reactor);
 
-using wguard_t = ACE_Write_Guard<ACE_Recursive_Thread_Mutex>;
-using rguard_t = ACE_Read_Guard<ACE_Recursive_Thread_Mutex>;
+using wguard_t = std::unique_lock<std::recursive_mutex>;
+using rguard_t = std::unique_lock<std::recursive_mutex>; // ACE_Read_Guard on a recursive mutex is exclusive too
 using guard_t = ACE_Guard<ACE_Lock>;
 
 using ActiveTimer = ACE_Thread_Timer_Queue_Adapter<ACE_Timer_Heap>;

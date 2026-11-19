@@ -233,7 +233,7 @@ void VoiceLog::FlushLog()
     m_mFlushPackets.insert(m_mQueuePackets.begin(),m_mQueuePackets.end());
     m_mQueuePackets.clear();
 
-    g.release();
+    g.unlock();
 
     m_packet_current = WritePackets(m_packet_current);
 }
@@ -748,7 +748,7 @@ void VoiceLogger::FlushLogs()
         if (m_mLog.second->GetVoiceEndTime() < ACE_OS::gettimeofday())
             closeLogs.push_back(m_mLog.first);
     }
-    g.release(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong
+    g.unlock(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong
 
     for(int closeLog : closeLogs)
         EndLog(closeLog);

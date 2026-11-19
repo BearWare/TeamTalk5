@@ -38,7 +38,6 @@
 #include <ace/OS_NS_Thread.h>
 #include <ace/OS_NS_string.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/SSL/SSL_Context.h>
 #include <ace/Select_Reactor.h>
 
@@ -98,7 +97,7 @@ using thread_owners_t = std::map<TTSInstance*, ACE_thread_t>;
 
 static servers_t servers;
 static thread_owners_t threads;
-static ACE_Recursive_Thread_Mutex servers_mutex;
+static std::recursive_mutex servers_mutex;
 
 static ServerInstance* GetServerinst(TTSInstance* pInstance)
 {

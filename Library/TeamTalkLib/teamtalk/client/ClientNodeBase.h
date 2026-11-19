@@ -35,7 +35,6 @@
 
 #include <ace/Lock.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Task_T.h>
 #include <ace/Thread.h>
 #include <ace/Time_Value.h>
@@ -140,12 +139,12 @@ namespace teamtalk {
         std::condition_variable m_reactor_wait_cv;
         std::mutex m_reactor_wait_mtx;
 
-        ACE_Recursive_Thread_Mutex m_timers_lock; //mutexes must be the last to be destroyed
+        std::recursive_mutex m_timers_lock; //mutexes must be the last to be destroyed
 
         //set of timers currently in use. Protected by lock_timers().
         timer_handlers_t m_timers;
 
-        ACE_Recursive_Thread_Mutex& LockTimers() { return m_timers_lock; }
+        std::recursive_mutex& LockTimers() { return m_timers_lock; }
 
     protected:
         //Start/stop timers handled by ClientNode

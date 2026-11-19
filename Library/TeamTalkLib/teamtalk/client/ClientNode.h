@@ -56,7 +56,6 @@
 #include <ace/Message_Queue.h>
 #include <ace/Synch.h>
 #include <ace/Synch_Traits.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
@@ -187,7 +186,7 @@ namespace teamtalk {
         uint32_t m_active_timerid = 0;
 #endif
         
-        ACE_Recursive_Thread_Mutex& LockSndprop() { return m_sndgrp_lock; }
+        std::recursive_mutex& LockSndprop() { return m_sndgrp_lock; }
         VoiceLogger& GetVoiceLogger() override;
         AudioContainer& GetAudioContainer();
 
@@ -527,7 +526,7 @@ namespace teamtalk {
         soundsystem::soundsystem_t m_soundsystem;
         std::atomic<ClientFlags> m_flags; //Mask of ClientFlag-enum
         // active sound groups (shared master volume)
-        ACE_Recursive_Thread_Mutex m_sndgrp_lock;
+        std::recursive_mutex m_sndgrp_lock;
         SoundProperties m_soundprop;
         //log voice to files
         voicelogger_t m_voicelogger;

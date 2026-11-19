@@ -171,7 +171,7 @@ bool ClientNodeBase::StopTimer(uint32_t timer_id)
     {
         TimerHandler* th = ii->second;
         m_timers.erase(ii);
-        g.release(); //don't hold reactor lock when cancelling
+        g.unlock(); //don't hold reactor lock when cancelling
 
         if(m_reactor.cancel_timer(th, 0) != -1)
             return true;

@@ -2697,7 +2697,7 @@ bool ClientNode::InitSoundInputDevice(int inputdevice)
     rguard_t g_snd(LockSndprop());
     TTASSERT(m_soundprop.inputdeviceid == SOUNDDEVICE_IGNORE_ID);
     m_soundprop.inputdeviceid = inputdevice;
-    g_snd.release();
+    g_snd.unlock();
 
     if (m_mychannel)
     {
@@ -2723,7 +2723,7 @@ bool ClientNode::InitSoundOutputDevice(int outputdevice)
 
     TTASSERT(m_soundprop.outputdeviceid == SOUNDDEVICE_IGNORE_ID);
     m_soundprop.outputdeviceid = outputdevice;
-    g_snd.release();
+    g_snd.unlock();
 
     m_flags |= CLIENT_SNDOUTPUT_READY;
 
@@ -2751,7 +2751,7 @@ bool ClientNode::InitSoundDuplexDevices(int inputdeviceid,
     TTASSERT(m_soundprop.outputdeviceid == SOUNDDEVICE_IGNORE_ID);
     m_soundprop.inputdeviceid = inputdeviceid;
     m_soundprop.outputdeviceid = outputdeviceid;
-    g_snd.release();
+    g_snd.unlock();
 
     m_flags |= CLIENT_SNDINPUT_READY;
     m_flags |= CLIENT_SNDOUTPUT_READY;
@@ -2775,7 +2775,7 @@ bool ClientNode::CloseSoundInputDevice()
 
     rguard_t g_snd(LockSndprop());
     m_soundprop.inputdeviceid = SOUNDDEVICE_IGNORE_ID;
-    g_snd.release();
+    g_snd.unlock();
 
     m_flags &= ~CLIENT_SNDINPUT_READY;
     return true;
@@ -2790,7 +2790,7 @@ bool ClientNode::CloseSoundOutputDevice()
 
     rguard_t g_snd(LockSndprop());
     m_soundprop.outputdeviceid = SOUNDDEVICE_IGNORE_ID;
-    g_snd.release();
+    g_snd.unlock();
 
     m_flags &= ~CLIENT_SNDOUTPUT_READY;
 
@@ -2814,7 +2814,7 @@ bool ClientNode::CloseSoundDuplexDevices()
     rguard_t g_snd(LockSndprop());
     m_soundprop.inputdeviceid = SOUNDDEVICE_IGNORE_ID;
     m_soundprop.outputdeviceid = SOUNDDEVICE_IGNORE_ID;
-    g_snd.release();
+    g_snd.unlock();
 
     m_flags &= ~CLIENT_SNDINPUT_READY;
     m_flags &= ~CLIENT_SNDOUTPUT_READY;
