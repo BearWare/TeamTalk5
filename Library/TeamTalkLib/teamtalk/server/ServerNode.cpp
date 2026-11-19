@@ -33,7 +33,6 @@
 #include <ace/FILE_IO.h>
 #include <ace/FILE_Addr.h>
 #include <ace/FILE_Connector.h>
-#include <ace/Dirent_Selector.h>
 #include <ace/OS.h>
 
 #include <algorithm>
@@ -225,8 +224,8 @@ bool ServerNode::SetFileSharing(const tstring& rootdir)
     ASSERT_SERVERNODE_LOCKED(this);
 
     tstring const fixedpath = FixFilePath(rootdir);
-    ACE_Dirent_Selector dir;
-    if(dir.open(fixedpath.c_str()) < 0)
+    std::error_code ec;
+    if (!std::filesystem::is_directory(fixedpath, ec))
         return false;
 
     m_properties.filesroot = fixedpath;

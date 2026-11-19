@@ -31,7 +31,6 @@
 #include "settings/Settings.h"
 #include "teamtalk/TTAssert.h"
 
-#include <ace/Dirent_Selector.h>
 #include <ace/INet/HTTP_Status.h>
 
 #include <algorithm>
@@ -142,14 +141,14 @@ void RotateLogfile(const tstring& cwd, const tstring& logname,
 {
     logfile.close();
 
-    ACE_Dirent_Selector ds;
-    if(ds.open(cwd.c_str())<0)
+    std::error_code ec;
+    if (!std::filesystem::is_directory(cwd, ec))
         return;
 
     int max = 0;
-    for(int i=0;i<ds.length();i++)
+    for (const auto& entry : std::filesystem::directory_iterator(cwd, ec))
     {
-        tstring const curfile = ds[i]->d_name;
+        tstring const curfile = entry.path().filename().native();
         if(curfile.length()>logname.length() &&
            curfile.substr(0, logname.length()) == logname)
         {
@@ -160,13 +159,14 @@ void RotateLogfile(const tstring& cwd, const tstring& logname,
             max = std::max(val, max);
         }
     }
+    if (ec)
+        return;
 
     max++;
 
     tstring const tmp_logname = logname + TTEXT(".") + I2String(max);
 
     //rename from LogFile.log to LogFile.log.1
-    std::error_code ec;
     std::filesystem::rename(logname.c_str(), tmp_logname.c_str(), ec);
     TTASSERT(!ec);
 
