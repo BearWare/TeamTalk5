@@ -43,7 +43,6 @@
 #endif
 
 #include <ace/Message_Block.h>
-#include <ace/Recursive_Thread_Mutex.h>
 
 #include <cstddef>
 #include <cstdint>
@@ -157,7 +156,7 @@ namespace teamtalk {
         //packet no -> fragments
         using fragments_queue_t = std::map<uint16_t, audiofragments_t>;
         fragments_queue_t m_audfragments;
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
     using audio_player_t = std::shared_ptr< AudioPlayer >;
@@ -259,7 +258,7 @@ namespace teamtalk {
         VpxDecoder m_decoder;
         bool m_decoder_ready = false;
 
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
     };
 
     using webm_player_t = std::shared_ptr< WebMPlayer >;

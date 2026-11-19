@@ -42,7 +42,6 @@
 #include <ace/INET_Addr.h>
 #include <ace/Lock.h>
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Time_Value.h>
 #if defined(ENABLE_ENCRYPTION)
 #include <ace/SSL/SSL_Context.h>
@@ -370,7 +369,7 @@ namespace teamtalk {
         std::vector<packethandler_t> m_packethandlers;
         
         //mutex for clients
-        ACE_Recursive_Thread_Mutex m_sendmutex;
+        std::recursive_mutex m_sendmutex;
         //the channels
         serverchannel_t m_rootchannel;
 

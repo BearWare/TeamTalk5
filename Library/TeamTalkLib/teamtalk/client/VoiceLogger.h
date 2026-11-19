@@ -50,7 +50,6 @@
 #endif
 
 #include <ace/Reactor.h>
-#include <ace/Recursive_Thread_Mutex.h>
 #include <ace/Task.h>
 #include <ace/Time_Value.h>
 
@@ -113,7 +112,7 @@ namespace teamtalk {
         void WriteAudio(int packet_no);
         void WriteSilence(int msecs);
 
-        ACE_Recursive_Thread_Mutex m_mutex;
+        std::recursive_mutex m_mutex;
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
         int m_packet_current = -1;
@@ -183,7 +182,7 @@ namespace teamtalk {
         void FlushLogs();
         using mapvlogs_t = std::map<int, voicelog_t>;
         mapvlogs_t m_mLogs;
-        ACE_Recursive_Thread_Mutex m_add_mtx, m_flush_mtx;
+        std::recursive_mutex m_add_mtx, m_flush_mtx;
         ACE_Reactor m_reactor;
         int m_timerid = -1;
         VoiceLogListener* m_listener = nullptr;
