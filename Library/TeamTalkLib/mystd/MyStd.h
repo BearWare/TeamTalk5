@@ -165,6 +165,17 @@ inline tchar* tstrsncpy(tchar* dest, const tchar* src, size_t maxlen)
     return dest;
 }
 
+//tchar version of ACE_OS::strrchr: returns pointer to last occurrence
+//of 'c' in 's', or nullptr
+inline const tchar* tstrrchr(const tchar* s, int c)
+{
+#if defined(UNICODE)
+    return std::wcsrchr(s, static_cast<wchar_t>(c));
+#else
+    return std::strrchr(s, c);
+#endif
+}
+
 class NonCopyable
 {
 protected:
