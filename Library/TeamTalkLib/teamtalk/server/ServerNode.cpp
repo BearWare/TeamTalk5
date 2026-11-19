@@ -407,7 +407,7 @@ ErrorMsg ServerNode::FileInboundCompleted(const ServerUser& user, const ServerCh
 
     m_file_id_counter = remotefile.fileid;
 
-    tstring internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR;
+    tstring internalpath = m_properties.filesroot + tstring(1, DIRECTORY_SEPARATOR_CHAR);
 
     std::array<tchar, MAX_STRING_LENGTH+1> newfilename{};
     uint32_t dat_id = m_file_id_counter;
@@ -510,7 +510,7 @@ ErrorMsg ServerNode::UserDeleteFile(int userid, int channelid,
             m_srvguard->OnSaveConfiguration(user.get());
     }
 
-    tstring const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+    tstring const filepath = (std::filesystem::path(m_properties.filesroot) / remotefile.internalname).native();
     g.release();
 
     ACE_FILE_Connector con;
@@ -4251,7 +4251,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
             return ErrorMsg(TT_CMDERR_OPENFILE_FAILED);
 
         tstring const tmpfilename = TTEXT("tmp_") + I2String(id) + CHANNELFILEEXTENSION;
-        tstring const filepath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + tmpfilename;
+        tstring const filepath = (std::filesystem::path(m_properties.filesroot) / tmpfilename).native();
         if(chan->FileExists(transfer.filename))
             return ErrorMsg(TT_CMDERR_FILE_ALREADY_EXISTS);
                     transfer.localfile = filepath;
@@ -4264,7 +4264,7 @@ ErrorMsg ServerNode::UserRegFileTransfer(FileTransfer& transfer)
         if(!chan->GetFile(transfer.filename, remotefile))
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
 
-        tstring const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+        tstring const internalpath = (std::filesystem::path(m_properties.filesroot) / remotefile.internalname).native();
         std::error_code ec;
         if (!std::filesystem::exists(internalpath.c_str(), ec))
             return ErrorMsg(TT_CMDERR_FILE_NOT_FOUND);
@@ -4412,7 +4412,7 @@ ErrorMsg ServerNode::RemoveFileFromChannel(const tstring& filename, int channeli
 
         ACE_FILE_Connector con;
         ACE_FILE_IO file;
-        tstring const internalpath = m_properties.filesroot + ACE_DIRECTORY_SEPARATOR_STR + remotefile.internalname;
+        tstring const internalpath = (std::filesystem::path(m_properties.filesroot) / remotefile.internalname).native();
         if(con.connect(file, ACE_FILE_Addr(internalpath.c_str())) >= 0)
             file.remove();
 

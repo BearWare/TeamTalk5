@@ -33,6 +33,7 @@
 #include <ace/Sched_Params.h>
 
 #include <array>
+#include <filesystem>
 #include <cstddef>
 #include <ctime>
 #include <memory>
@@ -637,7 +638,7 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
         filename += TTEXT(".mp3");
     }
 
-    tstring const filepath = folderpath + ACE_DIRECTORY_SEPARATOR_STR + filename;
+    tstring const filepath = (std::filesystem::path(folderpath) / filename).native();
 
     voicelog_t log = std::make_shared<VoiceLog>(from_user.GetUserID(), filepath,
                                                 codec, aff, stream_id,
