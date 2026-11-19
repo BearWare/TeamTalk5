@@ -825,6 +825,80 @@ void setAudioCodec(JNIEnv* env, AudioCodec& codec, jobject lpAudioCodec, JConver
         }
     }
     break;
+    case WAV_CODEC :
+    {
+        jfieldID fid_wav = env->GetFieldID(cls_codec, "wav",
+                                           "Ldk/bearware/WavCodec;");
+
+        jclass cls_wav = env->FindClass("dk/bearware/WavCodec");
+        jfieldID fid_sr = env->GetFieldID(cls_wav, "nSampleRate", "I");
+        jfieldID fid_ch = env->GetFieldID(cls_wav, "nChannels", "I");
+        jfieldID fid_fmt = env->GetFieldID(cls_wav, "nSampleFormat", "I");
+        jfieldID fid_txmsec = env->GetFieldID(cls_wav, "nTxIntervalMSec", "I");
+
+        assert(fid_wav);
+        assert(fid_sr);
+        assert(fid_ch);
+        assert(fid_fmt);
+        assert(fid_txmsec);
+
+        if(conv == N2J)
+        {
+            jobject newObj = newObject(env, cls_wav);
+
+            env->SetIntField(newObj, fid_sr, codec.wav.nSampleRate);
+            env->SetIntField(newObj, fid_ch, codec.wav.nChannels);
+            env->SetIntField(newObj, fid_fmt, codec.wav.nSampleFormat);
+            env->SetIntField(newObj, fid_txmsec, codec.wav.nTxIntervalMSec);
+            env->SetObjectField(lpAudioCodec, fid_wav, newObj);
+        }
+        else
+        {
+            jobject wav_obj = env->GetObjectField(lpAudioCodec, fid_wav);
+            codec.wav.nSampleRate = env->GetIntField(wav_obj, fid_sr);
+            codec.wav.nChannels = env->GetIntField(wav_obj, fid_ch);
+            codec.wav.nSampleFormat = (WavSampleFormat)env->GetIntField(wav_obj, fid_fmt);
+            codec.wav.nTxIntervalMSec = env->GetIntField(wav_obj, fid_txmsec);
+        }
+    }
+    break;
+    case FLAC_CODEC :
+    {
+        jfieldID fid_flac = env->GetFieldID(cls_codec, "flac",
+                                            "Ldk/bearware/FlacCodec;");
+
+        jclass cls_flac = env->FindClass("dk/bearware/FlacCodec");
+        jfieldID fid_sr = env->GetFieldID(cls_flac, "nSampleRate", "I");
+        jfieldID fid_ch = env->GetFieldID(cls_flac, "nChannels", "I");
+        jfieldID fid_level = env->GetFieldID(cls_flac, "nCompressionLevel", "I");
+        jfieldID fid_txmsec = env->GetFieldID(cls_flac, "nTxIntervalMSec", "I");
+
+        assert(fid_flac);
+        assert(fid_sr);
+        assert(fid_ch);
+        assert(fid_level);
+        assert(fid_txmsec);
+
+        if(conv == N2J)
+        {
+            jobject newObj = newObject(env, cls_flac);
+
+            env->SetIntField(newObj, fid_sr, codec.flac.nSampleRate);
+            env->SetIntField(newObj, fid_ch, codec.flac.nChannels);
+            env->SetIntField(newObj, fid_level, codec.flac.nCompressionLevel);
+            env->SetIntField(newObj, fid_txmsec, codec.flac.nTxIntervalMSec);
+            env->SetObjectField(lpAudioCodec, fid_flac, newObj);
+        }
+        else
+        {
+            jobject flac_obj = env->GetObjectField(lpAudioCodec, fid_flac);
+            codec.flac.nSampleRate = env->GetIntField(flac_obj, fid_sr);
+            codec.flac.nChannels = env->GetIntField(flac_obj, fid_ch);
+            codec.flac.nCompressionLevel = env->GetIntField(flac_obj, fid_level);
+            codec.flac.nTxIntervalMSec = env->GetIntField(flac_obj, fid_txmsec);
+        }
+    }
+    break;
     }
 }
 
@@ -1972,6 +2046,8 @@ void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConver
         case SPEEX_CODEC :
         case SPEEX_VBR_CODEC :
         case OPUS_CODEC :
+        case WAV_CODEC :
+        case FLAC_CODEC :
             // make compiler shut up
             break;
         }
@@ -1988,6 +2064,8 @@ void setVideoCodec(JNIEnv* env, VideoCodec& codec, jobject lpVideoCodec, JConver
         case SPEEX_CODEC :
         case SPEEX_VBR_CODEC :
         case OPUS_CODEC :
+        case WAV_CODEC :
+        case FLAC_CODEC :
             // make compiler shut up
             break;
         }

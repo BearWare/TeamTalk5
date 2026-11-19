@@ -46,6 +46,8 @@ private:
     void slotUpdateChannelPath(const QString &);
     void slotAudioChannelChanged(int aud_channels);
     void slotSoloTransmitDelay();
+    void slotWavCodecChanged();
+    void slotFlacCodecChanged();
 
 private:
     Ui::ChannelDlg ui;

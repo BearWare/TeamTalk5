@@ -653,7 +653,9 @@ namespace teamtalk
             stream_field.resize(field_size);
         }
 
-        alloc_size += FIELDVALUE_PREFIX + enc_length; //FIELDTYPE_ENCDATA
+        bool const large_enc_audio = enc_length > MAX_FIELD_SIZE;
+        uint16_t const field_enc_length = large_enc_audio ? 0 : enc_length;
+        alloc_size += FIELDVALUE_PREFIX + field_enc_length; //FIELDTYPE_ENCDATA
 
         //encoded frame sizes are stored in a 12-bit array
         std::vector<char>::size_type enc_array_size = 0;
@@ -673,7 +675,9 @@ namespace teamtalk
         uint8_t* ptr = data_buf;
         iovec v;
         v.iov_base = reinterpret_cast<char*>(data_buf);
-        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_audio, enc_length);
+        ptr = WRITEFIELD_DATA(ptr, FIELDTYPE_ENCDATA, enc_audio, field_enc_length);
+        if (large_enc_audio)
+            m_large_enc_audio.assign(enc_audio, enc_audio + enc_length);
 
         assert(!frag_cnt || !frag_no || frag_cnt && *frag_no == 0);
         uint8_t* field_buf_ptr = stream_field.data();
@@ -814,6 +818,12 @@ namespace teamtalk
 
     const char* AudioPacket::GetEncodedAudio(uint16_t& length) const
     {
+        if (!m_large_enc_audio.empty())
+        {
+            length = static_cast<uint16_t>(m_large_enc_audio.size());
+            return m_large_enc_audio.data();
+        }
+
         const uint8_t* ptr = FindField(FIELDTYPE_ENCDATA);
         if(ptr != nullptr)
         {

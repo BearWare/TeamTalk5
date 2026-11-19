@@ -11,7 +11,12 @@ enum {
     TTKitDefaultSpeexQuality = 4,
     TTKitDefaultSpeexVBRBandmode = 1,
     TTKitDefaultSpeexVBRQuality = 4,
-    TTKitDefaultSpeexVBRMaxBitrate = 0
+    TTKitDefaultSpeexVBRMaxBitrate = 0,
+    TTKitDefaultWavSampleRate = 48000,
+    TTKitDefaultWavChannels = 1,
+    TTKitDefaultFlacSampleRate = 48000,
+    TTKitDefaultFlacChannels = 1,
+    TTKitDefaultFlacCompressionLevel = 5
 };
 
 AudioCodec TTKitMakeAudioCodec(Codec codec) {
@@ -31,6 +36,16 @@ AudioCodec TTKitMakeAudioCodec(Codec codec) {
     case SPEEX_VBR_CODEC: {
         SpeexVBRCodec speexVBRCodec = TTKitMakeSpeexVBRCodec();
         TTKitSetSpeexVBRCodec(&audioCodec, &speexVBRCodec);
+        break;
+    }
+    case WAV_CODEC: {
+        WavCodec wavCodec = TTKitMakeWavCodec();
+        TTKitSetWavCodec(&audioCodec, &wavCodec);
+        break;
+    }
+    case FLAC_CODEC: {
+        FlacCodec flacCodec = TTKitMakeFlacCodec();
+        TTKitSetFlacCodec(&audioCodec, &flacCodec);
         break;
     }
     case NO_CODEC:
@@ -82,6 +97,26 @@ SpeexVBRCodec TTKitMakeSpeexVBRCodec(void) {
     return speexVBRCodec;
 }
 
+WavCodec TTKitMakeWavCodec(void) {
+    WavCodec wavCodec = {
+        TTKitDefaultWavSampleRate,
+        TTKitDefaultWavChannels,
+        WAV_SAMPLEFORMAT_INT16,
+        TTKitDefaultMSecPerPacket
+    };
+    return wavCodec;
+}
+
+FlacCodec TTKitMakeFlacCodec(void) {
+    FlacCodec flacCodec = {
+        TTKitDefaultFlacSampleRate,
+        TTKitDefaultFlacChannels,
+        TTKitDefaultFlacCompressionLevel,
+        TTKitDefaultMSecPerPacket
+    };
+    return flacCodec;
+}
+
 OpusCodec TTKitGetOpusCodec(const AudioCodec* audioCodec) {
     return audioCodec->opus;
 }
@@ -92,6 +127,14 @@ SpeexCodec TTKitGetSpeexCodec(const AudioCodec* audioCodec) {
 
 SpeexVBRCodec TTKitGetSpeexVBRCodec(const AudioCodec* audioCodec) {
     return audioCodec->speex_vbr;
+}
+
+WavCodec TTKitGetWavCodec(const AudioCodec* audioCodec) {
+    return audioCodec->wav;
+}
+
+FlacCodec TTKitGetFlacCodec(const AudioCodec* audioCodec) {
+    return audioCodec->flac;
 }
 
 void TTKitSetOpusCodec(AudioCodec* audioCodec, const OpusCodec* opusCodec) {
@@ -107,6 +150,16 @@ void TTKitSetSpeexCodec(AudioCodec* audioCodec, const SpeexCodec* speexCodec) {
 void TTKitSetSpeexVBRCodec(AudioCodec* audioCodec, const SpeexVBRCodec* speexVBRCodec) {
     audioCodec->nCodec = SPEEX_VBR_CODEC;
     audioCodec->speex_vbr = *speexVBRCodec;
+}
+
+void TTKitSetWavCodec(AudioCodec* audioCodec, const WavCodec* wavCodec) {
+    audioCodec->nCodec = WAV_CODEC;
+    audioCodec->wav = *wavCodec;
+}
+
+void TTKitSetFlacCodec(AudioCodec* audioCodec, const FlacCodec* flacCodec) {
+    audioCodec->nCodec = FLAC_CODEC;
+    audioCodec->flac = *flacCodec;
 }
 
 Channel TTKitMessageChannel(const TTMessage* message) {

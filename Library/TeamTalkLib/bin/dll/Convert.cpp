@@ -865,6 +865,30 @@ bool Convert(const AudioCodec& codec, teamtalk::AudioCodec& result)
         return teamtalk::ValidAudioCodec(result);
     }
 #endif
+    case teamtalk::CODEC_WAV :
+    {
+        result.codec = teamtalk::CODEC_WAV;
+        result.wav.samplerate = codec.wav.nSampleRate;
+        result.wav.channels = codec.wav.nChannels;
+        result.wav.sampleformat = static_cast<teamtalk::WavSampleFormat>(codec.wav.nSampleFormat);
+        result.wav.txinterval_msec = codec.wav.nTxIntervalMSec;
+
+        VALID_INT_CODEC(result, result.wav);
+
+        return teamtalk::ValidAudioCodec(result);
+    }
+    case teamtalk::CODEC_FLAC :
+    {
+        result.codec = teamtalk::CODEC_FLAC;
+        result.flac.samplerate = codec.flac.nSampleRate;
+        result.flac.channels = codec.flac.nChannels;
+        result.flac.compressionlevel = codec.flac.nCompressionLevel;
+        result.flac.txinterval_msec = codec.flac.nTxIntervalMSec;
+
+        VALID_INT_CODEC(result, result.flac);
+
+        return teamtalk::ValidAudioCodec(result);
+    }
 
     default:
         return false;
@@ -922,6 +946,24 @@ bool Convert(const teamtalk::AudioCodec& codec, AudioCodec& result)
         return teamtalk::ValidAudioCodec(codec);
     }
 #endif /* ENABLE_OPUS */
+    case teamtalk::CODEC_WAV :
+        result.nCodec = WAV_CODEC;
+        result.wav.nSampleRate = codec.wav.samplerate;
+        result.wav.nChannels = codec.wav.channels;
+        result.wav.nSampleFormat = static_cast<WavSampleFormat>(codec.wav.sampleformat);
+        result.wav.nTxIntervalMSec = codec.wav.txinterval_msec;
+
+        VALID_EXT_CODEC(result, result.wav);
+        return teamtalk::ValidAudioCodec(codec);
+    case teamtalk::CODEC_FLAC :
+        result.nCodec = FLAC_CODEC;
+        result.flac.nSampleRate = codec.flac.samplerate;
+        result.flac.nChannels = codec.flac.channels;
+        result.flac.nCompressionLevel = codec.flac.compressionlevel;
+        result.flac.nTxIntervalMSec = codec.flac.txinterval_msec;
+
+        VALID_EXT_CODEC(result, result.flac);
+        return teamtalk::ValidAudioCodec(codec);
     default :
         return false;
     }

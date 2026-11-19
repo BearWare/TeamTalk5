@@ -3,13 +3,18 @@
 ----------------------------------------------
 Version 5.24, unreleased
 Desktop Client
--
+- Added WAV audio codec with 8-bit and 16-bit PCM and sample rates up to 384 KHz
+- Added FLAC audio codec with lossless 16-bit PCM and sample rates up to 384 KHz
 Android Client
--
+- Added WAV audio codec with 8-bit and 16-bit PCM and sample rates up to 384 KHz
+- Added FLAC audio codec with lossless 16-bit PCM and sample rates up to 384 KHz
 iOS Client
--
+- Added WAV audio codec with 8-bit and 16-bit PCM and sample rates up to 384 KHz
+- Added FLAC audio codec with lossless 16-bit PCM and sample rates up to 384 KHz
 Server
 - Fixed channel rename accepting a name containing '/'
+- Added support for channels using WAV audio codec
+- Added support for channels using FLAC audio codec
 
 Version 5.23.1, unreleased
 Desktop Client

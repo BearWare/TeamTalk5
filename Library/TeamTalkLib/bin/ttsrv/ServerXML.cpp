@@ -847,6 +847,18 @@ namespace teamtalk{
                     PutInteger(codecElement, "framesize", chan.audiocodec.opus.frame_size);
                     PutInteger(codecElement, "fpp", chan.audiocodec.opus.frames_per_packet);
                     break;
+                case CODEC_WAV :
+                    PutInteger(codecElement, "samplerate", chan.audiocodec.wav.samplerate);
+                    PutInteger(codecElement, "channels", chan.audiocodec.wav.channels);
+                    PutInteger(codecElement, "sample-format", chan.audiocodec.wav.sampleformat);
+                    PutInteger(codecElement, "tx-interval-msec", chan.audiocodec.wav.txinterval_msec);
+                    break;
+                case CODEC_FLAC :
+                    PutInteger(codecElement, "samplerate", chan.audiocodec.flac.samplerate);
+                    PutInteger(codecElement, "channels", chan.audiocodec.flac.channels);
+                    PutInteger(codecElement, "compression-level", chan.audiocodec.flac.compressionlevel);
+                    PutInteger(codecElement, "tx-interval-msec", chan.audiocodec.flac.txinterval_msec);
+                    break;
                 }
                 xmlChan->InsertEndChild(codecElement);
 
@@ -1017,6 +1029,22 @@ namespace teamtalk{
                         b &= GetInteger(codecElement, "framesize", newchan.audiocodec.opus.frame_size);
                         newchan.audiocodec.opus.frames_per_packet = 1;
                         GetInteger(codecElement, "fpp", newchan.audiocodec.opus.frames_per_packet);
+                        break;
+                    case CODEC_WAV :
+                    {
+                        int sampleformat = WAV_SAMPLEFORMAT_NONE;
+                        b &= GetInteger(codecElement, "samplerate", newchan.audiocodec.wav.samplerate);
+                        b &= GetInteger(codecElement, "channels", newchan.audiocodec.wav.channels);
+                        b &= GetInteger(codecElement, "sample-format", sampleformat);
+                        b &= GetInteger(codecElement, "tx-interval-msec", newchan.audiocodec.wav.txinterval_msec);
+                        newchan.audiocodec.wav.sampleformat = static_cast<WavSampleFormat>(sampleformat);
+                        break;
+                    }
+                    case CODEC_FLAC :
+                        b &= GetInteger(codecElement, "samplerate", newchan.audiocodec.flac.samplerate);
+                        b &= GetInteger(codecElement, "channels", newchan.audiocodec.flac.channels);
+                        b &= GetInteger(codecElement, "compression-level", newchan.audiocodec.flac.compressionlevel);
+                        b &= GetInteger(codecElement, "tx-interval-msec", newchan.audiocodec.flac.txinterval_msec);
                         break;
                     }
                     if(b)

@@ -331,6 +331,38 @@ OPUS_MIN_FRAMESIZE = 2
 OPUS_MAX_FRAMESIZE = 60
 OPUS_REALMAX_FRAMESIZE = 120
 
+class WavSampleFormat(INT32):
+    WAV_SAMPLEFORMAT_NONE = 0
+    WAV_SAMPLEFORMAT_UINT8 = 1
+    WAV_SAMPLEFORMAT_INT16 = 2
+
+class WavCodec(Structure):
+    _fields_ = [
+    ("nSampleRate", INT32),
+    ("nChannels", INT32),
+    ("nSampleFormat", INT32),
+    ("nTxIntervalMSec", INT32),
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.WAVCODEC) == ctypes.sizeof(WavCodec))
+
+WAV_MAX_PACKETSIZE = 65535
+
+class FlacCodec(Structure):
+    _fields_ = [
+    ("nSampleRate", INT32),
+    ("nChannels", INT32),
+    ("nCompressionLevel", INT32),
+    ("nTxIntervalMSec", INT32),
+    ]
+    def __init__(self):
+        assert(DBG_SIZEOF(TTType.FLACCODEC) == ctypes.sizeof(FlacCodec))
+
+FLAC_MIN_COMPRESSIONLEVEL = 0
+FLAC_MAX_COMPRESSIONLEVEL = 8
+FLAC_MAX_PACKETSIZE = 65535
+FLAC_MAX_PACKETOVERHEAD = 32
+
 class SpeexDSP(Structure):
     _fields_ = [
     ("bEnableAGC", BOOL),
@@ -422,13 +454,17 @@ class Codec(INT32):
     SPEEX_CODEC = 1
     SPEEX_VBR_CODEC = 2
     OPUS_CODEC = 3
+    WAV_CODEC = 4
+    FLAC_CODEC = 5
     WEBM_VP8_CODEC = 128
 
 class AudioCodecUnion(Union):
     _fields_ = [
     ("speex", SpeexCodec),
     ("speex_vbr", SpeexVBRCodec),
-    ("opus", OpusCodec)
+    ("opus", OpusCodec),
+    ("wav", WavCodec),
+    ("flac", FlacCodec)
     ]
 
 class AudioCodec(Structure):
@@ -1028,6 +1064,8 @@ class TTType(INT32):
     SOUNDDEVICEEFFECTS = 44
     DESKTOPWINDOW = 45
     ABUSEPREVENTION = 46
+    WAVCODEC = 47
+    FLACCODEC = 48
 
 class TTMessageUnion(Union):
     _fields_ = [

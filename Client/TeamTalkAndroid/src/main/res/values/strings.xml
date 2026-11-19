@@ -220,7 +220,11 @@
     <string name="title_section_opus">OPUS</string>
     <string name="title_section_speex">Speex</string>
     <string name="title_section_speexvbr">Speex VBR</string>
+    <string name="title_section_wav">WAV</string>
+    <string name="title_section_flac">FLAC</string>
     <string name="title_section_noaudio">No Audio</string>
+    <string name="text_bitdepth">Bit depth</string>
+    <string name="text_compressionlevel">Compression level</string>
     <string name="opus_application">Application</string>
     <string name="button_tx">TX</string>
     <string name="button_remove">Remove</string>

@@ -1178,11 +1178,11 @@ void ClientNode::EncodedAudioVoiceFrame(const teamtalk::AudioCodec& codec,
     
     m_soundprop.samples_transmitted += org_frame.input_samples;
 
-    MYTRACE_COND(enc_length > MAX_ENC_FRAMESIZE,
+    MYTRACE_COND(enc_length > GetAudioCodecMaxEncFrameSize(codec),
                  ACE_TEXT("Queue voice packet #%d at TS: %u, pkt time: %u, size: %d\n"),
                  m_voice_pkt_counter, GETTIMESTAMP(), org_frame.timestamp, enc_length);
     
-    assert(enc_length <= MAX_ENC_FRAMESIZE);
+    assert(enc_length <= GetAudioCodecMaxEncFrameSize(codec));
 
     std::unique_ptr<VoicePacket> newpacket;
     if (GetAudioCodecFramesPerPacket(codec) > 1 && GetAudioCodecVariableFrameSizes(codec))

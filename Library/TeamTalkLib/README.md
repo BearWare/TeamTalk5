@@ -273,6 +273,10 @@ The following toolchain toggles are available:
   * When `ON` builds [FFmpeg](https://github.com/FFmpeg/FFmpeg)
   * When `OFF` uses FFmpeg installed on host.
     * `OFF` is only supported on Linux distributions
+* `TOOLCHAIN_FLAC`
+  * When `ON` builds [FLAC](https://github.com/xiph/flac)
+  * When `OFF` uses FLAC installed on host.
+    * `OFF` is only supported on Linux distributions
 * `TOOLCHAIN_OGG`
   * When `ON` builds [OGG](https://github.com/xiph/ogg)
   * When `OFF` uses OGG installed on host.
@@ -311,6 +315,10 @@ The following feature toggles are available:
 * `FEATURE_OPUSTOOLS`
   * OPUS .ogg file support
   * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+* `FEATURE_FLAC`
+  * FLAC audio codec
+  * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows
+  * Toolchain mapping: `TOOLCHAIN_FLAC`
 * `FEATURE_SPEEX`
   * Speex audio codec
   * Supported platforms: macOS, iOS, Android, Ubuntu/Linux, Raspbian, Windows

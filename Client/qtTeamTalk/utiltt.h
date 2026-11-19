@@ -142,6 +142,16 @@ do {                                                            \
 #define DEFAULT_OPUS_DELAY          DEFAULT_MSEC_PER_PACKET
 #define DEFAULT_OPUS_FRAMESIZE      0 // implies same as DEFAULT_OPUS_DELAY
 
+#define DEFAULT_WAV_SAMPLERATE      48000
+#define DEFAULT_WAV_CHANNELS        1
+#define DEFAULT_WAV_SAMPLEFORMAT    WAV_SAMPLEFORMAT_INT16
+#define DEFAULT_WAV_DELAY           DEFAULT_MSEC_PER_PACKET
+
+#define DEFAULT_FLAC_SAMPLERATE     48000
+#define DEFAULT_FLAC_CHANNELS       1
+#define DEFAULT_FLAC_COMPRESSIONLEVEL 5
+#define DEFAULT_FLAC_DELAY          DEFAULT_MSEC_PER_PACKET
+
 //Default video capture settings
 #define DEFAULT_VIDEO_WIDTH     320
 #define DEFAULT_VIDEO_HEIGHT    240

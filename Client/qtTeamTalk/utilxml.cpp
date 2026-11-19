@@ -174,6 +174,8 @@ void processClientSetupXML(const QDomElement& hostElement, HostEntry& entry)
             case SPEEX_CODEC :
             case SPEEX_VBR_CODEC :
             case OPUS_CODEC :
+            case WAV_CODEC :
+            case FLAC_CODEC :
             case NO_CODEC :
                 break;
             }
@@ -403,6 +405,8 @@ QByteArray generateTTFile(const HostEntry& entry)
         case SPEEX_CODEC :
         case SPEEX_VBR_CODEC :
         case OPUS_CODEC :
+        case WAV_CODEC :
+        case FLAC_CODEC :
         case NO_CODEC :
             break;
         }

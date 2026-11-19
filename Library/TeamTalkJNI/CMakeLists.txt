@@ -152,6 +152,8 @@ if (Java_FOUND)
     src/dk/bearware/events/UserListener.java
     src/dk/bearware/FileTransfer.java
     src/dk/bearware/FileTransferStatus.java
+    src/dk/bearware/FlacCodec.java
+    src/dk/bearware/FlacConstants.java
     src/dk/bearware/FourCC.java
     src/dk/bearware/IntPtr.java
     src/dk/bearware/MediaFileInfo.java
@@ -197,6 +199,9 @@ if (Java_FOUND)
     src/dk/bearware/VideoCodec.java
     src/dk/bearware/VideoFormat.java
     src/dk/bearware/VideoFrame.java
+    src/dk/bearware/WavCodec.java
+    src/dk/bearware/WavConstants.java
+    src/dk/bearware/WavSampleFormat.java
     src/dk/bearware/WebMVP8Codec.java
     src/dk/bearware/WebRTCAudioPreprocessor.java
     src/dk/bearware/WebRTCConstants.java

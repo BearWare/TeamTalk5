@@ -530,6 +530,7 @@ constexpr auto TT_MAX_HEADER_SIZE = 10;
 
 constexpr auto MAX_FIELD_SIZE = 0xFFF;
 constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
+constexpr auto MAX_ENC_FRAGMENTED_FRAMESIZE = 0xFFFF;
 
     class FieldPacket
     {
@@ -726,6 +727,7 @@ constexpr auto MAX_ENC_FRAMESIZE = 0xFFF /* 12 bits */;
                         const std::vector<uint16_t>* enc_framesizes);
         bool GetStreamField(uint8_t& streamid, uint16_t& packet_no,
                             uint8_t& frag_no, uint8_t* frag_cnt) const;
+        std::vector<char> m_large_enc_audio;
     };
 
     using audiopacket_t = std::shared_ptr< AudioPacket >;

@@ -55,6 +55,8 @@ namespace teamtalk {
                                        uint16_t max_chunk_size);
     audiopacket_t ReassembleAudioPacket(const audiofragments_t& fragments,
                                         const AudioCodec& codec);
+    audiopacket_t ReassemblePartialAudioPacket(const audiofragments_t& fragments,
+                                               uint16_t enc_length);
     
     std::vector<uint16_t> GetAudioPacketFrameSizes(const AudioPacket& packet,
                                                    const AudioCodec& codec);

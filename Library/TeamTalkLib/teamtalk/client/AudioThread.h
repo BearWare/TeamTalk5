@@ -36,6 +36,9 @@
 #if defined(ENABLE_OPUS)
 #include "codec/OpusEncoder.h"
 #endif
+#if defined(ENABLE_FLAC)
+#include "codec/FlacEncoder.h"
+#endif
 #if defined(ENABLE_WEBRTC)
 #include <api/audio/audio_processing.h>
 #endif
@@ -110,6 +113,12 @@ private:
     const char* ProcessOPUS(const media::AudioFrame& audblock,
                             std::vector<int>& env_frame_sizes);
 #endif
+    const char* ProcessWAV(const media::AudioFrame& audblock,
+                           std::vector<int>& enc_frame_sizes);
+#if defined(ENABLE_FLAC)
+    const char* ProcessFLAC(const media::AudioFrame& audblock,
+                            std::vector<int>& enc_frame_sizes);
+#endif
     audioencodercallback_t m_callback;
     std::recursive_mutex m_preprocess_lock;
 #if defined(ENABLE_SPEEXDSP)
@@ -124,6 +133,9 @@ private:
 #endif
 #if defined(ENABLE_OPUS)
     std::unique_ptr<OpusEncode> m_opus;
+#endif
+#if defined(ENABLE_FLAC)
+    std::unique_ptr<FlacEncode> m_flac;
 #endif
     std::vector<char> m_encbuf;
     std::vector<short> m_echobuf;

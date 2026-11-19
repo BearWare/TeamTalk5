@@ -51,6 +51,7 @@ jobs:
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/speex/lib/libspeex.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/speexdsp/lib/libspeexdsp.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/opus/lib/libopus.a
+        ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/flac/lib/libFLAC.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/libvpx/lib/libvpx.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE.a
         ${{runner.workspace}}/toolchain-${{ matrix.outputarch }}/ace/lib/libACE_SSL.a
