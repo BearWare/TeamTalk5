@@ -35,7 +35,6 @@
 
 #include <ace/Lock.h>
 #include <ace/Reactor.h>
-#include <ace/Task_T.h>
 #include <ace/Thread.h>
 #include <ace/Time_Value.h>
 #include <ace/Timer_Heap.h>
@@ -43,6 +42,7 @@
 #include <condition_variable>
 #include <cstdint>
 #include <mutex>
+#include <thread>
 
 constexpr auto TIMERID_MASK             = 0x0000FFFF;
 constexpr auto USER_TIMER_START         = 0x00008000;
@@ -121,18 +121,18 @@ namespace teamtalk {
     };
 
     // subclass must implement TimerEvent()
-    class ClientNodeBase : protected ACE_Task<ACE_MT_SYNCH>
-                         , public TimerListener
+    class ClientNodeBase : public TimerListener
                          , public soundsystem::StreamDuplex
                          , public EventSuspender
     {
         // Thread func running ClientNode's main event-loop
-        int svc() override;
+        void Run();
 
         //timer queue we can change to high-resolution timer (monotomic)
         ACE_Timer_Heap m_timer_queue;
         //the reactor associated with this client instance
         ACE_Reactor m_reactor;
+        std::thread m_thread;
         ACE_thread_t m_reactor_thread = ACE_thread_t();
 
         // sync reactor thread start/stop
@@ -172,7 +172,7 @@ namespace teamtalk {
 #endif
 
         // Get reactor running timers
-        ACE_Reactor* GetEventLoop() { return reactor(); }
+        ACE_Reactor* GetEventLoop() { return &m_reactor; }
 
         // Start timer running in GetEventLoop()
         virtual long StartUserTimer(uint16_t timer_id, uint16_t userid,
