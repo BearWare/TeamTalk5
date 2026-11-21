@@ -56,13 +56,13 @@ DesktopInitiator::DesktopInitiator(int userid, const DesktopWindow& wnd,
 
 DesktopInitiator::~DesktopInitiator()
 {
-    TTASSERT(this->thr_count() == 0);
+    TTASSERT(!m_thread_active.load());
     MYTRACE(TTEXT("DesktopInitiator::~DesktopInitiator()\n"));
 }
 
 int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
 {
-    TTASSERT(this->thr_count() == 0);
+    TTASSERT(!m_thread_active.load());
 
     //uint32_t start_tm = GETTIMESTAMP();
 
@@ -71,7 +71,7 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
         return -1;
 
     //don't allow new bitmap when thread is working
-    if(this->thr_count() != 0u)
+    if(m_thread_active.load())
         return -1;
     //don't allow new bitmap if there's dirty data
     if(!m_desktop_packets.empty())
@@ -137,13 +137,10 @@ int DesktopInitiator::NewBitmap(const char* bmp_bits, int size, uint32_t tm)
         m_timestamp = tm;
         
         // ensure thread is shut down properly before activating next one
-        this->wait();
+        JoinThread();
 
-        if(this->activate() < 0)
-        {
-            m_timestamp = tmp;
-            return -1;
-        }
+        m_thread_active = true;
+        m_thread = std::thread([this] { Run(); m_thread_active = false; });
     }
     return n_dirty;
 }
@@ -156,7 +153,7 @@ void DesktopInitiator::Abort()
 void DesktopInitiator::GetDesktopPackets(desktoppackets_t& packets)
 {
     //ensure thread has exited from
-    TTASSERT(this->thr_count() == 0);
+    TTASSERT(!m_thread_active.load());
     TTASSERT(!m_desktop_packets.empty());
     TTASSERT(!m_abort);
     if(m_abort)
@@ -166,7 +163,7 @@ void DesktopInitiator::GetDesktopPackets(desktoppackets_t& packets)
     m_desktop_packets.clear();
 }
 
-int DesktopInitiator::svc()
+void DesktopInitiator::Run()
 {
     TTASSERT(!m_dirty_blocknums.empty());
     TTASSERT(m_desktop_packets.empty());
@@ -176,7 +173,7 @@ int DesktopInitiator::svc()
 
     CompressDirtyBlocks(dirty_blocks);
     if(m_abort)
-        return 0;
+        return;
 
     //update CRC values
     UpdateBlocksCRC(m_blocks, m_dirty_blocknums, m_block_crcs, m_crc_blocks);
@@ -196,7 +193,6 @@ int DesktopInitiator::svc()
                                             dirty_blocks, dups, nullptr, &ignore_blocks);
     m_newsession = false;
     TTASSERT(!m_desktop_packets.empty());
-    return 0;
 }
 
 void DesktopInitiator::CompressDirtyBlocks(map_blocks_t& blocks)

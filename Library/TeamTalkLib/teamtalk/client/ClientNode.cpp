@@ -688,7 +688,7 @@ int ClientNode::TimerBuildDesktopPackets()
     if (!m_desktop)
         return -1;
 
-    if(m_desktop->thr_count() != 0u)
+    if(m_desktop->IsThreadActive())
         return 0;
 
     TTASSERT(m_desktop_tx);
@@ -3766,10 +3766,10 @@ int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
         return -1;
     }
 
-    if((m_desktop->thr_count() != 0u) || m_desktop->HasDesktopPackets())
+    if(m_desktop->IsThreadActive() || m_desktop->HasDesktopPackets())
     {
         MYTRACE(TTEXT("Ignored desktop updated. Thread active: %d, Desktop packets: %d\n"),
-                static_cast<int>(m_desktop->thr_count()), static_cast<int>(m_desktop->HasDesktopPackets()));
+                static_cast<int>(m_desktop->IsThreadActive()), static_cast<int>(m_desktop->HasDesktopPackets()));
         return -1;
     }
 
@@ -3840,7 +3840,7 @@ void ClientNode::CloseDesktopSession(bool stop_nak_timer)
     if (m_desktop)
     {
         m_desktop->Abort();
-        m_desktop->wait();
+        m_desktop->JoinThread();
         m_desktop.reset();
     }
     m_desktop_tx.reset();
