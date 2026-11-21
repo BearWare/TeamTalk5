@@ -1,2 +1,22 @@
 SET DEPOT_TOOLS_WIN_TOOLCHAIN=0
 SET PATH=@DEPOTTOOLS_DIR_NATIVE@;%PATH%
+
+REM Use vswhere to find a Visual Studio with the components WebRTC requires
+REM and pass it to WebRTC's build/vs_toolchain.py through vs<year>_install.
+REM The Windows SDK component must match SDK_VERSION in build/vs_toolchain.py.
+SET TT_VSWHERE=%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe
+SET TT_VSARGS=-latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 Microsoft.VisualStudio.Component.Windows11SDK.28000
+SET TT_VSPATH=
+SET TT_VSMAJOR=
+IF EXIST "%TT_VSWHERE%" FOR /F "usebackq delims=" %%i IN (`"%TT_VSWHERE%" %TT_VSARGS% -property installationPath`) DO SET "TT_VSPATH=%%i"
+IF EXIST "%TT_VSWHERE%" FOR /F "usebackq tokens=1 delims=." %%i IN (`"%TT_VSWHERE%" %TT_VSARGS% -property installationVersion`) DO SET "TT_VSMAJOR=%%i"
+IF "%TT_VSMAJOR%"=="18" SET "vs2026_install=%TT_VSPATH%"
+IF "%TT_VSMAJOR%"=="17" SET "vs2022_install=%TT_VSPATH%"
+IF "%TT_VSMAJOR%"=="16" SET "vs2019_install=%TT_VSPATH%"
+IF "%TT_VSMAJOR%"=="15" SET "vs2017_install=%TT_VSPATH%"
+IF NOT DEFINED TT_VSPATH ECHO WARNING: vswhere found no Visual Studio with the components required by WebRTC
+SET TT_VSWHERE=
+SET TT_VSARGS=
+SET TT_VSPATH=
+SET TT_VSMAJOR=
+EXIT /B 0

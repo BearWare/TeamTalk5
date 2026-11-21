@@ -59,8 +59,13 @@ manually.
     * Install to default location (`C:/Program Files/NASM`) or add to PATH
     * LibVPX requires *NASM*
     * NASM will be auto-downloaded if not found during CMake configuration
-* Install Windows 11 SDK (10.0.26100.0). This can be installed from
+* Install Windows 11 SDK (10.0.28000.0). This can be installed from
   Visual Studio Installer.
+  * WebRTC requires exactly this SDK version
+  * WebRTC also requires the SDK feature *Debugging Tools for Windows*.
+    If the SDK was installed from Visual Studio Installer then add it
+    from *Programs and Features* -> *Windows Software Development Kit* ->
+    *Change*
 
 ### Install TeamTalk Dependencies on Ubuntu
 
