@@ -31,7 +31,9 @@
 #include "mystd/MyStd.h"
 
 #include <ace/Reactor.h>
-#include <ace/Task.h>
+#include <ace/Event_Handler.h>
+
+#include <thread>
 #include <ace/Time_Value.h>
 
 #include <cassert>
@@ -47,8 +49,9 @@ namespace soundsystem {
 
     // audio input and output streamers for SOUND_DEVICEID_VIRTUAL
 
-    class StreamCaller : public ACE_Task_Base
+    class StreamCaller : public ACE_Event_Handler
     {
+        std::thread m_thread;
         std::vector<short> m_buffer;
         uint32_t m_start, m_interval;
         ACE_Reactor m_reactor;
@@ -62,8 +65,8 @@ namespace soundsystem {
             m_interval = 0;
             int ret = m_reactor.end_reactor_event_loop();
             assert(ret >= 0);
-            ret = wait();
-            assert(ret >= 0);
+            if (m_thread.joinable())
+                m_thread.join();
         }
     public:
         StreamCaller(const SoundStreamer& streamer, int channels) : m_interval(PCM16_SAMPLES_DURATION(streamer.framesize, streamer.samplerate)), m_start(GETTIMESTAMP())
@@ -71,7 +74,16 @@ namespace soundsystem {
             m_buffer.resize(static_cast<size_t>(channels) * streamer.framesize, 0);
         }
 
-        ~StreamCaller() override = default;
+        ~StreamCaller() = default;
+
+        void Start()
+        {
+            // don't assign to a joinable std::thread (std::terminate), same as
+            // ACE_Task::activate() failing when the task is already active
+            if (m_thread.joinable())
+                return;
+            m_thread = std::thread([this] { Run(); });
+        }
 
         int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
         {
@@ -83,7 +95,8 @@ namespace soundsystem {
 
             return 0;
         }
-        int svc() override
+
+        void Run()
         {
             m_reactor.owner (ACE_OS::thr_self ());
             ACE_Time_Value const zero;
@@ -91,8 +104,8 @@ namespace soundsystem {
             int const ret = m_reactor.schedule_timer(this, nullptr, zero, tv);
             MYTRACE_COND(ret < 0, TTEXT("Failed to schedule timer in StreamCaller\n"));
             m_reactor.run_reactor_event_loop();
-            return 0;
         }
+
         virtual bool StreamCallback(short* buffer) = 0;
     };
 
