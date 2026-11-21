@@ -56,10 +56,10 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
                                const teamtalk::AudioCodec& codec,
                                bool spawn_thread)
 {
-    if(this->thr_count() != 0)
+    if (m_thread.joinable())
         return false;
 
-    TTASSERT(this->msg_queue()->is_empty());
+    TTASSERT(m_msg_queue.is_empty());
 
     int const callback_samples = GetAudioCodecCbSamples(codec);
     int const sample_rate = GetAudioCodecSampleRate(codec);
@@ -158,14 +158,17 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
     size_t max_queue = PCM16_BYTES(sample_rate, GetAudioCodecChannels(codec));
     max_queue += (1 + (sample_rate / callback_samples)) * sizeof(media::AudioFrame);
 
-    this->msg_queue()->activate();
-    this->msg_queue()->high_water_mark(max_queue);
-    this->msg_queue()->low_water_mark(max_queue);
+    m_msg_queue.activate();
+    m_msg_queue.high_water_mark(max_queue);
+    m_msg_queue.low_water_mark(max_queue);
 
-    if(spawn_thread && this->activate() < 0)
+    if (spawn_thread)
     {
-        StopEncoder();
-        return false;
+        try { m_thread = std::thread([this] { Run(); }); }
+        catch (const std::system_error&) {
+            StopEncoder();
+            return false;
+        }
     }
 
     MYTRACE_COND(codec.codec == CODEC_SPEEX,
@@ -188,9 +191,10 @@ bool AudioThread::StartEncoder(const audioencodercallback_t& callback,
 
 void AudioThread::StopEncoder()
 {
-    int const ret = this->msg_queue()->close();
+    int const ret = m_msg_queue.close();
     TTASSERT(ret >= 0);
-    wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
 #if defined(ENABLE_SPEEXDSP)
     m_preprocess_left.reset();
@@ -217,12 +221,6 @@ void AudioThread::StopEncoder()
 
     memset(&m_codec, 0, sizeof(m_codec));
     m_codec.codec = teamtalk::CODEC_NO_CODEC;
-}
-
-int AudioThread::close(u_long /*flags*/)
-{
-    MYTRACE( TTEXT("Audio Encoder thread closed\n") );
-    return 0;
 }
 
 bool AudioThread::UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess)
@@ -425,7 +423,7 @@ void AudioThread::QueueAudio(ACE_Message_Block* mb_audio)
 {
     //add audio
     ACE_Time_Value tv;
-    if(putq(mb_audio, &tv)<0)
+    if(m_msg_queue.enqueue(mb_audio, &tv)<0)
     {
         MYTRACE(TTEXT("AudioThread msg_q full, dropped frame\n"));
         mb_audio->release();
@@ -458,7 +456,7 @@ void AudioThread::ProcessQueue(ACE_Time_Value* tm)
     TTASSERT(m_codec.codec != CODEC_NO_CODEC);
     TTASSERT(m_callback);
     ACE_Message_Block* mb = nullptr;
-    while (getq(mb, tm) >= 0)
+    while (m_msg_queue.dequeue(mb, tm) >= 0)
     {
         MBGuard const g(mb);
         media::AudioFrame af(mb);
@@ -466,10 +464,9 @@ void AudioThread::ProcessQueue(ACE_Time_Value* tm)
     }
 }
 
-int AudioThread::svc()
+void AudioThread::Run()
 {
     ProcessQueue(nullptr);
-    return 0;
 }
 
 void AudioThread::ProcessAudioFrame(media::AudioFrame& audblock)

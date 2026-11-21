@@ -50,7 +50,7 @@
 #endif
 
 #include <ace/Reactor.h>
-#include <ace/Task.h>
+#include <thread>
 #include <ace/Time_Value.h>
 
 #include <cstdint>
@@ -157,11 +157,10 @@ namespace teamtalk {
     };
 
     class VoiceLogger : public TimerListener
-                      , private ACE_Task_Base
     {
     public:
         VoiceLogger(VoiceLogListener* listener);
-        ~VoiceLogger() override;
+        ~VoiceLogger();
 
         int TimerEvent(uint32_t timer_event_id, long userdata) override;
 
@@ -173,7 +172,8 @@ namespace teamtalk {
         tstring GetVoiceLogFileName(int userid);
 
     private:
-        int svc () override;
+        void Run();
+        std::thread m_thread;
         void BeginLog(ClientUser& user, 
                       const AudioCodec& codec, 
                       int stream_id,

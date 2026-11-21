@@ -519,7 +519,8 @@ VoiceLogger::~VoiceLogger()
     if(m_timerid != -1)
         m_reactor.cancel_timer(m_timerid, nullptr, 0);
     m_reactor.end_reactor_event_loop();
-    this->wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
     MYTRACE(TTEXT("~VoiceLogger()\n"));
 }
@@ -544,14 +545,10 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
                            const tstring& folderpath)
 {
     //spawn thread?
-    if(this->thr_count() == 0)
+    if(!m_thread.joinable())
     {
         TTASSERT(m_timerid == -1);
-        long const prio = ACE_Sched_Params::priority_min (ACE_SCHED_FIFO);
-
-        int const ret = this->activate(THR_NEW_LWP | THR_JOINABLE | THR_INHERIT_SCHED, 
-            1, 0, prio);
-        TTASSERT(ret>=0);
+        m_thread = std::thread([this] { Run(); });
 
         auto th = std::make_unique<TimerHandler>(*this, TIMER_WRITELOG_ID);
         m_timerid = m_reactor.schedule_timer(th.release(), nullptr, FLUSH_INTERVAL, FLUSH_INTERVAL); // NOLINT(bugprone-unused-return-value)
@@ -755,9 +752,8 @@ void VoiceLogger::FlushLogs()
         EndLog(closeLog);
 }
 
-int VoiceLogger::svc ()
+void VoiceLogger::Run()
 {
     m_reactor.owner (ACE_OS::thr_self ());
     m_reactor.run_reactor_event_loop ();
-    return 0;
 }
