@@ -290,20 +290,16 @@ DSWrapperThread::~DSWrapperThread()
 bool DSWrapperThread::OpenFile(const MediaFileProp& in_prop,
                                const MediaStreamOutput& out_prop)
 {
-    if(this->thr_count())
+    if(m_thread.joinable())
         return false;
 
     m_media_in = in_prop;
     m_media_out = out_prop;
 
-    int ret = activate();
-    if(ret<0)
-        goto fail;
+    m_thread = std::thread([this] { Run(); });
 
     bool success = false;
-    ret = m_open.get(success);
-
-    if(success)
+    if (m_open.get(success) && success)
     {
         return true;
     }
@@ -329,7 +325,8 @@ void DSWrapperThread::Close()
 
     m_start.set(false);
 
-    this->wait();
+    if (m_thread.joinable())
+        m_thread.join();
 
     //reset semaphore
     m_open.cancel();
@@ -338,7 +335,7 @@ void DSWrapperThread::Close()
     Reset();
 }
 
-int DSWrapperThread::svc()
+void DSWrapperThread::Run()
 {
     HRESULT hr;
     CComPtr<IGraphBuilder> pGraph;
