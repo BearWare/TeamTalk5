@@ -28,7 +28,8 @@
 #include "teamtalk/DesktopSession.h"
 #include "teamtalk/PacketHelper.h"
 
-#include <ace/Task.h>
+#include <atomic>
+#include <thread>
 
 #include <cstdint>
 #include <memory>
@@ -39,7 +40,6 @@ namespace teamtalk {
 
     class DesktopInitiator 
         : public DesktopSession
-        , public ACE_Task_Base
     {
     public:
         DesktopInitiator(int userid, const DesktopWindow& wnd,
@@ -52,9 +52,16 @@ namespace teamtalk {
         void GetDesktopPackets(desktoppackets_t& packets);
         bool HasDesktopPackets() const { return !m_desktop_packets.empty(); }
 
-        int svc() override;
+        //NOTE: m_thread.joinable() stays true after Run() has returned, so track the
+        //running state explicitly (ACE_Task::thr_count() dropped to 0 on thread exit)
+        bool IsThreadActive() const { return m_thread_active.load(); }
+        void JoinThread() { if (m_thread.joinable()) m_thread.join(); }
 
     private:
+        void Run();
+        std::thread m_thread;
+        std::atomic<bool> m_thread_active{false};
+
         void CompressDirtyBlocks(map_blocks_t& blocks);
         bool CompressBlock(int block_no, std::vector<char>& outbuf);
 
