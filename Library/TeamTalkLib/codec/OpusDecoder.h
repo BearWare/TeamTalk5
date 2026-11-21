@@ -38,6 +38,8 @@ public:
     void Close();
     void Reset();
 
+    bool SetComplexity(int complex);
+
     int Decode(const char* input_buffer, int input_bufsize, 
                short* output_buffer, int output_samples);
 

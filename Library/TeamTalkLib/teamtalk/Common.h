@@ -381,6 +381,8 @@ namespace teamtalk {
         bool vbr_constraint = false;
         int frame_size = 0;
         int frames_per_packet = 0;
+        bool enable_dred = false;
+        bool enable_osce = false;
     };
 
     struct AudioCodec

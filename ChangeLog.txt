@@ -3,11 +3,14 @@
 ----------------------------------------------
 Version 5.24, unreleased
 Desktop Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Android Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 iOS Client
--
+- Option to enable AI packet loss recovery (DRED), making outgoing voice more resilient on unstable networks
+- Option to enable AI speech enhancement (OSCE) to improve clarity of received voice
 Server
 - Fixed channel rename accepting a name containing '/'
 
