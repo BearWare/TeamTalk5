@@ -66,6 +66,7 @@
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <mutex>
 #include <set>
 #include <vector>
 
@@ -386,6 +387,7 @@ namespace teamtalk {
                                 ACE_Message_Block* mb_audio);
         void AudioInputStatusCallback(const AudioInputStatus& ais);
 
+        void SetStreamMuxer(audiomuxer_t muxer);
         // AudioMuxer callback - separate thread
         void AudioMuxCallback(teamtalk::StreamTypes sts, const media::AudioFrame& audio_frame);
         // AudioPlayer listener - separate thread
@@ -536,6 +538,7 @@ namespace teamtalk {
         // muxed audio into files
         ChannelAudioMuxer m_channelrecord;
         // muxed audio into stream
+        std::mutex m_audiomuxer_stream_mtx;
         audiomuxer_t m_audiomuxer_stream;
         //TCP connector
         connector_t m_connector;
