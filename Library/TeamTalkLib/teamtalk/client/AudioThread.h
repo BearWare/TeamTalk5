@@ -41,7 +41,9 @@
 #endif
 
 #include <ace/Message_Block.h>
-#include <ace/Task_T.h>
+#include "myace/MyACE.h"
+
+#include <thread>
 #include <ace/Time_Value.h>
 
 #include <functional>
@@ -54,11 +56,11 @@ using audioencodercallback_t = std::function< void (const teamtalk::AudioCodec& 
                              const std::vector<int>& enc_frame_sizes,
                              const media::AudioFrame& org_frame) >;
 
-class AudioThread : protected ACE_Task<ACE_MT_SYNCH>
+class AudioThread
 {
 public:
     AudioThread();
-    ~AudioThread() override;
+    ~AudioThread();
 
     bool StartEncoder(const audioencodercallback_t& callback,
                       const teamtalk::AudioCodec& codec,
@@ -89,8 +91,9 @@ public:
     int m_gainlevel = GAIN_NORMAL;    //GAIN_NORMAL == disabled
 
 private:
-    int close(u_long /*flags*/) override;
-    int svc() override;
+    void Run();
+    msg_queue_t m_msg_queue;
+    std::thread m_thread;
     void ProcessAudioFrame(media::AudioFrame& audblock);
     void MeasureVoiceLevel(const media::AudioFrame& audblock);
 
