@@ -42,15 +42,14 @@ ClientNodeBase::ClientNodeBase()
     : m_reactor(new ACE_Select_Reactor(nullptr, &m_timer_queue), true) //Ensure we don't use ACE_WFMO_Reactor!!!
 {
     m_timer_queue.set_time_policy(&ACE_High_Res_Timer::gettimeofday_hr);
-    this->reactor(&m_reactor);
 }
 
 ClientNodeBase::~ClientNodeBase()
 {
-    assert(thr_count() == 0);
+    assert(!m_thread.joinable());
 }
 
-int ClientNodeBase::svc()
+void ClientNodeBase::Run()
 {
     {
         // ensure .wait() is called prior to .notify_all()
@@ -68,8 +67,6 @@ int ClientNodeBase::svc()
     m_reactor_thread = ACE_thread_t();
 
     MYTRACE(TTEXT("ClientNodeBase reactor thread exited.\n"));
-
-    return 0;
 }
 
 bool ClientNodeBase::CanSuspend()
@@ -86,7 +83,8 @@ void ClientNodeBase::SuspendEventHandling(bool quit)
     // don't wait for thread to die if SuspendEventHandling() is called from reactor loop
     assert(quit || m_reactor_thread == ACE_OS::thr_self());
     if (m_reactor_thread != ACE_OS::thr_self())
-        this->wait();
+        if (m_thread.joinable())
+            m_thread.join();
 
     MYTRACE(TTEXT("ClientNodeBase reactor thread %s.\n"), (quit ? TTEXT("quit") : TTEXT("suspended")));
 }
@@ -100,18 +98,16 @@ void ClientNodeBase::ResumeEventHandling()
     if(thr_id != ACE_OS::thr_self())
     {
         MYTRACE( (TTEXT("ClientNodeBase reactor thread waiting.\n")) );
-        this->wait();
+        if (m_thread.joinable())
+            m_thread.join();
     }
     assert(m_reactor_thread == ACE_thread_t());
 
     m_reactor.reset_reactor_event_loop();
 
     std::unique_lock<std::mutex> lck(m_reactor_wait_mtx);
-    int const ret = this->activate();
-    assert(ret >= 0);
-
-    if (ret >= 0)
-        m_reactor_wait_cv.wait(lck);
+    m_thread = std::thread([this] { Run(); });
+    m_reactor_wait_cv.wait(lck);
 
     MYTRACE( (TTEXT("ClientNodeBase reactor thread activated.\n")) );
 }
