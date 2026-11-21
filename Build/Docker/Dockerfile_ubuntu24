@@ -12,8 +12,11 @@ RUN apt-get install -y \
 		git \
 		junit5 \
 		libasound2-dev \
+		libdbus-1-dev \
+		libglib2.0-dev \
 		libpcap-dev \
 		libpulse-dev \
+		libspeechd-dev \
 		libssl-dev \
 		libtool \
 		libxss-dev \
