@@ -26,7 +26,9 @@
 
 #include "MediaStreamer.h"
 
-#include <ace/Task.h>
+#include <ace/Event_Handler.h>
+
+#include <thread>
 #include <ace/Future.h>
 #include <ace/Semaphore.h>
 
@@ -34,8 +36,8 @@
 
 bool GetDSMediaFileProp(const tstring& filename, MediaFileProp& fileprop);
 
-class DSWrapperThread : protected ACE_Task<ACE_MT_SYNCH>
-                      , public MediaStreamer
+class DSWrapperThread : public MediaStreamer
+                      , public ACE_Event_Handler
 {
 public:
     DSWrapperThread(MediaStreamListener* listener);
@@ -50,9 +52,10 @@ public:
 
 
 private:
-    int svc();
+    void Run();
     int handle_timeout(const ACE_Time_Value &current_time, const void *act);
 
+    std::thread m_thread;
     typedef ACE_Future<bool> fileopen_t;
     fileopen_t m_open, m_start;
 };
