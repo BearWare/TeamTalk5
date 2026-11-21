@@ -1,0 +1,48 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical"
+    android:padding="10dip"
+    tools:context="dk.bearware.gui.TextMessageActivity" >
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1">
+	    <ListView
+	        android:id="@+id/user_im_listview"
+	        android:layout_width="fill_parent"
+	        android:layout_height="fill_parent" >
+	    </ListView>
+    </LinearLayout> 
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <EditText
+            android:id="@+id/user_im_edittext"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1.0"
+            android:inputType="textCapSentences"
+            android:singleLine="true"
+            android:hint="@string/editmsg"
+            android:importantForAutofill="no" >
+
+            <requestFocus />
+        </EditText>
+
+        <Button
+            android:id="@+id/user_im_sendbtn"
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.1"
+            android:text="@string/button_send" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="gender_entries">
+        <item>@string/user_state_male</item>
+        <item>@string/user_state_female</item>
+        <item>@string/user_state_neutral</item>
+    </string-array>
+
+    <!-- Must match Utils.GENDER_* -->
+    <string-array name="gender_values" translatable="false">
+        <item>male</item>
+        <item>female</item>
+        <item>neutral</item>
+    </string-array>
+
+</resources>

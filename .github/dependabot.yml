@@ -31,7 +31,9 @@ updates:
           - "*"
 
   - package-ecosystem: gradle
-    directory: /Client/TeamTalkAndroid
+    directories:
+      - /Client/TeamTalkAndroid
+      - /Client/TeamTalkAndroid2
     schedule:
       interval: daily
       time: "00:00"
