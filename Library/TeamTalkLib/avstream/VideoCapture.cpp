@@ -48,7 +48,7 @@ using videocapturedevice_t = V4L2Capture;
 #include "myace/MyACE.h"
 
 #include <ace/Reactor.h>
-#include <ace/Task.h>
+#include <thread>
 
 #include <algorithm>
 #include <cassert>
@@ -58,8 +58,8 @@ using videocapturedevice_t = V4L2Capture;
 #define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE TTEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
 
-class NullVideoCapture : public VideoCapture
-        , private ACE_Task_Base
+class NullVideoCapture : public VideoCapture,
+                         public ACE_Event_Handler
 {
 public:
     NullVideoCapture()
@@ -96,10 +96,14 @@ public:
         if (m_curfmt.IsValid())
             return false;
 
-        if (activate() < 0)
+        // don't assign to a joinable std::thread (std::terminate), same as
+        // ACE_Task::activate() failing when the task is already active
+        if (m_thread.joinable())
             return false;
 
         m_curfmt = vidfmt;
+        m_thread = std::thread([this] { Run(); });
+
         return true;
     }
     
@@ -110,7 +114,7 @@ public:
 
         assert(m_curfmt.fps_denominator);
         auto msec = 1000. * (1 / (m_curfmt.fps_numerator / double(m_curfmt.fps_denominator)));
-        auto tv = ToTimeValue(uint32_t(msec));
+        auto tv = ToTimeValue(static_cast<uint32_t>(msec));
         return m_reactor.schedule_timer(this, nullptr, ACE_Time_Value(), tv) >= 0;
     }
 
@@ -118,7 +122,8 @@ public:
     {
         m_reactor.cancel_timer(this);
         m_reactor.end_reactor_event_loop();
-        wait();
+        if (m_thread.joinable())
+            m_thread.join();
 
         m_curfmt = media::VideoFormat();
         UnregisterVideoFormat(media::FOURCC_NONE);
@@ -159,14 +164,14 @@ public:
         return 0;
     }
 
-    int svc() override
+    void Run()
     {
         m_reactor.owner (ACE_OS::thr_self ());
         m_reactor.run_reactor_event_loop();
-        return 0;
     }
 
 private:
+    std::thread m_thread;
     VidCapDevice m_dev;
     media::VideoFormat m_curfmt;
     ACE_Reactor m_reactor;
