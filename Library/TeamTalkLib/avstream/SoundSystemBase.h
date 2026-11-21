@@ -1193,8 +1193,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, TTEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StartVirtualStream(outputstreamer_t streamer)
@@ -1204,8 +1203,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, TTEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StartVirtualStream(duplexstreamer_t streamer)
@@ -1215,8 +1213,7 @@ namespace soundsystem {
             std::scoped_lock g(m_virtdev_lock);
             m_virtual_streams[streamer.get()] = scc;
 
-            int const ret = scc->activate();
-            MYTRACE_COND(ret < 0, TTEXT("Failed to activate StreamCaller\n"));
+            scc->Start();
         }
 
         void StopVirtualStream(SoundStreamer* streamer)
