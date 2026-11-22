@@ -53,10 +53,6 @@ namespace teamtalk {
         using users_t = std::vector< user_t >;
 
     private:
-        // prevent copying
-        Channel(const Channel& ch) = delete;
-        const Channel& operator = (const Channel& ch) = delete;
-
         Channel(channel_t parent, int channelid, ChannelTypes chantype, const tstring& name)
             : m_channelid(channelid)
             , m_chantype(chantype)
@@ -72,6 +68,10 @@ namespace teamtalk {
         }
 
     public:
+        // prevent copying
+        Channel(const Channel& ch) = delete;
+        const Channel& operator = (const Channel& ch) = delete;
+
         explicit Channel(int channelid)    //create a root
             : Channel(channel_t(), channelid, CHANNEL_DEFAULT | CHANNEL_PERMANENT, tstring())
         {
@@ -447,12 +447,27 @@ namespace teamtalk {
             return true;
         }
 
+        const bannedusers_t& GetBans() const
+        {
+            return m_bans;
+        }
+
+        bannedusers_t& GetBans()
+        {
+            return m_bans;
+        }
+
         void SetTransmitQueue(const std::vector<int>& users)
         {
             m_transmitqueue = users;
         }
 
         const std::vector<int>& GetTransmitQueue() const
+        {
+            return m_transmitqueue;
+        }
+
+        std::vector<int>& GetTransmitQueue()
         {
             return m_transmitqueue;
         }
@@ -547,7 +562,6 @@ namespace teamtalk {
         transmitusers_t m_transmitusers;
         //solo transmission
         ACE_Time_Value m_transmitswitch_delay;
-    protected:
         bannedusers_t m_bans;
         std::vector<int> m_transmitqueue;
     };

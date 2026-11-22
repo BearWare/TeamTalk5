@@ -125,29 +125,29 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
             return false;
 
         /* Update queue list */
-        if (std::ranges::find(m_transmitqueue, userid) == m_transmitqueue.end())
+        if (std::ranges::find(GetTransmitQueue(), userid) == GetTransmitQueue().end())
         {
             if (modified != nullptr)
                 *modified = true;
-            m_transmitqueue.push_back(userid);
+            GetTransmitQueue().push_back(userid);
         }
 
         m_lastUserPacket[userid] = std::chrono::system_clock::now();
 
         /* Can transmit if head of queue, transmitted within GetTransmitSwitchDelay() and started new stream */
-        TTASSERT(!m_transmitqueue.empty());
-        int const head_userid = *m_transmitqueue.begin();
+        TTASSERT(!GetTransmitQueue().empty());
+        int const head_userid = *GetTransmitQueue().begin();
         auto const itePkt = m_lastUserPacket.find(head_userid);
         if (itePkt->second + std::chrono::milliseconds(GetTransmitSwitchDelay().msec()) >= std::chrono::system_clock::now())
         {
             return userid == head_userid;
         }
         
-                    ClearFromTransmitQueue(head_userid);
-            BlockAudioStream(head_userid);
-            if (modified != nullptr)
-                *modified = true;
-            return CanTransmit(userid, txtype, streamid, modified);
+        ClearFromTransmitQueue(head_userid);
+        BlockAudioStream(head_userid);
+        if (modified != nullptr)
+            *modified = true;
+        return CanTransmit(userid, txtype, streamid, modified);
        
     }
     return true;
@@ -156,10 +156,10 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
 bool ServerChannel::ClearFromTransmitQueue(int userid)
 {
     m_lastUserPacket.erase(userid);
-    auto i = std::ranges::find(m_transmitqueue, userid);
-    if (i != m_transmitqueue.end())
+    auto i = std::ranges::find(GetTransmitQueue(), userid);
+    if (i != GetTransmitQueue().end())
     {
-        m_transmitqueue.erase(i);
+        GetTransmitQueue().erase(i);
         return true;
     }
     return false;
@@ -189,7 +189,7 @@ void ServerChannel::RemoveUser(int userid)
 
 void ServerChannel::UpdateChannelBans()
 {
-    for (auto& b : m_bans)
+    for (auto& b : GetBans())
     {
         if ((b.bantype & BANTYPE_CHANNEL) != BANTYPE_NONE)
             b.chanpath = GetChannelPath();
@@ -214,26 +214,26 @@ bool ServerChannel::IsAutoOperator(const ServerUser& user) const
 
 void ServerChannel::AddUserBan(const BannedUser& ban)
 {
-    RemoveUserBan(ban); m_bans.push_back(ban);
+    RemoveUserBan(ban); GetBans().push_back(ban);
 }
 
 bool ServerChannel::IsBanned(const BannedUser& testban) const
 {
-    auto i = std::ranges::find_if(m_bans,
+    auto i = std::ranges::find_if(GetBans(),
                           [testban](const BannedUser& ban)
                           {
                               return ban.Match(testban);
                           });
-    return i != m_bans.end();
+    return i != GetBans().end();
 }
 
 void ServerChannel::RemoveUserBan(const BannedUser& ban)
 {
-    auto i = std::ranges::find_if(m_bans,
+    auto i = std::ranges::find_if(GetBans(),
                           [ban](const BannedUser& testban)
                           {
                               return ban.Same(testban);
                           });
-    if(i != m_bans.end())
-        m_bans.erase(i);
+    if(i != GetBans().end())
+        GetBans().erase(i);
 }
