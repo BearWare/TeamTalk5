@@ -57,7 +57,6 @@ namespace teamtalk {
         void AddUserBan(const BannedUser& ban);
         bool IsBanned(const BannedUser& testban) const;
         void RemoveUserBan(const BannedUser& ban);
-        const std::vector<BannedUser>& GetBans() const { return m_bans; }
 
     private:
         void Init();
