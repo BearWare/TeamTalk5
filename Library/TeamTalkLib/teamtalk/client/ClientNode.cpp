@@ -2570,7 +2570,6 @@ void ClientNode::SendPackets()
             ret = SendPacket(*p, m_serverinfo.udpaddr);
         }
     }
-    ACE_UNUSED_ARG(ret);
 }
 
 bool ClientNode::QueuePacket(FieldPacket* packet)
@@ -3727,10 +3726,9 @@ bool ClientNode::EncodedVideoFileFrame(ACE_Message_Block* /*org_frame*/,
 }
 
 int ClientNode::SendDesktopWindow(int width, int height, RGBMode rgb,
-                                  DesktopProtocol protocol, 
+                                  DesktopProtocol /*protocol*/, 
                                   const char* bmp_buf, int bmp_buf_len)
 {
-    ACE_UNUSED_ARG(protocol);
     ASSERT_CLIENTNODE_LOCKED(this);
 
     if (!m_mychannel ||
