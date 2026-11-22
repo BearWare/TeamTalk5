@@ -24,6 +24,7 @@
 #include "LibVidCap.h"
 #include "mystd/MyStd.h"
 #include <cassert>
+#include <chrono>
 
 using namespace std;
 using namespace media;
@@ -260,9 +261,10 @@ int LibVidCap::video_capture_callback(vidcap_src* vc_src, void* user_data,
     media::VideoFormat vidfmt = lsn->GetVideoCaptureFormat();
     if(vidfmt.IsValid() && cap_info->video_data && cap_info->video_data_size)
     {
-        ACE_Time_Value tm(cap_info->capture_time_sec, cap_info->capture_time_usec);
-        ACE_Time_Value diff = ACE_OS::gettimeofday() - tm;
-        uint32_t tm_msec = GETTIMESTAMP() - static_cast<uint32_t>(diff.msec());
+        auto const capture_tp = std::chrono::system_clock::time_point(
+            std::chrono::seconds(cap_info->capture_time_sec) + std::chrono::microseconds(cap_info->capture_time_usec));
+        auto const diff = " + NOW + " - capture_tp;
+        uint32_t tm_msec = GETTIMESTAMP() - static_cast<uint32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(diff).count());
         media::VideoFrame vid_frm(const_cast<char*>(cap_info->video_data), cap_info->video_data_size,
                                   vidfmt.width, vidfmt.height, vidfmt.fourcc, true);
         vid_frm.timestamp = tm_msec;

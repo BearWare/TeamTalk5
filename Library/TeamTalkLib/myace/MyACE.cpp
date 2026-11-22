@@ -58,17 +58,6 @@ void SyncReactor(ACE_Reactor& reactor)
     }
 }
 
-tstring UptimeHours(const ACE_Time_Value& value)
-{
-    time_t const nHour = value.sec()/3600;
-    time_t const nMinutes = (value.sec()%3600) / 60;
-    time_t const nSec = (value.sec()%60);
-    constexpr auto BUFLEN = 512;
-    std::array<tchar, BUFLEN> buf;
-    tsnprintf(buf.data(), BUFLEN, TTEXT("%d:%.2d:%.2d"), static_cast<int>(nHour), static_cast<int>(nMinutes), static_cast<int>(nSec));
-    return buf.data();
-}
-
 ACE_Time_Value ToTimeValue(int64_t msec)
 {
     constexpr auto ONE_SEC = 1000;

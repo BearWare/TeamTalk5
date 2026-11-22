@@ -360,18 +360,12 @@ namespace teamtalk {
     bool GetProperty(const mstrings_t& properties, const tstring& prop,
                      std::chrono::system_clock::time_point& tp)
     {
-        int64_t gmttime = 0;
-        if (GetProperty(properties, prop, gmttime))
+        int64_t utc_tm = 0;
+        if (GetProperty(properties, prop, utc_tm))
         {
-            auto const gmt_tm = static_cast<time_t>(gmttime);
-            struct tm* local = std::localtime(&gmt_tm);
-            if (local != nullptr)
-            {
-                time_t local_tm = std::mktime(local);
-                local_tm -= ACE_OS::timezone();
-                tp = std::chrono::system_clock::from_time_t(local_tm);
-                return true;
-            }
+            //property carries UTC time
+            tp = std::chrono::system_clock::from_time_t(static_cast<time_t>(utc_tm));
+            return true;
         }
         return false;
     }
@@ -735,10 +729,8 @@ namespace teamtalk {
     void AppendProperty(const tstring& prop,
                         std::chrono::system_clock::time_point tp, tstring& dest_str)
     {
-        time_t const local_tm = std::chrono::system_clock::to_time_t(tp);
-        struct tm* gmt = std::gmtime(&local_tm);
-        int64_t const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : local_tm;
-        AppendProperty(prop, utc_tm, dest_str);
+        //property carries UTC time
+        AppendProperty(prop, static_cast<int64_t>(std::chrono::system_clock::to_time_t(tp)), dest_str);
     }
 
 

@@ -132,7 +132,7 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
 
 ACE_Time_Value ServerUser::GetDuration() const 
 {
-    return ACE_OS::gettimeofday() - m_LogonTime;
+    return ToAceDuration(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_LogonTime));
 }
 
 void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
@@ -529,7 +529,7 @@ ErrorMsg ServerUser::HandleLogin(const mstrings_t& properties)
     }
     else
     {
-        m_LogonTime = ACE_OS::gettimeofday();
+        m_LogonTime = std::chrono::system_clock::now();
     }
     return err;
 }

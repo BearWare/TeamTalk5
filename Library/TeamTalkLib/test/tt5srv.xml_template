@@ -50,6 +50,7 @@
             <init-channel />
             <audiocodec-bps-limit>0</audiocodec-bps-limit>
             <channel-operator />
+            <modified-time>2021/08/17 18:39</modified-time>
         </user>
         <user>
             <username>randi</username>
@@ -96,7 +97,16 @@
             <channel-operator />
         </user>
     </users>
-    <serverbans />
+    <serverbans>
+      <serverban type="2">
+        <bantime>2026/04/28 19:31</bantime>
+        <ip-address>88.77.66.55</ip-address>
+        <nickname>Vader</nickname>
+        <username>guest</username>
+        <channel-path>/foo/</channel-path>
+        <owner>admin</owner>
+      </serverban>
+    </serverbans>
     <permanent-channels>
         <channel>
             <!-- Channel path: / -->

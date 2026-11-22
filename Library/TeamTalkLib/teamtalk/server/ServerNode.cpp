@@ -145,13 +145,11 @@ void ServerNode::SetAutoSaving(bool autosave)
     m_properties.autosave = autosave;
 }
 
-ACE_Time_Value ServerNode::GetUptime() const
+std::chrono::milliseconds ServerNode::GetUptime() const
 {
     ASSERT_SERVERNODE_LOCKED(this);
-    auto const d = std::chrono::duration_cast<std::chrono::milliseconds>(
+    return std::chrono::duration_cast<std::chrono::milliseconds>(
         std::chrono::system_clock::now() - m_stats.starttime);
-    return ACE_Time_Value(static_cast<time_t>(d.count() / 1000),
-                          static_cast<long>((d.count() % 1000) * 1000));
 }
 
 serverchannel_t& ServerNode::GetRootChannel()
@@ -569,10 +567,10 @@ int ServerNode::TimerEvent(uint32_t timer_event_id, long userdata)
         UpdateSoloTransmitChannels();
 
         // erase login delays
-        ACE_Time_Value const now = ACE_OS::gettimeofday();
+        auto const now = std::chrono::system_clock::now();
         for (auto it = m_logindelay.begin();it != m_logindelay.end();)
         {
-            if (now > it->second + ToTimeValue(m_properties.logindelay * 2))
+            if (now > it->second + std::chrono::milliseconds(m_properties.logindelay * 2))
                 m_logindelay.erase(it++);
             else
                 ++it;
@@ -984,7 +982,7 @@ bool ServerNode::StartServer(bool encrypted, const tstring& sysid)
         //uptime
         m_stats.starttime = std::chrono::system_clock::now();
         //init random numbers
-        std::srand(ACE_OS::gettimeofday().msec());
+        std::srand(static_cast<unsigned>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now().time_since_epoch()).count()));
 
         // system id in welcome message
         if(!sysid.empty())
@@ -1273,7 +1271,7 @@ void ServerNode::IncLoginAttempt(const ServerUser& user)
     ASSERT_SERVERNODE_LOCKED(this);
 
     //ban user's IP if logged in to many times
-    m_failedlogins[user.GetIpAddress()].push_back(ACE_OS::gettimeofday());
+    m_failedlogins[user.GetIpAddress()].push_back(std::chrono::system_clock::now());
 
     if (m_properties.maxloginattempts > 0 && 
         m_failedlogins[user.GetIpAddress()].size() >= static_cast<size_t>(m_properties.maxloginattempts))
@@ -1303,14 +1301,14 @@ bool ServerNode::LoginsExceeded(const ServerUser& user)
     if (m_properties.logindelay == 0)
         return false;
 
-    ACE_Time_Value const now = ACE_OS::gettimeofday();
+    auto const now = std::chrono::system_clock::now();
     if (!m_logindelay.contains(user.GetIpAddress()))
     {
         m_logindelay[user.GetIpAddress()] = now;
         return false;
     }
 
-    ACE_Time_Value const delay = ToTimeValue(m_properties.logindelay);
+    auto const delay = std::chrono::milliseconds(m_properties.logindelay);
     if (m_logindelay[user.GetIpAddress()] + delay > now)
     {
         m_logindelay[user.GetIpAddress()] = now;

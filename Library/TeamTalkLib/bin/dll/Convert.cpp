@@ -1349,8 +1349,8 @@ void Convert(const teamtalk::UserAccount& useraccount, UserAccount& result)
     result.nAudioCodecBpsLimit = useraccount.audiobpslimit;
     result.abusePrevent.nCommandsLimit = useraccount.abuse.n_cmds;
     result.abusePrevent.nCommandsIntervalMSec = useraccount.abuse.cmd_msec;
-    tstrsncpy(result.szLastModified, teamtalk::DateToString(useraccount.lastupdated).c_str(), TT_STRLEN);
-    tstrsncpy(result.szLastLoginTime, teamtalk::DateToString(useraccount.lastlogin).c_str(), TT_STRLEN);
+    tstrsncpy(result.szLastModified, DateToString(useraccount.lastupdated, true /*local time*/).c_str(), TT_STRLEN);
+    tstrsncpy(result.szLastLoginTime, DateToString(useraccount.lastlogin, true /*local time*/).c_str(), TT_STRLEN);
 }
 
 void Convert(const UserAccount& useraccount, teamtalk::UserAccount& result)
@@ -1484,7 +1484,7 @@ void Convert(const teamtalk::BannedUser& banuser, BannedUser& result)
     tstrsncpy(result.szIPAddress, banuser.ipaddr.c_str(), TT_STRLEN);
     tstrsncpy(result.szNickname, banuser.nickname.c_str(), TT_STRLEN);
     tstrsncpy(result.szUsername, banuser.username.c_str(), TT_STRLEN);
-    tstrsncpy(result.szBanTime, teamtalk::DateToString( banuser.bantime ).c_str(), TT_STRLEN);
+    tstrsncpy(result.szBanTime, DateToString(banuser.bantime, true /*local time*/).c_str(), TT_STRLEN);
     tstrsncpy(result.szOwner, banuser.owner.c_str(), TT_STRLEN);
     result.uBanTypes = static_cast<BanTypes>(banuser.bantype);
 }
@@ -1522,7 +1522,7 @@ void Convert(const teamtalk::RemoteFile& remotefile, RemoteFile& result)
     result.nFileID = remotefile.fileid;
     result.nFileSize = remotefile.filesize;
     result.nChannelID = remotefile.channelid;
-    tstrsncpy(result.szUploadTime, teamtalk::DateToString(remotefile.uploadtime).c_str(), TT_STRLEN);
+    tstrsncpy(result.szUploadTime, DateToString(remotefile.uploadtime, true /*local time*/).c_str(), TT_STRLEN);
 }
 
 void Convert(const RemoteFile& remotefile, const TTCHAR* szPath, teamtalk::RemoteFile& result)

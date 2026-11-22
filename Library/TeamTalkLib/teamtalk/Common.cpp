@@ -121,19 +121,6 @@ namespace teamtalk
     }
 
 
-    tstring DateToString(std::chrono::system_clock::time_point tp)
-    {
-        time_t const tt = std::chrono::system_clock::to_time_t(tp);
-        struct tm* const local = std::localtime(&tt);
-        if (local == nullptr)
-            return {};
-        std::array<tchar, 200> buf{};
-        tsnprintf(buf.data(), buf.size(), TTEXT("%d/%.2d/%.2d %.2d:%.2d"),
-                  local->tm_year + 1900, local->tm_mon + 1, local->tm_mday,
-                  local->tm_hour, local->tm_min);
-        return buf.data();
-    }
-
     std::vector<int> ConvertFrameSizes(const std::vector<uint16_t>& in)
     {
         std::vector<int> out(in.size());

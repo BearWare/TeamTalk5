@@ -2931,11 +2931,11 @@ int ClientNode::GetVoiceActivationLevel() const
 }
 void ClientNode::SetVoiceActivationStoppedDelay(int msec)
 {
-    m_voice_thread.m_voiceact_delay = ToTimeValue(msec);
+    m_voice_thread.m_voiceact_delay = std::chrono::milliseconds(msec);
 }
 int ClientNode::GetVoiceActivationStoppedDelay() const
 {
-    return static_cast<int>(m_voice_thread.m_voiceact_delay.msec());
+    return static_cast<int>(m_voice_thread.m_voiceact_delay.count());
 }
 
 bool ClientNode::EnableAutoPositioning(bool enable)
@@ -4369,7 +4369,7 @@ int ClientNode::DoPing(bool issue_cmdid)
         AppendProperty(TT_CMDID, GEN_NEXT_ID(m_cmdid_counter), command);
     command += EOL;
     
-    m_clientstats.ping_issue_time = ACE_OS::gettimeofday();
+    m_clientstats.ping_issue_time = std::chrono::system_clock::now();
 
     if(!issue_cmdid)
         return TransmitCommand(command, 0);
@@ -5264,7 +5264,7 @@ void ClientNode::HandleKeepAlive(const mstrings_t& /*properties*/)
     ASSERT_CLIENTNODE_LOCKED(this);
 
     m_clientstats.tcp_silence_sec = 0;
-    m_clientstats.tcpping_time = (ACE_OS::gettimeofday() - m_clientstats.ping_issue_time).msec();
+    m_clientstats.tcpping_time = static_cast<int32_t>(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_clientstats.ping_issue_time).count());
     m_clientstats.tcp_ping_dirty = false;
 }
 

@@ -78,6 +78,7 @@ HINSTANCE hInstance = NULL;
 #include <algorithm>
 #include <array>
 #include <cassert>
+#include <chrono>
 #include <cstring>
 #include <filesystem>
 #include <map>
@@ -3678,7 +3679,7 @@ TEAMTALKDLL_API TTBOOL TT_GetMessage(IN TTInstance* lpTTInstance,
         if((pnWaitMs != nullptr) && *pnWaitMs != -1)
         {
             ACE_Time_Value tv = ToTimeValue(*pnWaitMs);
-            tv += ACE_OS::gettimeofday();
+            tv += ToAceTimeValue(std::chrono::system_clock::now());
             return inst->eventhandler->GetMessage(*pMsg, &tv);
         }
 

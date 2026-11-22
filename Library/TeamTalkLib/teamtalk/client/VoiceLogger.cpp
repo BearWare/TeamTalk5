@@ -38,6 +38,7 @@
 #include <ctime>
 #include <memory>
 #include <utility>
+#include <chrono>
 
 enum
 {
@@ -204,7 +205,7 @@ void VoiceLog::AddVoicePacket(const teamtalk::AudioPacket& packet)
 
     wguard_t const g(m_mutex);
 
-    m_last = ACE_OS::gettimeofday();
+    m_last = std::chrono::system_clock::now();
 
     int const packet_no = packet.GetPacketNumber();
     bool first = false;
@@ -465,9 +466,9 @@ void VoiceLog::WriteSilence(int msecs)
     }
 }
 
-ACE_Time_Value VoiceLog::GetVoiceEndTime() const
+std::chrono::system_clock::time_point VoiceLog::GetVoiceEndTime() const
 {
-    return m_last + ToTimeValue(m_tot_msec);
+    return m_last + std::chrono::milliseconds(m_tot_msec);
 }
 
 uint32_t VoiceLog::GetLatestPacketTime() const
@@ -557,8 +558,6 @@ void VoiceLogger::BeginLog(ClientUser& from_user,
     wguard_t const g1(m_add_mtx);
     wguard_t const g2(m_flush_mtx);
 
-    ACE_Time_Value const tv = ACE_OS::gettimeofday();
-    ACE_Date_Time const dt(tv);
     constexpr int STR_SIZE = 512;
     std::array<tchar, STR_SIZE> buf;
     tstring const username = from_user.GetUsername();
@@ -742,7 +741,7 @@ void VoiceLogger::FlushLogs()
     for(auto & m_mLog : m_mLogs)
     {
         m_mLog.second->FlushLog();
-        if (m_mLog.second->GetVoiceEndTime() < ACE_OS::gettimeofday())
+        if (m_mLog.second->GetVoiceEndTime() < std::chrono::system_clock::now())
             closeLogs.push_back(m_mLog.first);
     }
     g.unlock(); // don't hold lock otherwise lock-order with m_add_mtx can end up wrong

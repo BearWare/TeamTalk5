@@ -47,6 +47,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <chrono>
 
 
 constexpr auto FILEBUFFERSIZE = 0x10000;
@@ -280,7 +281,7 @@ namespace teamtalk {
             
         int m_lastkeepalive = 0;
         std::weak_ptr< ServerChannel > m_channel;
-        ACE_Time_Value m_LogonTime;
+        std::chrono::system_clock::time_point m_LogonTime;
 
         //commands received so far
         std::string m_recvbuf, m_sendbuf;

@@ -39,6 +39,7 @@
 #include <cstring>
 #include <memory>
 #include <vector>
+#include <chrono>
 
 using namespace teamtalk;
 
@@ -439,11 +440,11 @@ bool AudioThread::IsVoiceActive()
     {
         assert(m_aps);
         return m_aps->voice_detected.value_or(false) ||
-            m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+            m_lastActive + m_voiceact_delay > std::chrono::system_clock::now();
     }
 #endif
     return m_voicelevel >= m_voiceactlevel ||
-        m_lastActive + m_voiceact_delay > ACE_OS::gettimeofday();
+        m_lastActive + m_voiceact_delay > std::chrono::system_clock::now();
 }
 
 int AudioThread::GetCurrentVoiceLevel() const
@@ -595,7 +596,7 @@ void AudioThread::MeasureVoiceLevel(const media::AudioFrame& audblock)
     this->m_voicelevel = avg > VU_METER_MAX ? VU_METER_MAX : avg;
 
     if (this->m_voicelevel >= this->m_voiceactlevel)
-        m_lastActive = ACE_OS::gettimeofday();
+        m_lastActive = std::chrono::system_clock::now();
 }
 
 #if defined(ENABLE_SPEEXDSP)
