@@ -26,40 +26,30 @@
 #include <cassert>
 #include <cstring>
 
-FlacEncode::~FlacEncode()
-{
-    Close();
-}
-
 bool FlacEncode::Open(int sample_rate, int channels, int compression_level, int frame_size)
 {
-    if (m_encoder != nullptr)
-        return false;
-
-    m_encoder = FLAC__stream_encoder_new();
-    if (m_encoder == nullptr)
+    if (m_open)
         return false;
 
     m_samplerate = sample_rate;
     m_channels = channels;
     m_compressionlevel = compression_level;
     m_framesize = frame_size;
-    m_input.resize(static_cast<size_t>(frame_size) * channels);
 
-    if (!InitEncoder())
-    {
-        Close();
+    FLAC__StreamEncoder* encoder = CreateEncoder();
+    if (encoder == nullptr)
         return false;
-    }
-    FLAC__stream_encoder_finish(m_encoder);
+    FLAC__stream_encoder_finish(encoder);
+    FLAC__stream_encoder_delete(encoder);
+
+    m_input.resize(static_cast<size_t>(frame_size) * channels);
+    m_open = true;
     return true;
 }
 
 void FlacEncode::Close()
 {
-    if (m_encoder != nullptr)
-        FLAC__stream_encoder_delete(m_encoder);
-    m_encoder = nullptr;
+    m_open = false;
     m_input.clear();
 }
 
@@ -68,7 +58,7 @@ int FlacEncode::Encode(const short* input_buffer, int input_samples,
 {
     assert(input_buffer);
     assert(output_buffer);
-    if (m_encoder == nullptr || input_samples != m_framesize)
+    if (!m_open || input_samples != m_framesize)
         return -1;
 
     for (size_t i = 0; i < m_input.size(); ++i)
@@ -79,35 +69,41 @@ int FlacEncode::Encode(const short* input_buffer, int input_samples,
     m_output_length = 0;
     m_output_overflow = false;
 
-    bool ok = InitEncoder();
-    ok = ok && FLAC__stream_encoder_process_interleaved(m_encoder, m_input.data(), input_samples);
-    ok = (FLAC__stream_encoder_finish(m_encoder) != 0) && ok;
+    FLAC__StreamEncoder* encoder = CreateEncoder();
+    bool ok = encoder != nullptr;
+    if (ok)
+    {
+        ok = FLAC__stream_encoder_process_interleaved(encoder, m_input.data(), input_samples) != 0;
+        ok = (FLAC__stream_encoder_finish(encoder) != 0) && ok;
+        FLAC__stream_encoder_delete(encoder);
+    }
 
     m_output = nullptr;
-    if (!ok)
-    {
-        FLAC__stream_encoder_delete(m_encoder);
-        m_encoder = FLAC__stream_encoder_new();
-        return -1;
-    }
-    if (m_output_overflow)
+    if (!ok || m_output_overflow)
         return -1;
     return m_output_length;
 }
 
-bool FlacEncode::InitEncoder()
+FLAC__StreamEncoder* FlacEncode::CreateEncoder()
 {
-    bool ok = FLAC__stream_encoder_set_channels(m_encoder, m_channels) != 0;
-    ok = ok && FLAC__stream_encoder_set_bits_per_sample(m_encoder, 16);
-    ok = ok && FLAC__stream_encoder_set_sample_rate(m_encoder, m_samplerate);
-    ok = ok && FLAC__stream_encoder_set_compression_level(m_encoder, m_compressionlevel);
-    ok = ok && FLAC__stream_encoder_set_blocksize(m_encoder, m_framesize);
-    ok = ok && FLAC__stream_encoder_set_streamable_subset(m_encoder, false);
-    if (!ok)
-        return false;
+    FLAC__StreamEncoder* encoder = FLAC__stream_encoder_new();
+    if (encoder == nullptr)
+        return nullptr;
 
-    return FLAC__stream_encoder_init_stream(m_encoder, WriteCallback, nullptr, nullptr,
-                                            nullptr, this) == FLAC__STREAM_ENCODER_INIT_STATUS_OK;
+    bool ok = FLAC__stream_encoder_set_channels(encoder, m_channels) != 0;
+    ok = ok && FLAC__stream_encoder_set_bits_per_sample(encoder, 16);
+    ok = ok && FLAC__stream_encoder_set_sample_rate(encoder, m_samplerate);
+    ok = ok && FLAC__stream_encoder_set_compression_level(encoder, m_compressionlevel);
+    ok = ok && FLAC__stream_encoder_set_blocksize(encoder, m_framesize);
+    ok = ok && FLAC__stream_encoder_set_streamable_subset(encoder, false);
+    ok = ok && FLAC__stream_encoder_init_stream(encoder, WriteCallback, nullptr, nullptr,
+                                                nullptr, this) == FLAC__STREAM_ENCODER_INIT_STATUS_OK;
+    if (!ok)
+    {
+        FLAC__stream_encoder_delete(encoder);
+        return nullptr;
+    }
+    return encoder;
 }
 
 FLAC__StreamEncoderWriteStatus FlacEncode::WriteCallback(const FLAC__StreamEncoder* /*encoder*/,

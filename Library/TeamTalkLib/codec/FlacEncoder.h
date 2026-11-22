@@ -36,7 +36,6 @@ class FlacEncode : private NonCopyable
 {
 public:
     FlacEncode() = default;
-    ~FlacEncode();
 
     bool Open(int sample_rate, int channels, int compression_level, int frame_size);
     void Close();
@@ -45,13 +44,13 @@ public:
                char* output_buffer, int output_bufsize);
 
 private:
-    bool InitEncoder();
+    FLAC__StreamEncoder* CreateEncoder();
     static FLAC__StreamEncoderWriteStatus WriteCallback(const FLAC__StreamEncoder* encoder,
                                                         const FLAC__byte buffer[], size_t bytes,
                                                         uint32_t samples, uint32_t current_frame,
                                                         void* client_data);
 
-    FLAC__StreamEncoder* m_encoder = nullptr;
+    bool m_open = false;
     int m_samplerate = 0;
     int m_channels = 0;
     int m_compressionlevel = 0;
