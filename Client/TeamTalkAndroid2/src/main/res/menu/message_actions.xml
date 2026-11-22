@@ -1,0 +1,19 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <item
+        android:id="@+id/action_copyname"
+        android:title="@string/action_copyname"/>
+
+    <item
+        android:id="@+id/action_copymessage"
+        android:title="@string/action_copymessage"/>
+
+    <item
+        android:id="@+id/action_deletemessage"
+        android:title="@string/action_deletemessage"/>
+
+    <item
+        android:id="@+id/action_clear"
+        android:title="@string/action_clear"/>
+
+</menu>
