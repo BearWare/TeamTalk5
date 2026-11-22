@@ -278,7 +278,7 @@ void PortAudio::SetupDeviceFeatures(const PaDeviceInfo* devinfo, soundsystem::De
     if (devinfo->uniqueID)
         device.deviceid = Utf8ToUnicode(devinfo->uniqueID);
 #else
-    ACE_UNUSED_ARG(devinfo);
+    (void)devinfo;
 #endif
 
 #if defined(WIN32)

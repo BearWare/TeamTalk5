@@ -69,7 +69,6 @@ VoiceLog::VoiceLog(int userid, const tstring& filename,
 #if defined(ENABLE_OGG)
     {
         bool vbr = true;
-        ACE_UNUSED_ARG(vbr);
         switch(m_codec.codec)
         {
         case CODEC_SPEEX :

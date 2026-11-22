@@ -2738,7 +2738,6 @@ TEAMTALKDLL_API INT32 TT_SendDesktopWindowFromHWND(IN TTInstance* lpTTInstance,
                                                    IN BitmapFormat nBitmapFormat,
                                                    IN DesktopProtocol nDesktopProtocol)
 {
-    ACE_UNUSED_ARG(nDesktopProtocol);
 
     clientnode_t clientnode;
     GET_CLIENTNODE_RET(clientnode, lpTTInstance, FALSE);
@@ -4066,8 +4065,8 @@ TEAMTALKDLL_API INT32 TT_DesktopInput_Execute(IN const DesktopInput* lpDesktopIn
     }
 #else
     //TODO: Linux, key translate
-    ACE_UNUSED_ARG(lpDesktopInputs);
-    ACE_UNUSED_ARG(nDesktopInputCount);
+    (void)lpDesktopInputs;
+    (void)nDesktopInputCount;
 #endif
     return 0;
 }
