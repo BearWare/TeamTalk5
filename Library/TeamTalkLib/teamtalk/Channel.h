@@ -26,20 +26,19 @@
 
 #include "Common.h"
 #include "PacketLayout.h"
-#include "TeamTalkDefs.h"
 #include "TTAssert.h"
+#include "TeamTalkDefs.h"
 #include "mystd/MyStd.h"
 
-#include <ace/Time_Value.h>
-
 #include <array>
+#include <chrono>
 #include <cstddef>
 #include <map>
 #include <memory>
 #include <set>
 #include <vector>
 
-#define CHANNEL_SEPARATOR TTEXT("/")
+constexpr auto CHANNEL_SEPARATOR = TTEXT("/");
 
 namespace teamtalk {
 
@@ -113,10 +112,10 @@ namespace teamtalk {
         const AudioConfig& GetAudioConfig() const { return m_audiocfg; }
         void SetUserData(int userdata) { m_userdata = userdata; }
         int GetUserData() const { return m_userdata; }
-        void SetTimeOutTimerVoice(const ACE_Time_Value& tm) { m_tot_voice = tm; }
-        ACE_Time_Value GetTimeOutTimerVoice() const { return m_tot_voice; }
-        void SetTimeOutTimerMediaFile(const ACE_Time_Value& tm) { m_tot_mediafile = tm; }
-        ACE_Time_Value GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
+        void SetTimeOutTimerVoice(std::chrono::milliseconds tm) { m_tot_voice = tm; }
+        std::chrono::milliseconds GetTimeOutTimerVoice() const { return m_tot_voice; }
+        void SetTimeOutTimerMediaFile(std::chrono::milliseconds tm) { m_tot_mediafile = tm; }
+        std::chrono::milliseconds GetTimeOutTimerMediaFile() const { return m_tot_mediafile; }
         tstring GetChannelPath() const
         {
             tstring pwc = GetName() + tstring(CHANNEL_SEPARATOR);
@@ -472,12 +471,12 @@ namespace teamtalk {
             return m_transmitqueue;
         }
 
-        void SetTransmitSwitchDelay(const ACE_Time_Value& tm)
+        void SetTransmitSwitchDelay(std::chrono::milliseconds tm)
         {
             m_transmitswitch_delay = tm;
         }
 
-        const ACE_Time_Value& GetTransmitSwitchDelay() const
+        std::chrono::milliseconds GetTransmitSwitchDelay() const
         {
             return m_transmitswitch_delay;
         }
@@ -504,9 +503,9 @@ namespace teamtalk {
             prop.audiocfg = m_audiocfg;
             GetFiles(prop.files, false);
             prop.transmitusers = m_transmitusers;
-            prop.transmitswitchdelay = int(GetTransmitSwitchDelay().msec());
-            prop.totvoice = int(GetTimeOutTimerVoice().msec());
-            prop.totmediafile = int(GetTimeOutTimerMediaFile().msec());
+            prop.transmitswitchdelay = int(GetTransmitSwitchDelay().count());
+            prop.totvoice = int(GetTimeOutTimerVoice().count());
+            prop.totmediafile = int(GetTimeOutTimerMediaFile().count());
             prop.transmitqueue = m_transmitqueue;
             prop.bans = m_bans;
             return prop;
@@ -557,11 +556,11 @@ namespace teamtalk {
         AudioCodec m_audiocodec;
         AudioConfig m_audiocfg;
         ChannelTypes m_chantype;
-        ACE_Time_Value m_tot_voice, m_tot_mediafile;
+        std::chrono::milliseconds m_tot_voice{}, m_tot_mediafile{};
         //classroom transmission
         transmitusers_t m_transmitusers;
         //solo transmission
-        ACE_Time_Value m_transmitswitch_delay;
+        std::chrono::milliseconds m_transmitswitch_delay{};
         bannedusers_t m_bans;
         std::vector<int> m_transmitqueue;
     };

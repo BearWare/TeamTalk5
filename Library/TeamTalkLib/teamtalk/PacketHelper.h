@@ -35,6 +35,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <chrono>
 
 namespace teamtalk {
 
@@ -168,7 +169,7 @@ namespace teamtalk {
 
         void GetDupAckLostDesktopPackets(desktoppackets_t& packets);
 
-        void GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout,
+        void GetLostDesktopPackets(std::chrono::milliseconds rtx_timeout,
                                    desktoppackets_t& packets, int count);
 
         uint8_t GetSessionID() const { return m_session_id; }
@@ -218,7 +219,7 @@ namespace teamtalk {
                          packet_range_t& pkt_index_ranges, 
                          std::set<uint16_t>& pkt_single_indexes);
 
-    ACE_Time_Value GetDesktopPacketRTxTimeout(int udp_pingtime);
+    std::chrono::milliseconds GetDesktopPacketRTxTimeout(int udp_pingtime);
 
 } // namespace teamtalk
 #endif

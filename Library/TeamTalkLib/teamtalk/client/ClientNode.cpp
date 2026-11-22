@@ -30,10 +30,17 @@
 #include "teamtalk/DesktopSession.h"
 #include "teamtalk/TTAssert.h"
 
+#include <ace/OS.h>
+
+#if defined(ENABLE_ENCRYPTION)
+#include <openssl/rand.h>
+#endif
+
 #include <algorithm>
 #include <array>
 #include <cassert>
 #include <cerrno>
+#include <chrono>
 #include <cstddef>
 #include <cstdlib>
 #include <cstring>
@@ -41,13 +48,6 @@
 #include <filesystem>
 #include <memory>
 #include <system_error>
-
-#include <ace/OS.h>
-
-#if defined(ENABLE_ENCRYPTION)
-#include <openssl/rand.h>
-#include <chrono>
-#endif
 
 using namespace teamtalk;
 using namespace media;
@@ -740,7 +740,7 @@ int ClientNode::TimerBuildDesktopPackets()
     if(!TimerExists(TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID))
     {
         //start RTX timer
-        ACE_Time_Value const rtx_interval(DESKTOP_RTX_TIMER_INTERVAL);
+        ACE_Time_Value const rtx_interval = ToAceDuration(DESKTOP_RTX_TIMER_INTERVAL);
         
         if(StartTimer(TIMER_DESKTOPPACKET_RTX_TIMEOUT_ID, 0,
                       rtx_interval, rtx_interval) < 0)
@@ -765,7 +765,7 @@ int ClientNode::TimerDesktopPacketRtx()
     TTASSERT(m_desktop_tx);
     if (m_desktop_tx)
     {
-        ACE_Time_Value const rtx_timeout(DESKTOP_DEFAULT_RTX_TIMEOUT);
+        auto const rtx_timeout = DESKTOP_DEFAULT_RTX_TIMEOUT;
             /*GetDesktopPacketRTxTimeout(m_clientstats.udpping_time);*/
         desktoppackets_t rtx_packets;
         m_desktop_tx->GetLostDesktopPackets(rtx_timeout, rtx_packets, 1);
@@ -5564,11 +5564,11 @@ void ClientNode::HandleAddChannel(const mstrings_t& properties)
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     newchan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
-    newchan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    newchan->SetTransmitSwitchDelay(std::chrono::milliseconds(chanprop.transmitswitchdelay));
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
-    newchan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    newchan->SetTimeOutTimerVoice(std::chrono::milliseconds(chanprop.totvoice));
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
-    newchan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
+    newchan->SetTimeOutTimerMediaFile(std::chrono::milliseconds(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
     tstring crypt_key;
@@ -5631,11 +5631,11 @@ void ClientNode::HandleUpdateChannel(const mstrings_t& properties)
     GetProperty(properties, TT_CHANMSGUSERS, chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     chan->SetChannelTextMsgUsers(chanprop.transmitusers[STREAMTYPE_CHANNELMSG]);
     GetProperty(properties, TT_TRANSMITSWITCHDELAY, chanprop.transmitswitchdelay);
-    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
+    chan->SetTransmitSwitchDelay(std::chrono::milliseconds(chanprop.transmitswitchdelay));
     GetProperty(properties, TT_TOTVOICE, chanprop.totvoice);
-    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
+    chan->SetTimeOutTimerVoice(std::chrono::milliseconds(chanprop.totvoice));
     GetProperty(properties, TT_TOTMEDIAFILE, chanprop.totmediafile);
-    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
+    chan->SetTimeOutTimerMediaFile(std::chrono::milliseconds(chanprop.totmediafile));
 
 #if defined(ENABLE_ENCRYPTION)
     tstring crypt_key;

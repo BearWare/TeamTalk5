@@ -25,13 +25,9 @@
 #define SERVERCHANNEL_H
 
 #include "teamtalk/Channel.h"
-#include "teamtalk/Common.h"
 
-#include <ace/Time_Value.h>
-
-#include <map>
-#include <vector>
 #include <chrono>
+#include <map>
 
 namespace teamtalk { 
 
