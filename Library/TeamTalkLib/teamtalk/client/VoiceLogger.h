@@ -50,14 +50,13 @@
 #endif
 
 #include <ace/Reactor.h>
-#include <thread>
-#include <ace/Time_Value.h>
 
+#include <chrono>
 #include <cstdint>
 #include <map>
 #include <memory>
+#include <thread>
 #include <vector>
-#include <chrono>
 
 #define DEFAULT_VOICELOG_VARS TTEXT("%Y%m%d-%H%M%S #%userid% %username%")
 
@@ -161,7 +160,7 @@ namespace teamtalk {
     {
     public:
         VoiceLogger(VoiceLogListener* listener);
-        ~VoiceLogger();
+        ~VoiceLogger() override;
 
         int TimerEvent(uint32_t timer_event_id, long userdata) override;
 

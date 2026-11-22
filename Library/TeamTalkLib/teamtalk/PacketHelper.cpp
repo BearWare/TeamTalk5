@@ -31,6 +31,7 @@
 #include <ace/ACE.h> // ACE::crc32
 
 #include <cassert>
+#include <chrono>
 #include <cstddef>
 #include <cstdint>
 #include <cstring>
@@ -1195,10 +1196,10 @@ void DesktopTransmitter::GetDupAckLostDesktopPackets(desktoppackets_t& packets)
     }
 }
 
-void DesktopTransmitter::GetLostDesktopPackets(const ACE_Time_Value& rtx_timeout,
+void DesktopTransmitter::GetLostDesktopPackets(std::chrono::milliseconds rtx_timeout,
                                                desktoppackets_t& packets, int count)
 {
-    uint32_t const rtx_ms = rtx_timeout.msec();
+    uint32_t const rtx_ms = static_cast<uint32_t>(rtx_timeout.count());
     uint32_t const cur_time = GETTIMESTAMP();
     map_sent_time_t::const_iterator ii;
     for(ii=m_sent_times.begin();ii != m_sent_times.end() && count-->0;ii++)
@@ -1255,10 +1256,9 @@ void GetPacketRanges(const std::set<uint16_t>& packet_indexes,
     }
 }
 
-ACE_Time_Value GetDesktopPacketRTxTimeout(int udp_pingtime)
+std::chrono::milliseconds GetDesktopPacketRTxTimeout(int udp_pingtime)
 {
-    ACE_Time_Value rtx_timeout(udp_pingtime / 1000, (udp_pingtime % 1000) * 1000);
-    rtx_timeout *= 4; //RTX is set to 4 * round-trip
+    auto rtx_timeout = std::chrono::milliseconds(udp_pingtime * 4); //RTX is set to 4 * round-trip
     if(rtx_timeout < DESKTOP_RTX_MIN_TIMEOUT)
         rtx_timeout = DESKTOP_RTX_MIN_TIMEOUT;
     return rtx_timeout;

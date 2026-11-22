@@ -25,18 +25,18 @@
 #define VIDEOTHREAD_H
 
 #include "codec/MediaUtil.h"
+#include "myace/MyACE.h"
+#include "teamtalk/Common.h"
+
 #if defined(ENABLE_VPX)
 #include "codec/VpxEncoder.h"
 #endif
-#include "teamtalk/Common.h"
 
 #include <ace/Message_Block.h>
-#include "myace/MyACE.h"
-
-#include <thread>
 
 #include <functional>
 #include <memory>
+#include <thread>
 
 //Get VideoFrame from ACE_Message_Block
 #define GET_VIDEOFRAME_FROM_MB(video_frame, msg_block) \

@@ -59,7 +59,7 @@ void ServerChannel::Init()
 #if defined(ENABLE_ENCRYPTION)
     RAND_bytes(m_cryptkey.data(), sizeof(m_cryptkey));
 #endif
-    SetTransmitSwitchDelay(ACE_Time_Value(0, 500000));
+    SetTransmitSwitchDelay(std::chrono::milliseconds(500));
 }
 
 static constexpr auto STREAMKEY(int uid, int tx)
@@ -101,18 +101,18 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         // !streamid handles SERVER_USERID
         m_streamstart[streamkey] = std::chrono::system_clock::now();
     }
-    else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
-             std::chrono::system_clock::now() >= m_streamstart[streamkey] + std::chrono::milliseconds(GetTimeOutTimerVoice().msec()))
+    else if (GetTimeOutTimerVoice() != std::chrono::milliseconds::zero() && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
     {
         MYTRACE(TTEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, static_cast<int>(GetTimeOutTimerVoice().msec()));
+                streamid, userid, static_cast<int>(GetTimeOutTimerVoice().count()));
         return false;
     }
-    else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
-             std::chrono::system_clock::now() >= m_streamstart[streamkey] + std::chrono::milliseconds(GetTimeOutTimerMediaFile().msec()))
+    else if (GetTimeOutTimerMediaFile() != std::chrono::milliseconds::zero() && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
     {
         MYTRACE(TTEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
-                streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().msec()));
+                streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().count()));
         return false;
     }
 
@@ -138,7 +138,7 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
         TTASSERT(!GetTransmitQueue().empty());
         int const head_userid = *GetTransmitQueue().begin();
         auto const itePkt = m_lastUserPacket.find(head_userid);
-        if (itePkt->second + std::chrono::milliseconds(GetTransmitSwitchDelay().msec()) >= std::chrono::system_clock::now())
+        if (itePkt->second + GetTransmitSwitchDelay() >= std::chrono::system_clock::now())
         {
             return userid == head_userid;
         }

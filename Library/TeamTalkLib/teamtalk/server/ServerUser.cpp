@@ -130,9 +130,9 @@ bool ServerUser::SendData(ACE_Message_Queue_Base& msg_queue)
     return true;
 }
 
-ACE_Time_Value ServerUser::GetDuration() const 
+std::chrono::system_clock::duration ServerUser::GetDuration() const
 {
-    return ToAceDuration(std::chrono::duration_cast<std::chrono::milliseconds>(std::chrono::system_clock::now() - m_LogonTime));
+    return std::chrono::system_clock::now() - m_LogonTime;
 }
 
 void ServerUser::ForwardChannels(const serverchannel_t& root, bool encrypted)
@@ -1534,10 +1534,10 @@ void ServerUser::DoAddChannel(const ServerChannel& channel, bool  encrypted)
     if (!channel.GetChannelTextMsgUsers().empty())
         AppendProperty(TT_CHANMSGUSERS, channel.GetChannelTextMsgUsers(), command);
     if ((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
-        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().count(), command);
 
-    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
-    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().count(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().count(), command);
     command += tstring(EOL);
 
     TransmitCommand(command);
@@ -1603,10 +1603,10 @@ void ServerUser::DoUpdateChannel(const ServerChannel& channel, bool encrypted)
     if((channel.GetChannelType() & CHANNEL_SOLO_TRANSMIT) != CHANNEL_DEFAULT)
     {
         AppendProperty(TT_TRANSMITQUEUE, channel.GetTransmitQueue(), command);
-        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().msec(), command);
+        AppendProperty(TT_TRANSMITSWITCHDELAY, channel.GetTransmitSwitchDelay().count(), command);
     }
-    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().msec(), command);
-    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().msec(), command);
+    AppendProperty(TT_TOTVOICE, channel.GetTimeOutTimerVoice().count(), command);
+    AppendProperty(TT_TOTMEDIAFILE, channel.GetTimeOutTimerMediaFile().count(), command);
 
     command += tstring(EOL);
 

@@ -115,7 +115,7 @@ tstring ServerNode::GetMessageOfTheDay(int ignore_userid/* = 0*/)
     tstring const uptime = UptimeHours(GetUptime());
 
     tstring lastuser;
-    ACE_Time_Value const duration = ACE_Time_Value::max_time;
+    auto const duration = std::chrono::milliseconds::max();
     for (const auto& u : GetAuthorizedUsers(false))
     {
         if (u->GetDuration() < duration &&
@@ -886,8 +886,8 @@ bool ServerNode::StartDesktopTransmitter(const ServerUser& src_user,
                                              TIMERSRV_DESKTOPPACKET_RTX_TIMEOUT_ID,
                                              tm_data.userdata);
     long const timerid = m_timer_reactor->schedule_timer(th.get(), nullptr,
-                                                         DESKTOP_DEFAULT_RTX_TIMEOUT,
-                                                         DESKTOP_DEFAULT_RTX_TIMEOUT);
+                                                         ToAceDuration(DESKTOP_DEFAULT_RTX_TIMEOUT),
+                                                         ToAceDuration(DESKTOP_DEFAULT_RTX_TIMEOUT));
     if (timerid >= 0)
     {
         th.release(); // NOLINT(bugprone-unused-return-value)
@@ -3771,9 +3771,9 @@ ErrorMsg ServerNode::MakeChannel(const ChannelProp& chanprop,
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
     if (chanprop.transmitswitchdelay > 0) // inherit default from ServerChannel
-        chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
-    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
-    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
+        chan->SetTransmitSwitchDelay(std::chrono::milliseconds(chanprop.transmitswitchdelay));
+    chan->SetTimeOutTimerVoice(std::chrono::milliseconds(chanprop.totvoice));
+    chan->SetTimeOutTimerMediaFile(std::chrono::milliseconds(chanprop.totmediafile));
     if (user != nullptr)
         chan->SetOwner(*user);
 
@@ -3872,9 +3872,9 @@ ErrorMsg ServerNode::UpdateChannel(const ChannelProp& chanprop,
     chan->SetMediaFileUsers(chanprop.GetTransmitUsers(STREAMTYPE_MEDIAFILE));
     chan->SetChannelTextMsgUsers(chanprop.GetTransmitUsers(STREAMTYPE_CHANNELMSG));
     chan->SetTransmitQueue(chanprop.transmitqueue);
-    chan->SetTransmitSwitchDelay(ToTimeValue(chanprop.transmitswitchdelay));
-    chan->SetTimeOutTimerVoice(ToTimeValue(chanprop.totvoice));
-    chan->SetTimeOutTimerMediaFile(ToTimeValue(chanprop.totmediafile));
+    chan->SetTransmitSwitchDelay(std::chrono::milliseconds(chanprop.transmitswitchdelay));
+    chan->SetTimeOutTimerVoice(std::chrono::milliseconds(chanprop.totvoice));
+    chan->SetTimeOutTimerMediaFile(std::chrono::milliseconds(chanprop.totmediafile));
 
     UpdateChannel(chan, user);
 

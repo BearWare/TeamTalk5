@@ -146,7 +146,7 @@ namespace teamtalk {
 
         int GetFileTransferID() const { return (m_filetransfer != nullptr) ? m_filetransfer->transferid : 0; }
 
-        ACE_Time_Value GetDuration() const;
+        std::chrono::system_clock::duration GetDuration() const;
 
         void ForwardChannels(const serverchannel_t& root, bool encrypted);
         void ForwardUsers(const serverchannel_t& channel, bool recursive);
