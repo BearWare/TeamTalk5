@@ -35,6 +35,7 @@
 #include <ace/OS.h>
 #include <ace/Time_Value.h>
 
+#include <chrono>
 #include <cstdint>
 #include <cstring>
 #include <map>
@@ -132,7 +133,7 @@ namespace teamtalk {
         int userspeak = 0;
         int usersservered = 0;
         //uptime
-        ACE_Time_Value starttime;
+        std::chrono::system_clock::time_point starttime;
         
         int64_t packets_received = 0, packets_sent = 0; // only used internally
 
@@ -257,8 +258,8 @@ namespace teamtalk {
         int audiobpslimit = 0;
         Abuse abuse;
         tstring nickname; /* TODO: add to TT API */
-        ACE_Time_Value lastupdated;
-        ACE_Time_Value lastlogin;
+        std::chrono::system_clock::time_point lastupdated;
+        std::chrono::system_clock::time_point lastlogin;
         
         UserAccount();
         bool IsWebLogin() const;
@@ -280,18 +281,18 @@ namespace teamtalk {
         BanTypes bantype{BANTYPE_NONE};
         tstring ipaddr;
         tstring chanpath;
-        ACE_Time_Value bantime;
+        std::chrono::system_clock::time_point bantime;
         tstring nickname;
         tstring username; // banned username
         tstring owner; // who made the ban
-        BannedUser()  { bantime = ACE_OS::gettimeofday(); }
+        BannedUser()  { bantime = std::chrono::system_clock::now(); }
         bool Same(const BannedUser& user) const;
         bool Match(const BannedUser& user) const;
     };
 
     using bannedusers_t = std::vector<BannedUser>;
 
-    tstring DateToString(const ACE_Time_Value& tv);
+    tstring DateToString(std::chrono::system_clock::time_point tp);
 
     enum StreamType //ensure DLL compliance
     {
@@ -510,7 +511,7 @@ namespace teamtalk {
         tstring internalname;
         int64_t filesize;
         tstring username;
-        ACE_Time_Value uploadtime;
+        std::chrono::system_clock::time_point uploadtime;
         RemoteFile();
     };
 

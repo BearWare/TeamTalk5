@@ -37,6 +37,7 @@
 #include <stack>
 #include <string>
 #include <vector>
+#include <chrono>
 
 using namespace std;
 using namespace tinyxml2;
@@ -882,7 +883,7 @@ namespace teamtalk{
                         PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname));
                         PutInteger(fileElement, "filesize", file.filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(file.username));
-                        PutString(fileElement, "uploadtime", DateToString(file.uploadtime.sec()));
+                        PutString(fileElement, "uploadtime", DateToString(std::chrono::system_clock::to_time_t(file.uploadtime)));
                         filesElement->InsertEndChild(fileElement);
                     }
                 }
@@ -1064,7 +1065,7 @@ namespace teamtalk{
                             entry.username = Utf8ToUnicode(tmp.c_str());
                         tmp.clear();
                         if (GetString(nextfile, "uploadtime", tmp))
-                            entry.uploadtime = StringToDate(tmp);
+                            entry.uploadtime = std::chrono::system_clock::from_time_t(StringToDate(tmp));
                         newchan.files.push_back(entry);
                     }
                 }
@@ -1174,7 +1175,7 @@ namespace teamtalk{
             ban.bantype = BANTYPE_DEFAULT;
 
         GetString(banElement, "bantime", tmp);
-        ban.bantime = StringToDate(tmp);
+        ban.bantime = std::chrono::system_clock::from_time_t(StringToDate(tmp));
         tmp.clear();
         GetString(banElement, "nickname", tmp);
         ban.nickname = Utf8ToUnicode(tmp.c_str());
@@ -1199,7 +1200,7 @@ namespace teamtalk{
     {
         banElement->SetAttribute("type", std::to_string(ban.bantype).c_str());
 
-        PutString(banElement, "bantime", DateToString(ban.bantime.sec()));
+        PutString(banElement, "bantime", DateToString(std::chrono::system_clock::to_time_t(ban.bantime)));
         PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr));
         PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname));
         PutString(banElement, "username", UnicodeToUtf8(ban.username));
@@ -1298,8 +1299,8 @@ namespace teamtalk{
         PutString(userElement, "note", UnicodeToUtf8(user.note));
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel));
-        PutString(userElement, "modified-time", DateToString(user.lastupdated.sec()));
-        PutString(userElement, "last-login-time", DateToString(user.lastlogin.sec()));
+        PutString(userElement, "modified-time", DateToString(std::chrono::system_clock::to_time_t(user.lastupdated)));
+        PutString(userElement, "last-login-time", DateToString(std::chrono::system_clock::to_time_t(user.lastlogin)));
         XMLElement* opchanElement = m_xmlDocument.NewElement("channel-operator");
         for(int auto_op_channel : user.auto_op_channels)
         {
@@ -1373,10 +1374,10 @@ namespace teamtalk{
         GetString(userElement, "init-channel", s4);
         GetInteger(userElement, "audiocodec-bps-limit", bpslimit);
         GetString(userElement, "modified-time", tmp);
-        user.lastupdated = StringToDate(tmp);
+        user.lastupdated = std::chrono::system_clock::from_time_t(StringToDate(tmp));
         tmp.clear();
         GetString(userElement, "last-login-time", tmp);
-        user.lastlogin = StringToDate(tmp);
+        user.lastlogin = std::chrono::system_clock::from_time_t(StringToDate(tmp));
 
         if(b)
         {
@@ -1475,7 +1476,7 @@ namespace teamtalk{
     {
         RemoveUser(UnicodeToUtf8(user.username));
         UserAccount updateduser = user;
-        updateduser.lastlogin = ACE_OS::gettimeofday();
+        updateduser.lastlogin = std::chrono::system_clock::now();
         AddNewUser(updateduser);
     }
 

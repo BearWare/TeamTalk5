@@ -30,6 +30,7 @@
 
 #include <array>
 #include <ctime>
+#include <chrono>
 
 namespace teamtalk {
 
@@ -357,7 +358,7 @@ namespace teamtalk {
     }
 
     bool GetProperty(const mstrings_t& properties, const tstring& prop,
-                     ACE_Time_Value& tv)
+                     std::chrono::system_clock::time_point& tp)
     {
         int64_t gmttime = 0;
         if (GetProperty(properties, prop, gmttime))
@@ -368,7 +369,7 @@ namespace teamtalk {
             {
                 time_t local_tm = std::mktime(local);
                 local_tm -= ACE_OS::timezone();
-                tv = ACE_Time_Value(local_tm);
+                tp = std::chrono::system_clock::from_time_t(local_tm);
                 return true;
             }
         }
@@ -732,11 +733,11 @@ namespace teamtalk {
     }
 
     void AppendProperty(const tstring& prop,
-                        const ACE_Time_Value& tv, tstring& dest_str)
+                        std::chrono::system_clock::time_point tp, tstring& dest_str)
     {
-        time_t const local_tm = tv.sec();
+        time_t const local_tm = std::chrono::system_clock::to_time_t(tp);
         struct tm* gmt = std::gmtime(&local_tm);
-        int64_t const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : tv.sec();
+        int64_t const utc_tm = (gmt != nullptr) ? std::mktime(gmt) : local_tm;
         AppendProperty(prop, utc_tm, dest_str);
     }
 

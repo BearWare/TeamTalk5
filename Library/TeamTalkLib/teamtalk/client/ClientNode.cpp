@@ -46,6 +46,7 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
+#include <chrono>
 #endif
 
 using namespace teamtalk;
@@ -5907,7 +5908,7 @@ void ClientNode::HandleServerStats(const mstrings_t& properties)
 
     GetProperty(properties, TT_UPTIME, uptime);
     //not really stored as "start time"
-    serverstats.starttime = ToTimeValue(uptime);
+    serverstats.starttime = std::chrono::system_clock::time_point(std::chrono::milliseconds(uptime));
 
     m_listener->OnServerStatistics(serverstats);
 }

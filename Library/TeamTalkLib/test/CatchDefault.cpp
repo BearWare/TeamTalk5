@@ -4080,15 +4080,15 @@ TEST_CASE("SeekPrecision")
 
 TEST_CASE("TimeConvert")
 {
-    auto tv = ACE_OS::gettimeofday();
+    auto const tv = std::chrono::system_clock::now();
     tstring line = TTEXT("foo ");
     teamtalk::AppendProperty(TTEXT("tm"), tv, line);
     line += EOL;
     teamtalk::mstrings_t props;
     teamtalk::ExtractProperties(line, props);
-    ACE_Time_Value tv2;
+    std::chrono::system_clock::time_point tv2;
     REQUIRE(teamtalk::GetProperty(props, TTEXT("tm"), tv2));
-    REQUIRE(tv.sec() == tv2.sec());
+    REQUIRE(std::chrono::system_clock::to_time_t(tv) == std::chrono::system_clock::to_time_t(tv2));
 }
 
 
@@ -4288,18 +4288,18 @@ TEST_CASE( "TextMessageStrLength" )
 
 TEST_CASE( "TimeZoneConversion" )
 {
-    ACE_Time_Value const now = ACE_OS::gettimeofday();
+    auto const now = std::chrono::system_clock::now();
     tstring command = TTEXT("foo ");
     teamtalk::AppendProperty(TTEXT("tm"), now, command);
 
     teamtalk::mstrings_t properties;
     REQUIRE(teamtalk::ExtractProperties(command, properties) == 1);
 
-    ACE_Time_Value tm;
+    std::chrono::system_clock::time_point tm;
     REQUIRE(teamtalk::GetProperty(properties, TTEXT("tm"), tm));
-    REQUIRE(now.sec() == tm.sec());
+    REQUIRE(std::chrono::system_clock::to_time_t(now) == std::chrono::system_clock::to_time_t(tm));
 
-    time_t const t_old = tm.sec();
+    time_t const t_old = std::chrono::system_clock::to_time_t(tm);
     struct tm* tm_old = std::localtime(&t_old);
 
     struct tm tm_now = {};
