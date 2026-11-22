@@ -54,6 +54,7 @@ using videocapturedevice_t = V4L2Capture;
 #include <cassert>
 #include <cstdint>
 #include <vector>
+#include <chrono>
 
 #define TEAMTALK_VIRTUAL_VIDEO_CAPTURE_DEVICE TTEXT("1978") /* same as SOUND_DEVICEID_VIRTUAL */
 
@@ -150,7 +151,7 @@ public:
 
     int handle_timeout(const ACE_Time_Value&  /*tv*/, const void*  /*arg*/) override
     {
-        uint32_t const c = (0xff << ((ACE_OS::gettimeofday().sec() % 4) * 8));
+        uint32_t const c = (0xff << ((std::chrono::system_clock::to_time_t(std::chrono::system_clock::now()) % 4) * 8));
 
         size_t const rgbsize = RGB32_BYTES(m_curfmt.width, m_curfmt.height);
         std::vector<uint32_t> img(rgbsize / 4, c);

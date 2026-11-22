@@ -50,6 +50,7 @@
 #include <memory>
 #include <mutex>
 #include <vector>
+#include <chrono>
 
 using audioencodercallback_t = std::function< void (const teamtalk::AudioCodec& codec,
                              const char* enc_data, int enc_len,
@@ -77,7 +78,7 @@ public:
     bool UpdatePreprocessor(const teamtalk::AudioPreprocessor& preprocess);
 
     int m_voiceactlevel = VU_METER_MIN;
-    ACE_Time_Value m_voiceact_delay = ACE_Time_Value(1, 500000);
+    std::chrono::milliseconds m_voiceact_delay{1500};
 
     //real maximum is 100 (when all samples are 32768)
     static constexpr int VU_METER_MAX = 100;
@@ -141,7 +142,7 @@ private:
     bool m_enc_cleared = true;
 
     //voice activation
-    ACE_Time_Value m_lastActive;
+    std::chrono::system_clock::time_point m_lastActive;
 
     // tone generation
     uint32_t m_tone_sample_index = 0, m_tone_frequency = 0;

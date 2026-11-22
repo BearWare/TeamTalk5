@@ -883,7 +883,7 @@ namespace teamtalk{
                         PutString(fileElement, "internalname", UnicodeToUtf8(file.internalname));
                         PutInteger(fileElement, "filesize", file.filesize);
                         PutString(fileElement, "username", UnicodeToUtf8(file.username));
-                        PutString(fileElement, "uploadtime", DateToString(std::chrono::system_clock::to_time_t(file.uploadtime)));
+                        PutString(fileElement, "uploadtime", UnicodeToUtf8(DateToString(file.uploadtime, true) /* local time in XML */).c_str());
                         filesElement->InsertEndChild(fileElement);
                     }
                 }
@@ -1065,7 +1065,7 @@ namespace teamtalk{
                             entry.username = Utf8ToUnicode(tmp.c_str());
                         tmp.clear();
                         if (GetString(nextfile, "uploadtime", tmp))
-                            entry.uploadtime = std::chrono::system_clock::from_time_t(StringToDate(tmp));
+                            entry.uploadtime = StringToDate(Utf8ToUnicode(tmp), true);
                         newchan.files.push_back(entry);
                     }
                 }
@@ -1175,7 +1175,7 @@ namespace teamtalk{
             ban.bantype = BANTYPE_DEFAULT;
 
         GetString(banElement, "bantime", tmp);
-        ban.bantime = std::chrono::system_clock::from_time_t(StringToDate(tmp));
+        ban.bantime = StringToDate(Utf8ToUnicode(tmp), true);
         tmp.clear();
         GetString(banElement, "nickname", tmp);
         ban.nickname = Utf8ToUnicode(tmp.c_str());
@@ -1200,7 +1200,7 @@ namespace teamtalk{
     {
         banElement->SetAttribute("type", std::to_string(ban.bantype).c_str());
 
-        PutString(banElement, "bantime", DateToString(std::chrono::system_clock::to_time_t(ban.bantime)));
+        PutString(banElement, "bantime", UnicodeToUtf8(DateToString(ban.bantime, true) /* local time in XML */).c_str());
         PutString(banElement, "ip-address", UnicodeToUtf8(ban.ipaddr));
         PutString(banElement, "nickname", UnicodeToUtf8(ban.nickname));
         PutString(banElement, "username", UnicodeToUtf8(ban.username));
@@ -1299,8 +1299,8 @@ namespace teamtalk{
         PutString(userElement, "note", UnicodeToUtf8(user.note));
         PutInteger(userElement, "userdata", user.userdata);
         PutString(userElement, "init-channel", UnicodeToUtf8(user.init_channel));
-        PutString(userElement, "modified-time", DateToString(std::chrono::system_clock::to_time_t(user.lastupdated)));
-        PutString(userElement, "last-login-time", DateToString(std::chrono::system_clock::to_time_t(user.lastlogin)));
+        PutString(userElement, "modified-time", UnicodeToUtf8(DateToString(user.lastupdated, true) /* local time in XML */).c_str());
+        PutString(userElement, "last-login-time", UnicodeToUtf8(DateToString(user.lastlogin, true) /* local time in XML */).c_str());
         XMLElement* opchanElement = m_xmlDocument.NewElement("channel-operator");
         for(int auto_op_channel : user.auto_op_channels)
         {
@@ -1374,10 +1374,10 @@ namespace teamtalk{
         GetString(userElement, "init-channel", s4);
         GetInteger(userElement, "audiocodec-bps-limit", bpslimit);
         GetString(userElement, "modified-time", tmp);
-        user.lastupdated = std::chrono::system_clock::from_time_t(StringToDate(tmp));
+        user.lastupdated = StringToDate(Utf8ToUnicode(tmp), true);
         tmp.clear();
         GetString(userElement, "last-login-time", tmp);
-        user.lastlogin = std::chrono::system_clock::from_time_t(StringToDate(tmp));
+        user.lastlogin = StringToDate(Utf8ToUnicode(tmp), true);
 
         if(b)
         {
@@ -1578,29 +1578,5 @@ bool ServerXML::CleanupChannelOperators(int deletedChannelID)
         return szPath;
     }
 
-    std::string DateToString(time_t t)
-    {
-        tm* tt = std::localtime(&t);
-        std::array<char, 100> buff{};
-        sprintf(buff.data(), "%.4d/%.2d/%.2d %.2d:%.2d", tt->tm_year+1900, tt->tm_mon+1, tt->tm_mday, tt->tm_hour, tt->tm_min);
-        return buff.data();
-    }
-
-    time_t StringToDate(const std::string& date)
-    {
-        tm t = {};
-        strings_t tokens = Tokenize(Utf8ToUnicode(date.c_str()), TTEXT("/ :"));
-        if(tokens.size() == 5)
-        {
-            t.tm_isdst = -1;
-            t.tm_year = static_cast<int>(String2I(tokens[0]))-1900;
-            t.tm_mon = static_cast<int>(String2I(tokens[1]))-1;
-            t.tm_mday = static_cast<int>(String2I(tokens[2]));
-            t.tm_hour = static_cast<int>(String2I(tokens[3]));
-            t.tm_min = static_cast<int>(String2I(tokens[4]));
-            return std::mktime(&t);
-        }
-        return 0;
-    }
 
 } // namespace teamtalk

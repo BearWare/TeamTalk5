@@ -51,6 +51,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <chrono>
 
 constexpr auto SERVER_USERID = 0;
 
@@ -60,7 +61,7 @@ constexpr auto SERVER_KEEPALIVE_DELAY = 1;  //keep alive delay (secs). Checks;
 #define CHANNELFILEEXTENSION TTEXT(".dat")
 
 using mapipchan_t = std::map<tstring, std::vector<tstring> >; //ip-address -> channelpaths
-using mapiptime_t = std::map<tstring, std::vector<ACE_Time_Value> >; //map ip to login time (used for checking login attempts)
+using mapiptime_t = std::map<tstring, std::vector<std::chrono::system_clock::time_point> >; //map ip to login time (used for checking login attempts)
 
 namespace teamtalk {
 
@@ -116,7 +117,7 @@ namespace teamtalk {
         int GetNewUserID();
         serveruser_t GetUser(int userid, const ServerUser* caller, bool authenticated = true);
 
-        ACE_Time_Value GetUptime() const;
+        std::chrono::milliseconds GetUptime() const;
         serverchannel_t& GetRootChannel();
         void CheckKeepAlive();
         int GetActiveFileTransfers(int& uploads, int& downloads);
@@ -350,7 +351,7 @@ namespace teamtalk {
         //failed login attempts
         mapiptime_t m_failedlogins;
         // last login (ip->time)
-        std::map<tstring, ACE_Time_Value> m_logindelay;
+        std::map<tstring, std::chrono::system_clock::time_point> m_logindelay;
         
         //user id incrementer
         int m_userid_counter = 0;

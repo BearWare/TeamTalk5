@@ -67,6 +67,7 @@
 #include <memory>
 #include <set>
 #include <vector>
+#include <chrono>
 
 static const auto CLIENT_DESKTOPNAK_TIMEOUT          = ACE_Time_Value(4); //close a desktop session
 static const auto CLIENT_QUERY_MTU_INTERVAL          = ACE_Time_Value(0, 500000); //time between MTU query packets
@@ -141,7 +142,7 @@ namespace teamtalk {
         //internal use
         uint32_t tcp_silence_sec = 0;
         uint32_t udp_silence_sec = 0;
-        ACE_Time_Value ping_issue_time;
+        std::chrono::system_clock::time_point ping_issue_time;
         bool udp_ping_dirty = true;
         bool tcp_ping_dirty = true;
         int streamcapture_delay_msec = 0;

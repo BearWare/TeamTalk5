@@ -31,6 +31,7 @@
 
 #include <map>
 #include <vector>
+#include <chrono>
 
 namespace teamtalk { 
 
@@ -61,9 +62,9 @@ namespace teamtalk {
     private:
         void Init();
         // userid -> last transmit time
-        std::map<int, ACE_Time_Value> m_lastUserPacket;
+        std::map<int, std::chrono::system_clock::time_point> m_lastUserPacket;
         // userid (streamkey) -> stream-id started
-        std::map<int, ACE_Time_Value> m_streamstart;
+        std::map<int, std::chrono::system_clock::time_point> m_streamstart;
         // userid -> stream id
         std::map<int, int> m_blockStreams, m_activeStreams;
         tstring m_usernameOwner;

@@ -233,6 +233,11 @@ tstring Utf8ToUnicode(const char* utf8, int len/* = -1*/)
     return tstring(&buffer[0], size);
 }
 
+tstring Utf8ToUnicode(const std::string& utf8)
+{
+    return Utf8ToUnicode(utf8.c_str());
+}
+
 std::string UnicodeToLocal(const tstring& wstr)
 {
     std::vector<char> str(std::max(size_t(1), wstr.length() * 4));
@@ -395,6 +400,54 @@ uint32_t GETTIMESTAMP()
     auto now_ms = time_point_cast<milliseconds>(NOW);
     auto duration = now_ms.time_since_epoch();
     return static_cast<uint32_t>(duration.count());
+}
+
+tstring UptimeHours(std::chrono::milliseconds uptime)
+{
+    auto const nHour = uptime.count() / 3600000;
+    auto const nMinutes = (uptime.count() % 3600000) / 60000;
+    auto const nSec = (uptime.count() % 60000) / 1000;
+    constexpr auto BUFLEN = 512;
+    std::array<tchar, BUFLEN> buf;
+    tsnprintf(buf.data(), BUFLEN, TTEXT("%d:%.2d:%.2d"), static_cast<int>(nHour),
+              static_cast<int>(nMinutes), static_cast<int>(nSec));
+    return buf.data();
+}
+
+tstring DateToString(std::chrono::system_clock::time_point tp, bool to_localtime)
+{
+    time_t const tt = std::chrono::system_clock::to_time_t(tp);
+    struct tm* const tmv = to_localtime ? std::localtime(&tt) : std::gmtime(&tt);
+    if (tmv == nullptr)
+        return {};
+    std::array<tchar, 200> buf{};
+    tsnprintf(buf.data(), buf.size(), TTEXT("%d/%.2d/%.2d %.2d:%.2d"),
+              tmv->tm_year + 1900, tmv->tm_mon + 1, tmv->tm_mday,
+              tmv->tm_hour, tmv->tm_min);
+    return buf.data();
+}
+
+std::chrono::system_clock::time_point StringToDate(const tstring& date, bool from_localtime)
+{
+    tm t = {};
+    strings_t const tokens = Tokenize(date, TTEXT("/ :"));
+    if (tokens.size() == 5)
+    {
+        t.tm_isdst = -1;
+        t.tm_year = static_cast<int>(String2I(tokens[0])) - 1900;
+        t.tm_mon = static_cast<int>(String2I(tokens[1])) - 1;
+        t.tm_mday = static_cast<int>(String2I(tokens[2]));
+        t.tm_hour = static_cast<int>(String2I(tokens[3]));
+        t.tm_min = static_cast<int>(String2I(tokens[4]));
+        time_t const tt = from_localtime ? std::mktime(&t)
+#if defined(WIN32)
+                                         : _mkgmtime(&t);
+#else
+                                         : timegm(&t);
+#endif
+        return std::chrono::system_clock::from_time_t(tt);
+    }
+    return {};
 }
 
 void DUP_TIMESTAMP_DELAY(uint32_t tm)

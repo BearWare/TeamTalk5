@@ -777,7 +777,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
         REQUIRE(std::memcmp(frm_mixed.input_buffer, user_frames[0].input_buffer, FRAMEBYTES) == 0);
     }
 
-    ACE_Time_Value tm = ACE_OS::gettimeofday() + ToTimeValue(50);
+    ACE_Time_Value tm = ToAceTimeValue(std::chrono::system_clock::now()) + ToTimeValue(50);
     REQUIRE(mixed_frames.dequeue(mb, &tm) < 0);
 
     user_frames[0].sample_no += FRAMESIZE;
@@ -805,7 +805,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
     user_frames[1].sample_no += FRAMESIZE;
     REQUIRE(muxer.QueueUserAudio(user_frames[1].streamid, teamtalk::STREAMTYPE_VOICE, user_frames[1]));
 
-    tm = ACE_OS::gettimeofday() + ToTimeValue(50);
+    tm = ToAceTimeValue(std::chrono::system_clock::now()) + ToTimeValue(50);
     REQUIRE(mixed_frames.dequeue(mb, &tm) < 0);
 
     // terminate stream for #0
@@ -868,7 +868,7 @@ TEST_CASE( "AudioMuxerRawSameStreamTypeSameAudioFormat" )
     }
 
     // wait for audio muxer to report delayer, i.e. drain muxer
-    tm = ACE_OS::gettimeofday() + ToTimeValue(muxinterval_msec * 3);
+    tm = ToAceTimeValue(std::chrono::system_clock::now()) + ToTimeValue(muxinterval_msec * 3);
     bool gotmux = false;
     while (mixed_frames.dequeue(mb, &tm) >= 0)
     {
@@ -1527,7 +1527,7 @@ TEST_CASE("AudioMuxerMixedAudioblockStream")
     auto ttclient = InitTeamTalk();
     REQUIRE(InitSound(ttclient, DEFAULT, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL, TT_SOUNDDEVICE_ID_TEAMTALK_VIRTUAL));
     REQUIRE(Connect(ttclient));
-    REQUIRE(Login(ttclient, TTEXT("TxClient"), TTEXT("admin"), TTEXT("admin")));
+    REQUIRE(Login(ttclient, TTEXT("TxClient"), USER_ADMIN_USERNAME, USER_ADMIN_PASSWORD));
 
     auto chan = MakeChannel(ttclient, TTEXT("Channel5"), TT_GetRootChannelID(ttclient), ac);
     chan.uChannelType = CHANNEL_PERMANENT | CHANNEL_HIDDEN;
@@ -3523,7 +3523,7 @@ TEST_CASE("SeeFilesAfterMove")
 {
     auto admin = InitTeamTalk();
     REQUIRE(Connect(admin));
-    REQUIRE(Login(admin, TTEXT("admin"), TTEXT("admin"), TTEXT("admin")));
+    REQUIRE(Login(admin, TTEXT("admin"), USER_ADMIN_USERNAME, USER_ADMIN_PASSWORD));
     REQUIRE(JoinRoot(admin));
 
     auto ttclient = InitTeamTalk();
@@ -4371,3 +4371,46 @@ TEST_CASE( "MatchBan" )
     bancheck.ipaddr = TTEXT("192.168.1.111");
     REQUIRE(banned_ipv6.Match(bancheck) == false);
 }
+
+TEST_CASE( "User account local time check" )
+{
+    auto client = InitTeamTalk();
+
+    REQUIRE(Connect(client));
+    REQUIRE(Login(client, TTEXT("Admin"), USER_ADMIN_USERNAME, USER_ADMIN_PASSWORD));
+
+    REQUIRE(TT_DoListUserAccounts(client, 0, 100) > 0);
+
+    while (true) {
+        TTMessage msg;
+        REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_USERACCOUNT, msg));
+        UserAccount account = msg.useraccount;
+        if (tstring(account.szUsername) == TTEXT("guest")) {
+            REQUIRE(account.szLastModified == tstring(TTEXT("2021/08/17 18:39")));
+            break;
+        }
+    }
+}
+
+
+TEST_CASE( "Ban local time check" )
+{
+    auto client = InitTeamTalk();
+
+    REQUIRE(Connect(client));
+    REQUIRE(Login(client, TTEXT("Admin"), USER_ADMIN_USERNAME, USER_ADMIN_PASSWORD));
+
+    REQUIRE(TT_DoListBans(client, 0, 0, 100) > 0);
+
+    while (true) {
+        TTMessage msg;
+        REQUIRE(WaitForEvent(client, CLIENTEVENT_CMD_BANNEDUSER, msg));
+        BannedUser ban = msg.banneduser;
+        if (tstring(ban.szNickname) == TTEXT("Vader")) {
+            REQUIRE(ban.szBanTime == tstring(TTEXT("2026/04/28 19:31")));
+            break;
+        }
+    }
+}
+
+

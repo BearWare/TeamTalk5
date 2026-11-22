@@ -32,6 +32,7 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
+#include <chrono>
 #endif
 
 using namespace teamtalk;
@@ -98,17 +99,17 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
     if (newstreamid || (streamid == 0))
     {
         // !streamid handles SERVER_USERID
-        m_streamstart[streamkey] = ACE_OS::gettimeofday();
+        m_streamstart[streamkey] = std::chrono::system_clock::now();
     }
     else if (GetTimeOutTimerVoice() != ACE_Time_Value::zero && (txtype & STREAMTYPE_VOICE) == STREAMTYPE_VOICE &&
-             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerVoice())
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + std::chrono::milliseconds(GetTimeOutTimerVoice().msec()))
     {
         MYTRACE(TTEXT("Channel %s blocked voice streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
                 streamid, userid, static_cast<int>(GetTimeOutTimerVoice().msec()));
         return false;
     }
     else if (GetTimeOutTimerMediaFile() != ACE_Time_Value::zero && (txtype & STREAMTYPE_MEDIAFILE) == STREAMTYPE_MEDIAFILE &&
-             ACE_OS::gettimeofday() >= m_streamstart[streamkey] + GetTimeOutTimerMediaFile())
+             std::chrono::system_clock::now() >= m_streamstart[streamkey] + std::chrono::milliseconds(GetTimeOutTimerMediaFile().msec()))
     {
         MYTRACE(TTEXT("Channel %s blocked media file streamid %d from #%d after %d msec\n"), GetChannelPath().c_str(),
                 streamid, userid, static_cast<int>(GetTimeOutTimerMediaFile().msec()));
@@ -131,13 +132,13 @@ bool ServerChannel::CanTransmit(int userid, StreamType txtype, int streamid, boo
             m_transmitqueue.push_back(userid);
         }
 
-        m_lastUserPacket[userid] = ACE_OS::gettimeofday();
+        m_lastUserPacket[userid] = std::chrono::system_clock::now();
 
         /* Can transmit if head of queue, transmitted within GetTransmitSwitchDelay() and started new stream */
         TTASSERT(!m_transmitqueue.empty());
         int const head_userid = *m_transmitqueue.begin();
         auto const itePkt = m_lastUserPacket.find(head_userid);
-        if (itePkt->second + GetTransmitSwitchDelay() >= ACE_OS::gettimeofday())
+        if (itePkt->second + std::chrono::milliseconds(GetTransmitSwitchDelay().msec()) >= std::chrono::system_clock::now())
         {
             return userid == head_userid;
         }

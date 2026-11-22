@@ -57,6 +57,7 @@
 #include <map>
 #include <memory>
 #include <vector>
+#include <chrono>
 
 #define DEFAULT_VOICELOG_VARS TTEXT("%Y%m%d-%H%M%S #%userid% %username%")
 
@@ -89,7 +90,7 @@ namespace teamtalk {
         void FlushLog();
 
         uint32_t GetLatestPacketTime() const;
-        ACE_Time_Value GetVoiceEndTime() const;
+        std::chrono::system_clock::time_point GetVoiceEndTime() const;
 
         VoiceLogFile GetVoiceLogFile();
 
@@ -116,7 +117,7 @@ namespace teamtalk {
         mappackets_t m_mQueuePackets; //packetnum --> packet
         mappackets_t m_mFlushPackets; //packetnum --> packet
         int m_packet_current = -1;
-        ACE_Time_Value m_last;
+        std::chrono::system_clock::time_point m_last;
         uint32_t m_packet_timestamp = 0; // timestamp of most recent packet
         int m_tot_msec = 0; // auto close voice log after this timeout
 #if defined(ENABLE_SPEEX)

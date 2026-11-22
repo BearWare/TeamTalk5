@@ -95,10 +95,19 @@ void HexStringToKey(const tstring& crypt_key, uint8_t* key, std::size_t keylen);
 
 bool VersionSameOrLater(const tstring& check, const tstring& against);
 
+tstring UptimeHours(std::chrono::milliseconds uptime);
+
+//to_localtime: convert UTC time point to local time for display (default),
+//              TeamTalk.h structs (UserAccount, BannedUser, RemoteFile) expect local time
+tstring DateToString(std::chrono::system_clock::time_point tp, bool to_localtime = true);
+//from_localtime: parse date string as local time (default), otherwise as UTC
+std::chrono::system_clock::time_point StringToDate(const tstring& date, bool from_localtime = true);
+
 #if defined(UNICODE)
 std::string UnicodeToUtf8(const wchar_t* unicode, int len = -1);
 std::string UnicodeToUtf8(const tstring& str);
 tstring Utf8ToUnicode(const char* utf8, int len = -1);
+tstring Utf8ToUnicode(const std::string& utf8);
 std::string UnicodeToLocal(const tstring& str);
 tstring LocalToUnicode(const std::string& str);
 std::string Utf8ToLocal(const char* local, int len = -1);

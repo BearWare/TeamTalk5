@@ -37,6 +37,7 @@
 #include <ace/Timer_Queue_Adapters.h>
 
 #include <cstdint>
+#include <chrono>
 
 //reactor event task
 ACE_THR_FUNC_RETURN EventLoop (void *arg);
@@ -60,6 +61,17 @@ public:
 
 ACE_Time_Value ToTimeValue(int64_t msec);
 
-tstring UptimeHours(const ACE_Time_Value& value);
+//convert std::chrono time point to ACE_Time_Value (for ACE APIs), and
+//std::chrono duration to ACE_Time_Value
+inline ACE_Time_Value ToAceTimeValue(std::chrono::system_clock::time_point tp)
+{
+    auto const ms = std::chrono::duration_cast<std::chrono::milliseconds>(tp.time_since_epoch()).count();
+    return ACE_Time_Value(static_cast<time_t>(ms / 1000), static_cast<long>((ms % 1000) * 1000));
+}
+inline ACE_Time_Value ToAceDuration(std::chrono::milliseconds ms)
+{
+    return ACE_Time_Value(static_cast<time_t>(ms.count() / 1000), static_cast<long>((ms.count() % 1000) * 1000));
+}
+
 
 #endif /* MYACE_H */

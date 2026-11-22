@@ -43,8 +43,6 @@ namespace teamtalk {
     statchannels_t GetSubChannels(int nChannelID, const statchannels_t& channels);
     std::string GetChannelPath(int nChannelID, const statchannels_t& channels);
 
-    std::string DateToString(time_t t);
-    time_t StringToDate(const std::string& date);
 
     class ServerXML : public teamtalk::XMLDocument
     {

@@ -292,7 +292,6 @@ namespace teamtalk {
 
     using bannedusers_t = std::vector<BannedUser>;
 
-    tstring DateToString(std::chrono::system_clock::time_point tp);
 
     enum StreamType //ensure DLL compliance
     {
