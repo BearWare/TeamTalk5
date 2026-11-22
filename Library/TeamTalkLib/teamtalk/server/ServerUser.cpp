@@ -35,6 +35,7 @@
 
 #if defined(ENABLE_ENCRYPTION)
 #include <openssl/rand.h>
+#include <chrono>
 #endif
 
 using namespace teamtalk;
@@ -1902,9 +1903,9 @@ void ServerUser::DoRemoveFile(const tstring& filename, const ServerChannel& chan
 void ServerUser::DoServerStats()
 {
     const ServerStats& stats = m_servernode.GetServerStats();
-    ACE_Time_Value tm = ACE_OS::gettimeofday() - stats.starttime;
-    uint64_t msec = 0;
-    tm.msec(msec);
+    auto const uptime = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now() - stats.starttime);
+    uint64_t const msec = static_cast<uint64_t>(uptime.count());
 
     tstring command;
     command = SERVER_STATS;

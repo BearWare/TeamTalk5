@@ -44,6 +44,7 @@
 #include <stack>
 #include <system_error>
 #include <utility>
+#include <chrono>
 
 using namespace teamtalk;
 
@@ -147,7 +148,10 @@ void ServerNode::SetAutoSaving(bool autosave)
 ACE_Time_Value ServerNode::GetUptime() const
 {
     ASSERT_SERVERNODE_LOCKED(this);
-    return ACE_OS::gettimeofday() - m_stats.starttime;
+    auto const d = std::chrono::duration_cast<std::chrono::milliseconds>(
+        std::chrono::system_clock::now() - m_stats.starttime);
+    return ACE_Time_Value(static_cast<time_t>(d.count() / 1000),
+                          static_cast<long>((d.count() % 1000) * 1000));
 }
 
 serverchannel_t& ServerNode::GetRootChannel()
@@ -978,7 +982,7 @@ bool ServerNode::StartServer(bool encrypted, const tstring& sysid)
         TTASSERT(m_onesec_timerid>=0);
 
         //uptime
-        m_stats.starttime = ACE_OS::gettimeofday();
+        m_stats.starttime = std::chrono::system_clock::now();
         //init random numbers
         std::srand(ACE_OS::gettimeofday().msec());
 

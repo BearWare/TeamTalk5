@@ -36,6 +36,7 @@
 #include <string>
 #include <ctime>
 #include <vector>
+#include <chrono>
 
 namespace teamtalk
 {
@@ -46,12 +47,12 @@ namespace teamtalk
 
     RemoteFile::RemoteFile()
     {
-        uploadtime = ACE_OS::gettimeofday();
+        uploadtime = std::chrono::system_clock::now();
     }
 
     UserAccount::UserAccount()
     {
-        lastupdated = ACE_OS::gettimeofday();
+        lastupdated = std::chrono::system_clock::now();
     }
 
     bool UserAccount::IsWebLogin() const
@@ -120,13 +121,16 @@ namespace teamtalk
     }
 
 
-    tstring DateToString(const ACE_Time_Value& tv)
+    tstring DateToString(std::chrono::system_clock::time_point tp)
     {
-        ACE_Date_Time const date(tv);
+        time_t const tt = std::chrono::system_clock::to_time_t(tp);
+        struct tm* const local = std::localtime(&tt);
+        if (local == nullptr)
+            return {};
         std::array<tchar, 200> buf{};
-        ACE_OS::sprintf(buf.data(), TTEXT("%d/%.2d/%.2d %.2d:%.2d"),
-                        static_cast<int>(date.year()), static_cast<int>(date.month()), static_cast<int>(date.day()), 
-                        static_cast<int>(date.hour()), static_cast<int>(date.minute()));
+        tsnprintf(buf.data(), buf.size(), TTEXT("%d/%.2d/%.2d %.2d:%.2d"),
+                  local->tm_year + 1900, local->tm_mon + 1, local->tm_mday,
+                  local->tm_hour, local->tm_min);
         return buf.data();
     }
 

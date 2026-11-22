@@ -44,6 +44,7 @@
 #include <cmath>
 #include <cstring>
 #include <map>
+#include <chrono>
 
 
 //some inspiration found here: http://www.vmware.com/support/ws45/doc/devices_linux_kb_ws.html
@@ -1553,9 +1554,8 @@ void Convert(const teamtalk::ServerStats& stats, ServerStatistics& result)
     result.nUsersPeak = stats.userspeak;
     result.nFilesTx = stats.files_bytessent;
     result.nFilesRx = stats.files_bytesreceived;
-    uint64_t msec = 0;
-    stats.starttime.msec(msec);
-    result.nUptimeMSec = msec;
+    result.nUptimeMSec = static_cast<uint64_t>(
+        std::chrono::duration_cast<std::chrono::milliseconds>(stats.starttime.time_since_epoch()).count());
 }
 
 void Convert(const teamtalk::TextMessage& txtmsg, TextMessage& result)

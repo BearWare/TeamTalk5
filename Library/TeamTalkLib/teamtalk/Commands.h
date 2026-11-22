@@ -33,6 +33,7 @@
 #include <map>
 #include <set>
 #include <vector>
+#include <chrono>
 
 constexpr auto TEAMTALK_PROTOCOL_VERSION = TTEXT("5.14");
 
@@ -347,7 +348,7 @@ namespace teamtalk {
                      ACE_INET_Addr& addr);
 
     bool GetProperty(const mstrings_t& properties, const tstring& prop,
-                     ACE_Time_Value& tv);
+                     std::chrono::system_clock::time_point& tp);
 
     void GetProperties(const mstrings_t& properties, UserAccount& useraccount);
 
@@ -380,7 +381,7 @@ namespace teamtalk {
     void AppendProperty(const tstring& prop, 
                         const ACE_INET_Addr& addr, tstring& dest_str);
     void AppendProperty(const tstring& prop,
-                        const ACE_Time_Value& tv, tstring& dest_str);
+                        std::chrono::system_clock::time_point tp, tstring& dest_str);
 
     bool GetCmdLine(const std::string& input, 
                     std::string& cmd, std::string& remain_input);
